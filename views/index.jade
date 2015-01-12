@@ -7,6 +7,14 @@ html
 
    body
       h1 Hello World
+      span#signinButton
+         span.g-signin(data-callback="signInCallback",
+                        data-clientid="CLIENT_ID",
+                        data-cookiepolicy="single_host_origin",
+                        data-requestvisibleactions="http://schemas.google.com/AddActivity",
+                        data-scope="https://www.googleapis.com/auth/plus.login")
+
       #main-mount!= reactOutput
 
       script(src='/main.js')
+      script(src='/gplus.js')

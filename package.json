@@ -12,10 +12,15 @@
   "dependencies": {
     "consolidate": "^0.10.0",
     "express": "^4.10.7",
+    "googleapis": "^1.0.23",
     "jade": "^1.8.2",
+    "lodash": "^2.4.1",
     "node-jsx": "^0.12.4",
+    "oauth": "^0.9.12",
     "react": "^0.12.2",
-    "serve-static": "^1.8.0"
+    "serve-static": "^1.8.0",
+    "superagent": "^0.21.0",
+    "superagent-oauth": "^0.2.3"
   },
   "devDependencies": {
     "browserify": "^8.1.0",

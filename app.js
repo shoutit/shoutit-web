@@ -10,6 +10,7 @@ var path = require('path');
 var serveStatic = require('serve-static');
 var app = express();
 
+var oauth = require('./auth/oauth');
 // JSX Transpiler
 require('node-jsx').install({extension: '.jsx'});
 
@@ -25,8 +26,17 @@ app.use(serveStatic('public'));
 var React = require('react');
 var App = React.createElement(require('./app/components/app.jsx'));
 
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
 	res.render('index', {reactOutput: React.renderToString(App)});
+});
+
+app.get('/testoauth', function (req, res) {
+	oauth.getRequestTokenPromise()
+		.then(function (parsed) {
+			res.json(parsed);
+		}, function (err) {
+			res.send(err);
+		})
 });
 
 
