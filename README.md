@@ -1,10 +1,10 @@
-= Shoutit Websever
+# Shoutit Websever
 
-= Dependencies
+## Dependencies
 * nodejs
 * redis
 
-= Installation
+## Installation
 * clone this repo
 * cd into work copy
 * install node dependencies using npm install
