@@ -2,19 +2,17 @@
    Created by Philip on 12.01.2015.
 doctype html
 html
-   head
-      title Shoutit Webserver
+    head
+        title= title
 
-   body
-      h1 Hello World
-      span#signinButton
-         span.g-signin(data-callback="signInCallback",
-                        data-clientid="CLIENT_ID",
-                        data-cookiepolicy="single_host_origin",
-                        data-requestvisibleactions="http://schemas.google.com/AddActivity",
-                        data-scope="https://www.googleapis.com/auth/plus.login")
+        link(rel='stylesheet', href='css/main.css', type='text/css' )
+        link(rel='stylesheet', href='css/bootstrap.css', type='text/css' )
+        link(rel='stylesheet', href='css/bootstrap-theme.css', type='text/css' )
+        link(rel='stylesheet', href='css/customstyle.css', type='text/css' )
+        link(rel='stylesheet', href='css/style.css', type='text/css' )
 
-      #main-mount!= reactOutput
 
-      script(src='/main.js')
-      script(src='/gplus.js')
+    body
+        #main-mount!= reactOutput
+
+        //script(src='/main.js')

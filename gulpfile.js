@@ -24,7 +24,7 @@ gulp.task(devServerTask, function () {
 	nodemon({
 		script: serverScript,
 		port: devServerPort,
-		ext: 'js',
+		ext: 'js jsx',
 		env: {
 			'NODE_ENV': 'development'
 		},

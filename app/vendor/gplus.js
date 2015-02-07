@@ -5,8 +5,11 @@
 var request = require('superagent');
 
 function connectGoogle(authResult){
-	request.post('//oauth/gplus')
-		.send({code: authResult.code});
+	request.post('/oauth/gplus')
+		.send({code: authResult.code})
+		.end(function (res) {
+			console.log(res.status, res.body);
+		});
 }
 
 function signInCallback(authResult) {
@@ -15,6 +18,7 @@ function signInCallback(authResult) {
 		// Nach der Autorisierung des Nutzers nun die Anmeldeschaltfläche ausblenden, zum Beispiel:
 		document.getElementById('signinButton').setAttribute('style', 'display: none');
 		console.log(authResult);
+		connectGoogle(authResult);
 	} else if (authResult['error']) {
 		// Es gab einen Fehler.
 		// Mögliche Fehlercodes:
