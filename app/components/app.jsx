@@ -1,12 +1,16 @@
 /** @jsx React.DOM */
 
 var React = require('react'),
-	Header = require('./header.jsx');
+	Header = require('./header.jsx'),
+	Content = require('./content.jsx');
 
 module.exports = App = React.createClass({
-	render: function() {
+	render: function () {
 		return (
-			<Header/>
-		)
+			<div>
+				<Header/>
+				<Content/>
+			</div>
+		);
 	}
 });

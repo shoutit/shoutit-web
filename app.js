@@ -50,9 +50,14 @@ var React = require('react');
 var App = React.createElement(require('./app/components/app.jsx'));
 
 app.get('/', function (req, res) {
+
+	console.time("RenderReact");
+	var rendered = React.renderToString(App);
+	console.timeEnd("RenderReact");
+
 	res.render('index', {
 		title: "Home - Shout It",
-		reactOutput: React.renderToString(App)
+		reactOutput: rendered
 	});
 });
 
