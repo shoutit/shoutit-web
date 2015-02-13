@@ -7,13 +7,17 @@ var OAuth = require('oauth'),
 	Promise = require('bluebird');
 
 var oauth = new OAuth.OAuth(
-	'http://shoutit.com:8000/oauth/request_token/',
-	'http://shoutit.com:8000/oauth/access_token/',
+	'http://dev.shoutit.com/oauth/request_token/',
+	'http://dev.shoutit.com/oauth/access_token/',
 	'shoutit-web',
 	'64a542b1-1b2d-8503-6cbb-4cf8cea',
 	'1.0',
 	null,
-	'HMAC-SHA1'
+	'HMAC-SHA1',
+	null,
+	{
+		"shoutit-client": "web"
+	}
 );
 
 oauth.setClientOptions({
@@ -45,6 +49,7 @@ module.exports = {
 	},
 
 	getAccessTokenGPlusPromise: function (gCode) {
+		console.log(gCode);
 		return function (requestTokenResult) {
 			return new Promise(function (resolve, reject) {
 				var body = {
@@ -59,15 +64,14 @@ module.exports = {
 							longitude: 13.445368
 						}
 					}
-
 				};
 
 				oauth._performSecureRequest(requestTokenResult.oauth_token, requestTokenResult.oauth_token_secret,
-					"POST", 'http://shoutit.com:8000/oauth/access_token/gplus/',
+					"POST", 'http://dev.shoutit.com/oauth/access_token/gplus/',
 					{}, JSON.stringify(body), 'application/json',
 					function (error, data, response) {
 						if (error) {
-							console.error("access_token_request", error);
+							console.error("access2_token_request", error);
 							reject(error);
 						}
 						else {
@@ -79,8 +83,6 @@ module.exports = {
 								return reject(e);
 							} finally {
 								if (parsed && parsed.access_token && parsed.access_token_secret) {
-									console.log("Found stuff");
-									console.log(parsed);
 									resolve(parsed);
 								} else {
 									reject("access_token not found in response");

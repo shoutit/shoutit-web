@@ -9,6 +9,7 @@ var cons = require('consolidate');
 var path = require('path');
 var serveStatic = require('serve-static');
 var app = express();
+var Promise = require('bluebird');
 
 var oauth = require('./auth/oauth');
 // JSX Transpiler
@@ -47,18 +48,38 @@ app.use(session({
 
 // routes
 var React = require('react');
-var App = React.createElement(require('./app/components/app.jsx'));
+var AppComponent = require('./app/components/app.jsx');
 
-app.get('/', function (req, res) {
-
+function renderAppPromise(screen) {
 	console.time("RenderReact");
+	var App = React.createElement(AppComponent, {
+		screen: screen
+	});
 	var rendered = React.renderToString(App);
 	console.timeEnd("RenderReact");
 
-	res.render('index', {
-		title: "Home - Shout It",
-		reactOutput: rendered
-	});
+	return Promise.resolve(rendered);
+}
+
+app.get('/', function (req, res) {
+	renderAppPromise('main')
+		.then(function (rendered) {
+			res.render('index', {
+				title: "Home - Shout It",
+				reactOutput: rendered
+			});
+		});
+});
+
+app.get('/login', function (req, res) {
+	renderAppPromise('login')
+		.then(function (rendered) {
+			res.render('index', {
+				title: "Login - Shout It",
+				reactOutput: rendered
+			});
+		})
+
 });
 
 app.get('/testoauth', function (req, res) {
@@ -75,7 +96,6 @@ app.post('/oauth/gplus', function (req, res) {
 	oauth.getRequestTokenPromise()
 		.then(oauth.getAccessTokenGPlusPromise(code))
 		.then(function (parsed) {
-			console.log("Yolo");
 			res.json(parsed)
 		}, function (err) {
 			console.log(err);
