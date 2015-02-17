@@ -4,7 +4,9 @@ var React = require('react'),
 	RowLogo = require('./header/rowLogo.jsx'),
 	MainMenu = require('./header/mainMenu.jsx');
 
-module.exports = Header = React.createClass({
+module.exports = React.createClass({
+	displayName: "Header",
+
 	render: function () {
 		return (
 			<header>

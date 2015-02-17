@@ -13,8 +13,10 @@ var gulp = require('gulp'),
 	sourcemaps = require('gulp-sourcemaps'),
 	uglify = require('gulp-uglify');
 
+// JSX Transpiler
+require('node-jsx').install({extension: '.jsx'});
 
-var publicDir = './public';
+var publicDir = './app/public';
 
 var devServerTask = "serve",
 	devServerPort = 8080,
@@ -28,13 +30,16 @@ gulp.task(devServerTask, function () {
 		env: {
 			'NODE_ENV': 'development'
 		},
-		ignore: ["./node_modules/**"]
-		//nodeArgs: ['--debug']
+		ignore: ["node_modules/**", "app/client/**", "app/public/**"]
 	});
 });
 
 var bundleTask = "bundle",
-	bundleSrc = "./app/main.js",
+	bundlePaths = [
+		"app/client/*.js",
+		"app/shared/**/*.jsx"
+	],
+	bundleSrc = "./app/client/index.js",
 	bundleDest = publicDir;
 
 gulp.task(bundleTask, function () {
@@ -52,8 +57,13 @@ gulp.task(bundleTask, function () {
 			.pipe(uglify())
 			.pipe(sourcemaps.write('./'))
 			.pipe(gulp.dest(bundleDest));
-			//.pipe(livereload());
 	};
 
 	return bundle();
 });
+
+gulp.task("watch", function() {
+	gulp.watch(bundlePaths, [bundleTask]);
+});
+
+gulp.task("default", [bundleTask, devServerTask, "watch"]);

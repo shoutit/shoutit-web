@@ -2,13 +2,11 @@
 
 var React = require('react'),
 	Router = require('react-router'),
-	Link = Router.Link,
+	NavItemLink = require('react-router-bootstrap').NavItemLink,
 	Col = require('react-bootstrap/Col'),
 	Container = require('react-bootstrap/Grid'),
 	Navbar = require('react-bootstrap/Navbar'),
-	Nav = require('react-bootstrap/Nav'),
-	DropdownButton = require('react-bootstrap/Dropdownbutton'),
-	NavItem = require('react-bootstrap/NavItem');
+	Nav = require('react-bootstrap/Nav');
 
 module.exports = MainMenu = React.createClass({
 	render: function () {
@@ -17,20 +15,12 @@ module.exports = MainMenu = React.createClass({
 				<Container>
 					<Navbar fluid={true} toggleNavKey="mainMenu" bsStyle="link">
 						<Nav eventKey="mainMenu">
-							<DropdownButton title="Home" href="/">
-
-							</DropdownButton>
-							<NavItem href="/offers">Offers</NavItem>
-							<NavItem href="#">Requests</NavItem>
-							<NavItem href="#">Map</NavItem>
-							<NavItem href="#">More</NavItem>
+							<NavItemLink to="app">Home</NavItemLink>
+							<NavItemLink to="offers">Offers</NavItemLink>
 						</Nav>
 					</Navbar>
 				</Container>
 			</div>
 		);
-	},
-	onToggle: function () {
-		console.log("Hello");
 	}
 });

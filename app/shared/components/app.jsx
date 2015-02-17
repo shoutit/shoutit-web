@@ -5,7 +5,8 @@ var React = require('react'),
 	Header = require('./header.jsx'),
 	RouteHandler = Router.RouteHandler;
 
-module.exports = App = React.createClass({
+var App = React.createClass({
+
 	render: function () {
 		return (
 			<div>
@@ -15,3 +16,5 @@ module.exports = App = React.createClass({
 		);
 	}
 });
+
+module.exports = App;

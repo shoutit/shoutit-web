@@ -2,19 +2,17 @@
 
 var React = require("react"),
 	Router = require("react-router"),
-	DefaultRoute = Router.DefaultRoute,
-	NotFoundRoute = Router.NotFoundRoute,
-	Route = Router.Route;
+	Route = Router.Route,
+	DefaultRoute = Router.DefaultRoute;
 
 var App = require("./components/app.jsx"),
-	NotFound = require("./components/notfound.jsx"),
-	Home = require("./components/home.jsx");
+	Home = require("./components/home.jsx"),
+	Simple = require("./components/simple.jsx");
 
-module.exports = routes = (
-	<Route handler={App} path="/">
-		<DefaultRoute name="home" handler={Home}/>
-		<Route name="offers" path="/offers" handler={NotFound}/>
-		<NotFoundRoute handler={NotFound}/>
+module.exports = (
+	<Route name="app" path="/" handler={App} >
+		<Route name="offers" handler={Simple}/>
+		<DefaultRoute handler={Home}/>
 	</Route>
 );
 

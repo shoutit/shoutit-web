@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 "use strict";
 
 var cons = require('consolidate'),
@@ -23,7 +21,7 @@ var bunyan = require('express-bunyan-logger'),
 	RedisStore = require('connect-redis')(session),
 	csurf = require('csurf');
 
-module.exports = function (app, rootdir) {
+module.exports = function (app) {
 	// view stuff
 	app.engine('jade', cons.jade);
 	app.set('view engine', 'jade');
@@ -45,22 +43,22 @@ module.exports = function (app, rootdir) {
 	// app.use(csurf());
 
 	app.use(function (req, res) {
-		console.log(req.url);
-
-		var flux = Flux();
+		//var flux = Flux();
 
 		var render = function () {
 			console.time("RenderReact");
-			var serializedFlux = flux.serialize();
+			//var serializedFlux = flux.serialize();
 			Router.run(Routes, req.url, function (Handler, state) {
 				var content = React.renderToString(
-					<Handler key={state.path} flux={flux}/>
+					React.createElement(Handler, {
+						key: state.path
+					})
 				);
 				console.timeEnd("RenderReact");
 
 				res.render('index', {
 					reactMarkup: content,
-					serializedFlux: serializedFlux,
+					serializedFlux: "{}",
 					// TODO Extract title from current Router State
 					title: DocumentTitle.rewind()
 				});

@@ -1,8 +1,8 @@
+"use strict";
+
 /**
  * Created by Philip on 12.01.2015.
  */
-
-"use strict";
 
 var express = require('express');
 
@@ -11,7 +11,7 @@ require('node-jsx').install({extension: '.jsx'});
 
 var	app = express();
 
-require('./app/server/web.jsx')(app, __dirname);
+require('./app/server/web.js')(app);
 
 // startup
 var port = process.env.port || 8080;
