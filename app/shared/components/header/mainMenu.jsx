@@ -1,6 +1,8 @@
 /** @jsx React.DOM */
 
 var React = require('react'),
+	Router = require('react-router'),
+	Link = Router.Link,
 	Col = require('react-bootstrap/Col'),
 	Container = require('react-bootstrap/Grid'),
 	Navbar = require('react-bootstrap/Navbar'),
@@ -15,10 +17,10 @@ module.exports = MainMenu = React.createClass({
 				<Container>
 					<Navbar fluid={true} toggleNavKey="mainMenu" bsStyle="link">
 						<Nav eventKey="mainMenu">
-							<DropdownButton title="Home">
+							<DropdownButton title="Home" href="/">
 
 							</DropdownButton>
-							<NavItem href="#">Offers</NavItem>
+							<NavItem href="/offers">Offers</NavItem>
 							<NavItem href="#">Requests</NavItem>
 							<NavItem href="#">Map</NavItem>
 							<NavItem href="#">More</NavItem>

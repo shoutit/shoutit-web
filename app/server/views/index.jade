@@ -1,9 +1,13 @@
-//
-   Created by Philip on 12.01.2015.
 doctype html
 html
     head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+
         title= title
+
+        link(rel='icon', type='image/png' href="img/fav.png")
 
         link(rel='stylesheet', href='css/main.css', type='text/css' )
         link(rel='stylesheet', href='css/bootstrap.css', type='text/css' )
@@ -11,5 +15,8 @@ html
         link(rel='stylesheet', href='css/customstyle.css', type='text/css' )
         link(rel='stylesheet', href='css/style.css', type='text/css' )
 
+        script.
+            window.fluxData = !{serializedFlux}
 
-    body#main-mount!= reactOutput
+    body
+        #main-mount!= reactMarkup

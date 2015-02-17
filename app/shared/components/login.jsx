@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
-var React = require('react');
+var React = require('react'),
+	Clear = require('./helper/clear.jsx');
 
 module.exports = Login = React.createClass({
 	render: function () {
@@ -11,11 +12,13 @@ module.exports = Login = React.createClass({
 						<img src="img/logo2.png"/>
 						<h4>What will you shout today</h4>
 					</div>
-					<div className="clear"></div>
+					<Clear />
 					<input type="text" placeholder="Email" className="email"/>
 					<input type="text" placeholder="Password" className="pass"/>
-					<button className="btn btn-sign btn-submit submit" type="button">Sign In</button>
-					<div className="clear"></div>
+					<button className="btn btn-sign btn-submit submit" type="button">
+						Sign In
+					</button>
+					<Clear />
 					<div className="login-inl">
 						<div className="stay">
 							<input type="radio" id="stay"/>

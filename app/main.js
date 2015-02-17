@@ -3,14 +3,37 @@
  */
 
 var React = require('react'),
-	App = require('./components/app.jsx'),
-	GPlus = require('./vendor/gplus');
+	Home = require('./shared/components/home.jsx');
+
+	//GPlus = require('./vendor/gplus');
+
+var ReactRouter = require('react-router'),
+	Route = ReactRouter.Route,
+	DefaultRoute = ReactRouter.DefaultRoute;
+
+var mount = document.getElementById('main-mount');
+
+var App = React.createClass({
+
+});
+
+var routes = (
+	<Route handler={App} path="/">
+		<DefaultRoute handler={Home}/>
+		<Route name="login" handler={Login} />
+	</Route>
+);
+
 
 // Init G+ Button
-GPlus.init(window);
+//GPlus.init(window);
 
-// Render App
-React.render(React.createElement(App), document.getElementById('main-mount'), function() {
-	console.log('client mounted!');
+
+// Start Router
+ReactRouter.run(routes,function(Handler) {
+	React.render(<Handler />, mount, function() {
+		console.log("Mounted!");
+	});
 });
+
 
