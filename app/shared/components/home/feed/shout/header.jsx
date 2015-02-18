@@ -3,7 +3,9 @@
 var React = require('react'),
 	Col = require('react-bootstrap/Col');
 
-module.exports = SectionHeader = React.createClass({
+module.exports = React.createClass({
+	displayName: "ShoutHeader",
+
 	getDefaultProps: function () {
 		return {
 			logoRight: false,

@@ -11,7 +11,10 @@ var gulp = require('gulp'),
 	source = require('vinyl-source-stream'),
 	buffer = require('vinyl-buffer'),
 	sourcemaps = require('gulp-sourcemaps'),
-	uglify = require('gulp-uglify');
+	uglify = require('gulp-uglify'),
+	livereload = require('gulp-livereload'),
+	sass = require('gulp-ruby-sass'),
+	imagemin = require('gulp-imagemin');
 
 // JSX Transpiler
 require('node-jsx').install({extension: '.jsx'});
@@ -56,13 +59,44 @@ gulp.task(bundleTask, function () {
 			.pipe(sourcemaps.init({loadMaps: true}))
 			.pipe(uglify())
 			.pipe(sourcemaps.write('./'))
-			.pipe(gulp.dest(bundleDest));
+			.pipe(gulp.dest(bundleDest))
+			.pipe(livereload());
 	};
 
 	return bundle();
 });
 
-gulp.task("watch", function() {
+var sassTask = "sass",
+	sassSrc = "app/res/sass/main.scss",
+	sassMaps = "../scss",
+	sassDest = "app/public/css";
+
+gulp.task(sassTask, function () {
+	return sass(sassSrc, {
+		sourcemap: true,
+		loadPath: "app/res/vendor/bootstrap-sass-twbs/assets/stylesheets/",
+		compass: true,
+		style: "compressed"
+	})
+		.on('error', function (err) {
+			console.error('Error', err.message);
+		})
+		.pipe(sourcemaps.write(sassMaps))
+		.pipe(gulp.dest(sassDest));
+});
+
+var imageTask = "minImage",
+	imageSrc = "app/res/img/*.png",
+	imageDest = "app/public/img";
+
+gulp.task(imageTask, function () {
+	return gulp.src(imageSrc)
+		.pipe(imagemin())
+		.pipe(gulp.dest(imageDest));
+});
+
+gulp.task("watch", function () {
+	livereload.listen();
 	gulp.watch(bundlePaths, [bundleTask]);
 });
 

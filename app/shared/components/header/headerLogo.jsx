@@ -5,13 +5,14 @@ var React = require('react'),
 	Link = Router.Link,
 	Col = require('react-bootstrap/Col'),
 	Input = require('react-bootstrap/Input'),
+	Icon = require('../helper/icon.jsx'),
 	LocSelect = require('./locSelect.jsx');
 
 module.exports = HederLogo = React.createClass({
 	render: function () {
 		var searchAddon = (
 			<button type="submit">
-				<img src="img/search-icon.png"/>
+				<Icon name="search-icon"/>
 			</button>
 		);
 
@@ -23,6 +24,7 @@ module.exports = HederLogo = React.createClass({
 					</Link>
 				</Col>
 				<Col className="header-search" xs={9} md={9}>
+					<LocSelect/>
 					<div id="imaginary_container">
 						<Input
 							type="text"

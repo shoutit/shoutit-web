@@ -2,7 +2,8 @@
 
 var React = require('react'),
 	Router = require('react-router'),
-	Header = require('./header.jsx'),
+	Container = require('react-bootstrap/Grid'),
+	Header = require('./header/header.jsx'),
 	RouteHandler = Router.RouteHandler;
 
 var App = React.createClass({
@@ -11,7 +12,11 @@ var App = React.createClass({
 		return (
 			<div>
 				<Header/>
-				<RouteHandler/>
+				<div className="content">
+					<Container className="padding0">
+						<RouteHandler/>
+					</Container>
+				</div>
 			</div>
 		);
 	}

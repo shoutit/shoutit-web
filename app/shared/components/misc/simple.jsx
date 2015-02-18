@@ -10,7 +10,7 @@ var NotFound = React.createClass({
 		return (
 			<DocumentTitle title={this.title}>
 				<div>
-					SimplePage
+					Dummy Page
 				</div>
 			</DocumentTitle>
 		);

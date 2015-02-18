@@ -4,6 +4,7 @@ var React = require('react'),
 	Col = require('react-bootstrap/Col'),
 	Input = require('react-bootstrap/Input'),
 	Nav = require('react-bootstrap/Nav'),
+	Icon = require('../helper/icon.jsx'),
 	DropdownMenu = require('react-bootstrap/DropdownMenu');
 
 
@@ -14,12 +15,12 @@ module.exports = HeaderIcon = React.createClass({
 				<Nav right={true}>
 					<li>
 						<a href="#" data-toggle="modal" data-target=".step1">
-							<img src="img/plug-icon.png"/>
+							<Icon name="plug-icon"/>
 						</a>
 					</li>
 					<li className="dropdown messages">
 						<a href="#" classNam="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-							<img src="img/message-icon.png"/>
+							<Icon name="message-icon"/>
 						</a>
 						<span className="small-circle">3</span>
 						<DropdownMenu>
@@ -37,7 +38,7 @@ module.exports = HeaderIcon = React.createClass({
 							</li>
 							<li>
 								<Col xs={2} md={2}>
-									<img src="img/person1-icon.png"/>
+									<img src="img/dummies/person1-icon.png"/>
 								</Col>
 								<Col xs={10} md={10}>
 									<a href="#">
@@ -59,7 +60,7 @@ module.exports = HeaderIcon = React.createClass({
 					</li>
 					<li className="dropdown nortification">
 						<a href="#" classNam="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-							<img src="img/bell-icon.png"/>
+							<Icon name="bell-icon"/>
 						</a>
 						<span className="small-circle">2</span>
 						<DropdownMenu>
@@ -88,7 +89,12 @@ module.exports = HeaderIcon = React.createClass({
 					</li>
 					<li className="dropdown profile">
 						<a href="#" classNam="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-							<img src="img/person-icon.png"/>
+							<div style={{
+								"backgroundImage": "url('/img/dummies/person-icon.png')",
+								"backgroundRepeat": "no-repeat",
+								"height": "51px",
+								"width": "58px"
+							}}/>
 						</a>
 						<span className="small-circle">2</span>
 						<DropdownMenu>

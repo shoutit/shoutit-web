@@ -1,8 +1,8 @@
 /** @jsx React.DOM */
 
 var React = require('react'),
-	RowLogo = require('./header/rowLogo.jsx'),
-	MainMenu = require('./header/mainMenu.jsx');
+	RowLogo = require('./rowLogo.jsx'),
+	MainMenu = require('./mainMenu.jsx');
 
 module.exports = React.createClass({
 	displayName: "Header",

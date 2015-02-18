@@ -2,7 +2,9 @@
 
 var React = require('react');
 
-module.exports = TagList = React.createClass({
+module.exports = React.createClass({
+	displayName: "TagList",
+
 	getDefaultProps: function () {
 		return {
 			tags: []

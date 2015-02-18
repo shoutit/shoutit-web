@@ -6,7 +6,9 @@ var React = require('react'),
 	Actions = require('./actions.jsx'),
 	Mui = require('./mui.jsx');
 
-module.exports = SectionBody = React.createClass({
+module.exports = React.createClass({
+	displayName: "ShoutBody",
+
 	getDefaultProps: function () {
 		return {
 			logoRight: false
@@ -22,8 +24,8 @@ module.exports = SectionBody = React.createClass({
 					rit, tempor eleifend rationibus vel eu. Alia ludus eruditi id has, ei mei aliquip dolores. Odio aliq
 					ud pri at, cum impetus eruditi singulis ad, detraxit tempori</p>
 				<div className="section-right-img">
-					<img src="img/lg1.png"/>
-					<img src="img/lg2.png"/>
+					<img src="img/dummies/lg1.png"/>
+					<img src="img/dummies/lg2.png"/>
 					<p>Lorem ipsum dolor sit amet, his interesset concludaturque te, id pro timeam efficiendi scripse
 						rit, tempor eleifend rationibus vel eu. Alia ludus eruditi id has, ei mei aliquip dolores. Odio aliq
 						ud pri at, cum impetus eruditi singulis ad, detraxit tempori</p>

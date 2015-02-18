@@ -30,7 +30,7 @@ module.exports = Login = React.createClass({
 					</div>
 					<button className="btn btn-fb submit" type="button">Connect with Facebook</button>
 					<button className="btn btn-google submit" type="button">Connect with Google+</button>
-					<p className="login-bot">Don't have an account?
+					<p className="login-bot">Don't have an account&#63;
 						<span>Sign Up</span>
 					</p>
 				</div>

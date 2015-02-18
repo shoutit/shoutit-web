@@ -3,7 +3,7 @@
  */
 
 var React = require('react'),
-	Home = require('./shared/components/home.jsx');
+	Home = require('./shared/components/home/home.jsx');
 
 	//GPlus = require('./vendor/gplus');
 

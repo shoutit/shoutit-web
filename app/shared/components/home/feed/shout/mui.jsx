@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
-var React = require('react');
+var React = require('react'),
+	Icon = require('../../../helper/icon.jsx');
 
 module.exports = Mui = React.createClass({
 	getDefaultProps: function() {
@@ -11,7 +12,7 @@ module.exports = Mui = React.createClass({
 
 	render: function() {
 		return (
-			<img className={this.props.right ? "mui1" : "mui"} src={this.props.right ? "img/mui1.png" : "img/mui.png"}/>
+			<Icon className={this.props.right ? "mui1" : "mui"} name={this.props.right ? "mui1" : "mui"}/>
 		);
 	}
 });

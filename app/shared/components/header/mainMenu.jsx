@@ -17,6 +17,8 @@ module.exports = MainMenu = React.createClass({
 						<Nav eventKey="mainMenu">
 							<NavItemLink to="app">Home</NavItemLink>
 							<NavItemLink to="offers">Offers</NavItemLink>
+							<NavItemLink to="requests">Requests</NavItemLink>
+							<NavItemLink to="map">Requests</NavItemLink>
 						</Nav>
 					</Navbar>
 				</Container>
