@@ -6,25 +6,7 @@
 	Author URI: http://Shoutit.com
 	Version: 1
 */
-@font-face {
-    font-family: 'Arial-Bold';
-    src: url('../../public/fonts/Arial-BoldMT.eot');
-    src: url('../../public/fonts/Arial-BoldMT.eot?#iefix') format('embedded-opentype'),
-    url('../../public/fonts/Arial-BoldMT.woff') format('woff'),
-    url('../../public/fonts/Arial-BoldMT.svg#oswald') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
 
-@font-face {
-    font-family: 'Arial-Regular';
-    src: url('../../public/fonts/ArialMT.eot');
-    src: url('../../public/fonts/ArialMT.eot?#iefix') format('embedded-opentype'),
-    url('../../public/fonts/ArialMT.woff') format('woff'),
-    url('../../public/fonts/ArialMT.svg#oswald') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
 
 /*Menu-header*/
 .navbar-default {
@@ -1150,38 +1132,6 @@ footer {
     height: 48px;
 }
 
-.country.select-style {
-    margin-right: 5px;
-    width: 80px !important;
-}
-
-.country.select-style .btn-group {
-    width: 80px !important;
-}
-
-.country.select-style .btn {
-    width: 80px !important;
-}
-
-#imaginary_container .form-group {
-    display: block;
-}
-
-.selectpicker {
-    background-color: #bfdd6d !important;
-    background-image: none !important;
-    border: medium none !important;
-    box-shadow: none !important;
-    height: 45px !important;
-    padding: 0 !important;
-}
-
-.selectpicker {
-    color: #343837 !important;
-    font-size: 15px !important;
-    font-family: "Arial-Bold" !important;
-    padding-top: 2px !important;
-}
 
 .btn-group .dropdown-menu:after {
     content: none;

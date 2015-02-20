@@ -6,25 +6,7 @@
 	Author URI: http://Shoutit.com
 	Version: 1
 */
-@font-face {
-    font-family: 'Arial-Bold';
-    src: url('../fonts/Arial-BoldMT.eot');
-    src: url('../fonts/Arial-BoldMT.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/Arial-BoldMT.woff') format('woff'),
-    url('../fonts/Arial-BoldMT.svg#oswald') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
 
-@font-face {
-    font-family: 'Arial-Regular';
-    src: url('../fonts/ArialMT.eot');
-    src: url('../fonts/ArialMT.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/ArialMT.woff') format('woff'),
-    url('../fonts/ArialMT.svg#oswald') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
 
 body {
     padding: 0 !important;
@@ -39,22 +21,6 @@ p {
 }
 
 /*Menu-header*/
-#row-logo {
-    background-color: #99ca3b;
-    margin-bottom: 1px;
-}
-
-#imaginary_container .form-group .input-group .input-group-addon {
-    background: white !important;
-}
-
-#imaginary_container .form-group .input-group .form-control {
-    border-right: 0;
-    box-shadow: 0 0 0;
-    border-color: #ccc;
-
-    color: #343837;
-}
 
 .form-control {
     border-top-left-radius: 5px;
@@ -66,12 +32,6 @@ p {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
-
-#imaginary_container .form-group .input-group .input-group-addon button {
-    border: 0;
-    background: transparent;
-}
-
 .small-circle {
     width: 100px;
     border-radius: 50%;
@@ -100,14 +60,7 @@ p {
     background-color: #94b516;
 }
 
-.header-search {
-    margin-top: 10px;
-}
 
-.header-search .form-control {
-    background-color: #fff;
-
-}
 
 .form-control {
     font-family: 'Arial-Regular';
@@ -116,9 +69,7 @@ p {
     box-shadow: none;
 }
 
-.header-logo {
-    margin-top: 8px;
-}
+
 
 .messages .dropdown-menu, .nortification .dropdown-menu {
     width: 325px !important;
@@ -219,10 +170,6 @@ nav {
     border-top: 1px solid #e5e5e5;
 }
 
-.header-icon {
-    padding: 0;
-}
-
 #main-menu {
     background-color: #bfdd6d;
     /*padding-left: 30px;*/
@@ -255,6 +202,10 @@ nav {
     margin-right: auto;
     border-bottom: 3px solid transparent;
     padding-top: 20px;
+}
+
+#main-menu .navbar {
+  margin-bottom: 0;
 }
 
 /*truc 22/01*/
@@ -997,16 +948,6 @@ iframe {
 
 /* media */
 @media (max-width: 991px) {
-    .header-icon .navbar-right {
-        display: table;
-        margin: 0 auto;
-        float: none !important;
-    }
-
-    .header-icon .navbar-right > li {
-        display: inline-block;
-    }
-
     .navbar-nav .open .dropdown-menu {
         position: absolute;
     }
@@ -1061,14 +1002,7 @@ iframe {
     }
 }
 
-@media (max-width: 620px) {
-    .header-logo > div {
-        width: 100%;
-        text-align: center;
-        padding: 0;
-    }
 
-}
 
 @media (max-width: 767px) {
     .modal-content .modal-form form > div:nth-child(2) {
@@ -1210,12 +1144,7 @@ iframe {
     margin-bottom: -3px;
 }
 
-@media (min-width: 991px) {
-    #row-logo .header-logo {
-        width: 65%;
-    }
 
-}
 
 @media (max-width: 767px) {
     #main-menu {
@@ -1223,9 +1152,6 @@ iframe {
     }
 }
 
-#main-menu .container, #row-logo .container {
-    padding: 0;
-}
 
 .padding0 {
     padding: 0;

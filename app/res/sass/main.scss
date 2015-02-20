@@ -1,8 +1,19 @@
 @import "bootstrap";
 @import "bootstrap/theme";
+
+$shoutit-dark-green: #99ca3b;
+
 @import "customstyle";
+@import "fonts";
+@import "header/header";
 @import "style";
 @import "vuong";
+
+.form-control {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  height: 45px;
+}
 
 $icons-sprite-dimensions: true;
 $icons-layout: smart;

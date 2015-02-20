@@ -33,7 +33,12 @@ gulp.task(devServerTask, function () {
 		env: {
 			'NODE_ENV': 'development'
 		},
-		ignore: ["node_modules/**", "app/client/**", "app/public/**"]
+		watch: ["app"],
+		ignore: [
+			".git", ".idea", ".sass-cache", "node_modules",
+			"app/client", "app/public"
+		],
+		verbose: true
 	});
 });
 
@@ -67,22 +72,24 @@ gulp.task(bundleTask, function () {
 });
 
 var sassTask = "sass",
-	sassSrc = "app/res/sass/main.scss",
+	sassDir = "app/res/sass/",
+	sassSrc = sassDir + "main.scss",
 	sassMaps = "../scss",
 	sassDest = "app/public/css";
 
 gulp.task(sassTask, function () {
 	return sass(sassSrc, {
 		sourcemap: true,
-		loadPath: "app/res/vendor/bootstrap-sass-twbs/assets/stylesheets/",
 		compass: true,
-		style: "compressed"
+		//style: "compressed",
+		noCache: true
 	})
 		.on('error', function (err) {
 			console.error('Error', err.message);
 		})
 		.pipe(sourcemaps.write(sassMaps))
-		.pipe(gulp.dest(sassDest));
+		.pipe(gulp.dest(sassDest))
+		.pipe(livereload());
 });
 
 var imageTask = "minImage",
@@ -95,9 +102,12 @@ gulp.task(imageTask, function () {
 		.pipe(gulp.dest(imageDest));
 });
 
-gulp.task("watch", function () {
+gulp.task("build", [bundleTask, sassTask]);
+
+gulp.task("watch", ["build"], function () {
 	livereload.listen();
 	gulp.watch(bundlePaths, [bundleTask]);
+	gulp.watch([sassDir + "**/*.scss"], [sassTask]);
 });
 
-gulp.task("default", [bundleTask, devServerTask, "watch"]);
+gulp.task("default", ["watch", devServerTask]);

@@ -1,0 +1,71 @@
+#row-logo {
+  background-color: $shoutit-dark-green;
+  margin-bottom: 1px;
+
+  .header-logo {
+    margin-top: 8px;
+
+    @media (min-width: 991px) {
+      width: 65%;
+    }
+
+    @media (max-width: 620px) {
+      .center {
+        width: 100%;
+        text-align: center;
+        padding: 0;
+      }
+    }
+
+    .selectpicker {
+      background: #bfdd6d none;
+      border: none;
+      box-shadow: none;
+      height: 45px;
+    }
+
+    .selectpicker {
+      color: #343837;
+      font-size: 15px;
+      font-family: "Arial-Bold", sans-serif;
+    }
+
+    .input-group-addon {
+      background-color: #fff;
+      border: none;
+    }
+
+    .form-control {
+      border: none;
+    }
+
+    .searchButton {
+      padding: 0;
+    }
+
+    .header-search {
+      margin-top: 10px;
+
+      .form-control {
+        background-color: #fff;
+      }
+    }
+  }
+
+  .header-icon {
+    padding: 0;
+
+    @media (max-width: 991px) {
+      .navbar-right {
+        display: table;
+        margin: 0 auto;
+        float: none !important;
+      }
+
+      .navbar-right > li {
+        display: inline-block;
+      }
+    }
+  }
+}
+

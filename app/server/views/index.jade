@@ -11,10 +11,9 @@ html
 
         link(rel='stylesheet', href='css/main.css', type='text/css' )
 
-        script.
-            window.fluxData = !{serializedFlux}
-
     body
         #main-mount!= reactMarkup
 
+        script.
+            window.fluxData = !{serializedFlux}
         script(src="main.js")

@@ -19,13 +19,16 @@ var bunyan = require('express-bunyan-logger'),
 	methodOverride = require('method-override'),
 	session = require('express-session'),
 	RedisStore = require('connect-redis')(session),
-	csurf = require('csurf');
+	csurf = require('csurf'),
+	compression = require('compression');
 
 module.exports = function (app) {
 	// view stuff
 	app.engine('jade', cons.jade);
 	app.set('view engine', 'jade');
 	app.set('views', path.join(__dirname, 'views'));
+
+	app.use(compression());
 
 	// TODO: Replace by nginx static serving
 	app.use(serveStatic('./app/public'));
@@ -41,6 +44,8 @@ module.exports = function (app) {
 		saveUninitialized: true
 	}));
 	// app.use(csurf());
+
+
 
 	app.use(function (req, res) {
 		//var flux = Flux();

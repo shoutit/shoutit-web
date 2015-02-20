@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react'),
-	RowLogo = require('./rowLogo.jsx'),
+	TopBar = require('./topBar.jsx'),
 	MainMenu = require('./mainMenu.jsx');
 
 module.exports = React.createClass({
@@ -10,7 +10,7 @@ module.exports = React.createClass({
 	render: function () {
 		return (
 			<header>
-				<RowLogo/>
+				<TopBar/>
 				<MainMenu/>
 			</header>
 		);

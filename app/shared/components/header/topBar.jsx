@@ -2,18 +2,19 @@
 
 var React = require('react'),
 	Container = require('react-bootstrap/Grid'),
+	Row = require('react-bootstrap/Row'),
 	HeaderLogo = require('./headerLogo.jsx'),
-	HeaderIcon = require('./headerIcon.jsx');
+	TopBarActions = require('./topbarActions.jsx');
 
 module.exports = RowLogo = React.createClass({
 	render: function () {
 		return (
-			<div id="row-logo">
+			<Row id="row-logo">
 				<Container>
 					<HeaderLogo/>
-					<HeaderIcon/>
+					<TopBarActions/>
 				</Container>
-			</div>
+			</Row>
 		);
 	}
 });
