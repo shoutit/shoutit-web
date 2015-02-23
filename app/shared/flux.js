@@ -4,12 +4,18 @@
  * Created by Philip on 17.02.2015.
  */
 
-var Fluxxor = require("fluxxor");
+var merge = require('lodash/object/merge'),
+	Fluxxor = require("fluxxor"),
+	UserStore = require('./stores/user/store'),
+	userActions = require('./stores/user/actions');
 
-module.exports = function () {
-	var stores = {};
 
-	var actions = {};
+module.exports = function (router) {
+	var stores = {
+		user: new UserStore(router)
+	};
+
+	var actions = merge({}, userActions);
 
 	var flux = new Fluxxor.Flux(stores,actions);
 

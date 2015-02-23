@@ -3856,22 +3856,6 @@ a.badge:hover, a.badge:focus {
 	Author URI: http://Shoutit.com
 	Version: 1
 */
-/*Menu-header*/
-.navbar-default {
-  background: #99ca3b; }
-
-.dropdown-menu {
-  width: 200px; }
-
-.stylish-input-group .input-group-addon {
-  background: white !important; }
-
-.stylish-input-group .form-control {
-  border-right: 0;
-  box-shadow: 0 0 0;
-  border-color: #ccc;
-  height: 45px; }
-
 .form-control {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px; }
@@ -5616,7 +5600,7 @@ footer {
         text-align: center;
         padding: 0; } }
     #row-logo .header-logo .selectpicker {
-      background: #bfdd6d none;
+      background: #bfdd6d;
       border: none;
       box-shadow: none;
       height: 45px; }
@@ -5624,6 +5608,8 @@ footer {
       color: #343837;
       font-size: 15px;
       font-family: "Arial-Bold", sans-serif; }
+    #row-logo .header-logo .dropdown-menu {
+      width: 200px; }
     #row-logo .header-logo .input-group-addon {
       background-color: #fff;
       border: none; }

@@ -18,7 +18,7 @@
     }
 
     .selectpicker {
-      background: #bfdd6d none;
+      background: $shoutit-light-green;
       border: none;
       box-shadow: none;
       height: 45px;
@@ -28,6 +28,9 @@
       color: #343837;
       font-size: 15px;
       font-family: "Arial-Bold", sans-serif;
+    }
+    .dropdown-menu {
+      width: 200px;
     }
 
     .input-group-addon {

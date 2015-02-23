@@ -9,7 +9,7 @@ module.exports =  React.createClass({
 
 	render: function () {
 		return (
-			<RouteHandler/>
+			<RouteHandler flux={this.props.flux}/>
 		);
 	}
 });

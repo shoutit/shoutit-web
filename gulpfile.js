@@ -37,23 +37,22 @@ gulp.task(devServerTask, function () {
 		ignore: [
 			".git", ".idea", ".sass-cache", "node_modules",
 			"app/client", "app/public"
-		],
-		verbose: true
+		]
 	});
 });
 
 var bundleTask = "bundle",
 	bundlePaths = [
 		"app/client/*.js",
-		"app/shared/**/*.jsx"
+		"app/shared/**/*.jsx",
+		"app/shared/**/*.js"
 	],
 	bundleSrc = "./app/client/index.js",
 	bundleDest = publicDir;
 
 gulp.task(bundleTask, function () {
 	var bundler = browserify({
-		entries: [bundleSrc],
-		debug: true
+		entries: [bundleSrc]
 	}).transform(reactify);
 
 	var bundle = function () {
