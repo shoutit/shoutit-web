@@ -1,15 +1,17 @@
-/** @jsx React.DOM */
+
 
 var React = require("react"),
 	Router = require("react-router"),
 	Route = Router.Route,
-	DefaultRoute = Router.DefaultRoute;
+	DefaultRoute = Router.DefaultRoute,
+	Redirect = Router.Redirect;
 
 var Root = require("./components/root.jsx"),
-	Login = require("./components/login.jsx"),
+	Login = require("./components/login/login.jsx"),
 	App = require("./components/app.jsx"),
 	Home = require("./components/home/home.jsx"),
 	Simple = require("./components/misc/simple.jsx");
+
 
 module.exports = (
 	<Route name="root" path="/" handler={Root}>
@@ -17,6 +19,13 @@ module.exports = (
 			<Route name="offers" handler={Home}/>
 			<Route name="requests" handler={Simple}/>
 			<Route name="map" handler={Simple}/>
+			<Route name="user" path="/user/:username" handler={Simple}>
+				<Route name="listening" path="/user/:username/listening" handler={Simple}/>
+				<Route name="useroffers" path="/user/:username/offers" handler={Simple}/>
+				<Route name="userrequests" path="/user/:username/requests" handler={Simple}/>
+			</Route>
+			<Route name="tag" path="/tag/:tagName" handler={Simple}/>
+			<Route name="message" path="/message/:msgId" handler={Simple}/>
 			<DefaultRoute handler={Home}/>
 		</Route>
 		<Route name="login" handler={Login}/>

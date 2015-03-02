@@ -9,7 +9,9 @@ var cons = require('consolidate'),
 var React = require('react'),
 	Router = require('react-router');
 
-var oauth = require('./auth/oauth');
+var oauth = require('./auth/oauth'),
+	ShoutitClient = require('./resources'),
+	apiRouter = require('./routes');
 
 var Flux = require('../shared/flux'),
 	Routes = require('../shared/routes.jsx'),
@@ -21,7 +23,7 @@ var //bunyan = require('express-bunyan-logger'),
 	methodOverride = require('method-override'),
 	session = require('express-session'),
 	RedisStore = require('connect-redis')(session),
-	//csurf = require('csurf'),
+//csurf = require('csurf'),
 	compression = require('compression');
 
 module.exports = function (app) {
@@ -58,8 +60,19 @@ module.exports = function (app) {
 
 	app.use('/auth', authRouter);
 
+	app.use('/api', apiRouter);
+
 	app.use(function (req, res) {
-		var flux = Flux();
+		var user = req.session.user;
+		/*
+		 console.time("ShoutsRequest");
+		 ShoutitClient
+		 .shouts()
+		 .list(req.session)
+		 .on('complete', function (shouts) {
+		 console.timeEnd("ShoutsRequest");*/
+
+		var flux = Flux(null, user);
 
 		var render = function () {
 			console.time("RenderReact");
@@ -85,6 +98,9 @@ module.exports = function (app) {
 		setImmediate(function () {
 			render();
 		});
-	});
+	})
+
+
+	//});
 };
 

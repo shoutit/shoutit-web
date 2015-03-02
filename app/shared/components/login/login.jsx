@@ -1,10 +1,13 @@
-/** @jsx React.DOM */
-
 var React = require('react'),
-	FluxMixin = require('fluxxor').FluxMixin(React);
-Clear = require('./helper/clear.jsx');
+	FluxMixin = require('fluxxor').FluxMixin(React),
+	Clear = require('./../helper/clear.jsx'),
+	Input = require('react-bootstrap/Input'),
+	Container = require('react-bootstrap/Grid'),
+	Col = require('react-bootstrap/Col'),
+	Icon = require('./../helper/icon.jsx');
 
-module.exports = Login = React.createClass({
+module.exports = React.createClass({
+	displayName: "Login",
 	mixins: [FluxMixin],
 
 	getInitialState: function () {
@@ -22,38 +25,35 @@ module.exports = Login = React.createClass({
 						<h4>What will you shout today</h4>
 					</div>
 					<Clear />
-					<input type="text" placeholder="Email" className="email"/>
-					<input type="text" placeholder="Password" className="pass"/>
+					<Input type="text" placeholder="Email" addonBefore={<Icon name="email"/>} className="email"/>
+					<Input type="text" placeholder="Password" addonBefore={<Icon name="pass"/>} className="pass"/>
 					<button className="btn btn-sign btn-submit submit" type="button">
 						Sign In
 					</button>
 					<Clear />
-					<div className="login-inl">
-						<div className="stay">
-							<input type="radio" id="stay"/>
-							<label htmlFor="stay">Stay Signed in</label>
-						</div>
-						<div className="login-help">
-							<p>Help</p>
-						</div>
-					</div>
-					<button className="btn btn-fb submit" type="button" onClick={this.onFBLogin}>Connect with Facebook</button>
-					<button className="btn btn-google submit" type="button" onClick={this.onGPlusLogin}>Connect with Google+</button>
+					<Container fluid={true} className="login-inline">
+						<Col xs={6} md={6} className="login-stay">
+							<Input type="radio" label="Stay Signed in"/>
+						</Col>
+						<Col xs={6} md={6} className="login-help">
+							<Icon name="help"/>
+							Help
+						</Col>
+					</Container>
+					<button className="btn btn-fb submit" type="button" onClick={this.onFBLogin}>
+						<Icon name="fb"/>
+						Connect with Facebook
+					</button>
+					<button className="btn btn-google submit" type="button" onClick={this.onGPlusLogin}>
+						<Icon name="google"/>
+						Connect with Google+
+					</button>
 					<p className="login-bot">Don't have an account&#63;
 						<span>Sign Up</span>
 					</p>
 				</div>
-				<script src="//apis.google.com/js/client:platform.js"></script>
-				<script src="//connect.facebook.net/en_US/sdk.js"></script>
 			</div>
 		);
-	},
-
-	componentDidMount: function () {
-		FB.init({
-			appId: "353625811317277",
-			version: 'v2.0'
-		});
 	},
 
 	onGPlusLogin: function (e) {
@@ -62,7 +62,7 @@ module.exports = Login = React.createClass({
 		var This = this;
 		var flux = this.getFlux();
 
-		gapi.auth.signIn({
+		window.gapi.auth.signIn({
 			clientid: "935842257865-s6069gqjq4bvpi4rcbjtdtn2kggrvi06.apps.googleusercontent.com",
 			cookiepolicy: "single_host_origin",
 			redirecturi: "postmessage",
@@ -86,7 +86,7 @@ module.exports = Login = React.createClass({
 
 		var flux = this.getFlux();
 
-		FB.getLoginStatus(function (response) {
+		window.FB.getLoginStatus(function (response) {
 			if (response.status === 'connected') {
 				flux.actions.login('fb', response.authResponse.accessToken);
 			} else {

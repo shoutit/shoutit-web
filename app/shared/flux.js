@@ -7,15 +7,23 @@
 var merge = require('lodash/object/merge'),
 	Fluxxor = require("fluxxor"),
 	UserStore = require('./stores/user/store'),
-	userActions = require('./stores/user/actions');
+	ShoutStore = require('./stores/shouts/store'),
+	userActions = require('./stores/user/actions'),
+	shoutActions = require('./stores/shouts/actions');
 
 
-module.exports = function (router) {
+module.exports = function (router, user, shouts) {
 	var stores = {
-		user: new UserStore(router)
+		user: new UserStore({
+			router: router,
+			user: user
+		}),
+		shouts: new ShoutStore({
+			shouts: shouts
+		})
 	};
 
-	var actions = merge({}, userActions);
+	var actions = merge({}, userActions, shoutActions);
 
 	var flux = new Fluxxor.Flux(stores,actions);
 

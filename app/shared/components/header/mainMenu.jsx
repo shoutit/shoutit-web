@@ -1,14 +1,13 @@
-/** @jsx React.DOM */
-
 var React = require('react'),
 	Router = require('react-router'),
 	NavItemLink = require('react-router-bootstrap').NavItemLink,
-	Col = require('react-bootstrap/Col'),
 	Container = require('react-bootstrap/Grid'),
 	Navbar = require('react-bootstrap/Navbar'),
 	Nav = require('react-bootstrap/Nav');
 
-module.exports = MainMenu = React.createClass({
+module.exports = React.createClass({
+	displayName: "MainMenu",
+
 	render: function () {
 		return (
 			<div id="main-menu">
@@ -18,7 +17,7 @@ module.exports = MainMenu = React.createClass({
 							<NavItemLink to="app">Home</NavItemLink>
 							<NavItemLink to="offers">Offers</NavItemLink>
 							<NavItemLink to="requests">Requests</NavItemLink>
-							<NavItemLink to="map">Requests</NavItemLink>
+							<NavItemLink to="map">Map</NavItemLink>
 						</Nav>
 					</Navbar>
 				</Container>

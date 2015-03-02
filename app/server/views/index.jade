@@ -7,13 +7,18 @@ html
 
         title= title
 
-        link(rel='icon', type='image/png' href="img/fav.png")
+        link(rel='icon', type='image/png' href="/img/fav.png")
 
-        link(rel='stylesheet', href='css/main.css', type='text/css' )
+        link(rel='stylesheet', href='/css/main.css', type='text/css' )
 
     body
         #main-mount!= reactMarkup
 
-        script.
+        #fb-root
+
+        script#fluxData.
             window.fluxData = !{serializedFlux}
-        script(src="main.js")
+
+        script(src="//apis.google.com/js/client:platform.js")
+        script(src="//connect.facebook.net/en_US/sdk.js")
+        script(src="/main.js")

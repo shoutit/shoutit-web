@@ -8,11 +8,13 @@ var Fluxxor = require('fluxxor'),
 
 var consts = require('./consts');
 
-
 var UserStore = Fluxxor.createStore({
-	initialize: function (router) {
-		this.user = {};
-		this.router = router;
+	initialize: function (props) {
+		this.state = {
+			user: props.user || null
+		};
+
+		this.router = props.router;
 
 		this.bindActions(
 			consts.LOGIN, this.onLogin,
@@ -40,7 +42,9 @@ var UserStore = Fluxxor.createStore({
 			.end(function (err, res) {
 				if (err) {
 					console.error(err);
-				} else if (res.status === 200 && res.body.success) {
+				} else {
+					This.state.user = res.body;
+					This.emit("change");
 					This.router.transitionTo('app');
 				}
 			});
@@ -54,7 +58,9 @@ var UserStore = Fluxxor.createStore({
 				if (err) {
 					console.error(err);
 				} else if (res.status === 200 && res.body.loggedOut) {
-					This.user = {};
+					This.state.user = null;
+					This.emit("change");
+					This.router.transitionTo('app');
 				}
 			});
 	},
@@ -68,10 +74,7 @@ var UserStore = Fluxxor.createStore({
 	},
 
 	getState: function () {
-		return {
-			user: this.user,
-			users: this.users
-		}
+		return this.state;
 	}
 });
 

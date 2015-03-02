@@ -2,12 +2,11 @@
  * Created by Philip on 12.01.2015.
  */
 
-var _ = require('lodash'),
-	Promise = require('bluebird'),
+var Promise = require('bluebird'),
 	request = require('superagent');
 
 
-var ENDPOINT_SERVER = 'dev.shoutit.com',
+var ENDPOINT_SERVER = 'http://dev-shoutit-com-qm7w6bwy42b2.runscope.net',
 	HEADERS = {
 		"shoutit-client": "web"
 	},
@@ -32,7 +31,7 @@ function requestAccessToken(type, grantToken) {
 	return new Promise(function (resolve, reject) {
 		request
 			.post(ENDPOINT_SERVER + ACCESSTOKEN_ENDPOINT)
-			.set(HEADERS)
+			//.set(HEADERS)
 			.type('json')
 			.accept('json')
 			.send(requestData)
@@ -52,64 +51,56 @@ function updateSession(req) {
 		req.session.refreshToken = resp.refresh_token;
 		req.session.cookie.expires = new Date(Date.now() + parseInt(resp.expires_in));
 		req.session.scope = resp.scope.split[' '];
-
 		return accessToken;
 	}
 }
 
-function fetchUser (accessToken) {
-		return new Promise(function (resolve, reject) {
-			request
-				.get(ENDPOINT_SERVER + USER_ENDPOINT)
-				.set(HEADERS)
-				.set('Authorization', 'Bearer ' + accessToken)
-				.accept('json')
-				.end(function (err, resp) {
-					if(err) {
-						console.error(err);
-						reject(err);
-					} else {
-						console.dir(resp.body);
+function fetchUser(accessToken) {
+	return new Promise(function (resolve, reject) {
+		request
+			.get(ENDPOINT_SERVER + USER_ENDPOINT)
+			//.set(HEADERS)
+			.set('Authorization', 'Bearer ' + accessToken)
+			.accept('json')
+			.end(function (err, resp) {
+				if (err) {
+					console.error(err);
+					reject(err);
+				} else {
+					if (resp.body.id) {
 						resolve(resp.body)
+					} else {
+						reject(resp.body);
 					}
+				}
+			});
+	});
+}
+
+function auth(type) {
+	return function (req, res) {
+		var code = req.body.token;
+		if (code) {
+			requestAccessToken(type, code)
+				.then(updateSession(req))
+				.then(fetchUser)
+				.then(function (user) {
+					req.session.user = user;
+					res.json(user);
+				})
+				.catch(function (err) {
+					res.status(500).send(err);
 				});
-		});
+		} else {
+			res.status(400).send('Bad Request');
+		}
+	}
 }
 
 module.exports = {
-	gplusAuth: function (req, res) {
-		var code = req.body.token;
-		if (code) {
-			requestAccessToken('gplus', code)
-				.then(updateSession(req))
-				.then(fetchUser)
-				.then(function(user) {
-					res.json(user);
-				})
-				.catch(function (err) {
-					res.status(500).send(err);
-				});
-		} else {
-			res.status(400).send('Bad Request');
-		}
-	},
+	gplusAuth: auth('gplus'),
 
-	fbAuth: function (req, res) {
-		var token = req.body.token;
-		if (token) {
-			requestAccessToken('fb', token)
-				.then(updateSession(req))
-				.then(fetchUser)
-				.then(function(user) {
-					res.json(user);
-				})
-				.catch(function (err) {
-					res.status(500).send(err);
-				});
-		} else {
-			res.status(400).send('Bad Request');
-		}
-	},
+	fbAuth: auth('fb'),
 
 	logout: function (req, res) {
 		req.session.destroy(function (err) {

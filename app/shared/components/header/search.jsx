@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require('react'),
 	Container = require('react-bootstrap/Grid'),
 	Col = require('react-bootstrap/Col'),

@@ -10,5 +10,9 @@ module.exports = {
 			type: type,
 			token: token
 		});
+	},
+
+	logout: function() {
+		this.dispatch(consts.LOGOUT);
 	}
 };

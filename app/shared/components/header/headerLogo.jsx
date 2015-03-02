@@ -1,14 +1,11 @@
-/** @jsx React.DOM */
-
 var React = require('react'),
-	Router = require('react-router'),
-	Link = Router.Link,
 	Col = require('react-bootstrap/Col'),
-	Input = require('react-bootstrap/Input'),
 	Logo = require('./logo.jsx'),
 	Search = require('./search.jsx');
 
-module.exports = HederLogo = React.createClass({
+module.exports = React.createClass({
+	displayName: "HeaderLogo",
+
 	render: function () {
 		return (
 			<Col className="header-logo" xs={12} md={7}>

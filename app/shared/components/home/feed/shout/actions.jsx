@@ -1,12 +1,10 @@
-/** @jsx React.DOM */
-
 var React = require('react'),
-	Icon = require('../../../helper/icon.jsx')
+	Icon = require('../../../helper/icon.jsx');
 
 module.exports = React.createClass({
 	displayName: "ShoutActions",
 
-	render: function() {
+	render: function () {
 		return (
 			<ul className="book col-md-6">
 				<li>

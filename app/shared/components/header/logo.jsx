@@ -1,4 +1,4 @@
-/** @jsx React.DOM */
+
 
 var React = require('react'),
 	Col = require('react-bootstrap/Col'),
@@ -10,7 +10,7 @@ module.exports = React.createClass({
 	render: function () {
 		return (
 			<Link to="app">
-				<img src="img/logo.png"/>
+				<img src="/img/logo.png"/>
 			</Link>
 		);
 	}

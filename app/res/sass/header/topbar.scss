@@ -2,6 +2,21 @@
   background-color: $shoutit-dark-green;
   margin-bottom: 1px;
 
+  .selectpicker, #loginButton {
+    background: $shoutit-light-green;
+    border: none;
+    box-shadow: none;
+    height: 45px;
+    color: #343837;
+    font-size: 15px;
+    font-family: "Arial-Bold", sans-serif;
+  }
+
+  #loginButton {
+    padding-top: 12px;
+    margin-top: 18px;
+  }
+
   .header-logo {
     margin-top: 8px;
 
@@ -17,18 +32,6 @@
       }
     }
 
-    .selectpicker {
-      background: $shoutit-light-green;
-      border: none;
-      box-shadow: none;
-      height: 45px;
-    }
-
-    .selectpicker {
-      color: #343837;
-      font-size: 15px;
-      font-family: "Arial-Bold", sans-serif;
-    }
     .dropdown-menu {
       width: 200px;
     }
@@ -69,6 +72,40 @@
         display: inline-block;
       }
     }
+  }
+
+  .profile img {
+    vertical-align: baseline;
+    border-radius: 25px;
+  }
+
+  .nav > li > a:hover,
+  .nav > li > a:focus,
+  .nav .open > a {
+    background: none;
+  }
+
+  .dropdown-menu {
+    width: 325px !important;
+    height: 380px;
+
+    margin-top: 0;
+    border-radius: 0;
+
+    > li {
+      display: table;
+      width: 100%;
+      padding: 15px 0 10px 0;
+    }
+
+    .nav-setting {
+      height: 30px;
+    }
+  }
+
+  .messages > .dropdown-menu > li > div {
+    padding-right: 10px;
+    padding-left: 10px;
   }
 }
 

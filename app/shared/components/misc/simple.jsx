@@ -1,11 +1,11 @@
-/** @jsx React.DOM */
-
 var React = require('react'),
-	Router = require('react-router'),
 	DocumentTitle = require('react-document-title');
 
-var NotFound = React.createClass({
+module.exports = React.createClass({
+	displayName: "Simple",
+
 	title: "Simple - Shout It",
+
 	render: function () {
 		return (
 			<DocumentTitle title={this.title}>
@@ -16,5 +16,3 @@ var NotFound = React.createClass({
 		);
 	}
 });
-
-module.exports = NotFound;

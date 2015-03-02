@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require('react'),
 	Col = require('react-bootstrap/Col');
 
@@ -9,7 +7,7 @@ module.exports = React.createClass({
 	getDefaultProps: function () {
 		return {
 			logoRight: false,
-			logoSrc: "img/logoLG.png",
+			logoSrc: "/img/dummies/logoLG.png",
 			agoText: "1 day ago"
 		}
 	},

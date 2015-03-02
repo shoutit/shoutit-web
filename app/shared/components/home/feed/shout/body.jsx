@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require('react'),
 	Col = require('react-bootstrap/Col'),
 	TagList = require('./tags.jsx'),
@@ -16,23 +14,16 @@ module.exports = React.createClass({
 	},
 
 	render: function () {
+		var shout = this.props.shout;
+
 		return (
 			<Col xs={12} md={10} mdPull={this.props.logoRight ? 2 : 0} className="section-right">
 				<Mui right={this.props.logoRight}/>
-				<h4>LG G3 Smartphone</h4>
-				<p>Lorem ipsum dolor sit amet, his interesset concludaturque te, id pro timeam efficiendi scripse
-					rit, tempor eleifend rationibus vel eu. Alia ludus eruditi id has, ei mei aliquip dolores. Odio aliq
-					ud pri at, cum impetus eruditi singulis ad, detraxit tempori</p>
-				<div className="section-right-img">
-					<img src="img/dummies/lg1.png"/>
-					<img src="img/dummies/lg2.png"/>
-					<p>Lorem ipsum dolor sit amet, his interesset concludaturque te, id pro timeam efficiendi scripse
-						rit, tempor eleifend rationibus vel eu. Alia ludus eruditi id has, ei mei aliquip dolores. Odio aliq
-						ud pri at, cum impetus eruditi singulis ad, detraxit tempori</p>
-				</div>
+				<h4>{shout.title}</h4>
+				<p>{shout.text}</p>
 				<div className="btn-bottom">
 					<Actions/>
-					<TagList tags={["LG", "Smartphone"]}/>
+					<TagList tags={shout.tags}/>
 				</div>
 			</Col>
 		);

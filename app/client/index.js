@@ -13,6 +13,20 @@ var flux = Flux(router);
 
 if (window.fluxData) {
 	flux.hydrate(window.fluxData);
+	document.body.replaceChild(document.createElement('script'),document.getElementById('fluxData'));
+	window.flux = flux;
+}
+
+flux.on("dispatch", function (type, payload) {
+	if (console && console.log) {
+		console.log("[Dispatch]", type, payload);
+	}
+});
+if (window.FB) {
+	window.FB.init({
+		appId: "353625811317277",
+		version: 'v2.0'
+	});
 }
 
 router.run(function (Handler, state) {

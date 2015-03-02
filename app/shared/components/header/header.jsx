@@ -1,4 +1,4 @@
-/** @jsx React.DOM */
+
 
 var React = require('react'),
 	TopBar = require('./topBar.jsx'),
@@ -10,7 +10,7 @@ module.exports = React.createClass({
 	render: function () {
 		return (
 			<header>
-				<TopBar/>
+				<TopBar flux={this.props.flux}/>
 				<MainMenu/>
 			</header>
 		);
