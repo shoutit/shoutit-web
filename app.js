@@ -7,7 +7,7 @@
 var express = require('express');
 
 // JSX Transpiler
-require('node-jsx').install({extension: '.jsx'});
+require('node-jsx').install();
 
 var	app = express();
 
