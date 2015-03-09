@@ -7,9 +7,6 @@ var Promise = require('bluebird'),
 
 
 var ENDPOINT_SERVER = 'http://dev-shoutit-com-qm7w6bwy42b2.runscope.net',
-	HEADERS = {
-		"shoutit-client": "web"
-	},
 	ACCESSTOKEN_ENDPOINT = '/api/v2/oauth2/access_token',
 	USER_ENDPOINT = '/api/v2/users/me',
 	CLIENT_ID = 'shoutit-web',
@@ -59,7 +56,6 @@ function fetchUser(accessToken) {
 	return new Promise(function (resolve, reject) {
 		request
 			.get(ENDPOINT_SERVER + USER_ENDPOINT)
-			//.set(HEADERS)
 			.set('Authorization', 'Bearer ' + accessToken)
 			.accept('json')
 			.end(function (err, resp) {

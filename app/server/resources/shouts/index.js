@@ -6,7 +6,11 @@ var SUBROUTE = 'shouts';
 
 module.exports = function() {
 	return {
-		list: require('./list')(this, SUBROUTE)
+		list: require('./list')(this, SUBROUTE),
+		create: require('./create')(this,SUBROUTE),
+		get: require('./get')(this, SUBROUTE),
+		del: require('./delete')(this,SUBROUTE),
+		reply: require('./reply')(this,SUBROUTE)
 	};
 };
 

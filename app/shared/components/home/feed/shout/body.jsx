@@ -20,6 +20,9 @@ module.exports = React.createClass({
 			<Col xs={12} md={10} mdPull={this.props.logoRight ? 2 : 0} className="section-right">
 				<Mui right={this.props.logoRight}/>
 				<h4>{shout.title}</h4>
+				{shout.thumbnail ? <div className="section-right-img">
+					<img src={shout.thumbnail} />
+				</div> : ""}
 				<p>{shout.text}</p>
 				<div className="btn-bottom">
 					<Actions/>

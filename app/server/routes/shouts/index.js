@@ -8,7 +8,13 @@ var express = require('express'),
 	router = express.Router();
 
 router.route('/')
-	.get(require('./list')(ShoutClient));
+	.get(require('./list')(ShoutClient))
+	.post(require('./create')(ShoutClient));
+
+router.route('/:id')
+	.get(require('./get')(ShoutClient))
+	.del(require('./delete')(ShoutClient));
+
 
 module.exports = router;
 
