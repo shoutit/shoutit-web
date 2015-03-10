@@ -8,6 +8,11 @@ var React = require('react'),
 	Shout = require('./feed/shout.jsx'),
 	Spinner = require('../misc/spinner.jsx');
 
+var types = {
+	requests: "request",
+	offers: "offer"
+};
+
 module.exports = React.createClass({
 	mixins: [FluxMixin, StoreWatchMixin("shouts")],
 
@@ -19,11 +24,15 @@ module.exports = React.createClass({
 	},
 
 	render: function () {
-		var shouts = this.state.shouts;
+		var type = this.props.type;
+		var shouts = this.state.shouts.filter(function(shout) {
+			return type === "" || types[type] === shout.type;
+		});
 		var onLastVisibleChange = this.onLastVisibleChange;
-		var shoutEls = shouts.length > 0 ? shouts.map(function (shout, i) {
+		var shoutEls = shouts.length > 0 ? shouts
+			.map(function (shout, i) {
 			return <Shout key={"shout-" + i} shout={shout} index={i} last={i === shouts.length - 1 ? onLastVisibleChange : null}/>;
-		}) : <Spinner />;
+		}) : <Spinner config={{className: "feedSpinner"}} />;
 
 		if (this.state.next && shouts.length > 0) {
 			shoutEls.push(<section key={"shout-" + shouts.length}>

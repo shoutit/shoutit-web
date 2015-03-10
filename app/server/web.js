@@ -64,43 +64,43 @@ module.exports = function (app) {
 
 	app.use(function (req, res) {
 		var user = req.session.user;
-		/*
-		 console.time("ShoutsRequest");
-		 ShoutitClient
-		 .shouts()
-		 .list(req.session)
-		 .on('complete', function (shouts) {
-		 console.timeEnd("ShoutsRequest");*/
 
-		var flux = Flux(null, user);
+		console.time("ShoutsRequest");
+		ShoutitClient
+			.shouts()
+			.list(req.session)
+			.on('complete', function (shouts) {
+				console.timeEnd("ShoutsRequest");
 
-		var render = function () {
-			console.time("RenderReact");
-			var serializedFlux = flux.serialize();
-			Router.run(Routes, req.url, function (Handler, state) {
-				var content = React.renderToString(
-					React.createElement(Handler, {
-						key: state.path,
-						flux: flux
-					})
-				);
-				console.timeEnd("RenderReact");
+				var flux = Flux(null, user, shouts);
 
-				res.render('index', {
-					reactMarkup: content,
-					serializedFlux: serializedFlux,
-					// Extract title from current Router State
-					title: DocumentTitle.rewind()
+				var render = function () {
+					console.time("RenderReact");
+					var serializedFlux = flux.serialize();
+					Router.run(Routes, req.url, function (Handler, state) {
+						var content = React.renderToString(
+							React.createElement(Handler, {
+								key: state.path,
+								flux: flux
+							})
+						);
+						console.timeEnd("RenderReact");
+
+						res.render('index', {
+							reactMarkup: content,
+							serializedFlux: serializedFlux,
+							// Extract title from current Router State
+							title: DocumentTitle.rewind()
+						});
+					});
+				};
+
+				setImmediate(function () {
+					render();
 				});
 			});
-		};
-
-		setImmediate(function () {
-			render();
-		});
-	})
 
 
-	//});
+	});
 };
 

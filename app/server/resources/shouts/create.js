@@ -6,9 +6,7 @@ module.exports = function (client, path) {
 	return function (session, data) {
 		return client.post(path, {
 			accessToken: session && session.accessToken ? session.accessToken : null,
-			data: {
-				data
-			}
+			data: data
 		});
 	}
 };

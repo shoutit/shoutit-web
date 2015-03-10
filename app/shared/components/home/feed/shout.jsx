@@ -9,7 +9,7 @@ module.exports = React.createClass({
 	displayName: "Shout",
 
 	render: function () {
-		console.log(this.props.shout);
+		//console.log(this.props.shout);
 
 		var right = this.props.index % 2 !== 0;
 		var shout = this.props.shout;

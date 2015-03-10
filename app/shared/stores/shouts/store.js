@@ -14,7 +14,7 @@ var ShoutStore = Fluxxor.createStore({
 	initialize: function (props) {
 		this.state = {
 			shouts: props.shouts && props.shouts.results ? props.shouts.results : [],
-			page: props.shouts && prosp.shouts.results ? 1 : 0,
+			page: props.shouts && props.shouts.results ? 1 : 0,
 			next: props.shouts && props.shouts.next ? this.parseNextUrl(props.shouts.next) : null
 		};
 

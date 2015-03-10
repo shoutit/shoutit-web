@@ -13,7 +13,7 @@ router.route('/')
 
 router.route('/:id')
 	.get(require('./get')(ShoutClient))
-	.del(require('./delete')(ShoutClient));
+	.delete(require('./delete')(ShoutClient));
 
 
 module.exports = router;
