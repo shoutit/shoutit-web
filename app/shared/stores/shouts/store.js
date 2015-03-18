@@ -13,27 +13,28 @@ var consts = require('./consts'),
 var ShoutStore = Fluxxor.createStore({
 	initialize: function (props) {
 		this.state = {
-			shouts: props.shouts && props.shouts.results ? props.shouts.results : [],
-			page: props.shouts && props.shouts.results ? 1 : 0,
-			next: props.shouts && props.shouts.next ? this.parseNextUrl(props.shouts.next) : null
+			shouts: [],
+			fullShouts: {},
+			loading: false
 		};
+
+		if (props.shouts) {
+			this.state.shouts = props.shouts.results;
+		}
+
+		if (props.shout) {
+			this.state.fullShouts[props.shout.id] = props.shout;
+		}
 
 		this.bindActions(
 			consts.UPDATE, this.onUpdate,
 			consts.UPDATE_SUCCESS, this.onUpdateSuccess,
 			consts.LOAD_MORE, this.onLoadMore,
 			consts.LOAD_MORE_SUCCESS, this.onLoadMoreSuccess,
-			consts.REQUEST_FAILED, this.onReqFailed
-		)
-	},
-
-	parseNextUrl: function (nextUrl) {
-		if (nextUrl) {
-			var parsed = url.parse(nextUrl, true);
-			return parsed.query.page;
-		} else {
-			return null;
-		}
+			consts.REQUEST_FAILED, this.onReqFailed,
+			consts.LOAD_SHOUT, this.onLoadShout,
+			consts.LOAD_SHOUT_SUCCESS, this.onLoadShoutSuccess
+		);
 	},
 
 	onReqFailed: function (err) {
@@ -43,7 +44,7 @@ var ShoutStore = Fluxxor.createStore({
 	onUpdate: function () {
 		var flux = this.flux;
 
-		client.fetch().end(function (err, res) {
+		client.list().end(function (err, res) {
 			if (err || !res.body) {
 				flux.actions.requestFailed(err);
 			} else {
@@ -55,40 +56,84 @@ var ShoutStore = Fluxxor.createStore({
 
 	onUpdateSuccess: function (payload) {
 		this.state.shouts = payload.res.results;
-		this.state.page = 1;
-		this.state.next = this.parseNextUrl(payload.res.next);
+		this.emit("change");
+	},
+
+	onLoadShout: function (payload) {
+		var flux = this.flux;
+		client.get(payload.shoutId)
+			.end(function (err, res) {
+				if (err || res.status !== 200) {
+					flux.actions.requestFailed(err);
+				} else {
+					flux.actions.loadShoutSuccess(res.body);
+				}
+			});
+		this.state.loading = true;
+		this.emit("change");
+	},
+
+	onLoadShoutSuccess: function (payload) {
+		this.state.fullShouts[payload.res.id] = payload.res;
+		this.state.loading = false;
 		this.emit("change");
 	},
 
 	onLoadMore: function () {
 		var flux = this.flux;
+		var lastShout = this.state.shouts[this.state.shouts.length - 1];
+		client
+			.list({
+				before: lastShout ? lastShout.date_published : Math.floor(Date.now() / 1000)
+			})
+			.end(function (err, res) {
+				if (err || res.status !== 200) {
+					flux.actions.requestFailed(err);
+				} else {
+					flux.actions.loadMoreSuccess(res.body);
+				}
+			});
 
-		if (this.state.next) {
-			var nextPage = this.state.next;
-			client
-				.fetch(nextPage)
-				.end(function (err, res) {
-					if (err || res.status !== 200) {
-						flux.actions.requestFailed(err);
-					} else {
-						flux.actions.loadMoreSuccess(res.body, nextPage);
-					}
-				});
+		this.state.loading = true;
+		this.emit("change");
+	},
+
+	findShout: function (shoutId) {
+		var state = this.state,
+			index = this._getIndex(shoutId);
+		if (state.fullShouts[shoutId]) {
+			return state.fullShouts[shoutId];
+		} else if (index >= 0) {
+			this.flux.actions.loadShout(shoutId);
+			return state.shouts[index];
+		} else {
+			this.flux.actions.loadShout(shoutId);
+			return {};
 		}
+	},
+
+	_getIndex: function (shoutId) {
+		return _.findIndex(this.state.shouts, 'id', shoutId);
 	},
 
 	onLoadMoreSuccess: function (payload) {
 		var state = this.state;
-		state.page = payload.page;
+		var This = this;
 		payload.res.results.forEach(function (shout) {
-			var index = _.findIndex(state.shouts, 'id', shout.id);
+			var index = This._getIndex(shout.id);
 			if (index >= 0) {
 				state.shouts[index] = shout;
 			} else {
 				state.shouts.push(shout);
 			}
 		});
-		state.next = this.parseNextUrl(payload.res.next);
+
+		state.shouts.sort(function (a, b) {
+			return b.date_published - a.date_published;
+		});
+
+		state.loading = false;
+
 		this.emit("change");
 	},
 

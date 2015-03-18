@@ -4,7 +4,7 @@
 
 module.exports = function (client) {
 	return function (req, res) {
-		client.list(req.session, req.query.page)
+		client.list(req.session, req.query)
 			.on('success', function (data) {
 				res.json(data);
 			})

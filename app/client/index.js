@@ -32,7 +32,6 @@ if (window.FB) {
 router.run(function (Handler, state) {
 	React.render(
 		React.createElement(Handler, {
-			key: state.path,
 			flux: flux
 		}),
 		document.getElementById('main-mount')

@@ -4,7 +4,6 @@ var React = require('react'),
 	StoreWatchMixin = Fluxxor.StoreWatchMixin,
 	Container = require('react-bootstrap/Grid'),
 	Col = require('react-bootstrap/Col'),
-	Button = require('react-bootstrap/Button'),
 	Shout = require('./feed/shout.jsx'),
 	Spinner = require('../misc/spinner.jsx');
 
@@ -19,50 +18,59 @@ module.exports = React.createClass({
 	displayName: "Feed",
 
 	getStateFromFlux: function () {
-		var flux = this.getFlux();
-		return flux.store("shouts").getState();
+		return this.getFlux().store("shouts").getState();
+	},
+
+		getFilteredShouts: function () {
+		var type = this.props.type;
+		return this.state.shouts.filter(function (shout) {
+			return type === "" || types[type] === shout.type;
+		});
+	},
+
+	renderShouts: function () {
+		var shouts = this.getFilteredShouts(),
+			onLastVisibleChange = this.onLastVisibleChange;
+		var shoutEls = shouts
+			.map(function (shout, i) {
+				return <Shout key={"shout-" + i} shout={shout} index={i} last={i === shouts.length - 1 ? onLastVisibleChange : null}/>;
+			});
+
+		if (this.state.loading) {
+			console.log("Loading...");
+
+			shoutEls.push(
+				<section key={"shout-" + shouts.length}>
+					<Col xs={12} md={12}>
+						<Spinner config={{className: "feedSpinner"}} />
+					</Col>
+				</section>);
+		}
+
+		return shoutEls;
 	},
 
 	render: function () {
-		var type = this.props.type;
-		var shouts = this.state.shouts.filter(function(shout) {
-			return type === "" || types[type] === shout.type;
-		});
-		var onLastVisibleChange = this.onLastVisibleChange;
-		var shoutEls = shouts.length > 0 ? shouts
-			.map(function (shout, i) {
-			return <Shout key={"shout-" + i} shout={shout} index={i} last={i === shouts.length - 1 ? onLastVisibleChange : null}/>;
-		}) : <Spinner config={{className: "feedSpinner"}} />;
-
-		if (this.state.next && shouts.length > 0) {
-			shoutEls.push(<section key={"shout-" + shouts.length}>
-				<Col xs={12} md={12}>
-					<Button onClick={this.onClickLoadMore} bsStyle="link">LoadMore</Button>
-				</Col>
-			</section>);
-		}
-
 		return (
 			<Col xs={12} md={8}>
-				{shoutEls}
+				{this.renderShouts()}
 			</Col>
 		)
 	},
 
+	loadMore: function () {
+		this.getFlux().actions.loadMore();
+	},
+
 	onLastVisibleChange: function (isVisible) {
 		if (isVisible) {
-			this.getFlux().actions.loadMore();
+			this.loadMore();
 		}
 	},
 
 	componentDidMount: function () {
-		if (this.state.shouts.length === 0) {
-			this.getFlux().actions.update();
+		if (this.getFilteredShouts().length === 0) {
+			this.loadMore();
 		}
-	},
-
-	onClickLoadMore: function (e) {
-		e.preventDefault();
-		this.getFlux().actions.loadMore();
 	}
 });

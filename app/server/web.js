@@ -4,7 +4,9 @@ var express = require('express');
 
 var cons = require('consolidate'),
 	serveStatic = require('serve-static'),
-	path = require('path');
+	path = require('path'),
+	url = require('url'),
+	Promise = require('bluebird');
 
 var React = require('react'),
 	Router = require('react-router');
@@ -18,13 +20,36 @@ var Flux = require('../shared/flux'),
 	DocumentTitle = require('react-document-title');
 
 // middleware
-var //bunyan = require('express-bunyan-logger'),
+var morgan = require('morgan'),
 	bodyParser = require('body-parser'),
 	methodOverride = require('method-override'),
 	session = require('express-session'),
 	RedisStore = require('connect-redis')(session),
 //csurf = require('csurf'),
 	compression = require('compression');
+
+
+function fetchData(session, routes, params) {
+	var data = {};
+	return Promise.all(routes.filter(function (route) {
+		return route.handler.fetchData;
+	}).map(function (route) {
+		return new Promise(function (resolve, reject) {
+			route.handler.fetchData(ShoutitClient, session, params, route.name)
+				.on('complete', function (result, resp) {
+					if (result instanceof Error || resp.statusCode !== 200) {
+						resolve({});
+					} else {
+						resolve(result);
+					}
+				})
+		}).then(function (fetched) {
+				data[route.name] = fetched
+			});
+	})).then(function () {
+		return data;
+	});
+}
 
 module.exports = function (app) {
 	// view stuff
@@ -38,7 +63,7 @@ module.exports = function (app) {
 	// TODO: Replace by nginx static serving
 	app.use(serveStatic('./app/public'));
 
-	//app.use(bunyan());
+	app.use(morgan('tiny'));
 	app.use(bodyParser.urlencoded({extended: false}));
 	app.use(bodyParser.json());
 	app.use(methodOverride());
@@ -60,47 +85,35 @@ module.exports = function (app) {
 
 	app.use('/auth', authRouter);
 
+
 	app.use('/api', apiRouter);
 
 	app.use(function (req, res) {
-		var user = req.session.user;
+		var user = req.session ? req.session.user : null;
 
-		console.time("ShoutsRequest");
-		ShoutitClient
-			.shouts()
-			.list(req.session)
-			.on('complete', function (shouts) {
-				console.timeEnd("ShoutsRequest");
-
-				var flux = Flux(null, user, shouts);
-
-				var render = function () {
-					console.time("RenderReact");
-					var serializedFlux = flux.serialize();
-					Router.run(Routes, req.url, function (Handler, state) {
-						var content = React.renderToString(
+		// Run router to determine the desired state
+		Router.run(Routes, req.url, function (Handler, state) {
+			// Fetch data based on matching routes and params
+			fetchData(req.session, state.routes, state.params)
+				.then(function (data) {
+					var flux = Flux(null, user, data),
+						serializedFlux = flux.serialize(),
+						content = React.renderToString(
 							React.createElement(Handler, {
-								key: state.path,
 								flux: flux
 							})
 						);
-						console.timeEnd("RenderReact");
 
-						res.render('index', {
-							reactMarkup: content,
-							serializedFlux: serializedFlux,
-							// Extract title from current Router State
-							title: DocumentTitle.rewind()
-						});
+					res.render('index', {
+						reactMarkup: content,
+						serializedFlux: serializedFlux,
+						// Extract title from current Router State
+						title: DocumentTitle.rewind()
 					});
-				};
-
-				setImmediate(function () {
-					render();
 				});
-			});
 
 
+		});
 	});
 };
 

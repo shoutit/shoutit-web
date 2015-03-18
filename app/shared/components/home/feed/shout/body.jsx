@@ -1,4 +1,5 @@
 var React = require('react'),
+	Link = require('react-router').Link,
 	Col = require('react-bootstrap/Col'),
 	TagList = require('./tags.jsx'),
 	Actions = require('./actions.jsx'),
@@ -19,7 +20,11 @@ module.exports = React.createClass({
 		return (
 			<Col xs={12} md={10} mdPull={this.props.logoRight ? 2 : 0} className="section-right">
 				<Mui right={this.props.logoRight}/>
-				<h4>{shout.title}</h4>
+				<h4>
+					<Link to="shout" params={{shoutId: shout.id}}>
+					{shout.title}
+					</Link>
+				</h4>
 				{shout.thumbnail ? <div className="section-right-img">
 					<img src={shout.thumbnail} />
 				</div> : ""}

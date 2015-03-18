@@ -5,7 +5,6 @@ var React = require('react'),
 	RouteHandler = Router.RouteHandler;
 
 var App = React.createClass({
-
 	render: function () {
 		return (
 			<div>

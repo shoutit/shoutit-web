@@ -10,11 +10,25 @@ var titles = {
 	"/requests" : "Requests"
 };
 
+var types = {
+	offers: "offer",
+	requests: "request",
+	shouts: "all"
+};
+
 module.exports = React.createClass({
 	displayName: "Home",
 	mixins: [StateMixin],
 
 	titleAppend: " - Shout It",
+
+	statics: {
+		fetchData: function(client, session, params, name) {
+			return client.shouts().list(session, {
+					shout_type: types[name] || "all"
+			});
+		}
+	},
 
 	render: function () {
 		var pathName= this.getPathname();

@@ -7,11 +7,13 @@ var request = require('superagent');
 var PREFIX = "/api/shouts";
 
 module.exports = {
-	fetch: function(page) {
+	list: function(query) {
 		return request
 			.get(PREFIX + '/')
-			.query({
-				page: page
-			})
+			.query(query);
+	},
+	get: function(shoutId) {
+		return request
+			.get(PREFIX + '/' + shoutId)
 	}
 };

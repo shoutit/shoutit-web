@@ -12,15 +12,13 @@ var merge = require('lodash/object/merge'),
 	shoutActions = require('./stores/shouts/actions');
 
 
-module.exports = function (router, user, shouts) {
+module.exports = function (router, user, data) {
 	var stores = {
 		user: new UserStore({
 			router: router,
 			user: user
 		}),
-		shouts: new ShoutStore({
-			shouts: shouts
-		})
+		shouts: new ShoutStore(data)
 	};
 
 	var actions = merge({}, userActions, shoutActions);

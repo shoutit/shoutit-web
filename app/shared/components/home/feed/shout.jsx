@@ -1,4 +1,5 @@
 var React = require('react'),
+	PureRenderMixin = require('react/addons').addons.PureRenderMixin,
 	Col = require('react-bootstrap/Col'),
 	ShoutHeader = require('./shout/header.jsx'),
 	ShoutBody = require('./shout/body.jsx'),
@@ -7,14 +8,21 @@ var React = require('react'),
 
 module.exports = React.createClass({
 	displayName: "Shout",
+	mixins:[PureRenderMixin],
+
+	alignRight: function() {
+		return this.props.index % 2 !== 0;
+	},
+
+	agoText: function() {
+		return moment.unix(this.props.shout.date_published).fromNow()
+	},
 
 	render: function () {
-		//console.log(this.props.shout);
+		var shout = this.props.shout,
+			ago = this.agoText();
 
-		var right = this.props.index % 2 !== 0;
-		var shout = this.props.shout;
-
-		var body = <ShoutBody logoRight={right} shout={shout}/>;
+		var body = <ShoutBody logoRight={this.alignRight()} shout={shout}/>;
 
 		if (this.props.last) {
 			body = <ViewportSensor onChange={this.props.last}>{body}</ViewportSensor>;
@@ -23,7 +31,7 @@ module.exports = React.createClass({
 		return (
 			<section>
 				<Col xs={12} md={12}>
-					<ShoutHeader agoText={moment.unix(shout.date_published).fromNow()} logoRight={right} logoSrc={shout.user.image}/>
+					<ShoutHeader agoText={ago} logoRight={this.alignRight()} logoSrc={shout.user.image}/>
 					{body}
 				</Col>
 			</section>
