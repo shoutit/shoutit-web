@@ -1,5 +1,3 @@
-
-
 var React = require('react'),
 	NavItem = require('react-bootstrap/NavItem'),
 	Modal = require('react-bootstrap/Modal'),

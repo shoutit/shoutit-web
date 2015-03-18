@@ -6,7 +6,7 @@
 var express = require('express');
 
 // JSX Transpiler
-require('babel/register');
+require('node-jsx').install();
 
 var	app = express();
 

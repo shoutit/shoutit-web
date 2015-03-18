@@ -8,9 +8,8 @@ var React = require('react'),
 	Col = require('react-bootstrap/Col'),
 	Rating = require('./rating.jsx'),
 	ShoutDetailActions = require('./shoutDetailActions.jsx'),
-	TagList = require('../home/feed/shout/tags.jsx');
-
-import Video from './video.jsx';
+	TagList = require('../home/feed/shout/tags.jsx'),
+	Video = require('./video.jsx');
 
 module.exports = React.createClass({
 	displayName: "ShoutDetail",

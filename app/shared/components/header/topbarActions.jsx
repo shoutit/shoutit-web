@@ -3,7 +3,7 @@ var React = require('react'),
 	Nav = require('react-bootstrap/Nav');
 
 var ProfileDropdown = require('./profileDropdown.jsx'),
-	ShoutModalTrigger = require('./topBar/shoutModal.jsx'),
+	ShoutModalTrigger = require('./topbar/shoutModal.jsx'),
 	MessageDropdown = require('./topbar/messageDropdown.jsx'),
 	NotificationDropdown = require('./topbar/notificationDropdown.jsx');
 

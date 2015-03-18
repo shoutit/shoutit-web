@@ -27,6 +27,7 @@
     "moment": "^2.9.0",
     "morgan": "^1.5.1",
     "node-jsx": "^0.12.4",
+    "react": "^0.12.2",
     "react-bootstrap": "^0.14.0",
     "react-bootstrap-select": "^0.12.15",
     "react-document-title": "^1.0.1",
@@ -40,6 +41,7 @@
   "devDependencies": {
     "babelify": "^5.0.3",
     "browserify": "^8.1.0",
+    "flightplan": "^0.6.1",
     "gulp": "^3.8.10",
     "gulp-imagemin": "^2.2.0",
     "gulp-livereload": "^3.7.0",
