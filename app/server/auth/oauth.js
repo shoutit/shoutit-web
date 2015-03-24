@@ -6,9 +6,9 @@ var Promise = require('bluebird'),
 	request = require('superagent');
 
 
-var ENDPOINT_SERVER = 'http://dev-shoutit-com-qm7w6bwy42b2.runscope.net',
-	ACCESSTOKEN_ENDPOINT = '/api/v2/oauth2/access_token',
-	USER_ENDPOINT = '/api/v2/users/me',
+var ENDPOINT_SERVER = process.env.API_URL || 'http://dev-api-shoutit-com-qm7w6bwy42b2.runscope.net/v2/',
+	ACCESSTOKEN_ENDPOINT = 'oauth2/access_token',
+	USER_ENDPOINT = 'users/me',
 	CLIENT_ID = 'shoutit-web',
 	CLIENT_SECRET = '0db3faf807534d1eb944a1a004f9cee3',
 	GRANT_TYPES = {
@@ -47,7 +47,7 @@ function updateSession(req) {
 		var accessToken = req.session.accessToken = resp.access_token;
 		req.session.refreshToken = resp.refresh_token;
 		req.session.cookie.expires = new Date(Date.now() + parseInt(resp.expires_in));
-		req.session.scope = resp.scope.split[' '];
+		req.session.scope = resp.scope ? resp.scope.split[' '] : [];
 		return accessToken;
 	}
 }
@@ -85,6 +85,7 @@ function auth(type) {
 					res.json(user);
 				})
 				.catch(function (err) {
+					console.log(err);
 					res.status(500).send(err);
 				});
 		} else {

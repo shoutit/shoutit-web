@@ -6,7 +6,7 @@ var rest = require('restler'),
 
 console.log("API_URL:", process.env.API_URL);
 
-var ENDPOINT_SERVER = process.env.API_URL || 'http://dev-shoutit-com-qm7w6bwy42b2.runscope.net/api/v2/';
+var ENDPOINT_SERVER = process.env.API_URL || 'http://dev-api-shoutit-com-qm7w6bwy42b2.runscope.net/v2/';
 
 var ShoutitClient =  rest.service(function (endpoint) {
 	this.defaults.headers = {

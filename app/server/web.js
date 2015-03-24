@@ -51,6 +51,17 @@ function fetchData(session, routes, params) {
 	});
 }
 
+var redisOptions = {
+	db: 11
+};
+
+if(process.env.REDIS_HOST) {
+	redisOptions.host = process.env.REDIS_HOST;
+}
+
+console.log("REDIS_HOST:", redisOptions.host);
+
+
 module.exports = function (app) {
 	// view stuff
 	app.engine('jade', cons.jade);
@@ -68,7 +79,7 @@ module.exports = function (app) {
 	app.use(bodyParser.json());
 	app.use(methodOverride());
 	app.use(session({
-		store: new RedisStore(),
+		store: new RedisStore(redisOptions),
 		secret: 'ShoutItOutLoudIntoTheCrowd',
 		resave: false,
 		saveUninitialized: true

@@ -32,6 +32,9 @@ plan.remote(function (remote) {
 	remote.chmod('u+rx -R /var/www/' + tmpDir);
 	remote.rm('-rf /tmp/' + tmpDir);
 
+	remote.log('Stop application to use memory for npm install.');
+	remote.exec('pm2 stop shoutit-web');
+
 	remote.log('Install dependencies');
 	remote.exec('npm --production --prefix /var/www/' + tmpDir + ' install /var/www/' + tmpDir,  {failsafe: true});
 
