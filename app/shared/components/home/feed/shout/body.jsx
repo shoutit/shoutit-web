@@ -3,7 +3,8 @@ var React = require('react'),
 	Col = require('react-bootstrap/Col'),
 	TagList = require('./tags.jsx'),
 	Actions = require('./actions.jsx'),
-	Mui = require('./mui.jsx');
+	Mui = require('./mui.jsx'),
+	Image = require('../../../helper/image.jsx');
 
 module.exports = React.createClass({
 	displayName: "ShoutBody",
@@ -26,7 +27,7 @@ module.exports = React.createClass({
 					</Link>
 				</h4>
 				{shout.thumbnail ? <div className="section-right-img">
-					<img src={shout.thumbnail} />
+					<Image src={shout.thumbnail} />
 				</div> : ""}
 				<p>{shout.text}</p>
 				<div className="btn-bottom">

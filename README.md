@@ -69,14 +69,18 @@
 	2. `pm2 list`
 	3. `pm2 startup ubuntu`
 
-4. Configure NGINX SSL and upstream
+5. Configure NGINX Static File Server and Backend upstream
+	1. `nano /etc/nginx/nginx.conf` see config file below
+
+6. Create nginx user and deployment folder (/var/www/)
+	1. 
+
+7. Configure PM2
+	1. `
 
 
 
-
-
-
-### nginx init script
+### nginx init script (/etc/init.d/nginx)
 
 	#! /bin/sh
 
@@ -146,6 +150,58 @@
 
 	exit 0
 
+
+### NGINX server config (/etc/nginx/nginx.conf)
+
+	user nginx;
+	worker_processes  1;
+
+	events {
+		worker_connections  1024;
+	}
+
+	http {
+		include       mime.types;
+		default_type  application/octet-stream;
+
+		sendfile        on;
+
+		keepalive_timeout  65;
+
+		gzip  on;
+
+		server {
+		   listen         80;
+		   server_name    web.shoutit.com;
+		   root /var/www/shoutit-web/app/public;
+
+
+		   location @webserver {
+			  proxy_pass       http://localhost:8080;
+			  proxy_set_header Host      $host;
+			  proxy_set_header X-Real-IP $remote_addr;
+		   }
+
+		   location / {
+			  expires 30m;
+			  try_files $uri @webserver;
+		   }
+
+		}
+	}
+
+### PM2 Process Config JSON (/var/www/shoutit-web.json)
+
+	{
+      "apps" : [{
+        "name": "shoutit-web",
+        "script": "/var/www/shoutit-web/app.js",
+        "port": 8080,
+        "env": {
+          "API_URL": "http://<internal-api-ip>:/api/v2/"
+        }
+      }]
+    }
 
 
 

@@ -21,7 +21,7 @@ module.exports = React.createClass({
 		return this.getFlux().store("shouts").getState();
 	},
 
-		getFilteredShouts: function () {
+	getFilteredShouts: function () {
 		var type = this.props.type;
 		return this.state.shouts.filter(function (shout) {
 			return type === "" || types[type] === shout.type;

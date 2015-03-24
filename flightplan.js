@@ -14,7 +14,7 @@ plan.target('production', {
 var tmpDir = 'shoutit-web-' + new Date().getTime();
 
 // run commands on localhost
-plan.local(function(local) {
+plan.local(function (local) {
 	local.log('Run build');
 	local.exec('gulp build');
 
@@ -25,16 +25,19 @@ plan.local(function(local) {
 });
 
 // run commands on the target's remote hosts
-plan.remote(function(remote) {
+plan.remote(function (remote) {
 	remote.log('Move folder to web root');
-	remote.sudo('cp -R /tmp/' + tmpDir + ' ~');
+	remote.cp('-R /tmp/' + tmpDir + ' /var/www/');
+	remote.chown('nginx -R /var/www/' + tmpDir);
+	remote.chmod('u+rx -R /var/www/' + tmpDir);
 	remote.rm('-rf /tmp/' + tmpDir);
 
 	remote.log('Install dependencies');
-	remote.sudo('npm --production --prefix ~/' + tmpDir
-	+ ' install ~/' + tmpDir);
+	remote.exec('npm --production --prefix /var/www/' + tmpDir + ' install /var/www/' + tmpDir,  {failsafe: true});
 
 	remote.log('Reload application');
-	remote.sudo('ln -snf ~/' + tmpDir + ' ~/shoutit-web');
-	remote.sudo('pm2 reload shoutit-web');
+	remote.ln('-snf /var/www/' + tmpDir + ' /var/www/shoutit-web');
+	remote.chown('nginx -R /var/www/shoutit-web');
+	remote.chmod('u+rx -R /var/www/shoutit-web');
+	remote.exec('pm2 reload shoutit-web');
 });

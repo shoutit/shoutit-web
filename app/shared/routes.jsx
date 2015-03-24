@@ -2,6 +2,7 @@ var React = require("react"),
 	Router = require("react-router"),
 	Route = Router.Route,
 	DefaultRoute = Router.DefaultRoute,
+	NotFoundRoute = Router.NotFoundRoute,
 	Redirect = Router.Redirect;
 
 var Root = require("./components/root.jsx"),
@@ -9,6 +10,7 @@ var Root = require("./components/root.jsx"),
 	App = require("./components/app.jsx"),
 	Home = require("./components/home/home.jsx"),
 	Simple = require("./components/misc/simple.jsx"),
+	NotFound = require("./components/misc/notfound.jsx"),
 	Shout = require('./components/shout/shoutDetail.jsx');
 
 module.exports = (
@@ -28,6 +30,7 @@ module.exports = (
 			<DefaultRoute name="shouts" handler={Home} />
 		</Route>
 		<Route name="login" handler={Login}/>
+		<NotFoundRoute handler={NotFound} />
 	</Route>
 );
 
