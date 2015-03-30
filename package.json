@@ -13,6 +13,7 @@
     "babel": "^4.7.13",
     "bluebird": "^2.9.14",
     "body-parser": "^1.10.1",
+    "classnames": "^1.2.0",
     "compression": "^1.4.1",
     "connect-redis": "^2.1.0",
     "consolidate": "^0.10.0",

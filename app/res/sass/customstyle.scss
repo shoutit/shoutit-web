@@ -778,14 +778,18 @@ footer {
 .profile-img {
   text-align: center;
   margin-top: 30px;
+  margin-bottom: 25px;
   width: auto;
+}
+
+.profile-img img {
+  border-radius: 110px;
 }
 
 .profile-img h4 {
   color: #343837;
   font-family: "Arial-Bold";
   font-size: 22px;
-  margin-bottom: 25px;
   margin-top: 25px;
 }
 
@@ -793,6 +797,9 @@ footer {
   background-color: #fff;
   padding: 0;
   border: 1px solid #d9dada;
+}
+
+.search-left {
   height: 630px;
 }
 

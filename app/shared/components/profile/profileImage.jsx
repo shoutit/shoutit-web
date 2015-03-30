@@ -1,20 +1,18 @@
-var React = require('react');
+var React = require('react'),
+	Router = require('react-router'),
+	Link = Router.Link;
 
 module.exports = React.createClass({
 	displayName: "ProfileImage",
 
-	getDefaultProps: function() {
-		return {
-			profileImage: "/img/dummies/profile1.png",
-			name: "Kevin Richardos"
-		}
-	},
-
 	render: function () {
 		return (
 			<div className="profile-img">
-				<img src={this.props.profileImage}/>
+				<img src={this.props.image}/>
 				<h4>{this.props.name}</h4>
+				<Link to="user" params={{username: this.props.username}} title="Username">
+					{"(" + this.props.username + ")"}
+				</Link>
 			</div>
 		);
 	}

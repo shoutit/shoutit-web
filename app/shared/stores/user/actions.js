@@ -14,5 +14,19 @@ module.exports = {
 
 	logout: function() {
 		this.dispatch(consts.LOGOUT);
+	},
+
+	changeInfo: function(field, value) {
+		this.dispatch(consts.INFO_CHANGE, {
+			field: field,
+			value: value
+		});
+	},
+
+	saveInfo: function(field, value) {
+		this.dispatch(consts.INFO_SAVE, {
+			field: field,
+			value: value
+		});
 	}
 };

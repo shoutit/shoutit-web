@@ -1,11 +1,12 @@
 /**
- * Created by Philip on 27.02.2015.
+ * Created by Philip on 27.03.2015.
  */
 
 module.exports = function (client) {
 	return function (req, res) {
-		client.get(req.session, req.params.id || "me")
+		client.update(req.session, req.params.id || "me", req.body)
 			.on('success', function (data) {
+				req.session.user = data;
 				res.json(data);
 			})
 			.on('fail', function (data, resp) {
@@ -17,3 +18,4 @@ module.exports = function (client) {
 			});
 	}
 };
+

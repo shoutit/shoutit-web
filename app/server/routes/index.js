@@ -8,5 +8,6 @@ var express = require('express'),
 
 
 apiRouter.use('/shouts', require('./shouts'));
+apiRouter.use('/users', require('./users'));
 
 module.exports = apiRouter;

@@ -6,7 +6,8 @@
 var Fluxxor = require('fluxxor'),
 	request = require('superagent');
 
-var consts = require('./consts');
+var consts = require('./consts'),
+	client = require('./client');
 
 var UserStore = Fluxxor.createStore({
 	initialize: function (props) {
@@ -18,8 +19,10 @@ var UserStore = Fluxxor.createStore({
 
 		this.bindActions(
 			consts.LOGIN, this.onLogin,
-			consts.LOGOUT, this.onLogout
-		)
+			consts.LOGOUT, this.onLogout,
+			consts.INFO_CHANGE, this.onInfoChange,
+			consts.INFO_SAVE, this.onInfoSave
+		);
 	},
 
 	onLogin: function (payload) {
@@ -63,6 +66,31 @@ var UserStore = Fluxxor.createStore({
 					This.router.transitionTo('app');
 				}
 			});
+	},
+
+	onInfoChange: function (payload) {
+		if (this.state.user[payload.field]) {
+			this.state.user[payload.field] = payload.value;
+		}
+		this.emit("change");
+	},
+
+	onInfoSave: function (payload) {
+		var This = this;
+		if (this.state.user[payload.field]) {
+			var patch = {};
+
+			patch[payload.field] = payload.value;
+
+			client.update(patch).end(function (err, res) {
+				if (err) {
+					console.log(err);
+				} else {
+					This.state.user = res.body;
+					This.emit("change");
+				}
+			});
+		}
 	},
 
 	serialize: function () {

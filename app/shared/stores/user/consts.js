@@ -4,5 +4,7 @@
 
 module.exports = {
 	LOGIN: "LOGIN",
-	LOGOUT: "LOGOUT"
+	LOGOUT: "LOGOUT",
+	INFO_CHANGE: "INFO_CHANGE",
+	INFO_SAVE: "INFO_SAVE"
 };
