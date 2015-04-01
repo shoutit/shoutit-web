@@ -28,5 +28,25 @@ module.exports = {
 			field: field,
 			value: value
 		});
+	},
+
+	listen: function(username) {
+		this.dispatch(consts.LISTEN, {
+			username: username
+		});
+	},
+
+	stopListen: function(username) {
+		this.dispatch(consts.STOP_LISTEN, {
+			username: username
+		});
+	},
+
+	fetchListening: function() {
+		this.dispatch(consts.FETCH_LISTENING);
+	},
+
+	fetchListeners: function() {
+		this.dispatch(consts.FETCH_LISTENERS);
 	}
 };

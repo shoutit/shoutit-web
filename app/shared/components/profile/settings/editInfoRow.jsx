@@ -8,7 +8,7 @@ module.exports = React.createClass({
 	getInitialState: function () {
 		return {
 			edit: false,
-			value: this.props.value
+			value: this.props.value || ""
 		}
 	},
 
@@ -66,7 +66,36 @@ module.exports = React.createClass({
 			: "";
 	},
 
+	renderPasswordInput: function () {
+		var classes = {
+			"t-edit-text": true,
+			"t-fix-edit-text": true
+		};
+
+		return (
+			<Col xs={12} sm={12} md={8}>
+				<Col xs={12} sm={6} md={12} className={classNames(classes)}>
+					<Col md={5} className="t-edit-left">
+						<h4>New password</h4>
+					</Col>
+					<div className="t-edit-text">
+						<input ref="passwordInput" type="password"/>
+					</div>
+				</Col>
+				<Col xs={12} sm={6} md={12} className={classNames(classes)}>
+					<Col md={5} className="t-edit-left">
+						<h4>Retype new password</h4>
+					</Col>
+					<div className="t-edit-text">
+						<input ref="passwordRetypeInput" type="password"/>
+					</div>
+				</Col>
+			</Col>
+		);
+	},
+
 	render: function () {
+		var type = this.props.type || "text";
 		var isEditState = this.state.edit;
 		var classes = {
 			"info-basic": true,
@@ -76,15 +105,18 @@ module.exports = React.createClass({
 
 		return (
 			<div className={classNames(classes)}>
-			{this.renderDescr()}
-			{this.renderInput()}
+			{type === "password" && isEditState ?
+				this.renderPasswordInput()
+				:
+			this.renderDescr() + this.renderInput()
+				}
 			{this.renderButtons()}
 			</div>
 		);
 	},
 
-	handleChange: function(ev) {
-		if(this.props.onChange) {
+	handleChange: function (ev) {
+		if (this.props.onChange) {
 			this.props.onChange(ev.target.value);
 		}
 		this.setState({
@@ -100,8 +132,18 @@ module.exports = React.createClass({
 	},
 
 	onSaveClick: function () {
-		if(this.props.onSaveClicked) {
-			this.props.onSaveClicked(this.state.value);
+		if (this.props.onSaveClicked) {
+			if(this.props.type === "password") {
+				var password = this.refs.passwordInput.getDOMNode().value,
+					retypePassword = this.refs.passwordRetypeInput.getDOMNode().value;
+				if(password === retypePassword) {
+					this.props.onSaveClicked({
+						value: [password, retypePassword]
+					});
+				}
+			} else {
+				this.props.onSaveClicked(this.state.value);
+			}
 		}
 		this.setState({
 			edit: false
@@ -109,7 +151,7 @@ module.exports = React.createClass({
 	},
 
 	onCancelClick: function () {
-		if(this.props.onChange) {
+		if (this.props.onChange) {
 			this.props.onChange(this.state.oldValue);
 		}
 
