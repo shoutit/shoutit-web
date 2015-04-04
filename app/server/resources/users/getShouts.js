@@ -6,15 +6,19 @@
  */
 
 module.exports = function (client, path) {
-	return function (session, username, type, page) {
+	return function (session, username, type, before, after) {
 		var query = {};
 
 		if (type) {
 			query.type = type
 		}
 
-		if (page) {
-			query.page = page;
+		if (before) {
+			query.before = before;
+		}
+
+		if (after) {
+			query.after = after;
 		}
 
 		return client.get(path + '/' + username + '/shouts', {

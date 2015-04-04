@@ -48,5 +48,17 @@ module.exports = {
 
 	fetchListeners: function() {
 		this.dispatch(consts.FETCH_LISTENERS);
+	},
+
+	loadUserShouts: function(type) {
+		this.dispatch(consts.LOAD_USER_SHOUTS, {
+			type: type
+		});
+	},
+
+	loadUserShoutsSuccess: function(res) {
+		this.dispatch(consts.LOAD_USER_SHOUTS_SUCCESS, {
+			result: res
+		});
 	}
 };

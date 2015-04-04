@@ -137,6 +137,7 @@ var ShoutStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
+
 	serialize: function () {
 		return JSON.stringify(this.state);
 	},
@@ -147,6 +148,22 @@ var ShoutStore = Fluxxor.createStore({
 
 	getState: function () {
 		return this.state;
+	},
+
+	getUsersOffers: function (username) {
+		return {
+			shouts: this.state.shouts.filter(function (shout) {
+				return shout.type === "offer" && shout.user.username === username;
+			})
+		};
+	},
+
+	getUsersRequests: function (username) {
+		return {
+			shouts: this.state.shouts.filter(function (shout) {
+				return shout.type === "request" && shout.user.username === username;
+			})
+		};
 	}
 });
 

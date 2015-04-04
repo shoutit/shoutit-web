@@ -4,13 +4,13 @@ var React = require('react'),
 	StoreWatchMixin = Fluxxor.StoreWatchMixin,
 	Container = require('react-bootstrap/Grid'),
 	Col = require('react-bootstrap/Col'),
-	Shout = require('./feed/shout.jsx'),
-	Spinner = require('../misc/spinner.jsx');
+	Shout = require('./feed/shout.jsx');
 
 var types = {
 	requests: "request",
 	offers: "offer"
 };
+
 
 module.exports = React.createClass({
 	mixins: [FluxMixin, StoreWatchMixin("shouts")],
@@ -36,13 +36,13 @@ module.exports = React.createClass({
 				return <Shout key={"shout-" + i} shout={shout} index={i} last={i === shouts.length - 1 ? onLastVisibleChange : null}/>;
 			});
 
-		if (this.state.loading) {
-			console.log("Loading...");
+		if (this.state.loading && typeof window !== 'undefined') {
+			var Loader = require('halogen').PulseLoader;
 
 			shoutEls.push(
 				<section key={"shout-" + shouts.length}>
 					<Col xs={12} md={12}>
-						<Spinner config={{className: "feedSpinner"}} />
+						<Loader className="feedSpinner" color="#bfdd6d" />
 					</Col>
 				</section>);
 		}

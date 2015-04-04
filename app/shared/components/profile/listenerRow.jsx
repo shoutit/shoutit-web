@@ -13,22 +13,20 @@ module.exports = React.createClass({
 		return (
 			<div class="listener-dt">
 				<div class="listener-dt-img">
-
-					<img src={listener.image}>
-					</div>
-					<div class="listener-dt-info">
-						<h4>{listener.name}
-							(
-							<Link to="user" params={{username: listener.username}}>{listener.username}</Link>
-							)
-						</h4>
-						<DropdownButton onSelect={this.onDropDownSelect} title="Listening">
-							<MenuItem eventKey={"stop-" + listener.username}>Stop Listen</MenuItem>
-							<MenuItem eventKey={"show-" + listener.username}>
-								<Link to="user" params={{username: listener.username}}>Show Profile</Link>
-							</MenuItem>
-						</DropdownButton>
-					</div>
+					<img src={listener.image}/>
+				</div>
+				<div class="listener-dt-info">
+					<h4>{listener.name}
+						(
+						<Link to="user" params={{username: listener.username}}>{listener.username}</Link>
+						)
+					</h4>
+					<DropdownButton onSelect={this.onDropDownSelect} title="Listening">
+						<MenuItem eventKey={"stop-" + listener.username}>Stop Listen</MenuItem>
+						<MenuItem eventKey={"show-" + listener.username}>
+							<Link to="user" params={{username: listener.username}}>Show Profile</Link>
+						</MenuItem>
+					</DropdownButton>
 				</div>
 			</div>
 		);

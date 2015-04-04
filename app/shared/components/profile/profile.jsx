@@ -66,7 +66,7 @@ module.exports = React.createClass({
 						</ul>
 					</Col>
 					<Col xs={12} md={9} className="pro-right-padding">
-						<RouteHandler flux={this.getFlux()} user={user}/>
+						<RouteHandler flux={this.getFlux()} {...this.state}/>
 					</Col>
 				</div>
 			</DocumentTitle>

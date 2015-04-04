@@ -36,6 +36,12 @@ module.exports = {
 	stopListen: function (username) {
 		return request
 			.del(PREFIX + '/' + username + "/list")
+	},
+
+	loadShouts: function(type) {
+		return request
+			.get(PREFIX + '/me/shouts')
+			.query({type: type || "all"});
 	}
 
 };

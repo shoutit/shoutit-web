@@ -13,11 +13,11 @@ module.exports = React.createClass({
 	},
 
 	renderDescr: function () {
-		return (
+		return this.props.type !== "password" ? (
 			<Col xs={12} sm={4} md={3}>
 				<h4>{this.props.title}</h4>
 			</Col>
-		);
+		) : "";
 	},
 
 	renderInput: function () {
@@ -103,13 +103,15 @@ module.exports = React.createClass({
 			"t-edit-info": isEditState
 		};
 
+		var renderedInput = type === "password" && isEditState ?
+			this.renderPasswordInput() :
+			this.renderInput();
+
+
 		return (
 			<div className={classNames(classes)}>
-			{type === "password" && isEditState ?
-				this.renderPasswordInput()
-				:
-			this.renderDescr() + this.renderInput()
-				}
+			{this.renderDescr()}
+			{renderedInput}
 			{this.renderButtons()}
 			</div>
 		);
@@ -133,10 +135,10 @@ module.exports = React.createClass({
 
 	onSaveClick: function () {
 		if (this.props.onSaveClicked) {
-			if(this.props.type === "password") {
+			if (this.props.type === "password") {
 				var password = this.refs.passwordInput.getDOMNode().value,
 					retypePassword = this.refs.passwordRetypeInput.getDOMNode().value;
-				if(password === retypePassword) {
+				if (password === retypePassword) {
 					this.props.onSaveClicked({
 						value: [password, retypePassword]
 					});

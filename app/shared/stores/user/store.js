@@ -9,13 +9,14 @@ var Fluxxor = require('fluxxor'),
 var consts = require('./consts'),
 	client = require('./client');
 
-
 var UserStore = Fluxxor.createStore({
 	initialize: function (props) {
 		this.state = {
 			user: props.user || null,
 			listeners: props.profileListeners || [],
-			listening: props.profileListening || []
+			listening: props.profileListening || [],
+			shouts: props.profileOffers || props.profileRequests || [],
+			loading: false
 		};
 
 		this.router = props.router;
@@ -28,7 +29,9 @@ var UserStore = Fluxxor.createStore({
 			consts.LISTEN, this.onListen,
 			consts.STOP_LISTEN, this.onStopListen,
 			consts.FETCH_LISTENERS, this.onFetchListeners,
-			consts.FETCH_LISTENING, this.onFetchListening
+			consts.FETCH_LISTENING, this.onFetchListening,
+			consts.LOAD_USER_SHOUTS, this.onLoadUserShouts,
+			consts.LOAD_USER_SHOUTS_SUCCESS, this.onLoadUserShoutsSuccess
 		);
 	},
 
@@ -36,7 +39,6 @@ var UserStore = Fluxxor.createStore({
 		var endpoint,
 			token = payload.token;
 
-		var This = this;
 
 		if (payload.type === 'gplus') {
 			endpoint = '/auth/gplus';
@@ -53,26 +55,25 @@ var UserStore = Fluxxor.createStore({
 				if (err) {
 					console.error(err);
 				} else {
-					This.state.user = res.body;
-					This.emit("change");
-					This.router.transitionTo('app');
+					this.state.user = res.body;
+					this.emit("change");
+					this.router.transitionTo('app');
 				}
-			});
+			}.bind(this));
 	},
 
 	onLogout: function () {
-		var This = this;
 		request.get('/auth/logout')
 			.accept('json')
 			.end(function (err, res) {
 				if (err) {
 					console.error(err);
 				} else if (res.status === 200 && res.body.loggedOut) {
-					This.state.user = null;
-					This.emit("change");
-					This.router.transitionTo('app');
+					this.state.user = null;
+					this.emit("change");
+					this.router.transitionTo('app');
 				}
-			});
+			}.bind(this));
 	},
 
 	onInfoChange: function (payload) {
@@ -83,7 +84,6 @@ var UserStore = Fluxxor.createStore({
 	},
 
 	onInfoSave: function (payload) {
-		var This = this;
 		if (this.state.user[payload.field]) {
 			var patch = {};
 
@@ -93,78 +93,89 @@ var UserStore = Fluxxor.createStore({
 				if (err) {
 					console.log(err);
 				} else {
-					This.state.user = res.body;
-					This.emit("change");
+					this.state.user = res.body;
+					this.state.loading = false;
+					this.emit("change");
 				}
-			});
+			}.bind(this));
 		}
+		this.state.loading = true;
+		this.emit("change");
 	},
 
 	onListen: function (payload) {
-		var This = this;
-
 		client.listen(payload.username).end(function (err, res) {
 			if (err) {
 				console.log(err);
 			} else {
 				// Refresh Listening List
-				This.onFetchListening();
+				this.onFetchListening();
 			}
-		})
+		}.bind(this))
 	},
 
 	onStopListen: function (payload) {
-		var This = this;
-
 		client.stopListen(payload.username)
 			.end(function (err, res) {
-				if(err) {
+				if (err) {
 					console.log(err);
 				} else {
 					// TODO Use Lodash here
-					delete This.state.listening[payload.username];
-					This.emit("change");
+					delete this.state.listening[payload.username];
+					this.emit("change");
 				}
-			});
+			}.bind(this));
 	},
 
 	onFetchListeners: function () {
-		var This = this;
-
 		client.getListeners().end(function (err, res) {
 			if (err) {
 				console.log(err);
 			} else {
-				// TODO Use Lodash here
-				var newListeners = {};
-				res.body.forEach(function(listener) {
-					newListeners[listener.username] = listener;
-				});
-				This.state.listeners = newListeners;
-				This.emit("change");
+				this.state.listeners = res.body.results;
 			}
-		});
+			this.state.loading = false;
+			this.emit("change");
+		}.bind(this));
+
+		this.state.loading = true;
+		this.emit("change");
 	},
 
 	onFetchListening: function () {
-		var This = this;
-
 		client.getListening().end(function (err, res) {
 			if (err) {
 				console.log(err);
 			} else {
-
-				// TODO Use Lodash here
-				var newListening = {};
-				res.body.forEach(function(listening) {
-					newListening[listening.username] = listening;
-				});
-
-				This.state.listening = newListening;
-				This.emit("change");
+				this.state.listening = res.body.users;
 			}
-		})
+			this.state.loading = false;
+			this.emit("change");
+		}.bind(this));
+
+		this.state.loading = true;
+		this.emit("change");
 	},
+
+	onLoadUserShouts: function () {
+		client.loadShouts().end(function (err, res) {
+			if (err) {
+				console.log(err);
+			} else {
+				this.flux.actions.loadUserShoutsSuccess(res.body);
+			}
+		}.bind(this));
+
+		this.state.loading = true;
+		this.emit("change");
+	},
+
+	onLoadUserShoutsSuccess: function (payload) {
+		this.state.shouts = payload.result.results;
+		this.state.loading = false;
+		this.emit("change");
+	},
+
 
 	serialize: function () {
 		return JSON.stringify(this.state);

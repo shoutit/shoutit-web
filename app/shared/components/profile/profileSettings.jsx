@@ -1,7 +1,8 @@
 var React = require('react'),
 	Col = require('react-bootstrap/Col');
 
-var BasicInfo = require('./settings/basicInformation.jsx');
+var BasicInfo = require('./settings/basicInformation.jsx'),
+	ContactInfos = require('./settings/contactInfos.jsx');
 
 module.exports = React.createClass({
 	displayName: "ProfileSettings",
@@ -10,6 +11,7 @@ module.exports = React.createClass({
 		return (
 			<Col xs={12} md={12} className="profile-right">
 				<BasicInfo user={this.props.user} onSaveClicked={this.onSaveClicked} onInfoChange={this.onInfoChange}/>
+				<ContactInfos user={this.props.user} onSaveClicked={this.onSaveClicked} onInfoChange={this.onInfoChange}/>
 			</Col>
 		);
 	},
