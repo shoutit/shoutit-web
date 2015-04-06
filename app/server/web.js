@@ -55,7 +55,7 @@ var redisOptions = {
 	db: 11
 };
 
-if(process.env.REDIS_HOST) {
+if (process.env.REDIS_HOST) {
 	redisOptions.host = process.env.REDIS_HOST;
 }
 
@@ -73,6 +73,18 @@ module.exports = function (app) {
 
 	// TODO: Replace by nginx static serving
 	app.use(serveStatic('./app/public'));
+
+	if (process.env.NODE_ENV === "development") {
+		var webpackDevMiddleware = require("webpack-dev-middleware"),
+			webpack = require("webpack");
+
+		app.use(webpackDevMiddleware(webpack(require('../../webpack.config')), {
+			publicPath: "/",
+			stats: {
+				colors: true
+			}
+		}));
+	}
 
 	app.use(morgan('tiny'));
 	app.use(bodyParser.urlencoded({extended: false}));

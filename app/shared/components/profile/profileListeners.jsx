@@ -4,7 +4,7 @@ var React = require('react'),
 	Col = require('react-bootstrap/Col'),
 	DropdownButton = require('react-bootstrap/DropdownButton'),
 	MenuItem = require('react-bootstrap/MenuItem'),
-	_ = require('lodash');
+	findIndex = require('lodash/array/findIndex');
 
 var Clear = require('../helper/clear.jsx'),
 	ListenerRow = require('./listenerRow.jsx');
@@ -30,7 +30,7 @@ module.exports = React.createClass({
 		var listeners;
 		if (this.props.listeners.length) {
 			listeners = this.props.listeners.map(function (listener) {
-				var isListening = _.findIndex(listening, 'username', listener.username);
+				var isListening = findIndex(listening, 'username', listener.username);
 				return <ListenerRow user={listener} listening={isListening}/>
 			});
 		} else if(this.props.loading && typeof window !== 'undefined') {

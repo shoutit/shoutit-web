@@ -3,7 +3,7 @@
 /**
  * Created by Philip on 17.02.2015.
  */
-var _ = require('lodash'),
+var findIndex = require('lodash/array/findIndex'),
 	url = require('url'),
 	Fluxxor = require('fluxxor');
 
@@ -113,7 +113,7 @@ var ShoutStore = Fluxxor.createStore({
 	},
 
 	_getIndex: function (shoutId) {
-		return _.findIndex(this.state.shouts, 'id', shoutId);
+		return findIndex(this.state.shouts, 'id', shoutId);
 	},
 
 	onLoadMoreSuccess: function (payload) {

@@ -15,8 +15,9 @@ var tmpDir = 'shoutit-web-' + new Date().getTime();
 
 // run commands on localhost
 plan.local(function (local) {
-	local.log('Run build');
+	local.log('Run gulp build and webpack bundle');
 	local.exec('gulp build');
+	local.exec('webpack --config=webpack.config.mini.js');
 
 	local.log('Copy files to remote hosts');
 	var filesToCopy = local.exec('git ls-files', {silent: true});

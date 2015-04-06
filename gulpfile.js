@@ -4,14 +4,11 @@
 
 "use strict";
 
-var gulp = require('gulp'),
+var path = require('path'),
+	gulp = require('gulp'),
 	nodemon = require('gulp-nodemon'),
-	browserify = require('browserify'),
-	babelify = require('babelify'),
 	source = require('vinyl-source-stream'),
-	buffer = require('vinyl-buffer'),
 	sourcemaps = require('gulp-sourcemaps'),
-	uglify = require('gulp-uglify'),
 	livereload = require('gulp-livereload'),
 	sass = require('gulp-ruby-sass'),
 	imagemin = require('gulp-imagemin'),
@@ -20,7 +17,7 @@ var gulp = require('gulp'),
 // JSX Transpiler
 require('node-jsx').install({extension: '.jsx'});
 
-var publicDir = './app/public';
+var publicDir = path.join(__dirname, '/app/public');
 
 var devServerTask = "serve",
 	devServerPort = 8080,
@@ -30,47 +27,20 @@ gulp.task(devServerTask, function () {
 	nodemon({
 		script: serverScript,
 		port: devServerPort,
-		ext: 'js jsx',
+		watch: "app/server",
+		ext: 'js',
 		env: {
 			'NODE_ENV': 'development'
 		}
 	});
 });
 
-var bundleTask = "bundle",
-	bundlePaths = [
-		"app/client/*.js",
-		"app/shared/**/*.jsx",
-		"app/shared/**/*.js"
-	],
-	bundleSrc = "./app/client/index.js",
-	bundleDest = publicDir;
-
-gulp.task(bundleTask, function () {
-	var bundler = browserify({debug: true})
-		.transform(babelify)
-		.add(bundleSrc);
-
-	var bundle = function () {
-		return bundler
-			.bundle()
-			.pipe(source('main.js'))
-			.pipe(buffer())
-			.pipe(sourcemaps.init({loadMaps: true}))
-			.pipe(uglify())
-			.pipe(sourcemaps.write('./'))
-			.pipe(gulp.dest(bundleDest))
-			.pipe(livereload());
-	};
-
-	return bundle();
-});
 
 var sassTask = "sass",
-	sassDir = "app/res/sass/",
-	sassSrc = sassDir + "main.scss",
+	sassDir = path.join(__dirname, "/app/res/sass/"),
+	sassSrc = path.join(sassDir,"main.scss"),
 	sassMaps = "../scss",
-	sassDest = "app/public/css";
+	sassDest = path.join(publicDir, "/css");
 
 gulp.task(sassTask, function () {
 	return sass(sassSrc, {
@@ -100,11 +70,10 @@ gulp.task(imageTask, function () {
 		.pipe(gulp.dest(imageDest));
 });
 
-gulp.task("build", [bundleTask, sassTask]);
+gulp.task("build", [imageTask, sassTask]);
 
 gulp.task("watch", ["build"], function () {
 	livereload.listen();
-	gulp.watch(bundlePaths, [bundleTask]);
 	gulp.watch([sassDir + "**/*.scss"], [sassTask]);
 });
 
