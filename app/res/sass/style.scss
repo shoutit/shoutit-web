@@ -14,7 +14,7 @@ body {
 
 /*font*/
 p {
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
   font-size: 12px;
   color: #6b6b6b;
 }
@@ -33,7 +33,6 @@ p {
 }
 
 .small-circle {
-  width: 100px;
   border-radius: 50%;
   background-color: #e65653;
   color: white;
@@ -48,7 +47,6 @@ p {
 }
 
 .small-circle2 {
-  width: 100px;
   border-radius: 50%;
   display: table-cell;
   width: 8px;
@@ -61,7 +59,7 @@ p {
 }
 
 .form-control {
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
   font-size: 15px;
   border-color: #e1e1e1;
   box-shadow: none;
@@ -77,7 +75,7 @@ p {
 }
 
 .profile .dropdown-menu a {
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
   font-size: 14px;
 }
 
@@ -100,14 +98,14 @@ p {
 
 /*font*/
 header .dropdown-menu span {
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
   font-size: 14px;
   color: #343837;
 }
 
 .dropdown-menu a {
   color: #94b516;
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
 }
 
 .nav.navbar-nav.navbar-right a {
@@ -176,7 +174,7 @@ nav {
 }
 
 #main-menu a {
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
   font-size: 16px;
   color: #343837;
   padding: 0 0 10px 0;
@@ -192,7 +190,6 @@ nav {
 }
 
 #main-menu .navbar-nav > li {
-  margin-right: 20px;
   display: table;
   margin-left: auto;
   margin-right: auto;
@@ -207,10 +204,8 @@ nav {
 /*truc 22/01*/
 
 .section-12 {
-  background-color: #fff;
-  background-position: center top;
-  background-repeat: no-repeat;
-  padding: 0px;
+  background: #fff no-repeat center top;
+  padding: 0;
   position: relative;
 }
 
@@ -251,7 +246,7 @@ nav {
 }
 
 .col-xs-10 .col-md-10 .chat-ul-right > p {
-  font-family: Arial-Regular;
+  font-family: "Arial-Regular", sans-serif;
 }
 
 .col-xs-12.col-md-12.fix-padding {
@@ -261,7 +256,7 @@ nav {
 
 .col-xs-10.col-md-10.chat-ul-right > span {
   color: #6b6b6b;
-  font-family: arial-regular;
+  font-family: "Arial-Regular", sans-serif;
   font-size: 15px;
 }
 
@@ -285,7 +280,7 @@ nav {
 .taddtag > p:first-child {
   color: #343837;
   display: inline;
-  font-family: arial-bold;
+  font-family: "Arial-Bold", sans-serif;
   font-size: 15px;
   height: 35px;
   margin-right: 30px;
@@ -308,7 +303,7 @@ nav {
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: arial-regular;
+  font-family: "Arial-Regular", sans-serif;
   font-size: 12px;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -337,7 +332,7 @@ nav {
   border-style: ridge;
   border-width: 1px;
   color: #343837;
-  font-family: arial-bold;
+  font-family: "Arial-Bold", sans-serif;
   margin: auto auto -4px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -348,7 +343,7 @@ nav {
 }
 
 .infinity-carousel > p > span {
-  font-family: arial-Regular;
+  font-family: "Arial-Regular", sans-serif;
 }
 
 /*slide*/
@@ -378,7 +373,7 @@ nav {
 .slides span {
   color: #343837 !important;
   display: inline-block;
-  font-family: arial-regular !important;
+  font-family: "Arial-Regular", sans-serif !important;
   font-size: 12px !important;
   margin-top: 5px;
 }
@@ -396,7 +391,6 @@ nav {
   z-index: 50;
   border: 0;
   cursor: pointer;
-  -webkit-apperance: none;
 }
 
 .infinity-carousel .nav:hover {
@@ -408,7 +402,6 @@ nav {
 }
 
 .infinity-carousel .center {
-
   position: relative;
   width: 180px;
   height: 150px;
@@ -480,12 +473,12 @@ nav {
   border-radius: 5px;
   height: 29px !important;
   padding: 5px 15px;
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
 }
 
 .tlistener-title > .row {
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 #tagator_txtaddtag {
@@ -522,7 +515,7 @@ nav {
 
 .listener-dt-info.t-notification > span {
   color: #7a7a7a;
-  font-family: arial-regular;
+  font-family: "Arial-Regular", sans-serif;
   font-size: 15px;
 }
 
@@ -541,14 +534,14 @@ nav {
 
 .t-edit-text {
   margin-top: -10;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 .t-edit-text2 {
   margin-top: -10;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 .t-edit-text > input {
@@ -556,7 +549,7 @@ nav {
   border: medium none;
   border-radius: 5px;
   color: #7a7a7a;
-  font-family: arial-regular;
+  font-family: "Arial-Regular", sans-serif;
   font-size: 15px;
   height: 35px;
   margin-bottom: 15px;
@@ -574,7 +567,7 @@ nav {
   border: medium none;
   border-radius: 5px;
   color: #7a7a7a;
-  font-family: arial-regular;
+  font-family: "Arial-Regular", sans-serif;
   font-size: 15px;
   height: 35px;
   margin-bottom: 15px;
@@ -598,7 +591,7 @@ nav {
 
 .t-edit-text > .btn-group.bootstrap-select > button > span {
   color: #7a7a7a !important;
-  font-family: arial-regular !important;
+  font-family: "Arial-Regular", sans-serif !important;
 }
 
 .t-edit-text2 > .btn-group.bootstrap-select > button {
@@ -613,7 +606,7 @@ nav {
 
 .t-edit-text2 > .btn-group.bootstrap-select > button > span {
   color: #7a7a7a !important;
-  font-family: arial-regular !important;
+  font-family: "Arial-Regular", sans-serif !important;
 }
 
 .t-Save {
@@ -653,8 +646,8 @@ nav {
 
 .t-fix-padding {
   margin-top: 0 !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 .col-xs-12.col-md-12.fix-padding {
@@ -736,7 +729,7 @@ nav {
   font-size: 0.9em !important;
   color: #7a7a7a;
   bottom: 5px;
-  font-family: Arial;
+  font-family: "Arial", sans-serif;
 }
 
 .notification-popup .middle .by .name {
@@ -745,10 +738,9 @@ nav {
 
 .notification-popup .bottom {
   border: 1px solid #cbcbcb;
-  border-top: 1px solid #e5e5e5;
+  border-top-color: #e5e5e5;
   padding: 5px 10px !important;
   list-style: none;
-  padding: 0;
 }
 
 .notification-popup .bottom li {
@@ -820,7 +812,7 @@ nav {
 }
 
 .modal-logo .slogun p {
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
   font-size: 24px;
   color: #8a8a88;
   margin: 5px 0 20px 0;
@@ -922,7 +914,7 @@ iframe {
   color: #ffffff;
   padding: 10px 40px;
   font-size: 18px;
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
   text-shadow: none;
   border-radius: 7px;
 }
@@ -933,7 +925,7 @@ iframe {
   padding: 10px 40px;
   color: #ffffff;
   font-size: 18px;
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
   text-shadow: none;
   border-color: #bfdd6d !important;
   border-radius: 7px;
@@ -952,7 +944,7 @@ iframe {
   .t-edit-text2 {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
-    text-align: auto;
+    text-align: center;
   }
 }
 
@@ -1112,12 +1104,12 @@ iframe {
 
 @media (max-width: 350px) {
   .nortification .dropdown-menu {
-    width: 310 !important;
+    width: 310px !important;
     left: -162px;
   }
 
   .messages .dropdown-menu {
-    width: 310 !important;
+    width: 310px !important;
     left: -78px;
   }
 

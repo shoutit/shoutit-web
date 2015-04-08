@@ -37,7 +37,6 @@
 }
 
 .small-circle {
-  width: 100px;
   border-radius: 50%;
   background: red;
   color: white;
@@ -83,7 +82,7 @@ body {
 .show-day {
   background-color: #b8b8b8;
   color: #fff;
-  font-family: "Arial-Regular";
+  font-family: "Arial-Regular", sans-serif;
   font-size: 12px;
   margin: 0 auto;
   padding-bottom: 3px;
@@ -108,16 +107,14 @@ body {
 }
 
 .col-xs-12.col-md-10.section-right {
-  background-position: top center;
-  background-repeat: no-repeat;
-  background-color: #fff;
+  background: #fff no-repeat top center;
   position: relative;
 }
 
 .section-right h4, .listener-dt-info > h4, .search-result h4 {
   font-size: 15px;
   margin-top: 15px;
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
   color: #343837;
 }
 
@@ -128,7 +125,7 @@ body {
 
 .section-right p, .search-result > p {
   font-size: 15px;
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
   color: #6b6b6b;
   line-height: 1.3;
 }
@@ -207,23 +204,23 @@ body {
   color: #343837;
   font-size: 15px;
   padding: 15px;
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
 }
 
 .item-cnt > p {
   margin-bottom: 0;
   color: #343837;
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
   font-size: 15px;
 }
 
 .item span {
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
 }
 
 .day-search {
   color: #91c829 !important;
-  font-family: 'Arial-Bold' !important;
+  font-family: 'Arial-Bold', sans-serif !important;
 }
 
 .item.col-xs-12.col-md-12 {
@@ -256,7 +253,7 @@ footer {
 }
 
 .col-xs-12.col-md-5.foo-left > p, .col-xs-12.col-md-3.foo-center > p {
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
   font-size: 15px;
 }
 
@@ -281,25 +278,25 @@ footer {
 
 .color-h3 {
   color: #94b516 !important;
-  font-family: 'Arial-Regular' !important;
+  font-family: 'Arial-Regular', sans-serif !important;
 }
 
 .privacy h3 {
   color: #343837;
   font-size: 22px;
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
 }
 
 .privacy p {
   font-size: 15px;
   color: #6b6b6b;
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
 }
 
 .privacy h4 {
   font-size: 18px;
   color: #7a7a7a;
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
 }
 
 .privacy {
@@ -337,7 +334,7 @@ footer {
   float: left;
   font-size: 14px;
   margin-right: 20px;
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
   cursor: pointer;
 }
 
@@ -354,7 +351,6 @@ footer {
   display: inline-block;
   height: 670px;
   list-style: outside none none;
-  margin-bottom: 0;
   padding: 0;
   border-bottom: 1px solid #d9dada;
   margin-bottom: 15px;
@@ -376,7 +372,7 @@ footer {
   color: #343837;
   font-size: 14px;
   margin-right: 10px;
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
 }
 
 .col-xs-10.col-md-10.chat-ul-right p {
@@ -386,7 +382,7 @@ footer {
 }
 
 .col-xs-10.col-md-10.chat-ul-right {
-  padding-right: 0px;
+  padding-right: 0;
 }
 
 .chat-active {
@@ -410,7 +406,7 @@ footer {
   color: #343837;
   font-size: 15px;
   margin-right: 15px;
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
 }
 
 .col-xs-10.col-md-10.chat-ul-right > a {
@@ -456,7 +452,7 @@ footer {
   color: #343837;
   float: left;
   font-size: 14px;
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
   margin-top: 5px;
 }
 
@@ -464,7 +460,7 @@ footer {
   float: left;
   color: #343837;
   font-size: 14px;
-  font-family: 'Arial-Bold';
+  font-family: 'Arial-Bold', sans-serif;
 }
 
 .chat-right-set {
@@ -661,7 +657,7 @@ footer {
   font-size: 16px;
   margin-bottom: 30px;
   margin-top: 20px;
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
 }
 
 .btn-sign {
@@ -771,7 +767,7 @@ footer {
 
 .login-bot span {
   color: #92c33f;
-  font-family: "Arial-Bold";
+  font-family: "Arial-Bold", sans-serif;
 }
 
 /*******************************proflie ******************************/
@@ -789,7 +785,7 @@ footer {
 
 .profile-img h4 {
   color: #343837;
-  font-family: "Arial-Bold";
+  font-family: "Arial-Bold", sans-serif;
   font-size: 22px;
   margin-top: 25px;
 }
@@ -812,7 +808,7 @@ footer {
 }
 
 .profile-details span:first-child {
-  font-family: "Arial-Bold";
+  font-family: "Arial-Bold", sans-serif;
 }
 
 .birth > img {
@@ -842,7 +838,7 @@ footer {
   height: 50px;
   line-height: 50px;
   padding-left: 20px;
-  font-family: "Arial-Bold";
+  font-family: "Arial-Bold", sans-serif;
   cursor: pointer;
 }
 
@@ -886,7 +882,7 @@ footer {
 .pro-basic h3 {
   color: #94b516;
   font-size: 22px;
-  font-family: "Arial-Regular";
+  font-family: "Arial-Regular", sans-serif;
   margin-bottom: 40px;
 }
 
@@ -903,7 +899,7 @@ footer {
   color: #7a7a7a;
   font-size: 15px;
   margin-top: 0;
-  font-family: "Arial-Bold";
+  font-family: "Arial-Bold", sans-serif;
 }
 
 .info-basic p {
@@ -972,13 +968,13 @@ footer {
 .chat-person1 {
   color: #fff;
   font-size: 15px;
-  font-family: "Arial-Bold";
+  font-family: "Arial-Bold", sans-serif;
 }
 
 .chat-person1 {
   color: #fff;
   float: left;
-  font-family: "Arial-Bold";
+  font-family: "Arial-Bold", sans-serif;
   font-size: 15px;
   margin-right: 15px;
   margin-top: -6px;
@@ -1099,8 +1095,7 @@ footer {
 }
 
 .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
-  background-color: #fff;
-  background-image: none;
+  background: #fff none;
 }
 
 .btn-group .dropdown-menu ul li {
@@ -1125,7 +1120,7 @@ footer {
 .text {
   color: #7a7a7a !important;
   font-size: 14px !important;
-  font-family: 'Arial-Regular' !important;
+  font-family: 'Arial-Regular', sans-serif !important;
 }
 
 .tag18 {
@@ -1175,7 +1170,7 @@ footer {
 
 .tags {
   padding-left: 15px;
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
 }
 
 .tags span {
@@ -1265,13 +1260,13 @@ footer {
 
 .listener-dt-info > p {
   font-size: 15px;
-  font-family: "Arial-Bold";
+  font-family: "Arial-Bold", sans-serif;
   color: #7a7a7a;
   margin-bottom: 5px;
 }
 
 .listener-dt-info span {
-  font-family: 'Arial-Regular' !important;
+  font-family: 'Arial-Regular', sans-serif !important;
 }
 
 .listener-dt-info-bt > ul, .ctn-offerpro-bottom > ul {
@@ -1385,7 +1380,7 @@ footer {
   font-size: 15px;
   margin-right: 30px;
   margin-top: 3px;
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
 }
 
 .ctn-offerpro .section-right p {
@@ -1505,14 +1500,14 @@ footer {
   margin-bottom: 15px;
   font-size: 15px;
   color: #6b6b6b;
-  font-family: "Arial-Bold";
+  font-family: "Arial-Bold", sans-serif;
   height: 37px;
 }
 
 .search-left .btn-group .filter-option.pull-left, .search-shoutit .filter-option.pull-left {
   color: #7a7a7a;
   font-size: 15px;
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
 }
 
 .form-search-left .btn.dropdown-toggle.selectpicker.btn-default {
@@ -1541,7 +1536,7 @@ footer {
   color: #343837;
   display: inline;
   font-size: 15px;
-  font-family: "Arial-Bold";
+  font-family: "Arial-Bold", sans-serif;
   margin-right: 5px;
 }
 
@@ -1598,18 +1593,17 @@ footer {
 .single-h4 {
   font-size: 15px;
   color: #343837;
-  font-size: 15px;
-  font-family: "Arial-Bold";
+  font-family: "Arial-Bold", sans-serif;
 }
 
 .single-h4 > span:first-child {
   color: #91c829;
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
 }
 
 .single-h4 > span:last-child {
   color: #343837;
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
 }
 
 .single-h4 a {
@@ -1654,7 +1648,7 @@ footer {
   margin-bottom: 15px;
   padding-left: 15px;
   width: 55%;
-  font-family: 'Arial-Regular';
+  font-family: 'Arial-Regular', sans-serif;
 }
 
 .location-container {
@@ -1684,7 +1678,7 @@ footer {
   font-size: 16px;
   margin-bottom: 40px;
   text-align: center;
-  font-family: "Arial-Bold";
+  font-family: "Arial-Bold", sans-serif;
 }
 
 .close {

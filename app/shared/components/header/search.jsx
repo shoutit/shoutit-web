@@ -1,6 +1,4 @@
 var React = require('react'),
-	Container = require('react-bootstrap/Grid'),
-	Col = require('react-bootstrap/Col'),
 	Input = require('react-bootstrap/Input'),
 	Icon = require('../helper/icon.jsx'),
 	Button = require('react-bootstrap/Button'),
@@ -8,6 +6,7 @@ var React = require('react'),
 	MenuItem = require('react-bootstrap/MenuItem');
 
 module.exports = React.createClass({
+
 	displayName: "SearchInput",
 
 	getDefaultProps: function () {
@@ -20,7 +19,6 @@ module.exports = React.createClass({
 			default: "dub"
 		}
 	},
-
 
 	render: function () {
 		var searchAddon = (
@@ -47,10 +45,17 @@ module.exports = React.createClass({
 
 		return (
 			<Input
+				ref='searchInput'
 				type="text"
 				buttonBefore={buttonBefore}
 				addonAfter={searchAddon}
+				onChange={this.props.onChange}
+				onFocus={this.props.onFocus}
+				onBlur={this.props.onBlur}
+				value={this.props.term}
 			/>
 		);
-	}
+	},
+
+
 });

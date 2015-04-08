@@ -55,6 +55,61 @@
       .form-control {
         background-color: #fff;
       }
+
+      .list-search {
+        position: absolute;
+        left: 5px;
+        top: 47px;
+        width: 100%;
+        z-index: 100;
+        padding: 0 20px 0 10px;
+        overflow: auto;
+      }
+
+      @media (max-width: 620px) {
+        .list-search {
+          left: 0;
+          padding: 0;
+        }
+      }
+
+      .list-search ul {
+        background: #fff;
+        border-radius: 5px;
+        max-height: 500px;
+
+      }
+
+      .list-search ul > li {
+        padding: 5px 10px;
+        color: #99ca3b;
+        font-size: 1.1em;
+      }
+
+      .list-search ul > li .list-search-sub li {
+        cursor: pointer;
+        padding: 2px 10px;
+      }
+
+      .list-search ul > li .list-search-sub li a {
+        display: block;
+      }
+
+      .list-search ul > li .list-search-sub li:not(.more) a {
+        color: #7a7a7a;
+        text-decoration: none;
+      }
+
+      .list-search ul > li .list-search-sub li:hover:not(.more) {
+        background: #bfdd6d;
+      }
+
+      .list-search ul > li .list-search-sub li.more {
+        float: none;
+        background: #d3d3d3;
+        color: #343837;
+      }
+
     }
   }
 

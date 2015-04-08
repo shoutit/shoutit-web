@@ -15,7 +15,10 @@ var ShoutStore = Fluxxor.createStore({
 		this.state = {
 			shouts: [],
 			fullShouts: {},
-			loading: false
+			loading: false,
+			searching: false,
+			searchReq: null,
+			searchResults: {}
 		};
 
 		if (props.shouts) {
@@ -33,7 +36,10 @@ var ShoutStore = Fluxxor.createStore({
 			consts.LOAD_MORE_SUCCESS, this.onLoadMoreSuccess,
 			consts.REQUEST_FAILED, this.onReqFailed,
 			consts.LOAD_SHOUT, this.onLoadShout,
-			consts.LOAD_SHOUT_SUCCESS, this.onLoadShoutSuccess
+			consts.LOAD_SHOUT_SUCCESS, this.onLoadShoutSuccess,
+			consts.SEARCH_SHOUTS, this.onSearchShouts,
+			consts.SEARCH_SHOUTS_SUCCESS, this.onSearchShoutsSuccess,
+			consts.SEARCH_SHOUTS_CANCEL, this.onSearchShoutsCancel
 		);
 	},
 
@@ -102,13 +108,20 @@ var ShoutStore = Fluxxor.createStore({
 		var state = this.state,
 			index = this._getIndex(shoutId);
 		if (state.fullShouts[shoutId]) {
-			return state.fullShouts[shoutId];
+			return {
+				full: true,
+				shout: state.fullShouts[shoutId]
+			};
 		} else if (index >= 0) {
-			this.flux.actions.loadShout(shoutId);
-			return state.shouts[index];
+			return {
+				full: false,
+				shout: state.shouts[index]
+			};
 		} else {
-			this.flux.actions.loadShout(shoutId);
-			return {};
+			return {
+				full: false,
+				shout: null
+			};
 		}
 	},
 
@@ -137,6 +150,48 @@ var ShoutStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
+	onSearchShouts: function (payload) {
+		var term = payload.term;
+
+		// No Search for search Terms less than 3 characters.
+		if (term.length < 3) return;
+
+		this.onSearchShoutsCancel();
+
+		var searchReq = client.list({
+			search: term
+		});
+
+		searchReq.end(function (err, res) {
+			this.state.searchReq = null;
+			this.state.searching = false;
+			this.emit("change");
+			if (err) {
+				console.log(err);
+			} else {
+				this.flux.actions.searchShoutsSuccess(term, res.body);
+			}
+		}.bind(this));
+
+		this.state.searchReq = searchReq;
+		this.state.searching = true;
+		this.emit("change");
+	},
+
+	onSearchShoutsSuccess: function (payload) {
+		this.state.searchResults[payload.term] = payload.res.results;
+		this.emit("change");
+	},
+
+	onSearchShoutsCancel: function () {
+		if (this.state.searchReq && this.state.searchReq.abort) {
+			this.state.searchReq.abort();
+			this.state.searchReq = null;
+			this.state.searching = false;
+			this.emit("change");
+			console.log("Canceled Search.");
+		}
+	},
 
 	serialize: function () {
 		return JSON.stringify(this.state);
@@ -148,6 +203,13 @@ var ShoutStore = Fluxxor.createStore({
 
 	getState: function () {
 		return this.state;
+	},
+
+	getSearchState: function () {
+		return {
+			searchResults: this.state.searchResults,
+			searching: this.state.searching
+		}
 	},
 
 	getUsersOffers: function (username) {

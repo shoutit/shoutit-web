@@ -34,6 +34,9 @@ router.run(function (Handler, state) {
 		React.createElement(Handler, {
 			flux: flux
 		}),
-		document.getElementById('main-mount')
+		document.getElementById('main-mount'),
+		function() {
+			flux.store("shouts").emit("change");
+		}
 	);
 });

@@ -4,7 +4,7 @@ var React = require('react'),
 	Input = require('react-bootstrap/Input'),
 	Container = require('react-bootstrap/Grid'),
 	Col = require('react-bootstrap/Col'),
-	Icon = require('./../helper/icon.jsx');
+	Icon = require('../helper/icon.jsx');
 
 module.exports = React.createClass({
 	displayName: "Login",

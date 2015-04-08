@@ -1,8 +1,7 @@
 var React = require('react'),
 	Router = require('react-router'),
 	Container = require('react-bootstrap/Grid'),
-	Header = require('./header/header.jsx'),
-	RouteHandler = Router.RouteHandler;
+	Header = require('./header/header.jsx');
 
 var App = React.createClass({
 	render: function () {
@@ -11,7 +10,7 @@ var App = React.createClass({
 				<Header flux={this.props.flux}/>
 				<div className="content">
 					<Container className="padding0">
-						<RouteHandler  flux={this.props.flux}/>
+						<Router.RouteHandler  flux={this.props.flux}/>
 					</Container>
 				</div>
 			</div>

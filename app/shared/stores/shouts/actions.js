@@ -42,7 +42,22 @@ module.exports = {
 		this.dispatch(consts.LOAD_SHOUT_SUCCESS, {
 			res: res
 		});
+	},
+
+	searchShouts: function(term) {
+		this.dispatch(consts.SEARCH_SHOUTS, {
+			term: term
+		});
+	},
+
+	cancelShoutSearch: function() {
+		this.dispatch(consts.SEARCH_SHOUTS_CANCEL);
+	},
+
+	searchShoutsSuccess: function(term,res) {
+		this.dispatch(consts.SEARCH_SHOUTS_SUCCESS, {
+			res:res,
+			term: term
+		});
 	}
-
-
 };

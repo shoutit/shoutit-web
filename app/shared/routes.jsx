@@ -2,8 +2,7 @@ var React = require("react"),
 	Router = require("react-router"),
 	Route = Router.Route,
 	DefaultRoute = Router.DefaultRoute,
-	NotFoundRoute = Router.NotFoundRoute,
-	Redirect = Router.Redirect;
+	NotFoundRoute = Router.NotFoundRoute;
 
 var Root = require("./components/root.jsx"),
 	Login = require("./components/login/login.jsx"),

@@ -20,8 +20,6 @@ module.exports = React.createClass({
 	displayName: "Home",
 	mixins: [StateMixin],
 
-	titleAppend: " - Shout It",
-
 	statics: {
 		fetchData: function(client, session, params, name) {
 			return client.shouts().list(session, {
@@ -32,7 +30,7 @@ module.exports = React.createClass({
 
 	render: function () {
 		var pathName= this.getPathname();
-		var title = titles[pathName] + this.titleAppend;
+		var title = titles[pathName] + " - Shout It";
 
 		return (
 			<DocumentTitle title={title}>

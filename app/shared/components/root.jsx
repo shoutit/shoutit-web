@@ -1,13 +1,12 @@
 var React = require('react'),
-	Router = require('react-router'),
-	RouteHandler = Router.RouteHandler;
+	Router = require('react-router');
 
 module.exports = React.createClass({
 	displayName: "Root",
 
 	render: function () {
 		return (
-			<RouteHandler flux={this.props.flux}/>
+			<Router.RouteHandler flux={this.props.flux}/>
 		);
 	}
 });
