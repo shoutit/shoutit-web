@@ -9,9 +9,12 @@ var React = require('react'),
 	Rating = require('./rating.jsx'),
 	ShoutDetailActions = require('./shoutDetailActions.jsx'),
 	TagList = require('../home/feed/shout/tags.jsx'),
-	Video = require('./video.jsx');
+	Video = require('./video.jsx'),
+	DocumentTitle = require('react-document-title');
 
-var ShoutDetailBody = require('./shoutDetailBody.jsx');
+
+var ShoutDetailBody = require('./shoutDetailBody.jsx'),
+	Image = require('../helper/image.jsx');
 
 module.exports = React.createClass({
 	displayName: "ShoutDetail",
@@ -24,7 +27,6 @@ module.exports = React.createClass({
 	},
 
 	getStateFromFlux: function () {
-		console.log("GetStateFromFlux", this.getParams().shoutId);
 		var findRes = this.getFlux().store("shouts").findShout(this.getParams().shoutId);
 
 		return {
@@ -44,70 +46,11 @@ module.exports = React.createClass({
 
 	loadFullShout: function () {
 		if (!this.state.loadingFull && !this.state.full) {
-			console.log("Not Full Shout!");
 			this.setState({
 				loadingFull: true
 			});
 			this.getFlux().actions.loadShout(this.state.shoutId);
 		}
-	},
-
-	renderSubtitle: function (shout) {
-		return (
-			<h5>Post by&nbsp;
-				<span className="poster">{shout.user.name}</span>
-			&nbsp;-&nbsp;
-				{moment.unix(shout.date_published).fromNow()}
-			</h5>
-		);
-	},
-
-	renderVideos: function (shout) {
-		return shout.videos ? shout.videos.map(function (video, i) {
-			var key = "shout-detail-video-" + i;
-			return (<Video {...video} key={key}/>);
-		}) : [];
-	},
-
-	renderImages: function (shout) {
-		return shout.images ? shout.images.map(function (imageSrc, i) {
-			return (
-				<div key={"shout-detail-image-" + i} className="section-img">
-					<img src={imageSrc}/>
-				</div>
-			);
-		}) : [];
-	},
-
-	renderText: function (shout) {
-		return <p>{shout.text}</p>;
-	},
-
-	renderTitle: function (shout) {
-		return <h4>{shout.title}</h4>
-	},
-
-	renderRating: function (shout) {
-		return shout.rating ?
-			<Rating rating={shout.rating}/> : "";
-	},
-
-	renderActions: function () {
-		return (<ShoutDetailActions/>);
-	},
-
-	renderTags: function (shout) {
-		return shout.tags ?
-			<TagList tags={shout.tags} /> : "";
-	},
-
-	renderBottom: function (shout) {
-		return (
-			<div className="btn-bottom single-shout">
-			{this.renderActions()}
-			{this.renderTags(shout)}
-			</div>
-		);
 	},
 
 	render: function () {
@@ -116,11 +59,21 @@ module.exports = React.createClass({
 		var content;
 
 		if (shout && shout.id) {
-			content = <ShoutDetailBody shout={shout} flux={this.getFlux()}/>;
-		} else {
+			content =
+				<DocumentTitle title={"Shoutit - " + shout.title}>
+					<ShoutDetailBody shout={shout} flux={this.getFlux()}/>
+				</DocumentTitle>;
+		} else if (shout === null) {
 			content = (
 				<Col xs={12} md={12} className="section-right">
 					<h1>Shout not found!</h1>
+				</Col>
+			);
+		} else {
+			var Loader = require('halogen').PulseLoader;
+			content = (
+				<Col xs={12} md={12} className="section-right">
+					<Loader color="#bfdd6d"/>
 				</Col>
 			);
 		}

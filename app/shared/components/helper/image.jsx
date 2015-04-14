@@ -7,33 +7,38 @@ module.exports = React.createClass({
 
 	getInitialState: function () {
 		return {
-			loaded: false
+			loaded: false,
+			src: null
 		};
 	},
 
 	getDefaultProps: function () {
 		return {
-			size: "medium"
+			size: "small",
+			ytSize: "mq",
+			infix: "shout"
 		}
 	},
 
-	onImageLoad: function () {
+	onImageLoad: function (url) {
 		if (this.isMounted()) {
-			this.setState({loaded: true});
+			this.setState({
+				loaded: this.props.src,
+				src: url
+			});
 		}
 	},
 
 	onLoadError: function (img) {
-		var This = this;
 		return function () {
-			if (This.isMounted()) {
+			if (this.isMounted()) {
 				img.onerror = null;
-				img.src = This.props.src;
-				This.setState({
-					loaded: true
+				this.setState({
+					loaded: this.props.src,
+					src: this.props.src
 				});
 			}
-		}
+		}.bind(this);
 	},
 
 
@@ -45,21 +50,33 @@ module.exports = React.createClass({
 		}
 
 		return (
-			<img ref="image" src={this.props.src} className={joinClasses(className, imageClasses)} />
+			<img ref="image" src={this.state.src} className={joinClasses(className, imageClasses)}/>
 		);
 	},
 
 	componentDidMount: function () {
-		var imgTag = this.refs.image.getDOMNode();
-		var img = new window.Image();
-		img.onload = this.onImageLoad;
-		img.onerror = this.onLoadError(img);
-		var url = imgTag.getAttribute('src');
-		if (url.indexOf("shoutit-shout-image-original") > -1) {
-			url = this.props.src.replace("-original", "")
-				.replace('.jpg', '_medium.jpg')
-				.replace('.jpeg', '_medium.jpeg');
+		this.loadImage();
+	},
+
+	componentDidUpdate: function() {
+		if(this.props.src !== this.state.loaded) {
+			this.loadImage();
 		}
+	},
+
+	loadImage: function() {
+		var url = this.props.src;
+		if (url.indexOf("shoutit-"+ this.props.infix +"-image-original") > -1) {
+			url = url.replace("-original", "")
+				.replace('.jpg', '_' + this.props.size + '.jpg')
+				.replace('.jpeg', '_' + this.props.size + '.jpeg');
+		} else if (url.indexOf("hqdefault") > -1) {
+			url = url.replace("hqdefault", this.props.ytSize + "default");
+		}
+
+		var img = new window.Image();
+		img.onload = this.onImageLoad(url);
+		img.onerror = this.onLoadError(img);
 		img.src = url;
 	}
 });

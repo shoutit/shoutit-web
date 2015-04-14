@@ -16,8 +16,9 @@ module.exports = React.createClass({
 			<UserImage name={user.name} image={user.image}/>);
 
 		return (
-			<DropdownButton ref="dropdown" title={title} noCaret={true} className="profile" navItem={true} alt={user.name}>
-				<MenuItemLink to="profile">
+			<DropdownButton ref="dropdown" title={title} noCaret={true} className="profile" navItem={true}
+							alt={user.name}>
+				<MenuItemLink to="user" params={{username: user.username}}>
 					Profile
 				</MenuItemLink>
 				<MenuItem onSelect={this.props.onLogoutClicked}>

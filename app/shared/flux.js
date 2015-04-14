@@ -6,30 +6,30 @@
 
 var merge = require('lodash/object/merge'),
 	Fluxxor = require("fluxxor"),
-	UserStore = require('./stores/user/store'),
+	UsersStore = require('./stores/users/store'),
 	ShoutStore = require('./stores/shouts/store'),
-	userActions = require('./stores/user/actions'),
+	userActions = require('./stores/users/actions'),
 	shoutActions = require('./stores/shouts/actions');
 
 
 module.exports = function (router, user, data) {
 	var stores = {
-		user: new UserStore({
-			router: router,
-			user: user
-		}),
+		users: new UsersStore(merge({},{
+			loggedUser: user,
+			router: router
+		}, data)),
 		shouts: new ShoutStore(data)
 	};
 
 	var actions = merge({}, userActions, shoutActions);
 
-	var flux = new Fluxxor.Flux(stores,actions);
+	var flux = new Fluxxor.Flux(stores, actions);
 
-	flux.serialize = function() {
+	flux.serialize = function () {
 		var data = {};
 
-		for(var store in stores) {
-			if(stores.hasOwnProperty(store)) {
+		for (var store in stores) {
+			if (stores.hasOwnProperty(store)) {
 				data[store] = stores[store].serialize();
 			}
 		}
@@ -37,9 +37,9 @@ module.exports = function (router, user, data) {
 		return JSON.stringify(data);
 	};
 
-	flux.hydrate = function(data) {
-		for(var store in data) {
-			if(data.hasOwnProperty(store)) {
+	flux.hydrate = function (data) {
+		for (var store in data) {
+			if (data.hasOwnProperty(store)) {
 				stores[store].hydrate(data[store]);
 			}
 		}

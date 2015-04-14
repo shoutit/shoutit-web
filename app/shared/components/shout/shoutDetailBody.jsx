@@ -1,4 +1,5 @@
 var React = require('react'),
+	Router = require('react-router'),
 	moment = require('moment'),
 	Col = require('react-bootstrap/Col'),
 	Rating = require('./rating.jsx'),
@@ -6,14 +7,21 @@ var React = require('react'),
 	TagList = require('../home/feed/shout/tags.jsx'),
 	Video = require('./video.jsx');
 
+var Image = require('../helper/image.jsx');
+
+
 module.exports = React.createClass({
 	displayName: "ShoutDetailBody",
 
 	renderSubtitle: function (shout) {
 		return (
 			<h5>Post by&nbsp;
-				<span className="poster">{shout.user.name}</span>
-			&nbsp;-&nbsp;
+				<span className="poster">
+					<Router.Link to="user" params={{username: shout.user.username}}>
+						{shout.user.name}
+					</Router.Link>
+				</span>
+				&nbsp;-&nbsp;
 				{moment.unix(shout.date_published).fromNow()}
 			</h5>
 		);
@@ -30,7 +38,7 @@ module.exports = React.createClass({
 		return shout.images ? shout.images.map(function (imageSrc, i) {
 			return (
 				<div key={"shout-detail-image-" + i} className="section-img">
-					<img src={imageSrc}/>
+					<Image size="large" src={imageSrc}/>
 				</div>
 			);
 		}) : [];
@@ -55,14 +63,14 @@ module.exports = React.createClass({
 
 	renderTags: function (shout) {
 		return shout.tags ?
-			<TagList tags={shout.tags} /> : "";
+			<TagList tags={shout.tags}/> : "";
 	},
 
 	renderBottom: function (shout) {
 		return (
 			<div className="btn-bottom single-shout">
-			{this.renderActions()}
-			{this.renderTags(shout)}
+				{this.renderActions()}
+				{this.renderTags(shout)}
 			</div>
 		);
 	},
@@ -72,14 +80,14 @@ module.exports = React.createClass({
 
 		return (
 			<Col xs={12} md={12} className="section-right">
-					{this.renderTitle(shout)}
-					{this.renderSubtitle(shout)}
-					{this.renderText(shout)}
-					{this.renderVideos(shout)}
-					{this.renderImages(shout)}
-					{this.renderRating(shout)}
-					{this.renderBottom(shout)}
-				</Col>
+				{this.renderTitle(shout)}
+				{this.renderSubtitle(shout)}
+				{this.renderText(shout)}
+				{this.renderVideos(shout)}
+				{this.renderImages(shout)}
+				{this.renderRating(shout)}
+				{this.renderBottom(shout)}
+			</Col>
 		);
 	}
 });

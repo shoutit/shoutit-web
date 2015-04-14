@@ -1,33 +1,41 @@
 var React = require('react'),
 	Col = require('react-bootstrap/Col'),
-	Clear = require('../helper/clear.jsx');
+	Clear = require('../helper/clear.jsx'),
+	ListenerRow = require('./listenerRow.jsx');
 
 module.exports = React.createClass({
 	displayName: "ProfileListening",
 
 	statics: {
-		fetchData: function (client, session) {
-			return client.users().getListening(session);
+		fetchData: function (client, session, params) {
+			return client.users().getListening(session, params.username);
 		}
 	},
 
 	componentDidMount: function () {
-		if (this.props.listening.length) {
-			this.props.flux.actions.fetchListening();
+		var username = this.props.username;
+
+		if (!this.props.listening[username].users) {
+			this.props.flux.actions.loadUserListening(username);
 		}
 	},
 
 	render: function () {
-		var listening;
-		if (this.props.listening.length) {
-			listening = this.props.listening.map(function (listener) {
-				return <ListenerRow user={listener} listening={true}/>
-			});
-		} else if(this.props.loading && typeof window !== 'undefined') {
-			var Loader = require('halogen').PulseLoader;
-			listening = <Loader color="#bfdd6d"/>;
+		var username = this.props.username,
+			loggedUser = this.props.user,
+			listening = this.props.listening[username].users,
+			flux = this.props.flux,
+			listeningChildren, stat;
+
+		if (listening) {
+			stat = <span>({listening.length})</span>;
+			listeningChildren = listening.length ? listening.map(function (listener,i) {
+				return <ListenerRow key={"listening-" + username + '-' + i} user={listener}
+									listening={true} loggedUser={loggedUser} flux={flux}/>
+			}) : <h4>You aren't listening to any other user.</h4>;
 		} else {
-			listening = <h4>You aren't listening to any other user.</h4>
+			var Loader = require('halogen').PulseLoader;
+			listeningChildren = <Loader color="#bfdd6d"/>;
 		}
 
 		return (
@@ -35,12 +43,12 @@ module.exports = React.createClass({
 				<div className="listener">
 					<div className="listener-title">
 						<p>Listeners:
-							<span>({this.props.listening.length})</span>
+							{stat}
 						</p>
 					</div>
 					<Clear/>
 					<div className="listener-scroll" tabIndex="5000" style={{overflow: "hidden", outline: "none"}}>
-					{listening}
+					{listeningChildren}
 					</div>
 				</div>
 			</Col>

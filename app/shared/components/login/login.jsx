@@ -25,21 +25,6 @@ module.exports = React.createClass({
 						<h4>What will you shout today</h4>
 					</div>
 					<Clear />
-					<Input type="text" placeholder="Email" addonBefore={<Icon name="email"/>} className="email"/>
-					<Input type="text" placeholder="Password" addonBefore={<Icon name="pass"/>} className="pass"/>
-					<button className="btn btn-sign btn-submit submit" type="button">
-						Sign In
-					</button>
-					<Clear />
-					<Container fluid={true} className="login-inline">
-						<Col xs={6} md={6} className="login-stay">
-							<Input type="radio" label="Stay Signed in"/>
-						</Col>
-						<Col xs={6} md={6} className="login-help">
-							<Icon name="help"/>
-							Help
-						</Col>
-					</Container>
 					<button className="btn btn-fb submit" type="button" onClick={this.onFBLogin}>
 						<Icon name="fb"/>
 						Connect with Facebook

@@ -10,7 +10,7 @@ var App = React.createClass({
 				<Header flux={this.props.flux}/>
 				<div className="content">
 					<Container className="padding0">
-						<Router.RouteHandler  flux={this.props.flux}/>
+						<Router.RouteHandler flux={this.props.flux}/>
 					</Container>
 				</div>
 			</div>

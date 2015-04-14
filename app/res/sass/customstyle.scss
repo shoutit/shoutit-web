@@ -93,16 +93,17 @@ body {
 
 .img-lg {
   margin-bottom: 10px;
-  max-width: 100%;
+  max-width: 120px;
 }
 
 .img-lg {
-  border-radius: 110px;
+  border-radius: 60px;
 }
 
 @media screen and (min-width: 992px) {
   .img-lg {
     border-radius: 47px;
+    max-width: 100%;
   }
 }
 
@@ -441,6 +442,15 @@ footer {
   padding-right: 15px;
   position: relative;
 }
+
+.chat-search-button {
+  padding: 0;
+}
+
+.chat-search input.form-control {
+  border-right: none;
+}
+
 
 .col-xs-12.col-md-12.chat-right {
   background-color: #fff;
@@ -1240,7 +1250,12 @@ footer {
   margin-right: 25px;
   padding-left: 15px;
   width: 85px;
+
+  img {
+    border-radius: 42px;
+  }
 }
+
 
 .listener-dt-img > img {
   margin-top: 15px;
@@ -1250,6 +1265,20 @@ footer {
 .listener-dt-info {
   float: left;
   width: 50%;
+
+  h4 {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  .btn-group {
+    background-color: #d3d3d3;
+    border-radius: 5px;
+    color: #343837;
+    font-size: 12px;
+    margin-right: 30px;
+    padding: 6px 7px 4px;
+  }
 }
 
 .view-profile {
@@ -1389,7 +1418,6 @@ footer {
 
 .ctn-offerpro-bottom {
   display: inline-block;
-  padding-bottom: 10px;
   width: 100%;
 }
 

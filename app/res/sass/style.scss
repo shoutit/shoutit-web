@@ -65,6 +65,12 @@ p {
   box-shadow: none;
 }
 
+.input-group-addon {
+  border-color: #e1e1e1;
+}
+
+
+
 .messages .dropdown-menu, .nortification .dropdown-menu {
   width: 325px !important;
   height: 380px;
@@ -1159,7 +1165,7 @@ iframe {
 
 .image {
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 1.5s;
 }
 
 .image-loaded {

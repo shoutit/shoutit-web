@@ -29,6 +29,10 @@ var ShoutStore = Fluxxor.createStore({
 			this.state.fullShouts[props.shout.id] = props.shout;
 		}
 
+		if(props.search) {
+			this.state.search = props.search.results;
+		}
+
 		this.bindActions(
 			consts.UPDATE, this.onUpdate,
 			consts.UPDATE_SUCCESS, this.onUpdateSuccess,
@@ -120,7 +124,7 @@ var ShoutStore = Fluxxor.createStore({
 		} else {
 			return {
 				full: false,
-				shout: null
+				shout: undefined
 			};
 		}
 	},

@@ -1,6 +1,7 @@
 /**
  * Created by Philip on 12.01.2015.
  */
+var url = require('url');
 
 var Promise = require('bluebird'),
 	request = require('superagent');
@@ -25,10 +26,12 @@ function requestAccessToken(type, grantToken) {
 	};
 	requestData[GRANT_TYPES[type]] = grantToken;
 
+	console.log(requestData);
+	console.log(url.resolve(ENDPOINT_SERVER,  ACCESSTOKEN_ENDPOINT));
+
 	return new Promise(function (resolve, reject) {
 		request
-			.post(ENDPOINT_SERVER + ACCESSTOKEN_ENDPOINT)
-			//.set(HEADERS)
+			.post(url.resolve(ENDPOINT_SERVER,  ACCESSTOKEN_ENDPOINT))
 			.type('json')
 			.accept('json')
 			.send(requestData)
@@ -81,6 +84,7 @@ function auth(type) {
 				.then(updateSession(req))
 				.then(fetchUser)
 				.then(function (user) {
+					console.log(user);
 					req.session.user = user;
 					res.json(user);
 				})

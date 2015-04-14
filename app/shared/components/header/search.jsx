@@ -55,7 +55,5 @@ module.exports = React.createClass({
 				value={this.props.term}
 			/>
 		);
-	},
-
-
+	}
 });

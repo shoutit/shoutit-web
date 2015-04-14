@@ -1,0 +1,27 @@
+if graph.title
+   meta(property="og:title" content=graph.title)
+else
+   meta(property="og:title" content="ShoutIt")
+
+if graph.type
+   meta(property="og:type" content=graph.type)
+else
+   meta(property="og:type" content="website")
+
+if graph.url
+   meta(property="og:url" content=graph.url)
+else
+   meta(property="og:url" content="http://shoutit.com/")
+
+if graph.image
+    meta(property="og:image" content=graph.image)
+else
+    meta(property="og:image" content="/img/logo2.png")
+
+if graph.description
+    meta(property="og:description" content=graph.description)
+    meta(property="description" content=graph.description)
+
+meta(property="og:site_name" content="ShoutIt")
+
+

@@ -1,7 +1,4 @@
 var React = require('react'),
-	Fluxxor = require('fluxxor'),
-	FluxMixin = Fluxxor.FluxMixin(React),
-	StoreWatchMixin = Fluxxor.StoreWatchMixin,
 	ButtonLink = require('react-router-bootstrap').ButtonLink,
 	Container = require('react-bootstrap/Grid'),
 	Col = require('react-bootstrap/Col'),
@@ -12,21 +9,19 @@ var React = require('react'),
 module.exports = React.createClass({
 	displayName:"TopBar",
 
-	mixins: [FluxMixin, StoreWatchMixin("user")],
 
-	getStateFromFlux: function () {
-		var flux = this.getFlux();
-		return flux.store("user").getState();
-	},
 
 	render: function () {
+
+		var loggedUser = this.props.user ? this.props.users[this.props.user] : null;
+
 		return (
 			<Row id="row-logo">
 				<Container>
 					<HeaderLogo/>
 					<Col className="header-icon" xs={12} md={4}>
-					{this.state.user ?
-						<TopBarActions user={this.state.user} onLogoutClicked={this.onLogoutClicked}/> :
+					{this.props.user ?
+						<TopBarActions user={loggedUser} onLogoutClicked={this.props.onLogoutClicked}/> :
 						<ButtonLink to="login" id="loginButton">
 							<span>Login</span>
 						</ButtonLink>
@@ -35,9 +30,5 @@ module.exports = React.createClass({
 				</Container>
 			</Row>
 		);
-	},
-
-	onLogoutClicked: function () {
-		this.getFlux().actions.logout();
 	}
 });

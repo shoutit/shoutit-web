@@ -22,7 +22,7 @@ module.exports = React.createClass({
 		var shout = this.props.shout,
 			ago = this.agoText();
 
-		var body = <ShoutBody logoRight={this.alignRight()} shout={shout}/>;
+		var body = <ShoutBody listType={this.props.listType} logoRight={this.alignRight()} shout={shout}/>;
 
 		if (this.props.last) {
 			body = <ViewportSensor onChange={this.props.last}>{body}</ViewportSensor>;
@@ -31,7 +31,7 @@ module.exports = React.createClass({
 		return (
 			<section>
 				<Col xs={12} md={12}>
-					<ShoutHeader agoText={ago} logoRight={this.alignRight()} logoSrc={shout.user.image}/>
+					<ShoutHeader listType={this.props.listType} agoText={ago} logoRight={this.alignRight()} logoSrc={shout.user.image}/>
 					{body}
 				</Col>
 			</section>

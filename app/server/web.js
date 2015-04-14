@@ -28,14 +28,15 @@ var morgan = require('morgan'),
 //csurf = require('csurf'),
 	compression = require('compression');
 
+var SERVER_ROOT = process.env.SERVER_ROOT || "localhost:8080";
 
-function fetchData(session, routes, params) {
+function fetchData(session, routes, params, query) {
 	var data = {};
 	return Promise.all(routes.filter(function (route) {
 		return route.handler.fetchData;
 	}).map(function (route) {
 		return new Promise(function (resolve, reject) {
-			route.handler.fetchData(ShoutitClient, session, params, route.name)
+			route.handler.fetchData(ShoutitClient, session, params, route.name, query)
 				.on('complete', function (result, resp) {
 					if (result instanceof Error || resp.statusCode !== 200) {
 						resolve({});
@@ -51,12 +52,68 @@ function fetchData(session, routes, params) {
 	});
 }
 
+
+function getMetaFromData(relUrl, innerRoute, data) {
+	var meta = {};
+	//console.log(innerRoute);
+	//console.log(data);
+
+	if (innerRoute.name === "shout") {
+		var shout = data.shout;
+		if (shout) {
+			meta.title = "Shoutit - " + shout.title;
+			meta.description = shout.text;
+			meta.type = "article";
+			meta.image = shout.thumbnail;
+			meta.url = url.resolve(SERVER_ROOT, relUrl);
+		}
+	} else if (innerRoute.name === "user") {
+		var user = data.user;
+		if (user) {
+			meta.title = "Shoutit Profile - " + user.username;
+			meta.description = "Shoutit - " + user.name + "'s profile - See the users shouts.";
+			meta.type = "profile";
+			meta.image = user.image;
+			meta.url = url.resolve(SERVER_ROOT, relUrl);
+		}
+	}
+	return meta;
+}
+
+function reactServerRender(req, res) {
+	var user = req.session ? req.session.user : null;
+
+	// Run router to determine the desired state
+	Router.run(Routes, req.url, function (Handler, state) {
+		// Fetch data based on matching routes and params
+		fetchData(req.session, state.routes, state.params, state.query)
+			.then(function (data) {
+				var flux = Flux(null, user, data),
+					serializedFlux = flux.serialize(),
+					content = React.renderToString(
+						React.createElement(Handler, {
+							flux: flux
+						}));
+
+				var meta = getMetaFromData(req.url, state.routes[state.routes.length - 1], data);
+
+				res.render('index', {
+					reactMarkup: content,
+					serializedFlux: serializedFlux,
+					// Extract title from current Router State
+					title: DocumentTitle.rewind(),
+					graph: meta
+				});
+			});
+	});
+}
+
 var redisOptions = {
 	db: 11
 };
 
 if (process.env.REDIS_HOST) {
-	redisOptions.host = process.env.REDIS_HOST;
+	redisOptions.host = process.env.REDIS_HOST || "localhost";
 }
 
 console.log("REDIS_HOST:", redisOptions.host);
@@ -81,6 +138,15 @@ module.exports = function (app) {
 		app.use(webpackDevMiddleware(webpack(require('../../webpack.config')), {
 			publicPath: "/",
 			stats: {
+				hash: true,
+				version: false,
+				timings: true,
+				assets: false,
+				chunks: true,
+				chunkModules: false,
+				modules: false,
+				cached: false,
+				reasons: false,
 				colors: true
 			}
 		}));
@@ -108,34 +174,48 @@ module.exports = function (app) {
 
 	app.use('/auth', authRouter);
 
-
 	app.use('/api', apiRouter);
 
-	app.use(function (req, res) {
+	// Redirects
+	app.use('/s/:shoutId', function (req, res) {
+		res.redirect('/shout/' + req.params.shoutId);
+	});
+
+	app.use('/u/:username', function (req, res) {
+		res.redirect('/user/' + req.params.username);
+	});
+
+	app.use('/t/:tagName', function (req, res) {
+		res.redirect('/tag/' + req.params.tagName);
+	});
+
+	app.use('/m/:msgId', function (req, res) {
+		res.redirect('/message/' + req.params.msgId);
+	});
+
+	app.use('/profile', function (req, res) {
 		var user = req.session ? req.session.user : null;
 
-		// Run router to determine the desired state
-		Router.run(Routes, req.url, function (Handler, state) {
-			// Fetch data based on matching routes and params
-			fetchData(req.session, state.routes, state.params)
-				.then(function (data) {
-					var flux = Flux(null, user, data),
-						serializedFlux = flux.serialize(),
-						content = React.renderToString(
-							React.createElement(Handler, {
-								flux: flux
-							})
-						);
-
-					res.render('index', {
-						reactMarkup: content,
-						serializedFlux: serializedFlux,
-						// Extract title from current Router State
-						title: DocumentTitle.rewind()
-					});
-				});
-
-
-		});
+		if (user && user.username) {
+			res.redirect('/user/' + user.username);
+		} else {
+			res.redirect('/login');
+		}
 	});
+
+	app.use('/user/:username', function userInitRedirect (req, res, next) {
+		if(req.url === '/') {
+			var user = req.session ? req.session.user : null;
+
+			if (user && user.username === req.params.username) {
+				res.redirect('/user/' + req.params.username + '/settings');
+			} else {
+				res.redirect('/user/' + req.params.username + '/useroffers');
+			}
+		} else {
+			next();
+		}
+	});
+
+	app.use(reactServerRender);
 };

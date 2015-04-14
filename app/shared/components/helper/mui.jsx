@@ -1,6 +1,6 @@
 var React = require('react'),
 	PureRenderMixin = require('react/addons').addons.PureRenderMixin,
-	Icon = require('../../../helper/icon.jsx');
+	Icon = require('./icon.jsx');
 
 module.exports = React.createClass({
 	displayName: "Mui",

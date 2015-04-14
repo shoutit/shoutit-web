@@ -13,19 +13,19 @@ module.exports = {
 			.send(update);
 	},
 
-	get: function (userId) {
+	get: function (username) {
 		return request
-			.get(PREFIX + '/' + userId);
+			.get(PREFIX + '/' + username);
 	},
 
-	getListening: function () {
+	getListening: function (username) {
 		return request
-			.get(PREFIX + '/me/listening');
+			.get(PREFIX + '/' + username + '/listening');
 	},
 
-	getListeners: function () {
+	getListeners: function (username) {
 		return request
-			.get(PREFIX + '/me/listeners');
+			.get(PREFIX + '/' + username + '/listeners');
 	},
 
 	listen: function (username) {
@@ -35,12 +35,12 @@ module.exports = {
 
 	stopListen: function (username) {
 		return request
-			.del(PREFIX + '/' + username + "/list")
+			.del(PREFIX + '/' + username + "/listen")
 	},
 
-	loadShouts: function(type) {
+	loadShouts: function (username, type) {
 		return request
-			.get(PREFIX + '/me/shouts')
+			.get(PREFIX + '/' + username + '/shouts')
 			.query({type: type || "all"});
 	}
 

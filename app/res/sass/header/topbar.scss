@@ -1,20 +1,24 @@
+#row-logo .selectpicker button, #loginButton {
+  background: $shoutit-light-green;
+  border: none;
+  box-shadow: none;
+  height: 45px;
+  color: #343837;
+  font-size: 15px;
+  font-family: "Arial-Bold", sans-serif;
+}
+
 #row-logo {
   background-color: $shoutit-dark-green;
   margin-bottom: 1px;
 
-  .selectpicker button, #loginButton {
-    background: $shoutit-light-green;
-    border: none;
-    box-shadow: none;
-    height: 45px;
-    color: #343837;
-    font-size: 15px;
-    font-family: "Arial-Bold", sans-serif;
-  }
-
   #loginButton {
     padding-top: 12px;
-    margin-top: 18px;
+
+    @media (min-width: 991px) {
+      margin-top: 18px;
+    }
+
   }
 
   .header-logo {
@@ -28,7 +32,7 @@
       .center {
         width: 100%;
         text-align: center;
-        padding: 0;
+        padding: 0 5px;
       }
     }
 
@@ -117,6 +121,7 @@
     padding: 0;
 
     @media (max-width: 991px) {
+
       .navbar-right {
         display: table;
         margin: 0 auto;
@@ -125,6 +130,12 @@
 
       .navbar-right > li {
         display: inline-block;
+      }
+    }
+
+    #loginButton {
+      @media (max-width: 991px) {
+        display: none;
       }
     }
   }

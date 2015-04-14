@@ -1,14 +1,17 @@
-var React = require('react'),
-	Col = require('react-bootstrap/Col');
+var React = require('react');
+
+var ProfileShoutList = require('./profileShoutList.jsx');
 
 module.exports = React.createClass({
-	displayName: "ProfileRequests",
+	displayName: "ProfileOffers",
+
+	statics: {
+		fetchData: function (client, session, params) {
+			return client.users().getShouts(session, params.username, 'request');
+		}
+	},
 
 	render: function () {
-		return (
-			<Col xs={12} md={12} className="content-listener">
-				ProfileRequests
-			</Col>
-		);
+		return <ProfileShoutList type="request" {...this.props}/>
 	}
 });

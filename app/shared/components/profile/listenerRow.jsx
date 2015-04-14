@@ -4,29 +4,39 @@ var React = require('react'),
 	DropdownButton = require('react-bootstrap/DropdownButton'),
 	MenuItem = require('react-bootstrap/MenuItem');
 
+var Image = require('../helper/image.jsx');
+
 module.exports = React.createClass({
 	displayName: "ListenerRow",
 
 	render: function () {
 		var listener = this.props.user;
 
+		var title = this.props.listening ? "Listening" : "Not Listening";
+		var firstOption = this.props.listening ?
+			<MenuItem eventKey={"stop-" + listener.username}>Stop Listening</MenuItem> :
+			<MenuItem eventKey={"start-" + listener.username}>Start Listening</MenuItem>;
+
+		var actions = this.props.loggedUser ?
+			<DropdownButton onSelect={this.onDropDownSelect} title={title}>
+				{firstOption}
+				<MenuItem eventKey={"show-" + listener.username}>
+					<Link to="user" params={{username: listener.username}}>Show Profile</Link>
+				</MenuItem>
+			</DropdownButton> : "";
+
 		return (
-			<div class="listener-dt">
-				<div class="listener-dt-img">
-					<img src={listener.image}/>
+			<div className="listener-dt">
+				<div className="listener-dt-img">
+					<Image infix="user" size="small" src={listener.image}/>
 				</div>
-				<div class="listener-dt-info">
+				<div className="listener-dt-info">
 					<h4>{listener.name}
 						(
 						<Link to="user" params={{username: listener.username}}>{listener.username}</Link>
 						)
 					</h4>
-					<DropdownButton onSelect={this.onDropDownSelect} title="Listening">
-						<MenuItem eventKey={"stop-" + listener.username}>Stop Listen</MenuItem>
-						<MenuItem eventKey={"show-" + listener.username}>
-							<Link to="user" params={{username: listener.username}}>Show Profile</Link>
-						</MenuItem>
-					</DropdownButton>
+					{actions}
 				</div>
 			</div>
 		);
@@ -35,9 +45,9 @@ module.exports = React.createClass({
 	onDropDownSelect: function (key) {
 		var splitted = key.split("-");
 		if (splitted[0] === "stop") {
-			this.flux.actions.stopListen(splitted[1]);
-		} else if (splitted[0] === "show") {
-
+			this.props.flux.actions.stopListen(splitted[1]);
+		} else if (splitted[0] === "start") {
+			this.props.flux.actions.listen(splitted[1]);
 		}
 	}
 });

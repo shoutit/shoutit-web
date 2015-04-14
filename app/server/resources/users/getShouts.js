@@ -10,7 +10,7 @@ module.exports = function (client, path) {
 		var query = {};
 
 		if (type) {
-			query.type = type
+			query.shout_type = type
 		}
 
 		if (before) {

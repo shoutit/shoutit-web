@@ -7,7 +7,6 @@
 var path = require('path'),
 	gulp = require('gulp'),
 	nodemon = require('gulp-nodemon'),
-	source = require('vinyl-source-stream'),
 	sourcemaps = require('gulp-sourcemaps'),
 	livereload = require('gulp-livereload'),
 	sass = require('gulp-ruby-sass'),
@@ -30,7 +29,8 @@ gulp.task(devServerTask, function () {
 		watch: "app/server",
 		ext: 'js',
 		env: {
-			'NODE_ENV': 'development'
+			'NODE_ENV': 'development',
+			'API_URL': 'https://api.shoutit.com/v2/'
 		}
 	});
 });
@@ -38,9 +38,10 @@ gulp.task(devServerTask, function () {
 
 var sassTask = "sass",
 	sassDir = path.join(__dirname, "/app/res/sass/"),
-	sassSrc = path.join(sassDir,"main.scss"),
-	sassMaps = "../scss",
-	sassDest = path.join(publicDir, "/css");
+	sassSrc = path.join(sassDir, "main.scss"),
+	sassMaps = "scss",
+	cssRoot = "/css/",
+	sassDest = path.join(publicDir, cssRoot);
 
 gulp.task(sassTask, function () {
 	return sass(sassSrc, {
@@ -55,7 +56,9 @@ gulp.task(sassTask, function () {
 			rebase: false,
 			keepSpecialComments: 0
 		}))
-		.pipe(sourcemaps.write(sassMaps))
+		.pipe(sourcemaps.write(sassMaps, {
+			sourceMappingURLPrefix: cssRoot
+		}))
 		.pipe(gulp.dest(sassDest))
 		.pipe(livereload());
 });

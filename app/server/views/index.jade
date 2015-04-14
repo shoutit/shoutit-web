@@ -4,6 +4,7 @@ html
         meta(charset="utf-8")
         meta(http-equiv="X-UA-Compatible" content="IE=edge")
         meta(name="viewport" content="width=device-width, initial-scale=1")
+        include opengraph
 
         title= title
 
@@ -19,6 +20,6 @@ html
         script#fluxData.
             window.fluxData = !{serializedFlux}
 
-        script(src="https://apis.google.com/js/client:platform.js")
-        script(src="https://connect.facebook.net/en_US/sdk.js")
-        script(src="/main.js")
+        script(async,src="https://apis.google.com/js/client:platform.js")
+        script(async,src="https://connect.facebook.net/en_US/sdk.js")
+        script(async,src="/main.js")

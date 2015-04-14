@@ -3,8 +3,9 @@ var React = require('react'),
 	Col = require('react-bootstrap/Col'),
 	TagList = require('./tags.jsx'),
 	Actions = require('./actions.jsx'),
-	Mui = require('./mui.jsx'),
-	Image = require('../../../helper/image.jsx');
+	Mui = require('./../../../helper/mui.jsx'),
+	Image = require('../../../helper/image.jsx'),
+	moment = require('moment');
 
 module.exports = React.createClass({
 	displayName: "ShoutBody",
@@ -15,6 +16,26 @@ module.exports = React.createClass({
 		}
 	},
 
+	renderBottom: function (shout) {
+		return this.props.listType === "small" ?
+			(
+				<div className="ctn-offerpro-bottom">
+					<ul>
+						<li className="postby">
+							{"Posted by : " + shout.user.name + ", " +
+							moment.unix(shout.date_published).format('L')}
+						</li>
+					</ul>
+				</div>
+			) :
+			(
+				<div className="btn-bottom">
+					<Actions/>
+					<TagList tags={shout.tags}/>
+				</div>
+			);
+	},
+
 	render: function () {
 		var shout = this.props.shout;
 
@@ -23,17 +44,14 @@ module.exports = React.createClass({
 				<Mui right={this.props.logoRight}/>
 				<h4>
 					<Link to="shout" params={{shoutId: shout.id}}>
-					{shout.title}
+						{shout.title}
 					</Link>
 				</h4>
 				{shout.thumbnail ? <div className="section-right-img">
-					<Image src={shout.thumbnail} />
+					<Image src={shout.thumbnail}/>
 				</div> : ""}
 				<p>{shout.text}</p>
-				<div className="btn-bottom">
-					<Actions/>
-					<TagList tags={shout.tags}/>
-				</div>
+				{this.renderBottom(shout)}
 			</Col>
 		);
 	}
