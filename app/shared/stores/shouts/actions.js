@@ -38,7 +38,7 @@ module.exports = {
 		});
 	},
 
-	loadShoutSuccess: function (res) {
+	loadTagSuccess: function (res) {
 		this.dispatch(consts.LOAD_SHOUT_SUCCESS, {
 			res: res
 		});

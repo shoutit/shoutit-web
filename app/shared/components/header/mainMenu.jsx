@@ -25,7 +25,6 @@ module.exports = React.createClass({
 							<NavItemLink to="app">Home</NavItemLink>
 							<NavItemLink to="offers">Offers</NavItemLink>
 							<NavItemLink to="requests">Requests</NavItemLink>
-							<NavItemLink to="map">Map</NavItemLink>
 						</Nav>
 					</Navbar>
 				</Container>

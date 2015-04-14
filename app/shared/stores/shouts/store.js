@@ -52,16 +52,13 @@ var ShoutStore = Fluxxor.createStore({
 	},
 
 	onUpdate: function () {
-		var flux = this.flux;
-
 		client.list().end(function (err, res) {
 			if (err || !res.body) {
-				flux.actions.requestFailed(err);
+				this.flux.actions.requestFailed(err);
 			} else {
-				flux.actions.updateSuccess(res.body);
+				this.flux.actions.updateSuccess(res.body);
 			}
-		});
-
+		}.bind(this));
 	},
 
 	onUpdateSuccess: function (payload) {
@@ -70,15 +67,14 @@ var ShoutStore = Fluxxor.createStore({
 	},
 
 	onLoadShout: function (payload) {
-		var flux = this.flux;
 		client.get(payload.shoutId)
 			.end(function (err, res) {
 				if (err || res.status !== 200) {
-					flux.actions.requestFailed(err);
+					this.flux.actions.requestFailed(err);
 				} else {
-					flux.actions.loadShoutSuccess(res.body);
+					this.flux.actions.loadTagSuccess(res.body);
 				}
-			});
+			}.bind(this));
 		this.state.loading = true;
 		this.emit("change");
 	},
@@ -90,7 +86,6 @@ var ShoutStore = Fluxxor.createStore({
 	},
 
 	onLoadMore: function () {
-		var flux = this.flux;
 		var lastShout = this.state.shouts[this.state.shouts.length - 1];
 		client
 			.list({
@@ -98,11 +93,11 @@ var ShoutStore = Fluxxor.createStore({
 			})
 			.end(function (err, res) {
 				if (err || res.status !== 200) {
-					flux.actions.requestFailed(err);
+					this.flux.actions.requestFailed(err);
 				} else {
-					flux.actions.loadMoreSuccess(res.body);
+					this.flux.actions.loadMoreSuccess(res.body);
 				}
-			});
+			}.bind(this));
 
 		this.state.loading = true;
 		this.emit("change");

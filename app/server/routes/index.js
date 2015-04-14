@@ -9,5 +9,6 @@ var express = require('express'),
 
 apiRouter.use('/shouts', require('./shouts'));
 apiRouter.use('/users', require('./users'));
+apiRouter.use('/tags', require('./tags'));
 
 module.exports = apiRouter;

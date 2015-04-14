@@ -88,6 +88,8 @@ function reactServerRender(req, res) {
 		// Fetch data based on matching routes and params
 		fetchData(req.session, state.routes, state.params, state.query)
 			.then(function (data) {
+				//console.dir(data, {depth: 2});
+
 				var flux = Flux(null, user, data),
 					serializedFlux = flux.serialize(),
 					content = React.renderToString(

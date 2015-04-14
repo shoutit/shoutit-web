@@ -4,7 +4,7 @@ var React = require('react'),
 var Icon = require('../helper/icon.jsx');
 
 module.exports = React.createClass({
-	displayName: "ProfileDetails",
+	displayName: "TagProfileActions",
 
 	render: function () {
 		return (

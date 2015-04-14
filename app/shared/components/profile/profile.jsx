@@ -43,20 +43,19 @@ module.exports = React.createClass({
 
 	render: function () {
 		var username = this.getParams().username,
-			user = this.state.users[username],
-			listenerCount = this.state.listeners[username] ?
-				this.state.listeners[username].length :
-				user.listeners_count,
-			listeningCountUsers = this.state.listening[username] && this.state.listening[username].users ?
-				this.state.listening[username].users.length :
-				user.listening_count.users,
-			listeningCountTags = this.state.listening[username] && this.state.listening[username].tags ?
-				this.state.listening[username].tags.length :
-				user.listening_count.tags;
-
+			user = this.state.users[username];
 
 		if (user) {
-			var linkParams = {username: user.username};
+			var linkParams = {username: user.username},
+				listenerCount = this.state.listeners[username] ?
+					this.state.listeners[username].length :
+					user.listeners_count,
+				listeningCountUsers = this.state.listening[username] && this.state.listening[username].users ?
+					this.state.listening[username].users.length :
+					user.listening_count.users,
+				listeningCountTags = this.state.listening[username] && this.state.listening[username].tags ?
+					this.state.listening[username].tags.length :
+					user.listening_count.tags;
 
 			return (
 				<DocumentTitle title={"Shoutit Profile - " + user.username}>
