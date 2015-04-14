@@ -72,7 +72,7 @@ var ShoutStore = Fluxxor.createStore({
 				if (err || res.status !== 200) {
 					this.flux.actions.requestFailed(err);
 				} else {
-					this.flux.actions.loadTagSuccess(res.body);
+					this.flux.actions.loadShoutSuccess(res.body);
 				}
 			}.bind(this));
 		this.state.loading = true;
