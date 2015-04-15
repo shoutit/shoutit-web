@@ -21,19 +21,28 @@ module.exports = React.createClass({
 	},
 
 	onImageLoad: function () {
+		console.log("Loaded", this.state.src);
 		if (this.isMounted()) {
-			this.setState({
-				loaded: true
-			});
+			this.setState({loaded: true});
 		}
 	},
 
 	onLoadError: function () {
-		if (this.isMounted()) {
-			this.setState({
-				src: this.props.src
-			});
-		}
+		console.log("Error Loading", this.state.src);
+		this.setState({
+			src: this.props.src
+		});
+	},
+
+	componentDidMount: function() {
+		var imgTag = this.refs.image.getDOMNode();
+
+		var imgSrc = imgTag.getAttribute('src');
+
+		var img = new window.Image();
+		img.onload = this.onImageLoad;
+		img.onerror = this.onLoadError;
+		img.src = imgSrc;
 	},
 
 
@@ -48,8 +57,6 @@ module.exports = React.createClass({
 			<img ref="image"
 				 src={this.state.src}
 				 className={joinClasses(className, imageClasses)}
-				 onLoad={this.onImageLoad}
-				 onError={this.onLoadError}
 				/>
 		);
 	},
