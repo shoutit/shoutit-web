@@ -9,8 +9,6 @@ var React = require('react'),
 module.exports = React.createClass({
 	displayName:"TopBar",
 
-
-
 	render: function () {
 
 		var loggedUser = this.props.user ? this.props.users[this.props.user] : null;

@@ -1,5 +1,3 @@
-
-
 var React = require('react'),
 	Col = require('react-bootstrap/Col'),
 	Link = require('react-router').Link;

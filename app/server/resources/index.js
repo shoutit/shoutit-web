@@ -1,8 +1,7 @@
 /**
  * Created by Philip on 27.02.2015.
  */
-var rest = require('restler'),
-	Promise = require('bluebird');
+var rest = require('restler');
 
 console.log("API_URL:", process.env.API_URL);
 

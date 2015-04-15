@@ -8,7 +8,7 @@ module.exports = React.createClass({
 	getInitialState: function () {
 		return {
 			loaded: false,
-			src: null
+			src: this.getSizedUrl()
 		};
 	},
 
@@ -20,25 +20,20 @@ module.exports = React.createClass({
 		}
 	},
 
-	onImageLoad: function (url) {
+	onImageLoad: function () {
 		if (this.isMounted()) {
 			this.setState({
-				loaded: this.props.src,
-				src: url
+				loaded: true
 			});
 		}
 	},
 
-	onLoadError: function (img) {
-		return function () {
-			if (this.isMounted()) {
-				img.onerror = null;
-				this.setState({
-					loaded: this.props.src,
-					src: this.props.src
-				});
-			}
-		}.bind(this);
+	onLoadError: function () {
+		if (this.isMounted()) {
+			this.setState({
+				src: this.props.src
+			});
+		}
 	},
 
 
@@ -50,33 +45,24 @@ module.exports = React.createClass({
 		}
 
 		return (
-			<img ref="image" src={this.state.src} className={joinClasses(className, imageClasses)}/>
+			<img ref="image"
+				 src={this.state.src}
+				 className={joinClasses(className, imageClasses)}
+				 onLoad={this.onImageLoad}
+				 onError={this.onLoadError}
+				/>
 		);
 	},
 
-	componentDidMount: function () {
-		this.loadImage();
-	},
-
-	componentDidUpdate: function() {
-		if(this.props.src !== this.state.loaded) {
-			this.loadImage();
-		}
-	},
-
-	loadImage: function() {
+	getSizedUrl: function () {
 		var url = this.props.src;
-		if (url.indexOf("shoutit-"+ this.props.infix +"-image-original") > -1) {
+		if (url.indexOf("shoutit-" + this.props.infix + "-image-original") > -1) {
 			url = url.replace("-original", "")
 				.replace('.jpg', '_' + this.props.size + '.jpg')
 				.replace('.jpeg', '_' + this.props.size + '.jpeg');
 		} else if (url.indexOf("hqdefault") > -1) {
 			url = url.replace("hqdefault", this.props.ytSize + "default");
 		}
-
-		var img = new window.Image();
-		img.onload = this.onImageLoad(url);
-		img.onerror = this.onLoadError(img);
-		img.src = url;
+		return url;
 	}
 });
