@@ -32,16 +32,16 @@ var SearchStore = Fluxxor.createStore({
 		this.state.searching[USER_TYPE] = false;
 		this.state.searching[TAG_TYPE] = false;
 
-		if (props.searchShouts) {
-			this.state.shouts[props.searchShouts.term] = props.searchShouts.shouts;
+		if (props.searchShouts && props.term) {
+			this.state.shouts[props.term] = props.searchShouts.results;
 		}
 
-		if (props.searchUsers) {
-			this.state.users[props.searchUsers.term] = props.searchUsers.users;
+		if (props.searchUsers && props.term) {
+			this.state.users[props.term] = props.searchUsers.results;
 		}
 
-		if (props.searchTags) {
-			this.state.users[props.searchTags.term] = props.searchTags.tags;
+		if (props.searchTags && props.term) {
+			this.state.users[props.term] = props.searchTags.results;
 		}
 
 		this.searchShouts = this.onSearch(SHOUT_TYPE);
@@ -56,7 +56,7 @@ var SearchStore = Fluxxor.createStore({
 		);
 	},
 
-	onSearchAll: function(payload) {
+	onSearchAll: function (payload) {
 		this.searchShouts(payload);
 		this.searchTags(payload);
 		this.searchUsers(payload);

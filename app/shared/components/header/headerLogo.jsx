@@ -9,7 +9,7 @@ var React = require('react'),
 	Search = require('./search.jsx');
 
 module.exports = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin("search")],
+	mixins: [Router.Navigation, FluxMixin, StoreWatchMixin("search")],
 
 	displayName: "HeaderLogo",
 
@@ -33,9 +33,9 @@ module.exports = React.createClass({
 			shoutSearchResults = shoutResults ? shoutResults.slice(0,3) : [];
 
 		var shoutResultList = shoutSearchResults && shoutSearchResults.length ?
-			shoutSearchResults.map(function (shout) {
+			shoutSearchResults.map(function (shout, i) {
 				return (
-					<li>
+					<li key={"search-header-shout-" + i}>
 						<Link to="shout" params={{shoutId: shout.id}} onClick={onBlurSearch}>
 							{shout.title}
 						</Link>
@@ -46,9 +46,9 @@ module.exports = React.createClass({
 			tagSearchResults = tagResults ? tagResults.slice(0,3) : [];
 
 		var tagResultList = tagSearchResults && tagSearchResults.length ?
-			tagSearchResults.map(function (tag) {
+			tagSearchResults.map(function (tag, i) {
 				return (
-					<li>
+					<li key={"search-header-tag-" + i}>
 						<Link to="tag" params={{tagName: tag.name}} onClick={onBlurSearch}>
 							{tag.name}
 						</Link>
@@ -59,9 +59,9 @@ module.exports = React.createClass({
 			userSearchResults = userResults ? userResults.slice(0,3) : [];
 
 		var userResultList = userSearchResults && userSearchResults.length ?
-			userSearchResults.map(function (user) {
+			userSearchResults.map(function (user, i) {
 				return (
-					<li>
+					<li key={"search-header-user-" + i}>
 						<Link to="user" params={{username: user.username}} onClick={onBlurSearch}>
 							{user.name}
 						</Link>
@@ -101,6 +101,7 @@ module.exports = React.createClass({
 					<Search
 						onFocus={this.onFocusSearch}
 						onChange={this.onChangeSearch}
+						onSubmit={this.onSubmit}
 						/>
 					{searchList}
 				</Col>
@@ -120,5 +121,10 @@ module.exports = React.createClass({
 		var newTerm = ev.target.value;
 		this.setState({term: newTerm});
 		this.getFlux().actions.searchAll(newTerm);
+	},
+
+	onSubmit: function() {
+		this.setState({showSearch: false});
+		this.transitionTo("search", {term: this.state.term});
 	}
 });

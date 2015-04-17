@@ -3,8 +3,7 @@ var React = require('react'),
 	RouteHandler = Router.RouteHandler,
 	Fluxxor = require('fluxxor'),
 	FluxMixin = Fluxxor.FluxMixin(React),
-	StoreWatchMixin = Fluxxor.StoreWatchMixin,
-	findKey = require('lodash/object/findKey');
+	StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Col = require('react-bootstrap/Col'),
 	NavItemLink = require('react-router-bootstrap').NavItemLink;

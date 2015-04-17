@@ -14,6 +14,8 @@ var Root = require("./components/root.jsx"),
 	Shout = require('./components/shout/shoutDetail.jsx'),
 	Profile = require('./components/profile/profile.jsx'),
 	Search = require('./components/search/search.jsx'),
+	SearchShouts = require('./components/search/searchShouts.jsx'),
+	SearchUsers = require('./components/search/searchUsers.jsx'),
 	ProfileSettings = require('./components/profile/profileSettings.jsx'),
 	ProfileListeners = require('./components/profile/profileListeners.jsx'),
 	ProfileListening = require('./components/profile/profileListening.jsx'),
@@ -44,17 +46,15 @@ module.exports = (
 				<DefaultRoute name="tagoffers" handler={TagProfileOffers}/>
 			</Route>
 			<Route name="message" path="/message/:msgId" handler={Simple}/>
-			<Route name="search" path="/search/:term" handler={Search}/>
+			<Route name="search" path="/search/:term" handler={Search}>
+				<Route name="searchUsers" handler={SearchUsers}/>
+				<Route name="searchTags" handler={Simple}/>
+				<DefaultRoute name="searchShouts" handler={SearchShouts}/>
+			</Route>
 			<DefaultRoute name="shouts" handler={Home}/>
 		</Route>
 		<Route name="login" handler={Login}/>
 		<NotFoundRoute handler={NotFound}/>
 	</Route>
 );
-
-/*
- <Route name="searchUsers" handler={}/>
- <Route name="searchTags" handler={}/>
- <DefaultRoute name="searchShouts" handler={}/>
- */
 

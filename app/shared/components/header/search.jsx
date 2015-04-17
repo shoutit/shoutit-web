@@ -21,7 +21,7 @@ module.exports = React.createClass({
 
 	render: function () {
 		var searchAddon = (
-			<Button className="searchButton" bsStyle="link">
+			<Button className="searchButton" onClick={this.props.onSubmit} bsStyle="link">
 				<Icon name="search-icon"/>
 			</Button>
 		);
@@ -51,8 +51,15 @@ module.exports = React.createClass({
 				onChange={this.props.onChange}
 				onFocus={this.props.onFocus}
 				onBlur={this.props.onBlur}
+				onKeyUp={this.onKeyUp}
 				value={this.props.term}
 			/>
 		);
+	},
+
+	onKeyUp: function(ev) {
+		if(ev.which === 13) {
+			this.props.onSubmit();
+		}
 	}
 });

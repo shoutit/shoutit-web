@@ -15,15 +15,15 @@ var merge = require('lodash/object/merge'),
 	tagActions = require('./stores/tags/actions'),
 	searchActions = require('./stores/search/actions');
 
-module.exports = function (router, user, data) {
+module.exports = function (router, user, data, params) {
 	var stores = {
 		users: new UsersStore(merge({},{
 			loggedUser: user,
 			router: router
 		}, data)),
-		shouts: new ShoutStore(data),
-		tags: new TagStore(data),
-		search: new SearchStore(data)
+		shouts: new ShoutStore(data, params),
+		tags: new TagStore(data, params),
+		search: new SearchStore(merge({}, data, params))
 	};
 
 	var actions = merge({}, userActions, shoutActions, tagActions, searchActions);

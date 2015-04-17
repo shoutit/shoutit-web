@@ -4,13 +4,13 @@ var React = require('react'),
 module.exports = React.createClass({
 	displayName: "Simple",
 
-	title: "Simple - Shout It",
+	title: "Shout It- Not implemented yet.",
 
 	render: function () {
 		return (
 			<DocumentTitle title={this.title}>
 				<div>
-					Dummy Page
+					Not implemented yet.
 				</div>
 			</DocumentTitle>
 		);
