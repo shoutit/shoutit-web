@@ -6,7 +6,6 @@ var React = require('react'),
 	MenuItem = require('react-bootstrap/MenuItem');
 
 module.exports = React.createClass({
-
 	displayName: "SearchInput",
 
 	getDefaultProps: function () {

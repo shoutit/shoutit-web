@@ -1,11 +1,9 @@
 var React = require('react'),
-	Router = require('react-router'),
 	NavItemLink = require('react-router-bootstrap').NavItemLink,
 	Container = require('react-bootstrap/Grid'),
 	Navbar = require('react-bootstrap/Navbar'),
 	Nav = require('react-bootstrap/Nav'),
 	ButtonLink = require('react-router-bootstrap').ButtonLink;
-
 
 module.exports = React.createClass({
 	displayName: "MainMenu",

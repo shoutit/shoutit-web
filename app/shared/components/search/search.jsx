@@ -6,7 +6,8 @@ var React = require('react'),
 	uniq = require('lodash/array/uniq');
 
 var SearchForm = require('./searchForm.jsx'),
-	SearchResults = require('./searchResults.jsx');
+	SearchResults = require('./searchResults.jsx'),
+	DocumentTitle = require('react-document-title');
 
 module.exports = React.createClass({
 	mixins: [Router.State, FluxMixin, StoreWatchMixin("shouts")],
@@ -27,59 +28,29 @@ module.exports = React.createClass({
 	},
 
 	getInitialState: function () {
-		var query = this.getQuery(),
-			params = this.getParams();
+		var params = this.getParams();
 
 		return {
-			term: params.term,
-			sort: query.sort || 'recent',
-			tags: query.tags ? uniq(query.tags.split(',')) : [],
-			users: query.users ? uniq(query.users.split(',')) : [],
-			type: query.type || 'all'
+			term: params.term
 		}
 	},
 
 	render: function () {
 		return (
-			<div>
-				<SearchForm {...this.state}
-					onAddTag={this.onAddTag}
-					onAddUser={this.onAddUser}
-					onTypeChange={this.onTypeChange}/>
-				<SearchResults {...this.state}
-					onTermChange={this.onTermChange}
-					onSortChange={this.onSortChange}/>
-			</div>
+			<DocumentTitle title={"Shoutit Search - " + this.state.term}>
+				<div className="profile">
+					<SearchForm {...this.state}
+						onAddUser={this.onAddUser}/>
+					<SearchResults {...this.state}
+						onTermChange={this.onTermChange}/>
+				</div>
+			</DocumentTitle>
 		)
 	},
 
 	onTermChange: function (newTerm) {
 		this.setState({
 			term: newTerm
-		});
-	},
-
-	onSortChange: function (newSort) {
-		this.setState({
-			sort: newSort
-		});
-	},
-
-	onAddTag: function (newTag) {
-		this.setState({
-			tags: _.uniq(this.state.tags.append([newTag]))
-		});
-	},
-
-	onAddUser: function (newUser) {
-		this.setState({
-			tags: _.uniq(this.state.users.append([newUser]))
-		});
-	},
-
-	onTypeChange: function (newType) {
-		this.setState({
-			type: newType
 		});
 	}
 });

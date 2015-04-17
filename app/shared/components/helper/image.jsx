@@ -21,20 +21,20 @@ module.exports = React.createClass({
 	},
 
 	onImageLoad: function () {
-		console.log("Loaded", this.state.src);
+		//console.log("Loaded", this.state.src);
 		if (this.isMounted()) {
 			this.setState({loaded: true});
 		}
 	},
 
 	onLoadError: function () {
-		console.log("Error Loading", this.state.src);
+		//console.log("Error Loading", this.state.src);
 		this.setState({
 			src: this.props.src
 		});
 	},
 
-	componentDidMount: function() {
+	componentDidMount: function () {
 		var imgTag = this.refs.image.getDOMNode();
 
 		var imgSrc = imgTag.getAttribute('src');

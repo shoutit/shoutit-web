@@ -52,3 +52,9 @@ module.exports = (
 	</Route>
 );
 
+/*
+ <Route name="searchUsers" handler={}/>
+ <Route name="searchTags" handler={}/>
+ <DefaultRoute name="searchShouts" handler={}/>
+ */
+

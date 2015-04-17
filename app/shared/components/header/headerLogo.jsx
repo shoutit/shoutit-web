@@ -9,9 +9,15 @@ var React = require('react'),
 	Search = require('./search.jsx');
 
 module.exports = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin("shouts")],
+	mixins: [FluxMixin, StoreWatchMixin("search")],
 
 	displayName: "HeaderLogo",
+
+	getStateFromFlux: function () {
+		return {
+			search: this.getFlux().store("search").getState()
+		};
+	},
 
 	getInitialState: function () {
 		return {
@@ -20,21 +26,44 @@ module.exports = React.createClass({
 		}
 	},
 
-	getStateFromFlux: function () {
-		return this.getFlux().store("shouts").getSearchState();
-	},
-
 	render: function () {
-		var searchResults = this.state.searchResults[this.state.term];
-
 		var onBlurSearch = this.onBlurSearch;
 
-		var resultList = searchResults && searchResults.length ?
-			searchResults.map(function (shout) {
+		var shoutResults = this.state.search.shouts[this.state.term],
+			shoutSearchResults = shoutResults ? shoutResults.slice(0,3) : [];
+
+		var shoutResultList = shoutSearchResults && shoutSearchResults.length ?
+			shoutSearchResults.map(function (shout) {
 				return (
 					<li>
 						<Link to="shout" params={{shoutId: shout.id}} onClick={onBlurSearch}>
-						{shout.title}
+							{shout.title}
+						</Link>
+					</li>);
+			}) : [];
+
+		var tagResults = this.state.search.tags[this.state.term],
+			tagSearchResults = tagResults ? tagResults.slice(0,3) : [];
+
+		var tagResultList = tagSearchResults && tagSearchResults.length ?
+			tagSearchResults.map(function (tag) {
+				return (
+					<li>
+						<Link to="tag" params={{tagName: tag.name}} onClick={onBlurSearch}>
+							{tag.name}
+						</Link>
+					</li>);
+			}) : [];
+
+		var userResults = this.state.search.users[this.state.term],
+			userSearchResults = userResults ? userResults.slice(0,3) : [];
+
+		var userResultList = userSearchResults && userSearchResults.length ?
+			userSearchResults.map(function (user) {
+				return (
+					<li>
+						<Link to="user" params={{username: user.username}} onClick={onBlurSearch}>
+							{user.name}
 						</Link>
 					</li>);
 			}) : [];
@@ -45,7 +74,19 @@ module.exports = React.createClass({
 					<li>
 						Shouts
 						<ul className="list-search-sub">
-						{resultList}
+							{shoutResultList}
+						</ul>
+					</li>
+					<li>
+						Tags
+						<ul className="list-search-sub">
+							{tagResultList}
+						</ul>
+					</li>
+					<li>
+						Users
+						<ul className="list-search-sub">
+							{userResultList}
 						</ul>
 					</li>
 				</ul>
@@ -60,8 +101,8 @@ module.exports = React.createClass({
 					<Search
 						onFocus={this.onFocusSearch}
 						onChange={this.onChangeSearch}
-					/>
-				{searchList}
+						/>
+					{searchList}
 				</Col>
 			</Col>
 		);
@@ -78,6 +119,6 @@ module.exports = React.createClass({
 	onChangeSearch: function (ev) {
 		var newTerm = ev.target.value;
 		this.setState({term: newTerm});
-		this.getFlux().actions.searchShouts(newTerm);
+		this.getFlux().actions.searchAll(newTerm);
 	}
 });

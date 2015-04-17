@@ -7,6 +7,9 @@ var ShoutClient = require('../../resources').users();
 var express = require('express'),
 	router = express.Router();
 
+router.route('/')
+	.get(require('./list')(ShoutClient));
+
 router.route('/:id')
 	.get(require('./get')(ShoutClient))
 	.post(require('./update')(ShoutClient));

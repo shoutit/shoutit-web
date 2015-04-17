@@ -42,6 +42,12 @@ module.exports = {
 		return request
 			.get(PREFIX + '/' + username + '/shouts')
 			.query({type: type || "all"});
+	},
+
+	list: function (query) {
+		return request
+			.get(PREFIX + '/')
+			.query(query);
 	}
 
 };

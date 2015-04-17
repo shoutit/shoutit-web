@@ -9,6 +9,7 @@ var express = require('express'),
 apiRouter.use('/shouts', require('./shouts'));
 apiRouter.use('/users', require('./users'));
 apiRouter.use('/tags', require('./tags'));
-apiRouter.use('/search', require('./search'));
+// TODO Fix SearchAll Client
+//apiRouter.use('/search', require('./search'));
 
 module.exports = apiRouter;

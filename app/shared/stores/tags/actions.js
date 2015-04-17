@@ -5,23 +5,6 @@
 var consts = require('./consts');
 
 module.exports = {
-	searchTags: function (term) {
-		this.dispatch(consts.SEARCH_TAGS, {
-			term: term
-		});
-	},
-
-	cancelTagSearch: function () {
-		this.dispatch(consts.SEARCH_TAGS_CANCEL);
-	},
-
-	searchTagsSuccess: function (term, res) {
-		this.dispatch(consts.SEARCH_TAGS_SUCCESS, {
-			res: res,
-			term: term
-		});
-	},
-
 	loadTag: function (tagName) {
 		this.dispatch(consts.LOAD_TAG, {
 			tagName: tagName

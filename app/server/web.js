@@ -84,18 +84,26 @@ function reactServerRender(req, res) {
 	var user = req.session ? req.session.user : null;
 
 	// Run router to determine the desired state
+	console.time("RouterRun");
 	Router.run(Routes, req.url, function (Handler, state) {
+		console.timeEnd("RouterRun");
+
 		// Fetch data based on matching routes and params
+		console.time("ApiFetch");
 		fetchData(req.session, state.routes, state.params, state.query)
 			.then(function (data) {
+				console.timeEnd("ApiFetch");
+
 				//console.dir(data, {depth: 2});
 
+				console.time("RenderReact");
 				var flux = Flux(null, user, data),
 					serializedFlux = flux.serialize(),
 					content = React.renderToString(
 						React.createElement(Handler, {
 							flux: flux
 						}));
+				console.timeEnd("RenderReact");
 
 				var meta = getMetaFromData(req.url, state.routes[state.routes.length - 1], data);
 

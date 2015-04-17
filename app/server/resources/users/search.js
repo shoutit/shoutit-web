@@ -6,15 +6,7 @@
  */
 
 module.exports = function (client, path) {
-	return function (session, searchTerm, page) {
-		var query = {
-			search: searchTerm
-		};
-
-		if (page && isNumber(page)) {
-			query.page = page;
-		}
-
+	return function (session, query) {
 		return client.get(path, {
 			query: query,
 			accessToken: session && session.accessToken ? session.accessToken : null

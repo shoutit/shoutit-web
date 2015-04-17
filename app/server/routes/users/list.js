@@ -1,10 +1,10 @@
 /**
- * Created by Philip on 15.04.2015.
+ * Created by Philip on 27.02.2015.
  */
 
 module.exports = function (client) {
 	return function (req, res) {
-		client.search().search(client, req.session, req.params.term)
+		var request = client.search(req.session, req.query)
 			.on('success', function (data) {
 				res.json(data);
 			})
@@ -15,5 +15,9 @@ module.exports = function (client) {
 				console.error(err);
 				res.status(500).send(err);
 			});
+
+		req.on('close', function () {
+			request.abort();
+		});
 	}
 };
