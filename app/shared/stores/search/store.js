@@ -70,7 +70,7 @@ var SearchStore = Fluxxor.createStore({
 			var term = payload.term;
 
 			// No Search for search Terms less than 3 characters.
-			if (term.length < 3) return;
+			if (term.length < 2) return;
 
 			cancelFn();
 

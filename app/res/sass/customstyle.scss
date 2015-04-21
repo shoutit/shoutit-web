@@ -159,6 +159,11 @@ body {
 
 .btn-bottom {
   margin-top: 40px;
+
+
+  .book, .tags {
+    margin-bottom: 0 !important;
+  }
 }
 
 .tags.col-md-6 > li a {
@@ -167,7 +172,8 @@ body {
   color: #fff;
   cursor: pointer;
   float: right;
-  margin-left: 15px;
+  margin-left: 5px;
+  margin-top: 5px;
   padding: 5px;
 }
 
@@ -450,7 +456,6 @@ footer {
 .chat-search input.form-control {
   border-right: none;
 }
-
 
 .col-xs-12.col-md-12.chat-right {
   background-color: #fff;
@@ -1256,7 +1261,6 @@ footer {
   }
 }
 
-
 .listener-dt-img > img {
   margin-top: 15px;
   width: 100%;
@@ -1815,6 +1819,7 @@ footer {
     display: inline-block;
     margin-bottom: 10px;
     width: 100%;
+
   }
 
   .map > img {

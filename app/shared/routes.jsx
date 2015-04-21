@@ -35,8 +35,8 @@ module.exports = (
 			<Route name="user" path="/user/:username" handler={Profile}>
 				<Route name="listeners" handler={ProfileListeners}/>
 				<Route name="listening" handler={ProfileListening}/>
-				<Route name="useroffers" handler={ProfileOffers}/>
-				<Route name="userrequests" handler={ProfileRequests}/>
+				<Route name="useroffers" path="offers" handler={ProfileOffers}/>
+				<Route name="userrequests" path="requests" handler={ProfileRequests}/>
 				<DefaultRoute name="settings" handler={ProfileSettings}/>
 			</Route>
 			<Route name="shout" path="/shout/:shoutId" handler={Shout}/>
@@ -52,9 +52,9 @@ module.exports = (
 				<DefaultRoute name="searchShouts" handler={SearchShouts}/>
 			</Route>
 			<DefaultRoute name="shouts" handler={Home}/>
+			<Route name="login" handler={Login}/>
+			<NotFoundRoute handler={NotFound}/>
 		</Route>
-		<Route name="login" handler={Login}/>
-		<NotFoundRoute handler={NotFound}/>
 	</Route>
 );
 

@@ -94,7 +94,7 @@ function reactServerRender(req, res) {
 			.then(function (data) {
 				console.timeEnd("ApiFetch");
 
-				//console.dir(data, {depth: 2});
+				console.dir(data, {depth: 2});
 
 				console.time("RenderReact");
 				var flux = Flux(null, user, data, state.params),
@@ -145,21 +145,23 @@ module.exports = function (app) {
 		var webpackDevMiddleware = require("webpack-dev-middleware"),
 			webpack = require("webpack");
 
-		app.use(webpackDevMiddleware(webpack(require('../../webpack.config')), {
-			publicPath: "/",
-			stats: {
-				hash: true,
-				version: false,
-				timings: true,
-				assets: false,
-				chunks: true,
-				chunkModules: false,
-				modules: false,
-				cached: false,
-				reasons: false,
-				colors: true
-			}
-		}));
+		app.use(webpackDevMiddleware(webpack(
+				require('../../webpack.config')),
+			{
+				publicPath: "/",
+				stats: {
+					hash: true,
+					version: false,
+					timings: true,
+					assets: false,
+					chunks: true,
+					chunkModules: false,
+					modules: false,
+					cached: false,
+					reasons: false,
+					colors: true
+				}
+			}));
 	}
 
 	app.use(morgan('tiny'));
@@ -185,6 +187,16 @@ module.exports = function (app) {
 	app.use('/auth', authRouter);
 
 	app.use('/api', apiRouter);
+
+	//Redirect all trailing slashes
+	app.use(function (req, res, next) {
+		if (req.path.substr(-1) == '/' && req.path.length > 1) {
+			var query = req.url.slice(req.path.length);
+			res.redirect(301, req.path.slice(0, -1) + query);
+		} else {
+			next();
+		}
+	});
 
 	// Redirects
 	app.use('/s/:shoutId', function (req, res) {
@@ -213,14 +225,14 @@ module.exports = function (app) {
 		}
 	});
 
-	app.use('/user/:username', function userInitRedirect (req, res, next) {
-		if(req.url === '/') {
+	app.use('/user/:username', function userInitRedirect(req, res, next) {
+		if (req.url === '/') {
 			var user = req.session ? req.session.user : null;
 
 			if (user && user.username === req.params.username) {
-				res.redirect('/user/' + req.params.username + '/settings');
+				next();
 			} else {
-				res.redirect('/user/' + req.params.username + '/useroffers');
+				res.redirect('/user/' + req.params.username + '/offers');
 			}
 		} else {
 			next();

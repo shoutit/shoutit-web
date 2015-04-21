@@ -15,9 +15,10 @@ module.exports = React.createClass({
 
 	componentDidMount: function () {
 		var username = this.props.username,
-			shouts = this.props.shouts[username][this.props.type + 's'];
+			userShouts = this.props.shouts[username] || {},
+			shouts = userShouts[this.props.type + 's'];
 
-		if (!shouts) {
+		if (!userShouts || !shouts) {
 			this.props.flux.actions.loadUserShouts(this.props.username, this.props.type);
 		}
 	},
@@ -31,10 +32,11 @@ module.exports = React.createClass({
 	render: function () {
 		var username = this.props.username,
 			user = this.props.users[username],
-			shouts = this.props.shouts[username][this.props.type + 's'],
+			userShouts = this.props.shouts[username] || {},
+			shouts = userShouts[this.props.type + 's'],
 			content, stat;
 
-		if (shouts) {
+		if (userShouts && shouts) {
 			content = this.renderProfileShouts(shouts);
 			stat = <span>{' (' + shouts.length + ')'}</span>;
 		} else {

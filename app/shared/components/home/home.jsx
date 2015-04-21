@@ -5,9 +5,9 @@ var React = require('react'),
 var Feed = require('./feed.jsx');
 
 var titles = {
-	"/" : "Home",
-	"/offers" : "Offers",
-	"/requests" : "Requests"
+	"/": "Home",
+	"/offers": "Offers",
+	"/requests": "Requests"
 };
 
 var types = {
@@ -21,15 +21,16 @@ module.exports = React.createClass({
 	mixins: [StateMixin],
 
 	statics: {
-		fetchData: function(client, session, params, name) {
+		fetchData: function (client, session, params, name) {
 			return client.shouts().list(session, {
-					shout_type: types[name] || "all"
+				shout_type: types[name] || "all",
+				page_size: 5
 			});
 		}
 	},
 
 	render: function () {
-		var pathName= this.getPathname();
+		var pathName = this.getPathname();
 		var title = titles[pathName] + " - Shout It";
 
 		return (

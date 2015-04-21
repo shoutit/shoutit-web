@@ -30,7 +30,7 @@ module.exports = React.createClass({
 		var onBlurSearch = this.onBlurSearch;
 
 		var shoutResults = this.state.search.shouts[this.state.term],
-			shoutSearchResults = shoutResults ? shoutResults.slice(0,3) : [];
+			shoutSearchResults = shoutResults ? shoutResults.slice(0, 3) : [];
 
 		var shoutResultList = shoutSearchResults && shoutSearchResults.length ?
 			shoutSearchResults.map(function (shout, i) {
@@ -43,7 +43,7 @@ module.exports = React.createClass({
 			}) : [];
 
 		var tagResults = this.state.search.tags[this.state.term],
-			tagSearchResults = tagResults ? tagResults.slice(0,3) : [];
+			tagSearchResults = tagResults ? tagResults.slice(0, 3) : [];
 
 		var tagResultList = tagSearchResults && tagSearchResults.length ?
 			tagSearchResults.map(function (tag, i) {
@@ -56,7 +56,7 @@ module.exports = React.createClass({
 			}) : [];
 
 		var userResults = this.state.search.users[this.state.term],
-			userSearchResults = userResults ? userResults.slice(0,3) : [];
+			userSearchResults = userResults ? userResults.slice(0, 3) : [];
 
 		var userResultList = userSearchResults && userSearchResults.length ?
 			userSearchResults.map(function (user, i) {
@@ -92,6 +92,9 @@ module.exports = React.createClass({
 				</ul>
 			</div> : "";
 
+		var backdrop = this.state.showSearch ?
+			<div onClick={this.onBlurSearch} className="backdrop"/> : "";
+
 		return (
 			<Col className="header-logo" xs={12} md={7}>
 				<Col className="logo center" xs={3} md={3}>
@@ -105,6 +108,7 @@ module.exports = React.createClass({
 						/>
 					{searchList}
 				</Col>
+				{backdrop}
 			</Col>
 		);
 	},
@@ -123,7 +127,7 @@ module.exports = React.createClass({
 		this.getFlux().actions.searchAll(newTerm);
 	},
 
-	onSubmit: function() {
+	onSubmit: function () {
 		this.setState({showSearch: false});
 		this.transitionTo("search", {term: this.state.term});
 	}

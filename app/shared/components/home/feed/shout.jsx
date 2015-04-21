@@ -31,7 +31,7 @@ module.exports = React.createClass({
 		return (
 			<section>
 				<Col xs={12} md={12}>
-					<ShoutHeader listType={this.props.listType} agoText={ago} logoRight={this.alignRight()} logoSrc={shout.user.image}/>
+					<ShoutHeader creator={shout.user} listType={this.props.listType} agoText={ago} logoRight={this.alignRight()} logoSrc={shout.user.image}/>
 					{body}
 				</Col>
 			</section>

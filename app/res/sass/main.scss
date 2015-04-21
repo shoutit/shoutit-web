@@ -21,3 +21,12 @@ $icons-layout: smart;
 @import "compass/utilities/sprites";
 @import "icons/*.png";
 @include all-icons-sprites;
+
+
+.icons-tag {
+  display: inline-block;
+  margin-bottom: 0 !important;
+  margin-top: 1px;
+  margin-right: 2px;
+}
+

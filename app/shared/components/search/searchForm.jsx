@@ -35,10 +35,12 @@ module.exports = React.createClass({
 						<span>{shoutCount}</span>
 					</NavItemLink>
 					<NavItemLink to="searchTags" params={linkParams}>
+						<Icon name="tags-gray"/>
 						Tags
 						<span>{tagCount}</span>
 					</NavItemLink>
 					<NavItemLink to="searchUsers" params={linkParams}>
+						<Icon name="user-gray"/>
 						Users
 						<span>{userCount}</span>
 					</NavItemLink>

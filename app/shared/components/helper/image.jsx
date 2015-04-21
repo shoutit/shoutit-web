@@ -12,6 +12,17 @@ module.exports = React.createClass({
 		};
 	},
 
+	componentDidUpdate: function () {
+		if (this.state.src !== this.getSizedUrl()) {
+			this.setState({
+				src: this.getSizedUrl(),
+				loaded: false
+			}, function () {
+				this.hookImageLoad()
+			}.bind(this));
+		}
+	},
+
 	getDefaultProps: function () {
 		return {
 			size: "small",
@@ -21,48 +32,39 @@ module.exports = React.createClass({
 	},
 
 	onImageLoad: function () {
-		//console.log("Loaded", this.state.src);
 		if (this.isMounted()) {
 			this.setState({loaded: true});
 		}
 	},
 
 	onLoadError: function () {
-		//console.log("Error Loading", this.state.src);
 		this.setState({
 			src: this.props.src
 		});
 	},
 
 	componentDidMount: function () {
-		var imgTag = this.refs.image.getDOMNode();
-
-		var imgSrc = imgTag.getAttribute('src');
-
-		var img = new window.Image();
-		img.onload = this.onImageLoad;
-		img.onerror = this.onLoadError;
-		img.src = imgSrc;
+		this.hookImageLoad();
 	},
-
 
 	render: function () {
 		var className = this.props.className;
 		var imageClasses = 'image';
-		if (this.state.loaded) {
+		if (typeof window === 'undefined' || this.state.loaded) {
 			imageClasses = joinClasses(imageClasses, 'image-loaded');
 		}
 
 		return (
 			<img ref="image"
 				 src={this.state.src}
+				 title={this.props.title}
 				 className={joinClasses(className, imageClasses)}
 				/>
 		);
 	},
 
-	getSizedUrl: function () {
-		var url = this.props.src;
+	getSizedUrl: function (src) {
+		var url = src || this.props.src;
 		if (url.indexOf("shoutit-" + this.props.infix + "-image-original") > -1) {
 			url = url.replace("-original", "")
 				.replace('.jpg', '_' + this.props.size + '.jpg')
@@ -71,5 +73,16 @@ module.exports = React.createClass({
 			url = url.replace("hqdefault", this.props.ytSize + "default");
 		}
 		return url;
+	},
+
+	hookImageLoad: function () {
+		var imgTag = this.refs.image.getDOMNode();
+
+		var imgSrc = imgTag.getAttribute('src');
+
+		var img = new window.Image();
+		img.onload = this.onImageLoad;
+		img.onerror = this.onLoadError;
+		img.src = imgSrc;
 	}
 });

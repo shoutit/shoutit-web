@@ -1,9 +1,10 @@
 var React = require('react'),
+	Router = require('react-router'),
 	classnames = require('classnames'),
 	Col = require('react-bootstrap/Col'),
 	Image = require('../../../helper/image.jsx');
 
-	module.exports = React.createClass({
+module.exports = React.createClass({
 	displayName: "ShoutHeader",
 
 	getDefaultProps: function () {
@@ -13,6 +14,8 @@ var React = require('react'),
 	},
 
 	render: function () {
+		//console.log(this.props);
+
 		var isSmall = (this.props.listType === "small");
 
 		var classes = {
@@ -26,8 +29,10 @@ var React = require('react'),
 
 		return (
 			<Col xs={12} md={2} mdPush={this.props.logoRight ? 10 : 0} className={classnames(classes)}>
-				<Image className="img-lg" infix="user" src={this.props.logoSrc}/>
-				{subimage}
+				<Router.Link to="user" params={{username: this.props.creator.username}}>
+					<Image className="img-lg" infix="user" src={this.props.logoSrc} title={this.props.creator.name}/>
+					{subimage}
+				</Router.Link>
 			</Col>
 		);
 	}

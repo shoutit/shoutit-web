@@ -236,6 +236,12 @@ var UserStore = Fluxxor.createStore({
 	},
 
 	onLoadUserShoutsSuccess: function (payload) {
+		if(!this.state.shouts[payload.username]) {
+			this.state.shouts[payload.username] = {
+				offers: null,
+				requests: null
+			};
+		}
 		this.state.shouts[payload.username][payload.type + "s"] = payload.result.results;
 		this.state.loading = false;
 		this.emit("change");
