@@ -160,13 +160,23 @@ body {
 .btn-bottom {
   margin-top: 40px;
 
-
   .book, .tags {
     margin-bottom: 0 !important;
   }
 }
 
 .tags.col-md-6 > li a {
+  background-color: #91c829;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  float: right;
+  margin-left: 5px;
+  margin-top: 5px;
+  padding: 5px;
+}
+
+.tags.col-md-12 > li a {
   background-color: #91c829;
   border-radius: 5px;
   color: #fff;

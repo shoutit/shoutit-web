@@ -94,7 +94,7 @@ function reactServerRender(req, res) {
 			.then(function (data) {
 				console.timeEnd("ApiFetch");
 
-				console.dir(data, {depth: 2});
+				//console.dir(data, {depth: 2});
 
 				console.time("RenderReact");
 				var flux = Flux(null, user, data, state.params),
@@ -237,6 +237,10 @@ module.exports = function (app) {
 		} else {
 			next();
 		}
+	});
+
+	app.use('/search/:term/shouts', function shoutSearchRedirect(req,res) {
+		res.redirect('/search/' + req.params.term);
 	});
 
 	app.use(reactServerRender);

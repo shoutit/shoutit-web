@@ -21,7 +21,10 @@ module.exports = React.createClass({
 
 	render: function () {
 		var searchAddon = (
-			<Button className="searchButton" onClick={this.props.onSubmit} bsStyle="link">
+			<Button className="searchButton"
+					onClick={this.props.onSubmit}
+					bsStyle="link"
+					tabIndex={2}>
 				<Icon name="search-icon"/>
 			</Button>
 		);
@@ -37,8 +40,8 @@ module.exports = React.createClass({
 		}
 
 		var buttonBefore = (
-			<DropdownButton onClick={this.onClick} key="countrySelect" title={title} className="selectpicker bla bli" >
-						{items}
+			<DropdownButton onClick={this.onClick} key="countrySelect" title={title} className="selectpicker bla bli">
+				{items}
 			</DropdownButton>
 		);
 
@@ -53,13 +56,17 @@ module.exports = React.createClass({
 				onBlur={this.props.onBlur}
 				onKeyUp={this.onKeyUp}
 				value={this.props.term}
-			/>
+				tabIndex={1}
+				accessKey="s"
+				/>
 		);
 	},
 
-	onKeyUp: function(ev) {
-		if(ev.which === 13) {
+	onKeyUp: function (ev) {
+		if (ev.which === 13) {
 			this.props.onSubmit();
+		} else if (ev.which === 27) {
+			this.props.onBlur();
 		}
 	}
 });

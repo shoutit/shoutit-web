@@ -16,9 +16,16 @@ module.exports = React.createClass({
 				</Button>
 				}
 				onChange={this.props.onTermChange}
+				onKeyUp={this.onKeyUp}
 				value={this.props.term}
 				/>
 		)
+	},
+
+	onKeyUp: function(ev) {
+		if(ev.which === 13) {
+			this.props.onSubmit();
+		}
 	},
 
 	render: function () {

@@ -68,23 +68,25 @@ module.exports = React.createClass({
 					</li>);
 			}) : [];
 
+		var searchParams = {term: this.state.term};
+
 		var searchList = this.state.showSearch ?
 			<div className="list-search">
 				<ul>
 					<li>
-						Shouts
+						<Link to="search" params={searchParams}>Shouts</Link>
 						<ul className="list-search-sub">
 							{shoutResultList}
 						</ul>
 					</li>
 					<li>
-						Tags
+						<Link to="searchTags" params={searchParams}>Tags</Link>
 						<ul className="list-search-sub">
 							{tagResultList}
 						</ul>
 					</li>
 					<li>
-						Users
+						<Link to="searchUsers" params={searchParams}>Users</Link>
 						<ul className="list-search-sub">
 							{userResultList}
 						</ul>
@@ -105,6 +107,7 @@ module.exports = React.createClass({
 						onFocus={this.onFocusSearch}
 						onChange={this.onChangeSearch}
 						onSubmit={this.onSubmit}
+						onBlur={this.onBlurSearch}
 						/>
 					{searchList}
 				</Col>
@@ -129,6 +132,8 @@ module.exports = React.createClass({
 
 	onSubmit: function () {
 		this.setState({showSearch: false});
-		this.transitionTo("search", {term: this.state.term});
+		if(this.state.term.length > 0) {
+			this.transitionTo("search", {term: this.state.term});
+		}
 	}
 });

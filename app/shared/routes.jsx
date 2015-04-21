@@ -16,6 +16,7 @@ var Root = require("./components/root.jsx"),
 	Search = require('./components/search/search.jsx'),
 	SearchShouts = require('./components/search/searchShouts.jsx'),
 	SearchUsers = require('./components/search/searchUsers.jsx'),
+	SearchTags = require('./components/search/searchTags.jsx'),
 	ProfileSettings = require('./components/profile/profileSettings.jsx'),
 	ProfileListeners = require('./components/profile/profileListeners.jsx'),
 	ProfileListening = require('./components/profile/profileListening.jsx'),
@@ -47,8 +48,8 @@ module.exports = (
 			</Route>
 			<Route name="message" path="/message/:msgId" handler={Simple}/>
 			<Route name="search" path="/search/:term" handler={Search}>
-				<Route name="searchUsers" handler={SearchUsers}/>
-				<Route name="searchTags" handler={Simple}/>
+				<Route name="searchUsers" path="users" handler={SearchUsers}/>
+				<Route name="searchTags" path="tags" handler={SearchTags}/>
 				<DefaultRoute name="searchShouts" handler={SearchShouts}/>
 			</Route>
 			<DefaultRoute name="shouts" handler={Home}/>
