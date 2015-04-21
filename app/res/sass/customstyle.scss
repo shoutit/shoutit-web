@@ -2155,3 +2155,12 @@ footer {
     width: 100%;
   }
 }
+
+.price-offer {
+  .price {
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #91c829;
+    color: white;
+  }
+}

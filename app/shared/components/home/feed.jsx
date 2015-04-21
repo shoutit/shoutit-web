@@ -72,5 +72,11 @@ module.exports = React.createClass({
 		if (this.getFilteredShouts().length === 0) {
 			this.loadMore();
 		}
+	},
+
+	componentDidUpdate: function() {
+		if(this.getFilteredShouts().length < 5 && !this.state.loading) {
+			setTimeout(this.loadMore, 200);
+		}
 	}
 });

@@ -5,7 +5,13 @@ var React = require('react'),
 	Actions = require('./actions.jsx'),
 	Mui = require('./../../../helper/mui.jsx'),
 	Image = require('../../../helper/image.jsx'),
-	moment = require('moment');
+	moment = require('moment'),
+	currencies = require('../../../../consts/currencies');
+
+var types = {
+	offer: "Offer",
+	request: "Request"
+};
 
 module.exports = React.createClass({
 	displayName: "ShoutBody",
@@ -36,6 +42,34 @@ module.exports = React.createClass({
 			);
 	},
 
+	renderOffer: function (shout) {
+		if (shout.type === "offer" && shout.price && shout.currency) {
+			return <div className="price-offer">
+				<span className="price">
+					{shout.price + " " + currencies[shout.currency].name}
+				</span>
+			</div>
+		}
+	},
+
+	renderSubtitle: function (shout) {
+		return (
+			<h5>{types[shout.type]} by&nbsp;
+				<span className="poster">
+					<Link to="user" params={{username: shout.user.username}}>
+						{shout.user.name}
+					</Link>
+				</span>
+				&nbsp;-&nbsp;
+				{moment.unix(shout.date_published).fromNow()}
+				&nbsp;-&nbsp;in&nbsp;
+				<Link to="tag" params={{tagName: shout.category.main_tag.name}}>
+					{shout.category.name}
+				</Link>
+			</h5>
+		);
+	},
+
 	render: function () {
 		var shout = this.props.shout;
 
@@ -47,10 +81,12 @@ module.exports = React.createClass({
 						{shout.title}
 					</Link>
 				</h4>
+				{this.renderSubtitle(shout)}
 				{shout.thumbnail ? <div className="section-right-img">
 					<Image src={shout.thumbnail}/>
 				</div> : ""}
 				<p>{shout.text}</p>
+				{this.renderOffer(shout)}
 				{this.renderBottom(shout)}
 			</Col>
 		);

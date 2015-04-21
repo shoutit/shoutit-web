@@ -53,7 +53,6 @@ module.exports = React.createClass({
 				addonAfter={searchAddon}
 				onChange={this.props.onChange}
 				onFocus={this.props.onFocus}
-				onBlur={this.props.onBlur}
 				onKeyUp={this.onKeyUp}
 				value={this.props.term}
 				tabIndex={1}

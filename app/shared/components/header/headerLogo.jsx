@@ -74,19 +74,19 @@ module.exports = React.createClass({
 			<div className="list-search">
 				<ul>
 					<li>
-						<Link to="search" params={searchParams}>Shouts</Link>
+						<Link to="search" params={searchParams} onClick={onBlurSearch}>Shouts</Link>
 						<ul className="list-search-sub">
 							{shoutResultList}
 						</ul>
 					</li>
 					<li>
-						<Link to="searchTags" params={searchParams}>Tags</Link>
+						<Link to="searchTags" params={searchParams} onClick={onBlurSearch}>Tags</Link>
 						<ul className="list-search-sub">
 							{tagResultList}
 						</ul>
 					</li>
 					<li>
-						<Link to="searchUsers" params={searchParams}>Users</Link>
+						<Link to="searchUsers" params={searchParams} onClick={onBlurSearch}>Users</Link>
 						<ul className="list-search-sub">
 							{userResultList}
 						</ul>
