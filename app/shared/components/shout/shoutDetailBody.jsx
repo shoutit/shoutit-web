@@ -5,9 +5,16 @@ var React = require('react'),
 	Rating = require('./rating.jsx'),
 	ShoutDetailActions = require('./shoutDetailActions.jsx'),
 	TagList = require('../home/feed/shout/tags.jsx'),
-	Video = require('./video.jsx');
+	Video = require('./video.jsx'),
+	currencies = require('../../consts/currencies');
 
-var Image = require('../helper/image.jsx');
+var Image = require('../helper/image.jsx'),
+	ItemProp = require('../helper/microdata/itemprop.jsx');
+
+var types = {
+	offer: "Offer",
+	request: "Request"
+};
 
 
 module.exports = React.createClass({
@@ -15,7 +22,7 @@ module.exports = React.createClass({
 
 	renderSubtitle: function (shout) {
 		return (
-			<h5>Post by&nbsp;
+			<h5>{types[shout.type]} by&nbsp;
 				<span className="poster">
 					<Router.Link to="user" params={{username: shout.user.username}}>
 						{shout.user.name}
@@ -28,28 +35,44 @@ module.exports = React.createClass({
 	},
 
 	renderVideos: function (shout) {
-		return shout.videos ? shout.videos.map(function (video, i) {
-			var key = "shout-detail-video-" + i;
-			return (<Video {...video} key={key}/>);
-		}) : [];
+		return shout.videos ?
+			<ItemProp property="reviews">
+				<p>
+					{shout.videos.map(function (video, i) {
+						var key = "shout-detail-video-" + i;
+						return (<Video {...video} key={key}/>);
+					})}
+				</p>
+			</ItemProp>
+			: [];
 	},
 
 	renderImages: function (shout) {
 		return shout.images ? shout.images.map(function (imageSrc, i) {
 			return (
 				<div key={"shout-detail-image-" + i} className="section-img">
-					<Image size="large" src={imageSrc}/>
+					<ItemProp property="image">
+						<Image size="large" src={imageSrc}/>
+					</ItemProp>
 				</div>
 			);
 		}) : [];
 	},
 
 	renderText: function (shout) {
-		return <p>{shout.text}</p>;
+		return (
+			<ItemProp property="description">
+				<p>{shout.text}</p>
+			</ItemProp>
+		);
 	},
 
 	renderTitle: function (shout) {
-		return <h4>{shout.title}</h4>
+		return (
+			<ItemProp property="name">
+				<h4>{shout.title}</h4>
+			</ItemProp>
+		);
 	},
 
 	renderRating: function (shout) {
@@ -75,16 +98,37 @@ module.exports = React.createClass({
 		);
 	},
 
+	renderOffer: function (shout) {
+		if (shout.type === "offer" && shout.price && shout.currency) {
+			return (
+				<ItemProp property="offers">
+					<div className="price-offer">
+						<div className="price">
+							<ItemProp property="price">
+								<span>{shout.price}</span>
+							</ItemProp>
+							&nbsp;
+							<ItemProp property="priceCurrency">
+								<span>{currencies[shout.currency].name}</span>
+							</ItemProp>
+						</div>
+					</div>
+				</ItemProp>
+			);
+		}
+	},
+
 	render: function () {
 		var shout = this.props.shout;
 
 		return (
-			<Col xs={12} md={12} className="section-right">
+			<Col {...this.props} xs={12} md={12} className="section-right">
 				{this.renderTitle(shout)}
 				{this.renderSubtitle(shout)}
 				{this.renderText(shout)}
 				{this.renderVideos(shout)}
 				{this.renderImages(shout)}
+				{this.renderOffer(shout)}
 				{this.renderRating(shout)}
 				{this.renderBottom(shout)}
 			</Col>

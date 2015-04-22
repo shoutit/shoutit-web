@@ -14,7 +14,7 @@ module.exports = React.createClass({
 
 	propTypes: {
 		children: React.PropTypes.element.isRequired,
-		property: React.PropTypes.oneOf(propArray)
+		property: React.PropTypes.oneOf(propArray).isRequired
 	},
 
 	render: function () {
@@ -24,7 +24,7 @@ module.exports = React.createClass({
 			itemProp: prop
 		};
 
-		if(itemProps[prop].itemScope && itemTypes[itemProps[prop].itemScope]) {
+		if(itemProps[prop] && itemProps[prop].itemScope && itemTypes[itemProps[prop].itemScope]) {
 			microdataProps.itemScope = true;
 			microdataProps.itemType= itemTypes[itemProps[prop].itemScope];
 		}

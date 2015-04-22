@@ -14,7 +14,8 @@ var React = require('react'),
 
 
 var ShoutDetailBody = require('./shoutDetailBody.jsx'),
-	Image = require('../helper/image.jsx');
+	Image = require('../helper/image.jsx'),
+	ItemScope = require('../helper/microdata/itemscope.jsx');
 
 module.exports = React.createClass({
 	displayName: "ShoutDetail",
@@ -61,7 +62,9 @@ module.exports = React.createClass({
 		if (shout && shout.id) {
 			content =
 				<DocumentTitle title={"Shoutit - " + shout.title}>
-					<ShoutDetailBody shout={shout} flux={this.getFlux()}/>
+					<ItemScope type="Product">
+						<ShoutDetailBody shout={shout} flux={this.getFlux()}/>
+					</ItemScope>
 				</DocumentTitle>;
 		} else if (shout === null) {
 			content = (

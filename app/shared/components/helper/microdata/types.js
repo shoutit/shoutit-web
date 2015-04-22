@@ -7,5 +7,6 @@
 
 module.exports = {
 	Product: "http://schema.org/Product",
-	Offer: "http://schema.org/Offer"
+	Offer: "http://schema.org/Offer",
+	Review: "http://schema.org/Review"
 };

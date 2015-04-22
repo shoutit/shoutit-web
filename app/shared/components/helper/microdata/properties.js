@@ -13,5 +13,9 @@ module.exports = {
 	},
 	price: {},
 	priceCurrency: {},
-	url : {}
+	url : {},
+	reviews: {
+		itemScope: "Review"
+	},
+	video: {}
 };
