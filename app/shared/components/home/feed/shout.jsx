@@ -6,15 +6,16 @@ var React = require('react'),
 	moment = require('moment'),
 	ViewportSensor = require('../../misc/ViewportSensor.jsx');
 
+var ItemScope = require('../../helper/microdata/itemscope.jsx');
+
 module.exports = React.createClass({
 	displayName: "Shout",
-	mixins:[PureRenderMixin],
 
-	alignRight: function() {
+	alignRight: function () {
 		return this.props.index % 2 !== 0;
 	},
 
-	agoText: function() {
+	agoText: function () {
 		return moment.unix(this.props.shout.date_published).fromNow()
 	},
 
@@ -30,10 +31,13 @@ module.exports = React.createClass({
 
 		return (
 			<section>
-				<Col xs={12} md={12}>
-					<ShoutHeader creator={shout.user} listType={this.props.listType} agoText={ago} logoRight={this.alignRight()} logoSrc={shout.user.image}/>
-					{body}
-				</Col>
+				<ItemScope type="Product">
+					<Col xs={12} md={12}>
+						<ShoutHeader creator={shout.user} listType={this.props.listType} agoText={ago}
+									 logoRight={this.alignRight()} logoSrc={shout.user.image}/>
+						{body}
+					</Col>
+				</ItemScope>
 			</section>
 		);
 	}

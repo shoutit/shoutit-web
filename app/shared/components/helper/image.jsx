@@ -55,7 +55,8 @@ module.exports = React.createClass({
 		}
 
 		return (
-			<img ref="image"
+			<img {...this.props}
+				 ref="image"
 				 src={this.state.src}
 				 title={this.props.title}
 				 className={joinClasses(className, imageClasses)}

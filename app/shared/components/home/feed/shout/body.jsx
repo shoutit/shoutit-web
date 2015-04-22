@@ -8,6 +8,8 @@ var React = require('react'),
 	moment = require('moment'),
 	currencies = require('../../../../consts/currencies');
 
+var ItemProp = require('../../../helper/microdata/itemprop.jsx');
+
 var types = {
 	offer: "Offer",
 	request: "Request"
@@ -44,11 +46,21 @@ module.exports = React.createClass({
 
 	renderOffer: function (shout) {
 		if (shout.type === "offer" && shout.price && shout.currency) {
-			return <div className="price-offer">
-				<span className="price">
-					{shout.price + " " + currencies[shout.currency].name}
-				</span>
-			</div>
+			return (
+				<ItemProp property="offers">
+					<div className="price-offer">
+						<div className="price">
+							<ItemProp property="price">
+								<span>{shout.price}</span>
+							</ItemProp>
+							&nbsp;
+							<ItemProp property="priceCurrency">
+								<span>{currencies[shout.currency].name}</span>
+							</ItemProp>
+						</div>
+					</div>
+				</ItemProp>
+			);
 		}
 	},
 
@@ -70,22 +82,48 @@ module.exports = React.createClass({
 		);
 	},
 
+	renderThumbnail: function (shout) {
+		return shout.thumbnail ?
+			<div className="section-right-img">
+				<ItemProp property="image">
+					<Image src={shout.thumbnail}/>
+				</ItemProp>
+			</div> :
+			"";
+	},
+
+	renderTitle: function (shout) {
+		return (
+			<h4>
+				<ItemProp property="url">
+					<Link to="shout" params={{shoutId: shout.id}}>
+						<ItemProp property="name">
+							<span>{shout.title}</span>
+						</ItemProp>
+					</Link>
+				</ItemProp>
+			</h4>
+		);
+	},
+
+	renderDescription: function (shout) {
+		return (
+			<ItemProp property="description">
+				<p>{shout.text}</p>
+			</ItemProp>
+		);
+	},
+
 	render: function () {
 		var shout = this.props.shout;
 
 		return (
 			<Col xs={12} md={10} mdPull={this.props.logoRight ? 2 : 0} className="section-right">
 				<Mui right={this.props.logoRight}/>
-				<h4>
-					<Link to="shout" params={{shoutId: shout.id}}>
-						{shout.title}
-					</Link>
-				</h4>
+				{this.renderTitle(shout)}
 				{this.renderSubtitle(shout)}
-				{shout.thumbnail ? <div className="section-right-img">
-					<Image src={shout.thumbnail}/>
-				</div> : ""}
-				<p>{shout.text}</p>
+				{this.renderThumbnail(shout)}
+				{this.renderDescription(shout)}
 				{this.renderOffer(shout)}
 				{this.renderBottom(shout)}
 			</Col>
