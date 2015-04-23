@@ -52,7 +52,7 @@ module.exports = (
 				<Route name="searchTags" path="tags" handler={SearchTags}/>
 				<DefaultRoute name="searchShouts" handler={SearchShouts}/>
 			</Route>
-			<DefaultRoute name="shouts" handler={Home}/>
+			<DefaultRoute name="home" handler={Home}/>
 			<Route name="login" handler={Login}/>
 			<NotFoundRoute handler={NotFound}/>
 		</Route>

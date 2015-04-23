@@ -36,14 +36,12 @@ module.exports = React.createClass({
 
 	renderVideos: function (shout) {
 		return shout.videos ?
-			<ItemProp property="reviews">
-				<p>
-					{shout.videos.map(function (video, i) {
-						var key = "shout-detail-video-" + i;
-						return (<Video {...video} key={key}/>);
-					})}
-				</p>
-			</ItemProp>
+			<p>
+				{shout.videos.map(function (video, i) {
+					var key = "shout-detail-video-" + i;
+					return (<Video {...video} key={key}/>);
+				})}
+			</p>
 			: [];
 	},
 

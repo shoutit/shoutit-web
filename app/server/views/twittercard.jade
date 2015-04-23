@@ -1,0 +1,29 @@
+meta( name="twitter:site" content=graph.twitter.site)
+meta( name="twitter:url" content=graph.url)
+meta( name="twitter:title" content=graph.title)
+meta( name="twitter:description" content=graph.description)
+meta( name="twitter:image" content=graph.image)
+
+
+if graph.type === "home"
+    meta( name="twitter:card" content="app")
+    meta( name="twitter:app:country" content=graph.twitter.country)
+    meta( name="twitter:app:name:iphone" content=graph.twitter.iPhone.name)
+    meta( name="twitter:app:id:iphone" content=graph.twitter.iPhone.id)
+    meta( name="twitter:app:url:iphone" content=graph.twitter.iPhone.url)
+    meta( name="twitter:app:name:ipad" content=graph.twitter.iPad.name)
+    meta( name="twitter:app:id:ipad" content=graph.twitter.iPad.id)
+    meta( name="twitter:app:url:ipad" content=graph.twitter.iPad.url)
+    meta( name="twitter:app:name:googleplay" content=graph.twitter.android.name)
+    meta( name="twitter:app:id:googleplay" content=graph.twitter.android.id)
+    meta( name="twitter:app:url:googleplay" content=graph.twitter.android.url)
+else if graph.type === "shout" && graph.shoutType
+    meta( name="twitter:card" content="product")
+    meta( name="twitter:label1" content=graph.shoutTypePrefix)
+    meta( name="twitter:data1" content=graph.price)
+    meta( name="twitter:label2" content="Location")
+    meta( name="twitter:data2" content=graph.location)
+else if graph.type === "user"
+    meta( name="twitter:card" content="summary" )
+else if graph.type === "tag"
+else

@@ -6,6 +6,9 @@ var cons = require('consolidate'),
 	serveStatic = require('serve-static'),
 	path = require('path'),
 	url = require('url'),
+	merge = require('lodash/object/merge'),
+	object = require('lodash/array/object'),
+	pluck = require('lodash/collection/pluck'),
 	Promise = require('bluebird');
 
 var React = require('react'),
@@ -28,7 +31,31 @@ var morgan = require('morgan'),
 //csurf = require('csurf'),
 	compression = require('compression');
 
+// Runtime Data:
 var SERVER_ROOT = process.env.SERVER_ROOT || "localhost:8080";
+var graphData = require('./resources/consts/graphData');
+var currencies, sortTypes;
+
+ShoutitClient.misc().currencies()
+	.on('complete', function (result, resp) {
+		if (result instanceof Error || resp.statusCode !== 200) {
+			console.error("Cannot fetch currencies.");
+		} else {
+			currencies = object(pluck(result, "code"), result);
+			console.log("Fetched " + result.length + " currencies.");
+		}
+	});
+
+ShoutitClient.misc().sortTypes()
+	.on('complete', function (result, resp) {
+		if (result instanceof Error || resp.statusCode !== 200) {
+			console.error("Cannot fetch currencies.");
+		} else {
+			sortTypes = object(pluck(result, "code"), pluck(result, "name"));
+			console.log("Fetched " + result.length + " sortTypes.");
+		}
+	});
+
 
 function fetchData(session, routes, params, query) {
 	var data = {};
@@ -54,30 +81,63 @@ function fetchData(session, routes, params, query) {
 
 
 function getMetaFromData(relUrl, innerRoute, data) {
-	var meta = {};
-	//console.log(innerRoute);
-	//console.log(data);
+	var addData;
 
-	if (innerRoute.name === "shout") {
-		var shout = data.shout;
-		if (shout) {
-			meta.title = "Shoutit - " + shout.title;
-			meta.description = shout.text;
-			meta.type = "article";
-			meta.image = shout.thumbnail;
-			meta.url = url.resolve(SERVER_ROOT, relUrl);
-		}
-	} else if (innerRoute.name === "user") {
-		var user = data.user;
-		if (user) {
-			meta.title = "Shoutit Profile - " + user.username;
-			meta.description = "Shoutit - " + user.name + "'s profile - See the users shouts.";
-			meta.type = "profile";
-			meta.image = user.image;
-			meta.url = url.resolve(SERVER_ROOT, relUrl);
-		}
+	switch (innerRoute.name) {
+		case "shout":
+			var shout = data.shout;
+			if (shout) {
+				if (shout.type == "offer") {
+					addData = {
+						type: "shout",
+						shoutType: "offer",
+						shoutTypePrefix: "Offer",
+						title: "Shoutit - " + shout.title,
+						image: shout.thumbnail,
+						user: shout.user.name,
+						description: "Offer by" + shout.user.name + " - " + shout.text,
+						price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
+						location: shout.location.city + " - " + shout.location.country
+					};
+				} else if (shout.type === "request") {
+					addData = {
+						type: "shout",
+						shoutType: "request",
+						shoutTypePrefix: "Request",
+						title: "Shoutit - " + shout.title,
+						image: shout.thumbnail,
+						user: shout.user.name,
+						description: "Offer by" + shout.user.name + " - " + shout.text,
+						price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
+						location: shout.location.city + " - " + shout.location.country
+					};
+				}
+
+			}
+			break;
+		case "user":
+		case "useroffers":
+		case "userrequests":
+		case "settings":
+		case "listeners":
+		case "listening":
+			var user = data.user;
+			if (user)
+				addData = {
+					type: "user",
+					title: "Shoutit Profile - " + user.name,
+					image: user.image,
+					description: "Shoutit - " + user.name + "'s profile - See the users shouts."
+				};
+			break;
+		default:
+			addData = {
+				type: "home"
+			};
 	}
-	return meta;
+	return merge({
+		url: url.resolve(SERVER_ROOT, relUrl)
+	}, graphData, addData);
 }
 
 function reactServerRender(req, res) {
@@ -239,7 +299,7 @@ module.exports = function (app) {
 		}
 	});
 
-	app.use('/search/:term/shouts', function shoutSearchRedirect(req,res) {
+	app.use('/search/:term/shouts', function shoutSearchRedirect(req, res) {
 		res.redirect('/search/' + req.params.term);
 	});
 

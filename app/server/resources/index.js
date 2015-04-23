@@ -17,7 +17,8 @@ var ShoutitClient =  rest.service(function (endpoint) {
 	shouts: require('./shouts'),
 	users: require('./users'),
 	tags: require('./tags'),
-	//search: require('./search')
+	//search: require('./search'),
+	misc: require('./misc')
 });
 
 module.exports = new ShoutitClient(ENDPOINT_SERVER);
