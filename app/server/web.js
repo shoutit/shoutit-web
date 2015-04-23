@@ -132,11 +132,12 @@ function getMetaFromData(relUrl, innerRoute, data) {
 			break;
 		default:
 			addData = {
-				type: "home"
+				type: "home",
+				image: url.resolve(SERVER_ROOT,graphData.image)
 			};
 	}
 	return merge({
-		url: url.resolve(SERVER_ROOT, relUrl)
+		url: url.resolve(SERVER_ROOT, relUrl),
 	}, graphData, addData);
 }
 

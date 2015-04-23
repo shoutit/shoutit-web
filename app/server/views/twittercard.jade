@@ -5,7 +5,7 @@ meta( name="twitter:description" content=graph.description)
 meta( name="twitter:image" content=graph.image)
 
 
-if graph.type === "home"
+if graph.type === "home" && false
     meta( name="twitter:card" content="app")
     meta( name="twitter:app:country" content=graph.twitter.country)
     meta( name="twitter:app:name:iphone" content=graph.twitter.iPhone.name)
@@ -27,3 +27,4 @@ else if graph.type === "user"
     meta( name="twitter:card" content="summary" )
 else if graph.type === "tag"
 else
+    meta( name="twitter:card" content="summary" )
