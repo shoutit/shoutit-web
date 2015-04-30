@@ -851,11 +851,6 @@ nav {
   padding: 5px 10px;
 }
 
-.modal-content .row {
-  margin: 0 auto;
-  width: 90%;
-}
-
 .modal-content .modal-form form > div {
   padding: 0;
 }
@@ -863,6 +858,7 @@ nav {
 .modal-content .modal-form form > div:nth-child(2) {
   padding: 0 10px;
 }
+
 
 .modal-content {
   width: 80%;
@@ -1170,4 +1166,202 @@ iframe {
 
 .image-loaded {
   opacity: 1;
+}
+
+.loader {
+  width: 150px;
+  height: 60px;
+  margin: 30px auto 0 auto;
+  position: relative;
+}
+.loader .dot {
+  width: 30px;
+  height: 30px;
+  background: $shoutit-light-green;
+  border-radius: 50%;
+  position: absolute;
+  -webkit-animation: loading-anim 2s linear infinite;
+  -moz-animation: loading-anim 2s linear infinite;
+  -ms-animation: loading-anim 2s linear infinite;
+  -o-animation: loading-anim 2s linear infinite;
+  animation: loading-anim 2s linear infinite;
+}
+.loader .dot:nth-child(2) {
+  -webkit-animation: loading-anim 2s linear infinite -0.4s;
+  -moz-animation: loading-anim 2s linear infinite -0.4s;
+  -ms-animation: loading-anim 2s linear infinite -0.4s;
+  -o-animation: loading-anim 2s linear infinite -0.4s;
+  animation: loading-anim 2s linear infinite -0.4s;
+}
+.loader .dot:nth-child(3) {
+  -webkit-animation: loading-anim 2s linear infinite -0.8s;
+  -moz-animation: loading-anim 2s linear infinite -0.8s;
+  -ms-animation: loading-anim 2s linear infinite -0.8s;
+  -o-animation: loading-anim 2s linear infinite -0.8s;
+  animation: loading-anim 2s linear infinite -0.8s;
+}
+.loader .dot:nth-child(4) {
+  -webkit-animation: loading-anim 2s linear infinite -1.2s;
+  -moz-animation: loading-anim 2s linear infinite -1.2s;
+  -ms-animation: loading-anim 2s linear infinite -1.2s;
+  -o-animation: loading-anim 2s linear infinite -1.2s;
+  animation: loading-anim 2s linear infinite -1.2s;
+}
+.loader .dot:nth-child(5) {
+  -webkit-animation: loading-anim 2s linear infinite -1.6s;
+  -moz-animation: loading-anim 2s linear infinite -1.6s;
+  -ms-animation: loading-anim 2s linear infinite -1.6s;
+  -o-animation: loading-anim 2s linear infinite -1.6s;
+  animation: loading-anim 2s linear infinite -1.6s;
+}
+
+@-webkit-keyframes loading-anim {
+  0% {
+    left: 100px;
+    top: 0;
+  }
+  80% {
+    left: 0;
+    top: 0;
+  }
+  85% {
+    left: 0;
+    top: -20px;
+    width: 20px;
+    height: 20px;
+  }
+  90% {
+    width: 40px;
+    height: 15px;
+  }
+  95% {
+    left: 100px;
+    top: -20px;
+    width: 20px;
+    height: 20px;
+  }
+  100% {
+    left: 100px;
+    top: 0;
+  }
+}
+@-moz-keyframes loading-anim {
+  0% {
+    left: 100px;
+    top: 0;
+  }
+  80% {
+    left: 0;
+    top: 0;
+  }
+  85% {
+    left: 0;
+    top: -20px;
+    width: 20px;
+    height: 20px;
+  }
+  90% {
+    width: 40px;
+    height: 15px;
+  }
+  95% {
+    left: 100px;
+    top: -20px;
+    width: 20px;
+    height: 20px;
+  }
+  100% {
+    left: 100px;
+    top: 0;
+  }
+}
+@-ms-keyframes loading-anim {
+  0% {
+    left: 100px;
+    top: 0;
+  }
+  80% {
+    left: 0;
+    top: 0;
+  }
+  85% {
+    left: 0;
+    top: -20px;
+    width: 20px;
+    height: 20px;
+  }
+  90% {
+    width: 40px;
+    height: 15px;
+  }
+  95% {
+    left: 100px;
+    top: -20px;
+    width: 20px;
+    height: 20px;
+  }
+  100% {
+    left: 100px;
+    top: 0;
+  }
+}
+@-oi-keyframes loading-anim {
+  0% {
+    left: 100px;
+    top: 0;
+  }
+  80% {
+    left: 0;
+    top: 0;
+  }
+  85% {
+    left: 0;
+    top: -20px;
+    width: 20px;
+    height: 20px;
+  }
+  90% {
+    width: 40px;
+    height: 15px;
+  }
+  95% {
+    left: 100px;
+    top: -20px;
+    width: 20px;
+    height: 20px;
+  }
+  100% {
+    left: 100px;
+    top: 0;
+  }
+}
+@keyframes loading-anim {
+  0% {
+    left: 100px;
+    top: 0;
+  }
+  80% {
+    left: 0;
+    top: 0;
+  }
+  85% {
+    left: 0;
+    top: -20px;
+    width: 20px;
+    height: 20px;
+  }
+  90% {
+    width: 40px;
+    height: 15px;
+  }
+  95% {
+    left: 100px;
+    top: -20px;
+    width: 20px;
+    height: 20px;
+  }
+  100% {
+    left: 100px;
+    top: 0;
+  }
 }

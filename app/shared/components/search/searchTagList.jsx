@@ -1,5 +1,7 @@
 var React = require('react'),
-	Col = require('react-bootstrap/Col');
+	Col = require('react-bootstrap').Col,
+	Loader = require('../helper/loader.jsx');
+
 
 var Tag = require('../home/feed/shout/tag.jsx');
 
@@ -29,8 +31,7 @@ module.exports = React.createClass({
 		if (tags) {
 			content = this.renderTags(tags);
 		} else {
-			var Loader = require('halogen').PulseLoader;
-			content = <Loader color="#bfdd6d"/>;
+			content = <Loader/>;
 		}
 
 		return (

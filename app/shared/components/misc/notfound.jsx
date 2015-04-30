@@ -1,19 +1,19 @@
-var React = require('react'),
-	DocumentTitle = require('react-document-title');
+import React from 'react';
+import DocumentTitle from 'react-document-title';
 
-module.exports = React.createClass({
-	displayName: "NotFound",
+export default React.createClass({
+    displayName: "NotFound",
 
-	title: "Not Found - Shout It",
+    title: "Not Found - Shout It",
 
-	render: function () {
-		return (
-			<DocumentTitle title={this.title}>
-				<div>
-					Page not Found!
-				</div>
-			</DocumentTitle>
-		);
-	}
+    render() {
+        return (
+            <DocumentTitle title={this.title}>
+                <div>
+                    Page not Found!
+                </div>
+            </DocumentTitle>
+        );
+    }
 });
 

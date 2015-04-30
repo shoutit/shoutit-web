@@ -1,21 +1,52 @@
-var React = require('react'),
-	Router = require('react-router'),
-	Container = require('react-bootstrap/Grid'),
-	Header = require('./header/header.jsx');
+import {RouteHandler} from 'react-router';
+import React from 'react';
+import {Grid} from 'react-bootstrap';
+import Header from './header/header.jsx';
+import Footer from './footer/footer.jsx';
 
-var App = React.createClass({
-	render: function () {
-		return (
-			<div>
-				<Header flux={this.props.flux}/>
-				<div className="content">
-					<Container className="padding0">
-						<Router.RouteHandler flux={this.props.flux}/>
-					</Container>
-				</div>
-			</div>
-		);
-	}
+export default React.createClass({
+    displayName: "App",
+
+    getInitialState() {
+        return {
+            height: null
+        };
+    },
+
+    render() {
+        var style = {};
+
+        if (this.state.height) {
+            style.height = this.state.height + "px";
+        }
+
+        return (
+            <div>
+                <Header ref="header" flux={this.props.flux}/>
+
+                <div className="content" style={style}>
+                    <Grid className="padding0">
+                        <RouteHandler flux={this.props.flux}/>
+                    </Grid>
+                </div>
+                <Footer ref="footer"/>
+            </div>
+        );
+    },
+
+    componentDidMount() {
+        this.resize();
+    },
+
+    resize() {
+        var newHeight = window.innerHeight -
+            React.findDOMNode(this.refs.header).offsetHeight -
+            React.findDOMNode(this.refs.footer).offsetHeight;
+
+        if (newHeight !== this.state.height) {
+            this.setState({
+                height: newHeight
+            });
+        }
+    }
 });
-
-module.exports = App;

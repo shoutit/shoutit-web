@@ -1,6 +1,8 @@
 var React = require('react'),
-	Col = require('react-bootstrap/Col'),
-	findIndex = require('lodash/array/findIndex');
+	Col = require('react-bootstrap').Col,
+	findIndex = require('lodash/array/findIndex'),
+	Loader = require('../helper/loader.jsx');
+
 
 var Shout = require('../home/feed/shout.jsx'),
 	ListenerRow = require('../profile/listenerRow.jsx');
@@ -33,8 +35,7 @@ module.exports = React.createClass({
 		if (users) {
 			content = this.renderUsers(users, this.props.listening, this.props.loggedUser, this.props.flux);
 		} else {
-			var Loader = require('halogen').PulseLoader;
-			content = <Loader color="#bfdd6d"/>;
+			content = <Loader/>;
 		}
 
 		return (

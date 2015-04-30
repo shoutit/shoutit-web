@@ -1,6 +1,6 @@
 var React = require('react'),
-	Button = require('react-bootstrap/Button'),
-	Input = require('react-bootstrap/Input'),
+	Button = require('react-bootstrap').Button,
+	Input = require('react-bootstrap').Input,
 	Icon = require('../helper/icon.jsx');
 
 module.exports = React.createClass({

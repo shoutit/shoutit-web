@@ -1,5 +1,4 @@
 var React = require('react'),
-	Router = require('react-router'),
 	Fluxxor = require('fluxxor'),
 	FluxMixin = Fluxxor.FluxMixin(React),
 	StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -9,15 +8,19 @@ var SearchForm = require('./searchForm.jsx'),
 	DocumentTitle = require('react-document-title');
 
 module.exports = React.createClass({
-	mixins: [Router.State, Router.Navigation, FluxMixin, StoreWatchMixin("search")],
+	mixins: [FluxMixin, StoreWatchMixin("search")],
 	displayName: "Search",
 
+	contextTypes: {
+		router: React.PropTypes.func
+	},
+
 	getInitialState: function () {
-		var params = this.getParams();
+		var params = this.context.router.getCurrentParams();
 
 		return {
 			term: params.term || ""
-		}
+		};
 	},
 
 	getStateFromFlux: function () {
@@ -50,7 +53,7 @@ module.exports = React.createClass({
 		});
 		this.getFlux().actions.searchAll(newTerm);
 		if (newTerm.length > 0) {
-			this.transitionTo("search", {term: newTerm});
+			this.context.router.transitionTo("search", {term: newTerm});
 		}
 	}
 });

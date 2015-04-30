@@ -1,7 +1,7 @@
 var React = require('react'),
 	Router = require('react-router'),
 	classnames = require('classnames'),
-	Col = require('react-bootstrap/Col'),
+	Col = require('react-bootstrap').Col,
 	Image = require('../../../helper/image.jsx');
 
 module.exports = React.createClass({

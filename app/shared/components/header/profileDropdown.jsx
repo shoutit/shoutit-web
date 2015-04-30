@@ -1,6 +1,6 @@
 var React = require('react'),
-	DropdownButton = require('react-bootstrap/DropdownButton'),
-	MenuItem = require('react-bootstrap/MenuItem'),
+	DropdownButton = require('react-bootstrap').DropdownButton,
+	MenuItem = require('react-bootstrap').MenuItem,
 	MenuItemLink = require('react-router-bootstrap').MenuItemLink;
 
 var UserImage = require('../user/userImage.jsx');

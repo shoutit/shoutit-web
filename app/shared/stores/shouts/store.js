@@ -4,7 +4,6 @@
  * Created by Philip on 17.02.2015.
  */
 var findIndex = require('lodash/array/findIndex'),
-	url = require('url'),
 	Fluxxor = require('fluxxor');
 
 var consts = require('./consts'),
@@ -18,8 +17,8 @@ var ShoutStore = Fluxxor.createStore({
 			loading: false
 		};
 
-		if (props.shouts) {
-			this.state.shouts = props.shouts.results;
+		if (props.home) {
+			this.state.shouts = props.home.results;
 		}
 
 		if (props.shout) {

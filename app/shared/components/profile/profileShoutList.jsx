@@ -1,5 +1,7 @@
 var React = require('react'),
-	Col = require('react-bootstrap/Col');
+	Col = require('react-bootstrap').Col,
+	Loader = require('../helper/loader.jsx');
+
 
 var Clear = require('../helper/clear.jsx'),
 	Image = require('../helper/image.jsx'),
@@ -40,8 +42,7 @@ module.exports = React.createClass({
 			content = this.renderProfileShouts(shouts);
 			stat = <span>{' (' + shouts.length + ')'}</span>;
 		} else {
-			var Loader = require('halogen').PulseLoader;
-			content = <Loader color="#bfdd6d"/>;
+			content = <Loader/>;
 		}
 
 		return (

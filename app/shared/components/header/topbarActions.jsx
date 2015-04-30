@@ -1,28 +1,29 @@
 var React = require('react'),
-	Col = require('react-bootstrap/Col'),
-	Nav = require('react-bootstrap/Nav');
+    Nav = require('react-bootstrap').Nav;
 
-var ProfileDropdown = require('./profileDropdown.jsx'),
-	ShoutModalTrigger = require('./topbar/shoutModal.jsx'),
-	MessageDropdown = require('./topbar/messageDropdown.jsx'),
-	NotificationDropdown = require('./topbar/notificationDropdown.jsx');
+var ProfileDropdown = require('./profileDropdown.jsx');
+    //ShoutModalTrigger = require('./topbar/shoutModal.jsx'),
+    //MessageDropdown = require('./topbar/messageDropdown.jsx'),
+    //NotificationDropdown = require('./topbar/notificationDropdown.jsx');
+
+/*
+ <ShoutModalTrigger />
+ <MessageDropdown />
+ <NotificationDropdown />
+ */
 
 
 module.exports = React.createClass({
-	displayName: "TopBarActions",
+    displayName: "TopBarActions",
 
+    render: function () {
+        var user = this.props.user;
 
-	render: function () {
-		var user = this.props.user;
-
-		return (
-			<Nav right={true}>
-				<ShoutModalTrigger />
-				<MessageDropdown />
-				<NotificationDropdown />
-				<ProfileDropdown user={user} onLogoutClicked={this.props.onLogoutClicked}/>
-			</Nav>
-		);
-	}
+        return (
+            <Nav right={true}>
+                <ProfileDropdown user={user} onLogoutClicked={this.props.onLogoutClicked}/>
+            </Nav>
+        );
+    }
 
 });

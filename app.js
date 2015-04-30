@@ -1,12 +1,10 @@
 "use strict";
+require("babel/register");
 
 /**
  * Created by Philip on 12.01.2015.
  */
 var express = require('express');
-
-// JSX Transpiler
-require('node-jsx').install();
 
 var	app = express();
 

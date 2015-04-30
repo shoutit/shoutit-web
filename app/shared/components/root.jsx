@@ -1,12 +1,12 @@
-var React = require('react'),
-	Router = require('react-router');
+import {RouteHandler} from 'react-router';
+import React from 'react';
 
-module.exports = React.createClass({
-	displayName: "Root",
+export default React.createClass({
+    displayName: "Root",
 
-	render: function () {
-		return (
-			<Router.RouteHandler flux={this.props.flux}/>
-		);
-	}
+    render() {
+        return (
+            <RouteHandler flux={this.props.flux}/>
+        );
+    }
 });

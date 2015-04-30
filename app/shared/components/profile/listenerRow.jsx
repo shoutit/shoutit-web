@@ -1,8 +1,8 @@
 var React = require('react'),
 	Router = require('react-router'),
 	Link = Router.Link,
-	DropdownButton = require('react-bootstrap/DropdownButton'),
-	MenuItem = require('react-bootstrap/MenuItem');
+	DropdownButton = require('react-bootstrap').DropdownButton,
+	MenuItem = require('react-bootstrap').MenuItem;
 
 var Image = require('../helper/image.jsx');
 

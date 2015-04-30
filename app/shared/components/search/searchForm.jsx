@@ -1,5 +1,5 @@
 var React = require('react'),
-	Col = require('react-bootstrap/Col'),
+	Col = require('react-bootstrap').Col,
 	NavItemLink = require('react-router-bootstrap').NavItemLink,
 	Icon = require('../helper/icon.jsx'),
 	Clear = require('../helper/clear.jsx');

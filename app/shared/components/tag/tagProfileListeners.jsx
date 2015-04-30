@@ -1,8 +1,10 @@
 var React = require('react'),
 	Router = require('react-router'),
 	Link = Router.Link,
-	Col = require('react-bootstrap/Col'),
-	findIndex = require('lodash/array/findIndex');
+	Col = require('react-bootstrap').Col,
+	findIndex = require('lodash/array/findIndex'),
+	Loader = require('../helper/loader.jsx');
+
 
 var Clear = require('../helper/clear.jsx'),
 	ListenerRow = require('../profile/listenerRow.jsx');
@@ -41,8 +43,7 @@ module.exports = React.createClass({
 									listening={isListening} loggedUser={loggedUser} flux={flux}/>
 			}) : <h4>This tag has no listeners</h4>;
 		} else {
-			var Loader = require('halogen').PulseLoader;
-			listenerChildren = <Loader color="#bfdd6d"/>;
+			listenerChildren = <Loader/>;
 		}
 
 		return (

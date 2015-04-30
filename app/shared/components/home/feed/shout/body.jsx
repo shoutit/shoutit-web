@@ -1,6 +1,6 @@
 var React = require('react'),
 	Link = require('react-router').Link,
-	Col = require('react-bootstrap/Col'),
+	Col = require('react-bootstrap').Col,
 	TagList = require('./tags.jsx'),
 	Actions = require('./actions.jsx'),
 	Mui = require('./../../../helper/mui.jsx'),

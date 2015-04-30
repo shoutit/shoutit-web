@@ -2,8 +2,8 @@ var React = require('react'),
 	Fluxxor = require('fluxxor'),
 	FluxMixin = Fluxxor.FluxMixin(React),
 	StoreWatchMixin = Fluxxor.StoreWatchMixin,
-	DropdownButton = require('react-bootstrap/DropdownButton'),
-	MenuItem = require('react-bootstrap/MenuItem');
+	DropdownButton = require('react-bootstrap').DropdownButton,
+	MenuItem = require('react-bootstrap').MenuItem;
 
 var Icon = require('../helper/icon.jsx');
 

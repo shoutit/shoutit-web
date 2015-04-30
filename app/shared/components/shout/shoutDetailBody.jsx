@@ -1,7 +1,7 @@
 var React = require('react'),
 	Router = require('react-router'),
 	moment = require('moment'),
-	Col = require('react-bootstrap/Col'),
+	Col = require('react-bootstrap').Col,
 	Rating = require('./rating.jsx'),
 	ShoutDetailActions = require('./shoutDetailActions.jsx'),
 	TagList = require('../home/feed/shout/tags.jsx'),

@@ -1,7 +1,9 @@
 var React = require('react'),
-	Col = require('react-bootstrap/Col'),
+	Col = require('react-bootstrap').Col,
 	Clear = require('../helper/clear.jsx'),
-	ListenerRow = require('./listenerRow.jsx');
+	ListenerRow = require('./listenerRow.jsx'),
+	Loader = require('../helper/loader.jsx');
+
 
 module.exports = React.createClass({
 	displayName: "ProfileListening",
@@ -34,8 +36,7 @@ module.exports = React.createClass({
 									listening={true} loggedUser={loggedUser} flux={flux}/>
 			}) : <h4>You aren't listening to any other user.</h4>;
 		} else {
-			var Loader = require('halogen').PulseLoader;
-			listeningChildren = <Loader color="#bfdd6d"/>;
+			listeningChildren = <Loader/>;
 		}
 
 		return (

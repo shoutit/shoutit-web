@@ -1,6 +1,6 @@
 var React = require('react'),
 	classNames = require('classnames'),
-	Col = require('react-bootstrap/Col');
+	Col = require('react-bootstrap').Col;
 
 module.exports = React.createClass({
 	displayName: "EditInfoRow",

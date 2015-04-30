@@ -3,9 +3,10 @@ var React = require('react'),
 	RouteHandler = Router.RouteHandler,
 	Fluxxor = require('fluxxor'),
 	FluxMixin = Fluxxor.FluxMixin(React),
-	StoreWatchMixin = Fluxxor.StoreWatchMixin;
+	StoreWatchMixin = Fluxxor.StoreWatchMixin,
+	Loader = require('../helper/loader.jsx');
 
-var Col = require('react-bootstrap/Col'),
+var Col = require('react-bootstrap').Col,
 	NavItemLink = require('react-router-bootstrap').NavItemLink;
 
 var Clear = require('../helper/clear.jsx'),
@@ -18,7 +19,11 @@ var TagProfileImage = require('./tagProfileImage.jsx'),
 var STORE_NAME = "tags";
 
 module.exports = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin(STORE_NAME), Router.State],
+	mixins: [FluxMixin, StoreWatchMixin(STORE_NAME)],
+
+	contextTypes: {
+		router: React.PropTypes.func
+	},
 
 	displayName: "TagProfile",
 
@@ -33,7 +38,7 @@ module.exports = React.createClass({
 	},
 
 	render: function () {
-		var tagName = this.getParams().tagName,
+		var tagName = this.context.router.getCurrentParams().tagName,
 			tagEntry = this.state.tags[tagName];
 
 		if (tagEntry) {
@@ -88,17 +93,14 @@ module.exports = React.createClass({
 				</DocumentTitle>
 			);
 		} else {
-
-			var Loader = require('halogen').PulseLoader;
-
 			return (
 				<DocumentTitle title="Shoutit Profile - Loading">
 					<div className="profile">
 						<Col xs={12} md={3} className="profile-left">
-							<Loader color="#bfdd6d"/>
+							<Loader/>
 						</Col>
 						<Col xs={12} md={9} className="pro-right-padding">
-							<Loader color="#bfdd6d"/>
+							<Loader/>
 						</Col>
 					</div>
 				</DocumentTitle>
@@ -115,7 +117,7 @@ module.exports = React.createClass({
 	},
 
 	loadTag: function () {
-		var tagName = this.getParams().tagName,
+		var tagName = this.context.router.getCurrentParams().tagName,
 			tagEntry = this.state.tags[tagName];
 
 		if (!this.state.loading && !tagEntry && tagEntry !== null) {

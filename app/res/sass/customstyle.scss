@@ -76,7 +76,9 @@ body {
 }
 
 .content {
-  margin-top: 17px;
+  padding-top: 17px;
+  min-height: 100%;
+  overflow-y: scroll;
 }
 
 .show-day {
@@ -262,11 +264,15 @@ body {
   max-height: 200px;
 }
 
+#row-logo {
+  margin-right: 0;
+}
+
 footer {
   background-color: #343837;
   color: #fff;
-  padding-top: 30px;
-  padding-bottom: 100px;
+  padding-top: 22px;
+  padding-bottom: 22px;
 }
 
 .col-xs-12.col-md-5.foo-left > p, .col-xs-12.col-md-3.foo-center > p {

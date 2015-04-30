@@ -252,8 +252,10 @@ var UserStore = Fluxxor.createStore({
 
 		client.get(username)
 			.end(function (err, res) {
-				if (err) {
-					console.log(err);
+				if (err || res.status !== 200) {
+					this.onLoadUserFailed({
+						username: username
+					});
 				} else {
 					this.onLoadUserSuccess({
 						username: username,
@@ -276,6 +278,12 @@ var UserStore = Fluxxor.createStore({
 			users: null,
 			tags: null
 		};
+		this.state.loading = false;
+		this.emit("change");
+	},
+
+	onLoadUserFailed: function(payload) {
+		this.state.users[payload.username] = null;
 		this.state.loading = false;
 		this.emit("change");
 	},

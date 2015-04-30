@@ -1,18 +1,19 @@
-var React = require('react'),
-	DocumentTitle = require('react-document-title');
+import React from 'react';
+import DocumentTitle from 'react-document-title';
+import Loader from '../helper/loader.jsx';
 
-module.exports = React.createClass({
-	displayName: "Simple",
+export default React.createClass({
+    displayName: "Simple",
 
-	title: "Shout It- Not implemented yet.",
+    title: "Shout It- Not implemented yet.",
 
-	render: function () {
-		return (
-			<DocumentTitle title={this.title}>
-				<div>
-					Not implemented yet.
-				</div>
-			</DocumentTitle>
-		);
-	}
+    render() {
+        return (
+            <DocumentTitle title={this.title}>
+                <div>
+                    <Loader/>
+                </div>
+            </DocumentTitle>
+        );
+    }
 });

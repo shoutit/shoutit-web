@@ -1,42 +1,44 @@
-var React = require('react'),
-	StateMixin = require('react-router').State,
-	DocumentTitle = require('react-document-title');
+import React from 'react';
+import DocumentTitle from 'react-document-title';
 
-var Feed = require('./feed.jsx');
+import Feed from './feed.jsx';
 
-var titles = {
-	"/": "Home",
-	"/offers": "Offers",
-	"/requests": "Requests"
+const titles = {
+    "/": "Home",
+    "/offers": "Offers",
+    "/requests": "Requests"
 };
 
-var types = {
-	offers: "offer",
-	requests: "request",
-	shouts: "all"
+const types = {
+    offers: "offer",
+    requests: "request",
+    shouts: "all"
 };
 
-module.exports = React.createClass({
-	displayName: "Home",
-	mixins: [StateMixin],
+export default React.createClass({
+    displayName: "Home",
 
-	statics: {
-		fetchData: function (client, session, params, name) {
-			return client.shouts().list(session, {
-				shout_type: types[name] || "all",
-				page_size: 5
-			});
-		}
-	},
+    contextTypes: {
+        router: React.PropTypes.func
+    },
 
-	render: function () {
-		var pathName = this.getPathname();
-		var title = titles[pathName] + " - Shout It";
+    statics: {
+        fetchData(client, session, _, name) {
+            return client.shouts().list(session, {
+                shout_type: types[name] || "all",
+                page_size: 5
+            });
+        }
+    },
 
-		return (
-			<DocumentTitle title={title}>
-				<Feed flux={this.props.flux} type={pathName.substr(1)}/>
-			</DocumentTitle>
-		);
-	}
+    render() {
+        var pathName = this.context.router.getCurrentPathname();
+        var title = titles[pathName] + " - Shout It";
+
+        return (
+            <DocumentTitle title={title}>
+                <Feed flux={this.props.flux} type={pathName.substr(1)}/>
+            </DocumentTitle>
+        );
+    }
 });

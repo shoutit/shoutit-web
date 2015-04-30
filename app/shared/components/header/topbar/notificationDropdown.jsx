@@ -2,9 +2,9 @@
 
 
 var React = require('react'),
-	DropdownButton = require('react-bootstrap/DropdownButton'),
-	Col = require('react-bootstrap/Col'),
-	MenuItem = require('react-bootstrap/MenuItem');
+	DropdownButton = require('react-bootstrap').DropdownButton,
+	Col = require('react-bootstrap').Col,
+	MenuItem = require('react-bootstrap').MenuItem;
 
 var Icon = require('../../helper/icon.jsx');
 

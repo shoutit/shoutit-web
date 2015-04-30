@@ -1,17 +1,22 @@
 var React = require('react'),
 	Fluxxor = require('fluxxor'),
-	FluxMixin = Fluxxor.FluxMixin(React),
+	FluxMixin = Fluxxor.FluxMixin,
 	StoreWatchMixin = Fluxxor.StoreWatchMixin,
 	Router = require('react-router'),
 	Link = Router.Link,
-	Col = require('react-bootstrap/Col'),
+	Col = require('react-bootstrap').Col,
 	Logo = require('./logo.jsx'),
 	Search = require('./search.jsx');
 
 module.exports = React.createClass({
-	mixins: [Router.Navigation, FluxMixin, StoreWatchMixin("search")],
+	mixins: [FluxMixin(React), StoreWatchMixin("search")],
 
 	displayName: "HeaderLogo",
+
+	contextTypes: {
+		router: React.PropTypes.func
+	},
+
 
 	getStateFromFlux: function () {
 		return {
@@ -23,7 +28,7 @@ module.exports = React.createClass({
 		return {
 			showSearch: false,
 			term: ""
-		}
+		};
 	},
 
 	render: function () {
@@ -133,7 +138,7 @@ module.exports = React.createClass({
 	onSubmit: function () {
 		this.setState({showSearch: false});
 		if(this.state.term.length > 0) {
-			this.transitionTo("search", {term: this.state.term});
+			this.context.router.transitionTo("search", {term: this.state.term});
 		}
 	}
 });

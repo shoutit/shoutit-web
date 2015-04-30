@@ -1,7 +1,7 @@
 var React = require('react'),
 	Router = require('react-router'),
 	RouteHandler = Router.RouteHandler,
-	Col = require('react-bootstrap/Col');
+	Col = require('react-bootstrap').Col;
 
 var SearchTitle = require('./searchTitle.jsx');
 

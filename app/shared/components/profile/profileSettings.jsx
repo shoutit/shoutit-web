@@ -1,13 +1,15 @@
 var React = require('react'),
-	Router = require('react-router'),
-	Col = require('react-bootstrap/Col');
+	Col = require('react-bootstrap').Col;
 
 var BasicInfo = require('./settings/basicInformation.jsx'),
 	ContactInfos = require('./settings/contactInfos.jsx');
 
 module.exports = React.createClass({
 	displayName: "ProfileSettings",
-	mixins: [Router.Navigation],
+
+	contextTypes: {
+		router: React.PropTypes.func
+	},
 
 	render: function () {
 		var user = this.props.users[this.props.username];
@@ -28,7 +30,7 @@ module.exports = React.createClass({
 
 	componentWillMount: function () {
 		if (!this.props.user || !this.props.users[this.props.username].is_owner) {
-			this.transitionTo("useroffers", {username: this.props.username});
+			this.context.router.transitionTo("useroffers", {username: this.props.username});
 		}
 	},
 

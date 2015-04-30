@@ -1,8 +1,8 @@
 
 
 var React = require('react'),
-	MenuItem = require('react-bootstrap/MenuItem'),
-	Col = require('react-bootstrap/Col'),
+	MenuItem = require('react-bootstrap').MenuItem,
+	Col = require('react-bootstrap').Col,
 	Link = require('react-router').Link;
 
 module.exports = React.createClass({

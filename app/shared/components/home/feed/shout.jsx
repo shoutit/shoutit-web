@@ -1,6 +1,6 @@
 var React = require('react'),
 	PureRenderMixin = require('react/addons').addons.PureRenderMixin,
-	Col = require('react-bootstrap/Col'),
+	Col = require('react-bootstrap').Col,
 	ShoutHeader = require('./shout/header.jsx'),
 	ShoutBody = require('./shout/body.jsx'),
 	moment = require('moment'),
