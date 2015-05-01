@@ -39,5 +39,5 @@ plan.remote(['update-shoutit', 'default'], function (remote) {
 	remote.ln('-snf /var/www/' + tmpDir + ' /var/www/shoutit-web');
 	remote.chown('www-data -R /var/www/shoutit-web');
 	remote.chmod('u+rx -R /var/www/shoutit-web');
-	remote.exec('pm2 reload shoutit-web');
+	remote.exec('pm2 startOrReload /var/www/shoutit-web.json');
 });

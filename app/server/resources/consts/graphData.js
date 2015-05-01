@@ -24,7 +24,7 @@ module.exports = {
 		},
 		android: {
 			name: "Shoutit App",
-			id: "",
+			id: "com.shoutit.app.android",
 			url: ""
 		}
 	}
