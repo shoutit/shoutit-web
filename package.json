@@ -21,7 +21,6 @@
     "express": "^4.10.7",
     "express-session": "^1.10.1",
     "fluxxor": "^1.5.3",
-    "holderjs": "^2.6.0-pre",
     "jade": "^1.8.2",
     "lodash": "^3.3.0",
     "method-override": "^2.3.1",

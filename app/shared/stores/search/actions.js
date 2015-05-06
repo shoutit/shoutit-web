@@ -1,49 +1,45 @@
-/**
- * Created by Philip on 26.02.2015.
- */
+import consts from './consts';
 
-var consts = require('./consts');
-
-module.exports = {
-	searchAll: function(term) {
+export default {
+	searchAll(term) {
 		this.dispatch(consts.SEARCH_ALL, {
 			term: term
 		});
 	},
 
-	searchShouts: function(term) {
+	searchShouts(term) {
 		this.dispatch(consts.SEARCH_SHOUTS, {
 			term: term
 		});
 	},
 
-	searchShoutsSuccess: function(term, res) {
+	searchShoutsSuccess(term, res) {
 		this.dispatch(consts.SEARCH_SHOUTS_SUCCESS, {
 			term: term,
 			res: res
 		});
 	},
 
-	searchTags: function(term) {
+	searchTags(term) {
 		this.dispatch(consts.SEARCH_TAGS, {
 			term: term
 		});
 	},
 
-	searchTagsSuccess: function(term, res) {
+	searchTagsSuccess(term, res) {
 		this.dispatch(consts.SEARCH_TAGS_SUCCESS, {
 			term: term,
 			res: res
 		});
 	},
 
-	searchUsers: function(term) {
+	searchUsers(term) {
 		this.dispatch(consts.SEARCH_USERS, {
 			term: term
 		});
 	},
 
-	searchUsersSuccess: function(term, res) {
+	searchUsersSuccess(term, res) {
 		this.dispatch(consts.SEARCH_USERS_SUCCESS, {
 			term: term,
 			res: res

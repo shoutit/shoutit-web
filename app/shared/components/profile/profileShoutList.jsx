@@ -1,67 +1,78 @@
 var React = require('react'),
-	Col = require('react-bootstrap').Col,
-	Loader = require('../helper/loader.jsx');
-
+    Col = require('react-bootstrap').Col,
+    Loader = require('../helper/loader.jsx');
 
 var Clear = require('../helper/clear.jsx'),
-	Image = require('../helper/image.jsx'),
-	Shout = require('../home/feed/shout.jsx');
+    Shout = require('../home/feed/shout.jsx');
 
 var map = {
-	request: "Requests",
-	offer: "Offers"
+    request: "Requests",
+    offer: "Offers"
 };
 
 module.exports = React.createClass({
-	displayName: "ProfileShoutList",
+    displayName: "ProfileShoutList",
 
-	componentDidMount: function () {
-		var username = this.props.username,
-			userShouts = this.props.shouts[username] || {},
-			shouts = userShouts[this.props.type + 's'];
+    componentDidMount: function () {
+        var username = this.props.username,
+            userShouts = this.props.shouts[username] || {},
+            shouts = userShouts[this.props.type + 's'];
 
-		if (!userShouts || !shouts) {
-			this.props.flux.actions.loadUserShouts(this.props.username, this.props.type);
-		}
-	},
+        if (!userShouts || !shouts) {
+            this.props.flux.actions.loadUserShouts(this.props.username, this.props.type);
+        }
+    },
 
-	renderProfileShouts: function (shouts) {
-		return shouts.length ? shouts.map(function (shout, i) {
-			return <Shout listType="small" key={"shout-" + i} shout={shout} index={i}/>;
-		}) : <h4>No shouts.</h4>;
-	},
+    renderProfileShouts: function (shouts) {
+        let onLastVisibleChange = this.onLastVisibleChange;
 
-	render: function () {
-		var username = this.props.username,
-			user = this.props.users[username],
-			userShouts = this.props.shouts[username] || {},
-			shouts = userShouts[this.props.type + 's'],
-			content, stat;
+        return shouts.length ? shouts.map(function (shout, i) {
+            return <Shout listType="small" key={"shout-" + i} shout={shout} index={i}
+                          last={i === shouts.length - 1 ? onLastVisibleChange : null}/>;
+        }) : <h4>No shouts.</h4>;
+    },
 
-		if (userShouts && shouts) {
-			content = this.renderProfileShouts(shouts);
-			stat = <span>{' (' + shouts.length + ')'}</span>;
-		} else {
-			content = <Loader/>;
-		}
+    render: function () {
+        var username = this.props.username,
+            user = this.props.users[username],
+            userShouts = this.props.shouts[username] || {},
+            shouts = userShouts[this.props.type + 's'],
+            content, stat;
 
-		return (
-			<Col xs={12} md={12} className="content-listener">
-				<div className="listener">
-					<div className="listener-title">
-						<p>
-							{user.first_name + "'s" + map[this.props.type] + ":"}
-							{stat}
-						</p>
-					</div>
-					<Clear />
+        if (userShouts && shouts) {
+            content = this.renderProfileShouts(shouts);
+            stat = <span>{' (' + shouts.length + ')'}</span>;
+        } else {
+            content = <Loader/>;
+        }
 
-					<div className="listener-scroll ctn-offerpro" tabIndex="5000"
-						 style={{outline: "none"}}>
-						{content}
-					</div>
-				</div>
-			</Col>
-		);
-	}
+        return (
+            <Col xs={12} md={12} className="content-listener">
+                <div className="listener">
+                    <div className="listener-title">
+                        <p>
+                            {user.first_name + "'s" + map[this.props.type] + ":"}
+                            {stat}
+                        </p>
+                    </div>
+                    <Clear />
+
+                    <div className="listener-scroll ctn-offerpro" tabIndex="5000"
+                         style={{outline: "none"}}>
+                        {content}
+                    </div>
+                </div>
+            </Col>
+        );
+    },
+
+    onLastVisibleChange: function (isVisible) {
+        if (isVisible) {
+            this.loadMore();
+        }
+    },
+
+    loadMore: function () {
+        this.props.flux.actions.loadMoreUserShouts(this.props.username, this.props.type);
+    }
 });

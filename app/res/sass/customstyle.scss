@@ -269,33 +269,33 @@ body {
 }
 
 footer {
-  background-color: #343837;
-  color: #fff;
+  background-color: $shoutit-dark-gray;
+  color: #fff !important;
   padding-top: 22px;
   padding-bottom: 22px;
 }
 
-.col-xs-12.col-md-5.foo-left > p, .col-xs-12.col-md-3.foo-center > p {
+.foo-left > p, .foo-center > p {
   font-family: 'Arial-Regular', sans-serif;
   font-size: 15px;
 }
 
-.col-xs-12.col-md-3.foo-center > ul, .col-xs-12.col-md-4.foo-right > ul {
+.foo-center > ul, .foo-right > ul {
   list-style: outside none none;
   padding: 0;
 }
 
-.col-xs-12.col-md-3.foo-center li {
+.foo-center li {
   float: left;
   margin-right: 20px;
 }
 
-.col-xs-12.col-md-4.foo-right li {
+.foo-right li {
   float: right;
   margin-left: 25px;
 }
 
-.col-xs-12.col-md-5.foo-left > p, .col-xs-12.col-md-3.foo-center > p {
+.foo-left > p, .foo-center > p {
   color: #fff;
 }
 
@@ -334,7 +334,7 @@ footer {
   padding-left: 15px;
 }
 
-.col-xs-12.col-md-5.foo-left a {
+.foo-left a {
   color: #fff;
 }
 
@@ -1076,7 +1076,7 @@ footer {
   top: 18px;
 }
 
-.col-xs-12.col-md-3.foo-center img, .col-xs-12.col-md-4.foo-right img {
+.foo-center img, .foo-right img {
   cursor: pointer;
 }
 
@@ -1667,20 +1667,6 @@ footer {
   right: 5px;
 }
 
-.keyword {
-  float: right;
-  width: 79%;
-}
-
-.keyword-type {
-  float: left;
-  width: 20%;
-}
-
-.keyword .tagator.options-hidden {
-  height: 45px;
-}
-
 .form-group {
   display: inline-block;
   width: 100%;
@@ -1846,7 +1832,7 @@ footer {
     margin-bottom: 20px;
   }
 
-  .col-xs-12.col-md-4.foo-right li {
+  .foo-right li {
     float: left;
     margin-right: 25px;
     margin-top: 10px;

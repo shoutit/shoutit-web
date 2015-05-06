@@ -5,24 +5,28 @@
 var plan = require('flightplan');
 
 plan.target('dev-old', {
-	host: 'web.shoutit.com',
-	username: 'root',
-	agent: process.env.SSH_AUTH_SOCK,
-	privateKey: "E:\\shoutit\\private_key_shoutit.pem"
+    host: 'web.shoutit.com',
+    username: 'root',
+    agent: process.env.SSH_AUTH_SOCK,
+    privateKey: "E:\\shoutit\\private_key_shoutit.pem"
 });
 
 plan.target('dev', {
-	host: 'dev.www.shoutit.com',
-	username: 'root',
-	agent: process.env.SSH_AUTH_SOCK,
-	privateKey: "E:\\shoutit\\private_key_shoutit.pem"
+    host: 'dev.www.shoutit.com',
+    username: 'root',
+    agent: process.env.SSH_AUTH_SOCK,
+    privateKey: "E:\\shoutit\\private_key_shoutit.pem"
 });
 
 plan.target('production', [
-	{
-		host: 'node-01.www.shoutit.com',
-		username: 'root',
-		agent: process.env.SSH_AUTH_SOCK,
-		privateKey: "E:\\shoutit\\private_key_shoutit.pem"
-	}
+    {
+        host: 'node-01.www.shoutit.com',
+        username: 'root',
+        agent: process.env.SSH_AUTH_SOCK,
+        privateKey: "E:\\shoutit\\private_key_shoutit.pem"
+    }
 ]);
+
+plan.remote(['test'], function (remote) {
+    remote.exec('uname -a');
+});

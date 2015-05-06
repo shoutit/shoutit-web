@@ -1485,11 +1485,6 @@
         }
       }
     },
-    "holderjs": {
-      "version": "2.6.0-pre",
-      "from": "holderjs@*",
-      "resolved": "https://registry.npmjs.org/holderjs/-/holderjs-2.6.0-pre.tgz"
-    },
     "jade": {
       "version": "1.9.2",
       "from": "jade@>=1.8.2 <2.0.0",

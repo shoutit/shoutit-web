@@ -1,170 +1,178 @@
-"use strict";
+import findIndex from 'lodash/array/findIndex';
+import Fluxxor from 'fluxxor';
+import url from 'url';
 
-/**
- * Created by Philip on 17.02.2015.
- */
-var findIndex = require('lodash/array/findIndex'),
-	Fluxxor = require('fluxxor');
+import consts from './consts';
+import client from './client';
 
-var consts = require('./consts'),
-	client = require('./client');
+const PAGE_SIZE = 5;
 
 var ShoutStore = Fluxxor.createStore({
-	initialize: function (props) {
-		this.state = {
-			shouts: [],
-			fullShouts: {},
-			loading: false
-		};
+    initialize(props) {
+        this.state = {
+            shouts: [],
+            nextPage: null,
+            maxCount: null,
+            fullShouts: {},
+            loading: false
+        };
 
-		if (props.home) {
-			this.state.shouts = props.home.results;
-		}
+        if (props.home) {
+            this.state.shouts = props.home.results;
+            this.state.maxCount = Number(props.home.count);
+            if (props.home.next) {
+                this.state.nextPage = this.parseNextPage(props.home.next);
+            }
+        }
 
-		if (props.shout) {
-			this.state.fullShouts[props.shout.id] = props.shout;
-		}
+        if (props.shout) {
+            this.state.fullShouts[props.shout.id] = props.shout;
+        }
 
-		this.bindActions(
-			consts.UPDATE, this.onUpdate,
-			consts.UPDATE_SUCCESS, this.onUpdateSuccess,
-			consts.LOAD_MORE, this.onLoadMore,
-			consts.LOAD_MORE_SUCCESS, this.onLoadMoreSuccess,
-			consts.REQUEST_FAILED, this.onReqFailed,
-			consts.LOAD_SHOUT, this.onLoadShout,
-			consts.LOAD_SHOUT_SUCCESS, this.onLoadShoutSuccess
-		);
-	},
+        this.bindActions(
+            consts.UPDATE, this.onUpdate,
+            consts.UPDATE_SUCCESS, this.onUpdateSuccess,
+            consts.LOAD_MORE, this.onLoadMore,
+            consts.LOAD_MORE_SUCCESS, this.onLoadMoreSuccess,
+            consts.REQUEST_FAILED, this.onReqFailed,
+            consts.LOAD_SHOUT, this.onLoadShout,
+            consts.LOAD_SHOUT_SUCCESS, this.onLoadShoutSuccess
+        );
+    },
 
-	onReqFailed: function (err) {
-		console.error(err);
-	},
+    parseNextPage(nextUrl) {
+        if (url) {
+            var parsed = url.parse(nextUrl);
+            return Number(parsed.query.page);
+        }
+        return null;
+    },
 
-	onUpdate: function () {
-		client.list().end(function (err, res) {
-			if (err || !res.body) {
-				this.flux.actions.requestFailed(err);
-			} else {
-				this.flux.actions.updateSuccess(res.body);
-			}
-		}.bind(this));
-	},
+    onReqFailed(err) {
+        console.error(err);
+    },
 
-	onUpdateSuccess: function (payload) {
-		this.state.shouts = payload.res.results;
-		this.emit("change");
-	},
+    onUpdate() {
+        client.list({
+            page_size: PAGE_SIZE
+        }).end(function (err, res) {
+            if (err || !res.body) {
+                this.flux.actions.requestFailed(err);
+            } else {
+                this.flux.actions.updateSuccess(res.body);
+            }
+        }.bind(this));
+    },
 
-	onLoadShout: function (payload) {
-		client.get(payload.shoutId)
-			.end(function (err, res) {
-				if (err || res.status !== 200) {
-					this.flux.actions.requestFailed(err);
-				} else {
-					this.flux.actions.loadShoutSuccess(res.body);
-				}
-			}.bind(this));
-		this.state.loading = true;
-		this.emit("change");
-	},
+    onUpdateSuccess(payload) {
+        this.state.shouts = payload.res.results;
+        this.state.maxCount = Number(payload.res.count);
+        if (payload.res.next) {
+            this.state.nextPage = this.parseNextPage(payload.res.next);
+        } else {
+            this.state.nextPage = null;
+        }
+        this.emit("change");
+    },
 
-	onLoadShoutSuccess: function (payload) {
-		this.state.fullShouts[payload.res.id] = payload.res;
-		this.state.loading = false;
-		this.emit("change");
-	},
+    onLoadShout(payload) {
+        client.get(payload.shoutId)
+            .end(function (err, res) {
+                if (err || res.status !== 200) {
+                    this.flux.actions.requestFailed(err);
+                } else {
+                    this.flux.actions.loadShoutSuccess(res.body);
+                }
+            }.bind(this));
+        this.state.loading = true;
+        this.emit("change");
+    },
 
-	onLoadMore: function () {
-		var lastShout = this.state.shouts[this.state.shouts.length - 1];
-		client
-			.list({
-				before: lastShout ? lastShout.date_published : Math.floor(Date.now() / 1000)
-			})
-			.end(function (err, res) {
-				if (err || res.status !== 200) {
-					this.flux.actions.requestFailed(err);
-				} else {
-					this.flux.actions.loadMoreSuccess(res.body);
-				}
-			}.bind(this));
+    onLoadShoutSuccess(payload) {
+        this.state.fullShouts[payload.res.id] = payload.res;
+        this.state.loading = false;
+        this.emit("change");
+    },
 
-		this.state.loading = true;
-		this.emit("change");
-	},
+    onLoadMore() {
+        if (this.state.nextPage || this.state.shouts.length === 0) {
+            client
+                .list({
+                    page: this.state.nextPage,
+                    page_size: PAGE_SIZE
+                })
+                .end(function (err, res) {
+                    if (err || res.status !== 200) {
+                        this.flux.actions.requestFailed(err);
+                    } else {
+                        this.flux.actions.loadMoreSuccess(res.body);
+                    }
+                }.bind(this));
 
-	findShout: function (shoutId) {
-		var state = this.state,
-			index = this._getIndex(shoutId);
-		if (state.fullShouts[shoutId]) {
-			return {
-				full: true,
-				shout: state.fullShouts[shoutId]
-			};
-		} else if (index >= 0) {
-			return {
-				full: false,
-				shout: state.shouts[index]
-			};
-		} else {
-			return {
-				full: false,
-				shout: undefined
-			};
-		}
-	},
+            this.state.loading = true;
+            this.emit("change");
+        }
+    },
 
-	_getIndex: function (shoutId) {
-		return findIndex(this.state.shouts, 'id', shoutId);
-	},
+    findShout(shoutId) {
+        var state = this.state,
+            index = this.getIndex(shoutId);
+        if (state.fullShouts[shoutId]) {
+            return {
+                full: true,
+                shout: state.fullShouts[shoutId]
+            };
+        } else if (index >= 0) {
+            return {
+                full: false,
+                shout: state.shouts[index]
+            };
+        } else {
+            return {
+                full: false,
+                shout: undefined
+            };
+        }
+    },
 
-	onLoadMoreSuccess: function (payload) {
-		var state = this.state;
-		var This = this;
-		payload.res.results.forEach(function (shout) {
-			var index = This._getIndex(shout.id);
-			if (index >= 0) {
-				state.shouts[index] = shout;
-			} else {
-				state.shouts.push(shout);
-			}
-		});
+    getIndex(shoutId) {
+        return findIndex(this.state.shouts, 'id', shoutId);
+    },
 
-		state.shouts.sort(function (a, b) {
-			return b.date_published - a.date_published;
-		});
+    onLoadMoreSuccess(payload) {
+        var state = this.state;
+        payload.res.results.forEach(function (shout) {
+            var index = this.getIndex(shout.id);
+            if (index >= 0) {
+                state.shouts[index] = shout;
+            } else {
+                state.shouts.push(shout);
+            }
+        }.bind(this));
 
-		state.loading = false;
+        this.state.maxCount = Number(payload.res.count);
+        if (payload.res.next) {
+            this.state.nextPage = this.parseNextPage(payload.res.next);
+        } else {
+            this.state.nextPage = null;
+        }
 
-		this.emit("change");
-	},
+        state.loading = false;
 
-	serialize: function () {
-		return JSON.stringify(this.state);
-	},
+        this.emit("change");
+    },
 
-	hydrate: function (json) {
-		this.state = JSON.parse(json);
-	},
+    serialize() {
+        return JSON.stringify(this.state);
+    },
 
-	getState: function () {
-		return this.state;
-	},
+    hydrate(json) {
+        this.state = JSON.parse(json);
+    },
 
-	getUsersOffers: function (username) {
-		return {
-			shouts: this.state.shouts.filter(function (shout) {
-				return shout.type === "offer" && shout.user.username === username;
-			})
-		};
-	},
-
-	getUsersRequests: function (username) {
-		return {
-			shouts: this.state.shouts.filter(function (shout) {
-				return shout.type === "request" && shout.user.username === username;
-			})
-		};
-	}
+    getState() {
+        return this.state;
+    }
 });
 
-module.exports = ShoutStore;
+export default ShoutStore;

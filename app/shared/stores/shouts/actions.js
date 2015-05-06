@@ -1,46 +1,42 @@
-/**
- * Created by Philip on 26.02.2015.
- */
+import consts from './consts';
 
-var consts = require('./consts');
+export default {
+    update() {
+        this.dispatch(consts.UPDATE);
+    },
 
-module.exports = {
-	update: function () {
-		this.dispatch(consts.UPDATE);
-	},
+    updateSuccess(res) {
+        this.dispatch(consts.UPDATE_SUCCESS, {
+            res: res
+        });
+    },
 
-	updateSuccess: function (res) {
-		this.dispatch(consts.UPDATE_SUCCESS, {
-			res: res
-		});
-	},
+    requestFailed(err) {
+        this.dispatch(consts.REQUEST_FAILED, {
+            error: err
+        });
+    },
 
-	requestFailed: function (err) {
-		this.dispatch(consts.REQUEST_FAILED, {
-			error: err
-		});
-	},
+    loadMore() {
+        this.dispatch(consts.LOAD_MORE);
+    },
 
-	loadMore: function () {
-		this.dispatch(consts.LOAD_MORE);
-	},
-
-	loadMoreSuccess: function (res) {
-		this.dispatch(consts.LOAD_MORE_SUCCESS, {
-			res: res
-		});
-	},
+    loadMoreSuccess(res) {
+        this.dispatch(consts.LOAD_MORE_SUCCESS, {
+            res: res
+        });
+    },
 
 
-	loadShout: function (shoutId) {
-		this.dispatch(consts.LOAD_SHOUT, {
-			shoutId: shoutId
-		});
-	},
+    loadShout(shoutId) {
+        this.dispatch(consts.LOAD_SHOUT, {
+            shoutId: shoutId
+        });
+    },
 
-	loadShoutSuccess: function (res) {
-		this.dispatch(consts.LOAD_SHOUT_SUCCESS, {
-			res: res
-		});
-	}
+    loadShoutSuccess(res) {
+        this.dispatch(consts.LOAD_SHOUT_SUCCESS, {
+            res: res
+        });
+    }
 };

@@ -4,6 +4,7 @@ import TagsInput from 'react-tagsinput';
 
 import Clearfix from '../helper/clearFix.jsx';
 import Icon from '../helper/icon.jsx';
+import PictureInput from './pictureInput.jsx';
 
 export default React.createClass({
     displayName: "ShoutModal",
@@ -72,17 +73,9 @@ export default React.createClass({
 
     renderTagInput() {
         return (
-            <div className="keyword">
-                <TagsInput ref='tags' placeholder="Add a key word"/>
+            <div className="form-group">
+                <TagsInput ref='tags' placeholder="Add a key word" addKeys={[9, 13, 32]}/>
             </div>
-        );
-    },
-
-    renderPictureInput() {
-        return (
-            <button type="button" className="btn btn-default btn-submit submit">Upload a
-                picture
-            </button>
         );
     },
 
@@ -99,7 +92,7 @@ export default React.createClass({
 
                 <div className="row-submit">
                     <button type="button" className="btn btn-default btn-submit submit">
-                        Shout it!
+                        Shoutit!
                     </button>
                 </div>
             </form>
@@ -136,11 +129,11 @@ export default React.createClass({
                         </Col>
                     </Row>
                     <Row>
-                        {this.renderPictureInput()}
+                        <PictureInput/>
                     </Row>
                     <Row>
                         <Button className="btn-submit submit">
-                            Shout it!
+                            Shoutit!
                         </Button>
                     </Row>
                 </form>

@@ -4,7 +4,7 @@ import DocumentTitle from 'react-document-title';
 export default React.createClass({
     displayName: "NotFound",
 
-    title: "Not Found - Shout It",
+    title: "Not Found - Shoutit",
 
     render() {
         return (

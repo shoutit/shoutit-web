@@ -9,7 +9,7 @@ export default React.createClass({
         return (
             <footer>
                 <Grid>
-                    <Col xs={12} md={5} className="foo-left">
+                    <Col xs={12} md={6} className="foo-left">
                         <p>
                             <span>Shoutit &copy; 2015</span>
                             &nbsp;|&nbsp;
@@ -21,17 +21,19 @@ export default React.createClass({
                         </p>
                     </Col>
 
-                    <Col xs={12} md={3} className="foo-center">
-                        <p>Shouit Apps</p>
+                    <Col xs={12} md={6} className="foo-center">
                         <ul>
-                            <a href="https://play.google.com/store/apps/details?id=com.shoutit.app.android">
-                                <img alt="Android app on Google Play"
-                                     src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png"/>
-                            </a>
-                        </ul>
-                    </Col>
-                    <Col xs={12} md={4} className="foo-right">
-                        <ul>
+                            <li>
+                                <a href="https://play.google.com/store/apps/details?id=com.shoutit.app.android">
+                                    <img alt="Android app on Google Play"
+                                         src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png"/>
+                                </a>
+                            </li>
+                            <li>
+                                <a className="appstore_btn"
+                                   href="https://itunes.apple.com/us/app/shoutit-app/id947017118?mt=8&uo=6&at=&ct="
+                                   target="itunes_store"></a>
+                            </li>
                         </ul>
                     </Col>
                 </Grid>

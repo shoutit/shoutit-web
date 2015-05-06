@@ -1,8 +1,4 @@
-/**
- * Created by Philip on 26.02.2015.
- */
-
-module.exports = {
+export default {
 	SEARCH_ALL: "SEARCH_ALL",
 	SEARCH_ALL_SUCCESS: "SEARCH_ALL_SUCCESS",
 	SEARCH_ALL_CANCEL: "SEARCH_ALL_CANCEL",

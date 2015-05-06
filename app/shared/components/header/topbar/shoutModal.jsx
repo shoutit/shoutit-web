@@ -1,39 +1,34 @@
-"use strict";
+import React from 'react';
+import {NavItem, OverlayMixin}  from 'react-bootstrap';
+import Icon from '../../helper/icon.jsx';
+import ShoutModal from '../../shouting/shoutModal.jsx';
 
-var React = require('react'),
-    NavItem = require('react-bootstrap').NavItem,
-    OverlayMixin = require('react-bootstrap').OverlayMixin;
-
-var Icon = require('../../helper/icon.jsx');
-
-var ShoutModal = require('../../shouting/shoutModal.jsx');
-
-module.exports = React.createClass({
+export default React.createClass({
     displayName: "ShoutModalTrigger",
 
     mixins: [OverlayMixin],
 
-    getInitialState: function () {
+    getInitialState() {
         return {
             isModalOpen: false
         };
     },
 
-    toggle: function () {
+    toggle() {
         this.setState({
             isModalOpen: !this.state.isModalOpen
         });
     },
 
-    show: function () {
+    show() {
         this.setState({isModalOpen: true});
     },
 
-    close: function () {
+    close() {
         this.setState({isModalOpen: false});
     },
 
-    render: function () {
+    render() {
         return (
             <NavItem onSelect={this.show}>
                 <Icon name="plug-icon"/>
@@ -41,7 +36,7 @@ module.exports = React.createClass({
         );
     },
 
-    renderOverlay: function () {
+    renderOverlay() {
         if (!this.state.isModalOpen) {
             return <span/>;
         }

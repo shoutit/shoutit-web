@@ -1,30 +1,26 @@
-
-
-var React = require('react'),
-	Fluxxor = require('fluxxor'),
-	FluxMixin = Fluxxor.FluxMixin(React),
-	StoreWatchMixin = Fluxxor.StoreWatchMixin,
-	TopBar = require('./topBar.jsx'),
-	MainMenu = require('./mainMenu.jsx');
+import React from 'react';
+import {FluxMixin, StoreWatchMixin} from 'fluxxor';
+import TopBar from './topBar.jsx';
+import MainMenu from './mainMenu.jsx';
 
 module.exports = React.createClass({
-	displayName: "Header",
-	mixins: [FluxMixin, StoreWatchMixin("users")],
+    displayName: "Header",
+    mixins: [FluxMixin(React), StoreWatchMixin("users")],
 
-	getStateFromFlux: function () {
-		return this.getFlux().store("users").getState();
-	},
+    getStateFromFlux() {
+        return this.getFlux().store("users").getState();
+    },
 
-	render: function () {
-		return (
-			<header>
-				<TopBar {...this.state} onLogoutClicked={this.onLogoutClicked}/>
-				<MainMenu {...this.state} />
-			</header>
-		);
-	},
+    render() {
+        return (
+            <header>
+                <TopBar {...this.state} onLogoutClicked={this.onLogoutClicked}/>
+                <MainMenu {...this.state} />
+            </header>
+        );
+    },
 
-	onLogoutClicked: function () {
-		this.getFlux().actions.logout();
-	}
+    onLogoutClicked() {
+        this.getFlux().actions.logout();
+    }
 });

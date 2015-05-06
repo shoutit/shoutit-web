@@ -1,21 +1,18 @@
-var React = require('react'),
-    ButtonLink = require('react-router-bootstrap').ButtonLink,
-    Container = require('react-bootstrap').Grid,
-    Col = require('react-bootstrap').Col,
-    Row = require('react-bootstrap').Row,
-    HeaderLogo = require('./headerLogo.jsx'),
-    TopBarActions = require('./topbarActions.jsx');
+import React from 'react';
+import {ButtonLink} from 'react-router-bootstrap';
+import {Grid, Col, Row} from 'react-bootstrap';
+import HeaderLogo from './headerLogo.jsx';
+import TopBarActions from './topbarActions.jsx';
 
 export default React.createClass({
     displayName: "TopBar",
 
-    render: function () {
-
+    render() {
         var loggedUser = this.props.user ? this.props.users[this.props.user] : null;
 
         return (
             <Row id="row-logo">
-                <Container>
+                <Grid>
                     <HeaderLogo/>
                     <Col className="header-icon" xs={12} md={4}>
                         {this.props.user ?
@@ -25,7 +22,7 @@ export default React.createClass({
                             </ButtonLink>
                         }
                     </Col>
-                </Container>
+                </Grid>
             </Row>
         );
     }

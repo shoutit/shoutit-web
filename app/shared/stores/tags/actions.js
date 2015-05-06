@@ -1,66 +1,62 @@
-/**
- * Created by Philip on 14.04.2015.
- */
+import consts from './consts';
 
-var consts = require('./consts');
+export default {
+    loadTag(tagName) {
+        this.dispatch(consts.LOAD_TAG, {
+            tagName: tagName
+        });
+    },
 
-module.exports = {
-	loadTag: function (tagName) {
-		this.dispatch(consts.LOAD_TAG, {
-			tagName: tagName
-		});
-	},
+    loadTagSuccess(tagName, res) {
+        this.dispatch(consts.LOAD_TAG_SUCCESS, {
+            tagName: tagName,
+            res: res
+        });
+    },
 
-	loadTagSuccess: function (tagName, res) {
-		this.dispatch(consts.LOAD_TAG_SUCCESS, {
-			tagName: tagName,
-			res: res
-		});
-	},
+    listenTag(tagName) {
+        this.dispatch(consts.LISTEN_TAG, {
+            tagName: tagName
+        });
+    },
 
-	listenTag: function (tagName) {
-		this.dispatch(consts.LISTEN_TAG, {
-			tagName: tagName
-		});
-	},
+    listenTagSuccess(tagName) {
+        this.dispatch(consts.LISTEN_TAG_SUCCESS, {
+            tagName: tagName
+        });
+    },
 
-	listenTagSuccess: function (tagName) {
-		this.dispatch(consts.LISTEN_TAG_SUCCESS, {
-			tagName: tagName
-		})
-	},
+    stopListenTag(tagName) {
+        this.dispatch(consts.STOP_LISTEN_TAG, {
+            tagName: tagName
+        });
+    },
 
-	stopListenTag: function (tagName) {
-		this.dispatch(consts.STOP_LISTEN_TAG, {
-			tagName: tagName
-		});
-	},
+    stopListenTagSuccess(tagName) {
+        this.dispatch(consts.STOP_LISTEN_TAG_SUCCESS, {
+            tagName: tagName
+        });
+    },
 
-	stopListenTagSuccess: function (tagName) {
-		this.dispatch(consts.STOP_LISTEN_TAG_SUCCESS, {
-			tagName: tagName
-		});
-	},
+    loadTagListeners(tagName) {
+        this.dispatch(consts.LOAD_TAG_LISTENERS, {
+            tagName: tagName
+        });
+    },
 
-	loadTagListeners: function (tagName) {
-		this.dispatch(consts.LOAD_TAG_LISTENERS, {
-			tagName: tagName
-		});
-	},
+    loadTagListenersSuccess(tagName, res) {
+        this.dispatch(consts.LOAD_TAG_LISTENERS, {
+            tagName: tagName,
+            res: res
+        });
+    },
 
-	loadTagListenersSuccess: function (tagName, res) {
-		this.dispatch(consts.LOAD_TAG_LISTENERS, {
-			tagName: tagName,
-			res: res
-		});
-	},
-
-	loadTagShouts: function (tagName, type) {
-		this.dispatch(consts.LOAD_TAG_SHOUTS, {
-			tagName: tagName,
-			type: type
-		});
-	}
+    loadTagShouts(tagName, type) {
+        this.dispatch(consts.LOAD_TAG_SHOUTS, {
+            tagName: tagName,
+            type: type
+        });
+    }
 
 };
 

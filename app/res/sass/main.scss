@@ -3,6 +3,7 @@
 
 $shoutit-dark-green: #99ca3b;
 $shoutit-light-green: #bfdd6d;
+$shoutit-dark-gray: #343837;
 
 @import "customstyle";
 @import "fonts";
@@ -22,7 +23,6 @@ $icons-layout: smart;
 @import "icons/*.png";
 @include all-icons-sprites;
 
-
 .icons-tag {
   display: inline-block;
   margin-bottom: 0 !important;
@@ -31,4 +31,15 @@ $icons-layout: smart;
 }
 
 @import "tagsinput";
+
+.appstore_btn {
+  display: inline-block;
+  overflow: hidden;
+  background: url(http://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.png) no-repeat;
+  width: 165px;
+  height: 40px;
+  @media only screen {
+    background-image: url(http://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg);
+  }
+}
 

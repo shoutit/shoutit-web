@@ -1,8 +1,4 @@
-/**
- * Created by Philip on 14.04.2015.
- */
-
-module.exports = {
+export default {
 	SEARCH_TAGS: "SEARCH_TAGS",
 	SEARCH_TAGS_SUCCESS: "SEARCH_TAGS_SUCCESS",
 	SEARCH_TAGS_CANCEL: "SEARCH_TAGS_CANCEL",

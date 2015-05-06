@@ -2,7 +2,7 @@ var React = require('react'),
 	NavItemLink = require('react-router-bootstrap').NavItemLink,
 	Container = require('react-bootstrap').Grid,
 	Navbar = require('react-bootstrap').Navbar,
-	Nav = require('react-bootstrap').Nav,
+	NavChild = require('react-bootstrap').Nav,
 	ButtonLink = require('react-router-bootstrap').ButtonLink;
 
 module.exports = React.createClass({
@@ -19,11 +19,11 @@ module.exports = React.createClass({
 			<div id="main-menu">
 				<Container>
 					<Navbar brand={brand} fluid={true} toggleNavKey="mainMenu" bsStyle="link">
-						<Nav eventKey="mainMenu">
+						<NavChild eventKey="mainMenu">
 							<NavItemLink to="app">Home</NavItemLink>
 							<NavItemLink to="offers">Offers</NavItemLink>
 							<NavItemLink to="requests">Requests</NavItemLink>
-						</Nav>
+						</NavChild>
 					</Navbar>
 				</Container>
 			</div>

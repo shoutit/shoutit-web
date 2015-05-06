@@ -1,19 +1,15 @@
-/**
- * Created by Philip on 02.03.2015.
- */
+import request from 'superagent';
 
-var request = require('superagent');
+const PREFIX = "/api/shouts";
 
-var PREFIX = "/api/shouts";
-
-module.exports = {
-	list: function(query) {
-		return request
-			.get(PREFIX + '/')
-			.query(query);
-	},
-	get: function(shoutId) {
-		return request
-			.get(PREFIX + '/' + shoutId)
-	}
+export default {
+    list: function (query) {
+        return request
+            .get(PREFIX + '/')
+            .query(query);
+    },
+    get: function (shoutId) {
+        return request
+            .get(PREFIX + '/' + shoutId);
+    }
 };

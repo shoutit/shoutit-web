@@ -1,83 +1,72 @@
-/**
- * Created by Philip on 23.02.2015.
- */
+import consts from './consts';
 
-var consts = require('./consts');
+export default {
+    login(type, token) {
+        this.dispatch(consts.LOGIN, {
+            type: type,
+            token: token
+        });
+    },
 
-module.exports = {
-	login: function (type, token) {
-		this.dispatch(consts.LOGIN, {
-			type: type,
-			token: token
-		});
-	},
+    logout() {
+        this.dispatch(consts.LOGOUT);
+    },
 
-	logout: function () {
-		this.dispatch(consts.LOGOUT);
-	},
+    changeInfo(field, value) {
+        this.dispatch(consts.INFO_CHANGE, {
+            field: field,
+            value: value
+        });
+    },
 
-	changeInfo: function (field, value) {
-		this.dispatch(consts.INFO_CHANGE, {
-			field: field,
-			value: value
-		});
-	},
+    saveInfo(field, value) {
+        this.dispatch(consts.INFO_SAVE, {
+            field: field,
+            value: value
+        });
+    },
 
-	saveInfo: function (field, value) {
-		this.dispatch(consts.INFO_SAVE, {
-			field: field,
-			value: value
-		});
-	},
+    listen(username) {
+        this.dispatch(consts.LISTEN, {
+            username: username
+        });
+    },
 
-	listen: function (username) {
-		this.dispatch(consts.LISTEN, {
-			username: username
-		});
-	},
+    stopListen(username) {
+        this.dispatch(consts.STOP_LISTEN, {
+            username: username
+        });
+    },
 
-	stopListen: function (username) {
-		this.dispatch(consts.STOP_LISTEN, {
-			username: username
-		});
-	},
+    loadUserListening(username) {
+        this.dispatch(consts.LOAD_USER_LISTENING, {
+            username: username
+        });
+    },
 
-	loadUserListening: function (username) {
-		this.dispatch(consts.LOAD_USER_LISTENING, {
-			username: username
-		});
-	},
+    loadUserListeners(username) {
+        this.dispatch(consts.LOAD_USER_LISTENERS, {
+            username: username
+        });
+    },
 
-	loadUserListeners: function (username) {
-		this.dispatch(consts.LOAD_USER_LISTENERS, {
-			username: username
-		});
-	},
+    loadUserShouts(username, type) {
+        this.dispatch(consts.LOAD_USER_SHOUTS, {
+            username: username,
+            type: type
+        });
+    },
 
-	loadUserShouts: function (username, type) {
-		this.dispatch(consts.LOAD_USER_SHOUTS, {
-			username: username,
-			type: type
-		});
-	},
+    loadMoreUserShouts(username, type) {
+        this.dispatch(consts.LOAD_MORE_USER_SHOUTS, {
+            username: username,
+            type: type
+        });
+    },
 
-	loadUserShoutsSuccess: function (username, res) {
-		this.dispatch(consts.LOAD_USER_SHOUTS_SUCCESS, {
-			username: username,
-			result: res
-		});
-	},
-
-	loadUser: function (username) {
-		this.dispatch(consts.LOAD_USER, {
-			username: username
-		})
-	},
-
-	loadUserSuccess: function (username, res) {
-		this.dispatch(consts.LOAD_USER_SUCCESS, {
-			username: username,
-			res: res
-		});
-	}
+    loadUser(username) {
+        this.dispatch(consts.LOAD_USER, {
+            username: username
+        });
+    }
 };

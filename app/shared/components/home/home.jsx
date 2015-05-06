@@ -33,7 +33,7 @@ export default React.createClass({
 
     render() {
         var pathName = this.context.router.getCurrentPathname();
-        var title = titles[pathName] + " - Shout It";
+        var title = titles[pathName] + " - Shoutit";
 
         return (
             <DocumentTitle title={title}>

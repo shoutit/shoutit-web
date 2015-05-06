@@ -1,8 +1,4 @@
-/**
- * Created by Philip on 26.02.2015.
- */
-
-module.exports = {
+export default {
 	UPDATE: "UPDATE",
 	UPDATE_SUCCESS: "UPDATE_SUCCESS",
 

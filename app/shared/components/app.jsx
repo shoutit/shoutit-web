@@ -38,6 +38,10 @@ export default React.createClass({
         if (window.innerWidth >= 768) {
             this.resize();
         }
+
+        window.onresize = function () {
+            this.resize();
+        }.bind(this);
     },
 
     resize() {

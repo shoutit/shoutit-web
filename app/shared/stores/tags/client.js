@@ -1,41 +1,37 @@
-/**
- * Created by Philip on 02.03.2015.
- */
+import request from 'superagent';
 
-var request = require('superagent');
+const PREFIX = "/api/tags";
 
-var PREFIX = "/api/tags";
+export default {
+    list(query) {
+        return request
+            .get(PREFIX + '/')
+            .query(query);
+    },
 
-module.exports = {
-	list: function (query) {
-		return request
-			.get(PREFIX + '/')
-			.query(query);
-	},
+    get(tagName) {
+        return request
+            .get(PREFIX + '/' + tagName);
+    },
 
-	get: function (tagName) {
-		return request
-			.get(PREFIX + '/' + tagName)
-	},
+    listen(tagName) {
+        return request
+            .post(PREFIX + '/' + tagName + '/listen');
+    },
 
-	listen: function (tagName) {
-		return request
-			.post(PREFIX + '/' + tagName + '/listen');
-	},
+    unlisten(tagName) {
+        return request
+            .del(PREFIX + '/' + tagName + '/listen');
+    },
 
-	unlisten: function (tagName) {
-		return request
-			.del(PREFIX + '/' + tagName + '/listen');
-	},
+    getListeners(tagName) {
+        return request
+            .get(PREFIX + '/' + tagName + '/listeners');
+    },
 
-	getListeners: function (tagName) {
-		return request
-			.get(PREFIX + '/' + tagName + '/listeners');
-	},
-
-	getShouts: function (tagName, query) {
-		return request
-			.get(PREFIX + '/' + tagName + '/shouts')
-			.query(query);
-	}
+    getShouts(tagName, query) {
+        return request
+            .get(PREFIX + '/' + tagName + '/shouts')
+            .query(query);
+    }
 };
