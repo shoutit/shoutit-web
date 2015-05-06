@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {Grid, Col} from 'react-bootstrap';
+import Icon from '../helper/icon.jsx';
 
 export default React.createClass({
     displayName: "Footer",
@@ -25,14 +26,14 @@ export default React.createClass({
                         <ul>
                             <li>
                                 <a href="https://play.google.com/store/apps/details?id=com.shoutit.app.android">
-                                    <img alt="Android app on Google Play"
-                                         src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png"/>
+                                    <Icon name="playstore"/>
                                 </a>
                             </li>
                             <li>
-                                <a className="appstore_btn"
-                                   href="https://itunes.apple.com/us/app/shoutit-app/id947017118?mt=8&uo=6&at=&ct="
-                                   target="itunes_store"></a>
+                                <a href="https://itunes.apple.com/us/app/shoutit-app/id947017118?mt=8&uo=6&at=&ct="
+                                   target="itunes_store">
+                                    <Icon name="appstore"/>
+                                </a>
                             </li>
                         </ul>
                     </Col>

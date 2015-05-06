@@ -72,8 +72,8 @@ export default React.createClass({
 
         sizedUrl = sizedUrl.replace("http://", "https://");
 
-        if (sizedUrl.indexOf("shoutit-" + this.props.infix + "-image-original") > -1) {
-            sizedUrl = sizedUrl.replace("-original", "")
+        if (sizedUrl.indexOf(this.props.infix + "-image.static.shoutit") > -1) {
+            sizedUrl = sizedUrl
                 .replace(".jpg", "_" + this.props.size + ".jpg")
                 .replace(".jpeg", "_" + this.props.size + ".jpeg");
         } else if (sizedUrl.indexOf("hqdefault") > -1) {
