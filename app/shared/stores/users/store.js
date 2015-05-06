@@ -97,7 +97,7 @@ var UserStore = Fluxxor.createStore({
 
     parseNextPage(nextUrl) {
         if (nextUrl) {
-            var parsed = url.parse(nextUrl);
+            var parsed = url.parse(nextUrl, true);
             return Number(parsed.query.page);
         }
         return null;

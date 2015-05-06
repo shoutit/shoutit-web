@@ -18,6 +18,8 @@ var ShoutStore = Fluxxor.createStore({
         };
 
         if (props.home) {
+            console.log(props.home.next);
+            console.log(this.parseNextPage(props.home.next));
             this.state.shouts = props.home.results;
             this.state.maxCount = Number(props.home.count);
             if (props.home.next) {
@@ -41,8 +43,8 @@ var ShoutStore = Fluxxor.createStore({
     },
 
     parseNextPage(nextUrl) {
-        if (url) {
-            var parsed = url.parse(nextUrl);
+        if (nextUrl) {
+            var parsed = url.parse(nextUrl, true);
             return Number(parsed.query.page);
         }
         return null;

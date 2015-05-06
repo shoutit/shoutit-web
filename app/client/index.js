@@ -9,7 +9,7 @@ var router = Router.create({
     location: Router.HistoryLocation
 });
 
-var flux = new Flux(router);
+var flux = Flux(router);
 
 if (window.fluxData) {
     flux.hydrate(window.fluxData);
