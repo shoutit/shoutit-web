@@ -16,6 +16,8 @@ plan.target('dev', {
     username: 'root',
     agent: process.env.SSH_AUTH_SOCK,
     privateKey: "E:\\shoutit\\private_key_shoutit.pem"
+}, {
+    stopPM2: true
 });
 
 plan.target('production', [

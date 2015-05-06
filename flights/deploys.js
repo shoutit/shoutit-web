@@ -29,8 +29,10 @@ plan.remote(['update-shoutit', 'default'], function (remote) {
 	remote.chmod('u+rx -R /var/www/' + tmpDir);
 	remote.rm('-rf /tmp/' + tmpDir);
 
-	remote.log('Stop application to use memory for npm install.');
-	remote.exec('pm2 stop shoutit-web', {failsafe: true});
+	if(plan.runtime.options.stopPM2) {
+		remote.log('Stop application to use memory for npm install.');
+		remote.exec('pm2 stop shoutit-web', {failsafe: true});
+	}
 
 	remote.log('Install dependencies');
 	remote.exec('npm --production --prefix /var/www/' + tmpDir + ' install /var/www/' + tmpDir, {failsafe: true});
