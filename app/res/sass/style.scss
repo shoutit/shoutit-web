@@ -70,14 +70,9 @@ p {
 }
 
 
-
 .messages .dropdown-menu, .nortification .dropdown-menu {
   width: 325px !important;
   height: 380px;
-}
-
-.profile .dropdown-menu {
-  width: 200px;
 }
 
 .profile .dropdown-menu a {
@@ -972,8 +967,7 @@ iframe {
   }
 
   .profile .dropdown-menu {
-    left: -70px;
-    min-width: 200px;
+    left: -93px;
   }
 
   .profile .dropdown-menu:after, .profile .dropdown-menu:before {
@@ -1004,10 +998,6 @@ iframe {
 }
 
 @media (max-width: 500px) {
-  .profile .dropdown-menu {
-    left: -135px;
-  }
-
   .profile .dropdown-menu:after, .profile .dropdown-menu:before {
     right: 15px;
   }

@@ -8,7 +8,7 @@ import Loader from '../helper/loader.jsx';
 
 export default React.createClass({
     displayName: "ShoutDetail",
-    mixins: [FluxMixin(React), StoreWatchMixin("shouts")],
+    mixins: [new FluxMixin(React), new StoreWatchMixin("shouts")],
 
     contextTypes: {
         router: React.PropTypes.func

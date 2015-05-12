@@ -1,13 +1,15 @@
 import consts from './consts';
 
 export default {
-    update() {
-        this.dispatch(consts.UPDATE);
+    update(city) {
+        this.dispatch(consts.UPDATE, {
+            city
+        });
     },
 
-    updateSuccess(res) {
+    updateSuccess(res, city) {
         this.dispatch(consts.UPDATE_SUCCESS, {
-            res: res
+            res
         });
     },
 

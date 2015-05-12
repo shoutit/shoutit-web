@@ -1,16 +1,9 @@
 #main-menu {
 
-  .navbar-brand#loginButton {
-    @media (min-width: 991px) {
-      display: none;
-    }
-  }
+  display: none;
 
-  #loginButton {
-    background: $shoutit-dark-green;
-    margin: 5px 5px 5px 0;
-    padding: 13px;
+  @media (min-width: 767px) {
+    display: block;
   }
-
 }
 

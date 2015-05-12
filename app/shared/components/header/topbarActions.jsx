@@ -18,9 +18,7 @@ export default React.createClass({
         var user = this.props.user;
 
         return (
-            <Nav right={true}>
-
-
+            <Nav pullRight={true}>
                 <ProfileDropdown user={user} onLogoutClicked={this.props.onLogoutClicked}/>
             </Nav>
         );

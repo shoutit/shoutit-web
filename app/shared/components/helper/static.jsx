@@ -1,5 +1,5 @@
 import React from 'react';
-import StaticFrame from './iFrame.jsx';
+import StaticFrame from './static/iFrame.jsx';
 
 export default React.createClass({
     displayName: "Static",

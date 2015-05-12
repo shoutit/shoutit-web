@@ -1,6 +1,6 @@
 import React from 'react';
 import {Grid, Row} from 'react-bootstrap';
-import HeaderLogo from '../header/headerLogo.jsx';
+import SearchBar from '../header/searchBar.jsx';
 
 export default React.createClass({
     displayName: "TopBar",
@@ -9,7 +9,7 @@ export default React.createClass({
         return (
             <Row id="row-logo">
                 <Grid>
-                    <HeaderLogo flux={this.props.flux}/>
+                    <SearchBar flux={this.props.flux}/>
                 </Grid>
             </Row>
         );

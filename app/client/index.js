@@ -1,20 +1,24 @@
-var React = require("react"),
-    Router = require("react-router");
+import React from 'react';
+import Router from 'react-router';
 
-var routes = require("../shared/routes.jsx"),
-    Flux = require("../shared/flux");
+import routes from '../shared/routes.jsx';
+import Flux from '../shared/flux';
 
-var router = Router.create({
+import facebook from './fb';
+import gAnalytics from './ga';
+import geolocation from './geolocation';
+
+let router = Router.create({
     routes: routes,
     location: Router.HistoryLocation
 });
 
-var flux = Flux(router);
+let flux = new Flux(router);
 
 if (window.fluxData) {
     flux.hydrate(window.fluxData);
     document.body.replaceChild(document.createElement('script'), document.getElementById('fluxData'));
-    window.flux = flux;
+    //window.flux = flux;
 }
 
 flux.on("dispatch", function (type, payload) {
@@ -24,19 +28,25 @@ flux.on("dispatch", function (type, payload) {
 });
 
 // Facebook init
-if (window.FB) {
-    window.FB.init({
-        appId: "353625811317277",
-        version: 'v2.0'
-    });
-}
+facebook("353625811317277");
 
+// Google Analytics init
+let ga = gAnalytics('UA-62656831-1');
 
-var ga = window.ga = window.ga || function () {
-        (ga.q = ga.q || []).push(arguments);
-    };
-ga.l = new Date();
-ga('create', 'UA-62656831-1', 'auto');
+// Maps Geolocation
+geolocation(function (gmaps, pos) {
+    let geoCoder = new gmaps.Geocoder(),
+        autoComplete = new gmaps.places.AutocompleteService();
+        //places = new gmaps.places.PlacesService();
+
+    let locationsStore = flux.store('locations');
+
+    locationsStore.setGeocoder(geoCoder, gmaps);
+    locationsStore.setLocation(pos);
+    locationsStore.setAutoComplete(autoComplete);
+    //locationsStore.setPlaces(places);
+});
+
 
 router.run(function (Handler, state) {
     React.render(
@@ -45,7 +55,6 @@ router.run(function (Handler, state) {
         }),
         document.getElementById('main-mount'),
         function () {
-            flux.store("shouts").emit("change");
             ga('send', 'pageview', state.path);
         }
     );

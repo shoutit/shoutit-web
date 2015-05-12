@@ -21,7 +21,7 @@ module.exports = React.createClass({
     getDefaultProps: function () {
         return {
             logoRight: false
-        }
+        };
     },
 
     renderBottom: function (shout) {
@@ -81,6 +81,8 @@ module.exports = React.createClass({
                 <Link to="tag" params={{tagName: shout.category.main_tag.name}}>
                     {shout.category.name}
                 </Link>
+                &nbsp;-&nbsp;near&nbsp;
+                {shout.location.city}
             </h5>
         );
     },
@@ -99,7 +101,7 @@ module.exports = React.createClass({
         return (
             <h4>
                 <ItemProp property="url">
-                    <Link to="shout" params={{shoutId: shout.id}}>
+                    <Link to="shout" params={{shoutId: shout.id,  location: shout.location.city, title: shout.title}}>
                         <ItemProp property="name">
                             <span>{shout.title}</span>
                         </ItemProp>

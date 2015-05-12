@@ -35,7 +35,7 @@ export default React.createClass({
     },
 
     componentDidMount() {
-        if (window.innerWidth >= 768) {
+        if (window.innerWidth >= 991) {
             this.resize();
         }
 

@@ -1,5 +1,6 @@
 import Fluxxor from 'fluxxor';
 import url from 'url';
+import where from 'lodash/collection/where';
 
 import consts from './consts';
 import client from './client';
@@ -231,7 +232,7 @@ var UserStore = Fluxxor.createStore({
             type = payload.type;
 
         client.loadShouts(username, {
-            type: type || ALL_TYPE,
+            shout_type: type || ALL_TYPE,
             page_size: PAGE_SIZE
         }).end(function (err, res) {
             if (err) {
@@ -287,7 +288,7 @@ var UserStore = Fluxxor.createStore({
 
         if (nextPage) {
             client.loadShouts(username, {
-                type: type || ALL_TYPE,
+                shout_type: type || ALL_TYPE,
                 page_size: PAGE_SIZE,
                 page: nextPage
             }).end(function (err, res) {

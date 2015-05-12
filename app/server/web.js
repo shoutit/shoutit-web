@@ -59,6 +59,7 @@ ShoutitClient.misc().sortTypes()
 
 function fetchData(userSession, routes, params, query) {
     var data = {};
+    //return Promise.resolve(data);
     return Promise.all(routes.filter(function (route) {
         return route.handler.fetchData;
     }).map(function (route) {
@@ -66,7 +67,7 @@ function fetchData(userSession, routes, params, query) {
             route.handler.fetchData(ShoutitClient, userSession, params, route.name, query)
                 .on('complete', function (result, resp) {
                     if (result instanceof Error || resp.statusCode !== 200) {
-                        resolve({});
+                            resolve({});
                     } else {
                         resolve(result);
                     }

@@ -1,136 +1,40 @@
-#row-logo .selectpicker button, #loginButton {
-  background: $shoutit-light-green;
-  border: none;
-  box-shadow: none;
-  height: 45px;
-  color: #343837;
-  font-size: 15px;
-  font-family: "Arial-Bold", sans-serif;
-}
-
-#row-logo {
+.topBar {
   background-color: $shoutit-dark-green;
   margin-bottom: 1px;
+  padding-top: 5px;
+
+  .logo {
+    img {
+      margin-left: 5px;
+      margin-bottom: 5px;
+      height: 52px;
+      width: 120px;
+    }
+  }
+
+  @import "./topBar/searchRow";
 
   #loginButton {
+    background: $shoutit-light-green;
+    border: none;
+    box-shadow: none;
+    height: 45px;
+    color: #343837;
+    font-size: 15px;
+    font-family: "Arial-Bold", sans-serif;
     padding-top: 12px;
 
-    @media (min-width: 991px) {
-      margin-top: 18px;
-    }
+    margin-top: 7px;
+    margin-right: 5px;
+    margin-bottom: 5px;
 
   }
 
-  .header-logo {
-    margin-top: 8px;
-
-    @media (min-width: 991px) {
-      width: 65%;
-    }
-
-    @media (max-width: 620px) {
-      .center {
-        width: 100%;
-        text-align: center;
-        padding: 0 5px;
-      }
-    }
-
-    .dropdown-menu {
-      width: 200px;
-    }
-
-    .input-group-addon {
-      background-color: #fff;
-      border: none;
-    }
-
-    .form-control {
-      border: none;
-    }
-
-    .searchButton {
-      padding: 0;
-    }
-
-    .backdrop {
-      position: fixed;
-      left: 0;
-      top: 0;
+  @media (max-width: 620px) {
+    .center {
       width: 100%;
-      height: 100%;
-      z-index: 90;
-      background-color: black;
-      opacity: 0.3;
-    }
-
-    .header-search {
-      margin-top: 10px;
-      z-index: 100;
-
-      .form-control {
-        background-color: #fff;
-      }
-
-      .list-search {
-        position: absolute;
-        left: 5px;
-        top: 47px;
-        width: 100%;
-
-        padding: 0 20px 0 10px;
-        overflow: auto;
-      }
-
-      @media (max-width: 620px) {
-        .list-search {
-          left: 0;
-          padding: 0;
-        }
-      }
-
-      .list-search ul {
-        background: #fff;
-        border-radius: 5px;
-        max-height: 500px;
-
-      }
-
-      .list-search ul > li {
-        padding: 5px 10px;
-        color: #99ca3b;
-        font-size: 1.1em;
-      }
-
-      .list-search ul > li .list-search-sub li {
-        cursor: pointer;
-        padding: 2px 10px;
-      }
-
-      .list-search ul > li .list-search-sub li a {
-        display: block;
-      }
-
-      .list-search ul > li .list-search-sub li:not(.more) a {
-        color: #7a7a7a;
-        text-decoration: none;
-      }
-
-      .list-search ul > li .list-search-sub li:hover:not(.more) {
-        background: #bfdd6d;
-      }
-
-      .list-search ul > li .list-search-sub li.more {
-        float: none;
-        background: #d3d3d3;
-        color: #343837;
-      }
-
-    }
-
-    .logo img {
-      height: 58px;
-      width: 134px;
+      text-align: center;
+      padding: 0 5px;
     }
   }
 
@@ -157,9 +61,16 @@
     }
   }
 
-  .profile img {
-    vertical-align: baseline;
-    border-radius: 25px;
+  .profile {
+
+    a {
+      padding: 0 5px;
+    }
+
+    img {
+      vertical-align: baseline;
+      border-radius: 25px;
+    }
   }
 
   .nav > li > a:hover,
@@ -169,9 +80,6 @@
   }
 
   .dropdown-menu {
-    width: 325px !important;
-    height: 380px;
-
     margin-top: 0;
     border-radius: 0;
 

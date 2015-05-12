@@ -13,17 +13,20 @@ var types = {
 
 
 module.exports = React.createClass({
-    mixins: [FluxMixin, StoreWatchMixin("shouts")],
+    mixins: [FluxMixin, new StoreWatchMixin("shouts")],
 
     displayName: "Feed",
 
     getStateFromFlux: function () {
-        return this.getFlux().store("shouts").getState();
+        let flux = this.getFlux();
+        return {
+            shouts: flux.store("shouts").getState()
+        };
     },
 
     getFilteredShouts: function () {
         var type = this.props.type;
-        return this.state.shouts.filter(function (shout) {
+        return this.state.shouts.shouts.filter(function (shout) {
             return type === "" || types[type] === shout.type;
         });
     },
@@ -37,7 +40,7 @@ module.exports = React.createClass({
                               last={i === shouts.length - 1 ? onLastVisibleChange : null}/>;
             });
 
-        if (this.state.loading && typeof window !== 'undefined') {
+        if (this.state.shouts.loading && typeof window !== 'undefined') {
 
             shoutEls.push(
                 <section key={"shout-" + shouts.length}>
@@ -75,7 +78,7 @@ module.exports = React.createClass({
     },
 
     componentDidUpdate: function () {
-        if (this.getFilteredShouts().length < 5 && !this.state.loading) {
+        if (this.getFilteredShouts().length < 5 && !this.state.shouts.loading && !this.state.shouts.nextPage) {
             setTimeout(this.loadMore, 200);
         }
     }

@@ -5,7 +5,7 @@ import MainMenu from './mainMenu.jsx';
 
 module.exports = React.createClass({
     displayName: "Header",
-    mixins: [FluxMixin(React), StoreWatchMixin("users")],
+    mixins: [ new FluxMixin(React), new StoreWatchMixin("users")],
 
     getStateFromFlux() {
         return this.getFlux().store("users").getState();

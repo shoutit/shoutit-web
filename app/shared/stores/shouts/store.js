@@ -55,8 +55,10 @@ var ShoutStore = Fluxxor.createStore({
     },
 
     onUpdate() {
+        let locationsStore = this.flux.store("locations");
         client.list({
-            page_size: PAGE_SIZE
+            page_size: PAGE_SIZE,
+            city: locationsStore.getCurrentCity()
         }).end(function (err, res) {
             if (err || !res.body) {
                 this.flux.actions.requestFailed(err);
@@ -97,11 +99,14 @@ var ShoutStore = Fluxxor.createStore({
     },
 
     onLoadMore() {
+        let locationsStore = this.flux.store("locations");
+
         if (this.state.nextPage || this.state.shouts.length === 0) {
             client
                 .list({
                     page: this.state.nextPage,
-                    page_size: PAGE_SIZE
+                    page_size: PAGE_SIZE,
+                    city: locationsStore.getCurrentCity()
                 })
                 .end(function (err, res) {
                     if (err || res.status !== 200) {

@@ -39,7 +39,7 @@ module.exports = (
                 <Route name="userrequests" path="requests" handler={ProfileRequests}/>
                 <DefaultRoute name="settings" handler={ProfileSettings}/>
             </Route>
-            <Route name="shout" path="/shout/:shoutId" handler={Shout}/>
+            <Route name="shout" path="/shout/:shoutId/?:location?/?:title?" handler={Shout}/>
             <Route name="tag" path="/tag/:tagName" handler={TagProfile}>
                 <Route name="tagrequests" handler={TagProfileRequest}/>
                 <Route name="taglisteners" handler={TagProfileListeners}/>

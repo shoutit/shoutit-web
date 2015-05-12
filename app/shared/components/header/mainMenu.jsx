@@ -1,31 +1,22 @@
-var React = require('react'),
-	NavItemLink = require('react-router-bootstrap').NavItemLink,
-	Container = require('react-bootstrap').Grid,
-	Navbar = require('react-bootstrap').Navbar,
-	NavChild = require('react-bootstrap').Nav,
-	ButtonLink = require('react-router-bootstrap').ButtonLink;
+import React from 'react';
+import {NavItemLink} from 'react-router-bootstrap';
+import {Grid, Navbar, Nav} from 'react-bootstrap';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "MainMenu",
 
 	render: function () {
-		var brand = this.props.user ? "" : (
-			<ButtonLink to="login" id="loginButton">
-				<span>Login</span>
-			</ButtonLink>
-		);
-
 		return (
 			<div id="main-menu">
-				<Container>
-					<Navbar brand={brand} fluid={true} toggleNavKey="mainMenu" bsStyle="link">
-						<NavChild eventKey="mainMenu">
+				<Grid>
+					<Navbar toggleNavKey="mainMenu" bsStyle="link">
+						<Nav eventKey="mainMenu">
 							<NavItemLink to="app">Home</NavItemLink>
 							<NavItemLink to="offers">Offers</NavItemLink>
 							<NavItemLink to="requests">Requests</NavItemLink>
-						</NavChild>
+						</Nav>
 					</Navbar>
-				</Container>
+				</Grid>
 			</div>
 		);
 	}

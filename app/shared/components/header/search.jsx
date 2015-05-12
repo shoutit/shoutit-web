@@ -1,26 +1,22 @@
-var React = require('react'),
-    Input = require('react-bootstrap').Input,
-    Icon = require('../helper/icon.jsx'),
-    Button = require('react-bootstrap').Button,
-    DropdownButton = require('react-bootstrap').DropdownButton,
-    MenuItem = require('react-bootstrap').MenuItem;
+import React from 'react';
+import {StoreWatchMixin} from 'fluxxor';
 
-module.exports = React.createClass({
+import {Input, Button} from 'react-bootstrap';
+import Icon from '../helper/icon.jsx';
+
+
+export default React.createClass({
     displayName: "SearchInput",
+    mixins: [new StoreWatchMixin('locations')],
 
-    getDefaultProps: function () {
+    getStateFromFlux() {
         return {
-            countries: {
-                "dub": "Dubai",
-                "aac": "Aachen",
-                "ber": "Berlin"
-            },
-            default: "dub"
+            locations: this.props.flux.store('locations').getState()
         };
     },
 
-    render: function () {
-        var searchAddon = (
+    renderSubmitButton() {
+        return (
             <Button className="searchButton"
                     onClick={this.props.onSubmit}
                     bsStyle="link"
@@ -28,32 +24,26 @@ module.exports = React.createClass({
                 <Icon name="search-icon"/>
             </Button>
         );
+    },
 
-        var title = this.props.countries[this.props.default];
-
-        var items = [];
-
-        for (var country in this.props.countries) {
-            if (this.props.countries.hasOwnProperty(country)) {
-                items.push(<MenuItem key={country} eventKey={country}>{this.props.countries[country]}</MenuItem>);
-            }
-        }
-
-        var buttonBefore = (
-            <DropdownButton onClick={this.onClick} key="countrySelect" title={title} className="selectpicker bla bli">
-                {items}
-            </DropdownButton>
-        );
-
+    render() {
+        let currentCity = this.state.locations.currentCity,
+            beforeButton =
+                <div className="selectpicker bla bli">
+                    <Button onClick={this.props.onFocus(2)} key="countrySelect"
+                            className="dropdown-toggle">
+                        {currentCity || <Icon name="loc"/>}
+                    </Button>
+                </div>;
         return (
             <Input
                 placeholder="Search Shoutit"
                 ref='searchInput'
                 type="text"
-                buttonBefore={buttonBefore}
-                addonAfter={searchAddon}
-                onChange={this.props.onChange}
-                onFocus={this.props.onFocus}
+                buttonBefore={beforeButton}
+                addonAfter={this.renderSubmitButton()}
+                onChange={this.props.onChangeSearch}
+                onFocus={this.props.onFocus(1)}
                 onKeyUp={this.onKeyUp}
                 value={this.props.term}
                 tabIndex={1}
@@ -62,7 +52,7 @@ module.exports = React.createClass({
         );
     },
 
-    onKeyUp: function (ev) {
+    onKeyUp(ev) {
         if (ev.which === 13) {
             this.props.onSubmit();
         } else if (ev.which === 27) {
