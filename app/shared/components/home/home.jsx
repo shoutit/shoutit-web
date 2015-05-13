@@ -1,44 +1,25 @@
 import React from 'react';
-import DocumentTitle from 'react-document-title';
 
 import Feed from './feed.jsx';
 
-const titles = {
-    "/": "Home",
-    "/offers": "Offers",
-    "/requests": "Requests"
-};
+import defaults from '../../consts/defaults';
 
-const types = {
-    offers: "offer",
-    requests: "request",
-    shouts: "all"
-};
+export default function (type="all") {
+	return React.createClass({
+		displayName: type,
 
-export default React.createClass({
-    displayName: "Home",
+		statics: {
+			fetchData(client, session, params) {
+				return client.shouts().list(session, {
+					shout_type: type,
+					page_size: defaults.PAGE_SIZE,
+					city: params.city
+				});
+			}
+		},
 
-    contextTypes: {
-        router: React.PropTypes.func
-    },
-
-    statics: {
-        fetchData(client, session, _, name) {
-            return client.shouts().list(session, {
-                shout_type: types[name] || "all",
-                page_size: 5
-            });
-        }
-    },
-
-    render() {
-        var pathName = this.context.router.getCurrentPathname();
-        var title = titles[pathName] + " - Shoutit";
-
-        return (
-            <DocumentTitle title={title}>
-                <Feed flux={this.props.flux} type={pathName.substr(1)}/>
-            </DocumentTitle>
-        );
-    }
-});
+		render() {
+			return (<Feed flux={this.props.flux} type={type}/>);
+		}
+	});
+}

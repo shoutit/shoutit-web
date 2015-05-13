@@ -7,9 +7,9 @@ export default {
         });
     },
 
-    updateSuccess(res, city) {
+    updateSuccess(res, type) {
         this.dispatch(consts.UPDATE_SUCCESS, {
-            res
+            res, type
         });
     },
 
@@ -19,13 +19,15 @@ export default {
         });
     },
 
-    loadMore() {
-        this.dispatch(consts.LOAD_MORE);
+    loadMore(type) {
+        this.dispatch(consts.LOAD_MORE, {
+            type
+        });
     },
 
-    loadMoreSuccess(res) {
+    loadMoreSuccess(res, type) {
         this.dispatch(consts.LOAD_MORE_SUCCESS, {
-            res: res
+            res, type
         });
     },
 

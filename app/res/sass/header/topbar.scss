@@ -3,6 +3,10 @@
   margin-bottom: 1px;
   padding-top: 5px;
 
+  @media (min-width: 991px) {
+    margin-right: 0;
+  }
+
   .logo {
     img {
       margin-left: 5px;

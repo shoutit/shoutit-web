@@ -1,85 +1,109 @@
-var React = require('react'),
-    Fluxxor = require('fluxxor'),
-    FluxMixin = Fluxxor.FluxMixin(React),
-    StoreWatchMixin = Fluxxor.StoreWatchMixin,
-    Col = require('react-bootstrap').Col,
-    Shout = require('./feed/shout.jsx'),
-    Loader = require('../helper/loader.jsx');
+import React from 'react';
+import {FluxMixin, StoreWatchMixin} from 'fluxxor';
+import { Col } from 'react-bootstrap';
 
-var types = {
-    requests: "request",
-    offers: "offer"
+import {Link} from 'react-router';
+
+import Shout from './feed/shout.jsx';
+import Loader from '../helper/loader.jsx';
+import ViewportSensor from '../misc/ViewportSensor.jsx';
+import DocumentTitle from 'react-document-title';
+
+const titles = {
+	"all": "Home",
+	"offer": "Offers",
+	"request": "Requests"
 };
 
+const typeToRoute = {
+	"all": "feed",
+	"offer": "offers",
+	"request": "requests"
+};
 
-module.exports = React.createClass({
-    mixins: [FluxMixin, new StoreWatchMixin("shouts")],
+export default React.createClass({
 
-    displayName: "Feed",
+	contextTypes: {
+		router: React.PropTypes.func
+	},
 
-    getStateFromFlux: function () {
-        let flux = this.getFlux();
-        return {
-            shouts: flux.store("shouts").getState()
-        };
-    },
+	mixins: [new FluxMixin(React), new StoreWatchMixin("shouts", "locations")],
 
-    getFilteredShouts: function () {
-        var type = this.props.type;
-        return this.state.shouts.shouts.filter(function (shout) {
-            return type === "" || types[type] === shout.type;
-        });
-    },
+	displayName: "Feed",
 
-    renderShouts: function () {
-        var shouts = this.getFilteredShouts(),
-            onLastVisibleChange = this.onLastVisibleChange;
-        var shoutEls = shouts
-            .map(function (shout, i) {
-                return <Shout key={"shout-" + i} shout={shout} index={i}
-                              last={i === shouts.length - 1 ? onLastVisibleChange : null}/>;
-            });
+	getStateFromFlux() {
+		let flux = this.getFlux();
+		return {
+			shouts: flux.store("shouts").getState(),
+			locations: flux.store("locations").getState()
+		};
+	},
 
-        if (this.state.shouts.loading && typeof window !== 'undefined') {
+	renderShouts() {
+		let storeState = this.state.shouts,
+			collection = storeState[this.props.type],
+			shouts = collection.shouts,
+			onLastVisibleChange = this.onLastVisibleChange,
+			isLoading = storeState.loading;
+		let shoutEls = shouts.map((shout, i) => (<Shout key={"shout-" + i} shout={shout} index={i}/>));
 
-            shoutEls.push(
-                <section key={"shout-" + shouts.length}>
-                    <Col xs={12} md={12}>
-                        <Loader/>
-                    </Col>
-                </section>);
-        }
+		if (isLoading && typeof window !== 'undefined') {
+			shoutEls.push(
+				<section key={"shout-" + shouts.length}>
+					<Col xs={12} md={12}>
+						<Loader/>
+					</Col>
+				</section>);
+		} else if (collection.next) {
+			shoutEls.push(
+				<section key={"shout-" + shouts.length}>
+					<Col xs={12} md={12}>
+						<ViewportSensor onChange={onLastVisibleChange}>
+							LoadMore
+						</ViewportSensor>
+					</Col>
+				</section>
+			);
+		}
 
-        return shoutEls;
-    },
+		return shoutEls;
+	},
 
-    render: function () {
-        return (
-            <Col xs={12} md={8}>
-                {this.renderShouts()}
-            </Col>
-        );
-    },
+	render() {
+		return (
+			<DocumentTitle title={titles[this.props.type] + " - Shoutit"}>
+				<Col xs={12} md={8}>
+					{this.renderShouts()}
+				</Col>
+			</DocumentTitle>
+		);
+	},
 
-    loadMore: function () {
-        this.getFlux().actions.loadMore();
-    },
+	loadMore() {
+		this.getFlux().actions.loadMore(this.props.type);
+	},
 
-    onLastVisibleChange: function (isVisible) {
-        if (isVisible) {
-            this.loadMore();
-        }
-    },
+	onLastVisibleChange(isVisible) {
+		if (isVisible) {
+			this.loadMore();
+		}
+	},
 
-    componentDidMount: function () {
-        if (this.getFilteredShouts().length === 0) {
-            this.loadMore();
-        }
-    },
+	componentDidMount() {
+		let storeState = this.state.shouts,
+			collection = storeState[this.props.type],
+			shouts = collection.shouts;
 
-    componentDidUpdate: function () {
-        if (this.getFilteredShouts().length < 5 && !this.state.shouts.loading && !this.state.shouts.nextPage) {
-            setTimeout(this.loadMore, 200);
-        }
-    }
+		if (shouts.length === 0) {
+			this.loadMore();
+		}
+	},
+
+	componentDidUpdate() {
+		let locStoreState = this.state.locations,
+			currentCity = locStoreState.currentCity;
+		if (currentCity) {
+			this.context.router.transitionTo(typeToRoute[this.props.type], {city: currentCity});
+		}
+	}
 });

@@ -26,40 +26,44 @@ import TagProfileOffers from './components/tag/tagProfileOffers.jsx';
 import TagProfileRequest from './components/tag/tagProfileRequests.jsx';
 import TagProfileListeners from './components/tag/tagProfileListeners.jsx';
 
+let Feed = new Home("all"),
+	Offers = new Home("offer"),
+	Requests = new Home("request");
+
 module.exports = (
-    <Route name="root" path="/" handler={Root}>
-        <Route name="app" path="/" handler={App}>
-            <Route name="offers" handler={Home}/>
-            <Route name="requests" handler={Home}/>
-            <Route name="map" handler={Simple}/>
-            <Route name="user" path="/user/:username" handler={Profile}>
-                <Route name="listeners" handler={ProfileListeners}/>
-                <Route name="listening" handler={ProfileListening}/>
-                <Route name="useroffers" path="offers" handler={ProfileOffers}/>
-                <Route name="userrequests" path="requests" handler={ProfileRequests}/>
-                <DefaultRoute name="settings" handler={ProfileSettings}/>
-            </Route>
-            <Route name="shout" path="/shout/:shoutId/?:location?/?:title?" handler={Shout}/>
-            <Route name="tag" path="/tag/:tagName" handler={TagProfile}>
-                <Route name="tagrequests" handler={TagProfileRequest}/>
-                <Route name="taglisteners" handler={TagProfileListeners}/>
-                <DefaultRoute name="tagoffers" handler={TagProfileOffers}/>
-            </Route>
-            <Route name="message" path="/message/:msgId" handler={Simple}/>
-            <Route name="search" path="/search/:term" handler={Search}>
-                <Route name="searchUsers" path="users" handler={SearchUsers}/>
-                <Route name="searchTags" path="tags" handler={SearchTags}/>
-                <DefaultRoute name="searchShouts" handler={SearchShouts}/>
-            </Route>
-            <DefaultRoute name="home" handler={Home}/>
-        </Route>
-        <Route name="static" path="/" handler={Reduced}>
-            <Route name="tos" handler={Static}/>
-            <Route name="rules" handler={Static}/>
-            <Route name="policy" handler={Static}/>
-        </Route>
-        <Route name="login" handler={Login}/>
-        <NotFoundRoute handler={NotFound}/>
-    </Route>
+	<Route name="root" path="/" handler={Root}>
+		<Route name="app" path="/" handler={App}>
+			<Route name="feed" path="/feed/?:city?" handler={Feed}/>
+			<Route name="offers" path="/offers/?:city?" handler={Offers}/>
+			<Route name="requests" path="/requests/?:city?" handler={Requests}/>
+			<Route name="user" path="/user/:username" handler={Profile}>
+				<Route name="listeners" handler={ProfileListeners}/>
+				<Route name="listening" handler={ProfileListening}/>
+				<Route name="useroffers" path="offers" handler={ProfileOffers}/>
+				<Route name="userrequests" path="requests" handler={ProfileRequests}/>
+				<DefaultRoute name="settings" handler={ProfileSettings}/>
+			</Route>
+			<Route name="shout" path="/shout/:shoutId/?:location?/?:title?" handler={Shout}/>
+			<Route name="tag" path="/tag/:tagName" handler={TagProfile}>
+				<Route name="tagrequests" handler={TagProfileRequest}/>
+				<Route name="taglisteners" handler={TagProfileListeners}/>
+				<DefaultRoute name="tagoffers" handler={TagProfileOffers}/>
+			</Route>
+			<Route name="message" path="/message/:msgId" handler={Simple}/>
+			<Route name="search" path="/search/:term" handler={Search}>
+				<Route name="searchUsers" path="users" handler={SearchUsers}/>
+				<Route name="searchTags" path="tags" handler={SearchTags}/>
+				<DefaultRoute name="searchShouts" handler={SearchShouts}/>
+			</Route>
+			<DefaultRoute name="home" handler={Feed}/>
+		</Route>
+		<Route name="static" path="/" handler={Reduced}>
+			<Route name="tos" handler={Static}/>
+			<Route name="rules" handler={Static}/>
+			<Route name="policy" handler={Static}/>
+		</Route>
+		<Route name="login" handler={Login}/>
+		<NotFoundRoute handler={NotFound}/>
+	</Route>
 );
 

@@ -5,17 +5,21 @@ import MainMenu from './mainMenu.jsx';
 
 module.exports = React.createClass({
     displayName: "Header",
-    mixins: [ new FluxMixin(React), new StoreWatchMixin("users")],
+    mixins: [ new FluxMixin(React), new StoreWatchMixin("users", "locations")],
 
     getStateFromFlux() {
-        return this.getFlux().store("users").getState();
+        let flux = this.getFlux();
+        return {
+            users: flux.store("users").getState(),
+            locations: flux.store("locations").getState()
+        };
     },
 
     render() {
         return (
             <header>
-                <TopBar {...this.state} onLogoutClicked={this.onLogoutClicked}/>
-                <MainMenu {...this.state} />
+                <TopBar {...this.state.users} onLogoutClicked={this.onLogoutClicked}/>
+                <MainMenu {...this.state.locations} />
             </header>
         );
     },

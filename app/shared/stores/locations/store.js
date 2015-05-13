@@ -6,145 +6,160 @@ import where from 'lodash/collection/where';
 
 import consts from './consts';
 
-var LocationsStore = Fluxxor.createStore({
-    initialize(props) {
-        this.state = {
-            runningAutocomplete: null,
-            loadingLocation: null,
-            currentLocation: null,
-            currentCity: null,
-            locations: {},
-            search: {}
-        };
+let LocationsStore = Fluxxor.createStore({
+	initialize(props) {
+		this.state = {
+			runningAutocomplete: null,
+			loadingLocation: null,
+			currentLocation: null,
+			currentCity: null,
+			locations: {},
+			search: {}
+		};
 
-        if (props.currentLocation) {
-            this.state.currentLocation = props.currentLocation;
-        }
+		this.router = props.router;
 
-        this.bindActions(
-            consts.LOAD_PREDICTIONS, this.onLoadPredicitions,
-            consts.SELECT_LOCATION, this.onSelectLocation
-        );
-    },
+		if (props.currentLocation) {
+			this.state.currentLocation = props.currentLocation;
+		}
 
-    onLoadPredicitions(payload) {
-        let newTerm = payload.term;
-        if (this.state.runningAutocomplete) {
-            clearTimeout(this.state.runningAutocomplete);
-        }
-        if (!this.state.locations[newTerm]) {
-            this.state.runningAutocomplete = setTimeout(function () {
-                this.loadPlacePredictions(newTerm, function (err, term, results) {
-                    if (err) {
-                        console.warn(err);
-                    } else {
-                        this.state.locations[term] = results;
-                        this.state.runningAutocomplete = null;
-                        this.emit("change");
-                    }
-                }.bind(this));
-            }.bind(this), 500);
-            this.emit('change');
-        }
-    },
+		if (props.params) {
+			if (props.params.city) {
+				this.state.currentCity = props.params.city;
+			}
+		}
 
-    onSelectLocation(payload) {
-        let prediction = payload.prediction;
-        this.state.currentCity = prediction.city;
-        this.state.currentLocation = null;
-        this.emit('change');
+		this.bindActions(
+			consts.LOAD_PREDICTIONS, this.onLoadPredicitions,
+			consts.SELECT_LOCATION, this.onSelectLocation
+		);
+	},
 
-        // Populate Change to Shouts store
-        this.flux.store('shouts').onUpdate();
-    },
+	onLoadPredicitions({term}) {
+		if (this.state.runningAutocomplete) {
+			clearTimeout(this.state.runningAutocomplete);
+		}
+		if (!this.state.locations[term]) {
+			this.state.runningAutocomplete = setTimeout(function () {
+				this.loadPlacePredictions(term, function (err, loadedTerm, results) {
+					if (err) {
+						console.warn(err);
+					} else {
+						this.state.locations[loadedTerm] = results;
+						this.state.runningAutocomplete = null;
+						this.emit("change");
+					}
+				}.bind(this));
+			}.bind(this), 500);
+			this.emit('change');
+		}
+	},
 
-    loadPlacePredictions(term, cb){
-        if (this.autocomplete && term.length >= 3) {
-            let places = this.gmaps.places;
-            this.autocomplete.getPlacePredictions({
-                    input: term,
-                    types: ["(cities)"]
-                },
-                function (predictions, status) {
-                    if (status === places.PlacesServiceStatus.OK) {
-                        let results = predictions.map(prediction => ({
-                            id: prediction.place_id,
-                            description: prediction.description,
-                            city: prediction.terms[0].value,
-                            country: prediction.terms[prediction.terms.length - 1].value
-                        }));
-                        cb(null, term, results);
-                    } else {
-                        cb(predictions);
-                    }
-                }
-            );
-        }
-    },
+	onSelectLocation({prediction}) {
+		this.state.currentCity = prediction.city;
+		this.state.currentLocation = null;
+		this.emit('change');
 
-    setLocation(latLng) {
-        this.state.currentLocation = latLng;
-        if (this.geocoder) {
-            this.resolvePosition(latLng);
-        }
-        this.emit("change");
-    },
+		// Populate Change to Shouts store
+		this.onLocUpdate();
+	},
+
+	onLocUpdate() {
+		this.flux.store('shouts').onLocUpdate();
+	},
+
+	loadPlacePredictions(term, cb){
+		if (this.autocomplete && term.length >= 3) {
+			let places = this.gmaps.places;
+			this.autocomplete.getPlacePredictions({
+					input: term,
+					types: ["(cities)"]
+				},
+				function (predictions, status) {
+					if (status === places.PlacesServiceStatus.OK) {
+						let results = predictions.map(prediction => ({
+							id: prediction.place_id,
+							description: prediction.description,
+							city: prediction.terms[0].value,
+							country: prediction.terms[prediction.terms.length - 1].value
+						}));
+						cb(null, term, results);
+					} else {
+						cb(predictions);
+					}
+				}
+			);
+		}
+	},
+
+	setLocation(latLng) {
+		this.state.currentLocation = latLng;
+		if (this.geocoder && !this.state.currentCity) {
+			this.resolvePosition(latLng);
+		}
+		this.emit("change");
+	},
 
 
-    setGeocoder(geocoder, gmaps) {
-        this.geocoder = geocoder;
-        this.gmaps = gmaps;
-        this.state.loadingLocation = true;
-        this.emit("change");
-    },
+	setGeocoder(geocoder, gmaps) {
+		this.geocoder = geocoder;
+		this.gmaps = gmaps;
+		this.state.loadingLocation = true;
+		this.emit("change");
+	},
 
-    setAutoComplete(autoComplete) {
-        this.autocomplete = autoComplete;
-    },
+	setAutoComplete(autoComplete) {
+		this.autocomplete = autoComplete;
+	},
 
-    resolvePosition(pos) {
-        this.geocoder.geocode({
-            latLng: pos
-        }, function (results, status) {
-            if (status == this.gmaps.GeocoderStatus.OK) {
-                if (results.length) {
-                    let localityResults = where(results, {types: ['locality']});
-                    if (localityResults.length) {
-                        let firstLocality = localityResults[0];
-                        let city = firstLocality.address_components[firstLocality.types.indexOf('locality')];
-                        this.state.currentCity = city.long_name;
-                    }
-                } else {
-                    console.warn("No results found");
-                }
-            } else {
-                console.warn('Geocoder failed due to: ' + status);
-            }
-            this.state.loadingLocation = false;
-            this.emit("change");
-            if(this.state.currentCity) {
-                // Populate Change to Shouts store
-                this.flux.store('shouts').onUpdate();
-            }
+	resolvePosition(pos) {
+		this.geocoder.geocode({
+			latLng: pos
+		}, function (results, status) {
+			let newCity;
+			if (status == this.gmaps.GeocoderStatus.OK) {
+				if (results.length) {
+					let localityResults = where(results, {types: ['locality']});
+					if (localityResults.length) {
+						let firstLocality = localityResults[0];
+						newCity = firstLocality.address_components[firstLocality.types.indexOf('locality')];
+					}
+				} else {
+					console.warn("No results found");
+				}
+			} else {
+				console.warn('Geocoder failed due to: ' + status);
+			}
 
-        }.bind(this));
-    },
+			if (this.state.currentCity != newCity.long_name) {
+				this.state.currentCity = newCity.long_name;
 
-    serialize() {
-        return JSON.stringify(this.state);
-    },
+				if (this.state.currentCity) {
+					// Populate Change to Shouts store
+					this.onLocUpdate();
+				}
+			}
 
-    hydrate(json) {
-        this.state = JSON.parse(json);
-    },
+			this.state.loadingLocation = false;
+			this.emit("change");
+		}.bind(this));
+	},
 
-    getState() {
-        return this.state;
-    },
+	serialize() {
+		return JSON.stringify(this.state);
+	},
 
-    getCurrentCity() {
-        return this.state.currentCity;
-    }
+	hydrate(json) {
+		this.state = JSON.parse(json);
+	},
+
+	getState() {
+		return this.state;
+	},
+
+	getCurrentCity() {
+		return this.state.currentCity;
+	}
 });
 
 export default LocationsStore;

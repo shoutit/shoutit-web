@@ -160,7 +160,7 @@ function reactServerRender(req, res) {
                 //console.dir(data, {depth: 2});
 
                 console.time("RenderReact");
-                var flux = Flux(null, user, data, state.params),
+                var flux = new Flux(null, user, data, state.params),
                     serializedFlux = flux.serialize(),
                     content = React.renderToString(
                         React.createElement(Handler, {

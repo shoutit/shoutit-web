@@ -5,181 +5,207 @@ import url from 'url';
 import consts from './consts';
 import client from './client';
 
-const PAGE_SIZE = 5;
+import defaults from '../../consts/defaults';
+
+function shoutCollectionInit() {
+	return {
+		shouts: [],
+		page: null,
+		prev: null,
+		next: null,
+		maxCount: null
+	};
+}
 
 var ShoutStore = Fluxxor.createStore({
-    initialize(props) {
-        this.state = {
-            shouts: [],
-            nextPage: null,
-            maxCount: null,
-            fullShouts: {},
-            loading: false
-        };
+	initialize(props) {
+		this.state = {
+			all: shoutCollectionInit(),
+			offer: shoutCollectionInit(),
+			request: shoutCollectionInit(),
+			fullShouts: {},
+			loading: false
+		};
 
-        if (props.home) {
-            console.log(props.home.next);
-            console.log(this.parseNextPage(props.home.next));
-            this.state.shouts = props.home.results;
-            this.state.maxCount = Number(props.home.count);
-            if (props.home.next) {
-                this.state.nextPage = this.parseNextPage(props.home.next);
-            }
-        }
+		let feedData = props.home || props.feed;
+		if (feedData) {
+			this.saveUpdate(feedData, defaults.ALL_TYPE);
+		}
 
-        if (props.shout) {
-            this.state.fullShouts[props.shout.id] = props.shout;
-        }
+		if (props.offers) {
+			this.saveUpdate(props.offers, defaults.OFFER_TYPE);
+		}
 
-        this.bindActions(
-            consts.UPDATE, this.onUpdate,
-            consts.UPDATE_SUCCESS, this.onUpdateSuccess,
-            consts.LOAD_MORE, this.onLoadMore,
-            consts.LOAD_MORE_SUCCESS, this.onLoadMoreSuccess,
-            consts.REQUEST_FAILED, this.onReqFailed,
-            consts.LOAD_SHOUT, this.onLoadShout,
-            consts.LOAD_SHOUT_SUCCESS, this.onLoadShoutSuccess
-        );
-    },
+		if (props.requests) {
+			this.saveUpdate(props.requests, defaults.REQUEST_TYPE);
+		}
 
-    parseNextPage(nextUrl) {
-        if (nextUrl) {
-            var parsed = url.parse(nextUrl, true);
-            return Number(parsed.query.page);
-        }
-        return null;
-    },
+		if (props.shout) {
+			this.state.fullShouts[props.shout.id] = props.shout;
+		}
 
-    onReqFailed(err) {
-        console.error(err);
-    },
+		this.bindActions(
+			consts.UPDATE, this.onUpdate,
+			consts.UPDATE_SUCCESS, this.onUpdateSuccess,
+			consts.LOAD_MORE, this.onLoadMore,
+			consts.LOAD_MORE_SUCCESS, this.onLoadMoreSuccess,
+			consts.REQUEST_FAILED, this.onReqFailed,
+			consts.LOAD_SHOUT, this.onLoadShout,
+			consts.LOAD_SHOUT_SUCCESS, this.onLoadShoutSuccess
+		);
+	},
 
-    onUpdate() {
-        let locationsStore = this.flux.store("locations");
-        client.list({
-            page_size: PAGE_SIZE,
-            city: locationsStore.getCurrentCity()
-        }).end(function (err, res) {
-            if (err || !res.body) {
-                this.flux.actions.requestFailed(err);
-            } else {
-                this.flux.actions.updateSuccess(res.body);
-            }
-        }.bind(this));
-    },
+	saveUpdate(res, type = defaults.ALL_Type) {
+		let collection = this.state[type];
+		collection.shouts = res.results;
+		collection.maxCount = Number(res.count);
+		collection.next = this.parsePage(res.next);
+		collection.prev = this.parsePage(res.prev);
+		collection.page = collection.next - 1 || collection.prev + 1 || 1;
+	},
 
-    onUpdateSuccess(payload) {
-        this.state.shouts = payload.res.results;
-        this.state.maxCount = Number(payload.res.count);
-        if (payload.res.next) {
-            this.state.nextPage = this.parseNextPage(payload.res.next);
-        } else {
-            this.state.nextPage = null;
-        }
-        this.emit("change");
-    },
+	parsePage(encUrl) {
+		if (encUrl) {
+			var parsed = url.parse(encUrl, true);
+			return Number(parsed.query.page);
+		}
+		return null;
+	},
 
-    onLoadShout(payload) {
-        client.get(payload.shoutId)
-            .end(function (err, res) {
-                if (err || res.status !== 200) {
-                    this.flux.actions.requestFailed(err);
-                } else {
-                    this.flux.actions.loadShoutSuccess(res.body);
-                }
-            }.bind(this));
-        this.state.loading = true;
-        this.emit("change");
-    },
+	onReqFailed(err) {
+		console.error(err);
+	},
 
-    onLoadShoutSuccess(payload) {
-        this.state.fullShouts[payload.res.id] = payload.res;
-        this.state.loading = false;
-        this.emit("change");
-    },
+	onUpdate(type = defaults.ALL_TYPE) {
+		let locationsStore = this.flux.store("locations");
+		client.list({
+			page_size: defaults.PAGE_SIZE,
+			city: locationsStore.getCurrentCity(),
+			shout_type: type
+		}).end(function (err, res) {
+			if (err || !res.body) {
+				this.flux.actions.requestFailed(err);
+			} else {
+				this.flux.actions.updateSuccess(res.body, type);
+			}
+		}.bind(this));
+	},
 
-    onLoadMore() {
-        let locationsStore = this.flux.store("locations");
+	onLocUpdate() {
+		if (this.state[defaults.ALL_TYPE].page) {
+			this.onUpdate(defaults.ALL_TYPE);
+		}
+		if (this.state[defaults.OFFER_TYPE].page) {
+			this.onUpdate(defaults.OFFER_TYPE);
+		}
+		if (this.state[defaults.REQUEST_TYPE].page) {
+			this.onUpdate(defaults.REQUEST_TYPE);
+		}
+	},
 
-        if (this.state.nextPage || this.state.shouts.length === 0) {
-            client
-                .list({
-                    page: this.state.nextPage,
-                    page_size: PAGE_SIZE,
-                    city: locationsStore.getCurrentCity()
-                })
-                .end(function (err, res) {
-                    if (err || res.status !== 200) {
-                        this.flux.actions.requestFailed(err);
-                    } else {
-                        this.flux.actions.loadMoreSuccess(res.body);
-                    }
-                }.bind(this));
+	onUpdateSuccess({res, type}) {
+		this.saveUpdate(res, type);
+		this.emit("change");
+	},
 
-            this.state.loading = true;
-            this.emit("change");
-        }
-    },
+	onLoadShout({shoutId}) {
+		client.get(shoutId)
+			.end(function (err, res) {
+				if (err || res.status !== 200) {
+					this.flux.actions.requestFailed(err);
+				} else {
+					this.flux.actions.loadShoutSuccess(res.body);
+				}
+			}.bind(this));
+		this.state.loading = true;
+		this.emit("change");
+	},
 
-    findShout(shoutId) {
-        var state = this.state,
-            index = this.getIndex(shoutId);
-        if (state.fullShouts[shoutId]) {
-            return {
-                full: true,
-                shout: state.fullShouts[shoutId]
-            };
-        } else if (index >= 0) {
-            return {
-                full: false,
-                shout: state.shouts[index]
-            };
-        } else {
-            return {
-                full: false,
-                shout: undefined
-            };
-        }
-    },
+	onLoadShoutSuccess({res}) {
+		this.state.fullShouts[res.id] = res;
+		this.state.loading = false;
+		this.emit("change");
+	},
 
-    getIndex(shoutId) {
-        return findIndex(this.state.shouts, 'id', shoutId);
-    },
+	onLoadMore({type = defaults.ALL_TYPE}) {
+		let locationsStore = this.flux.store("locations"),
+			collection = this.state[type];
 
-    onLoadMoreSuccess(payload) {
-        var state = this.state;
-        payload.res.results.forEach(function (shout) {
-            var index = this.getIndex(shout.id);
-            if (index >= 0) {
-                state.shouts[index] = shout;
-            } else {
-                state.shouts.push(shout);
-            }
-        }.bind(this));
+		if (collection.next || collection.shouts.length === 0) {
+			client
+				.list({
+					page: collection.next,
+					shout_type: type,
+					page_size: defaults.PAGE_SIZE,
+					city: locationsStore.getCurrentCity()
+				})
+				.end(function (err, res) {
+					if (err || res.status !== 200) {
+						this.flux.actions.requestFailed(err);
+					} else {
+						this.flux.actions.loadMoreSuccess(res.body, type);
+					}
+				}.bind(this));
 
-        this.state.maxCount = Number(payload.res.count);
-        if (payload.res.next) {
-            this.state.nextPage = this.parseNextPage(payload.res.next);
-        } else {
-            this.state.nextPage = null;
-        }
+			this.state.loading = true;
+			this.emit("change");
+		}
+	},
 
-        state.loading = false;
+	findShout(shoutId) {
+		var state = this.state,
+			index = this.getIndex(shoutId);
+		if (state.fullShouts[shoutId]) {
+			return {
+				full: true,
+				shout: state.fullShouts[shoutId]
+			};
+		} else if (index >= 0) {
+			return {
+				full: false,
+				shout: state.shouts[index]
+			};
+		} else {
+			return {
+				full: false,
+				shout: undefined
+			};
+		}
+	},
 
-        this.emit("change");
-    },
+	getIndex(collection, shoutId) {
+		return findIndex(collection.shouts, 'id', shoutId);
+	},
 
-    serialize() {
-        return JSON.stringify(this.state);
-    },
+	onLoadMoreSuccess({res, type=defaults.ALL_TYPE}) {
+		let collection = this.state[type];
+		res.results.forEach(function (shout) {
+			var index = this.getIndex(collection, shout.id);
+			if (index >= 0) {
+				collection.shouts[index] = shout;
+			} else {
+				collection.shouts.push(shout);
+			}
+		}.bind(this));
 
-    hydrate(json) {
-        this.state = JSON.parse(json);
-    },
+		collection.maxCount = Number(res.count);
+		collection.next = this.parsePage(res.next);
+		collection.page = collection.next - 1 || collection.prev + 1 || 1;
+		this.state.loading = false;
+		this.emit("change");
+	},
 
-    getState() {
-        return this.state;
-    }
+	serialize() {
+		return JSON.stringify(this.state);
+	},
+
+	hydrate(json) {
+		this.state = JSON.parse(json);
+	},
+
+	getState() {
+		return this.state;
+	}
 });
 
 export default ShoutStore;

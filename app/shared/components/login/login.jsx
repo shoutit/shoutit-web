@@ -5,7 +5,7 @@ import Icon from '../helper/icon.jsx';
 
 export default React.createClass({
     displayName: "Login",
-    mixins: [FluxMixin(React)],
+    mixins: [new FluxMixin(React)],
 
     getInitialState() {
         return {
