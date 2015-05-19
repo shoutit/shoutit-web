@@ -43,23 +43,51 @@ export default React.createClass({
 		let storeState = this.state.shouts,
 			collection = storeState[this.props.type],
 			shouts = collection.shouts,
+			next = collection.next,
+			prev = collection.prev,
 			onLastVisibleChange = this.onLastVisibleChange,
 			isLoading = storeState.loading;
-		let shoutEls = shouts.map((shout, i) => (<Shout key={"shout-" + i} shout={shout} index={i}/>));
+
+		let locStoreState = this.state.locations,
+			currentCity = locStoreState.currentCity;
+
+		let shoutEls = [];
+
+		if(prev) {
+			shoutEls.push(
+				<section key={"shout-0"}>
+					<Col xs={12} md={12}>
+						<ViewportSensor onChange={onLastVisibleChange}>
+							<noscript>
+								<Link to={typeToRoute[this.props.type]} params={{city: currentCity || "anyplace", page: prev}}>
+									Previous Page
+								</Link>
+							</noscript>
+						</ViewportSensor>
+					</Col>
+				</section>
+			);
+		}
+
+		shoutEls.push(shouts.map((shout, i) => (<Shout key={"shout-" + (i + 1) } shout={shout} index={i}/>)));
 
 		if (isLoading && typeof window !== 'undefined') {
 			shoutEls.push(
-				<section key={"shout-" + shouts.length}>
+				<section key={"shout-" + (shouts.length + 1)}>
 					<Col xs={12} md={12}>
 						<Loader/>
 					</Col>
 				</section>);
-		} else if (collection.next) {
+		} else if (next) {
 			shoutEls.push(
-				<section key={"shout-" + shouts.length}>
+				<section key={"shout-" + (shouts.length + 1)}>
 					<Col xs={12} md={12}>
 						<ViewportSensor onChange={onLastVisibleChange}>
-							LoadMore
+							<noscript>
+								<Link to={typeToRoute[this.props.type]} params={{city: currentCity || "anyplace", page: next}}>
+									Next Page
+								</Link>
+							</noscript>
 						</ViewportSensor>
 					</Col>
 				</section>
@@ -101,9 +129,10 @@ export default React.createClass({
 
 	componentDidUpdate() {
 		let locStoreState = this.state.locations,
-			currentCity = locStoreState.currentCity;
+			currentCity = locStoreState.currentCity,
+			currentPage = this.context.router.getCurrentParams().page;
 		if (currentCity) {
-			this.context.router.transitionTo(typeToRoute[this.props.type], {city: currentCity});
+			this.context.router.transitionTo(typeToRoute[this.props.type], {city: currentCity, page: currentPage});
 		}
 	}
 });

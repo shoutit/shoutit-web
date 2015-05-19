@@ -5,8 +5,7 @@ var React = require('react'),
 	Actions = require('./actions.jsx'),
 	Mui = require('./../../../helper/mui.jsx'),
 	Image = require('../../../helper/image.jsx'),
-	moment = require('moment'),
-	currencies = require('../../../../consts/currencies');
+	moment = require('moment');
 
 var ItemProp = require('../../../helper/microdata/itemprop.jsx');
 
@@ -55,7 +54,7 @@ module.exports = React.createClass({
 							</ItemProp>
 							&nbsp;
 							<ItemProp property="priceCurrency">
-								<span>{currencies[shout.currency].name}</span>
+								<span>{shout.currency}</span>
 							</ItemProp>
 						</div>
 					</div>

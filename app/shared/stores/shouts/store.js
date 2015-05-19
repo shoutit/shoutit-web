@@ -24,8 +24,13 @@ var ShoutStore = Fluxxor.createStore({
 			offer: shoutCollectionInit(),
 			request: shoutCollectionInit(),
 			fullShouts: {},
-			loading: false
+			loading: false,
+			currencies: {}
 		};
+
+		if (props.currencies) {
+			this.state.currencies = props.currencies;
+		}
 
 		let feedData = props.home || props.feed;
 		if (feedData) {
@@ -44,6 +49,7 @@ var ShoutStore = Fluxxor.createStore({
 			this.state.fullShouts[props.shout.id] = props.shout;
 		}
 
+
 		this.bindActions(
 			consts.UPDATE, this.onUpdate,
 			consts.UPDATE_SUCCESS, this.onUpdateSuccess,
@@ -55,19 +61,30 @@ var ShoutStore = Fluxxor.createStore({
 		);
 	},
 
+	augmentShouts(shouts) {
+		return shouts.map(this.augmentShout.bind(this));
+	},
+
+	augmentShout(shout) {
+		if (shout.currency && this.state.currencies[shout.currency]) {
+			shout.currency = this.state.currencies[shout.currency].name;
+		}
+		return shout;
+	},
+
 	saveUpdate(res, type = defaults.ALL_Type) {
 		let collection = this.state[type];
-		collection.shouts = res.results;
+		collection.shouts = this.augmentShouts(res.results);
 		collection.maxCount = Number(res.count);
 		collection.next = this.parsePage(res.next);
-		collection.prev = this.parsePage(res.prev);
+		collection.prev = this.parsePage(res.previous);
 		collection.page = collection.next - 1 || collection.prev + 1 || 1;
 	},
 
 	parsePage(encUrl) {
 		if (encUrl) {
 			var parsed = url.parse(encUrl, true);
-			return Number(parsed.query.page);
+			return Number(parsed.query.page || 1);
 		}
 		return null;
 	},
@@ -182,9 +199,9 @@ var ShoutStore = Fluxxor.createStore({
 		res.results.forEach(function (shout) {
 			var index = this.getIndex(collection, shout.id);
 			if (index >= 0) {
-				collection.shouts[index] = shout;
+				collection.shouts[index] = this.augmentShout(shout);
 			} else {
-				collection.shouts.push(shout);
+				collection.shouts.push(this.augmentShout(shout));
 			}
 		}.bind(this));
 

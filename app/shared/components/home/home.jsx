@@ -13,7 +13,8 @@ export default function (type="all") {
 				return client.shouts().list(session, {
 					shout_type: type,
 					page_size: defaults.PAGE_SIZE,
-					city: params.city
+					city: params.city,
+					page: params.page
 				});
 			}
 		},

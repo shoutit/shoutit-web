@@ -5,8 +5,7 @@ var React = require('react'),
     Rating = require('./rating.jsx'),
     ShoutDetailActions = require('./shoutDetailActions.jsx'),
     TagList = require('../home/feed/shout/tags.jsx'),
-    Video = require('./video.jsx'),
-    currencies = require('../../consts/currencies');
+    Video = require('./video.jsx');
 
 var Image = require('../helper/image.jsx'),
     ItemProp = require('../helper/microdata/itemprop.jsx');
@@ -118,7 +117,7 @@ module.exports = React.createClass({
                             </ItemProp>
                             &nbsp;
                             <ItemProp property="priceCurrency">
-                                <span>{currencies[shout.currency].name}</span>
+                                <span>{shout.currency}</span>
                             </ItemProp>
                         </div>
                     </div>
