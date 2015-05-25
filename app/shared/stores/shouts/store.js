@@ -46,7 +46,7 @@ var ShoutStore = Fluxxor.createStore({
 		}
 
 		if (props.shout) {
-			this.state.fullShouts[props.shout.id] = props.shout;
+			this.state.fullShouts[props.shout.id] = this.augmentShout(props.shout);
 		}
 
 
