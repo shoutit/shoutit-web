@@ -57,7 +57,8 @@ var ShoutStore = Fluxxor.createStore({
 			consts.LOAD_MORE_SUCCESS, this.onLoadMoreSuccess,
 			consts.REQUEST_FAILED, this.onReqFailed,
 			consts.LOAD_SHOUT, this.onLoadShout,
-			consts.LOAD_SHOUT_SUCCESS, this.onLoadShoutSuccess
+			consts.LOAD_SHOUT_SUCCESS, this.onLoadShoutSuccess,
+			consts.LOAD_SHOUT_FAILED, this.onLoadShoutFailed
 		);
 	},
 
@@ -67,6 +68,7 @@ var ShoutStore = Fluxxor.createStore({
 
 	augmentShout(shout) {
 		if (shout.currency && this.state.currencies[shout.currency]) {
+			shout.origCurrency = shout.currency;
 			shout.currency = this.state.currencies[shout.currency].name;
 		}
 		return shout;
@@ -129,7 +131,7 @@ var ShoutStore = Fluxxor.createStore({
 		client.get(shoutId)
 			.end(function (err, res) {
 				if (err || res.status !== 200) {
-					this.flux.actions.requestFailed(err);
+					this.flux.actions.loadShoutFailed(shoutId, res);
 				} else {
 					this.flux.actions.loadShoutSuccess(res.body);
 				}
@@ -140,6 +142,15 @@ var ShoutStore = Fluxxor.createStore({
 
 	onLoadShoutSuccess({res}) {
 		this.state.fullShouts[res.id] = res;
+		this.state.loading = false;
+		this.emit("change");
+	},
+
+	onLoadShoutFailed({shoutId, res}) {
+		if(res.status !== 404) {
+			console.error(res.body);
+		}
+		this.state.fullShouts[shoutId] = null;
 		this.state.loading = false;
 		this.emit("change");
 	},
@@ -185,7 +196,7 @@ var ShoutStore = Fluxxor.createStore({
 		} else {
 			return {
 				full: false,
-				shout: undefined
+				shout: null
 			};
 		}
 	},

@@ -19,7 +19,7 @@ module.exports = React.createClass({
 	render: function () {
 		var inputReactObject = React.Children.only(this.props.children);
 		return React.cloneElement(inputReactObject, {
-			itemScope: "",
+			itemScope: true,
 			itemType: itemTypes[this.props.type]
 		});
 	}

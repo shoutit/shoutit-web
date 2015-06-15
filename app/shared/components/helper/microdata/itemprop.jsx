@@ -18,11 +18,16 @@ module.exports = React.createClass({
     },
 
     render: function () {
-        var prop = this.props.property;
+        var prop = this.props.property,
+            content = this.props.content;
 
         var microdataProps = {
             itemProp: prop
         };
+
+        if(content) {
+            microdataProps.content = content;
+        }
 
         if (itemProps[prop] && itemProps[prop].itemScope && itemTypes[itemProps[prop].itemScope]) {
             microdataProps.itemScope = true;

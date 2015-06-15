@@ -53,7 +53,7 @@ module.exports = React.createClass({
 								<span>{shout.price}</span>
 							</ItemProp>
 							&nbsp;
-							<ItemProp property="priceCurrency">
+							<ItemProp property="priceCurrency" content={shout.origCurrency}>
 								<span>{shout.currency}</span>
 							</ItemProp>
 						</div>
