@@ -51,7 +51,10 @@ var TagStore = Fluxxor.createStore({
         client.get(tagName)
             .end(function (err, res) {
                 if (err || res.status !== 200) {
-                    console.log(err);
+                    this.onLoadTagFailed({
+                        res: res.body,
+                        tagName: tagName
+                    });
                 } else {
                     this.onLoadTagSuccess({
                         res: res.body,
@@ -77,6 +80,12 @@ var TagStore = Fluxxor.createStore({
     onLoadTagSuccess(payload) {
         this.addTagEntry(payload.tagName);
         this.state.tags[payload.tagName].tag = payload.res;
+        this.state.loading = false;
+        this.emit("change");
+    },
+
+    onLoadTagFailed(payload) {
+        this.state.tags[payload.tagName] = null;
         this.state.loading = false;
         this.emit("change");
     },

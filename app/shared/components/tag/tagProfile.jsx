@@ -19,7 +19,7 @@ var TagProfileImage = require('./tagProfileImage.jsx'),
 var STORE_NAME = "tags";
 
 module.exports = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin(STORE_NAME)],
+	mixins: [FluxMixin, new StoreWatchMixin(STORE_NAME)],
 
 	contextTypes: {
 		router: React.PropTypes.func
@@ -80,7 +80,7 @@ module.exports = React.createClass({
 					</div>
 				</DocumentTitle>
 			);
-		} else if (tagEntry === null) {
+		} else if (!this.state.loading && tagEntry === null) {
 			return (
 				<DocumentTitle title="Shoutit Profile - Not Found">
 					<div className="profile">
