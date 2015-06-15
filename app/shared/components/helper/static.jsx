@@ -1,19 +1,22 @@
 import React from 'react';
 import StaticFrame from './static/iFrame.jsx';
+import DocumentTitle from 'react-document-title';
 
 export default React.createClass({
-    displayName: "Static",
+	displayName: "Static",
 
-    contextTypes: {
-        router: React.PropTypes.func
-    },
+	contextTypes: {
+		router: React.PropTypes.func
+	},
 
-    render(){
-        var name = this.context.router.getCurrentPathname()
-            .replace('\/', '');
+	render(){
+		var name = this.context.router.getCurrentPathname()
+			.replace('\/', '');
 
-        return (
-            <StaticFrame staticName={name}/>
-        );
-    }
+		return (
+			<DocumentTitle title={name.charAt(0).toUpperCase() + name.slice(1) + " - Shoutit"}>
+				<StaticFrame staticName={name}/>
+			</DocumentTitle>
+		);
+	}
 });
