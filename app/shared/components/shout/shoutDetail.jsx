@@ -20,12 +20,15 @@ export default React.createClass({
 	},
 
 	getStateFromFlux() {
-		var findRes = this.getFlux().store("shouts").findShout(this.context.router.getCurrentParams().shoutId);
+		let shoutStore = this.getFlux().store("shouts"),
+			storeState = shoutStore.getState(),
+			findRes = shoutStore.findShout(this.context.router.getCurrentParams().shoutId);
 
 		return {
 			shoutId: this.context.router.getCurrentParams().shoutId,
 			shout: findRes.shout,
-			full: findRes.full
+			full: findRes.full,
+			loading: storeState.loading
 		};
 	},
 
@@ -47,7 +50,8 @@ export default React.createClass({
 	},
 
 	render() {
-		var shout = this.state.shout;
+		var shout = this.state.shout,
+			loading = this.state.loading;
 
 		var content;
 
@@ -56,7 +60,7 @@ export default React.createClass({
 				<DocumentTitle title={"Shoutit - " + shout.title}>
 					<ShoutDetailBody shout={shout} flux={this.getFlux()}/>
 				</DocumentTitle>;
-		} else if (shout === null) {
+		} else if (!loading && shout === null) {
 			content = (
 				<DocumentTitle title={"Shoutit - Not found"}>
 					<Col xs={12} md={12} className="section-right">
