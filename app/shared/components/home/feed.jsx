@@ -53,13 +53,14 @@ export default React.createClass({
 
 		let shoutEls = [];
 
-		if(prev) {
+		if (prev) {
 			shoutEls.push(
 				<section key={"shout-0"}>
 					<Col xs={12} md={12}>
 						<ViewportSensor onChange={onLastVisibleChange}>
 							<noscript>
-								<Link to={typeToRoute[this.props.type]} params={{city: currentCity || "anyplace", page: prev}}>
+								<Link to={typeToRoute[this.props.type]}
+									  params={{city: encodeURIComponent(currentCity || "anyplace"), page: prev}}>
 									Previous Page
 								</Link>
 							</noscript>
@@ -84,7 +85,8 @@ export default React.createClass({
 					<Col xs={12} md={12}>
 						<ViewportSensor onChange={onLastVisibleChange}>
 							<noscript>
-								<Link to={typeToRoute[this.props.type]} params={{city: currentCity || "anyplace", page: next}}>
+								<Link to={typeToRoute[this.props.type]}
+									  params={{city: encodeURIComponent(currentCity || "anyplace"), page: next}}>
 									Next Page
 								</Link>
 							</noscript>

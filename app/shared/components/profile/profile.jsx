@@ -50,7 +50,7 @@ module.exports = React.createClass({
             user = this.state.users[username];
 
         if (user) {
-            var linkParams = {username: user.username},
+            var linkParams = {username: encodeURIComponent(user.username)},
                 listenerCount = this.state.listeners[username] ?
                     this.state.listeners[username].length :
                     user.listeners_count,

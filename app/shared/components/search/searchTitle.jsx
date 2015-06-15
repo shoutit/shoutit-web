@@ -19,7 +19,7 @@ module.exports = React.createClass({
 				onKeyUp={this.onKeyUp}
 				value={this.props.term}
 				/>
-		)
+		);
 	},
 
 	onKeyUp: function(ev) {

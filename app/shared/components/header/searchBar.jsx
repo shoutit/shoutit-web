@@ -101,7 +101,7 @@ export default React.createClass({
                     flux={this.getFlux()}
                     onFocus={this.onFocusSearch}
                     onChangeSearch={this.onChangeSearch}
-                    onSubmitSearch={this.onSubmit}
+                    onSubmit={this.onSubmit}
                     onBlur={this.onBlurSearch}
                     term={this.state.term}
                     />
@@ -130,7 +130,7 @@ export default React.createClass({
     onSubmit() {
         this.setState({showSearch: false});
         if (this.state.term.length > 0) {
-            this.context.router.transitionTo("search", {term: this.state.term});
+            this.context.router.transitionTo("search", {term: encodeURIComponent(this.state.term)});
         }
     },
 

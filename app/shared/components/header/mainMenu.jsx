@@ -10,7 +10,7 @@ export default React.createClass({
 			linkParams = {};
 
 		if (currentCity) {
-			linkParams.city = currentCity;
+			linkParams.city = encodeURIComponent(currentCity);
 		}
 
 		return (

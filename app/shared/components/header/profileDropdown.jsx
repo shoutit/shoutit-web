@@ -18,7 +18,7 @@ module.exports = React.createClass({
 		return (
 			<DropdownButton ref="dropdown" title={title} noCaret={true} className="profile" navItem={true}
 							alt={user.name}>
-				<MenuItemLink to="user" params={{username: user.username}}>
+				<MenuItemLink to="user" params={{username: encodeURIComponent(user.username)}}>
 					Profile
 				</MenuItemLink>
 				<MenuItem onSelect={this.props.onLogoutClicked}>

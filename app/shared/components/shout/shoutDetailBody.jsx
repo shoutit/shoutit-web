@@ -23,7 +23,7 @@ module.exports = React.createClass({
 
 	renderSubtitle: function (shout) {
 		var link = shout.user.is_activated ?
-			<Router.Link to="user" params={{username: shout.user.username}}>
+			<Router.Link to="user" params={{username: encodeURIComponent(shout.user.username)}}>
 				{shout.user.name}
 			</Router.Link> : shout.user.name;
 

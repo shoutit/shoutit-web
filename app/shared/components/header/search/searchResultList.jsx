@@ -6,7 +6,7 @@ export default React.createClass({
 
 	render() {
 		let term = this.props.term,
-			searchParams = {term: term},
+			searchParams = {term: encodeURIComponent(term)},
 			results = this.props.results;
 
 		let onBlurSearch = this.props.onBlur;
@@ -19,7 +19,7 @@ export default React.createClass({
 				return (
 					<li key={"search-header-shout-" + i}>
 						<Link to="shout"
-							  params={{shoutId: shout.id, location: shout.location.city, title: shout.title.replace(/\s+/g, '-')}}
+							  params={{shoutId: shout.id, location: shout.location.city, title: encodeURIComponent(shout.title.replace(/\s+/g, '-'))}}
 							  onClick={onBlurSearch}>
 							{shout.title}
 						</Link>
@@ -33,7 +33,7 @@ export default React.createClass({
 			tagSearchResults.map(function (tag, i) {
 				return (
 					<li key={"search-header-tag-" + i}>
-						<Link to="tag" params={{tagName: tag.name}} onClick={onBlurSearch}>
+						<Link to="tag" params={{tagName: encodeURIComponent(tag.name)}} onClick={onBlurSearch}>
 							{tag.name}
 						</Link>
 					</li>);
@@ -46,7 +46,7 @@ export default React.createClass({
 			userSearchResults.map(function (user, i) {
 				return (
 					<li key={"search-header-user-" + i}>
-						<Link to="user" params={{username: user.username}} onClick={onBlurSearch}>
+						<Link to="user" params={{username: encodeURIComponent(user.username)}} onClick={onBlurSearch}>
 							{user.name}
 						</Link>
 					</li>);

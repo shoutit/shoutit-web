@@ -11,7 +11,7 @@ module.exports = React.createClass({
 
 		return (
 			<li key={this.props.key}>
-				<Link to="tag" params={{tagId: tag.id, tagName: tag.name}}>
+				<Link to="tag" params={{tagId: tag.id, tagName: encodeURIComponent(tag.name)}}>
 					<Icon name="tag"/>
 					{tag.name}
 				</Link>

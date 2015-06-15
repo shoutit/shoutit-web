@@ -21,7 +21,7 @@ module.exports = React.createClass({
 			<DropdownButton onSelect={this.onDropDownSelect} title={title}>
 				{firstOption}
 				<MenuItem eventKey={"show-" + listener.username}>
-					<Link to="user" params={{username: listener.username}}>Show Profile</Link>
+					<Link to="user" params={{username: encodeURIComponent(listener.username)}}>Show Profile</Link>
 				</MenuItem>
 			</DropdownButton> : "";
 
@@ -33,7 +33,7 @@ module.exports = React.createClass({
 				<div className="listener-dt-info">
 					<h4>{listener.name}
 						(
-						<Link to="user" params={{username: listener.username}}>{listener.username}</Link>
+						<Link to="user" params={{username: encodeURIComponent(listener.username)}}>{listener.username}</Link>
 						)
 					</h4>
 					{actions}

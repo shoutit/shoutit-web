@@ -9,7 +9,7 @@ module.exports = React.createClass({
 
 	render: function () {
 		var term = this.props.term,
-			linkParams = {term: term};
+			linkParams = {term: encodeURIComponent(term)};
 
 		var shoutCount = this.props.search.shouts[term] ?
 			"(" + this.props.search.shouts[term].length + ")" :

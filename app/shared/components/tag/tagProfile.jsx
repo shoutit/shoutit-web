@@ -42,7 +42,7 @@ module.exports = React.createClass({
 			tagEntry = this.state.tags[tagName];
 
 		if (tagEntry) {
-			var linkParams = {tagName: tagName},
+			var linkParams = {tagName: encodeURIComponent(tagName)},
 				tag = tagEntry.tag,
 				listenerCount = tag.listeners_count;
 

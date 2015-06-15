@@ -65,7 +65,7 @@ module.exports = React.createClass({
 
 	renderSubtitle: function (shout) {
 		var link = shout.user.is_activated ?
-			<Link to="user" params={{username: shout.user.username}}>
+			<Link to="user" params={{username: encodeURIComponent(shout.user.username)}}>
 				{shout.user.name}
 			</Link> : shout.user.name;
 
@@ -77,7 +77,7 @@ module.exports = React.createClass({
 				&nbsp;-&nbsp;
 				{moment.unix(shout.date_published).fromNow()}
 				&nbsp;-&nbsp;in&nbsp;
-				<Link to="tag" params={{tagName: shout.category.main_tag.name}}>
+				<Link to="tag" params={{tagName: encodeURIComponent(shout.category.main_tag.name)}}>
 					{shout.category.name}
 				</Link>
 				&nbsp;-&nbsp;near&nbsp;
@@ -101,7 +101,7 @@ module.exports = React.createClass({
 			<h4>
 				<ItemProp property="url">
 					<Link to="shout"
-						  params={{shoutId: shout.id, location: shout.location.city, title: shout.title.replace(/\s+/g, '-')}}>
+						  params={{shoutId: shout.id, location: shout.location.city, title: encodeURIComponent(shout.title.replace(/\s+/g, '-'))}}>
 						<ItemProp property="name">
 							<span>{shout.title}</span>
 						</ItemProp>
