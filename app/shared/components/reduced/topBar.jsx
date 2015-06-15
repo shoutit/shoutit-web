@@ -7,7 +7,7 @@ export default React.createClass({
 
     render() {
         return (
-            <Row id="row-logo">
+            <Row className="topBar">
                 <Grid>
                     <SearchBar flux={this.props.flux}/>
                 </Grid>
