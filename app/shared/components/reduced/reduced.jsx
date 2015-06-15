@@ -30,7 +30,7 @@ export default React.createClass({
                         <RouteHandler flux={this.props.flux}/>
                     </Grid>
                 </div>
-                <Footer ref="header"/>
+                <Footer ref="footer"/>
             </div>
         );
     },
