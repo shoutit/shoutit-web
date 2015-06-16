@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavItem, OverlayMixin}  from 'react-bootstrap';
+import {NavItem, OverlayMixin} from 'react-bootstrap';
 import Icon from '../../helper/icon.jsx';
 import ShoutModal from '../../shouting/shoutModal.jsx';
 
@@ -42,7 +42,7 @@ export default React.createClass({
         }
 
         return (
-            <ShoutModal onRequestHide={this.close}/>
+            <ShoutModal flux={this.props.flux} onRequestHide={this.close}/>
         );
     }
 });

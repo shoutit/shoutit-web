@@ -1,25 +1,21 @@
-var React = require('react'),
-	Router = require('react-router'),
-	RouteHandler = Router.RouteHandler,
-	Fluxxor = require('fluxxor'),
-	FluxMixin = Fluxxor.FluxMixin(React),
-	StoreWatchMixin = Fluxxor.StoreWatchMixin,
-	Loader = require('../helper/loader.jsx');
+import React from 'react';
+import {RouteHandler} from 'react-router';
+import {FluxMixin, StoreWatchMixin} from 'fluxxor';
+import Loader from '../helper/loader.jsx';
 
-var Col = require('react-bootstrap').Col,
-	NavItemLink = require('react-router-bootstrap').NavItemLink;
+import {Col} from 'react-bootstrap';
+import {NavItemLink} from 'react-router-bootstrap';
 
-var Clear = require('../helper/clear.jsx'),
-	Icon = require('../helper/icon.jsx'),
-	DocumentTitle = require('react-document-title');
+import {Clear, Icon} from '../helper';
+import DocumentTitle from 'react-document-title';
 
-var TagProfileImage = require('./tagProfileImage.jsx'),
-	TagProfileActions = require('./tagProfileActions.jsx');
+import TagProfileImage from './tagProfileImage.jsx';
+import TagProfileActions from './tagProfileActions.jsx';
 
 var STORE_NAME = "tags";
 
-module.exports = React.createClass({
-	mixins: [FluxMixin, new StoreWatchMixin(STORE_NAME)],
+export default React.createClass({
+	mixins: [new FluxMixin(React), new StoreWatchMixin(STORE_NAME)],
 
 	contextTypes: {
 		router: React.PropTypes.func
@@ -33,16 +29,16 @@ module.exports = React.createClass({
 		}
 	},
 
-	getStateFromFlux: function () {
+	getStateFromFlux() {
 		return this.getFlux().store(STORE_NAME).getState();
 	},
 
-	render: function () {
-		var tagName = this.context.router.getCurrentParams().tagName,
+	render() {
+		let tagName = this.context.router.getCurrentParams().tagName,
 			tagEntry = this.state.tags[tagName];
 
 		if (tagEntry) {
-			var linkParams = {tagName: encodeURIComponent(tagName)},
+			let linkParams = {tagName: encodeURIComponent(tagName)},
 				tag = tagEntry.tag,
 				listenerCount = tag.listeners_count;
 
@@ -51,7 +47,7 @@ module.exports = React.createClass({
 					<div className="profile">
 						<Col xs={12} md={3} className="profile-left">
 							<TagProfileImage image={tag.image} name={tag.name}/>
-							<TagProfileActions tag={tag} flux={this.getFlux() } />
+							<TagProfileActions tag={tag} flux={this.getFlux() }/>
 							<Clear/>
 							<ul>
 								<NavItemLink to="tagoffers" params={linkParams}>
@@ -108,16 +104,16 @@ module.exports = React.createClass({
 		}
 	},
 
-	componentDidUpdate: function () {
+	componentDidUpdate() {
 		this.loadTag();
 	},
 
-	componentDidMount: function () {
+	componentDidMount() {
 		this.loadTag();
 	},
 
-	loadTag: function () {
-		var tagName = this.context.router.getCurrentParams().tagName,
+	loadTag() {
+		let tagName = this.context.router.getCurrentParams().tagName,
 			tagEntry = this.state.tags[tagName];
 
 		if (!this.state.loading && !tagEntry && tagEntry !== null) {

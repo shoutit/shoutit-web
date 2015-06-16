@@ -19,7 +19,7 @@ export default React.createClass({
                     </Col>
                     <Col xs={6} md={3} mdPush={6}>
                         {this.props.user ?
-                            <TopBarActions user={loggedUser} onLogoutClicked={this.props.onLogoutClicked}/> :
+                            <TopBarActions flux={this.props.flux} user={loggedUser} onLogoutClicked={this.props.onLogoutClicked}/> :
                             <ButtonLink className="pull-right" to="login" id="loginButton">
                                 <span>Login</span>
                             </ButtonLink>

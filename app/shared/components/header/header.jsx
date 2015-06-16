@@ -3,7 +3,7 @@ import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 import TopBar from './topBar.jsx';
 import MainMenu from './mainMenu.jsx';
 
-module.exports = React.createClass({
+export default React.createClass({
     displayName: "Header",
     mixins: [ new FluxMixin(React), new StoreWatchMixin("users", "locations")],
 
@@ -18,7 +18,7 @@ module.exports = React.createClass({
     render() {
         return (
             <header>
-                <TopBar {...this.state.users} onLogoutClicked={this.onLogoutClicked}/>
+                <TopBar {...this.state.users} flux={this.getFlux()} onLogoutClicked={this.onLogoutClicked}/>
                 <MainMenu {...this.state.locations} />
             </header>
         );

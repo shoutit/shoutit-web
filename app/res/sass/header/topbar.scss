@@ -77,6 +77,12 @@
     }
   }
 
+  .nav > li > a {
+    padding: 0 5px;
+  }
+
+  //*[@id="main-mount"]/div/header/div[1]/div/div[2]/nav/ul/li[1]/a
+
   .nav > li > a:hover,
   .nav > li > a:focus,
   .nav .open > a {

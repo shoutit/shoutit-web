@@ -30,7 +30,7 @@ let Feed = new Home("all"),
 	Offers = new Home("offer"),
 	Requests = new Home("request");
 
-module.exports = (
+export default (
 	<Route name="root" path="/" handler={Root}>
 		<Route name="app" path="/" handler={App}>
 			<Route name="feed" path="/feed/?:city?/?:page?" handler={Feed}/>

@@ -1,24 +1,24 @@
-var React = require('react'),
-	Col = require('react-bootstrap').Col,
-	ShoutHeader = require('./shout/header.jsx'),
-	ShoutBody = require('./shout/body.jsx'),
-	moment = require('moment');
+import React from 'react';
+import {Col} from 'react-bootstrap';
+import ShoutHeader from './shout/header.jsx';
+import ShoutBody from './shout/body.jsx';
+import moment from 'moment';
 
-var ItemScope = require('../../helper/microdata/itemscope.jsx');
+import {ItemScope} from '../../helper/microdata';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "Shout",
 
-	alignRight: function () {
+	alignRight(){
 		return this.props.index % 2 !== 0;
 	},
 
-	agoText: function () {
+	agoText(){
 		return moment.unix(this.props.shout.date_published).fromNow();
 	},
 
-	render: function () {
-		var shout = this.props.shout,
+	render(){
+		let shout = this.props.shout,
 			ago = this.agoText();
 
 		return (

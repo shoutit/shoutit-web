@@ -1,29 +1,28 @@
-var React = require('react'),
-	Link = require('react-router').Link,
-	Col = require('react-bootstrap').Col,
-	TagList = require('./tags.jsx'),
-	Actions = require('./actions.jsx'),
-	Mui = require('./../../../helper/mui.jsx'),
-	Image = require('../../../helper/image.jsx'),
-	moment = require('moment');
+import React from 'react';
+import {Link} from 'react-router';
+import {Col} from 'react-bootstrap';
+import TagList from './tags.jsx';
+import Actions from './actions.jsx';
+import {Mui, Image} from '../../../helper';
+import moment from'moment';
 
-var ItemProp = require('../../../helper/microdata/itemprop.jsx');
+import {ItemProp} from '../../../helper/microdata';
 
-var types = {
+let types = {
 	offer: "Offer",
 	request: "Request"
 };
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "ShoutBody",
 
-	getDefaultProps: function () {
+	getDefaultProps(){
 		return {
 			logoRight: false
 		};
 	},
 
-	renderBottom: function (shout) {
+	renderBottom(shout) {
 		return this.props.listType === "small" ?
 			(
 				<div className="ctn-offerpro-bottom">
@@ -43,7 +42,7 @@ module.exports = React.createClass({
 			);
 	},
 
-	renderOffer: function (shout) {
+	renderOffer(shout) {
 		if (shout.type === "offer" && shout.price && shout.currency) {
 			return (
 				<ItemProp property="offers">
@@ -63,8 +62,8 @@ module.exports = React.createClass({
 		}
 	},
 
-	renderSubtitle: function (shout) {
-		var link = shout.user.is_activated ?
+	renderSubtitle(shout) {
+		let link = shout.user.is_activated ?
 			<Link to="user" params={{username: encodeURIComponent(shout.user.username)}}>
 				{shout.user.name}
 			</Link> : shout.user.name;
@@ -86,7 +85,7 @@ module.exports = React.createClass({
 		);
 	},
 
-	renderThumbnail: function (shout) {
+	renderThumbnail(shout) {
 		return shout.thumbnail ?
 			<div className="section-right-img">
 				<ItemProp property="image">
@@ -96,7 +95,7 @@ module.exports = React.createClass({
 			"";
 	},
 
-	renderTitle: function (shout) {
+	renderTitle(shout) {
 		return (
 			<h4>
 				<ItemProp property="url">
@@ -111,7 +110,7 @@ module.exports = React.createClass({
 		);
 	},
 
-	renderDescription: function (shout) {
+	renderDescription(shout) {
 		return (
 			<ItemProp property="description">
 				<p>{shout.text}</p>
@@ -119,8 +118,8 @@ module.exports = React.createClass({
 		);
 	},
 
-	render: function () {
-		var shout = this.props.shout;
+	render(){
+		let shout = this.props.shout;
 
 		return (
 			<Col xs={12} md={10} mdPull={this.props.logoRight ? 2 : 0} className="section-right">
