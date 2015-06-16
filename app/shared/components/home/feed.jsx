@@ -70,7 +70,10 @@ export default React.createClass({
 			);
 		}
 
-		shoutEls.push(shouts.map((shout, i) => (<Shout key={"shout-" + (i + 1) } shout={shout} index={i}/>)));
+		shoutEls.push(shouts.length > 0 ?
+				shouts.map((shout, i) => (<Shout key={"shout-" + (i + 1) } shout={shout} index={i}/>)) :
+				(<h5 key="warning">There are currently no shouts in your country. You may want to select another location above.</h5>)
+		);
 
 		if (isLoading && typeof window !== 'undefined') {
 			shoutEls.push(
