@@ -27,7 +27,7 @@ export default React.createClass({
     },
 
     render() {
-        let currentCity = this.state.locations.currentCity,
+        let currentCity = this.state.locations.current.city,
             beforeButton =
                 <div className="selectpicker bla bli">
                     <Button onClick={this.props.onFocus(2)} key="countrySelect"

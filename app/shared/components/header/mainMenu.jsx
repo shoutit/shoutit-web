@@ -6,11 +6,15 @@ export default React.createClass({
 	displayName: "MainMenu",
 
 	render: function () {
-		let currentCity = this.props.currentCity,
+		let currentCity = this.props.current.city,
+			currentCountry = this.props.current.country,
+			currentState = this.props.current.state,
 			linkParams = {};
 
-		if (currentCity) {
+		if (currentCity && currentCountry && currentState) {
 			linkParams.city = encodeURIComponent(currentCity);
+			linkParams.state = encodeURIComponent(currentState);
+			linkParams.country = encodeURIComponent(currentCountry);
 		}
 
 		return (

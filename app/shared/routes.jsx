@@ -33,9 +33,9 @@ let Feed = new Home("all"),
 export default (
 	<Route name="root" path="/" handler={Root}>
 		<Route name="app" path="/" handler={App}>
-			<Route name="feed" path="/feed/?:city?/?:page?" handler={Feed}/>
-			<Route name="offers" path="/offers/?:city?/?:page?" handler={Offers}/>
-			<Route name="requests" path="/requests/?:city?/?:page?" handler={Requests}/>
+			<Route name="feed" path="/feed/?:country?/?:state?/?:city?/?:page?" handler={Feed}/>
+			<Route name="offers" path="/offers/?:country?/?:state?/?:city?/?:page?" handler={Offers}/>
+			<Route name="requests" path="/requests/?:country?/?:state?/?:city?/?:page?" handler={Requests}/>
 			<Route name="user" path="/user/:username" handler={Profile}>
 				<Route name="listeners" handler={ProfileListeners}/>
 				<Route name="listening" handler={ProfileListening}/>

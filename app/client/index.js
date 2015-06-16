@@ -37,14 +37,12 @@ let ga = gAnalytics('UA-62656831-1');
 geolocation(function (gmaps, pos) {
     let geoCoder = new gmaps.Geocoder(),
         autoComplete = new gmaps.places.AutocompleteService();
-        //places = new gmaps.places.PlacesService();
 
     let locationsStore = flux.store('locations');
 
     locationsStore.setGeocoder(geoCoder, gmaps);
     locationsStore.setLocation(pos);
     locationsStore.setAutoComplete(autoComplete);
-    //locationsStore.setPlaces(places);
 });
 
 

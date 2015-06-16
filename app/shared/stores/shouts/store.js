@@ -100,6 +100,8 @@ var ShoutStore = Fluxxor.createStore({
 		client.list({
 			page_size: defaults.PAGE_SIZE,
 			city: locationsStore.getCurrentCity(),
+			country: locationsStore.getCurrentCountry(),
+			state: locationsStore.getCurrentState(),
 			shout_type: type
 		}).end(function (err, res) {
 			if (err || !res.body) {
@@ -165,7 +167,9 @@ var ShoutStore = Fluxxor.createStore({
 					page: collection.next,
 					shout_type: type,
 					page_size: defaults.PAGE_SIZE,
-					city: locationsStore.getCurrentCity()
+					city: locationsStore.getCurrentCity(),
+					country: locationsStore.getCurrentCountry(),
+					state: locationsStore.getCurrentState()
 				})
 				.end(function (err, res) {
 					if (err || res.status !== 200) {

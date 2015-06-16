@@ -49,7 +49,7 @@ export default React.createClass({
 			isLoading = storeState.loading;
 
 		let locStoreState = this.state.locations,
-			currentCity = locStoreState.currentCity;
+			currentCity = locStoreState.current.city;
 
 		let shoutEls = [];
 
@@ -131,10 +131,13 @@ export default React.createClass({
 
 	componentDidUpdate() {
 		let locStoreState = this.state.locations,
-			currentCity = locStoreState.currentCity,
+			currentCity = locStoreState.current.city,
+			currentCountry = locStoreState.current.country,
+			currentState = locStoreState.current.state,
 			currentPage = this.context.router.getCurrentParams().page;
 		if (currentCity) {
-			this.context.router.transitionTo(typeToRoute[this.props.type], {city: currentCity, page: currentPage});
+			this.context.router.transitionTo(typeToRoute[this.props.type],
+				{country: currentCountry, state: currentState, city: currentCity, page: currentPage});
 		}
 	}
 });

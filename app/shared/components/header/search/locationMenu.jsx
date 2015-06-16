@@ -7,7 +7,7 @@ export default React.createClass({
     displayName: "LocationMenu",
 
     render() {
-        let currentCity = this.props.currentCity;
+        let currentCity = this.props.current.city;
 
         return (
             <div className="selectpicker bla bli">
