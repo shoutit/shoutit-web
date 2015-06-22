@@ -3,13 +3,18 @@ import request from 'superagent';
 const PREFIX = "/api/shouts";
 
 export default {
-    list: function (query) {
-        return request
-            .get(PREFIX + '/')
-            .query(query);
-    },
-    get: function (shoutId) {
-        return request
-            .get(PREFIX + '/' + shoutId);
-    }
+	list(query) {
+		return request
+			.get(PREFIX + '/')
+			.query(query);
+	},
+	get(shoutId) {
+		return request
+			.get(PREFIX + '/' + shoutId);
+	},
+	create(shout) {
+		return request
+			.post(PREFIX + '/')
+			.send(shout);
+	}
 };

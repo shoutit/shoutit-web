@@ -15,7 +15,6 @@ router.route('/:id')
 	.get(require('./get')(ShoutClient))
 	.delete(require('./delete')(ShoutClient));
 
-
 module.exports = router;
 
 

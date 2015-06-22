@@ -1,4 +1,5 @@
 import findIndex from 'lodash/array/findIndex';
+import keys from 'lodash/object/keys';
 import Fluxxor from 'fluxxor';
 import url from 'url';
 
@@ -6,6 +7,8 @@ import consts from './consts';
 import client from './client';
 
 import defaults from '../../consts/defaults';
+
+import Promise from 'bluebird';
 
 function shoutCollectionInit() {
 	return {
@@ -17,6 +20,18 @@ function shoutCollectionInit() {
 	};
 }
 
+function shoutDraftInit() {
+	return {
+		title: null,
+		text: null,
+		price: null,
+		currency: null,
+		tags: [],
+		latLng: null,
+		type: "offer"
+	};
+}
+
 var ShoutStore = Fluxxor.createStore({
 	initialize(props) {
 		this.state = {
@@ -25,7 +40,8 @@ var ShoutStore = Fluxxor.createStore({
 			request: shoutCollectionInit(),
 			fullShouts: {},
 			loading: false,
-			currencies: {}
+			currencies: {},
+			draft: shoutDraftInit()
 		};
 
 		if (props.currencies) {
@@ -58,7 +74,9 @@ var ShoutStore = Fluxxor.createStore({
 			consts.REQUEST_FAILED, this.onReqFailed,
 			consts.LOAD_SHOUT, this.onLoadShout,
 			consts.LOAD_SHOUT_SUCCESS, this.onLoadShoutSuccess,
-			consts.LOAD_SHOUT_FAILED, this.onLoadShoutFailed
+			consts.LOAD_SHOUT_FAILED, this.onLoadShoutFailed,
+			consts.CHANGE_SHOUT_DRAFT, this.onChangeShoutDraft,
+			consts.SEND_SHOUT, this.onSendShout
 		);
 	},
 
@@ -75,12 +93,14 @@ var ShoutStore = Fluxxor.createStore({
 	},
 
 	saveUpdate(res, type = defaults.ALL_Type) {
-		let collection = this.state[type];
-		collection.shouts = this.augmentShouts(res.results);
-		collection.maxCount = Number(res.count);
-		collection.next = this.parsePage(res.next);
-		collection.prev = this.parsePage(res.previous);
-		collection.page = collection.next - 1 || collection.prev + 1 || 1;
+		if (res.results && res.results.length) {
+			let collection = this.state[type];
+			collection.shouts = this.augmentShouts(res.results);
+			collection.maxCount = Number(res.count);
+			collection.next = this.parsePage(res.next);
+			collection.prev = this.parsePage(res.previous);
+			collection.page = collection.next - 1 || collection.prev + 1 || 1;
+		}
 	},
 
 	parsePage(encUrl) {
@@ -149,7 +169,7 @@ var ShoutStore = Fluxxor.createStore({
 	},
 
 	onLoadShoutFailed({shoutId, res}) {
-		if(res.status !== 404) {
+		if (res.status !== 404) {
 			console.error(res.body);
 		}
 		this.state.fullShouts[shoutId] = null;
@@ -225,6 +245,99 @@ var ShoutStore = Fluxxor.createStore({
 		collection.page = collection.next - 1 || collection.prev + 1 || 1;
 		this.state.loading = false;
 		this.emit("change");
+	},
+
+	onChangeShoutDraft({key, value}) {
+		this.state.draft[key] = value;
+		console.log(this.state.draft);
+		this.emit("change");
+	},
+
+	onSendShout() {
+		this.validateDraft(this.state.draft)
+			.then(this.transformDraft.bind(this))
+			.then(this.sendShout)
+			.then(function (result) {
+				console.log(result);
+			}, function (err) {
+				console.error(err);
+			});
+
+	},
+
+	sendShout(shoutDraft) {
+		console.log(shoutDraft);
+
+		return new Promise(function (resolve, reject) {
+			client.create(shoutDraft)
+				.end(function (err, res) {
+					if (err || !res.body) {
+						reject(err);
+					} else {
+						resolve(res.body);
+					}
+				});
+		});
+	},
+
+	transformDraft(shoutDraft) {
+		let locationStore = this.flux.store('locations');
+
+		return new Promise(function (resolve, reject) {
+			let shoutToSend = {};
+
+			shoutToSend.title = shoutDraft.title;
+			shoutToSend.text = shoutDraft.text;
+			shoutToSend.type = shoutDraft.type;
+			shoutToSend.price = shoutDraft.price;
+			shoutToSend.currency = shoutDraft.currency.code;
+			shoutToSend.location = {
+				latitude: shoutDraft.latLng.lat(),
+				longitude: shoutDraft.latLng.lng()
+			};
+
+			console.log(shoutToSend);
+
+			locationStore.geocode(shoutDraft.latLng, function (err, response) {
+				if (err) {
+					reject(err);
+				} else {
+					shoutToSend.location.google_geocode_response = {
+						results: response,
+						status: "OK"
+					};
+					resolve(shoutToSend);
+				}
+			});
+		});
+	},
+
+	validateDraft(shoutDraft) {
+		let errors = {};
+
+		return new Promise(function (resolve, reject) {
+			if (!shoutDraft.title || shoutDraft.title.length < 10) {
+				errors.title = "Please enter a title with 10 to 200 chars";
+			}
+			if (!shoutDraft.text || shoutDraft.text.length < 10 || shoutDraft.text.length > 1000) {
+				errors.text = "Please enter a description with 10 to 1000 chars";
+			}
+			if (!shoutDraft.price) {
+				errors.price = "Please enter a price";
+			}
+			if (!shoutDraft.currency) {
+				errors.currency = "Please select a currency";
+			}
+			if (!shoutDraft.latLng) {
+				errors.locaiton = "Please select a location";
+			}
+
+			if (keys(errors).length) {
+				reject(errors);
+			} else {
+				resolve(shoutDraft);
+			}
+		});
 	},
 
 	serialize() {

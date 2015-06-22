@@ -69,7 +69,6 @@ p {
   border-color: #e1e1e1;
 }
 
-
 .messages .dropdown-menu, .nortification .dropdown-menu {
   width: 325px !important;
   height: 380px;
@@ -576,7 +575,7 @@ nav {
 }
 
 .t-edit-text > .btn-group.bootstrap-select > button {
-  background-color: #f1efef !important;
+  background-color: $shoutit-light-gray !important;
   height: 35px !important;
   width: 50% !important;
 }
@@ -596,7 +595,7 @@ nav {
 }
 
 .t-edit-text2 > .btn-group.bootstrap-select > button {
-  background-color: #f1efef !important;
+  background-color: $shoutit-light-gray !important;
   height: 35px !important;
   width: 65px !important;
 }
@@ -819,9 +818,10 @@ nav {
   margin: 5px 0 20px 0;
 }
 
-.form-control {
-  background-color: #f1efef;
+.form-control, .input-group-btn .btn-group .btn {
+  background-color: $shoutit-light-gray;
 }
+
 
 #inputTagator {
   width: 100%;
@@ -832,7 +832,7 @@ nav {
 }
 
 .tagator.options-hidden {
-  background-color: #f1efef;
+  background-color: $shoutit-light-gray;
   border-color: #e1e1e1;
 }
 
@@ -854,7 +854,6 @@ nav {
   padding: 0 10px;
 }
 
-
 .modal-content {
   width: 80%;
   margin: 0 auto;
@@ -862,7 +861,7 @@ nav {
 }
 
 .btn.dropdown-toggle.selectpicker.btn-inverse {
-  background: #f1efef;
+  background: $shoutit-light-gray;
   border-color: #ccc;
   color: #8a8a88;
   height: 100%;
@@ -886,13 +885,18 @@ iframe {
 }
 
 /*-------------end-modal---------------*/
-#form2 .btn-submit {
+.btn-submit {
   margin-top: 25px;
   margin-bottom: 40px;
 }
 
-#form2 .row-submit {
+.row-submit {
   text-align: center;
+}
+
+.locationInput {
+  height: 220px;
+  margin: 0 15px;
 }
 
 #form2 .form-group {
@@ -1164,6 +1168,7 @@ iframe {
   margin: 30px auto 0 auto;
   position: relative;
 }
+
 .loader .dot {
   width: 30px;
   height: 30px;
@@ -1176,6 +1181,7 @@ iframe {
   -o-animation: loading-anim 2s linear infinite;
   animation: loading-anim 2s linear infinite;
 }
+
 .loader .dot:nth-child(2) {
   -webkit-animation: loading-anim 2s linear infinite -0.4s;
   -moz-animation: loading-anim 2s linear infinite -0.4s;
@@ -1183,6 +1189,7 @@ iframe {
   -o-animation: loading-anim 2s linear infinite -0.4s;
   animation: loading-anim 2s linear infinite -0.4s;
 }
+
 .loader .dot:nth-child(3) {
   -webkit-animation: loading-anim 2s linear infinite -0.8s;
   -moz-animation: loading-anim 2s linear infinite -0.8s;
@@ -1190,6 +1197,7 @@ iframe {
   -o-animation: loading-anim 2s linear infinite -0.8s;
   animation: loading-anim 2s linear infinite -0.8s;
 }
+
 .loader .dot:nth-child(4) {
   -webkit-animation: loading-anim 2s linear infinite -1.2s;
   -moz-animation: loading-anim 2s linear infinite -1.2s;
@@ -1197,6 +1205,7 @@ iframe {
   -o-animation: loading-anim 2s linear infinite -1.2s;
   animation: loading-anim 2s linear infinite -1.2s;
 }
+
 .loader .dot:nth-child(5) {
   -webkit-animation: loading-anim 2s linear infinite -1.6s;
   -moz-animation: loading-anim 2s linear infinite -1.6s;
@@ -1235,6 +1244,7 @@ iframe {
     top: 0;
   }
 }
+
 @-moz-keyframes loading-anim {
   0% {
     left: 100px;
@@ -1265,6 +1275,7 @@ iframe {
     top: 0;
   }
 }
+
 @-ms-keyframes loading-anim {
   0% {
     left: 100px;
@@ -1295,31 +1306,37 @@ iframe {
     top: 0;
   }
 }
+
 @-oi-keyframes loading-anim {
   0% {
     left: 100px;
     top: 0;
   }
+
   80% {
     left: 0;
     top: 0;
   }
+
   85% {
     left: 0;
     top: -20px;
     width: 20px;
     height: 20px;
   }
+
   90% {
     width: 40px;
     height: 15px;
   }
+
   95% {
     left: 100px;
     top: -20px;
     width: 20px;
     height: 20px;
   }
+
   100% {
     left: 100px;
     top: 0;

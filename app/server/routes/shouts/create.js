@@ -15,5 +15,5 @@ module.exports = function (client) {
 				console.error(err);
 				res.status(500).send(err);
 			});
-	}
+	};
 };

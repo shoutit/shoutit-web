@@ -65,8 +65,6 @@ let LocationsStore = Fluxxor.createStore({
 	},
 
 	onSelectLocation({prediction}) {
-
-		this.state.currentLocation = null;
 		this.geocoder.geocode({
 			placeId: prediction.id
 		}, this.parseGeocoderResult);
@@ -101,7 +99,7 @@ let LocationsStore = Fluxxor.createStore({
 	},
 
 	setLocation(latLng) {
-		this.state.currentLocation = latLng;
+		this.state.current.location = latLng;
 		if (this.geocoder && !this.state.current.city) {
 			this.resolvePosition(latLng);
 		}
@@ -169,7 +167,6 @@ let LocationsStore = Fluxxor.createStore({
 			console.warn('Geocoder failed due to: ' + status);
 		}
 
-
 		this.state.loadingLocation = false;
 		this.emit("change");
 	},
@@ -178,6 +175,16 @@ let LocationsStore = Fluxxor.createStore({
 		this.geocoder.geocode({
 			latLng: pos
 		}, this.parseGeocoderResult);
+	},
+
+	geocode(latLng, cb) {
+		this.geocoder.geocode({latLng}, function (results, status) {
+			if (status == this.gmaps.GeocoderStatus.OK) {
+				cb(null, results);
+			} else {
+				cb(status);
+			}
+		}.bind(this));
 	},
 
 	serialize() {
@@ -202,6 +209,10 @@ let LocationsStore = Fluxxor.createStore({
 
 	getCurrentState() {
 		return this.state.current.state;
+	},
+
+	getGMapsInstance() {
+		return this.gmaps;
 	}
 });
 

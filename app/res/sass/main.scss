@@ -4,6 +4,7 @@
 $shoutit-dark-green: #99ca3b;
 $shoutit-light-green: #bfdd6d;
 $shoutit-dark-gray: #343837;
+$shoutit-light-gray: #f1efef;
 
 @import "customstyle";
 @import "fonts";
@@ -11,7 +12,7 @@ $shoutit-dark-gray: #343837;
 @import "style";
 @import "vuong";
 
-.form-control {
+.form-control, .modal-form .btn-group .btn {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   height: 45px;

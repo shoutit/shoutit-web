@@ -31,7 +31,6 @@ export default {
 		});
 	},
 
-
 	loadShout(shoutId) {
 		this.dispatch(consts.LOAD_SHOUT, {
 			shoutId: shoutId
@@ -49,5 +48,15 @@ export default {
 			shoutId: shoutId,
 			res: res
 		});
+	},
+
+	changeShoutDraft(key, value) {
+		this.dispatch(consts.CHANGE_SHOUT_DRAFT, {
+			key, value
+		});
+	},
+
+	sendShout() {
+		this.dispatch(consts.SEND_SHOUT);
 	}
 };

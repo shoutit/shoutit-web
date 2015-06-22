@@ -704,7 +704,7 @@ footer {
   width: 70%;
 
   .from-control, .input-group-addon {
-    background-color: #f1efef;
+    background-color: $shoutit-light-gray;
     border: 1px solid #e1e1e1;
   }
 
@@ -1454,7 +1454,7 @@ footer {
 }
 
 .contact-map-bot .btn.dropdown-toggle.selectpicker.btn-default {
-  background-color: #f1efef;
+  background-color: $shoutit-light-gray;
   border: 1px solid #e1e1e1;
 }
 
@@ -1673,7 +1673,7 @@ footer {
 }
 
 .enter-location {
-  background-color: #f1efef;
+  background-color: $shoutit-light-gray;
   border: 1px solid #e1e1e1;
   border-radius: 4px;
   color: #8a8a88;
