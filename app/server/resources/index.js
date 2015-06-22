@@ -19,7 +19,9 @@ var ShoutitClient = rest.service(function (endpoint) {
 	tags: require('./tags'),
 	//search: require('./search'),
 	misc: require('./misc'),
-	pusher: require('./pusher')
+	pusher: require('./pusher'),
+	notifications: require('./notifications'),
+	conversations: require('./conversations')
 });
 
 module.exports = new ShoutitClient(ENDPOINT_SERVER);

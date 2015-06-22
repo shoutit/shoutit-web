@@ -1,5 +1,5 @@
 /**
- * Created by Philip on 27.02.2015.
+ * Created by Philip on 22.06.2015.
  */
 
 module.exports = function (client) {
@@ -17,3 +17,4 @@ module.exports = function (client) {
 			});
 	};
 };
+

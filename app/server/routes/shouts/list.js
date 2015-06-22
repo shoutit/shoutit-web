@@ -19,5 +19,5 @@ module.exports = function (client) {
 		req.on('close', function() {
 			request.abort();
 		});
-	}
+	};
 };

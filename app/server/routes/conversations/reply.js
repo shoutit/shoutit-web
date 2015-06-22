@@ -1,10 +1,10 @@
 /**
- * Created by Philip on 27.02.2015.
+ * Created by Philip on 22.06.2015.
  */
 
 module.exports = function (client) {
 	return function (req, res) {
-		client.del(req.session, req.params.id)
+		client.reply(req.session, req.params.id, req.body)
 			.on('success', function (data) {
 				res.json(data);
 			})
@@ -17,3 +17,4 @@ module.exports = function (client) {
 			});
 	};
 };
+

@@ -39,7 +39,7 @@ let MessagesStore = Fluxxor.createStore({
 	},
 
 	onNewMessage(message) {
-		console.log(LOG_TAG, "[new_message]", message)
+		console.log(LOG_TAG, "[new_message]", message);
 	},
 
 	onNewListen(user) {
