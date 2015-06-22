@@ -11,11 +11,13 @@ var merge = require('lodash/object/merge'),
 	TagStore = require('./stores/tags/store'),
 	SearchStore = require('./stores/search/store'),
 	LocationsStore = require('./stores/locations/store'),
+	MessagesStore = require('./stores/messages/store'),
 	userActions = require('./stores/users/actions'),
 	shoutActions = require('./stores/shouts/actions'),
 	tagActions = require('./stores/tags/actions'),
 	searchActions = require('./stores/search/actions'),
-	locationsActions = require('./stores/locations/actions');
+	locationsActions = require('./stores/locations/actions'),
+	messagesActions = require('./stores/messages/actions');
 
 module.exports = function (router, user, data, params, currencies) {
 	var stores = {
@@ -26,10 +28,13 @@ module.exports = function (router, user, data, params, currencies) {
 		shouts: new ShoutStore(merge({}, data, {currencies}), params),
 		tags: new TagStore(data, params),
 		search: new SearchStore(merge({}, data, params)),
-		locations: new LocationsStore(merge({}, data, {router, params}))
+		locations: new LocationsStore(merge({}, data, {router, params})),
+		messages: new MessagesStore({
+			user
+		})
 	};
 
-	var actions = merge({}, userActions, shoutActions, tagActions, searchActions, locationsActions);
+	var actions = merge({}, userActions, shoutActions, tagActions, searchActions, locationsActions, messagesActions);
 
 	var flux = new Fluxxor.Flux(stores, actions);
 

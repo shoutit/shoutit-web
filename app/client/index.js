@@ -7,6 +7,7 @@ import Flux from '../shared/flux';
 import facebook from './fb';
 import gAnalytics from './ga';
 import geolocation from './geolocation';
+import pusher from './pusher';
 
 let router = Router.create({
     routes: routes,
@@ -23,7 +24,7 @@ if (window.fluxData) {
 
 flux.on("dispatch", function (type, payload) {
     if (console && console.log) {
-        console.log("[Dispatch]", type, payload);
+        console.log("[Flux]", type, payload);
     }
 });
 
@@ -44,6 +45,12 @@ geolocation(function (gmaps, pos) {
     locationsStore.setLocation(pos);
     locationsStore.setAutoComplete(autoComplete);
 });
+
+// Pusher Service
+let pusherClient = pusher('86d676926d4afda44089', '/api/pusher/auth'),
+    messageStore = flux.store('messages');
+
+messageStore.setPusherClient(pusherClient);
 
 
 router.run(function (Handler, state) {
