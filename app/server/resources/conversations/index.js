@@ -6,7 +6,7 @@ var SUBROUTE = 'conversations';
 
 module.exports = function () {
 	return {
-		list: require('./list')(this, SUBROUTE),
+		load: require('./list')(this, SUBROUTE),
 		messages: require('./messages')(this, SUBROUTE),
 		read: require('./read')(this, SUBROUTE),
 		unread: require('./unread')(this, SUBROUTE),

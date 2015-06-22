@@ -12,6 +12,7 @@ apiRouter.use('/tags', require('./tags'));
 apiRouter.use('/pusher', require('./pusher'));
 apiRouter.use('/notifications', require('./notifications'));
 apiRouter.use('/conversations', require('./conversations'));
+apiRouter.use('/messages', require('./messages'));
 
 // TODO Fix SearchAll Client
 //apiRouter.use('/search', require('./search'));

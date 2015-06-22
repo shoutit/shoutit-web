@@ -21,7 +21,8 @@ var ShoutitClient = rest.service(function (endpoint) {
 	misc: require('./misc'),
 	pusher: require('./pusher'),
 	notifications: require('./notifications'),
-	conversations: require('./conversations')
+	conversations: require('./conversations'),
+	messages: require('./messages')
 });
 
 module.exports = new ShoutitClient(ENDPOINT_SERVER);

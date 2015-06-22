@@ -4,7 +4,7 @@
 
 module.exports = function (client) {
 	return function (req, res) {
-		var request = client.load(req.session, req.query)
+		client.del(req.session, req.params.id)
 			.on('success', function (data) {
 				res.json(data);
 			})
@@ -15,9 +15,6 @@ module.exports = function (client) {
 				console.error(err);
 				res.status(500).send(err);
 			});
-
-		req.on('close', function() {
-			request.abort();
-		});
 	};
 };
+
