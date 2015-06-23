@@ -8,5 +8,5 @@ module.exports = function (client, path) {
 			query: query,
 			accessToken: session && session.accessToken ? session.accessToken : null
 		});
-	}
+	};
 };

@@ -7,23 +7,26 @@ import request from 'superagent';
 const PREFIX = '/api/notifications';
 
 export default {
-	list(query) {
+	loadNotifications() {
 		return request
-			.get(PREFIX + '/')
-			.query(query);
+			.get(PREFIX + '/');
 	},
 
-	reset() {
+	loadMoreNotifications(query) {
+		return this.loadNotifications().query(query);
+	},
+
+	resetNotifications() {
 		return request
 			.post(PREFIX + '/reset');
 	},
 
-	read(id) {
+	readNotification(id) {
 		return request
 			.post(PREFIX + '/' + id + '/read');
 	},
 
-	unread(id) {
+	unreadNotification(id) {
 		return request
 			.del(PREFIX + '/' + id + '/read');
 	}

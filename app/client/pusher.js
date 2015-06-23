@@ -45,5 +45,22 @@ export default function (APP_KEY, authEndpoint) {
 		console.log(LOG_TAG, 'disconnected');
 	});
 
+	pusher.subscribeUser = function (flux, loggedUser) {
+		if (loggedUser) {
+			let channelId = 'presence-u-' + loggedUser.id;
+			let presenceChannel = pusher.subscribe(channelId);
+			presenceChannel.bind('pusher:subscription_succeeded', function () {
+				console.log("[PUSHER]", "Subscribed:", channelId);
+				presenceChannel.bind("new_message", function (message) {
+					flux.actions.newMessage(message);
+				});
+				//presenceChannel.bind("new_listen", this.onNewListen.bind(this));
+				//this.state.presenceChannel.bind("profile_change", this.onProfileChange.bind(this));
+			});
+
+			pusher.presenceChannel = presenceChannel;
+		}
+	};
+
 	return pusher;
 }

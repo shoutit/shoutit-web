@@ -3,51 +3,217 @@
  */
 
 import Fluxxor from 'fluxxor';
+import findIndex from 'lodash/array/findIndex';
+import remove from 'lodash/array/remove';
 
 import consts from './consts';
 
-const LOG_TAG = "[Pusher]";
+const LOG_TAG = "[Messages-Store]";
 
 let MessagesStore = Fluxxor.createStore({
 	initialize(props) {
 		this.state = {
-			userId: null,
-			presenceChannel: null
+			loading: true,
+			conversations: []
 		};
 
 		if (props.user) {
 			this.state.userId = props.user.id;
 		}
+
+		this.bindActions(
+			consts.LOAD_CONVERSATIONS, this.onLoadConversations,
+			consts.LOAD_CONVERSATIONS_SUCCESS, this.onLoadConversationsSuccess,
+			consts.LOAD_CONVERSATIONS_FAILED, this.onRequestFailed("load conversations failed"),
+
+			consts.LOAD_MORE_CONVERSATIONS, this.onLoadMoreConversations,
+			consts.LOAD_MORE_CONVERSATIONS_SUCCESS, this.onLoadMoreConversationsSuccess,
+			consts.LOAD_MORE_CONVERSATIONS_FAILED, this.onRequestFailed("load more conversations failed"),
+
+			consts.LOAD_CONVERSATION, this.onLoadConversation,
+			consts.LOAD_CONVERSATION_SUCCESS, this.onLoadConversationSuccess,
+			consts.LOAD_CONVERSATION_FAILED, this.onRequestFailed("load conversation failed"),
+
+			consts.LOAD_MORE_CONVERSATION, this.onLoadMoreConversation,
+			consts.LOAD_MORE_CONVERSATION_SUCCESS, this.onLoadMoreConversationSuccess,
+			consts.LOAD_MORE_CONVERSATION_FAILED, this.onRequestFailed("load conversation failed"),
+
+			consts.DELETE_CONVERSATION, this.onDeleteConversation,
+			consts.DELETE_CONVERSATION_SUCCESS, this.onDeleteConversationSuccess,
+			consts.DELETE_CONVERSATION_FAILED, this.onRequestFailed("delete conversation failed"),
+
+			consts.READ_CONVERSATION, this.onReadConversation,
+			consts.READ_CONVERSATION_SUCCESS, this.onReadConversationSuccess,
+			consts.READ_CONVERSATION_FAILED, this.onRequestFailed("read conversation failed"),
+
+			consts.UNREAD_CONVERSATION, this.onUnreadConversation,
+			consts.UNREAD_CONVERSATION_SUCCESS, this.onUnreadConversationSuccess,
+			consts.UNREAD_CONVERSATION_FAILED, this.onRequestFailed("unread conversation failed"),
+
+			consts.REPLY_CONVERSATION, this.onReplyConversation,
+			consts.REPLY_CONVERSATION_SUCCESS, this.onReplyConversationSuccess,
+			consts.REPLY_CONVERSATION_FAILED, this.onRequestFailed("reply conversation failed"),
+
+			consts.DELETE_MESSAGE, this.onDeleteMessage,
+			consts.DELETE_MESSAGE_SUCCESS, this.onDeleteMessageSuccess,
+			consts.DELETE_MESSAGE_FAILED, this.onRequestFailed("delete message failed"),
+
+			consts.NEW_MESSAGE, this.onNewMessage
+		);
 	},
 
-	setPusherClient(pusherClient) {
-		this.pusherClient = pusherClient;
-		if (this.state.userId) {
-			let channelId = 'presence-u-' + this.state.userId;
-			this.state.presenceChannel = this.pusherClient.subscribe(channelId);
-			this.state.presenceChannel.bind('pusher:subscription_succeeded', function () {
-				console.log(LOG_TAG, "Subscribed:", channelId);
-				this.bindPusherEvents();
-			}.bind(this));
-		}
-	},
-
-	bindPusherEvents() {
-		this.state.presenceChannel.bind("new_message", this.onNewMessage.bind(this));
-		this.state.presenceChannel.bind("new_listen", this.onNewListen.bind(this));
-		this.state.presenceChannel.bind("profile_change", this.onProfileChange.bind(this));
-	},
-
-	onNewMessage(message) {
+	onNewMessage({message}) {
 		console.log(LOG_TAG, "[new_message]", message);
 	},
 
-	onNewListen(user) {
-		console.log(LOG_TAG, "[new_listen]", user);
+	onLoadConversations() {
+		this.state.loading = true;
+		this.emit("change");
 	},
 
-	onProfileChange(user) {
-		console.log(LOG_TAG, "[profile_change]", user);
+	saveConversations(res) {
+		if (res.results && res.results.length) {
+			this.state.conversations = res.results;
+		}
+	},
+
+	onLoadConversationsSuccess({res}) {
+		this.saveConversations(res);
+		this.state.loading = false;
+		this.emit("change");
+	},
+
+	onLoadMoreConversations() {
+		this.state.loading = true;
+		this.emit("change");
+	},
+
+	onLoadMoreConversationsSuccess({before, res}) {
+		res.results.forEach(function (conversation) {
+			var index = this.getIndex(conversation.id);
+			if (index >= 0) {
+				this.state.conversations[index] = conversation;
+			} else {
+				this.state.conversations.push(conversation);
+			}
+		}.bind(this));
+
+		this.state.loading = false;
+		this.emit("change");
+	},
+
+	onLoadConversation({id}) {
+		this.state.loading = true;
+		this.emit("change");
+	},
+
+	onLoadConversationSuccess({id, res}) {
+		let conversation = this.state.conversations[this.getIndex(id)];
+		conversation.messages = res.results;
+
+		this.state.loading = false;
+		this.emit("change");
+	},
+
+	onLoadMoreConversation({id, before}) {
+		this.state.loading = true;
+		this.emit("change");
+	},
+
+	onLoadMoreConversationSuccess({id, before, res}) {
+		let conversation = this.state.conversations[this.getIndex(id)];
+		res.results.forEach(function (message) {
+			let index = findIndex(conversation.messages);
+			if (index) {
+				conversation.messages[index] = message;
+			} else {
+				conversation.messages.splice(0, 0, message);
+			}
+		});
+
+		this.state.loading = false;
+		this.emit("change");
+	},
+
+	onDeleteConversation({id}) {
+		this.state.loading = true;
+		this.emit("change");
+	},
+
+	onDeleteConversationSuccess({id}) {
+		remove(this.state.conversations, "id", id);
+		this.state.loading = false;
+		this.emit("change");
+	},
+
+	onReadConversation({id}) {
+		this.state.loading = true;
+		this.emit("change");
+	},
+
+	onReadConversationSuccess({id}) {
+		let conversation = this.state.conversations[this.getIndex(id)];
+		conversation.unread_messages_count = 0;
+		conversation.messages.forEach(function (message) {
+			message.is_read = true;
+		});
+
+		this.state.loading = false;
+		this.emit("change");
+	},
+
+	onUnreadConversation({id}) {
+		this.state.loading = true;
+		this.emit("change");
+	},
+
+	onUnreadConversationSuccess({id}) {
+		let conversation = this.state.conversations[this.getIndex(id)];
+		conversation.unread_messages_count = conversation.messages.length;
+		conversation.messages.forEach(function (message) {
+			message.is_read = false;
+		});
+
+		this.state.loading = false;
+		this.emit("change");
+	},
+
+	onReplyConversation({id, message}) {
+		this.state.loading = true;
+		this.emit("change");
+	},
+
+	onReplyConversationSuccess({id, message}) {
+		let conversation = this.state.conversations[this.getIndex(id)];
+		conversation.messages.push(message);
+
+		this.state.loading = false;
+		this.emit("change");
+	},
+
+	onDeleteMessage({id}) {
+		this.state.loading = true;
+		this.emit("change");
+	},
+
+	onDeleteMessageSuccess({id, conId}) {
+		let conversation = this.getIndex(conId);
+		remove(conversation.messages, "id", id);
+
+		this.state.loading = false;
+		this.emit("change");
+	},
+
+	getIndex(conId) {
+		return findIndex(this.state.conversations, 'id', conId);
+	},
+
+	onRequestFailed(tag) {
+		return function ({error}) {
+			console.error(LOG_TAG, tag, error);
+			this.state.loading = false;
+			this.emit("change");
+		};
 	},
 
 	serialize() {

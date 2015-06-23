@@ -21,11 +21,11 @@ let NotificationStore = Fluxxor.createStore({
 		this.bindActions(
 			consts.LOAD_NOTIFICATIONS, this.onLoadNotifications,
 			consts.LOAD_NOTIFICATIONS_SUCCESS, this.onLoadNotificationsSuccess,
-			consts.LOAD_NOTIFICATIONS_FAILED, this.onRequestFailed("load notification failed"),
+			consts.LOAD_NOTIFICATIONS_FAILED, this.onRequestFailed("load notifications failed"),
 
 			consts.LOAD_MORE_NOTIFICATIONS, this.onLoadMoreNotifications,
 			consts.LOAD_MORE_NOTIFICATIONS_SUCCESS, this.onLoadMoreNotificationsSuccess,
-			consts.LOAD_MORE_NOTIFICATIONS_FAILED, this.onRequestFailed("load more notification failed"),
+			consts.LOAD_MORE_NOTIFICATIONS_FAILED, this.onRequestFailed("load more notifications failed"),
 
 			consts.RESET_NOTIFICATIONS, this.onResetNotifications,
 			consts.RESET_NOTIFICATIONS_SUCCESS, this.onResetNotificationsSuccess,

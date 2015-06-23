@@ -93,7 +93,7 @@ var ShoutStore = Fluxxor.createStore({
 	},
 
 	saveUpdate(res, type = defaults.ALL_Type) {
-		if (res.results && res.results.length) {
+		if (res.results) {
 			let collection = this.state[type];
 			collection.shouts = this.augmentShouts(res.results);
 			collection.maxCount = Number(res.count);

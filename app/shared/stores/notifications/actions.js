@@ -7,10 +7,10 @@ import client from './client';
 
 
 export default {
-	load() {
+	loadNotifications() {
 		this.dispatch(consts.LOAD_NOTIFICATIONS);
 
-		client.list()
+		client.loadNotifications()
 			.end(function (error, res) {
 				if (error) {
 					this.dispatch(consts.LOAD_NOTIFICATIONS_FAILED, {
@@ -24,11 +24,10 @@ export default {
 			});
 	},
 
-	loadMore(before) {
+	loadMoreNotifications(before) {
 		this.dispatch(consts.LOAD_MORE_NOTIFICATIONS);
 
-		client.list()
-			.query({before})
+		client.loadMoreNotifications({before})
 			.end(function (error, res) {
 				if (error) {
 					this.dispatch(consts.LOAD_MORE_NOTIFICATIONS_FAILED, {
@@ -43,10 +42,10 @@ export default {
 			});
 	},
 
-	reset() {
+	resetNotifications() {
 		this.dispatch(consts.RESET_NOTIFICATIONS);
 
-		client.reset()
+		client.resetNotifications()
 			.end(function (error) {
 				if (error) {
 					this.dispatch(consts.RESET_NOTIFICATIONS_FAILED, {
@@ -58,12 +57,12 @@ export default {
 			});
 	},
 
-	read(id) {
+	readNotification(id) {
 		this.dispatch(consts.READ_NOTIFICATION, {
 			id
 		});
 
-		client.read(id)
+		client.readNotification(id)
 			.end(function (error) {
 				if (error) {
 					this.dispatch(consts.READ_NOTIFICATION_FAILED, {
@@ -77,12 +76,12 @@ export default {
 			});
 	},
 
-	unread(id) {
+	unreadNotification(id) {
 		this.dispatch(consts.UNREAD_NOTIFICATION, {
 			id
 		});
 
-		client.unread(id)
+		client.unreadNotification(id)
 			.end(function (error) {
 				if (error) {
 					this.dispatch(consts.UNREAD_NOTIFICATION_FAILED, {
