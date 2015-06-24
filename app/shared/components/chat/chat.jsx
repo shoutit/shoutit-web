@@ -37,7 +37,7 @@ export default React.createClass({
 					<ConversationList
 						onSelect={this.onSelectConversation}
 						conversations={this.state.conversations}
-						selectedConversation={this.state.selectedConversation}/>
+						selectedConversation={activeConversation ? activeConversation.id : null}/>
 				</Col>
 				<Col xs={12} md={8} className="chat-left-padding">
 					<MessageList
@@ -84,7 +84,7 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
-		if(!this.state.conversations) {
+		if (!this.state.conversations) {
 			this.getFlux().actions.loadConversations();
 		}
 	}
