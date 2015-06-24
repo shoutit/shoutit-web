@@ -543,9 +543,18 @@ footer {
 }
 
 .from-msg {
+  background-color: #e5f4cf;
   float: right;
   width: 85%;
   position: relative;
+
+  .timestamp {
+    float: right;
+    text-align: right;
+    padding: 2px;
+    color: #6b6b6b;
+    font-size: 12px;
+  }
 }
 
 .from {
@@ -555,10 +564,11 @@ footer {
 }
 
 .from-msg > p {
-  background-color: #e5f4cf;
   color: #6b6b6b;
   font-size: 15px;
-  padding: 10px;
+  padding: 5px;
+  padding-left: 10px;
+  margin-bottom: 0;
 }
 
 .muichat {
@@ -596,14 +606,24 @@ footer {
 }
 
 .to-msg {
+  background-color: #eeeeee;
   float: right;
   width: 85%;
   position: relative;
+
+  .timestamp {
+    float: right;
+    text-align: right;
+    padding: 2px;
+    color: #6b6b6b;
+    font-size: 12px;
+  }
 }
 
 .to-msg > p {
-  background-color: #eeeeee;
-  padding: 15px;
+  padding: 5px;
+  padding-left: 10px;
+  margin-bottom: 0;
   color: #6b6b6b;
   font-size: 15px;
 }

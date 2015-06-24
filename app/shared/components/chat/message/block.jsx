@@ -1,6 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
+import moment from 'moment';
 
 import {Image, Icon} from '../../helper';
 
@@ -31,8 +32,17 @@ export default React.createClass({
 				<div className={msgClasses}>
 					{this.renderMessages()}
 					{this.renderMui()}
+					{this.renderTime()}
 				</div>
 			</div>
+		);
+	},
+
+	renderTime() {
+		let messages = this.props.messages,
+			lastMessage = messages[messages.length - 1];
+		return (
+			<span className="timestamp">{moment.unix(lastMessage.created_at).fromNow()}</span>
 		);
 	},
 
