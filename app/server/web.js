@@ -34,7 +34,7 @@ var morgan = require('morgan'),
 // Runtime Data:
 var SERVER_ROOT = process.env.SERVER_ROOT || "localhost:8080";
 var graphData = require('./resources/consts/graphData');
-var currencies, sortTypes;
+var currencies, categories, sortTypes;
 
 function updateCurrencies() {
 	ShoutitClient.misc().currencies()
@@ -53,12 +53,28 @@ updateCurrencies();
 // Update Currencies every 2 minutes
 setInterval(updateCurrencies, 1000 * 60 * 2);
 
+function updateCategories() {
+	ShoutitClient.misc().categories()
+		.on('complete', function (result, resp) {
+			if (result instanceof Error || resp.statusCode !== 200) {
+				console.error("Cannot fetch currencies.");
+			} else {
+				categories = object(pluck(result, "name"), result);
+				console.log("Fetched " + result.length + " categories.");
+			}
+		});
+}
+
+updateCategories();
+
+setInterval(updateCategories, 1000 * 60 * 5);
+
 ShoutitClient.misc().sortTypes()
 	.on('complete', function (result, resp) {
 		if (result instanceof Error || resp.statusCode !== 200) {
 			console.error("Cannot fetch currencies.");
 		} else {
-			sortTypes = object(pluck(result, "code"), pluck(result, "name"));
+			sortTypes = object(pluck(result, "type"), pluck(result, "name"));
 			console.log("Fetched " + result.length + " sortTypes.");
 		}
 	});
@@ -167,7 +183,7 @@ function reactServerRender(req, res) {
 				//console.dir(data, {depth: 2});
 
 				console.time("RenderReact");
-				var flux = new Flux(null, user, data, state.params, currencies),
+				var flux = new Flux(null, user, data, state.params, currencies, categories, sortTypes),
 					serializedFlux = flux.serialize(),
 					content = React.renderToString(
 						React.createElement(Handler, {
@@ -311,6 +327,14 @@ module.exports = function (app) {
 
 	app.use('/search/:term/shouts', function shoutSearchRedirect(req, res) {
 		res.redirect('/search/' + req.params.term);
+	});
+
+	app.use('/chat', function redirectNotLoggedUser(req, res, next) {
+		if (req.session && req.session.user) {
+			next();
+		} else {
+			res.redirect('/login');
+		}
 	});
 
 	app.use(reactServerRender);

@@ -50,7 +50,7 @@ export default function (APP_KEY, authEndpoint) {
 			let channelId = 'presence-u-' + loggedUser.id;
 			let presenceChannel = pusher.subscribe(channelId);
 			presenceChannel.bind('pusher:subscription_succeeded', function () {
-				console.log("[PUSHER]", "Subscribed:", channelId);
+				console.log(LOG_TAG, "Subscribed:", channelId);
 				presenceChannel.bind("new_message", function (message) {
 					flux.actions.newMessage(message);
 				});
@@ -59,6 +59,13 @@ export default function (APP_KEY, authEndpoint) {
 			});
 
 			pusher.presenceChannel = presenceChannel;
+		}
+	};
+
+	pusher.unsubscribeUser = function () {
+		if (pusher.presenceChannel) {
+			pusher.unsubscribe(pusher.presenceChannel.name);
+			pusher.presenceChannel = null;
 		}
 	};
 

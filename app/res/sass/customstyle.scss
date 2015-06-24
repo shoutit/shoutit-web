@@ -372,11 +372,12 @@ footer {
 
 .col-xs-12.col-md-12.chat-left > ul {
   display: inline-block;
-  height: 670px;
+  height: 500px;
   list-style: outside none none;
   padding: 0;
   border-bottom: 1px solid #d9dada;
   margin-bottom: 15px;
+  width: 100%;
 }
 
 .col-xs-12.col-md-12.chat-left li {
@@ -402,6 +403,9 @@ footer {
   color: #6b6b6b;
   font-size: 15px;
   margin-bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .col-xs-10.col-md-10.chat-ul-right {
@@ -438,6 +442,11 @@ footer {
 
 .col-xs-2.col-md-2.chat-ul-left {
   padding-left: 0;
+
+  img {
+    width: 50px;
+    border-radius: 25px;
+  }
 }
 
 .chat-search > input {
@@ -526,6 +535,11 @@ footer {
   float: left;
   margin-right: 15px;
   width: 10%;
+
+  img {
+    width: 50px;
+    border-radius: 25px;
+  }
 }
 
 .from-msg {
@@ -559,7 +573,9 @@ footer {
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 15px;
+  height: 500px;
   width: 100%;
+  overflow-y: scroll;
 }
 
 .to {
@@ -572,6 +588,11 @@ footer {
   float: right;
   margin-left: 15px;
   width: 10%;
+
+  img {
+    width: 50px;
+    border-radius: 25px;
+  }
 }
 
 .to-msg {
@@ -626,6 +647,8 @@ footer {
 
 .input-text-bottom {
   margin-top: 5px;
+  min-height: 31px;
+  margin-bottom: 5px;
 }
 
 .input-text-icon > img {

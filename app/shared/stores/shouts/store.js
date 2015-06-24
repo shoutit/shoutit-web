@@ -41,11 +41,21 @@ var ShoutStore = Fluxxor.createStore({
 			fullShouts: {},
 			loading: false,
 			currencies: {},
+			categories: {},
+			sortTypes: {},
 			draft: shoutDraftInit()
 		};
 
 		if (props.currencies) {
 			this.state.currencies = props.currencies;
+		}
+
+		if (props.categories) {
+			this.state.categories = props.categories;
+		}
+
+		if (props.sortTypes) {
+			this.state.sortTypes = props.sortTypes;
 		}
 
 		let feedData = props.home || props.feed;
@@ -295,6 +305,11 @@ var ShoutStore = Fluxxor.createStore({
 				latitude: shoutDraft.latLng.lat(),
 				longitude: shoutDraft.latLng.lng()
 			};
+			shoutToSend.tags = shoutDraft.tags.map(function (tag) {
+				return {
+					name: tag
+				};
+			});
 
 			console.log(shoutToSend);
 
@@ -302,10 +317,7 @@ var ShoutStore = Fluxxor.createStore({
 				if (err) {
 					reject(err);
 				} else {
-					shoutToSend.location.google_geocode_response = {
-						results: response,
-						status: "OK"
-					};
+					shoutToSend.location.google_geocode_response = response;
 					resolve(shoutToSend);
 				}
 			});

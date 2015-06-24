@@ -19,7 +19,6 @@ let flux = new Flux(router);
 if (window.fluxData) {
 	flux.hydrate(window.fluxData);
 	document.body.replaceChild(document.createElement('script'), document.getElementById('fluxData'));
-	//window.flux = flux;
 }
 
 flux.on("dispatch", function (type, payload) {
@@ -36,14 +35,10 @@ let ga = gAnalytics('UA-62656831-1');
 
 // Maps Geolocation
 geolocation(function (gmaps, pos) {
-	let geoCoder = new gmaps.Geocoder(),
-		autoComplete = new gmaps.places.AutocompleteService();
-
 	let locationsStore = flux.store('locations');
 
-	locationsStore.setGeocoder(geoCoder, gmaps);
+	locationsStore.setGMaps(gmaps);
 	locationsStore.setLocation(pos);
-	locationsStore.setAutoComplete(autoComplete);
 });
 
 // Pusher Service
@@ -55,6 +50,10 @@ pusherClient.subscribeUser(flux, usersStore.getLoggedUser());
 
 usersStore.on("login", function () {
 	pusherClient.subscribeUser(flux, usersStore.getLoggedUser());
+});
+
+usersStore.on("logout", function () {
+	pusherClient.unsubscribeUser();
 });
 
 

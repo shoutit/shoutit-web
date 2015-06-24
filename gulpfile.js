@@ -30,7 +30,7 @@ gulp.task(devServerTask, function () {
         ext: 'js',
         env: {
             'NODE_ENV': 'development',
-            'API_URL': 'https://api.shoutit.com/v2/'
+            'API_URL': 'https://api-shoutit-com-0a0k4oc93zat.runscope.net/v2/'
         }
     });
 });

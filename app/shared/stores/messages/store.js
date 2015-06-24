@@ -13,12 +13,20 @@ const LOG_TAG = "[Messages-Store]";
 let MessagesStore = Fluxxor.createStore({
 	initialize(props) {
 		this.state = {
-			loading: true,
-			conversations: []
+			me: null,
+			loading: false,
+			conversations: null,
+			draft: {
+				text: ""
+			}
 		};
 
-		if (props.user) {
-			this.state.userId = props.user.id;
+		if (props.chat) {
+			this.state.conversations = props.chat.results;
+		}
+
+		if (props.loggedUser) {
+			this.state.me = props.loggedUser.username;
 		}
 
 		this.bindActions(
@@ -58,12 +66,17 @@ let MessagesStore = Fluxxor.createStore({
 			consts.DELETE_MESSAGE_SUCCESS, this.onDeleteMessageSuccess,
 			consts.DELETE_MESSAGE_FAILED, this.onRequestFailed("delete message failed"),
 
-			consts.NEW_MESSAGE, this.onNewMessage
+			consts.NEW_MESSAGE, this.onNewMessage,
+			consts.MESSAGE_DRAFT_CHANGE, this.onDraftChange
 		);
 	},
 
 	onNewMessage({message}) {
-		console.log(LOG_TAG, "[new_message]", message);
+		let conversation = this.state.conversations[this.getIndex(message.conversation_id)];
+
+		conversation.messages.push(message);
+
+		this.emit("change");
 	},
 
 	onLoadConversations() {
@@ -122,14 +135,16 @@ let MessagesStore = Fluxxor.createStore({
 
 	onLoadMoreConversationSuccess({id, before, res}) {
 		let conversation = this.state.conversations[this.getIndex(id)];
-		res.results.forEach(function (message) {
-			let index = findIndex(conversation.messages);
-			if (index) {
-				conversation.messages[index] = message;
-			} else {
-				conversation.messages.splice(0, 0, message);
-			}
-		});
+		Array.prototype.splice.apply(conversation.messages, [0, 0].concat(res.results));
+
+		//res.results.forEach(function (message) {
+		//	let index = findIndex(conversation.messages);
+		//	if (index) {
+		//		conversation.messages[index] = message;
+		//	} else {
+		//		conversation.messages.splice(0, 0, message);
+		//	}
+		//});
 
 		this.state.loading = false;
 		this.emit("change");
@@ -183,9 +198,13 @@ let MessagesStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
-	onReplyConversationSuccess({id, message}) {
+	onReplyConversationSuccess({id, res}) {
 		let conversation = this.state.conversations[this.getIndex(id)];
-		conversation.messages.push(message);
+		conversation.messages.push(res);
+
+		this.state.draft = {
+			text: ""
+		};
 
 		this.state.loading = false;
 		this.emit("change");
@@ -201,6 +220,11 @@ let MessagesStore = Fluxxor.createStore({
 		remove(conversation.messages, "id", id);
 
 		this.state.loading = false;
+		this.emit("change");
+	},
+
+	onDraftChange({field, value}) {
+		this.state.draft[field] = value;
 		this.emit("change");
 	},
 

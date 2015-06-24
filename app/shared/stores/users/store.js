@@ -128,6 +128,7 @@ var UserStore = Fluxxor.createStore({
 				} else if (res.status === 200 && res.body.loggedOut) {
 					this.state.user = null;
 					this.emit("change");
+					this.emit("logout");
 					this.router.transitionTo('app');
 				}
 			}.bind(this));

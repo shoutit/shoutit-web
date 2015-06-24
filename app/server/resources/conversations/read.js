@@ -2,11 +2,9 @@
  * Created by Philip on 22.06.2015.
  */
 
-var url = require('url');
-
 module.exports = function (client, path) {
 	return function (session, id) {
-		return client.post(url.resolve(path, id), {
+		return client.post(path + '/' + id, {
 			accessToken: session && session.accessToken ? session.accessToken : null,
 		});
 	};

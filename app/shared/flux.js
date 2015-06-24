@@ -21,19 +21,17 @@ var merge = require('lodash/object/merge'),
 	messagesActions = require('./stores/messages/actions'),
 	notificationsActions = require('./stores/notifications/actions');
 
-module.exports = function (router, user, data, params, currencies) {
+module.exports = function (router, user, data, params, currencies, categories, sortTypes) {
 	var stores = {
 		users: new UsersStore(merge({}, {
 			loggedUser: user,
 			router: router
 		}, data)),
-		shouts: new ShoutStore(merge({}, data, {currencies}), params),
+		shouts: new ShoutStore(merge({}, data, {currencies, categories, sortTypes}), params),
 		tags: new TagStore(data, params),
 		search: new SearchStore(merge({}, data, params)),
 		locations: new LocationsStore(merge({}, data, {router, params})),
-		messages: new MessagesStore({
-			user
-		}),
+		messages: new MessagesStore(merge({}, data, {loggedUser: user})),
 		notifications: new NotificationsStore({
 			data
 		})
@@ -66,4 +64,5 @@ module.exports = function (router, user, data, params, currencies) {
 	};
 
 	return flux;
-};
+}
+;

@@ -25,6 +25,7 @@ import TagProfile from './components/tag/tagProfile.jsx';
 import TagProfileOffers from './components/tag/tagProfileOffers.jsx';
 import TagProfileRequest from './components/tag/tagProfileRequests.jsx';
 import TagProfileListeners from './components/tag/tagProfileListeners.jsx';
+import Chat from './components/chat/chat.jsx';
 
 let Feed = new Home("all"),
 	Offers = new Home("offer"),
@@ -49,7 +50,7 @@ export default (
 				<Route name="taglisteners" handler={TagProfileListeners}/>
 				<DefaultRoute name="tagoffers" handler={TagProfileOffers}/>
 			</Route>
-			<Route name="message" path="/message/:msgId" handler={Simple}/>
+			<Route name="chat" path="/chat/?:chatId?" handler={Chat}/>
 			<Route name="search" path="/search/:term" handler={Search}>
 				<Route name="searchUsers" path="users" handler={SearchUsers}/>
 				<Route name="searchTags" path="tags" handler={SearchTags}/>
