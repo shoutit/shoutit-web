@@ -26,7 +26,7 @@ export default React.createClass({
 
                 <div className="content" style={style}>
                     <Grid className="padding0">
-                        <RouteHandler flux={this.props.flux}/>
+                        <RouteHandler {...this.props}/>
                     </Grid>
                 </div>
                 <Footer ref="footer"/>

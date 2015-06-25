@@ -12,7 +12,7 @@ export default React.createClass({
 					<ConversationItem
 						onClick={this.onConversationClicked(conversation.id)}
 						key={"con-list-" + conversation.id}
-						active={this.props.selectedConversation === conversation.id}
+						active={this.props.selected === conversation.id}
 						conversation={conversation}/>
 				);
 			});

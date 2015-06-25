@@ -60,7 +60,8 @@ usersStore.on("logout", function () {
 router.run(function (Handler, state) {
 	React.render(
 		React.createElement(Handler, {
-			flux: flux
+			flux: flux,
+			params: state.params
 		}),
 		document.getElementById('main-mount'),
 		function () {

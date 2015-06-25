@@ -187,7 +187,8 @@ function reactServerRender(req, res) {
 					serializedFlux = flux.serialize(),
 					content = React.renderToString(
 						React.createElement(Handler, {
-							flux: flux
+							flux: flux,
+							params: state.params
 						}));
 				console.timeEnd("RenderReact");
 

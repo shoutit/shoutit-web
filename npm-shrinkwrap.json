@@ -1886,6 +1886,11 @@
         }
       }
     },
+    "pusher-js": {
+      "version": "3.0.0",
+      "from": "pusher-js@*",
+      "resolved": "https://registry.npmjs.org/pusher-js/-/pusher-js-3.0.0.tgz"
+    },
     "react": {
       "version": "0.13.2",
       "from": "react@*",

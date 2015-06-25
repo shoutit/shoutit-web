@@ -1,4 +1,5 @@
 import React from 'react';
+import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 
 import {Col} from 'react-bootstrap';
 
@@ -8,21 +9,42 @@ import {Clear} from '../../helper';
 
 export default React.createClass({
 	displayName: "ConversationList",
+	mixins: [new FluxMixin(React), new StoreWatchMixin('messages')],
+
+	contextTypes: {
+		router: React.PropTypes.func
+	},
+
+	getStateFromFlux() {
+		return this.getFlux().store('messages').getState();
+	},
 
 	render() {
 		return (
 			<Col xs={12} md={12} className="chat-left">
 				<ConversationListTitle unreadCount={this.getUnreadConversationCount()}/>
 				<Clear/>
-				<ConversationListBody {...this.props}/>
+				<ConversationListBody {...this.state}
+					selected={this.props.params.chatId}
+					onSelect={this.onSelectConversation} />
 			</Col>
 		);
 	},
 
+	componentDidMount() {
+		if (!this.state.conversations) {
+			this.getFlux().actions.loadConversations();
+		}
+	},
+
+	onSelectConversation(conId) {
+		this.context.router.transitionTo("messages", {chatId: conId});
+	},
+
 	getUnreadConversationCount() {
 		let count = 0;
-		if (this.props.conversations) {
-			this.props.conversations.forEach(function (con) {
+		if (this.state.conversations) {
+			this.state.conversations.forEach(function (con) {
 				if (con.unread_messages_count > 0) {
 					count++;
 				}

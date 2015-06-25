@@ -6,7 +6,7 @@ export default React.createClass({
 
     render() {
         return (
-            <RouteHandler flux={this.props.flux}/>
+            <RouteHandler {...this.props}/>
         );
     }
 });

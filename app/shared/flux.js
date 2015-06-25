@@ -31,7 +31,7 @@ module.exports = function (router, user, data, params, currencies, categories, s
 		tags: new TagStore(data, params),
 		search: new SearchStore(merge({}, data, params)),
 		locations: new LocationsStore(merge({}, data, {router, params})),
-		messages: new MessagesStore(merge({}, data, {loggedUser: user})),
+		messages: new MessagesStore(merge({}, data, {loggedUser: user, params})),
 		notifications: new NotificationsStore({
 			data
 		})

@@ -22,7 +22,7 @@ export default function (type = "all") {
 		},
 
 		render() {
-			return (<Feed flux={this.props.flux} type={type}/>);
+			return (<Feed {...this.props} type={type}/>);
 		}
 	});
 }

@@ -1,4 +1,7 @@
 import React from 'react';
+import {FluxMixin, StoreWatchMixin} from 'fluxxor';
+import findIndex from 'lodash/array/findIndex';
+import find from 'lodash/collection/find';
 
 import {Col} from 'react-bootstrap';
 
@@ -8,25 +11,38 @@ import MessageListInput from './input.jsx';
 
 export default React.createClass({
 	displayName: "MessageList",
+	mixins: [new FluxMixin(React), new StoreWatchMixin('messages')],
+
+	statics: {
+		fetchData(client, session, params) {
+			return client.conversations().messages(session, params.chatId);
+		}
+	},
+
+	getStateFromFlux() {
+		return this.getFlux().store('messages').getState();
+	},
 
 	render() {
-		if (this.props.conversation) {
-			let conversation = this.props.conversation,
-				user = conversation.users[1];
+		let conversation = this.getActiveConversation();
+
+		if (conversation) {
+			let user = find(conversation.users, function (usr) {
+				return usr.id != this.state.me;
+			}.bind(this));
 
 			if (conversation.messages) {
 				return (
 					<Col xs={12} md={12} className="chat-right">
 						<MessageListTitle name={user.name}/>
 						<MessageListBody
-							me={this.props.me}
-							users={conversation.users}
+							me={this.state.me}
 							messages={conversation.messages}
-							onLoadMoreMessagesClicked={this.props.onLoadMoreMessagesClicked}/>
+							onLoadMoreMessagesClicked={this.onLoadMoreMessagesClicked}/>
 						<MessageListInput
-							onTextChange={this.props.onTextChange}
-							text={this.props.draft.text}
-							onReplyClicked={this.props.onReplyClicked}
+							onTextChange={this.onTextChange}
+							text={this.state.draft.text}
+							onReplyClicked={this.onReplyClicked}
 							/>
 					</Col>
 				);
@@ -44,6 +60,33 @@ export default React.createClass({
 					<h4>Select a conversation</h4>
 				</Col>
 			);
+		}
+	},
+
+	getActiveConversation() {
+		return this.props.params && this.props.params.chatId ?
+			this.state.conversations[findIndex(this.state.conversations, 'id', this.props.params.chatId)] :
+			null;
+	},
+
+	onLoadMoreMessagesClicked(before) {
+		this.getFlux().actions.loadMoreConversation(this.getActiveConversation().id, before);
+	},
+
+
+	onTextChange(e) {
+		this.getFlux().actions.messageDraftChange("text", e.target.value);
+	},
+
+	onReplyClicked() {
+		this.getFlux().actions.replyConversation(this.getActiveConversation().id, this.state.draft);
+	},
+
+	componentDidUpdate() {
+		let activeConversation = this.getActiveConversation();
+
+		if (!this.state.loading && activeConversation && !activeConversation.messages) {
+			this.getFlux().actions.loadConversation(activeConversation.id);
 		}
 	}
 });

@@ -23,6 +23,10 @@ let MessagesStore = Fluxxor.createStore({
 
 		if (props.chat) {
 			this.state.conversations = props.chat.results;
+
+			if (props.messages) {
+				this.state.conversations[this.getIndex(props.params.chatId)].messages = props.messages.results;
+			}
 		}
 
 		if (props.loggedUser) {
@@ -136,15 +140,6 @@ let MessagesStore = Fluxxor.createStore({
 	onLoadMoreConversationSuccess({id, before, res}) {
 		let conversation = this.state.conversations[this.getIndex(id)];
 		Array.prototype.splice.apply(conversation.messages, [0, 0].concat(res.results));
-
-		//res.results.forEach(function (message) {
-		//	let index = findIndex(conversation.messages);
-		//	if (index) {
-		//		conversation.messages[index] = message;
-		//	} else {
-		//		conversation.messages.splice(0, 0, message);
-		//	}
-		//});
 
 		this.state.loading = false;
 		this.emit("change");

@@ -7,7 +7,6 @@ import App from './components/app.jsx';
 import Reduced from './components/reduced/reduced.jsx';
 
 import Home from './components/home/home.jsx';
-import Simple from './components/misc/simple.jsx';
 import Static from './components/helper/static.jsx';
 import NotFound from './components/misc/notfound.jsx';
 import Shout from './components/shout/shoutDetail.jsx';
@@ -26,6 +25,9 @@ import TagProfileOffers from './components/tag/tagProfileOffers.jsx';
 import TagProfileRequest from './components/tag/tagProfileRequests.jsx';
 import TagProfileListeners from './components/tag/tagProfileListeners.jsx';
 import Chat from './components/chat/chat.jsx';
+import MessageList from './components/chat/message/list.jsx';
+import EmptyMessageList from './components/chat/message/empty.jsx';
+
 
 let Feed = new Home("all"),
 	Offers = new Home("offer"),
@@ -50,7 +52,10 @@ export default (
 				<Route name="taglisteners" handler={TagProfileListeners}/>
 				<DefaultRoute name="tagoffers" handler={TagProfileOffers}/>
 			</Route>
-			<Route name="chat" path="/chat/?:chatId?" handler={Chat}/>
+			<Route name="chat" path="/chat" handler={Chat}>
+				<Route name="messages" path=":chatId" handler={MessageList}/>
+				<DefaultRoute handler={EmptyMessageList}/>
+			</Route>
 			<Route name="search" path="/search/:term" handler={Search}>
 				<Route name="searchUsers" path="users" handler={SearchUsers}/>
 				<Route name="searchTags" path="tags" handler={SearchTags}/>
