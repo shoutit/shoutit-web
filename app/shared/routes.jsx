@@ -33,43 +33,44 @@ let Feed = new Home("all"),
 	Offers = new Home("offer"),
 	Requests = new Home("request");
 
-export default (
-	<Route name="root" path="/" handler={Root}>
-		<Route name="app" path="/" handler={App}>
-			<Route name="feed" path="/feed/?:country?/?:state?/?:city?/?:page?" handler={Feed}/>
-			<Route name="offers" path="/offers/?:country?/?:state?/?:city?/?:page?" handler={Offers}/>
-			<Route name="requests" path="/requests/?:country?/?:state?/?:city?/?:page?" handler={Requests}/>
-			<Route name="user" path="/user/:username" handler={Profile}>
-				<Route name="listeners" handler={ProfileListeners}/>
-				<Route name="listening" handler={ProfileListening}/>
-				<Route name="useroffers" path="offers" handler={ProfileOffers}/>
-				<Route name="userrequests" path="requests" handler={ProfileRequests}/>
-				<DefaultRoute name="settings" handler={ProfileSettings}/>
+export default function (envData) {
+	return (
+		<Route name="root" path="/" handler={Root}>
+			<Route name="app" path="/" handler={App}>
+				<Route name="feed" path="/feed/?:country?/?:state?/?:city?/?:page?" handler={Feed}/>
+				<Route name="offers" path="/offers/?:country?/?:state?/?:city?/?:page?" handler={Offers}/>
+				<Route name="requests" path="/requests/?:country?/?:state?/?:city?/?:page?" handler={Requests}/>
+				<Route name="user" path="/user/:username" handler={Profile}>
+					<Route name="listeners" handler={ProfileListeners}/>
+					<Route name="listening" handler={ProfileListening}/>
+					<Route name="useroffers" path="offers" handler={ProfileOffers}/>
+					<Route name="userrequests" path="requests" handler={ProfileRequests}/>
+					<DefaultRoute name="settings" handler={ProfileSettings}/>
+				</Route>
+				<Route name="shout" path="/shout/:shoutId/?:location?/?:title?" handler={Shout}/>
+				<Route name="tag" path="/tag/:tagName" handler={TagProfile}>
+					<Route name="tagrequests" handler={TagProfileRequest}/>
+					<Route name="taglisteners" handler={TagProfileListeners}/>
+					<DefaultRoute name="tagoffers" handler={TagProfileOffers}/>
+				</Route>
+				<Route name="chat" path="/chat" handler={new Chat(envData)}>
+					<Route name="messages" path=":chatId" handler={MessageList}/>
+					<DefaultRoute handler={EmptyMessageList}/>
+				</Route>
+				<Route name="search" path="/search/:term" handler={Search}>
+					<Route name="searchUsers" path="users" handler={SearchUsers}/>
+					<Route name="searchTags" path="tags" handler={SearchTags}/>
+					<DefaultRoute name="searchShouts" handler={SearchShouts}/>
+				</Route>
+				<DefaultRoute name="home" handler={Feed}/>
 			</Route>
-			<Route name="shout" path="/shout/:shoutId/?:location?/?:title?" handler={Shout}/>
-			<Route name="tag" path="/tag/:tagName" handler={TagProfile}>
-				<Route name="tagrequests" handler={TagProfileRequest}/>
-				<Route name="taglisteners" handler={TagProfileListeners}/>
-				<DefaultRoute name="tagoffers" handler={TagProfileOffers}/>
+			<Route name="static" path="/" handler={Reduced}>
+				<Route name="tos" handler={Static}/>
+				<Route name="rules" handler={Static}/>
+				<Route name="policy" handler={Static}/>
 			</Route>
-			<Route name="chat" path="/chat" handler={Chat}>
-				<Route name="messages" path=":chatId" handler={MessageList}/>
-				<DefaultRoute handler={EmptyMessageList}/>
-			</Route>
-			<Route name="search" path="/search/:term" handler={Search}>
-				<Route name="searchUsers" path="users" handler={SearchUsers}/>
-				<Route name="searchTags" path="tags" handler={SearchTags}/>
-				<DefaultRoute name="searchShouts" handler={SearchShouts}/>
-			</Route>
-			<DefaultRoute name="home" handler={Feed}/>
+			<Route name="login" handler={Login}/>
+			<NotFoundRoute handler={NotFound}/>
 		</Route>
-		<Route name="static" path="/" handler={Reduced}>
-			<Route name="tos" handler={Static}/>
-			<Route name="rules" handler={Static}/>
-			<Route name="policy" handler={Static}/>
-		</Route>
-		<Route name="login" handler={Login}/>
-		<NotFoundRoute handler={NotFound}/>
-	</Route>
-);
-
+	);
+}

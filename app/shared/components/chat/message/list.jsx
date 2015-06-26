@@ -82,7 +82,15 @@ export default React.createClass({
 		this.getFlux().actions.replyConversation(this.getActiveConversation().id, this.state.draft);
 	},
 
+	componentDidMount() {
+		this.loadMessages();
+	},
+
 	componentDidUpdate() {
+		this.loadMessages();
+	},
+
+	loadMessages() {
 		let activeConversation = this.getActiveConversation();
 
 		if (!this.state.loading && activeConversation && !activeConversation.messages) {

@@ -9,8 +9,10 @@ import gAnalytics from './ga';
 import geolocation from './geolocation';
 import pusher from './pusher';
 
+let envData = {};
+
 let router = Router.create({
-	routes: routes,
+	routes: routes(envData),
 	location: Router.HistoryLocation
 });
 
@@ -44,18 +46,24 @@ geolocation(function (gmaps, pos) {
 // Pusher Service
 let pusherClient = pusher('86d676926d4afda44089', '/api/pusher/auth');
 
-let usersStore = flux.store('users');
+let usersStore = flux.store('users'),
+	loggedUser = usersStore.getLoggedUser();
 
-pusherClient.subscribeUser(flux, usersStore.getLoggedUser());
+if(loggedUser) {
+	envData.user = loggedUser;
+}
+
+pusherClient.subscribeUser(flux, loggedUser);
 
 usersStore.on("login", function () {
+	envData.user = usersStore.getLoggedUser();
 	pusherClient.subscribeUser(flux, usersStore.getLoggedUser());
 });
 
 usersStore.on("logout", function () {
+	envData.user = null;
 	pusherClient.unsubscribeUser();
 });
-
 
 router.run(function (Handler, state) {
 	React.render(

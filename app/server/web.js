@@ -19,7 +19,7 @@ var oauth = require('./auth/oauth'),
 	apiRouter = require('./routes');
 
 var Flux = require('../shared/flux'),
-	Routes = require('../shared/routes.jsx'),
+	Routes = require('../shared/routes.jsx')(null),
 	DocumentTitle = require('react-document-title');
 
 // middleware
@@ -330,7 +330,7 @@ module.exports = function (app) {
 		res.redirect('/search/' + req.params.term);
 	});
 
-	app.use('/chat', function redirectNotLoggedUser(req, res, next) {
+	app.use('/chat/?*', function redirectNotLoggedUser(req, res, next) {
 		if (req.session && req.session.user) {
 			next();
 		} else {
