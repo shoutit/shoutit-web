@@ -1,4 +1,9 @@
 "use strict";
+
+if (process.env.NODE_ENV !== "development") {
+	require('newrelic');
+}
+
 require("babel/register");
 
 /**
@@ -6,12 +11,12 @@ require("babel/register");
  */
 var express = require('express');
 
-var	app = express();
+var app = express();
 
 require('./app/server/web.js')(app);
 
 // startup
 var port = process.env.port || 8080;
-app.listen(port, function() {
+app.listen(port, function () {
 	console.log("Listening at http://localhost:" + port);
 });
