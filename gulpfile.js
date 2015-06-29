@@ -29,7 +29,7 @@ gulp.task(devServerTask, function () {
         watch: "app/server",
         ext: 'js',
         env: {
-            'NODE_ENV': 'development',
+            'NODE_ENV': 'developmentLocal',
             'API_URL': 'https://api-shoutit-com-0a0k4oc93zat.runscope.net/v2/'
         }
     });

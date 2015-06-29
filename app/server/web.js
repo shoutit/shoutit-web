@@ -228,7 +228,7 @@ module.exports = function (app) {
 	// TODO: Replace by nginx static serving
 	app.use(serveStatic('./app/public'));
 
-	if (process.env.NODE_ENV === "development") {
+	if (process.env.NODE_ENV === "developmentLocal") {
 		var webpackDevMiddleware = require("webpack-dev-middleware"),
 			webpack = require("webpack");
 
