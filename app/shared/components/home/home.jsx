@@ -13,9 +13,9 @@ export default function (type = "all") {
 				return client.shouts().list(session, {
 					shout_type: type,
 					page_size: defaults.PAGE_SIZE,
-					city: params.city,
-					country: params.country,
-					state: params.state,
+					city: params.city === "all" ? null : params.city,
+					country: params.country === "all" ? null : params.country,
+					state: params.state === "all" ? null : params.state,
 					page: params.page
 				});
 			}

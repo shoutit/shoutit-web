@@ -49,7 +49,17 @@ export default React.createClass({
 			isLoading = storeState.loading;
 
 		let locStoreState = this.state.locations,
-			currentCity = locStoreState.current.city;
+			currentCity = locStoreState.current.city,
+			currentCountry = locStoreState.current.country,
+			currentState = locStoreState.current.state,
+			params = function (page) {
+				return {
+					city: currentCity ? encodeURIComponent(currentCity) : "all",
+					country: currentCountry ? encodeURI(currentCountry) : "all",
+					state: currentState ? encodeURI(currentState) : "all",
+					page: page
+				};
+			};
 
 		let shoutEls = [];
 
@@ -60,7 +70,7 @@ export default React.createClass({
 						<ViewportSensor onChange={onLastVisibleChange}>
 							<noscript>
 								<Link to={typeToRoute[this.props.type]}
-									  params={{city: encodeURIComponent(currentCity || "anyplace"), page: prev}}>
+									  params={params(prev)}>
 									Previous Page
 								</Link>
 							</noscript>
@@ -72,7 +82,8 @@ export default React.createClass({
 
 		shoutEls.push(shouts.length > 0 ?
 				shouts.map((shout, i) => (<Shout key={"shout-" + (i + 1) } shout={shout} index={i}/>)) :
-				(<h5 key="warning">There are currently no shouts in your country. You may want to select another location above.</h5>)
+				(<h5 key="warning">There are currently no shouts in your country. You may want to select another
+					location above.</h5>)
 		);
 
 		if (isLoading && typeof window !== 'undefined') {
@@ -89,7 +100,7 @@ export default React.createClass({
 						<ViewportSensor onChange={onLastVisibleChange}>
 							<noscript>
 								<Link to={typeToRoute[this.props.type]}
-									  params={{city: encodeURIComponent(currentCity || "anyplace"), page: next}}>
+									  params={params(next)}>
 									Next Page
 								</Link>
 							</noscript>
