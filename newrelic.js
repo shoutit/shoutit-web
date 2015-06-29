@@ -5,7 +5,7 @@
  * description of configuration variables and their potential values.
  */
 
-var name = process.env.NODE_ENV !== "development" ? 'Shoutit Webserver' : '[Dev] Shoutit Webserver';
+var name = process.env.NODE_ENV === "development" ? '[Dev] Shoutit Webserver' : 'Shoutit Webserver';
 
 exports.config = {
   /**

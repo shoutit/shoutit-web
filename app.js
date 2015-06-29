@@ -1,6 +1,6 @@
 "use strict";
 
-if (["development", "developmentLocal"].indexOf(process.env.NODE_ENV) < 0) {
+if (["developmentLocal"].indexOf(process.env.NODE_ENV) < 0) {
 	require('newrelic');
 }
 
