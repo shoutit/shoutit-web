@@ -13,6 +13,7 @@ export default React.createClass({
 			locationState = this.getFlux().store('locations').getState().current;
 		return {
 			currencies: storeState.currencies,
+			categories: storeState.categories,
 			draft: storeState.draft,
 			current: locationState
 		};
@@ -36,7 +37,9 @@ export default React.createClass({
 							<p>Shout an Offer</p>
 						</div>
 					</div>
-					<ShoutForm {...this.state} flux={this.props.flux}/>
+					<ShoutForm {...this.state}
+						requestHide={this.props.onRequestHide}
+						flux={this.props.flux}/>
 				</div>
 			</Modal>
 		);

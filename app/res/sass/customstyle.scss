@@ -287,7 +287,7 @@ footer {
 
 .foo-center li {
   float: left;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .foo-right li {
@@ -2198,5 +2198,12 @@ footer {
     background-color: #91c829;
     color: white;
     display: inline-block;
+  }
+}
+
+.categoryDropdown {
+  .dropdown-menu {
+    max-height: 300px;
+    overflow-y: scroll;
   }
 }

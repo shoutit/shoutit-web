@@ -59,7 +59,7 @@ function updateCategories() {
 			if (result instanceof Error || resp.statusCode !== 200) {
 				console.error("Cannot fetch currencies.");
 			} else {
-				categories = object(pluck(result, "name"), result);
+				categories = result;
 				console.log("Fetched " + result.length + " categories.");
 			}
 		});

@@ -28,7 +28,8 @@ function shoutDraftInit() {
 		currency: null,
 		tags: [],
 		latLng: null,
-		type: "offer"
+		type: "offer",
+		category: null
 	};
 }
 
@@ -41,7 +42,7 @@ var ShoutStore = Fluxxor.createStore({
 			fullShouts: {},
 			loading: false,
 			currencies: {},
-			categories: {},
+			categories: [],
 			sortTypes: {},
 			draft: shoutDraftInit()
 		};
@@ -310,6 +311,9 @@ var ShoutStore = Fluxxor.createStore({
 					name: tag
 				};
 			});
+			shoutToSend.category = {
+				name: shoutDraft.category.name
+			};
 
 			console.log(shoutToSend);
 

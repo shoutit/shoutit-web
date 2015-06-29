@@ -73,9 +73,36 @@ export default React.createClass({
 		);
 	},
 
+	renderCategoryDropdown() {
+		let categories = map(this.props.categories, (category, i) => (
+				<MenuItem eventKey={"category:" + i}>
+					{category.name}
+				</MenuItem>)
+		);
+
+		let selected = this.props.draft.category,
+			title = selected ? selected.name : "Select a category";
+
+		return (
+			<DropdownButton
+				className="categoryDropdown"
+				block
+				bsStyle="pills"
+				onSelect={this.onCategorySelect}
+				title={title}>
+				{categories}
+			</DropdownButton>
+		);
+	},
+
 	onCurrencySelect(key) {
 		var code = key.split(":")[1];
 		this.getFlux().actions.changeShoutDraft("currency", this.props.currencies[code]);
+	},
+
+	onCategorySelect(key) {
+		var index = key.split(":")[1];
+		this.getFlux().actions.changeShoutDraft("category", this.props.categories[index]);
 	},
 
 	renderDescTextArea() {
@@ -88,7 +115,8 @@ export default React.createClass({
 		);
 	},
 
-	renderTypeSelect () {
+	renderTypeSelect()
+	{
 		let options = map(shoutTypes, (value, key) => {
 			return (
 				<MenuItem eventKey={"type:" + key}>
@@ -108,14 +136,18 @@ export default React.createClass({
 				{options}
 			</DropdownButton>
 		);
-	},
+	}
+	,
 
-	onTypeSelect(key) {
+	onTypeSelect(key)
+	{
 		var type = key.split(":")[1];
 		this.getFlux().actions.changeShoutDraft("type", type);
-	},
+	}
+	,
 
-	renderTagInput() {
+	renderTagInput()
+	{
 		return (
 			<div className="form-group">
 				<TagsInput ref='tags' value={this.props.draft.tags}
@@ -124,7 +156,8 @@ export default React.createClass({
 				</TagsInput>
 			</div>
 		);
-	},
+	}
+	,
 
 	onTagsChange(newTags) {
 		this.getFlux().actions.changeShoutDraft("tags", newTags);
@@ -149,11 +182,19 @@ export default React.createClass({
 						</Col>
 					</Row>
 					<Row>
-						<Col sm={3} md={3}>
+						<Col sm={2} md={2}>
 							{this.renderTypeSelect()}
 						</Col>
-						<Col sm={9} md={9}>
+						<Col sm={4} md={4}>
+							{this.renderCategoryDropdown()}
+						</Col>
+						<Col sm={12} md={6}>
 							{this.renderTagInput()}
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={12} md={12}>
+							Click on the Map to select a location.
 						</Col>
 					</Row>
 					<Row>
@@ -164,9 +205,6 @@ export default React.createClass({
 							startLocation={this.props.current.location}
 							/>
 					</Row>
-					<Row>
-						Click on the Map to select a location.
-					</Row>
 					<Row className="row-submit">
 						<Button onClick={this.onSubmit} className="btn-submit submit">
 							Shoutit!
@@ -175,10 +213,14 @@ export default React.createClass({
 				</form>
 			</div>
 		);
-	},
+	}
+	,
 
 	onSubmit() {
 		this.getFlux().actions.sendShout();
+		if(this.props.requestHide) {
+			this.props.requestHide();
+		}
 	},
 
 	onLocationSelectionChange(newLatLng) {
