@@ -4,6 +4,7 @@ import {Col} from 'react-bootstrap';
 import DocumentTitle from 'react-document-title';
 import ShoutDetailBody from './shoutDetailBody.jsx';
 import Loader from '../helper/loader.jsx';
+import ShoutReplySection from './shoutReplySection.jsx';
 
 export default React.createClass({
 	displayName: "ShoutDetail",
@@ -21,14 +22,16 @@ export default React.createClass({
 
 	getStateFromFlux() {
 		let shoutStore = this.getFlux().store("shouts"),
-			storeState = shoutStore.getState(),
+			userStoreState = this.getFlux().store("users").getState(),
+			shoutStoreState = shoutStore.getState(),
 			findRes = shoutStore.findShout(this.context.router.getCurrentParams().shoutId);
 
 		return {
 			shoutId: this.context.router.getCurrentParams().shoutId,
 			shout: findRes.shout,
 			full: findRes.full,
-			loading: storeState.loading
+			loading: shoutStoreState.loading,
+			user: userStoreState.user
 		};
 	},
 
@@ -81,7 +84,24 @@ export default React.createClass({
 				<section className="col-xs-12 col-md-12 section-12">
 					{content}
 				</section>
+				<ShoutReplySection
+					shout={shout}
+					user={this.state.user}
+					onReplyTextChange={this.onReplyTextChange}
+					onReplySendClicked={this.onReplySendClicked}
+					replyDrafts={this.state.replyDrafts}/>
 			</Col>
 		);
+	},
+
+	onReplyTextChange({target}) {
+		this.getFlux().actions.changeReplyDraft({
+			text: target.value,
+			shoutId: this.state.shoutId
+		});
+	},
+
+	onReplySendClicked() {
+		this.getFlux().actions.sendShoutReply(this.state.shoutId);
 	}
 });

@@ -16,5 +16,10 @@ export default {
 		return request
 			.post(PREFIX + '/')
 			.send(shout);
+	},
+
+	reply(shoutId, message) {
+		return request.post(PREFIX + '/' + shoutId)
+			.send(message);
 	}
 };

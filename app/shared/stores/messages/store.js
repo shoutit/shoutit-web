@@ -76,6 +76,8 @@ let MessagesStore = Fluxxor.createStore({
 	},
 
 	onNewMessage({message}) {
+		// TODO React on new message without existing conversation.
+
 		let conversation = this.state.conversations[this.getIndex(message.conversation_id)];
 
 		conversation.messages.push(message);

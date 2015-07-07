@@ -15,7 +15,7 @@ module.exports = React.createClass({
 				{icon: "ir6"},
 				{icon: "b2"}
 			]
-		}
+		};
 	},
 
 	renderActions: function () {

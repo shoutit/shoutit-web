@@ -1,4 +1,5 @@
 import consts from './consts';
+import client from './client';
 
 export default {
 	update(city) {
@@ -58,5 +59,27 @@ export default {
 
 	sendShout() {
 		this.dispatch(consts.SEND_SHOUT);
+	},
+
+	sendShoutReply(shoutId, message) {
+		this.dispatch(consts.SEND_SHOUT_REPLY, {shoutId, message});
+
+		client.reply(shoutId, message)
+			.end(function (error, res) {
+				if (error || !res.ok) {
+					this.dispatch(consts.SEND_SHOUT_REPLY_FAILED, {
+						error
+					});
+				} else {
+					this.dispatch(consts.SEND_SHOUT_REPLY_SUCCESS, {
+						shoutId: shoutId,
+						res: res.body
+					});
+				}
+			}.bind(this));
+	},
+
+	changeReplyDraft(shoutId, text) {
+		this.dispatch(consts.CHANGE_SHOUT_REPLY_DRAFT, {shoutId, text});
 	}
 };

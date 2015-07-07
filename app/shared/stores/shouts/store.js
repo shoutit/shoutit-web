@@ -4,6 +4,7 @@ import Fluxxor from 'fluxxor';
 import url from 'url';
 
 import consts from './consts';
+import messageConsts from './consts.js';
 import client from './client';
 
 import defaults from '../../consts/defaults';
@@ -33,7 +34,13 @@ function shoutDraftInit() {
 	};
 }
 
-var ShoutStore = Fluxxor.createStore({
+function replyDraftInit() {
+	return {
+		message: ""
+	};
+}
+
+let ShoutStore = Fluxxor.createStore({
 	initialize(props) {
 		this.state = {
 			all: shoutCollectionInit(),
@@ -44,7 +51,8 @@ var ShoutStore = Fluxxor.createStore({
 			currencies: {},
 			categories: [],
 			sortTypes: {},
-			draft: shoutDraftInit()
+			draft: shoutDraftInit(),
+			replyDrafts: {}
 		};
 
 		if (props.currencies) {
@@ -87,7 +95,10 @@ var ShoutStore = Fluxxor.createStore({
 			consts.LOAD_SHOUT_SUCCESS, this.onLoadShoutSuccess,
 			consts.LOAD_SHOUT_FAILED, this.onLoadShoutFailed,
 			consts.CHANGE_SHOUT_DRAFT, this.onChangeShoutDraft,
-			consts.SEND_SHOUT, this.onSendShout
+			consts.SEND_SHOUT, this.onSendShout,
+			consts.SEND_SHOUT_REPLY, this.onSendShoutReply,
+			consts.SEND_SHOUT_REPLY_SUCCESS, this.onSendShoutReplySuccess,
+			consts.SEND_SHOUT_REPLY_FAILED, this.onReqFailed
 		);
 	},
 
@@ -353,6 +364,17 @@ var ShoutStore = Fluxxor.createStore({
 			} else {
 				resolve(shoutDraft);
 			}
+		});
+	},
+
+	onSendShoutReply({shoutId, message}) {
+		// Create new staging Conversation with about shout
+		console.log("[TODO]", "Create staging conversation on shout reply");
+	},
+
+	onSendShoutReplySuccess({shoutId, res}){
+		this.emit(messageConsts.NEW_MESSAGE, {
+			message: res
 		});
 	},
 
