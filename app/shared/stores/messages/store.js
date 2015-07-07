@@ -247,6 +247,11 @@ let MessagesStore = Fluxxor.createStore({
 
 	getState() {
 		return this.state;
+	},
+
+	setMe(user) {
+		this.state.me = user.username;
+		this.emit("change");
 	}
 });
 
