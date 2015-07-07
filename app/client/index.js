@@ -47,9 +47,10 @@ geolocation(function (gmaps, pos) {
 let pusherClient = pusher('86d676926d4afda44089', '/api/pusher/auth');
 
 let usersStore = flux.store('users'),
+	messageStore = flux.store('messages'),
 	loggedUser = usersStore.getLoggedUser();
 
-if(loggedUser) {
+if (loggedUser) {
 	envData.user = loggedUser;
 }
 
@@ -57,6 +58,7 @@ pusherClient.subscribeUser(flux, loggedUser);
 
 usersStore.on("login", function () {
 	envData.user = usersStore.getLoggedUser();
+	messageStore.setMe(usersStore.getLoggedUser());
 	pusherClient.subscribeUser(flux, usersStore.getLoggedUser());
 });
 
