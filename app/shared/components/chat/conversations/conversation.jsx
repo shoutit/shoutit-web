@@ -1,10 +1,8 @@
 import React from 'react';
 import {Col} from 'react-bootstrap';
 import classnames from 'classnames';
-import find from 'lodash/collection/find';
 
-
-import {Image} from '../../helper';
+import ConversationImage from './conversationImage.jsx';
 
 export default React.createClass({
 	displayName: "ConversationListItem",
@@ -19,23 +17,26 @@ export default React.createClass({
 			"active": this.props.conversation.unread_messages_count > 0
 		});
 
-		let user = find(this.props.conversation.users, function (usr) {
-			return usr.id != this.props.me;
+		let opponents = this.props.conversation.users.filter(function(user) {
+			return user.username !== this.props.me;
 		}.bind(this));
+
+		let names = opponents.map(function(user) {
+			return user.name;
+		}).join(", ");
 
 		let lastMessage = this.props.conversation.last_message;
 
 		return (
 			<li className={itemClasses} onClick={this.props.onClick}>
-				<Col xs={2} md={2} className="chat-ul-left">
-					<Image infix="user" size="small" src={user ? user.image : ""}/>
-				</Col>
+				<ConversationImage me={this.props.me} conversation={this.props.conversation}/>
 				<Col xs={10} md={10} className="chat-ul-right">
 					<a>
 						<span className="chat-person">
-							{user ? user.name : "unknown"}
+							{names}
 						</span>
 						<span className={unreadConClasses}></span>
+
 						<p>
 							{lastMessage.text}
 						</p>

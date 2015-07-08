@@ -207,6 +207,11 @@ nav {
   background: #fff no-repeat center top;
   padding: 0;
   position: relative;
+  margin-bottom: 4px;
+
+  .input-chat {
+    border: none;
+  }
 }
 
 .poster {

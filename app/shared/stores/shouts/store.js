@@ -34,9 +34,9 @@ function shoutDraftInit() {
 	};
 }
 
-function replyDraftInit() {
+function replyDraftInit(text) {
 	return {
-		message: ""
+		text: text || ""
 	};
 }
 
@@ -96,8 +96,8 @@ let ShoutStore = Fluxxor.createStore({
 			consts.LOAD_SHOUT_FAILED, this.onLoadShoutFailed,
 			consts.CHANGE_SHOUT_DRAFT, this.onChangeShoutDraft,
 			consts.SEND_SHOUT, this.onSendShout,
+			consts.CHANGE_SHOUT_REPLY_DRAFT, this.onChangeShoutReplyDraft,
 			consts.SEND_SHOUT_REPLY, this.onSendShoutReply,
-			consts.SEND_SHOUT_REPLY_SUCCESS, this.onSendShoutReplySuccess,
 			consts.SEND_SHOUT_REPLY_FAILED, this.onReqFailed
 		);
 	},
@@ -367,15 +367,21 @@ let ShoutStore = Fluxxor.createStore({
 		});
 	},
 
-	onSendShoutReply({shoutId, message}) {
-		// Create new staging Conversation with about shout
-		console.log("[TODO]", "Create staging conversation on shout reply");
+	onChangeShoutReplyDraft({shoutId, text}) {
+		let draft = this.state.replyDrafts[shoutId];
+
+		if (draft) {
+			draft.text = text;
+		} else {
+			this.state.replyDrafts[shoutId] = replyDraftInit(text);
+		}
+
+		this.emit("change");
 	},
 
-	onSendShoutReplySuccess({shoutId, res}){
-		this.emit(messageConsts.NEW_MESSAGE, {
-			message: res
-		});
+	onSendShoutReply({shoutId, message}) {
+		this.state.replyDrafts[shoutId] = replyDraftInit();
+		this.emit("change");
 	},
 
 	serialize() {

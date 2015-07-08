@@ -13,7 +13,8 @@ export default React.createClass({
 						onClick={this.onConversationClicked(conversation.id)}
 						key={"con-list-" + conversation.id}
 						active={this.props.selected === conversation.id}
-						conversation={conversation}/>
+						conversation={conversation}
+						me={this.props.me}/>
 				);
 			});
 

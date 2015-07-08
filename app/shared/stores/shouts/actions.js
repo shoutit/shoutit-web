@@ -1,4 +1,5 @@
 import consts from './consts';
+import messageConsts from '../messages/consts';
 import client from './client';
 
 export default {
@@ -71,9 +72,8 @@ export default {
 						error
 					});
 				} else {
-					this.dispatch(consts.SEND_SHOUT_REPLY_SUCCESS, {
-						shoutId: shoutId,
-						res: res.body
+					this.dispatch(messageConsts.NEW_MESSAGE, {
+						message: res.body
 					});
 				}
 			}.bind(this));

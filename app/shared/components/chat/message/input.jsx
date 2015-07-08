@@ -18,7 +18,7 @@ export default React.createClass({
 					   value={this.props.text}/>
 
 				<div className="input-text-bottom">
-					<p className="reply" onClick={this.props.onSubmit}>Send</p>
+					<p className="reply" onClick={this.onSubmit}>Send</p>
 				</div>
 			</div>
 		);
@@ -32,7 +32,7 @@ export default React.createClass({
 
 	onKeyUp(ev) {
 		if (ev.which === 13) {
-			this.props.onSubmit();
+			this.onSubmit();
 		}
 	}
 });

@@ -31,7 +31,8 @@ export default React.createClass({
 			shout: findRes.shout,
 			full: findRes.full,
 			loading: shoutStoreState.loading,
-			user: userStoreState.user
+			user: userStoreState.user,
+			replyDrafts: shoutStoreState.replyDrafts
 		};
 	},
 
@@ -94,14 +95,11 @@ export default React.createClass({
 		);
 	},
 
-	onReplyTextChange({target}) {
-		this.getFlux().actions.changeReplyDraft({
-			text: target.value,
-			shoutId: this.state.shoutId
-		});
+	onReplyTextChange(e) {
+		this.getFlux().actions.changeReplyDraft(this.state.shoutId, e.target.value);
 	},
 
 	onReplySendClicked() {
-		this.getFlux().actions.sendShoutReply(this.state.shoutId);
+		this.getFlux().actions.sendShoutReply(this.state.shoutId, this.state.replyDrafts[this.state.shoutId]);
 	}
 });

@@ -76,13 +76,18 @@ let MessagesStore = Fluxxor.createStore({
 	},
 
 	onNewMessage({message}) {
-		// TODO React on new message without existing conversation.
+		let conIndex = this.getIndex(message.conversation_id);
 
-		let conversation = this.state.conversations[this.getIndex(message.conversation_id)];
-
-		conversation.messages.push(message);
-
-		this.emit("change");
+		if (conIndex !== -1) {
+			let conversation = this.state.conversations[conIndex];
+			if (!conversation.messages) {
+				conversation.messages = [];
+			}
+			conversation.messages.push(message);
+			conversation.last_message = message;
+			conversation.messages_count += 1;
+			this.emit("change");
+		}
 	},
 
 	onLoadConversations() {
@@ -198,6 +203,8 @@ let MessagesStore = Fluxxor.createStore({
 	onReplyConversationSuccess({id, res}) {
 		let conversation = this.state.conversations[this.getIndex(id)];
 		conversation.messages.push(res);
+		conversation.last_message = res;
+		conversation.messages_count += 1;
 
 		this.state.draft = {
 			text: ""

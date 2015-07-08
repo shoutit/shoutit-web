@@ -19,7 +19,7 @@ export default {
 	},
 
 	reply(shoutId, message) {
-		return request.post(PREFIX + '/' + shoutId)
+		return request.post(PREFIX + '/' + shoutId + '/reply')
 			.send(message);
 	}
 };

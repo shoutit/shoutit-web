@@ -14,7 +14,7 @@ export default function (APP_KEY, authEndpoint) {
 	});
 
 	pusher.connection.bind('error', function (err) {
-		if (err.data.code === 4004) {
+		if (err.data && err.data.code === 4004) {
 			console.warn(LOG_TAG, 'detected limit error');
 		} else {
 			console.warn(LOG_TAG, err);

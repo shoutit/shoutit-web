@@ -29,12 +29,24 @@ var morgan = require('morgan'),
 	session = require('express-session'),
 	RedisStore = require('connect-redis')(session),
 //csurf = require('csurf'),
-	compression = require('compression');
+	compression = require('compression'),
+	cors = require('cors');
 
 // Runtime Data:
 var SERVER_ROOT = process.env.SERVER_ROOT || "localhost:8080";
 var graphData = require('./resources/consts/graphData');
 var currencies, categories, sortTypes;
+var whitelist = ['https://shoutit.com', 'https://www.shoutit.com', 'http:://dev.www.shoutit.com'];
+if (["developmentLocal"].indexOf(process.env.NODE_ENV) >= 0) {
+	whitelist.push('http://localhost');
+}
+var corsOptions = {
+	origin: function (origin, callback) {
+		var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+		callback(null, originIsWhitelisted);
+	}
+};
+
 
 function updateCurrencies() {
 	ShoutitClient.misc().currencies()
@@ -222,6 +234,9 @@ module.exports = function (app) {
 	app.set('view engine', 'jade');
 	app.set('views', path.join(__dirname, 'views'));
 
+	// CORS Protection
+	app.use(cors(corsOptions));
+
 	// gzip it
 	app.use(compression());
 
@@ -265,7 +280,7 @@ module.exports = function (app) {
 	// TODO Add csrf tokens to the webapp
 	//app.use(csurf());
 
-	var authRouter = express.Router();
+	var authRouter = new express.Router();
 
 	authRouter.post('/gplus', oauth.gplusAuth);
 	authRouter.post('/fb', oauth.fbAuth);
