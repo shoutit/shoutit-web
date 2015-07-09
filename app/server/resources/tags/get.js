@@ -7,5 +7,5 @@ module.exports = function (client, path) {
 		return client.get(path + '/' + tagName, {
 			accessToken: session && session.accessToken ? session.accessToken : null
 		});
-	}
+	};
 };

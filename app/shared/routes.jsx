@@ -27,6 +27,7 @@ import TagProfileListeners from './components/tag/tagProfileListeners.jsx';
 import Chat from './components/chat/chat.jsx';
 import MessageList from './components/chat/message/list.jsx';
 import EmptyMessageList from './components/chat/message/empty.jsx';
+import FeaturedTags from './components/featuredTags/featuredTags.jsx';
 
 
 let Feed = new Home("all"),
@@ -48,6 +49,7 @@ export default function (envData) {
 					<DefaultRoute name="settings" handler={ProfileSettings}/>
 				</Route>
 				<Route name="shout" path="/shout/:shoutId/?:location?/?:title?" handler={Shout}/>
+				<Route name="tags" path="/tags/?:country?/?:state?/?:city?/?:page?" handler={FeaturedTags}/>
 				<Route name="tag" path="/tag/:tagName" handler={TagProfile}>
 					<Route name="tagrequests" handler={TagProfileRequest}/>
 					<Route name="taglisteners" handler={TagProfileListeners}/>

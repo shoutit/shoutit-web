@@ -4,7 +4,7 @@
 
 module.exports = function (client) {
 	return function (req, res) {
-		var request = client.search(req.session, req.query)
+		var request = client.list(req.session, req.query)
 			.on('success', function (data) {
 				res.json(data);
 			})
@@ -19,5 +19,5 @@ module.exports = function (client) {
 		req.on('close', function() {
 			request.abort();
 		});
-	}
+	};
 };

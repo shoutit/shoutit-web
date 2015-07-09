@@ -1384,3 +1384,23 @@ iframe {
     margin: 5px 0;
   }
 }
+
+.tagStage {
+  margin: 5px 0;
+  max-height: 168px;
+  overflow-y: hidden;
+
+  img {
+    width: 100%;
+  }
+
+  .row {
+    color: white;
+    margin-left: 0;
+    margin-right: 0;
+
+    .col-md-12, .col-xs-12 {
+      background-color: $shoutit-dark-gray;
+    }
+  }
+}
