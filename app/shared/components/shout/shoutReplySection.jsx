@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 import {Col} from 'react-bootstrap';
 
 import ReplyInput from '../chat/message/input.jsx';
+import MessageListBody from '../chat/message/body.jsx';
 
 export default React.createClass({
 	displayName: "ShoutReplySection",
@@ -17,25 +18,47 @@ export default React.createClass({
 
 	render() {
 		let content;
+		let shout = this.props.shout,
+			user = this.props.user;
 
-		if (this.props.shout && this.props.shout.id) {
-			if (this.props.user) {
-				if(this.props.user !== this.props.shout.user.username) {
-					let draft = this.props.replyDrafts[this.props.shout.id];
+		if (shout && shout.id) {
+			if (user) {
+				if (user !== shout.user.username) {
+					let draft = this.props.replyDrafts[shout.id];
 
 					content = (
-						<ReplyInput
-							onTextChange={this.props.onReplyTextChange}
-							onReplyClicked={this.props.onReplySendClicked}
-							text={draft ? draft.text : ""}
-							/>
+						<div>
+							<h4>Reply to the creator</h4>
+							<ReplyInput
+								onTextChange={this.props.onReplyTextChange}
+								onReplyClicked={this.props.onReplySendClicked}
+								text={draft ? draft.text : ""}
+								/>
+						</div>
 					);
 				} else {
-					content = (
-						<h4>
-							This is your shout. You cannot reply to it.
-						</h4>
-					);
+					if (shout.conversations) {
+						let conversationList = shout.conversations.length ? shout.conversations.map((conversation, i) => (
+							<MessageListBody key={"shout-con-" + i}
+											 messages={[conversation.last_message]}
+											 me={user}
+											 conId={conversation.id}
+											 format="flat"/>
+						)) : (
+							<h5>Nobody replied yet!</h5>
+						);
+
+						content = (
+							<div>
+								<h4>Replies</h4>
+								{conversationList}
+							</div>
+						);
+					} else {
+						content = (
+							<h4>Nobody replied yet!</h4>
+						);
+					}
 				}
 			} else {
 				content = (
@@ -47,8 +70,7 @@ export default React.createClass({
 		}
 
 		return (
-			<Col xs={12} md={12} className="section-12">
-				Reply to the creator of this shout:
+			<Col xs={12} md={12} className="section-12 replySection">
 				{content}
 			</Col>
 		);

@@ -827,7 +827,6 @@ nav {
   background-color: $shoutit-light-gray;
 }
 
-
 #inputTagator {
   width: 100%;
 }
@@ -1375,5 +1374,13 @@ iframe {
   100% {
     left: 100px;
     top: 0;
+  }
+}
+
+.replySection {
+  .cnt-chat {
+    height: auto;
+    border: 1px solid $shoutit-light-gray;
+    margin: 5px 0;
   }
 }

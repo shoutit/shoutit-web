@@ -64,9 +64,18 @@ export default React.createClass({
 	},
 
 	getActiveConversation() {
-		return this.props.params && this.props.params.chatId ?
-			this.state.conversations[findIndex(this.state.conversations, 'id', this.props.params.chatId)] :
-			null;
+		if (this.props.params && this.props.params.chatId) {
+			let index = findIndex(this.state.conversations, 'id', this.props.params.chatId);
+			if (index >= 0) {
+				return this.state.conversations[index];
+			} else {
+				return null;
+			}
+
+		} else {
+			return null;
+		}
+
 	},
 
 	onLoadMoreMessagesClicked(before) {
@@ -94,7 +103,9 @@ export default React.createClass({
 		let activeConversation = this.getActiveConversation();
 
 		if (!this.state.loading && activeConversation && !activeConversation.messages) {
-			this.getFlux().actions.loadConversation(activeConversation.id);
+			setTimeout(function () {
+				this.getFlux().actions.loadConversation(activeConversation.id);
+			}.bind(this), 0);
 		}
 	}
 });

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 
 import MessageListBodyBlock from './block.jsx';
 
@@ -15,13 +16,21 @@ export default React.createClass({
 	},
 
 	renderLoadMoreButton() {
-		return (
-			<h5 onClick={this.onLoadMoreMessages}>Load older messages</h5>
-		);
+		if (this.props.format && this.props.format === "flat") {
+			return (
+				<h5>
+					<Link to="messages" params={{chatId: this.props.conId}}>See complete conversation.</Link>
+				</h5>
+			);
+		} else {
+			return (
+				<h5 onClick={this.onLoadMoreMessages}>Load older messages</h5>
+			);
+		}
 	},
 
 	onLoadMoreMessages() {
-		if(this.props.messages) {
+		if (this.props.messages) {
 			let firstMessage = this.props.messages[0];
 			this.props.onLoadMoreMessagesClicked(firstMessage.created_at);
 		}
