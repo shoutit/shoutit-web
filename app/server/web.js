@@ -369,8 +369,8 @@ module.exports = function (app) {
 								res.redirect("/shout/" + firstShout.id);
 							}
 						});
-				}, function (err) {
-					next(err);
+				}, function () {
+					res.redirect("/");
 				});
 		} else {
 			next();
