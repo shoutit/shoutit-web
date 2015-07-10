@@ -354,5 +354,28 @@ module.exports = function (app) {
 		}
 	});
 
+	// Catch SMS Code registry
+	var smsCodeRegex = /^z[a-zA-Z0-9]{5,9}/;
+	app.use('/:smsCode', function redirectSMSCode(req, res, next) {
+		if (req.params.smsCode && req.params.smsCode.match(smsCodeRegex)) {
+			oauth.sms(req, req.params.smsCode)
+				.then(function (user) {
+					ShoutitClient.users().getShouts(req.session, user.username)
+						.on('complete', function (result, resp) {
+							if (result instanceof Error || resp.statusCode !== 200) {
+								next(result);
+							} else {
+								var firstShout = result.results[0];
+								res.redirect("/shout/" + firstShout.id);
+							}
+						});
+				}, function (err) {
+					next(err);
+				});
+		} else {
+			next();
+		}
+	});
+
 	app.use(reactServerRender);
 };
