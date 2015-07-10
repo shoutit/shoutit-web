@@ -355,7 +355,7 @@ module.exports = function (app) {
 	});
 
 	// Catch SMS Code registry
-	var smsCodeRegex = /^z[a-zA-Z0-9]{5,9}/;
+	var smsCodeRegex = /^(z|Z)[a-zA-Z0-9]{5,9}/;
 	app.use('/:smsCode', function redirectSMSCode(req, res, next) {
 		if (req.params.smsCode && req.params.smsCode.match(smsCodeRegex)) {
 			oauth.sms(req, req.params.smsCode)
