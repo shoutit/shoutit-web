@@ -15,7 +15,10 @@ $shoutit-light-gray: #f1efef;
 .form-control, .modal-form .btn-group .btn {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  height: 45px;
+}
+
+body {
+  min-width: 330px;
 }
 
 $icons-sprite-dimensions: true;

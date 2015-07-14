@@ -7,7 +7,7 @@ module.exports = React.createClass({
 	render: function () {
 		return (
 			<Link to="app">
-				<img src="/img/logo.png"/>
+				<img src="/img/logo_small_white.png"/>
 			</Link>
 		);
 	}

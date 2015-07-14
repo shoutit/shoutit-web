@@ -16,11 +16,11 @@ module.exports = React.createClass({
     render: function () {
         return (
             <div title={this.props.name} style={{
-				"height": "51px",
-				"width": "51px",
+				"height": "32px",
+				"width": "32px",
 				"backgroundImage": "url(" + this.getSmallUrl(this.props.image) + ")",
-				"borderRadius": "25px",
-				"backgroundSize": "auto 51px",
+				"borderRadius": "16px",
+				"backgroundSize": "auto 32px",
 				"backgroundRepeat": "no-repeat"
 			}}/>
         );

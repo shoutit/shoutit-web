@@ -24,8 +24,8 @@ p {
 .form-control {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  height: 45px;
 }
+
 
 .input-group-addon {
   border-top-right-radius: 5px;
@@ -166,7 +166,11 @@ nav {
 
 #main-menu {
   background-color: #bfdd6d;
-  /*padding-left: 30px;*/
+  padding: 5px 0;
+}
+
+#main-menu .navbar {
+  min-height: 0;
 }
 
 nav {
@@ -175,10 +179,11 @@ nav {
 
 #main-menu a {
   font-family: 'Arial-Bold', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   color: #343837;
-  padding: 0 0 10px 0;
+  padding: 0;
   border-bottom: 4px transparent solid;
+  margin: 0 3px;
 }
 
 #main-menu a:focus, #main-menu a:hover {
@@ -189,12 +194,8 @@ nav {
   border-bottom: 4px #e65653 solid;
 }
 
-#main-menu .navbar-nav > li {
-  display: table;
-  margin-left: auto;
-  margin-right: auto;
-  border-bottom: 3px solid transparent;
-  padding-top: 20px;
+#main-menu .navbar-nav li.active a {
+  border-bottom: 4px #e65653 solid;
 }
 
 #main-menu .navbar {

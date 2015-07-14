@@ -20,8 +20,8 @@ export default React.createClass({
 		return (
 			<div id="main-menu">
 				<Grid>
-					<Navbar toggleNavKey="mainMenu" bsStyle="link">
-						<Nav eventKey="mainMenu">
+					<Navbar bsStyle="link">
+						<Nav eventKey="mainMenu" collapsable={false}>
 							<NavItemLink to="feed" params={linkParams}>Home</NavItemLink>
 							<NavItemLink to="offers" params={linkParams}>Offers</NavItemLink>
 							<NavItemLink to="requests" params={linkParams}>Requests</NavItemLink>

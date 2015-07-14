@@ -9,10 +9,7 @@
 
   .logo {
     img {
-      margin-left: 5px;
-      margin-bottom: 5px;
-      height: 52px;
-      width: 120px;
+      height: 32px;
     }
   }
 
@@ -22,16 +19,12 @@
     background: $shoutit-light-green;
     border: none;
     box-shadow: none;
-    height: 45px;
     color: #343837;
     font-size: 15px;
     font-family: "Arial-Bold", sans-serif;
-    padding-top: 12px;
+    padding-top: 6px;
 
-    margin-top: 7px;
     margin-right: 5px;
-    margin-bottom: 5px;
-
   }
 
   @media (max-width: 620px) {

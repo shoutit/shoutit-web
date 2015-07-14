@@ -3,26 +3,21 @@
   margin-left: 5px;
   margin-right: 5px;
 
-
-  @media (min-width: 991px) {
-    margin-top: 7px;
-  }
-
   .form-group {
-    margin-bottom: 5px;
     z-index: 100;
     .input-group {
       z-index: 100;
     }
+    margin-bottom: 0;
   }
 
   .selectpicker button {
     background: $shoutit-light-green;
     border: none;
     box-shadow: none;
-    height: 45px;
+    height: 32px;
     color: #343837;
-    font-size: 15px;
+    font-size: 14px;
     font-family: "Arial-Bold", sans-serif;
   }
 
@@ -34,14 +29,17 @@
   .input-group-addon {
     background-color: #fff;
     border: none;
+    padding: 6px;
   }
 
   .form-control {
     border: none;
+    height: 32px;
   }
 
   .searchButton {
     padding: 0;
+    border: none;
   }
 
   .backdrop {
@@ -57,6 +55,7 @@
 
   .form-control {
     background-color: #fff;
+    padding: 6px;
   }
 
   #locationSearch {
@@ -68,7 +67,7 @@
     position: absolute;
     width: 95%;
 
-    margin-top: -5px;
+    margin-top: -4px;
 
     padding: 0 20px 0 0;
     overflow: auto;
