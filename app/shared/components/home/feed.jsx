@@ -1,11 +1,14 @@
 import React from 'react';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
-import { Col } from 'react-bootstrap';
+import { Col, Grid } from 'react-bootstrap';
 
 import {Link} from 'react-router';
 
 import Shout from './feed/shout.jsx';
 import Loader from '../helper/loader.jsx';
+import TagCloud from '../featuredTags/tagCloud.jsx';
+import SideMap from '../map/sideMap.jsx';
+
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 import DocumentTitle from 'react-document-title';
 
@@ -116,9 +119,15 @@ export default React.createClass({
 	render() {
 		return (
 			<DocumentTitle title={titles[this.props.type] + " - Shoutit"}>
-				<Col xs={12} md={8}>
-					{this.renderShouts()}
-				</Col>
+				<Grid>
+					<Col xs={12} md={8}>
+						{this.renderShouts()}
+					</Col>
+					<Col xs={12} md={4} className="sidebar">
+						<SideMap flux={this.props.flux}/>
+						<TagCloud flux={this.props.flux}/>
+					</Col>
+				</Grid>
 			</DocumentTitle>
 		);
 	},
@@ -140,6 +149,10 @@ export default React.createClass({
 
 		if (shouts.length === 0) {
 			this.loadMore();
+		}
+
+		if (this.state.locations.current.city && !this.state.locations.current.location) {
+			this.getFlux().actions.updateLocationToFeed();
 		}
 	},
 

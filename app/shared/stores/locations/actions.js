@@ -11,5 +11,9 @@ export default {
         this.dispatch(consts.SELECT_LOCATION, {
             prediction
         });
+    },
+
+    updateLocationToFeed() {
+        this.dispatch(consts.UPDATE_LOCATION_TO_FEED);
     }
 };

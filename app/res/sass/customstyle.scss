@@ -1245,10 +1245,16 @@ footer {
 .tags {
   padding-left: 15px;
   font-family: 'Arial-Regular', sans-serif;
+
+}
+
+.tags a {
+  display: inline-block;
 }
 
 .tags span {
   margin-right: 5px;
+  white-space:nowrap;
 }
 
 .tags span:nth-child(10) {

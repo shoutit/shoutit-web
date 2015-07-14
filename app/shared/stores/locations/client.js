@@ -17,6 +17,14 @@ export default {
 			});
 	},
 
+	cityGeocode(country, state, city) {
+		return request.get(GEOCODE_URL)
+			.query({
+				address: city,
+				components: 'country:' + country + "|administrative_area:" + state
+			});
+	},
+
 	placeGeocode(placeId) {
 		return request.get(GEOCODE_URL)
 			.query({
