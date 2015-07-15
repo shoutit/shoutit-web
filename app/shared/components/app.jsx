@@ -29,11 +29,11 @@ export default React.createClass({
                         <RouteHandler {...this.props}/>
                     </Grid>
                 </div>
-                <Footer ref="footer"/>
+
             </div>
         );
     },
-
+ // <Footer ref="footer"/>
     componentDidMount() {
         if (window.innerWidth >= 991) {
             this.resize();
