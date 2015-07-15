@@ -68,5 +68,13 @@ export default {
         this.dispatch(consts.LOAD_USER, {
             username: username
         });
+    },
+
+    showDownloadPopup(){
+        this.dispatch(consts.SHOW_DOWNLOAD_POPUP);
+    },
+
+    hideDownloadPopup(){
+        this.dispatch(consts.HIDE_DOWNLOAD_POPUP);
     }
 };

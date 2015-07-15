@@ -25,17 +25,6 @@ export default React.createClass({
 					<Col xs={12} md={6} className="foo-center">
 						<ul>
 							<li>
-								<a href="https://play.google.com/store/apps/details?id=com.shoutit.app.android">
-									<Icon name="playstore"/>
-								</a>
-							</li>
-							<li>
-								<a href="https://itunes.apple.com/us/app/shoutit-app/id947017118?mt=8&uo=6&at=&ct="
-								   target="itunes_store">
-									<Icon name="appstore"/>
-								</a>
-							</li>
-							<li>
 								<a href="https://mixpanel.com/f/partner">
 									<img src="https://cdn.mxpnl.com/site_media/images/partner/badge_light.png"
 										 alt="Mobile Analytics"/>

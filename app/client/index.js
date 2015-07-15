@@ -67,6 +67,9 @@ usersStore.on("logout", function () {
 	pusherClient.unsubscribeUser();
 });
 
+// Trigger Download Modal
+let routesVisited = 0;
+
 router.run(function (Handler, state) {
 	React.render(
 		React.createElement(Handler, {
@@ -75,7 +78,12 @@ router.run(function (Handler, state) {
 		}),
 		document.getElementById('main-mount'),
 		function () {
+			console.log("Router run!");
 			ga('send', 'pageview', state.path);
+			routesVisited++;
+			if (routesVisited === 3) {
+				flux.actions.showDownloadPopup();
+			}
 		}
 	);
 });

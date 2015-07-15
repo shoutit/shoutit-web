@@ -36,7 +36,8 @@ var UserStore = Fluxxor.createStore({
 			listeners: {},
 			listening: {},
 			shouts: {},
-			loading: false
+			loading: false,
+			showDownloadPopup: false
 		};
 
 		if (props.loggedUser) {
@@ -92,7 +93,9 @@ var UserStore = Fluxxor.createStore({
 			consts.LOAD_USER_LISTENING, this.onLoadUserListening,
 			consts.LOAD_USER, this.onLoadUser,
 			consts.LOAD_USER_SHOUTS, this.onLoadUserShouts,
-			consts.LOAD_MORE_USER_SHOUTS, this.onLoadMoreUserShouts
+			consts.LOAD_MORE_USER_SHOUTS, this.onLoadMoreUserShouts,
+			consts.SHOW_DOWNLOAD_POPUP, this.onShowDownloadPopup,
+			consts.HIDE_DOWNLOAD_POPUP, this.onHideDownloadPopup
 		);
 	},
 
@@ -365,6 +368,16 @@ var UserStore = Fluxxor.createStore({
 	onLoadUserFailed(payload) {
 		this.state.users[payload.username] = null;
 		this.state.loading = false;
+		this.emit("change");
+	},
+
+	onShowDownloadPopup() {
+		this.state.showDownloadPopup = true;
+		this.emit("change");
+	},
+
+	onHideDownloadPopup() {
+		this.state.showDownloadPopup = false;
 		this.emit("change");
 	},
 
