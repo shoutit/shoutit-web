@@ -39,9 +39,7 @@ export default React.createClass({
 	render() {
 		return (
 			<Col md={12} xs={12}>
-				<Grid>
-					{this.renderTags()}
-				</Grid>
+				{this.renderTags()}
 			</Col>
 		);
 	},
@@ -52,9 +50,7 @@ export default React.createClass({
 			return (
 				<TagStage key={"ftag-" + i} tag={tag} size={size}/>
 			);
-		}) : (
-			<h4>No tags loaded!</h4>
-		);
+		}) : null;
 	},
 
 	componentDidMount() {

@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {Grid, Col} from 'react-bootstrap';
-import Icon from '../helper/icon.jsx';
 
 export default React.createClass({
 	displayName: "Footer",

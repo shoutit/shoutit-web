@@ -6,7 +6,7 @@ import {Link} from 'react-router';
 
 import Shout from './feed/shout.jsx';
 import Loader from '../helper/loader.jsx';
-import TagCloud from '../featuredTags/tagCloud.jsx';
+import FeaturedTags from '../featuredTags/featuredTags.jsx';
 import SideMap from '../map/sideMap.jsx';
 
 import ViewportSensor from '../misc/ViewportSensor.jsx';
@@ -120,12 +120,12 @@ export default React.createClass({
 		return (
 			<DocumentTitle title={titles[this.props.type] + " - Shoutit"}>
 				<Grid>
-					<Col xs={12} md={8}>
+					<Col xs={12} md={8} className="shoutFeed">
 						{this.renderShouts()}
 					</Col>
 					<Col xs={12} md={4} className="sidebar">
 						<SideMap flux={this.props.flux}/>
-						<TagCloud flux={this.props.flux}/>
+						<FeaturedTags flux={this.props.flux}/>
 					</Col>
 				</Grid>
 			</DocumentTitle>

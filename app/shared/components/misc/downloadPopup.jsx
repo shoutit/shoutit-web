@@ -40,7 +40,7 @@ export default React.createClass({
 		}
 
 		return (
-			<Modal onRequestHide={this.onRequestHide} bsSize="large">
+			<Modal className="downloadPopup" onRequestHide={this.onRequestHide} bsSize="large">
 				<div className="modal-header">
 					<button onClick={this.onRequestHide} type="button" className="close" data-dismiss="modal"
 							aria-label="Close">
@@ -49,7 +49,7 @@ export default React.createClass({
 				</div>
 				<div className="modal-body downloadPopup center-block">
 					{downloadImage}
-					<h4>Get Shouted!</h4>
+					<h4>Get Shoutit!</h4>
 
 					<p>Download the <b>free</b> Shoutit app for a better experience!</p>
 					{downloadLink}

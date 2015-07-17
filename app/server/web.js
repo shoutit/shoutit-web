@@ -95,25 +95,27 @@ ShoutitClient.misc().sortTypes()
 function fetchData(userSession, routes, params, query) {
 	var data = {};
 	//return Promise.resolve(data);
-	return Promise.all(routes.filter(function (route) {
-		return route.handler.fetchData;
-	}).map(function (route) {
-		return new Promise(function (resolve) {
-			route.handler.fetchData(ShoutitClient, userSession, params, route.name, query)
-				.on('complete', function (result, resp) {
-					if (result instanceof Error || resp.statusCode !== 200) {
-						resolve({});
-					} else {
-						resolve(result);
-					}
-				});
-		}).then(function (fetched) {
-				console.log("Fetched data for", route.name);
-				data[route.name] = fetched;
-			});
-	})).then(function () {
-		return data;
-	});
+	//return Promise.all(routes.filter(function (route) {
+	//	return route.handler.fetchData;
+	//}).map(function (route) {
+	//	return new Promise(function (resolve) {
+	//		route.handler.fetchData(ShoutitClient, userSession, params, route.name, query)
+	//			.on('complete', function (result, resp) {
+	//				if (result instanceof Error || resp.statusCode !== 200) {
+	//					resolve({});
+	//				} else {
+	//					resolve(result);
+	//				}
+	//			});
+	//	}).then(function (fetched) {
+	//			console.log("Fetched data for", route.name);
+	//			data[route.name] = fetched;
+	//		});
+	//})).then(function () {
+	//	return data;
+	//});
+
+	return Promise.resolve(data);
 }
 
 
@@ -228,6 +230,44 @@ if (process.env.REDIS_HOST) {
 
 console.log("REDIS_HOST:", redisOptions.host);
 
+function detectionMiddleware(req, res, next) {
+	var ua = req.headers['user-agent'],
+		$ = {};
+
+	if (/mobile/i.test(ua)) {
+		$.Mobile = true;
+	}
+
+	if (/like Mac OS X/.test(ua)) {
+		$.iOS = /CPU( iPhone)? OS ([0-9\._]+) like Mac OS X/.exec(ua)[2].replace(/_/g, '.');
+		if (/iPhone/.test(ua)) {
+			$.iPhone = /iPhone/.test(ua);
+		}
+		if (/iPad/.test(ua)) {
+			$.iPad = /iPad/.test(ua);
+		}
+	}
+
+	if (/Android/.test(ua)) {
+		$.Android = /Android( )?(; (Tablet|Mobile); rv:)?([0-9\.]+)[\);]/.exec(ua)[4];
+	}
+
+	if (/webOS\//.test(ua)) {
+		$.webOS = /webOS\/([0-9\.]+)[\);]/.exec(ua)[1];
+	}
+
+	if (/(Intel|PPC) Mac OS X/.test(ua)) {
+		$.Mac = /(Intel|PPC) Mac OS X ?([0-9\._]*)[\)\;]/.exec(ua)[2].replace(/_/g, '.') || true;
+	}
+
+	if (/Windows NT/.test(ua)) {
+		$.Windows = /Windows NT ([0-9\._]+)[\);]/.exec(ua)[1];
+	}
+
+	req.devices = $;
+
+	next();
+}
 
 module.exports = function (app) {
 	// view stuff
@@ -353,6 +393,25 @@ module.exports = function (app) {
 			res.redirect('/login');
 		}
 	});
+
+	app.use('/app', detectionMiddleware, function (req, res) {
+			console.log(req.devices);
+
+			if (req.devices) {
+				if (req.devices.iOS || req.devices.iPhone || req.devices.iPad) {
+					console.log("Detected iOS Device");
+					res.redirect('https://geo.itunes.apple.com/de/app/shoutit-app/id947017118?mt=8');
+				} else if (req.devices.Android) {
+					console.log("Detected Android Device");
+					res.redirect('https://play.google.com/store/apps/details?id=com.shoutit.app.android');
+				} else {
+					res.redirect('/');
+				}
+			} else {
+				res.redirect('/');
+			}
+		}
+	);
 
 	// Catch SMS Code registry
 	var smsCodeRegex = /^(z|Z)[a-zA-Z0-9]{5,9}/;

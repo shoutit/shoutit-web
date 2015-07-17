@@ -14,12 +14,12 @@ module.exports = React.createClass({
 	},
 
 	render: function () {
-		var children = this.props.tags.map(function (tag) {
+		var children = this.props.tags.slice(0, 2).map(function (tag) {
 			return <Tag key={"tag-" + tag.id} tag={tag}/>;
 		});
 
 		return (
-			<ul className="tags col-md-6">
+			<ul className="tags col-md-9">
 				{children}
 			</ul>
 		);

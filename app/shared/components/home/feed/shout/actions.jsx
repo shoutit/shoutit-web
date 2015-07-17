@@ -6,7 +6,7 @@ module.exports = React.createClass({
 
 	render: function () {
 		return (
-			<ul className="book col-md-6">
+			<ul className="book col-md-3">
 				<li>
 					<Icon name="b1"/>
 				</li>

@@ -17,8 +17,27 @@ $shoutit-light-gray: #f1efef;
   border-bottom-left-radius: 5px;
 }
 
-body {
-  min-width: 330px;
+//#main-mount > div > div {
+//  position: fixed;
+//  top: 0;
+//  left: 0;
+//  min-width: 320px;
+//  height: 100%;
+//}
+
+#main-mount > div > div {
+  padding-top: 83px;
+  background-color: $shoutit-light-gray;
+  //overflow-y: scroll;
+  //min-height: 100%;
+}
+
+.container section > div {
+  margin-top: 5px;
+}
+
+.downloadPopup {
+  z-index: 110;
 }
 
 $icons-sprite-dimensions: true;
@@ -44,6 +63,16 @@ $icons-layout: smart;
   height: 45px;
   @media only screen {
     background-image: url(https://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .shoutFeed {
+    padding: 0;
+
+    section > div {
+      padding: 0;
+    }
   }
 }
 

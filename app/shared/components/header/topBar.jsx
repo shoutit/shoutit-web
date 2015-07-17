@@ -9,15 +9,24 @@ export default React.createClass({
 	displayName: "TopBar",
 
 	render() {
-		var loggedUser = this.props.user ? this.props.users[this.props.user] : null;
+		let loggedUser = this.props.user ? this.props.users[this.props.user] : null;
+
+		let xsSizes = {
+			logo: 2,
+			searchBar: loggedUser ? 8 : 7,
+			actions: loggedUser ? 2 : 3
+		};
 
 		return (
 			<Row className="topBar">
 				<Grid>
-					<Col className="logo" xs={1} md={1}>
+					<Col className="logo" xs={2} md={1}>
 						<Logo/>
 					</Col>
-					<Col xs={3} md={5} mdPush={6} xsPush={8}>
+					<Col xs={xsSizes.searchBar} md={6}>
+						<SearchBar/>
+					</Col>
+					<Col xs={xsSizes.actions} md={5}>
 						{this.props.user ?
 							<TopBarActions flux={this.props.flux} user={loggedUser}
 										   onLogoutClicked={this.props.onLogoutClicked}/> :
@@ -25,9 +34,6 @@ export default React.createClass({
 								<span>Login</span>
 							</ButtonLink>
 						}
-					</Col>
-					<Col xs={8} md={6} mdPull={5} xsPull={3}>
-						<SearchBar/>
 					</Col>
 				</Grid>
 			</Row>

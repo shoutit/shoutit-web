@@ -24,18 +24,22 @@ export default React.createClass({
 	},
 
 	render() {
-		return (
+		return this.isMapsAvailable() ? (
 			<div ref="mapContainer" className="map">
 			</div>
-		);
+		) : null;
 	},
 
 	shouldComponentUpdate () {
 		return true;
 	},
 
+	isMapsAvailable() {
+		return typeof window !== 'undefined' && window.google && window.google.maps;
+	},
+
 	componentWillUpdate () {
-		if (typeof window !== 'undefined') {
+		if (this.isMapsAvailable()) {
 			let gMaps = window.google.maps;
 
 			if (this.state.locations.current.location && !this.state.map) {

@@ -11,6 +11,7 @@ import ShoutModalTrigger from './topbar/shoutModal.jsx';
  <ShoutModalTrigger flux={this.props.flux} />
  */
 
+
 export default React.createClass({
 	displayName: "TopBarActions",
 
@@ -19,10 +20,11 @@ export default React.createClass({
 
 		return (
 			<Nav pullRight={true}>
-				<ShoutModalTrigger flux={this.props.flux} />
 				<ProfileDropdown user={user} onLogoutClicked={this.props.onLogoutClicked}/>
 			</Nav>
 		);
 	}
+
+	// <ShoutModalTrigger flux={this.props.flux} />
 
 });

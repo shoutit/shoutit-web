@@ -4,12 +4,9 @@ import Fluxxor from 'fluxxor';
 import url from 'url';
 
 import consts from './consts';
-import messageConsts from './consts.js';
 import client from './client';
 
 import defaults from '../../consts/defaults';
-
-import Promise from 'bluebird';
 
 function shoutCollectionInit() {
 	return {

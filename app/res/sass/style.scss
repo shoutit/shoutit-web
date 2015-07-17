@@ -26,7 +26,6 @@ p {
   border-bottom-left-radius: 5px;
 }
 
-
 .input-group-addon {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -1390,22 +1389,42 @@ iframe {
 
 .tagStage {
   margin: 5px 0;
-  max-height: 168px;
-  overflow-y: hidden;
+  overflow: hidden;
+  padding: 2px;
+
+  max-height: 78px;
+
+  @media screen and (min-width: 676px) {
+    max-height: 168px;
+  }
 
   img {
     width: 100%;
+    margin-top: 1em;
   }
 
   .row {
     color: white;
     margin-left: 0;
     margin-right: 0;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    width: 100%;
 
     .col-md-12, .col-xs-12 {
       background-color: $shoutit-dark-gray;
     }
   }
+}
+
+.sidebar .col-md-12 {
+  padding: 0;
+}
+
+.sidebar .tagStage {
+  max-height: 63px;
+  font-size: 12px;
 }
 
 .downloadPopup {
