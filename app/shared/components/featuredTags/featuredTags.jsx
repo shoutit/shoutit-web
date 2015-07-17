@@ -57,8 +57,6 @@ export default React.createClass({
 		if (!this.state.featuredTags) {
 			let params = this.context.router.getCurrentParams();
 
-			console.log(params);
-
 			this.getFlux().actions.loadTags({
 				country: params.country,
 				city: params.city,

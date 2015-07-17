@@ -25,7 +25,7 @@ export default React.createClass({
 							<NavItemLink to="feed" params={linkParams}>Home</NavItemLink>
 							<NavItemLink to="offers" params={linkParams}>Offers</NavItemLink>
 							<NavItemLink to="requests" params={linkParams}>Requests</NavItemLink>
-							<NavItemLink to="tags" params={linkParams}>Tags</NavItemLink>
+							<NavItemLink to="discover" params={linkParams}>Discover</NavItemLink>
 							<NavItemLink to="chat">Chat</NavItemLink>
 						</Nav>
 					</Navbar>
