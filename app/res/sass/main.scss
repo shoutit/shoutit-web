@@ -27,9 +27,13 @@ $shoutit-light-gray: #f1efef;
 
 #main-mount > div > div {
   padding-top: 83px;
-  background-color: $shoutit-light-gray;
+  padding-bottom: 56px;
   //overflow-y: scroll;
   //min-height: 100%;
+}
+
+body, #main-mount > div > div {
+  background-color: $shoutit-light-gray;
 }
 
 .container section > div {
