@@ -112,7 +112,7 @@ let MessagesStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
-	onLoadMoreConversationsSuccess({before, res}) {
+	onLoadMoreConversationsSuccess({res}) {
 		res.results.forEach(function (conversation) {
 			var index = this.getIndex(conversation.id);
 			if (index >= 0) {
@@ -126,7 +126,7 @@ let MessagesStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
-	onLoadConversation({id}) {
+	onLoadConversation() {
 		this.state.loading = true;
 		this.emit("change");
 	},
@@ -139,12 +139,12 @@ let MessagesStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
-	onLoadMoreConversation({id, before}) {
+	onLoadMoreConversation() {
 		this.state.loading = true;
 		this.emit("change");
 	},
 
-	onLoadMoreConversationSuccess({id, before, res}) {
+	onLoadMoreConversationSuccess({id, res}) {
 		let conversation = this.state.conversations[this.getIndex(id)];
 		Array.prototype.splice.apply(conversation.messages, [0, 0].concat(res.results));
 
@@ -152,7 +152,7 @@ let MessagesStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
-	onDeleteConversation({id}) {
+	onDeleteConversation() {
 		this.state.loading = true;
 		this.emit("change");
 	},
@@ -163,7 +163,7 @@ let MessagesStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
-	onReadConversation({id}) {
+	onReadConversation() {
 		this.state.loading = true;
 		this.emit("change");
 	},
@@ -179,7 +179,7 @@ let MessagesStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
-	onUnreadConversation({id}) {
+	onUnreadConversation() {
 		this.state.loading = true;
 		this.emit("change");
 	},
@@ -195,7 +195,7 @@ let MessagesStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
-	onReplyConversation({id, message}) {
+	onReplyConversation() {
 		this.state.loading = true;
 		this.emit("change");
 	},
@@ -214,7 +214,7 @@ let MessagesStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
-	onDeleteMessage({id}) {
+	onDeleteMessage() {
 		this.state.loading = true;
 		this.emit("change");
 	},

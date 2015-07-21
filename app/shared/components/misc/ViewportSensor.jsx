@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: 'ViewportSensor',
 
 	propTypes: {
@@ -9,24 +9,24 @@ module.exports = React.createClass({
 		delay: React.PropTypes.number
 	},
 
-	getDefaultProps: function () {
+	getDefaultProps() {
 		return {
 			active: true,
 			delay: 1000
 		};
 	},
 
-	componentDidMount: function () {
+	componentDidMount() {
 		if (this.props.active) {
 			this.startWatching();
 		}
 	},
 
-	componentWillUnmount: function () {
+	componentWillUnmount() {
 		this.stopWatching();
 	},
 
-	componentWillReceiveProps: function (nextProps) {
+	componentWillReceiveProps(nextProps) {
 		if (nextProps.active) {
 			this.lastValue = null;
 			this.startWatching();
@@ -35,24 +35,24 @@ module.exports = React.createClass({
 		}
 	},
 
-	startWatching: function () {
+	startWatching() {
 		if (this.interval) {
 			return;
 		}
 		this.interval = setInterval(this.check, this.props.delay);
 	},
 
-	stopWatching: function () {
+	stopWatching() {
 		this.interval = clearInterval(this.interval);
 	},
 
 	/**
 	 * Check if the element is within the visible viewport
 	 */
-	check: function () {
-		var el = this.getDOMNode();
-		var rect = el.getBoundingClientRect();
-		var isVisible = (
+	check() {
+		let el = this.getDOMNode();
+		let rect = el.getBoundingClientRect();
+		let isVisible = (
 		rect.top >= 0 &&
 		rect.left >= 0 &&
 		rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
@@ -66,7 +66,7 @@ module.exports = React.createClass({
 		}
 	},
 
-	render: function () {
+	render() {
 		return (<div>{this.props.children}</div>);
 	}
 });

@@ -1,9 +1,9 @@
-var React = require('react');
+import React from 'react';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "Icon",
-	render: function () {
-		var className = "icon icons-" + this.props.name + " " + (this.props.className || "");
+	render() {
+		let className = "icon icons-" + this.props.name + " " + (this.props.className || "");
 		return (
 			<div className={className}/>
 		)

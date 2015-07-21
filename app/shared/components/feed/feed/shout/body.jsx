@@ -91,8 +91,7 @@ export default React.createClass({
 				<ItemProp property="image">
 					<Image src={shout.thumbnail}/>
 				</ItemProp>
-			</div> :
-			"";
+			</div> : null;
 	},
 
 	renderTitle(shout) {

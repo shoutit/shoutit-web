@@ -1,28 +1,26 @@
-var React = require('react'),
-	Fluxxor = require('fluxxor'),
-	FluxMixin = Fluxxor.FluxMixin(React),
-	StoreWatchMixin = Fluxxor.StoreWatchMixin;
+import React from 'react';
+import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 
-var SearchUserList = require('./searchUserList.jsx');
+import SearchUserList from './searchUserList.jsx';
 
-module.exports = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin("users")],
+export default React.createClass({
+	mixins: [new FluxMixin(React), new StoreWatchMixin("users")],
 	displayName: "SearchUsers",
 
-	getStateFromFlux: function () {
+	getStateFromFlux() {
 		return this.getFlux().store("users").getState();
 	},
 
 	statics: {
-		fetchData: function (client, session, params) {
+		fetchData(client, session, params) {
 			return client.users().search(session, {
 				search: params.term
 			});
 		}
 	},
 
-	render: function () {
-		var logged = this.state.user,
+	render() {
+		let logged = this.state.user,
 			loggedUser = logged ? this.state.users[logged] : null,
 			listening = logged ? this.state.listening[logged] : null;
 

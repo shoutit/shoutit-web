@@ -1,19 +1,21 @@
-var React = require('react');
+import React from 'react';
 
-var SearchTagList = require('./searchTagList.jsx');
+import SearchTagList from './searchTagList.jsx';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "SearchTags",
 
 	statics: {
-		fetchData: function (client, session, params) {
+		fetchData(client, session, params) {
 			return client.tags().search(session, {
 				search: params.term
 			});
 		}
 	},
 
-	render: function () {
-		return <SearchTagList {...this.props}/>
+	render() {
+		return (
+			<SearchTagList {...this.props}/>
+		);
 	}
 });

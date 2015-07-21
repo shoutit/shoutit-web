@@ -1,18 +1,18 @@
-var React = require('react'),
-	Col = require('react-bootstrap').Col;
+import React from 'react';
+import {Col} from 'react-bootstrap';
 
-var BasicInfo = require('./settings/basicInformation.jsx'),
-	ContactInfos = require('./settings/contactInfos.jsx');
+import BasicInfo from './settings/basicInformation.jsx';
+import ContactInfos from './settings/contactInfos.jsx';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "ProfileSettings",
 
 	contextTypes: {
 		router: React.PropTypes.func
 	},
 
-	render: function () {
-		var user = this.props.users[this.props.username];
+	render() {
+		let user = this.props.users[this.props.username];
 
 		return (
 			<Col xs={12} md={12} className="profile-right">
@@ -23,18 +23,18 @@ module.exports = React.createClass({
 		);
 	},
 
-	onSaveClicked: function (field, newValue) {
+	onSaveClicked(field, newValue) {
 		this.props.flux.actions.saveInfo(field, newValue);
 
 	},
 
-	componentWillMount: function () {
+	componentWillMount() {
 		if (!this.props.user || !this.props.users[this.props.username].is_owner) {
 			this.context.router.transitionTo("useroffers", {username: this.props.username});
 		}
 	},
 
-	onInfoChange: function (field, newValue) {
+	onInfoChange(field, newValue) {
 		this.props.flux.actions.changeInfo(field, newValue);
 	}
 });

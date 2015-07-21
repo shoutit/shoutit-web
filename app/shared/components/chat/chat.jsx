@@ -11,7 +11,7 @@ export default function (envData) {
 		displayName: "Chat",
 
 		statics: {
-			fetchData(client, session, params) {
+			fetchData(client, session) {
 				return client.conversations().load(session);
 			},
 

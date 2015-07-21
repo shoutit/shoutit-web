@@ -1,14 +1,11 @@
-var React = require('react'),
-	Router = require('react-router'),
-	Link = Router.Link;
+import React from 'react';
+import {Image} from '../helper';
 
-var Image = require('../helper/image.jsx');
-
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "TagProfileImage",
 
-	render: function () {
-		var image = this.props.image ? <Image infix="tag" size="medium" src={this.props.image}/> : "";
+	render() {
+		let image = this.props.image ? <Image infix="tag" size="medium" src={this.props.image}/> : null;
 
 		return (
 			<div className="profile-img">

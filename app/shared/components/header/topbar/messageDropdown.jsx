@@ -1,31 +1,27 @@
-var React = require('react'),
-    DropdownButton = require('react-bootstrap').DropdownButton,
-    Col = require('react-bootstrap').Col,
-    MenuItem = require('react-bootstrap').MenuItem;
+import React from 'react';
+import {DropdownButton, Col, MenuItem} from 'react-bootstrap';
 
-var Icon = require('../../helper/icon.jsx'),
-    DropdownHeader = require('./messages/dropdownHeader.jsx');
-//MessagePreview = require('./messages/messagePreview.jsx');
+import {Icon} from '../../helper';
+import DropdownHeader from './messages/dropdownHeader.jsx';
 
+export default React.createClass({
+	displayName: "MessagePopup",
 
-module.exports = React.createClass({
-    displayName: "MessagePopup",
+	render() {
+		let title = (<div>
+			<Icon name="message-icon"/>
+			<span className="small-circle">3</span>
+		</div>);
 
-    render: function () {
-        var title = (<div>
-            <Icon name="message-icon"/>
-            <span className="small-circle">3</span>
-        </div>);
+		return (
+			<DropdownButton title={title} className="messages" navItem={true} noCaret={true}>
+				<DropdownHeader unread={0}/>
 
-        return (
-            <DropdownButton title={title} className="messages" navItem={true} noCaret={true}>
-                <DropdownHeader unread={0}/>
-
-                <MenuItem className="see-all">
-                    <span>See all messages</span>
-                </MenuItem>
-            </DropdownButton>
-        );
-    }
+				<MenuItem className="see-all">
+					<span>See all messages</span>
+				</MenuItem>
+			</DropdownButton>
+		);
+	}
 });
 

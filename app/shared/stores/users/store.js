@@ -1,6 +1,5 @@
 import Fluxxor from 'fluxxor';
 import url from 'url';
-import where from 'lodash/collection/where';
 
 import consts from './consts';
 import client from './client';

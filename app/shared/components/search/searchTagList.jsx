@@ -1,15 +1,13 @@
-var React = require('react'),
-	Col = require('react-bootstrap').Col,
-	Loader = require('../helper/loader.jsx');
+import React from 'react';
+import {Loader} from '../helper';
 
+import Tag from '../feed/feed/shout/tag.jsx';
 
-var Tag = require('../home/feed/shout/tag.jsx');
-
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "SearchTagList",
 
-	componentDidMount: function () {
-		var term = this.props.term,
+	componentDidMount() {
+		let term = this.props.term,
 			tags = this.props.search.tags[term];
 
 		if (!tags) {
@@ -17,14 +15,14 @@ module.exports = React.createClass({
 		}
 	},
 
-	renderTags: function (tags) {
+	renderTags(tags) {
 		return tags.length ? tags.map(function (tag, i) {
 			return <Tag key={"tag-" + i} tag={tag} index={i}/>;
 		}) : <h4>No tags.</h4>;
 	},
 
-	render: function () {
-		var term = this.props.term,
+	render() {
+		let term = this.props.term,
 			tags = this.props.search.tags[term],
 			content;
 

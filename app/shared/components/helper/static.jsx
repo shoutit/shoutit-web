@@ -10,7 +10,7 @@ export default React.createClass({
 	},
 
 	render(){
-		var name = this.context.router.getCurrentPathname()
+		let name = this.context.router.getCurrentPathname()
 			.replace('\/', '');
 
 		return (

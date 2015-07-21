@@ -5,7 +5,7 @@ import {Grid, Navbar, Nav} from 'react-bootstrap';
 export default React.createClass({
 	displayName: "MainMenu",
 
-	render: function () {
+	render() {
 		let currentCity = this.props.current.city,
 			currentCountry = this.props.current.country,
 			currentState = this.props.current.state,
@@ -22,7 +22,7 @@ export default React.createClass({
 				<Grid>
 					<Navbar bsStyle="link">
 						<Nav eventKey="mainMenu" collapsable={false}>
-							<NavItemLink to="feed" params={linkParams}>Home</NavItemLink>
+							<NavItemLink to="all" params={linkParams}>Home</NavItemLink>
 							<NavItemLink to="offers" params={linkParams}>Offers</NavItemLink>
 							<NavItemLink to="requests" params={linkParams}>Requests</NavItemLink>
 							<NavItemLink to="discover" params={linkParams}>Discover</NavItemLink>

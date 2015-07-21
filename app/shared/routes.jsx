@@ -1,4 +1,4 @@
-import {Route, DefaultRoute, NotFoundRoute} from 'react-router';
+import {Route, DefaultRoute, NotFoundRoute, RedirectRoute} from 'react-router';
 import React from 'react';
 
 import Root from './components/root.jsx';
@@ -6,7 +6,8 @@ import Login from './components/login/login.jsx';
 import App from './components/app.jsx';
 import Reduced from './components/reduced/reduced.jsx';
 
-import Home from './components/home/home.jsx';
+import Feed from './components/feed/feed.jsx';
+import FeedListContainer from './components/feed/feedListContainer.jsx';
 import Static from './components/helper/static.jsx';
 import NotFound from './components/misc/notfound.jsx';
 import Shout from './components/shout/shoutDetail.jsx';
@@ -29,18 +30,19 @@ import MessageList from './components/chat/message/list.jsx';
 import EmptyMessageList from './components/chat/message/empty.jsx';
 import Discover from './components/featuredTags/discover.jsx';
 
-
-let Feed = new Home("all"),
-	Offers = new Home("offer"),
-	Requests = new Home("request");
-
+let All = new FeedListContainer("all"),
+	Offers = new FeedListContainer("offer"),
+	Requests = new FeedListContainer("request");
 export default function (envData) {
 	return (
 		<Route name="root" path="/" handler={Root}>
 			<Route name="app" path="/" handler={App}>
-				<Route name="feed" path="/feed/?:country?/?:state?/?:city?/?:page?" handler={Feed}/>
-				<Route name="offers" path="/offers/?:country?/?:state?/?:city?/?:page?" handler={Offers}/>
-				<Route name="requests" path="/requests/?:country?/?:state?/?:city?/?:page?" handler={Requests}/>
+				<Route name="feed" path="/" handler={Feed}>
+					<Route name="all" path="/all/?:country?/?:state?/?:city?/?:page?" handler={All}/>
+					<Route name="offers" path="/offers/?:country?/?:state?/?:city?/?:page?" handler={Offers}/>
+					<Route name="requests" path="/requests/?:country?/?:state?/?:city?/?:page?" handler={Requests}/>
+					<DefaultRoute name="default" handler={All}/>
+				</Route>
 				<Route name="user" path="/user/:username" handler={Profile}>
 					<Route name="listeners" handler={ProfileListeners}/>
 					<Route name="listening" handler={ProfileListening}/>
@@ -64,7 +66,6 @@ export default function (envData) {
 					<Route name="searchTags" path="tags" handler={SearchTags}/>
 					<DefaultRoute name="searchShouts" handler={SearchShouts}/>
 				</Route>
-				<DefaultRoute name="home" handler={Feed}/>
 			</Route>
 			<Route name="static" path="/" handler={Reduced}>
 				<Route name="tos" handler={Static}/>

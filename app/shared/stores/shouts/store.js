@@ -64,9 +64,9 @@ let ShoutStore = Fluxxor.createStore({
 			this.state.sortTypes = props.sortTypes;
 		}
 
-		let feedData = props.home || props.feed;
-		if (feedData) {
-			this.saveUpdate(feedData, defaults.ALL_TYPE);
+		let shoutData = props.all || props.default;
+		if (shoutData) {
+			this.saveUpdate(shoutData, defaults.ALL_TYPE);
 		}
 
 		if (props.offers) {
@@ -376,7 +376,7 @@ let ShoutStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
-	onSendShoutReply({shoutId, message}) {
+	onSendShoutReply({shoutId}) {
 		this.state.replyDrafts[shoutId] = replyDraftInit();
 		this.emit("change");
 	},

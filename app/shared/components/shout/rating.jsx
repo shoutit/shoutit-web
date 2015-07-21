@@ -1,29 +1,29 @@
-var React = require('react'),
-	Icon = require('../helper/icon.jsx');
+import React from 'react';
+import {Icon} from '../helper';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "Rating",
 
-	getDefaultProps: function () {
+	getDefaultProps() {
 		return {
 			max: 5,
 			rating: 3
-		}
+		};
 	},
 
-	renderStars: function () {
-		var filled = Math.floor(this.props.rating),
+	renderStars() {
+		let filled = Math.floor(this.props.rating),
 			stars = [];
-		for (var i = 0; i < max; i++) {
+		for (let i = 0; i < this.props.max; i++) {
 			if (i < filled) {
-				stars.push(<Icon name="start-1" />);
+				stars.push(<Icon name="start-1"/>);
 			} else {
-				stars.push(<Icon name="b1" />);
+				stars.push(<Icon name="b1"/>);
 			}
 		}
 	},
 
-	render: function () {
+	render() {
 		return (
 			<div className="dot2">
 				{this.renderStars()}

@@ -1,17 +1,17 @@
-var React = require('react');
+import React from 'react';
 
-var ProfileShoutList = require('./profileShoutList.jsx');
+import ProfileShoutList from './profileShoutList.jsx';
 
-module.exports = React.createClass({
+export default React.createClass({
     displayName: "ProfileOffers",
 
     statics: {
-        fetchData: function (client, session, params) {
+        fetchData(client, session, params) {
             return client.users().getShouts(session, params.username, 'offer');
         }
     },
 
-    render: function () {
+    render() {
         return (<ProfileShoutList type="offer" {...this.props}/>);
     }
 });

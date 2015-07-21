@@ -1,31 +1,30 @@
-var React = require('react'),
-	Router = require('react-router'),
-	moment = require('moment'),
-	Col = require('react-bootstrap').Col,
-	Rating = require('./rating.jsx'),
-	ShoutDetailActions = require('./shoutDetailActions.jsx'),
-	TagList = require('../home/feed/shout/tags.jsx'),
-	Video = require('./video.jsx');
+import React from 'react';
+import {Link} from 'react-router';
+import moment from 'moment';
+import {Col} from 'react-bootstrap';
 
-var Image = require('../helper/image.jsx'),
-	ItemProp = require('../helper/microdata/itemprop.jsx'),
-	ItemScope = require('../helper/microdata/itemscope.jsx');
+import Rating from './rating.jsx';
+import ShoutDetailActions from './shoutDetailActions.jsx';
+import TagList from '../feed/feed/shout/tags.jsx';
+import Video from './video.jsx';
 
+import {Image} from '../helper';
+import {ItemProp, ItemScope} from '../helper/microdata';
 
-var types = {
+let types = {
 	offer: "Offer",
 	request: "Request"
 };
 
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "ShoutDetailBody",
 
-	renderSubtitle: function (shout) {
-		var link = shout.user.is_activated ?
-			<Router.Link to="user" params={{username: encodeURIComponent(shout.user.username)}}>
+	renderSubtitle(shout) {
+		let link = shout.user.is_activated ?
+			<Link to="user" params={{username: encodeURIComponent(shout.user.username)}}>
 				{shout.user.name}
-			</Router.Link> : shout.user.name;
+			</Link> : shout.user.name;
 
 		return (
 			<h5>{types[shout.type]} by&nbsp;
@@ -38,11 +37,11 @@ module.exports = React.createClass({
 		);
 	},
 
-	renderVideos: function (shout) {
+	renderVideos(shout) {
 		return shout.videos ?
 			<p>
 				{shout.videos.map(function (video, i) {
-					var key = "shout-detail-video-" + i;
+					let key = "shout-detail-video-" + i;
 					return (<Video {...video} key={key}/>);
 				})}
 			</p>
@@ -50,7 +49,7 @@ module.exports = React.createClass({
 	}
 	,
 
-	renderImages: function (shout) {
+	renderImages(shout) {
 		return shout.images ? shout.images.map(function (imageSrc, i) {
 			return (
 				<div key={"shout-detail-image-" + i} className="section-img">
@@ -63,7 +62,7 @@ module.exports = React.createClass({
 	}
 	,
 
-	renderText: function (shout) {
+	renderText(shout) {
 		return (
 			<ItemProp property="description">
 				<p>{shout.text}</p>
@@ -72,7 +71,7 @@ module.exports = React.createClass({
 	}
 	,
 
-	renderTitle: function (shout) {
+	renderTitle(shout) {
 		return (
 			<ItemProp property="name">
 				<h4>{shout.title}</h4>
@@ -81,24 +80,24 @@ module.exports = React.createClass({
 	}
 	,
 
-	renderRating: function (shout) {
+	renderRating(shout) {
 		return shout.rating ?
-			<Rating rating={shout.rating}/> : "";
+			<Rating rating={shout.rating}/> : null;
 	}
 	,
 
-	renderActions: function () {
+	renderActions() {
 		return (<ShoutDetailActions/>);
 	}
 	,
 
-	renderTags: function (shout) {
+	renderTags(shout) {
 		return shout.tags ?
-			<TagList tags={shout.tags}/> : "";
+			<TagList tags={shout.tags}/> : null;
 	}
 	,
 
-	renderBottom: function (shout) {
+	renderBottom(shout) {
 		return (
 			<div className="btn-bottom single-shout">
 				{this.renderActions()}
@@ -108,7 +107,7 @@ module.exports = React.createClass({
 	}
 	,
 
-	renderOffer: function (shout) {
+	renderOffer(shout) {
 		if (shout.type === "offer" && shout.price && shout.currency) {
 			return (
 				<ItemProp property="offers">
@@ -129,8 +128,8 @@ module.exports = React.createClass({
 	}
 	,
 
-	render: function () {
-		var shout = this.props.shout;
+	render() {
+		let shout = this.props.shout;
 
 		return (
 			<ItemScope type="Product">
@@ -147,5 +146,4 @@ module.exports = React.createClass({
 			</ItemScope>
 		);
 	}
-})
-;
+});

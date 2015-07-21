@@ -1,17 +1,19 @@
-var React = require('react');
+import React from 'react';
 
-var ProfileShoutList = require('./tagProfileShoutList.jsx');
+import ProfileShoutList from './tagProfileShoutList.jsx';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "TagProfileOffers",
 
 	statics: {
-		fetchData: function (client, session, params) {
+		fetchData(client, session, params) {
 			return client.tags().getShouts(session, params.tagName, 'offer');
 		}
 	},
 
-	render: function () {
-		return <ProfileShoutList type="offer" {...this.props}/>
+	render() {
+		return (
+			<ProfileShoutList type="offer" {...this.props}/>
+		);
 	}
 });

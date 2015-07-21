@@ -64,5 +64,4 @@ module.exports = function (router, user, data, params, currencies, categories, s
 	};
 
 	return flux;
-}
-;
+};

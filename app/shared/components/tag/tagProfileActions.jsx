@@ -1,29 +1,24 @@
-var React = require('react'),
-	Fluxxor = require('fluxxor'),
-	FluxMixin = Fluxxor.FluxMixin(React),
-	StoreWatchMixin = Fluxxor.StoreWatchMixin,
-	DropdownButton = require('react-bootstrap').DropdownButton,
-	MenuItem = require('react-bootstrap').MenuItem;
+import React from 'react';
+import {FluxMixin, StoreWatchMixin} from 'fluxxor';
+import {DropdownButton, MenuItem} from 'react-bootstrap';
 
-var Icon = require('../helper/icon.jsx');
-
-module.exports = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin('users')],
+export default React.createClass({
+	mixins: [new FluxMixin(React), new StoreWatchMixin('users')],
 	displayName: "TagProfileActions",
 
-	getStateFromFlux: function () {
-		return this.getFlux().store('users').getState()
+	getStateFromFlux() {
+		return this.getFlux().store('users').getState();
 	},
 
-	render: function () {
-		var tag = this.props.tag;
-		var actions;
+	render() {
+		let tag = this.props.tag;
+		let actions;
 
 		if (this.state.user) {
-			var isListening = tag.is_listening;
+			let isListening = tag.is_listening;
 
-			var title = isListening ? "Listening" : "Not Listening";
-			var firstOption = isListening ?
+			let title = isListening ? "Listening" : "Not Listening";
+			let firstOption = isListening ?
 				<MenuItem eventKey={"stop-" + tag.name}>Stop Listening</MenuItem> :
 				<MenuItem eventKey={"start-" + tag.name}>Start Listening</MenuItem>;
 
@@ -43,8 +38,8 @@ module.exports = React.createClass({
 		);
 	},
 
-	onDropDownSelect: function (key) {
-		var splitted = key.split("-");
+	onDropDownSelect(key) {
+		let splitted = key.split("-");
 		if (splitted[0] === "stop") {
 			this.props.flux.actions.stopListenTag(splitted[1]);
 		} else if (splitted[0] === "start") {

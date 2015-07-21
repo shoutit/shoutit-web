@@ -1,20 +1,17 @@
+import React from 'react';
+import {MenuItem, Col} from 'react-bootstrap';
+import {Link} from 'react-router';
 
-
-var React = require('react'),
-	MenuItem = require('react-bootstrap').MenuItem,
-	Col = require('react-bootstrap').Col,
-	Link = require('react-router').Link;
-
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "MessageDropdownHeader",
 
-	getDefaultProps: function () {
+	getDefaultProps() {
 		return {
 			unread: 0
-		}
+		};
 	},
 
-	render: function () {
+	render() {
 		return (
 			<MenuItem className="nav-setting" header={true}>
 				<Col xs={5} md={6}>

@@ -20,7 +20,7 @@ export default React.createClass({
 		return (
 			<header>
 				<TopBar {...this.state.users} flux={this.getFlux()} onLogoutClicked={this.onLogoutClicked}/>
-				<MainMenu {...this.state.locations} />
+				<MainMenu current={this.state.locations.current} />
 				{this.renderPopup()}
 			</header>
 		);

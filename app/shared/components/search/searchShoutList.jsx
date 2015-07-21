@@ -1,15 +1,13 @@
-var React = require('react'),
-	Col = require('react-bootstrap').Col,
-	Loader = require('../helper/loader.jsx');
+import React from 'react';
+import {Loader} from '../helper';
 
+import Shout from '../feed/feed/shout.jsx';
 
-var Shout = require('../home/feed/shout.jsx');
-
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "SearchShoutList",
 
-	componentDidMount: function () {
-		var term = this.props.term,
+	componentDidMount() {
+		let term = this.props.term,
 			shouts = this.props.search.shouts[term];
 
 		if (!shouts) {
@@ -17,14 +15,14 @@ module.exports = React.createClass({
 		}
 	},
 
-	renderShouts: function (shouts) {
+	renderShouts(shouts) {
 		return shouts.length ? shouts.map(function (shout, i) {
 			return <Shout listType="small" key={"shout-" + i} shout={shout} index={i}/>;
 		}) : <h4>No shouts.</h4>;
 	},
 
-	render: function () {
-		var term = this.props.term,
+	render() {
+		let term = this.props.term,
 			shouts = this.props.search.shouts[term],
 			content;
 

@@ -66,8 +66,8 @@ export default React.createClass({
 		let nAgt = window.navigator.userAgent,
 			os = null;
 
-		for (var id in clientStrings) {
-			var cs = clientStrings[id];
+		for (let id in clientStrings) {
+			let cs = clientStrings[id];
 			if (cs.r.test(nAgt)) {
 				os = cs.s;
 				break;

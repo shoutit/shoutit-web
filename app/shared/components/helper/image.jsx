@@ -51,8 +51,8 @@ export default React.createClass({
     },
 
     render() {
-        var className = this.props.className;
-        var imageClasses = 'image';
+        let className = this.props.className;
+        let imageClasses = 'image';
         if (this.state.isInitialLoad || this.state.loaded) {
             imageClasses = classnames(imageClasses, 'image-loaded');
         }
@@ -68,7 +68,7 @@ export default React.createClass({
     },
 
     getSizedUrl(src) {
-        var sizedUrl = src || this.props.src;
+        let sizedUrl = src || this.props.src;
 
         sizedUrl = sizedUrl.replace("http://", "https://");
 
@@ -83,11 +83,11 @@ export default React.createClass({
     },
 
     hookImageLoad() {
-        var imgTag = this.refs.image.getDOMNode();
+        let imgTag = this.refs.image.getDOMNode();
 
-        var imgSrc = imgTag.getAttribute('src');
+        let imgSrc = imgTag.getAttribute('src');
 
-        var img = new window.Image();
+        let img = new window.Image();
         img.onload = this.onImageLoad;
         img.onerror = this.onLoadError;
         img.src = imgSrc;

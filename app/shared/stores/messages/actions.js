@@ -101,7 +101,7 @@ export default {
 		this.dispatch(consts.READ_CONVERSATION, {id});
 
 		client.readConversation(id)
-			.end(function (error) {
+			.end(function (error, res) {
 				if (error || !res.ok) {
 					this.dispatch(consts.READ_CONVERSATION_FAILED, {
 						id, error
@@ -117,7 +117,7 @@ export default {
 	unreadConversation(id) {
 		this.dispatch(consts.UNREAD_CONVERSATION, {id});
 
-		client.unreadConversation(id).end(function (error) {
+		client.unreadConversation(id).end(function (error, res) {
 			if (error || !res.ok) {
 				this.dispatch(consts.UNREAD_CONVERSATION_FAILED, {id, error});
 			} else {
@@ -141,7 +141,7 @@ export default {
 	deleteMessage(id, conId) {
 		this.dispatch(consts.DELETE_MESSAGE, {id, conId});
 
-		client.deleteMessage(id).end(function (error) {
+		client.deleteMessage(id).end(function (error, res) {
 			if (error || !res.ok) {
 				this.dispatch(consts.DELETE_MESSAGE_FAILED, {id, conId, error});
 			} else {

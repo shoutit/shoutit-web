@@ -1,10 +1,10 @@
-var React = require('react'),
-	Icon = require('../helper/icon.jsx');
+import React from 'react';
+import {Icon} from '../helper';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "ShoutDetailActions",
 
-	getDefaultProps: function () {
+	getDefaultProps() {
 		return {
 			actions: [
 				{icon: "ir1"},
@@ -18,9 +18,9 @@ module.exports = React.createClass({
 		};
 	},
 
-	renderActions: function () {
+	renderActions() {
 		return this.props.actions.map(function (action, i) {
-			var el = "";
+			let el = "";
 			if (action.icon) {
 				el = <Icon name={action.icon}/>;
 			}
@@ -33,7 +33,7 @@ module.exports = React.createClass({
 		});
 	},
 
-	render: function () {
+	render() {
 		return (
 			<ul className="book col-md-6">
 				{this.renderActions()}

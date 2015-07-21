@@ -1,10 +1,10 @@
-var React = require('react'),
-	Link = require('react-router').Link;
+import React from 'react';
+import {Link} from 'react-router';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "Logo",
 
-	render: function () {
+	render() {
 		return (
 			<Link to="app">
 				<img src="/img/logo_small_white.png"/>

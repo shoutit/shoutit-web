@@ -1,63 +1,61 @@
-var React = require('react'),
-    Col = require('react-bootstrap').Col,
-    Loader = require('../helper/loader.jsx');
+import React from 'react';
+import {Col} from 'react-bootstrap';
+import {Loader, Clear} from '../helper';
 
-var Clear = require('../helper/clear.jsx'),
-    Image = require('../helper/image.jsx'),
-    Shout = require('../home/feed/shout.jsx');
+import Shout from '../feed/feed/shout.jsx';
 
-var map = {
-    request: "Requests",
-    offer: "Offers"
+let map = {
+	request: "Requests",
+	offer: "Offers"
 };
 
-module.exports = React.createClass({
-    displayName: "TagProfileShoutList",
+export default React.createClass({
+	displayName: "TagProfileShoutList",
 
-    componentDidMount: function () {
-        var tagName = this.props.tagName;
+	componentDidMount() {
+		let tagName = this.props.tagName;
 
-        if (!this.props.tags[tagName] || !this.props.tags[tagName][this.props.type + 's']) {
-            this.props.flux.actions.loadTagShouts(this.props.tagName, this.props.type);
-        }
-    },
+		if (!this.props.tags[tagName] || !this.props.tags[tagName][this.props.type + 's']) {
+			this.props.flux.actions.loadTagShouts(this.props.tagName, this.props.type);
+		}
+	},
 
-    renderTagProfileShouts: function (shouts) {
-        return shouts.length ? shouts.map(function (shout, i) {
-            return <Shout listType="small" key={"shout-" + i} shout={shout} index={i}/>;
-        }) : <h4>No shouts.</h4>;
-    },
+	renderTagProfileShouts(shouts) {
+		return shouts.length ? shouts.map(function (shout, i) {
+			return <Shout listType="small" key={"shout-" + i} shout={shout} index={i}/>;
+		}) : <h4>No shouts.</h4>;
+	},
 
-    render: function () {
-        var tagName = this.props.tagName,
-            tag = this.props.tags[tagName].tag,
-            tags = this.props.tags[tagName][this.props.type + 's'],
-            content, stat;
+	render() {
+		let tagName = this.props.tagName,
+			tag = this.props.tags[tagName].tag,
+			tags = this.props.tags[tagName][this.props.type + 's'],
+			content, stat;
 
-        if (tags) {
-            content = this.renderTagProfileShouts(tags);
-            stat = <span>{' (' + tags.length + ')'}</span>;
-        } else {
-            content = <Loader/>;
-        }
+		if (tags) {
+			content = this.renderTagProfileShouts(tags);
+			stat = <span>{' (' + tags.length + ')'}</span>;
+		} else {
+			content = <Loader/>;
+		}
 
-        return (
-            <Col xs={12} md={12} className="content-listener">
-                <div className="listener">
-                    <div className="listener-title">
-                        <p>
-                            {tag.name + " - " + map[this.props.type] + ":"}
-                            {stat}
-                        </p>
-                    </div>
-                    <Clear />
+		return (
+			<Col xs={12} md={12} className="content-listener">
+				<div className="listener">
+					<div className="listener-title">
+						<p>
+							{tag.name + " - " + map[this.props.type] + ":"}
+							{stat}
+						</p>
+					</div>
+					<Clear />
 
-                    <div className="listener-scroll ctn-offerpro" tabIndex="5000"
-                         style={{outline: "none"}}>
-                        {content}
-                    </div>
-                </div>
-            </Col>
-        );
-    }
+					<div className="listener-scroll ctn-offerpro" tabIndex="5000"
+						 style={{outline: "none"}}>
+						{content}
+					</div>
+				</div>
+			</Col>
+		);
+	}
 });

@@ -1,14 +1,13 @@
-var React = require('react'),
-	Router = require('react-router'),
-	RouteHandler = Router.RouteHandler,
-	Col = require('react-bootstrap').Col;
+import React from 'react';
+import {RouteHandler} from 'react-router';
+import {Col} from 'react-bootstrap';
 
-var SearchTitle = require('./searchTitle.jsx');
+import SearchTitle from './searchTitle.jsx';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "SearchResults",
 
-	render: function () {
+	render() {
 		return (
 			<Col xs={12} md={9} className="pro-right-padding">
 				<Col xs={12} md={12} className="content-listener">

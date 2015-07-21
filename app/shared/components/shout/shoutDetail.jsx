@@ -54,10 +54,10 @@ export default React.createClass({
 	},
 
 	render() {
-		var shout = this.state.shout,
+		let shout = this.state.shout,
 			loading = this.state.loading;
 
-		var content;
+		let content;
 
 		if (shout && shout.id) {
 			content =

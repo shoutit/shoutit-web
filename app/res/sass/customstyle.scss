@@ -156,19 +156,19 @@ body {
   margin-top: 5px;
 }
 
-.book.col-md-3 {
+.book.col-md-3, .book.col-md-6 {
   list-style: outside none none;
   padding: 0;
 }
 
-.book.col-md-3 > li {
+.book.col-md-3 > li, .book.col-md-6 > li {
   float: left;
   margin-right: 15px;
   margin-top: 10px;
   cursor: pointer;
 }
 
-.book.col-md-3 > li:last-child {
+.book.col-md-3 > li:last-child, .book.col-md-6 > li:last-child {
   margin-top: 12px;
 
 }

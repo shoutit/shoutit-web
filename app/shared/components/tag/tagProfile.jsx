@@ -12,7 +12,7 @@ import DocumentTitle from 'react-document-title';
 import TagProfileImage from './tagProfileImage.jsx';
 import TagProfileActions from './tagProfileActions.jsx';
 
-var STORE_NAME = "tags";
+let STORE_NAME = "tags";
 
 export default React.createClass({
 	mixins: [new FluxMixin(React), new StoreWatchMixin(STORE_NAME)],
@@ -24,7 +24,7 @@ export default React.createClass({
 	displayName: "TagProfile",
 
 	statics: {
-		fetchData: function (client, session, params) {
+		fetchData(client, session, params) {
 			return client.tags().get(session, params.tagName);
 		}
 	},

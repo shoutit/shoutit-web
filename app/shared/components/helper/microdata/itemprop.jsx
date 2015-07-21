@@ -2,39 +2,39 @@
  * Created by Philip on 22.04.2015.
  */
 
-var React = require('react'),
-    itemTypes = require('./types'),
-    itemProps = require('./properties'),
-    keys = require('lodash/object/keys');
+import React from 'react';
+import itemTypes from './types';
+import itemProps from './properties';
+import keys from 'lodash/object/keys';
 
-var propArray = keys(itemProps);
+let propArray = keys(itemProps);
 
-module.exports = React.createClass({
-    displayName: "itemScope",
+export default React.createClass({
+	displayName: "itemScope",
 
-    propTypes: {
-        children: React.PropTypes.element.isRequired,
-        property: React.PropTypes.oneOf(propArray).isRequired
-    },
+	propTypes: {
+		children: React.PropTypes.element.isRequired,
+		property: React.PropTypes.oneOf(propArray).isRequired
+	},
 
-    render: function () {
-        var prop = this.props.property,
-            content = this.props.content;
+	render() {
+		let prop = this.props.property,
+			content = this.props.content;
 
-        var microdataProps = {
-            itemProp: prop
-        };
+		let microdataProps = {
+			itemProp: prop
+		};
 
-        if(content) {
-            microdataProps.content = content;
-        }
+		if (content) {
+			microdataProps.content = content;
+		}
 
-        if (itemProps[prop] && itemProps[prop].itemScope && itemTypes[itemProps[prop].itemScope]) {
-            microdataProps.itemScope = true;
-            microdataProps.itemType = itemTypes[itemProps[prop].itemScope];
-        }
+		if (itemProps[prop] && itemProps[prop].itemScope && itemTypes[itemProps[prop].itemScope]) {
+			microdataProps.itemScope = true;
+			microdataProps.itemType = itemTypes[itemProps[prop].itemScope];
+		}
 
-        var inputReactObject = React.Children.only(this.props.children);
-        return React.cloneElement(inputReactObject, microdataProps);
-    }
+		let inputReactObject = React.Children.only(this.props.children);
+		return React.cloneElement(inputReactObject, microdataProps);
+	}
 });

@@ -96,12 +96,12 @@ export default React.createClass({
 	},
 
 	onCurrencySelect(key) {
-		var code = key.split(":")[1];
+		let code = key.split(":")[1];
 		this.getFlux().actions.changeShoutDraft("currency", this.props.currencies[code]);
 	},
 
 	onCategorySelect(key) {
-		var index = key.split(":")[1];
+		let index = key.split(":")[1];
 		this.getFlux().actions.changeShoutDraft("category", this.props.categories[index]);
 	},
 
@@ -141,7 +141,7 @@ export default React.createClass({
 
 	onTypeSelect(key)
 	{
-		var type = key.split(":")[1];
+		let type = key.split(":")[1];
 		this.getFlux().actions.changeShoutDraft("type", type);
 	}
 	,

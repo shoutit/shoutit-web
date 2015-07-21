@@ -1,11 +1,11 @@
-var React = require('react');
+import React from 'react';
 
-var ItemProp = require('../helper/microdata/itemprop.jsx');
+import {ItemProp} from '../helper/microdata';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "Video",
 
-	render: function () {
+	render() {
 		if (this.props.provider === "youtube") {
 			return this.renderYTVideo();
 		} else {
@@ -13,7 +13,7 @@ module.exports = React.createClass({
 		}
 	},
 
-	renderYTVideo: function () {
+	renderYTVideo() {
 		return (
 			<ItemProp property="video">
 				<iframe

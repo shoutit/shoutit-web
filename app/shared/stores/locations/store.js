@@ -145,16 +145,13 @@ let LocationsStore = Fluxxor.createStore({
 					types: ['administrative_area_level_1']
 				}), 'short_name');
 			if (localityResultsForCity.length) {
-				let firstLocality = localityResultsForCity[0];
-				newCity = firstLocality;
+				newCity = localityResultsForCity[0];
 			}
 			if (localityResultsForCountry.length) {
-				let firstLocality = localityResultsForCountry[0];
-				newCountry = firstLocality;
+				newCountry = localityResultsForCountry[0];
 			}
 			if (localityResultsForState.length) {
-				let firstLocality = localityResultsForState[0];
-				newState = firstLocality;
+				newState = localityResultsForState[0];
 			}
 
 			if (results[0].geometry) {

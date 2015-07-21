@@ -8,7 +8,7 @@ export default React.createClass({
     },
 
     render(){
-        var src = "/static/" + this.props.staticName + ".html";
+        let src = "/static/" + this.props.staticName + ".html";
 
         return (
             <iframe src={src}

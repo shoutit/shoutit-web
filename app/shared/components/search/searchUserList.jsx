@@ -1,17 +1,14 @@
-var React = require('react'),
-	Col = require('react-bootstrap').Col,
-	findIndex = require('lodash/array/findIndex'),
-	Loader = require('../helper/loader.jsx');
+import React from 'react';
+import findIndex from 'lodash/array/findIndex';
+import {Loader} from '../helper';
 
+import ListenerRow from '../profile/listenerRow.jsx';
 
-var Shout = require('../home/feed/shout.jsx'),
-	ListenerRow = require('../profile/listenerRow.jsx');
-
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "SearchUserList",
 
-	componentDidMount: function () {
-		var term = this.props.term,
+	componentDidMount() {
+		let term = this.props.term,
 			users = this.props.search.users[term];
 
 		if (!users) {
@@ -19,16 +16,18 @@ module.exports = React.createClass({
 		}
 	},
 
-	renderUsers: function (users, listening, loggedUser, flux) {
+	renderUsers(users, listening, loggedUser, flux) {
 		return users.length ? users.map(function (user, i) {
-			var isListening = findIndex(listening, 'username', user.username) > -1;
-			return <ListenerRow key={"search-user-" + i } user={user}
-								listening={isListening} loggedUser={loggedUser} flux={flux}/>
+			let isListening = findIndex(listening, 'username', user.username) > -1;
+			return (
+				<ListenerRow key={"search-user-" + i } user={user}
+							 listening={isListening} loggedUser={loggedUser} flux={flux}/>
+			);
 		}) : <h4>No users.</h4>;
 	},
 
-	render: function () {
-		var term = this.props.term,
+	render() {
+		let term = this.props.term,
 			users = this.props.search.users[term],
 			content;
 

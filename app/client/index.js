@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react/addons';
 import Router from 'react-router';
 
 import routes from '../shared/routes.jsx';
@@ -70,7 +70,11 @@ usersStore.on("logout", function () {
 // Trigger Download Modal
 let routesVisited = 0;
 
+// Mesure Performance
+let Perf = React.addons.Perf;
+
 router.run(function (Handler, state) {
+	Perf.start();
 	React.render(
 		React.createElement(Handler, {
 			flux: flux,
@@ -78,6 +82,10 @@ router.run(function (Handler, state) {
 		}),
 		document.getElementById('main-mount'),
 		function () {
+			Perf.stop();
+			//Perf.printInclusive();
+			//Perf.printExclusive();
+			Perf.printWasted();
 			console.log("Router run!");
 			ga('send', 'pageview', state.path);
 			routesVisited++;

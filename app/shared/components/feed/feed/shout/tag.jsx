@@ -1,13 +1,13 @@
-var React = require('react'),
-	Link = require('react-router').Link;
+import React from 'react';
+import {Link} from 'react-router';
 
-var Icon = require('../../../helper/icon.jsx');
+import {Icon} from '../../../helper';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "Tag",
 
-	render: function () {
-		var tag = this.props.tag;
+	render() {
+		let tag = this.props.tag;
 
 		return (
 			<li key={this.props.key}>

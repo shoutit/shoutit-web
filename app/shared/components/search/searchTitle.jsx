@@ -1,12 +1,11 @@
-var React = require('react'),
-	Button = require('react-bootstrap').Button,
-	Input = require('react-bootstrap').Input,
-	Icon = require('../helper/icon.jsx');
+import React from 'react';
+import {Button, Input} from 'react-bootstrap';
+import {Icon} from '../helper';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "SearchTitle",
 
-	renderInput: function () {
+	renderInput() {
 		return (
 			<Input
 				type="text"
@@ -22,13 +21,13 @@ module.exports = React.createClass({
 		);
 	},
 
-	onKeyUp: function(ev) {
-		if(ev.which === 13) {
+	onKeyUp(ev) {
+		if (ev.which === 13) {
 			this.props.onSubmit();
 		}
 	},
 
-	render: function () {
+	render() {
 		return (
 			<div className="listener-title search-shoutit">
 				<p>Results</p>

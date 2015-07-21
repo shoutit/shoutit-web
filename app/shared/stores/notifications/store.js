@@ -66,12 +66,12 @@ let NotificationStore = Fluxxor.createStore({
 		};
 	},
 
-	onLoadMoreNotifications({before}) {
+	onLoadMoreNotifications() {
 		this.state.loading = true;
 		this.emit("change");
 	},
 
-	onLoadMoreNotificationsSuccess({before, res}) {
+	onLoadMoreNotificationsSuccess({res}) {
 		res.results.forEach(function (not) {
 			var index = this.getIndex(not.id);
 			if (index >= 0) {
@@ -98,7 +98,7 @@ let NotificationStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
-	onReadNotification({id}) {
+	onReadNotification() {
 		this.state.loading = true;
 		this.emit("change");
 	},
@@ -112,7 +112,7 @@ let NotificationStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
-	onUnreadNotification({id}) {
+	onUnreadNotification() {
 		this.state.loading = true;
 		this.emit("change");
 	},

@@ -1,10 +1,11 @@
-var React = require('react'),
-	Icon = require('../../../helper/icon.jsx');
+import React from 'react';
+import {Icon} from '../../../helper';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "ShoutActions",
 
-	render: function () {
+
+	render() {
 		return (
 			<ul className="book col-md-3">
 				<li>

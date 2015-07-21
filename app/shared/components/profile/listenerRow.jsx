@@ -1,29 +1,27 @@
-var React = require('react'),
-	Router = require('react-router'),
-	Link = Router.Link,
-	DropdownButton = require('react-bootstrap').DropdownButton,
-	MenuItem = require('react-bootstrap').MenuItem;
+import React from 'react';
+import {Link} from 'react-router';
+import {DropdownButton, MenuItem} from 'react-bootstrap';
 
-var Image = require('../helper/image.jsx');
+import Image from '../helper';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "ListenerRow",
 
-	render: function () {
-		var listener = this.props.user;
+	render() {
+		let listener = this.props.user;
 
-		var title = this.props.listening ? "Listening" : "Not Listening";
-		var firstOption = this.props.listening ?
+		let title = this.props.listening ? "Listening" : "Not Listening";
+		let firstOption = this.props.listening ?
 			<MenuItem eventKey={"stop-" + listener.username}>Stop Listening</MenuItem> :
 			<MenuItem eventKey={"start-" + listener.username}>Start Listening</MenuItem>;
 
-		var actions = this.props.loggedUser ?
+		let actions = this.props.loggedUser ?
 			<DropdownButton onSelect={this.onDropDownSelect} title={title}>
 				{firstOption}
 				<MenuItem eventKey={"show-" + listener.username}>
 					<Link to="user" params={{username: encodeURIComponent(listener.username)}}>Show Profile</Link>
 				</MenuItem>
-			</DropdownButton> : "";
+			</DropdownButton> : null;
 
 		return (
 			<div className="listener-dt">
@@ -33,7 +31,8 @@ module.exports = React.createClass({
 				<div className="listener-dt-info">
 					<h4>{listener.name}
 						(
-						<Link to="user" params={{username: encodeURIComponent(listener.username)}}>{listener.username}</Link>
+						<Link to="user"
+							  params={{username: encodeURIComponent(listener.username)}}>{listener.username}</Link>
 						)
 					</h4>
 					{actions}
@@ -42,8 +41,8 @@ module.exports = React.createClass({
 		);
 	},
 
-	onDropDownSelect: function (key) {
-		var splitted = key.split("-");
+	onDropDownSelect(key) {
+		let splitted = key.split("-");
 		if (splitted[0] === "stop") {
 			this.props.flux.actions.stopListen(splitted[1]);
 		} else if (splitted[0] === "start") {

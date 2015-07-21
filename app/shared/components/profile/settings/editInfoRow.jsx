@@ -1,73 +1,74 @@
-var React = require('react'),
-	classNames = require('classnames'),
-	Col = require('react-bootstrap').Col;
+import React from 'react';
+import classNames from 'classnames';
+import {Col} from 'react-bootstrap';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "EditInfoRow",
 
-	getInitialState: function () {
+	getInitialState() {
 		return {
 			edit: false,
 			value: this.props.value || ""
-		}
+		};
 	},
 
-	renderDescr: function () {
+	renderDescr() {
 		return this.props.type !== "password" ? (
 			<Col xs={12} sm={4} md={3}>
 				<h4>{this.props.title}</h4>
 			</Col>
-		) : "";
+		) : null;
 	},
 
-	renderInput: function () {
-		var classes = {
+	renderInput() {
+		let classes = {
 			"t-edit-text": this.state.edit
 		};
 
-		var input = this.state.edit ?
-			<input ref="input" type={this.props.type || "text"} value={this.state.value} onChange={this.handleChange}/> :
+		let input = this.state.edit ?
+			<input ref="input" type={this.props.type || "text"} value={this.state.value}
+				   onChange={this.handleChange}/> :
 			<p>{this.state.value}</p>;
 
 		return (
 			<Col xs={12} sm={4} md={this.state.edit ? 5 : 7} className={classNames(classes)}>
-			{input}
-			</Col>
-		)
-	},
-
-	renderButtons: function () {
-		return (
-			<Col xs={12} sm={4} md={this.state.edit ? 4 : 2} >
-			{this.renderEditButton()}
-			{this.renderSaveButton()}
-			{this.renderCancelButton()}
+				{input}
 			</Col>
 		);
 	},
 
-	renderEditButton: function () {
-		return this.state.edit ? "" : <p className="edit t-edit" onClick={this.onEditClick}>Edit</p>;
+	renderButtons() {
+		return (
+			<Col xs={12} sm={4} md={this.state.edit ? 4 : 2}>
+				{this.renderEditButton()}
+				{this.renderSaveButton()}
+				{this.renderCancelButton()}
+			</Col>
+		);
 	},
 
-	renderSaveButton: function () {
+	renderEditButton() {
+		return this.state.edit ? null : <p className="edit t-edit" onClick={this.onEditClick}>Edit</p>;
+	},
+
+	renderSaveButton() {
 		return this.state.edit ?
 			<Col xs={6} sm={6} md={7}>
 				<p className="t-Save" onClick={this.onSaveClick}>Save</p>
 			</Col>
-			: "";
+			: null;
 	},
 
-	renderCancelButton: function () {
+	renderCancelButton() {
 		return this.state.edit ?
 			<Col xs={6} sm={6} md={5}>
 				<p className="t-hiden" onClick={this.onCancelClick}>Cancel</p>
 			</Col>
-			: "";
+			: null;
 	},
 
-	renderPasswordInput: function () {
-		var classes = {
+	renderPasswordInput() {
+		let classes = {
 			"t-edit-text": true,
 			"t-fix-edit-text": true
 		};
@@ -78,6 +79,7 @@ module.exports = React.createClass({
 					<Col md={5} className="t-edit-left">
 						<h4>New password</h4>
 					</Col>
+
 					<div className="t-edit-text">
 						<input ref="passwordInput" type="password"/>
 					</div>
@@ -86,6 +88,7 @@ module.exports = React.createClass({
 					<Col md={5} className="t-edit-left">
 						<h4>Retype new password</h4>
 					</Col>
+
 					<div className="t-edit-text">
 						<input ref="passwordRetypeInput" type="password"/>
 					</div>
@@ -94,30 +97,30 @@ module.exports = React.createClass({
 		);
 	},
 
-	render: function () {
-		var type = this.props.type || "text";
-		var isEditState = this.state.edit;
-		var classes = {
+	render() {
+		let type = this.props.type || "text";
+		let isEditState = this.state.edit;
+		let classes = {
 			"info-basic": true,
 			"t-info-basic": !isEditState,
 			"t-edit-info": isEditState
 		};
 
-		var renderedInput = type === "password" && isEditState ?
+		let renderedInput = type === "password" && isEditState ?
 			this.renderPasswordInput() :
 			this.renderInput();
 
 
 		return (
 			<div className={classNames(classes)}>
-			{this.renderDescr()}
-			{renderedInput}
-			{this.renderButtons()}
+				{this.renderDescr()}
+				{renderedInput}
+				{this.renderButtons()}
 			</div>
 		);
 	},
 
-	handleChange: function (ev) {
+	handleChange(ev) {
 		if (this.props.onChange) {
 			this.props.onChange(ev.target.value);
 		}
@@ -126,17 +129,17 @@ module.exports = React.createClass({
 		});
 	},
 
-	onEditClick: function () {
+	onEditClick() {
 		this.setState({
 			edit: true,
 			oldValue: this.state.value
 		});
 	},
 
-	onSaveClick: function () {
+	onSaveClick() {
 		if (this.props.onSaveClicked) {
 			if (this.props.type === "password") {
-				var password = this.refs.passwordInput.getDOMNode().value,
+				let password = this.refs.passwordInput.getDOMNode().value,
 					retypePassword = this.refs.passwordRetypeInput.getDOMNode().value;
 				if (password === retypePassword) {
 					this.props.onSaveClicked({
@@ -152,7 +155,7 @@ module.exports = React.createClass({
 		});
 	},
 
-	onCancelClick: function () {
+	onCancelClick() {
 		if (this.props.onChange) {
 			this.props.onChange(this.state.oldValue);
 		}

@@ -1,19 +1,21 @@
-var React = require('react');
+import React from 'react';
 
-var SearchShoutList = require('./searchShoutList.jsx');
+import SearchShoutList from './searchShoutList.jsx';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "SearchShouts",
 
 	statics: {
-		fetchData: function (client, session, params) {
+		fetchData(client, session, params) {
 			return client.shouts().list(session, {
 				search: params.term
 			});
 		}
 	},
 
-	render: function () {
-		return <SearchShoutList {...this.props}/>
+	render() {
+		return (
+			<SearchShoutList {...this.props}/>
+		);
 	}
 });

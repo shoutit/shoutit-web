@@ -1,9 +1,9 @@
-var React = require('react');
+import React from 'react';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "UserImage",
 
-	getSmallUrl: function (imageUrl) {
+	getSmallUrl(imageUrl) {
 		if (imageUrl.indexOf("shoutit-user-image-original") > -1) {
 			return imageUrl.replace("-original", "")
 				.replace('.jpg', '_small.jpg')
@@ -13,8 +13,8 @@ module.exports = React.createClass({
 		}
 	},
 
-	render: function () {
-		var style = {
+	render() {
+		let style = {
 			"height": this.props.height ? this.props.height + "px" : "32px",
 			"width": this.props.width ? this.props.width + "px" : "32px",
 			"backgroundImage": "url(" + this.getSmallUrl(this.props.image) + ")",

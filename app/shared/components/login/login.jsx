@@ -44,8 +44,8 @@ export default React.createClass({
 	onGPlusLogin(e) {
 		e.preventDefault();
 
-		var This = this;
-		var flux = this.getFlux();
+		let This = this;
+		let flux = this.getFlux();
 
 		window.gapi.auth.signIn({
 			clientid: "935842257865-s6069gqjq4bvpi4rcbjtdtn2kggrvi06.apps.googleusercontent.com",
@@ -54,7 +54,7 @@ export default React.createClass({
 			accesstype: "offline",
 			requestvisibleactions: "http://schemas.google.com/AddActivity",
 			scope: "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/youtube.upload",
-			callback: function (authResult) {
+			callback(authResult) {
 				if (authResult.status.signed_in) {
 					if (!This.state.running) {
 						This.setState({running: true});
@@ -69,13 +69,13 @@ export default React.createClass({
 	onFBLogin(e) {
 		e.preventDefault();
 
-		var flux = this.getFlux();
+		let flux = this.getFlux();
 
 		window.FB.getLoginStatus(function (response) {
 			if (response.status === 'connected') {
 				flux.actions.login('fb', response.authResponse.accessToken);
 			} else {
-				FB.login(function (authResp) {
+				window.FB.login(function (authResp) {
 					if (authResp.authResponse) {
 						flux.actions.login('fb', authResp.authResponse.accessToken);
 					} else {

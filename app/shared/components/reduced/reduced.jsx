@@ -15,7 +15,7 @@ export default React.createClass({
 
     render() {
 
-        var style = {};
+        let style = {};
 
         if (this.state.height) {
             style.height = this.state.height + "px";
@@ -46,7 +46,7 @@ export default React.createClass({
     },
 
     resize() {
-        var newHeight = window.innerHeight -
+        let newHeight = window.innerHeight -
             React.findDOMNode(this.refs.header).offsetHeight -
             React.findDOMNode(this.refs.footer).offsetHeight;
 

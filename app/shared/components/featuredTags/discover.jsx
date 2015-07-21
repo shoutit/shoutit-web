@@ -1,6 +1,6 @@
 import React from 'react';
 import {Grid} from 'react-bootstrap';
-import FeaturedTags from './featuredTags.jsx';
+import FeaturedTagsContainer from './featuredTagsContainer.jsx';
 
 export default React.createClass({
 	display: "Discover",
@@ -8,7 +8,7 @@ export default React.createClass({
 	render() {
 		return (
 			<Grid>
-				<FeaturedTags {...this.props}/>
+				<FeaturedTagsContainer {...this.props}/>
 			</Grid>
 		);
 	}

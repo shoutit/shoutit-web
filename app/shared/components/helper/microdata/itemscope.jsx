@@ -2,13 +2,13 @@
  * Created by Philip on 22.04.2015.
  */
 
-var React = require('react'),
-	itemTypes = require('./types'),
-	keys = require('lodash/object/keys');
+import React from 'react';
+import itemTypes from './types';
+import keys from 'lodash/object/keys';
 
-var typeArray = keys(itemTypes);
+let typeArray = keys(itemTypes);
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "itemScope",
 
 	propTypes: {
@@ -16,8 +16,8 @@ module.exports = React.createClass({
 		type: React.PropTypes.oneOf(typeArray)
 	},
 
-	render: function () {
-		var inputReactObject = React.Children.only(this.props.children);
+	render() {
+		let inputReactObject = React.Children.only(this.props.children);
 		return React.cloneElement(inputReactObject, {
 			itemScope: true,
 			itemType: itemTypes[this.props.type]

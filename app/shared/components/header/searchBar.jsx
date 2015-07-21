@@ -92,7 +92,7 @@ export default React.createClass({
 	},
 
 	render() {
-		var backdrop = this.state.showSearch ?
+		let backdrop = this.state.showSearch ?
 			<div onClick={this.onBlurSearch} className="backdrop"/> : null;
 
 		return (
@@ -122,7 +122,7 @@ export default React.createClass({
 	},
 
 	onChangeSearch(ev) {
-		var newTerm = ev.target.value;
+		let newTerm = ev.target.value;
 		this.setState({term: newTerm});
 		this.getFlux().actions.searchAll(newTerm);
 	},

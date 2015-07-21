@@ -1,16 +1,17 @@
-var React = require('react'),
-	moment = require('moment');
+import React from 'react';
+import moment from 'moment';
 
-var Icon = require('../helper/icon.jsx');
+import {Icon} from '../helper';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "TagProfileActions",
 
-	render: function () {
+	render() {
 		return (
 			<div className="profile-details">
 				<div className="birth">
 					<Icon name="cal"/>
+
 					<p>
 						<span>Date joined: </span>
 						{moment.unix(this.props.joined).calendar()}
@@ -18,6 +19,7 @@ module.exports = React.createClass({
 				</div>
 				<div className="birth">
 					<Icon name="loc"/>
+
 					<p>
 						<span>Location: </span>
 						{this.props.location.city + " - " + this.props.location.country}

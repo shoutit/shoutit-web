@@ -1,35 +1,33 @@
-var React = require('react'),
-	Fluxxor = require('fluxxor'),
-	FluxMixin = Fluxxor.FluxMixin(React),
-	StoreWatchMixin = Fluxxor.StoreWatchMixin;
+import React from 'react';
+import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 
-var SearchForm = require('./searchForm.jsx'),
-	SearchResults = require('./searchResults.jsx'),
-	DocumentTitle = require('react-document-title');
+import SearchForm from './searchForm.jsx';
+import SearchResults from './searchResults.jsx';
+import DocumentTitle from 'react-document-title';
 
-module.exports = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin("search")],
+export default React.createClass({
+	mixins: [new FluxMixin(React), new StoreWatchMixin("search")],
 	displayName: "Search",
 
 	contextTypes: {
 		router: React.PropTypes.func
 	},
 
-	getInitialState: function () {
-		var params = this.context.router.getCurrentParams();
+	getInitialState(){
+		let params = this.context.router.getCurrentParams();
 
 		return {
 			term: params.term || ""
 		};
 	},
 
-	getStateFromFlux: function () {
+	getStateFromFlux(){
 		return {
 			search: this.getFlux().store("search").getState()
 		};
 	},
 
-	render: function () {
+	render(){
 		return (
 			<DocumentTitle title={"Shoutit Search - " + this.state.term}>
 				<div className="profile">
@@ -40,14 +38,14 @@ module.exports = React.createClass({
 						onSubmit={this.onSubmit}/>
 				</div>
 			</DocumentTitle>
-		)
+		);
 	},
 
-	onSubmit: function () {
+	onSubmit(){
 	},
 
-	onTermChange: function (ev) {
-		var newTerm = ev.target.value;
+	onTermChange(ev) {
+		let newTerm = ev.target.value;
 		this.setState({
 			term: newTerm
 		});

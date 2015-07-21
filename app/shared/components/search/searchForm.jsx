@@ -1,17 +1,16 @@
-var React = require('react'),
-	Col = require('react-bootstrap').Col,
-	NavItemLink = require('react-router-bootstrap').NavItemLink,
-	Icon = require('../helper/icon.jsx'),
-	Clear = require('../helper/clear.jsx');
+import React from 'react';
+import {Col} from 'react-bootstrap';
+import {NavItemLink} from 'react-router-bootstrap';
+import {Icon, Clear} from '../helper';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "SearchForm",
 
-	render: function () {
-		var term = this.props.term,
+	render() {
+		let term = this.props.term,
 			linkParams = {term: encodeURIComponent(term)};
 
-		var shoutCount = this.props.search.shouts[term] ?
+		let shoutCount = this.props.search.shouts[term] ?
 			"(" + this.props.search.shouts[term].length + ")" :
 				"",
 			userCount = this.props.search.users[term] ?

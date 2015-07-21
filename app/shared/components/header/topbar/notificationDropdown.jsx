@@ -1,19 +1,11 @@
+import React from 'react';
+import {DropdownButton, Col, MenuItem} from 'react-bootstrap';
 
+import {Icon} from '../../helper';
 
-
-var React = require('react'),
-	DropdownButton = require('react-bootstrap').DropdownButton,
-	Col = require('react-bootstrap').Col,
-	MenuItem = require('react-bootstrap').MenuItem;
-
-var Icon = require('../../helper/icon.jsx');
-
-
-module.exports = React.createClass({
-
-
-	render: function () {
-		var title = (<div>
+export default React.createClass({
+	render() {
+		let title = (<div>
 			<Icon name="bell-icon"/>
 			<span className="small-circle">2</span>
 		</div>);
@@ -32,7 +24,9 @@ module.exports = React.createClass({
 				<MenuItem>
 					<a href="#">
 						<span>An nam soluta antiopam</span>
-						<p>Mel eu impedit placerat dissentiunt. Eam verterem adver    sarium ne, cum ad sint idque dolores.</p>
+
+						<p>Mel eu impedit placerat dissentiunt. Eam verterem adver sarium ne, cum ad sint idque
+							dolores.</p>
 					</a>
 				</MenuItem>
 				<MenuItem className="last-child">
@@ -41,6 +35,6 @@ module.exports = React.createClass({
 					</a>
 				</MenuItem>
 			</DropdownButton>
-		)
+		);
 	}
 });

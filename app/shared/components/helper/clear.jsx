@@ -1,9 +1,9 @@
-var React = require('react');
+import React from 'react';
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "Clear",
 
-	render: function () {
+	render() {
 		return (<div className="clear"></div>);
 	}
 });

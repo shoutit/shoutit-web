@@ -1,18 +1,17 @@
-var React = require('react'),
-	DropdownButton = require('react-bootstrap').DropdownButton,
-	MenuItem = require('react-bootstrap').MenuItem,
-	MenuItemLink = require('react-router-bootstrap').MenuItemLink;
+import React from 'react';
+import {DropdownButton, MenuItem} from 'react-bootstrap';
+import {MenuItemLink} from 'react-router-bootstrap';
 
-var UserImage = require('../user/userImage.jsx');
+import UserImage from '../user/userImage.jsx';
 
 
-module.exports = React.createClass({
+export default React.createClass({
 	displayName: "ProfileDropdown",
 
-	render: function () {
-		var user = this.props.user;
+	render() {
+		let user = this.props.user;
 
-		var title = (
+		let title = (
 			<UserImage name={user.name} image={user.image}/>);
 
 		return (
