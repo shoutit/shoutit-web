@@ -220,8 +220,10 @@ var UserStore = Fluxxor.createStore({
 			if (err) {
 				console.log(err);
 			} else {
-				this.state.listening[username].users = res.body.users;
-				this.state.listening[username].tags = res.body.tags;
+				this.state.listening[username] = {
+					users: res.body.users,
+					tags: res.body.tags
+				};
 			}
 			this.state.loading = false;
 			this.emit("change");

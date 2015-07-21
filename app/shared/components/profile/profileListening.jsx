@@ -16,7 +16,7 @@ export default React.createClass({
 	componentDidMount() {
 		let username = this.props.username;
 
-		if (!this.props.listening[username].users) {
+		if (!this.props.listening[username] || !this.props.listening[username].users) {
 			this.props.flux.actions.loadUserListening(username);
 		}
 	},
@@ -24,7 +24,7 @@ export default React.createClass({
 	render() {
 		let username = this.props.username,
 			loggedUser = this.props.user,
-			listening = this.props.listening[username].users,
+			listening = this.props.listening[username] ? this.props.listening[username].users : null,
 			flux = this.props.flux,
 			listeningChildren, stat;
 
