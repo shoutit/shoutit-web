@@ -31,7 +31,6 @@ export default React.createClass({
 	},
 
 	render(){
-		console.log("Rendering FeaturedTags");
 		return this.state.featuredTags ? (
 			<FeaturedTags featuredTags={this.state.featuredTags}/>
 		) : null;

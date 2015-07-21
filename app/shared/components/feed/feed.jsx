@@ -9,6 +9,18 @@ import SideMap from '../map/sideMap.jsx';
 export default React.createClass({
 	displayName: "Feed",
 
+	statics: {
+		fetchData(client, session, params) {
+			return client.tags().list(session, {
+				type: "featured",
+				page_size: 52,
+				city: params.city === "all" ? null : params.city,
+				country: params.country === "all" ? null : params.country,
+				state: params.state === "all" ? null : params.state
+			});
+		}
+	},
+
 	render() {
 		return (
 			<Grid>

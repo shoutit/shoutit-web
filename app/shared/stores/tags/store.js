@@ -34,8 +34,9 @@ var TagStore = Fluxxor.createStore({
 			}
 		}
 
-		if (props.tags) {
-			this.state.featuredTags = props.tags.results;
+		let tagsData = props.tags || props.feed;
+		if (tagsData) {
+			this.state.featuredTags = tagsData.results;
 		}
 
 
