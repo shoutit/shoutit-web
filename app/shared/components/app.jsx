@@ -6,12 +6,6 @@ import Footer from './footer/footer.jsx';
 export default React.createClass({
 	displayName: "App",
 
-	getInitialState() {
-		return {
-			height: null
-		};
-	},
-
 	render() {
 		return (
 			<div>

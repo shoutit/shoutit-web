@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import {DropdownButton, MenuItem} from 'react-bootstrap';
 
-import Image from '../helper';
+import {Image} from '../helper';
 
 export default React.createClass({
 	displayName: "ListenerRow",
