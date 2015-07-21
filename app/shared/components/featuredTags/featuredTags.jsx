@@ -36,6 +36,12 @@ export default React.createClass({
 		return this.getFlux().store('tags').getState();
 	},
 
+	getDefaultProps() {
+		return {
+			size: "medium"
+		};
+	},
+
 	render() {
 		return (
 			<Col md={12} xs={12}>
@@ -48,7 +54,7 @@ export default React.createClass({
 		return this.state.featuredTags ? this.state.featuredTags.map((tag, i) => {
 			let size = tagPattern[i % tagPattern.length];
 			return (
-				<TagStage key={"ftag-" + i} tag={tag} size={size}/>
+				<TagStage key={"ftag-" + i} tag={tag} size={size} imageSize={this.props.size}/>
 			);
 		}) : null;
 	},

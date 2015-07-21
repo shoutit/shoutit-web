@@ -125,7 +125,7 @@ export default React.createClass({
 					</Col>
 					<Col xs={12} md={4} className="sidebar">
 						<SideMap flux={this.props.flux}/>
-						<FeaturedTags flux={this.props.flux}/>
+						<FeaturedTags flux={this.props.flux} size="small"/>
 					</Col>
 				</Grid>
 			</DocumentTitle>

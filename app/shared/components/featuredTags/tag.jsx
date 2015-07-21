@@ -8,7 +8,8 @@ export default React.createClass({
 	display: "TagStage",
 
 	render() {
-		let size = this.props.size;
+		let size = this.props.size,
+			imageSize = this.props.imageSize;
 		return (
 			<Col md={size} xs={size} className="tagStage text-center">
 				<Link to="tag" params={{tagName: this.props.tag.name}}>
@@ -17,7 +18,7 @@ export default React.createClass({
 							{this.props.tag.title}
 						</Col>
 					</Row>
-					<Image infix="tag" size={size > 4 ? "medium" : "small"} src={this.props.tag.image}/>
+					<Image infix="tag" size={imageSize} src={this.props.tag.image}/>
 				</Link>
 			</Col>
 		);
