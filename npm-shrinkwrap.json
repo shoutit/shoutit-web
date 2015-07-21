@@ -2095,9 +2095,9 @@
       "resolved": "https://registry.npmjs.org/pusher-js/-/pusher-js-3.0.0.tgz"
     },
     "react": {
-      "version": "0.13.2",
-      "from": "react@*",
-      "resolved": "https://registry.npmjs.org/react/-/react-0.13.2.tgz",
+      "version": "0.13.3",
+      "from": "react@0.13.3",
+      "resolved": "https://registry.npmjs.org/react/-/react-0.13.3.tgz",
       "dependencies": {
         "envify": {
           "version": "3.4.0",
@@ -2105,9 +2105,9 @@
           "resolved": "https://registry.npmjs.org/envify/-/envify-3.4.0.tgz",
           "dependencies": {
             "through": {
-              "version": "2.3.7",
+              "version": "2.3.8",
               "from": "through@>=2.3.4 <2.4.0",
-              "resolved": "https://registry.npmjs.org/through/-/through-2.3.7.tgz"
+              "resolved": "https://registry.npmjs.org/through/-/through-2.3.8.tgz"
             },
             "jstransform": {
               "version": "10.1.0",
@@ -2130,9 +2130,9 @@
                   "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.1.31.tgz",
                   "dependencies": {
                     "amdefine": {
-                      "version": "0.1.0",
+                      "version": "1.0.0",
                       "from": "amdefine@>=0.0.4",
-                      "resolved": "https://registry.npmjs.org/amdefine/-/amdefine-0.1.0.tgz"
+                      "resolved": "https://registry.npmjs.org/amdefine/-/amdefine-1.0.0.tgz"
                     }
                   }
                 }
