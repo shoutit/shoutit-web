@@ -1,6 +1,6 @@
 import React from 'react';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
-import {Col, Grid} from 'react-bootstrap';
+import {Col} from 'react-bootstrap';
 
 import TagStage from './tag.jsx';
 
@@ -24,7 +24,7 @@ export default React.createClass({
 		fetchData(client, session, params) {
 			return client.tags().list(session, {
 				type: "featured",
-				page_size: 13,
+				page_size: 52,
 				city: params.city === "all" ? null : params.city,
 				country: params.country === "all" ? null : params.country,
 				state: params.state === "all" ? null : params.state
@@ -62,7 +62,7 @@ export default React.createClass({
 				city: params.city,
 				state: params.state,
 				type: "featured",
-				page_size: 13
+				page_size: 52
 			});
 		}
 	}
