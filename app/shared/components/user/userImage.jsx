@@ -4,13 +4,18 @@ export default React.createClass({
 	displayName: "UserImage",
 
 	getSmallUrl(imageUrl) {
-		if (imageUrl.indexOf("shoutit-user-image-original") > -1) {
-			return imageUrl.replace("-original", "")
-				.replace('.jpg', '_small.jpg')
-				.replace('.jpeg', '_small.jpeg');
-		} else {
-			return imageUrl;
+		let sizedUrl = imageUrl;
+
+		sizedUrl = sizedUrl.replace("http://", "https://");
+
+		if (sizedUrl.indexOf("user-image.static.shoutit") > -1) {
+			sizedUrl = sizedUrl
+				.replace(".jpg", "_small.jpg")
+				.replace(".jpeg", "_small.jpeg");
+		} else if (sizedUrl.indexOf("hqdefault") > -1) {
+			sizedUrl = sizedUrl.replace("hqdefault", this.props.ytSize + "default");
 		}
+		return sizedUrl;
 	},
 
 	render() {

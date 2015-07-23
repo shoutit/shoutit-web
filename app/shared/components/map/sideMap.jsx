@@ -2,6 +2,8 @@ import React from 'react';
 import {Navigation} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 
+import {Loader} from '../helper';
+
 export default React.createClass({
 	displayName: "SideMap",
 	mixins: [new FluxMixin(React), new StoreWatchMixin('shouts', 'locations'), Navigation],
@@ -23,6 +25,7 @@ export default React.createClass({
 	render() {
 		return this.isMapsAvailable() ? (
 			<div ref="mapContainer" className="map">
+				<Loader />
 			</div>
 		) : null;
 	},

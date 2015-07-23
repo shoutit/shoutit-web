@@ -28,7 +28,7 @@ export default React.createClass({
 					<RouteHandler flux={this.props.flux} />
 				</Col>
 				<Col xs={12} md={4} className="sidebar">
-					<SideMap flux={this.props.flux}/>
+					{/* <SideMap flux={this.props.flux}/> */}
 					<FeaturedTagsContainer flux={this.props.flux} size="small"/>
 				</Col>
 			</Grid>

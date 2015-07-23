@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import {Icon} from '../helper';
 
 export default React.createClass({
 	displayName: "Logo",
@@ -7,7 +8,7 @@ export default React.createClass({
 	render() {
 		return (
 			<Link to="app">
-				<img src="/img/logo_small_white.png"/>
+				<Icon name="logo_small_white"/>
 			</Link>
 		);
 	}

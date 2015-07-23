@@ -297,7 +297,7 @@ module.exports = function (app) {
 					assets: false,
 					chunks: true,
 					chunkModules: false,
-					modules: false,
+					modules: true,
 					cached: false,
 					reasons: false,
 					colors: true

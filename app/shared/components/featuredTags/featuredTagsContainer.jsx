@@ -29,7 +29,7 @@ export default React.createClass({
 
 	render(){
 		return this.state.featuredTags ? (
-			<FeaturedTags featuredTags={this.state.featuredTags}/>
+			<FeaturedTags {...this.props} featuredTags={this.state.featuredTags}/>
 		) : null;
 	},
 
