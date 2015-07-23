@@ -1,4 +1,5 @@
 import React from 'react';
+import {State} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 import {Col} from 'react-bootstrap';
 import DocumentTitle from 'react-document-title';
@@ -8,11 +9,7 @@ import ShoutReplySection from './shoutReplySection.jsx';
 
 export default React.createClass({
 	displayName: "ShoutDetail",
-	mixins: [new FluxMixin(React), new StoreWatchMixin("shouts")],
-
-	contextTypes: {
-		router: React.PropTypes.func
-	},
+	mixins: [new FluxMixin(React), new StoreWatchMixin("shouts"), State],
 
 	statics: {
 		fetchData(client, session, params) {
@@ -24,10 +21,10 @@ export default React.createClass({
 		let shoutStore = this.getFlux().store("shouts"),
 			userStoreState = this.getFlux().store("users").getState(),
 			shoutStoreState = shoutStore.getState(),
-			findRes = shoutStore.findShout(this.context.router.getCurrentParams().shoutId);
+			findRes = shoutStore.findShout(this.getParams().shoutId);
 
 		return {
-			shoutId: this.context.router.getCurrentParams().shoutId,
+			shoutId: this.getParams().shoutId,
 			shout: findRes.shout,
 			full: findRes.full,
 			loading: shoutStoreState.loading,

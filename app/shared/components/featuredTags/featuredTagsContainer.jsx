@@ -1,15 +1,12 @@
 import React from 'react';
+import {State} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 
 import FeaturedTags from './featuredTags.jsx';
 
 export default React.createClass({
 	displayName: "FeaturedTagsContainer",
-	mixins: [new FluxMixin(React), new StoreWatchMixin('tags')],
-
-	contextTypes: {
-		router: React.PropTypes.func
-	},
+	mixins: [new FluxMixin(React), new StoreWatchMixin('tags'), State],
 
 	statics: {
 		fetchData(client, session, params) {
@@ -38,7 +35,7 @@ export default React.createClass({
 
 	componentDidMount() {
 		if (!this.state.featuredTags) {
-			let params = this.context.router.getCurrentParams();
+			let params = this.getParams();
 
 			this.getFlux().actions.loadTags({
 				country: params.country,

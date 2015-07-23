@@ -1,4 +1,5 @@
 import React from 'react';
+import {Navigation} from 'react-router';
 import {Col} from 'react-bootstrap';
 
 import BasicInfo from './settings/basicInformation.jsx';
@@ -6,10 +7,7 @@ import ContactInfos from './settings/contactInfos.jsx';
 
 export default React.createClass({
 	displayName: "ProfileSettings",
-
-	contextTypes: {
-		router: React.PropTypes.func
-	},
+	mixins: [Navigation],
 
 	render() {
 		let user = this.props.users[this.props.username];
@@ -30,7 +28,7 @@ export default React.createClass({
 
 	componentWillMount() {
 		if (!this.props.user || !this.props.users[this.props.username].is_owner) {
-			this.context.router.transitionTo("useroffers", {username: this.props.username});
+			this.transitionTo("useroffers", {username: this.props.username});
 		}
 	},
 

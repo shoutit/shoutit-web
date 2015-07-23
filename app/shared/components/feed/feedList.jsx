@@ -15,11 +15,6 @@ const typeToRoute = {
 };
 
 export default React.createClass({
-
-	contextTypes: {
-		router: React.PropTypes.func
-	},
-
 	displayName: "Feed",
 
 	renderShouts() {

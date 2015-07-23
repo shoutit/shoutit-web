@@ -1,16 +1,14 @@
 import React from 'react';
+import {State} from 'react-router';
 import StaticFrame from './static/iFrame.jsx';
 import DocumentTitle from 'react-document-title';
 
 export default React.createClass({
 	displayName: "Static",
-
-	contextTypes: {
-		router: React.PropTypes.func
-	},
+	mixins: [State],
 
 	render(){
-		let name = this.context.router.getCurrentPathname()
+		let name = this.getPathname()
 			.replace('\/', '');
 
 		return (

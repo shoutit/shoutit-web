@@ -1,13 +1,10 @@
 import React from 'react';
+import {Navigation} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 
 export default React.createClass({
 	displayName: "SideMap",
-	mixins: [new FluxMixin(React), new StoreWatchMixin('shouts', 'locations')],
-
-	contextTypes: {
-		router: React.PropTypes.func
-	},
+	mixins: [new FluxMixin(React), new StoreWatchMixin('shouts', 'locations'), Navigation],
 
 	getStateFromFlux() {
 		return {
@@ -72,7 +69,7 @@ export default React.createClass({
 						});
 
 						gMaps.event.addListener(marker, 'click', function () {
-							this.context.router.transitionTo('shout',
+							this.transitionTo('shout',
 								{shoutId: shout.id});
 						}.bind(this));
 					} else {

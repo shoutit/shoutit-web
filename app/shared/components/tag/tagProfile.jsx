@@ -1,4 +1,5 @@
 import React from 'react';
+import {State} from 'react-router';
 import {RouteHandler} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 import Loader from '../helper/loader.jsx';
@@ -15,11 +16,7 @@ import TagProfileActions from './tagProfileActions.jsx';
 let STORE_NAME = "tags";
 
 export default React.createClass({
-	mixins: [new FluxMixin(React), new StoreWatchMixin(STORE_NAME)],
-
-	contextTypes: {
-		router: React.PropTypes.func
-	},
+	mixins: [new FluxMixin(React), new StoreWatchMixin(STORE_NAME), State],
 
 	displayName: "TagProfile",
 
@@ -34,7 +31,7 @@ export default React.createClass({
 	},
 
 	render() {
-		let tagName = this.context.router.getCurrentParams().tagName,
+		let tagName = this.getParams().tagName,
 			tagEntry = this.state.tags[tagName];
 
 		if (tagEntry) {
@@ -113,7 +110,7 @@ export default React.createClass({
 	},
 
 	loadTag() {
-		let tagName = this.context.router.getCurrentParams().tagName,
+		let tagName = this.getParams().tagName,
 			tagEntry = this.state.tags[tagName];
 
 		if (!this.state.loading && !tagEntry && tagEntry !== null) {

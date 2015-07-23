@@ -1,4 +1,5 @@
 import React from 'react';
+import {Navigation} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 import {Row, Input} from 'react-bootstrap';
 
@@ -6,13 +7,9 @@ import Search from './search.jsx';
 import SearchResultList from './search/searchResultList.jsx';
 
 export default React.createClass({
-	mixins: [new FluxMixin(React), new StoreWatchMixin("search", "locations")],
+	mixins: [new FluxMixin(React), new StoreWatchMixin("search", "locations"), Navigation],
 
 	displayName: "SearchBar",
-
-	contextTypes: {
-		router: React.PropTypes.func
-	},
 
 	getStateFromFlux() {
 		let flux = this.getFlux();
@@ -130,7 +127,7 @@ export default React.createClass({
 	onSubmit() {
 		this.setState({showSearch: false});
 		if (this.state.term.length > 0) {
-			this.context.router.transitionTo("search", {term: encodeURIComponent(this.state.term)});
+			this.transitionTo("search", {term: encodeURIComponent(this.state.term)});
 		}
 	},
 

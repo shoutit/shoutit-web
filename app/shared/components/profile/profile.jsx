@@ -1,4 +1,5 @@
 import React from 'react';
+import {State} from 'react-router';
 import {RouteHandler} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 import {Loader, Clear, Icon} from '../helper';
@@ -10,11 +11,7 @@ import ProfileImage from './profileImage.jsx';
 import ProfileDetails from './profileDetails.jsx';
 
 export default React.createClass({
-	mixins: [new FluxMixin(React), new StoreWatchMixin("users")],
-
-	contextTypes: {
-		router: React.PropTypes.func
-	},
+	mixins: [new FluxMixin(React), new StoreWatchMixin("users"), State],
 
 	displayName: "Profile",
 
@@ -39,7 +36,7 @@ export default React.createClass({
 	},
 
 	render() {
-		let username = this.context.router.getCurrentParams().username,
+		let username = this.getParams().username,
 			user = this.state.users[username];
 
 		if (user) {
@@ -131,7 +128,7 @@ export default React.createClass({
 	},
 
 	loadUser() {
-		let username = this.context.router.getCurrentParams().username,
+		let username = this.getParams().username,
 			user = this.state.users[username];
 
 		if (!this.state.loading && !user && user !== null) {

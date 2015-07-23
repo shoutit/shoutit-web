@@ -1,4 +1,5 @@
 import React from 'react';
+import {State,Navigation} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 
 import SearchForm from './searchForm.jsx';
@@ -6,15 +7,11 @@ import SearchResults from './searchResults.jsx';
 import DocumentTitle from 'react-document-title';
 
 export default React.createClass({
-	mixins: [new FluxMixin(React), new StoreWatchMixin("search")],
+	mixins: [new FluxMixin(React), new StoreWatchMixin("search"), State, Navigation],
 	displayName: "Search",
 
-	contextTypes: {
-		router: React.PropTypes.func
-	},
-
 	getInitialState(){
-		let params = this.context.router.getCurrentParams();
+		let params = this.getParams();
 
 		return {
 			term: params.term || ""
@@ -51,7 +48,7 @@ export default React.createClass({
 		});
 		this.getFlux().actions.searchAll(newTerm);
 		if (newTerm.length > 0) {
-			this.context.router.transitionTo("search", {term: newTerm});
+			this.transitionTo("search", {term: newTerm});
 		}
 	}
 });

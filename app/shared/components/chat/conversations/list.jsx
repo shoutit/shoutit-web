@@ -1,5 +1,6 @@
 import React from 'react';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
+import {Navigation} from 'react-router';
 
 import {Col} from 'react-bootstrap';
 
@@ -9,11 +10,7 @@ import {Clear} from '../../helper';
 
 export default React.createClass({
 	displayName: "ConversationList",
-	mixins: [new FluxMixin(React), new StoreWatchMixin('messages')],
-
-	contextTypes: {
-		router: React.PropTypes.func
-	},
+	mixins: [new FluxMixin(React), new StoreWatchMixin('messages'), Navigation],
 
 	getStateFromFlux() {
 		return this.getFlux().store('messages').getState();
@@ -38,7 +35,7 @@ export default React.createClass({
 	},
 
 	onSelectConversation(conId) {
-		this.context.router.transitionTo("messages", {chatId: conId});
+		this.transitionTo("messages", {chatId: conId});
 	},
 
 	getUnreadConversationCount() {

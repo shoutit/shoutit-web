@@ -1,4 +1,5 @@
 import React from 'react';
+import {State, Navigation} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 import DocumentTitle from 'react-document-title';
 
@@ -21,11 +22,7 @@ const typeToRoute = {
 export default function (type = "all") {
 	return React.createClass({
 		displayName: type,
-		mixins: [new FluxMixin(React), new StoreWatchMixin("shouts", "locations")],
-
-		contextTypes: {
-			router: React.PropTypes.func
-		},
+		mixins: [new FluxMixin(React), new StoreWatchMixin("shouts", "locations"), State, Navigation],
 
 		statics: {
 			fetchData(client, session, params) {
@@ -75,9 +72,9 @@ export default function (type = "all") {
 				currentCity = locStoreState.current.city,
 				currentCountry = locStoreState.current.country,
 				currentState = locStoreState.current.state,
-				currentPage = this.context.router.getCurrentParams().page;
+				currentPage = this.getParams().page;
 			if (currentCity) {
-				this.context.router.transitionTo(typeToRoute[type],
+				this.transitionTo(typeToRoute[type],
 					{country: currentCountry, state: currentState, city: currentCity, page: currentPage});
 			}
 		},

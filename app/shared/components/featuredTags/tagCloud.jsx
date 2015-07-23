@@ -1,4 +1,5 @@
 import React from 'react';
+import {State} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 import {Link} from 'react-router';
 
@@ -10,11 +11,7 @@ const sizePattern = [
 
 export default React.createClass({
 	displayName: "TagCloud",
-	mixins: [new FluxMixin(React), new StoreWatchMixin('tags')],
-
-	contextTypes: {
-		router: React.PropTypes.func
-	},
+	mixins: [new FluxMixin(React), new StoreWatchMixin('tags'), State],
 
 
 	getStateFromFlux() {
@@ -63,7 +60,7 @@ export default React.createClass({
 
 	componentDidMount() {
 		if (!this.state.featuredTags) {
-			let params = this.context.router.getCurrentParams();
+			let params = this.getParams();
 
 			this.getFlux().actions.loadTags({
 				country: params.country,
