@@ -74,6 +74,43 @@ export default {
 					});
 				}
 			}.bind(this));
+	},
+
+	loadSpriteInfo(hash) {
+		this.dispatch(consts.LOAD_TAGS_SPRITE, {hash});
+
+		client.loadSpriteInfo(hash)
+			.end(function (error, res) {
+				if (error || !res.ok) {
+					this.dispatch(consts.LOAD_TAGS_SPRITE_FAILED, {
+						hash,
+						error
+					});
+				} else {
+					this.dispatch(consts.LOAD_TAGS_SPRITE_SUCCESS, {
+						hash,
+						res: res.body
+					});
+				}
+			}.bind(this));
+
+	},
+
+	requestSpriting(images) {
+		this.dispatch(consts.REQUEST_SPRITING, {images});
+
+		client.requestSpriting(images)
+			.end(function (error, res) {
+				if (error || !res.ok) {
+					this.dispatch(consts.REQUEST_SPRITING_SUCCESS, {
+						error
+					});
+				} else {
+					this.dispatch(consts.REQUEST_SPRITING_SUCCESS, {
+						res: res.body
+					});
+				}
+			}.bind(this));
 	}
 
 };

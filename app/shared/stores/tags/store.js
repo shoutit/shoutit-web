@@ -8,7 +8,8 @@ var TagStore = Fluxxor.createStore({
 		this.state = {
 			tags: {},
 			featuredTags: null,
-			loading: false
+			loading: false,
+			sprite: null
 		};
 
 		if (props.tag) {
@@ -49,7 +50,13 @@ var TagStore = Fluxxor.createStore({
 			consts.LOAD_TAG_SHOUTS_SUCCESS, this.onLoadTagShoutsSuccess,
 			consts.LOAD_TAG_LISTENERS, this.onLoadTagListeners,
 			consts.LOAD_TAG_LISTENERS_SUCCESS, this.onLoadTagListenersSuccess,
-			consts.LOAD_TAGS_SUCCESS, this.onLoadTagsSuccess
+			consts.LOAD_TAGS_SUCCESS, this.onLoadTagsSuccess,
+			consts.LOAD_TAGS_SPRITE, this.onLoadTagsSprite,
+			consts.LOAD_TAGS_SPRITE_SUCCESS, this.onLoadTagsSpriteSuccess,
+			consts.LOAD_TAGS_SPRITE_FAILED, this.onLoadTagsSpriteFailed,
+			consts.REQUEST_SPRITING, this.onRequestSpriting,
+			consts.REQUEST_SPRITING_SUCCESS, this.onLoadTagsSpriteSuccess,
+			consts.REQUEST_SPRITING_FAILED, this.onRequestSpritingFailed
 		);
 	},
 
@@ -182,6 +189,28 @@ var TagStore = Fluxxor.createStore({
 	onLoadTagsSuccess({res}) {
 		this.state.featuredTags = res.results;
 		this.emit("change");
+	},
+
+	onLoadTagsSprite({hash}) {
+
+	},
+
+	onLoadTagsSpriteSuccess({res}) {
+		this.state.sprite = res;
+		this.emit("change");
+	},
+
+	onLoadTagsSpriteFailed({hash}) {
+		this.state.sprite = undefined;
+		this.emit("change");
+	},
+
+	onRequestSpriting() {
+
+	},
+
+	onRequestSpritingFailed({error}) {
+		console.error(error);
 	},
 
 	serialize() {

@@ -25,7 +25,7 @@ export default React.createClass({
 						<ul>
 							<li>
 								<a href="https://mixpanel.com/f/partner">
-									<img src="https://cdn.mxpnl.com/site_media/images/partner/badge_light.png"
+									<img height="36px" width="114px" src="https://cdn.mxpnl.com/site_media/images/partner/badge_light.png"
 										 alt="Mobile Analytics"/>
 								</a>
 							</li>

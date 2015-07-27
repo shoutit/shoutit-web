@@ -23,13 +23,17 @@ export default React.createClass({
 	getStateFromFlux() {
 		let storeState = this.getFlux().store('tags').getState();
 		return {
-			featuredTags: storeState.featuredTags || null
+			featuredTags: storeState.featuredTags || null,
+			sprite: storeState.sprite
 		};
 	},
 
 	render(){
 		return this.state.featuredTags ? (
-			<FeaturedTags {...this.props} featuredTags={this.state.featuredTags}/>
+			<FeaturedTags {...this.props}
+				flux={this.getFlux()}
+				featuredTags={this.state.featuredTags}
+				sprite={this.state.sprite}/>
 		) : null;
 	},
 
@@ -49,6 +53,6 @@ export default React.createClass({
 
 	shouldComponentUpdate(nextProps, nextState) {
 		return nextState.featuredTags &&
-			( (!this.state.featuredTags) || (this.state.featuredTags.length !== nextState.featuredTags.length));
+			( (!this.state.featuredTags) || (this.state.featuredTags.length !== nextState.featuredTags.length) || (this.state.sprite !== nextState.sprite));
 	}
 });
