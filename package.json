@@ -23,6 +23,7 @@
     "express": "^4.10.7",
     "express-session": "^1.10.1",
     "fluxxor": "^1.6.0",
+    "ismobilejs": "^0.3.9",
     "jade": "^1.11.0",
     "lodash": "^3.3.0",
     "method-override": "^2.3.1",

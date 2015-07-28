@@ -9,7 +9,11 @@ import gAnalytics from './ga';
 import geolocation from './geolocation';
 import pusher from './pusher';
 
+import isMobile from 'ismobilejs';
+
 let envData = {};
+
+envData.mobile = isMobile.any;
 
 let router = Router.create({
 	routes: routes(envData),
@@ -89,7 +93,7 @@ router.run(function (Handler, state) {
 			//console.log("Router run!");
 			ga('send', 'pageview', state.path);
 			routesVisited++;
-			if (routesVisited === 3) {
+			if (routesVisited === 3 && envData.mobile) {
 				flux.actions.showDownloadPopup();
 			}
 		}

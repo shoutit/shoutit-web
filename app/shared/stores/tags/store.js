@@ -192,7 +192,6 @@ var TagStore = Fluxxor.createStore({
 	},
 
 	onLoadTagsSprite({hash}) {
-
 	},
 
 	onLoadTagsSpriteSuccess({res}) {
@@ -206,11 +205,9 @@ var TagStore = Fluxxor.createStore({
 	},
 
 	onRequestSpriting() {
-
 	},
 
-	onRequestSpritingFailed({error}) {
-		console.error(error);
+	onRequestSpritingFailed() {
 	},
 
 	serialize() {

@@ -81,7 +81,7 @@ export default {
 
 		client.loadSpriteInfo(hash)
 			.end(function (error, res) {
-				if (error || !res.ok) {
+				if (error || !res.ok || !res.body) {
 					this.dispatch(consts.LOAD_TAGS_SPRITE_FAILED, {
 						hash,
 						error
@@ -102,7 +102,7 @@ export default {
 		client.requestSpriting(images)
 			.end(function (error, res) {
 				if (error || !res.ok) {
-					this.dispatch(consts.REQUEST_SPRITING_SUCCESS, {
+					this.dispatch(consts.REQUEST_SPRITING_FAILED, {
 						error
 					});
 				} else {

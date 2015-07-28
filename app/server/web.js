@@ -434,5 +434,5 @@ module.exports = function (app) {
 		}
 	});
 
-	app.use(reactServerRender);
+	app.get('*', reactServerRender);
 };
