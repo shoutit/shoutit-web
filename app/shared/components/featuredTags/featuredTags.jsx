@@ -40,7 +40,7 @@ export default React.createClass({
 			return this.props.featuredTags.map((tag, i) => {
 				let size = tagPattern[i % tagPattern.length];
 				return (
-					<TagBgStage key={"ftag-" + i} tag={tag} size={size} image={"http://localhost:9090/" + this.props.sprite.f}
+					<TagBgStage key={"ftag-" + i} tag={tag} size={size} image={"/sprites/" + this.props.sprite.f}
 							  width={this.props.sprite.i[i].w} height={this.props.sprite.i[i].h}
 							  x={this.props.sprite.i[i].x} y={this.props.sprite.i[i].y}
 						/>

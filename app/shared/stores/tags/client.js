@@ -36,11 +36,11 @@ export default {
 	},
 
 	loadSpriteInfo(hash) {
-		return request.get("http://localhost:9090/" + hash);
+		return request.get("/sprites/" + hash);
 	},
 
 	requestSpriting(images) {
-		return request.post("http://localhost:9090")
+		return request.post("/sprites")
 			.send({images});
 	}
 };
