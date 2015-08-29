@@ -1,12 +1,13 @@
 import React from 'react';
-import {FluxMixin} from 'fluxxor';
+import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 import Clear from './../helper/clear.jsx';
 import Icon from '../helper/icon.jsx';
 import DocumentTitle from 'react-document-title';
+import {Modal,Input,Glyphicon,Button,Alert} from 'react-bootstrap';
 
 export default React.createClass({
 	displayName: "Login",
-	mixins: [new FluxMixin(React)],
+	mixins: [new FluxMixin(React), new StoreWatchMixin('users')],
 
 	getInitialState() {
 		return {
@@ -14,31 +15,65 @@ export default React.createClass({
 		};
 	},
 
+	getStateFromFlux() {
+		let flux = this.getFlux();
+		let store = flux.store('users').getState();
+
+		return {
+			logingIn: store.logingIn,
+			loginFailed: store.loginFailed
+		};
+	},
+
 	render() {
+
 		return (
-			<DocumentTitle title={"Login - Shoutit"}>
-				<div className="login">
-					<div className="login-container">
-						<div className="top-login">
-							<img src="img/logo2.png"/>
-							<h4>What will you shout today</h4>
-						</div>
-						<Clear />
-						<button className="btn btn-fb submit" type="button" onClick={this.onFBLogin}>
-							<Icon name="fb"/>
-							Connect with Facebook
-						</button>
-						<button className="btn btn-google submit" type="button" onClick={this.onGPlusLogin}>
-							<Icon name="google"/>
-							Connect with Google+
-						</button>
-						<p className="login-bot">Don't have an account&#63;
-							<span>Sign Up</span>
-						</p>
-					</div>
+		<div className="login">
+			<div className="login-container">
+				<div className="top-login">
+					<img src="img/logo2.png"/>
+					<h4>What will you shout today</h4>
+					<Alert bsStyle="warning" >{this.state.loginFailed? 'The username or password is incorrect!':''}</Alert>
+
+
 				</div>
-			</DocumentTitle>
+				<form onSubmit={this.onLoginSubmit}>
+					<Input ref='email' type='text' placeholder='Email' className='input-email' />
+					<Input ref='pass' type='password' placeholder='Password' className='input-pass' />
+					<Button bsSize='large' type='submit' block 
+					className={this.state.logingIn? 'btn-signin btn-signin-disabled':'btn-signin'}>
+					{this.state.logingIn? 'Signing In...': 'Sign In'}</Button>
+					<Input type='checkbox' label='Stay Signed In' />
+				</form>
+
+				<Clear />
+				<button className="btn btn-fb submit" type="button" onClick={this.onFBLogin}>
+					<Icon name="fb"/>
+					Connect with Facebook
+				</button>
+				<button className="btn btn-google submit" type="button" onClick={this.onGPlusLogin}>
+					<Icon name="google"/>
+					Connect with Google+
+				</button>
+				<p className="login-bot">Don't have an account&#63;
+					<span>Sign Up</span>
+				</p>
+			</div>
+		</div>
+			
 		);
+	},
+
+
+	onLoginSubmit(e) {
+		e.preventDefault();
+		let flux = this.getFlux();
+
+		let email = React.findDOMNode(this.refs.email).children[0].value;
+		let pass = React.findDOMNode(this.refs.pass).children[0].value;
+
+		if(email && pass)
+			flux.actions.login('shoutit',{email:email,pass:pass});
 	},
 
 	onGPlusLogin(e) {

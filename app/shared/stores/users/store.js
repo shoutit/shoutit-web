@@ -36,7 +36,9 @@ var UserStore = Fluxxor.createStore({
 			listening: {},
 			shouts: {},
 			loading: false,
-			showDownloadPopup: false
+			showDownloadPopup: false,
+			logingIn: false,
+			loginFailed: false
 		};
 
 		if (props.loggedUser) {
@@ -107,17 +109,32 @@ var UserStore = Fluxxor.createStore({
 	},
 
 	onLogin(payload) {
+		this.state.logingIn = true;
+		this.emit("change");
+
 		client.login(payload.token, payload.type)
 			.end(function (err, res) {
 				if (err) {
+					this.state.logingIn = false;
+					this.state.loginFailed = false;
+					this.emit("change");
 					console.error(err);
 				} else {
 					let loggedUser = res.body;
-					this.state.users[loggedUser.username] = loggedUser;
-					this.state.user = loggedUser.username;
-					this.emit("change");
-					this.emit("login");
-					this.router.transitionTo('app');
+					if (typeof loggedUser.username !== 'undefined') {
+						this.state.users[loggedUser.username] = loggedUser;
+						this.state.user = loggedUser.username;
+						this.state.logingIn = false;
+						this.state.loginFailed = false;
+						this.emit("change");
+						this.emit("login");
+						this.router.transitionTo('app');
+					} else { // login failed
+						this.state.loginFailed = true;
+						this.state.logingIn = false;
+						this.emit("change");
+					}
+					
 				}
 			}.bind(this));
 	},

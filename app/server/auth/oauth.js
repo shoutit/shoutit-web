@@ -15,6 +15,7 @@ var ENDPOINT_SERVER = process.env.API_URL || 'http://dev-api-shoutit-com-qm7w6bw
 	GRANT_TYPES = {
 		gplus: "gplus_code",
 		fb: "facebook_access_token",
+		shoutit:"shoutit_signin",
 		refresh: "refresh_token",
 		sms: "sms_code"
 	};
@@ -25,8 +26,15 @@ function requestAccessToken(type, grantToken) {
 		client_secret: CLIENT_SECRET,
 		grant_type: GRANT_TYPES[type]
 	};
-	requestData[GRANT_TYPES[type]] = grantToken;
 
+	if(GRANT_TYPES[type] === 'shoutit_signin') {
+		requestData.email = grantToken.email;
+		requestData.password = grantToken.pass;
+	}
+	else { // fb and gplus
+		requestData[GRANT_TYPES[type]] = grantToken;
+	}
+	
 	//console.log(requestData);
 	//console.log(url.resolve(ENDPOINT_SERVER,  ACCESSTOKEN_ENDPOINT));
 
@@ -79,7 +87,7 @@ function fetchUser(accessToken) {
 
 function auth(type) {
 	return function (req, res) {
-		var code = req.body.token;
+		var code = req.body.token || {email:req.body.email,pass:req.body.pass};
 		if (code) {
 			requestAccessToken(type, code)
 				.then(updateSession(req))
@@ -101,8 +109,8 @@ function auth(type) {
 
 module.exports = {
 	gplusAuth: auth('gplus'),
-
 	fbAuth: auth('fb'),
+	siAuth: auth('shoutit'),
 
 	sms: function (req, smsCode) {
 		return requestAccessToken('sms', smsCode)

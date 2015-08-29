@@ -323,6 +323,7 @@ module.exports = function (app) {
 
 	authRouter.post('/gplus', oauth.gplusAuth);
 	authRouter.post('/fb', oauth.fbAuth);
+	authRouter.post('/shoutit', oauth.siAuth);
 	authRouter.get('/logout', oauth.logout);
 
 	app.use('/auth', authRouter);

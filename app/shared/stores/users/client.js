@@ -48,18 +48,23 @@ export default {
 
     login(token, type) {
         let endpoint;
+        let dataPackage = {token:token};
 
-        if (type === 'gplus') {
+        if (type === 'gplus')
             endpoint = '/auth/gplus';
-        } else if (type === 'fb') {
+        else if (type === 'fb')
             endpoint = '/auth/fb';
+        else if (type === 'shoutit') {
+            endpoint = '/auth/shoutit';
+            dataPackage = {email:token.email,pass:token.pass};
+            console.log('data package=> %s',dataPackage);
         }
 
         return request
             .post(endpoint)
             .type('json')
             .accept('json')
-            .send({token: token});
+            .send(dataPackage);
     },
 
     logout() {
