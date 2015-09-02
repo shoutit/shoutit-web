@@ -85,7 +85,9 @@ export default React.createClass({
 						To use Shoutit with full potential please verify your email by clicking 
 						on the link we have sent to your email <span>{this.state.signup.email}</span>
 					</p>
-					<Link to='root'>Main page</Link>
+					<span className="link-item" onClick={() => this.transitionTo('app')}>
+						Main page
+					</span>
 				</div>;
 		}
 
@@ -104,7 +106,6 @@ export default React.createClass({
 
 	componentDidUpdate() {
 		// handling server response
-		console.log('did update');
 		if (this.state.loading) {
 			if (this.state.signup.hasOwnProperty("status")) {
 				let status = this.state.signup.status;

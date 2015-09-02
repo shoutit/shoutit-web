@@ -112,9 +112,15 @@ var UserStore = Fluxxor.createStore({
 	},
 
 	onSignupSuccess(data) {
-		this.state.signupStatus = data;
+		let loggedUser = data;
+
+		this.state.users[loggedUser.username] = loggedUser;
+		this.state.user = loggedUser.username;
+		this.state.signupStatus = {name:loggedUser.first_name, email:loggedUser.email};
 		this.state.signupStatus.status = consts.SIGNUP_SUCCESS;
+
 		this.emit("change");
+		this.emit("login");
 	},
 
 	onSignupFail(data) {

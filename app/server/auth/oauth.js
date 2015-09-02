@@ -75,11 +75,16 @@ function requestNewAccount(reqToken) {
 				if (err) {
 					reject(err);
 				} else {
-					resolve(res.body);
+					if (res.body.access_token){
+						resolve(res.body);
+					} else {
+						reject(res.body);
+					}
 				}
 			});
 	});
 }
+
 
 function updateSession(req) {
 	return function (resp) {
@@ -120,7 +125,6 @@ function auth(type) {
 				.then(updateSession(req))
 				.then(fetchUser)
 				.then(function (user) {
-					console.log(user);
 					req.session.user = user;
 					res.json(user);
 				})
@@ -151,12 +155,15 @@ module.exports = {
 
 	signup: function(req, res) {
 		return requestNewAccount(req.body)
-			.then(function(code){
-				res.send(code);
+			.then(updateSession(req))
+			.then(fetchUser)
+			.then(function (user) {
+				req.session.user = user;
+				res.json(user);
 			})
 			.catch(function(err) {
-				console.log(err);
-				res.status(500).send(err);
+				console.log('catch');
+				res.send(err);
 			});
 	},
 

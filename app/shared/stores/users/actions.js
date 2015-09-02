@@ -5,11 +5,9 @@ export default {
     signup(payload) {
         client.signup(payload).end(function(err,res) {
             if(res) {
-                if(res.body.hasOwnProperty('access_token')) { 
+                if(res.body.id) { 
                     // success
-                    let user = res.body.user;
-                    this.dispatch(consts.SIGNUP_SUCCESS, 
-                        {email: user.email, name: user.first_name});
+                    this.dispatch(consts.SIGNUP_SUCCESS, res.body);
                 } else { // API rejection
                     this.dispatch(consts.SIGNUP_FAIL, res.body);
                 }
