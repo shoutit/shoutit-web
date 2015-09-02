@@ -3,6 +3,9 @@
  */
 
 export default {
+    SIGNUP: "SIGNUP",
+    SIGNUP_SUCCESS: "SIGNUP_SUCCESS",
+    SIGNUP_FAIL: "SIGNUP_FAIL",
     LOGIN: "LOGIN",
     LOGOUT: "LOGOUT",
 

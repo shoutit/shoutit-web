@@ -16,6 +16,7 @@ var ENDPOINT_SERVER = process.env.API_URL || 'http://dev-api-shoutit-com-qm7w6bw
 		gplus: "gplus_code",
 		fb: "facebook_access_token",
 		shoutit:"shoutit_signin",
+		signup: "shoutit_signup",
 		refresh: "refresh_token",
 		sms: "sms_code"
 	};
@@ -45,6 +46,32 @@ function requestAccessToken(type, grantToken) {
 			.accept('json')
 			.send(requestData)
 			.end(function (err, res) {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(res.body);
+				}
+			});
+	});
+}
+
+function requestNewAccount(reqToken) {
+	var requestData = {
+		client_id: CLIENT_ID,
+		client_secret: CLIENT_SECRET,
+		grant_type: GRANT_TYPES['signup'],
+		name: reqToken.name,
+		email: reqToken.email,
+		password: reqToken.pass
+	};
+
+	return new Promise(function(resolve, reject) {
+		request
+			.post(url.resolve(ENDPOINT_SERVER, ACCESSTOKEN_ENDPOINT))
+			.type('json')
+			.accept('json')
+			.send(requestData)
+			.end(function(err, res) {
 				if (err) {
 					reject(err);
 				} else {
@@ -119,6 +146,17 @@ module.exports = {
 			.then(function (user) {
 				req.session.user = user;
 				return Promise.resolve(user);
+			});
+	},
+
+	signup: function(req, res) {
+		return requestNewAccount(req.body)
+			.then(function(code){
+				res.send(code);
+			})
+			.catch(function(err) {
+				console.log(err);
+				res.status(500).send(err);
 			});
 	},
 

@@ -325,6 +325,7 @@ module.exports = function (app) {
 	authRouter.post('/fb', oauth.fbAuth);
 	authRouter.post('/shoutit', oauth.siAuth);
 	authRouter.get('/logout', oauth.logout);
+	authRouter.post('/signup', oauth.signup);
 
 	app.use('/auth', authRouter);
 

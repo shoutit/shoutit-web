@@ -771,18 +771,19 @@ footer {
   width: 70%;
   padding-top:0!important;
 
+  .input-name {
+    background-image: url("../img/user-gray.png");
+  }
   .input-email {
-  background-image: url("../img/email.png");
-  background-position: 22px 15px;
-  background-repeat: no-repeat;
+    background-image: url("../img/email.png");
   }
   .input-pass {
     background-image: url("../img/pass.png");
+  }
+  .input-email, .input-pass, .input-name {
+    background-color: $shoutit-light-gray;
     background-position: 22px 15px;
     background-repeat: no-repeat;
-  }
-  .input-email, .input-pass {
-    background-color: $shoutit-light-gray;
     border: 1px solid #e1e1e1;
     border-radius: 4px;
     color: #8a8a88;
@@ -791,6 +792,11 @@ footer {
     padding-left: 60px;
     width: 100%;
     font-family: 'Arial-Regular';
+    transition:all 0.4s;
+  }
+  .input-alert {
+    background-color: #FFC4C4;
+    color: #fff;
   }
   .checkbox {
     text-align:left;
@@ -799,9 +805,6 @@ footer {
       letter-spacing: 2px;
       font-size: 12px;
     }
-  }
-  .alert {
-    margin-bottom:15px;
   }
 
   .from-control, .input-group-addon {
@@ -868,7 +871,7 @@ footer {
     width: 100%;
     font-family: "Arial-Regular", sans-serif;
     background: $shoutit-dark-green;
-    transition: background 1.2s;
+    transition: background 0.5s;
     .icon {
       display: inline-block;
       margin-right: 5px;

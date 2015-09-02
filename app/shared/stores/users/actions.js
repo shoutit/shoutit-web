@@ -1,6 +1,22 @@
 import consts from './consts';
+import client from './client';
 
 export default {
+    signup(payload) {
+        client.signup(payload).end(function(err,res) {
+            if(res) {
+                if(res.body.hasOwnProperty('access_token')) { 
+                    // success
+                    let user = res.body.user;
+                    this.dispatch(consts.SIGNUP_SUCCESS, 
+                        {email: user.email, name: user.first_name});
+                } else { // API rejection
+                    this.dispatch(consts.SIGNUP_FAIL, res.body);
+                }
+            }
+        }.bind(this));
+    },
+
     login(type, token) {
         this.dispatch(consts.LOGIN, {
             type: type,

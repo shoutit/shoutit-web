@@ -38,7 +38,8 @@ var UserStore = Fluxxor.createStore({
 			loading: false,
 			showDownloadPopup: false,
 			logingIn: false,
-			loginFailed: false
+			loginFailed: false,
+			signupStatus: {}
 		};
 
 		if (props.loggedUser) {
@@ -84,6 +85,8 @@ var UserStore = Fluxxor.createStore({
 		this.router = props.router;
 
 		this.bindActions(
+			consts.SIGNUP_SUCCESS, this.onSignupSuccess,
+			consts.SIGNUP_FAIL, this.onSignupFail,
 			consts.LOGIN, this.onLogin,
 			consts.LOGOUT, this.onLogout,
 			consts.INFO_CHANGE, this.onInfoChange,
@@ -106,6 +109,18 @@ var UserStore = Fluxxor.createStore({
 			return Number(parsed.query.page);
 		}
 		return null;
+	},
+
+	onSignupSuccess(data) {
+		this.state.signupStatus = data;
+		this.state.signupStatus.status = consts.SIGNUP_SUCCESS;
+		this.emit("change");
+	},
+
+	onSignupFail(data) {
+		this.state.signupStatus = data;
+		this.state.signupStatus.status = consts.SIGNUP_FAIL;
+		this.emit("change");
 	},
 
 	onLogin(payload) {

@@ -46,6 +46,14 @@ export default {
             .query(query);
     },
 
+    signup(payload) {
+        return request
+            .post('/auth/signup')
+            .type('json')
+            .accept('json')
+            .send(payload);
+    },
+
     login(token, type) {
         let endpoint;
         let dataPackage = {token:token};
@@ -57,7 +65,6 @@ export default {
         else if (type === 'shoutit') {
             endpoint = '/auth/shoutit';
             dataPackage = {email:token.email,pass:token.pass};
-            console.log('data package=> %s',dataPackage);
         }
 
         return request

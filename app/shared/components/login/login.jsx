@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link,Navigation} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 import Clear from './../helper/clear.jsx';
 import Icon from '../helper/icon.jsx';
@@ -7,7 +8,7 @@ import {Modal,Input,Glyphicon,Button,Alert} from 'react-bootstrap';
 
 export default React.createClass({
 	displayName: "Login",
-	mixins: [new FluxMixin(React), new StoreWatchMixin('users')],
+	mixins: [new FluxMixin(React), new StoreWatchMixin('users'), Navigation],
 
 	getInitialState() {
 		return {
@@ -55,8 +56,8 @@ export default React.createClass({
 					<Icon name="google"/>
 					Connect with Google+
 				</button>
-				<p className="login-bot">Don't have an account&#63;
-					<span>Sign Up</span>
+				<p style={{fontSize:'17px',marginTop: '20px'}}>Don't have an account&#63;&nbsp;
+					<Link to="signup">Signup</Link>
 				</p>
 			</div>
 		</div>
