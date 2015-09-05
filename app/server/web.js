@@ -16,7 +16,8 @@ var React = require('react'),
 
 var oauth = require('./auth/oauth'),
 	ShoutitClient = require('./resources'),
-	apiRouter = require('./routes');
+	apiRouter = require('./routes'),
+	resetPass = require('./services/resetPassword');
 
 var Flux = require('../shared/flux'),
 	Routes = require('../shared/routes.jsx')(null),
@@ -328,8 +329,14 @@ module.exports = function (app) {
 	authRouter.post('/signup', oauth.signup);
 	authRouter.post('/forget', oauth.forgetPass);
 
-	app.use('/auth', authRouter);
+	// Services router
+	var servicesRouter = new express.Router();
 
+	servicesRouter.get('/reset_password', resetPass.get);
+	servicesRouter.post('/reset_password', resetPass.post);
+
+	app.use('/auth', authRouter);
+	app.use('/services', servicesRouter);
 	app.use('/api', apiRouter);
 
 	//Redirect all trailing slashes
