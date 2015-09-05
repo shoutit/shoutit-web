@@ -38,7 +38,7 @@ var UserStore = Fluxxor.createStore({
 			loading: false,
 			showDownloadPopup: false,
 			logingIn: false,
-			loginFailed: false,
+			loginFailed: null,
 			signupStatus: {}
 		};
 
@@ -88,6 +88,7 @@ var UserStore = Fluxxor.createStore({
 			consts.SIGNUP_SUCCESS, this.onSignupSuccess,
 			consts.SIGNUP_FAIL, this.onSignupFail,
 			consts.LOGIN, this.onLogin,
+			consts.LOGIN_FB_ERROR, this.onLoginFBError,
 			consts.LOGOUT, this.onLogout,
 			consts.INFO_CHANGE, this.onInfoChange,
 			consts.INFO_SAVE, this.onInfoSave,
@@ -137,7 +138,7 @@ var UserStore = Fluxxor.createStore({
 			.end(function (err, res) {
 				if (err) {
 					this.state.logingIn = false;
-					this.state.loginFailed = false;
+					this.state.loginFailed = null;
 					this.emit("change");
 					console.error(err);
 				} else {
@@ -146,18 +147,23 @@ var UserStore = Fluxxor.createStore({
 						this.state.users[loggedUser.username] = loggedUser;
 						this.state.user = loggedUser.username;
 						this.state.logingIn = false;
-						this.state.loginFailed = false;
+						this.state.loginFailed = null;
 						this.emit("change");
 						this.emit("login");
 						this.router.transitionTo('app');
 					} else { // login failed
-						this.state.loginFailed = true;
+						this.state.loginFailed = 'native_not_authorized';
 						this.state.logingIn = false;
 						this.emit("change");
 					}
 					
 				}
 			}.bind(this));
+	},
+
+	onLoginFBError() {
+		this.state.loginFailed = 'no_fb_email';
+		this.emit("change");
 	},
 
 	onLogout() {

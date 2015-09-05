@@ -3,10 +3,14 @@
  */
 
 export default {
+
     SIGNUP: "SIGNUP",
     SIGNUP_SUCCESS: "SIGNUP_SUCCESS",
     SIGNUP_FAIL: "SIGNUP_FAIL",
+
     LOGIN: "LOGIN",
+    LOGIN_FB_ERROR: "LOGIN_FB_ERROR",
+    
     LOGOUT: "LOGOUT",
 
     INFO_CHANGE: "INFO_CHANGE",

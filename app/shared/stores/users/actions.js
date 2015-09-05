@@ -15,6 +15,13 @@ export default {
         }.bind(this));
     },
 
+    // Can be used for more UI errors in the future
+    loginErr(type) { 
+        if(type ==='no_fb_email') {
+            this.dispatch(consts.LOGIN_FB_ERROR);
+        }
+    },
+
     login(type, token) {
         this.dispatch(consts.LOGIN, {
             type: type,
