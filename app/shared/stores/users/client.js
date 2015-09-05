@@ -54,6 +54,14 @@ export default {
             .send(payload);
     },
 
+    forgetPass(email) {
+        return request
+            .post('/auth/forget')
+            .type('json')
+            .accept('json')
+            .send({email:email});
+    },
+
     login(token, type) {
         let endpoint;
         let dataPackage = {token:token};

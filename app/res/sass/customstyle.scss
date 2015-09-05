@@ -811,6 +811,16 @@ footer {
       font-size: 12px;
     }
   }
+  p {
+    margin: 3px;
+  }
+
+  .forget-btn {
+    font-size: 13px;
+    color: lighten($shoutit-dark-gray,20%);
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
 
   .from-control, .input-group-addon {
     background-color: #fff;

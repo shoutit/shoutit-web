@@ -9,6 +9,7 @@ var Promise = require('bluebird'),
 
 var ENDPOINT_SERVER = process.env.API_URL || 'http://dev-api-shoutit-com-qm7w6bwy42b2.runscope.net/v2/',
 	ACCESSTOKEN_ENDPOINT = 'oauth2/access_token',
+	FORGETPASS_ENDPOINT = 'auth/reset_password',
 	USER_ENDPOINT = 'users/me',
 	CLIENT_ID = 'shoutit-web',
 	CLIENT_SECRET = '0db3faf807534d1eb944a1a004f9cee3',
@@ -164,6 +165,21 @@ module.exports = {
 			.catch(function(err) {
 				console.log('catch');
 				res.send(err);
+			});
+	},
+
+	forgetPass: function(req, res) {
+		return request
+			.post(url.resolve(ENDPOINT_SERVER, FORGETPASS_ENDPOINT))
+			.type('json')
+			.accept('json')
+			.send(req.body)
+			.end(function (err, response) {
+				if (err) {
+					res.status(500).send(err);
+				} else {
+					res.send(response.body);
+				}
 			});
 	},
 

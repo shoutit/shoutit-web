@@ -3,6 +3,7 @@
  */
 
 export default {
+    FORGET_RESULT: "FORGET_RESULT",
 
     SIGNUP: "SIGNUP",
     SIGNUP_SUCCESS: "SIGNUP_SUCCESS",

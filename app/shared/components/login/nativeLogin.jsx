@@ -1,5 +1,6 @@
 import React from 'react';
 import Clear from './../helper/clear.jsx';
+import {Link} from 'react-router';
 import {Input,Button} from 'react-bootstrap';
 
 export default React.createClass({

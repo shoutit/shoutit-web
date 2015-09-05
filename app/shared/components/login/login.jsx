@@ -6,10 +6,17 @@ import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 import DocumentTitle from 'react-document-title';
 import NativeLogin from './nativeLogin.jsx';
 import SocialLogin from './socialLogin.jsx';
+import ForgetPass from './forgetPass.jsx';
 
 export default React.createClass({
 	displayName: "Login",
 	mixins: [new FluxMixin(React), new StoreWatchMixin('users'), Navigation],
+
+	getInitialState() {
+		return {
+			forgetPass: false
+		}
+	},
 
 	getStateFromFlux() {
 		let flux = this.getFlux();
@@ -17,7 +24,8 @@ export default React.createClass({
 
 		return {
 			logingIn: store.logingIn,
-			loginFailed: store.loginFailed
+			loginFailed: store.loginFailed,
+			forgetResult: store.forgetResult
 		};
 	},
 
@@ -29,15 +37,20 @@ export default React.createClass({
 						<div className="top-login">
 							<img src="img/logo2.png"/>
 							<h4>What will you shout today</h4>
-
 						</div>
+
 						<p>{this.renderLoginError()}</p>
 						{this.renderNativeLogin()}
+						{this.renderForgetPass()}
 						<SocialLogin flux={this.getFlux()} loginFailed={this.state.loginFailed} />
 						
-						<p style={{fontSize:'17px',marginTop: '20px'}}>Don't have an account&#63;&nbsp;
+						<p style={{fontSize:'17px',marginTop: '20px'}}>
+							Don't have an account&#63;&nbsp;
 							<Link to="signup">Signup</Link>
 						</p>
+						<span className="forget-btn" onClick={() => this.setState({forgetPass: true})}>
+							forget your password?
+						</span>
 					</div>
 				</div>
 			</DocumentTitle>	
@@ -59,7 +72,12 @@ export default React.createClass({
 	},
 
 	renderNativeLogin() {
-		return this.state.loginFailed !== 'no_fb_email'?
+		return this.state.loginFailed !== 'no_fb_email' && !this.state.forgetPass?
 			<NativeLogin flux={this.getFlux()} logingIn={this.state.logingIn}/>: null;
+	},
+
+	renderForgetPass() {
+		return this.state.forgetPass?
+			<ForgetPass flux={this.getFlux()} res={this.state.forgetResult} />: null;
 	}
 });

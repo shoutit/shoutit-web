@@ -39,7 +39,8 @@ var UserStore = Fluxxor.createStore({
 			showDownloadPopup: false,
 			logingIn: false,
 			loginFailed: null,
-			signupStatus: {}
+			signupStatus: {},
+			forgetResult: null
 		};
 
 		if (props.loggedUser) {
@@ -85,6 +86,7 @@ var UserStore = Fluxxor.createStore({
 		this.router = props.router;
 
 		this.bindActions(
+			consts.FORGET_RESULT, this.onForgetResult,
 			consts.SIGNUP_SUCCESS, this.onSignupSuccess,
 			consts.SIGNUP_FAIL, this.onSignupFail,
 			consts.LOGIN, this.onLogin,
@@ -127,6 +129,15 @@ var UserStore = Fluxxor.createStore({
 	onSignupFail(data) {
 		this.state.signupStatus = data;
 		this.state.signupStatus.status = consts.SIGNUP_FAIL;
+		this.emit("change");
+	},
+
+	onForgetResult(payload) {
+		if (payload.email) {
+			this.state.forgetResult = payload.email[0];
+		} else if (payload.success) {
+			this.state.forgetResult = payload.success;
+		}
 		this.emit("change");
 	},
 

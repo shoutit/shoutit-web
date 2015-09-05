@@ -22,6 +22,16 @@ export default {
         }
     },
 
+    forgetPass(email) {
+        client.forgetPass(email).end(function(err,res) {
+            if(err) {
+                this.dispatch(consts.FORGET_RESULT, err);
+            } else {
+                this.dispatch(consts.FORGET_RESULT, res.body);
+            }
+        }.bind(this));
+    },
+
     login(type, token) {
         this.dispatch(consts.LOGIN, {
             type: type,
