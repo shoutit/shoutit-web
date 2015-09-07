@@ -38,8 +38,9 @@ var UserStore = Fluxxor.createStore({
 			loading: false,
 			showDownloadPopup: false,
 			logingIn: false,
-			loginFailed: false,
-			signupStatus: {}
+			loginFailed: null,
+			signupStatus: {},
+			forgetResult: null
 		};
 
 		if (props.loggedUser) {
@@ -85,9 +86,11 @@ var UserStore = Fluxxor.createStore({
 		this.router = props.router;
 
 		this.bindActions(
+			consts.FORGET_RESULT, this.onForgetResult,
 			consts.SIGNUP_SUCCESS, this.onSignupSuccess,
 			consts.SIGNUP_FAIL, this.onSignupFail,
 			consts.LOGIN, this.onLogin,
+			consts.LOGIN_FB_ERROR, this.onLoginFBError,
 			consts.LOGOUT, this.onLogout,
 			consts.INFO_CHANGE, this.onInfoChange,
 			consts.INFO_SAVE, this.onInfoSave,
@@ -129,6 +132,15 @@ var UserStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
+	onForgetResult(payload) {
+		if (payload.email) {
+			this.state.forgetResult = payload.email[0];
+		} else if (payload.success) {
+			this.state.forgetResult = payload.success;
+		}
+		this.emit("change");
+	},
+
 	onLogin(payload) {
 		this.state.logingIn = true;
 		this.emit("change");
@@ -137,7 +149,7 @@ var UserStore = Fluxxor.createStore({
 			.end(function (err, res) {
 				if (err) {
 					this.state.logingIn = false;
-					this.state.loginFailed = false;
+					this.state.loginFailed = null;
 					this.emit("change");
 					console.error(err);
 				} else {
@@ -146,18 +158,23 @@ var UserStore = Fluxxor.createStore({
 						this.state.users[loggedUser.username] = loggedUser;
 						this.state.user = loggedUser.username;
 						this.state.logingIn = false;
-						this.state.loginFailed = false;
+						this.state.loginFailed = null;
 						this.emit("change");
 						this.emit("login");
 						this.router.transitionTo('app');
 					} else { // login failed
-						this.state.loginFailed = true;
+						this.state.loginFailed = 'native_not_authorized';
 						this.state.logingIn = false;
 						this.emit("change");
 					}
 					
 				}
 			}.bind(this));
+	},
+
+	onLoginFBError() {
+		this.state.loginFailed = 'no_fb_email';
+		this.emit("change");
 	},
 
 	onLogout() {
