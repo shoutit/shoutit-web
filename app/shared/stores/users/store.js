@@ -94,6 +94,7 @@ var UserStore = Fluxxor.createStore({
 			consts.LOGOUT, this.onLogout,
 			consts.INFO_CHANGE, this.onInfoChange,
 			consts.INFO_SAVE, this.onInfoSave,
+			consts.PASS_CHANGE, this.onPassChange,
 			consts.LISTEN, this.onListen,
 			consts.STOP_LISTEN, this.onStopListen,
 			consts.LOAD_USER_LISTENERS, this.onLoadUserListeners,
@@ -198,6 +199,17 @@ var UserStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
+	onPassChange(dataPackage) {
+		client.changePass(dataPackage).end(function(err,res) {
+			if(err) {
+				console.log(err);
+			} else {
+				console.log(res.body);
+				this.emit("change");
+			}
+		}.bind(this));
+	},
+
 	onInfoSave(payload) {
 		if (this.state.users[this.state.user][payload.field]) {
 			var patch = {};
@@ -208,6 +220,7 @@ var UserStore = Fluxxor.createStore({
 				if (err) {
 					console.log(err);
 				} else {
+					console.log(res.body);
 					var loggedUser = res.body;
 					this.state.users[loggedUser.username] = loggedUser;
 					this.state.user = loggedUser.username;

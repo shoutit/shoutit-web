@@ -57,6 +57,14 @@ export default {
         });
     },
 
+    changePass(payload) {
+        this.dispatch(consts.PASS_CHANGE, {
+            old_password: payload.value[0],
+            new_password: payload.value[1],
+            new_password2: payload.value[2]
+        });
+    },
+
     listen(username) {
         this.dispatch(consts.LISTEN, {
             username: username

@@ -4,6 +4,7 @@ import {Col} from 'react-bootstrap';
 
 import BasicInfo from './settings/basicInformation.jsx';
 import ContactInfos from './settings/contactInfos.jsx';
+import AccountInfo from './settings/accountInfo.jsx';
 
 export default React.createClass({
 	displayName: "ProfileSettings",
@@ -14,16 +15,22 @@ export default React.createClass({
 
 		return (
 			<Col xs={12} md={12} className="profile-right">
-				<BasicInfo user={user} onSaveClicked={this.onSaveClicked} onInfoChange={this.onInfoChange}/>
+				<BasicInfo user={user} onSaveClicked={this.onSaveClicked} 
+							  onInfoChange={this.onInfoChange}/>
 				<ContactInfos user={user} onSaveClicked={this.onSaveClicked}
+							  onInfoChange={this.onInfoChange}/>
+				<AccountInfo user={user} onSaveClicked={this.onSaveClicked} 
 							  onInfoChange={this.onInfoChange}/>
 			</Col>
 		);
 	},
 
 	onSaveClicked(field, newValue) {
-		this.props.flux.actions.saveInfo(field, newValue);
+		let flux = this.props.flux;
 
+		field !== 'password'?
+			flux.actions.saveInfo(field, newValue):
+			flux.actions.changePass(newValue);
 	},
 
 	componentWillMount() {

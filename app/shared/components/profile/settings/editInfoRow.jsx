@@ -13,10 +13,11 @@ export default React.createClass({
 	},
 
 	renderDescr() {
-		return this.props.type !== "password" ? (
-			<Col xs={12} sm={4} md={3}>
-				<h4>{this.props.title}</h4>
-			</Col>
+		return this.props.type !== "password" || 
+			this.props.type === "password" && !this.state.edit? (
+				<Col xs={12} sm={4} md={3}>
+					<h4>{this.props.title}</h4>
+				</Col>
 		) : null;
 	},
 
@@ -77,6 +78,15 @@ export default React.createClass({
 			<Col xs={12} sm={12} md={8}>
 				<Col xs={12} sm={6} md={12} className={classNames(classes)}>
 					<Col md={5} className="t-edit-left">
+						<h4>Current password</h4>
+					</Col>
+
+					<div className="t-edit-text">
+						<input ref="oldPasswordInput" type="password"/>
+					</div>
+				</Col>
+				<Col xs={12} sm={6} md={12} className={classNames(classes)}>
+					<Col md={5} className="t-edit-left">
 						<h4>New password</h4>
 					</Col>
 
@@ -103,7 +113,8 @@ export default React.createClass({
 		let classes = {
 			"info-basic": true,
 			"t-info-basic": !isEditState,
-			"t-edit-info": isEditState
+			"t-edit-info": isEditState,
+			"change-pass": type==='password'
 		};
 
 		let renderedInput = type === "password" && isEditState ?
@@ -139,11 +150,12 @@ export default React.createClass({
 	onSaveClick() {
 		if (this.props.onSaveClicked) {
 			if (this.props.type === "password") {
-				let password = this.refs.passwordInput.getDOMNode().value,
+				let oldPassword = this.refs.oldPasswordInput.getDOMNode().value,
+					password = this.refs.passwordInput.getDOMNode().value,
 					retypePassword = this.refs.passwordRetypeInput.getDOMNode().value;
 				if (password === retypePassword) {
 					this.props.onSaveClicked({
-						value: [password, retypePassword]
+						value: [oldPassword, password, retypePassword]
 					});
 				}
 			} else {

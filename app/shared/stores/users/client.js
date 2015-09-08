@@ -9,6 +9,12 @@ export default {
             .send(update);
     },
 
+    changePass(query) {
+        return request
+            .post('/api/auth/change_password')
+            .send(query);
+    },
+
     get(username) {
         return request
             .get(PREFIX + '/' + username);

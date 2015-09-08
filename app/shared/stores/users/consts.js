@@ -16,6 +16,7 @@ export default {
 
     INFO_CHANGE: "INFO_CHANGE",
     INFO_SAVE: "INFO_SAVE",
+    PASS_CHANGE: "PASS_CHANGE",
 
     LISTEN: "LISTEN",
     STOP_LISTEN: "STOP_LISTEN",
