@@ -40,7 +40,8 @@ var UserStore = Fluxxor.createStore({
 			logingIn: false,
 			loginFailed: null,
 			signupStatus: {},
-			forgetResult: null
+			forgetResult: null,
+			editors: {}
 		};
 
 		if (props.loggedUser) {
@@ -200,13 +201,25 @@ var UserStore = Fluxxor.createStore({
 	},
 
 	onPassChange(dataPackage) {
+		this.state.editors["password"] = {};
+		this.state.editors["password"].loading = true;
+		this.emit("change");
+
 		client.changePass(dataPackage).end(function(err,res) {
 			if(err) {
 				console.log(err);
+				this.state.editors["password"].loading = false;
 			} else {
-				console.log(res.body);
-				this.emit("change");
+				if (res.body.success) {
+					this.state.editors["password"] = {loading: false,msg:res.body.success};
+				} else {
+					// find errors
+					if (res.body)
+					this.state.editors["password"] = 
+						{loading: false,msg:'Current password does not match!'};
+				}	
 			}
+			this.emit("change");
 		}.bind(this));
 	},
 

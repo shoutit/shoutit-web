@@ -58,11 +58,16 @@ export default {
     },
 
     changePass(payload) {
-        this.dispatch(consts.PASS_CHANGE, {
-            old_password: payload.value[0],
-            new_password: payload.value[1],
-            new_password2: payload.value[2]
-        });
+        let dataPackage = {}
+        if (payload.value.length === 3) {
+            dataPackage.old_password = payload.value[0];
+            dataPackage.new_password = payload.value[1];
+            dataPackage.new_password2 = payload.value[2];
+        } else {
+            dataPackage.new_password = payload.value[0];
+            dataPackage.new_password2 = payload.value[1];
+        }
+        this.dispatch(consts.PASS_CHANGE, dataPackage);
     },
 
     listen(username) {

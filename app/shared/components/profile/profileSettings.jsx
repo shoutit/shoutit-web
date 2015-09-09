@@ -19,7 +19,7 @@ export default React.createClass({
 							  onInfoChange={this.onInfoChange}/>
 				<ContactInfos user={user} onSaveClicked={this.onSaveClicked}
 							  onInfoChange={this.onInfoChange}/>
-				<AccountInfo user={user} onSaveClicked={this.onSaveClicked} 
+				<AccountInfo status={this.props.editors} user={user} onSaveClicked={this.onSaveClicked} 
 							  onInfoChange={this.onInfoChange}/>
 			</Col>
 		);

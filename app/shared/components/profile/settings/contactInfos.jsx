@@ -9,14 +9,15 @@ export default React.createClass({
 
 	render() {
 		let user = this.props.user;
+		let settings = {};
 
 		return (
 			<div className="pro-basic">
 				<h3>Contact Information</h3>
 				<Clear/>
-				<EditInfoRow title="Email" value={user.email}
+				<EditInfoRow settings={settings} title="Email" value={user.email}
 							 onSaveClicked={this.onSaveClicked("email")} onChange={this.onInfoChange("email")}/>
-				<EditInfoRow title="Address" value={user.location.address}
+				<EditInfoRow settings={settings} title="Address" value={user.location.address}
 							 onSaveClicked={this.onSaveClicked("address")} onChange={this.onInfoChange("address")}/>
 			</div>
 		);
