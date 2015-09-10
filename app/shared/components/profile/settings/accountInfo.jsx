@@ -3,22 +3,25 @@ import React from 'react';
 import {Clear} from '../../helper';
 import EditInfoRow from './editInfoRow.jsx';
 
-
 export default React.createClass({
-	displayName: "ContactInformations",
+	displayName: "AccountInfo",
 
 	render() {
 		let user = this.props.user;
 		let settings = {};
 
+		settings.has_old_password = user['is_password_set'];
+		if (this.props.status.hasOwnProperty("password")) {
+			settings.loading = this.props.status.password.loading;
+			settings.msg = this.props.status.password.msg;
+		}
+		
 		return (
 			<div className="pro-basic">
-				<h3>Contact Information</h3>
+				<h3>Account Information</h3>
 				<Clear/>
-				<EditInfoRow settings={settings} title="Email" value={user.email}
-							 onSaveClicked={this.onSaveClicked("email")} onChange={this.onInfoChange("email")}/>
-				<EditInfoRow settings={settings} title="Address" value={user.location.address}
-							 onSaveClicked={this.onSaveClicked("address")} onChange={this.onInfoChange("address")}/>
+				<EditInfoRow settings={settings} title="Change Password" type="password"
+							 onSaveClicked={this.onSaveClicked("password")} onChange={this.onInfoChange("password")}/>
 			</div>
 		);
 	},

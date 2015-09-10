@@ -1,7 +1,7 @@
 var request = require('superagent'),
 	url = require('url');
 
-var ENDPOINT_SERVER = process.env.API_URL || 'http://dev-api-shoutit-com-qm7w6bwy42b2.runscope.net/v2/',
+var ENDPOINT_SERVER = process.env.API_URL,
 	SETPASS_ENDPOINT = 'auth/set_password';
 
 function handleGet(req, res) {

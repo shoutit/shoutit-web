@@ -8,12 +8,13 @@ export default React.createClass({
 
 	render() {
 		let user = this.props.user;
+		let settings = {};
 
 		return (
 			<div className="pro-basic">
 				<h3>Basic Information</h3>
 				<Clear/>
-				<EditInfoRow title="User Name" value={user.username}
+				<EditInfoRow settings={settings} title="User Name" value={user.username}
 							 onSaveClicked={this.onSaveClicked("username")} onChange={this.onInfoChange("username")}/>
 			</div>
 		);

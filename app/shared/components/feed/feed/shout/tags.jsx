@@ -11,7 +11,7 @@ export default React.createClass({
 	},
 
 	render() {
-		let children = this.props.tags.slice(0, 2).map(function (tag) {
+		let children = this.props.tags.map(function (tag) {
 			return <Tag key={"tag-" + tag.id} tag={tag}/>;
 		});
 
