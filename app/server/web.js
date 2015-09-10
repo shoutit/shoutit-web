@@ -17,7 +17,8 @@ var React = require('react'),
 var oauth = require('./auth/oauth'),
 	ShoutitClient = require('./resources'),
 	apiRouter = require('./routes'),
-	resetPass = require('./services/resetPassword');
+	resetPass = require('./services/resetPassword'),
+	verifyEmail = require('./services/verifyEmail');
 
 var Flux = require('../shared/flux'),
 	Routes = require('../shared/routes.jsx')(null),
@@ -334,6 +335,8 @@ module.exports = function (app) {
 
 	servicesRouter.get('/reset_password', resetPass.get);
 	servicesRouter.post('/reset_password', resetPass.post);
+
+	servicesRouter.get('/verify_email', verifyEmail);
 
 	app.use('/auth', authRouter);
 	app.use('/services', servicesRouter);
