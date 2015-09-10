@@ -2,10 +2,9 @@
  * Created by Philip on 27.02.2015.
  */
 var rest = require('restler');
+var ENDPOINT_SERVER = process.env.API_URL;
 
 console.log("API_URL:", process.env.API_URL);
-
-var ENDPOINT_SERVER = process.env.API_URL || 'https://api.shoutit.com/v2/';
 
 var ShoutitClient = rest.service(function (endpoint) {
 	this.defaults.headers = {

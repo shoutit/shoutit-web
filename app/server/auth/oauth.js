@@ -7,7 +7,7 @@ var Promise = require('bluebird'),
 	request = require('superagent');
 
 
-var ENDPOINT_SERVER = process.env.API_URL || 'http://dev-api-shoutit-com-qm7w6bwy42b2.runscope.net/v2/',
+var ENDPOINT_SERVER = process.env.API_URL,
 	ACCESSTOKEN_ENDPOINT = 'oauth2/access_token',
 	FORGETPASS_ENDPOINT = 'auth/reset_password',
 	USER_ENDPOINT = 'users/me',

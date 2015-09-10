@@ -30,7 +30,8 @@ gulp.task(devServerTask, function () {
 		ext: 'js',
 		env: {
 			'NODE_ENV': 'developmentLocal',
-			'API_URL': 'http://dev.api.shoutit.com/v2/'
+			'API_URL': process.env.API_URL || 'http://dev.api.shoutit.com/v2/',
+			'REDIS_HOST': process.env.REDIS_HOST || 'localhost'
 		}
 	});
 });

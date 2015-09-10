@@ -223,9 +223,7 @@ var redisOptions = {
 	db: 11
 };
 
-if (process.env.REDIS_HOST) {
-	redisOptions.host = process.env.REDIS_HOST || "localhost";
-}
+redisOptions.host = process.env.REDIS_HOST || "localhost";
 
 console.log("REDIS_HOST:", redisOptions.host);
 
