@@ -65,7 +65,7 @@ export default React.createClass({
 	renderText(shout) {
 		return (
 			<ItemProp property="description">
-				<p>{shout.text.replace(/(?:\r\n|\r|\n)/g, '<br />')}</p>
+				<p>{shout.text}</p>
 			</ItemProp>
 		);
 	}
