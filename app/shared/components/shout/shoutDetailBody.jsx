@@ -87,7 +87,7 @@ export default React.createClass({
 	,
 
 	renderActions() {
-		return (<ShoutDetailActions/>);
+		//return (<ShoutDetailActions/>);
 	}
 	,
 
