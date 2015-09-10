@@ -33,7 +33,7 @@ export default React.createClass({
 			form =
 			<div>
 				<div className="top-login">
-					<img src="img/logo2.png"/>
+					<Link to="app"><img src="img/logo2.png"/></Link>
 					<h4>Signup and become a Shoutit member!</h4>
 				</div>
 				<form onSubmit={this.onSignupSubmit}>
@@ -98,6 +98,9 @@ export default React.createClass({
 					<div className="login-container">
 						{form}
 						<Clear />
+						<span className="link-item" style={{float:'left',color:'#8a8a88'}} onClick={() => this.transitionTo('login')}>
++							Back to signin page
++						</span>
 					</div>
 				</div>
 			</DocumentTitle>

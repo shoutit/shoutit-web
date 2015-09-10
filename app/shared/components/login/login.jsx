@@ -35,7 +35,7 @@ export default React.createClass({
 				<div className="login">
 					<div className="login-container">
 						<div className="top-login">
-							<img src="img/logo2.png"/>
+							<Link to="app"><img src="img/logo2.png"/></Link>
 							<h4>What will you shout today</h4>
 						</div>
 
