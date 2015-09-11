@@ -70,6 +70,10 @@ export default {
         this.dispatch(consts.PASS_CHANGE, dataPackage);
     },
 
+    verifyEmail(token) {
+        this.dispatch(consts.VERIFY_EMAIL, {token: token});
+    },
+
     listen(username) {
         this.dispatch(consts.LISTEN, {
             username: username

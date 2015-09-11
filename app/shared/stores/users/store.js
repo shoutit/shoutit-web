@@ -41,7 +41,8 @@ var UserStore = Fluxxor.createStore({
 			loginFailed: null,
 			signupStatus: {},
 			forgetResult: null,
-			editors: {}
+			editors: {},
+			verifyResponse: ''
 		};
 
 		if (props.loggedUser) {
@@ -87,6 +88,7 @@ var UserStore = Fluxxor.createStore({
 		this.router = props.router;
 
 		this.bindActions(
+			consts.VERIFY_EMAIL, this.onEmailVerify,
 			consts.FORGET_RESULT, this.onForgetResult,
 			consts.SIGNUP_SUCCESS, this.onSignupSuccess,
 			consts.SIGNUP_FAIL, this.onSignupFail,
@@ -114,6 +116,30 @@ var UserStore = Fluxxor.createStore({
 			return Number(parsed.query.page);
 		}
 		return null;
+	},
+
+	onEmailVerify(token) {
+		client.verify(token)
+			.end(function(err, res){
+				if(err){
+					console.log(err);
+				} else {
+					if(res.status === 200) {
+						let loggedUser = res.body;
+						if (typeof loggedUser.username !== 'undefined') {
+							this.state.users[loggedUser.username] = loggedUser;
+							this.state.user = loggedUser.username;
+							this.state.verifyResponse = 'SUCCESS';
+							this.emit("change");
+							this.emit("login");
+						}
+					} else {
+						this.state.verifyResponse = res.body;
+						this.emit("change");
+					}
+					
+				}
+			}.bind(this));
 	},
 
 	onSignupSuccess(data) {
