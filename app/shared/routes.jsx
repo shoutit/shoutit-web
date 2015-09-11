@@ -76,7 +76,7 @@ export default function (envData) {
 			</Route>
 			<Route name="login" handler={Login}/>
 			<Route name="signup" handler={Signup}/>
-			<Route name="verifyEmail" path="/verify/?:token" handler={VerifyEmail}/>
+			<Route name="verifyEmail" path="/auth/verify_email" handler={VerifyEmail}/>
 			<NotFoundRoute handler={NotFound}/>
 		</Route>
 	);

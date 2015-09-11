@@ -32,10 +32,10 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
-		if(this.props.params.token) {
+		if(this.props.query.token) {
 			let flux = this.getFlux();
 
-			flux.actions.verifyEmail(this.props.params.token);
+			flux.actions.verifyEmail(this.props.query.token);
 		}
 	},
 
