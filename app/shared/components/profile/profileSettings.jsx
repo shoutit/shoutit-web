@@ -18,7 +18,8 @@ export default React.createClass({
 				<BasicInfo user={user} onSaveClicked={this.onSaveClicked} 
 							  onInfoChange={this.onInfoChange}/>
 				<ContactInfos user={user} onSaveClicked={this.onSaveClicked}
-							  onInfoChange={this.onInfoChange}/>
+							  onInfoChange={this.onInfoChange}
+							  onVerifyClicked={this.handleVerify}/>
 				<AccountInfo status={this.props.editors} user={user} onSaveClicked={this.onSaveClicked} 
 							  onInfoChange={this.onInfoChange}/>
 			</Col>
@@ -41,5 +42,9 @@ export default React.createClass({
 
 	onInfoChange(field, newValue) {
 		this.props.flux.actions.changeInfo(field, newValue);
+	},
+
+	handleVerify(field) {
+		this.props.flux.actions.resendEmailVerif();
 	}
 });

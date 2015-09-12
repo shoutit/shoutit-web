@@ -9,31 +9,43 @@ export default React.createClass({
 
 	render() {
 		let user = this.props.user;
-		let settings = {};
+		console.log(user);
+		let settings = {
+			email: {
+				has_verify_btn: true,
+				is_verified: !user.is_activated
+			}
+		};
 
 		return (
 			<div className="pro-basic">
 				<h3>Contact Information</h3>
 				<Clear/>
-				<EditInfoRow settings={settings} title="Email" value={user.email}
-							 onSaveClicked={this.onSaveClicked("email")} onChange={this.onInfoChange("email")}/>
+				<EditInfoRow settings={settings.email} title="Email" value={user.email}
+							 onSaveClicked={this.onSaveClicked("email")} onChange={this.onInfoChange("email")}
+							 onVerifyClicked={this.onVerifyClicked()}/>
 				<EditInfoRow settings={settings} title="Address" value={user.location.address}
 							 onSaveClicked={this.onSaveClicked("address")} onChange={this.onInfoChange("address")}/>
 			</div>
 		);
 	},
 
-	onSaveClicked: function (field) {
+	onSaveClicked(field) {
 		let action = this.props.onSaveClicked;
 		return function (newValue) {
 			action(field, newValue);
 		};
 	},
 
-	onInfoChange: function (field) {
+	onInfoChange(field) {
 		let action = this.props.onInfoChange;
 		return function (newValue) {
 			action(field, newValue);
 		};
+	},
+
+	onVerifyClicked() {
+		let action = this.props.onVerifyClicked;
+		return (field) => action(field);
 	}
 });

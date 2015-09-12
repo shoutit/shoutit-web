@@ -87,6 +87,7 @@ var UserStore = Fluxxor.createStore({
 		this.router = props.router;
 
 		this.bindActions(
+			consts.RESEDND_EMAIL_VERIF, this.onResendEmail,
 			consts.FORGET_RESULT, this.onForgetResult,
 			consts.SIGNUP_SUCCESS, this.onSignupSuccess,
 			consts.SIGNUP_FAIL, this.onSignupFail,
@@ -223,6 +224,7 @@ var UserStore = Fluxxor.createStore({
 		}.bind(this));
 	},
 
+
 	onInfoSave(payload) {
 		if (this.state.users[this.state.user][payload.field]) {
 			var patch = {};
@@ -244,6 +246,14 @@ var UserStore = Fluxxor.createStore({
 		}
 		this.state.loading = true;
 		this.emit("change");
+	},
+
+	onResendEmail() {
+		let user = this.state.users[this.state.user];
+		if(user) {
+			client.resendEmail(user.email).end();
+		}
+		
 	},
 
 	onListen(payload) {

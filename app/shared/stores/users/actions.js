@@ -70,6 +70,10 @@ export default {
         this.dispatch(consts.PASS_CHANGE, dataPackage);
     },
 
+    resendEmailVerif() {
+        this.dispatch(consts.RESEDND_EMAIL_VERIF);
+    },
+
     listen(username) {
         this.dispatch(consts.LISTEN, {
             username: username
