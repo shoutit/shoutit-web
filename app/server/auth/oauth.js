@@ -50,7 +50,11 @@ function requestAccessToken(type, grantToken) {
 				if (err) {
 					reject(err);
 				} else {
-					resolve(res.body);
+					if(res.status === 400) {
+						reject(res.body);
+					} else {
+						resolve(res.body);
+					}	
 				}
 			});
 	});
@@ -105,7 +109,6 @@ function fetchUser(accessToken) {
 			.accept('json')
 			.end(function (err, resp) {
 				if (err) {
-					console.error(err);
 					reject(err);
 				} else {
 					if (resp.body.id) {
@@ -130,8 +133,7 @@ function auth(type) {
 					res.json(user);
 				})
 				.catch(function (err) {
-					console.log(err);
-					res.status(500).send(err);
+					res.status(400).send(err);
 				});
 		} else {
 			res.status(400).send('Bad Request');
@@ -160,10 +162,9 @@ module.exports = {
 			.then(fetchUser)
 			.then(function (user) {
 				req.session.user = user;
-				res.json(user);
+				res.status(200).json(user);
 			})
 			.catch(function(err) {
-				console.log('catch');
 				res.send(err);
 			});
 	},
