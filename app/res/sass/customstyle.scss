@@ -145,6 +145,10 @@ body {
   max-height: 7.7em;
   text-overflow: ellipsis;
   overflow: hidden;
+  white-space: pre-line;
+  &.detail {
+    max-height: none;
+  }
 }
 
 .section-right-img > img:first-child {

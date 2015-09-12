@@ -65,7 +65,7 @@ export default React.createClass({
 	renderText(shout) {
 		return (
 			<ItemProp property="description">
-				<p>{shout.text}</p>
+				<p className="detail">{shout.text}</p>
 			</ItemProp>
 		);
 	}
