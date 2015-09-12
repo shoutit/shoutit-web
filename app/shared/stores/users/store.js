@@ -179,9 +179,7 @@ var UserStore = Fluxxor.createStore({
 					this.state.logingIn = false;
 					this.state.loginFailed = null;
 					this.emit("change");
-					console.error(err);
 				} else {
-					console.log(res.body);
 					if(res.status !== 200) { // API error
 						let apiErr = res.body;
 						if(apiErr.email)
