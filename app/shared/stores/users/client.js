@@ -22,6 +22,13 @@ export default {
             .send({email:email});
     },
 
+    verify(payload) {
+        return request
+            .get('/services/verify_email')
+            .query({verify_token: payload.token});
+
+    },
+
     get(username) {
         return request
             .get(PREFIX + '/' + username);

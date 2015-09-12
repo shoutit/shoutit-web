@@ -74,6 +74,11 @@ export default {
         this.dispatch(consts.RESEDND_EMAIL_VERIF);
     },
 
+    verifyEmail(token) {
+        this.dispatch(consts.VERIFY_EMAIL, {token: token});
+
+    },
+
     listen(username) {
         this.dispatch(consts.LISTEN, {
             username: username

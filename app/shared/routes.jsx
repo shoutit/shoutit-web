@@ -4,6 +4,7 @@ import React from 'react';
 import Root from './components/root.jsx';
 import Login from './components/login/login.jsx';
 import Signup from './components/login/signup.jsx';
+import VerifyEmail from './components/user/verifyEmail.jsx';
 import App from './components/app.jsx';
 import Reduced from './components/reduced/reduced.jsx';
 
@@ -75,6 +76,7 @@ export default function (envData) {
 			</Route>
 			<Route name="login" handler={Login}/>
 			<Route name="signup" handler={Signup}/>
+			<Route name="verifyEmail" path="/auth/verify_email" handler={VerifyEmail}/>
 			<NotFoundRoute handler={NotFound}/>
 		</Route>
 	);

@@ -67,10 +67,12 @@ export default React.createClass({
 					<Button bsSize='large' type='submit' block disabled={!this.state.tosChecked}
 					className={this.state.loading? 'btn-signin btn-signin-disabled':'btn-signin'}>
 					{this.state.loading? 'Signing Up...': 'Sign Up'}</Button>
-					<Input onChange={this.handleTos} checked={this.state.tosChecked} type='checkbox' label='I accept shoutit terms of use'
+					<Input onChange={this.handleTos} checked={this.state.tosChecked} type='checkbox' label='I accept Shoutit terms of use'
 					 disabled={this.state.loading} />
-
 				</form>
+				<span className="link-item" style={{float:'left',color:'#8a8a88'}} onClick={() => this.transitionTo('login')}>
+					Back to Log In page
+				</span>
 			</div>;
 		} else {
 			form =
@@ -98,9 +100,6 @@ export default React.createClass({
 					<div className="login-container">
 						{form}
 						<Clear />
-						<span className="link-item" style={{float:'left',color:'#8a8a88'}} onClick={() => this.transitionTo('login')}>
-+							Back to signin page
-+						</span>
 					</div>
 				</div>
 			</DocumentTitle>
