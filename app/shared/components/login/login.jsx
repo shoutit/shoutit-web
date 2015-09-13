@@ -58,16 +58,12 @@ export default React.createClass({
 	},
 
 	renderLoginError() {
-		let msg;
-		switch(this.state.loginFailed) {
-			case 'native_not_authorized':
-				msg = 'The username or password is incorrect!';
-				return msg;
-			case 'no_fb_email':
-				msg = 'In order to enter Shoutit using your Facebook account you\
-				need to allow us access to your email permission. Please try again\
-				or use other sign-in methods.';
-				return msg;
+		if(this.state.loginFailed === 'no_fb_email') {
+			return 'In order to enter Shoutit using your Facebook account you\
+		 		need to allow us access to your email permission. Please try again\
+		 		or use other sign-in methods.';
+		} else {
+			return this.state.loginFailed;
 		}
 	},
 

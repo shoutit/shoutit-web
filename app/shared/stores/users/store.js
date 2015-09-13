@@ -179,23 +179,29 @@ var UserStore = Fluxxor.createStore({
 					this.state.logingIn = false;
 					this.state.loginFailed = null;
 					this.emit("change");
-					console.error(err);
 				} else {
-					let loggedUser = res.body;
-					if (typeof loggedUser.username !== 'undefined') {
-						this.state.users[loggedUser.username] = loggedUser;
-						this.state.user = loggedUser.username;
-						this.state.logingIn = false;
-						this.state.loginFailed = null;
-						this.emit("change");
-						this.emit("login");
-						this.router.transitionTo('app');
-					} else { // login failed
-						this.state.loginFailed = 'native_not_authorized';
+					if(res.status !== 200) { // API error
+						let apiErr = res.body;
+						if(apiErr.email)
+							this.state.loginFailed = apiErr.email;
+						if(apiErr.password)
+							this.state.loginFailed = apiErr.password;
+						if(apiErr.error)
+							this.state.loginFailed = apiErr.error;
 						this.state.logingIn = false;
 						this.emit("change");
+					} else {
+						let loggedUser = res.body;
+						if (typeof loggedUser.username !== 'undefined') {
+							this.state.users[loggedUser.username] = loggedUser;
+							this.state.user = loggedUser.username;
+							this.state.logingIn = false;
+							this.state.loginFailed = null;
+							this.emit("change");
+							this.emit("login");
+							this.router.transitionTo('app');
+						}
 					}
-					
 				}
 			}.bind(this));
 	},
