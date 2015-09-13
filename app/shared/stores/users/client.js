@@ -1,6 +1,7 @@
 import request from 'superagent';
 
 const PREFIX = "/api/users";
+const AUTH_PREFIX = "/api/auth";
 
 export default {
     update(update) {
@@ -11,14 +12,21 @@ export default {
 
     changePass(query) {
         return request
-            .post('/api/auth/change_password')
+            .post(AUTH_PREFIX + '/change_password')
             .send(query);
+    },
+
+    resendEmail(email) {
+        return request
+            .post(AUTH_PREFIX + '/verify_email')
+            .send({email:email});
     },
 
     verify(payload) {
         return request
             .get('/services/verify_email')
             .query({verify_token: payload.token});
+
     },
 
     get(username) {

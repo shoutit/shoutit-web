@@ -1,6 +1,3 @@
-/**
- * Created by Philip on 27.03.2015.
- */
 
 var ShoutClient = require('../../resources').auth();
 
@@ -10,5 +7,7 @@ var express = require('express'),
 router.route('/change_password')
 	.post(require('./changePassword')(ShoutClient));
 
+router.route('/verify_email')
+	.post(require('./verifyEmail')(ShoutClient));
 
 module.exports = router;

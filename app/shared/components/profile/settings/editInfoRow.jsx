@@ -9,7 +9,8 @@ export default React.createClass({
 		return {
 			edit: false,
 			value: this.props.value || "",
-			errorCheck: ''
+			errorCheck: '',
+			verifyClicked: false
 		};
 	},
 
@@ -40,7 +41,7 @@ export default React.createClass({
 			</p>;
 
 		return (
-			<Col xs={12} sm={4} md={this.state.edit ? 5 : 7} className={classNames(classes)}>
+			<Col xs={12} sm={4} md={5} className={classNames(classes)}>
 				{input}
 			</Col>
 		);
@@ -48,8 +49,9 @@ export default React.createClass({
 
 	renderButtons() {
 		return (
-			<Col xs={12} sm={4} md={this.state.edit ? 4 : 2}>
+			<Col xs={12} sm={4} md={4}>
 				{this.renderEditButton()}
+				{this.renderVerifyButton()}
 				{this.renderSaveButton()}
 				{this.renderCancelButton()}
 			</Col>
@@ -57,7 +59,27 @@ export default React.createClass({
 	},
 
 	renderEditButton() {
-		return this.state.edit ? null : <p className="edit t-edit" onClick={this.onEditClick}>Edit</p>;
+		return this.state.edit ? null : <p className="edit" onClick={this.onEditClick}>Edit</p>;
+	},
+
+	renderVerifyButton() {
+		let btn;
+		if (this.props.settings.has_verify_btn && !this.state.edit){
+
+			if (this.props.settings.is_verified){
+				btn = <p className="edit lg-btn verified" 
+					onClick={this.onVerifyClick}>Email Verified</p>;
+			}
+			else if (this.state.verifyClicked){
+				btn = <p className="edit lg-btn verified" 
+					onClick={this.onVerifyClick}>Email Sent</p>;
+			}
+			else {
+				btn = <p className="edit lg-btn" 
+					onClick={this.onVerifyClick}>Resend Verification</p>;
+			}
+			return btn;
+		}
 	},
 
 	renderSaveButton() {
@@ -159,6 +181,13 @@ export default React.createClass({
 			edit: true,
 			oldValue: this.state.value
 		});
+	},
+
+	onVerifyClick() {
+		if(this.props.onVerifyClicked) {
+			this.props.onVerifyClicked(this.props.type);
+			setTimeout(()=> this.setState({verifyClicked: true}),500);
+		}
 	},
 
 	onSaveClick() {

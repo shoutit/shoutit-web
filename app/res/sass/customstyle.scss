@@ -1090,10 +1090,24 @@ footer {
   height: 30px;
   line-height: 30px;
   text-align: center;
-  width: 40px;
-  margin-top: -5px;
+  width: auto;
+  margin: -5px 0 0 10px;
   float: right;
   cursor: pointer;
+  text-shadow:1px 1px 2px darken($shoutit-dark-gray,10%);
+  padding:0 5px;
+  font-size:1.35rem!important;
+  transition:background-color 0.4s;
+  &.lg-btn {
+    width:125px;
+    font-size:1.3rem!important;
+  }
+  &.verified {
+    background-color: #B2C861;
+    text-shadow:1px 1px 2px lighten($shoutit-dark-gray,10%);
+    pointer-events: none;
+    cursor: default;
+  }
 }
 
 .edit:hover {
