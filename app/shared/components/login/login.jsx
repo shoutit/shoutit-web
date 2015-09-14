@@ -59,9 +59,15 @@ export default React.createClass({
 
 	renderLoginError() {
 		if(this.state.loginFailed === 'no_fb_email') {
-			return 'In order to enter Shoutit using your Facebook account you\
-		 		need to allow us access to your email permission. Please try again\
-		 		or use other sign-in methods.';
+			return(
+				<div>
+					<p>In order to enter Shoutit using your Facebook account you
+			 		need to allow us access to your email permission. Please try again
+			 		or use other sign-in methods.</p>
+			 		<span className="forget-btn" onClick={() => this.setState({loginFailed: ''})}>
+						Go back to signin page
+					</span>
+				</div>);
 		} else {
 			return this.state.loginFailed;
 		}
