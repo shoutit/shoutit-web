@@ -447,11 +447,15 @@ var UserStore = Fluxxor.createStore({
 			loadedShouts = payload.result;
 
 		if (type === "offer") {
-			userShouts.offers = userShouts.offers.append(loadedShouts.results);
+			loadedShouts.results.forEach(function(val) {
+				userShouts.offers.push(val);
+			}.bind(this));
 			userShouts.maxOffers = Number(loadedShouts.count);
 			userShouts.nextOffersPage = this.parseNextPage(loadedShouts.next);
 		} else if (type === "request") {
-			userShouts.requests = userShouts.requests.append(loadedShouts.results);
+			loadedShouts.results.forEach(function(val) {
+				userShouts.requests.push(val);
+			}.bind(this));
 			userShouts.maxRequest = Number(loadedShouts.count);
 			userShouts.nextRequestsPage = this.parseNextPage(loadedShouts.next);
 		}
