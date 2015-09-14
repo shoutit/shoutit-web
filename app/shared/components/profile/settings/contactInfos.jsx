@@ -13,7 +13,7 @@ export default React.createClass({
 		let settings = {
 			email: {
 				has_verify_btn: true,
-				is_verified: !user.is_activated
+				is_verified: user.is_activated
 			}
 		};
 
