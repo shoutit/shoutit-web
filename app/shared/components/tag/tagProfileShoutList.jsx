@@ -3,6 +3,7 @@ import {Col} from 'react-bootstrap';
 import {Loader, Clear} from '../helper';
 
 import Shout from '../feed/feed/shout.jsx';
+import ViewportSensor from '../misc/ViewportSensor.jsx';
 
 let map = {
 	request: "Requests",
@@ -23,6 +24,7 @@ export default React.createClass({
 	renderTagProfileShouts(shouts) {
 		return shouts.length ? shouts.map(function (shout, i) {
 			return <Shout listType="small" key={"shout-" + i} shout={shout} index={i}/>;
+						  //last={i === shouts.length - 1 ? onLastVisibleChange : null}/>;
 		}) : <h4>No shouts.</h4>;
 	},
 
@@ -53,9 +55,40 @@ export default React.createClass({
 					<div className="listener-scroll ctn-offerpro" tabIndex="5000"
 						 style={{outline: "none"}}>
 						{content}
+						{this.renderViewportSensor()}
+						
 					</div>
 				</div>
 			</Col>
 		);
+	},
+
+	renderViewportSensor() {
+		if(this.props.loading) {
+			return (
+				<section>
+						<Col xs={12} md={12}>
+							<Loader />
+						</Col>
+				</section>);
+		} else {
+			return (
+				<section>
+					<Col xs={12} md={12}>
+						<ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
+					</Col>
+				</section>);
+		}
+	},
+
+	onLastVisibleChange(isVisible) {
+		if (isVisible) {
+			this.loadMore();
+		}
+	},
+
+	loadMore() {
+		this.props.flux.actions.loadMoreTagShouts(this.props.tagName, this.props.type);
+		//alert('last');
 	}
 });

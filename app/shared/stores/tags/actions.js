@@ -59,6 +59,13 @@ export default {
 		});
 	},
 
+	loadMoreTagShouts(tagName, type) {
+		this.dispatch(consts.LOAD_MORE_TAG_SHOUTS, {
+			tagName: tagName,
+			type: type
+		});
+	},
+
 	loadTags(query) {
 		this.dispatch(consts.LOAD_TAGS, {query});
 

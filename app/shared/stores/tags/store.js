@@ -1,7 +1,8 @@
 import Fluxxor from 'fluxxor';
-
+import url from 'url';
 import consts from './consts';
 import client from './client';
+
 
 var TagStore = Fluxxor.createStore({
 	initialize(props) {
@@ -16,7 +17,9 @@ var TagStore = Fluxxor.createStore({
 			this.state.tags[props.tag.name] = {
 				tag: null,
 				offers: null,
+				nextoffer: null,
 				requests: null,
+				nextrequest: null,
 				listeners: null
 			};
 
@@ -48,6 +51,7 @@ var TagStore = Fluxxor.createStore({
 			consts.STOP_LISTEN_TAG, this.onStopListenTag,
 			consts.LOAD_TAG_SHOUTS, this.onLoadTagShouts,
 			consts.LOAD_TAG_SHOUTS_SUCCESS, this.onLoadTagShoutsSuccess,
+			consts.LOAD_MORE_TAG_SHOUTS, this.onLoadMoreTagShouts,
 			consts.LOAD_TAG_LISTENERS, this.onLoadTagListeners,
 			consts.LOAD_TAG_LISTENERS_SUCCESS, this.onLoadTagListenersSuccess,
 			consts.LOAD_TAGS_SUCCESS, this.onLoadTagsSuccess,
@@ -58,6 +62,14 @@ var TagStore = Fluxxor.createStore({
 			consts.REQUEST_SPRITING_SUCCESS, this.onLoadTagsSpriteSuccess,
 			consts.REQUEST_SPRITING_FAILED, this.onRequestSpritingFailed
 		);
+	},
+
+	parseNextPage(nextUrl) {
+		if (nextUrl) {
+			var parsed = url.parse(nextUrl, true);
+			return Number(parsed.query.page);
+		}
+		return null;
 	},
 
 	onLoadTag(payload) {
@@ -84,8 +96,10 @@ var TagStore = Fluxxor.createStore({
 		if (!this.state.tags[tagName]) {
 			this.state.tags[tagName] = {
 				tag: null,
+				nextoffer: null,
 				offers: null,
 				requests: null,
+				nextrequest: null,
 				listeners: null
 			};
 		}
@@ -156,8 +170,53 @@ var TagStore = Fluxxor.createStore({
 	},
 
 	onLoadTagShoutsSuccess(payload) {
+		let next = this.parseNextPage(payload.res.next);
+		let tagShouts = this.state.tags[payload.tagName];
+
 		this.addTagEntry(payload.tagName);
-		this.state.tags[payload.tagName][payload.type + "s"] = payload.res.results;
+		tagShouts[payload.type + "s"] = payload.res.results;
+		tagShouts["next" + payload.type] = next;
+		this.state.loading = false;
+		this.emit("change");
+	},
+
+	onLoadMoreTagShouts(payload) {
+		let tagName = payload.tagName,
+			type = payload.type,
+			tagShouts = this.state.tags[tagName],
+			next = tagShouts["next" + type];
+			
+		if(next !== null) {
+			client.getShouts(tagName,{
+				shout_type:type,
+				page: next
+			}).end(function(err,res){
+				if (err) {
+					console.log(err);
+				} else {
+					this.onLoadMoreTagShoutsSuccess({
+						tagName: tagName,
+						res: res.body,
+						type: type
+					});
+				}
+			}.bind(this));
+			this.state.loading = true;
+			this.emit("change");
+		}
+	},
+
+	onLoadMoreTagShoutsSuccess(payload) {
+		let tagName = payload.tagName,
+			type = payload.type,
+			tagShouts = this.state.tags[tagName],
+			next = this.parseNextPage(payload.res.next),
+			data = payload.res.results;
+
+		data.forEach(function(val) {
+			tagShouts[type + "s"].push(val);
+		}.bind(this));
+		tagShouts["next" + type] = next;
 		this.state.loading = false;
 		this.emit("change");
 	},
