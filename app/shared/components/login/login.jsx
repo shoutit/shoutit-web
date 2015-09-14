@@ -36,7 +36,7 @@ export default React.createClass({
 					<div className="login-container">
 						<div className="top-login">
 							<Link to="app"><img src="img/logo2.png"/></Link>
-							<h4>What will you shout today</h4>
+							<h4><b>EASY.&nbsp;&nbsp;&nbsp;LOCAL.&nbsp;&nbsp;&nbsp;FREE.</b></h4>
 						</div>
 
 						<p>{this.renderLoginError()}</p>
@@ -46,7 +46,7 @@ export default React.createClass({
 						
 						<p style={{fontSize:'17px',marginTop: '20px'}}>
 							Don't have an account&#63;&nbsp;
-							<Link to="signup">Signup</Link>
+							<Link to="signup">Sign Up</Link>
 						</p>
 						<span className="forget-btn" onClick={() => this.setState({forgetPass: true})}>
 							forget your password?

@@ -34,7 +34,7 @@ export default React.createClass({
 			<div>
 				<div className="top-login">
 					<Link to="app"><img src="img/logo2.png"/></Link>
-					<h4>Signup and become a Shoutit member!</h4>
+					<h4>Sign up for Shoutit marketplace!</h4>
 				</div>
 				<form onSubmit={this.onSignupSubmit}>
 					{(() => { // alert code
@@ -95,7 +95,7 @@ export default React.createClass({
 
 
 		return(
-			<DocumentTitle title="Signup - ShoutIt">
+			<DocumentTitle title="SignUp - ShoutIt">
 				<div className="login">
 					<div className="login-container">
 						{form}
