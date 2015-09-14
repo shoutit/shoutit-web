@@ -65,7 +65,7 @@ export default React.createClass({
 			 		need to allow us access to your email permission. Please try again
 			 		or use other sign-in methods.</p>
 			 		<span className="forget-btn" onClick={() => this.setState({loginFailed: ''})}>
-						Go back to signin page
+						Go back to Login page
 					</span>
 				</div>);
 		} else {
