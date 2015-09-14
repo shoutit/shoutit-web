@@ -36,7 +36,7 @@ export default React.createClass({
 
 	componentWillMount() {
 		if (!this.props.user || !this.props.users[this.props.username].is_owner) {
-			this.transitionTo("useroffers", {username: this.props.username});
+			this.replaceWith("useroffers", {username: this.props.username});
 		}
 	},
 
