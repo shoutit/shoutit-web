@@ -2,6 +2,17 @@
   "name": "shoutit-web",
   "version": "0.0.1",
   "dependencies": {
+    "react-dropzone-component": {
+      "version": "0.5.3",
+      "from": "react-dropzone-component@*",
+      "resolved": "https://registry.npmjs.org/react-dropzone-component/-/react-dropzone-component-0.5.3.tgz",
+      "dependencies": {
+        "dropzone": {
+          "version": "4.0.1",
+          "from": "p0o/dropzone#e4b1cda"
+        }
+      }
+    },
     "babel": {
       "version": "5.1.13",
       "from": "babel@*",

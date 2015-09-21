@@ -10,12 +10,16 @@ export default React.createClass({
 
 	getStateFromFlux() {
 		let storeState = this.getFlux().store('shouts').getState(),
-			locationState = this.getFlux().store('locations').getState().current;
+			locationState = this.getFlux().store('locations').getState().current,
+			username = this.getFlux().store('users').getState().user;
 		return {
 			currencies: storeState.currencies,
 			categories: storeState.categories,
 			draft: storeState.draft,
-			current: locationState
+			current: locationState,
+			status:storeState.status,
+			waiting: storeState.waiting,
+			username: username
 		};
 	},
 
@@ -31,7 +35,7 @@ export default React.createClass({
 				<div className="modal-body">
 					<div className="modal-logo">
 						<div className="logo">
-							<img src="/img/logo2.png"/>
+							<img style={{height:'50px'}} src="/img/logo2.png"/>
 						</div>
 						<div className="slogun">
 							<p>Shout an Offer</p>

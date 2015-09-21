@@ -62,6 +62,10 @@ export default {
 		this.dispatch(consts.SEND_SHOUT);
 	},
 
+	removeShoutImage(fileName) {
+		this.dispatch(consts.REMOVE_SHOUT_IMAGE, {fileName});
+	},
+
 	sendShoutReply(shoutId, message) {
 		this.dispatch(consts.SEND_SHOUT_REPLY, {shoutId, message});
 

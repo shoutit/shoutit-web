@@ -27,7 +27,8 @@ function shoutDraftInit() {
 		tags: [],
 		latLng: null,
 		type: "offer",
-		category: null
+		category: null,
+		images:[]
 	};
 }
 
@@ -49,7 +50,9 @@ let ShoutStore = Fluxxor.createStore({
 			categories: [],
 			sortTypes: {},
 			draft: shoutDraftInit(),
-			replyDrafts: {}
+			replyDrafts: {},
+			status: {},
+			waiting:false
 		};
 
 		if (props.currencies) {
@@ -93,6 +96,7 @@ let ShoutStore = Fluxxor.createStore({
 			consts.LOAD_SHOUT_FAILED, this.onLoadShoutFailed,
 			consts.CHANGE_SHOUT_DRAFT, this.onChangeShoutDraft,
 			consts.SEND_SHOUT, this.onSendShout,
+			consts.REMOVE_SHOUT_IMAGE, this.onRemoveShoutImage,
 			consts.CHANGE_SHOUT_REPLY_DRAFT, this.onChangeShoutReplyDraft,
 			consts.SEND_SHOUT_REPLY, this.onSendShoutReply,
 			consts.SEND_SHOUT_REPLY_FAILED, this.onReqFailed
@@ -268,25 +272,30 @@ let ShoutStore = Fluxxor.createStore({
 
 	onChangeShoutDraft({key, value}) {
 		this.state.draft[key] = value;
-		console.log(this.state.draft);
 		this.emit("change");
 	},
 
 	onSendShout() {
+		this.state.waiting = true;
+		this.emit("change");
 		this.validateDraft(this.state.draft)
 			.then(this.transformDraft.bind(this))
 			.then(this.sendShout)
 			.then(function (result) {
+				this.state.status = result;
+				this.state.waiting = false;
+				this.emit("change");
 				console.log(result);
-			}, function (err) {
-				console.error(err);
-			});
-
+			}.bind(this),
+			function (err) {
+				this.state.status = err;
+				this.state.waiting = false;
+				this.emit("change");
+				console.log(err);
+			}.bind(this));
 	},
 
 	sendShout(shoutDraft) {
-		console.log(shoutDraft);
-
 		return new Promise(function (resolve, reject) {
 			client.create(shoutDraft)
 				.end(function (err, res) {
@@ -309,6 +318,7 @@ let ShoutStore = Fluxxor.createStore({
 			shoutToSend.text = shoutDraft.text;
 			shoutToSend.type = shoutDraft.type;
 			shoutToSend.price = shoutDraft.price;
+			shoutToSend.images = shoutDraft.images;
 			shoutToSend.currency = shoutDraft.currency.code;
 			shoutToSend.location = {
 				latitude: shoutDraft.latLng.lat(),
@@ -362,6 +372,15 @@ let ShoutStore = Fluxxor.createStore({
 				resolve(shoutDraft);
 			}
 		});
+	},
+
+	onRemoveShoutImage({fileName}) {
+		client.remove(fileName)
+			.end(function(err, res){
+				if(err) {
+					console.log(err);
+				}
+			});
 	},
 
 	onChangeShoutReplyDraft({shoutId, text}) {

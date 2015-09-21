@@ -1,8 +1,9 @@
 import React from 'react';
+import Router from 'react-router';
 import {FluxMixin} from 'fluxxor';
-
 import {Row, Col, Button, Input, DropdownButton, MenuItem} from 'react-bootstrap';
 import TagsInput from 'react-tagsinput';
+import DropzoneComponent from 'react-dropzone-component';
 
 import map from 'lodash/collection/map';
 
@@ -21,7 +22,8 @@ export default React.createClass({
 	getInitialState() {
 		return {
 			gmap: null,
-			marker: null
+			marker: null,
+			files: []
 		};
 	},
 
@@ -60,8 +62,8 @@ export default React.createClass({
 				</MenuItem>)
 		);
 
-		let selected = this.props.draft.currency || this.props.currencies['AED'],
-			title = selected.name + "(" + selected.code + ")";
+		let selected = this.props.draft.currency,
+			title = selected ? selected.name : "Select a currency";
 
 		return (
 			<DropdownButton
@@ -95,6 +97,63 @@ export default React.createClass({
 		);
 	},
 
+	renderImageUpload() {
+		let componentConfig = {
+			allowedFiletypes: ['.jpg', '.png'],
+			showFiletypeIcon: true,
+			postUrl: '/services/image_upload'
+		}
+		var eventHandlers = {
+			init: null,
+			addedfile: null,
+			removedfile: this.onImageRemoved,
+			uploadprogress: null,
+			sending: null,
+			success: this.onImageUploaded,
+			complete: null,
+			maxfilesexceeded: null
+		}
+		let djsConfig = {
+			paramName: "shout_image",
+			maxFilesize: 5, // 5 MB
+			addRemoveLinks: true,
+			maxFiles: 7,
+			dictCancelUpload:''
+		}
+		return <DropzoneComponent config={componentConfig} 
+                       eventHandlers={eventHandlers} 
+                       djsConfig={djsConfig} />;
+	},
+
+
+	onImageUploaded(file, resp) {
+		let files = this.state.files.slice(),
+			filesList=[];
+
+		files.push({name: file.name,remoteName: resp});
+		filesList = files.map((item)=>item.remoteName);
+
+		this.setState({files:files});
+		this.getFlux().actions.changeShoutDraft("images", filesList);
+	},
+
+	onImageRemoved(file) {
+		let files = this.state.files.slice(),
+			cleanedFiles,
+			deletedImageName,
+			filesList=[];
+
+		// getting the name of the image on s3 server and removing url part
+		deletedImageName = files.filter((item)=> item.name === file.name)[0]
+										.remoteName.match(/[^\/]*$/)[0];
+		cleanedFiles = files.filter((val) => val.name !== file.name);
+		filesList = cleanedFiles.map((item)=>item.remoteName);
+		
+		this.setState({files:cleanedFiles});
+		this.getFlux().actions.changeShoutDraft("images", filesList);
+		this.getFlux().actions.removeShoutImage(deletedImageName);
+	},
+
 	onCurrencySelect(key) {
 		let code = key.split(":")[1];
 		this.getFlux().actions.changeShoutDraft("currency", this.props.currencies[code]);
@@ -115,8 +174,7 @@ export default React.createClass({
 		);
 	},
 
-	renderTypeSelect()
-	{
+	renderTypeSelect() {
 		let options = map(shoutTypes, (value, key) => {
 			return (
 				<MenuItem eventKey={"type:" + key}>
@@ -136,18 +194,14 @@ export default React.createClass({
 				{options}
 			</DropdownButton>
 		);
-	}
-	,
+	},
 
-	onTypeSelect(key)
-	{
+	onTypeSelect(key) {
 		let type = key.split(":")[1];
 		this.getFlux().actions.changeShoutDraft("type", type);
-	}
-	,
+	},
 
-	renderTagInput()
-	{
+	renderTagInput() {
 		return (
 			<div className="form-group">
 				<TagsInput ref='tags' value={this.props.draft.tags}
@@ -156,17 +210,45 @@ export default React.createClass({
 				</TagsInput>
 			</div>
 		);
-	}
-	,
+	},
 
 	onTagsChange(newTags) {
 		this.getFlux().actions.changeShoutDraft("tags", newTags);
+	},
+
+	componentDidUpdate() {
+		let status = this.props.status;
+		if(status) {
+			if(status.id) { 
+				// Shout sent successfully
+				window.location = status.web_url;
+			}
+		}
+	},
+
+	renderErrors() {
+		let status = this.props.status;
+		if(status) {
+			if(!status.id) {
+				let errors=[];
+
+				for(let err in status) {
+					errors.push(<p>{status[err]}</p>);
+				}
+				return errors;
+			}
+		}
 	},
 
 	render() {
 		return (
 			<div className="modal-form">
 				<form>
+					<Row>
+						<Col sm={10} md={8}>
+							{this.renderErrors()}
+						</Col>
+					</Row>
 					<Row>
 						<Col sm={7} md={7}>
 							{this.renderTitleInput()}
@@ -194,6 +276,11 @@ export default React.createClass({
 					</Row>
 					<Row>
 						<Col sm={12} md={12}>
+							{this.renderImageUpload()}
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={12} md={12}>
 							Click on the Map to select a location.
 						</Col>
 					</Row>
@@ -206,21 +293,18 @@ export default React.createClass({
 							/>
 					</Row>
 					<Row className="row-submit">
-						<Button onClick={this.onSubmit} className="btn-submit submit">
-							Shoutit!
+						<Button onClick={this.onSubmit} disabled={this.props.waiting} className="btn-submit submit">
+							{this.props.waiting? "Loading...": "Shoutit!"}
 						</Button>
 					</Row>
 				</form>
 			</div>
 		);
-	}
-	,
+	},
 
 	onSubmit() {
 		this.getFlux().actions.sendShout();
-		if(this.props.requestHide) {
-			this.props.requestHide();
-		}
+		
 	},
 
 	onLocationSelectionChange(newLatLng) {

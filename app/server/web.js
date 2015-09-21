@@ -18,7 +18,8 @@ var oauth = require('./auth/oauth'),
 	ShoutitClient = require('./resources'),
 	apiRouter = require('./routes'),
 	resetPass = require('./services/resetPassword'),
-	verifyEmail = require('./services/verifyEmail');
+	verifyEmail = require('./services/verifyEmail'),
+	imageUpload = require('./services/imageUpload');
 
 var Flux = require('../shared/flux'),
 	Routes = require('../shared/routes.jsx')(null),
@@ -333,8 +334,9 @@ module.exports = function (app) {
 
 	servicesRouter.get('/reset_password', resetPass.get);
 	servicesRouter.post('/reset_password', resetPass.post);
-
 	servicesRouter.get('/verify_email', verifyEmail);
+	servicesRouter.post('/image_upload', imageUpload.add);
+	servicesRouter.post('/image_remove', imageUpload.remove);
 
 	app.use('/auth', authRouter);
 	app.use('/services', servicesRouter);

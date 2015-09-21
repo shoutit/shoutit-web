@@ -1,6 +1,3 @@
-/**
- * Created by Philip on 27.02.2015.
- */
 
 module.exports = function (client) {
 	return function (req, res) {
@@ -15,5 +12,5 @@ module.exports = function (client) {
 				console.error(err);
 				res.status(500).send(err);
 			});
-	};
-};
+	}
+}
