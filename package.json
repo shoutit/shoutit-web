@@ -51,6 +51,7 @@
     "babel-core": "^5.1.13",
     "babel-loader": "^5.0.0",
     "babel-runtime": "^5.1.13",
+    "buffer": "3.4.3",
     "eslint": "^0.20.0",
     "eslint-plugin-react": "^2.2.0",
     "flightplan": "^0.6.2",

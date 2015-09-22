@@ -15,5 +15,8 @@ module.exports = {
                 loader: 'babel-loader'
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.ContextReplacementPlugin(/buffer/, require('buffer'))
+    ]
 };
