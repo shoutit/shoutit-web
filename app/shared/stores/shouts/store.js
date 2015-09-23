@@ -357,6 +357,9 @@ let ShoutStore = Fluxxor.createStore({
 			if (!shoutDraft.price || !shoutDraft.currency) {
 				errors.price = "Please select a currency and enter a price";
 			}
+			if (shoutDraft.price <= 0) {
+				errors.price = "Please enter a positive value";
+			}
 			if (!shoutDraft.latLng) {
 				errors.location = "Please select a location";
 			}
