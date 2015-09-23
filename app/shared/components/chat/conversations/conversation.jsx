@@ -1,5 +1,6 @@
 import React from 'react';
 import {Col} from 'react-bootstrap';
+import {Link} from 'react-router';
 import classnames from 'classnames';
 
 import ConversationImage from './conversationImage.jsx';
@@ -36,7 +37,7 @@ export default React.createClass({
 							{names}
 						</span>
 						<span className={unreadConClasses}></span>
-
+						{this.getAbout()}
 						<p>
 							{lastMessage.text}
 						</p>
@@ -44,5 +45,20 @@ export default React.createClass({
 				</Col>
 			</li>
 		);
+	},
+
+	getAbout() {
+		if (this.props.conversation.about) {
+            let shout = this.props.conversation.about;
+			return (
+                <Link to="shout" params={{
+                        shoutId: shout.id,
+                        location: shout.location.city,
+                        title: encodeURIComponent(shout.title.replace(/\s+/g, '-'))
+                }}>
+                    {shout.title}
+                </Link>
+			)
+		}
 	}
 });
