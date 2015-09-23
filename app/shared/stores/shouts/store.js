@@ -285,13 +285,11 @@ let ShoutStore = Fluxxor.createStore({
 				this.state.status = result;
 				this.state.waiting = false;
 				this.emit("change");
-				console.log(result);
 			}.bind(this),
 			function (err) {
 				this.state.status = err;
 				this.state.waiting = false;
 				this.emit("change");
-				console.log(err);
 			}.bind(this));
 	},
 
@@ -356,15 +354,19 @@ let ShoutStore = Fluxxor.createStore({
 			if (!shoutDraft.text || shoutDraft.text.length < 10 || shoutDraft.text.length > 1000) {
 				errors.text = "Please enter a description with 10 to 1000 chars";
 			}
-			if (!shoutDraft.price) {
-				errors.price = "Please enter a price";
-			}
-			if (!shoutDraft.currency) {
-				errors.currency = "Please select a currency";
+			if (!shoutDraft.price || !shoutDraft.currency) {
+				errors.price = "Please select a currency and enter a price";
 			}
 			if (!shoutDraft.latLng) {
-				errors.locaiton = "Please select a location";
+				errors.location = "Please select a location";
 			}
+			if (!shoutDraft.category) {
+				errors.category = "Please select a category";
+			}
+			if (!shoutDraft.images.length) {
+				errors.images = "Please upload at least one image";
+			}
+
 
 			if (keys(errors).length) {
 				reject(errors);

@@ -33,14 +33,6 @@ export default React.createClass({
 					</button>
 				</div>
 				<div className="modal-body">
-					<div className="modal-logo">
-						<div className="logo">
-							<img style={{height:'50px'}} src="/img/logo2.png"/>
-						</div>
-						<div className="slogun">
-							<p>Shout an Offer</p>
-						</div>
-					</div>
 					<ShoutForm {...this.state}
 						requestHide={this.props.onRequestHide}
 						flux={this.props.flux}/>

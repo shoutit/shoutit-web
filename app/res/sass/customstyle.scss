@@ -2331,3 +2331,10 @@ footer {
 .userImage {
   margin-bottom: 5px;
 }
+
+.tooltip-inner {
+    background-color: $shoutit-error-color;
+}
+.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: $shoutit-error-color;
+}

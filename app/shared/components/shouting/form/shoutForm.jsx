@@ -1,7 +1,8 @@
 import React from 'react';
 import Router from 'react-router';
 import {FluxMixin} from 'fluxxor';
-import {Row, Col, Button, Input, DropdownButton, MenuItem} from 'react-bootstrap';
+import {Row, Col, Button, Input, DropdownButton, MenuItem, Tooltip} from 'react-bootstrap';
+import Overlay from 'react-overlays/lib/Overlay';
 import TagsInput from 'react-tagsinput';
 import DropzoneComponent from 'react-dropzone-component';
 
@@ -23,7 +24,8 @@ export default React.createClass({
 		return {
 			gmap: null,
 			marker: null,
-			files: []
+			files: [],
+			touched: {}
 		};
 	},
 
@@ -32,6 +34,7 @@ export default React.createClass({
 			<Input type="text"
 				   placeholder="What are you shouting about?"
 				   value={this.props.draft.title}
+				   ref="title"
 				   onChange={this.onTextChange("title")}
 				/>
 		);
@@ -40,6 +43,7 @@ export default React.createClass({
 	onTextChange(key) {
 		return function (event) {
 			this.getFlux().actions.changeShoutDraft(key, event.target.value);
+			this.onTouch(key);
 		}.bind(this);
 	},
 
@@ -47,6 +51,7 @@ export default React.createClass({
 		return (
 			<Input type="number"
 				   className="price"
+				   ref="price"
 				   placeholder="1.000"
 				   value={this.props.draft.price}
 				   onChange={this.onTextChange('price')}
@@ -59,7 +64,9 @@ export default React.createClass({
 		let currencies = map(this.props.currencies, (currency) => (
 				<MenuItem eventKey={"currency:" + currency.code}>
 					{currency.name + "(" + currency.code + ")"}
-				</MenuItem>)
+				</MenuItem>
+
+				)
 		);
 
 		let selected = this.props.draft.currency,
@@ -135,6 +142,7 @@ export default React.createClass({
 
 		this.setState({files:files});
 		this.getFlux().actions.changeShoutDraft("images", filesList);
+		this.onTouch('images');
 	},
 
 	onImageRemoved(file) {
@@ -145,7 +153,7 @@ export default React.createClass({
 
 		// getting the name of the image on s3 server and removing url part
 		deletedImageName = files.filter((item)=> item.name === file.name)[0]
-										.remoteName.match(/[^\/]*$/)[0];
+				.remoteName.match(/[^\/]*$/)[0];
 		cleanedFiles = files.filter((val) => val.name !== file.name);
 		filesList = cleanedFiles.map((item)=>item.remoteName);
 		
@@ -155,11 +163,13 @@ export default React.createClass({
 	},
 
 	onCurrencySelect(key) {
+		this.onTouch('currency');
 		let code = key.split(":")[1];
 		this.getFlux().actions.changeShoutDraft("currency", this.props.currencies[code]);
 	},
 
 	onCategorySelect(key) {
+		this.onTouch('category');
 		let index = key.split(":")[1];
 		this.getFlux().actions.changeShoutDraft("category", this.props.categories[index]);
 	},
@@ -168,6 +178,7 @@ export default React.createClass({
 		return (
 			<Input type='textarea'
 				   rows="3"
+				   ref="text"
 				   onChange={this.onTextChange('text')}
 				   value={this.props.draft.text}
 				   placeholder="Description"/>
@@ -226,29 +237,66 @@ export default React.createClass({
 		}
 	},
 
-	renderErrors() {
+	getErrorTooltip(errorField) {
 		let status = this.props.status;
-		if(status) {
-			if(!status.id) {
-				let errors=[];
+		return <Tooltip>{status[errorField]}</Tooltip>;
+	},
 
-				for(let err in status) {
-					errors.push(<p>{status[err]}</p>);
-				}
-				return errors;
+	getErrorProps(errorField) {
+		if(this.props.status[errorField]) {
+			return {
+				show:!this.state.touched[errorField],
+				container: this,
+				target: () => React.findDOMNode(this.refs[errorField]),
+				placement: 'bottom'
 			}
 		}
+	},
+
+	onTouch(elm) {
+		// flag element as touched
+		let touched = this.state.touched;
+		touched[elm] = true;
+		this.setState({touched:touched});
+	},
+
+	clearTouches() {
+		this.setState({touched:{}});
+	},
+
+	renderAlerts() {
+		return (
+			<section>
+				<Overlay {...this.getErrorProps('title')} >
+					{this.getErrorTooltip('title')}
+				</Overlay>
+				<Overlay {...this.getErrorProps('text')} >
+					{this.getErrorTooltip('text')}
+				</Overlay>
+				<Overlay {...this.getErrorProps('currency')} >
+					{this.getErrorTooltip('currency')}
+				</Overlay>
+				<Overlay {...this.getErrorProps('price')} >
+					{this.getErrorTooltip('price')}
+				</Overlay>
+				<Overlay {...this.getErrorProps('category')} >
+					{this.getErrorTooltip('category')}
+				</Overlay>
+				<Overlay {...this.getErrorProps('images')} >
+					{this.getErrorTooltip('images')}
+				</Overlay>
+				<Overlay {...this.getErrorProps('location')} >
+					{this.getErrorTooltip('location')}
+				</Overlay>
+			</section>
+		);
 	},
 
 	render() {
 		return (
 			<div className="modal-form">
 				<form>
-					<Row>
-						<Col sm={10} md={8}>
-							{this.renderErrors()}
-						</Col>
-					</Row>
+					{this.renderAlerts()}
 					<Row>
 						<Col sm={7} md={7}>
 							{this.renderTitleInput()}
@@ -257,7 +305,7 @@ export default React.createClass({
 							{this.renderPriceInput()}
 						</Col>
 					</Row>
-					<Clearfix/>
+
 					<Row>
 						<Col sm={12} md={12}>
 							{this.renderDescTextArea()}
@@ -267,7 +315,7 @@ export default React.createClass({
 						<Col sm={2} md={2}>
 							{this.renderTypeSelect()}
 						</Col>
-						<Col sm={4} md={4}>
+						<Col sm={4} md={4} ref="category">
 							{this.renderCategoryDropdown()}
 						</Col>
 						<Col sm={12} md={6}>
@@ -275,12 +323,12 @@ export default React.createClass({
 						</Col>
 					</Row>
 					<Row>
-						<Col sm={12} md={12}>
+						<Col sm={12} md={12} ref="images">
 							{this.renderImageUpload()}
 						</Col>
 					</Row>
 					<Row>
-						<Col sm={12} md={12}>
+						<Col sm={12} md={12} >
 							Click on the Map to select a location.
 						</Col>
 					</Row>
@@ -288,6 +336,7 @@ export default React.createClass({
 						<LocationSelection
 							onChange={this.onLocationSelectionChange}
 							flux={this.props.flux}
+							ref="location"
 							selected={this.props.draft.latLng}
 							startLocation={this.props.current.location}
 							/>
@@ -297,6 +346,7 @@ export default React.createClass({
 							{this.props.waiting? "Loading...": "Shoutit!"}
 						</Button>
 					</Row>
+					
 				</form>
 			</div>
 		);
@@ -304,10 +354,11 @@ export default React.createClass({
 
 	onSubmit() {
 		this.getFlux().actions.sendShout();
-		
+		this.clearTouches();
 	},
 
 	onLocationSelectionChange(newLatLng) {
 		this.getFlux().actions.changeShoutDraft("latLng", newLatLng);
+		this.onTouch('location');
 	}
 });
