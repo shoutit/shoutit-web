@@ -3,7 +3,12 @@ var _ = require('lodash');
 
 module.exports = _.merge({}, require('./webpack.config.js'), {
 	plugins: [
-		new webpack.optimize.DedupePlugin(),
+		// Search for equal or similar files and deduplicate them in the output. This comes with some overhead
+		// for the entry chunk, but can reduce file size effectively.
+		// This is experimental and may crash, because of some missing implementations.
+		// https://webpack.github.io/docs/list-of-plugins.html#dedupeplugin
+		//new webpack.optimize.DedupePlugin(),
+
 		new webpack.optimize.UglifyJsPlugin({
 			compress: {
 				warnings: false

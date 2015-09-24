@@ -9,17 +9,24 @@ plan.local(['shrink', 'default'], function(local) {
 	local.exec('npm shrinkwrap');
 });
 
-// run commands on localhost
+// run commands on localhost: gulp build and webpack
 plan.local(['build', 'default'], function (local) {
 	local.log('Run gulp build and webpack bundle');
 	local.exec('gulp build');
-	local.exec('webpack --config=webpack.config.mini.js');
-
-	local.log('Copy files to remote hosts');
+    var target = local._context.target;
+    var webpackOpts = target === 'production' ? '--config=webpack.config.mini.js' : '';
+    local.exec('webpack ' + webpackOpts);
 	local.exec('git add app/public/main.js');
+});
+
+
+// run commands on localhost: transfer files to remote
+plan.local(['transfer', 'default'], function (local) {
+	local.log('Copy files to remote hosts');
 	var filesToCopy = local.exec('git ls-files', {silent: true});
 	local.transfer(filesToCopy, '/tmp/' + tmpDir);
 });
+
 
 // run commands on the target's remote hosts
 plan.remote(['update-shoutit', 'default'], function (remote) {

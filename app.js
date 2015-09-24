@@ -4,7 +4,7 @@ if (["developmentLocal"].indexOf(process.env.NODE_ENV) < 0) {
 	require('newrelic');
 }
 
-require("babel-core/register");
+require("babel/register");
 
 /**
  * Created by Philip on 12.01.2015.
