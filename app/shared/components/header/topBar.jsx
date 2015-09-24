@@ -21,7 +21,7 @@ export default React.createClass({
 		};
 
 		let loginAlert = 
-				<Popover title="Popover bottom">
+				<Popover title="New to Shoutit?">
 					To send a <strong>Shout</strong>, first you need to signin as a user.
 					Please&nbsp;
 						<span style={{cursor:'pointer', color:'#99ca3b'}} onClick={() => this.transitionTo('login')}>
