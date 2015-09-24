@@ -555,8 +555,8 @@ nav {
   border-radius: 5px;
   color: #7a7a7a;
   font-family: "Arial-Regular", sans-serif;
-  font-size: 15px;
-  height: 35px;
+  font-size: 1.35rem;
+  height: 30px;
   margin-bottom: 15px;
   padding-left: 15px;
   width: 100% !important;
@@ -574,14 +574,14 @@ nav {
   color: #7a7a7a;
   font-family: "Arial-Regular", sans-serif;
   font-size: 15px;
-  height: 35px;
+  height: 30px;
   margin-bottom: 15px;
   padding-left: 15px;
 }
 
 .t-edit-text > .btn-group.bootstrap-select > button {
   background-color: $shoutit-light-gray !important;
-  height: 35px !important;
+  height: 30px !important;
   width: 50% !important;
 }
 
@@ -615,31 +615,31 @@ nav {
 }
 
 .t-Save {
-  color: #ffffff !important;
-  cursor: pointer;
-  background-color: #94b516;
-  border-radius: 5px;
-  height: 35px;
-  padding: 10px;
-  text-align: center;
-  line-height: 17.5px;
-}
-
-.t-Save:hover {
-  opacity: 0.7;
+  background-color: $shoutit-dark-green;
+  width:125px;
 }
 
 .t-hiden {
-  color: #ffffff !important;
-  cursor: pointer;
-  background-color: #737373;
-  border-radius: 5px;
-  height: 35px;
-  padding: 10px;
-  text-align: center;
+  background-color: lighten($shoutit-dark-gray,15%);
+  width:auto;
 }
 
-.t-hiden:hover {
+.t-hiden, .t-Save {
+  color: #fff !important;
+  cursor: pointer;
+  border-radius: 4px;
+  height: 30px;
+  text-align: center;
+  line-height: 17.5px;
+  margin: 0 10px 0 0;
+  float: right;
+  text-shadow:1px 1px 2px darken($shoutit-dark-gray,10%);
+  font-size:1.35rem!important;
+  transition:all 0.4s;
+  padding:5px;
+}
+
+.t-hiden:hover, .t-Save:hover {
   opacity: 0.7;
 }
 

@@ -7,6 +7,8 @@ export default {
     update(update) {
         return request
             .post(PREFIX + '/me')
+            .type('json')
+            .accept('json')
             .send(update);
     },
 

@@ -10,6 +10,11 @@ export default React.createClass({
 		let user = this.props.user;
 		let settings = {};
 
+		if (this.props.status.username) {
+			settings.loading = this.props.status.username.loading;
+			settings.msg = this.props.status.username.msg;
+		}
+
 		return (
 			<div className="pro-basic">
 				<h3>Basic Information</h3>

@@ -9,13 +9,24 @@ export default React.createClass({
 
 	render() {
 		let user = this.props.user;
-		console.log(user);
+
 		let settings = {
+			address:{},
 			email: {
 				has_verify_btn: true,
 				is_verified: user.is_activated
 			}
 		};
+
+		if (this.props.status.email) {
+			settings.email.loading = this.props.status.email.loading;
+			settings.email.msg = this.props.status.email.msg;
+		}
+
+		if (this.props.status.address) {
+			settings.address.loading = this.props.status.address.loading;
+			settings.address.msg = this.props.status.address.msg;
+		}
 
 		return (
 			<div className="pro-basic">
@@ -24,7 +35,7 @@ export default React.createClass({
 				<EditInfoRow settings={settings.email} title="Email" value={user.email}
 							 onSaveClicked={this.onSaveClicked("email")} onChange={this.onInfoChange("email")}
 							 onVerifyClicked={this.onVerifyClicked()}/>
-				<EditInfoRow settings={settings} title="Address" value={user.location.address}
+				<EditInfoRow settings={settings.address} title="Address" value={user.location.address}
 							 onSaveClicked={this.onSaveClicked("address")} onChange={this.onInfoChange("address")}/>
 			</div>
 		);

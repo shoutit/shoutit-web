@@ -15,9 +15,9 @@ export default React.createClass({
 
 		return (
 			<Col xs={12} md={12} className="profile-right">
-				<BasicInfo user={user} onSaveClicked={this.onSaveClicked} 
+				<BasicInfo status={this.props.editors} user={user} onSaveClicked={this.onSaveClicked} 
 							  onInfoChange={this.onInfoChange}/>
-				<ContactInfos user={user} onSaveClicked={this.onSaveClicked}
+				<ContactInfos status={this.props.editors} user={user} onSaveClicked={this.onSaveClicked}
 							  onInfoChange={this.onInfoChange}
 							  onVerifyClicked={this.handleVerify}/>
 				<AccountInfo status={this.props.editors} user={user} onSaveClicked={this.onSaveClicked} 
