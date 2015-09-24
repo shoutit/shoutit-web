@@ -295,7 +295,6 @@ var UserStore = Fluxxor.createStore({
 							this.emit("change");
 						}
 					} else {
-						console.log(res.body);
 						var loggedUser = res.body;
 						this.state.users[loggedUser.username] = loggedUser;
 						this.state.user = loggedUser.username;
