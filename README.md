@@ -1,4 +1,4 @@
-# ShoutIt Webserver
+# Shoutit Webserver
 
 ## Stack
 * nodejs
@@ -8,11 +8,12 @@
 * redis
 
 ## Installation
+* install globalDependencies listed in `package.json`
+* add or export `NODE_PATH=GLOBAL_NODE_MODULES_DIR` to your environment
 * clone this repo
 * cd into work copy
 * install node dependencies using `npm install`
-* build client bundle via `gulp bundle`
-* start development server via `gulp serve`
+* start development server via `gulp`
 
 ## Basic concept: Isomorphic WebApp
 * Rendering on client and server
