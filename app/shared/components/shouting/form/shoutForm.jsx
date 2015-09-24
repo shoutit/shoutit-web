@@ -29,6 +29,10 @@ export default React.createClass({
 		};
 	},
 
+	componentDidMount() {
+		this.getFlux().actions.changeShoutDraft("latLng", this.props.current.location);
+	},
+
 	renderTitleInput() {
 		return (
 			<Input type="text"
@@ -337,7 +341,7 @@ export default React.createClass({
 							onChange={this.onLocationSelectionChange}
 							flux={this.props.flux}
 							ref="location"
-							selected={this.props.draft.latLng}
+							selected={this.props.draft.latLng || this.props.current.location}
 							startLocation={this.props.current.location}
 							/>
 					</Row>
