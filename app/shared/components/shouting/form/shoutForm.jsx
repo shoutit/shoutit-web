@@ -56,7 +56,8 @@ export default React.createClass({
 			<Input type="number"
 				   className="price"
 				   ref="price"
-				   placeholder="1.000"
+				   placeholder="Price"
+				   min="0"
 				   value={this.props.draft.price}
 				   onChange={this.onTextChange('price')}
 				   buttonAfter={this.renderCurrencyDropdown()}
@@ -113,7 +114,7 @@ export default React.createClass({
 			allowedFiletypes: ['.jpg', '.png'],
 			showFiletypeIcon: true,
 			postUrl: '/services/image_upload'
-		}
+		};
 		var eventHandlers = {
 			init: null,
 			addedfile: null,
@@ -123,14 +124,14 @@ export default React.createClass({
 			success: this.onImageUploaded,
 			complete: null,
 			maxfilesexceeded: null
-		}
+		};
 		let djsConfig = {
 			paramName: "shout_image",
 			maxFilesize: 5, // 5 MB
 			addRemoveLinks: true,
 			maxFiles: 7,
 			dictCancelUpload:''
-		}
+		};
 		return <DropzoneComponent config={componentConfig} 
                        eventHandlers={eventHandlers} 
                        djsConfig={djsConfig} />;
