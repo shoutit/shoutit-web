@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavItem, OverlayMixin} from 'react-bootstrap';
+import {NavItem, OverlayMixin, Button} from 'react-bootstrap';
 import Icon from '../../helper/icon.jsx';
 import ShoutModal from '../../shouting/shoutModal.jsx';
 
@@ -31,7 +31,9 @@ export default React.createClass({
     render() {
         return (
             <NavItem onSelect={this.show}>
-                <Icon name="plug-icon"/>
+                <Button className="shout-btn">
+                    +New Shout
+                </Button>
             </NavItem>
         );
     },
