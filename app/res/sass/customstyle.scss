@@ -2329,7 +2329,7 @@ footer {
 }
 
 .userImage {
-  margin-bottom: 5px;
+  margin-bottom: -10px;
 }
 
 .tooltip-inner {
@@ -2337,4 +2337,16 @@ footer {
 }
 .tooltip.bottom .tooltip-arrow {
     border-bottom-color: $shoutit-error-color;
+}
+.btn-default.shout-btn {
+    color: $shoutit-dark-gray;
+    font-size: 15px;
+    font-weight:bold;
+    background: lighten($shoutit-dark-green,20%);
+    margin-bottom:5px;
+    border:0;
+    border-color:none;
+    &:hover {
+      background: lighten($shoutit-dark-green,30%);
+    }
 }
