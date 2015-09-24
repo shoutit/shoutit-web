@@ -1,11 +1,10 @@
 import React from 'react';
 import {Navigation} from 'react-router';
 import {ButtonLink} from 'react-router-bootstrap';
-import {Grid, Col, Row, Nav, Button, Popover, OverlayTrigger} from 'react-bootstrap';
+import {Grid, Col, Row, Button, Popover, OverlayTrigger} from 'react-bootstrap';
 import SearchBar from './searchBar.jsx';
 import TopBarActions from './topbarActions.jsx';
 import Logo from './logo.jsx';
-
 
 export default React.createClass({
 	displayName: "TopBar",
