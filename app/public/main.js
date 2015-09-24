@@ -23950,7 +23950,7 @@
 
 			return _react2['default'].createElement(
 				_reactDocumentTitle2['default'],
-				{ title: 'Login - Shoutit' },
+				{ title: 'Log In - Shoutit' },
 				_react2['default'].createElement(
 					'div',
 					{ className: 'login' },
@@ -34729,7 +34729,7 @@
 				_react2['default'].createElement(
 					'form',
 					{ onSubmit: this.onLoginSubmit },
-					_react2['default'].createElement(_reactBootstrap.Input, { ref: 'email', type: 'email', placeholder: 'Email', className: 'input-email' }),
+					_react2['default'].createElement(_reactBootstrap.Input, { ref: 'email', type: 'text', placeholder: 'Email or username', className: 'input-email' }),
 					_react2['default'].createElement(_reactBootstrap.Input, { ref: 'pass', type: 'password', placeholder: 'Password', className: 'input-pass' }),
 					_react2['default'].createElement(
 						_reactBootstrap.Button,
@@ -34817,13 +34817,13 @@
 					'button',
 					{ className: 'btn btn-fb submit', type: 'button', onClick: this.onFBLogin },
 					_react2['default'].createElement(_helperIconJsx2['default'], { name: 'fb' }),
-					'Connect with Facebook'
+					'Log in with Facebook'
 				),
 				_react2['default'].createElement(
 					'button',
 					{ className: 'btn btn-google submit', type: 'button', onClick: this.onGPlusLogin },
 					_react2['default'].createElement(_helperIconJsx2['default'], { name: 'google' }),
-					'Connect with Google+'
+					'Log in with Google+'
 				)
 			);
 		},
@@ -35124,7 +35124,7 @@
 						{ className: 'link-item', style: { float: 'left', color: '#8a8a88' }, onClick: function () {
 								return _this.transitionTo('login');
 							} },
-						'Back to Log In page'
+						'Back to Login page'
 					)
 				);
 			} else {
@@ -35165,7 +35165,7 @@
 
 			return _react2['default'].createElement(
 				_reactDocumentTitle2['default'],
-				{ title: 'SignUp - ShoutIt' },
+				{ title: 'Sign Up - Shoutit' },
 				_react2['default'].createElement(
 					'div',
 					{ className: 'login' },
@@ -35329,7 +35329,7 @@
 					{ to: 'login' },
 					'here'
 				),
-				' to login'
+				' to log in'
 			);
 			if (this.state.redirecting) msg = _react2['default'].createElement(
 				'p',
@@ -35468,6 +35468,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(157);
+
 	var _reactRouterBootstrap = __webpack_require__(369);
 
 	var _reactBootstrap = __webpack_require__(199);
@@ -35486,8 +35488,11 @@
 
 	exports['default'] = _react2['default'].createClass({
 		displayName: "TopBar",
+		mixins: [_reactRouter.Navigation],
 
 		render: function render() {
+			var _this = this;
+
 			var loggedUser = this.props.user ? this.props.users[this.props.user] : null;
 
 			var xsSizes = {
@@ -35495,6 +35500,26 @@
 				searchBar: loggedUser ? 8 : 7,
 				actions: loggedUser ? 2 : 3
 			};
+
+			var loginAlert = _react2['default'].createElement(
+				_reactBootstrap.Popover,
+				{ title: 'New to Shoutit?' },
+				'To create a ',
+				_react2['default'].createElement(
+					'strong',
+					null,
+					'Shout'
+				),
+				', you first need to log in. Please ',
+				_react2['default'].createElement(
+					'span',
+					{ style: { cursor: 'pointer', color: '#99ca3b' }, onClick: function () {
+							return _this.transitionTo('login');
+						} },
+					'click here'
+				),
+				'.'
+			);
 
 			return _react2['default'].createElement(
 				_reactBootstrap.Row,
@@ -35517,12 +35542,25 @@
 						{ xs: xsSizes.actions, md: 5 },
 						this.props.user ? _react2['default'].createElement(_topbarActionsJsx2['default'], { flux: this.props.flux, user: loggedUser,
 							onLogoutClicked: this.props.onLogoutClicked }) : _react2['default'].createElement(
-							_reactRouterBootstrap.ButtonLink,
-							{ className: 'pull-right', to: 'login', id: 'loginButton' },
+							'div',
+							null,
 							_react2['default'].createElement(
-								'span',
-								null,
-								'Login'
+								_reactRouterBootstrap.ButtonLink,
+								{ className: 'pull-right', to: 'login', id: 'loginButton' },
+								_react2['default'].createElement(
+									'span',
+									null,
+									'Log In'
+								)
+							),
+							_react2['default'].createElement(
+								_reactBootstrap.OverlayTrigger,
+								{ trigger: 'click', placement: 'bottom', overlay: loginAlert },
+								_react2['default'].createElement(
+									_reactBootstrap.Button,
+									{ className: 'shout-btn pull-right', style: { marginRight: '10px' } },
+									'+ Create Shout'
+								)
 							)
 						)
 					)
@@ -36306,8 +36344,8 @@
 			return _react2['default'].createElement(
 				_reactBootstrap.Nav,
 				{ pullRight: true },
-				_react2['default'].createElement(_profileDropdownJsx2['default'], { user: user, onLogoutClicked: this.props.onLogoutClicked }),
-				_react2['default'].createElement(_topbarShoutModalJsx2['default'], { flux: this.props.flux })
+				_react2['default'].createElement(_topbarShoutModalJsx2['default'], { flux: this.props.flux }),
+				_react2['default'].createElement(_profileDropdownJsx2['default'], { user: user, onLogoutClicked: this.props.onLogoutClicked })
 			);
 		}
 
@@ -36473,7 +36511,11 @@
 	        return _react2['default'].createElement(
 	            _reactBootstrap.NavItem,
 	            { onSelect: this.show },
-	            _react2['default'].createElement(_helperIconJsx2['default'], { name: 'plug-icon' })
+	            _react2['default'].createElement(
+	                _reactBootstrap.Button,
+	                { className: 'shout-btn' },
+	                '+ Create Shout'
+	            )
 	        );
 	    },
 
@@ -37003,7 +37045,7 @@
 						_react2['default'].createElement(
 							_reactBootstrap.Button,
 							{ onClick: this.onSubmit, disabled: this.props.waiting, className: 'btn-submit submit' },
-							this.props.waiting ? "Loading..." : "Shoutit!"
+							this.props.waiting ? "Loading..." : "Create Shout"
 						)
 					)
 				)
@@ -43787,12 +43829,13 @@
 /* 479 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {/*!
+	/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
 	 * The buffer module from node.js, for the browser.
 	 *
 	 * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
 	 * @license  MIT
 	 */
+	/* eslint-disable no-proto */
 
 	var base64 = __webpack_require__(480)
 	var ieee754 = __webpack_require__(481)
@@ -43832,20 +43875,22 @@
 	 * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
 	 * get the Object implementation, which is slower but behaves correctly.
 	 */
-	Buffer.TYPED_ARRAY_SUPPORT = (function () {
-	  function Bar () {}
-	  try {
-	    var arr = new Uint8Array(1)
-	    arr.foo = function () { return 42 }
-	    arr.constructor = Bar
-	    return arr.foo() === 42 && // typed array instances can be augmented
-	        arr.constructor === Bar && // constructor can be set
-	        typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
-	        arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
-	  } catch (e) {
-	    return false
-	  }
-	})()
+	Buffer.TYPED_ARRAY_SUPPORT = global.TYPED_ARRAY_SUPPORT !== undefined
+	  ? global.TYPED_ARRAY_SUPPORT
+	  : (function () {
+	      function Bar () {}
+	      try {
+	        var arr = new Uint8Array(1)
+	        arr.foo = function () { return 42 }
+	        arr.constructor = Bar
+	        return arr.foo() === 42 && // typed array instances can be augmented
+	            arr.constructor === Bar && // constructor can be set
+	            typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
+	            arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
+	      } catch (e) {
+	        return false
+	      }
+	    })()
 
 	function kMaxLength () {
 	  return Buffer.TYPED_ARRAY_SUPPORT
@@ -44001,10 +44046,16 @@
 	  return that
 	}
 
+	if (Buffer.TYPED_ARRAY_SUPPORT) {
+	  Buffer.prototype.__proto__ = Uint8Array.prototype
+	  Buffer.__proto__ = Uint8Array
+	}
+
 	function allocate (that, length) {
 	  if (Buffer.TYPED_ARRAY_SUPPORT) {
 	    // Return an augmented `Uint8Array` instance, for best performance
 	    that = Buffer._augment(new Uint8Array(length))
+	    that.__proto__ = Buffer.prototype
 	  } else {
 	    // Fallback: Return an object instance of the Buffer class
 	    that.length = length
@@ -45321,7 +45372,7 @@
 	  return i
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(479).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(479).Buffer, (function() { return this; }())))
 
 /***/ },
 /* 480 */
@@ -62630,7 +62681,7 @@
 						_react2['default'].createElement(
 							_reactRouter.Link,
 							{ to: 'login' },
-							'Login'
+							'Log in'
 						),
 						' to reply to this shout.'
 					);
@@ -70752,25 +70803,22 @@
 
 			return new Promise(function (resolve, reject) {
 				if (!shoutDraft.title || shoutDraft.title.length < 10) {
-					errors.title = "Please enter a title with 10 to 200 chars";
+					errors.title = "Enter a title with 10 to 200 characters";
 				}
 				if (!shoutDraft.text || shoutDraft.text.length < 10 || shoutDraft.text.length > 1000) {
-					errors.text = "Please enter a description with 10 to 1000 chars";
+					errors.text = "Enter a description with 10 to 1000 characters";
 				}
 				if (!shoutDraft.price || !shoutDraft.currency) {
-					errors.price = "Please select a currency and enter a price";
-				}
-				if (shoutDraft.price <= 0) {
-					errors.price = "Please enter a positive value";
+					errors.price = "Select a currency and enter a price";
 				}
 				if (!shoutDraft.latLng) {
-					errors.location = "Please select a location";
+					errors.location = "Select a location";
 				}
 				if (!shoutDraft.category) {
-					errors.category = "Please select a category";
+					errors.category = "Select a category";
 				}
 				if (!shoutDraft.images.length) {
-					errors.images = "Please upload at least one image";
+					errors.images = "Upload at least one image";
 				}
 
 				if ((0, _lodashObjectKeys2['default'])(errors).length) {

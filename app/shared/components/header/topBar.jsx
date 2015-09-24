@@ -21,7 +21,7 @@ export default React.createClass({
 
 		let loginAlert = 
 				<Popover title="New to Shoutit?">
-					To send a <strong>Shout</strong>, first you need to signin as a user.
+					To create a <strong>Shout</strong>, you first need to log in.
 					Please&nbsp;
 						<span style={{cursor:'pointer', color:'#99ca3b'}} onClick={() => this.transitionTo('login')}>
 							click here
@@ -43,11 +43,11 @@ export default React.createClass({
 										   onLogoutClicked={this.props.onLogoutClicked}/> :
 							<div >
 								<ButtonLink className="pull-right" to="login" id="loginButton">
-									<span>Login</span>
+									<span>Log In</span>
 								</ButtonLink>
 								<OverlayTrigger trigger="click" placement="bottom" overlay={loginAlert}>
 									<Button className="shout-btn pull-right" style={{marginRight:'10px'}}>
-										+New Shout
+										+ Create Shout
 									</Button>
 								</OverlayTrigger>
 							</div>

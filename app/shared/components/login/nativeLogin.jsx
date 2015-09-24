@@ -10,7 +10,7 @@ export default React.createClass({
 		return(
 			<div>
 				<form onSubmit={this.onLoginSubmit}>
-					<Input ref='email' type='email' placeholder='Email' className='input-email' />
+					<Input ref='email' type='text' placeholder='Email or username' className='input-email' />
 					<Input ref='pass' type='password' placeholder='Password' className='input-pass' />
 					<Button bsSize='large' type='submit' block 
 					className={this.props.logingIn? 'btn-signin btn-signin-disabled':'btn-signin'}>

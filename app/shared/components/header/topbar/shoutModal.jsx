@@ -32,7 +32,7 @@ export default React.createClass({
         return (
             <NavItem onSelect={this.show}>
                 <Button className="shout-btn">
-                    +New Shout
+                    + Create Shout
                 </Button>
             </NavItem>
         );

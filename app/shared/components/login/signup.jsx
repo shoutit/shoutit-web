@@ -71,7 +71,7 @@ export default React.createClass({
 					 disabled={this.state.loading} />
 				</form>
 				<span className="link-item" style={{float:'left',color:'#8a8a88'}} onClick={() => this.transitionTo('login')}>
-					Back to Log In page
+					Back to Login page
 				</span>
 			</div>;
 		} else {
@@ -95,7 +95,7 @@ export default React.createClass({
 
 
 		return(
-			<DocumentTitle title="SignUp - ShoutIt">
+			<DocumentTitle title="Sign Up - Shoutit">
 				<div className="login">
 					<div className="login-container">
 						{form}

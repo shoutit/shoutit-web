@@ -348,7 +348,7 @@ export default React.createClass({
 					</Row>
 					<Row className="row-submit">
 						<Button onClick={this.onSubmit} disabled={this.props.waiting} className="btn-submit submit">
-							{this.props.waiting? "Loading...": "Shoutit!"}
+							{this.props.waiting? "Loading...": "Create Shout"}
 						</Button>
 					</Row>
 					
