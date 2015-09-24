@@ -349,27 +349,23 @@ let ShoutStore = Fluxxor.createStore({
 
 		return new Promise(function (resolve, reject) {
 			if (!shoutDraft.title || shoutDraft.title.length < 10) {
-				errors.title = "Please enter a title with 10 to 200 chars";
+				errors.title = "Enter a title with 10 to 200 characters";
 			}
 			if (!shoutDraft.text || shoutDraft.text.length < 10 || shoutDraft.text.length > 1000) {
-				errors.text = "Please enter a description with 10 to 1000 chars";
+				errors.text = "Enter a description with 10 to 1000 characters";
 			}
 			if (!shoutDraft.price || !shoutDraft.currency) {
-				errors.price = "Please select a currency and enter a price";
-			}
-			if (shoutDraft.price <= 0) {
-				errors.price = "Please enter a positive value";
+				errors.price = "Select a currency and enter a price";
 			}
 			if (!shoutDraft.latLng) {
-				errors.location = "Please select a location";
+				errors.location = "Select a location";
 			}
 			if (!shoutDraft.category) {
-				errors.category = "Please select a category";
+				errors.category = "Select a category";
 			}
 			if (!shoutDraft.images.length) {
-				errors.images = "Please upload at least one image";
+				errors.images = "Upload at least one image";
 			}
-
 
 			if (keys(errors).length) {
 				reject(errors);

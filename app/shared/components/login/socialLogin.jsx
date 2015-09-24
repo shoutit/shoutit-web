@@ -15,11 +15,11 @@ export default React.createClass({
 			<div>
 				<button className="btn btn-fb submit" type="button" onClick={this.onFBLogin}>
 					<Icon name="fb"/>
-					Connect with Facebook
+					Log in with Facebook
 				</button>
 				<button className="btn btn-google submit" type="button" onClick={this.onGPlusLogin}>
 					<Icon name="google"/>
-					Connect with Google+
+					Log in with Google+
 				</button>
 			</div>
 		);

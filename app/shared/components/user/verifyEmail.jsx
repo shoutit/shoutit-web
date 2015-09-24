@@ -63,7 +63,7 @@ export default React.createClass({
 	renderMsg() {
 		let msg;
 		if(this.state.response)
-			msg = <p>Please click <Link to="login">here</Link> to login</p>;
+			msg = <p>Please click <Link to="login">here</Link> to log in</p>;
 		if(this.state.redirecting)
 			msg = <p>Your email has been verified! Moving to <Link to="app">main page</Link>...</p>;
 		return msg;

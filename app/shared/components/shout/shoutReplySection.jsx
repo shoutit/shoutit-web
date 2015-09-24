@@ -63,7 +63,7 @@ export default React.createClass({
 			} else {
 				content = (
 					<h4>
-						<Link to="login">Login</Link> to reply to this shout.
+						<Link to="login">Log in</Link> to reply to this shout.
 					</h4>
 				);
 			}

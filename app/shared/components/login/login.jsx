@@ -31,7 +31,7 @@ export default React.createClass({
 
 	render() {
 		return (
-			<DocumentTitle title="Login - Shoutit">
+			<DocumentTitle title="Log In - Shoutit">
 				<div className="login">
 					<div className="login-container">
 						<div className="top-login">
