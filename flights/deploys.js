@@ -42,6 +42,7 @@ plan.remote(['update-shoutit', 'default'], function (remote) {
 	}
 
 	remote.log('Install dependencies');
+	remote.exec('npm cache clean');
 	remote.exec('npm --production --prefix /var/www/' + tmpDir + ' install /var/www/' + tmpDir, {failsafe: true});
 
 	remote.log('Reload application');

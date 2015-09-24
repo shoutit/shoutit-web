@@ -36628,6 +36628,10 @@
 			};
 		},
 
+		componentDidMount: function componentDidMount() {
+			this.getFlux().actions.changeShoutDraft("latLng", this.props.current.location);
+		},
+
 		renderTitleInput: function renderTitleInput() {
 			return _react2['default'].createElement(_reactBootstrap.Input, { type: 'text',
 				placeholder: 'What are you shouting about?',
@@ -36648,7 +36652,8 @@
 			return _react2['default'].createElement(_reactBootstrap.Input, { type: 'number',
 				className: 'price',
 				ref: 'price',
-				placeholder: '1.000',
+				placeholder: 'Price',
+				min: '0',
 				value: this.props.draft.price,
 				onChange: this.onTextChange('price'),
 				buttonAfter: this.renderCurrencyDropdown()
@@ -36988,7 +36993,7 @@
 							onChange: this.onLocationSelectionChange,
 							flux: this.props.flux,
 							ref: 'location',
-							selected: this.props.draft.latLng,
+							selected: this.props.draft.latLng || this.props.current.location,
 							startLocation: this.props.current.location
 						})
 					),

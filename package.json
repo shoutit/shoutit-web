@@ -26,7 +26,6 @@
     "express-session": "^1.10.1",
     "fluxxor": "^1.6.0",
     "gm": "^1.20.0",
-    "imagemin": "^3.2.0",
     "ismobilejs": "^0.3.9",
     "jade": "^1.11.0",
     "lodash": "^3.3.0",
@@ -58,7 +57,6 @@
     "eslint-plugin-react": "^2.2.0",
     "flightplan": "^0.6.2",
     "gulp": "^3.8.10",
-    "gulp-imagemin": "^2.2.0",
     "gulp-livereload": "^3.7.0",
     "gulp-minify-css": "^0.4.6",
     "gulp-nodemon": "^1.0.5",
@@ -68,5 +66,12 @@
     "jsx-loader": "^0.13.1",
     "webpack": "^1.7.3",
     "webpack-dev-middleware": "^1.0.11"
+  },
+  "globalDependencies": {
+    "flightplan": "*",
+    "gulp": "*",
+    "gulp-imagemin": "*",
+    "imagemin": "*",
+    "webpack": "*"
   }
 }
