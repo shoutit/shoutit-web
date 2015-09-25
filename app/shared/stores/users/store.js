@@ -256,23 +256,53 @@ var UserStore = Fluxxor.createStore({
 		}.bind(this));
 	},
 
+	augmentPatch(field, value) {
+		let apiMap = {
+			email: {email: value},
+			username: {username: value},
+			address: {
+				location: {
+					address:value
+				}
+			}
+		};
+
+		return apiMap[field];
+	},
+
 
 	onInfoSave(payload) {
-		if (this.state.users[this.state.user][payload.field]) {
-			var patch = {};
+		let field = payload.field;
+		this.state.editors[field] = {};
+		this.state.editors[field].loading = true;
+		this.emit("change");
 
-			patch[payload.field] = payload.value;
+		let user = this.state.user;
+		let patch = this.augmentPatch(field, payload.value);
 
+		if (this.state.users[user]) {
+			
 			client.update(patch).end(function (err, res) {
 				if (err) {
 					console.log(err);
 				} else {
-					console.log(res.body);
-					var loggedUser = res.body;
-					this.state.users[loggedUser.username] = loggedUser;
-					this.state.user = loggedUser.username;
-					this.state.loading = false;
-					this.emit("change");
+					this.state.editors[field].loading = false;
+					if(res.status !== 200) {
+						if(res.body[field]) {
+							let err = res.body[field][0];
+							this.state.editors[field] = {loading: false,msg:err};
+							this.state.loading = false;
+							this.emit("change");
+						}
+					} else {
+						var loggedUser = res.body;
+						this.state.users[loggedUser.username] = loggedUser;
+						this.state.user = loggedUser.username;
+						this.state.editors[field] = {loading: false};
+						this.state.loading = false;
+						this.emit("change");
+					}
+					
 				}
 			}.bind(this));
 		}

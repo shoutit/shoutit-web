@@ -31,9 +31,9 @@ export default React.createClass({
 		let input = this.state.edit ?
 			<input ref="input" type={this.props.type || "text"} value={this.state.value}
 				   onChange={this.handleChange}/> :
-			<p>{this.state.value}
+			<p>{this.props.settings.loading || this.props.settings.msg? '': this.state.value}
 				<span style={{fontSize:'12px',color:'#A0A0A0'}}>
-					{this.props.settings.loading? '[Loading...]': ''}{!this.state.errorCheck? this.props.settings.msg: ''}
+					{this.props.settings.loading? ' [Loading...]': ''}{!this.state.errorCheck? this.props.settings.msg: ''}
 				</span>
 				<span style={{fontSize:'12px',color:'#e65653'}}>
 					{this.state.errorCheck}
@@ -52,8 +52,9 @@ export default React.createClass({
 			<Col xs={12} sm={4} md={4}>
 				{this.renderEditButton()}
 				{this.renderVerifyButton()}
-				{this.renderSaveButton()}
 				{this.renderCancelButton()}
+				{this.renderSaveButton()}
+				
 			</Col>
 		);
 	},
@@ -84,18 +85,12 @@ export default React.createClass({
 
 	renderSaveButton() {
 		return this.state.edit ?
-			<Col xs={6} sm={6} md={7}>
-				<p className="t-Save" onClick={this.onSaveClick}>Save</p>
-			</Col>
-			: null;
+				<p className="t-Save" onClick={this.onSaveClick}>Save</p>: null;
 	},
 
 	renderCancelButton() {
 		return this.state.edit ?
-			<Col xs={6} sm={6} md={5}>
-				<p className="t-hiden" onClick={this.onCancelClick}>Cancel</p>
-			</Col>
-			: null;
+				<p className="t-hiden" onClick={this.onCancelClick}>Cancel</p>: null;
 	},
 
 	renderPasswordInput() {
