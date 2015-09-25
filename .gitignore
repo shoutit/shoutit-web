@@ -1,4 +1,5 @@
 .idea
 node_modules
+app/public/main.js
 app/res/vendor
 .sass-cache

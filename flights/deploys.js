@@ -16,15 +16,16 @@ plan.local(['build', 'default'], function (local) {
     var target = local._context.target;
     var webpackOpts = target === 'production' ? '--config=webpack.config.mini.js' : '';
     local.exec('webpack ' + webpackOpts);
-	local.exec('git add app/public/main.js');
 });
 
 
 // run commands on localhost: transfer files to remote
 plan.local(['transfer', 'default'], function (local) {
 	local.log('Copy files to remote hosts');
+	local.exec('git add -f app/public/main.js');  // Add main.js to git
 	var filesToCopy = local.exec('git ls-files', {silent: true});
 	local.transfer(filesToCopy, '/tmp/' + tmpDir);
+	local.exec('git rm -f app/public/main.js');  // Not really :D remove it now
 });
 
 
