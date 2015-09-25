@@ -24,16 +24,14 @@ plan.local(['transfer', 'default'], function (local) {
 	local.log('Copy files to remote hosts');
 
 	// Add css, img and main.js to git
-	local.exec('git add -f app/public/main.js app/public/css/* app/public/img/*');
+	local.exec('git add -f app/public/main.js -f app/public/css/* -f app/public/img/*');
 
 	// Create list of files to be transferred and transfer them
 	var filesToCopy = local.exec('git ls-files', {silent: true});
 	local.transfer(filesToCopy, '/tmp/' + tmpDir);
 
 	// Not really :D remove them now
-	local.exec('git rm -f app/public/main.js');
-	local.exec('git rm -f -r app/public/css');
-	local.exec('git rm -f -r app/public/img');
+	local.exec('git rm -f app/public/main.js -f -r app/public/css -f -r app/public/img');
 });
 
 
