@@ -11,12 +11,13 @@ export default React.createClass({
 	mixins: [Navigation],
 
 	render() {
-		let user = this.props.users[this.props.username];
+		let username = this.props.user;
+		let user = this.props.users[username];
 
 		return (
 			<Col xs={12} md={12} className="profile-right">
 				<BasicInfo status={this.props.editors} user={user} onSaveClicked={this.onSaveClicked} 
-							  onInfoChange={this.onInfoChange}/>
+							  onInfoChange={this.onInfoChange} onUserChanged={this.onUserChanged}/>
 				<ContactInfos status={this.props.editors} user={user} onSaveClicked={this.onSaveClicked}
 							  onInfoChange={this.onInfoChange}
 							  onVerifyClicked={this.handleVerify}/>
@@ -32,6 +33,10 @@ export default React.createClass({
 		field !== 'password'?
 			flux.actions.saveInfo(field, newValue):
 			flux.actions.changePass(newValue);
+	},
+
+	onUserChanged(newUser) {
+		this.replaceWith('user', {username: newUser});
 	},
 
 	componentWillMount() {
