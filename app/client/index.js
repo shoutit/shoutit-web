@@ -92,6 +92,7 @@ router.run(function (Handler, state) {
 			//Perf.printWasted();
 			//console.log("Router run!");
 			ga('send', 'pageview', state.path);
+			// todo: find better and less annoying way to show the app download popup. also if the user has the app it should not show at all
 			routesVisited++;
 			if (routesVisited === 3 && envData.mobile) {
 				flux.actions.showDownloadPopup();

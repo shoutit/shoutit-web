@@ -5,6 +5,9 @@ import {Grid, Col, Row, Button, Popover, OverlayTrigger} from 'react-bootstrap';
 import SearchBar from './searchBar.jsx';
 import TopBarActions from './topbarActions.jsx';
 import Logo from './logo.jsx';
+import isMobile from 'ismobilejs';
+
+let mobile = isMobile.any;
 
 export default React.createClass({
 	displayName: "TopBar",
@@ -15,8 +18,8 @@ export default React.createClass({
 
 		let xsSizes = {
 			logo: 2,
-			searchBar: loggedUser ? 8 : 7,
-			actions: loggedUser ? 2 : 3
+			searchBar: loggedUser ? 7 : 6,
+			actions: loggedUser ? 3 : 4
 		};
 
 		let loginAlert = 
@@ -27,14 +30,21 @@ export default React.createClass({
 							click here
 						</span>.
 				</Popover>;
-
+        let searchBarColClassName = '';
+        if (mobile) {
+            if (loggedUser) {
+                searchBarColClassName = 'searchBarCol62';
+            } else {
+                searchBarColClassName = 'searchBarCol54';
+            }
+        }
 		return (
 			<Row className="topBar">
 				<Grid>
 					<Col className="logo" xs={2} md={1}>
 						<Logo/>
 					</Col>
-					<Col xs={xsSizes.searchBar} md={6}>
+					<Col className={searchBarColClassName} xs={xsSizes.searchBar} md={6}>
 						<SearchBar/>
 					</Col>
 					<Col xs={xsSizes.actions} md={5}>
@@ -47,7 +57,7 @@ export default React.createClass({
 								</ButtonLink>
 								<OverlayTrigger trigger="click" placement="bottom" overlay={loginAlert}>
 									<Button className="shout-btn pull-right" style={{marginRight:'10px'}}>
-										+ Create Shout
+										{mobile ? '+' : '+ Create Shout'}
 									</Button>
 								</OverlayTrigger>
 							</div>

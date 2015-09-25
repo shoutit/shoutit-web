@@ -9,6 +9,9 @@
   }
 
   .logo {
+    @media (max-width: 620px) {
+      margin-right: -20px;
+    }
     img {
       height: 32px;
     }
