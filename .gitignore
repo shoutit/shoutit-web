@@ -1,5 +1,7 @@
 .idea
-node_modules
+.sass-cache
+app/public/css
+app/public/img
 app/public/main.js
 app/res/vendor
-.sass-cache
+node_modules
