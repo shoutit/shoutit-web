@@ -4,19 +4,6 @@ import EditInfoRow from './editInfoRow.jsx';
 
 export default React.createClass({
 	displayName: "BasicInformation",
-	getInitialState() {
-		return {
-			lastUser: null
-		}
-	},
-
-	componentDidUpdate() {
-		let user = this.props.user;
-		if(user.username !== this.state.lastUser && this.state.lastUser !== null) {
-			this.userChanged(user.username);
-		}
-
-	},
 
 	render() {
 		let user = this.props.user;
@@ -41,16 +28,8 @@ export default React.createClass({
 		let action = this.props.onSaveClicked;
 
 		return function (newValue) {
-			// storing username so we will know if it changed
-			this.setState({lastUser: this.props.user.username});
 			action(field, newValue);
 		}.bind(this);
-	},
-
-	userChanged(newUser) {
-		if(this.props.onUserChanged) {
-			this.props.onUserChanged(newUser);
-		}
 	},
 
 	onInfoChange(field) {

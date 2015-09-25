@@ -10,6 +10,15 @@ export default React.createClass({
 	displayName: "ProfileSettings",
 	mixins: [Navigation],
 
+	componentDidUpdate() {
+		let username = this.props.user;
+		let paramUsername = this.props.username;
+
+		if(username !== paramUsername) {
+			this.onUserChanged(username);
+		}
+	},
+
 	render() {
 		let username = this.props.user;
 		let user = this.props.users[username];
@@ -17,7 +26,7 @@ export default React.createClass({
 		return (
 			<Col xs={12} md={12} className="profile-right">
 				<BasicInfo status={this.props.editors} user={user} onSaveClicked={this.onSaveClicked} 
-							  onInfoChange={this.onInfoChange} onUserChanged={this.onUserChanged}/>
+							  onInfoChange={this.onInfoChange} />
 				<ContactInfos status={this.props.editors} user={user} onSaveClicked={this.onSaveClicked}
 							  onInfoChange={this.onInfoChange}
 							  onVerifyClicked={this.handleVerify}/>
