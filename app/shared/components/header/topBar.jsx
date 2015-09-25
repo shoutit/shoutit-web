@@ -35,7 +35,7 @@ export default React.createClass({
             if (loggedUser) {
                 searchBarColClassName = 'searchBarCol62';
             } else {
-                searchBarColClassName = 'searchBarCol54';
+                searchBarColClassName = 'searchBarCol51';
             }
         }
 		return (
