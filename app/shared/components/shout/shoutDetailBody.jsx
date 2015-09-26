@@ -11,11 +11,12 @@ import Video from './video.jsx';
 import {Image} from '../helper';
 import {ItemProp, ItemScope} from '../helper/microdata';
 
+import ImageGallery from'react-image-gallery';
+
 let types = {
 	offer: "Offer",
 	request: "Request"
 };
-
 
 export default React.createClass({
 	displayName: "ShoutDetailBody",
@@ -46,21 +47,29 @@ export default React.createClass({
 				})}
 			</p>
 			: [];
-	}
-	,
+	},
 
 	renderImages(shout) {
-		return shout.images ? shout.images.map(function (imageSrc, i) {
-			return (
-				<div key={"shout-detail-image-" + i} className="section-img">
-					<ItemProp property="image">
-						<Image size="large" src={imageSrc}/>
-					</ItemProp>
-				</div>
-			);
-		}) : [];
-	}
-	,
+		return shout.images ?
+			// images = shout.images.map(function(imageSrc) {
+			// 	let img = {};
+			// 	img.original = imageSrc.replace(/\..{3}$/i,'_large.' + imageSrc.split('.').pop());
+			// 	img.thumbnail = imageSrc.replace(/\..{3}$/i,'_small.' + imageSrc.split('.').pop());
+				
+			// 	return img;
+			// });
+				<ImageGallery
+					items={shout.images}
+					autoPlay={true}
+					showBullets={true}
+					slideInterval={3000}
+					onSlide={this.handleSlide} />
+		: [];
+	},
+
+	handleSlide(index) {
+		console.log('Slid to ' + index);
+	},
 
 	renderText(shout) {
 		return (
@@ -68,8 +77,7 @@ export default React.createClass({
 				<p className="detail">{shout.text}</p>
 			</ItemProp>
 		);
-	}
-	,
+	},
 
 	renderTitle(shout) {
 		return (
@@ -77,25 +85,21 @@ export default React.createClass({
 				<h4>{shout.title}</h4>
 			</ItemProp>
 		);
-	}
-	,
+	},
 
 	renderRating(shout) {
 		return shout.rating ?
 			<Rating rating={shout.rating}/> : null;
-	}
-	,
+	},
 
 	renderActions() {
 		//return (<ShoutDetailActions/>);
-	}
-	,
+	},
 
 	renderTags(shout) {
 		return shout.tags ?
 			<TagList tags={shout.tags}/> : null;
-	}
-	,
+	},
 
 	renderBottom(shout) {
 		return (
@@ -104,8 +108,7 @@ export default React.createClass({
 				{this.renderTags(shout)}
 			</div>
 		);
-	}
-	,
+	},
 
 	renderOffer(shout) {
 		if (shout.type === "offer" && shout.price && shout.currency) {
@@ -125,8 +128,7 @@ export default React.createClass({
 				</ItemProp>
 			);
 		}
-	}
-	,
+	},
 
 	render() {
 		let shout = this.props.shout;
