@@ -2385,6 +2385,18 @@
       "from": "react-dropzone-component@*",
       "resolved": "https://registry.npmjs.org/react-dropzone-component/-/react-dropzone-component-0.6.0.tgz"
     },
+    "react-image-gallery": {
+      "version": "0.4.3",
+      "from": "react-image-gallery@0.4.3",
+      "resolved": "https://registry.npmjs.org/react-image-gallery/-/react-image-gallery-0.4.3.tgz",
+      "dependencies": {
+        "react-swipeable": {
+          "version": "3.0.2",
+          "from": "react-swipeable@>=3.0.2 <4.0.0",
+          "resolved": "https://registry.npmjs.org/react-swipeable/-/react-swipeable-3.0.2.tgz"
+        }
+      }
+    },
     "react-overlays": {
       "version": "0.4.4",
       "from": "react-overlays@*",
