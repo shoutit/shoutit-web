@@ -11,7 +11,8 @@ import Video from './video.jsx';
 import {Image} from '../helper';
 import {ItemProp, ItemScope} from '../helper/microdata';
 
-import ImageGallery from'react-image-gallery';
+import ImageGallery from 'react-image-gallery';
+import VideoPlayer from './videoPlayer.jsx';
 
 let types = {
     offer: "Offer",
@@ -39,18 +40,19 @@ export default React.createClass({
     },
 
     renderVideos(shout) {
-        return shout.videos ?
-            <p>
-                {shout.videos.map(function (video, i) {
-                    let key = "shout-detail-video-" + i;
-                    return (<Video {...video} key={key}/>);
-                })}
-            </p>
-            : [];
+        if(shout.videos.length) {
+            let videoOptions = {
+                url: shout.videos[0].url,
+                poster: shout.videos[0].thumbnail_url
+            };
+            return <VideoPlayer options={videoOptions} />
+        } else {
+            return [];
+        }
     },
 
     renderImages(shout) {
-        if (shout.images) {
+        if (shout.images.length) {
             let images = shout.images.map(function (imageSrc) {
                 let img = {};
                 img.original = imageSrc.replace(/\..{3}$/i, '_large.' + imageSrc.split('.').pop());
@@ -140,8 +142,8 @@ export default React.createClass({
                     {this.renderTitle(shout)}
                     {this.renderSubtitle(shout)}
                     {this.renderText(shout)}
-                    {this.renderVideos(shout)}
                     {this.renderImages(shout)}
+                    {this.renderVideos(shout)}
                     {this.renderOffer(shout)}
                     {this.renderRating(shout)}
                     {this.renderBottom(shout)}
