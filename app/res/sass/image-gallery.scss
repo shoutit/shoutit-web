@@ -24,7 +24,8 @@
         font-size: 3.4em; } }
     @media (min-width: 768px) {
       .image-gallery-content .image-gallery-left-nav:hover, .image-gallery-content .image-gallery-right-nav:hover {
-        color: #337ab7; } }
+        color: #337ab7;
+        text-decoration: none} }
   .image-gallery-content .image-gallery-left-nav {
     left: 0; }
     .image-gallery-content .image-gallery-left-nav:before {
