@@ -51,13 +51,6 @@ export default React.createClass({
 
 	renderImages(shout) {
 		return shout.images ?
-			// images = shout.images.map(function(imageSrc) {
-			// 	let img = {};
-			// 	img.original = imageSrc.replace(/\..{3}$/i,'_large.' + imageSrc.split('.').pop());
-			// 	img.thumbnail = imageSrc.replace(/\..{3}$/i,'_small.' + imageSrc.split('.').pop());
-				
-			// 	return img;
-			// });
 				<ImageGallery
 					items={shout.images}
 					autoPlay={true}

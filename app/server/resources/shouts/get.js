@@ -4,7 +4,6 @@
 
 module.exports = function (client, path) {
 	return function (session, id) {
-        console.log('hi');
 		return client.get(path + '/' + id, {
 			accessToken: session && session.accessToken ? session.accessToken : null
 		});
