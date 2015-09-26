@@ -20,7 +20,7 @@ export default React.createClass({
 	},
 
 	render() {
-		let username = this.props.user;
+		let username = this.props.username;
 		let user = this.props.users[username];
 
 		return (
