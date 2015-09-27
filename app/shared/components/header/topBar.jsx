@@ -31,11 +31,13 @@ export default React.createClass({
 						</span>.
 				</Popover>;
         let searchBarColClassName = '';
+        let actionsColClassName = '';
         if (mobile) {
             if (loggedUser) {
                 searchBarColClassName = 'searchBarCol62';
             } else {
                 searchBarColClassName = 'searchBarCol51';
+                actionsColClassName = 'actionsCol42';
             }
         }
 		return (
@@ -47,7 +49,7 @@ export default React.createClass({
 					<Col className={searchBarColClassName} xs={xsSizes.searchBar} md={6}>
 						<SearchBar/>
 					</Col>
-					<Col xs={xsSizes.actions} md={5}>
+					<Col className={actionsColClassName} xs={xsSizes.actions} md={5}>
 						{this.props.user ?
 							<TopBarActions flux={this.props.flux} user={loggedUser}
 										   onLogoutClicked={this.props.onLogoutClicked}/> :
@@ -56,7 +58,7 @@ export default React.createClass({
 									<span>Log In</span>
 								</ButtonLink>
 								<OverlayTrigger trigger="click" placement="bottom" overlay={loginAlert}>
-									<Button className="shout-btn pull-right" style={{marginRight:'10px'}}>
+									<Button className="shout-btn pull-right" style={{marginRight:'5px'}}>
 										{mobile ? '+' : '+ Create Shout'}
 									</Button>
 								</OverlayTrigger>

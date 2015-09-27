@@ -9,11 +9,13 @@ module.exports = _.merge({}, require('./webpack.config.js'), {
 		// https://webpack.github.io/docs/list-of-plugins.html#dedupeplugin
 		//new webpack.optimize.DedupePlugin(),
 
-		new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				warnings: false
-			}
-		}),
+		// We don't need uglify at the moment since we are having issues to be debugged
+		//new webpack.optimize.UglifyJsPlugin({
+		//	compress: {
+		//		warnings: false
+		//	}
+		//}),
+
 		new webpack.DefinePlugin({
 			"process.env": {
 				// Signal production mode for React JS and other libs.
