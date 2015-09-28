@@ -24,7 +24,7 @@ export default function (envData) {
 
 		render() {
 			return (
-				<DocumentTitle title={"Shoutit - Chat"}>
+				<DocumentTitle title={"Chats - Shoutit"}>
 					<div className="chat">
 						<Col xs={12} md={4} className="chat-left-padding">
 							<ConversationList {...this.props}/>

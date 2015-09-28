@@ -45,7 +45,7 @@ export default React.createClass({
 
 	render() {
 		return (
-			<DocumentTitle title="Verifying Email - Shoutit">
+			<DocumentTitle title="Email verification- Shoutit">
 				<div className="login">
 					<div className="login-container">
 						<div className="top-login">

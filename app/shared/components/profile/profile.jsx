@@ -52,7 +52,7 @@ export default React.createClass({
 					user.listening_count.tags;
 
 			return (
-				<DocumentTitle title={"Shoutit Profile - " + user.username}>
+				<DocumentTitle title={user.name + " - Shoutit"}>
 					<div className="profile">
 						<Col xs={12} md={3} className="profile-left">
 							<ProfileImage image={user.image} name={user.name} username={user.username || " "}/>
@@ -93,7 +93,7 @@ export default React.createClass({
 			);
 		} else if (user === null) {
 			return (
-				<DocumentTitle title="Shoutit Profile - Not Found">
+				<DocumentTitle title="Not Found - Shoutit">
 					<div className="profile">
 						<Col xs={12} md={3} className="profile-left">
 							<h3>User not found.</h3>
@@ -105,7 +105,7 @@ export default React.createClass({
 			);
 		} else {
 			return (
-				<DocumentTitle title="Shoutit Profile - Loading">
+				<DocumentTitle title="Loading - Shoutit">
 					<div className="profile">
 						<Col xs={12} md={3} className="profile-left">
 							<Loader/>

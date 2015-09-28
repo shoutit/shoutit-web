@@ -40,7 +40,7 @@ export default React.createClass({
 				listenerCount = tag.listeners_count;
 
 			return (
-				<DocumentTitle title={"Shoutit Tag Profile - " + tag.name}>
+				<DocumentTitle title={tag.name + " - Shoutit"}>
 					<div className="profile">
 						<Col xs={12} md={3} className="profile-left">
 							<TagProfileImage image={tag.image} name={tag.name}/>
@@ -75,7 +75,7 @@ export default React.createClass({
 			);
 		} else if (!this.state.loading && tagEntry === null) {
 			return (
-				<DocumentTitle title="Shoutit Profile - Not Found">
+				<DocumentTitle title="Not Found - Shoutit">
 					<div className="profile">
 						<Col xs={12} md={3} className="profile-left">
 						</Col>
@@ -87,7 +87,7 @@ export default React.createClass({
 			);
 		} else {
 			return (
-				<DocumentTitle title="Shoutit Profile - Loading">
+				<DocumentTitle title="Loading - Shoutit">
 					<div className="profile">
 						<Col xs={12} md={3} className="profile-left">
 							<Loader/>

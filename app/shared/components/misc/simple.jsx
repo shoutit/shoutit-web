@@ -5,7 +5,7 @@ import Loader from '../helper/loader.jsx';
 export default React.createClass({
     displayName: "Simple",
 
-    title: "Shoutit- Not implemented yet.",
+    title: "Not implemented yet - Shoutit",
 
     render() {
         return (

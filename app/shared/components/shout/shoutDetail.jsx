@@ -58,12 +58,12 @@ export default React.createClass({
 
 		if (shout && shout.id) {
 			content =
-				<DocumentTitle title={"Shoutit - " + shout.title}>
+				<DocumentTitle title={shout.title + " - Shoutit"}>
 					<ShoutDetailBody shout={shout} flux={this.getFlux()}/>
 				</DocumentTitle>;
 		} else if (!loading && shout === null) {
 			content = (
-				<DocumentTitle title={"Shoutit - Not found"}>
+				<DocumentTitle title={"Not found - Shoutit"}>
 					<Col xs={12} md={12} className="section-right">
 						<h1>Shout not found!</h1>
 					</Col>
