@@ -132,10 +132,10 @@ function getMetaFromData(relUrl, innerRoute, data) {
 						type: "shout",
 						shoutType: "offer",
 						shoutTypePrefix: "Offer",
-						title: "Shoutit - " + shout.title,
+						title: shout.title + " - Shoutit",
 						image: shout.thumbnail,
 						user: shout.user.name,
-						description: "Offer by" + shout.user.name + " - " + shout.text,
+						description: "Offer by " + shout.user.name + ": " + shout.text,
 						price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
 						location: shout.location.city + " - " + shout.location.country
 					};
@@ -144,10 +144,10 @@ function getMetaFromData(relUrl, innerRoute, data) {
 						type: "shout",
 						shoutType: "request",
 						shoutTypePrefix: "Request",
-						title: "Shoutit - " + shout.title,
+						title: shout.title + " - Shoutit",
 						image: shout.thumbnail,
 						user: shout.user.name,
-						description: "Offer by" + shout.user.name + " - " + shout.text,
+						description: "Offer by " + shout.user.name + ": " + shout.text,
 						price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
 						location: shout.location.city + " - " + shout.location.country
 					};
@@ -165,9 +165,9 @@ function getMetaFromData(relUrl, innerRoute, data) {
 			if (user) {
 				addData = {
 					type: "user",
-					title: "Shoutit Profile - " + user.name,
+					title: user.name + " - Shoutit",
 					image: user.image,
-					description: "Shoutit - " + user.name + "'s profile - See the users shouts."
+					description: user.name + "'s profile on Shoutit - See the users shouts."
 				};
 			}
 			break;
