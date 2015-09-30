@@ -1,16 +1,12 @@
 import consts from './consts';
 
 export default {
-	searchAll(term) {
-		this.dispatch(consts.SEARCH_ALL, {
-			term: term
-		});
+	searchAll(payload) {
+		this.dispatch(consts.SEARCH_ALL, payload);
 	},
 
-	searchShouts(term) {
-		this.dispatch(consts.SEARCH_SHOUTS, {
-			term: term
-		});
+	searchShouts(payload) {
+		this.dispatch(consts.SEARCH_SHOUTS, payload);
 	},
 
 	searchShoutsSuccess(term, res) {
@@ -20,10 +16,8 @@ export default {
 		});
 	},
 
-	searchTags(term) {
-		this.dispatch(consts.SEARCH_TAGS, {
-			term: term
-		});
+	searchTags(payload) {
+		this.dispatch(consts.SEARCH_TAGS, payload);
 	},
 
 	searchTagsSuccess(term, res) {
@@ -33,10 +27,8 @@ export default {
 		});
 	},
 
-	searchUsers(term) {
-		this.dispatch(consts.SEARCH_USERS, {
-			term: term
-		});
+	searchUsers(payload) {
+		this.dispatch(consts.SEARCH_USERS, payload);
 	},
 
 	searchUsersSuccess(term, res) {

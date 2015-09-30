@@ -8,7 +8,9 @@ export default React.createClass({
 
 	render() {
 		let term = this.props.term,
-			linkParams = {term: encodeURIComponent(term)};
+			shouttype = this.props.shouttype,
+			category = this.props.category,
+			linkParams = {term: encodeURIComponent(term), shouttype: shouttype, category: category};
 
 		let shoutCount = this.props.search.shouts[term] ?
 			"(" + this.props.search.shouts[term].length + ")" :

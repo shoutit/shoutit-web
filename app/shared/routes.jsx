@@ -63,7 +63,7 @@ export default function (envData) {
 					<Route name="messages" path=":chatId" handler={MessageList}/>
 					<DefaultRoute handler={EmptyMessageList}/>
 				</Route>
-				<Route name="search" path="/search/:term" handler={Search}>
+				<Route name="search" path="/search/:shouttype/:category/?:term?" handler={Search}>
 					<Route name="searchUsers" path="users" handler={SearchUsers}/>
 					<Route name="searchTags" path="tags" handler={SearchTags}/>
 					<DefaultRoute name="searchShouts" handler={SearchShouts}/>

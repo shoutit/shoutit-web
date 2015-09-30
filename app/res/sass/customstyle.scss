@@ -1561,8 +1561,7 @@ footer {
 }
 
 .listener-scroll {
-  height: 556px;
-  overflow-y: scroll;
+  height: auto;
   width: 100%;
 }
 
@@ -1720,6 +1719,30 @@ footer {
 .search-shoutit .chat-search {
   float: right;
   width: 59%;
+}
+
+.search-shoutit .search-filters {
+  height: 100px;
+  margin: 30px 50px;
+  padding: 20px;
+  border: 4px solid $shoutit-light-gray;
+  border-radius: 5px;
+  input[type=number] {
+    width: 70px;
+    margin: 0 10px;
+    border-radius:3px;
+  }
+  select {
+    margin: 0 10px;
+    border-radius:3px;
+  }
+  .react-tagsinput {
+    padding: 0;
+    width: 50%;
+    background: #fff;
+    border:0;
+    margin: 5px 10px;
+  }
 }
 
 .sort-by {

@@ -8,10 +8,23 @@ export default React.createClass({
 
 	componentDidMount() {
 		let term = this.props.term,
+			category = this.props.category,
+			shouttype = this.props.shouttype,
+			tags = this.props.tags,
+			min = this.props.min,
+			max = this.props.max,
 			shouts = this.props.search.shouts[term];
 
 		if (!shouts) {
-			this.props.flux.actions.searchShouts(term);
+			let payload = {
+				term: term,
+				category: category,
+				shouttype: shouttype,
+				tags: tags,
+				min: min,
+				max: max
+			}
+			this.props.flux.actions.searchShouts(payload);
 		}
 	},
 

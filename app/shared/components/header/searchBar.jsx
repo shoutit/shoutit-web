@@ -29,8 +29,11 @@ export default React.createClass({
 	},
 
 	renderSearchList() {
-		let term = this.state.term,
+		// this component is not integrate with new search system
+		// needs changes
+		/*let term = this.state.term,
 			search = this.state.search;
+
 		return (<SearchResultList
 			results={{
                 users: search.users[term],
@@ -39,7 +42,7 @@ export default React.createClass({
             }}
 			term={term}
 			onBlur={this.onBlurSearch}
-			/>);
+			/>);*/
 	},
 
 	renderLocationList() {
@@ -121,13 +124,16 @@ export default React.createClass({
 	onChangeSearch(ev) {
 		let newTerm = ev.target.value;
 		this.setState({term: newTerm});
-		this.getFlux().actions.searchAll(newTerm);
+		
 	},
 
 	onSubmit() {
 		this.setState({showSearch: false});
 		if (this.state.term.length > 0) {
-			this.transitionTo("search", {term: encodeURIComponent(this.state.term)});
+			this.getFlux().actions.searchAll({term: this.state.term, shouttype: 'all', category: 'all'});
+			this.transitionTo("search", {
+				term: encodeURIComponent(this.state.term), shouttype: 'all', category: 'all'
+			});
 		}
 	},
 

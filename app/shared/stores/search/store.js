@@ -26,6 +26,10 @@ var SearchStore = Fluxxor.createStore({
         this.state.searching[USER_TYPE] = false;
         this.state.searching[TAG_TYPE] = false;
 
+        if (props.categories) {
+            this.state.categories = props.categories;
+        }
+
         if (props.searchShouts && props.term) {
             this.state.shouts[props.term] = props.searchShouts.results;
         }
@@ -61,18 +65,18 @@ var SearchStore = Fluxxor.createStore({
             successFn = this.onSearchSuccess(type);
 
         return function (payload) {
-            var term = payload.term;
-
-            // No Search for search Terms less than 3 characters.
-            if (term.length < 2) {
-                return;
-            }
 
             cancelFn();
+            let searchQuery = {
+                search: payload.term,
+                shout_type: payload.shouttype !== 'all'? payload.shouttype: undefined,
+                category: payload.category !== 'all'? payload.category: undefined,
+                tags: payload.tags,
+                min_price: payload.min,
+                max_price: payload.max
+            };
 
-            var searchReq = clients[type].list({
-                search: term
-            });
+            var searchReq = clients[type].list(searchQuery);
 
             searchReq.end(function (err, res) {
                 this.state.reqs[type] = null;
@@ -81,8 +85,9 @@ var SearchStore = Fluxxor.createStore({
                 if (err) {
                     console.log(err);
                 } else {
+                    //console.log(res.body);
                     successFn({
-                        term: term,
+                        term: payload.term,
                         res: res.body
                     });
                 }
