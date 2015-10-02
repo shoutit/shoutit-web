@@ -10,16 +10,17 @@ export default React.createClass({
 		let term = this.props.term,
 			shouttype = this.props.shouttype,
 			category = this.props.category,
+			search = this.props.search,
 			linkParams = {term: encodeURIComponent(term), shouttype: shouttype, category: category};
 
-		let shoutCount = this.props.search.shouts[term] ?
-			"(" + this.props.search.shouts[term].length + ")" :
+		let shoutCount = search.shouts.length ?
+			"(" + search.shouts.length + ")" :
 				"",
-			userCount = this.props.search.users[term] ?
-			"(" + this.props.search.users[term].length + ")" :
+			userCount = search.users.length ?
+			"(" + search.users.length + ")" :
 				"",
-			tagCount = this.props.search.tags[term] ?
-			"(" + this.props.search.tags[term].length + ")" :
+			tagCount = search.tags?
+			"(" + search.tags.length  + ")" :
 				"";
 
 		return (

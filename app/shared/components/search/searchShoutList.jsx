@@ -1,6 +1,7 @@
 import React from 'react';
-import {Loader} from '../helper';
-
+import {Col} from 'react-bootstrap';
+import {Loader, Clear} from '../helper';
+import ViewportSensor from '../misc/ViewportSensor.jsx';
 import Shout from '../feed/feed/shout.jsx';
 
 export default React.createClass({
@@ -36,7 +37,7 @@ export default React.createClass({
 
 	render() {
 		let term = this.props.term,
-			shouts = this.props.search.shouts[term],
+			shouts = this.props.search.shouts,
 			content;
 
 		if (shouts) {
@@ -49,7 +50,34 @@ export default React.createClass({
 			<div className="listener-scroll ctn-offerpro" tabIndex="5000"
 				 style={{outline: "none"}}>
 				{content}
+				{this.renderViewportSensor()}
 			</div>
 		);
+	},
+
+	renderViewportSensor() {
+		let loading = this.props.search.searching.shouts;
+
+		if(loading) {
+			return (
+				<section>
+					<Col xs={12} md={12}>
+						<Loader />
+					</Col>
+				</section>);
+		} else {
+			return (
+				<section>
+					<Col xs={12} md={12}>
+						<ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
+					</Col>
+				</section>);
+		}
+	},
+
+	onLastVisibleChange(isVisible) {
+		if (isVisible) {
+			this.props.flux.actions.searchLoadMore();
+		}
 	}
 });

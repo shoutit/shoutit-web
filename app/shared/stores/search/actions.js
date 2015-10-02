@@ -36,5 +36,9 @@ export default {
 			term: term,
 			res: res
 		});
-	}
+	},
+
+	searchLoadMore() {
+		this.dispatch(consts.SEARCH_LOAD_MORE);
+	},
 };

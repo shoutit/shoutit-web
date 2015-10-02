@@ -7,11 +7,11 @@ export default React.createClass({
 	displayName: "SearchTagList",
 
 	componentDidMount() {
-		let term = this.props.term,
-			tags = this.props.search.tags[term];
+		let term = this.props.search.term,
+			tags = this.props.search.tags;
 
 		if (!tags) {
-			this.props.flux.actions.searchTags(term);
+			this.props.flux.actions.searchTags({term: term, category: 'all', shouttype: 'all'});
 		}
 	},
 
@@ -23,7 +23,7 @@ export default React.createClass({
 
 	render() {
 		let term = this.props.term,
-			tags = this.props.search.tags[term],
+			tags = this.props.search.tags,
 			content;
 
 		if (tags) {
