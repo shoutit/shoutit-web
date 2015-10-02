@@ -39,15 +39,15 @@ export default React.createClass({
 	renderFilters() {
 		let categories = this.props.search.categories;
 		let catItems = categories.length? categories.map((item,idx) => 
-			<option key={idx} selected={this.props.category === item.slug} value={item.slug}>{item.name}</option>): [];
+			<option key={idx} value={item.slug}>{item.name}</option>): [];
 		
 		return (
 			<div className="search-filters">
 				<div>
-					<select name="shouttype" onInput={this.props.onTermChange}>
+					<select name="shouttype" value={this.props.shouttype} onInput={this.props.onTermChange}>
 						<option value="all">All</option>
-						<option value="offer" selected={this.props.shouttype === 'offer'}>Offers</option>
-						<option value="request" selected={this.props.shouttype === 'request'}>Request</option>
+						<option value="offer">Offers</option>
+						<option value="request">Request</option>
 					</select>
 					<span>
 						Price range:
@@ -57,7 +57,7 @@ export default React.createClass({
 						<input type="number" min="0" value={this.state.max} name="max" onInput={this.handlePrice}
 								onChange={this.props.onTermChange}/>
 					</span>
-					<select name="category" onInput={this.props.onTermChange}>
+					<select name="category" value={this.props.category} onInput={this.props.onTermChange}>
 						<option key="0" value='all'>All categories</option>
 						{catItems}
 					</select>
