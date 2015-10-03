@@ -29,20 +29,21 @@ export default React.createClass({
 	},
 
 	renderSearchList() {
-		// this component is not integrate with new search system
-		// needs changes
-		/*let term = this.state.term,
+		let term = this.state.term,
 			search = this.state.search;
 
-		return (<SearchResultList
-			results={{
-                users: search.users[term],
-                shouts: search.shouts[term],
-                tags: search.tags[term]
-            }}
-			term={term}
-			onBlur={this.onBlurSearch}
-			/>);*/
+		console.log(search);
+		if(term) {
+			return (<SearchResultList
+				results={{
+	                users: search.users,
+	                shouts: search.shouts,
+	                tags: search.tags
+	            }}
+				params={{term, category: 'all', shouttype: 'all'}}
+				onBlur={this.onBlurSearch}
+				/>);
+		}
 	},
 
 	renderLocationList() {
@@ -124,17 +125,15 @@ export default React.createClass({
 	onChangeSearch(ev) {
 		let newTerm = ev.target.value;
 		this.setState({term: newTerm});
-		
+		this.getFlux().actions.searchAll({term: newTerm, shouttype: 'all', category: 'all'});
 	},
 
 	onSubmit() {
 		this.setState({showSearch: false});
-		if (this.state.term.length > 0) {
-			this.getFlux().actions.searchAll({term: this.state.term, shouttype: 'all', category: 'all'});
-			this.transitionTo("search", {
-				term: encodeURIComponent(this.state.term), shouttype: 'all', category: 'all'
-			});
-		}
+		this.getFlux().actions.searchAll({term: this.state.term, shouttype: 'all', category: 'all'});
+		this.transitionTo("search", {
+			term: encodeURIComponent(this.state.term), shouttype: 'all', category: 'all'
+		});
 	},
 
 	onLocInputChange(ev) {

@@ -1,13 +1,14 @@
 import React from 'react';
 import {Link} from 'react-router';
+import Image from '../../helper/image.jsx';
 
 export default React.createClass({
 	displayName: "SearchResultList",
 
 	render() {
-		let term = this.props.term,
-			searchParams = {term: encodeURIComponent(term)},
+		let searchParams = this.props.params,
 			results = this.props.results;
+		console.log(searchParams)
 
 		let onBlurSearch = this.props.onBlur;
 
@@ -19,10 +20,17 @@ export default React.createClass({
 				return (
 					<li key={"search-header-shout-" + i}>
 						<Link to="shout"
-							  params={{shoutId: shout.id, location: shout.location.city, title: encodeURIComponent(shout.title.replace(/\s+/g, '-'))}}
+							  params={{shoutId: shout.id, location: shout.location.city, 
+							  		title: encodeURIComponent(shout.title.replace(/\s+/g, '-'))}}
 							  onClick={onBlurSearch}>
-							{shout.title}
+							 <div className="img-search-holder">
+							 	 <Image src={shout.thumbnail} size="small" className="img-search-thumb"/>
+							 </div>
+							 <div style={{verticalAlign:'10px',display:'inline-block'}}>
+							 	{shout.title}
+							 </div>
 						</Link>
+
 					</li>);
 			}) : [];
 
@@ -34,7 +42,12 @@ export default React.createClass({
 				return (
 					<li key={"search-header-tag-" + i}>
 						<Link to="tag" params={{tagName: encodeURIComponent(tag.name)}} onClick={onBlurSearch}>
-							{tag.name}
+							<div className="img-search-holder">
+							 	 <img src={tag.image} className="img-search-thumb"/>
+							 </div>
+							 <div style={{verticalAlign:'10px',display:'inline-block'}}>
+							 	{tag.name}
+							 </div>
 						</Link>
 					</li>);
 			}) : [];
@@ -47,7 +60,12 @@ export default React.createClass({
 				return (
 					<li key={"search-header-user-" + i}>
 						<Link to="user" params={{username: encodeURIComponent(user.username)}} onClick={onBlurSearch}>
-							{user.name}
+							<div className="img-search-holder">
+							 	 <img src={user.image} className="img-search-thumb"/>
+							 </div>
+							 <div style={{verticalAlign:'10px',display:'inline-block'}}>
+							 	{user.name}
+							 </div>
 						</Link>
 					</li>);
 			}) : [];

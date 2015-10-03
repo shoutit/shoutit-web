@@ -17,9 +17,9 @@ clients[TAG_SEARCH] = require('../tags/client');
 var SearchStore = Fluxxor.createStore({
     initialize(props) {
         this.state = {};
-        this.state[SHOUT_SEARCH] = {};
-        this.state[USER_SEARCH] = {};
-        this.state[TAG_SEARCH] = {};
+        this.state[SHOUT_SEARCH] = [];
+        this.state[USER_SEARCH] = [];
+        this.state[TAG_SEARCH] = [];
         this.state.reqs = {};
         this.state.reqs[SHOUT_SEARCH] = null;
         this.state.reqs[USER_SEARCH] = null;
