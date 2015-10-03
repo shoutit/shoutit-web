@@ -8,7 +8,6 @@ export default React.createClass({
 	render() {
 		let searchParams = this.props.params,
 			results = this.props.results;
-		console.log(searchParams)
 
 		let onBlurSearch = this.props.onBlur;
 

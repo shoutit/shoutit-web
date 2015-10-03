@@ -32,7 +32,6 @@ export default React.createClass({
 		let term = this.state.term,
 			search = this.state.search;
 
-		console.log(search);
 		if(term) {
 			return (<SearchResultList
 				results={{
