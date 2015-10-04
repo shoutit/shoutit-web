@@ -1722,7 +1722,75 @@ footer {
   width: 59%;
 }
 
-.search-shoutit .search-filters {
+.search-filters {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 3px;
+  input[type=number] {
+    width: 68px;
+    margin: 5px 5px 10px 10px;
+    padding:3px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    background: #f8f8f8;
+    color:$shoutit-dark-gray;
+    border:none;
+    outline:none;
+  }
+  input[name=term] {
+    width: 100%;
+    margin: 5px auto 10px;
+    padding:6px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    background: #f8f8f8;
+    color:$shoutit-dark-gray;
+    border:none;
+    outline:none;
+  }
+  select {
+    margin: 5px auto 10px;
+    width: 100%;
+    padding:3px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    background: #f8f8f8;
+    color:$shoutit-dark-gray;
+    border:none;
+    outline:none;
+    display: inline-block;
+    cursor:pointer;
+  }
+  .react-tagsinput {
+    padding: 0;
+    width: 100%;
+    background: #f8f8f8;
+    border:0;
+    margin: 5px auto;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+  }
+}
+
+.search-left-container {
+  width:320px;
+  .sticky {
+    top:100px!important;
+    left:10px!important;
+    width:300px;
+  }  
+}
+
+
+/*.search-shoutit .search-filters {
   height: 100px;
   margin: 30px 50px;
   padding: 20px;
@@ -1744,7 +1812,7 @@ footer {
     border:0;
     margin: 5px 10px;
   }
-}
+}*/
 
 .sort-by {
   float: left;
@@ -2389,5 +2457,20 @@ footer {
   opacity: 0.7!important;
   &:hover {
     opacity: 1!important;
+  }
+}
+.btn-primary {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  background: lighten($shoutit-dark-green,10%)!important;
+  margin-bottom: 5px;
+  border: 0;
+  &:hover {
+    background: lighten($shoutit-dark-green,20%)!important;
+  }
+  &.active,&:active {
+    border:0!important;
+    box-shadow: none;
   }
 }

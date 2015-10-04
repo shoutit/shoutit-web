@@ -2,7 +2,7 @@ import React from 'react';
 import {State,Navigation} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 
-import SearchForm from './searchForm.jsx';
+import SearchFilters from './searchFilters.jsx';
 import SearchResults from './searchResults.jsx';
 import DocumentTitle from 'react-document-title';
 
@@ -36,69 +36,31 @@ export default React.createClass({
 		return (
 			<DocumentTitle title={"Shoutit Search - " + this.state.term}>
 				<div className="profile">
-					<SearchForm {...this.state} />
-					<SearchResults {...this.state}
-						flux={this.getFlux()}
-						onTermChange={this.onTermChange}
-						onSubmit={this.onSubmit}/>
+					<SearchFilters {...this.state} onSubmit={this.onSubmit}/>
+					<SearchResults {...this.state} flux={this.getFlux()}/>
 				</div>
 			</DocumentTitle>
 		);
 	},
 
-	onSubmit(){
-	},
-
-	onTermChange(ev) {
+	onSubmit(filters){
 		let searchParams = {},
 			searchQueries = {};
 
-		searchParams.term = this.state.term;
-		searchParams.category = this.state.category;
-		searchParams.shouttype = this.state.shouttype;
-		searchQueries.min = this.state.min;
-		searchQueries.max = this.state.max;
-		searchQueries.tags = this.state.tags;
+		// Departing URL params from queries
+		searchParams.term = filters.term;
+		searchParams.category = filters.category;
+		searchParams.shouttype = filters.shouttype;
 
-		if(ev.target) {
-			switch(ev.target.name) {
-			case "term":
-				searchParams.term = ev.target.value;
-				break;
-			case "category":
-				searchParams.category = ev.target.value;
-				break;
-			case "shouttype":
-				searchParams.shouttype = ev.target.value;
-				break;
-			case "min":
-				searchQueries.min = ev.target.value;
-				break;
-			case "max":
-				searchQueries.max = ev.target.value;
-				break;
-			}
-		} else { // tags changed
-			searchQueries.tags = ev.tags;
-		}
+		searchQueries.min = filters.min;
+		searchQueries.max = filters.max;
+		searchQueries.tags = filters.tags;
 
-		this.setState({
-			term: searchParams.term,
-			category: searchParams.category,
-			shouttype: searchParams.shouttype,
-			min: searchQueries.min,
-			max: searchQueries.max,
-			tags:searchQueries.tags
-		});
-		
-		//search.term.length >= 3? this.updateSearch(search):undefined;
 		this.updateSearch(searchParams, searchQueries);
 	},
 
 	updateSearch(params, queries) {
-		//console.log(search);
-
 		this.replaceWith("search", params, queries);
-		this.getFlux().actions.searchAll(assign(params, queries));
+		this.getFlux().actions.searchShouts(assign(params, queries));
 	}
 });
