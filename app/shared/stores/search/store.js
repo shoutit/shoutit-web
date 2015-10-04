@@ -70,16 +70,28 @@ var SearchStore = Fluxxor.createStore({
             onSuccess = this.onSearchSuccess(type);
 
         return function (payload) {
+            let searchQuery = {};
             onCancel();
-            let searchQuery = {
-                page_size: defaults.PAGE_SIZE,
-                search: payload.term,
-                shout_type: payload.shouttype !== defaults.ALL_TYPE? payload.shouttype: undefined,
-                category: payload.category !== defaults.ALL_TYPE? payload.category: undefined,
-                tags: payload.tags || undefined,
-                min_price: payload.min || undefined,
-                max_price: payload.max || undefined
-            };
+            // sync-ing app's internal data with API acceptable properties
+            if(type === SHOUT_SEARCH) {
+                searchQuery = {
+                    page_size: defaults.PAGE_SIZE,
+                    search: payload.term,
+                    shout_type: payload.shouttype !== defaults.ALL_TYPE? payload.shouttype: undefined,
+                    category: payload.category !== defaults.ALL_TYPE? payload.category: undefined,
+                    tags: payload.tags || undefined,
+                    min_price: payload.min || undefined,
+                    max_price: payload.max || undefined,
+                    country: payload.country || undefined,
+                    city: payload.city || undefined
+                };
+            } else {
+                // only term for tags and user search
+                searchQuery = {
+                    page_size: defaults.PAGE_SIZE,
+                    search: payload.term
+                }
+            }
 
             // saving search settings
             this.state.settings = searchQuery;

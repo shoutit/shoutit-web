@@ -14,16 +14,13 @@ export default React.createClass({
 			tags = this.props.tags,
 			min = this.props.min,
 			max = this.props.max,
-			shouts = this.props.search.shouts[term];
+			shouts = this.props.search.shouts[term],
+			city = this.props.city || undefined,
+			country = this.props.country || undefined;
 
 		if (!shouts) {
 			let payload = {
-				term: term,
-				category: category,
-				shouttype: shouttype,
-				tags: tags,
-				min: min,
-				max: max
+				term, category, shouttype, tags, min, max, city, country
 			}
 			this.props.flux.actions.searchShouts(payload);
 		}

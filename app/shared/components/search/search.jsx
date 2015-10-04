@@ -22,14 +22,18 @@ export default React.createClass({
 			category: params.category || "",
 			min: queries.min || null,
 			max: queries.max || null,
-			tags: queries.tags || ""
+			tags: queries.tags || "",
+			city: queries.city || undefined,
+			country: queries.country || undefined
 		};
 	},
 
 	getStateFromFlux(){
 		return {
-			search: this.getFlux().store("search").getState()
+			search: this.getFlux().store("search").getState(),
+			locations: this.getFlux().store("locations").getState()
 		};
+
 	},
 
 	render(){
@@ -52,9 +56,22 @@ export default React.createClass({
 		searchParams.category = filters.category;
 		searchParams.shouttype = filters.shouttype;
 
-		searchQueries.min = filters.min;
-		searchQueries.max = filters.max;
-		searchQueries.tags = filters.tags;
+		filters.min? 
+			searchQueries.min = filters.min: undefined;
+		filters.max?
+			searchQueries.max = filters.max: undefined;
+		filters.tags?
+			searchQueries.tags = filters.tags: undefined;
+
+		// setting location if available
+		let location = this.state.locations;
+		if(location.current) {
+			location.current.city? 
+				searchQueries.city = encodeURIComponent(location.current.city): undefined;
+			location.current.country? 
+				searchQueries.country = encodeURIComponent(location.current.country): undefined;
+		}
+
 
 		this.updateSearch(searchParams, searchQueries);
 	},
