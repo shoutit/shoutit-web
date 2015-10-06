@@ -44,7 +44,7 @@ export default React.createClass({
 					<div className="profile">
 						<Col xs={12} md={3} className="profile-left">
 							<TagProfileImage image={tag.image} name={tag.name}/>
-							<TagProfileActions tag={tag} flux={this.getFlux() }/>
+							<TagProfileActions tag={tag} status={this.state.status} flux={this.getFlux() }/>
 							<Clear/>
 							<ul>
 								<NavItemLink to="tagoffers" params={linkParams}>

@@ -2474,3 +2474,44 @@ footer {
     box-shadow: none;
   }
 }
+.shoutit-btn {
+  display: block;
+  width:120px;
+  height: 30px;
+  border: 0;
+  border-radius: 5px;
+  color: #fff;
+  background: lighten($shoutit-dark-green,10%);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px;
+  text-align: center;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background: lighten($shoutit-dark-green,20%);
+  }
+  &.listen {
+    background: lighten($shoutit-dark-green,10%);
+    border-radius: 10px;
+    &:hover {
+      background: lighten($shoutit-dark-green,20%);
+    }
+  }
+  &.not-listen {
+    background: $shoutit-light-gray;
+    border-radius: 5px;
+    color:$shoutit-dark-gray;
+    &:hover {
+      background: darken($shoutit-light-gray,10%);
+    }
+  }
+  &.loading {
+    font-size: 12px;
+    pointer-events: none;
+    cursor: default;
+    color: lighten($shoutit-dark-gray,25%);
+    background: $shoutit-light-gray;
+  }
+}

@@ -3,6 +3,8 @@ import url from 'url';
 import consts from './consts';
 import client from './client';
 
+import statuses from '../../consts/statuses.js';
+var {LISTENING_CLICKED, BUTTON_LISTENED, BUTTON_UNLISTENED} = statuses;
 
 var TagStore = Fluxxor.createStore({
 	initialize(props) {
@@ -10,7 +12,8 @@ var TagStore = Fluxxor.createStore({
 			tags: {},
 			featuredTags: null,
 			loading: false,
-			sprite: null
+			sprite: null,
+			status: null
 		};
 
 		if (props.tag) {
@@ -120,32 +123,30 @@ var TagStore = Fluxxor.createStore({
 
 	onListenTag(payload) {
 		var tagName = payload.tagName;
+		this.setFluxStatus(LISTENING_CLICKED);
 
-		client.listen(tagName).end(function (err) {
-			if (err) {
-				console.log(err);
-			} else {
-				this.onLoadTag({
-					tagName: tagName
-				});
+		client.listen(tagName).end(function(res) {
+			if(res.body.success) {
+				this.onLoadTag(payload);
+				// optimistically change button condition till the real data loads
+				this.state.tags[tagName].tag.is_listening = true;
+				this.setFluxStatus(BUTTON_LISTENED);
 			}
 		}.bind(this));
-
 	},
 
 	onStopListenTag(payload) {
 		var tagName = payload.tagName;
+		this.setFluxStatus(LISTENING_CLICKED);
 
-		client.unlisten(tagName).end(function (err) {
-			if (err) {
-				console.log(err);
-			} else {
-				this.onLoadTag({
-					tagName: tagName
-				});
+		client.unlisten(tagName).end(function(res) {
+			if(res.body.success) {
+				this.onLoadTag(payload);
+				// optimistically change button condition till the real data loads
+				this.state.tags[tagName].tag.is_listening = false;
+				this.setFluxStatus(BUTTON_UNLISTENED);
 			}
 		}.bind(this));
-
 	},
 
 	onLoadTagShouts(payload) {
@@ -261,6 +262,16 @@ var TagStore = Fluxxor.createStore({
 	onLoadTagsSpriteFailed({hash}) {
 		this.state.sprite = undefined;
 		this.emit("change");
+	},
+
+	setFluxStatus(status) {
+		this.state.status = status;
+		this.emit("change");
+		//clearing status to avoid displaying old messages
+		setTimeout(() => {
+			this.state.status = null;
+			this.emit("change");
+		},0);
 	},
 
 	onRequestSpriting() {
