@@ -1,0 +1,6 @@
+export default {
+    // Tag store statuses
+    LISTENING_CLICKED: 'LISTENING_CLICKED',
+    BUTTON_LISTENED: 'BUTTON_LISTENED',
+    BUTTON_UNLISTENED: 'BUTTON_UNLISTENED'
+}
