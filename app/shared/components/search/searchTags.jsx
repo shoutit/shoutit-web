@@ -7,8 +7,10 @@ export default React.createClass({
 
 	statics: {
 		fetchData(client, session, params) {
-			return client.tags().search(session, {
-				search: params.term
+			return client.tags().list(session, {
+				search: params.term,
+				category: params.category,
+				shout_type: params.shouttype
 			});
 		}
 	},

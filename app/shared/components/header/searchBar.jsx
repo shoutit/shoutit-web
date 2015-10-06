@@ -5,6 +5,7 @@ import {Row, Input} from 'react-bootstrap';
 
 import Search from './search.jsx';
 import SearchResultList from './search/searchResultList.jsx';
+import assign from 'core-js/modules/$.assign.js';
 
 export default React.createClass({
 	mixins: [new FluxMixin(React), new StoreWatchMixin("search", "locations"), Navigation],
@@ -31,15 +32,18 @@ export default React.createClass({
 	renderSearchList() {
 		let term = this.state.term,
 			search = this.state.search;
-		return (<SearchResultList
-			results={{
-                users: search.users[term],
-                shouts: search.shouts[term],
-                tags: search.tags[term]
-            }}
-			term={term}
-			onBlur={this.onBlurSearch}
-			/>);
+
+		if(term) {
+			return (<SearchResultList
+				results={{
+	                users: search.users,
+	                shouts: search.shouts,
+	                tags: search.tags
+	            }}
+				params={{term, category: 'all', shouttype: 'all'}}
+				onBlur={this.onBlurSearch}
+				/>);
+		}
 	},
 
 	renderLocationList() {
@@ -121,13 +125,40 @@ export default React.createClass({
 	onChangeSearch(ev) {
 		let newTerm = ev.target.value;
 		this.setState({term: newTerm});
-		this.getFlux().actions.searchAll(newTerm);
+		this.searchAll(newTerm);
 	},
 
 	onSubmit() {
 		this.setState({showSearch: false});
-		if (this.state.term.length > 0) {
-			this.transitionTo("search", {term: encodeURIComponent(this.state.term)});
+		this.searchAll(this.state.term, true);
+	},
+
+	searchAll(term, moveToSearchPage=false) {
+		let searchReq = {};
+		let searchQuery = {};
+
+		searchReq.term = term;
+		// setting location if available
+		let location = this.state.locations;
+		if(location.current) {
+			location.current.city? 
+				searchQuery.city = location.current.city: undefined;
+			location.current.country? 
+				searchQuery.country = location.current.country: undefined;
+		}
+
+		// no category and shout selection in main page
+		searchReq.shouttype = 'all';
+		searchReq.category = 'all';
+
+		// send search action
+		this.getFlux().actions.searchAll(assign(searchReq,searchQuery));
+		// move to search page if requested
+		if (moveToSearchPage) {
+			searchReq.term = encodeURIComponent(searchReq.term);
+			searchQuery.city = encodeURIComponent(searchQuery.city);
+			searchQuery.country = encodeURIComponent(searchQuery.country);
+			this.transitionTo("search", searchReq, searchQuery);
 		}
 	},
 

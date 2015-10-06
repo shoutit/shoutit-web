@@ -29,7 +29,7 @@ module.exports = function (router, user, data, params, currencies, categories, s
 		}, data)),
 		shouts: new ShoutStore(merge({}, data, {currencies, categories, sortTypes}), params),
 		tags: new TagStore(data, params),
-		search: new SearchStore(merge({}, data, params)),
+		search: new SearchStore(merge({}, data, {categories}, params)),
 		locations: new LocationsStore(merge({}, data, {router, params})),
 		messages: new MessagesStore(merge({}, data, {loggedUser: user, params})),
 		notifications: new NotificationsStore({

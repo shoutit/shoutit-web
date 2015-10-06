@@ -1,52 +1,61 @@
 import Fluxxor from 'fluxxor';
 import consts from './consts';
+import url from 'url';
+import defaults from '../../consts/defaults';
+import assign from 'core-js/modules/$.assign.js';
 
-const SHOUT_TYPE = "shouts";
-const TAG_TYPE = "tags";
-const USER_TYPE = "users";
+const SHOUT_SEARCH = "shouts";
+const TAG_SEARCH = "tags";
+const USER_SEARCH = "users";
 
 var clients = {};
-clients[SHOUT_TYPE] = require('../shouts/client');
-clients[USER_TYPE] = require('../users/client');
-clients[TAG_TYPE] = require('../tags/client');
+clients[SHOUT_SEARCH] = require('../shouts/client');
+clients[USER_SEARCH] = require('../users/client');
+clients[TAG_SEARCH] = require('../tags/client');
 
 
 var SearchStore = Fluxxor.createStore({
     initialize(props) {
         this.state = {};
-        this.state[SHOUT_TYPE] = {};
-        this.state[USER_TYPE] = {};
-        this.state[TAG_TYPE] = {};
+        this.state[SHOUT_SEARCH] = [];
+        this.state[USER_SEARCH] = [];
+        this.state[TAG_SEARCH] = [];
         this.state.reqs = {};
-        this.state.reqs[SHOUT_TYPE] = null;
-        this.state.reqs[USER_TYPE] = null;
-        this.state.reqs[TAG_TYPE] = null;
+        this.state.reqs[SHOUT_SEARCH] = null;
+        this.state.reqs[USER_SEARCH] = null;
+        this.state.reqs[TAG_SEARCH] = null;
         this.state.searching = {};
-        this.state.searching[SHOUT_TYPE] = false;
-        this.state.searching[USER_TYPE] = false;
-        this.state.searching[TAG_TYPE] = false;
+        this.state.searching[SHOUT_SEARCH] = false;
+        this.state.searching[USER_SEARCH] = false;
+        this.state.searching[TAG_SEARCH] = false;
+        this.state.settings = {};
 
-        if (props.searchShouts && props.term) {
-            this.state.shouts[props.term] = props.searchShouts.results;
+        if (props.categories) {
+            this.state.categories = props.categories;
         }
 
-        if (props.searchUsers && props.term) {
-            this.state.users[props.term] = props.searchUsers.results;
+        if (props.searchShouts) {
+            this.state[SHOUT_SEARCH] = props.searchShouts.results;
         }
 
-        if (props.searchTags && props.term) {
-            this.state.users[props.term] = props.searchTags.results;
+        if (props.searchUsers) {
+            this.state[USER_SEARCH] = props.searchUsers.results;
         }
 
-        this.searchShouts = this.onSearch(SHOUT_TYPE);
-        this.searchTags = this.onSearch(TAG_TYPE);
-        this.searchUsers = this.onSearch(USER_TYPE);
+        if (props.searchTags) {
+            this.state[TAG_SEARCH] = props.searchTags.results;
+        }
+
+        this.searchShouts = this.onSearch(SHOUT_SEARCH);
+        this.searchTags = this.onSearch(TAG_SEARCH);
+        this.searchUsers = this.onSearch(USER_SEARCH);
 
         this.bindActions(
             consts.SEARCH_SHOUTS, this.searchShouts,
             consts.SEARCH_TAGS, this.searchTags,
             consts.SEARCH_USERS, this.searchUsers,
-            consts.SEARCH_ALL, this.onSearchAll
+            consts.SEARCH_ALL, this.onSearchAll,
+            consts.SEARCH_LOAD_MORE, this.onLoadMore
         );
     },
 
@@ -57,23 +66,37 @@ var SearchStore = Fluxxor.createStore({
     },
 
     onSearch(type) {
-        var cancelFn = this.onSearchCancel(type),
-            successFn = this.onSearchSuccess(type);
+        var onCancel = this.onSearchCancel(type),
+            onSuccess = this.onSearchSuccess(type);
 
         return function (payload) {
-            var term = payload.term;
-
-            // No Search for search Terms less than 3 characters.
-            if (term.length < 2) {
-                return;
+            let searchQuery = {};
+            onCancel();
+            // sync-ing app's internal data with API acceptable properties
+            if(type === SHOUT_SEARCH) {
+                searchQuery = {
+                    page_size: defaults.PAGE_SIZE,
+                    search: payload.term,
+                    shout_type: payload.shouttype !== defaults.ALL_TYPE? payload.shouttype: undefined,
+                    category: payload.category !== defaults.ALL_TYPE? payload.category: undefined,
+                    tags: payload.tags || undefined,
+                    min_price: payload.min || undefined,
+                    max_price: payload.max || undefined,
+                    country: payload.country || undefined,
+                    city: payload.city || undefined
+                };
+            } else {
+                // only term for tags and user search
+                searchQuery = {
+                    page_size: defaults.PAGE_SIZE,
+                    search: payload.term
+                }
             }
 
-            cancelFn();
+            // saving search settings
+            this.state.settings = searchQuery;
 
-            var searchReq = clients[type].list({
-                search: term
-            });
-
+            let searchReq = clients[type].list(searchQuery);
             searchReq.end(function (err, res) {
                 this.state.reqs[type] = null;
                 this.state.searching[type] = false;
@@ -81,10 +104,7 @@ var SearchStore = Fluxxor.createStore({
                 if (err) {
                     console.log(err);
                 } else {
-                    successFn({
-                        term: term,
-                        res: res.body
-                    });
+                    onSuccess(res.body);
                 }
             }.bind(this));
 
@@ -106,10 +126,52 @@ var SearchStore = Fluxxor.createStore({
     },
 
     onSearchSuccess(type) {
-        return function (payload) {
-            this.state[type][payload.term] = payload.res.results;
+        return function (data) {
+            this.state[type] = data.results;
+            // keeping next page number in settings
+            this.state.settings.page = data.next? this.parseNextPage(data.next): undefined;
             this.emit("change");
         }.bind(this);
+    },
+
+    onLoadMore() {
+        let collection = this.state[SHOUT_SEARCH];
+        let settings = this.state.settings;
+
+        if (settings.page) {
+            let searchReq = clients[SHOUT_SEARCH].list(settings);
+            searchReq.end((err, res) => {
+                this.state.searching[SHOUT_SEARCH] = false;
+                this.emit("change");
+                if (err) {
+                    console.log(err);
+                } else {
+                    this.onLoadMoreSuccess(res.body);
+                }
+            });
+
+            this.state.searching[SHOUT_SEARCH] = true;
+            this.emit("change");
+        }
+    },
+
+    onLoadMoreSuccess(data) {
+        let stock = this.state[SHOUT_SEARCH];
+        // combining arrays using ES6 spread operator
+        stock = [...stock, ...data.results];
+        this.state[SHOUT_SEARCH] = stock;
+
+        // only keeping next number
+        this.state.settings.page = data.next? this.parseNextPage(data.next): undefined;
+        this.emit("change");
+    },
+
+    parseNextPage(nextUrl) {
+        if (nextUrl) {
+            let parsed = url.parse(nextUrl, true);
+            return Number(parsed.query.page);
+        }
+        return null;
     },
 
     serialize() {

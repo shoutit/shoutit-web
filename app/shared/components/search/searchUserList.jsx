@@ -8,11 +8,12 @@ export default React.createClass({
 	displayName: "SearchUserList",
 
 	componentDidMount() {
-		let term = this.props.term,
-			users = this.props.search.users[term];
+		let term = this.props.search.term,
+			users = this.props.search.users;
+			console.log(users);
 
-		if (!users) {
-			this.props.flux.actions.searchUsers(term);
+		if (!users.length) {
+			this.props.flux.actions.searchUsers({term: term, category: 'all', shouttype: 'all'});
 		}
 	},
 
@@ -28,7 +29,7 @@ export default React.createClass({
 
 	render() {
 		let term = this.props.term,
-			users = this.props.search.users[term],
+			users = this.props.search.users,
 			content;
 
 		if (users) {

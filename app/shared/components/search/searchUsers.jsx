@@ -14,7 +14,9 @@ export default React.createClass({
 	statics: {
 		fetchData(client, session, params) {
 			return client.users().search(session, {
-				search: params.term
+				search: params.term,
+				category: params.category,
+				shout_type: params.shouttype
 			});
 		}
 	},

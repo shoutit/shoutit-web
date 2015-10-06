@@ -2,7 +2,7 @@ import React from 'react';
 import {RouteHandler} from 'react-router';
 import {Col} from 'react-bootstrap';
 
-import SearchTitle from './searchTitle.jsx';
+import SearchShouts from './searchShouts.jsx';
 
 export default React.createClass({
 	displayName: "SearchResults",
@@ -12,8 +12,7 @@ export default React.createClass({
 			<Col xs={12} md={9} className="pro-right-padding">
 				<Col xs={12} md={12} className="content-listener">
 					<div className="listener">
-						<SearchTitle {...this.props}/>
-						<RouteHandler {...this.props}/>
+						<SearchShouts {...this.props}/>
 					</div>
 				</Col>
 			</Col>
