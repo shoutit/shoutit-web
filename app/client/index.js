@@ -6,7 +6,6 @@ import Flux from '../shared/flux';
 
 import facebook from './fb';
 import gAnalytics from './ga';
-import geolocation from './geolocation';
 import pusher from './pusher';
 
 import isMobile from 'ismobilejs';
@@ -39,13 +38,11 @@ facebook("353625811317277");
 // Google Analytics init
 let ga = gAnalytics('UA-62656831-1');
 
-// Maps Geolocation
-geolocation(function (gmaps, pos) {
-	let locationsStore = flux.store('locations');
-
-	locationsStore.setGMaps(gmaps);
-	locationsStore.setLocation(pos);
-});
+// setting google maps
+if(window.google) {
+	let locationStore = flux.store('locations');
+	locationStore.setGMaps(window.google.maps);
+}
 
 // Pusher Service
 let pusherClient = pusher('86d676926d4afda44089', '/api/pusher/auth');

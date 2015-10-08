@@ -16,6 +16,10 @@ export default React.createClass({
 		};
 	},
 
+	componentDidMount() {
+		this.getFlux().actions.acquireLocation();
+	},
+
 	render() {
 		return (
 			<header>

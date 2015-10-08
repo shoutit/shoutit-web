@@ -14,6 +14,7 @@ apiRouter.use('/notifications', require('./notifications'));
 apiRouter.use('/conversations', require('./conversations'));
 apiRouter.use('/messages', require('./messages'));
 apiRouter.use('/auth', require('./auth'));
+apiRouter.use('/misc', require('./misc'));
 
 // TODO Fix SearchAll Client
 //apiRouter.use('/search', require('./search'));

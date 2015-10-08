@@ -15,5 +15,9 @@ export default {
 
     updateLocationToFeed() {
         this.dispatch(consts.UPDATE_LOCATION_TO_FEED);
+    },
+
+    acquireLocation() {
+        this.dispatch(consts.ACQUIRE_LOCATION);
     }
 };

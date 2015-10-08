@@ -41,8 +41,49 @@ let LocationsStore = Fluxxor.createStore({
 		this.bindActions(
 			consts.LOAD_PREDICTIONS, this.onLoadPredicitions,
 			consts.SELECT_LOCATION, this.onSelectLocation,
-			consts.UPDATE_LOCATION_TO_FEED, this.onLocationUpdateToFeed
+			consts.UPDATE_LOCATION_TO_FEED, this.onLocationUpdateToFeed,
+			consts.ACQUIRE_LOCATION, this.onAcquireLoc
 		);
+	},
+
+	isLocAvailable() {
+		let loc = this.state.current;
+		return loc.country && loc.city && loc.state? true: false;
+	},
+
+	updateLocation(loc, patchUserStore = false) {
+		let {country, state, city} = loc;
+
+		this.state.current.country = country;
+		this.state.current.city = city;
+		this.state.current.state = state;
+
+		// updating location for shouts
+		this.flux.store('shouts').onLocUpdate();
+
+		patchUserStore? this.flux.store('users').saveLocation(loc): undefined;
+	},
+
+	onAcquireLoc() {
+		let {isLocAvailable} = this;
+		let lat = 0, lng = 0;
+
+		// wait for user location to provide location if already saved
+		this.waitFor(['users'], () => {
+			if (isLocAvailable() === false) {
+				// acquring user location from shoutit geocoding API
+				client.geocode(lat, lng)
+					.end((err, res) => {
+						if(err) {
+							console.log(err);
+						} else {
+							let loc = res.body;
+							this.updateLocation(loc, true);
+							this.emit("change");
+						}
+					});
+			}
+		});
 	},
 
 	onLoadPredicitions({term}) {
@@ -74,10 +115,6 @@ let LocationsStore = Fluxxor.createStore({
 					this.parseGeocoderResult(res.body.results);
 				}
 			}.bind(this));
-	},
-
-	onLocUpdate() {
-		this.flux.store('shouts').onLocUpdate();
 	},
 
 	onLocationUpdateToFeed() {
@@ -126,7 +163,6 @@ let LocationsStore = Fluxxor.createStore({
 		}
 	},
 
-
 	setGMaps(gmaps) {
 		this.gmaps = gmaps;
 		this.autocomplete = new gmaps.places.AutocompleteService();
@@ -134,6 +170,8 @@ let LocationsStore = Fluxxor.createStore({
 
 	parseGeocoderResult(results) {
 		let newCity, newCountry, newState, newLocation;
+		let location = results[0].geometry.location;
+
 		if (results.length) {
 			let localityResultsForCity = uniq(where(flatten(pluck(results, 'address_components')), {
 					types: ['locality']
@@ -155,7 +193,6 @@ let LocationsStore = Fluxxor.createStore({
 			}
 
 			if (results[0].geometry) {
-				let location = results[0].geometry.location;
 				newLocation = new window.google.maps.LatLng(location.lat, location.lng);
 			}
 
@@ -163,17 +200,14 @@ let LocationsStore = Fluxxor.createStore({
 				this.state.current.country != newCountry.short_name ||
 				this.state.current.state != newState.short_name) {
 
-				this.state.current.city = newCity.long_name;
-				this.state.current.country = newCountry.short_name;
+				let locObj = {};
+				locObj.city = newCity.long_name;
+				locObj.country = newCountry.short_name;
+				locObj.state = newState ? newState.short_name : null;
+				locObj.latitude = location.lat;
+				locObj.longitude = location.lng;
 
-				this.state.current.state = newState ? newState.short_name : null;
-
-				if (this.state.current.city &&
-					this.state.current.country
-				) {
-					// Populate Change to Shouts store
-					this.onLocUpdate();
-				}
+				this.updateLocation(locObj, true);
 			}
 
 			if (newLocation) {

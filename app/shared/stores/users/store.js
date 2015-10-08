@@ -2,6 +2,7 @@ import Fluxxor from 'fluxxor';
 import url from 'url';
 
 import consts from './consts';
+import locConsts from '../locations/consts';
 import client from './client';
 
 const PAGE_SIZE = 10;
@@ -107,7 +108,8 @@ var UserStore = Fluxxor.createStore({
 			consts.LOAD_USER_SHOUTS, this.onLoadUserShouts,
 			consts.LOAD_MORE_USER_SHOUTS, this.onLoadMoreUserShouts,
 			consts.SHOW_DOWNLOAD_POPUP, this.onShowDownloadPopup,
-			consts.HIDE_DOWNLOAD_POPUP, this.onHideDownloadPopup
+			consts.HIDE_DOWNLOAD_POPUP, this.onHideDownloadPopup,
+			locConsts.ACQUIRE_LOCATION, this.onAcqireLoc
 		);
 	},
 
@@ -117,6 +119,48 @@ var UserStore = Fluxxor.createStore({
 			return Number(parsed.query.page);
 		}
 		return null;
+	},
+
+	saveLocation(loc) {
+		let patch = {
+			location: {
+				longitude: loc.longitude,
+				latitude: loc.latitude
+			}
+		};
+
+		if(this.state.user) {
+			client.update({location:loc})
+				.end((err, res) => {
+					if(err) {
+						console.log(err);
+					} else {
+						this.state.users[this.state.user] = res.body;
+						this.emit("change");
+					}
+				});
+		}
+	},
+
+	// returns location object if they are properly filled otherwise false
+	getLocFromUser() {
+		let user = this.state.users[this.state.user];
+		if (user === undefined) {
+			return false;
+		}
+		let loc = user.location;
+		let isLocationsFilled = loc.country && loc.city && loc.state && loc.latitude && loc.longitude;
+
+		if(isLocationsFilled) {
+			return loc;
+		} else {
+			return false;
+		}
+	},
+
+	onAcqireLoc() {
+		let loc = this.getLocFromUser();
+		loc? this.flux.store('locations').updateLocation(loc): undefined;
 	},
 
 	onEmailVerify(token) {
