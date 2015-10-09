@@ -3,6 +3,9 @@ import {Button, Input, ButtonToolbar, DropdownButton, MenuItem, Col } from 'reac
 import TagsInput from 'react-tagsinput';
 import {Icon} from '../helper';
 import Sticky from 'react-sticky';
+import isMobile from 'ismobilejs';
+
+let mobile = isMobile.any;
 
 export default React.createClass({
 	displayName: "SearchFilters",
@@ -104,8 +107,14 @@ export default React.createClass({
 	},
 
 	render() {
-
-		return (
+		let content = mobile?
+			<Col xs={12} md={3} style={{margin:'20px 0'}} className="search-left-container">
+					<div className="search-filters">
+						<p>What kind of information you need?</p>
+						{this.renderFilters()}
+					</div>
+			</Col>
+			:
 			<Col xs={12} md={3} className="search-left-container">
 				<Sticky topOffset={120}>
 					<div className="search-filters">
@@ -114,7 +123,8 @@ export default React.createClass({
 					</div>
 				</Sticky>
 			</Col>
-			
-		);
+			;
+
+		return content;
 	}
 });

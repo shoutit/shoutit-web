@@ -25,7 +25,7 @@ export default React.createClass({
 							 <div className="img-search-holder">
 							 	 <Image src={shout.thumbnail} size="small" className="img-search-thumb"/>
 							 </div>
-							 <div style={{verticalAlign:'10px',display:'inline-block'}}>
+							 <div className="text-search-holder">
 							 	{shout.title}
 							 </div>
 						</Link>
