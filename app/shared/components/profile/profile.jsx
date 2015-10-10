@@ -6,7 +6,7 @@ import {Loader, Clear, Icon} from '../helper';
 import {Col} from 'react-bootstrap';
 import {NavItemLink} from 'react-router-bootstrap';
 import DocumentTitle from 'react-document-title';
-
+import ProfileActions from './profileActions.jsx'
 import ProfileImage from './profileImage.jsx';
 import ProfileDetails from './profileDetails.jsx';
 
@@ -55,7 +55,9 @@ export default React.createClass({
 				<DocumentTitle title={user.name + " - Shoutit"}>
 					<div className="profile">
 						<Col xs={12} md={3} className="profile-left">
+
 							<ProfileImage image={user.image} name={user.name} username={user.username || " "}/>
+							<ProfileActions user={user} isUserLogged={Boolean(this.state.user)} status={this.state.status} flux={this.getFlux()} />
 							<ProfileDetails location={user.location} joined={user.date_joined}/>
 							<Clear/>
 							<ul>

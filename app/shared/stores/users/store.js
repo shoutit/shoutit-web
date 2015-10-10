@@ -1,9 +1,11 @@
 import Fluxxor from 'fluxxor';
 import url from 'url';
-
 import consts from './consts';
+import statuses from '../../consts/statuses';
 import locConsts from '../locations/consts';
 import client from './client';
+
+const {USER_LISTENING_CLICKED, USER_BUTTON_LISTENED, USER_BUTTON_UNLISTENED} = statuses;
 
 const PAGE_SIZE = 10;
 const REQUEST_TYPE = "request";
@@ -43,7 +45,8 @@ var UserStore = Fluxxor.createStore({
 			signupStatus: {},
 			forgetResult: null,
 			editors: {},
-			verifyResponse: ''
+			verifyResponse: '',
+			status: null
 		};
 
 		if (props.loggedUser) {
@@ -364,31 +367,35 @@ var UserStore = Fluxxor.createStore({
 
 	onListen(payload) {
 		var username = payload.username;
+		this.setFluxStatus(USER_LISTENING_CLICKED);
 
-		client.listen(username).end(function (err) {
+		client.listen(username).end(function (err, res) {
 			if (err) {
 				console.log(err);
-			} else {
-				// Refresh Listening List
-				this.onLoadUserListening({
-					username: this.state.user
-				});
+			} else if(res.body.success) {
+				// Refresh Listeners List
+				this.onLoadUserListeners(payload);
+				// optimistically change button condition till the real data loads
+				this.state.users[username].is_listening = true;
+				this.setFluxStatus(USER_BUTTON_LISTENED);
 			}
 		}.bind(this));
 	},
 
 	onStopListen(payload) {
 		var username = payload.username;
+		this.setFluxStatus(USER_LISTENING_CLICKED);
 
 		client.stopListen(username)
-			.end(function (err) {
+			.end(function (err, res) {
 				if (err) {
 					console.log(err);
-				} else {
-					// Refresh Listening List
-					this.onLoadUserListening({
-						username: this.state.user
-					});
+				} else if(res.body.success) {
+					// Refresh Listeners List
+					this.onLoadUserListeners(payload);
+					// optimistically change button condition till the real data loads
+					this.state.users[username].is_listening = false;
+					this.setFluxStatus(USER_BUTTON_UNLISTENED);
 				}
 			}.bind(this));
 	},
@@ -581,6 +588,16 @@ var UserStore = Fluxxor.createStore({
 	onHideDownloadPopup() {
 		this.state.showDownloadPopup = false;
 		this.emit("change");
+	},
+
+	setFluxStatus(status) {
+		this.state.status = status;
+		this.emit("change");
+		//clearing status to avoid displaying old messages
+		setTimeout(() => {
+			this.state.status = null;
+			this.emit("change");
+		},0);
 	},
 
 	serialize() {
