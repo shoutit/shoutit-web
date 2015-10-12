@@ -97,8 +97,20 @@ export default {
         });
     },
 
+    loadMoreUserListening(username) {
+        this.dispatch(consts.LOAD_MORE_USER_LISTENING, {
+            username: username
+        });
+    },
+
     loadUserListeners(username) {
         this.dispatch(consts.LOAD_USER_LISTENERS, {
+            username: username
+        });
+    },
+
+    loadMoreUserListeners(username) {
+        this.dispatch(consts.LOAD_MORE_USER_LISTENERS, {
             username: username
         });
     },

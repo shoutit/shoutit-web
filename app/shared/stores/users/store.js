@@ -23,10 +23,21 @@ function initUserShoutEntry() {
 	};
 }
 
-function initUserListeningEntry() {
+// data structure for all listening, listeners and tags
+function initUserListenEntry() {
 	return {
-		users: null,
-		tags: null
+		listeners: {
+			next: null,
+			list: []
+		},
+		listenings: {
+			next: null,
+			list: []
+		},
+		tags: {
+			next: null,
+			list: []
+		},
 	};
 }
 
@@ -35,8 +46,7 @@ var UserStore = Fluxxor.createStore({
 		this.state = {
 			user: null,
 			users: {},
-			listeners: {},
-			listening: {},
+			listens: {},
 			shouts: {},
 			loading: false,
 			showDownloadPopup: false,
@@ -60,8 +70,7 @@ var UserStore = Fluxxor.createStore({
 
 			this.state.users[username] = props.user;
 			this.state.shouts[username] = initUserShoutEntry();
-			this.state.listeners[username] = null;
-			this.state.listening[username] = initUserListeningEntry();
+			this.state.listens[username] = initUserListenEntry();
 
 			if (props.useroffers) {
 				let userShouts = this.state.shouts[username],
@@ -80,12 +89,12 @@ var UserStore = Fluxxor.createStore({
 			}
 
 			if (props.listeners) {
-				this.state.listeners[username] = props.listeners.results;
+				this.state.listens[username].listeners.list = props.listeners.results;
 			}
 
 			if (props.listening) {
-				this.state.listening[username].users = props.listening.users;
-				this.state.listening[username].tags = props.listening.tags;
+				this.state.listens[username].listenings.list = props.listening.users;
+				this.state.listens[username].tags.list = props.listening.tags;
 			}
 		}
 
@@ -106,7 +115,9 @@ var UserStore = Fluxxor.createStore({
 			consts.LISTEN, this.onListen,
 			consts.STOP_LISTEN, this.onStopListen,
 			consts.LOAD_USER_LISTENERS, this.onLoadUserListeners,
+			consts.LOAD_MORE_USER_LISTENERS, this.onLoadMoreUserListeners,
 			consts.LOAD_USER_LISTENING, this.onLoadUserListening,
+			consts.LOAD_MORE_USER_LISTENING, this.onLoadMoreUserListening,
 			consts.LOAD_USER, this.onLoadUser,
 			consts.LOAD_USER_SHOUTS, this.onLoadUserShouts,
 			consts.LOAD_MORE_USER_SHOUTS, this.onLoadMoreUserShouts,
@@ -407,7 +418,10 @@ var UserStore = Fluxxor.createStore({
 			if (err) {
 				console.log(err);
 			} else {
-				this.state.listeners[username] = res.body.results;
+				console.log(res.body);
+				let next = this.parseNextPage(res.body.next);
+				this.state.listens[username].listeners.list = res.body.results;
+				this.state.listens[username].listeners.next = next;
 			}
 			this.state.loading = false;
 			this.emit("change");
@@ -417,24 +431,81 @@ var UserStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
+	onLoadMoreUserListeners(payload) {
+		let username = payload.username;
+		let current = this.state.listens[username].listeners.next;
+
+		if (current) {
+			client.getListeners(username, {page: current})
+				.end((err, res) => {
+					if (err) {
+						console.log(err);
+					} else {
+						let next = this.parseNextPage(res.body.next);
+						let stock = this.state.listens[username].listeners.list;
+
+						stock = [...stock, ...res.body.results];
+						this.state.listens[username].listeners.list = stock;
+						this.state.listens[username].listeners.next = next;
+
+						this.state.loading = false;
+						this.emit("change");
+					}
+				});
+
+			this.state.loading = true;
+			this.emit("change");
+		}
+		
+	},
+
 	onLoadUserListening(payload) {
 		var username = payload.username;
 
-		client.getListening(username).end(function (err, res) {
+		client.getListening(username).end((err, res) => {
 			if (err) {
 				console.log(err);
 			} else {
-				this.state.listening[username] = {
-					users: res.body.users,
-					tags: res.body.tags
-				};
+				let next = this.parseNextPage(res.body.next);
+				console.log(res.body.next);
+				this.state.listens[username].listenings.list = res.body.users;
+				this.state.listens[username].listenings.next = next;
+				this.state.listens[username].tags.list = res.body.tags;
 			}
 			this.state.loading = false;
 			this.emit("change");
-		}.bind(this));
+		});
 
 		this.state.loading = true;
 		this.emit("change");
+	},
+
+	onLoadMoreUserListening(payload) {
+		let username = payload.username;
+		let current = this.state.listens[username].listenings.next;
+
+		if(current) {
+			client.getListening(username, {page: current})
+				.end((err, res) => {
+					if (err) {
+						console.log(err);
+					} else {
+						let next = this.parseNextPage(res.body.next);
+						let stock = this.state.listens[username].listenings.list;
+
+						stock = [...stock, ...res.body.users];
+						this.state.listens[username].listenings.list = stock;
+						this.state.listens[username].listenings.next = next;
+						
+						this.state.loading = false;
+						this.emit("change");
+					}
+				});
+
+			this.state.loading = true;
+			this.emit("change");
+		}
+		
 	},
 
 	onLoadUserShouts(payload) {
@@ -569,7 +640,9 @@ var UserStore = Fluxxor.createStore({
 	onLoadUserSuccess(payload) {
 		this.state.users[payload.username] = payload.res;
 		this.state.shouts[payload.username] = initUserShoutEntry();
-		this.state.listening[payload.username] = initUserListeningEntry();
+		this.state.listens[payload.username] = initUserListenEntry();
+		this.onLoadUserListeners(payload);
+		this.onLoadUserListening(payload);
 		this.state.loading = false;
 		this.emit("change");
 	},

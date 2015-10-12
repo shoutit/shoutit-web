@@ -36,14 +36,16 @@ export default {
             .get(PREFIX + '/' + username);
     },
 
-    getListening(username) {
+    getListening(username, query) {
         return request
-            .get(PREFIX + '/' + username + '/listening');
+            .get(PREFIX + '/' + username + '/listening')
+            .query(query);
     },
 
-    getListeners(username) {
+    getListeners(username, query) {
         return request
-            .get(PREFIX + '/' + username + '/listeners');
+            .get(PREFIX + '/' + username + '/listeners')
+            .query(query);
     },
 
     listen(username) {

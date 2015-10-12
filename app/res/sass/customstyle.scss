@@ -1043,6 +1043,7 @@ footer {
   display: inline-block;
   margin-bottom: 100px;
   border: 1px solid #d9dada;
+  min-height:630px;
 }
 
 .pro-basic h3 {
@@ -1385,7 +1386,6 @@ footer {
   padding: 0;
   border: 1px solid #d9dada;
   display: inline-block;
-  margin-bottom: 100px;
 }
 
 .listener-title > p:first-child {
@@ -1444,6 +1444,7 @@ footer {
   h4 {
     display: inline-block;
     margin-right: 10px;
+    min-width: 250px;
   }
 
   .btn-group {
@@ -2022,10 +2023,6 @@ footer {
 
   .col-xs-12.col-md-4.chat-left-padding {
     padding-left: 0;
-  }
-
-  .col-xs-12.col-md-12.profile-right, .col-xs-12.col-md-12.content-listener {
-    height: 630px;
   }
 
   .ctn-offerpro .section-left {

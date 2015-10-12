@@ -9,7 +9,7 @@ module.exports = function (client, path) {
 	return function (session, username, page) {
 		var query = {};
 
-		if (page && isNumber(page)) {
+		if (page && !isNaN(page)) {
 			query.page = page;
 		}
 

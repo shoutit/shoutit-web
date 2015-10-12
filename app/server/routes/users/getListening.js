@@ -4,7 +4,7 @@
 
 module.exports = function (client) {
 	return function (req, res) {
-		client.getListening(req.session, req.params.id || "me")
+		client.getListening(req.session, req.params.id || "me", req.query.page)
 			.on('success', function (data) {
 				res.json(data);
 			})

@@ -22,6 +22,7 @@ export default React.createClass({
 	},
 
 	getStateFromFlux() {
+		console.log(this.getFlux().store("users").getState());
 		return this.getFlux().store("users").getState();
 	},
 
@@ -41,15 +42,14 @@ export default React.createClass({
 
 		if (user) {
 			let linkParams = {username: encodeURIComponent(user.username)},
-				listenerCount = this.state.listeners[username] ?
-					this.state.listeners[username].length :
-					user.listeners_count,
-				listeningCountUsers = this.state.listening[username] && this.state.listening[username].users ?
-					this.state.listening[username].users.length :
-					user.listening_count.users,
-				listeningCountTags = this.state.listening[username] && this.state.listening[username].tags ?
-					this.state.listening[username].tags.length :
-					user.listening_count.tags;
+				listens = this.state.listens[username],
+				listeningCountTags, listenerCount, listeningCountUsers;
+
+			if (listens) {
+				listenerCount = user.listeners_count;
+				listeningCountUsers = user.listening_count.users;
+				listeningCountTags = user.listening_count.tags;
+			}
 
 			return (
 				<DocumentTitle title={user.name + " - Shoutit"}>
@@ -57,7 +57,8 @@ export default React.createClass({
 						<Col xs={12} md={3} className="profile-left">
 
 							<ProfileImage image={user.image} name={user.name} username={user.username || " "}/>
-							<ProfileActions user={user} isUserLogged={Boolean(this.state.user)} status={this.state.status} flux={this.getFlux()} />
+							<ProfileActions user={user} isUserLogged={Boolean(this.state.user)}
+									status={this.state.status} flux={this.getFlux()} />
 							<ProfileDetails location={user.location} joined={user.date_joined}/>
 							<Clear/>
 							<ul>
@@ -80,7 +81,7 @@ export default React.createClass({
 								<NavItemLink to="listening" params={linkParams}>
 									<Icon name="lis1"/>
 									Listening
-									<span>{listeningCountUsers + "|" + listeningCountTags }</span>
+									<span>{listeningCountUsers}</span>
 								</NavItemLink>
 							</ul>
 						</Col>
@@ -130,11 +131,15 @@ export default React.createClass({
 	},
 
 	loadUser() {
+		console.log('updating user');
 		let username = this.getParams().username,
-			user = this.state.users[username];
+			user = this.state.users[username],
+			listens = this.state.listens[username];
 
-		if (!this.state.loading && !user && user !== null) {
+		if((!listens || !user) && !this.state.loading){
 			this.getFlux().actions.loadUser(username);
 		}
+		
+		
 	}
 });
