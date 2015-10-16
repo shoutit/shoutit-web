@@ -81,13 +81,14 @@ export default {
 
     listen(username) {
         this.dispatch(consts.LISTEN, {
-            username: username
+            username
         });
     },
 
-    stopListen(username) {
+    stopListen(username, updateListeningCount = false) {
         this.dispatch(consts.STOP_LISTEN, {
-            username: username
+            username,
+            updateListeningCount
         });
     },
 

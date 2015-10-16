@@ -4,8 +4,9 @@ import consts from './consts';
 import statuses from '../../consts/statuses';
 import locConsts from '../locations/consts';
 import client from './client';
+import assign from 'core-js/modules/$.assign.js';
 
-const {USER_LISTENING_CLICKED, USER_BUTTON_LISTENED, USER_BUTTON_UNLISTENED} = statuses;
+const {LISTEN_BTN_LOADING} = statuses;
 
 const PAGE_SIZE = 10;
 const REQUEST_TYPE = "request";
@@ -30,7 +31,7 @@ function initUserListenEntry() {
 			next: null,
 			list: []
 		},
-		listenings: {
+		listening: {
 			next: null,
 			list: []
 		},
@@ -89,12 +90,27 @@ var UserStore = Fluxxor.createStore({
 			}
 
 			if (props.listeners) {
-				this.state.listens[username].listeners.list = props.listeners.results;
+				let list = props.listeners.results.map(item => item.username);
+				this.state.listens[username].listeners.list = list;
+				// merging with other users in store
+				let listUsers = {};
+				props.listeners.results.forEach((item) => {
+					return listUsers[item.username] = item;
+				});
+
+				assign(this.state.results, listUsers);
 			}
 
 			if (props.listening) {
-				this.state.listens[username].listenings.list = props.listening.users;
-				this.state.listens[username].tags.list = props.listening.tags;
+				let list = props.listening.users.map(item => item.username);
+				this.state.listens[username].listening.list = list;
+				// merging with other users in store
+				let listUsers = {};
+				props.listening.users.forEach((item) => {
+					return listUsers[item.username] = item;
+				});
+
+				assign(this.state.users, listUsers);
 			}
 		}
 
@@ -373,40 +389,61 @@ var UserStore = Fluxxor.createStore({
 		if(user) {
 			client.resendEmail(user.email).end();
 		}
-		
 	},
 
 	onListen(payload) {
 		var username = payload.username;
-		this.setFluxStatus(USER_LISTENING_CLICKED);
+		// set loading status
+		this.state.users[username].fluxStatus = LISTEN_BTN_LOADING;
+		this.emit('change');
 
 		client.listen(username).end(function (err, res) {
 			if (err) {
 				console.log(err);
 			} else if(res.body.success) {
-				// Refresh Listeners List
-				this.onLoadUserListeners(payload);
+				// Update users Listening/Listeners count List without getting data from API
+				if (this.state.users[username].hasOwnProperty('listeners_count')) {
+					let counts = Number(this.state.users[username].listeners_count);
+					this.state.users[username].listeners_count = counts + 1; 
+				}
+				if (this.state.users[this.state.user].listening_count) {
+					let counts = Number(this.state.users[this.state.user].listening_count.users);
+					this.state.users[this.state.user].listening_count.users = counts + 1;
+				}
+
 				// optimistically change button condition till the real data loads
 				this.state.users[username].is_listening = true;
-				this.setFluxStatus(USER_BUTTON_LISTENED);
+				this.state.users[username].fluxStatus = null;
+				this.emit("change");
 			}
 		}.bind(this));
 	},
 
 	onStopListen(payload) {
 		var username = payload.username;
-		this.setFluxStatus(USER_LISTENING_CLICKED);
+		// set loading status
+		this.state.users[username].fluxStatus = LISTEN_BTN_LOADING;
+		this.emit('change');
 
 		client.stopListen(username)
 			.end(function (err, res) {
 				if (err) {
 					console.log(err);
 				} else if(res.body.success) {
-					// Refresh Listeners List
-					this.onLoadUserListeners(payload);
+					// Update users Listening/Listeners count List without getting data from API
+					if (this.state.users[username].hasOwnProperty('listeners_count')) {
+						let counts = Number(this.state.users[username].listeners_count);
+						this.state.users[username].listeners_count = counts - 1;
+					}
+					if (this.state.users[this.state.user].listening_count) {
+						let counts = Number(this.state.users[this.state.user].listening_count.users);
+						this.state.users[this.state.user].listening_count.users = counts - 1;
+					}
+
 					// optimistically change button condition till the real data loads
 					this.state.users[username].is_listening = false;
-					this.setFluxStatus(USER_BUTTON_UNLISTENED);
+					this.state.users[username].fluxStatus = null;
+					this.emit("change");
 				}
 			}.bind(this));
 	},
@@ -418,10 +455,20 @@ var UserStore = Fluxxor.createStore({
 			if (err) {
 				console.log(err);
 			} else {
-				console.log(res.body);
 				let next = this.parseNextPage(res.body.next);
-				this.state.listens[username].listeners.list = res.body.results;
+				let list = res.body.results.map(item => item.username);
+
+				// making an object with usernames as key values to be merged with other users in store
+				let listUsers = {};
+				res.body.results.forEach((item) => {
+					return listUsers[item.username] = item;
+				});
+
+				assign(this.state.users, listUsers);
+
+				this.state.listens[username].listeners.list = list;
 				this.state.listens[username].listeners.next = next;
+
 			}
 			this.state.loading = false;
 			this.emit("change");
@@ -442,9 +489,18 @@ var UserStore = Fluxxor.createStore({
 						console.log(err);
 					} else {
 						let next = this.parseNextPage(res.body.next);
+						let list = res.body.results.map(item => item.username);
 						let stock = this.state.listens[username].listeners.list;
 
-						stock = [...stock, ...res.body.results];
+						// making an object with usernames as key values to be merged with other users in store
+						let listUsers = {};
+						res.body.results.forEach((item) => {
+							return listUsers[item.username] = item;
+						});
+
+						assign(this.state.users, listUsers);
+
+						stock = [...stock, ...list];
 						this.state.listens[username].listeners.list = stock;
 						this.state.listens[username].listeners.next = next;
 
@@ -467,10 +523,18 @@ var UserStore = Fluxxor.createStore({
 				console.log(err);
 			} else {
 				let next = this.parseNextPage(res.body.next);
-				console.log(res.body.next);
-				this.state.listens[username].listenings.list = res.body.users;
-				this.state.listens[username].listenings.next = next;
-				this.state.listens[username].tags.list = res.body.tags;
+				let list = res.body.users.map(item => item.username);
+
+				// making an object with usernames as key values to be merged with other users in store
+				let listUsers = {};
+				res.body.users.forEach((item) => {
+					return listUsers[item.username] = item;
+				});
+
+				assign(this.state.users, listUsers);
+
+				this.state.listens[username].listening.list = list;
+				this.state.listens[username].listening.next = next;
 			}
 			this.state.loading = false;
 			this.emit("change");
@@ -482,7 +546,7 @@ var UserStore = Fluxxor.createStore({
 
 	onLoadMoreUserListening(payload) {
 		let username = payload.username;
-		let current = this.state.listens[username].listenings.next;
+		let current = this.state.listens[username].listening.next;
 
 		if(current) {
 			client.getListening(username, {page: current})
@@ -491,11 +555,20 @@ var UserStore = Fluxxor.createStore({
 						console.log(err);
 					} else {
 						let next = this.parseNextPage(res.body.next);
-						let stock = this.state.listens[username].listenings.list;
+						let list = res.body.users.map(item => item.username);
+						let stock = this.state.listens[username].listening.list;
 
-						stock = [...stock, ...res.body.users];
-						this.state.listens[username].listenings.list = stock;
-						this.state.listens[username].listenings.next = next;
+						// making an object with usernames as key values to be merged with other users in store
+						let listUsers = {};
+						res.body.users.forEach((item) => {
+							return listUsers[item.username] = item;
+						});
+
+						assign(this.state.users, listUsers);
+
+						stock = [...stock, ...list];
+						this.state.listens[username].listening.list = stock;
+						this.state.listens[username].listening.next = next;
 						
 						this.state.loading = false;
 						this.emit("change");

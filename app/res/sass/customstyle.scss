@@ -940,7 +940,6 @@ footer {
 .profile-img {
   text-align: center;
   margin-top: 30px;
-  margin-bottom: 25px;
   width: auto;
 }
 
@@ -960,6 +959,7 @@ footer {
   background-color: #fff;
   padding: 0;
   border: 1px solid #d9dada;
+  margin-bottom: 60px;
 }
 
 .search-left {
@@ -1379,6 +1379,10 @@ footer {
 
 .col-xs-12.col-md-3.profile-left a:last-child li {
   height: 69px;
+}
+
+.col-xs-12.col-md-3.profile-left .shoutit-btn {
+  margin: 10px 100px 30px;
 }
 
 .col-xs-12.col-md-12.content-listener {
@@ -2482,7 +2486,7 @@ footer {
   }
 }
 .shoutit-btn {
-  display: block;
+  display: inline-block;
   width:120px;
   height: 30px;
   border: 0;
@@ -2522,3 +2526,4 @@ footer {
     background: $shoutit-light-gray;
   }
 }
+

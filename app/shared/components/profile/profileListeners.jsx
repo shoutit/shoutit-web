@@ -4,9 +4,11 @@ import findIndex from 'lodash/array/findIndex';
 import {Loader, Clear} from '../helper';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 import ListenerRow from './listenerRow.jsx';
+import NotificationSystem from 'react-notification-system';
 
 export default React.createClass({
 	displayName: "ProfileListeners",
+	_notificationSystem: null,
 
 	statics: {
 		fetchData(client, session, params) {
@@ -14,28 +16,36 @@ export default React.createClass({
 		}
 	},
 
+	displayNotif(msg, type = 'success') {
+        this._notificationSystem.addNotification({
+            message: msg,
+            level: type,
+            position: 'tr', // top right
+            autoDismiss: 4
+        });
+    },
+
 	componentDidMount() {
 		let username = this.props.username;
 		this.props.flux.actions.loadUserListeners(username);
+
+		this._notificationSystem = this.refs.notificationSystem;
 	},
 
 	render() {
-		console.log(this.props);
 		let p = this.props,
 			username = p.username,
-			loggedUser = p.user,
-			listening = p.listens[loggedUser]? p.listens[loggedUser].listenings.list: [],
 			listeners = p.listens[username].listeners.list,
+			listenersUsers = listeners.map(item => p.users[item]),
 			flux = p.flux,
 			listenerChildren, stat;
 
 		if (listeners) {
 			listenerChildren = listeners.length ?
-				listeners.map(function (listener, i) {
-					let isListening = findIndex(listening, 'username', listener.username) > -1;
+				listenersUsers.map((listener, i) => {
 					return (
 						<ListenerRow key={"listener-" + username + '-' + i } user={listener}
-									listening={isListening} loggedUser={loggedUser} flux={flux}/>
+									onChange={this.handleChange} flux={flux}/>
 					);
 				})
 				:
@@ -57,8 +67,17 @@ export default React.createClass({
 						{this.renderViewportSensor()}
 					</div>
 				</div>
+				<NotificationSystem ref="notificationSystem" />
 			</Col>
 		);
+	},
+
+	handleChange(ev) {
+		if(ev.isListening) {
+			this.displayNotif(`You are listening to ${ev.username}`);
+		} else {
+			this.displayNotif(`You are no longer listening to ${ev.username}`, 'warning');
+		}
 	},
 
 	renderViewportSensor() {

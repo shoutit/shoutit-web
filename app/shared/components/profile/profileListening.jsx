@@ -3,9 +3,11 @@ import {Col} from 'react-bootstrap';
 import {Loader, Clear} from '../helper';
 import ListenerRow from './listenerRow.jsx';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
+import NotificationSystem from 'react-notification-system';
 
 export default React.createClass({
 	displayName: "ProfileListening",
+	_notificationSystem: null,
 
 	statics: {
 		fetchData(client, session, params) {
@@ -13,26 +15,38 @@ export default React.createClass({
 		}
 	},
 
+	displayNotif(msg, type = 'success') {
+        this._notificationSystem.addNotification({
+            message: msg,
+            level: type,
+            position: 'tr', // top right
+            autoDismiss: 4
+        });
+    },
+
 	componentDidMount() {
 		let username = this.props.username;
 		this.props.flux.actions.loadUserListening(username);
 
+		this._notificationSystem = this.refs.notificationSystem;
 	},
 
 	render() {
+		
 		let p = this.props,
 			username = p.username,
 			loggedUser = p.user,
-			listening = p.listens[username]? p.listens[username].listenings.list : null,
+			listening = p.listens[username]? p.listens[username].listening.list : null,
+			listeningUsers = listening.map(item => p.users[item]),
 			flux = p.flux,
 			listeningChildren, stat;
 
-		if (listening) {
+		if (listeningUsers) {
 			listeningChildren = listening.length ? 
-				listening.map(function (listener, i) {
+				listeningUsers.map((listener, i) => {
 					return (
 						<ListenerRow key={"listening-" + username + '-' + i} user={listener}
-								listening={true} loggedUser={loggedUser} flux={flux}/>
+								onChange={this.handleChange} flux={flux}/>
 					);
 				})
 				:
@@ -45,7 +59,7 @@ export default React.createClass({
 			<Col xs={12} md={12} className="content-listener">
 				<div className="listener">
 					<div className="listener-title">
-						<p>Listeners:</p>
+						<p>You are listening to:</p>
 					</div>
 					<Clear/>
 
@@ -54,8 +68,17 @@ export default React.createClass({
 						{this.renderViewportSensor()}
 					</div>
 				</div>
+				<NotificationSystem ref="notificationSystem" />
 			</Col>
 		);
+	},
+
+	handleChange(ev) {
+		if(ev.isListening) {
+			this.displayNotif(`You are listening to ${ev.username}`);
+		} else {
+			this.displayNotif(`You are no longer listening to ${ev.username}`, 'warning');
+		}
 	},
 
 	renderViewportSensor() {

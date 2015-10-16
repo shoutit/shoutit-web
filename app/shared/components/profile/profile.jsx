@@ -6,13 +6,14 @@ import {Loader, Clear, Icon} from '../helper';
 import {Col} from 'react-bootstrap';
 import {NavItemLink} from 'react-router-bootstrap';
 import DocumentTitle from 'react-document-title';
-import ProfileActions from './profileActions.jsx'
 import ProfileImage from './profileImage.jsx';
 import ProfileDetails from './profileDetails.jsx';
+import ListenButton from '../helper/listenButton.jsx';
+import NotificationSystem from 'react-notification-system';
 
 export default React.createClass({
 	mixins: [new FluxMixin(React), new StoreWatchMixin("users"), State],
-
+	_notificationSystem: null,
 	displayName: "Profile",
 
 	statics: {
@@ -22,9 +23,17 @@ export default React.createClass({
 	},
 
 	getStateFromFlux() {
-		console.log(this.getFlux().store("users").getState());
 		return this.getFlux().store("users").getState();
 	},
+
+	displayNotif(msg, type = 'success') {
+        this._notificationSystem.addNotification({
+            message: msg,
+            level: type,
+            position: 'tr', // top right
+            autoDismiss: 4
+        });
+    },
 
 	renderSettingsLink(user, linkParams) {
 		return user.is_owner ? (
@@ -40,7 +49,7 @@ export default React.createClass({
 		let username = this.getParams().username,
 			user = this.state.users[username];
 
-		if (user) {
+		if (user && user.location) {
 			let linkParams = {username: encodeURIComponent(user.username)},
 				listens = this.state.listens[username],
 				listeningCountTags, listenerCount, listeningCountUsers;
@@ -55,10 +64,8 @@ export default React.createClass({
 				<DocumentTitle title={user.name + " - Shoutit"}>
 					<div className="profile">
 						<Col xs={12} md={3} className="profile-left">
-
 							<ProfileImage image={user.image} name={user.name} username={user.username || " "}/>
-							<ProfileActions user={user} isUserLogged={Boolean(this.state.user)}
-									status={this.state.status} flux={this.getFlux()} />
+							<ListenButton username={user.username} updateListeningCount={true} onChange={this.handleListen} flux={this.getFlux()} />
 							<ProfileDetails location={user.location} joined={user.date_joined}/>
 							<Clear/>
 							<ul>
@@ -91,6 +98,7 @@ export default React.createClass({
 								flux={this.getFlux()}
 								/>
 						</Col>
+						<NotificationSystem ref="notificationSystem" />
 					</div>
 				</DocumentTitle>
 			);
@@ -124,19 +132,30 @@ export default React.createClass({
 
 	componentDidUpdate() {
 		this.loadUser();
+		this._notificationSystem = this.refs.notificationSystem;
 	},
 
 	componentDidMount() {
 		this.loadUser();
+		this._notificationSystem = this.refs.notificationSystem;
+	},
+
+	handleListen(ev) {
+		if(ev.isListening) {
+			this.displayNotif(`You are listening to ${ev.username}`);
+		} else {
+			this.displayNotif(`You are no longer listening to ${ev.username}`, 'warning');
+		}
 	},
 
 	loadUser() {
-		console.log('updating user');
 		let username = this.getParams().username,
 			user = this.state.users[username],
-			listens = this.state.listens[username];
+			listens = this.state.listens[username],
+			// condition
+			noInfoLoaded = (!listens || !user || !user.location) && !this.state.loading;
 
-		if((!listens || !user) && !this.state.loading){
+		if(noInfoLoaded){
 			this.getFlux().actions.loadUser(username);
 		}
 		
