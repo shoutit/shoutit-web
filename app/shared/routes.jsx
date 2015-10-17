@@ -21,6 +21,7 @@ import SearchTags from './components/search/searchTags.jsx';
 import ProfileSettings from './components/profile/profileSettings.jsx';
 import ProfileListeners from './components/profile/profileListeners.jsx';
 import ProfileListening from './components/profile/profileListening.jsx';
+import ProfileListeningTags from './components/profile/profileListeningTags.jsx';
 import ProfileOffers from './components/profile/profileOffers.jsx';
 import ProfileRequests from './components/profile/profileRequests.jsx';
 import TagProfile from './components/tag/tagProfile.jsx';
@@ -48,6 +49,7 @@ export default function (envData) {
 				<Route name="user" path="/user/:username" handler={Profile}>
 					<Route name="listeners" handler={ProfileListeners}/>
 					<Route name="listening" handler={ProfileListening}/>
+					<Route name="listeningTags" handler={ProfileListeningTags}/>
 					<Route name="useroffers" path="offers" handler={ProfileOffers}/>
 					<Route name="userrequests" path="requests" handler={ProfileRequests}/>
 					<DefaultRoute name="settings" handler={ProfileSettings}/>

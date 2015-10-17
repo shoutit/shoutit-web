@@ -90,6 +90,11 @@ export default React.createClass({
 									Listening
 									<span>{listeningCountUsers}</span>
 								</NavItemLink>
+								<NavItemLink to="listeningTags" params={linkParams}>
+									<Icon name="lis4"/>
+									Tags
+									<span>{listeningCountTags}</span>
+								</NavItemLink>
 							</ul>
 						</Col>
 						<Col xs={12} md={9} className="pro-right-padding">

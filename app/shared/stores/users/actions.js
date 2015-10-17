@@ -104,6 +104,18 @@ export default {
         });
     },
 
+    loadUserListeningTags(username) {
+        this.dispatch(consts.LOAD_USER_TAGS, {
+            username: username
+        });
+    },
+
+    loadMoreUserListeningTags(username) {
+        this.dispatch(consts.LOAD_MORE_USER_TAGS, {
+            username: username
+        });
+    },
+
     loadUserListeners(username) {
         this.dispatch(consts.LOAD_USER_LISTENERS, {
             username: username

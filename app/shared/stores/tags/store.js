@@ -2,9 +2,10 @@ import Fluxxor from 'fluxxor';
 import url from 'url';
 import consts from './consts';
 import client from './client';
-
 import statuses from '../../consts/statuses.js';
-var {LISTENING_CLICKED, BUTTON_LISTENED, BUTTON_UNLISTENED} = statuses;
+import assign from 'core-js/modules/$.assign.js';
+
+var {LISTEN_BTN_LOADING} = statuses;
 
 var TagStore = Fluxxor.createStore({
 	initialize(props) {
@@ -108,6 +109,15 @@ var TagStore = Fluxxor.createStore({
 		}
 	},
 
+	// Will be used by other stores to update tags
+	addTags(list) {
+		let tags = {};
+		list.forEach((tag) => {
+			this.addTagEntry(tag.name);
+			this.state.tags[tag.name].tag = tag;
+		});
+	},
+
 	onLoadTagSuccess(payload) {
 		this.addTagEntry(payload.tagName);
 		this.state.tags[payload.tagName].tag = payload.res;
@@ -123,30 +133,36 @@ var TagStore = Fluxxor.createStore({
 
 	onListenTag(payload) {
 		var tagName = payload.tagName;
-		this.setFluxStatus(LISTENING_CLICKED);
-
+		
 		client.listen(tagName).end(function(res) {
 			if(res.body.success) {
 				this.onLoadTag(payload);
-				// optimistically change button condition till the real data loads
+
 				this.state.tags[tagName].tag.is_listening = true;
-				this.setFluxStatus(BUTTON_LISTENED);
+				this.state.tags[tagName].tag.fluxStatus = null;
+				this.emit('change');
 			}
 		}.bind(this));
+
+		this.state.tags[tagName].tag.fluxStatus = LISTEN_BTN_LOADING;
+		this.emit('change');
 	},
 
 	onStopListenTag(payload) {
 		var tagName = payload.tagName;
-		this.setFluxStatus(LISTENING_CLICKED);
 
 		client.unlisten(tagName).end(function(res) {
 			if(res.body.success) {
 				this.onLoadTag(payload);
-				// optimistically change button condition till the real data loads
+
 				this.state.tags[tagName].tag.is_listening = false;
-				this.setFluxStatus(BUTTON_UNLISTENED);
+				this.state.tags[tagName].tag.fluxStatus = null;
+				this.emit('change');
 			}
 		}.bind(this));
+
+		this.state.tags[tagName].tag.fluxStatus = LISTEN_BTN_LOADING;
+		this.emit('change');
 	},
 
 	onLoadTagShouts(payload) {

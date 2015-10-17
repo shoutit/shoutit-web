@@ -42,6 +42,14 @@ export default {
             .query(query);
     },
 
+    getTags(username, query = {}) {
+        query.type = 'tags';
+        
+        return request
+            .get(PREFIX + '/' + username + '/listening')
+            .query(query);
+    },
+
     getListeners(username, query) {
         return request
             .get(PREFIX + '/' + username + '/listeners')
