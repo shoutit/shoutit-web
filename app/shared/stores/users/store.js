@@ -112,6 +112,13 @@ var UserStore = Fluxxor.createStore({
 
 				assign(this.state.users, listUsers);
 			}
+
+			if (props.listeningTags) {
+				let list = props.listeningTags.tags;
+				this.state.listens[username].tags.list = list;
+				// add tags to tag store
+				this.flux.store('tags').addTags(list);
+			}
 		}
 
 		this.router = props.router;
@@ -134,6 +141,8 @@ var UserStore = Fluxxor.createStore({
 			consts.LOAD_MORE_USER_LISTENERS, this.onLoadMoreUserListeners,
 			consts.LOAD_USER_LISTENING, this.onLoadUserListening,
 			consts.LOAD_MORE_USER_LISTENING, this.onLoadMoreUserListening,
+			consts.LOAD_USER_TAGS, this.onLoadUserTags,
+			consts.LOAD_MORE_USER_TAGS, this.onLoadMoreUserTags,
 			consts.LOAD_USER, this.onLoadUser,
 			consts.LOAD_USER_SHOUTS, this.onLoadUserShouts,
 			consts.LOAD_MORE_USER_SHOUTS, this.onLoadMoreUserShouts,
@@ -578,7 +587,64 @@ var UserStore = Fluxxor.createStore({
 			this.state.loading = true;
 			this.emit("change");
 		}
-		
+	},
+
+	onLoadUserTags(payload) {
+		var username = payload.username;
+
+		client.getTags(username).end((err, res) => {
+			if (err) {
+				console.log(err);
+			} else {
+				let next = this.parseNextPage(res.body.next);
+				let list = res.body.tags;
+
+				this.state.listens[username].tags.list = list;
+				// add tags to tag store
+				this.flux.store('tags').addTags(list);
+				this.state.listens[username].tags.next = next;
+
+				this.state.loading = false;
+				this.emit("change");
+			}
+			this.state.loading = false;
+			this.emit("change");
+		});
+
+		this.state.loading = true;
+		this.emit("change");
+	},
+
+	onLoadMoreUserTags(payload) {
+		var username = payload.username;
+		let current = this.state.listens[username].tags.next;
+
+		if(current) {
+			client.getTags(username, {page: current})
+				.end((err, res) => {
+					if (err) {
+						console.log(err);
+					} else {
+						let next = this.parseNextPage(res.body.next);
+						let list = res.body.tags;
+						
+						let stock = this.state.listens[username].tags.list;
+						stock = [...stock, ...list];
+
+						this.state.listens[username].tags.list = stock;
+						// add tags to tag store
+						this.flux.store('tags').addTags(list);
+						this.state.listens[username].tags.next = next;
+
+						this.state.loading = false;
+						this.emit("change");
+					}
+					this.state.loading = false;
+					this.emit("change");
+				});
+			this.state.loading = true;
+			this.emit("change");
+		}
 	},
 
 	onLoadUserShouts(payload) {

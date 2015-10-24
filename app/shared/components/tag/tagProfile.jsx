@@ -11,13 +11,14 @@ import {Clear, Icon} from '../helper';
 import DocumentTitle from 'react-document-title';
 
 import TagProfileImage from './tagProfileImage.jsx';
-import TagProfileActions from './tagProfileActions.jsx';
+import TagListenButton from '../helper/tagListenButton.jsx';
+import NotificationSystem from 'react-notification-system';
 
 let STORE_NAME = "tags";
 
 export default React.createClass({
 	mixins: [new FluxMixin(React), new StoreWatchMixin(STORE_NAME), State],
-
+	_notificationSystem: null,
 	displayName: "TagProfile",
 
 	statics: {
@@ -30,13 +31,22 @@ export default React.createClass({
 		return this.getFlux().store(STORE_NAME).getState();
 	},
 
+	displayNotif(msg, type = 'success') {
+        this._notificationSystem.addNotification({
+            message: msg,
+            level: type,
+            position: 'tr', // top right
+            autoDismiss: 4
+        });
+    },
+
 	render() {
 		let tagName = this.getParams().tagName,
 			tagEntry = this.state.tags[tagName];
 
 		if (tagEntry) {
 			let linkParams = {tagName: encodeURIComponent(tagName)},
-				tag = tagEntry.tag,
+				tag = JSON.parse(JSON.stringify(tagEntry.tag)),
 				listenerCount = tag.listeners_count;
 
 			return (
@@ -44,7 +54,7 @@ export default React.createClass({
 					<div className="profile">
 						<Col xs={12} md={3} className="profile-left">
 							<TagProfileImage image={tag.image} name={tag.name}/>
-							<TagProfileActions tag={tag} status={this.state.status} flux={this.getFlux() }/>
+							<TagListenButton tag={tag} onChange={this.handleListen} flux={this.getFlux() }/>
 							<Clear/>
 							<ul>
 								<NavItemLink to="tagoffers" params={linkParams}>
@@ -70,6 +80,7 @@ export default React.createClass({
 								flux={this.getFlux()}
 								/>
 						</Col>
+						<NotificationSystem ref="notificationSystem" />
 					</div>
 				</DocumentTitle>
 			);
@@ -103,10 +114,20 @@ export default React.createClass({
 
 	componentDidUpdate() {
 		this.loadTag();
+		this._notificationSystem = this.refs.notificationSystem;
 	},
 
 	componentDidMount() {
 		this.loadTag();
+		this._notificationSystem = this.refs.notificationSystem;
+	},
+
+	handleListen(ev) {
+		if(ev.isListening) {
+			this.displayNotif(`You are listening to ${ev.tag}`);
+		} else {
+			this.displayNotif(`You are no longer listening to ${ev.tag}`, 'warning');
+		}
 	},
 
 	loadTag() {

@@ -1,8 +1,4 @@
 export default {
-    // Tag store statuses
-    LISTENING_CLICKED: 'LISTENING_CLICKED',
-    BUTTON_LISTENED: 'BUTTON_LISTENED',
-    BUTTON_UNLISTENED: 'BUTTON_UNLISTENED',
-    // User store statuses
+    // Listen button
     LISTEN_BTN_LOADING: 'LISTEN_BTN_LOADING'
 }
