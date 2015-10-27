@@ -15,6 +15,10 @@ export default {
 		});
 	},
 
+	addTag(tag) {
+		this.dispatch(consts.LOAD_TAG, tag);
+	},
+
 	listenTag(tagName) {
 		this.dispatch(consts.LISTEN_TAG, {
 			tagName: tagName

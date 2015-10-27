@@ -30,7 +30,7 @@ export default React.createClass({
                         </Link>
                         )
                     </h4>
-                   <TagListenButton tag={tag} onChange={this.onButtonChange} flux={flux}/>
+                   <TagListenButton tag={JSON.parse(JSON.stringify(tag))} onChange={this.onButtonChange} flux={flux}/>
                 </div>
             </div>
         );

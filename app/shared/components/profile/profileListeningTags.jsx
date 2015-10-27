@@ -2,16 +2,24 @@ import React from 'react';
 import {Col} from 'react-bootstrap';
 import {Loader, Clear} from '../helper';
 import TagRow from './tagRow.jsx';
+import {StoreWatchMixin} from 'fluxxor';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 import NotificationSystem from 'react-notification-system';
 
 export default React.createClass({
     displayName: "ProfileListeningTags",
     _notificationSystem: null,
+    mixins: [ new StoreWatchMixin("tags") ],
 
     statics: {
         fetchData(client, session, params) {
             return client.users().getListening(session, params.username, {type: 'tags'});
+        }
+    },
+
+    getStateFromFlux() {
+        return {
+            tags: this.props.flux.store("tags").getState().tags
         }
     },
 
@@ -35,13 +43,21 @@ export default React.createClass({
         let p = this.props,
             username = p.username,
             loggedUser = p.user,
-            tags = p.listens[username]? p.listens[username].tags.list : null,
+            tagsList = p.listens[username]? p.listens[username].tags.list : null,
+            tags = this.state.tags,
+            listeningTags = [],
             flux = p.flux,
             tagsChildren, stat;
 
-        if (tags) {
-            tagsChildren = tags.length ? 
-                tags.map((tag, i) => {
+        if(tagsList) {
+            tagsList.forEach(item => {
+                this.state.tags[item]? listeningTags.push(tags[item].tag): undefined; 
+            });
+        }
+
+        if (listeningTags.length) {
+            tagsChildren = listeningTags.length ? 
+                listeningTags.map((tag, i) => {
                     return (
                         <TagRow key={"tags-" + '-' + i} tag={tag} onChange={this.handleChange} flux={flux}/>
                     );
@@ -72,9 +88,9 @@ export default React.createClass({
 
     handleChange(ev) {
         if(ev.isListening) {
-            this.displayNotif(`You are listening to ${ev.username}`);
+            this.displayNotif(`You are listening to ${ev.tag}`);
         } else {
-            this.displayNotif(`You are no longer listening to ${ev.username}`, 'warning');
+            this.displayNotif(`You are no longer listening to ${ev.tag}`, 'warning');
         }
     },
 
