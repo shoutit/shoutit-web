@@ -1,6 +1,7 @@
 import Fluxxor from 'fluxxor';
 import url from 'url';
 import consts from './consts';
+import usersConsts from '../users/consts';
 import client from './client';
 import statuses from '../../consts/statuses.js';
 import assign from 'core-js/modules/$.assign.js';
@@ -40,6 +41,7 @@ var TagStore = Fluxxor.createStore({
 			if (props.taglisteners) {
 				this.state.tags[props.tag.name].listeners = props.taglisteners.results;
 			}
+
 		}
 
 		let tagsData = props.tags || props.feed;
@@ -47,6 +49,14 @@ var TagStore = Fluxxor.createStore({
 			this.state.featuredTags = tagsData.results;
 		}
 
+		if (props.listeningTags) {
+			let tags = props.listeningTags.tags;
+
+			tags.forEach(tag => {
+				this.addTagEntry(tag.name);
+				this.state.tags[tag.name].tag = tag;
+			});
+		}
 
 		this.bindActions(
 			consts.LOAD_TAG, this.onLoadTag,
@@ -58,7 +68,7 @@ var TagStore = Fluxxor.createStore({
 			consts.LOAD_MORE_TAG_SHOUTS, this.onLoadMoreTagShouts,
 			consts.LOAD_TAG_LISTENERS, this.onLoadTagListeners,
 			consts.LOAD_TAG_LISTENERS_SUCCESS, this.onLoadTagListenersSuccess,
-			consts.LOAD_TAGS_SUCCESS, this.onLoadTagsSuccess,
+			usersConsts.LOAD_USER_TAGS_SUCCESS, this.onLoadUserTagsSuccess,
 			consts.LOAD_TAGS_SPRITE, this.onLoadTagsSprite,
 			consts.LOAD_TAGS_SPRITE_SUCCESS, this.onLoadTagsSpriteSuccess,
 			consts.LOAD_TAGS_SPRITE_FAILED, this.onLoadTagsSpriteFailed,
@@ -99,7 +109,7 @@ var TagStore = Fluxxor.createStore({
 	addTagEntry(tagName) {
 		if (!this.state.tags[tagName]) {
 			this.state.tags[tagName] = {
-				tag: null,
+				tag: {},
 				nextoffer: null,
 				offers: null,
 				requests: null,
@@ -109,13 +119,15 @@ var TagStore = Fluxxor.createStore({
 		}
 	},
 
-	// Will be used by other stores to update tags
-	addTags(list) {
-		let tags = {};
-		list.forEach((tag) => {
+	onLoadUserTagsSuccess(payload) {
+
+		let tags = payload.res.tags;
+		tags.forEach(tag => {
 			this.addTagEntry(tag.name);
 			this.state.tags[tag.name].tag = tag;
 		});
+
+		this.emit("change");
 	},
 
 	onLoadTagSuccess(payload) {
@@ -133,11 +145,11 @@ var TagStore = Fluxxor.createStore({
 
 	onListenTag(payload) {
 		var tagName = payload.tagName;
+		// add to tags list if not available
+		!this.state.tags[tagName]? this.addTagEntry(tagName): undefined; 
 		
 		client.listen(tagName).end(function(res) {
 			if(res.body.success) {
-				this.onLoadTag(payload);
-
 				this.state.tags[tagName].tag.is_listening = true;
 				this.state.tags[tagName].tag.fluxStatus = null;
 				this.emit('change');
@@ -150,11 +162,11 @@ var TagStore = Fluxxor.createStore({
 
 	onStopListenTag(payload) {
 		var tagName = payload.tagName;
+		// add to tags list if not available
+		!this.state.tags[tagName]? this.addTagEntry(tagName): undefined; 
 
 		client.unlisten(tagName).end(function(res) {
 			if(res.body.success) {
-				this.onLoadTag(payload);
-
 				this.state.tags[tagName].tag.is_listening = false;
 				this.state.tags[tagName].tag.fluxStatus = null;
 				this.emit('change');

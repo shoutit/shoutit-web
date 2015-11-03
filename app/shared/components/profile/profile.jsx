@@ -91,7 +91,7 @@ export default React.createClass({
 									<span>{listeningCountUsers}</span>
 								</NavItemLink>
 								<NavItemLink to="listeningTags" params={linkParams}>
-									<Icon name="lis4"/>
+									<Icon name="lis"/>
 									Tags
 									<span>{listeningCountTags}</span>
 								</NavItemLink>

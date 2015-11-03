@@ -98,7 +98,7 @@ var UserStore = Fluxxor.createStore({
 					return listUsers[item.username] = item;
 				});
 
-				assign(this.state.results, listUsers);
+				assign(this.state.users, listUsers);
 			}
 
 			if (props.listening) {
@@ -114,7 +114,8 @@ var UserStore = Fluxxor.createStore({
 			}
 
 			if (props.listeningTags) {
-				let list = props.listeningTags.tags;
+
+				let list = props.listeningTags.tags.map(item => item.name);
 				this.state.listens[username].tags.list = list;
 				// add tags to tag store
 				//this.flux.store('tags').addTags(list);
@@ -142,6 +143,8 @@ var UserStore = Fluxxor.createStore({
 			consts.LOAD_USER_LISTENING, this.onLoadUserListening,
 			consts.LOAD_MORE_USER_LISTENING, this.onLoadMoreUserListening,
 			consts.LOAD_USER_TAGS, this.onLoadUserTags,
+			consts.LOAD_USER_TAGS_SUCCESS, this.onLoadUserTagsSuccess,
+			consts.LOAD_USER_TAGS_FAIL, this.onLoadUserTagsFail,
 			consts.LOAD_MORE_USER_TAGS, this.onLoadMoreUserTags,
 			consts.LOAD_USER, this.onLoadUser,
 			consts.LOAD_USER_SHOUTS, this.onLoadUserShouts,
@@ -589,29 +592,30 @@ var UserStore = Fluxxor.createStore({
 		}
 	},
 
-	onLoadUserTags(payload) {
-		var username = payload.username;
+	onLoadUserTags() {
+		this.state.loading = true;
+		this.emit("change");
+	},
 
-		client.getTags(username).end((err, res) => {
-			if (err) {
-				console.log(err);
-			} else {
-				let next = this.parseNextPage(res.body.next);
-				let list = res.body.tags;
+	onLoadUserTagsSuccess(payload) {
+		this.waitFor(['tags'], function() {
+			let res = payload.res;
+			let username = payload.username;
 
-				this.state.listens[username].tags.list = list;
-				// add tags to tag store
-				this.flux.store('tags').addTags(list);
-				this.state.listens[username].tags.next = next;
+			let next = this.parseNextPage(res.next);
+			let list = res.tags.map(item => item.name);
 
-				this.state.loading = false;
-				this.emit("change");
-			}
+			this.state.listens[username].tags.list = list;
+			this.state.listens[username].tags.next = next;
+
 			this.state.loading = false;
 			this.emit("change");
 		});
+		
+	},
 
-		this.state.loading = true;
+	onLoadUserTagsFail() {
+		this.state.loading = false;
 		this.emit("change");
 	},
 
@@ -633,7 +637,7 @@ var UserStore = Fluxxor.createStore({
 
 						this.state.listens[username].tags.list = stock;
 						// add tags to tag store
-						this.flux.store('tags').addTags(list);
+						//this.flux.store('tags').addTags(list);
 						this.state.listens[username].tags.next = next;
 
 						this.state.loading = false;

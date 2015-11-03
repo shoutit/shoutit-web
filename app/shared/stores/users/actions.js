@@ -105,9 +105,16 @@ export default {
     },
 
     loadUserListeningTags(username) {
-        this.dispatch(consts.LOAD_USER_TAGS, {
-            username: username
+        client.getTags(username).end((err, res) => {
+            if (err) {
+                this.dispatch(consts.LOAD_USER_TAGS_FAIL);
+            } else {
+                if(res.body.tags) {
+                    this.dispatch(consts.LOAD_USER_TAGS_SUCCESS, {res: res.body, username: username});
+                }
+            }
         });
+        this.dispatch(consts.LOAD_USER_TAGS);
     },
 
     loadMoreUserListeningTags(username) {
