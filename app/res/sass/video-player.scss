@@ -90,12 +90,12 @@
         height: 10px;
         cursor: pointer;
         box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
-        background: $shoutit-dark-green;
+        background: $si-green;
         border-radius: 0px;
         border: 0px solid rgba(0, 0, 0, 0);
       }
       input[type=range].volume_slider::-webkit-slider-thumb {
-        box-shadow: 0px 0px 0px #000000, 0px 0px 0px $shoutit-light-green;
+        box-shadow: 0px 0px 0px #000000, 0px 0px 0px $si-green;
         border: 1px solid rgba(0, 0, 0, 0);
         height: 8px;
         width: 5px;
@@ -106,19 +106,19 @@
         margin-top: 1px;
       }
       input[type=range].volume_slider:focus::-webkit-slider-runnable-track {
-        background: $shoutit-dark-green;
+        background: $si-green;
       }
       input[type=range].volume_slider::-moz-range-track {
         width: 100%;
         height: 10px;
         cursor: pointer;
         box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
-        background: $shoutit-dark-green;
+        background: $si-green;
         border-radius: 0px;
         border: 0px solid rgba(0, 0, 0, 0);
       }
       input[type=range].volume_slider::-moz-range-thumb {
-        box-shadow: 0px 0px 0px #000000, 0px 0px 0px $shoutit-light-green;
+        box-shadow: 0px 0px 0px #000000, 0px 0px 0px $si-green;
         border: 1px solid rgba(0, 0, 0, 0);
         height: 8px;
         width: 5px;
@@ -135,19 +135,19 @@
         color: transparent;
       }
       input[type=range].volume_slider::-ms-fill-lower {
-        background: $shoutit-dark-green;
+        background: $si-green;
         border: 0px solid rgba(0, 0, 0, 0);
         border-radius: 0px;
         box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
       }
       input[type=range].volume_slider::-ms-fill-upper {
-        background: $shoutit-dark-green;
+        background: $si-green;
         border: 0px solid rgba(0, 0, 0, 0);
         border-radius: 0px;
         box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(13, 13, 13, 0);
       }
       input[type=range].volume_slider::-ms-thumb {
-        box-shadow: 0px 0px 0px #000000, 0px 0px 0px $shoutit-light-green;
+        box-shadow: 0px 0px 0px #000000, 0px 0px 0px $si-green;
         border: 1px solid rgba(0, 0, 0, 0);
         width: 5px;
         border-radius: 0px;
@@ -156,10 +156,10 @@
         height: 8px;
       }
       input[type=range].volume_slider:focus::-ms-fill-lower {
-        background: $shoutit-dark-green;
+        background: $si-green;
       }
       input[type=range].volume_slider:focus::-ms-fill-upper {
-        background: $shoutit-dark-green;
+        background: $si-green;
       }
     }
     .time{
@@ -183,7 +183,7 @@
         top: 0; bottom: 0;
         position: absolute;
         width: 0%;
-        background-color: $shoutit-light-green;
+        background-color: $si-green;
         z-index: 50;
         span {
           width:10px;
@@ -192,7 +192,7 @@
           right:0;
           top:-2px;
           border-radius:50%;
-          background-color:$shoutit-dark-green;
+          background-color:$si-green;
       }
       }
       

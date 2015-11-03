@@ -117,7 +117,7 @@ var UserStore = Fluxxor.createStore({
 				let list = props.listeningTags.tags;
 				this.state.listens[username].tags.list = list;
 				// add tags to tag store
-				this.flux.store('tags').addTags(list);
+				//this.flux.store('tags').addTags(list);
 			}
 		}
 

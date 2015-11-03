@@ -1,7 +1,7 @@
 import React from 'react';
 import {Navigation} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
-import {Row, Input} from 'react-bootstrap';
+import {Input} from 'react-bootstrap';
 
 import Search from './search.jsx';
 import SearchResultList from './search/searchResultList.jsx';
@@ -50,21 +50,18 @@ export default React.createClass({
 		let placePredictions = this.state.locations.locations[this.state.locTerm];
 
 		let placesList = placePredictions && placePredictions.length ?
-			<li>
-				<span>Results</span>
-				<ul className="list-search-sub">
+				<div>
+					<div className="list-search-title">Results</div>
 					{placePredictions.map((prediction, i) => (
-						<li onClick={this.onLocationSelect(prediction)} key={"prediction" + i}>
+						<div className="list-search-loc" onClick={this.onLocationSelect(prediction)} key={"prediction" + i}>
 							{prediction.description}
-						</li>))}
-				</ul>
-			</li> : null;
+						</div>
+					))}
+				</div>
+			 		: null;
 
 		return (<div className="list-search">
-			<ul>
-				<li>
-					<span>Select your Location</span>
-					<ul className="list-search-sub">
+					<div className="list-search-title">Select your Location</div>
 						<Input
 							id="locationSearch"
 							ref="locationInput"
@@ -73,10 +70,7 @@ export default React.createClass({
 							onChange={this.onLocInputChange}
 							value={this.state.locTerm}
 							/>
-					</ul>
-				</li>
 				{placesList}
-			</ul>
 		</div>);
 
 	},
@@ -93,11 +87,8 @@ export default React.createClass({
 	},
 
 	render() {
-		let backdrop = this.state.showSearch ?
-			<div onClick={this.onBlurSearch} className="backdrop"/> : null;
-
 		return (
-			<Row className="searchBar">
+			<div className="search-bar">
 				<Search
 					flux={this.getFlux()}
 					onFocus={this.onFocusSearch}
@@ -107,8 +98,7 @@ export default React.createClass({
 					term={this.state.term}
 					/>
 				{this.renderList()}
-				{backdrop}
-			</Row>
+			</div>
 		);
 	},
 

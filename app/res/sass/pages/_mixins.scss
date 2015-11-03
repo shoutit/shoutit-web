@@ -1,0 +1,65 @@
+// Default features to extend
+.si-button {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  margin: 0 $default-spacing;
+  transition: all .1s ease-out;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 4px;
+}
+// Mixins
+
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin container($direction, $width: auto) {
+  float: $direction;
+  width: $width;
+  padding: $default-spacing;
+}
+
+@mixin button($width, $height, $font-size: $default-font-size) {
+  @extend .si-button;
+  font-size: $font-size;
+  width: $width;
+  height: $height;
+  color: $si-gray;
+  padding: ($font-size / 2);
+  line-height: ($height / 2);
+  &:hover{
+    color: darken($si-gray,10%);
+  }
+}
+
+@mixin green-button($width, $height, $font-size: $default-font-size)  {
+  @extend .si-button;
+  font-size: $font-size;
+  width: $width;
+  height: $height;
+  background: $si-green;
+  color: $si-white;
+  padding: ($font-size / 2);
+  line-height: ($height / 2);
+  &:hover{
+    background: darken($si-green, 5%);
+  }
+}
+
+@mixin border-button($width, $height, $font-size: $default-font-size)  {
+  @extend .si-button;
+  font-size: $font-size;
+  width: $width;
+  height: $height;
+  background: rgba(255,255,255,0);
+  color: $si-white;
+  padding: ($font-size / 2);
+  line-height: ($height / 2);
+  box-shadow:inset 0px 0px 0px 2px $si-white;
+  &:hover{
+    background: rgba(255,255,255,.2);
+  }
+}

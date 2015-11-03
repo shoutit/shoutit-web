@@ -1,86 +1,38 @@
 @import "bootstrap";
-@import "bootstrap/theme";
+@import "grid";
 
-$shoutit-dark-green: #99ca3b;
-$shoutit-light-green: #bfdd6d;
-$shoutit-dark-gray: #343837;
-$shoutit-light-gray: #f1efef;
-$shoutit-error-color: #E73F3F;
+// Magic spriting with compass
+@import "compass/utilities/sprites";
+$res1x-sprite-dimensions: true;
+@import "res1x/*.png";
+@include all-res1x-sprites;
 
-@import "customstyle";
+$si-white: #fff;
+$si-green: #a7d281;
+$si-gray: #3b3b3b;
+$si-light-gray: #58585a;
+$si-bg: #edefed;
+
+$si-error-color: #E73F3F;
+$grid-unit: 70px;
+
+$default-font-size: 1.6rem;
+$default-font-size-small: 1.3rem;
+$default-font-size-large: 1.8rem;
+
+$default-spacing: 10px;
+
+// External libs
 @import "dropzone";
 @import "fonts";
-@import "header/header";
-@import "style";
-@import "vuong";
 @import "image-gallery";
-@import "video-player";
-
-.form-control, .modal-form .btn-group .btn {
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
-
-//#main-mount > div > div {
-//  position: fixed;
-//  top: 0;
-//  left: 0;
-//  min-width: 320px;
-//  height: 100%;
-//}
-
-#main-mount > div > div {
-  padding-top: 83px;
-  padding-bottom: 56px;
-  //overflow-y: scroll;
-  //min-height: 100%;
-}
-
-body, #main-mount > div > div {
-  background-color: $shoutit-light-gray;
-}
-
-.container section > div {
-  margin-top: 5px;
-}
-
-.downloadPopup {
-  z-index: 110;
-}
-
-$icons-sprite-dimensions: true;
-$icons-layout: smart;
-@import "compass/utilities/sprites";
-@import "icons/*.png";
-@include all-icons-sprites;
-
-.icons-tag {
-  display: inline-block;
-  margin-bottom: 0 !important;
-  margin-top: 1px;
-  margin-right: 2px;
-}
-
+//@import "video-player";
 @import "tagsinput";
 
-.appstore_btn {
-  display: inline-block;
-  overflow: hidden;
-  background: url(https://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.png) no-repeat;
+// Pages
+@import "pages/_mixins.scss";
+@import "pages/general.scss";
+@import "pages/mainpage.scss";
 
-  height: 45px;
-  @media only screen {
-    background-image: url(https://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg);
-  }
-}
 
-@media screen and (max-width: 480px) {
-  .shoutFeed {
-    padding: 0;
-
-    section > div {
-      padding: 0;
-    }
-  }
-}
 

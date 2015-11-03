@@ -17,7 +17,7 @@ export default React.createClass({
 
     renderSubmitButton() {
         return (
-            <Button className="searchButton"
+            <Button className="search-button"
                     onClick={this.props.onSubmit}
                     bsStyle="link"
                     tabIndex={2}>
@@ -29,26 +29,28 @@ export default React.createClass({
     render() {
         let currentCity = this.state.locations.current.city,
             beforeButton =
-                <div className="selectpicker bla bli">
+                <div className="selectpicker">
                     <Button onClick={this.props.onFocus(2)} key="countrySelect"
                             className="dropdown-toggle">
                         {currentCity || <Icon name="loc"/>}
                     </Button>
                 </div>;
         return (
-            <Input
-                placeholder="Search Shoutit"
-                ref='searchInput'
-                type="text"
-                buttonBefore={beforeButton}
-                addonAfter={this.renderSubmitButton()}
-                onChange={this.props.onChangeSearch}
-                onFocus={this.props.onFocus(1)}
-                onKeyUp={this.onKeyUp}
-                value={this.props.term}
-                tabIndex={1}
-                accessKey="s"
-                />
+            <div>
+                <Input
+                    placeholder="Search Shoutit"
+                    ref='searchInput'
+                    type="text"
+                    buttonBefore={beforeButton}
+                    onChange={this.props.onChangeSearch}
+                    onFocus={this.props.onFocus(1)}
+                    onKeyUp={this.onKeyUp}
+                    value={this.props.term}
+                    tabIndex={1}
+                    accessKey="s"
+                    />
+                {this.renderSubmitButton()}
+            </div>
         );
     },
 

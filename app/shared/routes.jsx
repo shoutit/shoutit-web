@@ -8,6 +8,8 @@ import VerifyEmail from './components/user/verifyEmail.jsx';
 import App from './components/app.jsx';
 import Reduced from './components/reduced/reduced.jsx';
 
+import MainPage from './components/main/mainPage.jsx';
+import HomePage from './components/feed/home.jsx';
 import Feed from './components/feed/feed.jsx';
 import FeedListContainer from './components/feed/feedListContainer.jsx';
 import Static from './components/helper/static.jsx';
@@ -40,35 +42,41 @@ export default function (envData) {
 	return (
 		<Route name="root" path="/" handler={Root}>
 			<Route name="app" path="/" handler={App}>
-				<Route name="feed" path="/" handler={Feed}>
-					<Route name="all" path="/all/?:country?/?:state?/?:city?/?:page?" handler={All}/>
-					<Route name="offers" path="/offers/?:country?/?:state?/?:city?/?:page?" handler={Offers}/>
-					<Route name="requests" path="/requests/?:country?/?:state?/?:city?/?:page?" handler={Requests}/>
-					<DefaultRoute name="default" handler={All}/>
+				<Route name="main" path="/" handler={MainPage}>
+					<Route name="login" handler={Login}/>
+					<Route name="signup" handler={Signup}/>
 				</Route>
-				<Route name="user" path="/user/:username" handler={Profile}>
-					<Route name="listeners" handler={ProfileListeners}/>
-					<Route name="listening" handler={ProfileListening}/>
-					<Route name="listeningTags" handler={ProfileListeningTags}/>
-					<Route name="useroffers" path="offers" handler={ProfileOffers}/>
-					<Route name="userrequests" path="requests" handler={ProfileRequests}/>
-					<DefaultRoute name="settings" handler={ProfileSettings}/>
-				</Route>
-				<Route name="shout" path="/shout/:shoutId/?:location?/?:title?" handler={Shout}/>
-				<Route name="discover" path="/discover/?:country?/?:state?/?:city?/?:page?" handler={Discover}/>
-				<Route name="tag" path="/tag/:tagName" handler={TagProfile}>
-					<Route name="tagrequests" handler={TagProfileRequest}/>
-					<Route name="taglisteners" handler={TagProfileListeners}/>
-					<DefaultRoute name="tagoffers" handler={TagProfileOffers}/>
-				</Route>
-				<Route name="chat" path="/chat" handler={new Chat(envData)}>
-					<Route name="messages" path=":chatId" handler={MessageList}/>
-					<DefaultRoute handler={EmptyMessageList}/>
-				</Route>
-				<Route name="search" path="/search/:shouttype/:category/?:term?" handler={Search}>
-					<Route name="searchUsers" path="users" handler={SearchUsers}/>
-					<Route name="searchTags" path="tags" handler={SearchTags}/>
-					<DefaultRoute name="searchShouts" handler={SearchShouts}/>
+				<Route name="home" path="/home" handler={HomePage}>
+					<Route name="feed"  handler={Feed}>
+						<Route name="all" path="/all/?:country?/?:state?/?:city?/?:page?" handler={All}/>
+						<Route name="offers" path="/offers/?:country?/?:state?/?:city?/?:page?" handler={Offers}/>
+						<Route name="requests" path="/requests/?:country?/?:state?/?:city?/?:page?" handler={Requests}/>
+						<DefaultRoute name="default" handler={All}/>
+					</Route>
+					<Route name="user" path="/user/:username" handler={Profile}>
+						<Route name="listeners" handler={ProfileListeners}/>
+						<Route name="listening" handler={ProfileListening}/>
+						<Route name="listeningTags" handler={ProfileListeningTags}/>
+						<Route name="useroffers" path="offers" handler={ProfileOffers}/>
+						<Route name="userrequests" path="requests" handler={ProfileRequests}/>
+						<DefaultRoute name="settings" handler={ProfileSettings}/>
+					</Route>
+					<Route name="shout" path="/shout/:shoutId/?:location?/?:title?" handler={Shout}/>
+					<Route name="discover" path="/discover/?:country?/?:state?/?:city?/?:page?" handler={Discover}/>
+					<Route name="tag" path="/tag/:tagName" handler={TagProfile}>
+						<Route name="tagrequests" handler={TagProfileRequest}/>
+						<Route name="taglisteners" handler={TagProfileListeners}/>
+						<DefaultRoute name="tagoffers" handler={TagProfileOffers}/>
+					</Route>
+					<Route name="chat" path="/chat" handler={new Chat(envData)}>
+						<Route name="messages" path=":chatId" handler={MessageList}/>
+						<DefaultRoute handler={EmptyMessageList}/>
+					</Route>
+					<Route name="search" path="/search/:shouttype/:category/?:term?" handler={Search}>
+						<Route name="searchUsers" path="users" handler={SearchUsers}/>
+						<Route name="searchTags" path="tags" handler={SearchTags}/>
+						<DefaultRoute name="searchShouts" handler={SearchShouts}/>
+					</Route>
 				</Route>
 			</Route>
 			<Route name="static" path="/" handler={Reduced}>
@@ -76,8 +84,7 @@ export default function (envData) {
 				<Route name="rules" handler={Static}/>
 				<Route name="policy" handler={Static}/>
 			</Route>
-			<Route name="login" handler={Login}/>
-			<Route name="signup" handler={Signup}/>
+			
 			<Route name="verifyEmail" path="/auth/verify_email" handler={VerifyEmail}/>
 			<NotFoundRoute handler={NotFound}/>
 		</Route>

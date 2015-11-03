@@ -1,0 +1,80 @@
+// Created by Luke Harrison: http://www.lukeharrison.net
+// Set Grid (1170gs default)
+$column-width: 60px;
+$gutter: 20px;
+$columns: 15;
+$padding: $gutter / 2;
+
+// Should it be responsive?
+$responsive: false;
+
+// Set container width relative to user variables
+$width: ($column-width * $columns) + ($gutter * ($columns - 1));
+
+// Set Base Container
+.si-container
+{
+// Set container width if responsive
+@if $responsive == true
+   {
+    max-width:$width;
+   }
+@else
+   {
+    width:$width;
+   }
+margin:0 auto;
+overflow: auto;
+}
+
+// Define Individual Grid Classes
+@for $i from 1 to $columns
+{
+    // Calculate grid size in pixels
+    $grid: ($column-width * $i) + ($gutter * ($i - 1));
+    
+    // Calculate responsive grid sizes if required
+    @if $responsive == true
+    {
+        // Calculate grid size in pixels
+        $grid: ($grid / $width) * 100%;
+
+        // Get Gutter Percentage for Grids
+        $gutter-percentage: ($gutter / $width) * 100%;
+
+        .grid-#{$i}
+            {
+            width: $grid;
+            float: left;
+            margin-left:$gutter-percentage;
+            }
+    }
+    @else
+    {
+        $grid: $grid;
+        .grid-#{$i}
+            {
+            width: $grid;
+            float: left;
+            margin-left:$gutter;
+            }
+    }
+}
+
+// Define offset grid classes
+@for $i from 1 to $columns
+{
+    // Calculate grid size in pixels
+    $offset: ($column-width * $i) + ($gutter * ($i - 1));
+    
+    .offset-#{$i}
+        {
+        margin-left: $offset;
+        }
+}
+
+.clear
+{
+margin-left: 0px;
+clear: left;
+}
