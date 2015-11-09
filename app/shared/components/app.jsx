@@ -1,15 +1,15 @@
-import {RouteHandler, Navigation} from 'react-router';
 import React from 'react';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
+import History from 'react-router';
+import {StoreWatchMixin} from 'fluxxor';
 import MainPage from './main/mainPage.jsx';
 
 
 export default React.createClass({
 	displayName: "App",
-	mixins: [new FluxMixin(React), new StoreWatchMixin("users"), Navigation],
+	mixins: [History, new StoreWatchMixin("users")],
 
 	getStateFromFlux() {
-		let flux = this.getFlux();
+		let flux = this.props.flux;
 		return {
 			loggedIn: flux.store("users").getState().user,
 		};
@@ -17,11 +17,11 @@ export default React.createClass({
 
 	componentDidMount() {
 		if(this.state.loggedIn) {
-			this.replaceWith('/home/feed');
+			this.history.replaceState('/home/feed');
 		}
 	},
 
 	render() {
-		return <div><RouteHandler {...this.props}/></div>;
+		return <div>{this.props.children}</div>;
 	}
 });

@@ -1,25 +1,19 @@
 import React from 'react'; // /addons
-import Router from 'react-router';
-
+import { render } from 'react-dom';
+import {Router} from 'react-router';
 import routes from '../shared/routes.jsx';
 import Flux from '../shared/flux';
-
 import facebook from './fb';
 import gAnalytics from './ga';
 import pusher from './pusher';
-
 import isMobile from 'ismobilejs';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 let envData = {};
 
 envData.mobile = isMobile.any;
 
-let router = Router.create({
-	routes: routes(envData),
-	location: Router.HistoryLocation
-});
-
-let flux = new Flux(router);
+let flux = new Flux(null);
 
 if (window.fluxData) {
 	flux.hydrate(window.fluxData);
@@ -74,26 +68,17 @@ let routesVisited = 0;
 // Mesure Performance
 //let Perf = React.addons.Perf;
 
-router.run(function (Handler, state) {
-	//Perf.start();
-	React.render(
-		React.createElement(Handler, {
-			flux: flux,
-			params: state.params
-		}),
-		document.getElementById('main-mount'),
-		function () {
-			//Perf.stop();
-			//Perf.printInclusive();
-			//Perf.printExclusive();
-			//Perf.printWasted();
-			//console.log("Router run!");
-			ga('send', 'pageview', state.path);
-			// todo: find better and less annoying way to show the app download popup. also if the user has the app it should not show at all
-			routesVisited++;
-			if (routesVisited === 3 && envData.mobile) {
-				flux.actions.showDownloadPopup();
-			}
-		}
-	);
-});
+// Passing history and flux to components
+const createFluxComponent = (Component, props) => {
+  return <Component {...props} flux={flux} />;
+};
+
+let history = createBrowserHistory();
+
+render((
+		<Router history={history} createElement={createFluxComponent}>
+  			{routes(envData)}
+  		</Router>
+		), document.getElementById('main-mount'), function() { 
+			ga('send', 'pageview', state.path); 
+		});

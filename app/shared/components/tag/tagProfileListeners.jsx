@@ -9,6 +9,7 @@ export default React.createClass({
 	displayName: "ProfileListeners",
 
 	statics: {
+		fetchId: 'taglisteners',
 		fetchData(client, session, params) {
 			return client.tags().getListeners(session, params.tagName);
 		}

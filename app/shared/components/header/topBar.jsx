@@ -1,6 +1,6 @@
 import React from 'react';
-import {Navigation} from 'react-router';
-import {ButtonLink} from 'react-router-bootstrap';
+import {History} from 'react-router';
+import {LinkContainer} from 'react-router-bootstrap';
 import {Grid, Col, Row, Button, Popover, OverlayTrigger} from 'react-bootstrap';
 import SearchBar from './searchBar.jsx';
 import TopBarActions from './topbarActions.jsx';
@@ -11,7 +11,7 @@ let mobile = isMobile.any;
 
 export default React.createClass({
 	displayName: "TopBar",
-	mixins: [Navigation],
+	mixins: [History],
 
 	render() {
 		let loggedUser = this.props.user ? this.props.users[this.props.user] : null;
@@ -26,7 +26,7 @@ export default React.createClass({
 				<Popover title="New to Shoutit?">
 					To create a <strong>Shout</strong>, you first need to log in.
 					Please&nbsp;
-						<span style={{cursor:'pointer', color:'#99ca3b'}} onClick={() => this.transitionTo('login')}>
+						<span style={{cursor:'pointer', color:'#99ca3b'}} onClick={() => this.history.pushState(null, '/login')}>
 							click here
 						</span>.
 				</Popover>;
@@ -53,10 +53,10 @@ export default React.createClass({
 						{this.props.user ?
 							<TopBarActions flux={this.props.flux} user={loggedUser}
 										   onLogoutClicked={this.props.onLogoutClicked}/> :
-							<div >
-								<ButtonLink className="pull-right" to="login" id="loginButton">
-									<span>Log In</span>
-								</ButtonLink>
+							<div>
+								<LinkContainer to="login" id="loginButton">
+									<Button className="pull-right">Log In</Button>
+								</LinkContainer>
 								<OverlayTrigger trigger="click" placement="bottom" overlay={loginAlert}>
 									<Button className="shout-btn pull-right" style={{marginRight:'5px'}}>
 										{mobile ? '+' : '+ Create Shout'}

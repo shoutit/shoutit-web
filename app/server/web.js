@@ -12,7 +12,9 @@ var cons = require('consolidate'),
 	Promise = require('bluebird');
 
 var React = require('react'),
-	Router = require('react-router');
+	ReactRouter = require('react-router'),
+	ReactDOMServer = require('react-dom/server');
+
 
 var oauth = require('./auth/oauth'),
 	ShoutitClient = require('./resources'),
@@ -99,10 +101,10 @@ function fetchData(userSession, routes, params, query) {
 	var data = {};
 	//return Promise.resolve(data);
 	return Promise.all(routes.filter(function (route) {
-		return route.handler.fetchData;
+		return route.component? route.component.fetchData: false;
 	}).map(function (route) {
 		return new Promise(function (resolve) {
-			route.handler.fetchData(ShoutitClient, userSession, params, route.name, query)
+			route.component.fetchData(ShoutitClient, userSession, params, route.name, query)
 				.on('complete', function (result, resp) {
 					if (result instanceof Error || resp.statusCode !== 200) {
 						resolve({});
@@ -111,8 +113,8 @@ function fetchData(userSession, routes, params, query) {
 					}
 				});
 		}).then(function (fetched) {
-				console.log("Fetched data for", route.name);
-				data[route.name] = fetched;
+				console.log("Fetched data for", route.component.fetchId);
+				data[route.component.fetchId] = fetched;
 			});
 	})).then(function () {
 		return data;
@@ -186,39 +188,44 @@ function reactServerRender(req, res) {
 	var user = req.session ? req.session.user : null;
 
 	// Run router to determine the desired state
-	console.time("RouterRun");
-	Router.run(Routes, req.url, function (Handler, state) {
-		console.timeEnd("RouterRun");
+	ReactRouter.match({ routes: Routes, location: req.url }, function(error, redirectLocation, renderProps) {
+	    if (redirectLocation) {
+		  res.redirect(301, redirectLocation.pathname + redirectLocation.search);
+		} else if (error) {
+		  res.status(500).send(error.message);
+		} else if (!renderProps) {
+		  res.status(404).send('Not found');
+		} else {
+			console.time("ApiFetch");
+			fetchData(req.session, renderProps.routes, renderProps.params, renderProps.location.query)
+				.then(function (data) {
+					console.timeEnd("ApiFetch");
 
-		// Fetch data based on matching routes and params
-		console.time("ApiFetch");
-		fetchData(req.session, state.routes, state.params, state.query)
-			.then(function (data) {
-				console.timeEnd("ApiFetch");
+					var flux = new Flux(null, user, data, renderProps.params, currencies, categories, sortTypes),
+						serializedFlux = flux.serialize(),
+						content;
 
-				//console.dir(data, {depth: 2});
+					const createFluxComponent = (Component, props) => {
+						return <Component {...props} flux={flux} />;
+						};
+					content = ReactDOMServer.renderToString(
+						<ReactRouter.RoutingContext createElement={createFluxComponent} {...renderProps} />
+						);
 
-				console.time("RenderReact");
-				var flux = new Flux(null, user, data, state.params, currencies, categories, sortTypes),
-					serializedFlux = flux.serialize(),
-					content = React.renderToString(
-						React.createElement(Handler, {
-							flux: flux,
-							params: state.params
-						}));
-				console.timeEnd("RenderReact");
-
-				var meta = getMetaFromData(req.url, state.routes[state.routes.length - 1], data);
-
-				res.render('index', {
-					reactMarkup: content,
-					serializedFlux: serializedFlux,
-					// Extract title from current Router State
-					title: DocumentTitle.rewind(),
-					graph: meta
+					var loadedRoute = renderProps.routes[renderProps.routes.length - 1];
+					var meta = getMetaFromData(req.url, loadedRoute, data);
+					
+					res.render('index', {
+						reactMarkup: content,
+						serializedFlux: serializedFlux,
+						// Extract title from current Router State
+						title: DocumentTitle.rewind(),
+						graph: meta
+					});
 				});
-			});
+		}
 	});
+	
 }
 
 var redisOptions = {

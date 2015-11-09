@@ -5,7 +5,7 @@ import {Input} from 'react-bootstrap';
 
 import Search from './search.jsx';
 import SearchResultList from './search/searchResultList.jsx';
-import assign from 'core-js/modules/$.assign.js';
+import {assign} from 'object-assign';
 
 export default React.createClass({
 	mixins: [new FluxMixin(React), new StoreWatchMixin("search", "locations"), Navigation],

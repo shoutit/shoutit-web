@@ -1,5 +1,5 @@
 import React from 'react';
-import {RouteHandler, State, Link} from 'react-router';
+import {Link} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 import {Link as ScrollLink, Element, Button} from 'react-scroll';
 import SearchBar from '../header/searchBar.jsx';
@@ -8,16 +8,15 @@ import Footer from './footer.jsx';
 
 export default React.createClass({
     displayName: "MainPage",
-    mixins: [new FluxMixin(React), new StoreWatchMixin("users"), State],
+    mixins: [new StoreWatchMixin("users")],
 
     getStateFromFlux() {
-        let flux = this.getFlux();
-        let shoutStore = this.getFlux().store('shouts').getState();
+        let flux = this.props.flux;
 
         return {
             users: flux.store("users").getState(),
             locations: flux.store("locations").getState(),
-            categories: shoutStore.categories
+            categories: flux.store('shouts').getState().categories
         };
     },
 
@@ -70,7 +69,7 @@ export default React.createClass({
                 </Element>
                 
                 <Footer />
-                <RouteHandler {...this.props}/>
+                {this.props.children}
                
             </div>
         );

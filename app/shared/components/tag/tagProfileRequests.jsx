@@ -6,6 +6,7 @@ export default React.createClass({
 	displayName: "TagProfileRequests",
 
 	statics: {
+		fetchId: 'tagrequests',
 		fetchData(client, session, params) {
 			return client.tags().getShouts(session, params.tagName, 'request');
 		}

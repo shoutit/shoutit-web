@@ -4,7 +4,7 @@ import consts from './consts';
 import statuses from '../../consts/statuses';
 import locConsts from '../locations/consts';
 import client from './client';
-import assign from 'core-js/modules/$.assign.js';
+import {assign} from 'object-assign';
 
 const {LISTEN_BTN_LOADING} = statuses;
 

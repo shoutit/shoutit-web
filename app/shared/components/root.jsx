@@ -1,4 +1,3 @@
-import {RouteHandler} from 'react-router';
 import React from 'react';
 
 export default React.createClass({
@@ -6,7 +5,7 @@ export default React.createClass({
 
     render() {
         return (
-            <RouteHandler {...this.props}/>
+            <div>{this.props.children}</div>
         );
     }
 });

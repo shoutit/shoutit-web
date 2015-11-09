@@ -1,15 +1,15 @@
 import React from 'react';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
+import {StoreWatchMixin} from 'fluxxor';
 import TopBar from './topBar.jsx';
 import MainMenu from './mainMenu.jsx';
 import DownloadPopup from '../misc/downloadPopup.jsx';
 
 export default React.createClass({
 	displayName: "Header",
-	mixins: [new FluxMixin(React), new StoreWatchMixin("users", "locations")],
+	mixins: [new StoreWatchMixin("users", "locations")],
 
 	getStateFromFlux() {
-		let flux = this.getFlux();
+		let flux = this.props.flux;
 		return {
 			users: flux.store("users").getState(),
 			locations: flux.store("locations").getState()
@@ -17,13 +17,13 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
-		this.getFlux().actions.acquireLocation();
+		this.props.flux.actions.acquireLocation();
 	},
 
 	render() {
 		return (
 			<header>
-				<TopBar {...this.state.users} flux={this.getFlux()} onLogoutClicked={this.onLogoutClicked}/>
+				<TopBar {...this.state.users} flux={this.props.flux} onLogoutClicked={this.onLogoutClicked}/>
 				<MainMenu current={this.state.locations.current} />
 				{this.renderPopup()}
 			</header>
@@ -32,10 +32,10 @@ export default React.createClass({
 
 	renderPopup() {
 		return this.state.users.showDownloadPopup ?
-			<DownloadPopup flux={this.getFlux()}/> : null;
+			<DownloadPopup flux={this.props.flux}/> : null;
 	},
 
 	onLogoutClicked() {
-		this.getFlux().actions.logout();
+		this.props.flux.actions.logout();
 	}
 });

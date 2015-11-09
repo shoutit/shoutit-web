@@ -1,6 +1,6 @@
 import React from 'react';
-import {NavItemLink} from 'react-router-bootstrap';
-import {Grid, Navbar, Nav} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
+import {Grid, Navbar, Nav, NavItem} from 'react-bootstrap';
 
 export default React.createClass({
 	displayName: "MainMenu",
@@ -22,11 +22,11 @@ export default React.createClass({
 				<Grid>
 					<Navbar bsStyle="link">
 						<Nav eventKey="mainMenu" collapsable={false}>
-							<NavItemLink to="all" params={linkParams}>Home</NavItemLink>
-							<NavItemLink to="offers" params={linkParams}>Offers</NavItemLink>
-							<NavItemLink to="requests" params={linkParams}>Requests</NavItemLink>
-							<NavItemLink to="discover" params={linkParams}>Discover</NavItemLink>
-							<NavItemLink to="chat">Chat</NavItemLink>
+							<LinkContainer to={`/all/${linkParams}`}><NavItem>Home</NavItem></LinkContainer>
+							<LinkContainer to={`/offers/${linkParams}`}><NavItem>Offers</NavItem></LinkContainer>
+							<LinkContainer to={`/requests/${linkParams}`}><NavItem>Requests</NavItem></LinkContainer>
+							<LinkContainer to={`/discover/${linkParams}`}><NavItem>Discover</NavItem></LinkContainer>
+							<LinkContainer to={`/chat`}><NavItem>Chat</NavItem></LinkContainer>
 						</Nav>
 					</Navbar>
 				</Grid>

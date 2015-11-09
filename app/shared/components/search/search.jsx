@@ -6,7 +6,7 @@ import SearchFilters from './searchFilters.jsx';
 import SearchResults from './searchResults.jsx';
 import DocumentTitle from 'react-document-title';
 
-import assign from 'core-js/modules/$.assign.js';
+import {assign} from 'object-assign';
 
 export default React.createClass({
 	mixins: [new FluxMixin(React), new StoreWatchMixin("search"), State, Navigation],
