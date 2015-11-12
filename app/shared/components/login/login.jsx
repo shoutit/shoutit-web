@@ -1,16 +1,15 @@
 import React from 'react';
-import {Navigation,Link} from 'react-router';
-import {Alert} from 'react-bootstrap';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
-
+import {History, Link} from 'react-router';
+import {StoreWatchMixin} from 'fluxxor';
 import DocumentTitle from 'react-document-title';
 import NativeLogin from './nativeLogin.jsx';
 import SocialLogin from './socialLogin.jsx';
 import ForgetPass from './forgetPass.jsx';
+import {Dialog} from 'material-ui';
 
 export default React.createClass({
 	displayName: "Login",
-	mixins: [new FluxMixin(React), new StoreWatchMixin('users'), Navigation],
+	mixins: [new StoreWatchMixin('users'), History],
 
 	getInitialState() {
 		return {
@@ -19,42 +18,66 @@ export default React.createClass({
 	},
 
 	getStateFromFlux() {
-		let flux = this.getFlux();
+		let flux = this.props.flux;
 		let store = flux.store('users').getState();
 
 		return {
 			logingIn: store.logingIn,
 			loginFailed: store.loginFailed,
-			forgetResult: store.forgetResult
+			forgetResult: store.forgetResult,
+			user: store.user
 		};
 	},
 
 	render() {
 		return (
 			<DocumentTitle title="Log In - Shoutit">
-				<div className="login">
-					<div className="login-container">
-						<div className="top-login">
-							<Link to="app"><img src="img/logo2.png"/></Link>
-							<h4><b>EASY.&nbsp;&nbsp;&nbsp;LOCAL.&nbsp;&nbsp;&nbsp;FREE.</b></h4>
-						</div>
+				<Dialog ref="loginDialog" onDismiss={this.onDismiss} contentStyle={{marginTop:'-50px'}} contentClassName="si-dialog" >
+					<div className="si-login">
+						<div className="icon res1x-sign_logo"></div>
+						<h3>Login</h3>
+						<SocialLogin flux={this.props.flux} loginFailed={this.state.loginFailed} />
+						<div className="separator separator-or"></div>
 
 						<p>{this.renderLoginError()}</p>
 						{this.renderNativeLogin()}
 						{this.renderForgetPass()}
-						<SocialLogin flux={this.getFlux()} loginFailed={this.state.loginFailed} />
 						
-						<p style={{fontSize:'17px',marginTop: '20px'}}>
-							Don't have an account&#63;&nbsp;
-							<Link to="signup">Sign Up</Link>
-						</p>
-						<span className="forget-btn" onClick={() => this.setState({forgetPass: true})}>
-							forget your password?
+						<div className="separator"></div>
+						<center>
+						<span style={{marginBottom: '5px'}}>
+							Need an account&#63;&nbsp;
+							<Link to="/signup">Sign Up</Link>
 						</span>
+						</center>
 					</div>
-				</div>
+					<span className="forgot-btn" onClick={() => this.setState({forgetPass: true})}>
+						Forgot password?
+					</span>
+				</Dialog>
+				
 			</DocumentTitle>	
 		);
+	},
+
+	componentDidMount() {
+		this.refs.loginDialog.show();
+		this.checkLogin();
+	},
+
+	componentDidUpdate() {
+		this.refs.loginDialog.show();
+		this.checkLogin();
+	},
+
+	checkLogin() {
+		if(this.state.user) {
+			this.history.replaceState(null, 'home/feed');
+		}
+	},
+
+	onDismiss() {
+		setTimeout(() => this.history.goBack(), 300);
 	},
 
 	renderLoginError() {
@@ -75,11 +98,11 @@ export default React.createClass({
 
 	renderNativeLogin() {
 		return this.state.loginFailed !== 'no_fb_email' && !this.state.forgetPass?
-			<NativeLogin flux={this.getFlux()} logingIn={this.state.logingIn}/>: null;
+			<NativeLogin flux={this.props.flux} logingIn={this.state.logingIn}/>: null;
 	},
 
 	renderForgetPass() {
 		return this.state.forgetPass?
-			<ForgetPass flux={this.getFlux()} res={this.state.forgetResult} />: null;
+			<ForgetPass flux={this.props.flux} res={this.state.forgetResult} />: null;
 	}
 });

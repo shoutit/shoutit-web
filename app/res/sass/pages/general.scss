@@ -1,5 +1,10 @@
+body {
+  overflow: auto!important;
+}
 a {
+  color: $si-green;
   &:hover {
+    color: darken($si-green,10%);
     text-decoration: none;
   }
 }
@@ -20,12 +25,44 @@ h3 {
   color: lighten($si-gray, 10%);
   margin: 0;
 }
+p {
+  font-size: $default-font-size;
+}
+p.small {
+  font-size: $default-font-size-small;
+  color: lighten($si-gray, 10%);
+  margin-bottom: 0;
+}
+p.large {
+  font-size: $default-font-size-large;
+}
+input[type=text], [type=email], input[type=password] {
+  height: 40px;
+  border-radius: 5px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  transition: all .3s;
+  &:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 2px solid $si-green;
+  }
+  &.input-alert {
+    border: 2px solid $si-error-color;
+  }
+}
+button {
+  &:focus {
+    outline: 0!important;
+    box-shadow: none!important;
+  }
+}
+
 .subtitle {
   font-size: 1.2rem;
   color: lighten($si-gray, 20%);
 }
 .grid-3:first-child {@extend .clear;}
-
 /* Item Box */
 .si-item-box {
   width: 220px;
@@ -164,5 +201,111 @@ h3 {
       }
     }
   }
-  
+}
+
+.si-dialog {
+  width: 400px!important;
+  & > div {
+    border-radius: 5px!important;
+    & > div {
+      padding: 24px 0 0!important;
+    }
+    span {
+      color: lighten($si-gray,20%);
+      text-align: center;
+    }
+    .si-login, .si-signup {
+      width: 316px;
+      margin: 0 auto;
+      .res1x-sign_logo {
+        margin: 10px auto 0;
+      }
+      h3 {
+        margin: 0 0 17px;
+        font-size: 24px;
+        font-weight: 300;
+        line-height: 40px;
+        text-align: center;
+      }
+      .separator {
+        @include size(100%, 1px);
+        margin: 10px auto;
+        background: $si-light-gray2;
+      }
+      .separator-or {
+        margin: 35px auto;
+        &:after {
+          content: 'or';
+          position: relative;
+          margin-left: 45%;
+          top: -10px;
+          z-index: 1;
+          background: $si-white;
+          color: darken($si-light-gray2, 10%);
+          font-size: 16px;
+          padding: 5px 10px;
+        }
+      }
+      .social-btn{
+        border-radius: 5px;
+        margin: 6px auto;
+        @include button(100%, 40px, 1.4rem);
+        &.facebook {
+          color: $si-white;
+          background-color: #3a5898;
+          &:hover {
+            background-color: lighten(#3a5898,7%);
+          }
+        }
+        &.google {
+          color: $si-white;
+          background-color: #d8584f;
+          &:hover {
+            background-color: lighten(#d8584f,7%);
+          }
+        }
+      }
+      .btn-signin, .btn-signup {
+        @include green-button(100%, 40px, 1.4rem);
+        margin:0;
+        
+        &.btn-signin-disabled, &.btn-signup-disabled {
+          background: lighten($si-light-gray,20%);
+          font-size: 1.3rem;
+          pointer-events: none;
+          cursor: default;
+        }
+      }
+      .checkbox {
+        text-align: center;
+        input[type=checkbox] ~ span{
+          color: lighten($si-gray,20%);
+          letter-spacing: 0.02rem;
+          font-size: 1.4rem;
+        }
+      }
+    }
+    .forgot-btn {
+        display:block;
+        width: 100%;
+        padding: 10px 0;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        margin-top: 10px;
+        text-align: center;
+        background: lighten($si-light-gray2, 15%);
+        text-decoration: underline;
+        color: $si-light-gray;
+        cursor: pointer;
+      }
+    input.input-name {
+      width: 47%!important;
+      display: inline-block;
+      float: left;
+      margin-bottom:10px;
+      &.input-last-name {
+        float:right;
+      }
+    }
+  }
 }

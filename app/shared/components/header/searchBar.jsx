@@ -1,19 +1,19 @@
 import React from 'react';
-import {Navigation} from 'react-router';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
+import {History} from 'react-router';
+import {StoreWatchMixin} from 'fluxxor';
 import {Input} from 'react-bootstrap';
 
 import Search from './search.jsx';
 import SearchResultList from './search/searchResultList.jsx';
-import {assign} from 'object-assign';
+import assign from 'lodash/object/assign';
 
 export default React.createClass({
-	mixins: [new FluxMixin(React), new StoreWatchMixin("search", "locations"), Navigation],
+	mixins: [new StoreWatchMixin("search", "locations"), History],
 
 	displayName: "SearchBar",
 
 	getStateFromFlux() {
-		let flux = this.getFlux();
+		let flux = this.props.flux;
 		return {
 			search: flux.store("search").getState(),
 			users: flux.store("users").getState(),
@@ -90,7 +90,7 @@ export default React.createClass({
 		return (
 			<div className="search-bar">
 				<Search
-					flux={this.getFlux()}
+					flux={this.props.flux}
 					onFocus={this.onFocusSearch}
 					onChangeSearch={this.onChangeSearch}
 					onSubmit={this.onSubmit}
@@ -142,26 +142,27 @@ export default React.createClass({
 		searchReq.category = 'all';
 
 		// send search action
-		this.getFlux().actions.searchAll(assign(searchReq,searchQuery));
+		this.props.flux.actions.searchAll(assign(searchReq,searchQuery));
 		// move to search page if requested
 		if (moveToSearchPage) {
 			searchReq.term = encodeURIComponent(searchReq.term);
 			searchQuery.city = encodeURIComponent(searchQuery.city);
 			searchQuery.country = encodeURIComponent(searchQuery.country);
-			this.transitionTo("search", searchReq, searchQuery);
+			this.history.pushState(null, 
+				`/search/${searchReq.shouttype}/${searchReq.category}/${searchReq.term}`, searchQuery);
 		}
 	},
 
 	onLocInputChange(ev) {
 		let newTerm = ev.target.value;
 		this.setState({locTerm: newTerm});
-		this.getFlux().actions.loadPredictions(newTerm);
+		this.props.flux.actions.loadPredictions(newTerm);
 	},
 
 	onLocationSelect(prediction) {
 		return function () {
 			this.setState({showSearch: false});
-			this.getFlux().actions.selectLocation(prediction);
+			this.props.flux.actions.selectLocation(prediction);
 		}.bind(this);
 	}
 });

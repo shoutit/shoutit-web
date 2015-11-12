@@ -9,6 +9,14 @@ import pusher from './pusher';
 import isMobile from 'ismobilejs';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
+let injectTapEventPlugin = require("react-tap-event-plugin");
+
+//Needed for onTouchTap
+//Can go away when react 1.0 release
+//Check this repo:
+//https://github.com/zilverline/react-tap-event-plugin
+injectTapEventPlugin();
+
 let envData = {};
 
 envData.mobile = isMobile.any;
@@ -74,11 +82,12 @@ const createFluxComponent = (Component, props) => {
 };
 
 let history = createBrowserHistory();
+console.log(window.location.href);
 
 render((
 		<Router history={history} createElement={createFluxComponent}>
   			{routes(envData)}
   		</Router>
 		), document.getElementById('main-mount'), function() { 
-			ga('send', 'pageview', state.path); 
+			ga('send', 'pageview', window.location.href ); 
 		});

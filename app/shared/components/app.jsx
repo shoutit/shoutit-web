@@ -1,5 +1,5 @@
 import React from 'react';
-import History from 'react-router';
+import {History} from 'react-router';
 import {StoreWatchMixin} from 'fluxxor';
 import MainPage from './main/mainPage.jsx';
 
@@ -17,7 +17,7 @@ export default React.createClass({
 
 	componentDidMount() {
 		if(this.state.loggedIn) {
-			this.history.replaceState('/home/feed');
+			this.history.replaceState(null, '/home/feed');
 		}
 	},
 

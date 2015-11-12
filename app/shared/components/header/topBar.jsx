@@ -47,7 +47,7 @@ export default React.createClass({
 						<Logo/>
 					</Col>
 					<Col className={searchBarColClassName} xs={xsSizes.searchBar} md={6}>
-						<SearchBar/>
+						<SearchBar flux={this.props.flux}/>
 					</Col>
 					<Col className={actionsColClassName} xs={xsSizes.actions} md={5}>
 						{this.props.user ?

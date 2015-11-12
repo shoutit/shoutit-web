@@ -1,10 +1,8 @@
 import React from 'react';
-import {State, Navigation} from 'react-router';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
+import {State, History} from 'react-router';
+import {StoreWatchMixin} from 'fluxxor';
 import DocumentTitle from 'react-document-title';
-
 import FeedList from './feedList.jsx';
-
 import defaults from '../../consts/defaults';
 
 const titles = {
@@ -22,7 +20,7 @@ const typeToRoute = {
 export default function (type = "all") {
 	return React.createClass({
 		displayName: type,
-		mixins: [new FluxMixin(React), new StoreWatchMixin("shouts", "locations"), State, Navigation],
+		mixins: [new StoreWatchMixin("shouts", "locations"), State, History],
 
 		statics: {
 			fetchData(client, session, params) {
@@ -38,7 +36,7 @@ export default function (type = "all") {
 		},
 
 		getStateFromFlux() {
-			let flux = this.getFlux();
+			let flux = this.props.flux;
 			return {
 				shouts: flux.store("shouts").getState(),
 				locations: flux.store("locations").getState()
@@ -63,7 +61,7 @@ export default function (type = "all") {
 			}
 
 			if (this.state.locations.current.city && !this.state.locations.current.location) {
-				this.getFlux().actions.updateLocationToFeed();
+				this.props.flux.actions.updateLocationToFeed();
 			}
 		},
 
@@ -74,13 +72,13 @@ export default function (type = "all") {
 				currentState = locStoreState.current.state,
 				currentPage = this.getParams().page;
 			if (currentCity) {
-				this.transitionTo(typeToRoute[type],
-					{country: currentCountry, state: currentState, city: currentCity, page: currentPage});
+				this.history.pushState(null, 
+						`/${typeToRoute[type]}/${currentCountry}/${currentState}/${currentCity}/${currentPage}`);
 			}
 		},
 
 		loadMore() {
-			this.getFlux().actions.loadMore(type);
+			this.props.flux.actions.loadMore(type);
 		}
 	});
 }

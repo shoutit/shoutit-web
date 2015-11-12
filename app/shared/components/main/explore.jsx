@@ -40,7 +40,7 @@ export default React.createClass({
                     // clear every three item
                     let className = idx%3 === 0? 'clear grid-3': 'grid-3'; 
                     return (
-                        <div className={className}>
+                        <div key={idx} className={className}>
                             <div className="si-item-box">
                                 <div className="img" style={{backgroundImage:`url(${item.main_tag.image})`}}></div>
                                 <h3>{item.name}</h3>

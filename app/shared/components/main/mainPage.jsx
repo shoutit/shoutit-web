@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
+import {StoreWatchMixin} from 'fluxxor';
 import {Link as ScrollLink, Element, Button} from 'react-scroll';
 import SearchBar from '../header/searchBar.jsx';
 import Explore from './explore.jsx';
@@ -25,11 +25,11 @@ export default React.createClass({
             <div className="mainpage">
                 <Element name="nav" className="mainpage-nav si-container">
                     <div className="nav-left clear grid-8">
-                        <Link to="app"><div className="res1x-logo"></div></Link>
+                        <Link to="/"><div className="res1x-logo"></div></Link>
                     </div>
                     <div className="nav-right grid-7">
-                        <span className="btn-login">Login</span>
-                        <span className="btn-d">Signup</span>
+                        <Link to="/login"><span className="btn-login">Login</span></Link>
+                        <Link to="/signup"><span className="btn-d">Signup</span></Link>
                         <span className="btn-d">About</span>
                     </div>
                 </Element>
@@ -56,7 +56,7 @@ export default React.createClass({
                 </div>
                 <div className="mainpage-search si-container">
                     <div className="grid-9">
-                        <SearchBar/>
+                        <SearchBar flux={this.props.flux}/>
                     </div>
                 </div>
 

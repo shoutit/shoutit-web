@@ -1,25 +1,27 @@
 import React from 'react';
-import {FluxMixin,StoreWatchMixin} from 'fluxxor';
-import {Navigation,Link} from 'react-router';
+import ReactDOM from 'react-dom';
+import {StoreWatchMixin} from 'fluxxor';
+import {History, Link} from 'react-router';
 import DocumentTitle from 'react-document-title';
-import Clear from './../helper/clear.jsx';
-import {Input,Button,Alert,Overlay,Tooltip} from 'react-bootstrap';
+import {Input,Button,Overlay,Tooltip} from 'react-bootstrap';
+import {Dialog} from 'material-ui';
+import SocialLogin from './socialLogin.jsx';
 
 export default React.createClass({
 	displayName: "Signup",
-	mixins:[Navigation,new FluxMixin(React), new StoreWatchMixin('users')],
+	mixins:[History, new StoreWatchMixin('users')],
 
 	getInitialState() {
 		return{
 			loading: false,
 			tosChecked: false,
 			signupFinished: false,
-			alerts: {first_name:'',email:'',password:''}
+			alerts: {first_name:'', email:'', password:''}
 		};
 	},
 
 	getStateFromFlux() {
-		let flux = this.getFlux();
+		let flux = this.props.flux;
 		let store = flux.store('users').getState();
 
 		return {
@@ -31,24 +33,26 @@ export default React.createClass({
 		let form;
 		if (!this.state.signupFinished) {
 			form =
-			<div>
-				<div className="top-login">
-					<Link to="app"><img src="img/logo2.png"/></Link>
-					<h4>Sign up for Shoutit marketplace!</h4>
-				</div>
+			<div className="si-signup">
+				<div className="icon res1x-sign_logo"></div>
+				<h3>Sign Up</h3>
+				<SocialLogin flux={this.props.flux} loginFailed={this.state.loginFailed} />
+				<div className="separator separator-or"></div>
 				<form onSubmit={this.onSignupSubmit}>
 					{(() => { // alert code
 						if(this.state.alerts["first_name"])
-							return <Alert bsStyle="warning">{this.state.alerts["first_name"]}</Alert>;
+							return <p className="small">{this.state.alerts["first_name"]}</p>;
 						}
 					)()}
 
-					<Input ref='name' type='text' placeholder='Name' className=
+					<Input ref='fname' type='text' placeholder='First Name' className=
 						{this.state.alerts["first_name"]? "input-name input-alert": "input-name"} />
+					<Input ref='lname' type='text' placeholder='Last Name' className=
+						{this.state.alerts["last_name"]? "input-name input-last-name input-alert": "input-name input-last-name"} />
 
 					{(() => { // alert code
 						if(this.state.alerts["email"])
-							return <Alert bsStyle="warning">{this.state.alerts["email"]}</Alert>;
+							return <p className="small">{this.state.alerts["email"]}</p>;
 						}
 					)()}
 
@@ -57,7 +61,7 @@ export default React.createClass({
 
 					{(() => { // alert code
 						if(this.state.alerts["password"])
-							return <Alert bsStyle="warning">{this.state.alerts["password"]}</Alert>;
+							return <p className="small">{this.state.alerts["password"]}</p>;
 						}
 					)()}
 
@@ -65,48 +69,61 @@ export default React.createClass({
 						{this.state.alerts["password"]? "input-pass input-alert": "input-pass"} />
 
 					<Button bsSize='large' type='submit' block disabled={!this.state.tosChecked}
-					className={this.state.loading? 'btn-signin btn-signin-disabled':'btn-signin'}>
+					className={this.state.loading? 'btn-signup btn-signup-disabled':'btn-signup'}>
 					{this.state.loading? 'Signing Up...': 'Sign Up'}</Button>
 					<Input onChange={this.handleTos} checked={this.state.tosChecked} type='checkbox' label='I accept Shoutit terms of use'
 					 disabled={this.state.loading} />
 				</form>
-				<span className="link-item" style={{float:'left',color:'#8a8a88'}} onClick={() => this.transitionTo('login')}>
-					Back to Login page
-				</span>
+				<div className="separator"></div>
+					<center>
+						<div style={{marginBottom: '15px'}}>
+							Already have an account&#63;&nbsp;
+							<Link to="/login">Login</Link>
+						</div>
+					</center>
 			</div>;
 		} else {
 			form =
-				<div>
-					<div className="top-login">
-						<img src="img/logo2.png"/>
-					</div>
-					<p style={{fontSize:'14px',marginTop:'50px'}}>
+				<div className="si-signup">
+					<div className="icon res1x-sign_logo"></div>
+					<h3>Sign Up</h3>
+					<p style={{marginTop:'50px'}}>
 						Dear {this.state.signup.name}, welcome to Shoutit. We are happy to have you here!
 					</p>
-					<p>
+					<p className="small">
 						To use Shoutit with full potential please verify your email by clicking 
 						on the link we have sent to your email <span>{this.state.signup.email}</span>
 					</p>
-					<span className="link-item" onClick={() => this.transitionTo('app')}>
-						Main page
-					</span>
+					<center>
+						<div style={{marginBottom: '15px'}}>
+							Go to&nbsp;
+							<Link to="/">Home Page</Link>
+						</div>
+					</center>
 				</div>;
 		}
 
 
 		return(
 			<DocumentTitle title="Sign Up - Shoutit">
-				<div className="login">
-					<div className="login-container">
-						{form}
-						<Clear />
-					</div>
-				</div>
+				<Dialog ref="signupDialog" onDismiss={this.onDismiss} contentStyle={{marginTop:'-50px'}} contentClassName="si-dialog">
+					{form}
+
+				</Dialog>
 			</DocumentTitle>
 		);
 	},
 
+	componentDidMount() {
+		this.refs.signupDialog.show();
+	},
+
+	onDismiss() {
+		this.history.goBack();
+	},
+
 	componentDidUpdate() {
+		this.refs.signupDialog.show();
 		// handling server response
 		if (this.state.loading) {
 			if (this.state.signup.hasOwnProperty("status")) {
@@ -129,16 +146,17 @@ export default React.createClass({
 
 	onSignupSubmit(e) {
 		e.preventDefault();
-		let flux = this.getFlux();
+		let flux = this.props.flux;
 
 		let acc = {};
-		acc.name = React.findDOMNode(this.refs.name).children[0].value;
-		acc.email = React.findDOMNode(this.refs.email).children[0].value;
-		acc.pass = React.findDOMNode(this.refs.pass).children[0].value;
+		acc.name = ReactDOM.findDOMNode(this.refs.fname).children[0].value;
+		acc.name += ' ' + ReactDOM.findDOMNode(this.refs.lname).children[0].value;
+		acc.email = ReactDOM.findDOMNode(this.refs.email).children[0].value;
+		acc.pass = ReactDOM.findDOMNode(this.refs.pass).children[0].value;
 
 		if (acc.name && acc.email && acc.pass){
 			flux.actions.signup(acc);
-			this.setState({loading:true});
+			this.setState({loading: true});
 		}
 	},
 
@@ -155,7 +173,7 @@ export default React.createClass({
 				signupAlerts[key] = signup[key][0];
 
 			delete signupAlerts.status;
-			this.setState({alerts:signupAlerts});
+			this.setState({alerts: signupAlerts});
 		}
 	}
 });

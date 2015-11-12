@@ -122,8 +122,6 @@ var UserStore = Fluxxor.createStore({
 			}
 		}
 
-		this.router = props.router;
-
 		this.bindActions(
 			consts.RESEDND_EMAIL_VERIF, this.onResendEmail,
 			consts.VERIFY_EMAIL, this.onEmailVerify,
@@ -286,7 +284,6 @@ var UserStore = Fluxxor.createStore({
 							this.state.loginFailed = null;
 							this.emit("change");
 							this.emit("login");
-							this.router.transitionTo('app');
 						}
 					}
 				}
@@ -307,7 +304,7 @@ var UserStore = Fluxxor.createStore({
 					this.state.user = null;
 					this.emit("change");
 					this.emit("logout");
-					this.router.transitionTo('app');
+					// TODO: add redirect to route support from components
 				}
 			}.bind(this));
 	},

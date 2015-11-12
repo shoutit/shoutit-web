@@ -1,11 +1,8 @@
 import React from 'react';
 import { Col } from 'react-bootstrap';
-
 import {Link} from 'react-router';
-
 import Shout from './feed/shout.jsx';
 import Loader from '../helper/loader.jsx';
-
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 
 const typeToRoute = {
