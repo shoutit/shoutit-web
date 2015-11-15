@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {Link as ScrollLink} from 'react-scroll';
+import {ANDROID_LINK, IOS_LINK} from '../../consts/defaults';
 
 export default React.createClass({
     displayName: 'footer',
@@ -40,10 +41,10 @@ export default React.createClass({
                 </div>
                 <div className="links-section grid-3">
                     <h3>Mobile</h3>
-                    <a href="#" target="_blank">
+                    <a href={ANDROID_LINK} target="_blank">
                         <div className="icon res1x-app-store-small"></div>
                     </a>
-                    <a href="#" target="_blank">
+                    <a href={IOS_LINK} target="_blank">
                         <div className="icon res1x-google-play-small"></div>
                     </a>
                 </div>

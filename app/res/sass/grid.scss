@@ -27,6 +27,9 @@ margin:0 auto;
 overflow: auto;
 }
 
+
+
+
 // Define Individual Grid Classes
 @for $i from 1 to $columns
 {
@@ -47,6 +50,7 @@ overflow: auto;
             width: $grid;
             float: left;
             margin-left:$gutter-percentage;
+            overflow: hidden;
             }
     }
     @else
@@ -57,6 +61,7 @@ overflow: auto;
             width: $grid;
             float: left;
             margin-left:$gutter;
+            overflow: hidden;
             }
     }
 }
@@ -65,16 +70,19 @@ overflow: auto;
 @for $i from 1 to $columns
 {
     // Calculate grid size in pixels
-    $offset: ($column-width * $i) + ($gutter * ($i - 1));
+    $offset: ($column-width * $i) + ($gutter * $i);
     
     .offset-#{$i}
         {
         margin-left: $offset;
         }
+    .offset-#{$i}.clear {
+        margin-left: $offset - 20;
+    }
 }
 
 .clear
 {
-margin-left: 0px;
-clear: left;
+  margin-left: 0px;
+  clear: left;
 }

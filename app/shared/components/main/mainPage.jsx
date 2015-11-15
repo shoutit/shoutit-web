@@ -5,6 +5,7 @@ import {Link as ScrollLink, Element, Button} from 'react-scroll';
 import SearchBar from '../header/searchBar.jsx';
 import Explore from './explore.jsx';
 import Footer from './footer.jsx';
+import {ANDROID_LINK, IOS_LINK} from '../../consts/defaults';
 
 export default React.createClass({
     displayName: "MainPage",
@@ -34,9 +35,9 @@ export default React.createClass({
                     </div>
                 </Element>
                 <div className="mainpage-cover si-container">
-                    <div className="mainpage-cover-opacity">
+                    <div className="mainpage-cover-opacity si-container">
                         <div className="hero si-container">
-                            <div className="grid-9">
+                            <div className="grid-7 offset-2">
                                 <h1>Everything Much Cheaper!</h1>
                                 <p>
                                     Lorem ipsum dolor sit amet, quo ad adhuc debet munere. Harum congue ne his, suas viris constituam ne cum, sonet mandamus at his.
@@ -47,15 +48,15 @@ export default React.createClass({
                                 <ScrollLink to="how" className="btn-how" smooth={true}
                                         offset={-20} duration={1000} >How It Works</ScrollLink>
                             </div>
-                            <div className="grid-2">
-                                <div className="icon res1x-app_store"></div>
-                                <div className="icon res1x-google_play"></div>
+                            <div className="grid-3 offset-1">
+                                <a href={IOS_LINK} target="_blank"><div className="icon res1x-app_store" ></div></a>
+                                <a href={ANDROID_LINK} target="_blank"><div className="icon res1x-google_play" ></div></a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="mainpage-search si-container">
-                    <div className="grid-9">
+                    <div className="grid-9 offset-3">
                         <SearchBar flux={this.props.flux}/>
                     </div>
                 </div>

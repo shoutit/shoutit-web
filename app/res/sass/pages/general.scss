@@ -62,7 +62,7 @@ button {
   font-size: 1.2rem;
   color: lighten($si-gray, 20%);
 }
-.grid-3:first-child {@extend .clear;}
+//.grid-3:first-child {@extend .clear;}
 /* Item Box */
 .si-item-box {
   width: 220px;
