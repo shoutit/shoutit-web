@@ -2,8 +2,8 @@ body {
   overflow: auto!important;
 }
 a {
-  color: $si-green;
-  &:hover {
+  color: $si-light-gray;
+  &:hover, &:active {
     color: darken($si-green,10%);
     text-decoration: none;
   }
@@ -87,10 +87,6 @@ button {
   .form-group {
     display:inline-block;
     .input-group {
-      // Search Input
-      input {
-        height: 45px;
-      }
       .selectpicker {
         max-width: 150px;
         overflow-x: hidden;
@@ -98,7 +94,6 @@ button {
           background: $si-green;
           border: none;
           box-shadow: none;
-          height: 45px;
           margin-right: -1px;
           color: $si-white;
           font-size: 1.6rem;
@@ -128,7 +123,7 @@ button {
   .list-search {
     position: absolute;
     z-index: 2;
-    width: 700px;
+    width: inherit;
     margin-top: -21px;
     padding: 0;
     overflow: auto;

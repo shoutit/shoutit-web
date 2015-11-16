@@ -9,6 +9,8 @@ import Static from './static.jsx';
 import Image from './image.jsx';
 import Mui from './mui.jsx';
 import Loader from './loader.jsx';
+import Grid from './grid.jsx';
+import Column from './column.jsx';
 
 export default {
     Icon,
@@ -17,5 +19,7 @@ export default {
     Static,
     Image,
     Mui,
-    Loader
+    Loader,
+    Grid,
+    Column
 };

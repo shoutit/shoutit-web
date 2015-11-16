@@ -19,13 +19,11 @@ export default React.createClass({
 		let user = this.props.user;
 
 		return (
-			<Nav pullRight={true}>
-				<ShoutModalTrigger flux={this.props.flux} />
-				<ProfileDropdown user={user} onLogoutClicked={this.props.onLogoutClicked}/>
-			</Nav>
+			<ProfileDropdown user={user} onLogoutClicked={this.props.onLogoutClicked}/>
 		);
 	}
 
 	// <ShoutModalTrigger flux={this.props.flux} />
+	
 
 });

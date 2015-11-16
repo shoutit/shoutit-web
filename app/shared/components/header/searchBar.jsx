@@ -69,6 +69,7 @@ export default React.createClass({
 							placeholder="Search"
 							onChange={this.onLocInputChange}
 							value={this.state.locTerm}
+							height={this.props.height + 'px'}
 							/>
 				{placesList}
 		</div>);
@@ -96,6 +97,7 @@ export default React.createClass({
 					onSubmit={this.onSubmit}
 					onBlur={this.onBlurSearch}
 					term={this.state.term}
+					height={this.props.height}
 					/>
 				{this.renderList()}
 			</div>

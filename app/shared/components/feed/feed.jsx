@@ -26,7 +26,7 @@ export default React.createClass({
 					{React.cloneElement(this.props.children, {flux: this.props.flux})}
 				</Col>
 				<Col xs={12} md={4} className="sidebar">
-					<FeaturedTagsContainer flux={this.props.flux} size="small"/>
+					<FeaturedTagsContainer flux={this.props.flux} params={this.props.params} size="small"/>
 				</Col>
 			</Grid>
 		);

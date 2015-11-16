@@ -1,0 +1,38 @@
+.si-header {
+  height: 55px;
+  padding-top: 19px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  background: $si-white;
+  box-sizing: content-box;
+  .si-container {
+    /* search bar custom adjustments for home page*/
+    .search-bar {
+        width: 408px;
+      .search-button {
+        right: 10px;
+        top: -49px;
+      }
+    }
+    .selectpicker {
+        button {
+            font-size: 1.4rem;
+        }
+    }
+    .topbar-buttons {
+      & > div {
+        float:left;
+        margin: 8px;
+      }
+      .topbar-links > a {
+        margin: -3px 26px 0 0;
+        font-size: 1.6rem;
+        float: left; 
+      }
+      .topbar-create {
+        margin-left: 21px;
+        margin-top: 0;
+      }
+    }
+  }
+}

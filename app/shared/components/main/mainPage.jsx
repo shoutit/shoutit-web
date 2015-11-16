@@ -57,7 +57,7 @@ export default React.createClass({
                 </div>
                 <div className="mainpage-search si-container">
                     <div className="grid-9 offset-3">
-                        <SearchBar flux={this.props.flux}/>
+                        <SearchBar height="45" flux={this.props.flux}/>
                     </div>
                 </div>
 

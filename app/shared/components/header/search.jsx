@@ -1,6 +1,5 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
-
 import {Input, Button} from 'react-bootstrap';
 import Icon from '../helper/icon.jsx';
 
@@ -20,7 +19,8 @@ export default React.createClass({
             <Button className="search-button"
                     onClick={this.props.onSubmit}
                     bsStyle="link"
-                    tabIndex={2}>
+                    tabIndex={2}
+                    >
                 <Icon name="search-icon"/>
             </Button>
         );
@@ -30,7 +30,9 @@ export default React.createClass({
         let currentCity = this.state.locations.current.city,
             beforeButton =
                 <div className="selectpicker">
-                    <Button onClick={this.props.onFocus(2)} key="countrySelect"
+                    <Button onClick={this.props.onFocus(2)} 
+                            key="countrySelect" 
+                            style={{height: this.props.height + 'px'}}
                             className="dropdown-toggle">
                         {currentCity || <Icon name="loc"/>}
                     </Button>
@@ -48,6 +50,7 @@ export default React.createClass({
                     value={this.props.term}
                     tabIndex={1}
                     accessKey="s"
+                    style={{height: this.props.height + 'px'}}
                     />
                 {this.renderSubmitButton()}
             </div>

@@ -1,72 +1,60 @@
 import React from 'react';
 import {History} from 'react-router';
-import {LinkContainer} from 'react-router-bootstrap';
-import {Grid, Col, Row, Button, Popover, OverlayTrigger} from 'react-bootstrap';
 import SearchBar from './searchBar.jsx';
 import TopBarActions from './topbarActions.jsx';
 import Logo from './logo.jsx';
-import isMobile from 'ismobilejs';
-
-let mobile = isMobile.any;
+import {StoreWatchMixin} from 'fluxxor';
+import {Grid, Column} from '../helper';
+import MainMenu from './mainMenu.jsx';
+import {Icon} from '../helper';
 
 export default React.createClass({
 	displayName: "TopBar",
-	mixins: [History],
+	mixins: [new StoreWatchMixin("users", "locations"), History],
+
+	getStateFromFlux() {
+		let flux = this.props.flux;
+		return {
+			users: flux.store("users").getState(),
+			locations: flux.store("locations").getState()
+		};
+	},
+
+	componentDidMount() {
+		this.props.flux.actions.acquireLocation();
+	},
 
 	render() {
-		let loggedUser = this.props.user ? this.props.users[this.props.user] : null;
+		let users = this.state.users;
+		let loggedUser = users.user? users.users[users.user] : null;
 
-		let xsSizes = {
-			logo: 2,
-			searchBar: loggedUser ? 7 : 6,
-			actions: loggedUser ? 3 : 4
-		};
-
-		let loginAlert = 
-				<Popover title="New to Shoutit?">
-					To create a <strong>Shout</strong>, you first need to log in.
-					Please&nbsp;
-						<span style={{cursor:'pointer', color:'#99ca3b'}} onClick={() => this.history.pushState(null, '/login')}>
-							click here
-						</span>.
-				</Popover>;
-        let searchBarColClassName = '';
-        let actionsColClassName = '';
-        if (mobile) {
-            if (loggedUser) {
-                searchBarColClassName = 'searchBarCol62';
-            } else {
-                searchBarColClassName = 'searchBarCol51';
-                actionsColClassName = 'actionsCol42';
-            }
-        }
 		return (
-			<Row className="topBar">
+			<div className="si-header">
 				<Grid>
-					<Col className="logo" xs={2} md={1}>
-						<Logo/>
-					</Col>
-					<Col className={searchBarColClassName} xs={xsSizes.searchBar} md={6}>
-						<SearchBar flux={this.props.flux}/>
-					</Col>
-					<Col className={actionsColClassName} xs={xsSizes.actions} md={5}>
-						{this.props.user ?
-							<TopBarActions flux={this.props.flux} user={loggedUser}
-										   onLogoutClicked={this.props.onLogoutClicked}/> :
-							<div>
-								<LinkContainer to="login" id="loginButton">
-									<Button className="pull-right">Log In</Button>
-								</LinkContainer>
-								<OverlayTrigger trigger="click" placement="bottom" overlay={loginAlert}>
-									<Button className="shout-btn pull-right" style={{marginRight:'5px'}}>
-										{mobile ? '+' : '+ Create Shout'}
-									</Button>
-								</OverlayTrigger>
-							</div>
-						}
-					</Col>
+				<Column size="2" clear={true}>
+					<Logo/>
+				</Column>
+				<Column size="6">
+					<SearchBar height="36" flux={this.props.flux}/>
+				</Column>
+				<Column size="7" className="topbar-buttons">
+					<MainMenu current={this.state.locations.current} />
+					<Icon name="home"/>
+					<Icon name="chat"/>
+					<Icon name="notification"/>
+
+					<Icon name="create-shout" className="topbar-create"/>
+					{loggedUser?
+						<TopBarActions flux={this.props.flux} user={loggedUser}
+									   onLogoutClicked={this.props.onLogoutClicked}/> :
+						<div>
+							Not logged in placeholder
+						</div>
+					}
+
+				</Column>
 				</Grid>
-			</Row>
+			</div>
 		);
 	}
 });

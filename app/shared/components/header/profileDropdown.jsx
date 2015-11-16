@@ -14,7 +14,7 @@ export default React.createClass({
 			<UserImage name={user.name} image={user.image}/>);
 
 		return (
-			<DropdownButton ref="dropdown" title={title} noCaret={true} className="profile" navItem={true}
+			<DropdownButton ref="dropdown" title={title} style={{marginTop:'-2px',listStyle:'none'}} noCaret={true} className="profile" navItem={true}
 							alt={user.name}>
 				<LinkContainer to={`/user/${username}`}>
 					<MenuItem>
