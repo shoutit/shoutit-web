@@ -44,7 +44,7 @@
     "react-addons-pure-render-mixin": "^0.14.2",
     "react-addons-transition-group": "^0.14.2",
     "react-addons-update": "^0.14.2",
-    "react-bootstrap": "^0.27.3",
+    "react-bootstrap": "^0.28.1",
     "react-document-title": "^2.0.1",
     "react-dom": "^0.14.2",
     "react-dropzone-component": "^0.8.0",
