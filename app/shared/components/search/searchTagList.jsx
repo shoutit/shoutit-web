@@ -1,7 +1,7 @@
 import React from 'react';
 import {Loader} from '../helper';
 
-import Tag from '../feed/feed/shout/tag.jsx';
+import Tag from '../general/tag.jsx';
 
 export default React.createClass({
 	displayName: "SearchTagList",

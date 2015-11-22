@@ -20,7 +20,7 @@ const typeToRoute = {
 export default function (type = "all") {
 	return React.createClass({
 		displayName: type,
-		mixins: [new StoreWatchMixin("shouts", "locations"), State, History],
+		mixins: [new StoreWatchMixin("shouts", "locations"), History],
 
 		statics: {
 			fetchData(client, session, params) {
@@ -39,7 +39,7 @@ export default function (type = "all") {
 			let flux = this.props.flux;
 			return {
 				shouts: flux.store("shouts").getState(),
-				locations: flux.store("locations").getState()
+				locations: JSON.parse(JSON.stringify(flux.store("locations").getState()))
 			};
 		},
 
@@ -63,18 +63,20 @@ export default function (type = "all") {
 			if (this.state.locations.current.city && !this.state.locations.current.location) {
 				this.props.flux.actions.updateLocationToFeed();
 			}
-		},
 
-		componentDidUpdate() {
 			let locStoreState = this.state.locations,
 				currentCity = locStoreState.current.city,
 				currentCountry = locStoreState.current.country,
 				currentState = locStoreState.current.state,
-				currentPage = this.getParams().page;
+				currentPage = this.props.params.page || '';
 			if (currentCity) {
 				this.history.pushState(null, 
 						`/${typeToRoute[type]}/${currentCountry}/${currentState}/${currentCity}/${currentPage}`);
 			}
+		},
+
+		componentDidUpdate(prevProps, prevState) {
+			
 		},
 
 		loadMore() {

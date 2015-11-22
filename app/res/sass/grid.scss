@@ -24,8 +24,13 @@ $width: ($column-width * $columns) + ($gutter * ($columns - 1));
     width:$width;
    }
 margin:0 auto;
+display: table;
 }
-
+.si-fluid-container
+{
+  max-width:$width;
+  display: table;
+}
 
 
 
@@ -39,14 +44,14 @@ margin:0 auto;
     @if $responsive == true
     {
         // Calculate grid size in pixels
-        $grid: ($grid / $width) * 100%;
+        $fluid-grid: ($grid / $width) * 100%;
 
         // Get Gutter Percentage for Grids
         $gutter-percentage: ($gutter / $width) * 100%;
 
-        .grid-#{$i}
+        .fluid-grid-#{$i}
             {
-            width: $grid;
+            width: $fluid-grid;
             float: left;
             margin-left:$gutter-percentage;
             }

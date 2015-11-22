@@ -1,5 +1,6 @@
 body {
   overflow: auto!important;
+  background: $si-bg;
 }
 a {
   color: $si-light-gray;
@@ -62,6 +63,16 @@ button {
   font-size: 1.2rem;
   color: lighten($si-gray, 20%);
 }
+
+.pull-right {
+  float: right;
+}
+.pull-left { 
+  float: left;
+}
+.hide {
+  display: none!important;
+}
 //.grid-3:first-child {@extend .clear;}
 /* Item Box */
 .si-item-box {
@@ -84,7 +95,9 @@ button {
 }
 /* Search */
 .search-bar {
+  width: 700px;
   .form-group {
+    margin-bottom: 0;
     display:inline-block;
     .input-group {
       .selectpicker {
@@ -114,17 +127,19 @@ button {
     padding: 0;
     border: none;
     right: 20px;
-    top: -52px;
+    top: -40px;
   }
 
   #locationSearch {
     border: 1px solid #e1e1e1;
+    margin-bottom: 10px;
   }
+
   .list-search {
     position: absolute;
     z-index: 2;
     width: inherit;
-    margin-top: -21px;
+    margin-top: -5px;
     padding: 0;
     overflow: auto;
     background: $si-white;

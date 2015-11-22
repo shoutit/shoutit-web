@@ -1,6 +1,8 @@
 import React from 'react';
-import {Col, Grid} from 'react-bootstrap';
-import FeaturedTagsContainer from '../featuredTags/featuredTagsContainer.jsx';
+//import FeaturedTagsContainer from '../featuredTags/featuredTagsContainer.jsx';
+import {Grid, Column} from '../helper';
+import LeftBoard from './leftboard.jsx';
+import RightBoard from './rightboard.jsx';
 
 
 export default React.createClass({
@@ -19,16 +21,33 @@ export default React.createClass({
 		// }
 	},
 
+	childContextTypes: {
+		flux: React.PropTypes.object
+	},
+
+	getChildContext() {
+		return {
+			flux: this.props.flux
+		}
+	},
+
 	render() {
 		return (
-			<Grid>
-				<Col xs={12} md={8} className="shoutFeed">
+			<div className="homepage-holder">
+				<Grid >
+				<Column size="3" clear={true}>
+					<LeftBoard />
+				</Column>
+				<Column size="9">
 					{React.cloneElement(this.props.children, {flux: this.props.flux})}
-				</Col>
-				<Col xs={12} md={4} className="sidebar">
-					<FeaturedTagsContainer flux={this.props.flux} params={this.props.params} size="small"/>
-				</Col>
-			</Grid>
+				</Column>
+				<Column size="3">
+					<RightBoard />
+				</Column>
+				</Grid>
+			</div>
 		);
 	}
+
+	//<FeaturedTagsContainer flux={this.props.flux} params={this.props.params} size="small"/>
 });

@@ -5,7 +5,7 @@ import {Col} from 'react-bootstrap';
 
 import Rating from './rating.jsx';
 import ShoutDetailActions from './shoutDetailActions.jsx';
-import TagList from '../feed/feed/shout/tags.jsx';
+import TagList from '../general/tagList.jsx';
 import Video from './video.jsx';
 
 import {Image} from '../helper';

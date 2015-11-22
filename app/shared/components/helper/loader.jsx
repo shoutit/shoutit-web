@@ -6,11 +6,7 @@ export default React.createClass({
     render() {
         return (
             <div className="loader">
-                <div className="dot"/>
-                <div className="dot"/>
-                <div className="dot"/>
-                <div className="dot"/>
-                <div className="dot"/>
+                [LOADING...]
             </div>
         );
     }

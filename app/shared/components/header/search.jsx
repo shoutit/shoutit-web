@@ -28,13 +28,15 @@ export default React.createClass({
 
     render() {
         let currentCity = this.state.locations.current.city,
+            btnStyle = currentCity? 
+                    {height: this.props.height + 'px', padding: '0 20px'}: {height: this.props.height + 'px'},
             beforeButton =
                 <div className="selectpicker">
                     <Button onClick={this.props.onFocus(2)} 
                             key="countrySelect" 
-                            style={{height: this.props.height + 'px'}}
+                            style={btnStyle}
                             className="dropdown-toggle">
-                        {currentCity || <Icon name="loc"/>}
+                        {currentCity || <Icon name="location_bar"/>}
                     </Button>
                 </div>;
         return (

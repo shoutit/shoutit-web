@@ -1,4 +1,7 @@
 .mainpage {
+  .si-container {
+    overflow: hidden;
+  }
   h1 {
     font-size: 3.0rem;
     font-weight: 700;
@@ -10,8 +13,9 @@
     color: #747476;
   }
   .mainpage-nav {
-    margin-top: 30px;
-    margin-bottom: 17px;
+    padding-top: 20px;
+    padding-bottom: 22px;
+    background: $si-white;
     .nav-left {
       padding-left:40px;
     }
@@ -35,7 +39,7 @@
     background-size: cover;
     .mainpage-cover-opacity {
       position: absolute;
-      height: 100%; 
+      height: 471px;
       background-color: rgba(0,0,0,0.4);
       .hero {
         margin-top: 175px;

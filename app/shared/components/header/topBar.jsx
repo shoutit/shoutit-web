@@ -29,32 +29,30 @@ export default React.createClass({
 		let loggedUser = users.user? users.users[users.user] : null;
 
 		return (
-			<div className="si-header">
-				<Grid>
-				<Column size="2" clear={true}>
-					<Logo/>
-				</Column>
-				<Column size="6">
-					<SearchBar height="36" flux={this.props.flux}/>
-				</Column>
-				<Column size="7" className="topbar-buttons">
-					<MainMenu current={this.state.locations.current} />
-					<Icon name="home"/>
-					<Icon name="chat"/>
-					<Icon name="notification"/>
+			<Grid className="si-header">
+			<Column size="2" className="header-logo" clear={true}>
+				<Logo/>
+			</Column>
+			<Column className="header-search" size="6">
+				<SearchBar height="36" flux={this.props.flux}/>
+			</Column>
+			<Column size="7" className="topbar-buttons">
+				<MainMenu current={this.state.locations.current} />
+				<Icon name="home"/>
+				<Icon name="chat"/>
+				<Icon name="notification"/>
 
-					<Icon name="create-shout" className="topbar-create"/>
-					{loggedUser?
-						<TopBarActions flux={this.props.flux} user={loggedUser}
-									   onLogoutClicked={this.props.onLogoutClicked}/> :
-						<div>
-							Not logged in placeholder
-						</div>
-					}
+				<Icon name="create-shout" className="topbar-create"/>
+				{loggedUser?
+					<TopBarActions flux={this.props.flux} user={loggedUser}
+								   onLogoutClicked={this.props.onLogoutClicked}/> :
+					<div>
+						Not logged in placeholder
+					</div>
+				}
 
-				</Column>
-				</Grid>
-			</div>
+			</Column>
+			</Grid>
 		);
 	}
 });

@@ -3,6 +3,12 @@ import React from 'react';
 export default React.createClass({
 	displayName: "UserImage",
 
+	getDefaultProps() {
+		return {
+			type: "circle"
+		}
+	},
+
 	getSmallUrl(imageUrl) {
 		let sizedUrl = imageUrl;
 
@@ -23,10 +29,13 @@ export default React.createClass({
 			"height": this.props.height ? this.props.height + "px" : "32px",
 			"width": this.props.width ? this.props.width + "px" : "32px",
 			"backgroundImage": "url(" + this.getSmallUrl(this.props.image) + ")",
-			"borderRadius": this.props.height ? (this.props.height / 2) + "px" : "16px",
 			"backgroundSize": (this.props.height ? this.props.height + "px" : "32px") + " auto",
 			"backgroundRepeat": "no-repeat"
 		};
+
+		if(this.props.type === 'circle') {
+			style.borderRadius = this.props.height? (this.props.height / 2) + "px" : "16px";
+		}
 
 		if (this.props.image.indexOf("default_") > -1) {
 			style.backgroundPosition = "0 -15px";
@@ -34,7 +43,7 @@ export default React.createClass({
 
 
 		return (
-			<div className="userImage center-block" title={this.props.name} style={style}/>
+			<div className="user-image" title={this.props.name} style={style}/>
 		);
 	}
 });

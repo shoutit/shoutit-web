@@ -50,9 +50,9 @@ export default function (envData) {
 					</Route>
 					<Route path="/home" component={HomePage}>
 						<Route path="feed" component={Feed}>
-							<Route path="/all/?:country?/?:state?/?:city?/?:page?" component={All}/>
-							<Route path="/offers/?:country?/?:state?/?:city?/?:page?" component={Offers}/>
-							<Route path="/requests/?:country?/?:state?/?:city?/?:page?" component={Requests}/>
+							<Route path="/all/:country/:state/:city(/:page)" component={All}/>
+							<Route path="/offers/:country/:state/:city(/:page)" component={Offers}/>
+							<Route path="/requests/:country/:state/:city(/:page)" component={Requests}/>
 							<IndexRoute component={All}/>
 						</Route>
 						<Route path="/user/:username" component={Profile}>
