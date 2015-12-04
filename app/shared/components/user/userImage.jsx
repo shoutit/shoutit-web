@@ -35,7 +35,10 @@ export default React.createClass({
 
 		if(this.props.type === 'circle') {
 			style.borderRadius = this.props.height? (this.props.height / 2) + "px" : "16px";
+		} else if(this.props.type === 'rounded') {
+			style.borderRadius = "5px";
 		}
+
 
 		if (this.props.image.indexOf("default_") > -1) {
 			style.backgroundPosition = "0 -15px";

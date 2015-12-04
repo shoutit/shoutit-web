@@ -2,10 +2,20 @@ import React from 'react';
 
 export default React.createClass({
     displayName: "Grid",
+
+    getDefaultProps() {
+        return {
+            fluid: false,
+            style: {}
+        }
+    },
+
     render() {
-        let className = "si-container" + " " + (this.props.className || "");
+        let className = this.props.fluid?
+                "si-fluid-container" + " " + (this.props.className || ""):
+                "si-container" + " " + (this.props.className || "");
         return (
-            <div className={className}>
+            <div className={className} style={this.props.style}>
                 {this.props.children}
             </div>
         )

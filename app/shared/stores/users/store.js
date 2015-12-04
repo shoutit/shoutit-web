@@ -654,7 +654,7 @@ var UserStore = Fluxxor.createStore({
 
 		client.loadShouts(username, {
 			shout_type: type || ALL_TYPE,
-			page_size: PAGE_SIZE
+			page_size: payload.limit? payload.limit: PAGE_SIZE
 		}).end(function (err, res) {
 			if (err) {
 				console.log(err);

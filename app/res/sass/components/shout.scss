@@ -161,10 +161,9 @@
     width: 155px;
   }
   .price {
-    position: absolute;
     color: $si-green;
     float:right;
     font-size:1.3rem;
-    right: 10px;
+    margin-right: 10px;
   }
 }

@@ -22,12 +22,14 @@ export default React.createClass({
 	},
 
 	childContextTypes: {
-		flux: React.PropTypes.object
+		flux: React.PropTypes.object,
+		params: React.PropTypes.object
 	},
 
 	getChildContext() {
 		return {
-			flux: this.props.flux
+			flux: this.props.flux,
+			params: this.props.params
 		}
 	},
 

@@ -32,7 +32,7 @@ gulp.task(devServerTask, function () {
 		env: {
 			'NODE_ENV': 'developmentLocal',
 			// Runscope URL: http://dev-api-shoutit-com-qm7w6bwy42b2.runscope.net/v2/
-			'API_URL': process.env.API_URL || 'https://api.shoutit.com/v2/', 
+			'API_URL': process.env.API_URL || 'http://dev.api.shoutit.com/v2/', 
 			'REDIS_HOST': process.env.REDIS_HOST || 'localhost',
 			'S3_ACCESS_KEY': process.env.S3_ACCESS_KEY || 'AKIAJGYPOEDIYJ4QE4RA',
 			'S3_SECRET_KEY': process.env.S3_SECRET_KEY || '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'

@@ -24,12 +24,11 @@ $width: ($column-width * $columns) + ($gutter * ($columns - 1));
     width:$width;
    }
 margin:0 auto;
-display: table;
 }
 .si-fluid-container
 {
-  max-width:$width;
-  display: table;
+  width:100%;
+  float: left;
 }
 
 
@@ -41,31 +40,27 @@ display: table;
     $grid: ($column-width * $i) + ($gutter * ($i - 1));
     
     // Calculate responsive grid sizes if required
-    @if $responsive == true
-    {
-        // Calculate grid size in pixels
-        $fluid-grid: ($grid / $width) * 100%;
+    // Calculate grid size in pixels
+    $fluid-grid: ($grid / $width) * 100%;
 
-        // Get Gutter Percentage for Grids
-        $gutter-percentage: ($gutter / $width) * 100%;
+    // Get Gutter Percentage for Grids
+    $gutter-percentage: ($gutter / $width) * 100%;
 
-        .fluid-grid-#{$i}
-            {
-            width: $fluid-grid;
-            float: left;
-            margin-left:$gutter-percentage;
-            }
-    }
-    @else
-    {
-        $grid: $grid;
-        .grid-#{$i}
-            {
-            width: $grid;
-            float: left;
-            margin-left:$gutter;
-            }
-    }
+    .fluid-grid-#{$i}
+        {
+        width: $fluid-grid;
+        float: left;
+        margin-left:$gutter-percentage;
+        }
+
+    $grid: $grid;
+    .grid-#{$i}
+        {
+        width: $grid;
+        float: left;
+        margin-left:$gutter;
+        }
+
 }
 
 // Define offset grid classes

@@ -9,7 +9,8 @@ export default React.createClass({
     mixins: [StoreWatchMixin('users')],
 
     contextTypes: {
-        flux: React.PropTypes.object
+        flux: React.PropTypes.object,
+        params: React.PropTypes.object
     },
 
     getStateFromFlux() {
@@ -22,7 +23,10 @@ export default React.createClass({
     },
 
     render() {
-        if(this.state.user) {
+        let isNotShoutPage = !this.context.params.shoutId;
+        let isLoggedIn = this.state.user;
+
+        if( isLoggedIn && isNotShoutPage) {
             let img = this.state.users[this.state.user].image,
                 name = this.state.users[this.state.user].name,
                 userImage = <UserImage image={img} type="circle" height={25} width={25}/>;

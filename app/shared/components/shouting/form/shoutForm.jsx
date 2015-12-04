@@ -1,24 +1,26 @@
 import React from 'react';
 import Router from 'react-router';
-import {FluxMixin} from 'fluxxor';
-import {Row, Col, Button, Input, DropdownButton, MenuItem, Tooltip} from 'react-bootstrap';
+import {History} from 'react-router';
+import ReactDOM from 'react-dom';
+import ReactDOMServer from 'react-dom/server';
+import {Button, Input, DropdownButton, MenuItem, Tooltip} from 'react-bootstrap';
 import Overlay from 'react-overlays/lib/Overlay';
 import TagsInput from 'react-tagsinput';
 import DropzoneComponent from 'react-dropzone-component';
-
+import {ReactVisible, Column, Grid, Icon} from '../../helper';
+import UserImage from '../../user/userImage.jsx';
+import LocationSearch from '../../general/locationSearch.jsx';
 import map from 'lodash/collection/map';
-
 import Clearfix from '../../helper/clearFix.jsx';
-import LocationSelection from './locationSelection.jsx';
 
 const shoutTypes = {
-	offer: "Offer",
-	request: "Request"
+	offer: "Offers",
+	request: "Requests"
 };
 
 export default React.createClass({
 	displayName: "ShoutForm",
-	mixins: [new FluxMixin(React)],
+	mixins: [History],
 
 	getInitialState() {
 		return {
@@ -30,23 +32,46 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
-		this.getFlux().actions.changeShoutDraft("latLng", this.props.current.location);
+		this.props.flux.actions.changeShoutDraft("latLng", this.props.current.location);
+	},
+
+	renderUserImage() {
+		return (
+			<UserImage image={this.props.user.image} type="circle" height={40} width={40} />
+			);
 	},
 
 	renderTitleInput() {
+		let userImage = this.props.collapsed? this.renderUserImage(): null;
+
 		return (
-			<Input type="text"
-				   placeholder="What are you shouting about?"
-				   value={this.props.draft.title}
-				   ref="title"
-				   onChange={this.onTextChange("title")}
-				/>
+			<div>
+				{userImage}
+				<Input type="text"
+					   className="shout-form-title"
+					   placeholder="What are you Shouting ..."
+					   value={this.props.draft.title}
+					   ref="title"
+					   onFocus={this.onUserFocus({focused: true})}
+					   onChange={this.onTextChange("title")}
+					/>
+				<ReactVisible condition={this.props.collapsed}>
+					<Icon name="upload_image" className="shout-form-title-icon" />
+				</ReactVisible>
+			</div>
 		);
 	},
 
+	onUserFocus(ev) {
+		return function() {
+			this.props.onUserFocus(ev);
+		}.bind(this);
+	},
+
 	onTextChange(key) {
+
 		return function (event) {
-			this.getFlux().actions.changeShoutDraft(key, event.target.value);
+			this.props.flux.actions.changeShoutDraft(key, event.target.value);
 			this.onTouch(key);
 		}.bind(this);
 	},
@@ -54,20 +79,19 @@ export default React.createClass({
 	renderPriceInput() {
 		return (
 			<Input type="number"
-				   className="price"
+				   className="shout-form-price"
 				   ref="price"
-				   placeholder="Price"
+				   placeholder="Type Price..."
 				   min="0"
 				   value={this.props.draft.price}
 				   onChange={this.onTextChange('price')}
-				   buttonAfter={this.renderCurrencyDropdown()}
 				/>
 		);
 	},
 
 	renderCurrencyDropdown() {
 		let currencies = map(this.props.currencies, (currency) => (
-				<MenuItem eventKey={"currency:" + currency.code}>
+				<MenuItem  eventKey={"currency:" + currency.code} key={currency.code}>
 					{currency.name + "(" + currency.code + ")"}
 				</MenuItem>
 
@@ -79,7 +103,8 @@ export default React.createClass({
 
 		return (
 			<DropdownButton
-				bsStyle="pills"
+				className="shout-form-dropdown"
+				ref="currency"
 				onSelect={this.onCurrencySelect}
 				title={title}>
 				{currencies}
@@ -89,7 +114,7 @@ export default React.createClass({
 
 	renderCategoryDropdown() {
 		let categories = map(this.props.categories, (category, i) => (
-				<MenuItem eventKey={"category:" + i}>
+				<MenuItem  eventKey={"category:" + i} key={i} className="shout-form-cat">
 					{category.name}
 				</MenuItem>)
 		);
@@ -99,9 +124,9 @@ export default React.createClass({
 
 		return (
 			<DropdownButton
-				className="categoryDropdown"
+				className="shout-form-dropdown"
 				block
-				bsStyle="pills"
+				ref="category"
 				onSelect={this.onCategorySelect}
 				title={title}>
 				{categories}
@@ -115,7 +140,7 @@ export default React.createClass({
 			showFiletypeIcon: true,
 			postUrl: '/services/image_upload'
 		};
-		var eventHandlers = {
+		let eventHandlers = {
 			init: null,
 			addedfile: null,
 			removedfile: this.onImageRemoved,
@@ -125,16 +150,17 @@ export default React.createClass({
 			complete: null,
 			maxfilesexceeded: null
 		};
-		let djsConfig = {
+		var djsConfig = {
 			paramName: "shout_image",
 			maxFilesize: 5, // 5 MB
 			addRemoveLinks: true,
 			maxFiles: 7,
-			dictCancelUpload:''
+			dictCancelUpload:'',
+			method: "POST"
 		};
 		return <DropzoneComponent config={componentConfig} 
-                       eventHandlers={eventHandlers} 
-                       djsConfig={djsConfig} />;
+				               eventHandlers={eventHandlers} 
+				               djsConfig={djsConfig}/>;
 	},
 
 
@@ -146,7 +172,7 @@ export default React.createClass({
 		filesList = files.map((item)=>item.remoteName);
 
 		this.setState({files:files});
-		this.getFlux().actions.changeShoutDraft("images", filesList);
+		this.props.flux.actions.changeShoutDraft("images", filesList);
 		this.onTouch('images');
 	},
 
@@ -163,20 +189,20 @@ export default React.createClass({
 		filesList = cleanedFiles.map((item)=>item.remoteName);
 		
 		this.setState({files:cleanedFiles});
-		this.getFlux().actions.changeShoutDraft("images", filesList);
-		this.getFlux().actions.removeShoutImage(deletedImageName);
+		this.props.flux.actions.changeShoutDraft("images", filesList);
+		this.props.flux.actions.removeShoutImage(deletedImageName);
 	},
 
-	onCurrencySelect(key) {
+	onCurrencySelect(ev, key) {
 		this.onTouch('currency');
 		let code = key.split(":")[1];
-		this.getFlux().actions.changeShoutDraft("currency", this.props.currencies[code]);
+		this.props.flux.actions.changeShoutDraft("currency", this.props.currencies[code]);
 	},
 
-	onCategorySelect(key) {
+	onCategorySelect(ev, key) {
 		this.onTouch('category');
 		let index = key.split(":")[1];
-		this.getFlux().actions.changeShoutDraft("category", this.props.categories[index]);
+		this.props.flux.actions.changeShoutDraft("category", this.props.categories[index]);
 	},
 
 	renderDescTextArea() {
@@ -193,7 +219,7 @@ export default React.createClass({
 	renderTypeSelect() {
 		let options = map(shoutTypes, (value, key) => {
 			return (
-				<MenuItem eventKey={"type:" + key}>
+				<MenuItem key={key} eventKey={"type:" + key}>
 					{value}
 				</MenuItem>
 			);
@@ -203,18 +229,21 @@ export default React.createClass({
 		let title = shoutTypes[this.props.draft.type];
 
 		return (
-			<DropdownButton
-				bsStyle="pills"
-				onSelect={this.onTypeSelect}
-				title={title}>
-				{options}
-			</DropdownButton>
+			<div>
+				{this.renderUserImage()}
+				<DropdownButton
+					className="shout-form-dropdown shout-form-type"
+					onSelect={this.onTypeSelect}
+					title={title}>
+					{options}
+				</DropdownButton>
+			</div>
 		);
 	},
 
-	onTypeSelect(key) {
+	onTypeSelect(ev, key) {
 		let type = key.split(":")[1];
-		this.getFlux().actions.changeShoutDraft("type", type);
+		this.props.flux.actions.changeShoutDraft("type", type);
 	},
 
 	renderTagInput() {
@@ -229,17 +258,21 @@ export default React.createClass({
 	},
 
 	onTagsChange(newTags) {
-		this.getFlux().actions.changeShoutDraft("tags", newTags);
+		this.props.flux.actions.changeShoutDraft("tags", newTags);
 	},
 
-	componentDidUpdate() {
-		let status = this.props.status;
-		if(status) {
-			if(status.id) { 
-				// Shout sent successfully
-				window.location = status.web_url;
-			}
+	componentDidUpdate(prevProps) {
+		let status = this.props.status || {};
+		if(status.id && !prevProps.status.id) { 
+			// Shout sent successfully
+			let shoutPath = status.web_url.match(/\/[^\/]*\/[^\/]*$/)[0];
+			this.props.onUserFocus({focused: false});
+			setTimeout(() => {
+				this.history.pushState(null, shoutPath);
+			},1000);
+			
 		}
+
 	},
 
 	getErrorTooltip(errorField) {
@@ -250,9 +283,9 @@ export default React.createClass({
 	getErrorProps(errorField) {
 		if(this.props.status[errorField]) {
 			return {
-				show:!this.state.touched[errorField],
+				show: !this.state.touched[errorField],
 				container: this,
-				target: () => React.findDOMNode(this.refs[errorField]),
+				target: () => ReactDOM.findDOMNode(this.refs[errorField]),
 				placement: 'bottom'
 			}
 		}
@@ -270,87 +303,86 @@ export default React.createClass({
 	},
 
 	renderAlerts() {
-		return (
-			<section>
-				<Overlay {...this.getErrorProps('title')} >
-					{this.getErrorTooltip('title')}
-				</Overlay>
-				<Overlay {...this.getErrorProps('text')} >
-					{this.getErrorTooltip('text')}
-				</Overlay>
-				<Overlay {...this.getErrorProps('currency')} >
-					{this.getErrorTooltip('currency')}
-				</Overlay>
-				<Overlay {...this.getErrorProps('price')} >
-					{this.getErrorTooltip('price')}
-				</Overlay>
-				<Overlay {...this.getErrorProps('category')} >
-					{this.getErrorTooltip('category')}
-				</Overlay>
-				<Overlay {...this.getErrorProps('images')} >
-					{this.getErrorTooltip('images')}
-				</Overlay>
-				<Overlay {...this.getErrorProps('location')} >
-					{this.getErrorTooltip('location')}
-				</Overlay>
-			</section>
-		);
+		if(!this.props.status.id) {
+			return (
+				<section>
+					<Overlay {...this.getErrorProps('title')} >
+						{this.getErrorTooltip('title')}
+					</Overlay>
+					<Overlay {...this.getErrorProps('text')} >
+						{this.getErrorTooltip('text')}
+					</Overlay>
+					<Overlay {...this.getErrorProps('currency')} >
+						{this.getErrorTooltip('currency')}
+					</Overlay>
+					<Overlay {...this.getErrorProps('price')} >
+						{this.getErrorTooltip('price')}
+					</Overlay>
+					<Overlay {...this.getErrorProps('category')} >
+						{this.getErrorTooltip('category')}
+					</Overlay>
+					<Overlay {...this.getErrorProps('location')} >
+						{this.getErrorTooltip('location')}
+					</Overlay>
+				</section>
+			);
+		}
 	},
 
+	onLocationSelect(newLatLng) {
+		this.onTouch('location');
+		this.props.flux.actions.changeShoutDraft("latLng", newLatLng);
+	},
+
+
 	render() {
+		let collapsed = this.props.collapsed;
+
 		return (
-			<div className="modal-form">
+			<div className={collapsed? 'shout-form collapsed': 'shout-form'} >
 				<form>
 					{this.renderAlerts()}
-					<Row>
-						<Col sm={7} md={7}>
+					<Grid fluid={true} >
+						<ReactVisible condition={!collapsed}>
+							<Column fluid={true} clear={true} size="4" className="shout-form-type">
+								{this.renderTypeSelect()}
+							</Column>
+						</ReactVisible>
+						<Column fluid={true} size={collapsed? '0': '11'}>
 							{this.renderTitleInput()}
-						</Col>
-						<Col sm={5} md={5}>
-							{this.renderPriceInput()}
-						</Col>
-					</Row>
-
-					<Row>
-						<Col sm={12} md={12}>
+						</Column>
+					</Grid>
+					<ReactVisible condition={!collapsed}>
+						<Grid fluid={true} className="shout-form-desc">
 							{this.renderDescTextArea()}
-						</Col>
-					</Row>
-					<Row>
-						<Col sm={2} md={2}>
-							{this.renderTypeSelect()}
-						</Col>
-						<Col sm={4} md={4} ref="category">
-							{this.renderCategoryDropdown()}
-						</Col>
-						<Col sm={12} md={6}>
-							{this.renderTagInput()}
-						</Col>
-					</Row>
-					<Row>
-						<Col sm={12} md={12} ref="images">
+						</Grid>
+
+						<Grid fluid={true}>
+							<Column fluid={true} clear={true} size="5">
+								{this.renderCategoryDropdown()}
+							</Column>
+							<Column fluid={true} size="6">
+								{this.renderPriceInput()}
+							</Column>
+							<Column fluid={true} size="4">
+								{this.renderCurrencyDropdown()}
+							</Column>
+						</Grid>
+
+						<Grid fluid={true}>
 							{this.renderImageUpload()}
-						</Col>
-					</Row>
-					<Row>
-						<Col sm={12} md={12} >
-							Click on the Map to select a location.
-						</Col>
-					</Row>
-					<Row>
-						<LocationSelection
-							onChange={this.onLocationSelectionChange}
-							flux={this.props.flux}
-							ref="location"
-							selected={this.props.draft.latLng || this.props.current.location}
-							startLocation={this.props.current.location}
-							/>
-					</Row>
-					<Row className="row-submit">
-						<Button onClick={this.onSubmit} disabled={this.props.waiting} className="btn-submit submit">
-							{this.props.waiting? "Loading...": "Create Shout"}
-						</Button>
-					</Row>
+						</Grid>
+						<Grid fluid={true} style={{marginTop:'20px'}}>
+							<Column fluid={true} clear={true} size="11">
+								<LocationSearch onSelect={this.onLocationSelect} ref="location" flux={this.props.flux} />
+							</Column>
+							<Column fluid={true} size="4">
+								<Button onClick={this.onSubmit} style={{float:'right'}} disabled={this.props.waiting} className="shout-btn">
+									{this.props.waiting? "Loading...": "Create Shout"}
+								</Button>
+							</Column>
+						</Grid>
+					</ReactVisible>
 					
 				</form>
 			</div>
@@ -358,12 +390,18 @@ export default React.createClass({
 	},
 
 	onSubmit() {
-		this.getFlux().actions.sendShout();
+		this.props.flux.actions.sendShout();
 		this.clearTouches();
-	},
-
-	onLocationSelectionChange(newLatLng) {
-		this.getFlux().actions.changeShoutDraft("latLng", newLatLng);
-		this.onTouch('location');
+		
 	}
 });
+
+/* 
+<LocationSelection
+	onChange={this.onLocationSelectionChange}
+	flux={this.props.flux}
+	ref="location"
+	selected={this.props.draft.latLng || this.props.current.location}
+	startLocation={this.props.current.location}
+	/>onBlurCapture={this.onUserFocus({focused: false})}
+*/

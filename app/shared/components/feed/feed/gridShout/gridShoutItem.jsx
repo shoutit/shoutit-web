@@ -1,4 +1,5 @@
 import React from 'react';
+import {History} from 'react-router';
 import {Image, Column} from '../../../helper';
 import {ItemProp} from '../../../helper/microdata';
 import currency from '../../../../consts/currencies';
@@ -6,10 +7,12 @@ import currency from '../../../../consts/currencies';
 
 export default React.createClass({
     displayName: "GridShout",
+    mixins: [History],
 
     getDefaultProps() {
         return {
-            className: ''
+            className: '',
+            index: 1
         }
     },
 
@@ -20,6 +23,13 @@ export default React.createClass({
             : <div className="img"></div>;
     },
 
+    onItemClick() {
+        let shout = this.props.shout;
+        let city = encodeURIComponent(shout.location.city);
+        let title = encodeURIComponent(shout.title.replace(/\s+/g, '-'));
+        this.history.pushState(null, `/shout/${shout.id}/${city}/${title}`);
+    },
+
     render() {
         let shout = this.props.shout;
         let creator = this.props.creator;
@@ -27,7 +37,7 @@ export default React.createClass({
 
         return (
             <Column size="3" clear={this.props.index % 3 === 0}>
-                <div className={this.props.className + ' si-shout-grid'}>
+                <div onClick={this.onItemClick} className={this.props.className + ' si-shout-grid'}>
                     {this.renderThumbnail(shout)}
                     <ItemProp property="name">
                         <h3>{shout.title}</h3>

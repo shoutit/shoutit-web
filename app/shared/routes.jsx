@@ -53,6 +53,7 @@ export default function (envData) {
 							<Route path="/all/:country/:state/:city(/:page)" component={All}/>
 							<Route path="/offers/:country/:state/:city(/:page)" component={Offers}/>
 							<Route path="/requests/:country/:state/:city(/:page)" component={Requests}/>
+							<Route path="/shout/:shoutId(/:location)(/:title)" component={Shout}/>
 							<IndexRoute component={All}/>
 						</Route>
 						<Route path="/user/:username" component={Profile}>
@@ -63,8 +64,8 @@ export default function (envData) {
 							<Route path="requests" component={ProfileRequests}/>
 							<IndexRoute component={ProfileSettings}/>
 						</Route>
-						<Route path="/shout/:shoutId/?:location?/?:title?" component={Shout}/>
-						<Route path="/discover/?:country?/?:state?/?:city?/?:page?" component={Discover}/>
+						
+						<Route path="/discover(/:country)(/:state)(/:city)(/:page)" component={Discover}/>
 						<Route path="/tag/:tagName" component={TagProfile}>
 							<Route path="tagrequests" component={TagProfileRequest}/>
 							<Route path="taglisteners" component={TagProfileListeners}/>
@@ -74,7 +75,7 @@ export default function (envData) {
 							<Route path=":chatId" component={MessageList}/>
 							<IndexRoute component={EmptyMessageList}/>
 						</Route>
-						<Route path="/search/:shouttype/:category/?:term?" component={Search}>
+						<Route path="/search/:shouttype/:category(/:term)" component={Search}>
 							<Route path="users" component={SearchUsers}/>
 							<Route path="tags" component={SearchTags}/>
 							<IndexRoute component={SearchShouts}/>

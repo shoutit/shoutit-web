@@ -44,6 +44,7 @@ let ShoutStore = Fluxxor.createStore({
 			all: shoutCollectionInit(),
 			offer: shoutCollectionInit(),
 			request: shoutCollectionInit(),
+			relatedShouts: {},
 			fullShouts: {},
 			loading: false,
 			currencies: {},
@@ -91,6 +92,7 @@ let ShoutStore = Fluxxor.createStore({
 			consts.LOAD_MORE, this.onLoadMore,
 			consts.LOAD_MORE_SUCCESS, this.onLoadMoreSuccess,
 			consts.REQUEST_FAILED, this.onReqFailed,
+			consts.LOAD_RELATED_SHOUTS, this.onLoadRelatedShouts,
 			consts.LOAD_SHOUT, this.onLoadShout,
 			consts.LOAD_SHOUT_SUCCESS, this.onLoadShoutSuccess,
 			consts.LOAD_SHOUT_FAILED, this.onLoadShoutFailed,
@@ -172,6 +174,25 @@ let ShoutStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 
+	onLoadRelatedShouts({shoutId}) {
+		this.state.relatedShouts[shoutId] = {loading: false, res: []};
+
+		client.getRelatedShouts(shoutId)
+			.end((err, res) => {
+				if(err || res.status !== 200) {
+					this.state.relatedShouts[shoutId].res = [];
+					console.log(err);
+				} else {
+					this.state.relatedShouts[shoutId].res = res.body.results;
+				}
+
+				this.state.relatedShouts[shoutId].loading = false;
+				this.emit("change");
+			});
+		this.state.relatedShouts[shoutId].loading = true;
+		this.emit("change");
+	},
+
 	onLoadShout({shoutId}) {
 		client.get(shoutId)
 			.end(function (err, res) {
@@ -188,6 +209,7 @@ let ShoutStore = Fluxxor.createStore({
 	onLoadShoutSuccess({res}) {
 		this.state.fullShouts[res.id] = res;
 		this.state.loading = false;
+		this.flux.store('users').onLoadUser({username: res.user.username});
 		this.emit("change");
 	},
 
@@ -228,6 +250,8 @@ let ShoutStore = Fluxxor.createStore({
 	},
 
 	findShout(shoutId) {
+		if(!shoutId) {return};
+
 		var state = this.state,
 			index = this.getIndex(shoutId);
 		if (state.fullShouts[shoutId]) {
@@ -287,6 +311,7 @@ let ShoutStore = Fluxxor.createStore({
 				this.emit("change");
 			}.bind(this),
 			function (err) {
+				console.log(err);
 				this.state.status = err;
 				this.state.waiting = false;
 				this.emit("change");
@@ -298,6 +323,7 @@ let ShoutStore = Fluxxor.createStore({
 			client.create(shoutDraft)
 				.end(function (err, res) {
 					if (err || !res.body) {
+						console.log(err);
 						reject(err);
 					} else {
 						resolve(res.body);
@@ -331,10 +357,10 @@ let ShoutStore = Fluxxor.createStore({
 				name: shoutDraft.category.name
 			};
 
-			console.log(shoutToSend);
 
 			locationStore.geocode(shoutDraft.latLng, function (err, response) {
 				if (err) {
+					console.log(err);
 					reject(err);
 				} else {
 					shoutToSend.location.google_geocode_response = response;
@@ -354,8 +380,11 @@ let ShoutStore = Fluxxor.createStore({
 			if (!shoutDraft.text || shoutDraft.text.length < 10 || shoutDraft.text.length > 1000) {
 				errors.text = "Enter a description with 10 to 1000 characters";
 			}
-			if (!shoutDraft.price || !shoutDraft.currency) {
-				errors.price = "Select a currency and enter a price";
+			if (!shoutDraft.currency) {
+				errors.currency = "Select a currency";
+			}
+			if (!shoutDraft.price) {
+				errors.price = "Select a price";
 			}
 			if (!shoutDraft.latLng) {
 				errors.location = "Select a location";
@@ -363,9 +392,9 @@ let ShoutStore = Fluxxor.createStore({
 			if (!shoutDraft.category) {
 				errors.category = "Select a category";
 			}
-			if (!shoutDraft.images.length) {
-				errors.images = "Upload at least one image";
-			}
+			// if (!shoutDraft.images.length) {
+			// 	errors.images = "Upload at least one image";
+			// }
 
 			if (keys(errors).length) {
 				reject(errors);

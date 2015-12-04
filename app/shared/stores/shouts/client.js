@@ -9,10 +9,17 @@ export default {
 			.get(PREFIX + '/')
 			.query(query);
 	},
+
+	getRelatedShouts(shoutId) {
+		return request
+			.get(PREFIX + '/' + shoutId + '/related');
+	},
+
 	get(shoutId) {
 		return request
 			.get(PREFIX + '/' + shoutId);
 	},
+
 	create(shout) {
 		return request
 			.post(PREFIX + '/')

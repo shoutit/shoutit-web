@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link, History} from 'react-router';
 import {StoreWatchMixin} from 'fluxxor';
 import {Link as ScrollLink, Element, Button} from 'react-scroll';
 import SearchBar from '../header/searchBar.jsx';
@@ -9,7 +9,7 @@ import {ANDROID_LINK, IOS_LINK} from '../../consts/defaults';
 
 export default React.createClass({
     displayName: "MainPage",
-    mixins: [new StoreWatchMixin("users")],
+    mixins: [new StoreWatchMixin("users"), History],
 
     getStateFromFlux() {
         let flux = this.props.flux;
@@ -19,6 +19,12 @@ export default React.createClass({
             locations: flux.store("locations").getState(),
             categories: flux.store('shouts').getState().categories
         };
+    },
+
+    componentWillMount() {
+        if(this.state.users.user) {
+            this.history.replaceState(null, '/home/feed');
+        }
     },
 
     render() {

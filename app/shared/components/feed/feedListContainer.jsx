@@ -4,6 +4,7 @@ import {StoreWatchMixin} from 'fluxxor';
 import DocumentTitle from 'react-document-title';
 import FeedList from './feedList.jsx';
 import defaults from '../../consts/defaults';
+import EmbeddedShout from '../shouting/embeddedShout.jsx';
 
 const titles = {
 	"all": "Home",
@@ -23,6 +24,7 @@ export default function (type = "all") {
 		mixins: [new StoreWatchMixin("shouts", "locations"), History],
 
 		statics: {
+			fetchId: 'all',
 			fetchData(client, session, params) {
 				return client.shouts().list(session, {
 					shout_type: type,
@@ -46,9 +48,12 @@ export default function (type = "all") {
 		render() {
 			return (
 				<DocumentTitle title={titles[type] + " - Shoutit"}>
-					<FeedList {...this.state} type={type} loadMore={this.loadMore}/>
+					<div>
+						<EmbeddedShout collapsed={true}/>
+						<FeedList {...this.state} type={type} loadMore={this.loadMore}/>
+					</div>
 				</DocumentTitle>
-			);
+			); 
 		},
 
 		componentDidMount() {
@@ -70,6 +75,7 @@ export default function (type = "all") {
 				currentState = locStoreState.current.state,
 				currentPage = this.props.params.page || '';
 			if (currentCity) {
+				console.log('here');
 				this.history.pushState(null, 
 						`/${typeToRoute[type]}/${currentCountry}/${currentState}/${currentCity}/${currentPage}`);
 			}

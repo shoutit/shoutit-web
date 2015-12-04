@@ -11,6 +11,8 @@ import Mui from './mui.jsx';
 import Loader from './loader.jsx';
 import Grid from './grid.jsx';
 import Column from './column.jsx';
+import ReactVisible from './visible.jsx';
+import Flag from './flag.jsx';
 
 export default {
     Icon,
@@ -21,5 +23,7 @@ export default {
     Mui,
     Loader,
     Grid,
-    Column
+    Column,
+    ReactVisible,
+    Flag
 };

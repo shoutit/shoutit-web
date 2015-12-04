@@ -1218,11 +1218,6 @@
         }
       }
     },
-    "dropzone": {
-      "version": "4.0.1",
-      "from": "p0o/dropzone",
-      "resolved": "git://github.com/p0o/dropzone.git#0d0c3c3dcd733d35caca19d96d91dd9ac154fe5c"
-    },
     "express": {
       "version": "4.12.2",
       "from": "https://registry.npmjs.org/express/-/express-4.12.2.tgz",
@@ -2638,18 +2633,6 @@
           "version": "4.2.0",
           "from": "dropzone@>=4.2.0 <5.0.0",
           "resolved": "https://registry.npmjs.org/dropzone/-/dropzone-4.2.0.tgz"
-        }
-      }
-    },
-    "react-image-gallery": {
-      "version": "0.4.8",
-      "from": "react-image-gallery@0.4.8",
-      "resolved": "https://registry.npmjs.org/react-image-gallery/-/react-image-gallery-0.4.8.tgz",
-      "dependencies": {
-        "react-swipeable": {
-          "version": "3.0.2",
-          "from": "react-swipeable@>=3.0.2 <4.0.0",
-          "resolved": "https://registry.npmjs.org/react-swipeable/-/react-swipeable-3.0.2.tgz"
         }
       }
     },

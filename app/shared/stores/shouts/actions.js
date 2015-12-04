@@ -33,6 +33,12 @@ export default {
 		});
 	},
 
+	loadRelatedShouts(shoutId) {
+		this.dispatch(consts.LOAD_RELATED_SHOUTS, {
+			shoutId: shoutId
+		});
+	},
+
 	loadShout(shoutId) {
 		this.dispatch(consts.LOAD_SHOUT, {
 			shoutId: shoutId

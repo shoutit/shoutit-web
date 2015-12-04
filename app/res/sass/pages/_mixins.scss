@@ -49,6 +49,20 @@
   }
 }
 
+@mixin colored-button($width, $height, $font-size: $default-font-size, $bgcolor: $si-gray)  {
+  @extend .si-button;
+  font-size: $font-size;
+  width: $width;
+  height: $height;
+  background: $bgcolor;
+  color: $si-white;
+  padding: ($font-size + 0.2rem) 0;
+  line-height: 0;
+  &:hover{
+    background: lighten($bgcolor, 5%);
+  }
+}
+
 @mixin border-button($width, $height, $font-size: $default-font-size)  {
   @extend .si-button;
   font-size: $font-size;

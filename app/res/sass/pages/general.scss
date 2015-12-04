@@ -3,7 +3,7 @@ body {
   background: $si-bg;
 }
 a {
-  color: $si-light-gray;
+  color: $si-gray;
   &:hover, &:active {
     color: darken($si-green,10%);
     text-decoration: none;
@@ -37,12 +37,11 @@ p.small {
 p.large {
   font-size: $default-font-size-large;
 }
-input[type=text], [type=email], input[type=password] {
-  height: 40px;
+input[type=text], [type=email], input[type=password], input[type=number] {
+  height: 35px;
   border-radius: 5px;
   -webkit-box-shadow: none;
   box-shadow: none;
-  transition: all .3s;
   &:focus {
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -52,11 +51,24 @@ input[type=text], [type=email], input[type=password] {
     border: 2px solid $si-error-color;
   }
 }
+textarea {
+  border-radius: 5px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  &:focus, &:active {
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+    border: 2px solid $si-green!important;
+  }
+}
 button {
   &:focus {
     outline: 0!important;
     box-shadow: none!important;
   }
+}
+.form-control {
+  height: 35px;
 }
 
 .subtitle {
@@ -73,7 +85,24 @@ button {
 .hide {
   display: none!important;
 }
-//.grid-3:first-child {@extend .clear;}
+/* Buttons */
+.shout-btn {
+  @extend .res1x-create-shout;
+  opacity: 1;
+  color: $si-white;
+  padding-left: 40px;
+  &:hover,&:visited {
+    color: $si-white;
+    border:0!important;
+    outline:0!important;
+  }
+  &:active,&:focus {
+    @extend .res1x-create-shout;
+    border:0!important;
+  }
+}
+
+
 /* Item Box */
 .si-item-box {
   width: 220px;
@@ -318,4 +347,27 @@ button {
       }
     }
   }
+}
+/* extra in shout detail page */
+.shout-extra {
+  .extra-title {
+    color:$si-light-gray2;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 40px 0 10px;
+    float: left;
+  }
+}
+
+.tooltip {
+  opacity: 0.7;
+}
+.tooltip-inner {
+  background-color: lighten($si-light-gray2, 15%);
+  color: $si-gray;
+  border-radius: 20px;
+  font-size: 1.5rem;
+}
+.tooltip.bottom .tooltip-arrow {
+  border-bottom-color: lighten($si-light-gray2, 15%);
 }

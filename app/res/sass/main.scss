@@ -9,11 +9,14 @@ $res1x-sprite-dimensions: true;
 
 $si-white: #fff;
 $si-green: #a7d281;
+$si-dark-green: #7EBE59;
 $si-gray: #3b3b3b;
-$si-light-gray: #58585a;
+$si-light-gray: #989899;;
 $si-light-gray2: #bfbfbf;
 $si-bg: #edefed;
 $si-blue: #337ab7;
+$si-light-blue: #3ac3dc;
+$si-card: #f8f9f8;
 
 $si-error-color: #E73F3F;
 $grid-unit: 70px;
@@ -28,7 +31,7 @@ $default-spacing: 10px;
 @import "dropzone";
 @import "fonts";
 @import "image-gallery";
-//@import "video-player";
+@import "video-player";
 @import "tagsinput";
 
 // Components and Pages
@@ -38,7 +41,10 @@ $default-spacing: 10px;
 @import "components/header.scss";
 @import "components/card.scss";
 @import "components/shout.scss";
+@import "components/shout_detail.scss";
 @import "components/tags.scss";
+@import "components/shout_form.scss";
+@import "components/location_search.scss"; 
 
 @import "pages/mainpage.scss";
 @import "pages/homepage.scss";

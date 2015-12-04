@@ -15,6 +15,9 @@ router.route('/:id')
 	.get(require('./get')(ShoutClient))
 	.delete(require('./delete')(ShoutClient));
 
+router.route('/:id/related')
+    .get(require('./get_related')(ShoutClient));
+
 router.route('/:id/reply')
 	.post(require('./reply')(ShoutClient));
 

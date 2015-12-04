@@ -135,11 +135,13 @@ export default {
         });
     },
 
-    loadUserShouts(username, type) {
-        this.dispatch(consts.LOAD_USER_SHOUTS, {
-            username: username,
-            type: type
-        });
+    loadUserShouts(username, type, limit=0) {
+        let query = {};
+        query.username = username;
+        query.type = type;
+        if(limit) {query.limit = limit};
+
+        this.dispatch(consts.LOAD_USER_SHOUTS, query);
     },
 
     loadMoreUserShouts(username, type) {

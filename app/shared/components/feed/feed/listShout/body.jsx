@@ -115,7 +115,7 @@ export default React.createClass({
 
 	renderDescription(shout) {
 		// limit text to 40 words
-		let textReg = shout.text.match(/\S+\s/g);
+		let textReg = shout.text.match(/\S+\s/g) || [];
 		let text = textReg.length > 40? textReg.slice(0,40).join('') + '...': shout.text;
 		return (
 			<ItemProp property="description">
