@@ -36,10 +36,10 @@ var morgan = require('morgan'),
 	cors = require('cors');
 
 // Runtime Data:
-var SERVER_ROOT = process.env.SERVER_ROOT || "https://shoutit-web.ngrok.io/";
+var SERVER_ROOT = process.env.SERVER_ROOT || "localhost:8080";
 var graphData = require('./resources/consts/graphData');
 var currencies, categories, sortTypes;
-var whitelist = ['https://shoutit.com', 'https://www.shoutit.com', 'http://dev.www.shoutit.com', 'https://shoutit-web.ngrok.io'];
+var whitelist = ['https://shoutit.com', 'https://www.shoutit.com', 'http://dev.www.shoutit.com'];
 if (["developmentLocal"].indexOf(process.env.NODE_ENV) >= 0) {
 	whitelist.push('http://localhost');
 }
