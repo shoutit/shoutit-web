@@ -1,4 +1,4 @@
-# ShoutIt Webserver
+# Shoutit Webserver
 
 ## Stack
 * nodejs
@@ -11,8 +11,11 @@
 * clone this repo
 * cd into work copy
 * install node dependencies using `npm install`
-* build client bundle via `gulp bundle`
-* start development server via `gulp serve`
+* start development server via `gulp`
+
+## System requirements
+* sass: `gem install sass`
+* compass: `gem install compass`
 
 ## Basic concept: Isomorphic WebApp
 * Rendering on client and server
@@ -202,6 +205,3 @@
         }
       }]
     }
-
-
-
