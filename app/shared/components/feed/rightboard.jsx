@@ -1,7 +1,7 @@
 import React from 'react';
 import TagsCard from '../cards/tagsCard.jsx';
 import ListenToCard from '../cards/listenToCard.jsx';
-import ShoutCard from '../cards/shoutCard.jsx';
+import SuggestShoutCard from '../cards/suggestShoutCard.jsx';
 import ShoutOwnerCard from '../cards/shoutOwnerCard.jsx';
 
 export default React.createClass({
@@ -13,7 +13,7 @@ export default React.createClass({
                 <ShoutOwnerCard />
                 <TagsCard />
                 <ListenToCard />
-                <ShoutCard />
+                <SuggestShoutCard />
             </div>
         );
     }

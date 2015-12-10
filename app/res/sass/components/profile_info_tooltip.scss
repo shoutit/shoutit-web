@@ -1,0 +1,54 @@
+.profile-info-tooltip {
+  position: relative;
+  .tooltip-box {
+    position: absolute;
+    top: 35px;
+    left: 60px;
+    z-index: 3;
+    background: $si-white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    width: 285px;
+    height: 228px;
+    .profile-cover {
+      height: 100px;
+      background-color: $si-light-gray;
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+    }
+    .profile-context {
+      position: relative;
+      h3 {
+        float: left;
+        margin-top: 10px;
+        margin-left: 30px;
+      }
+      h4 {
+        position: relative;
+        margin-left: 32px;
+        margin-top: 5px;
+        float: left;
+        font-size: 1.4rem;
+        color: $si-light-gray;
+      }
+      &-listen {
+        margin-top: 10px;
+      }
+      &-image {
+        position: relative;
+        left: 20px;
+        top: -32px;
+        float: left;
+      }
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 50px;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid $si-light-gray;
+    }
+  }
+}

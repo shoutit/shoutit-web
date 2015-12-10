@@ -1,11 +1,13 @@
 .si-card {
   width: 100%;
-  min-height: 150px;
   background-color: $si-white;
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
+  padding-bottom: 15px;
+  overflow: hidden;
   float: left;
+  transition: all .2s;
   // General stuff
   &.gray-card {
     background-color: $si-card;
@@ -20,10 +22,19 @@
       padding: 8px 12px;
       color: $si-light-gray2;
     }
+    .more-btn, .refresh-btn {
+      color: $si-light-gray2;
+      font-size: 1.2rem;
+      margin: 7px 10px 0 0;
+      cursor: pointer;
+      &:hover {
+        color: darken($si-light-gray2, 20%);
+      }
+    }
   }
   ul {
     list-style: none;
-    padding: 8px 15px;
+    padding: 8px 15px 0;
     float: left;
     li {
       display: block;
@@ -34,15 +45,35 @@
         margin-right: 13px;
       }
       a,span {
-        font-size:1.6rem;
+        font-size: $default-font-size;
       }
     }
   }
-  // Specific parts
+  .card-list-img {
+    padding: 10px 5px 0 10px;
+  }
+  .card-list-item {
+    font-size: $default-font-size;
+    padding-top: 13px;
+    cursor: pointer;
+  }
+  .card-listen-btn {
+    margin-top: 15px;
+    cursor: pointer;
+  }
+  // Specific Cards
   ul.profile {
     li > div {
       margin-right:20px;
     }
+  }
+  .tag-card-icon {
+    margin: 6px;
+  }
+  .page-button {
+    @include colored-button(120px, 34px, 1.5rem, $si-orange);
+    margin: 10px auto;
+    display: block;
   }
   &.shout-owner-card {
     position: relative;
@@ -128,6 +159,26 @@
       color: $si-gray;
       padding: 10px;
       vertical-align: super;
+    }
+  }
+  &.suggest-shout-card {
+    .suggest-image {
+      background-size: cover;
+      width: 100%;
+      height: 183px;
+    }
+    .suggest-title {
+      padding: 5px;
+      font-size: $default-font-size;
+    }
+    .suggest-price {
+      font-size: 1.2rem;
+      color: $si-dark-green;
+    }
+    .suggest-user {
+      color: $si-light-gray;
+      font-size: 1.2rem;
+      padding: 5px;
     }
   }
   .owner-controls-card {

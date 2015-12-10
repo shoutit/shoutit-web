@@ -16,12 +16,13 @@ $si-light-gray2: #bfbfbf;
 $si-bg: #edefed;
 $si-blue: #337ab7;
 $si-light-blue: #3ac3dc;
+$si-orange : #f7be5a;
 $si-card: #f8f9f8;
 
 $si-error-color: #E73F3F;
 $grid-unit: 70px;
 
-$default-font-size: 1.6rem;
+$default-font-size: 1.6rem; 
 $default-font-size-small: 1.3rem;
 $default-font-size-large: 1.8rem;
 
@@ -45,6 +46,9 @@ $default-spacing: 10px;
 @import "components/tags.scss";
 @import "components/shout_form.scss";
 @import "components/location_search.scss"; 
+@import "components/profile_menu.scss";
+@import "components/profile_info_tooltip.scss";
+@import "components/topbar_buttons.scss"; 
 
 @import "pages/mainpage.scss";
 @import "pages/homepage.scss";

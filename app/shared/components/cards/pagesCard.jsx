@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon} from '../helper';
+import {Icon, Grid} from '../helper';
 
 export default React.createClass({
     displayName: "PagesCard",
@@ -17,9 +17,9 @@ export default React.createClass({
                     <div className="card-header">
                         <h3>pages</h3>
                     </div>
-                    <ul className="shout">
-
-                    </ul>
+                    <Grid fluid={true}>
+                        <span className="page-button">Create Page</span>
+                    </Grid>
                 </section>
             );
         } else {

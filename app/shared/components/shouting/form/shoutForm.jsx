@@ -104,6 +104,7 @@ export default React.createClass({
 		return (
 			<DropdownButton
 				className="shout-form-dropdown"
+				style={{marginLeft: '17px'}}
 				ref="currency"
 				onSelect={this.onCurrencySelect}
 				title={title}>

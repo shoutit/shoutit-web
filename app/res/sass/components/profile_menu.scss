@@ -1,0 +1,61 @@
+.profile-menu {
+  position: relative;
+  .profile-photo-holder {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    svg {
+      position: relative;
+      margin-top: -40px;
+      margin-left: -25px;
+      transform: scale(0.47);
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid $si-light-gray;
+      top: 10px;
+      right: -25px;
+      cursor: pointer;
+      transform: rotate(180deg); 
+    }
+  }
+
+  .user-menu-dropdown {
+    position: absolute; 
+    top: 50px;
+    right: -30px;
+    z-index: 1;
+    width: 200px;
+    background: lighten($si-gray, 15%);
+    padding: 10px 0;
+    a {
+      display: block;
+      color: $si-white;
+      width: 100%;
+      padding: 7px;
+      font-size: 1.5rem;
+      transition: all 0.2s ease-out;  
+      div {
+        float: left;
+        margin: 0 10px;
+      }
+      &:hover {
+        background: lighten($si-gray, 5%);
+      }
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      top: -7px;
+      right: 38px;
+      border-right: 7px solid transparent;
+      border-left: 7px solid transparent;
+      border-bottom: 7px solid lighten($si-gray, 15%);
+    }
+  }
+}

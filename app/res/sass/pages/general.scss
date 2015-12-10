@@ -99,6 +99,7 @@ button {
   &:active,&:focus {
     @extend .res1x-create-shout;
     border:0!important;
+    color: $si-white;
   }
 }
 
@@ -370,4 +371,24 @@ button {
 }
 .tooltip.bottom .tooltip-arrow {
   border-bottom-color: lighten($si-light-gray2, 15%);
+}
+
+.si-country-button {
+  text-align:center;
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+}
+.si-listening-button {
+  text-align:center;
+  div {
+    margin: 0 auto;
+  }
+}
+.si-message-button {
+  text-align:center;
+  div {
+    margin: 0 auto;
+  }
 }

@@ -26,10 +26,12 @@ export default React.createClass({
 
 	render() {
 		let style = {
-			"height": this.props.height ? this.props.height + "px" : "32px",
-			"width": this.props.width ? this.props.width + "px" : "32px",
+			"height": this.props.height ? this.props.height + "px":
+					this.props.size? this.props.size + "px": "32px",
+			"width": this.props.width ? this.props.width + "px":
+					this.props.size? this.props.size + "px": "32px",
 			"backgroundImage": "url(" + this.getSmallUrl(this.props.image) + ")",
-			"backgroundSize": (this.props.height ? this.props.height + "px" : "32px") + " auto",
+			"backgroundSize": "cover",
 			"backgroundRepeat": "no-repeat"
 		};
 
@@ -46,7 +48,7 @@ export default React.createClass({
 
 
 		return (
-			<div className="user-image" title={this.props.name} style={style}/>
+			<div className={this.props.className + " user-image"} title={this.props.name} style={style}/>
 		);
 	}
 });

@@ -10,7 +10,7 @@ var path = require('path'),
 	sourcemaps = require('gulp-sourcemaps'),
 	livereload = require('gulp-livereload'),
 	sass = require('gulp-ruby-sass'),
-	imagemin = require('gulp-imagemin'),
+	//imagemin = require('gulp-imagemin'),
 	minifyCSS = require('gulp-minify-css'),
 	plumber = require('gulp-plumber');
 
@@ -73,20 +73,20 @@ var imageTask = "minImage",
 	imageSrc = "app/res/img/*.png",
 	imageDest = "app/public/img";
 
-gulp.task(imageTask, function () {
-	return gulp.src(imageSrc)
-		.pipe(imagemin())
-		.pipe(gulp.dest(imageDest));
-});
+// gulp.task(imageTask, function () {
+// 	return gulp.src(imageSrc)
+// 		.pipe(imagemin())
+// 		.pipe(gulp.dest(imageDest));
+// });
 
-var iconMinTask = "sass-icon-min";
-gulp.task(iconMinTask, function () {
-	return gulp.src(imageDest + "/icons-*")
-		.pipe(imagemin())
-		.pipe(gulp.dest(imageDest));
-});
+// var iconMinTask = "sass-icon-min";
+// gulp.task(iconMinTask, function () {
+// 	return gulp.src(imageDest + "/icons-*")
+// 		.pipe(imagemin())
+// 		.pipe(gulp.dest(imageDest));
+// });
 
-gulp.task("build", [imageTask, sassTask, iconMinTask]);
+gulp.task("build", [sassTask]);
 
 gulp.task("watch", ["build"], function () {
 	livereload.listen();
