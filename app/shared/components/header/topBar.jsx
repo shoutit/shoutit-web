@@ -10,6 +10,7 @@ import MainMenu from './mainMenu.jsx';
 import {Icon} from '../helper';
 import ChatTopbarButton from './notifications/chatTopbarButton.jsx';
 import NotifTopbarButton from './notifications/notifTopbarButton.jsx';
+import NewShoutButton from '../shouting/newShoutButton.jsx';
 
 export default React.createClass({
 	displayName: "TopBar",
@@ -46,9 +47,7 @@ export default React.createClass({
 				<NotifTopbarButton flux={this.props.flux} user={loggedUser} />
 
 				
-				<Button className="shout-btn" style={{float: "left",margin: "0 15px"}}>
-					Create Shout
-				</Button>
+				<NewShoutButton flux={this.props.flux}/>
 				{loggedUser?
 					<TopBarActions flux={this.props.flux} user={loggedUser}
 								   onLogoutClicked={this.props.onLogoutClicked}/> :

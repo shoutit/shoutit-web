@@ -103,6 +103,20 @@ button {
   }
 }
 
+.new-shout-button {
+  @extend .res1x-create-shout;
+  color: $si-white;
+  padding-left: 40px;
+  display: inline-block;
+  padding-top: 7px;
+  margin-top: -15px;
+  opacity: 0.9;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 
 /* Item Box */
 .si-item-box {

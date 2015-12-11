@@ -267,13 +267,25 @@ export default React.createClass({
 		if(status.id && !prevProps.status.id) { 
 			// Shout sent successfully
 			let shoutPath = status.web_url.match(/\/[^\/]*\/[^\/]*$/)[0];
-			this.props.onUserFocus({focused: false});
+			if(this.props.onUserFocus) {
+				this.props.onUserFocus({focused: false});
+			}
+			if(this.props.onShoutSent) {
+				this.props.onShoutSent(true);
+			}
+			this.clearForms();
 			setTimeout(() => {
 				this.history.pushState(null, shoutPath);
-			},1000);
-			
+			},1000);	
 		}
+	},
 
+	clearForms() {
+		let {title, text, price} = this.refs;
+
+		title.value = '';
+		text.value =  '';
+		price.value = '';
 	},
 
 	getErrorTooltip(errorField) {
@@ -304,7 +316,7 @@ export default React.createClass({
 	},
 
 	renderAlerts() {
-		if(!this.props.status.id) {
+		if(!this.props.status.id && !this.props.collapsed) {
 			return (
 				<section>
 					<Overlay {...this.getErrorProps('title')} >
