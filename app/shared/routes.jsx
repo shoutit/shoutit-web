@@ -10,16 +10,12 @@ import Reduced from './components/reduced/reduced.jsx';
 
 import MainPage from './components/main/mainPage.jsx';
 import HomePage from './components/feed/home.jsx';
-import Feed from './components/feed/feed.jsx';
 import FeedListContainer from './components/feed/feedListContainer.jsx';
 import Static from './components/helper/static.jsx';
 import NotFound from './components/misc/notfound.jsx';
 import Shout from './components/shout/shoutDetail.jsx';
 import Profile from './components/profile/profile.jsx';
 import Search from './components/search/search.jsx';
-import SearchShouts from './components/search/searchShouts.jsx';
-import SearchUsers from './components/search/searchUsers.jsx';
-import SearchTags from './components/search/searchTags.jsx';
 import ProfileSettings from './components/profile/profileSettings.jsx';
 import ProfileListeners from './components/profile/profileListeners.jsx';
 import ProfileListening from './components/profile/profileListening.jsx';
@@ -49,13 +45,10 @@ export default function (envData) {
 						<Route path="signup" component={Signup}/>
 					</Route>
 					<Route path="/home" component={HomePage}>
-						<Route path="feed" component={Feed}>
-							<Route path="/all/:country/:state/:city(/:page)" component={All}/>
-							<Route path="/offers/:country/:state/:city(/:page)" component={Offers}/>
-							<Route path="/requests/:country/:state/:city(/:page)" component={Requests}/>
-							<Route path="/shout/:shoutId(/:location)(/:title)" component={Shout}/>
-							<IndexRoute component={All}/>
-						</Route>
+						<Route path="/all/:country/:state/:city(/:page)" component={All}/>
+						<Route path="/offers/:country/:state/:city(/:page)" component={Offers}/>
+						<Route path="/requests/:country/:state/:city(/:page)" component={Requests}/>
+						<Route path="/shout/:shoutId(/:location)(/:title)" component={Shout}/>
 						<Route path="/user/:username" component={Profile}>
 							<Route path="listeners" component={ProfileListeners}/>
 							<Route path="listening" component={ProfileListening}/>
@@ -76,10 +69,9 @@ export default function (envData) {
 							<IndexRoute component={EmptyMessageList}/>
 						</Route>
 						<Route path="/search/:shouttype/:category(/:term)" component={Search}>
-							<Route path="users" component={SearchUsers}/>
-							<Route path="tags" component={SearchTags}/>
-							<IndexRoute component={SearchShouts}/>
+							<IndexRoute component={Search}/>
 						</Route>
+						<IndexRoute component={All}/>
 					</Route>
 				</Route>
 				<Route path="static" component={Reduced}>

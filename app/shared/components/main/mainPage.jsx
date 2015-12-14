@@ -23,7 +23,7 @@ export default React.createClass({
 
     componentWillMount() {
         if(this.state.users.user) {
-            this.history.replaceState(null, '/home/feed');
+            this.history.replaceState(null, '/home');
         }
     },
 

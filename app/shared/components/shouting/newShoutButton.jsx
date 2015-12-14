@@ -48,7 +48,7 @@ export default React.createClass({
             <Dialog open={this.state.popup}
                     onRequestClose={this.popupCloseHandle}
                     autoDetectWindowHeight={true}
-                    
+                    autoScrollBodyContent={true}
                     bodyStyle={{borderRadius: '5px'}}
                     contentClassName="new-shout-popup"
                     >

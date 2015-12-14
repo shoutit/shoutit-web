@@ -22,6 +22,15 @@
   padding: $default-spacing;
 }
 
+@mixin paper() {
+  background-color: $si-white;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  &:hover {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
 @mixin button($width, $height, $font-size: $default-font-size) {
   @extend .si-button;
   font-size: $font-size;

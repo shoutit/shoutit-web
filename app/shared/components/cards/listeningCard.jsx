@@ -42,8 +42,9 @@ export default React.createClass({
 
     render() {
         let isShoutPage = Boolean(this.context.params.shoutId);
+        let isSearchPage = this.context.params.shouttype;
 
-        if(!isShoutPage) {
+        if(!isShoutPage && !isSearchPage) {
             // image mock variables
             let userImg = "http://goo.gl/TdBdpF";
             let userImg2 = "http://goo.gl/AoUK08";

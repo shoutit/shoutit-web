@@ -10,8 +10,9 @@ export default React.createClass({
 
     render() {
         let isShoutPage = Boolean(this.context.params.shoutId);
+        let isSearchPage = this.context.params.shouttype;
 
-        if(!isShoutPage) {
+        if(!isShoutPage && !isSearchPage) {
             return (
                 <section className="si-card gray-card">
                     <div className="card-header">

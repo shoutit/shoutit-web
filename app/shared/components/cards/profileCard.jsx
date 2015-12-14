@@ -24,9 +24,10 @@ export default React.createClass({
 
     render() {
         let isNotShoutPage = !this.context.params.shoutId;
+        let isNotSearchPage = !this.context.params.shouttype;
         let isLoggedIn = this.state.user;
 
-        if( isLoggedIn && isNotShoutPage) {
+        if( isLoggedIn && isNotShoutPage && isNotSearchPage) {
             let img = this.state.users[this.state.user].image,
                 name = this.state.users[this.state.user].name,
                 userImage = <UserImage image={img} type="circle" height={25} width={25}/>;

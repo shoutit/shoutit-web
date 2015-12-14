@@ -1,8 +1,6 @@
 .si-card {
+  @include paper();
   width: 100%;
-  background-color: $si-white;
-  border-radius: 5px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
   padding-bottom: 15px;
   overflow: hidden;
@@ -185,6 +183,49 @@
     span {
       font-size: 1.4rem;
       color: $si-gray;
+    }
+  }
+  &.search-card {
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+    .search-card-btn {
+      @include green-button(100%, 25px, 1.4rem);
+      display: block;
+      margin: 3px auto;
+    }
+    .search-filters {
+      width: 100%;
+      min-height: 100px;
+      padding: 10px;
+      @include paper();
+      p {
+        color: $si-light-gray;
+        font-size: 1.2rem;
+      }
+      .search-card-catselect {
+        & > div:nth-child(2) {
+          overflow-y: scroll!important;
+          max-height: 200px;
+        }
+      }
+      input[type=number] {
+        width: 60px;
+        height: 25px;
+        font-size: 1.2rem;
+        margin: 5px 10px 10px 0;
+        padding: 3px;
+        border-radius: 3px;
+        background: $si-white;
+        color: $si-gray;
+        outline: 0;
+        border: 1px solid $si-light-gray;
+        &:focus {
+          -webkit-box-shadow: none;
+          box-shadow: none;
+          border: 2px solid $si-green;
+        }
+      }
     }
   }
 }

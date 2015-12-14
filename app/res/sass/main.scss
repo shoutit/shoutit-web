@@ -11,7 +11,7 @@ $si-white: #fff;
 $si-green: #a7d281;
 $si-dark-green: #7EBE59;
 $si-gray: #3b3b3b;
-$si-light-gray: #989899;;
+$si-light-gray: #989899;
 $si-light-gray2: #bfbfbf;
 $si-bg: #edefed;
 $si-blue: #337ab7;
@@ -52,6 +52,6 @@ $default-spacing: 10px;
 
 @import "pages/mainpage.scss";
 @import "pages/homepage.scss";
-
+@import "pages/search.scss";
 
 

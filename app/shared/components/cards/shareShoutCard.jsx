@@ -27,7 +27,7 @@ export default React.createClass({
         if(window.previousLocation) { 
             this.history.goBack();
         } else {
-           this.history.pushState(null, '/home/feed'); 
+           this.history.pushState(null, '/home'); 
         }
     },
 

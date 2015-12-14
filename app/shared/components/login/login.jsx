@@ -72,7 +72,7 @@ export default React.createClass({
 
 	checkLogin() {
 		if(this.state.user) {
-			this.history.replaceState(null, 'home/feed');
+			this.history.replaceState(null, 'home');
 		}
 	},
 
