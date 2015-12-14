@@ -73,18 +73,18 @@ var imageTask = "minImage",
 	imageSrc = "app/res/img/*.png",
 	imageDest = "app/public/img";
 
-// gulp.task(imageTask, function () {
-// 	return gulp.src(imageSrc)
-// 		.pipe(imagemin())
-// 		.pipe(gulp.dest(imageDest));
-// });
+gulp.task(imageTask, function () {
+	return gulp.src(imageSrc)
+		.pipe(imagemin())
+		.pipe(gulp.dest(imageDest));
+});
 
-// var iconMinTask = "sass-icon-min";
-// gulp.task(iconMinTask, function () {
-// 	return gulp.src(imageDest + "/icons-*")
-// 		.pipe(imagemin())
-// 		.pipe(gulp.dest(imageDest));
-// });
+var iconMinTask = "sass-icon-min";
+gulp.task(iconMinTask, function () {
+	return gulp.src(imageDest + "/icons-*")
+		.pipe(imagemin())
+		.pipe(gulp.dest(imageDest));
+});
 
 gulp.task("build", [sassTask]);
 
