@@ -43,8 +43,8 @@ export default React.createClass({
                             <Link to="">Edit Profile</Link>
                         </li>
                         <li>
-                            <Icon name="message" style={{transform:'scale(0.7)', margin:'5px 15px 0 -5px'}}/> 
-                            <Link to="">Messages</Link>
+                            <Icon name="message" style={{transform:'scale(0.7)', margin:'5px 15px 0 -5px'}}/>
+                            <Link to="/home/chat">Messages</Link>
                         </li>
                         <li>
                             <Icon name="browse" />
