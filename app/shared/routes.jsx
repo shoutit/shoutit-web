@@ -57,14 +57,14 @@ export default function (envData) {
 							<Route path="requests" component={ProfileRequests}/>
 							<IndexRoute component={ProfileSettings}/>
 						</Route>
-						
+
 						<Route path="/discover(/:country)(/:state)(/:city)(/:page)" component={Discover}/>
 						<Route path="/tag/:tagName" component={TagProfile}>
 							<Route path="tagrequests" component={TagProfileRequest}/>
 							<Route path="taglisteners" component={TagProfileListeners}/>
 							<IndexRoute component={TagProfileOffers}/>
 						</Route>
-						<Route path="chat" component={new Chat(envData)}>
+						<Route path="chat" component={Chat}>
 							<Route path=":chatId" component={MessageList}/>
 							<IndexRoute component={EmptyMessageList}/>
 						</Route>
@@ -79,7 +79,7 @@ export default function (envData) {
 					<Route path="/rules" component={Static}/>
 					<Route path="/policy" component={Static}/>
 				</Route>
-				
+
 				<Route path="/auth/verify_email" component={VerifyEmail}/>
 				<Route path="*" component={NotFound}/>
 			</Route>
