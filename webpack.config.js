@@ -3,6 +3,7 @@ var path = require('path'),
 
 module.exports = {
     cache: true,
+    devtool: "source-map",
     entry: path.join(__dirname, "/app/client/index.js"),
     output: {
         path: path.join(__dirname, "/app/public/"),
