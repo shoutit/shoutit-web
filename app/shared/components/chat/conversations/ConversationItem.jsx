@@ -39,7 +39,9 @@ export default function ConversationItem({ conversation, me }) {
       <ConversationAbout conversation={ conversation } />
       <p>{ opponents }</p>
       <p>
-        { lastMessage.text }
+        <Link to={ `/home/chat/${conversation.id}` }>
+          { lastMessage.text }
+        </Link>
       </p>
     </div>
   );
