@@ -64,13 +64,14 @@ export default function (envData) {
 							<Route path="taglisteners" component={TagProfileListeners}/>
 							<IndexRoute component={TagProfileOffers}/>
 						</Route>
-						<Route path="chat(/:conversationId)" component={Chat} />
 						<Route path="/search/:shouttype/:category(/:term)" component={Search}>
 							<IndexRoute component={Search}/>
 						</Route>
 						<IndexRoute component={All}/>
 					</Route>
 				</Route>
+				<Route path="/chat(/:conversationId)" component={ Chat } />
+
 				<Route path="static" component={Reduced}>
 					<Route path="/tos" component={Static}/>
 					<Route path="/rules" component={Static}/>

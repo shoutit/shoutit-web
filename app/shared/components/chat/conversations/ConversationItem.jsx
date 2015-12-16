@@ -1,8 +1,6 @@
 import React from 'react';
-import {Col} from 'react-bootstrap';
 import {Link} from 'react-router';
-import classnames from 'classnames';
-
+import moment from 'moment';
 import ConversationImage from './conversationImage.jsx';
 
 function ConversationAbout({ conversation }) {
@@ -34,11 +32,14 @@ export default function ConversationItem({ conversation, me, selected, onClick }
       <ConversationAbout conversation={ conversation } />
       <p>{ partecipants }</p>
       <p>
-        <Link tabIndex={ -1 } to={ `/home/chat/${conversation.id}` } onClick={ e => e.stopPropagation() } >
+        <Link tabIndex={ -1 } to={ `/chat/${conversation.id}` } onClick={ e => e.stopPropagation() } >
           { lastMessage.text }
         </Link>
       </p>
       { selected && <p>Selected</p> }
+      <p>
+        { moment.unix(lastMessage.created_at).calendar() }
+      </p>
     </div>
   );
 }

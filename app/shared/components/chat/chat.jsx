@@ -77,7 +77,7 @@ export default React.createClass({
               conversations={ conversations }
               me={ me }
               onConversationClick={ (conversationId, e) => {
-                this.props.history.pushState(null, `/home/chat/${conversationId}`)
+                this.props.history.pushState(null, `/chat/${conversationId}`)
               }}
             />
           </Col>

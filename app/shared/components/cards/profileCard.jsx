@@ -44,7 +44,7 @@ export default React.createClass({
                         </li>
                         <li>
                             <Icon name="message" style={{transform:'scale(0.7)', margin:'5px 15px 0 -5px'}}/>
-                            <Link to="/home/chat">Messages</Link>
+                            <Link to="/chat">Messages</Link>
                         </li>
                         <li>
                             <Icon name="browse" />
