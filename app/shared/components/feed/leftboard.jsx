@@ -4,6 +4,8 @@ import ListeningCard from '../cards/listeningCard.jsx';
 import PagesCard from '../cards/pagesCard.jsx';
 import ShareShoutCard from '../cards/shareShoutCard.jsx';
 import SearchCard from '../cards/searchCard.jsx';
+import RelatedTagsCard from '../cards/relatedTagsCard.jsx';
+import TagProfileCard from '../cards/tagProfileCard.jsx';
 
 export default React.createClass({
     displayName: "LeftBoard",
@@ -11,6 +13,8 @@ export default React.createClass({
     render() {
         return (
             <div>
+                <TagProfileCard />
+                <RelatedTagsCard />
                 <SearchCard />
                 <ShareShoutCard />
                 <ProfileCard />

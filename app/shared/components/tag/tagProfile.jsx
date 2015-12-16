@@ -1,14 +1,11 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
 import Loader from '../helper/loader.jsx';
-import {Col, NavItem} from 'react-bootstrap';
-import {LinkContainer} from 'react-router-bootstrap';
-import {Clear, Icon} from '../helper';
+import {Icon, Grid} from '../helper';
 import DocumentTitle from 'react-document-title';
 import TagProfileImage from './tagProfileImage.jsx';
-import TagListenButton from '../helper/tagListenButton.jsx';
 import NotificationSystem from 'react-notification-system';
-var objectAssign = require('object-assign');
+import assign from 'lodash/object/assign';
 
 let STORE_NAME = "tags";
 
@@ -45,64 +42,29 @@ export default React.createClass({
 			let linkParams = {tagName: encodeURIComponent(tagName)},
 				tag = JSON.parse(JSON.stringify(tagEntry.tag)),
 				listenerCount = tag.listeners_count,
-				childProps = objectAssign({tagName: tagName, flux: this.props.flux},this.state);
+				childProps = assign({tagName: tagName, flux: this.props.flux},this.state);
 
 			return (
 				<DocumentTitle title={tag.name + " - Shoutit"}>
-					<div className="profile">
-						<Col xs={12} md={3} className="profile-left">
-							<TagProfileImage image={tag.image} name={tag.name}/>
-							<TagListenButton tag={tag} onChange={this.handleListen} flux={this.props.flux }/>
-							<Clear/>
-							<ul>
-								<LinkContainer to={`/tag/${linkParams}`}>
-									<NavItem>
-										Offers
-									</NavItem>
-								</LinkContainer>
-								<LinkContainer to={`/tag/${linkParams}/tagrequests`}>
-									<NavItem>
-										Requests
-									</NavItem>
-								</LinkContainer>
-								<LinkContainer to={`/tag/${linkParams}/taglisteners`}>
-									<NavItem>
-										Listeners
-										<span>{listenerCount}</span>
-									</NavItem>
-								</LinkContainer>
-							</ul>
-						</Col>
-						<Col xs={12} md={9} className="pro-right-padding">
+					<Grid fluid={true}>
 							{React.cloneElement(this.props.children, childProps)}
-						</Col>
-						<NotificationSystem ref="notificationSystem" />
-					</div>
+					</Grid>
 				</DocumentTitle>
 			);
 		} else if (!this.state.loading && tagEntry === null) {
 			return (
 				<DocumentTitle title="Not Found - Shoutit">
-					<div className="profile">
-						<Col xs={12} md={3} className="profile-left">
-						</Col>
-						<Col xs={12} md={9} className="pro-right-padding">
-							<h3>Tag not found.</h3>
-						</Col>
-					</div>
+					<Grid fluid={true}>
+						<h3>Tag not found!</h3>
+					</Grid>
 				</DocumentTitle>
 			);
 		} else {
 			return (
 				<DocumentTitle title="Loading - Shoutit">
-					<div className="profile">
-						<Col xs={12} md={3} className="profile-left">
-							<Loader/>
-						</Col>
-						<Col xs={12} md={9} className="pro-right-padding">
-							<Loader/>
-						</Col>
-					</div>
+					<Grid fluid={true}>
+						<Loader/>
+					</Grid>
 				</DocumentTitle>
 			);
 		}
@@ -135,3 +97,27 @@ export default React.createClass({
 		}
 	}
 });
+/*
+<Col xs={12} md={3} className="profile-left">
+	<TagProfileImage image={tag.image} name={tag.name}/>
+	<TagListenButton tag={tag} onChange={this.handleListen} flux={this.props.flux }/>
+	<Clear/>
+	<ul>
+		<LinkContainer to={`/tag/${linkParams}`}>
+			<NavItem>
+				Offers
+			</NavItem>
+		</LinkContainer>
+		<LinkContainer to={`/tag/${linkParams}/tagrequests`}>
+			<NavItem>
+				Requests
+			</NavItem>
+		</LinkContainer>
+		<LinkContainer to={`/tag/${linkParams}/taglisteners`}>
+			<NavItem>
+				Listeners
+				<span>{listenerCount}</span>
+			</NavItem>
+		</LinkContainer>
+	</ul>
+</Col>*/

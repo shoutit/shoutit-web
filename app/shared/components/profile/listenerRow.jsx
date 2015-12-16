@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {Image} from '../helper';
-import ListenButton from '../helper/listenButton.jsx';
+import ListenButton from '../general/listenButton.jsx';
 
 export default React.createClass({
 	displayName: "ListenerRow",

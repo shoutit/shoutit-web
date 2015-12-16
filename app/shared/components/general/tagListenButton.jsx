@@ -1,5 +1,6 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
+import {Icon} from '../helper';
 import statuses from '../../consts/statuses.js';
 
 const {LISTEN_BTN_LOADING} = statuses;
@@ -35,26 +36,38 @@ export default React.createClass({
 
     render() {
         let tag = this.props.tag,
-            btn;
+            clickable = true,
+            title = "Listen",
+            iconName = "listen",
+            className = "si-shelf-button";
 
         // no need to load Listening button if user is not logged in
         if (this.state.loggedIn) {
             let isListening = tag.is_listening;
 
-            let title = isListening? "Listening": "Listen";
-            let style = isListening? "shoutit-btn listen": "shoutit-btn not-listen";
-
-            if(tag.fluxStatus === LISTEN_BTN_LOADING) {
-                title = "Loading";
-                style = "shoutit-btn loading";
+            if(isListening) {
+                title = "Listening";
+                iconName = "listening_to";
             }
 
-            // The main button of this compnent
-            btn = <span className={style} onClick={this.toggleListen}>{title}</span>;
+            if(tag.fluxStatus === LISTEN_BTN_LOADING) {
+                title = "[Loading]";
+                className = className + " loading";
+            }
+        } else {
+            clickable = false;
+            className = className + " disabled";
         }
 
         return (
-            <span>{btn}</span>
+            <div className={className} onClick={clickable? this.toggleListen: null}>
+                <div className="img-holder">
+                    <Icon name={iconName} />
+                </div>
+                <div className="text-holder">
+                    {title}
+                </div>
+            </div>
         );
     },
 

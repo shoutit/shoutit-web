@@ -1,8 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {Image} from '../helper';
-import ListenButton from '../helper/listenButton.jsx';
-import TagListenButton from '../helper/tagListenButton.jsx';
+import TagListenButton from '../general/tagListenButton.jsx';
 
 export default React.createClass({
     displayName: "TagRow",

@@ -5,7 +5,7 @@ export default React.createClass({
 	displayName: "TagProfileImage",
 
 	render() {
-		let image = this.props.image ? <Image infix="tag" size="medium" src={this.props.image}/> : null;
+		let image = this.props.image ? <Image infix="tag" size="small" src={this.props.image}/> : null;
 
 		return (
 			<div className="profile-img">

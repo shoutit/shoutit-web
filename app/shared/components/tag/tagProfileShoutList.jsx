@@ -1,7 +1,5 @@
 import React from 'react';
-import {Col} from 'react-bootstrap';
-import {Loader, Clear} from '../helper';
-
+import {Loader, Grid} from '../helper';
 import Shout from '../feed/feed/shout.jsx';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 
@@ -42,42 +40,29 @@ export default React.createClass({
 		}
 
 		return (
-			<Col xs={12} md={12} className="content-listener">
-				<div className="listener">
-					<div className="listener-title">
-						<p>
-							{tag.name + " - " + map[this.props.type] + ":"}
-							{stat}
-						</p>
-					</div>
-					<Clear />
-
-					<div className="listener-scroll ctn-offerpro" tabIndex="5000"
-						 style={{outline: "none"}}>
-						{content}
-						{this.renderViewportSensor()}
-						
-					</div>
-				</div>
-			</Col>
+			<div>
+				<Grid fluid={true}>
+					<h3 className="si-subtitle">{tag.name + " shouts"}</h3>
+				</Grid>
+				<Grid fluid={true}>
+					{content}
+					{this.renderViewportSensor()}
+				</Grid>
+			</div>
 		);
 	},
 
 	renderViewportSensor() {
 		if(this.props.loading) {
 			return (
-				<section>
-						<Col xs={12} md={12}>
-							<Loader />
-						</Col>
-				</section>);
+				<Grid fluid={true}>
+					<Loader />
+				</Grid>);
 		} else {
 			return (
-				<section>
-					<Col xs={12} md={12}>
-						<ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
-					</Col>
-				</section>);
+				<Grid fluid={true}>
+					<ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
+				</Grid>);
 		}
 	},
 
@@ -89,6 +74,5 @@ export default React.createClass({
 
 	loadMore() {
 		this.props.flux.actions.loadMoreTagShouts(this.props.tagName, this.props.type);
-		//alert('last');
 	}
 });

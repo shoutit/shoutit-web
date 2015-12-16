@@ -151,6 +151,7 @@ var TagStore = Fluxxor.createStore({
 		client.listen(tagName).end(function(res) {
 			if(res.body.success) {
 				this.state.tags[tagName].tag.is_listening = true;
+				this.state.tags[tagName].tag.listeners_count+= 1;
 				this.state.tags[tagName].tag.fluxStatus = null;
 				this.emit('change');
 			}
@@ -168,6 +169,7 @@ var TagStore = Fluxxor.createStore({
 		client.unlisten(tagName).end(function(res) {
 			if(res.body.success) {
 				this.state.tags[tagName].tag.is_listening = false;
+				this.state.tags[tagName].tag.listeners_count-= 1;
 				this.state.tags[tagName].tag.fluxStatus = null;
 				this.emit('change');
 			}

@@ -8,7 +8,7 @@ import {NavItemLink} from 'react-router-bootstrap';
 import DocumentTitle from 'react-document-title';
 import ProfileImage from './profileImage.jsx';
 import ProfileDetails from './profileDetails.jsx';
-import ListenButton from '../helper/listenButton.jsx';
+import ListenButton from '../general/listenButton.jsx';
 import NotificationSystem from 'react-notification-system';
 
 export default React.createClass({
