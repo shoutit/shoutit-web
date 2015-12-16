@@ -32,7 +32,7 @@ export default function Messages({
         <div>
           <MessagesList
             me={ me }
-            messages={ conversation.messages }
+            conversation={ conversation }
             onLoadMoreMessagesClick={ onLoadMoreMessagesClick }
           />
           <MessageReplyForm

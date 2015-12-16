@@ -40,10 +40,9 @@ export default React.createClass({
 					if (shout.conversations) {
 						let conversationList = shout.conversations.length ? shout.conversations.map((conversation, i) => (
 							<MessagesList key={"shout-con-" + i}
-											 messages={[conversation.last_message]}
+											 conversation={ conversation }
 											 me={user}
-											 conId={conversation.id}
-											 format="flat"/>
+											 showOnlyLastMessage />
 						)) : (
 							<h5>Nobody replied yet!</h5>
 						);

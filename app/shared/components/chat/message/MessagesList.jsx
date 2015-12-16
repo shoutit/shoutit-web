@@ -1,85 +1,68 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import MessageItem from './MessageItem.jsx';
+import MessageGroup from './MessageGroup.jsx';
 
-export default React.createClass({
-	displayName: "MessagesList",
+/**
+ * Return an array of messages grouped by its username
+ * TODO: move in some Utils so this can be tested
+ * @param  {Array} messages
+ * @return {Array}
+ */
+function groupMessages(messages) {
+  return messages.reduce((blocks, message, i, messages) => {
+    const isNewBlock = i === 0 || messages[i-1].user.username !== message.user.username;
+    if (isNewBlock) {
+      blocks.push([message])
+    }
+    else {
+      blocks[blocks.length-1].push(message);
+    }
+    return blocks;
+  }, [])
 
-	render() {
-		return (
-			<div ref="chatContent" className="cnt-chat">
-				{this.renderLoadMoreButton()}
-				{this.renderBlocks()}
-			</div>
-		);
-	},
+}
 
-	renderLoadMoreButton() {
-		if (this.props.format && this.props.format === "flat") {
-			return (
-				<h5>
-					<Link to="messages" params={{chatId: this.props.conId}}>See complete conversation.</Link>
-				</h5>
-			);
-		} else {
-			return (
-				<h5 onClick={this.onLoadMoreMessages}>Load older messages</h5>
-			);
-		}
-	},
+/**
+ * Show the messages belonging to a conversation.
+ *
+ * @param {Object}  props.conversation
+ * @param {String}  props.me
+ * @param {Boolean} props.showOnlyLastMessage Show only the last message in the conversation. Set this to true in shout page.
+ * @param {Function}  props.onLoadMoreMessagesClick The first argument is the date before which load the messages
+ */
+export default function MessageList({ conversation, me, showOnlyLastMessage=false, onLoadMoreMessagesClick }) {
 
-	onLoadMoreMessages() {
-		if (this.props.messages) {
-			let firstMessage = this.props.messages[0];
-			this.props.onLoadMoreMessagesClicked(firstMessage.created_at);
-		}
-	},
+  const { messages, id: conversationId } = conversation;
 
-	renderBlocks() {
-		let me = this.props.me,
-			blocks = [],
-			currentBlock;
+  let loadMore;
 
-		this.props.messages.forEach(function (message) {
-			if (!currentBlock || currentBlock.user.username !== message.user.username) {
-				if (currentBlock) {
-					blocks.push(currentBlock);
-				}
+  if (showOnlyLastMessage) {
+    loadMore = <h5><Link to="messages" params={{ conversationId }}>
+      See complete conversation.
+    </Link></h5>
+  }
+  else {
+    loadMore = <h5 onClick={ (e) => onLoadMoreMessagesClick(messages[0].created_at, e) }>
+      Load older messages
+    </h5>
+  }
 
-				currentBlock = {
-					user: message.user,
-					messages: [message],
-					from: message.user.username !== me,
-					to: message.user.username === me
-				};
-			} else {
-				currentBlock.messages.push(message);
-			}
-		});
-		if (currentBlock) {
-			currentBlock.last = true;
-			blocks.push(currentBlock);
-		}
+  const groups = groupMessages(messages);
 
-		return blocks.map(function (block, i) {
-			return (<MessageItem key={"msg-block-" + i} {...block}/>);
-		});
-	},
+  return (
+    <div className="cnt-chat">
+      { loadMore }
 
-	componentDidMount() {
-		this.scrollToBottom();
-	},
+      { groups.map( messages =>
+          <MessageGroup
+            messages={ messages }
+            isSentByMe={ messages[0].user.username === me }
+          />
+        )
+      }
+    </div>
+  );
 
-	scrollToBottom() {
-		let node = React.findDOMNode(this.refs.chatContent);
+}
 
-		if (node.scrollTop + node.offsetHeight + 1 < node.scrollHeight) {
-			node.scrollTop = node.scrollHeight;
-		}
-	},
-
-	componentDidUpdate() {
-		this.scrollToBottom();
-	}
-});
