@@ -25,7 +25,7 @@ function ConversationAbout({ conversation }) {
 }
 
 
-export default function ConversationItem({ conversation, me }) {
+export default function ConversationItem({ conversation, me, selected }) {
   const { users, last_message: lastMessage } = conversation;
 
   const opponents = users
@@ -43,6 +43,7 @@ export default function ConversationItem({ conversation, me }) {
           { lastMessage.text }
         </Link>
       </p>
+      { selected && <p>Selected</p> }
     </div>
   );
 }
