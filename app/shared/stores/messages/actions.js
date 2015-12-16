@@ -6,7 +6,7 @@ import consts from './consts';
 import client from './client';
 
 export default {
-	loadConversations() {
+	loadConversations(done) {
 		this.dispatch(consts.LOAD_CONVERSATIONS);
 
 		client.loadConversations()
@@ -19,6 +19,7 @@ export default {
 					this.dispatch(consts.LOAD_CONVERSATIONS_SUCCESS, {
 						res: res.body
 					});
+					done && done();
 				}
 			}.bind(this));
 	},
