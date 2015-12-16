@@ -14,8 +14,8 @@ export default React.createClass({
 	componentDidMount() {
 		let tagName = this.props.tagName;
 
-		if (!this.props.tags[tagName] || !this.props.tags[tagName][this.props.type + 's']) {
-			this.props.flux.actions.loadTagShouts(this.props.tagName, this.props.type);
+		if (!this.props.tags[tagName] || !this.props.tags[tagName]['shouts']) {
+			this.props.flux.actions.loadTagShouts(this.props.tagName, 'all');
 		}
 	},
 
@@ -29,7 +29,7 @@ export default React.createClass({
 	render() {
 		let tagName = this.props.tagName,
 			tag = this.props.tags[tagName].tag,
-			tags = this.props.tags[tagName][this.props.type + 's'],
+			tags = this.props.tags[tagName]['shouts'],
 			content, stat;
 
 		if (tags) {
@@ -73,6 +73,6 @@ export default React.createClass({
 	},
 
 	loadMore() {
-		this.props.flux.actions.loadMoreTagShouts(this.props.tagName, this.props.type);
+		this.props.flux.actions.loadMoreTagShouts(this.props.tagName, 'all');
 	}
 });
