@@ -36,7 +36,8 @@ export default React.createClass({
 
     const { conversations, me } = this.state;
 
-    const unread = conversations ? conversations.filter(c => c.unread_messages_count > 0) : [];
+    const unread = conversations.filter(c => c.unread_messages_count > 0);
+
     return (
       <Col xs={12} md={12} className="chat-left">
         <ConversationsTitle unreadCount={ unread.length } />
