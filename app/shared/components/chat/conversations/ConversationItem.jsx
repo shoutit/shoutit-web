@@ -18,8 +18,8 @@ function ConversationAbout({ conversation }) {
   };
 
   return (
-    <Link to="shout" params={ params }>
-       {shout.title}
+    <Link to={ `/shout/${params.shoutId}/${params.location}/${params.title}` }>
+      {shout.title}
     </Link>
   )
 }
