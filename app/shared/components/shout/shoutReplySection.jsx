@@ -2,8 +2,8 @@ import React from 'react';
 import {Link} from 'react-router';
 import {Col} from 'react-bootstrap';
 
-import ReplyInput from '../chat/message/input.jsx';
-import MessageListBody from '../chat/message/body.jsx';
+import ReplyInput from '../chat/message/MessageReplyForm.jsx';
+import MessagesList from '../chat/message/MessagesList.jsx';
 
 export default React.createClass({
 	displayName: "ShoutReplySection",
@@ -39,7 +39,7 @@ export default React.createClass({
 				} else {
 					if (shout.conversations) {
 						let conversationList = shout.conversations.length ? shout.conversations.map((conversation, i) => (
-							<MessageListBody key={"shout-con-" + i}
+							<MessagesList key={"shout-con-" + i}
 											 messages={[conversation.last_message]}
 											 me={user}
 											 conId={conversation.id}
