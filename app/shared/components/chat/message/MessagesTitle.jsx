@@ -8,14 +8,14 @@ import React from 'react';
  */
 export default function MessagesTitle({ conversation, me }) {
 
-  const opponents = conversation.users
+  const partecipants = conversation.users
     .filter(user => user.username !== me)
     .map(user => user.name)
     .join(', ');
 
   return (
     <div className="chat-right-title">
-      <p className="chat-name">{ opponents }</p>
+      <p className="chat-name">{ partecipants }</p>
     </div>
   )
 }

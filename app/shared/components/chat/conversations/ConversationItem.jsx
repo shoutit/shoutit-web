@@ -23,7 +23,7 @@ function ConversationAbout({ conversation }) {
 export default function ConversationItem({ conversation, me, selected, onClick }) {
   const { users, last_message: lastMessage } = conversation;
 
-  const opponents = users
+  const partecipants = users
     .filter(user => user.username !== me)
     .map(user => user.name)
     .join(', ');
@@ -32,7 +32,7 @@ export default function ConversationItem({ conversation, me, selected, onClick }
     <div onClick={ onClick.bind(this, conversation.id) }>
       <ConversationImage me={ me } conversation={ conversation } />
       <ConversationAbout conversation={ conversation } />
-      <p>{ opponents }</p>
+      <p>{ partecipants }</p>
       <p>
         <Link tabIndex={ -1 } to={ `/home/chat/${conversation.id}` } onClick={ e => e.stopPropagation() } >
           { lastMessage.text }
