@@ -1,10 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import MessageListBodyBlock from './block.jsx';
+import MessageItem from './MessageItem.jsx';
 
 export default React.createClass({
-	displayName: "MessageListBody",
+	displayName: "MessagesList",
 
 	render() {
 		return (
@@ -63,7 +63,7 @@ export default React.createClass({
 		}
 
 		return blocks.map(function (block, i) {
-			return (<MessageListBodyBlock key={"msg-block-" + i} {...block}/>);
+			return (<MessageItem key={"msg-block-" + i} {...block}/>);
 		});
 	},
 

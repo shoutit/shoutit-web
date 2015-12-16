@@ -6,7 +6,7 @@ import moment from 'moment';
 import {Image, Icon} from '../../helper';
 
 export default React.createClass({
-	displayName: "MessageListBodyBlock",
+	displayName: "MessageItem",
 
 	render() {
 		let blockClasses = classNames({
