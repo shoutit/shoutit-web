@@ -11,21 +11,16 @@ function ConversationAbout({ conversation }) {
     return <span />;
   }
   const { about: shout } = conversation;
-  const params = {
-    shoutId: shout.id,
-    location: shout.location.city,
-    title: encodeURIComponent(shout.title.replace(/\s+/g, '-'))
-  };
 
   return (
-    <Link to={ `/shout/${params.shoutId}/${params.location}/${params.title}` }>
+    <Link to={ `/shout/${shout.id}/${shout.location.city}/${shout.title}` }
+      onClick={ e => e.stopPropagation() }>
       {shout.title}
     </Link>
   )
 }
 
-
-export default function ConversationItem({ conversation, me, selected }) {
+export default function ConversationItem({ conversation, me, selected, onClick }) {
   const { users, last_message: lastMessage } = conversation;
 
   const opponents = users
@@ -34,12 +29,12 @@ export default function ConversationItem({ conversation, me, selected }) {
     .join(', ');
 
   return (
-    <div>
+    <div onClick={ onClick.bind(this, conversation.id) }>
       <ConversationImage me={ me } conversation={ conversation } />
       <ConversationAbout conversation={ conversation } />
       <p>{ opponents }</p>
       <p>
-        <Link to={ `/home/chat/${conversation.id}` }>
+        <Link tabIndex={ -1 } to={ `/home/chat/${conversation.id}` } onClick={ e => e.stopPropagation() } >
           { lastMessage.text }
         </Link>
       </p>

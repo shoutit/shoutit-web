@@ -76,6 +76,9 @@ export default React.createClass({
               activeConversation={ activeConversation }
               conversations={ conversations }
               me={ me }
+              onConversationClick={ (conversationId, e) => {
+                this.props.history.pushState(null, `/home/chat/${conversationId}`)
+              }}
             />
           </Col>
           <Col xs={12} md={8} className="chat-left-padding">
