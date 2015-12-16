@@ -21,6 +21,7 @@ export default React.createClass({
 
   componentDidUpdate(prevProps) {
     if (prevProps.params.conversationId !== this.props.params.conversationId) {
+    // Load the active conversation as the route's param conversationId changes
       this.loadActiveConversation();
     }
     this.scrollToBottom();
@@ -85,7 +86,7 @@ export default React.createClass({
                   me={ me }
                   loading= { !activeConversation.messages }
                   onLoadMoreMessagesClick={ (before) => loadMoreConversation(activeConversation.id, before) }
-                  onReplyTextChange={ text => messageDraftChange('text', text) }
+                  onReplyTextChange={ (text) => messageDraftChange('text', text) }
                   onReplySubmit={ () => replyConversation(activeConversation.id, draft) }
                 />
               : <MessagesIndex

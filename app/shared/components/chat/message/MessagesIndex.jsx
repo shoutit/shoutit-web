@@ -1,6 +1,11 @@
 import React from 'react';
 
-export default function MessageListIndex({ loading, conversations }) {
+/**
+ * Component being displayed as index in the chat container.
+ * @param {Boolean} props.loading
+ * @param {Array}   props.conversations
+ */
+export default function MessageListIndex({ loading=false, conversations=[] }) {
   return (
     <div>
       { loading

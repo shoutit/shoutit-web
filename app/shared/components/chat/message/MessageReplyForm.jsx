@@ -1,6 +1,13 @@
 import React from 'react';
 
-export default function MessageReplyForm({ onTextChange, draft, onSubmit, disabled=false }) {
+/**
+ * A simple form to send a message. Accept draft objects.
+ * @param {Object}    props.draft
+ * @param {Boolean}   props.disabled
+ * @param {Function}  props.onSubmit
+ * @param {Function}  props.onTextChange
+ */
+export default function MessageReplyForm({ draft, disabled=false, onSubmit, onTextChange }) {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();

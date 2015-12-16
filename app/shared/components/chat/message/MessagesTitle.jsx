@@ -1,5 +1,11 @@
 import React from 'react';
 
+/**
+ * Show the title for a list of messages.
+ *
+ * @param {Object} props.conversation
+ * @param {String} props.me
+ */
 export default function MessagesTitle({ conversation, me }) {
 
   const opponents = conversation.users
