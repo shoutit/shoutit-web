@@ -3,6 +3,14 @@ import React from 'react';
 export default React.createClass({
 	displayName: "UserImage",
 
+	proprTypes: {
+		height: React.PropTypes.string,
+		width: React.PropTypes.string,
+		size: React.PropTypes.string,
+		type: React.PropTypes.string, // Choice (circle, rounded, rounded2x, square)
+		image: React.PropTypes.string
+	},
+
 	getDefaultProps() {
 		return {
 			type: "circle"
@@ -39,6 +47,10 @@ export default React.createClass({
 			style.borderRadius = this.props.height? (this.props.height / 2) + "px" : "16px";
 		} else if(this.props.type === 'rounded') {
 			style.borderRadius = "5px";
+		} else if(this.props.type === 'rounded2x') {
+			style.borderRadius = "10px";
+		} if(this.props.type === 'square') {
+			style.borderRadius = "0";
 		}
 
 
