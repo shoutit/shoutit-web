@@ -69,9 +69,8 @@ export default function (envData) {
 						</Route>
 						<IndexRoute component={All}/>
 					</Route>
+					<Route path="/chat(/:conversationId)" component={ Chat } />
 				</Route>
-				<Route path="/chat(/:conversationId)" component={ Chat } />
-
 				<Route path="static" component={Reduced}>
 					<Route path="/tos" component={Static}/>
 					<Route path="/rules" component={Static}/>
