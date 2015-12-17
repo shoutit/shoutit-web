@@ -228,6 +228,23 @@
       }
     }
   }
+  &.tag-profile-card {
+    .tag-logo {
+      width: 40px;
+      height: 40px;
+      border: 2px solid $si-green;
+      border-radius: 20px;
+      padding: 10px;
+      margin: 10px auto;
+    }
+    .tag-name {
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: lighten($si-gray, 10%);
+      margin: 10px;
+      text-align: center;
+    }
+  }
 }
 .user-controls-card {
   .back-btn {

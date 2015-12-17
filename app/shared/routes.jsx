@@ -23,6 +23,7 @@ import ProfileListeningTags from './components/profile/profileListeningTags.jsx'
 import ProfileOffers from './components/profile/profileOffers.jsx';
 import ProfileRequests from './components/profile/profileRequests.jsx';
 import TagProfile from './components/tag/tagProfile.jsx';
+import TagProfileShouts from './components/tag/tagProfileShouts.jsx';
 import TagProfileOffers from './components/tag/tagProfileOffers.jsx';
 import TagProfileRequest from './components/tag/tagProfileRequests.jsx';
 import TagProfileListeners from './components/tag/tagProfileListeners.jsx';
@@ -62,7 +63,7 @@ export default function (envData) {
 						<Route path="/tag/:tagName" component={TagProfile}>
 							<Route path="tagrequests" component={TagProfileRequest}/>
 							<Route path="taglisteners" component={TagProfileListeners}/>
-							<IndexRoute component={TagProfileOffers}/>
+							<IndexRoute component={TagProfileShouts}/>
 						</Route>
 						<Route path="/search/:shouttype/:category(/:term)" component={Search}>
 							<IndexRoute component={Search}/>

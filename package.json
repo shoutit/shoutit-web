@@ -48,7 +48,7 @@
     "react-addons-update": "^0.14.2",
     "react-bootstrap": "^0.28.1",
     "react-document-title": "^2.0.1",
-    "react-dom": "^0.14.2",
+    "react-dom": "^0.14.3",
     "react-dropzone-component": "^0.8.1",
     "react-notification-system": "^0.2.5",
     "react-overlays": "^0.5.1",

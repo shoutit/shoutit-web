@@ -9,10 +9,11 @@ export default React.createClass({
     },
 
     render() {
-        let isShoutPage = Boolean(this.context.params.shoutId);
-        let isSearchPage = this.context.params.shouttype;
+        let isNotShoutPage = !this.context.params.shoutId;
+        let isNotSearchPage = !this.context.params.shouttype;
+        let isNotTagProfile = !this.context.params.tagName;
 
-        if(!isShoutPage && !isSearchPage) {
+        if(isNotShoutPage && isNotSearchPage && isNotTagProfile) {
             return (
                 <section className="si-card gray-card">
                     <div className="card-header">

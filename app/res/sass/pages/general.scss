@@ -25,6 +25,13 @@ h3 {
   font-weight: 500;
   color: lighten($si-gray, 10%);
   margin: 0;
+  &.si-subtitle {
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 8px 12px;
+    color: $si-light-gray2;
+  }
 }
 h4 {
   font-size: 1.2rem;
@@ -410,5 +417,33 @@ button {
   text-align:center;
   div {
     margin: 0 auto;
+  }
+}
+
+.si-shelf-button {
+  cursor: pointer;
+  width: 100%;
+  .img-holder {
+    position: relative;
+    height: 30px;
+    img, div {
+      margin: auto;
+    }
+  }
+  .text-holder {
+    height: 25px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 1.3rem;
+  }
+  &.loading {
+    cursor: progress;
+    .text-holder {
+      font-size: 1.1rem;
+      color: $si-light-gray;
+    }
+  }
+  &.disabled {
+    cursor: not-allowed;
   }
 }
