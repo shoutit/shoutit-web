@@ -2,7 +2,7 @@ import Fluxxor from 'fluxxor';
 import consts from './consts';
 import url from 'url';
 import defaults from '../../consts/defaults';
-import {assign} from 'object-assign';
+import assign from 'lodash/object/assign';
 
 const SHOUT_SEARCH = "shouts";
 const TAG_SEARCH = "tags";
