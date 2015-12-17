@@ -1,4 +1,5 @@
 import React from 'react';
+import assign from 'lodash/object/assign';
 
 export default React.createClass({
 	displayName: "UserImage",
@@ -42,6 +43,10 @@ export default React.createClass({
 			"backgroundSize": "cover",
 			"backgroundRepeat": "no-repeat"
 		};
+
+		if(this.props.style) {
+			assign(style, this.props.style);
+		}
 
 		if(this.props.type === 'circle') {
 			style.borderRadius = this.props.height? (this.props.height / 2) + "px" : "16px";
