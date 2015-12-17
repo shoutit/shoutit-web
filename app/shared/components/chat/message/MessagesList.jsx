@@ -54,8 +54,9 @@ export default function MessageList({ conversation, me, showOnlyLastMessage=fals
     <div className="cnt-chat">
       { loadMore }
 
-      { groups.map( messages =>
+      { groups.map( (messages, i) =>
           <MessageGroup
+            key={ i }
             messages={ messages }
             isSentByMe={ messages[0].user.username === me }
           />
