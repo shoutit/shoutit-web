@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import ChatNotificationBox from './chatNotificationBox.jsx';
 import {Icon} from '../../helper';
 
@@ -22,12 +23,13 @@ export default React.createClass({
     render() {
         return (
             <div onMouseEnter={this.onMouseHover} onMouseLeave={this.onMouseExit} className="topbar-buttons-notif">
-                <Icon name="chat"/>
-                {this.state.buttonIsActive? 
+                <Link to="/chat"><Icon name="chat"/></Link>
+                {this.state.buttonIsActive?
                     <ChatNotificationBox />:
                     null
                 }
             </div>
+
         );
     }
 });
