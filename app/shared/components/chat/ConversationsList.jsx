@@ -1,5 +1,5 @@
 import React from 'react';
-import ConversationItem from './ConversationItem.jsx';
+import ConversationItem from '../chat/ConversationItem.jsx';
 
 export default function ConversationsList({ conversations, me, activeConversation, onConversationClick }) {
 

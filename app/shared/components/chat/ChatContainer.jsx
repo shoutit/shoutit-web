@@ -5,13 +5,13 @@ import { Column, Grid } from '../helper';
 
 import DocumentTitle from 'react-document-title';
 
-import Conversations from './conversations/Conversations.jsx';
-import Messages from './message/Messages.jsx';
-import MessagesIndex from './message/MessagesIndex.jsx';
+import Conversations from '../chat/Conversations.jsx';
+import Messages from '../chat/Messages.jsx';
+import MessagesIndex from '../chat/MessagesIndex.jsx';
 
 export default React.createClass({
 
-  displayName: 'Chat',
+  displayName: 'ChatContainer',
 
   mixins: [new FluxMixin(React), new StoreWatchMixin('messages')],
 

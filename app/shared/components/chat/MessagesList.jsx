@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import MessageGroup from './MessageGroup.jsx';
+import MessageGroup from '../chat/MessageGroup.jsx';
 
 /**
  * Return an array of messages grouped by its username

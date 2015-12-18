@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import {Image, Icon} from '../../helper';
+import {Image, Icon} from '../helper';
 
 /**
  * This component shows messages sent by the same user, e.g. the passed `messages `

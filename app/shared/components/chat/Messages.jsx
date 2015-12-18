@@ -1,8 +1,8 @@
 import React from 'react';
 
-import MessagesTitle from './MessagesTitle.jsx';
-import MessagesList from './MessagesList.jsx';
-import MessageReplyForm from './MessageReplyForm.jsx';
+import MessagesTitle from '../chat/MessagesTitle.jsx';
+import MessagesList from '../chat/MessagesList.jsx';
+import MessageReplyForm from '../chat/MessageReplyForm.jsx';
 
 /**
  * Component to show messages in a conversation, contains a reply form.

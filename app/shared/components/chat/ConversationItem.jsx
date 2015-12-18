@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
-import ManyUsersImage from '../../user/ManyUsersImage.jsx';
+import ManyUsersImage from '../user/ManyUsersImage.jsx';
 
 export default function ConversationItem({ conversation, me, selected, onClick }) {
   const { users, last_message: lastMessage, about } = conversation;
