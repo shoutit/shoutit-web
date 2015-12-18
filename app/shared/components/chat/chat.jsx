@@ -21,7 +21,7 @@ export default React.createClass({
 
   componentDidUpdate(prevProps) {
     if (prevProps.params.conversationId !== this.props.params.conversationId) {
-    // Load the active conversation as the route's param conversationId changes
+      // Load the active conversation as the route's param conversationId changes
       this.loadActiveConversation();
     }
     this.scrollToBottom();
@@ -59,7 +59,7 @@ export default React.createClass({
 
   render() {
     const { conversations, me, loading, draft } = this.state;
-
+    const { pushState } = this.props.history;
     const activeConversation = this.getActiveConversation();
 
     const {
@@ -73,12 +73,10 @@ export default React.createClass({
         <div className="chat">
           <Col xs={12} md={4} className="chat-left-padding">
             <Conversations
-              activeConversation={ activeConversation }
               conversations={ conversations }
+              activeConversation={ activeConversation }
               me={ me }
-              onConversationClick={ (conversationId, e) => {
-                this.props.history.pushState(null, `/chat/${conversationId}`)
-              }}
+              onConversationClick={ (conversationId) => pushState(null, `/chat/${conversationId}`) }
             />
           </Col>
           <Col xs={12} md={8} className="chat-left-padding">
