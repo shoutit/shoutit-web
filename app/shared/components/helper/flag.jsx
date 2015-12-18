@@ -16,9 +16,17 @@ export default React.createClass({
 
     render() {
         let countryFlag = "http://i.imgur.com/rfZuNla.png";
+        let compProps = {
+            style: {height: this.props.size + "px"},
+            src: countryFlag,
+        };
+
+        if(this.props.className) {
+            compProps.className = this.props.className;
+        }
 
         return (
-            <img src={countryFlag} style={{height: this.props.size + "px"}} />
+            <img {...compProps} />
         );
     }
 
