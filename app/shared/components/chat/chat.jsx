@@ -1,7 +1,8 @@
 import React from 'react';
 import { FluxMixin, StoreWatchMixin } from 'fluxxor';
 
-import { Col } from 'react-bootstrap';
+import { Column, Grid } from '../helper';
+
 import DocumentTitle from 'react-document-title';
 
 import Conversations from './conversations/Conversations.jsx';
@@ -70,16 +71,16 @@ export default React.createClass({
 
     return (
       <DocumentTitle title="Chats - Shoutit">
-        <div className="chat">
-          <Col xs={12} md={4} className="chat-left-padding">
+        <Grid fluid className="ChatContainer">
+          <Column fluid size={5} clear>
             <Conversations
               conversations={ conversations }
               activeConversation={ activeConversation }
               me={ me }
               onConversationClick={ (conversationId) => pushState(null, `/chat/${conversationId}`) }
             />
-          </Col>
-          <Col xs={12} md={8} className="chat-left-padding">
+          </Column>
+          <Column fluid size={10}>
             { activeConversation
               ? <Messages
                   conversation={ activeConversation }
@@ -95,8 +96,8 @@ export default React.createClass({
                   loading={ loading }
                 />
             }
-          </Col>
-        </div>
+          </Column>
+        </Grid>
       </DocumentTitle>
     );
   }

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Col} from 'react-bootstrap';
 
 import MessagesTitle from './MessagesTitle.jsx';
 import MessagesList from './MessagesList.jsx';
@@ -26,7 +25,7 @@ export default function Messages({
 }) {
 
   return (
-    <Col xs={12} md={12} className="chat-right">
+    <div>
       <MessagesTitle conversation={ conversation } me={ me } />
       { !loading ?
         <div>
@@ -43,7 +42,7 @@ export default function Messages({
         </div>
         : <p>Loading messages</p>
       }
-    </Col>
+    </div>
 
   )
 

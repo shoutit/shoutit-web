@@ -1,0 +1,16 @@
+.ConversationItem {
+
+  &.isSelected {
+    background-color: $si-light-green;
+  }
+}
+
+// TODO: move ellipsis into mixin?
+.ConversationItem-about,
+.ConversationItem-lastMessage,
+.ConversationItem-partecipants
+ {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

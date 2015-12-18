@@ -8,7 +8,7 @@ export default function ConversationsList({ conversations, me, activeConversatio
   }
 
   return (
-    <ul>
+    <ul className="ConversationsList">
       { conversations.map((conversation, i) =>
         <li
           key={ i }
