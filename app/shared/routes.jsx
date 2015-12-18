@@ -58,7 +58,7 @@ export default function (envData) {
 							<Route path="requests" component={ProfileRequests}/>
 							<IndexRoute component={ProfileSettings}/>
 						</Route>
-
+						<Route path="/chat(/:conversationId)" component={ Chat } />
 						<Route path="/discover(/:country)(/:state)(/:city)(/:page)" component={Discover}/>
 						<Route path="/tag/:tagName" component={TagProfile}>
 							<Route path="tagrequests" component={TagProfileRequest}/>
@@ -70,7 +70,6 @@ export default function (envData) {
 						</Route>
 						<IndexRoute component={All}/>
 					</Route>
-					<Route path="/chat(/:conversationId)" component={ Chat } />
 				</Route>
 				<Route path="static" component={Reduced}>
 					<Route path="/tos" component={Static}/>
