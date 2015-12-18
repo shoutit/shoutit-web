@@ -2,9 +2,7 @@ import React from 'react';
 import { FluxMixin, StoreWatchMixin } from 'fluxxor';
 
 import { Column, Grid } from '../helper';
-
-import DocumentTitle from 'react-document-title';
-
+import Page from '../helper/Page.jsx';
 import Conversations from '../chat/Conversations.jsx';
 import Messages from '../chat/Messages.jsx';
 import MessagesIndex from '../chat/MessagesIndex.jsx';
@@ -60,7 +58,7 @@ export default React.createClass({
 
   render() {
     const { conversations, me, loading, draft } = this.state;
-    const { pushState } = this.props.history;
+    const { history, flux } = this.props;
     const activeConversation = this.getActiveConversation();
 
     const {
@@ -70,17 +68,19 @@ export default React.createClass({
     } = this.getFlux().actions;
 
     return (
-      <DocumentTitle title="Chats - Shoutit">
+      <Page title="Chats – Shoutit" flux={ flux } rightContent={ <p>Right board</p> }>
         <Grid fluid className="ChatContainer">
           <Column fluid size={5} clear>
             <Conversations
               conversations={ conversations }
               activeConversation={ activeConversation }
               me={ me }
-              onConversationClick={ (conversationId) => pushState(null, `/chat/${conversationId}`) }
+              onConversationClick={ (conversationId) => history.pushState(null, `/chat/${conversationId}`) }
             />
           </Column>
+
           <Column fluid size={10}>
+
             { activeConversation
               ? <Messages
                   conversation={ activeConversation }
@@ -96,9 +96,11 @@ export default React.createClass({
                   loading={ loading }
                 />
             }
+
           </Column>
+
         </Grid>
-      </DocumentTitle>
+      </Page>
     );
   }
 
