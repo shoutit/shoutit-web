@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import moment from 'moment';
-import ConversationImage from './conversationImage.jsx';
+import ManyUsersImage from '../../user/ManyUsersImage.jsx';
 
 function ConversationAbout({ conversation }) {
   if (conversation.type !== 'about_shout') {
@@ -28,7 +28,7 @@ export default function ConversationItem({ conversation, me, selected, onClick }
 
   return (
     <div onClick={ onClick.bind(this, conversation.id) }>
-      <ConversationImage me={ me } conversation={ conversation } />
+      <ManyUsersImage users={ users.filter(user => user.username !== me) } />
       <ConversationAbout conversation={ conversation } />
       <p>{ partecipants }</p>
       <p>
