@@ -2,10 +2,10 @@
 @import "grid";
 
 // Magic spriting with compass
-@import "compass/utilities/sprites";
-$res1x-sprite-dimensions: true;
-@import "res1x/*.png";
-@include all-res1x-sprites;
+// @import "compass/utilities/sprites";
+// $res1x-sprite-dimensions: true;
+// @import "res1x/*.png";
+// @include all-res1x-sprites;
 
 $si-white: #fff;
 $si-green: #a7d281;
@@ -22,7 +22,7 @@ $si-card: #f8f9f8;
 $si-error-color: #E73F3F;
 $grid-unit: 70px;
 
-$default-font-size: 1.6rem; 
+$default-font-size: 1.6rem;
 $default-font-size-small: 1.3rem;
 $default-font-size-large: 1.8rem;
 
@@ -30,7 +30,7 @@ $default-spacing: 10px;
 
 // External libs
 @import "dropzone";
-@import "fonts";
+// @import "fonts";
 @import "image-gallery";
 @import "video-player";
 @import "tagsinput";
@@ -45,13 +45,12 @@ $default-spacing: 10px;
 @import "components/shout_detail.scss";
 @import "components/tags.scss";
 @import "components/shout_form.scss";
-@import "components/location_search.scss"; 
+@import "components/location_search.scss";
 @import "components/profile_menu.scss";
 @import "components/profile_info_tooltip.scss";
-@import "components/topbar_buttons.scss"; 
+@import "components/topbar_buttons.scss";
 
 @import "pages/mainpage.scss";
 @import "pages/homepage.scss";
 @import "pages/search.scss";
-
 

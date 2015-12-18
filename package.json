@@ -8,7 +8,7 @@
     "url": "https://bitbucket.org/shoutitcom/shoutit_webapp.git"
   },
   "scripts": {
-    "dev": "gulp"
+    "dev": "node dev"
   },
   "author": "",
   "license": "ISC",
@@ -68,9 +68,12 @@
     "babel-core": "^5.1.13",
     "babel-eslint": "^4.1.6",
     "babel-loader": "^5.0.0",
+    "babel-plugin-react-transform": "^1.1.1",
     "babel-runtime": "^5.1.13",
+    "css-loader": "^0.23.0",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.11.3",
+    "file-loader": "^0.8.5",
     "flightplan": "^0.6.2",
     "gulp": "^3.8.10",
     "gulp-livereload": "^3.7.0",
@@ -82,8 +85,16 @@
     "imagemin": "^4.0.0",
     "imports-loader": "^0.6.4",
     "jsx-loader": "^0.13.1",
+    "node-sass": "^3.4.2",
+    "react-transform-catch-errors": "^1.0.0",
+    "react-transform-hmr": "^1.0.1",
+    "redbox-react": "^1.2.0",
+    "sass-loader": "^3.1.2",
+    "style-loader": "^0.13.0",
     "webpack": "^1.7.3",
-    "webpack-dev-middleware": "^1.0.11"
+    "webpack-dev-middleware": "^1.4.0",
+    "webpack-error-notification": "^0.1.5",
+    "webpack-hot-middleware": "^2.6.0"
   },
   "globalDependencies": {
     "flightplan": "*",
