@@ -68,18 +68,19 @@ export default React.createClass({
     } = this.getFlux().actions;
 
     return (
-      <Page title="Chats – Shoutit" flux={ flux } rightContent={ <p>Right board</p> }>
-        <Grid fluid className="ChatContainer">
-          <Column fluid size={5} clear>
+      <Page fixedHeight title="Chats – Shoutit" flux={ flux } rightContent={ <p>Right board</p> }>
+        <div className="ChatContainer">
+
+          <div className="ChatContainer-conversations">
             <Conversations
               conversations={ conversations }
               activeConversation={ activeConversation }
               me={ me }
               onConversationClick={ ({id}) => history.pushState(null, `/chat/${id}`) }
             />
-          </Column>
+          </div>
 
-          <Column fluid size={10}>
+          <div className="ChatContainer-messages">
 
             { activeConversation
               ? <Messages
@@ -97,9 +98,9 @@ export default React.createClass({
                 />
             }
 
-          </Column>
+          </div>
 
-        </Grid>
+        </div>
       </Page>
     );
   }
