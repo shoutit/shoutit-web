@@ -1,5 +1,6 @@
 import React from 'react';
 import { StoreWatchMixin} from 'fluxxor';
+import {Icon} from '../helper';
 import statuses from '../../consts/statuses';
 
 const {LISTEN_BTN_LOADING} = statuses;
@@ -7,6 +8,12 @@ const {LISTEN_BTN_LOADING} = statuses;
 export default React.createClass({
     mixins: [ new StoreWatchMixin('users')],
     displayName: "listenButton",
+
+    propTypes: {
+        flux: React.PropTypes.object.isRequired,
+        username: React.PropTypes.string.isRequired,
+        onChange: React.PropTypes.func
+    },
 
     getStateFromFlux() {
         // cloning objects as a work around to avoid mutation of store objects
@@ -23,8 +30,9 @@ export default React.createClass({
             // call to inform parent for the change
             if(nextState.user.username === this.state.user.username && this.props.onChange) {
                 this.props.onChange({
+                    isListening: nextState.user.is_listening,
                     username: nextState.user.username,
-                    isListening: nextState.user.is_listening
+                    name: nextState.user.name
                 });
             }
             
@@ -38,26 +46,38 @@ export default React.createClass({
 
     render() {
         let user = this.state.user,
-            btn;
+            clickable = true,
+            title = "Listen",
+            iconName = "listen",
+            className = "si-shelf-button";
 
-        // no need to load Listening button if user is not logged in or is owner
-        if (this.state.loggedUser && user.username !== this.state.loggedUser) {
+        // disable Listening button if user is not logged in
+        if (this.state.loggedUser) {
             let isListening = user.is_listening;
 
-            let title = isListening? "Listening": "Listen";
-            let style = isListening? "shoutit-btn listen": "shoutit-btn not-listen";
-
-            if(user.fluxStatus === LISTEN_BTN_LOADING) {
-                title = "Loading";
-                style = "shoutit-btn loading";
+            if(isListening) {
+                title = "Listening";
+                iconName = "listening_to";
             }
 
-            // The main button of this compnent
-            btn = <span className={style} onClick={this.toggleListen}>{title}</span>;
+            if(user.fluxStatus === LISTEN_BTN_LOADING) {
+                title = "[Loading]";
+                className = className + " loading";
+            }
+        } else {
+            clickable = false;
+            className = className + " disabled";
         }
 
         return (
-            <span>{btn}</span>
+            <div className={className} onClick={clickable? this.toggleListen: null}>
+                <div className="img-holder">
+                    <Icon name={iconName} />
+                </div>
+                <div className="text-holder">
+                    {title}
+                </div>
+            </div>
         );
     },
 
