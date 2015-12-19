@@ -10,15 +10,15 @@ import MessageGroup from '../chat/MessageGroup.jsx';
  * @return {Array}
  */
 function groupMessages(messages) {
-  return messages.reduce((blocks, message, i, messages) => {
+  return messages.reduce((groups, message, i, messages) => {
     const isNewBlock = i === 0 || messages[i-1].user.username !== message.user.username;
     if (isNewBlock) {
-      blocks.push([message])
+      groups.push([message])
     }
     else {
-      blocks[blocks.length-1].push(message);
+      groups[groups.length-1].push(message);
     }
-    return blocks;
+    return groups;
   }, [])
 
 }
@@ -51,7 +51,7 @@ export default function MessageList({ conversation, me, showOnlyLastMessage=fals
   const groups = groupMessages(messages);
 
   return (
-    <div className="cnt-chat">
+    <div>
       { loadMore }
 
       { groups.map( (messages, i) =>
