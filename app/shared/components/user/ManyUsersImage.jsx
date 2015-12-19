@@ -11,7 +11,7 @@ import UserImage from './userImage.jsx';
 export default function ManyUsersImage({ users, max=4 }) {
   return (
     <div>
-      { users.slice(0, max).map(user => <UserImage image={ user.image } />) }
+      { users.slice(0, max).map((user, i) => <UserImage key={i} image={ user.image } />) }
     </div>
   )
 }
