@@ -1,16 +1,22 @@
-.ConversationItem {
+@import "_flexbox.scss";
 
+.ConversationItem {
+  @include flexbox();
   &.isSelected {
     background-color: $si-light-green;
   }
 }
 
-// TODO: move ellipsis into mixin?
-.ConversationItem-about,
-.ConversationItem-lastMessage,
-.ConversationItem-partecipants
- {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.ConversationItem-body {
+  @include flexbox();
+  @include flex-direction(column);
+  @include flex(1);
+  min-width: 0;
+  flex-basis: 50%;
+  > div {
+    // TODO: move ellipsis into mixin
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
