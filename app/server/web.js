@@ -386,20 +386,6 @@ module.exports = function (app) {
 		}
 	});
 
-	app.use('/user/:username', function userInitRedirect(req, res, next) {
-		if (req.url === '/') {
-			var user = req.session ? req.session.user : null;
-
-			if (user && user.username === req.params.username) {
-				next();
-			} else {
-				res.redirect('/user/' + req.params.username + '/offers');
-			}
-		} else {
-			next();
-		}
-	});
-
 	app.use('/search/:term/shouts', function shoutSearchRedirect(req, res) {
 		res.redirect('/search/' + req.params.term);
 	});
