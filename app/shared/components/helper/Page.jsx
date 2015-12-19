@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import DocumentTitle from 'react-document-title';
 
 import Header from '../header/header.jsx';
 
+/**
+ * Wrap a child in a layout with optional header. Set `fixedHeight` to `true`
+ * to have the child wrapped into a node having the same hight as the viewport.
+ */
 export default class Page extends React.Component {
+
+  static propTypes = {
+    fixedHeight: PropTypes.bool,
+    flux: PropTypes.object.isRequired,
+    title: PropTypes.string,
+    header: PropTypes.bool
+  }
+
+  static defaultProps = {
+    title: 'Shoutit',
+    header: true,
+    fixedHeight: false
+  }
 
   constructor(props) {
     super(props);
@@ -58,13 +75,7 @@ export default class Page extends React.Component {
 
   render() {
     const { headerHeight, windowHeight } = this.state;
-    const {
-      flux,
-      children,
-      fixedHeight = false,
-      title = 'Shoutit',
-      header = true
-    } = this.props;
+    const { flux, children, fixedHeight, title, header } = this.props;
 
     let className = 'Page', wrapperStyle = {};
 
