@@ -16,10 +16,9 @@ export default React.createClass({
 
 		let shoutResultList = shoutSearchResults && shoutSearchResults.length ?
 			shoutSearchResults.map(function (shout, i) {
+				let shoutTitle = encodeURIComponent(shout.title.replace(/\s+/g, '-'));
 				return (
-					<Link to="shout"
-						  params={{shoutId: shout.id, location: shout.location.city, 
-						  		title: encodeURIComponent(shout.title.replace(/\s+/g, '-'))}}
+					<Link to={`shout/${shout.id}/${shout.location.city}/${shoutTitle}`}
 						  onClick={onBlurSearch}>
 						 <div  className="list-search-item" key={"search-header-shout-" + i}>
 							 <div className="img-search-holder">
@@ -39,7 +38,7 @@ export default React.createClass({
 		let tagResultList = tagSearchResults && tagSearchResults.length ?
 			tagSearchResults.map(function (tag, i) {
 				return (
-					<Link to="tag" params={{tagName: encodeURIComponent(tag.name)}} 
+					<Link to={`tag/${encodeURIComponent(tag.name)}`} 
 								onClick={onBlurSearch}>
 						<div  className="list-search-item" key={"search-header-tag-" + i}>
 							<div className="img-search-holder">
@@ -59,7 +58,7 @@ export default React.createClass({
 		let userResultList = userSearchResults && userSearchResults.length ?
 			userSearchResults.map(function (user, i) {
 				return (
-					<Link to="user" params={{username: encodeURIComponent(user.username)}}
+					<Link to={`user/${encodeURIComponent(user.username)}`}
 							onClick={onBlurSearch}>
 						<div className="list-search-item" key={"search-header-user-" + i}>
 							<div className="img-search-holder">
