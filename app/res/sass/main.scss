@@ -37,6 +37,7 @@ $default-spacing: 10px;
 @import "tagsinput";
 
 // Components and Pages
+@import "Page.scss";
 @import "pages/_mixins.scss";
 @import "pages/general.scss";
 

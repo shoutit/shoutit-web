@@ -1,50 +1,94 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import DocumentTitle from 'react-document-title';
 
-import {Grid, Column} from '../helper';
 import Header from '../header/header.jsx';
 
-const MAIN_COLUMN_SIZE = 9;
-const LEFT_COLUMN_SIZE = 3;
-const RIGHT_COLUMN_SIZE = 3;
+export default class Page extends React.Component {
 
-export default function Page({
-  flux,
-  children,
-  leftContent,
-  rightContent,
-  title='Shoutit',
-  header=true
- }) {
-
-  let mainColumnSize = MAIN_COLUMN_SIZE;
-  if (!leftContent) {
-    mainColumnSize += LEFT_COLUMN_SIZE;
-  }
-  if (!rightContent) {
-    mainColumnSize += RIGHT_COLUMN_SIZE;
+  constructor(props) {
+    super(props);
+    this.setContentHeight = this.setContentHeight.bind(this);
   }
 
-  return (
-    <DocumentTitle title={ title }>
-      <div>
-        { header && <Header flux={ flux } /> }
-        <Grid>
-          { leftContent &&
-            <Column fluid size={ LEFT_COLUMN_SIZE }>
-              { leftContent }
-            </Column>
-          }
-          <Column clear={ !leftContent } size={ mainColumnSize }>
-            { children }
-          </Column>
-          { rightContent &&
-            <Column size={ RIGHT_COLUMN_SIZE }>
-              { rightContent }
-            </Column>
-          }
-        </Grid>
-      </div>
-    </DocumentTitle>
-  )
+  state = {
+    windowHeight: 0,
+    headerHeight: 0
+  }
+
+  componentDidMount() {
+    const { fixedHeight } = this.props;
+
+    if (fixedHeight) {
+      this.setContentHeight();
+      this.addResizeEventListener();
+    }
+
+  }
+
+  componentDidUpdate(prevProps) {
+    const { fixedHeight } = this.props;
+
+    if (fixedHeight !== prevProps.fixedHeight) {
+      fixedHeight ? this.addResizeEventListener() : this.removeResizeEventListener();
+    }
+  }
+
+  componentWillUnmount() {
+    this.removeResizeEventListener();
+  }
+
+  addResizeEventListener() {
+    window.addEventListener('resize', this.setContentHeight);
+  }
+
+  removeResizeEventListener() {
+    window.removeEventListener('resize', this.setContentHeight);
+  }
+
+  setContentHeight() {
+    const windowHeight = window.innerHeight
+    let headerHeight = 0;
+    const headerNode = ReactDOM.findDOMNode(this.header);
+    if (headerNode) {
+      headerHeight = headerNode.offsetHeight;
+    }
+    this.setState({ windowHeight, headerHeight })
+  }
+
+  render() {
+    const { headerHeight, windowHeight } = this.state;
+    const {
+      flux,
+      children,
+      fixedHeight = false,
+      title = 'Shoutit',
+      header = true
+    } = this.props;
+
+    let className = 'Page', wrapperStyle = {};
+
+    if (fixedHeight) {
+      className += ' hasFixedHeight'
+      wrapperStyle = {
+        ...wrapperStyle,
+        height: `${windowHeight-headerHeight}px`,
+        top: `${headerHeight}px`
+      }
+    }
+
+    return (
+      <DocumentTitle title={ title }>
+        <div className={ className }>
+          { header && <Header ref={ c => this.header = c } flux={ flux } /> }
+          <div className="Page-wrapper" style={ wrapperStyle }>
+            <div className="Page-content">
+              { children }
+            </div>
+          </div>
+        </div>
+      </DocumentTitle>
+    )
+  }
+
 }
