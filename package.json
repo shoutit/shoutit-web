@@ -8,7 +8,7 @@
     "url": "https://bitbucket.org/shoutitcom/shoutit_webapp.git"
   },
   "scripts": {
-    "dev": "node dev"
+    "dev": "API_URL=http://dev.api.shoutit.com/v2/ REDIS_HOST=localhost S3_ACCESS_KEY=AKIAJGYPOEDIYJ4QE4RA S3_SECRET_KEY=967h4C2Y3LBmuJqBMVOeiRFfxUxfuu6FDo4aWz node dev"
   },
   "author": "",
   "license": "ISC",

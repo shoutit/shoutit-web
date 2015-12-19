@@ -12,11 +12,11 @@ export default function ConversationsList({ conversations, me, activeConversatio
       { conversations.map((conversation, i) =>
         <li
           key={ i }
+          onClick= { (e) => onConversationClick(conversation, e) }
           tabIndex={ 0 }>
           <ConversationItem
             conversation={ conversation }
             me={ me }
-            onClick= { onConversationClick }
             selected={ activeConversation && activeConversation.id === conversation.id }
           />
         </li>
