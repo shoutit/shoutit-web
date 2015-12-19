@@ -24,24 +24,27 @@ export default function Messages({
   onReplySubmit
 }) {
 
+  if (loading) {
+    return <div className="Messages">Loading....</div>
+  }
+
   return (
-    <div>
+    <div className="Messages">
       <MessagesTitle conversation={ conversation } me={ me } />
-      { !loading ?
-        <div>
-          <MessagesList
-            me={ me }
-            conversation={ conversation }
-            onLoadMoreMessagesClick={ onLoadMoreMessagesClick }
-          />
-          <MessageReplyForm
-            draft={ draft }
-            onTextChange={ onReplyTextChange }
-            onSubmit={ onReplySubmit }
-          />
-        </div>
-        : <p>Loading messages</p>
-      }
+      <div className="Messages-listContainer">
+        <MessagesList
+          me={ me }
+          conversation={ conversation }
+          onLoadMoreMessagesClick={ onLoadMoreMessagesClick }
+        />
+      </div>
+      <div className="Messages-replyFormContainer">
+        <MessageReplyForm
+          draft={ draft }
+          onTextChange={ onReplyTextChange }
+          onSubmit={ onReplySubmit }
+        />
+      </div>
     </div>
 
   )

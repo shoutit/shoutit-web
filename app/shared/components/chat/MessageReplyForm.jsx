@@ -1,4 +1,5 @@
 import React from 'react';
+import {Input, Button} from 'react-bootstrap';
 
 /**
  * A simple form to send a message. Accept draft objects.
@@ -18,16 +19,19 @@ export default function MessageReplyForm({ draft, disabled=false, onSubmit, onTe
     onSubmit(e);
   }
   return(
-    <form className="input-chat" onSubmit={ handleFormSubmit }>
-      <input
-        disabled={ disabled }
-        name="input"
-        type="text"
-        onChange={ e => onTextChange(e.target.value) }
-        value={ draft && draft.text }
-      />
-      <div className="input-text-bottom">
-        <button disabled={ disabled } className="reply">Send</button>
+    <form className="MessageReplyForm" onSubmit={ handleFormSubmit }>
+      <div className="MessageReplyForm-inputContainer">
+        <Input
+          placeholder="Send a message"
+          disabled={ disabled }
+          name="input"
+          type="text"
+          onChange={ e => onTextChange(e.target.value) }
+          value={ draft && draft.text }
+        />
+      </div>
+      <div>
+        <Button type="submit" disabled={ disabled } className="reply">Send</Button>
       </div>
     </form>
   )
