@@ -1,8 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
-import moment from 'moment';
 
 import ManyUsersImage from '../user/ManyUsersImage.jsx';
+import { formatCreatedAt } from '../../../utils/DateUtils';
 
 export default function ConversationItem({ conversation, me, selected }) {
   const { users, last_message: lastMessage, about } = conversation;
@@ -43,7 +43,7 @@ export default function ConversationItem({ conversation, me, selected }) {
         </div>
 
         <div className="ConversationItem-createdAt">
-          { moment.unix(lastMessage.created_at).calendar() }
+          { formatCreatedAt(lastMessage.created_at) }
         </div>
     </div>
   );
