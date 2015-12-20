@@ -1,7 +1,6 @@
 import React from 'react';
 import { FluxMixin, StoreWatchMixin } from 'fluxxor';
 
-import { Column, Grid } from '../helper';
 import Page from '../helper/Page.jsx';
 import Conversations from '../chat/Conversations.jsx';
 import Messages from '../chat/Messages.jsx';
@@ -15,7 +14,6 @@ export default React.createClass({
 
   componentDidMount() {
     this.getFlux().actions.loadConversations(this.loadActiveConversation);
-    this.scrollToBottom();
   },
 
   componentDidUpdate(prevProps) {
@@ -23,7 +21,6 @@ export default React.createClass({
       // Load the active conversation as the route's param conversationId changes
       this.loadActiveConversation();
     }
-    this.scrollToBottom();
   },
 
   getStateFromFlux() {
@@ -44,16 +41,6 @@ export default React.createClass({
       return;
     }
     this.getFlux().actions.loadConversation(this.props.params.conversationId);
-  },
-
-  scrollToBottom() {
-    // TODO: scroll to the last message in the message list
-    //
-    // et node = React.findDOMNode(this.refs.chatContent);
-
-    // if (node.scrollTop + node.offsetHeight + 1 < node.scrollHeight) {
-    //   node.scrollTop = node.scrollHeight;
-    // }
   },
 
   render() {
@@ -87,7 +74,8 @@ export default React.createClass({
                   conversation={ activeConversation }
                   draft={ draft }
                   me={ me }
-                  loading= { !activeConversation.messages }
+                  lastMessageId={activeConversation.last_message.id}
+                  loading={ !activeConversation.messages }
                   onLoadMoreMessagesClick={ (before) => loadMoreConversation(activeConversation.id, before) }
                   onReplyTextChange={ (text) => messageDraftChange('text', text) }
                   onReplySubmit={ () => replyConversation(activeConversation.id, draft) }
