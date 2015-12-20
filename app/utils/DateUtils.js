@@ -1,5 +1,8 @@
 import moment from 'moment';
 
+/**
+ * Properly format a `created_date` date.
+ */
 export function formatCreatedAt(m, now=moment()) {
 
   if (typeof m !== 'object') {
