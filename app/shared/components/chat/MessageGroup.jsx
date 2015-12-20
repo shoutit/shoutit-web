@@ -5,6 +5,8 @@ import moment from 'moment';
 
 import {Image, Icon} from '../helper';
 
+import MessageItem from '../chat/MessageItem.jsx';
+
 /**
  * This component shows messages sent by the same user, e.g. the passed `messages `
  * are assumed to have always the same `user`.
@@ -28,7 +30,7 @@ export default function MessageGroup({ messages, isSentByMe }) {
       </div>
       <div className={msgClasses}>
 
-        { messages.map((message, i) => <p key={ i }>{message.text}</p>) }
+        { messages.map((message, i) => <MessageItem key={i} message={message} />) }
 
         { isSentByMe
           ? <Icon className="muichat-to" name="chat-mui1"/>
