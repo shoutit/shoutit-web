@@ -5,3 +5,4 @@ app/public/img
 app/public/main.js
 app/res/vendor
 node_modules
+coverage
