@@ -359,6 +359,14 @@ module.exports = function (app) {
 		}
 	});
 
+	// Adding user agent to a global navigator (will be used by material-ui components)
+	app.use(function(req, res, next) {
+	    GLOBAL.navigator = {
+	        userAgent: req.headers['user-agent']
+	    }
+	    next();
+	});
+
 	// Redirects
 	app.use('/s/:shoutId', function (req, res) {
 		res.redirect('/shout/' + req.params.shoutId);
