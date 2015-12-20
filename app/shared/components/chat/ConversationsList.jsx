@@ -12,8 +12,7 @@ export default function ConversationsList({ conversations, me, activeConversatio
       { conversations.map((conversation, i) =>
         <li
           key={ i }
-          onClick= { (e) => onConversationClick(conversation, e) }
-          tabIndex={ 0 }>
+          onClick= { (e) => onConversationClick(conversation, e) }>
           <ConversationItem
             conversation={ conversation }
             me={ me }
