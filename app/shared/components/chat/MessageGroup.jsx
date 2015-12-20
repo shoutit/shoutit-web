@@ -36,11 +36,6 @@ export default function MessageGroup({ messages, isSentByMe }) {
           ? <Icon className="muichat-to" name="chat-mui1"/>
           : <Icon className="muichat" name="mui-chat"/>
         }
-
-        <span className="timestamp" title={ createdAt }>
-          { moment.unix(createdAt).fromNow() }
-        </span>
-
       </div>
     </div>
 

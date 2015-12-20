@@ -22,7 +22,7 @@ export default function ConversationItem({ conversation, me, selected }) {
         <div className="ConversationItem-body">
 
           { conversation.type === 'about_shout' &&
-            <div>
+            <div className="ConversationItem-aboutShout">
               <Link to={ `/shout/${about.id}/${about.location.city}/${about.title}` }
                 onClick={ e => e.stopPropagation() }>
                 {about.title}
