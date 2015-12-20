@@ -5,10 +5,11 @@ import {Input, Button} from 'react-bootstrap';
  * A simple form to send a message. Accept draft objects.
  * @param {Object}    props.draft
  * @param {Boolean}   props.disabled
+ * @param {Boolean}   props.autoFocus
  * @param {Function}  props.onSubmit
  * @param {Function}  props.onTextChange
  */
-export default function MessageReplyForm({ draft, disabled=false, onSubmit, onTextChange }) {
+export default function MessageReplyForm({ draft, autoFocus, disabled=false, onSubmit, onTextChange }) {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -22,6 +23,7 @@ export default function MessageReplyForm({ draft, disabled=false, onSubmit, onTe
     <form className="MessageReplyForm" onSubmit={ handleFormSubmit }>
       <div className="MessageReplyForm-inputContainer">
         <Input
+          autoFocus
           placeholder="Send a message"
           disabled={ disabled }
           name="input"

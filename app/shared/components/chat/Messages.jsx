@@ -76,6 +76,7 @@ export default class Messages extends Component {
         </div>
         <div className="Messages-replyFormContainer">
           <MessageReplyForm
+            autoFocus
             draft={ draft }
             onTextChange={ onReplyTextChange }
             onSubmit={ onReplySubmit }
