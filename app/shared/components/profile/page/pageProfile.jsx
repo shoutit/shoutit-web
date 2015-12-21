@@ -1,7 +1,7 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
 import {Grid, Column, Loader} from '../../helper';
-
+import ProfileOffers from '../profileOffers.jsx';
 import DocumentTitle from 'react-document-title';
 import ProfileCover from '../profileCover.jsx';
 import ProfileLeftBar from './pageLeftBar.jsx';
@@ -65,7 +65,7 @@ export default React.createClass({
                                 <ProfileLeftBar user={user} onUserListenChange={this.onUserListenChange}/>
                             </Column>
                             <Column size="9">
-                                
+                                <ProfileOffers {...this.state} username={username} />
                             </Column>
                         </Grid>
                     </div>
