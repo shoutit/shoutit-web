@@ -51,16 +51,20 @@ export default function MessageList({ conversation, me, showOnlyLastMessage=fals
   const groups = groupMessages(messages);
 
   return (
-    <div>
+    <div className="MessagesList">
       { loadMore }
 
-      { groups.map( (messages, i) =>
-          <MessageGroup
-            key={ i }
-            messages={ messages }
-            isSentByMe={ messages[0].user.username === me }
-          />
-        )
+      { groups.map( (messages, i) => {
+        const isMe = messages[0].user.username === me;
+        return (
+          <div key={ i } className={ `MessagesList-group${isMe ? ' isMe' : ''}` }>
+            <MessageGroup
+              messages={ messages }
+              showUserImage={ !isMe }
+              justify={ isMe ? 'end' : 'start' }
+            />
+          </div>
+        )})
       }
     </div>
   );
