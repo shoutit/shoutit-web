@@ -189,7 +189,8 @@ var UserStore = Fluxxor.createStore({
 			return false;
 		}
 		let loc = user.location;
-		let isLocationsFilled = loc.country && loc.city && loc.state && loc.latitude && loc.longitude;
+
+		let isLocationsFilled = loc? loc.country && loc.city && loc.state && loc.latitude && loc.longitude: false;
 
 		if(isLocationsFilled) {
 			return loc;
