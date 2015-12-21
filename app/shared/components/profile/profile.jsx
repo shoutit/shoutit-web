@@ -6,6 +6,7 @@ import DocumentTitle from 'react-document-title';
 import ProfileCover from './profileCover.jsx';
 import ProfileLeftBar from './profileLeftBar.jsx';
 import assign from 'lodash/object/assign';
+import EmbeddedShout from '../shouting/embeddedShout.jsx';
 
 export default React.createClass({
     displayName: "Profile",
@@ -64,8 +65,12 @@ export default React.createClass({
                             <Column size="3" clear={true}>
                                 <ProfileLeftBar user={user} onUserListenChange={this.onUserListenChange}/>
                             </Column>
-                            <Column size="9">
+                            <Column size="9" style={{paddingTop: "15px"}}>
+                                {user.is_owner? (
+                                    <EmbeddedShout collapsed={true}/>
+                                    ): null}
                                 <ProfileOffers {...this.state} username={username} />
+                                
                             </Column>
                         </Grid>
                     </div>
