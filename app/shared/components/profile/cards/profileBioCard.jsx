@@ -1,6 +1,7 @@
 import React from 'react';
 import {Grid, Column, Icon, Flag} from '../../helper';
 import Separator from '../../general/separator.jsx';
+import moment from 'moment';
 
 export default React.createClass({
     displayName: "ProfileBioCard",
@@ -31,7 +32,7 @@ export default React.createClass({
                     <Icon name="date" className="pull-right"/>
                 </Column>
                 <Column className="profile-bio-item" fluid={true} size="13">
-                    <span>{date_joined}</span>
+                    <span>Joined: {moment.unix(date_joined).calendar()}</span>
                 </Column>
                 <Column fluid={true} clear={true} size="2" >
                     <Flag country={country} size="16" className="pull-right"/>
