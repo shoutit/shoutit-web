@@ -1,0 +1,14 @@
+.profile-holder {
+  .profile-cover {
+    @include paper();
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 300px;
+  }
+  .profile-bio-item {
+    font-size: 1.2rem;
+    color: $si-light-gray;
+    height: 25px;
+    padding: 0 15px;
+  }
+}

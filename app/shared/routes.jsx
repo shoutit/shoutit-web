@@ -16,6 +16,7 @@ import NotFound from './components/misc/notfound.jsx';
 import Shout from './components/shout/shoutDetail.jsx';
 import ProfileHome from './components/profile/profileHome.jsx';
 import Profile from './components/profile/profile.jsx';
+import Page from './components/profile/page/pageProfile.jsx';
 import Search from './components/search/search.jsx';
 import TagProfile from './components/tag/tagProfile.jsx';
 import TagProfileShouts from './components/tag/tagProfileShouts.jsx';
@@ -61,6 +62,7 @@ export default function (envData) {
 						<IndexRoute component={All}/>
 					</Route>
 					<Route path="/user/:username" component={ProfileHome} >
+						<Route path="/page/:username" component={Page} />
 						<IndexRoute component={Profile}/>
 					</Route>
 				</Route>

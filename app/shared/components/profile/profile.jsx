@@ -1,169 +1,104 @@
 import React from 'react';
-import {State} from 'react-router';
-import {RouteHandler} from 'react-router';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
-import {Loader, Clear, Icon} from '../helper';
-import {Col} from 'react-bootstrap';
-import {NavItemLink} from 'react-router-bootstrap';
+import {StoreWatchMixin} from 'fluxxor';
+import {Grid, Column, Loader} from '../helper';
+import ProfileOffers from './profileOffers.jsx';
 import DocumentTitle from 'react-document-title';
-import ProfileImage from './profileImage.jsx';
-import ProfileDetails from './profileDetails.jsx';
-import ListenButton from '../general/listenButton.jsx';
-import NotificationSystem from 'react-notification-system';
+import ProfileCover from './profileCover.jsx';
+import ProfileLeftBar from './profileLeftBar.jsx';
+import assign from 'lodash/object/assign';
 
 export default React.createClass({
-	mixins: [new FluxMixin(React), new StoreWatchMixin("users"), State],
-	_notificationSystem: null,
-	displayName: "Profile",
+    displayName: "Profile",
+    mixins: [new StoreWatchMixin("users")],
 
-	statics: {
-		fetchData(client, session, params) {
-			return client.users().get(session, params.username);
-		}
-	},
-
-	getStateFromFlux() {
-		return this.getFlux().store("users").getState();
-	},
-
-	displayNotif(msg, type = 'success') {
-        this._notificationSystem.addNotification({
-            message: msg,
-            level: type,
-            position: 'tr', // top right
-            autoDismiss: 4
-        });
+    // Need to move it later to profileOffers after moving this path to home route path
+    statics: {
+        fetchId:'useroffers',
+        fetchData(client, session, params) {
+            return client.users().getShouts(session, params.username, 'offer');
+        }
     },
 
-	renderSettingsLink(user, linkParams) {
-		return user.is_owner ? (
-			<NavItemLink to="settings" params={linkParams}>
-				<Icon name="set"/>
-				Profile Settings
-				<span></span>
-			</NavItemLink>
-		) : null;
-	},
+    contextTypes: {
+        params: React.PropTypes.object,
+        flux: React.PropTypes.object
+    },
 
-	render() {
-		let username = this.getParams().username,
-			user = this.state.users[username];
+    getStateFromFlux() {
+        return this.context.flux.store("users").getState();
+    },
 
-		if (user && user.location) {
-			let linkParams = {username: encodeURIComponent(user.username)},
-				listens = this.state.listens[username],
-				listeningCountTags, listenerCount, listeningCountUsers;
+    componentDidMount() {
+        this.loadUser();
+        
+    },
 
-			if (listens) {
-				listenerCount = user.listeners_count;
-				listeningCountUsers = user.listening_count.users;
-				listeningCountTags = user.listening_count.tags;
-			}
+    componentDidUpdate() {
+        this.loadUser();
+    },
 
-			return (
-				<DocumentTitle title={user.name + " - Shoutit"}>
-					<div className="profile">
-						<Col xs={12} md={3} className="profile-left">
-							<ProfileImage image={user.image} name={user.name} username={user.username || " "}/>
-							<ListenButton username={user.username} updateListeningCount={true} onChange={this.handleListen} flux={this.getFlux()} />
-							<ProfileDetails location={user.location} joined={user.date_joined}/>
-							<Clear/>
-							<ul>
-								{this.renderSettingsLink(user, linkParams)}
-								<NavItemLink to="useroffers" params={linkParams}>
-									<Icon name="lis2"/>
-									User's Offers
-									<span/>
-								</NavItemLink>
-								<NavItemLink to="userrequests" params={linkParams}>
-									<Icon name="lis3"/>
-									User's Requests
-									<span/>
-								</NavItemLink>
-								<NavItemLink to="listeners" params={linkParams}>
-									<Icon name="lis"/>
-									Listeners
-									<span>{listenerCount}</span>
-								</NavItemLink>
-								<NavItemLink to="listening" params={linkParams}>
-									<Icon name="lis1"/>
-									Listening
-									<span>{listeningCountUsers}</span>
-								</NavItemLink>
-								<NavItemLink to="listeningTags" params={linkParams}>
-									<Icon name="lis"/>
-									Tags
-									<span>{listeningCountTags}</span>
-								</NavItemLink>
-							</ul>
-						</Col>
-						<Col xs={12} md={9} className="pro-right-padding">
-							<RouteHandler {...this.state}
-								username={username}
-								flux={this.getFlux()}
-								/>
-						</Col>
-						<NotificationSystem ref="notificationSystem" />
-					</div>
-				</DocumentTitle>
-			);
-		} else if (user === null) {
-			return (
-				<DocumentTitle title="Not Found - Shoutit">
-					<div className="profile">
-						<Col xs={12} md={3} className="profile-left">
-							<h3>User not found.</h3>
-						</Col>
-						<Col xs={12} md={9} className="pro-right-padding">
-						</Col>
-					</div>
-				</DocumentTitle>
-			);
-		} else {
-			return (
-				<DocumentTitle title="Loading - Shoutit">
-					<div className="profile">
-						<Col xs={12} md={3} className="profile-left">
-							<Loader/>
-						</Col>
-						<Col xs={12} md={9} className="pro-right-padding">
-							<Loader/>
-						</Col>
-					</div>
-				</DocumentTitle>
-			);
-		}
-	},
+    loadUser() {
+        let username = this.context.params.username,
+            user = this.state.users[username],
+            // condition
+            shouldLoadUser = (!user || !user.location) && !this.state.loading;
 
-	componentDidUpdate() {
-		this.loadUser();
-		this._notificationSystem = this.refs.notificationSystem;
-	},
+        if(shouldLoadUser){
+            this.context.flux.actions.loadUser(username);
+        }
+    },
 
-	componentDidMount() {
-		this.loadUser();
-		this._notificationSystem = this.refs.notificationSystem;
-	},
+    renderProfilePage() {
+        let username = this.context.params.username,
+            user = this.state.users[username];
 
-	handleListen(ev) {
-		if(ev.isListening) {
-			this.displayNotif(`You are listening to ${ev.username}`);
-		} else {
-			this.displayNotif(`You are no longer listening to ${ev.username}`, 'warning');
-		}
-	},
+        return (
+                <DocumentTitle title={user.name + " - Shoutit"}>
+                    <div>
+                        <Grid >
+                            <Column size="12" clear={true}>
+                                <ProfileCover user={user}/>
+                            </Column>
+                        </Grid>
+                        <Grid >
+                            <Column size="3" clear={true}>
+                                <ProfileLeftBar user={user} onUserListenChange={this.onUserListenChange}/>
+                            </Column>
+                            <Column size="9">
+                                <ProfileOffers {...this.state} username={username} />
+                            </Column>
+                        </Grid>
+                    </div>
+                </DocumentTitle>
+            );
+    },
 
-	loadUser() {
-		let username = this.getParams().username,
-			user = this.state.users[username],
-			listens = this.state.listens[username],
-			// condition
-			noInfoLoaded = (!listens || !user || !user.location) && !this.state.loading;
+    renderNotFound() {
+        return (
+            <DocumentTitle title={"User Not Found! - Shoutit"}>
+                <h3>User not found!</h3>
+            </DocumentTitle>
+            );
+    },
 
-		if(noInfoLoaded){
-			this.getFlux().actions.loadUser(username);
-		}
-		
-		
-	}
+    renderLoading() {
+        return(
+            <DocumentTitle title={"[Loading...] - Shoutit"}>
+                <Loader />
+            </DocumentTitle>
+            );
+    },
+
+    render() {
+        let username = this.context.params.username,
+            user = this.state.users[username];
+
+        if(user && user.location) {
+            return this.renderProfilePage();
+        } else if(user === null) {
+            return this.renderNotFound();
+        } else {
+            return this.renderLoading();
+        }
+    }
 });

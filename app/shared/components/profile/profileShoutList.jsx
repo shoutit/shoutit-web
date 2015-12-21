@@ -1,7 +1,5 @@
 import React from 'react';
-import {Col} from 'react-bootstrap';
-import {Loader, Clear} from '../helper';
-
+import {Loader, Clear, Column, Grid} from '../helper';
 import Shout from '../feed/feed/shout.jsx';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 
@@ -13,13 +11,17 @@ let map = {
 export default React.createClass({
 	displayName: "ProfileShoutList",
 
+	contextTypes: {
+		flux: React.PropTypes.object
+	},
+
 	componentDidMount() {
 		let username = this.props.username,
 			userShouts = this.props.shouts[username] || {},
 			shouts = userShouts[this.props.type + 's'];
 
 		if (!userShouts || !shouts) {
-			this.props.flux.actions.loadUserShouts(this.props.username, this.props.type);
+			this.context.flux.actions.loadUserShouts(this.props.username, this.props.type);
 		}
 	},
 
@@ -28,59 +30,24 @@ export default React.createClass({
 
 		return shouts.length ? shouts.map(function (shout, i) {
 			return <Shout listType="small" key={"shout-" + i} shout={shout} index={i}/>;
-		}) : <h4>No shouts.</h4>;
-	},
-
-	render() {
-		let username = this.props.username,
-			user = this.props.users[username],
-			userShouts = this.props.shouts[username] || {},
-			shouts = userShouts[this.props.type + 's'],
-			content, stat;
-
-		if (userShouts && shouts) {
-			content = this.renderProfileShouts(shouts);
-			stat = <span>{' (' + shouts.length + ')'}</span>;
-		} else {
-			content = <Loader/>;
-		}
-
-		return (
-			<Col xs={12} md={12} className="content-listener">
-				<div className="listener">
-					<div className="listener-title">
-						<p>
-							{user.first_name + "'s " + map[this.props.type] + ":"}
-							{stat}
-						</p>
-					</div>
-					<Clear />
-
-					<div className="listener-scroll ctn-offerpro" tabIndex="5000"
-						 style={{outline: "none"}}>
-						{content}
-						{this.renderViewportSensor()}
-					</div>
-				</div>
-			</Col>
-		);
+		}) : <h4>No shouts posted by this user yet :(</h4>;
 	},
 
 	renderViewportSensor() {
-		if(this.props.loading) {
-			return (
-				<section>
-						<Col xs={12} md={12}>
-							<Loader />
-						</Col>
-				</section>);
-		} else {
-			return (
-				<section>
-					<Col xs={12} md={12}>
-						<ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
-					</Col>
-				</section>);
+		let username = this.props.username,
+			userShouts = this.props.shouts[username] || {},
+			shouts = userShouts[this.props.type + 's'];
+
+		if(userShouts && shouts) {
+			if(this.props.loading) {
+				return (
+					<Loader />
+					);
+			} else {
+				return (
+					<ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
+					);
+			}
 		}
 	},
 
@@ -91,6 +58,27 @@ export default React.createClass({
 	},
 
 	loadMore() {
-		this.props.flux.actions.loadMoreUserShouts(this.props.username, this.props.type);
+		this.context.flux.actions.loadMoreUserShouts(this.props.username, this.props.type);
+	},
+
+	render() {
+		let username = this.props.username,
+			user = this.props.users[username],
+			userShouts = this.props.shouts[username] || {},
+			shouts = userShouts[this.props.type + 's'],
+			markup = null;
+
+		if (shouts) {
+			markup = this.renderProfileShouts(shouts);
+		} else {
+			markup = <Loader/>;
+		}
+
+		return (
+			<Grid fluid={true} style={{marginTop: "20px"}}>
+				{markup}
+				{this.renderViewportSensor()}
+			</Grid>
+		);
 	}
 });

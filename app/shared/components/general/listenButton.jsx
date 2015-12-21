@@ -72,7 +72,7 @@ export default React.createClass({
         return (
             <div className={className} onClick={clickable? this.toggleListen: null}>
                 <div className="img-holder">
-                    <Icon name={iconName} />
+                    <Icon name={iconName} style={{margin: '0 auto'}}/>
                 </div>
                 <div className="text-holder">
                     {title}
