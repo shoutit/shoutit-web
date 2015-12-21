@@ -11,9 +11,7 @@ export default React.createClass({
     },
 
     render() {
-        let {bio, date_joined, location: {city}, location: {country}} = this.props.user;
-        // mock url
-        let url = 'www.shoutit.com';
+        let {bio, date_joined, website, location: {city}, location: {country}} = this.props.user;
 
         return (
             <Grid fluid={true} className="si-card">
@@ -22,12 +20,16 @@ export default React.createClass({
                     <Separator />
                 </p>
                 
-                <Column fluid={true} clear={true} size="2" >
-                    <Icon name="browse" className="pull-right" />
-                </Column>
-                <Column className="profile-bio-item" fluid={true} size="13">
-                    <span>{url}</span>
-                </Column>
+                {website?
+                    <Grid fluid={true}>
+                        <Column fluid={true} clear={true} size="2" >
+                            <Icon name="browse" className="pull-right" />
+                        </Column>
+                        <Column className="profile-bio-item" fluid={true} size="13">
+                            <span>{website}</span>
+                        </Column>
+                    </Grid>
+                    : null}
                 <Column fluid={true} clear={true} size="2" >
                     <Icon name="date" className="pull-right"/>
                 </Column>
