@@ -1,15 +1,11 @@
 @import "_flexbox.scss";
 
 .MessagesList {
-  @include flexbox();
-  @include flex-direction(column);
 }
 
 .MessagesList-group {
   &.isMe {
-    @include align-self(flex-end);
   }
   &:not(.isMe) {
-    @include align-self(flex-start);
   }
 }

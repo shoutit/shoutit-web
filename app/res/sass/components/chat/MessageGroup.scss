@@ -8,9 +8,14 @@
   @include flexbox();
   @include flex-direction(column);
   @include justify-content(flex-end);
-  padding: 0 10px;
+  padding-left: 10px;
+  padding-bottom: 5px;
 }
 
 .MessageGroup-messages {
   @include flex(1);
+}
+
+.MessageGroup.messageContainer {
+
 }

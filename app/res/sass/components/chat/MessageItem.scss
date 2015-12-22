@@ -1,39 +1,59 @@
 @import "_flexbox.scss";
 
+$border-radius: 1em;
+
 .MessageItem {
+
+  margin: 1px 5px;
+
+  &.start {
+
+  }
   &.end {
+    text-align: right;
+    margin-right: 10px;
+  }
+
+  &.end .MessageItem-wrapper {
     background-color: $background-color-alt;
     border: 1px solid $border-color-alt;
   }
-  &.start {
+  &.start .MessageItem-wrapper {
     background-color: white;
     border: 1px solid $border-color;
   }
-  padding: 10px;
-  margin: 2px;
 
-  &.start {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    &:first-child {
-      border-top-left-radius: 10px;
-    }
-    &:last-child {
-      border-bottom-left-radius: 10px;
-    }
+  &.start .MessageItem-wrapper  {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+
+  }
+  &.start:first-child .MessageItem-wrapper {
+    border-top-left-radius: $border-radius;
+  }
+  &.start:last-child .MessageItem-wrapper {
+    border-bottom-left-radius: $border-radius;
   }
 
-  &.end {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    &:first-child {
-      border-top-right-radius: 10px;
-    }
-    &:last-child {
-      border-bottom-right-radius: 10px;
-    }
+  &.end .MessageItem-wrapper  {
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+  }
+  &.end:first-child  .MessageItem-wrapper {
+    border-top-right-radius: $border-radius;
+  }
+  &.end:last-child  .MessageItem-wrapper {
+    border-bottom-right-radius: $border-radius;
   }
 
+}
+
+.MessageItem-wrapper {
+  text-align: left;
+  display: inline-block;
+  min-width: 25%;
+  max-width: 75%;
+  padding:  5px 10px;
 }
 
 .MessageItem-createdAt {

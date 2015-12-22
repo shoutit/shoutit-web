@@ -5,11 +5,13 @@ export default function MessageItem({ message, justify='start' }) {
 
   return (
     <div className={ `MessageItem ${justify}`}>
-      <div>
-        { message.text }
-      </div>
-      <div className="MessageItem-createdAt">
-        { formatCreatedAt(message.created_at) }
+      <div className="MessageItem-wrapper">
+        <div>
+          { message.text }
+        </div>
+        <div className="MessageItem-createdAt">
+          { formatCreatedAt(message.created_at) }
+        </div>
       </div>
     </div>
   );
