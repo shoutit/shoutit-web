@@ -4,7 +4,7 @@ import consts from './consts';
 import statuses from '../../consts/statuses';
 import locConsts from '../locations/consts';
 import client from './client';
-import {assign} from 'object-assign';
+import assign from 'lodash/object/assign';
 
 const {LISTEN_BTN_LOADING} = statuses;
 
@@ -189,7 +189,8 @@ var UserStore = Fluxxor.createStore({
 			return false;
 		}
 		let loc = user.location;
-		let isLocationsFilled = loc.country && loc.city && loc.state && loc.latitude && loc.longitude;
+
+		let isLocationsFilled = loc? loc.country && loc.city && loc.state && loc.latitude && loc.longitude: false;
 
 		if(isLocationsFilled) {
 			return loc;

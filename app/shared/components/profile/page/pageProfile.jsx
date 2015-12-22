@@ -1,22 +1,21 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
-import {Grid, Column, Loader} from '../helper';
-import ProfileOffers from './profileOffers.jsx';
+import {Grid, Column, Loader} from '../../helper';
+import ProfileOffers from '../profileOffers.jsx';
 import DocumentTitle from 'react-document-title';
-import ProfileCover from './profileCover.jsx';
-import ProfileLeftBar from './profileLeftBar.jsx';
+import ProfileCover from '../profileCover.jsx';
+import ProfileLeftBar from './pageLeftBar.jsx';
 import assign from 'lodash/object/assign';
-import EmbeddedShout from '../shouting/embeddedShout.jsx';
 
 export default React.createClass({
-    displayName: "Profile",
+    displayName: "PageProfile",
     mixins: [new StoreWatchMixin("users")],
 
     // Need to move it later to profileOffers after moving this path to home route path
     statics: {
-        fetchId:'useroffers',
+        fetchId:'pageshouts',
         fetchData(client, session, params) {
-            return client.users().getShouts(session, params.username, 'offer');
+            return client.users().getShouts(session, params.username, 'page');
         }
     },
 
@@ -45,7 +44,7 @@ export default React.createClass({
             shouldLoadUser = (!user || !user.location) && !this.state.loading;
 
         if(shouldLoadUser){
-            this.context.flux.actions.loadUser(username);
+            this.context.flux.actions.loadUser(username, 'page');
         }
     },
 
@@ -65,12 +64,8 @@ export default React.createClass({
                             <Column size="3" clear={true}>
                                 <ProfileLeftBar user={user} onUserListenChange={this.onUserListenChange}/>
                             </Column>
-                            <Column size="9" style={{paddingTop: "15px"}}>
-                                {user.is_owner? (
-                                    <EmbeddedShout collapsed={true}/>
-                                    ): null}
+                            <Column size="9">
                                 <ProfileOffers {...this.state} username={username} />
-                                
                             </Column>
                         </Grid>
                     </div>

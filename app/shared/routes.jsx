@@ -14,14 +14,10 @@ import FeedListContainer from './components/feed/feedListContainer.jsx';
 import Static from './components/helper/static.jsx';
 import NotFound from './components/misc/notfound.jsx';
 import Shout from './components/shout/shoutDetail.jsx';
+import ProfileHome from './components/profile/profileHome.jsx';
 import Profile from './components/profile/profile.jsx';
+import Page from './components/profile/page/pageProfile.jsx';
 import Search from './components/search/search.jsx';
-import ProfileSettings from './components/profile/profileSettings.jsx';
-import ProfileListeners from './components/profile/profileListeners.jsx';
-import ProfileListening from './components/profile/profileListening.jsx';
-import ProfileListeningTags from './components/profile/profileListeningTags.jsx';
-import ProfileOffers from './components/profile/profileOffers.jsx';
-import ProfileRequests from './components/profile/profileRequests.jsx';
 import TagProfile from './components/tag/tagProfile.jsx';
 import TagProfileShouts from './components/tag/tagProfileShouts.jsx';
 import TagProfileOffers from './components/tag/tagProfileOffers.jsx';
@@ -48,14 +44,6 @@ export default function (envData) {
 						<Route path="/offers/:country/:state/:city(/:page)" component={Offers}/>
 						<Route path="/requests/:country/:state/:city(/:page)" component={Requests}/>
 						<Route path="/shout/:shoutId(/:location)(/:title)" component={Shout}/>
-						<Route path="/user/:username" component={Profile}>
-							<Route path="listeners" component={ProfileListeners}/>
-							<Route path="listening" component={ProfileListening}/>
-							<Route path="listeningTags" component={ProfileListeningTags}/>
-							<Route path="offers" component={ProfileOffers}/>
-							<Route path="requests" component={ProfileRequests}/>
-							<IndexRoute component={ProfileSettings}/>
-						</Route>
 						<Route path="/discover(/:country)(/:state)(/:city)(/:page)" component={Discover}/>
 						<Route path="/tag/:tagName" component={TagProfile}>
 							<Route path="tagrequests" component={TagProfileRequest}/>
@@ -66,6 +54,10 @@ export default function (envData) {
 							<IndexRoute component={Search}/>
 						</Route>
 						<IndexRoute component={All}/>
+					</Route>
+					<Route path="/user/:username" component={ProfileHome} >
+						<Route path="/page/:username" component={Page} />
+						<IndexRoute component={Profile}/>
 					</Route>
 				</Route>
 				<Route path="/chat(/:conversationId)" component={ ChatContainer } />

@@ -359,6 +359,14 @@ module.exports = function (app) {
 		}
 	});
 
+	// Adding user agent to a global navigator (will be used by material-ui components)
+	app.use(function(req, res, next) {
+	    GLOBAL.navigator = {
+	        userAgent: req.headers['user-agent']
+	    }
+	    next();
+	});
+
 	// Redirects
 	app.use('/s/:shoutId', function (req, res) {
 		res.redirect('/shout/' + req.params.shoutId);
@@ -383,20 +391,6 @@ module.exports = function (app) {
 			res.redirect('/user/' + user.username);
 		} else {
 			res.redirect('/login');
-		}
-	});
-
-	app.use('/user/:username', function userInitRedirect(req, res, next) {
-		if (req.url === '/') {
-			var user = req.session ? req.session.user : null;
-
-			if (user && user.username === req.params.username) {
-				next();
-			} else {
-				res.redirect('/user/' + req.params.username + '/offers');
-			}
-		} else {
-			next();
 		}
 	});
 

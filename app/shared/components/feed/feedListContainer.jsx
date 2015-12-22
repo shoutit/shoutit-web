@@ -75,7 +75,6 @@ export default function (type = "all") {
 				currentState = locStoreState.current.state,
 				currentPage = this.props.params.page || '';
 			if (currentCity) {
-				console.log('here');
 				this.history.pushState(null, 
 						`/${typeToRoute[type]}/${currentCountry}/${currentState}/${currentCity}/${currentPage}`);
 			}

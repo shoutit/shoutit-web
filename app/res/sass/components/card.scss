@@ -10,6 +10,12 @@
   &.gray-card {
     background-color: $si-card;
   }
+  p {
+    padding: 10px;
+    font-size: 1.3rem;
+    color: $si-light-gray;
+  }
+
   .card-header {
     height: 32px;
     border-bottom: 1px solid lighten($si-light-gray2,5%);
@@ -54,6 +60,9 @@
     font-size: $default-font-size;
     padding-top: 13px;
     cursor: pointer;
+    a:hover {
+      color: darken($si-gray, 20%);
+    }
   }
   .card-listen-btn {
     margin-top: 15px;

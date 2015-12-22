@@ -97,27 +97,3 @@ export default React.createClass({
 		}
 	}
 });
-/*
-<Col xs={12} md={3} className="profile-left">
-	<TagProfileImage image={tag.image} name={tag.name}/>
-	<TagListenButton tag={tag} onChange={this.handleListen} flux={this.props.flux }/>
-	<Clear/>
-	<ul>
-		<LinkContainer to={`/tag/${linkParams}`}>
-			<NavItem>
-				Offers
-			</NavItem>
-		</LinkContainer>
-		<LinkContainer to={`/tag/${linkParams}/tagrequests`}>
-			<NavItem>
-				Requests
-			</NavItem>
-		</LinkContainer>
-		<LinkContainer to={`/tag/${linkParams}/taglisteners`}>
-			<NavItem>
-				Listeners
-				<span>{listenerCount}</span>
-			</NavItem>
-		</LinkContainer>
-	</ul>
-</Col>*/

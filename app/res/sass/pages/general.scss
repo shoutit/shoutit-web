@@ -19,6 +19,10 @@ h2 {
   font-weight: bold;
   color: lighten($si-gray, 10%);
   margin: 10px 0;
+  &.si-name {
+    color: $si-light-gray;
+    text-align: center;
+  }
 }
 h3 {
   font-size: 1.6rem;
@@ -130,6 +134,16 @@ button {
   }
 }
 
+.switch-bar {
+  .grid-btn {
+    cursor: pointer;
+    margin: 20px 5px 10px;
+  }
+  .list-btn {
+    cursor: pointer;
+    margin: 20px 5px 10px;
+  }
+}
 
 /* Item Box */
 .si-item-box {
@@ -425,9 +439,9 @@ button {
   width: 100%;
   .img-holder {
     position: relative;
-    height: 30px;
+    height: 26px;
     img, div {
-      margin: auto;
+      margin: 0 20px;
     }
   }
   .text-holder {
@@ -445,5 +459,8 @@ button {
   }
   &.disabled {
     cursor: not-allowed;
+  }
+  &.not-clickable {
+    cursor: auto;
   }
 }

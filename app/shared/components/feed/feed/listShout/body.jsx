@@ -132,8 +132,8 @@ export default React.createClass({
 
 	renderFootnote(shout) {
 		// getting user info for country name
-		let user = this.state.users[shout.user.username];
-		let country = user? user.location.country: 'noflag';
+		let user = this.state.users[shout.user.username] || {};
+		let country = user.location? user.location.country: 'noflag';
 
 		// Same photo just to have support from API
 		let catIcon = 'http://i.imgur.com/e2asioJ.png';

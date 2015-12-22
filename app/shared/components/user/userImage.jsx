@@ -1,11 +1,27 @@
 import React from 'react';
+import {Link} from 'react-router';
+import assign from 'lodash/object/assign';
 
 export default React.createClass({
 	displayName: "UserImage",
 
+	proprTypes: {
+		height: React.PropTypes.string,
+		width: React.PropTypes.string,
+		size: React.PropTypes.string,
+		// Choice (circle, rounded, rounded2x, square)
+		type: React.PropTypes.string,
+		// no need to specify image if user object is already passed
+		image: React.PropTypes.string,
+		user: React.PropTypes.object
+	},
+
 	getDefaultProps() {
 		return {
-			type: "circle"
+			size: '32',
+			type: "circle",
+			clickable: false,
+			classname: ''
 		}
 	},
 
@@ -24,31 +40,51 @@ export default React.createClass({
 		return sizedUrl;
 	},
 
-	render() {
+	generateStyle() {
+		const img = this.props.user? this.props.user.image: this.props.image;
 		let style = {
 			"height": this.props.height ? this.props.height + "px":
 					this.props.size? this.props.size + "px": "32px",
 			"width": this.props.width ? this.props.width + "px":
 					this.props.size? this.props.size + "px": "32px",
-			"backgroundImage": "url(" + this.getSmallUrl(this.props.image) + ")",
+			"backgroundColor": "#edefed",
+			"backgroundImage": "url(" + this.getSmallUrl(img) + ")",
 			"backgroundSize": "cover",
 			"backgroundRepeat": "no-repeat"
 		};
+
+		if(this.props.style) {
+			assign(style, this.props.style);
+		}
 
 		if(this.props.type === 'circle') {
 			style.borderRadius = this.props.height? (this.props.height / 2) + "px" : "16px";
 		} else if(this.props.type === 'rounded') {
 			style.borderRadius = "5px";
+		} else if(this.props.type === 'rounded2x') {
+			style.borderRadius = "10px";
+		} if(this.props.type === 'square') {
+			style.borderRadius = "0";
 		}
 
+		return style;
+	},
 
-		if (this.props.image.indexOf("default_") > -1) {
-			style.backgroundPosition = "0 -15px";
+	render() {
+		const style = this.generateStyle();
+		const {className, clickable, user} = this.props;
+
+		if(user) {
+			return (
+				<Link to={`/user/${user.username}`}>
+					<div className={className + " user-image"} style={style}/>
+				</Link>
+				);
+		} else {
+			return (
+				<div className={className + " user-image"} style={style}/>
+			);
 		}
-
-
-		return (
-			<div className={this.props.className + " user-image"} title={this.props.name} style={style}/>
-		);
+		
 	}
 });
