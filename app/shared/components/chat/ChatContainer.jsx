@@ -76,7 +76,7 @@ export default React.createClass({
                   me={ me }
                   lastMessageId={activeConversation.last_message.id}
                   loading={ !activeConversation.messages }
-                  onLoadMoreMessagesClick={ (before) => loadMoreConversation(activeConversation.id, before) }
+                  onRequestToLoadMoreMessages={ (before) => loadMoreConversation(activeConversation.id, before) }
                   onReplyTextChange={ (text) => messageDraftChange('text', text) }
                   onReplySubmit={ () => replyConversation(activeConversation.id, draft) }
                 />

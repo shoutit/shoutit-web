@@ -23,7 +23,7 @@ export default class Messages extends Component {
     me: PropTypes.string.isRequired,
     lastMessageId: PropTypes.string.isRequired,
     draft: PropTypes.object,
-    onLoadMoreMessagesClick: PropTypes.func,
+    onRequestToLoadMoreMessages: PropTypes.func,
     onReplySubmit: PropTypes.func,
     onReplyTextChange: PropTypes.func
   }
@@ -43,6 +43,8 @@ export default class Messages extends Component {
       || prevProps.lastMessageId !== this.props.lastMessageId) {
       this.scrollListToBottom();
     }
+
+    // TODO: listen to scroll to load previous messages
   }
 
   scrollListToBottom() {
@@ -57,7 +59,7 @@ export default class Messages extends Component {
       loading,
       me,
       draft,
-      onLoadMoreMessagesClick,
+      onRequestToLoadMoreMessages,
       onReplyTextChange,
       onReplySubmit
     } = this.props;
@@ -70,7 +72,7 @@ export default class Messages extends Component {
           { !loading && <MessagesList
               me={ me }
               conversation={ conversation }
-              onLoadMoreMessagesClick={ onLoadMoreMessagesClick }
+              onLoadMoreMessagesClick={ onRequestToLoadMoreMessages }
             />
           }
         </div>

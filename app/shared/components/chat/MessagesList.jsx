@@ -34,7 +34,6 @@ function groupMessages(messages) {
 export default function MessageList({ conversation, me, showOnlyLastMessage=false, onLoadMoreMessagesClick }) {
 
   const { messages, id: conversationId } = conversation;
-
   let loadMore;
 
   if (showOnlyLastMessage) {
@@ -43,6 +42,8 @@ export default function MessageList({ conversation, me, showOnlyLastMessage=fals
     </Link></h5>
   }
   else {
+
+    // TODO: if there are no older messages, do not display the link
     loadMore = <h5 onClick={ (e) => onLoadMoreMessagesClick(messages[0].created_at, e) }>
       Load older messages
     </h5>
