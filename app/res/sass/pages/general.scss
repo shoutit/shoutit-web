@@ -25,7 +25,7 @@ h2 {
   }
 }
 h3 {
-  font-size: 1.6rem;
+  font-size: $default-font-size;
   font-weight: 500;
   color: lighten($si-gray, 10%);
   margin: 0;
