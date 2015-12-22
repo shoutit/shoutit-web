@@ -2,10 +2,10 @@
 @import "grid";
 
 // Magic spriting with compass
-// @import "compass/utilities/sprites";
-// $res1x-sprite-dimensions: true;
-// @import "res1x/*.png";
-// @include all-res1x-sprites;
+@import "compass/utilities/sprites";
+$res1x-sprite-dimensions: true;
+@import "res1x/*.png";
+@include all-res1x-sprites;
 
 $si-white: #fff;
 $si-light-green: #EEF6E8;
@@ -40,7 +40,7 @@ $background-color: #F3F3F3;
 
 // External libs
 @import "dropzone";
-// @import "fonts";
+@import "fonts";
 @import "image-gallery";
 @import "video-player";
 @import "tagsinput";
