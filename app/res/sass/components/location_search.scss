@@ -4,9 +4,10 @@
     height: 35px;
     width: 350px;
     background: $si-white;
+    color: lighten($si-gray,10%);
     &.selected {
       background: $si-green;
-      color: $si-white;
+      color: $si-white!important;
     }
   }
   .loc-search-list {
