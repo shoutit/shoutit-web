@@ -54,6 +54,9 @@ p.small {
 p.large {
   font-size: $default-font-size-large;
 }
+textarea {
+  resize: none;
+}
 input[type=text], [type=email], input[type=password], input[type=number] {
   height: 35px;
   border-radius: 5px;

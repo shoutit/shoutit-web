@@ -25,6 +25,12 @@ export default React.createClass({
         flux: React.PropTypes.object
     },
 
+    getInitialState() {
+        return {
+            editMode: false
+        }
+    },
+
     getStateFromFlux() {
         return this.context.flux.store("users").getState();
     },
@@ -49,21 +55,32 @@ export default React.createClass({
         }
     },
 
+    onModeChange(ev) {
+        this.setState({editMode: ev.editMode});
+    },
+
     renderProfilePage() {
-        let username = this.context.params.username,
-            user = this.state.users[username];
+        const username = this.context.params.username,
+            user = this.state.users[username],
+            mode = this.state.editMode;
 
         return (
                 <DocumentTitle title={user.name + " - Shoutit"}>
                     <div>
                         <Grid >
                             <Column size="12" clear={true}>
-                                <ProfileCover user={user}/>
+                                <ProfileCover onModeChange={this.onModeChange}
+                                              user={user}
+                                              editMode={mode}
+                                              />
                             </Column>
                         </Grid>
                         <Grid >
                             <Column size="3" clear={true}>
-                                <ProfileLeftBar user={user} onUserListenChange={this.onUserListenChange}/>
+                                <ProfileLeftBar user={user}
+                                                onUserListenChange={this.onUserListenChange}
+                                                editMode={mode}
+                                                />
                             </Column>
                             <Column size="9" style={{paddingTop: "15px"}}>
                                 {user.is_owner? (

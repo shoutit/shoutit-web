@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid} from '../../helper';
+import {Grid, Icon} from '../../helper';
 import UserImage from '../../user/userImage.jsx';
 
 export default React.createClass({
@@ -7,6 +7,14 @@ export default React.createClass({
 
     propTypes: {
         user: React.PropTypes.object.isRequired
+    },
+
+    renderEditLayer() {
+        return (
+            <div className="profile-picture-editbox">
+                <Icon name="edit-photo" />
+            </div>
+            );
     },
 
     render() {
@@ -19,11 +27,12 @@ export default React.createClass({
             };
 
         return (
-            <Grid fluid={true}>
+            <Grid fluid={true} style={{position: "relative"}}>
                 <UserImage image={user.image}
                            size="126"
                            type="rounded2x"
                            style={imageStyle} />
+                {this.props.editMode && this.renderEditLayer()}
                 <h2 className="si-name">{user.name}</h2>
             </Grid>
         );
