@@ -22,12 +22,19 @@
       font-size: $default-font-size;
       font-weight: 600;
       margin-left: 5px;
+      text-shadow: 0px 1px 1px rgba(0,0,0,0.3);
     }
   }
   .profile-cover-editmode {
+    position: relative;
     background: rgba(0,0,0,0.6);
     height: inherit;
-    cursor: pointer;
+    label {
+      width: inherit;
+      height: inherit;
+      float: left;
+      cursor: pointer;
+    }
     .img-holder {
       margin: 116px auto 50px;
     }
@@ -38,16 +45,8 @@
       text-align: center;
       color: $si-white;
     }
-    .save-btn {
-      @include green-button(162px, 25px, 1.6rem);
-      font-weight: 600;
-    }
-    .cancel-btn {
-      @include colored-button(121px, 25px, 1.6rem, lighten($si-gray, 10%));
-      margin-left: 10px;
-      font-weight: 600;
-    }
   }
+
   .profile-picture-editbox {
     position: absolute;
     top: -61px;
@@ -105,4 +104,31 @@
     margin: 20px 5px 10px;
     color: $si-light-gray2;
   }
+  .profile-picture-editmodal {
+    text-align: center;
+  }
+  .save-btn {
+    @include green-button(162px, 25px, 1.6rem);
+    font-weight: 600;
+    &.disabled {
+      background: lighten($si-light-gray,20%);
+      font-size: 1.3rem;
+      pointer-events: none;
+      cursor: default!important;
+    }
+  }
+  .cancel-btn {
+    @include colored-button(121px, 25px, 1.6rem, lighten($si-gray, 10%));
+    margin-left: 10px;
+    font-weight: 600;
+  }
+  .buttons-holder {
+    position: absolute;
+    bottom: 15px;
+    right: 0;
+    width: auto;
+  }
+}
+.profile-picture-dialog {
+  width: 400px!important;
 }

@@ -3,6 +3,10 @@ import request from 'superagent';
 const PREFIX = "/api/users";
 const AUTH_PREFIX = "/api/auth";
 
+// Only for uploading base64 (data URI) images
+// for uploading image files use /services/image_upload
+const S3_ENDPOINT = '/services/data_image_upload';
+
 export default {
     update(update) {
         return request
@@ -76,6 +80,19 @@ export default {
         return request
             .get(PREFIX + '/')
             .query(query);
+    },
+
+    /** 
+     * This function uploads base64 Data URI images to S3 server to any buckets
+     *
+     * @param {String} dataImage Data URI image string
+     * @param {String} bucket - not full bucket name only short name like : user|shout|tag
+     * @returns {object} with .end(err, res) method which could be used to retrieve S3 Link
+     */
+    uploadDataImage(dataImage, bucket) {
+        return request
+                .post(S3_ENDPOINT, bucket)
+                .send({dataImage, bucket});
     },
 
     signup(payload) {

@@ -87,6 +87,12 @@ button {
     box-shadow: none!important;
   }
 }
+.green-btn {
+  @include green-button(60px, 25px, 1.4rem);
+}
+.gray-btn {
+  @include colored-button(60px, 25px, 1.4rem, $si-gray);
+}
 .form-control {
   height: 35px;
 }
