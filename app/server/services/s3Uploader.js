@@ -48,6 +48,34 @@ function addToS3(localFile, config) {
     });
 }
 
+// change 
+// function addImageDataToS3(dataImage, config) {
+//     var bucketName = config.bucketName,
+//         cdnURL = config.cdnURL,
+//         fileName = path.basename(localFile);
+
+//     var params = {
+//         localFile: localFile,
+//         s3Params: {
+//             Bucket: bucketName,
+//             Key: fileName
+//         }
+//     };
+
+//     return new Promise(function (resolve, reject) {
+//         var s3Uploader = s3Client.uploadFile(params);
+
+//         s3Uploader.on('error', function (err) {
+//             console.error("unable to upload:", err.stack);
+//             reject(err.stack);
+//         });
+//         s3Uploader.on('end', function () {
+//             var s3Link = cdnURL + "/" + fileName;
+//             resolve(s3Link);
+//         });
+//     });
+// }
+
 function removeFromS3(fileName, bucketName) {
     var params = {
         Bucket: bucketName,
