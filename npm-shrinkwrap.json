@@ -2679,6 +2679,11 @@
       "from": "https://registry.npmjs.org/react-addons-update/-/react-addons-update-0.14.2.tgz",
       "resolved": "https://registry.npmjs.org/react-addons-update/-/react-addons-update-0.14.2.tgz"
     },
+    "react-avatar-editor": {
+      "version": "3.2.0",
+      "from": "mosch/react-avatar-editor",
+      "resolved": "git://github.com/mosch/react-avatar-editor.git#46b17881f16354cbe7f028ac807f060fb86e3dd6"
+    },
     "react-bootstrap": {
       "version": "0.28.1",
       "from": "react-bootstrap@0.28.1",
