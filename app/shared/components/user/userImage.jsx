@@ -42,13 +42,14 @@ export default React.createClass({
 
 	generateStyle() {
 		const img = this.props.user? this.props.user.image: this.props.image;
+		const url = this.props.size <= 64? this.getSmallUrl(img): img;
 		let style = {
 			"height": this.props.height ? this.props.height + "px":
 					this.props.size? this.props.size + "px": "32px",
 			"width": this.props.width ? this.props.width + "px":
 					this.props.size? this.props.size + "px": "32px",
 			"backgroundColor": "#edefed",
-			"backgroundImage": "url(" + this.getSmallUrl(img) + ")",
+			"backgroundImage": "url(" + url + ")",
 			"backgroundSize": "cover",
 			"backgroundRepeat": "no-repeat"
 		};

@@ -281,6 +281,10 @@ module.exports = function (app) {
 	app.set('view engine', 'jade');
 	app.set('views', path.join(__dirname, 'views'));
 
+	var bodyParser = require('body-parser');
+	app.use(bodyParser.json({limit: '5mb'}));
+	app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 	// CORS Protection
 	app.use(cors(corsOptions));
 
@@ -344,6 +348,7 @@ module.exports = function (app) {
 	servicesRouter.get('/verify_email', verifyEmail);
 	servicesRouter.post('/image_upload', imageUpload.add);
 	servicesRouter.post('/image_remove', imageUpload.remove);
+	servicesRouter.post('/data_image_upload', imageUpload.addData);
 
 	app.use('/auth', authRouter);
 	app.use('/services', servicesRouter);

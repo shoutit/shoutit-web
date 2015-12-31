@@ -7,10 +7,13 @@ import ProfileCover from './profileCover.jsx';
 import ProfileLeftBar from './profileLeftBar.jsx';
 import assign from 'lodash/object/assign';
 import EmbeddedShout from '../shouting/embeddedShout.jsx';
+import NotificationSystem from 'react-notification-system';
+
 
 export default React.createClass({
     displayName: "Profile",
     mixins: [new StoreWatchMixin("users")],
+    _notificationSystem: null,
 
     // Need to move it later to profileOffers after moving this path to home route path
     statics: {
@@ -25,17 +28,52 @@ export default React.createClass({
         flux: React.PropTypes.object
     },
 
+    getInitialState() {
+        return {
+            editMode: false,
+            edited: {},
+            uploading: null
+        }
+    },
+
     getStateFromFlux() {
-        return this.context.flux.store("users").getState();
+        let users = this.context.flux.store("users").getState();
+        return JSON.parse(JSON.stringify(users));
+    },
+
+    displayNotif(msg, type = 'success') {
+        this._notificationSystem.addNotification({
+            message: msg,
+            level: type,
+            position: 'tr', // top right
+            autoDismiss: 4
+        });
     },
 
     componentDidMount() {
         this.loadUser();
-        
+        this._notificationSystem = this.refs.notificationSystem;
     },
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         this.loadUser();
+        this._notificationSystem = this.refs.notificationSystem;
+
+        const status = this.state.profile.status;
+
+        if(prevState.profile.status !== status && status ==='saved') {
+            // show success notification
+            this.displayNotif('Changes saved successfully.');
+            this.setState({editMode: false});
+        }
+        if(prevState.profile.status !== status && status ==='err') {
+            this.setState({editMode: false});
+
+            const errors = this.state.profile.errors;
+            for(let err in errors) {
+                this.displayNotif(errors[err][0], 'warning');
+            }
+        }
     },
 
     loadUser() {
@@ -49,21 +87,35 @@ export default React.createClass({
         }
     },
 
+    onModeChange(ev) {
+        this.setState({editMode: ev.editMode});
+    },
+
     renderProfilePage() {
-        let username = this.context.params.username,
-            user = this.state.users[username];
+        const username = this.context.params.username,
+            user = this.state.users[username],
+            mode = this.state.editMode;
 
         return (
                 <DocumentTitle title={user.name + " - Shoutit"}>
                     <div>
                         <Grid >
                             <Column size="12" clear={true}>
-                                <ProfileCover user={user}/>
+                                <ProfileCover 
+                                    profile={this.state.profile}
+                                    onModeChange={this.onModeChange}
+                                    user={user}
+                                    editMode={mode}
+                                    />
                             </Column>
                         </Grid>
                         <Grid >
                             <Column size="3" clear={true}>
-                                <ProfileLeftBar user={user} onUserListenChange={this.onUserListenChange}/>
+                                <ProfileLeftBar 
+                                    user={user}
+                                    onUserListenChange={this.onUserListenChange}
+                                    editMode={mode}
+                                    />
                             </Column>
                             <Column size="9" style={{paddingTop: "15px"}}>
                                 {user.is_owner? (
@@ -73,6 +125,7 @@ export default React.createClass({
                                 
                             </Column>
                         </Grid>
+                        <NotificationSystem ref="notificationSystem" />
                     </div>
                 </DocumentTitle>
             );

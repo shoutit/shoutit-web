@@ -20,14 +20,24 @@ var FILE_SIZE_LIMIT = 5242880, // 5MB
     TEMP_COMPRESSED_DIR = os.tmpdir() + "/shoutit_compressed/",
     IMAGE_FORMATS = ['image/jpeg', 'image/png'],  // standard image mime-types
     FIELD_NAME = "shout_image",  // HTML form field name
-    S3_CDN = "https://shout-image.static.shoutit.com",
-    S3_BUCKET_NAME = "shoutit-shout-image-original",
     S3_VARIATIONS_BUCKET = "shoutit-shout-image";  // bucket name for other image sizes
 
+// Config for all buckets
 var s3Config = {
-    bucketName: S3_BUCKET_NAME,
-    cdnURL: S3_CDN
-};
+    "shout": {
+        cdnURL: "https://shout-image.static.shoutit.com",
+        bucketName: "shoutit-shout-image-original"
+    },
+    "user": {
+        cdnURL: "https://user-image.static.shoutit.com",
+        bucketName: "shoutit-user-image-original"
+    },
+    "tag": {
+        cdnURL: "https://tag-image.static.shoutit.com",
+        bucketName: "shoutit-tag-image-original"
+    }
+
+}
 
 // Multer file upload settings
 fileSettings.storage = multer.diskStorage({
@@ -148,7 +158,7 @@ var addImage = function (req, res) {
                     .then(compressImage)
                     .then(function (imagePath) {
                         // Uploading to S3
-                        s3Uploader.add(imagePath, s3Config)
+                        s3Uploader.add(imagePath, s3Config['shout'])
                             .then(function (s3Link) {
                                 var fileName = path.basename(imagePath);
                                 removeFromTmp(fileName);
@@ -159,6 +169,38 @@ var addImage = function (req, res) {
         });
     } else {
         console.error('un-Authorized access');
+    }
+};
+
+// need to check
+var addDataImage = function (req, res) {
+    if (req.session.user) {
+        // check if folders exists
+        checkDir();
+        var dataImage = req.body.dataImage;
+        var bucket = req.body.bucket;
+        var config = s3Config[bucket];
+
+        if (config) {
+            var imageName = Date.now() + '-' + req.session.user.id + '.jpg';
+            // save data image as a file on tmp
+            var base64 = dataImage && dataImage.replace(/^data:image\/\w+;base64,/, "");
+            var buf = new Buffer(base64, 'base64');
+            var imagePath = path.join(TEMP_UPLOAD_DIR, imageName);
+            fs.writeFile(imagePath , buf, function(err) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    // Uploading to S3
+                    s3Uploader.add(imagePath, config)
+                        .then(function (s3Link) {
+                            var fileName = path.basename(imagePath);
+                            removeFromTmp(fileName);
+                            res.send(s3Link);
+                        });
+                }
+            });
+        }
     }
 };
 
@@ -173,7 +215,7 @@ var removeImagesFromS3 = function (req, res) {
 
     if (fileName.indexOf(uuid) !== -1) {
         // remove original
-        s3Uploader.remove(fileName, S3_BUCKET_NAME);
+        s3Uploader.remove(fileName, s3Config['shout'].bucketName);
         // remove from variations bucket
         for (var size in variation) {
             s3Uploader.remove(variation[size], S3_VARIATIONS_BUCKET);
@@ -184,5 +226,6 @@ var removeImagesFromS3 = function (req, res) {
 
 module.exports = {
     add: addImage,
-    remove: removeImagesFromS3
+    remove: removeImagesFromS3,
+    addData: addDataImage
 };

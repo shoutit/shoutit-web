@@ -43,6 +43,28 @@ export default {
         this.dispatch(consts.LOGOUT);
     },
 
+    profileChange(changes) {
+        this.dispatch(consts.PROFILE_CHANGE, {
+            changes
+        });
+    },
+
+    saveProfileChanges() {
+        this.dispatch(consts.PROFILE_CHANGES_SAVE);
+    },
+
+    uploadProfilePicture(editedImage) {
+        this.dispatch(consts.PROFILE_PICTURE_UPLOAD, {
+            editedImage
+        });
+    },
+
+    uploadCoverImage(editedImage) {
+        this.dispatch(consts.COVER_IMAGE_UPLOAD, {
+            editedImage
+        });
+    },
+
     changeInfo(field, value) {
         this.dispatch(consts.INFO_CHANGE, {
             field: field,

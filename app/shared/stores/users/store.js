@@ -57,7 +57,13 @@ var UserStore = Fluxxor.createStore({
 			forgetResult: null,
 			editors: {},
 			verifyResponse: '',
-			status: null
+			status: null,
+			profile: {
+				status: null,
+				profilePictureUploading: false,
+				coverUploading: false,
+				changes: {}
+			}
 		};
 
 		if (props.loggedUser) {
@@ -131,6 +137,10 @@ var UserStore = Fluxxor.createStore({
 			consts.LOGIN, this.onLogin,
 			consts.LOGIN_FB_ERROR, this.onLoginFBError,
 			consts.LOGOUT, this.onLogout,
+			consts.PROFILE_CHANGE, this.onProfileChange,
+			consts.PROFILE_CHANGES_SAVE, this.onProfileChangesSave,
+			consts.PROFILE_PICTURE_UPLOAD, this.onProfilePictureUpload,
+			consts.COVER_IMAGE_UPLOAD, this.onCoverImageUpload,
 			consts.INFO_CHANGE, this.onInfoChange,
 			consts.INFO_SAVE, this.onInfoSave,
 			consts.PASS_CHANGE, this.onPassChange,
@@ -308,6 +318,98 @@ var UserStore = Fluxxor.createStore({
 					// TODO: add redirect to route support from components
 				}
 			}.bind(this));
+	},
+
+	onProfileChange(payload) {
+		let {changes} = payload;
+		assign(this.state.profile.changes, changes);
+		this.emit("change");
+	},
+
+	onProfileChangesSave() {
+		// clear status
+		this.state.profile.status = 'saving';
+		this.emit("change");
+		// patch the changes
+		const user = this.state.user;
+		const patch = this.state.profile.changes;
+
+		const isPatchable = this.state.users[user].is_owner && Object.keys(patch).length > 0;
+		
+		if(isPatchable) {
+			client.update(patch).end((err, res) => {
+				if (err) {
+					console.log(err);
+				} else {
+					if(res.status !== 200) {
+						if(res.body) {
+							const err = res.body;
+							this.state.profile.status = 'err';
+							this.state.profile.errors = res.body;
+							this.emit("change");
+						}
+					} else {
+						const username = res.body.username;
+						if(username) {
+							this.state.users[username] = res.body;
+						}
+						this.state.profile.status = 'saved';
+						this.emit("change");
+					}
+				}
+				// clear changes
+				this.state.profile.changes = {};
+			});
+		}
+	},
+
+	onProfilePictureUpload(payload) {
+		this.state.profile.profilePictureUploading = true;
+		this.emit("change");
+		// uploading to user bucket
+        client.uploadDataImage(payload.editedImage, 'user')
+            .end((err, res) => {
+                if(err) {
+                    console.log(err);
+                } else {
+                    if(res.status == 200) {
+                        const s3Link = res.text;
+                        this.onProfileChange({
+                        	changes: {image: s3Link}
+                        });
+                    } else {
+                        console.log('Error on saving file.');
+                    }
+                }
+                this.state.profile.profilePictureUploading = false;
+                this.emit("change");
+            });
+	},
+
+	onCoverImageUpload(payload) {
+		this.state.profile.coverUploading = true;
+		this.emit("change");
+		// uploading to user bucket
+        client.uploadDataImage(payload.editedImage, 'user')
+            .end((err, res) => {
+                if(err) {
+                    console.log(err);
+                } else {
+                    if(res.status == 200) {
+                        const s3Link = res.text;
+                        this.onProfileChange({
+                        	changes: {cover: s3Link}
+                        });
+                        // now save changes
+                        this.onProfileChangesSave();
+                    } else {
+                    	console.log(res);
+                        console.log('Error on saving file.');
+                    }
+                }
+                this.state.profile.coverUploading = false;
+                this.emit("change");
+            });
 	},
 
 	onInfoChange(payload) {

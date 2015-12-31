@@ -25,7 +25,7 @@ h2 {
   }
 }
 h3 {
-  font-size: 1.6rem;
+  font-size: $default-font-size;
   font-weight: 500;
   color: lighten($si-gray, 10%);
   margin: 0;
@@ -53,6 +53,9 @@ p.small {
 }
 p.large {
   font-size: $default-font-size-large;
+}
+textarea {
+  resize: none;
 }
 input[type=text], [type=email], input[type=password], input[type=number] {
   height: 35px;
@@ -83,6 +86,12 @@ button {
     outline: 0!important;
     box-shadow: none!important;
   }
+}
+.green-btn {
+  @include green-button(60px, 25px, 1.4rem);
+}
+.gray-btn {
+  @include colored-button(60px, 25px, 1.4rem, $si-gray);
 }
 .form-control {
   height: 35px;
