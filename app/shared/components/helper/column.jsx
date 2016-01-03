@@ -19,7 +19,7 @@ export default React.createClass({
         this.props.clear? className += " clear": undefined;
 
         return (
-            <div className={className} style={this.props.style}>
+            <div className={className} style={this.props.style} onClick={this.props.onClick || undefined}>
                 {this.props.children}
             </div>
         )
