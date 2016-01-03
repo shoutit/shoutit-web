@@ -2,8 +2,7 @@ import React from 'react';
 import {Grid, Icon} from '../../helper';
 import UserImage from '../../user/userImage.jsx';
 import AvatarEditor from 'react-avatar-editor';
-
-const Dialog = require('material-ui/lib/dialog');
+import Dialog from 'material-ui/lib/dialog';
 
 export default React.createClass({
     displayName: "ProfileLeftBar",

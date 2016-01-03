@@ -6,6 +6,7 @@ import MessageButton from '../../general/messageButton.jsx';
 import ListenersButton from '../../general/listenersButton.jsx';
 import ListeningButton from '../../general/listeningButton.jsx';
 import UserListeningTagsButton from '../../general/userListeningTagsButton.jsx';
+import Popuplist from '../popuplist/popuplist.jsx';
 
 export default React.createClass({
     displayName: "ProfileButtonsCard",
@@ -17,6 +18,12 @@ export default React.createClass({
 
     contextTypes: {
         flux: React.PropTypes.object
+    },
+
+    getInitialState() {
+        return {
+            activePopuplist: null
+        }
     },
 
     displayNotif(msg, type = 'success') {
@@ -44,22 +51,44 @@ export default React.createClass({
         }
     },
 
+    renderPopuplists() {
+        const {username} = this.props.user;
+        return (
+            <Popuplist open={Boolean(this.state.activePopuplist)}
+                       onClose={this.onPopuplistClose}
+                       username={username}
+                       type={this.state.activePopuplist}
+                       />
+        );
+    },
+
+    onPopuplistClose() {
+        this.setState({activePopuplist: null})
+    },
+
+    listOnClick(type) {
+        return () => {
+            this.setState({activePopuplist: type});
+        }
+    },
+
     renderForOwner() {
         let user = this.props.user;
 
         return (
             <Grid fluid={true} className="si-card" style={{paddingTop: "15px"}}>
-                <Column fluid={true} clear={true} size="5">
+                <Column fluid={true} clear={true} size="5" onClick={this.listOnClick("Listeners")}>
                     <ListenersButton user={user} />
                 </Column>
-                <Column fluid={true} size="5">
+                <Column fluid={true} size="5" onClick={this.listOnClick("Listening")}>
                     <ListeningButton user={user} />
                 </Column>
-                <Column fluid={true} size="5">
+                <Column fluid={true} size="5" onClick={this.listOnClick("Tags")}>
                     <UserListeningTagsButton user={user}/>
                 </Column>
+                {this.renderPopuplists()}
             </Grid>
-        );
+            );
     },
 
     renderForViewers() {

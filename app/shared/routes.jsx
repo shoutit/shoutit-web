@@ -7,7 +7,6 @@ import Signup from './components/login/signup.jsx';
 import VerifyEmail from './components/user/verifyEmail.jsx';
 import App from './components/app.jsx';
 import Reduced from './components/reduced/reduced.jsx';
-
 import MainPage from './components/main/mainPage.jsx';
 import HomePage from './components/feed/home.jsx';
 import FeedListContainer from './components/feed/feedListContainer.jsx';

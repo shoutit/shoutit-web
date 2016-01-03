@@ -9,17 +9,23 @@ import NotificationSystem from 'react-notification-system';
 export default React.createClass({
     displayName: "ProfileListeningTags",
     _notificationSystem: null,
-    mixins: [ new StoreWatchMixin("tags") ],
+    mixins: [ new StoreWatchMixin("tags", "users") ],
 
     statics: {
+        fetchId: 'listeningTags',
         fetchData(client, session, params) {
             return client.users().getListening(session, params.username, {type: 'tags'});
         }
     },
 
     getStateFromFlux() {
+        const userStore = this.props.flux.store("users").getState();
+
         return {
-            tags: this.props.flux.store("tags").getState().tags
+            tags: this.props.flux.store("tags").getState().tags,
+            users: userStore.users,
+            user: userStore.user,
+            listens: userStore.listens,
         }
     },
 
@@ -40,13 +46,11 @@ export default React.createClass({
     },
 
     render() {
-        let p = this.props,
-            username = p.username,
-            loggedUser = p.user,
-            tagsList = p.listens[username]? p.listens[username].tags.list : null,
+        let username = this.props.params.username,
+            tagsList = this.state.listens[username]? this.state.listens[username].tags.list : null,
             tags = this.state.tags,
             listeningTags = [],
-            flux = p.flux,
+            flux = this.props.flux,
             tagsChildren, stat;
 
         if(tagsList) {

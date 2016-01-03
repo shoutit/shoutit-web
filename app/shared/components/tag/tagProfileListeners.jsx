@@ -3,7 +3,7 @@ import {Col} from 'react-bootstrap';
 import findIndex from 'lodash/array/findIndex';
 import {Loader, Clear} from '../helper';
 
-import ListenerRow from '../profile/listenerRow.jsx';
+import ListenerRow from '../profile/popuplist/listenerRow.jsx';
 
 export default React.createClass({
 	displayName: "ProfileListeners",
