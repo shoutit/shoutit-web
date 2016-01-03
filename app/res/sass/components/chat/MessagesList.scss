@@ -1,0 +1,11 @@
+@import "../../_flexbox.scss";
+
+.MessagesList {
+}
+
+.MessagesList-group {
+  &.isMe {
+  }
+  &:not(.isMe) {
+  }
+}

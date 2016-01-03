@@ -8,6 +8,7 @@ $res1x-sprite-dimensions: true;
 @include all-res1x-sprites;
 
 $si-white: #fff;
+$si-light-green: #EEF6E8;
 $si-green: #a7d281;
 $si-dark-green: #7EBE59;
 $si-gray: #3b3b3b;
@@ -22,11 +23,20 @@ $si-card: #f8f9f8;
 $si-error-color: #E73F3F;
 $grid-unit: 70px;
 
-$default-font-size: 1.6rem; 
+$default-font-size: 1.6rem;
 $default-font-size-small: 1.3rem;
 $default-font-size-large: 1.8rem;
 
 $default-spacing: 10px;
+
+$border-color: #EDEFED;
+$border-color-dark: #DFDFDF;
+$border-color-alt: #a7d281;
+$color-light: #989899;
+$background-color-light: #EDEFED;
+$background-color-alt-light: #F8FAFB;  // slightly green
+$background-color-alt: #EEF6E8;  // slightly green
+$background-color: #F3F3F3;
 
 // External libs
 @import "dropzone";
@@ -36,6 +46,7 @@ $default-spacing: 10px;
 @import "tagsinput";
 
 // Components and Pages
+@import "Page.scss";
 @import "pages/_mixins.scss";
 @import "pages/general.scss";
 
@@ -45,16 +56,15 @@ $default-spacing: 10px;
 @import "components/shout_detail.scss";
 @import "components/tags.scss";
 @import "components/shout_form.scss";
-@import "components/location_search.scss"; 
+@import "components/location_search.scss";
 @import "components/profile_menu.scss";
 @import "components/profile_info_tooltip.scss";
 @import "components/popup_list.scss"; 
 @import "components/topbar_buttons.scss"; 
-@import "components/si_buttons.scss"; 
+@import "components/si_buttons.scss";
+@import "components/chat.scss";
 
 @import "pages/mainpage.scss";
 @import "pages/homepage.scss";
 @import "pages/search.scss";
 @import "pages/profilepage.scss";
-
-

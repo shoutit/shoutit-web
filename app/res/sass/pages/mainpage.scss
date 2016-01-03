@@ -35,7 +35,7 @@
   .mainpage-cover {
     position: relative;
     min-height: 471px;
-    background: url(../img/cover.jpg);
+    // background: url(../img/cover.jpg);
     background-size: cover;
     .mainpage-cover-opacity {
       position: absolute;
@@ -51,7 +51,7 @@
         p {
           color: $si-white;
           padding: 10px;
-          max-width: 522px; 
+          max-width: 522px;
           font-size: 2.0rem;
           font-weight: 300;
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -67,10 +67,10 @@
         }
       }
     }
-    
+
   }
   .mainpage-search {
-    height: 90px; 
+    height: 90px;
     background: $si-gray;
     padding-top: 23px;
     overflow: hidden;
@@ -92,9 +92,9 @@
       margin-top:0;
       background: $si-bg;
     }
-  } 
+  }
   .mainpage-footer {
-    height: 233px; 
+    height: 233px;
     background: $si-light-gray;
     .logo-section{
       .icon {
@@ -105,7 +105,7 @@
         color: $si-white;
         font-size: 1.2rem;
       }
-    } 
+    }
     .links-section {
       h3 {
         color: $si-white;
@@ -121,7 +121,7 @@
       .res1x-app-store-small {
         margin-bottom: 7px;
       }
-      
+
     }
   }
-} 
+}

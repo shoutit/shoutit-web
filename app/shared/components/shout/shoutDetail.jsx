@@ -128,8 +128,8 @@ export default React.createClass({
 		);
 	}
 
-	// onReplyTextChange(e) {
-	// 	this.props.flux.actions.changeReplyDraft(this.state.shoutId, e.target.value);
+	// onReplyTextChange(text) {
+	// 	this.props.flux.actions.changeReplyDraft(this.state.shoutId, text);
 	// },
 
 	// onReplySendClicked() {

@@ -22,9 +22,7 @@ import TagProfileShouts from './components/tag/tagProfileShouts.jsx';
 import TagProfileOffers from './components/tag/tagProfileOffers.jsx';
 import TagProfileRequest from './components/tag/tagProfileRequests.jsx';
 import TagProfileListeners from './components/tag/tagProfileListeners.jsx';
-import Chat from './components/chat/chat.jsx';
-import MessageList from './components/chat/message/list.jsx';
-import EmptyMessageList from './components/chat/message/empty.jsx';
+import ChatContainer from './components/chat/ChatContainer.jsx';
 import Discover from './components/featuredTags/discover.jsx';
 
 let All = new FeedListContainer("all"),
@@ -51,10 +49,6 @@ export default function (envData) {
 							<Route path="taglisteners" component={TagProfileListeners}/>
 							<IndexRoute component={TagProfileShouts}/>
 						</Route>
-						<Route path="chat" component={new Chat(envData)}>
-							<Route path=":chatId" component={MessageList}/>
-							<IndexRoute component={EmptyMessageList}/>
-						</Route>
 						<Route path="/search/:shouttype/:category(/:term)" component={Search}>
 							<IndexRoute component={Search}/>
 						</Route>
@@ -65,12 +59,13 @@ export default function (envData) {
 						<IndexRoute component={Profile}/>
 					</Route>
 				</Route>
+				<Route path="/chat(/:conversationId)" component={ ChatContainer } />
 				<Route path="static" component={Reduced}>
 					<Route path="/tos" component={Static}/>
 					<Route path="/rules" component={Static}/>
 					<Route path="/policy" component={Static}/>
 				</Route>
-				
+
 				<Route path="/auth/verify_email" component={VerifyEmail}/>
 				<Route path="*" component={NotFound}/>
 			</Route>
