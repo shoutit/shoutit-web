@@ -730,16 +730,17 @@ var UserStore = Fluxxor.createStore({
 						console.log(err);
 					} else {
 						let next = this.parseNextPage(res.body.next);
-						let list = res.body.tags;
 						
 						let stock = this.state.listens[username].tags.list;
+						let list = res.body.tags.map(item => item.name);
 						stock = [...stock, ...list];
 
 						this.state.listens[username].tags.list = stock;
-						// add tags to tag store
-						//this.flux.store('tags').addTags(list);
 						this.state.listens[username].tags.next = next;
 
+						// add tags to tag store
+						this.flux.store('tags').addTags(res.body.tags);
+						
 						this.state.loading = false;
 						this.emit("change");
 					}
