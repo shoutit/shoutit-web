@@ -1,10 +1,15 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {Image} from '../../helper';
+import {Grid, Column} from '../../helper';
 import TagListenButton from '../../general/tagListenButton.jsx';
+import UserImage from '../../user/userImage.jsx';
 
 export default React.createClass({
     displayName: "TagRow",
+
+    contextTypes: {
+        flux: React.PropTypes.object 
+    },
 
     onButtonChange(ev) {
         if(this.props.onChange) {
@@ -13,25 +18,33 @@ export default React.createClass({
     },
 
     render() {
-        let tag = this.props.tag;
-        let flux = this.props.flux;
+        let tag = JSON.parse(JSON.stringify(this.props.tag));
+        let flux = this.context.flux;
 
-        return (
-            <div className="listener-dt">
-                <div className="listener-dt-img">
-                    <Image infix="user" size="small" src={tag.image}/>
-                </div>
-                <div className="listener-dt-info">
-                    <h4>{tag.name}&nbsp;
-                        (
-                        <Link to="tag" params={{tagName: encodeURIComponent(tag.name)}}>
+        if(tag.name) {
+            return (
+                <Grid fluid={true} className="popuplist-row">
+                    <Column fluid={true} clear={true} size="2" >
+                        <Link to={`/tag/${encodeURIComponent(tag.name)}`}>
+                            <UserImage size="32" image={tag.image} type="circle"/>
+                        </Link>
+                    </Column>
+                    <Column fluid={true} size="10" className="popuplist-text-row">
+                        <Link to={`/tag/${encodeURIComponent(tag.name)}`}>
                             {tag.name}
                         </Link>
-                        )
-                    </h4>
-                   <TagListenButton tag={JSON.parse(JSON.stringify(tag))} onChange={this.onButtonChange} flux={flux}/>
-                </div>
-            </div>
-        );
+                    </Column>
+                    <Column fluid={true} size="3" style={{paddingTop: "5px"}}>
+                        <TagListenButton tag={tag}
+                                         hasTitle={false}
+                                         onChange={this.onButtonChange}
+                                         flux={flux}
+                                         />
+                    </Column>
+                </Grid>
+            );
+        } else {
+            return null;
+        }
     }
 });

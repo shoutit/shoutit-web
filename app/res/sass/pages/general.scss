@@ -1,8 +1,10 @@
 body {
   overflow: auto!important;
   background: $si-bg;
+  font-size: $default-font-size;
 }
 a {
+  font-size: $default-font-size;
   color: $si-gray;
   &:hover, &:active {
     color: darken($si-green,10%);
@@ -111,6 +113,18 @@ button {
 .hide {
   display: none!important;
 }
+
+.si-scrollbar {
+  & > div:nth-child(2) {
+    width: 8px!important;
+    border-radius: 5px!important;
+    & > div {
+      background-color: $si-green!important;
+    }
+    
+  }
+  
+}
 /* Buttons */
 .shout-btn {
   @extend .res1x-create-shout;
@@ -132,6 +146,7 @@ button {
 .new-shout-button {
   @extend .res1x-create-shout;
   color: $si-white;
+  font-size: 1.4rem;
   padding-left: 40px;
   display: inline-block;
   padding-top: 7px;

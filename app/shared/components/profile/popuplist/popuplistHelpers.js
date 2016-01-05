@@ -45,7 +45,8 @@ class POPUPLIST_HELPER {
                 break;
             case 'Tags' :
                 let tagslist = listens[username].tags.list;
-                return tagslist.map(item => tags[item].tag);
+                console.log(tagslist);
+                return tagslist.map(item => tags[item] && tags[item].tag);
                 break;
             }
         }

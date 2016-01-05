@@ -12,7 +12,14 @@ export default React.createClass({
     propTypes: {
         flux: React.PropTypes.object.isRequired,
         username: React.PropTypes.string.isRequired,
-        onChange: React.PropTypes.func
+        onChange: React.PropTypes.func,
+        hasTitle: React.PropTypes.bool
+    },
+
+    getDefaultProps() {
+        return {
+            hasTitle: true
+        }
     },
 
     getStateFromFlux() {
@@ -74,9 +81,12 @@ export default React.createClass({
                 <div className="img-holder">
                     <Icon name={iconName} style={{margin: '0 auto'}}/>
                 </div>
-                <div className="text-holder">
-                    {title}
-                </div>
+                {this.props.hasTitle?
+                    <div className="text-holder">
+                        {title}
+                    </div>
+                    :null
+                }
             </div>
         );
     },

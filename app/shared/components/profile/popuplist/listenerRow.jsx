@@ -21,22 +21,31 @@ export default React.createClass({
 		const listener = this.props.user;
 		const flux = this.context.flux;
 
-		return (
-			<Grid fluid={true}>
-				<Column fluid={true} clear={true} size="3" >
-					<Link to={`user/${encodeURIComponent(listener.username)}`}>
-						<UserImage size="32" image={listener.image} type="circle"/>
-					</Link>
-				</Column>
-				<Column fluid={true} size="9" >
-					<Link to={`user/${encodeURIComponent(listener.username)}`}>
-						{listener.name}
-					</Link>
-				</Column>
-				<Column fluid={true} size="3" >
-					<ListenButton key={listener.id} username={listener.username} onChange={this.onButtonChange} flux={flux}/>
-				</Column>
-			</Grid>
-		);
+		if(listener.username) {
+			return (
+				<Grid fluid={true} className="popuplist-row">
+					<Column fluid={true} clear={true} size="2" >
+						<Link to={`/user/${encodeURIComponent(listener.username)}`}>
+							<UserImage size="32" image={listener.image} type="circle"/>
+						</Link>
+					</Column>
+					<Column fluid={true} size="10" className="popuplist-text-row">
+						<Link to={`/user/${encodeURIComponent(listener.username)}`}>
+							{listener.name}
+						</Link>
+					</Column>
+					<Column fluid={true} size="3" style={{paddingTop: "5px"}}>
+						<ListenButton key={listener.id}
+									  username={listener.username}
+									  onChange={this.onButtonChange}
+									  hasTitle={false}
+									  flux={flux}
+									  />
+					</Column>
+				</Grid>
+			);
+		} else {
+			return null;
+		}
 	}
 });

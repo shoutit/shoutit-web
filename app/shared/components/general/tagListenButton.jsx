@@ -9,6 +9,12 @@ export default React.createClass({
     mixins: [new StoreWatchMixin('users')],
     displayName: "TagListenButton",
 
+    getDefaultProps() {
+        return {
+            hasTitle: true
+        }
+    },
+
     getStateFromFlux() {
         let loggedIn = this.props.flux.store('users').getState().user;
         
@@ -64,9 +70,12 @@ export default React.createClass({
                 <div className="img-holder">
                     <Icon name={iconName} />
                 </div>
-                <div className="text-holder">
-                    {title}
-                </div>
+                {this.props.hasTitle?
+                    <div className="text-holder">
+                        {title}
+                    </div>
+                    :null
+                }
             </div>
         );
     },

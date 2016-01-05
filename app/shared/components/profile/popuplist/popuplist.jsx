@@ -1,11 +1,15 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
-import {Loader} from '../../helper';
+import {Loader, Grid} from '../../helper';
+import Separator from '../../general/separator.jsx';
 import ListenerRow from './listenerRow.jsx';
+import TagRow from './tagRow.jsx';
 import ViewportSensor from '../../misc/ViewportSensor.jsx';
 import NotificationSystem from 'react-notification-system';
 import Dialog from 'material-ui/lib/dialog';
 import popuplistHelper from './popuplistHelpers';
+import {Scrollbars} from 'react-custom-scrollbars';
+import SearchBar from './searchBar.jsx';
 
 export default React.createClass({
     displayName: "PopupList",
@@ -31,6 +35,7 @@ export default React.createClass({
             users: userStore.users,
             user: userStore.user,
             listens: userStore.listens,
+            loading: userStore.loading
         }
     },
 
@@ -51,7 +56,7 @@ export default React.createClass({
     componentDidUpdate(prevProps) {
         const {type, username} = this.props;
         const {flux} = this.context;
-        // Initializing helper
+        // Setting helper
         this.helper = popuplistHelper(type, username);
         // condition to send action
         if(prevProps.type !== type || prevProps.username !== username) {
@@ -81,39 +86,86 @@ export default React.createClass({
         }
     },
 
+    renderViewportSensor() {
+        const list = this.helper.getList(this.state);
+
+        if(this.state.loading && list && list.length) {
+            return (
+                <Grid fluid={true}>
+                    <Loader />
+                </Grid>);
+        } else {
+            return (
+                <Grid fluid={true}>
+                    <ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
+                </Grid>);
+        }
+    },
+
+    onLastVisibleChange(isVisible) {
+        if (isVisible) {
+            this.loadMore();
+        }
+    },
+
+    loadMore() {
+        const {type, username} = this.props;
+        const {flux} = this.context;
+
+        switch(type) {
+        case 'Listeners':
+            flux.actions.loadMoreUserListeners(username);
+            break;
+        case 'Listening':
+            flux.actions.loadMoreUserListening(username);
+            break;
+        case 'Tags':
+            flux.actions.loadMoreUserListeningTags(username);
+            break;
+        }
+    },
+
     render() {
         const title = this.helper.getTitle();
         const list = this.helper.getList(this.state);
 
         return(
             <Dialog
-              title={title}
-              contentClassName="profile-picture-dialog"
+              contentClassName="popuplist-dialog"
               modal={false}
               open={this.props.open}
-              autoScrollBodyContent
               onRequestClose={this.handleClose}>
-              {list?
-                this.props.type === "tags"?
-                    list.map((tag, idx) => {
-                        return (
-                            <TagRow key={"tags-" + '-' + idx}
-                                tag={tag} 
-                                onChange={this.handleChange} 
-                                flux={this.context.flux}/>
-                            );
-                    })
-                    :
-                    /* Could be listeners or listenings - both use ListenerRow component*/
-                    list.map((item, idx) => {
-                        return( 
-                            <ListenerRow key={"listen-" + '-' + idx} user={item}
-                                    onChange={this.handleChange} />
-                            );
-                    })
-                :
-                <Loader />
-              }
+                  <Grid fluid={true} className="popuplist-content">
+                  <h3>{title}</h3>
+                  <Separator />
+                  <Scrollbars style={{ width: 380, height: 320}} className="si-scrollbar">
+                      <SearchBar type={this.props.type}/>
+                      {list && list.length?
+                        this.props.type === "Tags"?
+                            list.map((tag, idx) => {
+                                return (
+                                    <TagRow key={"tags-" + '-' + idx}
+                                            tag={tag} 
+                                            onChange={this.handleChange} 
+                                            />
+                                    );
+                            })
+                            :
+                            /* Could be listeners or listenings - both use ListenerRow component*/
+                            list.map((item, idx) => {
+                                return( 
+                                    <ListenerRow key={"listen-" + '-' + idx}
+                                                 user={item}
+                                                 onChange={this.handleChange}
+                                                 />
+                                    );
+                            })
+                        :
+                        <Loader />
+                      }
+                      {this.renderViewportSensor()}
+                  </Scrollbars>
+                  </Grid>
             </Dialog>
             );
     }
