@@ -16,6 +16,7 @@
     "quotes": [2, "single"],
     "jsx-quotes": [1, "prefer-double"],
     "space-before-blocks": 2,
+    "quotes": [2, "double"],
 
     "react/jsx-no-duplicate-props": 2,
     "react/jsx-no-undef": 2,
@@ -25,10 +26,6 @@
     "react/self-closing-comp": 2,
     "react/sort-comp": 2
 
-  },
-
-  "env": {
-    "node": true,
-    "browser": true
   }
+  
 }
