@@ -6,3 +6,5 @@ app/public/main.js
 app/res/vendor
 node_modules
 coverage
+newrelic_agent.log
+npm-debug.log
