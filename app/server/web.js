@@ -42,7 +42,7 @@ var SERVER_ROOT = process.env.SERVER_ROOT || "localhost:8080";
 var graphData = require('./resources/consts/graphData');
 var currencies, categories, sortTypes;
 var whitelist = ['https://shoutit.com', 'https://www.shoutit.com', 'http://dev.www.shoutit.com'];
-if (["developmentLocal"].indexOf(process.env.NODE_ENV) >= 0) {
+if (process.env.NODE_ENV === "development") {
 	whitelist.push('http://localhost');
 }
 var corsOptions = {

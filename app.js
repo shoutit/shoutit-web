@@ -1,7 +1,7 @@
 "use strict";
 
-if (["developmentLocal"].indexOf(process.env.NODE_ENV) < 0) {
-	require('newrelic');
+if (process.env.NODE_ENV === "production") {
+  require("newrelic")
 }
 
 require("babel/register");
