@@ -29,7 +29,7 @@
       display: block;
       position: relative;
       top: 48%;
-      @extend .res1x-arrow; }
+      @extend .res1x-arrow !optional; }
   .image-gallery-content .image-gallery-right-nav {
     right: 0; }
     .image-gallery-content .image-gallery-right-nav:before {
@@ -38,7 +38,7 @@
       position: relative;
       top: 48%;
       margin-left: 15px;
-      @extend .res1x-arrow;
+      @extend .res1x-arrow !optional;
       transform: rotate(180deg); }
 
 .image-gallery-slides {
