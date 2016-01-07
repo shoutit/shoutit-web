@@ -127,7 +127,7 @@ button {
 }
 /* Buttons */
 .shout-btn {
-  @extend .res1x-create-shout!optional;
+  @extend .icon-create-shout!optional;
   opacity: 1;
   color: $si-white;
   padding-left: 40px;
@@ -137,14 +137,15 @@ button {
     outline:0!important;
   }
   &:active,&:focus {
-    @extend .res1x-create-shout !optional;
+    @extend .icon-create-shout !optional;
     border:0!important;
     color: $si-white;
   }
 }
 
 .new-shout-button {
-  @extend .res1x-create-shout !optional;
+  @extend .icon;
+  @extend .icon-create-shout !optional;
   color: $si-white;
   font-size: 1.4rem;
   padding-left: 40px;
@@ -209,13 +210,13 @@ button {
           border-radius: 4px 0 0 4px;
         }
         .icons-loc {
-          @extend .res1x-location_bar !optional;
+          @extend .icon-location_bar !optional;
         }
       }
     }
   }
   .search-button {
-    @extend .res1x-search !optional;
+    @extend .icon-search !optional;
     position: relative;
     float: right;
     z-index: 2;
@@ -322,7 +323,7 @@ button {
     .si-login, .si-signup {
       width: 316px;
       margin: 0 auto;
-      .res1x-sign_logo {
+      .icon-sign_logo {
         margin: 10px auto 0;
       }
       h3 {
