@@ -19,8 +19,9 @@ module.exports = {
   context: context,
   entry: entries,
   output: {
-    path: path.join(__dirname, "./app/public"),
-    filename: "main.js"
+    path: path.join(__dirname, "./app/public/js"),
+    filename: "main.js",
+    publicPath: "/js"
   },
   module: {
     loaders: [
