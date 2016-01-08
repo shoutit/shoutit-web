@@ -9,6 +9,7 @@
   },
   "scripts": {
     "start": "node app.js",
+    "build": "webpack -p --stats",
     "test": "mocha --compilers js:babel/register --recursive",
     "test:watch": "npm test -- --watch",
     "cover": "istanbul cover -- _mocha --recursive --compilers js:babel/register --reporter spec",
