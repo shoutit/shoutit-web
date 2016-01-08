@@ -31,7 +31,7 @@ export default function ConversationItem({ conversation, me, selected }) {
             { partecipants }
           </div>
 
-          <div className="ConversationItem-lastMessage">
+          <div className="ConversationItem-lastMessage" title={ lastMessage.text }>
             <Link to={ `/chat/${conversation.id}` } onClick={ e => e.stopPropagation() } >
               { lastMessage.text }
             </Link>
