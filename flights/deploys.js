@@ -13,8 +13,12 @@ plan.local(["build", "default"], function (local) {
   local.log("Run gulp build and webpack bundle");
   local.exec("gulp build");
   var target = local._context.target;
-  var webpackOpts = target === "production" ? "" : "";
-  local.exec("webpack " + webpackOpts);
+  if (target === "production") {
+    local.exec("npm --production run build");
+  }
+  else {
+    local.exec("npm run build");
+  }
 });
 
 
