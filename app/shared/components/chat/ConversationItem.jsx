@@ -13,35 +13,33 @@ export default function ConversationItem({ conversation, me, selected }) {
     .join(", ");
 
   return (
-    <div className={ `ConversationItem${selected ? " isSelected" : ""} `}>
+    <Link to={ `/chat/${conversation.id}` }
+      className={ `ConversationItem${selected ? " isSelected" : ""} `}>
+      <div className="ConversationItem-usersImage">
+        <ManyUsersImage users={ users.filter(user => user.username !== me) } />
+      </div>
 
-        <div className="ConversationItem-usersImage">
-          <ManyUsersImage users={ users.filter(user => user.username !== me) } />
-        </div>
+      <div className="ConversationItem-body">
 
-        <div className="ConversationItem-body">
-
-          { conversation.type === "about_shout" &&
-            <div className="ConversationItem-aboutShout">
-              {about.title}
-            </div>
-          }
-
-          <div className="ConversationItem-partecipants">
-            { partecipants }
+        { conversation.type === "about_shout" &&
+          <div className="ConversationItem-aboutShout">
+            {about.title}
           </div>
+        }
 
-          <div className="ConversationItem-lastMessage" title={ lastMessage.text }>
-            <Link to={ `/chat/${conversation.id}` } onClick={ e => e.stopPropagation() } >
-              { lastMessage.text }
-            </Link>
-          </div>
-
+        <div className="ConversationItem-partecipants">
+          { partecipants }
         </div>
 
-        <div className="ConversationItem-createdAt">
-          { formatCreatedAt(lastMessage.created_at) }
+        <div className="ConversationItem-lastMessage" title={ lastMessage.text }>
+          { lastMessage.text }
         </div>
-    </div>
+
+      </div>
+
+      <div className="ConversationItem-createdAt">
+        { formatCreatedAt(lastMessage.created_at) }
+      </div>
+    </Link>
   );
 }
