@@ -1,8 +1,8 @@
-import React from 'react';
-import {Link} from 'react-router';
+import React from "react";
+import {Link} from "react-router";
 
-import ManyUsersImage from '../user/ManyUsersImage.jsx';
-import { formatCreatedAt } from '../../../utils/DateUtils';
+import ManyUsersImage from "../user/ManyUsersImage.jsx";
+import { formatCreatedAt } from "../../../utils/DateUtils";
 
 export default function ConversationItem({ conversation, me, selected }) {
   const { users, last_message: lastMessage, about } = conversation;
@@ -10,10 +10,10 @@ export default function ConversationItem({ conversation, me, selected }) {
   const partecipants = users
     .filter(user => user.username !== me)
     .map(user => user.name)
-    .join(', ');
+    .join(", ");
 
   return (
-    <div className={ `ConversationItem${selected ? ' isSelected' : ''} `}>
+    <div className={ `ConversationItem${selected ? " isSelected" : ""} `}>
 
         <div className="ConversationItem-usersImage">
           <ManyUsersImage users={ users.filter(user => user.username !== me) } />
@@ -21,7 +21,7 @@ export default function ConversationItem({ conversation, me, selected }) {
 
         <div className="ConversationItem-body">
 
-          { conversation.type === 'about_shout' &&
+          { conversation.type === "about_shout" &&
             <div className="ConversationItem-aboutShout">
               {about.title}
             </div>
