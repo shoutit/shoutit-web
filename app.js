@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === "development") {
 require("./app/server/web.js")(app)
 
 // startup
-var port = process.env.port || 8080
+var port = process.env.PORT || process.env.NODE_ENV === "development" ? 3000 : 8080
 app.listen(port, function () {
   console.log("Listening at http://localhost:" + port)
 })

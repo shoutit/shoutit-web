@@ -19,8 +19,9 @@ module.exports = {
   context: context,
   entry: entries,
   output: {
-    path: path.join(__dirname, "./app/public"),
-    filename: "main.js"
+    path: path.join(__dirname, "./app/public/js"),
+    filename: "main.js",
+    publicPath: "/js"
   },
   module: {
     loaders: [
@@ -61,10 +62,15 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.ContextReplacementPlugin(/buffer/, require("buffer")),
-    isDevelopment ? new webpack.HotModuleReplacementPlugin() : new Function(),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       "process.env": { NODE_ENV: JSON.stringify(process.env.NODE_ENV || "development") }
-    })
+    }),
+    new webpack.ContextReplacementPlugin(/buffer/, require("buffer")),
+    new webpack.optimize.OccurenceOrderPlugin(),
+
+    isDevelopment ? new webpack.HotModuleReplacementPlugin() : new Function(),
+    isDevelopment ? new webpack.NoErrorsPlugin() : new Function()
+
   ]
 };

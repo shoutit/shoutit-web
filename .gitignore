@@ -2,7 +2,7 @@
 .sass-cache
 app/public/css
 app/public/img
-app/public/main.js
+app/public/js
 app/res/vendor
 node_modules
 coverage

@@ -38,7 +38,9 @@ var morgan = require('morgan'),
 	cors = require('cors');
 
 // Runtime Data:
-var SERVER_ROOT = process.env.SERVER_ROOT || "localhost:8080";
+var SERVER_ROOT = process.env.SERVER_ROOT ||
+  process.env.NODE_ENV === "development" ? "localhost:3000" : "localhost:8080";
+  
 var graphData = require('./resources/consts/graphData');
 var currencies, categories, sortTypes;
 var whitelist = ['https://shoutit.com', 'https://www.shoutit.com', 'http://dev.www.shoutit.com'];
@@ -214,7 +216,7 @@ function reactServerRender(req, res) {
 
 					var loadedRoute = renderProps.routes[renderProps.routes.length - 1];
 					var meta = getMetaFromData(req.url, loadedRoute, data);
-					
+
 					res.render('index', {
 						reactMarkup: content,
 						serializedFlux: serializedFlux,
@@ -225,7 +227,7 @@ function reactServerRender(req, res) {
 				});
 		}
 	});
-	
+
 }
 
 var redisOptions = {
