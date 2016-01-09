@@ -18,7 +18,7 @@ var merge = require('lodash/object/merge'),
 	tagActions = require('./stores/tags/actions'),
 	searchActions = require('./stores/search/actions'),
 	locationsActions = require('./stores/locations/actions'),
-	messagesActions = require('./stores/messages/actions'),
+	messagesActions = require('./stores/messages/actions').actions,
 	notificationsActions = require('./stores/notifications/actions');
 
 module.exports = function (router, user, data, params, currencies, categories, sortTypes) {

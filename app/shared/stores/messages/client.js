@@ -2,42 +2,36 @@
  * Created by Philip on 22.06.2015.
  */
 
-import request from 'superagent';
+import request from "superagent";
 
-const MESSAGES_PREFIX = "/api/messages";
-const CONVERSATIONS_PREFIX = "/api/conversations";
+export function loadConversations() {
+  return request.get("/api/conversations")
+}
 
-export default {
-	loadConversations() {
-		return request.get(CONVERSATIONS_PREFIX);
-	},
+export function loadMoreConversations(query) {
+  return loadConversations().query(query)
+}
 
-	loadMoreConversations(query) {
-		return this.loadConversations().query(query);
-	},
+export function loadMessages(id) {
+  return request.get(`/api/conversations/${id}/messages`)
+}
 
-	loadMessages(id) {
-		return request.get(CONVERSATIONS_PREFIX + '/' + id + '/messages');
-	},
+export function loadMoreMessages(id, query) {
+  return loadMessages(id).query(query)
+}
 
-	loadMoreMessages(id, query) {
-		return this.loadMessages(id).query(query);
-	},
+export function deleteMessage(id) {
+  return request.del(`/api/messages/${id}`)
+}
 
-	deleteMessage(id) {
-		return request.del(MESSAGES_PREFIX + '/' + id);
-	},
+export function readConversation(id) {
+  return request.post(`/api/conversations/${id}/read`)
+}
 
-	readConversation(id) {
-		return request.post(CONVERSATIONS_PREFIX + '/' + id + '/read');
-	},
+export function unreadConversation(id) {
+  return request.del(`/api/conversations/${id}/read`)
+}
 
-	unreadConversation(id) {
-		return request.del(CONVERSATIONS_PREFIX + '/' + id + '/read');
-	},
-
-	replyConversation(id, message) {
-		return request.post(CONVERSATIONS_PREFIX + '/' + id + '/reply')
-			.send(message);
-	}
-};
+export function replyConversation(id, message) {
+  return request.post(`/api/conversations/${id}/reply`).send(message)
+}

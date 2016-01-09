@@ -1,5 +1,5 @@
 import consts from './consts';
-import messageConsts from '../messages/consts';
+import messageConsts from '../messages/actionTypes';
 import client from './client';
 
 export default {
