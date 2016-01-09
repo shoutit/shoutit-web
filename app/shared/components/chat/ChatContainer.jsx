@@ -1,16 +1,16 @@
-import React from 'react';
-import { FluxMixin, StoreWatchMixin } from 'fluxxor';
+import React from "react";
+import { FluxMixin, StoreWatchMixin } from "fluxxor";
 
-import Page from '../helper/Page.jsx';
-import Conversations from '../chat/Conversations.jsx';
-import Messages from '../chat/Messages.jsx';
-import MessagesIndex from '../chat/MessagesIndex.jsx';
+import Page from "../helper/Page.jsx";
+import Conversations from "../chat/Conversations.jsx";
+import Messages from "../chat/Messages.jsx";
+import MessagesIndex from "../chat/MessagesIndex.jsx";
 
 export default React.createClass({
 
-  displayName: 'ChatContainer',
+  displayName: "ChatContainer",
 
-  mixins: [new FluxMixin(React), new StoreWatchMixin('messages')],
+  mixins: [new FluxMixin(React), new StoreWatchMixin("messages")],
 
   componentDidMount() {
     this.getFlux().actions.loadConversations(this.loadActiveConversation);
@@ -24,7 +24,7 @@ export default React.createClass({
   },
 
   getStateFromFlux() {
-    return this.getFlux().store('messages').getState();
+    return this.getFlux().store("messages").getState();
   },
 
   getActiveConversation() {
@@ -77,7 +77,7 @@ export default React.createClass({
                   lastMessageId={activeConversation.last_message.id}
                   loading={ !activeConversation.messages }
                   onRequestToLoadMoreMessages={ (before) => loadMoreConversation(activeConversation.id, before) }
-                  onReplyTextChange={ (text) => messageDraftChange('text', text) }
+                  onReplyTextChange={ (text) => messageDraftChange("text", text) }
                   onReplySubmit={ () => replyConversation(activeConversation.id, draft) }
                 />
               : <MessagesIndex
