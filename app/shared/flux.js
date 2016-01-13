@@ -13,13 +13,15 @@ var merge = require('lodash/object/merge'),
 	LocationsStore = require('./stores/locations/store'),
 	MessagesStore = require('./stores/messages/store'),
 	NotificationsStore = require('./stores/notifications/store'),
+	DiscoversStore = require('./stores/discovers/store'),
 	userActions = require('./stores/users/actions'),
 	shoutActions = require('./stores/shouts/actions'),
 	tagActions = require('./stores/tags/actions'),
 	searchActions = require('./stores/search/actions'),
 	locationsActions = require('./stores/locations/actions'),
 	messagesActions = require('./stores/messages/actions'),
-	notificationsActions = require('./stores/notifications/actions');
+	notificationsActions = require('./stores/notifications/actions'),
+	discoversActions = require('./stores/discovers/actions');
 
 module.exports = function (router, user, data, params, currencies, categories, sortTypes) {
 	var stores = {
@@ -32,14 +34,13 @@ module.exports = function (router, user, data, params, currencies, categories, s
 		search: new SearchStore(merge({}, data, {categories}, params)),
 		locations: new LocationsStore(merge({}, data, {router, params})),
 		messages: new MessagesStore(merge({}, data, {loggedUser: user, params})),
-		notifications: new NotificationsStore({
-			data
-		})
+		notifications: new NotificationsStore({data}),
+		discovers: new DiscoversStore(data)
 	};
 
 	var actions = merge({},
 		userActions, shoutActions, tagActions, searchActions, locationsActions,
-		messagesActions, notificationsActions);
+		messagesActions, notificationsActions, discoversActions);
 
 	var flux = new Fluxxor.Flux(stores, actions);
 
