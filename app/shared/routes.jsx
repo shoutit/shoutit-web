@@ -60,7 +60,7 @@ export default function (envData) {
 						<IndexRoute component={Profile}/>
 					</Route>
 					<Route path="/discover/:country" component={DiscoverHome}>
-						<Route path=":discoverId" component={DiscoverId} />
+						<Route path="/discover/:discoverId" component={DiscoverId} />
 						<IndexRoute component={Discover} />
 					</Route>
 				</Route>
