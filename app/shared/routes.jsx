@@ -25,7 +25,7 @@ import TagProfileListeners from './components/tag/tagProfileListeners.jsx';
 import ChatContainer from './components/chat/ChatContainer.jsx';
 import DiscoverHome from './components/discover/discoverHome.jsx';
 import Discover from './components/discover/discover.jsx';
-import DiscoverId from './components/discover/discoverId.jsx';
+import DiscoverPage from './components/discover/discoverPage.jsx';
 
 let All = new FeedListContainer("all"),
 	Offers = new FeedListContainer("offer"),
@@ -60,7 +60,7 @@ export default function (envData) {
 						<IndexRoute component={Profile}/>
 					</Route>
 					<Route path="/discover/:country" component={DiscoverHome}>
-						<Route path="/discover/:discoverId" component={DiscoverId} />
+						<Route path="/discover/:discoverId" component={DiscoverPage} />
 						<IndexRoute component={Discover} />
 					</Route>
 				</Route>
