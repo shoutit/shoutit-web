@@ -198,7 +198,7 @@ button {
     .input-group {
       .selectpicker {
         max-width: 150px;
-        overflow-x: hidden;
+        overflow: hidden;
         button {
           background: $si-green;
           border: none;
