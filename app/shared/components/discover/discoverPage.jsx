@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 import {StoreWatchMixin} from 'fluxxor';
 import DocumentTitle from 'react-document-title';
 import {Grid, Column, Loader} from '../helper';
+import CoverImage from './coverImage.jsx';
 
 export default React.createClass({
     mixins: [new StoreWatchMixin("discovers")],
@@ -53,12 +54,13 @@ export default React.createClass({
         const country = this.context.params.country;
 
         return (
-            <DocumentTitle title={discover.title}>
+            <DocumentTitle title={discover.title + ' - Shoutit'}>
                 <Grid fluid={true}>
+                    <CoverImage title={discover.title} image={discover.image} />
                     {list &&
                         list.map((item, idx) => {
                             return (
-                                <Column size="3" key={'discover-' + idx} clear={idx%3 === 0}>
+                                <Column size="3" key={"discover-" + idx} clear={idx%3 === 0}>
                                     <Link to={`/discover/${country}/${item.id}`} >{item.title}</Link>
                                 </Column>);
                         })
