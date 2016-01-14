@@ -3,7 +3,7 @@
  **/
 module.exports = function (client) {
     return function (req, res) {
-        client.get(req.session, reg.params.pk)
+        client.get(req.session, req.params.pk)
             .on('success', function (data) {
                 res.json(data);
             })
