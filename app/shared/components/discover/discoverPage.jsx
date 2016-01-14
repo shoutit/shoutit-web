@@ -1,6 +1,8 @@
 import React from 'react';
+import {Link} from 'react-router';
 import {StoreWatchMixin} from 'fluxxor';
 import DocumentTitle from 'react-document-title';
+import {Grid, Column, Loader} from '../helper';
 
 export default React.createClass({
     mixins: [new StoreWatchMixin("discovers")],
@@ -28,9 +30,42 @@ export default React.createClass({
         }
     },
 
+    componentDidMount() {
+        this.loadData();
+    },
+
+    componentDidUpdate() {
+        this.loadData();
+    },
+
+    loadData() {
+        const disId = this.props.pk || this.context.params.pk,
+            {discovers} = this.state,
+            discover = disId && discovers? discovers[disId] : null;
+
+        if(!discover) {
+           this.context.flux.actions.loadDiscoverWithId(disId);
+        }
+    },
+
     renderDiscoverPage(discover) {
-        console.log(discover);
-        return null;
+        const list = discover.children;
+        const country = this.context.params.country;
+
+        return (
+            <DocumentTitle title={discover.title}>
+                <Grid fluid={true}>
+                    {list &&
+                        list.map((item, idx) => {
+                            return (
+                                <Column size="3" key={'discover-' + idx} clear={idx%3 === 0}>
+                                    <Link to={`/discover/${country}/${item.id}`} >{item.title}</Link>
+                                </Column>);
+                        })
+                    }
+                </Grid>
+            </DocumentTitle>
+        );
     },
 
     renderLoading() {
@@ -42,15 +77,15 @@ export default React.createClass({
     },
 
     render() {
-        const {discoverId:disId} = this.props || this.context.params,
+        const disId = this.props.pk || this.context.params.pk,
             {discovers} = this.state,
             discover = disId && discovers? discovers[disId] : null;
 
         if(discover) {
             if(discover.loading) {
-                this.renderLoading();
+                return this.renderLoading();
             } else {
-                return renderDiscoverPage(discover);
+                return this.renderDiscoverPage(discover);
             }
         } else {
             return ( <p>Something unexpected happened!!!</p> );

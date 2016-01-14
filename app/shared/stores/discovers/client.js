@@ -5,7 +5,7 @@ export default {
     getDiscover(query) {
         return request
             .get(PREFIX + '/')
-            .query(query);
+            .query({country: query});
     },
 
     getDiscoverList(id) {

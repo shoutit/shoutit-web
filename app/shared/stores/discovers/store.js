@@ -26,10 +26,12 @@ var DiscoverStore = Fluxxor.createStore({
     },
 
     addDiscoverEntry(id) {
-        if(!this.state.discover[id]) {
+        if(!this.state.discovers[id]) {
             this.state.discovers[id] = {
                 loading: false,
-                err: null,
+                title: null,
+                description: null,
+                cover: null,
                 // An array of objects with discover items
                 children: []
             };
@@ -54,7 +56,7 @@ var DiscoverStore = Fluxxor.createStore({
     onLoadDiscoverWithCodeSuccess(payload) {
         const {country, id} = payload;
 
-        this.state.country[country] = id;
+        this.state.countries[country] = id;
         this.state.loading = false;
         this.emit("change");
     },
@@ -64,7 +66,7 @@ var DiscoverStore = Fluxxor.createStore({
         this.emit("change");
     },
 
-    onLoadDiscoverWithId(id) {
+    onLoadDiscoverWithId({id}) {
         this.addDiscoverEntry(id);
         this.state.discovers[id].loading = true;
         this.emit("change");
@@ -72,6 +74,12 @@ var DiscoverStore = Fluxxor.createStore({
 
     onLoadDiscoverWithIdSuccess(payload) {
         const result = payload.res;
+        const {id} = result;
+
+        this.state.discovers[id].title = result.title;
+        this.state.discovers[id].description = result.description;
+        this.state.discovers[id].cover = result.cover;
+
         if(result.show_children) {
             this.state.discovers[id].children = result.children;
         }

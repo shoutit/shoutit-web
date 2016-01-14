@@ -30,6 +30,15 @@ export default React.createClass({
         }
     },
 
+    componentDidMount() {
+        const {country} = this.context.params;
+        const {flux} = this.context;
+
+        if(this.state.countries && !this.state.countries[country]) {
+            flux.actions.loadDiscoverWithCode(country);
+        }
+    },
+
     renderLoading() {
         return(
             <DocumentTitle title="[Loading...] - Shoutit">
@@ -38,9 +47,9 @@ export default React.createClass({
         );
     },
 
-    renderDisoverPage(id) {
+    renderDiscoverPage(id) {
         return (
-            <DiscoverPage discoverId={id} />
+            <DiscoverPage pk={id} />
         )
     },
 
