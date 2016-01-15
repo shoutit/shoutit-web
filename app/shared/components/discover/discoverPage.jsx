@@ -56,7 +56,8 @@ export default React.createClass({
         const list = discover.children;
         const country = this.context.params.country;
 
-        const shoutsList = this.state.shouts[disId].list;
+        const shoutsList = this.state.shouts[disId]? this.state.shouts[disId].list: [];
+        const shoutsAreLoading = this.state.shouts[disId]? this.state.shouts[disId].loading: false;
         const shouts = shoutsList.map((shoutId) => this.state.fullShouts[shoutId]);
 
         return (
@@ -73,13 +74,16 @@ export default React.createClass({
                     }
                     </Grid>
                     <Grid fluid={true}>
-                        {shouts.map((item, idx) => {
-                            return (
-                                <Column size="3" key={"disShout-" + idx} clear={idx%3 === 0}>
-                                    <Link to={`/shout/${item.id}`} >{item.title}</Link>
-                                </Column>
-                            );
-                        })
+                        {shoutsAreLoading?
+                            <Loader />
+                            :
+                            shouts.map((item, idx) => {
+                                return (
+                                    <Column size="3" key={"disShout-" + idx} clear={idx%3 === 0}>
+                                        <Link to={`/shout/${item.id}`} >{item.title}</Link>
+                                    </Column>
+                                );
+                            })
                         }
                     </Grid>
                 </Grid>
