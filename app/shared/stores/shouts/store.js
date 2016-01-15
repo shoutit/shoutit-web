@@ -2,8 +2,8 @@ import findIndex from 'lodash/array/findIndex';
 import keys from 'lodash/object/keys';
 import Fluxxor from 'fluxxor';
 import url from 'url';
-
 import consts from './consts';
+import discoverConsts from '../discovers/consts';
 import client from './client';
 
 import defaults from '../../consts/defaults';
@@ -101,7 +101,8 @@ let ShoutStore = Fluxxor.createStore({
 			consts.REMOVE_SHOUT_IMAGE, this.onRemoveShoutImage,
 			consts.CHANGE_SHOUT_REPLY_DRAFT, this.onChangeShoutReplyDraft,
 			consts.SEND_SHOUT_REPLY, this.onSendShoutReply,
-			consts.SEND_SHOUT_REPLY_FAILED, this.onReqFailed
+			consts.SEND_SHOUT_REPLY_FAILED, this.onReqFailed,
+            discoverConsts.LOAD_DISCOVER_SHOUTS_SUCCESS, this.onDiscoverShoutsSuccess
 		);
 	},
 
@@ -173,6 +174,17 @@ let ShoutStore = Fluxxor.createStore({
 		this.saveUpdate(res, type);
 		this.emit("change");
 	},
+
+    onDiscoverShoutsSuccess(payload) {
+        // Fill the store with discover shouts
+        const results = payload.res.results;
+        console.log(payload);
+
+        results.forEach((item) => {
+            this.state.fullShouts[item.id] = this.augmentShout(item);
+            console.log(this.augmentShout(item));
+        })
+    },
 
 	onLoadRelatedShouts({shoutId}) {
 		this.state.relatedShouts[shoutId] = {loading: false, res: []};

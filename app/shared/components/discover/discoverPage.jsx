@@ -6,7 +6,7 @@ import {Grid, Column, Loader} from '../helper';
 import CoverImage from './coverImage.jsx';
 
 export default React.createClass({
-    mixins: [new StoreWatchMixin("discovers")],
+    mixins: [new StoreWatchMixin("discovers", "shouts")],
 
     statics: {
         // TODO: change it to proper values for server rendering
@@ -23,11 +23,13 @@ export default React.createClass({
 
     getStateFromFlux() {
         const disStore = this.context.flux.store("discovers").getState();
+        const shoutsStore = this.context.flux.store("shouts").getState();
         return {
             loading: disStore.loading,
             countries: disStore.countries,
             discovers: disStore.discovers,
-            shouts: disStore.shouts
+            shouts: disStore.shouts,
+            fullShouts: shoutsStore.fullShouts
         }
     },
 
@@ -50,21 +52,36 @@ export default React.createClass({
     },
 
     renderDiscoverPage(discover) {
+        const disId = this.props.pk || this.context.params.pk
         const list = discover.children;
         const country = this.context.params.country;
+
+        const shoutsList = this.state.shouts[disId].list;
+        const shouts = shoutsList.map((shoutId) => this.state.fullShouts[shoutId]);
 
         return (
             <DocumentTitle title={discover.title + ' - Shoutit'}>
                 <Grid fluid={true}>
                     <CoverImage title={discover.title} image={discover.image} />
-                    {list &&
-                        list.map((item, idx) => {
-                            return (
-                                <Column size="3" key={"discover-" + idx} clear={idx%3 === 0}>
-                                    <Link to={`/discover/${country}/${item.id}`} >{item.title}</Link>
-                                </Column>);
+                    <Grid fluid={true}>
+                    {list.map((item, idx) => {
+                        return (
+                            <Column size="3" key={"discover-" + idx} clear={idx%3 === 0}>
+                                <Link to={`/discover/${country}/${item.id}`} >{item.title}</Link>
+                            </Column>);
                         })
                     }
+                    </Grid>
+                    <Grid fluid={true}>
+                        {shouts.map((item, idx) => {
+                            return (
+                                <Column size="3" key={"disShout-" + idx} clear={idx%3 === 0}>
+                                    <Link to={`/shout/${item.id}`} >{item.title}</Link>
+                                </Column>
+                            );
+                        })
+                        }
+                    </Grid>
                 </Grid>
             </DocumentTitle>
         );

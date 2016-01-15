@@ -2,6 +2,7 @@ import Fluxxor from 'fluxxor';
 import consts from './consts';
 import defaults from '../../consts/defaults';
 import assign from 'lodash/object/assign';
+import url from 'url';
 
 var DiscoverStore = Fluxxor.createStore({
     initialize(props) {
@@ -42,6 +43,7 @@ var DiscoverStore = Fluxxor.createStore({
         if(!this.state.shouts[id]) {
             this.state.shouts[id] = {
                 loading: false,
+                next: null,
                 // An array of shouts id (find the shout objects in shout store)
                 list: []
             }
@@ -103,8 +105,10 @@ var DiscoverStore = Fluxxor.createStore({
         // Waiting for the shouts store to handle and store the shouts data
         this.waitFor(['shouts'], () => {
             this.state.shouts[id].loading = false;
+            this.state.shouts[id].next = this.parseNextPage(res.next);
+
             // save the list of shouts id in this store
-            this.state.shouts[id].list = res.map((item) => item.id);
+            this.state.shouts[id].list = res.results.map((item) => item.id);
             this.emit("change");
         });
     },

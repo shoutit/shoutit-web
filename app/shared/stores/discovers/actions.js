@@ -29,7 +29,7 @@ export default {
             } else {
                 // Fire the shouts event in case API asks for it
                 if(res.body.show_shouts) {
-                    //this.flux.actions.loadDiscoverShouts(id);
+                    this.flux.actions.loadDiscoverShouts(id);
                 }
                 this.dispatch(consts.LOAD_DISCOVER_WITH_ID_SUCCESS, {res: res.body});
             }
@@ -51,6 +51,6 @@ export default {
             }
         });
 
-        this.dispatch(consts.LOAD_DISCOVER_SHOTUS, {id});
+        this.dispatch(consts.LOAD_DISCOVER_SHOUTS, {id});
     }
 };
