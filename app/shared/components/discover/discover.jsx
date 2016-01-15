@@ -1,3 +1,8 @@
+/**
+ * This component loads the discover page based on a country code like "IN"
+ * It use discoverPage.jsx to present the page, the same component which i-
+ * s used for loading discover pages directly with id (called pk in API)
+ */
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
 import {Grid, Column, Loader} from '../helper';
