@@ -182,7 +182,6 @@ let ShoutStore = Fluxxor.createStore({
 
         results.forEach((item) => {
             this.state.fullShouts[item.id] = this.augmentShout(item);
-            console.log(this.augmentShout(item));
         })
     },
 
