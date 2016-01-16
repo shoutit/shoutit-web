@@ -12,7 +12,8 @@ export default React.createClass({
     getDefaultProps() {
         return {
             className: '',
-            index: 1
+            index: 1,
+            clearOn: 3
         }
     },
 
@@ -24,20 +25,21 @@ export default React.createClass({
     },
 
     onItemClick() {
-        let shout = this.props.shout;
-        let city = encodeURIComponent(shout.location.city);
-        let title = encodeURIComponent(shout.title.replace(/\s+/g, '-'));
+        const shout = this.props.shout;
+        const city = encodeURIComponent(shout.location.city);
+        const title = encodeURIComponent(shout.title.replace(/\s+/g, '-'));
         this.history.pushState(null, `/shout/${shout.id}/${city}/${title}`);
     },
 
     render() {
-        let shout = this.props.shout;
-        let creator = this.props.creator;
-        let currencySign = currency[shout.origCurrency]? currency[shout.origCurrency].sign: shout.origCurrency;
+        const shout = this.props.shout;
+        const creator = this.props.creator;
+        const currencySign = currency[shout.origCurrency]? currency[shout.origCurrency].sign: shout.origCurrency;
+        const className = this.props.className || '';
 
         return (
-            <Column size="3" clear={this.props.index % 3 === 0}>
-                <div onClick={this.onItemClick} className={this.props.className + ' si-shout-grid'}>
+            <Column size="3" clear={this.props.index % this.props.clearOn === 0}>
+                <div onClick={this.onItemClick} className={className + ' si-shout-grid'}>
                     {this.renderThumbnail(shout)}
                     <ItemProp property="name">
                         <h3>{shout.title}</h3>
