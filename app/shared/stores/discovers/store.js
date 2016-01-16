@@ -30,6 +30,7 @@ var DiscoverStore = Fluxxor.createStore({
         if(!this.state.discovers[id]) {
             this.state.discovers[id] = {
                 loading: false,
+                id: null,
                 title: null,
                 description: null,
                 cover: null,
@@ -78,6 +79,7 @@ var DiscoverStore = Fluxxor.createStore({
         const result = payload.res;
         const {id} = result;
 
+        this.state.discovers[id].id = id;
         this.state.discovers[id].title = result.title;
         this.state.discovers[id].description = result.description;
         this.state.discovers[id].cover = result.cover;
