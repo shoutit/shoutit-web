@@ -1,17 +1,18 @@
-import React from 'react';
-import { formatCreatedAt } from '../../../utils/DateUtils';
+import React from "react";
+import { formatCreatedAt } from "../../../utils/DateUtils";
 
-export default function MessageItem({ message, justify='start' }) {
+export default function MessageItem({ created_at, sending, text, justify="start" }) {
 
   return (
     <div className={ `MessageItem ${justify}`}>
       <div className="MessageItem-wrapper">
         <div>
-          { message.text }
+          { text }
         </div>
         <div className="MessageItem-createdAt">
-          { formatCreatedAt(message.created_at) }
+          { formatCreatedAt(created_at) }
         </div>
+        { sending && <p>sending...</p> }
       </div>
     </div>
   );

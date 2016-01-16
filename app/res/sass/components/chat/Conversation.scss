@@ -1,6 +1,6 @@
 @import "../../flexbox.scss";
 
-.Messages {
+.Conversation {
   position: absolute;
   top: 0;
   right: 0;
@@ -10,11 +10,11 @@
   @include flex-direction(column);
 }
 
-.Messages-listTopSeparator {
+.Conversation-listTopSeparator {
   @include flex(1, 0, auto);
 }
 
-.Messages-listContainer {
+.Conversation-listContainer {
   @include flex(1, 1, 0);
   @include flexbox();
   @include flex-direction(column);
@@ -22,7 +22,7 @@
   padding: 10px 0;
 }
 
-.Messages-replyFormContainer {
+.Conversation-replyFormContainer {
   border-top: 1px solid $border-color-dark;
   background-color: $background-color;
 }

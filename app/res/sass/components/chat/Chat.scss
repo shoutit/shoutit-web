@@ -1,4 +1,4 @@
-.ChatContainer {
+.Chat {
   @include paper();
   position: absolute;
   top: 0px;
@@ -8,7 +8,7 @@
   overflow: hidden;
 }
 
-  .ChatContainer-conversations {
+  .Chat-conversations {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -17,7 +17,7 @@
     overflow: auto;
   }
 
-  .ChatContainer-messages {
+  .Chat-messages {
     position: absolute;
     top: 0;
     right: 0;

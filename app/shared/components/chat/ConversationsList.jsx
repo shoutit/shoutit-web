@@ -1,25 +1,27 @@
-import React from 'react';
-import ConversationItem from '../chat/ConversationItem.jsx';
+import React from "react";
 
-export default function ConversationsList({ conversations, me, activeConversation, onConversationClick }) {
+import ConversationsTitle from "../chat/ConversationsTitle.jsx";
+import ConversationItem from "../chat/ConversationItem.jsx";
 
-  if (conversations.length === 0) {
-    return <span />
-  }
-
+export default function ConversationsList({ conversations=[], me, selectedId, loading }) {
+  const unread = conversations.filter(c => c.unread_messages_count > 0);
   return (
-    <ul className="ConversationsList">
-      { conversations.map((conversation, i) =>
-        <li
-          key={ i }
-          onClick= { (e) => onConversationClick(conversation, e) }>
-          <ConversationItem
-            conversation={ conversation }
-            me={ me }
-            selected={ activeConversation && activeConversation.id === conversation.id }
-          />
-        </li>
-      )}
-    </ul>
+    <div>
+      <ConversationsTitle unreadCount={ unread.length } />
+      { loading && <p>Loading</p> }
+      { conversations.length > 0 &&
+        <ul className="ConversationsList">
+          { conversations.map(conversation =>
+            <li key={ conversation.id }>
+              <ConversationItem
+                { ...conversation }
+                me={ me }
+                selected={ selectedId === conversation.id }
+              />
+            </li>
+          )}
+        </ul>
+      }
+    </div>
   );
 }
