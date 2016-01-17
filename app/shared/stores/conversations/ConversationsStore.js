@@ -131,6 +131,7 @@ export const ConversationsStore = Fluxxor.createStore({
         conversation.next = next;
         conversation.messageIds = messageIds;
         conversation.loading = false;
+        conversation.didLoadMessages = true;
 
       }
 

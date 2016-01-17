@@ -12,24 +12,74 @@ export default React.createClass({
 
   displayName: "Conversation",
 
-  mixins: [new FluxMixin(React), new StoreWatchMixin("conversations", )],
+  mixins: [new FluxMixin(React), new StoreWatchMixin("conversations")],
 
   componentDidMount() {
-    this.getFlux().actions.loadMessages(this.props.params.id);
-    this.scrollListToBottom();
+    this.loadData()
+    if (this.refs.list) {
+      this.setState({
+        scrollTop: this.refs.list.scrollTop,
+        scrollHeight: this.refs.list.scrollHeight
+      });
+    }
+  },
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.params.id !== nextProps.params.id) {
+      // Reset scroll state as the conversation change
+      this.setState({
+        scrollTop: undefined,
+        scrollHeight: undefined
+      });
+    }
   },
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.params.id !== this.props.params.id) {
-      this.getFlux().actions.loadMessages(this.props.params.id);
+      this.loadData();
     }
-    if (
-      (prevState.messages.length === 0 && this.state.messages.length > 0) ||
-      (!prevState.didLoad && this.state.didLoad) ||
-      (prevState.modified_at < this.state.modified_at)
-    ) {
-      this.scrollListToBottom();
+
+    if (this.shouldUpdateScrollPosition(prevState.messages, this.state.messages)) {
+      const previousHeight = prevState.scrollHeight;
+      const scrollHeight = this.refs.list.scrollHeight;
+      let scrollTop;
+      if (!previousHeight) {
+        // Scroll to bottom of the list
+        scrollTop = scrollHeight;
+      }
+      else {
+        // keep scrollTop the same, even if new messages have been added before
+        scrollTop = scrollHeight - previousHeight + prevState.scrollTop;
+      }
+      this.refs.list.scrollTop = scrollTop;
+      this.setState({ scrollHeight, scrollTop });
     }
+
+  },
+
+  list: null,
+
+  loadData() {
+    const { id } = this.props.params;
+    const conversation = this.getFlux().store("conversations").get(id);
+    if (conversation && conversation.didLoad && conversation.didLoadMessages) {
+      // Do not request data again if already loaded
+      const messages = this.getFlux().store("messages").getMessages(conversation.messageIds);
+      this.setState({...conversation, messages});
+      return;
+    }
+    this.getFlux().actions.loadMessages(id);
+  },
+
+  shouldUpdateScrollPosition(previousMessages, currentMessages) {
+    if ((previousMessages.length === 0 && currentMessages.length === 0) ||
+      currentMessages.length === 0) {
+      return false;
+    }
+    return (
+      (previousMessages.length === 0 && currentMessages.length > 0) || // messages have been added
+      (previousMessages[0].id !== currentMessages[0].id) // messages have been added before
+    );
   },
 
   getStateFromFlux() {
@@ -59,19 +109,11 @@ export default React.createClass({
     return state;
   },
 
-  scrollListToBottom() {
-    const { list } = this.refs;
-    if (!list) {
-      return;
-    }
-    list.scrollTop = list.scrollHeight;
-  },
-
   render() {
 
     const { id } = this.props.params;
-    const { messages, draft, didLoad, loading, loadingPrevious, loadingNext, me, users, about, type, next,
-      previous } = this.state;
+    const { messages, draft, didLoad, loading, loadingPrevious, loadingNext, me,
+      users, about, type, next, previous } = this.state;
 
     const { conversationDraftChange, replyToConversation, loadPreviousMessages,
       loadNextMessages } = this.getFlux().actions;
@@ -86,7 +128,7 @@ export default React.createClass({
         { !hasMessages && loading && <p>Loading...</p> }
 
         { hasMessages &&
-          <div className="Conversation-listContainer" ref="list">
+          <div className="Conversation-listContainer" ref="list" onScroll={ (e) => this.setState({scrollTop: e.target.scrollTop})}>
             <div className="Conversation-listTopSeparator" />
             { didLoad && previous && !loadingPrevious &&
               <a href="#" onClick={ () => loadPreviousMessages(id) }>
@@ -98,7 +140,9 @@ export default React.createClass({
                 Loading older messages...
               </a>
             }
+
             <MessagesList messages={ messages } me={ me } />
+
             { didLoad && next && !loadingNext &&
               <a href="#" onClick={ () => loadNextMessages(id) }>
                 Load next messages

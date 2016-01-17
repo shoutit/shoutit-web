@@ -25,10 +25,8 @@ function groupMessages(messages) {
 /**
  * Show the messages belonging to a conversation.
  *
- * @param {Object}  props.conversation
+ * @param {Array}  props.messages
  * @param {String}  props.me
- * @param {Boolean} props.showOnlyLastMessage Show only the last message in the conversation. Set this to true in shout page.
- * @param {Function}  props.onLoadMoreMessagesClick The first argument is the date before which load the messages
  */
 export default function MessageList({ messages, me }) {
   const groups = groupMessages(messages);
