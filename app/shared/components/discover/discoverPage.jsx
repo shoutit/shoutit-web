@@ -3,7 +3,10 @@ import {Link} from 'react-router';
 import {StoreWatchMixin} from 'fluxxor';
 import DocumentTitle from 'react-document-title';
 import {Grid, Column, Loader} from '../helper';
+import {ItemScope, ItemProp} from './../helper/microdata';
 import CoverImage from './coverImage.jsx';
+import GridDiscover from './gridDiscover.jsx';
+import GridShout from './../feed/feed/gridShout/gridShoutItem.jsx';
 
 export default React.createClass({
     mixins: [new StoreWatchMixin("discovers", "shouts")],
@@ -55,7 +58,6 @@ export default React.createClass({
         const disId = this.props.pk || this.context.params.pk
         const list = discover.children;
         const country = this.context.params.country;
-
         const shoutsList = this.state.shouts[disId]? this.state.shouts[disId].list: [];
         const shoutsAreLoading = this.state.shouts[disId]? this.state.shouts[disId].loading: false;
         const shouts = shoutsList.map((shoutId) => this.state.fullShouts[shoutId]);
@@ -67,9 +69,12 @@ export default React.createClass({
                     <Grid fluid={true}>
                     {list.map((item, idx) => {
                         return (
-                            <Column size="3" key={"discover-" + idx} clear={idx%3 === 0}>
-                                <Link to={`/discover/${country}/${item.id}`} >{item.title}</Link>
-                            </Column>);
+                            <GridDiscover index={idx}
+                                          discover={item}
+                                          country={country}
+                                          key={"discover-" + idx}
+                                          />
+                        );
                         })
                     }
                     </Grid>
@@ -79,9 +84,13 @@ export default React.createClass({
                             :
                             shouts.map((item, idx) => {
                                 return (
-                                    <Column size="3" key={"disShout-" + idx} clear={idx%3 === 0}>
-                                        <Link to={`/shout/${item.id}`} >{item.title}</Link>
-                                    </Column>
+                                    <ItemScope type="Product" key={"disShout-" + idx}>
+                                        <GridShout index={idx}
+                                                   shout={item}
+                                                   creator={item.user}
+                                                   clearOn={4}
+                                                    />
+                                    </ItemScope>
                                 );
                             })
                         }

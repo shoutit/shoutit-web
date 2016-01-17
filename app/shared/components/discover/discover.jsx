@@ -67,9 +67,13 @@ export default React.createClass({
         if(loading) {
             return this.renderLoading();
         } else if(discover) {
-            return this.renderDiscoverPage(disId);
+            if(discover.loading) {
+                return this.renderLoading();
+            } else {
+                return this.renderDiscoverPage(disId);
+            }
         } else {
-            return ( <p>Something unexpected happened!</p> );
+            return ( <p>Something unexpected happened! Please reload the page.</p> );
         }
     }
 });
