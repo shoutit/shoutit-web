@@ -18,6 +18,8 @@ export default React.createClass({
     },
 
     renderThumbnail(thumbnail) {
+        // TODO: remove the default photo in production
+        thumbnail = thumbnail || 'https://shout-image.static.shoutit.com/d513beb9-ad75-45d7-8817-e8e2bba4bf24-1453018026.jpg';
         return thumbnail ?
             <div className="img"
                  style={{backgroundImage:`url(${thumbnail.replace(/\.jpg$/i, '_medium.jpg')})`}}></div>
