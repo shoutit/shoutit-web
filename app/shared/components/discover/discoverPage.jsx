@@ -79,6 +79,7 @@ export default React.createClass({
                     }
                     </Grid>
                     <Grid fluid={true}>
+                        {shouts.length? <h3 className="si-center-header">Shouts</h3>: null}
                         {shoutsAreLoading?
                             <Loader />
                             :
