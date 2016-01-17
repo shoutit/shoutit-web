@@ -146,12 +146,16 @@
     background-size: cover;
     overflow: hidden;
   }
-  h3 {
+  h3, a {
     color: $si-light-gray;
     font-size: 1.6rem;
+    font-weight: 400;
     margin: 10px;
     height: 18px;
     overflow: hidden;
+    &:hover {
+      color: darken($si-light-gray, 5%);
+    }
   }
   .subtitle {
     margin: 0 10px 10px 10px;
@@ -165,5 +169,8 @@
     float:right;
     font-size:1.3rem;
     margin-right: 10px;
+  }
+  &:hover {
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
   }
 }
