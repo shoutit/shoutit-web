@@ -96,6 +96,7 @@ export default React.createClass({
                             })
                         }
                     </Grid>
+                    {shouts.length? <Link to="" className="si-more-link pull-right">Explore More...</Link>: null}
                 </Grid>
             </DocumentTitle>
         );
