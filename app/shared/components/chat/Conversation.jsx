@@ -107,7 +107,8 @@ export default React.createClass({
     }
     return (
       (previousMessages.length === 0 && currentMessages.length > 0) || // messages have been added
-      (previousMessages[0].id !== currentMessages[0].id) // messages have been added before
+      (previousMessages[0].id !== currentMessages[0].id) || // messages have been added before
+      (previousMessages.length < currentMessages.length) // messages have been added after
     );
   },
 
