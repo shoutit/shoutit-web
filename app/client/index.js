@@ -14,6 +14,8 @@ import gAnalytics from "./ga";
 import pusher from "./pusher";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 
+import "../res/sass/main.scss";
+
 injectTapEventPlugin();
 
 const envData = {};
