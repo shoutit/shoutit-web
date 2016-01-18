@@ -1,10 +1,14 @@
 import React from "react";
 import { FluxMixin, StoreWatchMixin } from "fluxxor";
 
-import MessagesTitle from "../chat/MessagesTitle.jsx";
+import ConversationTitle from "../chat/ConversationTitle.jsx";
 import MessagesList from "../chat/MessagesList.jsx";
 import MessageReplyForm from "../chat/MessageReplyForm.jsx";
 import Progress from "../helper/Progress.jsx";
+
+if (process.env.BROWSER) {
+  require("styles/components/Conversation.scss");
+}
 
 /**
  * Container component to display a conversation.
@@ -143,7 +147,7 @@ export default React.createClass({
       <div className="Conversation">
 
         { didLoad &&
-          <MessagesTitle users={ users } about={ about } type={ type } me={ me } /> }
+          <ConversationTitle users={ users } about={ about } type={ type } me={ me } /> }
 
         { didLoad && !hasMessages && loading &&
           <div className="Conversation-progress">

@@ -1,4 +1,7 @@
-@import "_flexbox";
+@import "../_flexbox.scss";
+@import "../defaults.scss";
+@import "../colors.scss";
+@import "../pages/mixins.scss";
 
 .Chat {
   @include paper();
@@ -35,4 +38,10 @@
     @include flexbox();
     @include align-items(center);
     @include justify-content(center);
+  }
+
+  .Chat-conversationsList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }

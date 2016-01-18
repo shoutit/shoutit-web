@@ -1,4 +1,5 @@
-@import "../../_flexbox.scss";
+@import "../_flexbox.scss";
+@import "../colors.scss";
 
 .ConversationItem {
   @include flexbox();

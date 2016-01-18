@@ -1,6 +1,11 @@
 import React from "react";
 import {Input, Button} from "react-bootstrap";
 
+
+if (process.env.BROWSER) {
+  require("styles/components/MessageReplyForm.scss");
+}
+
 /**
  * A simple form to send a message. Accept draft objects.
  * @param {Object}    props.draft

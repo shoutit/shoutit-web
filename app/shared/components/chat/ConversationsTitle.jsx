@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "react-router";
 
+if (process.env.BROWSER) {
+  require("styles/components/ConversationsTitle.scss");
+}
+
 export default function ConversationsTitle({ unreadCount }) {
   return (
     <div className="ConversationsTitle">

@@ -4,6 +4,10 @@ import {Link} from "react-router";
 import ManyUsersImage from "../user/ManyUsersImage.jsx";
 import { formatCreatedAt } from "../../../utils/DateUtils";
 
+if (process.env.BROWSER) {
+  require("styles/components/ConversationItem.scss");
+}
+
 export default function ConversationItem({ id, type, users, last_message, about, me, selected }) {
 
   const partecipants = users
