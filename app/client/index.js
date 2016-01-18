@@ -61,7 +61,6 @@ pusherClient.subscribeUser(flux, loggedUser);
 
 usersStore.on("login", function () {
 	envData.user = usersStore.getLoggedUser();
-	messageStore.setMe(usersStore.getLoggedUser());
 	pusherClient.subscribeUser(flux, usersStore.getLoggedUser());
 });
 
