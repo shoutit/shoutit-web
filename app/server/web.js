@@ -222,7 +222,8 @@ function reactServerRender(req, res) {
 						serializedFlux: serializedFlux,
 						// Extract title from current Router State
 						title: DocumentTitle.rewind(),
-						graph: meta
+						graph: meta,
+						production: process.env.NODE_ENV === "production"
 					});
 				});
 		}
