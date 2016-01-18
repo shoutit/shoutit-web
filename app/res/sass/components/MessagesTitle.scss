@@ -1,4 +1,4 @@
-.MessagesTitle {
+.ConversationTitle {
   background-color: $background-color;
   border-bottom: 1px solid $border-color-dark;
   min-height: 5rem;
@@ -8,11 +8,11 @@
   @include justify-content(center);
 }
 
-.MessagesTitle-partecipants {
+.ConversationTitle-partecipants {
   font-weight: bold;
 }
 
-.MessagesTitle-aboutShout {
+.ConversationTitle-aboutShout {
   a {
     font-size: 1.1em;
     color: $si-blue;
