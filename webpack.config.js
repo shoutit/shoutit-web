@@ -22,6 +22,12 @@ module.exports = {
     filename: "main.js",
     publicPath: "/js"
   },
+  resolve: {
+    extensions: ["", ".js", ".jsx", ".scss"],
+    alias: {
+      "styles": path.join(__dirname, "app/res/sass")
+    }
+  },
   module: {
     loaders: [
       {
