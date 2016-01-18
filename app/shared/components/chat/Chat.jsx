@@ -2,7 +2,10 @@ import React from "react";
 import { FluxMixin, StoreWatchMixin } from "fluxxor";
 
 import Page from "../helper/Page.jsx";
-import ConversationsList from "../chat/ConversationsList.jsx";
+import Progress from "../helper/Progress.jsx";
+
+import ConversationsTitle from "../chat/ConversationsTitle.jsx";
+import ConversationItem from "../chat/ConversationItem.jsx";
 
 /**
  * Container component to display the chat.
@@ -25,32 +28,41 @@ export default React.createClass({
   },
 
   render() {
-    const { conversations, me, loading, next, previous } = this.state;
+    const { conversations, me, loading, previous } = this.state;
     const { flux, params, children } = this.props;
+    const unread = conversations.filter(c => c.unread_messages_count > 0);
 
-    const { loadPreviousConversations, loadNextConversations } = this.getFlux().actions;
+    const { loadPreviousConversations } = this.getFlux().actions;
 
     return (
       <Page fixedHeight title="Chats – Shoutit" flux={ flux } rightContent={ <p>Right board</p> }>
         <div className="Chat">
 
           <div className="Chat-conversations">
+
+          <ConversationsTitle unreadCount={ unread.length } />
             { previous &&
               <a href="#" onClick={ () => loadPreviousConversations() }>
                 Load older conversations
               </a>
             }
-            <ConversationsList
-              loading={ loading }
-              conversations={ conversations }
-              selectedId={ params.id }
-              me={ me }
-            />
-            { next &&
-              <a href="#" onClick={ () => loadNextConversations() }>
-                Load more conversations
-              </a>
+
+            { loading && <div style={ {align: "center" }}><Progress /></div> }
+
+            { conversations.length > 0 &&
+              <ul className="ConversationsList">
+                { conversations.map(conversation =>
+                  <li key={ conversation.id }>
+                    <ConversationItem
+                      { ...conversation }
+                      me={ me }
+                      selected={ conversation.id === params.id }
+                    />
+                  </li>
+                )}
+              </ul>
             }
+
           </div>
 
           <div className="ChatContainer-messages">
@@ -59,7 +71,7 @@ export default React.createClass({
             { !children &&
               <p>
                 { loading ?
-                    "Loading..." :
+                    <div style={ {align: "center" }}><Progress /></div> :
                   conversations.length > 0 ?
                     "Pick a message " :
                     "No message!"
