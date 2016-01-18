@@ -52,7 +52,7 @@ export default React.createClass({
             }
 
             { conversations.length > 0 &&
-              <ul className="ConversationsList">
+              <ul className="Chat-conversationsList">
                 { conversations.map(conversation =>
                   <li key={ conversation.id }>
                     <ConversationItem
