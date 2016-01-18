@@ -2,13 +2,13 @@
 /* eslint-env node */
 
 if (process.env.NODE_ENV === "production") {
-  require("newrelic")
+  require("newrelic");
 }
 
-require("babel/register")
+require("babel/register");
 
-var express = require("express")
-var app = express()
+var express = require("express");
+var app = express();
 
 if (process.env.NODE_ENV === "development") {
 
@@ -22,16 +22,16 @@ if (process.env.NODE_ENV === "development") {
     stats: {
       colors: true
     }
-  }))
+  }));
 
-  app.use(require("webpack-hot-middleware")(webpackCompiler))
+  app.use(require("webpack-hot-middleware")(webpackCompiler));
 }
 
 // Start the server
-require("./app/server/web.js")(app)
+require("./app/server/web.js")(app);
 
 // startup
-var port = process.env.PORT || process.env.NODE_ENV === "development" ? 3000 : 8080
+var port = process.env.PORT || process.env.NODE_ENV === "development" ? 3000 : 8080;
 app.listen(port, function () {
-  console.log("Listening at http://localhost:" + port)
-})
+  console.log("Listening at http://localhost:" + port);
+});
