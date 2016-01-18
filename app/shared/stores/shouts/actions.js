@@ -1,5 +1,5 @@
 import consts from './consts';
-import messageConsts from '../messages/actionTypes';
+// import messageConsts from '../messages/actionTypes';
 import client from './client';
 
 export default {
@@ -82,9 +82,9 @@ export default {
 						error
 					});
 				} else {
-					this.dispatch(messageConsts.NEW_MESSAGE, {
-						message: res.body
-					});
+					// this.dispatch(messageConsts.NEW_MESSAGE, {
+					// 	message: res.body
+					// });
 				}
 			}.bind(this));
 	},
