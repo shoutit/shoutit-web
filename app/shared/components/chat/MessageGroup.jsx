@@ -3,6 +3,10 @@ import React from "react";
 import MessageItem from "../chat/MessageItem.jsx";
 import UserImage from "../user/userImage.jsx";
 
+if (process.env.BROWSER) {
+  require("styles/components/MessageGroup.scss");
+}
+
 /**
  * This component shows messages sent by the same user.
  * @param {Array} props.messages

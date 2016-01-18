@@ -43,7 +43,7 @@ function groupMessages(messages) {
 export default function MessageList({ messages, me, onRetryClick }) {
   const groups = groupMessages(messages);
   return (
-    <div className="MessagesList">
+    <div>
 
       { groups.map( group => {
         const { messages, dayIndexes } = group;

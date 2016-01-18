@@ -25,7 +25,8 @@
     "react/no-unknown-property": 2,
     "react/self-closing-comp": 2,
     "react/sort-comp": 2
-
+  },
+  "env": {
+    "node": true
   }
-
 }

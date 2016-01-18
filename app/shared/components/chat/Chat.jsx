@@ -7,6 +7,10 @@ import Progress from "../helper/Progress.jsx";
 import ConversationsTitle from "../chat/ConversationsTitle.jsx";
 import ConversationItem from "../chat/ConversationItem.jsx";
 
+if (process.env.BROWSER) {
+  require("styles/components/Chat.scss");
+}
+
 /**
  * Container component to display the chat.
  */

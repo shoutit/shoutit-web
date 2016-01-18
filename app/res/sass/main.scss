@@ -1,43 +1,16 @@
-@import "bootstrap";
-@import "grid";
-@import "sprites";
+@import "bootstrap.scss";
+@import "grid.scss";
+@import "sprites.scss";
 
-$si-white: #fff;
-$si-light-green: #EEF6E8;
-$si-green: #a7d281;
-$si-dark-green: #7EBE59;
-$si-gray: #3b3b3b;
-$si-light-gray: #989899;
-$si-light-gray2: #bfbfbf;
-$si-bg: #edefed;
-$si-blue: #337ab7;
-$si-light-blue: #3ac3dc;
-$si-orange : #f7be5a;
-$si-card: #f8f9f8;
+@import "colors.scss";
+@import "defaults.scss";
 
-$si-error-color: #E73F3F;
-$grid-unit: 70px;
-
-$default-font-size: 1.6rem;
-$default-font-size-small: 1.3rem;
-$default-font-size-large: 1.8rem;
-
-$default-spacing: 10px;
-
-$border-color: #EDEFED;
-$border-color-dark: #DFDFDF;
-$border-color-alt: #a7d281;
-$color-light: #989899;
-$background-color-light: #EDEFED;
-$background-color-alt-light: #F8FAFB;  // slightly green
-$background-color-alt: #EEF6E8;  // slightly green
-$background-color: #F3F3F3;
 
 // External libs
-@import "dropzone";
-@import "image-gallery";
-@import "video-player";
-@import "tagsinput";
+@import "dropzone.scss";
+@import "image-gallery.scss";
+@import "video-player.scss";
+@import "tagsinput.scss";
 
 // Components and Pages
 @import "Page.scss";
@@ -53,8 +26,8 @@ $background-color: #F3F3F3;
 @import "components/location_search.scss";
 @import "components/profile_menu.scss";
 @import "components/profile_info_tooltip.scss";
-@import "components/popup_list.scss"; 
-@import "components/topbar_buttons.scss"; 
+@import "components/popup_list.scss";
+@import "components/topbar_buttons.scss";
 @import "components/si_buttons.scss";
 @import "components/chat.scss";
 

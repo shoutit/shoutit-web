@@ -1,6 +1,10 @@
 import React from "react";
 import moment from "moment";
 
+if (process.env.BROWSER) {
+  require("styles/components/MessageItem.scss");
+}
+
 export default function MessageItem({ created_at, sending, text, justify="start", showDay, sendError }) {
   const createdAt = moment.unix(created_at);
   return (
