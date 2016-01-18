@@ -20,3 +20,14 @@
   border-top: 1px solid $border-color-dark;
   background-color: $background-color;
 }
+
+.Conversation-loader {
+  height: 100%;
+  @include flexbox();
+  @include justify-content(center);
+  @include align-items(center);
+
+  .loader {
+    display: inline-block;
+  }
+}
