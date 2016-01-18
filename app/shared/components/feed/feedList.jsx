@@ -2,7 +2,7 @@ import React from 'react';
 import { Col } from 'react-bootstrap';
 import {Link} from 'react-router';
 import Shout from './feed/shout.jsx';
-import Loader from '../helper/loader.jsx';
+import Progress from '../helper/Progress.jsx';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 import {Icon, Column} from '../helper';
 import Separator from '../general/separator.jsx';
@@ -64,7 +64,7 @@ export default React.createClass({
 			shoutEls.push(
 				<section key={"shout-" + (shouts.length + 1)}>
 					<Col xs={12} md={12}>
-						<Loader/>
+						<Progress/>
 					</Col>
 				</section>);
 		} else if (next) {
@@ -97,8 +97,8 @@ export default React.createClass({
 					<Icon name={listBtn} onSwitchClick={this.presentToggle} className="list-btn pull-left"/>
 					<Separator size="20px" vertical={true} />
 					<span style={{fontSize:'14px', float:'left', margin: '18px -25px 0 5px', color: '#888888'}}>Sort by:</span>
-					
-					<DropDownMenu 
+
+					<DropDownMenu
 							underlineStyle={{display:"none"}}
 							menuItems={sortItems}
 							labelStyle={{color: "#68ab5a"}}

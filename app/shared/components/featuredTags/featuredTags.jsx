@@ -4,7 +4,7 @@ import {Col} from 'react-bootstrap';
 import createHash from 'create-hash';
 import TagStage from './tag.jsx';
 import TagBgStage from './bgTag.jsx';
-import {Loader} from '../helper';
+import {Progress} from '../helper';
 
 const tagPattern = [
 	4, 4, 4,
@@ -48,7 +48,7 @@ export default React.createClass({
 			});
 		} else if (this.props.sprite === null) {
 			return (
-				<Loader />
+				<Progress />
 			);
 		} else {
 			return this.props.featuredTags.map((tag, i) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Loader, Grid} from '../helper';
+import {Progress, Grid} from '../helper';
 import Shout from '../feed/feed/shout.jsx';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 
@@ -36,7 +36,7 @@ export default React.createClass({
 			content = this.renderTagProfileShouts(tags);
 			stat = <span>{' (' + tags.length + ')'}</span>;
 		} else {
-			content = <Loader/>;
+			content = <Progress/>;
 		}
 
 		return (
@@ -56,7 +56,7 @@ export default React.createClass({
 		if(this.props.loading) {
 			return (
 				<Grid fluid={true}>
-					<Loader />
+					<Progress />
 				</Grid>);
 		} else {
 			return (

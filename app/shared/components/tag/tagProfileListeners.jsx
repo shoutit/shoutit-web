@@ -1,7 +1,7 @@
 import React from 'react';
 import {Col} from 'react-bootstrap';
 import findIndex from 'lodash/array/findIndex';
-import {Loader, Clear} from '../helper';
+import {Progress, Clear} from '../helper';
 
 import ListenerRow from '../profile/popuplist/listenerRow.jsx';
 
@@ -42,7 +42,7 @@ export default React.createClass({
 				);
 			}) : <h4>This tag has no listeners</h4>;
 		} else {
-			listenerChildren = <Loader/>;
+			listenerChildren = <Progress/>;
 		}
 
 		return (

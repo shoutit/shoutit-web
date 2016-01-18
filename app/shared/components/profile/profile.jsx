@@ -1,6 +1,6 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
-import {Grid, Column, Loader} from '../helper';
+import {Grid, Column, Progress} from '../helper';
 import ProfileOffers from './profileOffers.jsx';
 import DocumentTitle from 'react-document-title';
 import ProfileCover from './profileCover.jsx';
@@ -101,7 +101,7 @@ export default React.createClass({
                     <div>
                         <Grid >
                             <Column size="12" clear={true}>
-                                <ProfileCover 
+                                <ProfileCover
                                     profile={this.state.profile}
                                     onModeChange={this.onModeChange}
                                     user={user}
@@ -111,7 +111,7 @@ export default React.createClass({
                         </Grid>
                         <Grid >
                             <Column size="3" clear={true}>
-                                <ProfileLeftBar 
+                                <ProfileLeftBar
                                     user={user}
                                     onUserListenChange={this.onUserListenChange}
                                     editMode={mode}
@@ -122,7 +122,7 @@ export default React.createClass({
                                     <EmbeddedShout collapsed={true}/>
                                     ): null}
                                 <ProfileOffers {...this.state} username={username} />
-                                
+
                             </Column>
                         </Grid>
                         <NotificationSystem ref="notificationSystem" />
@@ -142,7 +142,7 @@ export default React.createClass({
     renderLoading() {
         return(
             <DocumentTitle title={"[Loading...] - Shoutit"}>
-                <Loader />
+                <Progress />
             </DocumentTitle>
             );
     },
