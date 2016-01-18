@@ -1,10 +1,10 @@
 import React from "react";
 import moment from "moment";
 
-export default function MessageItem({ created_at, sending, text, justify="start", showDay }) {
+export default function MessageItem({ created_at, sending, text, justify="start", showDay, sendError }) {
   const createdAt = moment.unix(created_at);
   return (
-    <div className={ `MessageItem ${justify}`}>
+    <div className={ `MessageItem ${justify}${sendError ? " didError" : ""}`}>
       { showDay && <div className="MessageItem-day">
         { moment.unix(created_at).format("ll") }
       </div> }
@@ -12,11 +12,20 @@ export default function MessageItem({ created_at, sending, text, justify="start"
         <p>
           { text }
         </p>
-        <div className="MessageItem-createdAt" title={createdAt.format("LLLL")}>
-          { createdAt.format("LT") }
+        <div className="MessageItem-footer">
+          {!sending && !sendError &&
+            <span title={createdAt.format("LLLL")}>
+              { createdAt.format("LT") }
+            </span>
+          }
+          { sending && <span>Sending…</span> }
         </div>
-        { sending && <p>sending...</p> }
       </div>
+      { !sending && sendError &&
+        <div className="MessageItem-retry" title={sendError.message}>
+          ⚠️ This message could not be sent
+        </div>
+      }
     </div>
   );
 }

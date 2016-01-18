@@ -46,6 +46,10 @@ $border-radius: 0.5em;
     border-bottom-right-radius: $border-radius;
   }
 
+  &.didError .MessageItem-wrapper {
+    opacity: 0.4;
+  }
+
 }
 
 .MessageItem-wrapper {
@@ -68,8 +72,15 @@ $border-radius: 0.5em;
   margin: 1em;
 }
 
-.MessageItem-createdAt {
+.MessageItem-footer {
   font-size: 0.65em;
   color: #999;
   text-align: right;
+}
+
+.MessageItem-retry {
+  font-size: 0.65em;
+  margin-bottom: 1em;
+  padding: 0.25em;
+  color: $si-error-color;
 }
