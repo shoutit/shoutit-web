@@ -18,8 +18,9 @@ export default React.createClass({
   componentDidMount() {
     this.loadData();
     if (this.list) {
+      this.list.scrollTop = this.list.scrollHeight;
       this.setState({
-        scrollTop: this.list.scrollTop,
+        scrollTop: this.list.scrollHeight,
         scrollHeight: this.list.scrollHeight
       });
     }
