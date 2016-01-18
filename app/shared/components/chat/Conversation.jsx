@@ -171,6 +171,7 @@ export default React.createClass({
           <div className="Conversation-replyFormContainer">
             <MessageReplyForm
               autoFocus
+              placeholder="Add a reply"
               draft={ draft }
               onTextChange={ text => conversationDraftChange(id, text) }
               onSubmit={ () => replyToConversation(id, draft) }
