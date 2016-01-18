@@ -1,5 +1,5 @@
-import React from 'react';
-import {Input, Button} from 'react-bootstrap';
+import React from "react";
+import {Input, Button} from "react-bootstrap";
 
 /**
  * A simple form to send a message. Accept draft objects.
@@ -16,26 +16,27 @@ export default function MessageReplyForm({ draft, autoFocus, disabled=false, onS
     if (disabled || !e.target.input.value.trim()) {
       return;
     }
-    e.target.input.blur();
     onSubmit(e);
-  }
+    e.target.input.focus();
+    
+  };
   return(
     <form className="MessageReplyForm" onSubmit={ handleFormSubmit }>
       <div className="MessageReplyForm-inputContainer">
         <Input
-          autoFocus
+          autoFocus={ autoFocus }
           placeholder="Send a message"
           disabled={ disabled }
           name="input"
           type="text"
           onChange={ e => onTextChange(e.target.value) }
-          value={ draft && draft.text }
+          value={ draft }
         />
       </div>
       <div>
         <Button type="submit" disabled={ disabled } className="reply">Send</Button>
       </div>
     </form>
-  )
+  );
 
 }

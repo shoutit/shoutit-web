@@ -22,7 +22,8 @@ import TagProfileShouts from './components/tag/tagProfileShouts.jsx';
 import TagProfileOffers from './components/tag/tagProfileOffers.jsx';
 import TagProfileRequest from './components/tag/tagProfileRequests.jsx';
 import TagProfileListeners from './components/tag/tagProfileListeners.jsx';
-import ChatContainer from './components/chat/ChatContainer.jsx';
+import Chat from './components/chat/Chat.jsx';
+import Conversation from './components/chat/Conversation.jsx';
 import Discover from './components/featuredTags/discover.jsx';
 
 let All = new FeedListContainer("all"),
@@ -59,7 +60,9 @@ export default function (envData) {
 						<IndexRoute component={Profile}/>
 					</Route>
 				</Route>
-				<Route path="/chat(/:conversationId)" component={ ChatContainer } />
+				<Route path="/chat" component={ Chat }>
+					<Route path="/chat/:id" component={ Conversation } />
+				</Route>
 				<Route path="static" component={Reduced}>
 					<Route path="/tos" component={Static}/>
 					<Route path="/rules" component={Static}/>
