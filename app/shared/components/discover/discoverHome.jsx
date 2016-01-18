@@ -30,7 +30,7 @@ export default React.createClass({
                             {this.props.children}
                         </Column>
                         <Column size="3">
-                            {/*<RightBoard />*/}
+                            <RightBoard />
                         </Column>
                     </Grid>
                 </div>
