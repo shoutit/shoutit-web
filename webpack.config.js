@@ -1,9 +1,9 @@
 /* eslint no-var: 0 */
 /* eslint-env node */
 
-var path = require("path")
-var webpack = require("webpack")
-
+var path = require("path");
+var webpack = require("webpack");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var isDevelopment = process.env.NODE_ENV === "development";
 
 var context = path.join(__dirname, "./app");
@@ -11,7 +11,6 @@ var entries = ["./client/index.js"];
 
 if (isDevelopment) {
   entries.push("webpack-hot-middleware/client");
-  entries.push("./res/sass/main.scss")
 }
 
 module.exports = {
@@ -27,7 +26,9 @@ module.exports = {
     loaders: [
       {
         test: /\.scss$/,
-        loaders: isDevelopment ? ["style", "css", "sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true"] : []
+        loader: isDevelopment ?
+          "style!css?sourceMap!sass?sourceMap&sourceMapContents" :
+           ExtractTextPlugin.extract("style", "css?sourceMap!sass?sourceMap")
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/,
@@ -64,11 +65,14 @@ module.exports = {
   plugins: [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
-      "process.env": { NODE_ENV: JSON.stringify(process.env.NODE_ENV || "development") }
+      "process.env": {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || "development"),
+        BROWSER: JSON.stringify(true)
+      }
     }),
     new webpack.ContextReplacementPlugin(/buffer/, require("buffer")),
     new webpack.optimize.OccurenceOrderPlugin(),
-
+    !isDevelopment ? new ExtractTextPlugin("../css/main.css") : new Function(),
     isDevelopment ? new webpack.HotModuleReplacementPlugin() : new Function(),
     isDevelopment ? new webpack.NoErrorsPlugin() : new Function()
 

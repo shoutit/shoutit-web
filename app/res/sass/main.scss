@@ -1,6 +1,6 @@
-@import "bootstrap";
-@import "grid";
-@import "sprites";
+@import "bootstrap.scss";
+@import "grid.scss";
+@import "sprites.scss";
 
 $si-white: #fff;
 $si-light-green: #EEF6E8;
@@ -34,10 +34,10 @@ $background-color-alt: #EEF6E8;  // slightly green
 $background-color: #F3F3F3;
 
 // External libs
-@import "dropzone";
-@import "image-gallery";
-@import "video-player";
-@import "tagsinput";
+@import "dropzone.scss";
+@import "image-gallery.scss";
+@import "video-player.scss";
+@import "tagsinput.scss";
 
 // Components and Pages
 @import "Page.scss";
@@ -53,8 +53,8 @@ $background-color: #F3F3F3;
 @import "components/location_search.scss";
 @import "components/profile_menu.scss";
 @import "components/profile_info_tooltip.scss";
-@import "components/popup_list.scss"; 
-@import "components/topbar_buttons.scss"; 
+@import "components/popup_list.scss";
+@import "components/topbar_buttons.scss";
 @import "components/si_buttons.scss";
 @import "components/chat.scss";
 
