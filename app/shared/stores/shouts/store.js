@@ -85,6 +85,12 @@ let ShoutStore = Fluxxor.createStore({
 			this.state.fullShouts[props.shout.id] = this.augmentShout(props.shout);
 		}
 
+        if(props.discoverShouts) {
+            const res = props.discoverid;
+
+            this.onDiscoverShoutsSuccess({res});
+        }
+
 
 		this.bindActions(
 			consts.UPDATE, this.onUpdate,
@@ -178,7 +184,6 @@ let ShoutStore = Fluxxor.createStore({
     onDiscoverShoutsSuccess(payload) {
         // Fill the store with discover shouts
         const results = payload.res.results;
-        console.log(payload);
 
         results.forEach((item) => {
             this.state.fullShouts[item.id] = this.augmentShout(item);

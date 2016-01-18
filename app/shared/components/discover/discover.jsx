@@ -14,9 +14,9 @@ export default React.createClass({
 
     statics: {
         // TODO: change it to proper values for server rendering
-        fetchId: 'user',
+        fetchId: 'discoverlist',
         fetchData(client, session, params) {
-            return client.users().get(session, params.username);
+            return client.discover().list(session, params.country);
         }
     },
 
@@ -73,7 +73,9 @@ export default React.createClass({
                 return this.renderDiscoverPage(disId);
             }
         } else {
-            return ( <p>Something unexpected happened! Please reload the page.</p> );
+            // TODO: remove it with an error after server rendering is fixed
+            // This condition does not mean loading
+            return this.renderLoading();
         }
     }
 });

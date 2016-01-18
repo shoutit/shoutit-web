@@ -13,9 +13,9 @@ export default React.createClass({
 
     statics: {
         // TODO: change it to proper values for server rendering
-        fetchId: 'user',
+        fetchId: 'discoverid',
         fetchData(client, session, params) {
-            return client.users().get(session, params.username);
+            return client.discover().get(session, params.pk);
         }
     },
 

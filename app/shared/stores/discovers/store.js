@@ -13,6 +13,33 @@ var DiscoverStore = Fluxxor.createStore({
             shouts: {}
         };
 
+        // Checking server rendering conditions
+
+        if(props.discoverlist) {
+            const {country, results: {id}} = props.discoverlist;
+            this.onLoadDiscoverWithCodeSuccess({country, id});
+        }
+
+        if(props.discoverid) {
+            const res = props.discoverid;
+
+            this.addDiscoverEntry(res.id);
+            this.onLoadDiscoverWithIdSuccess({res , id: res.id});
+        }
+
+        // TODO: should be implemented to be fetched in components and routes
+        if(props.discoverShouts) {
+            const res = props.discoverShouts;
+
+            if(res.show_shouts) {
+                this.addDiscoverShoutsEntry(res.id);
+                this.state.shouts[res.id].next = this.parseNextPage(res.next);
+
+                // save the list of shouts id in this store
+                this.state.shouts[res.id].list = res.results.map((item) => item.id);
+            }
+        }
+
         this.bindActions(
             consts.LOAD_DISCOVER_WITH_CODE, this.onLoadDiscoverWithCode,
             consts.LOAD_DISCOVER_WITH_CODE_SUCCESS, this.onLoadDiscoverWithCodeSuccess,
@@ -93,6 +120,7 @@ var DiscoverStore = Fluxxor.createStore({
     },
 
     onLoadDiscoverWithIdFail({id}) {
+        delete this.state.discovers[id];
         this.state.discovers[id].loading = false;
         this.emit("change");
     },
