@@ -40,7 +40,7 @@ function groupMessages(messages) {
  * @param {Array}  props.messages
  * @param {String}  props.me
  */
-export default function MessageList({ messages, me }) {
+export default function MessageList({ messages, me, onRetryClick }) {
   const groups = groupMessages(messages);
   return (
     <div className="MessagesList">
@@ -52,6 +52,7 @@ export default function MessageList({ messages, me }) {
         return (
           <div key={ messages[0].id } className={ `MessagesList-group${isMe ? " isMe" : ""}` }>
             <MessageGroup
+              onRetryClick={ onRetryClick }
               dayIndexes={ dayIndexes }
               messages={ messages }
               showUserImage={ !isMe }

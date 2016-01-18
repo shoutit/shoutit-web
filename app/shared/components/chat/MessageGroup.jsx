@@ -9,7 +9,7 @@ import UserImage from "../user/userImage.jsx";
  * @param {Boolean} props.showUserImage
  * @param {String} props.justify "start" or "end"
  */
-export default function MessageGroup({ messages, showUserImage, justify="start", dayIndexes=[] }) {
+export default function MessageGroup({ messages, showUserImage, justify="start", dayIndexes=[], onRetryClick }) {
 
   return (
     <div className={ `MessageGroup ${justify}` }>
@@ -23,6 +23,7 @@ export default function MessageGroup({ messages, showUserImage, justify="start",
           <div key={ message.id }>
             <MessageItem
               { ...message }
+              onRetryClick={ () => onRetryClick(message) }
               justify={ justify }
               showDay={ dayIndexes.indexOf(i) > -1 }
             />
