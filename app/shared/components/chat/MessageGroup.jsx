@@ -6,9 +6,10 @@ import UserImage from "../user/userImage.jsx";
 /**
  * This component shows messages sent by the same user.
  * @param {Array} props.messages
- * @param {Boolean} props.isSentByMe
+ * @param {Boolean} props.showUserImage
+ * @param {String} props.justify "start" or "end"
  */
-export default function MessageGroup({ messages, showUserImage, justify="start" }) {
+export default function MessageGroup({ messages, showUserImage, justify="start", dayIndexes=[] }) {
 
   return (
     <div className={ `MessageGroup ${justify}` }>
@@ -19,8 +20,14 @@ export default function MessageGroup({ messages, showUserImage, justify="start" 
       }
       <div className="MessageGroup-messages">
         { messages.map((message, i) =>
-          <MessageItem key={ i } { ...message } justify={ justify } />)
-        }
+          <div key={ message.id }>
+            <MessageItem
+              { ...message }
+              justify={ justify }
+              showDay={ dayIndexes.indexOf(i) > -1 }
+            />
+          </div>
+        )}
       </div>
     </div>
   );
