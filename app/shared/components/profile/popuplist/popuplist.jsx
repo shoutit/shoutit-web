@@ -1,6 +1,6 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
-import {Loader, Grid} from '../../helper';
+import {Progress, Grid} from '../../helper';
 import Separator from '../../general/separator.jsx';
 import ListenerRow from './listenerRow.jsx';
 import TagRow from './tagRow.jsx';
@@ -72,7 +72,7 @@ export default React.createClass({
                 break;
             }
         }
-        
+
         this._notificationSystem = this.refs.notificationSystem;
     },
 
@@ -92,7 +92,7 @@ export default React.createClass({
         if(this.state.loading && list && list.length) {
             return (
                 <Grid fluid={true}>
-                    <Loader />
+                    <Progress />
                 </Grid>);
         } else {
             return (
@@ -145,15 +145,15 @@ export default React.createClass({
                             list.map((tag, idx) => {
                                 return (
                                     <TagRow key={"tags-" + '-' + idx}
-                                            tag={tag} 
-                                            onChange={this.handleChange} 
+                                            tag={tag}
+                                            onChange={this.handleChange}
                                             />
                                     );
                             })
                             :
                             /* Could be listeners or listenings - both use ListenerRow component*/
                             list.map((item, idx) => {
-                                return( 
+                                return(
                                     <ListenerRow key={"listen-" + '-' + idx}
                                                  user={item}
                                                  onChange={this.handleChange}
@@ -161,7 +161,7 @@ export default React.createClass({
                                     );
                             })
                         :
-                        <Loader />
+                        <Progress />
                       }
                       {this.renderViewportSensor()}
                   </Scrollbars>
