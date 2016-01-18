@@ -47,8 +47,6 @@ export default React.createClass({
               </a>
             }
 
-            { loading && <div style={ {align: "center" }}><Progress /></div> }
-
             { conversations.length > 0 &&
               <ul className="ConversationsList">
                 { conversations.map(conversation =>
@@ -63,20 +61,24 @@ export default React.createClass({
               </ul>
             }
 
+            { loading && <div style={ {align: "center" }}><Progress /></div> }
+
           </div>
 
-          <div className="ChatContainer-messages">
+          <div className="Chat-messages">
 
             { children && React.cloneElement(children, { flux }) }
             { !children &&
-              <p>
-                { loading ?
-                    <div style={ {align: "center" }}><Progress /></div> :
+              <div className="Chat-placeholder">
+                { loading && conversations.length === 0 ?
+                    <div style={{ align: "center" }}>
+                      <Progress />
+                    </div> :
                   conversations.length > 0 ?
                     "Pick a message " :
                     "No message!"
                 }
-              </p>}
+              </div>}
           </div>
 
         </div>

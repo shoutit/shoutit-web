@@ -1,3 +1,5 @@
+@import "_flexbox";
+
 .Chat {
   @include paper();
   position: absolute;
@@ -26,4 +28,11 @@
     overflow: auto;
     border-left: 1px solid $border-color-dark;
     background-color: $background-color-alt-light;
+  }
+
+  .Chat-placeholder {
+    height: 100%;
+    @include flexbox();
+    @include align-items(center);
+    @include justify-content(center);
   }
