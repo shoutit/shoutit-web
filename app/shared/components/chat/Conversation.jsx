@@ -4,7 +4,7 @@ import { FluxMixin, StoreWatchMixin } from "fluxxor";
 import MessagesTitle from "../chat/MessagesTitle.jsx";
 import MessagesList from "../chat/MessagesList.jsx";
 import MessageReplyForm from "../chat/MessageReplyForm.jsx";
-import Loader from "../helper/loader.jsx";
+import Progress from "../helper/Progress.jsx";
 
 /**
  * Container component to display a conversation.
@@ -18,8 +18,9 @@ export default React.createClass({
   componentDidMount() {
     this.loadData();
     if (this.list) {
+      this.list.scrollTop = this.list.scrollHeight;
       this.setState({
-        scrollTop: this.list.scrollTop,
+        scrollTop: this.list.scrollHeight,
         scrollHeight: this.list.scrollHeight
       });
     }
@@ -145,8 +146,8 @@ export default React.createClass({
           <MessagesTitle users={ users } about={ about } type={ type } me={ me } /> }
 
         { didLoad && !hasMessages && loading &&
-          <div className="Conversation-loader">
-            <Loader />
+          <div className="Conversation-progress">
+            <Progress />
           </div> }
 
         { hasMessages &&
@@ -156,8 +157,9 @@ export default React.createClass({
 
             <div className="Conversation-listTopSeparator" />
 
-            <div style={ loadingPrevious ? null : { visibility: "hidden" }}>
-              <Loader />
+            <div className="Conversation-progress"
+              style={ loadingPrevious ? null : { visibility: "hidden" }}>
+              <Progress />
             </div>
 
             <MessagesList messages={ messages } me={ me } />
@@ -169,6 +171,7 @@ export default React.createClass({
           <div className="Conversation-replyFormContainer">
             <MessageReplyForm
               autoFocus
+              placeholder="Add a reply"
               draft={ draft }
               onTextChange={ text => conversationDraftChange(id, text) }
               onSubmit={ () => replyToConversation(id, draft) }

@@ -21,13 +21,9 @@
   background-color: $background-color;
 }
 
-.Conversation-loader {
+.Conversation-progress {
   height: 100%;
   @include flexbox();
   @include justify-content(center);
   @include align-items(center);
-
-  .loader {
-    display: inline-block;
-  }
 }

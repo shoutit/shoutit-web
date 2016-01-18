@@ -9,7 +9,7 @@ import {Input, Button} from "react-bootstrap";
  * @param {Function}  props.onSubmit
  * @param {Function}  props.onTextChange
  */
-export default function MessageReplyForm({ draft, autoFocus, disabled=false, onSubmit, onTextChange }) {
+export default function MessageReplyForm({ draft, autoFocus, disabled=false, onSubmit, onTextChange, placeholder="Send a message" }) {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -18,14 +18,14 @@ export default function MessageReplyForm({ draft, autoFocus, disabled=false, onS
     }
     onSubmit(e);
     e.target.input.focus();
-    
+
   };
   return(
     <form className="MessageReplyForm" onSubmit={ handleFormSubmit }>
       <div className="MessageReplyForm-inputContainer">
         <Input
           autoFocus={ autoFocus }
-          placeholder="Send a message"
+          placeholder={ placeholder }
           disabled={ disabled }
           name="input"
           type="text"
