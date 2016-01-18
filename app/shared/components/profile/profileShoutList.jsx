@@ -1,5 +1,5 @@
 import React from 'react';
-import {Loader, Icon, Column, Grid} from '../helper';
+import {Progress, Icon, Column, Grid} from '../helper';
 import Shout from '../feed/feed/shout.jsx';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 
@@ -47,7 +47,7 @@ export default React.createClass({
 		if(userShouts && shouts) {
 			if(this.props.loading) {
 				return (
-					<Loader />
+					<Progress />
 					);
 			} else {
 				return (
@@ -112,7 +112,7 @@ export default React.createClass({
 		if (shouts) {
 			markup = this.renderProfileShouts(shouts);
 		} else {
-			markup = <Loader/>;
+			markup = <Progress/>;
 		}
 
 		return (

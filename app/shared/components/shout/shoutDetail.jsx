@@ -2,7 +2,7 @@ import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
 import DocumentTitle from 'react-document-title';
 import ShoutDetailBody from './shoutDetailBody.jsx';
-import Loader from '../helper/loader.jsx';
+import Progress from '../helper/Progress.jsx';
 import ShoutReplySection from './shoutReplySection.jsx';
 import ShoutExtra from './shoutExtra.jsx';
 import {Column, Grid} from '../helper';
@@ -67,7 +67,7 @@ export default React.createClass({
 				this.props.flux.actions.loadRelatedShouts(shout.id);
 			},0);
 		}
-	
+
 	},
 
 	componentDidMount() {
@@ -95,9 +95,9 @@ export default React.createClass({
 			content =
 				<DocumentTitle title={shout.title + " - Shoutit"}>
 					<div>
-						<ShoutDetailBody shout={shout} 
+						<ShoutDetailBody shout={shout}
 										 current={this.state.current}
-										 flux={this.props.flux} 
+										 flux={this.props.flux}
 										 />
 						<ShoutExtra extra={extraShouts}
 									creator={shout.user}
@@ -116,7 +116,7 @@ export default React.createClass({
 		} else {
 			content = (
 				<Grid fluid={true}>
-					<Loader/>
+					<Progress/>
 				</Grid>
 			);
 		}

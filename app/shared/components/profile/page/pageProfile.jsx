@@ -1,6 +1,6 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
-import {Grid, Column, Loader} from '../../helper';
+import {Grid, Column, Progress} from '../../helper';
 import ProfileOffers from '../profileOffers.jsx';
 import DocumentTitle from 'react-document-title';
 import ProfileCover from '../profileCover.jsx';
@@ -30,7 +30,7 @@ export default React.createClass({
 
     componentDidMount() {
         this.loadUser();
-        
+
     },
 
     componentDidUpdate() {
@@ -84,7 +84,7 @@ export default React.createClass({
     renderLoading() {
         return(
             <DocumentTitle title={"[Loading...] - Shoutit"}>
-                <Loader />
+                <Progress />
             </DocumentTitle>
             );
     },

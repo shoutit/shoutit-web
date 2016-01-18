@@ -1,6 +1,6 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
-import {Icon, Grid, Column, Loader} from '../helper';
+import {Icon, Grid, Column, Progress } from '../helper';
 import Separator from '../general/separator.jsx';
 import NotificationSystem from 'react-notification-system';
 import TagProfileImage from '../tag/tagProfileImage.jsx';
@@ -15,7 +15,7 @@ export default React.createClass({
     contextTypes: {
         flux: React.PropTypes.object,
         params: React.PropTypes.object
-    }, 
+    },
 
     getStateFromFlux() {
         return this.context.flux.store('tags').getState();
@@ -72,7 +72,7 @@ export default React.createClass({
         } else {
             return (
                 <Grid fluid={true}>
-                    <Loader/>
+                    <Progress />
                 </Grid>
             );
         }

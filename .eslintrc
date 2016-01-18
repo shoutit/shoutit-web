@@ -3,7 +3,7 @@
   "plugins": ["react"],
   "extends": "eslint:recommended",
   "rules": {
-
+    "semi": [2, "always"],
     "arrow-spacing": 2,
     "curly": 2,
     "eol-last": 2,
@@ -25,7 +25,8 @@
     "react/no-unknown-property": 2,
     "react/self-closing-comp": 2,
     "react/sort-comp": 2
-
+  },
+  "env": {
+    "node": true
   }
-  
 }

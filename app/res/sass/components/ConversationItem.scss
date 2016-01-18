@@ -1,11 +1,16 @@
-@import "../../_flexbox.scss";
+@import "../_flexbox.scss";
+@import "../colors.scss";
 
 .ConversationItem {
   @include flexbox();
+  text-decoration: none;
   border-bottom: 1px solid $border-color;
   cursor: pointer;
   &.isSelected {
     background-color: $si-light-green;
+  }
+  &:hover {
+    color: inherit;
   }
 }
 

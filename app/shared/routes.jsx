@@ -22,7 +22,8 @@ import TagProfileShouts from './components/tag/tagProfileShouts.jsx';
 import TagProfileOffers from './components/tag/tagProfileOffers.jsx';
 import TagProfileRequest from './components/tag/tagProfileRequests.jsx';
 import TagProfileListeners from './components/tag/tagProfileListeners.jsx';
-import ChatContainer from './components/chat/ChatContainer.jsx';
+import Chat from './components/chat/Chat.jsx';
+import Conversation from './components/chat/Conversation.jsx';
 import DiscoverHome from './components/discover/discoverHome.jsx';
 import Discover from './components/discover/discover.jsx';
 import DiscoverPage from './components/discover/discoverPage.jsx';
@@ -45,6 +46,7 @@ export default function (envData) {
 						<Route path="/offers/:country/:state/:city(/:page)" component={Offers}/>
 						<Route path="/requests/:country/:state/:city(/:page)" component={Requests}/>
 						<Route path="/shout/:shoutId(/:location)(/:title)" component={Shout}/>
+						<Route path="/discover(/:country)(/:state)(/:city)(/:page)" component={Discover}/>
 						<Route path="/tag/:tagName" component={TagProfile}>
 							<Route path="tagrequests" component={TagProfileRequest}/>
 							<Route path="taglisteners" component={TagProfileListeners}/>
@@ -64,7 +66,9 @@ export default function (envData) {
 						<IndexRoute component={Discover} />
 					</Route>
 				</Route>
-				<Route path="/chat(/:conversationId)" component={ ChatContainer } />
+				<Route path="/chat" component={ Chat }>
+					<Route path="/chat/:id" component={ Conversation } />
+				</Route>
 				<Route path="static" component={Reduced}>
 					<Route path="/tos" component={Static}/>
 					<Route path="/rules" component={Static}/>

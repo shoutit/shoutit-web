@@ -1,7 +1,7 @@
-import React from 'react';
-import {Link} from 'react-router';
+import React from "react";
 
-import MessageGroup from '../chat/MessageGroup.jsx';
+import MessageGroup from "../chat/MessageGroup.jsx";
+import moment from "moment";
 
 /**
  * Return an array of messages grouped by its username
@@ -12,63 +12,56 @@ import MessageGroup from '../chat/MessageGroup.jsx';
 function groupMessages(messages) {
   return messages.reduce((groups, message, i, messages) => {
     const isNewBlock = i === 0 || messages[i-1].user.username !== message.user.username;
+    const shouldDisplayDay = i === 0 ||
+      !moment.unix(messages[i - 1].created_at).isSame(moment.unix(message.created_at), "day");
     if (isNewBlock) {
-      groups.push([message])
+      const group = {
+        messages: [message],
+        dayIndexes: shouldDisplayDay ? [0] : []
+      };
+      groups.push(group);
     }
     else {
-      groups[groups.length-1].push(message);
+      const group = groups[groups.length-1];
+      group.messages.push(message);
+      if (shouldDisplayDay) {
+        group.dayIndexes.push(group.messages.length - 1);
+      }
     }
     return groups;
-  }, [])
+  }, []);
 
 }
+
 
 /**
  * Show the messages belonging to a conversation.
  *
- * @param {Object}  props.conversation
+ * @param {Array}  props.messages
  * @param {String}  props.me
- * @param {Boolean} props.showOnlyLastMessage Show only the last message in the conversation. Set this to true in shout page.
- * @param {Function}  props.onLoadMoreMessagesClick The first argument is the date before which load the messages
  */
-export default function MessageList({ conversation, me, showOnlyLastMessage=false, onLoadMoreMessagesClick }) {
-
-  const { messages, id: conversationId } = conversation;
-  let loadMore;
-
-  if (showOnlyLastMessage) {
-    loadMore = <h5><Link to="messages" params={{ conversationId }}>
-      See complete conversation.
-    </Link></h5>
-  }
-  else {
-
-    // TODO: if there are no older messages, do not display the link
-    loadMore = <h5 onClick={ (e) => onLoadMoreMessagesClick(messages[0].created_at, e) }>
-      Load older messages
-    </h5>
-  }
-
+export default function MessageList({ messages, me, onRetryClick }) {
   const groups = groupMessages(messages);
-
   return (
-    <div className="MessagesList">
-      { loadMore }
+    <div>
 
-      { groups.map( (messages, i) => {
+      { groups.map( group => {
+        const { messages, dayIndexes } = group;
         const isMe = messages[0].user.username === me;
+
         return (
-          <div key={ i } className={ `MessagesList-group${isMe ? ' isMe' : ''}` }>
+          <div key={ messages[0].id } className={ `MessagesList-group${isMe ? " isMe" : ""}` }>
             <MessageGroup
+              onRetryClick={ onRetryClick }
+              dayIndexes={ dayIndexes }
               messages={ messages }
               showUserImage={ !isMe }
-              justify={ isMe ? 'end' : 'start' }
+              justify={ isMe ? "end" : "start" }
             />
           </div>
-        )})
+        );})
       }
     </div>
   );
 
 }
-

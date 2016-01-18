@@ -1,6 +1,6 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
-import Loader from '../helper/loader.jsx';
+import Progress from '../helper/Progress.jsx';
 import {Icon, Grid} from '../helper';
 import DocumentTitle from 'react-document-title';
 import TagProfileImage from './tagProfileImage.jsx';
@@ -63,7 +63,7 @@ export default React.createClass({
 			return (
 				<DocumentTitle title="Loading - Shoutit">
 					<Grid fluid={true}>
-						<Loader/>
+						<Progress/>
 					</Grid>
 				</DocumentTitle>
 			);

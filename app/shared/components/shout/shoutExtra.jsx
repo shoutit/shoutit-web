@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {Image, Loader} from '../helper';
+import {Image, Progress} from '../helper';
 import {ItemProp, ItemScope} from '../helper/microdata';
 import currency from '../../consts/currencies';
 import {Column, Grid, ReactVisible} from '../helper';
@@ -15,7 +15,7 @@ export default React.createClass({
 
         try {
             if(extra.more.loading) {
-                return (<Loader />);
+                return (<Progress />);
             } else {
                 if(moreShouts.length) {
                     return (
@@ -42,7 +42,7 @@ export default React.createClass({
 
         try {
             if(extra.more.loading) {
-                return (<Loader />);
+                return (<Progress />);
             } else {
                 if(relatedShouts.length) {
                     return (

@@ -1,6 +1,6 @@
-@import "../../_flexbox.scss";
-
-$border-radius: 1em;
+@import "../_flexbox.scss";
+@import "../colors.scss";
+$border-radius: 0.5em;
 
 .MessageItem {
 
@@ -46,6 +46,10 @@ $border-radius: 1em;
     border-bottom-right-radius: $border-radius;
   }
 
+  &.didError .MessageItem-wrapper {
+    opacity: 0.4;
+  }
+
 }
 
 .MessageItem-wrapper {
@@ -53,9 +57,30 @@ $border-radius: 1em;
   display: inline-block;
   min-width: 25%;
   max-width: 75%;
-  padding:  5px 10px;
+  padding: 5px 10px;
+
+  p {
+    margin: 0;
+  }
 }
 
-.MessageItem-createdAt {
-  font-size: 0.75em;
+.MessageItem-day {
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.875em;
+  color: #999;
+  margin: 1em;
+}
+
+.MessageItem-footer {
+  font-size: 0.65em;
+  color: #999;
+  text-align: right;
+}
+
+.MessageItem-retry {
+  font-size: 0.65em;
+  margin-bottom: 1em;
+  padding: 0.25em;
+  color: $si-error-color;
 }

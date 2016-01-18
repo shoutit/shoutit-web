@@ -1,6 +1,6 @@
 import React from 'react';
 import findIndex from 'lodash/array/findIndex';
-import {Loader} from '../helper';
+import {Progress} from '../helper';
 
 import ListenerRow from '../profile/listenerRow.jsx';
 
@@ -35,7 +35,7 @@ export default React.createClass({
 		if (users) {
 			content = this.renderUsers(users, this.props.listening, this.props.loggedUser, this.props.flux);
 		} else {
-			content = <Loader/>;
+			content = <Progress/>;
 		}
 
 		return (

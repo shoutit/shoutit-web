@@ -5,9 +5,10 @@ html
 
         title= title
         link(rel='icon', type='image/png' href="/img/fav.png")
-        link(rel='stylesheet', href='/css/main.css', type='text/css' )
+        if production
+          link(rel='stylesheet', href='/css/main.css', type='text/css' )
     body
-        #main-mount!= reactMarkup
+        #root!= reactMarkup
 
         #fb-root
 
@@ -18,5 +19,4 @@ html
         script(async,src="https://connect.facebook.net/en_US/sdk.js")
         script(async,src="https://www.google-analytics.com/analytics.js")
         script(type="text/javascript",src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc&sensor=true&libraries=places&language=en-us")
-        script(async,src="/main.js")
-
+        script(async,src="/js/main.js")

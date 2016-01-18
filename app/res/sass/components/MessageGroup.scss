@@ -1,4 +1,4 @@
-@import "../../_flexbox.scss";
+@import "../_flexbox.scss";
 
 .MessageGroup {
   @include flexbox();
@@ -10,12 +10,9 @@
   @include justify-content(flex-end);
   padding-left: 10px;
   padding-bottom: 5px;
+
 }
 
 .MessageGroup-messages {
   @include flex(1);
-}
-
-.MessageGroup.messageContainer {
-
 }

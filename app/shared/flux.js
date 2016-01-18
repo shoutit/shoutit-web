@@ -1,8 +1,11 @@
-"use strict";
+/* eslint-env node */
 
-/**
- * Created by Philip on 17.02.2015.
- */
+import { actions as chatActions } from "./stores/chat/actions";
+import { actions as conversationsActions } from "./stores/conversations/actions";
+
+import { ChatStore } from "./stores/chat/ChatStore";
+import { ConversationsStore } from "./stores/conversations/ConversationsStore";
+import { MessagesStore } from "./stores/messages/MessagesStore";
 
 var merge = require('lodash/object/merge'),
 	Fluxxor = require("fluxxor"),
@@ -32,37 +35,39 @@ module.exports = function (router, user, data, params, currencies, categories, s
 		shouts: new ShoutStore(merge({}, data, {currencies, categories, sortTypes}), params),
 		tags: new TagStore(data, params),
 		search: new SearchStore(merge({}, data, {categories}, params)),
-		locations: new LocationsStore(merge({}, data, {router, params})),
-		messages: new MessagesStore(merge({}, data, {loggedUser: user, params})),
+        locations: new LocationsStore(merge({}, data, {router, params})),
+        conversations: new ConversationsStore(merge({}, data, {loggedUser: user, params})),
+        chat: new ChatStore(merge({}, data, {loggedUser: user, params})),
+        messages: new MessagesStore(merge({}, data, {loggedUser: user, params})),
 		notifications: new NotificationsStore({data}),
 		discovers: new DiscoversStore(data)
 	};
 
 	var actions = merge({},
 		userActions, shoutActions, tagActions, searchActions, locationsActions,
-		messagesActions, notificationsActions, discoversActions);
+		messagesActions, chatActions, conversationsActions, notificationsActions, discoversActions);
 
-	var flux = new Fluxxor.Flux(stores, actions);
+  var flux = new Fluxxor.Flux(stores, actions);
 
-	flux.serialize = function () {
-		var storeData = {};
+  flux.serialize = function () {
+    var storeData = {};
 
-		for (var store in stores) {
-			if (stores.hasOwnProperty(store)) {
-				storeData[store] = stores[store].serialize();
-			}
-		}
+    for (var store in stores) {
+      if (stores.hasOwnProperty(store)) {
+          storeData[store] = stores[store].serialize();
+        }
+    }
 
-		return JSON.stringify(storeData);
-	};
+    return JSON.stringify(storeData);
+  };
 
-	flux.hydrate = function (storeData) {
-		for (var store in storeData) {
-			if (storeData.hasOwnProperty(store)) {
-				stores[store].hydrate(storeData[store]);
-			}
-		}
-	};
+  flux.hydrate = function (storeData) {
+    for (var store in storeData) {
+      if (storeData.hasOwnProperty(store)) {
+          stores[store].hydrate(storeData[store]);
+        }
+    }
+  };
 
-	return flux;
+  return flux;
 };
