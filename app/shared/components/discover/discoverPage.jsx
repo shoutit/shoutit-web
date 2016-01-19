@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import {StoreWatchMixin} from 'fluxxor';
 import DocumentTitle from 'react-document-title';
-import {Grid, Column, Loader} from '../helper';
+import {Grid, Column, Progress} from '../helper';
 import {ItemScope, ItemProp} from './../helper/microdata';
 import CoverImage from './coverImage.jsx';
 import GridDiscover from './gridDiscover.jsx';
@@ -81,7 +81,7 @@ export default React.createClass({
                     <Grid fluid={true}>
                         {shouts.length? <h3 className="si-center-header">Shouts</h3>: null}
                         {shoutsAreLoading?
-                            <Loader />
+                            <Progress />
                             :
                             shouts.map((item, idx) => {
                                 return (
@@ -105,7 +105,7 @@ export default React.createClass({
     renderLoading() {
         return (
             <DocumentTitle title="[Loading...] - Shoutit">
-                <Loader />
+                <Progress />
             </DocumentTitle>
         );
     },
