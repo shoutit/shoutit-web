@@ -2,9 +2,9 @@
  * List DiscoverItems based on country query param.
  */
 module.exports = function (client, path) {
-    return function (session, country) {
+    return function (session, query) {
         return client.get(path, {
-            query: {country: country}
+            query: query
         });
     };
 };
