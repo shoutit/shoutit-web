@@ -22,9 +22,9 @@ var DiscoverStore = Fluxxor.createStore({
 
         if(props.discoverid) {
             const res = props.discoverid;
-
-            this.addDiscoverEntry(res.id);
-            this.onLoadDiscoverWithIdSuccess({res , id: res.id});
+            // TODO: Bring it back after dicoverShouts were also supported by server rendering
+            //this.addDiscoverEntry(res.id);
+            //this.onLoadDiscoverWithIdSuccess({res , id: res.id});
         }
 
         // TODO: should be implemented to be fetched in components and routes
