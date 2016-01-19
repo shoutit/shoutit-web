@@ -46,7 +46,6 @@ export default function (envData) {
 						<Route path="/offers/:country/:state/:city(/:page)" component={Offers}/>
 						<Route path="/requests/:country/:state/:city(/:page)" component={Requests}/>
 						<Route path="/shout/:shoutId(/:location)(/:title)" component={Shout}/>
-						<Route path="/discover(/:country)(/:state)(/:city)(/:page)" component={Discover}/>
 						<Route path="/tag/:tagName" component={TagProfile}>
 							<Route path="tagrequests" component={TagProfileRequest}/>
 							<Route path="taglisteners" component={TagProfileListeners}/>
