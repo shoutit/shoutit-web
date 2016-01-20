@@ -1,12 +1,12 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
-import {Link} from 'react-router';
-import {Icon} from '../helper';
+import {Link, History} from 'react-router';
+import {Icon, Grid, Column} from '../helper';
 import UserImage from '../user/userImage.jsx';
 
 export default React.createClass({
     displayName: "ProfileCard",
-    mixins: [StoreWatchMixin('users')],
+    mixins: [StoreWatchMixin('users'), History],
 
     contextTypes: {
         flux: React.PropTypes.object,
@@ -34,24 +34,34 @@ export default React.createClass({
                 userImage = <UserImage image={img} type="circle" height={25} width={25}/>;
             return (
                 <section className="si-card gray-card">
-                    <ul className="profile">
-                        <li style={{height:'33px'}}>
+                    <Grid fluid={true}>
+                        <Column fluid={true} clear={true} size="3" className="card-list-img">
                             {userImage}
-                            <Link to="" style={{verticalAlign:'sub',marginLeft:'-7px'}}>{name}</Link>
-                        </li>
-                        <li>
+                        </Column>
+                        <Column fluid={true} size="12" className="card-list-item">
+                            <Link to={`/user/${this.state.user}`}>{name}</Link>
+                        </Column>
+                        <Column fluid={true} clear={true} size="3" className="card-list-img">
                             <Icon name="edit" />
-                            <Link to="">Edit Profile</Link>
-                        </li>
-                        <li>
+                        </Column>
+                        <Column fluid={true} size="12" className="card-list-item">
+                            <span onClick={() => this.history.pushState(null, `/user/${this.state.user}`, {_edit: 1})}>
+                                Edit Profile
+                            </span>
+                        </Column>
+                        <Column fluid={true} clear={true} size="3" className="card-list-img">
                             <Icon name="message" style={{transform:'scale(0.7)', margin:'5px 15px 0 -5px'}}/>
+                        </Column>
+                        <Column fluid={true} size="12" className="card-list-item">
                             <Link to="/chat">Messages</Link>
-                        </li>
-                        <li>
+                        </Column>
+                        <Column fluid={true} clear={true} size="3" className="card-list-img">
                             <Icon name="browse" />
-                            <Link to="">Browse</Link>
-                        </li>
-                    </ul>
+                        </Column>
+                        <Column fluid={true} size="12" className="card-list-item">
+                            <Link to="/home">Browse</Link>
+                        </Column>
+                    </Grid>
                 </section>
             );
         }
