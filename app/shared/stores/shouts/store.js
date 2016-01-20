@@ -45,6 +45,7 @@ let ShoutStore = Fluxxor.createStore({
 			offer: shoutCollectionInit(),
 			request: shoutCollectionInit(),
 			relatedShouts: {},
+            discoverShouts: {},
 			fullShouts: {},
 			loading: false,
 			currencies: {},
@@ -186,7 +187,7 @@ let ShoutStore = Fluxxor.createStore({
         const results = payload.res.results;
 
         results.forEach((item) => {
-            this.state.fullShouts[item.id] = this.augmentShout(item);
+            this.state.discoverShouts[item.id] = this.augmentShout(item);
         })
     },
 

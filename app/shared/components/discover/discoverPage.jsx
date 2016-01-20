@@ -32,7 +32,7 @@ export default React.createClass({
             countries: disStore.countries,
             discovers: disStore.discovers,
             shouts: disStore.shouts,
-            fullShouts: shoutsStore.fullShouts
+            discoverShouts: shoutsStore.discoverShouts
         }
     },
 
@@ -60,7 +60,7 @@ export default React.createClass({
         const country = this.context.params.country;
         const shoutsList = this.state.shouts[disId]? this.state.shouts[disId].list: [];
         const shoutsAreLoading = this.state.shouts[disId]? this.state.shouts[disId].loading: false;
-        const shouts = shoutsList.map((shoutId) => this.state.fullShouts[shoutId]);
+        const shouts = shoutsList.map((shoutId) => this.state.discoverShouts[shoutId]);
 
         return (
             <DocumentTitle title={discover.title + ' - Shoutit'}>
