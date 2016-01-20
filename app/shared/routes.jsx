@@ -24,7 +24,9 @@ import TagProfileRequest from './components/tag/tagProfileRequests.jsx';
 import TagProfileListeners from './components/tag/tagProfileListeners.jsx';
 import Chat from './components/chat/Chat.jsx';
 import Conversation from './components/chat/Conversation.jsx';
-import Discover from './components/featuredTags/discover.jsx';
+import DiscoverHome from './components/discover/discoverHome.jsx';
+import Discover from './components/discover/discover.jsx';
+import DiscoverPage from './components/discover/discoverPage.jsx';
 
 let All = new FeedListContainer("all"),
 	Offers = new FeedListContainer("offer"),
@@ -44,7 +46,6 @@ export default function (envData) {
 						<Route path="/offers/:country/:state/:city(/:page)" component={Offers}/>
 						<Route path="/requests/:country/:state/:city(/:page)" component={Requests}/>
 						<Route path="/shout/:shoutId(/:location)(/:title)" component={Shout}/>
-						<Route path="/discover(/:country)(/:state)(/:city)(/:page)" component={Discover}/>
 						<Route path="/tag/:tagName" component={TagProfile}>
 							<Route path="tagrequests" component={TagProfileRequest}/>
 							<Route path="taglisteners" component={TagProfileListeners}/>
@@ -58,6 +59,10 @@ export default function (envData) {
 					<Route path="/user/:username" component={ProfileHome} >
 						<Route path="/page/:username" component={Page} />
 						<IndexRoute component={Profile}/>
+					</Route>
+					<Route path="/discover/:country" component={DiscoverHome}>
+						<Route path="/discover/:country/:pk" component={DiscoverPage} />
+						<IndexRoute component={Discover} />
 					</Route>
 				</Route>
 				<Route path="/chat" component={ Chat }>

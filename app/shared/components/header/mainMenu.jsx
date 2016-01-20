@@ -5,14 +5,12 @@ export default React.createClass({
 	displayName: "MainMenu",
 
 	render() {
-		let currentCity = encodeURIComponent(this.props.current.city),
-			currentCountry = encodeURIComponent(this.props.current.country),
-			currentState = encodeURIComponent(this.props.current.state);
+		const country = encodeURIComponent(this.props.current.country);
 
 		return (
 			<div className="topbar-links">
-				<Link to={`/all/${currentCountry}/${currentState}/${currentCity}`}>Browse</Link>
-				<Link to={`/discover/${currentCountry}/${currentState}/${currentCity}`}>Discover</Link>
+				<Link to={`/home`}>Browse</Link>
+				<Link to={`/discover/${country}`}>Discover</Link>
 			</div>
 		);
 	}

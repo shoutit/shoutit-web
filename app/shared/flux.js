@@ -7,42 +7,44 @@ import { ChatStore } from "./stores/chat/ChatStore";
 import { ConversationsStore } from "./stores/conversations/ConversationsStore";
 import { MessagesStore } from "./stores/messages/MessagesStore";
 
-const merge = require("lodash/object/merge"),
-  Fluxxor = require("fluxxor"),
-  UsersStore = require("./stores/users/store"),
-  ShoutStore = require("./stores/shouts/store"),
-  TagStore = require("./stores/tags/store"),
-  SearchStore = require("./stores/search/store"),
-  LocationsStore = require("./stores/locations/store"),
-  NotificationsStore = require("./stores/notifications/store"),
-  userActions = require("./stores/users/actions"),
-  shoutActions = require("./stores/shouts/actions"),
-  tagActions = require("./stores/tags/actions"),
-  searchActions = require("./stores/search/actions"),
-  locationsActions = require("./stores/locations/actions"),
-  notificationsActions = require("./stores/notifications/actions");
+var merge = require('lodash/object/merge'),
+	Fluxxor = require("fluxxor"),
+	UsersStore = require('./stores/users/store'),
+	ShoutStore = require('./stores/shouts/store'),
+	TagStore = require('./stores/tags/store'),
+	SearchStore = require('./stores/search/store'),
+	LocationsStore = require('./stores/locations/store'),
+	NotificationsStore = require('./stores/notifications/store'),
+	DiscoversStore = require('./stores/discovers/store'),
+	userActions = require('./stores/users/actions'),
+	shoutActions = require('./stores/shouts/actions'),
+	tagActions = require('./stores/tags/actions'),
+	searchActions = require('./stores/search/actions'),
+	locationsActions = require('./stores/locations/actions'),
+	messagesActions = require('./stores/messages/actions'),
+	notificationsActions = require('./stores/notifications/actions'),
+	discoversActions = require('./stores/discovers/actions');
 
 module.exports = function (router, user, data, params, currencies, categories, sortTypes) {
-  const stores = {
-    users: new UsersStore(merge({}, {
-      loggedUser: user,
-      router: router
-    }, data)),
-    shouts: new ShoutStore(merge({}, data, {currencies, categories, sortTypes}), params),
-    tags: new TagStore(data, params),
-    search: new SearchStore(merge({}, data, {categories}, params)),
-    locations: new LocationsStore(merge({}, data, {router, params})),
-    conversations: new ConversationsStore(merge({}, data, {loggedUser: user, params})),
-    chat: new ChatStore(merge({}, data, {loggedUser: user, params})),
-    messages: new MessagesStore(merge({}, data, {loggedUser: user, params})),
-    notifications: new NotificationsStore({
-      data
-    })
-  };
+	var stores = {
+		users: new UsersStore(merge({}, {
+			loggedUser: user,
+			router: router
+		}, data)),
+		shouts: new ShoutStore(merge({}, data, {currencies, categories, sortTypes}), params),
+		tags: new TagStore(data, params),
+		search: new SearchStore(merge({}, data, {categories}, params)),
+        locations: new LocationsStore(merge({}, data, {router, params})),
+        conversations: new ConversationsStore(merge({}, data, {loggedUser: user, params})),
+        chat: new ChatStore(merge({}, data, {loggedUser: user, params})),
+        messages: new MessagesStore(merge({}, data, {loggedUser: user, params})),
+		notifications: new NotificationsStore({data}),
+		discovers: new DiscoversStore(data)
+	};
 
-  var actions = merge({},
-    userActions, shoutActions, tagActions, searchActions, locationsActions,
-    chatActions, conversationsActions, notificationsActions);
+	var actions = merge({},
+		userActions, shoutActions, tagActions, searchActions, locationsActions,
+		messagesActions, chatActions, conversationsActions, notificationsActions, discoversActions);
 
   var flux = new Fluxxor.Flux(stores, actions);
 

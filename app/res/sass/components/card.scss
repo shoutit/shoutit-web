@@ -237,6 +237,19 @@
       }
     }
   }
+  &.promotion-card {
+    .prom-image {
+      background-size: cover;
+      width: 100%;
+      height: 300px;
+    }
+    .prom-title {
+      padding: 5px;
+      color: $si-gray;
+      text-align: center;
+      font-size: $default-font-size;
+    }
+  }
   &.tag-profile-card {
     .tag-logo {
       width: 40px;

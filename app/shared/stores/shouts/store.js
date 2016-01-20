@@ -2,8 +2,8 @@ import findIndex from 'lodash/array/findIndex';
 import keys from 'lodash/object/keys';
 import Fluxxor from 'fluxxor';
 import url from 'url';
-
 import consts from './consts';
+import discoverConsts from '../discovers/consts';
 import client from './client';
 
 import defaults from '../../consts/defaults';
@@ -45,6 +45,7 @@ let ShoutStore = Fluxxor.createStore({
 			offer: shoutCollectionInit(),
 			request: shoutCollectionInit(),
 			relatedShouts: {},
+            discoverShouts: {},
 			fullShouts: {},
 			loading: false,
 			currencies: {},
@@ -85,6 +86,12 @@ let ShoutStore = Fluxxor.createStore({
 			this.state.fullShouts[props.shout.id] = this.augmentShout(props.shout);
 		}
 
+        if(props.discoverShouts) {
+            const res = props.discoverid;
+
+            this.onDiscoverShoutsSuccess({res});
+        }
+
 
 		this.bindActions(
 			consts.UPDATE, this.onUpdate,
@@ -101,7 +108,8 @@ let ShoutStore = Fluxxor.createStore({
 			consts.REMOVE_SHOUT_IMAGE, this.onRemoveShoutImage,
 			consts.CHANGE_SHOUT_REPLY_DRAFT, this.onChangeShoutReplyDraft,
 			consts.SEND_SHOUT_REPLY, this.onSendShoutReply,
-			consts.SEND_SHOUT_REPLY_FAILED, this.onReqFailed
+			consts.SEND_SHOUT_REPLY_FAILED, this.onReqFailed,
+            discoverConsts.LOAD_DISCOVER_SHOUTS_SUCCESS, this.onDiscoverShoutsSuccess
 		);
 	},
 
@@ -173,6 +181,15 @@ let ShoutStore = Fluxxor.createStore({
 		this.saveUpdate(res, type);
 		this.emit("change");
 	},
+
+    onDiscoverShoutsSuccess(payload) {
+        // Fill the store with discover shouts
+        const results = payload.res.results;
+
+        results.forEach((item) => {
+            this.state.discoverShouts[item.id] = this.augmentShout(item);
+        })
+    },
 
 	onLoadRelatedShouts({shoutId}) {
 		this.state.relatedShouts[shoutId] = {loading: false, res: []};
