@@ -25,7 +25,8 @@ export default React.createClass({
 
     contextTypes: {
         params: React.PropTypes.object,
-        flux: React.PropTypes.object
+        flux: React.PropTypes.object,
+        location: React.PropTypes.object
     },
 
     getInitialState() {
@@ -52,6 +53,9 @@ export default React.createClass({
 
     componentDidMount() {
         this.loadUser();
+        // Setting edit mode from query
+        const query = this.context.location.query;
+        this.setState({editMode: Boolean(query._edit)});
         this._notificationSystem = this.refs.notificationSystem;
     },
 
