@@ -6,7 +6,6 @@ import TopBarActions from './topbarActions.jsx';
 import Logo from './logo.jsx';
 import {StoreWatchMixin} from 'fluxxor';
 import {Grid, Column} from '../helper';
-import MainMenu from './mainMenu.jsx';
 import {Icon} from '../helper';
 import ChatTopbarButton from './notifications/chatTopbarButton.jsx';
 import NotifTopbarButton from './notifications/notifTopbarButton.jsx';
@@ -16,12 +15,8 @@ export default React.createClass({
 	displayName: "Header",
 	mixins: [new StoreWatchMixin("users", "locations"), History],
 
-	contextType: {
-		flux: React.PropsTypes.object
-	},
-
 	getStateFromFlux() {
-		let flux = this.context.flux;
+		let flux = this.props.flux;
 		return {
 			users: flux.store("users").getState(),
 			locations: flux.store("locations").getState()
@@ -34,8 +29,9 @@ export default React.createClass({
 
 	render() {
 		const users = this.state.users;
-		const flux = this.context.flux;
+		const flux = this.props.flux;
 		const loggedUser = users.user? users.users[users.user] : null;
+		const country = encodeURIComponent(this.state.locations.current);
 
 		return (
 			<header>
@@ -47,12 +43,13 @@ export default React.createClass({
 						<SearchBar height="36" flux={flux}/>
 					</Column>
 					<Column size="7" className="topbar-buttons">
-						<MainMenu current={this.state.locations.current} />
+						<div className="topbar-links">
+							<Link to={`/home`}>Browse</Link>
+							<Link to={`/discover/${country}`}>Discover</Link>
+						</div>
 						<Icon name="home"/>
 						<ChatTopbarButton flux={flux} user={loggedUser} />
 						<NotifTopbarButton flux={flux} user={loggedUser} />
-
-
 						<NewShoutButton flux={flux}/>
 						{loggedUser?
 							<TopBarActions flux={flux} user={loggedUser}
