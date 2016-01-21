@@ -315,7 +315,6 @@ var UserStore = Fluxxor.createStore({
 					this.state.user = null;
 					this.emit("change");
 					this.emit("logout");
-					// TODO: add redirect to route support from components
 				}
 			}.bind(this));
 	},

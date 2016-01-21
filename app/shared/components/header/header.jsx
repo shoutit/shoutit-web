@@ -1,5 +1,5 @@
 import React from 'react';
-import {History} from 'react-router';
+import {History, Link} from 'react-router';
 import {Button} from 'react-bootstrap';
 import SearchBar from './searchBar.jsx';
 import ProfileDropdown from './profileDropdown.jsx';
@@ -56,7 +56,7 @@ export default React.createClass({
 						<NewShoutButton flux={flux}/>
 
 						{loggedUser?
-                            <ProfileDropdown user={user}/>
+                            <ProfileDropdown user={loggedUser}/>
                             :
 							<div style={{fontSize: '12px'}}>
 								Not logged in

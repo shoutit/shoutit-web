@@ -1,11 +1,16 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link, History} from 'react-router';
 import {Icon} from '../helper';
 import UserImage from '../user/userImage.jsx';
 import ProfilePhoto from '../general/profilePhoto.jsx';
 
 export default React.createClass({
 	displayName: "ProfileDropdown",
+    mixins: [History],
+
+    contextTypes: {
+        flux: React.PropTypes.object
+    },
 
 	getInitialState(){
 		return {
@@ -32,18 +37,28 @@ export default React.createClass({
 		this.setState({downOnMenu: false});
 	},
 
-	renderMenuDropdown() {
-		let markup = (
-			<div className="user-menu-dropdown" onMouseDown={this.mouseDownHandle} onMouseUp={this.mouseUpHandle}>
-				<Link to=""><Icon name="my-profile" />My Profile</Link>
-				<Link to=""><Icon name="edit-profile" />Edit Profile</Link>
-				<Link to=""><Icon name="settings" />Settings</Link>
-				<Link to=""><Icon name="help" />Help</Link>
-				<Link to=""><Icon name="logout" />Logout</Link>
-			</div>
-			);
+	onLogoutClick() {
+        this.context.flux.actions.logout();
+        // Making sure the user is logged out
+        setTimeout(() => this.history.pushState(null, '/'), 300);
 
-		return this.state.menu? markup: null;
+    },
+
+	renderMenuDropdown() {
+        const user = this.props.user,
+            username = encodeURIComponent(user.username);
+
+		return this.state.menu? (
+			<div className="user-menu-dropdown" onMouseDown={this.mouseDownHandle} onMouseUp={this.mouseUpHandle}>
+				<Link to={`/user/${username}`}><Icon name="my-profile" />My Profile</Link>
+				<span className="item" onClick={() => this.history.pushState(null, `/user/${username}`, {_edit: 1})}>
+                    <Icon name="edit-profile" />Edit Profile
+                </span>
+				<Link to={`/user/${username}`}><Icon name="settings" />Settings</Link>
+				<Link to=""><Icon name="help" />Help</Link>
+				<span className="item" onClick={this.onLogoutClick}><Icon name="logout" />Logout</span>
+			</div>
+			): null;
 	},
 
 	componentDidMount() {
@@ -55,7 +70,7 @@ export default React.createClass({
 	},
 
 	render() {
-		let user = this.props.user,
+		const user = this.props.user,
 			username = encodeURIComponent(user.username);
 
 		return (
@@ -69,18 +84,3 @@ export default React.createClass({
 		);
 	}
 });
-
-/*
-<DropdownButton ref="dropdown" title={title} 
-		style={{marginTop:'-2px',listStyle:'none'}} noCaret={true} className="profile"
-		navItem={true} alt={user.name}>
-				<LinkContainer to={`/user/${username}`}>
-					<MenuItem>
-						Profile
-					</MenuItem>
-				</LinkContainer>
-				<MenuItem onSelect={this.props.onLogoutClicked}>
-					Logout
-				</MenuItem>
-			</DropdownButton>
-			*/
