@@ -2,7 +2,7 @@ import React from 'react';
 import {History} from 'react-router';
 import {Button} from 'react-bootstrap';
 import SearchBar from './searchBar.jsx';
-import TopBarActions from './topbarActions.jsx';
+import ProfileDropdown from './profileDropdown.jsx';
 import Logo from './logo.jsx';
 import {StoreWatchMixin} from 'fluxxor';
 import {Grid, Column} from '../helper';
@@ -47,18 +47,21 @@ export default React.createClass({
 							<Link to={`/home`}>Browse</Link>
 							<Link to={`/discover/${country}`}>Discover</Link>
 						</div>
+
+                        {/* Notification Icons */}
 						<Icon name="home"/>
 						<ChatTopbarButton flux={flux} user={loggedUser} />
 						<NotifTopbarButton flux={flux} user={loggedUser} />
+
 						<NewShoutButton flux={flux}/>
+
 						{loggedUser?
-							<TopBarActions flux={flux} user={loggedUser}
-										   onLogoutClicked={this.props.onLogoutClicked}/> :
+                            <ProfileDropdown user={user}/>
+                            :
 							<div style={{fontSize: '12px'}}>
 								Not logged in
 							</div>
 						}
-
 					</Column>
 				</Grid>
 			</header>
