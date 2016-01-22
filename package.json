@@ -104,6 +104,7 @@
     "react-transform-hmr": "^1.0.1",
     "redbox-react": "^1.2.0",
     "sass-loader": "^3.1.2",
+    "skin-deep": "^0.14.0",
     "sprity-cli": "^1.0.1",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.10",
