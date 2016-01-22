@@ -149,10 +149,7 @@ export default React.createClass({
         { didLoad &&
           <ConversationTitle users={ users } about={ about } type={ type } me={ me } /> }
 
-        { didLoad && !hasMessages && loading &&
-          <div className="Conversation-progress">
-            <Progress />
-          </div> }
+        { didLoad && !hasMessages && loading && <Progress centerVertical /> }
 
         { hasMessages &&
           <div className="Conversation-listContainer"
