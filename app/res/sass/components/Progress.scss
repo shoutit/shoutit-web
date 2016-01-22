@@ -2,12 +2,12 @@
 
 .Progress {
     @include flexbox();
-    height: 100%;
-    width: 100%;
     &.isCenteredVertically {
       @include align-items(center);
+      height: 100%;
     }
     &.isCenteredHorizontally {
+      width: 100%;
       @include justify-content(center);
     }
 }
