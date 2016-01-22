@@ -78,7 +78,7 @@ export default React.createClass({
                   <Progress centerVertical /> :
                   conversations.length > 0 ?
                     "Please pick a conversation." :
-                    "No message!"
+                    "No messages, yet!"
                 }
               </div>}
           </div>
