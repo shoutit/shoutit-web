@@ -1,17 +1,29 @@
-import React from 'react';
-import UserImage from './userImage.jsx';
+import React from "react";
 
-/**
- * Display more user images
- * TODO: set layout, css, etc (e.g. show a grid of users)
- *
- * @param {Array}  options.users
- * @param {Number} options.max The maximum number of images to show
- */
-export default function ManyUsersImage({ users, max=4 }) {
+export default function ManyUsersImage({ users, size=40, max=4, columns=2 }) {
+  const containerStyle = {
+    width: `${size}px`
+  };
+  const imgStyle = {
+    borderRadius: "100%",
+    display: "inline-block"
+  };
+  switch (users.length) {
+  case 1:
+    imgStyle.width = `${size}px`;
+    imgStyle.height = `${size}px`;
+    break;
+  default:
+    imgStyle.float = "left";
+    imgStyle.width = `${size/columns}px`;
+    imgStyle.height = `${size/columns}px`;
+  }
+
   return (
-    <div>
-      { users.slice(0, max).map((user, i) => <UserImage key={i} image={ user.image } />) }
+    <div style={ containerStyle }>
+      { users.slice(0, max).map(user =>
+        <img style={ imgStyle} title={ user.name } key={user.username} src={ user.image } />)
+      }
     </div>
-  )
+  );
 }
