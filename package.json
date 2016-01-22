@@ -109,7 +109,7 @@
     "style-loader": "^0.13.0",
     "webpack": "^1.12.10",
     "webpack-dev-middleware": "^1.4.0",
-    "webpack-error-notification": "^0.1.5",
+    "webpack-error-notification": "^0.1.6",
     "webpack-hot-middleware": "^2.6.0"
   },
   "globalDependencies": {
