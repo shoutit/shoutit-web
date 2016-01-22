@@ -1,5 +1,4 @@
 import React from 'react';
-import {MenuItemLink} from 'react-router-bootstrap';
 import {Col} from 'react-bootstrap';
 import {Link} from 'react-router';
 
@@ -12,7 +11,6 @@ export default React.createClass({
 		let circleClasses = "small-circle2 " + this.props.user.online ? "active" : "";
 
 		return (
-			<MenuItemLink to="message" params={{msgId: this.props.message.id}}>
 				<Col xs={2} md={2}>
 					<UserImage name={this.props.user.name} image={this.props.user.image}/>
 				</Col>
@@ -22,7 +20,6 @@ export default React.createClass({
 						<p>{this.props.message.text}</p>
 					</span>
 				</Col>
-			</MenuItemLink>
 		);
 	}
 });

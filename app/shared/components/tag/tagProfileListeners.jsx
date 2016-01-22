@@ -1,14 +1,15 @@
 import React from 'react';
 import {Col} from 'react-bootstrap';
 import findIndex from 'lodash/array/findIndex';
-import {Loader, Clear} from '../helper';
+import {Progress, Clear} from '../helper';
 
-import ListenerRow from '../profile/listenerRow.jsx';
+import ListenerRow from '../profile/popuplist/listenerRow.jsx';
 
 export default React.createClass({
 	displayName: "ProfileListeners",
 
 	statics: {
+		fetchId: 'taglisteners',
 		fetchData(client, session, params) {
 			return client.tags().getListeners(session, params.tagName);
 		}
@@ -41,7 +42,7 @@ export default React.createClass({
 				);
 			}) : <h4>This tag has no listeners</h4>;
 		} else {
-			listenerChildren = <Loader/>;
+			listenerChildren = <Progress/>;
 		}
 
 		return (

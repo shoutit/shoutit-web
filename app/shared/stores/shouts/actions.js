@@ -1,5 +1,5 @@
 import consts from './consts';
-import messageConsts from '../messages/consts';
+// import messageConsts from '../messages/actionTypes';
 import client from './client';
 
 export default {
@@ -30,6 +30,12 @@ export default {
 	loadMoreSuccess(res, type) {
 		this.dispatch(consts.LOAD_MORE_SUCCESS, {
 			res, type
+		});
+	},
+
+	loadRelatedShouts(shoutId) {
+		this.dispatch(consts.LOAD_RELATED_SHOUTS, {
+			shoutId: shoutId
 		});
 	},
 
@@ -76,9 +82,9 @@ export default {
 						error
 					});
 				} else {
-					this.dispatch(messageConsts.NEW_MESSAGE, {
-						message: res.body
-					});
+					// this.dispatch(messageConsts.NEW_MESSAGE, {
+					// 	message: res.body
+					// });
 				}
 			}.bind(this));
 	},

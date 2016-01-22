@@ -1,5 +1,4 @@
 import React from 'react';
-import Icon from '../helper/icon.jsx';
 
 export default React.createClass({
 	displayName: "SocialLogin",
@@ -13,14 +12,8 @@ export default React.createClass({
 	render() {
 		return(
 			<div>
-				<button className="btn btn-fb submit" type="button" onClick={this.onFBLogin}>
-					<Icon name="fb"/>
-					Log in with Facebook
-				</button>
-				<button className="btn btn-google submit" type="button" onClick={this.onGPlusLogin}>
-					<Icon name="google"/>
-					Log in with Google+
-				</button>
+				<span className="social-btn facebook" onClick={this.onFBLogin}>Login With Facebook</span>
+				<span className="social-btn google" onClick={this.onGPlusLogin}>Login With Google+</span>
 			</div>
 		);
 	},

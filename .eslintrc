@@ -1,28 +1,32 @@
 {
-  "ecmaFeatures": {
-    "jsx": true,
-    "modules": true,
-    "objectLiteralShorthandMethods": true,
-    "objectLiteralShorthandProperties": true,
-    "arrowFunctions": true
+  "parser": "babel-eslint",
+  "plugins": ["react"],
+  "extends": "eslint:recommended",
+  "rules": {
+    "semi": [2, "always"],
+    "arrow-spacing": 2,
+    "curly": 2,
+    "eol-last": 2,
+    "indent": [2, 2],
+    "no-lonely-if": 2,
+    "no-spaced-func": 2,
+    "no-unused-vars": 2,
+    "no-var": 2,
+    "prefer-const": 2,
+    "quotes": [2, "single"],
+    "jsx-quotes": [1, "prefer-double"],
+    "space-before-blocks": 2,
+    "quotes": [2, "double"],
+
+    "react/jsx-no-duplicate-props": 2,
+    "react/jsx-no-undef": 2,
+    "react/jsx-uses-react": 2,
+    "react/no-danger": 2,
+    "react/no-unknown-property": 2,
+    "react/self-closing-comp": 2,
+    "react/sort-comp": 2
   },
   "env": {
-    "browser": true,
-    "node": true,
-    "es6": true
-  },
-  "rules": {
-    "no-mixed-spaces-and-tabs": [2, "smart-tabs"],
-    "no-multi-spaces": 0,
-    "eqeqeq": 0,
-    "curly": 2,
-    "quotes": [
-      0,
-      "single"
-    ],
-    "camelcase": [1, {"properties": "always"}]
-  },
-  "plugins": [
-    "react"
-  ]
+    "node": true
+  }
 }

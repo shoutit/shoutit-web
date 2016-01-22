@@ -16,21 +16,20 @@ export default React.createClass({
 
 		let shoutResultList = shoutSearchResults && shoutSearchResults.length ?
 			shoutSearchResults.map(function (shout, i) {
+				let shoutTitle = encodeURIComponent(shout.title.replace(/\s+/g, '-'));
 				return (
-					<li key={"search-header-shout-" + i}>
-						<Link to="shout"
-							  params={{shoutId: shout.id, location: shout.location.city, 
-							  		title: encodeURIComponent(shout.title.replace(/\s+/g, '-'))}}
-							  onClick={onBlurSearch}>
+					<Link to={`/shout/${shout.id}/${shout.location.city}/${shoutTitle}`}
+						  onClick={onBlurSearch}>
+						 <div  className="list-search-item" key={"search-header-shout-" + i}>
 							 <div className="img-search-holder">
 							 	 <Image src={shout.thumbnail} size="small" className="img-search-thumb"/>
 							 </div>
 							 <div className="text-search-holder">
 							 	{shout.title}
 							 </div>
-						</Link>
-
-					</li>);
+						 </div>
+					</Link>
+					);
 			}) : [];
 
 		let tagResults = results.tags,
@@ -39,16 +38,18 @@ export default React.createClass({
 		let tagResultList = tagSearchResults && tagSearchResults.length ?
 			tagSearchResults.map(function (tag, i) {
 				return (
-					<li key={"search-header-tag-" + i}>
-						<Link to="tag" params={{tagName: encodeURIComponent(tag.name)}} onClick={onBlurSearch}>
+					<Link to={`/tag/${encodeURIComponent(tag.name)}`} 
+								onClick={onBlurSearch}>
+						<div  className="list-search-item" key={"search-header-tag-" + i}>
 							<div className="img-search-holder">
 							 	 <img src={tag.image} className="img-search-thumb"/>
 							 </div>
 							 <div style={{verticalAlign:'10px',display:'inline-block'}}>
 							 	{tag.name}
 							 </div>
-						</Link>
-					</li>);
+						 </div>
+					</Link>
+					);
 			}) : [];
 
 		let userResults = results.users,
@@ -57,39 +58,34 @@ export default React.createClass({
 		let userResultList = userSearchResults && userSearchResults.length ?
 			userSearchResults.map(function (user, i) {
 				return (
-					<li key={"search-header-user-" + i}>
-						<Link to="user" params={{username: encodeURIComponent(user.username)}} onClick={onBlurSearch}>
+					<Link to={`/user/${encodeURIComponent(user.username)}`}
+							onClick={onBlurSearch}>
+						<div className="list-search-item" key={"search-header-user-" + i}>
 							<div className="img-search-holder">
 							 	 <img src={user.image} className="img-search-thumb"/>
 							 </div>
 							 <div style={{verticalAlign:'10px',display:'inline-block'}}>
 							 	{user.name}
 							 </div>
-						</Link>
-					</li>);
+						 </div>
+					</Link>
+					);
 			}) : [];
 
-		return (<div className="list-search">
-			<ul>
-				<li>
-					<Link to="search" params={searchParams} onClick={onBlurSearch}>Shouts</Link>
-					<ul className="list-search-sub">
-						{shoutResultList}
-					</ul>
-				</li>
-				<li>
-					<Link to="searchTags" params={searchParams} onClick={onBlurSearch}>Tags</Link>
-					<ul className="list-search-sub">
-						{tagResultList}
-					</ul>
-				</li>
-				<li>
-					<Link to="searchUsers" params={searchParams} onClick={onBlurSearch}>Users</Link>
-					<ul className="list-search-sub">
-						{userResultList}
-					</ul>
-				</li>
-			</ul>
+		return (
+		<div className="list-search">
+			<Link className="list-search-title" to="search" params={searchParams}
+					onClick={onBlurSearch}>Shouts</Link>
+			{shoutResultList}
+
+			<Link className="list-search-title" to="searchTags" params={searchParams}
+					onClick={onBlurSearch}>Tags</Link>
+			{tagResultList}
+
+			<Link className="list-search-title" to="searchUsers" params={searchParams}
+					onClick={onBlurSearch}>Users</Link>
+			{userResultList}
+
 		</div>);
 	}
 });

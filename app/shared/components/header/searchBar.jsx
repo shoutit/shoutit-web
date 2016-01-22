@@ -1,19 +1,19 @@
 import React from 'react';
-import {Navigation} from 'react-router';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
-import {Row, Input} from 'react-bootstrap';
+import {History} from 'react-router';
+import {StoreWatchMixin} from 'fluxxor';
+import {Input} from 'react-bootstrap';
 
 import Search from './search.jsx';
 import SearchResultList from './search/searchResultList.jsx';
-import assign from 'core-js/modules/$.assign.js';
+import assign from 'lodash/object/assign';
 
 export default React.createClass({
-	mixins: [new FluxMixin(React), new StoreWatchMixin("search", "locations"), Navigation],
+	mixins: [new StoreWatchMixin("search", "locations"), History],
 
 	displayName: "SearchBar",
 
 	getStateFromFlux() {
-		let flux = this.getFlux();
+		let flux = this.props.flux;
 		return {
 			search: flux.store("search").getState(),
 			users: flux.store("users").getState(),
@@ -50,21 +50,18 @@ export default React.createClass({
 		let placePredictions = this.state.locations.locations[this.state.locTerm];
 
 		let placesList = placePredictions && placePredictions.length ?
-			<li>
-				<span>Results</span>
-				<ul className="list-search-sub">
+				<div>
+					<div className="list-search-title">Results</div>
 					{placePredictions.map((prediction, i) => (
-						<li onClick={this.onLocationSelect(prediction)} key={"prediction" + i}>
+						<div className="list-search-loc" onClick={this.onLocationSelect(prediction)} key={"prediction" + i}>
 							{prediction.description}
-						</li>))}
-				</ul>
-			</li> : null;
+						</div>
+					))}
+				</div>
+			 		: null;
 
 		return (<div className="list-search">
-			<ul>
-				<li>
-					<span>Select your Location</span>
-					<ul className="list-search-sub">
+					<div className="list-search-title">Select your Location</div>
 						<Input
 							id="locationSearch"
 							ref="locationInput"
@@ -72,11 +69,9 @@ export default React.createClass({
 							placeholder="Search"
 							onChange={this.onLocInputChange}
 							value={this.state.locTerm}
+							height={this.props.height + 'px'}
 							/>
-					</ul>
-				</li>
 				{placesList}
-			</ul>
 		</div>);
 
 	},
@@ -93,22 +88,19 @@ export default React.createClass({
 	},
 
 	render() {
-		let backdrop = this.state.showSearch ?
-			<div onClick={this.onBlurSearch} className="backdrop"/> : null;
-
 		return (
-			<Row className="searchBar">
+			<div className="search-bar">
 				<Search
-					flux={this.getFlux()}
+					flux={this.props.flux}
 					onFocus={this.onFocusSearch}
 					onChangeSearch={this.onChangeSearch}
 					onSubmit={this.onSubmit}
 					onBlur={this.onBlurSearch}
 					term={this.state.term}
+					height={this.props.height}
 					/>
 				{this.renderList()}
-				{backdrop}
-			</Row>
+			</div>
 		);
 	},
 
@@ -152,26 +144,27 @@ export default React.createClass({
 		searchReq.category = 'all';
 
 		// send search action
-		this.getFlux().actions.searchAll(assign(searchReq,searchQuery));
+		this.props.flux.actions.searchAll(assign(searchReq,searchQuery));
 		// move to search page if requested
 		if (moveToSearchPage) {
 			searchReq.term = encodeURIComponent(searchReq.term);
 			searchQuery.city = encodeURIComponent(searchQuery.city);
 			searchQuery.country = encodeURIComponent(searchQuery.country);
-			this.transitionTo("search", searchReq, searchQuery);
+			this.history.pushState(null, 
+				`/search/${searchReq.shouttype}/${searchReq.category}/${searchReq.term}`, searchQuery);
 		}
 	},
 
 	onLocInputChange(ev) {
 		let newTerm = ev.target.value;
 		this.setState({locTerm: newTerm});
-		this.getFlux().actions.loadPredictions(newTerm);
+		this.props.flux.actions.loadPredictions(newTerm);
 	},
 
 	onLocationSelect(prediction) {
 		return function () {
 			this.setState({showSearch: false});
-			this.getFlux().actions.selectLocation(prediction);
+			this.props.flux.actions.selectLocation(prediction);
 		}.bind(this);
 	}
 });

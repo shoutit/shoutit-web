@@ -4,7 +4,7 @@ import consts from './consts';
 import statuses from '../../consts/statuses';
 import locConsts from '../locations/consts';
 import client from './client';
-import assign from 'core-js/modules/$.assign.js';
+import assign from 'lodash/object/assign';
 
 const {LISTEN_BTN_LOADING} = statuses;
 
@@ -57,7 +57,13 @@ var UserStore = Fluxxor.createStore({
 			forgetResult: null,
 			editors: {},
 			verifyResponse: '',
-			status: null
+			status: null,
+			profile: {
+				status: null,
+				profilePictureUploading: false,
+				coverUploading: false,
+				changes: {}
+			}
 		};
 
 		if (props.loggedUser) {
@@ -122,8 +128,6 @@ var UserStore = Fluxxor.createStore({
 			}
 		}
 
-		this.router = props.router;
-
 		this.bindActions(
 			consts.RESEDND_EMAIL_VERIF, this.onResendEmail,
 			consts.VERIFY_EMAIL, this.onEmailVerify,
@@ -133,6 +137,10 @@ var UserStore = Fluxxor.createStore({
 			consts.LOGIN, this.onLogin,
 			consts.LOGIN_FB_ERROR, this.onLoginFBError,
 			consts.LOGOUT, this.onLogout,
+			consts.PROFILE_CHANGE, this.onProfileChange,
+			consts.PROFILE_CHANGES_SAVE, this.onProfileChangesSave,
+			consts.PROFILE_PICTURE_UPLOAD, this.onProfilePictureUpload,
+			consts.COVER_IMAGE_UPLOAD, this.onCoverImageUpload,
 			consts.INFO_CHANGE, this.onInfoChange,
 			consts.INFO_SAVE, this.onInfoSave,
 			consts.PASS_CHANGE, this.onPassChange,
@@ -191,7 +199,8 @@ var UserStore = Fluxxor.createStore({
 			return false;
 		}
 		let loc = user.location;
-		let isLocationsFilled = loc.country && loc.city && loc.state && loc.latitude && loc.longitude;
+
+		let isLocationsFilled = loc? loc.country && loc.city && loc.state && loc.latitude && loc.longitude: false;
 
 		if(isLocationsFilled) {
 			return loc;
@@ -286,7 +295,6 @@ var UserStore = Fluxxor.createStore({
 							this.state.loginFailed = null;
 							this.emit("change");
 							this.emit("login");
-							this.router.transitionTo('app');
 						}
 					}
 				}
@@ -307,9 +315,100 @@ var UserStore = Fluxxor.createStore({
 					this.state.user = null;
 					this.emit("change");
 					this.emit("logout");
-					this.router.transitionTo('app');
 				}
 			}.bind(this));
+	},
+
+	onProfileChange(payload) {
+		let {changes} = payload;
+		assign(this.state.profile.changes, changes);
+		this.emit("change");
+	},
+
+	onProfileChangesSave() {
+		// clear status
+		this.state.profile.status = 'saving';
+		this.emit("change");
+		// patch the changes
+		const user = this.state.user;
+		const patch = this.state.profile.changes;
+
+		const isPatchable = this.state.users[user].is_owner && Object.keys(patch).length > 0;
+		
+		if(isPatchable) {
+			client.update(patch).end((err, res) => {
+				if (err) {
+					console.log(err);
+				} else {
+					if(res.status !== 200) {
+						if(res.body) {
+							const err = res.body;
+							this.state.profile.status = 'err';
+							this.state.profile.errors = res.body;
+							this.emit("change");
+						}
+					} else {
+						const username = res.body.username;
+						if(username) {
+							this.state.users[username] = res.body;
+						}
+						this.state.profile.status = 'saved';
+						this.emit("change");
+					}
+				}
+				// clear changes
+				this.state.profile.changes = {};
+			});
+		}
+	},
+
+	onProfilePictureUpload(payload) {
+		this.state.profile.profilePictureUploading = true;
+		this.emit("change");
+		// uploading to user bucket
+        client.uploadDataImage(payload.editedImage, 'user')
+            .end((err, res) => {
+                if(err) {
+                    console.log(err);
+                } else {
+                    if(res.status == 200) {
+                        const s3Link = res.text;
+                        this.onProfileChange({
+                        	changes: {image: s3Link}
+                        });
+                    } else {
+                        console.log('Error on saving file.');
+                    }
+                }
+                this.state.profile.profilePictureUploading = false;
+                this.emit("change");
+            });
+	},
+
+	onCoverImageUpload(payload) {
+		this.state.profile.coverUploading = true;
+		this.emit("change");
+		// uploading to user bucket
+        client.uploadDataImage(payload.editedImage, 'user')
+            .end((err, res) => {
+                if(err) {
+                    console.log(err);
+                } else {
+                    if(res.status == 200) {
+                        const s3Link = res.text;
+                        this.onProfileChange({
+                        	changes: {cover: s3Link}
+                        });
+                        // now save changes
+                        this.onProfileChangesSave();
+                    } else {
+                    	console.log(res);
+                        console.log('Error on saving file.');
+                    }
+                }
+                this.state.profile.coverUploading = false;
+                this.emit("change");
+            });
 	},
 
 	onInfoChange(payload) {
@@ -630,16 +729,17 @@ var UserStore = Fluxxor.createStore({
 						console.log(err);
 					} else {
 						let next = this.parseNextPage(res.body.next);
-						let list = res.body.tags;
 						
 						let stock = this.state.listens[username].tags.list;
+						let list = res.body.tags.map(item => item.name);
 						stock = [...stock, ...list];
 
 						this.state.listens[username].tags.list = stock;
-						// add tags to tag store
-						//this.flux.store('tags').addTags(list);
 						this.state.listens[username].tags.next = next;
 
+						// add tags to tag store
+						this.flux.store('tags').addTags(res.body.tags);
+						
 						this.state.loading = false;
 						this.emit("change");
 					}
@@ -657,7 +757,7 @@ var UserStore = Fluxxor.createStore({
 
 		client.loadShouts(username, {
 			shout_type: type || ALL_TYPE,
-			page_size: PAGE_SIZE
+			page_size: payload.limit? payload.limit: PAGE_SIZE
 		}).end(function (err, res) {
 			if (err) {
 				console.log(err);

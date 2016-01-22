@@ -7,8 +7,8 @@ export default React.createClass({
 
 	render() {
 		return (
-			<Link to="app">
-				<Icon name="logo_small_white"/>
+			<Link to="/">
+				<Icon name="logo"/>
 			</Link>
 		);
 	}

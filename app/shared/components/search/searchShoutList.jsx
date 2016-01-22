@@ -1,11 +1,14 @@
 import React from 'react';
-import {Col} from 'react-bootstrap';
-import {Loader, Clear} from '../helper';
+import {Progress, Clear, Column, Grid} from '../helper';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 import Shout from '../feed/feed/shout.jsx';
 
 export default React.createClass({
 	displayName: "SearchShoutList",
+
+	contextTypes: {
+		flux: React.PropTypes.object
+	},
 
 	componentDidMount() {
 		let term = this.props.term,
@@ -22,7 +25,7 @@ export default React.createClass({
 			let payload = {
 				term, category, shouttype, tags, min, max, city, country
 			}
-			this.props.flux.actions.searchShouts(payload);
+			this.context.flux.actions.searchShouts(payload);
 		}
 	},
 
@@ -40,12 +43,11 @@ export default React.createClass({
 		if (shouts) {
 			content = this.renderShouts(shouts);
 		} else {
-			content = <Loader/>;
+			content = <Progress/>;
 		}
 
 		return (
-			<div className="listener-scroll ctn-offerpro" tabIndex="5000"
-				 style={{outline: "none"}}>
+			<div>
 				{content}
 				{this.renderViewportSensor()}
 			</div>
@@ -57,24 +59,20 @@ export default React.createClass({
 
 		if(loading) {
 			return (
-				<section>
-					<Col xs={12} md={12}>
-						<Loader />
-					</Col>
-				</section>);
+				<Grid fluid={true}>
+					<Progress />
+				</Grid>);
 		} else {
 			return (
-				<section>
-					<Col xs={12} md={12}>
-						<ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
-					</Col>
-				</section>);
+				<Grid fluid={true}>
+					<ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
+				</Grid>);
 		}
 	},
 
 	onLastVisibleChange(isVisible) {
 		if (isVisible) {
-			this.props.flux.actions.searchLoadMore();
+			this.context.flux.actions.searchLoadMore();
 		}
 	}
 });

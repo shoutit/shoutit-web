@@ -85,9 +85,8 @@ export default React.createClass({
 	},
 
 	hookImageLoad() {
-		let imgTag = this.refs.image.getDOMNode();
 
-		let imgSrc = imgTag.getAttribute('src');
+		let imgSrc = this.refs.image.getAttribute('src');
 
 		let img = new window.Image();
 		img.onload = this.onImageLoad;

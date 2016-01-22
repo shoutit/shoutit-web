@@ -1,0 +1,58 @@
+@import "../_flexbox.scss";
+@import "../colors.scss";
+
+.ConversationItem {
+  @include flexbox();
+  text-decoration: none;
+  border-bottom: 1px solid $border-color;
+  cursor: pointer;
+  &.isSelected {
+    background-color: $si-light-green;
+  }
+  &:hover {
+    color: inherit;
+  }
+}
+
+.ConversationItem-usersImage {
+  padding: 10px 5px;
+}
+
+.ConversationItem-body {
+  @include flexbox();
+  @include flex-direction(column);
+  @include flex(1);
+  min-width: 0;
+  flex-basis: 50%;
+  padding: 10px 5px;
+  > div {
+    // TODO: move ellipsis into mixin
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.ConversationItem-createdAt {
+  padding: 10px 5px;
+  color: $color-light;
+  font-size: 0.875em;
+}
+
+.ConversationItem-aboutShout {
+  a {
+    color: $si-blue;
+    font-weight: bold;
+  }
+}
+
+.ConversationItem-partecipants {
+  font-weight: bold;
+}
+
+.ConversationItem-lastMessage {
+  a {
+    color: $color-light;
+    font-size: 0.875em;
+  }
+}

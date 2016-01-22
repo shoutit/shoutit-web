@@ -1,0 +1,127 @@
+.mainpage {
+  .si-container {
+    overflow: hidden;
+  }
+  h1 {
+    font-size: 3.0rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  h2 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #747476;
+  }
+  .mainpage-nav {
+    padding-top: 20px;
+    padding-bottom: 22px;
+    background: $si-white;
+    .nav-left {
+      padding-left:40px;
+    }
+    .nav-right {
+      padding-right:40px;
+      .btn-login {
+        @include green-button(119px,38px, 1.6rem);
+        float: right;
+        margin-left:20px;
+      }
+      .btn-d {
+        @include button(70px, 30px, 1.6rem);
+        float: right;
+      }
+    }
+  }
+  .mainpage-cover {
+    position: relative;
+    min-height: 471px;
+    // background: url(../img/cover.jpg);
+    background-size: cover;
+    .mainpage-cover-opacity {
+      position: absolute;
+      height: 471px;
+      background-color: rgba(0,0,0,0.4);
+      .hero {
+        margin-top: 175px;
+        h1 {
+          color: $si_white;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+          margin-left: 10px;
+        }
+        p {
+          color: $si-white;
+          padding: 10px;
+          max-width: 522px;
+          font-size: 2.0rem;
+          font-weight: 300;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        .btn-explore {
+          @include green-button(170px, 50px, 1.9rem);
+        }
+        .btn-how {
+          @include border-button(170px, 50px, 1.9rem);
+        }
+        .icon {
+          margin-top: 15px;
+        }
+      }
+    }
+
+  }
+  .mainpage-search {
+    height: 90px;
+    background: $si-gray;
+    padding-top: 23px;
+    overflow: hidden;
+  }
+  .mainpage-explore {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: $si-bg;
+    h2 {
+      text-align:center;
+    }
+  }
+  .mainpage-how {
+    min-height: 600px;
+    background: lighten($si-bg, 5%);
+    h2 {
+      text-align:center;
+      height:40px;
+      margin-top:0;
+      background: $si-bg;
+    }
+  }
+  .mainpage-footer {
+    height: 233px;
+    background: $si-light-gray;
+    .logo-section{
+      .icon {
+        margin: 38px auto 107px 118px;
+      }
+      .copyright {
+        margin-left: 31px;
+        color: $si-white;
+        font-size: 1.2rem;
+      }
+    }
+    .links-section {
+      h3 {
+        color: $si-white;
+        font-weight: 600;
+        margin-top: 50px;
+        margin-bottom: 29px;
+      }
+      a {
+        display: block;
+        color: $si-white;
+        margin:0 auto 15px 0;
+      }
+      .icon-app-store-small {
+        margin-bottom: 7px;
+      }
+
+    }
+  }
+}

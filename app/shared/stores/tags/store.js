@@ -4,7 +4,7 @@ import consts from './consts';
 import usersConsts from '../users/consts';
 import client from './client';
 import statuses from '../../consts/statuses.js';
-import assign from 'core-js/modules/$.assign.js';
+import assign from 'lodash/object/assign';
 
 var {LISTEN_BTN_LOADING} = statuses;
 
@@ -19,23 +19,13 @@ var TagStore = Fluxxor.createStore({
 		};
 
 		if (props.tag) {
-			this.state.tags[props.tag.name] = {
-				tag: null,
-				offers: null,
-				nextoffer: null,
-				requests: null,
-				nextrequest: null,
-				listeners: null
-			};
+			this.addTagEntry(props.tag.name);
 
 			this.state.tags[props.tag.name].tag = props.tag;
 
-			if (props.tagoffers) {
-				this.state.tags[props.tag.name].offers = props.tagoffers.results;
-			}
-
-			if (props.tagrequests) {
-				this.state.tags[props.tag.name].requests = props.tagrequests.results;
+			if (props.tagshouts) {
+				this.state.tags[props.tag.name].shouts = props.tagshouts.results;
+				this.state.tags[props.tag.name].shoutsNext = this.parseNextPage(props.tagshouts.next);
 			}
 
 			if (props.taglisteners) {
@@ -110,13 +100,19 @@ var TagStore = Fluxxor.createStore({
 		if (!this.state.tags[tagName]) {
 			this.state.tags[tagName] = {
 				tag: {},
-				nextoffer: null,
-				offers: null,
-				requests: null,
-				nextrequest: null,
+				shouts: null,
+				shoutsNext: null,
 				listeners: null
 			};
 		}
+	},
+
+	// adding chunks of tag objects to the store
+	addTags(tags) {
+		tags.forEach(tag => {
+			this.addTagEntry(tag.name);
+			this.state.tags[tag.name].tag = tag;
+		});
 	},
 
 	onLoadUserTagsSuccess(payload) {
@@ -151,6 +147,7 @@ var TagStore = Fluxxor.createStore({
 		client.listen(tagName).end(function(res) {
 			if(res.body.success) {
 				this.state.tags[tagName].tag.is_listening = true;
+				this.state.tags[tagName].tag.listeners_count+= 1;
 				this.state.tags[tagName].tag.fluxStatus = null;
 				this.emit('change');
 			}
@@ -168,6 +165,7 @@ var TagStore = Fluxxor.createStore({
 		client.unlisten(tagName).end(function(res) {
 			if(res.body.success) {
 				this.state.tags[tagName].tag.is_listening = false;
+				this.state.tags[tagName].tag.listeners_count-= 1;
 				this.state.tags[tagName].tag.fluxStatus = null;
 				this.emit('change');
 			}
@@ -181,16 +179,16 @@ var TagStore = Fluxxor.createStore({
 		var tagName = payload.tagName,
 			type = payload.type;
 
-		client.getShouts(tagName, {
-			shout_type: type
-		}).end(function (err, res) {
+		let query = {page_size: 10}
+		type !== 'all'? query.shout_type = type: undefined;
+
+		client.getShouts(tagName, query).end(function (err, res) {
 			if (err) {
 				console.log(err);
 			} else {
 				this.onLoadTagShoutsSuccess({
 					tagName: tagName,
-					res: res.body,
-					type: type
+					res: res.body
 				});
 			}
 		}.bind(this));
@@ -203,8 +201,8 @@ var TagStore = Fluxxor.createStore({
 		let tagShouts = this.state.tags[payload.tagName];
 
 		this.addTagEntry(payload.tagName);
-		tagShouts[payload.type + "s"] = payload.res.results;
-		tagShouts["next" + payload.type] = next;
+		tagShouts['shouts'] = payload.res.results;
+		tagShouts['shoutsNext'] = next;
 		this.state.loading = false;
 		this.emit("change");
 	},
@@ -213,20 +211,21 @@ var TagStore = Fluxxor.createStore({
 		let tagName = payload.tagName,
 			type = payload.type,
 			tagShouts = this.state.tags[tagName],
-			next = tagShouts["next" + type];
+			next = tagShouts['shoutsNext'];
+
+		let query = {
+			page: next,
+		}
+		type !== 'all'? query.shout_type = type: undefined;
 			
 		if(next !== null) {
-			client.getShouts(tagName,{
-				shout_type:type,
-				page: next
-			}).end(function(err,res){
+			client.getShouts(tagName, query).end(function(err,res){
 				if (err) {
 					console.log(err);
 				} else {
 					this.onLoadMoreTagShoutsSuccess({
 						tagName: tagName,
-						res: res.body,
-						type: type
+						res: res.body
 					});
 				}
 			}.bind(this));
@@ -237,15 +236,14 @@ var TagStore = Fluxxor.createStore({
 
 	onLoadMoreTagShoutsSuccess(payload) {
 		let tagName = payload.tagName,
-			type = payload.type,
 			tagShouts = this.state.tags[tagName],
 			next = this.parseNextPage(payload.res.next),
 			data = payload.res.results;
 
 		data.forEach(function(val) {
-			tagShouts[type + "s"].push(val);
+			tagShouts['shouts'].push(val);
 		}.bind(this));
-		tagShouts["next" + type] = next;
+		tagShouts['shoutsNext'] = next;
 		this.state.loading = false;
 		this.emit("change");
 	},

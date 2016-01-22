@@ -2,7 +2,7 @@ import React from 'react';
 import {Navigation} from 'react-router';
 import {FluxMixin, StoreWatchMixin} from 'fluxxor';
 
-import {Loader} from '../helper';
+import {Progress} from '../helper';
 
 export default React.createClass({
 	displayName: "SideMap",
@@ -25,7 +25,7 @@ export default React.createClass({
 	render() {
 		return this.isMapsAvailable() ? (
 			<div ref="mapContainer" className="map">
-				<Loader />
+				<Progress />
 			</div>
 		) : null;
 	},

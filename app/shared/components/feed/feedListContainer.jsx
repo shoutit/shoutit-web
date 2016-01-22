@@ -1,11 +1,10 @@
 import React from 'react';
-import {State, Navigation} from 'react-router';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
+import {State, History} from 'react-router';
+import {StoreWatchMixin} from 'fluxxor';
 import DocumentTitle from 'react-document-title';
-
 import FeedList from './feedList.jsx';
-
 import defaults from '../../consts/defaults';
+import EmbeddedShout from '../shouting/embeddedShout.jsx';
 
 const titles = {
 	"all": "Home",
@@ -22,9 +21,10 @@ const typeToRoute = {
 export default function (type = "all") {
 	return React.createClass({
 		displayName: type,
-		mixins: [new FluxMixin(React), new StoreWatchMixin("shouts", "locations"), State, Navigation],
+		mixins: [new StoreWatchMixin("shouts", "locations"), History],
 
 		statics: {
+			fetchId: 'all',
 			fetchData(client, session, params) {
 				return client.shouts().list(session, {
 					shout_type: type,
@@ -38,19 +38,22 @@ export default function (type = "all") {
 		},
 
 		getStateFromFlux() {
-			let flux = this.getFlux();
+			let flux = this.props.flux;
 			return {
 				shouts: flux.store("shouts").getState(),
-				locations: flux.store("locations").getState()
+				locations: JSON.parse(JSON.stringify(flux.store("locations").getState()))
 			};
 		},
 
 		render() {
 			return (
 				<DocumentTitle title={titles[type] + " - Shoutit"}>
-					<FeedList {...this.state} type={type} loadMore={this.loadMore}/>
+					<div>
+						<EmbeddedShout collapsed={true}/>
+						<FeedList {...this.state} type={type} loadMore={this.loadMore}/>
+					</div>
 				</DocumentTitle>
-			);
+			); 
 		},
 
 		componentDidMount() {
@@ -63,24 +66,26 @@ export default function (type = "all") {
 			}
 
 			if (this.state.locations.current.city && !this.state.locations.current.location) {
-				this.getFlux().actions.updateLocationToFeed();
+				this.props.flux.actions.updateLocationToFeed();
 			}
-		},
 
-		componentDidUpdate() {
 			let locStoreState = this.state.locations,
 				currentCity = locStoreState.current.city,
 				currentCountry = locStoreState.current.country,
 				currentState = locStoreState.current.state,
-				currentPage = this.getParams().page;
+				currentPage = this.props.params.page || '';
 			if (currentCity) {
-				this.transitionTo(typeToRoute[type],
-					{country: currentCountry, state: currentState, city: currentCity, page: currentPage});
+				this.history.pushState(null, 
+						`/${typeToRoute[type]}/${currentCountry}/${currentState}/${currentCity}/${currentPage}`);
 			}
 		},
 
+		componentDidUpdate(prevProps, prevState) {
+			
+		},
+
 		loadMore() {
-			this.getFlux().actions.loadMore(type);
+			this.props.flux.actions.loadMore(type);
 		}
 	});
 }

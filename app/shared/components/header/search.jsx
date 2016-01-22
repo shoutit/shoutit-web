@@ -1,6 +1,5 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
-
 import {Input, Button} from 'react-bootstrap';
 import Icon from '../helper/icon.jsx';
 
@@ -17,10 +16,11 @@ export default React.createClass({
 
     renderSubmitButton() {
         return (
-            <Button className="searchButton"
+            <Button className="search-button"
                     onClick={this.props.onSubmit}
                     bsStyle="link"
-                    tabIndex={2}>
+                    tabIndex={2}
+                    >
                 <Icon name="search-icon"/>
             </Button>
         );
@@ -28,27 +28,34 @@ export default React.createClass({
 
     render() {
         let currentCity = this.state.locations.current.city,
+            btnStyle = currentCity? 
+                    {height: this.props.height + 'px', padding: '0 20px'}: {height: this.props.height + 'px'},
             beforeButton =
-                <div className="selectpicker bla bli">
-                    <Button onClick={this.props.onFocus(2)} key="countrySelect"
+                <div className="selectpicker">
+                    <Button onClick={this.props.onFocus(2)} 
+                            key="countrySelect" 
+                            style={btnStyle}
                             className="dropdown-toggle">
-                        {currentCity || <Icon name="loc"/>}
+                        {currentCity || <Icon name="location_bar"/>}
                     </Button>
                 </div>;
         return (
-            <Input
-                placeholder="Search Shoutit"
-                ref='searchInput'
-                type="text"
-                buttonBefore={beforeButton}
-                addonAfter={this.renderSubmitButton()}
-                onChange={this.props.onChangeSearch}
-                onFocus={this.props.onFocus(1)}
-                onKeyUp={this.onKeyUp}
-                value={this.props.term}
-                tabIndex={1}
-                accessKey="s"
-                />
+            <div>
+                <Input
+                    placeholder="Search Shoutit"
+                    ref='searchInput'
+                    type="text"
+                    buttonBefore={beforeButton}
+                    onChange={this.props.onChangeSearch}
+                    onFocus={this.props.onFocus(1)}
+                    onKeyUp={this.onKeyUp}
+                    value={this.props.term}
+                    tabIndex={1}
+                    accessKey="s"
+                    style={{height: this.props.height + 'px'}}
+                    />
+                {this.renderSubmitButton()}
+            </div>
         );
     },
 

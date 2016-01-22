@@ -1,0 +1,30 @@
+@import "../_flexbox.scss";
+@import "../colors.scss";
+
+.Conversation {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  @include flexbox();
+  @include flex-direction(column);
+}
+
+.Conversation-listContainer {
+  @include flex(1, 1, 0);
+  overflow: auto;
+  padding: 10px 0;
+}
+
+.Conversation-replyFormContainer {
+  border-top: 1px solid $border-color-dark;
+  background-color: $background-color;
+}
+
+.Conversation-progress {
+  height: 100%;
+  @include flexbox();
+  @include justify-content(center);
+  @include align-items(center);
+}

@@ -10,8 +10,9 @@ var path = require('path'),
 	sourcemaps = require('gulp-sourcemaps'),
 	livereload = require('gulp-livereload'),
 	sass = require('gulp-ruby-sass'),
-	imagemin = require('gulp-imagemin'),
-	minifyCSS = require('gulp-minify-css');
+	//imagemin = require('gulp-imagemin'),
+	minifyCSS = require('gulp-minify-css'),
+	plumber = require('gulp-plumber');
 
 // JSX Transpiler
 require('node-jsx').install({extension: '.jsx'});
@@ -53,6 +54,7 @@ gulp.task(sassTask, function () {
 		compass: true,
 		noCache: true
 	})
+		.pipe(plumber())
 		.on('error', function (err) {
 			console.error('Error', err.message);
 		})
@@ -84,7 +86,7 @@ gulp.task(iconMinTask, function () {
 		.pipe(gulp.dest(imageDest));
 });
 
-gulp.task("build", [imageTask, sassTask, iconMinTask]);
+gulp.task("build", [sassTask]);
 
 gulp.task("watch", ["build"], function () {
 	livereload.listen();

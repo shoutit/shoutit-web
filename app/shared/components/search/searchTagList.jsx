@@ -1,7 +1,7 @@
 import React from 'react';
-import {Loader} from '../helper';
+import {Progress} from '../helper';
 
-import Tag from '../feed/feed/shout/tag.jsx';
+import Tag from '../general/tag.jsx';
 
 export default React.createClass({
 	displayName: "SearchTagList",
@@ -29,7 +29,7 @@ export default React.createClass({
 		if (tags) {
 			content = this.renderTags(tags);
 		} else {
-			content = <Loader/>;
+			content = <Progress/>;
 		}
 
 		return (

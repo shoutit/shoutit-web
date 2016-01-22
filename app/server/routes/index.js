@@ -8,6 +8,7 @@ var express = require('express'),
 
 apiRouter.use('/shouts', require('./shouts'));
 apiRouter.use('/users', require('./users'));
+apiRouter.use('/discover', require('./discover'));
 apiRouter.use('/tags', require('./tags'));
 apiRouter.use('/pusher', require('./pusher'));
 apiRouter.use('/notifications', require('./notifications'));

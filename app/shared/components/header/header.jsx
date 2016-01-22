@@ -1,15 +1,22 @@
 import React from 'react';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
-import TopBar from './topBar.jsx';
-import MainMenu from './mainMenu.jsx';
-import DownloadPopup from '../misc/downloadPopup.jsx';
+import {History, Link} from 'react-router';
+import {Button} from 'react-bootstrap';
+import SearchBar from './searchBar.jsx';
+import ProfileDropdown from './profileDropdown.jsx';
+import Logo from './logo.jsx';
+import {StoreWatchMixin} from 'fluxxor';
+import {Grid, Column} from '../helper';
+import {Icon} from '../helper';
+import ChatTopbarButton from './notifications/chatTopbarButton.jsx';
+import NotifTopbarButton from './notifications/notifTopbarButton.jsx';
+import NewShoutButton from '../shouting/newShoutButton.jsx';
 
 export default React.createClass({
 	displayName: "Header",
-	mixins: [new FluxMixin(React), new StoreWatchMixin("users", "locations")],
+	mixins: [new StoreWatchMixin("users", "locations"), History],
 
 	getStateFromFlux() {
-		let flux = this.getFlux();
+		let flux = this.props.flux;
 		return {
 			users: flux.store("users").getState(),
 			locations: flux.store("locations").getState()
@@ -17,25 +24,47 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
-		this.getFlux().actions.acquireLocation();
+		this.props.flux.actions.acquireLocation();
 	},
 
 	render() {
+		const users = this.state.users;
+		const flux = this.props.flux;
+		const loggedUser = users.user? users.users[users.user] : null;
+		const country = encodeURIComponent(this.state.locations.current);
+
 		return (
 			<header>
-				<TopBar {...this.state.users} flux={this.getFlux()} onLogoutClicked={this.onLogoutClicked}/>
-				<MainMenu current={this.state.locations.current} />
-				{this.renderPopup()}
+				<Grid className="si-header">
+					<Column size="2" className="header-logo" clear={true}>
+						<Logo/>
+					</Column>
+					<Column className="header-search" size="6">
+						<SearchBar height="36" flux={flux}/>
+					</Column>
+					<Column size="7" className="topbar-buttons">
+						<div className="topbar-links">
+							<Link to={`/home`}>Browse</Link>
+							<Link to={`/discover/${country}`}>Discover</Link>
+						</div>
+
+                        {/* Notification Icons */}
+						<Icon name="home"/>
+						<ChatTopbarButton flux={flux} user={loggedUser} />
+						<NotifTopbarButton flux={flux} user={loggedUser} />
+
+						<NewShoutButton flux={flux}/>
+
+						{loggedUser?
+                            <ProfileDropdown user={loggedUser}/>
+                            :
+							<div style={{fontSize: '12px'}}>
+								Not logged in
+							</div>
+						}
+					</Column>
+				</Grid>
 			</header>
 		);
-	},
-
-	renderPopup() {
-		return this.state.users.showDownloadPopup ?
-			<DownloadPopup flux={this.getFlux()}/> : null;
-	},
-
-	onLogoutClicked() {
-		this.getFlux().actions.logout();
 	}
 });

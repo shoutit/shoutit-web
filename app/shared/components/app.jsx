@@ -1,18 +1,14 @@
-import {RouteHandler} from 'react-router';
 import React from 'react';
-import Header from './header/header.jsx';
-import Footer from './footer/footer.jsx';
 
 export default React.createClass({
 	displayName: "App",
 
+    componentWillReceiveProps() {
+        // saving prev location to check if back button is available in some pages
+        window.previousLocation = this.props.location;
+      },
+
 	render() {
-		return (
-			<div>
-				<Header ref="header" flux={this.props.flux}/>
-				<RouteHandler {...this.props}/>
-				<Footer ref="footer"/>
-			</div>
-		);
+		return <div>{this.props.children}</div>;
 	}
 });

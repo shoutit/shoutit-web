@@ -43,6 +43,28 @@ export default {
         this.dispatch(consts.LOGOUT);
     },
 
+    profileChange(changes) {
+        this.dispatch(consts.PROFILE_CHANGE, {
+            changes
+        });
+    },
+
+    saveProfileChanges() {
+        this.dispatch(consts.PROFILE_CHANGES_SAVE);
+    },
+
+    uploadProfilePicture(editedImage) {
+        this.dispatch(consts.PROFILE_PICTURE_UPLOAD, {
+            editedImage
+        });
+    },
+
+    uploadCoverImage(editedImage) {
+        this.dispatch(consts.COVER_IMAGE_UPLOAD, {
+            editedImage
+        });
+    },
+
     changeInfo(field, value) {
         this.dispatch(consts.INFO_CHANGE, {
             field: field,
@@ -135,11 +157,13 @@ export default {
         });
     },
 
-    loadUserShouts(username, type) {
-        this.dispatch(consts.LOAD_USER_SHOUTS, {
-            username: username,
-            type: type
-        });
+    loadUserShouts(username, type, limit=0) {
+        let query = {};
+        query.username = username;
+        query.type = type;
+        if(limit) {query.limit = limit};
+
+        this.dispatch(consts.LOAD_USER_SHOUTS, query);
     },
 
     loadMoreUserShouts(username, type) {

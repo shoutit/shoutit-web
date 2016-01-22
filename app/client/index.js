@@ -1,99 +1,78 @@
-import React from 'react'; // /addons
-import Router from 'react-router';
+/* eslint no-console: 0 */
+/* eslint-env browser */
 
-import routes from '../shared/routes.jsx';
-import Flux from '../shared/flux';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Router } from "react-router";
+import isMobile from "ismobilejs";
+import injectTapEventPlugin from "react-tap-event-plugin";
 
-import facebook from './fb';
-import gAnalytics from './ga';
-import pusher from './pusher';
+import routes from "../shared/routes.jsx";
+import Flux from "../shared/flux";
+import facebook from "./fb";
+import gAnalytics from "./ga";
+import pusher from "./pusher";
+import createBrowserHistory from "history/lib/createBrowserHistory";
 
-import isMobile from 'ismobilejs';
+import "styles/main.scss";
 
-let envData = {};
+injectTapEventPlugin();
+
+const envData = {};
 
 envData.mobile = isMobile.any;
 
-let router = Router.create({
-	routes: routes(envData),
-	location: Router.HistoryLocation
-});
-
-let flux = new Flux(router);
+const flux = new Flux(null);
 
 if (window.fluxData) {
-	flux.hydrate(window.fluxData);
-	document.body.replaceChild(document.createElement('script'), document.getElementById('fluxData'));
+  flux.hydrate(window.fluxData);
+  document.body.replaceChild(document.createElement("script"), document.getElementById("fluxData"));
 }
 
 flux.on("dispatch", function (type, payload) {
-	if (console && console.log) {
-		console.log("[Flux]", type, payload);
-	}
+  console.log("[Flux]", type, payload);
 });
 
 // Facebook init
 facebook("353625811317277");
 
 // Google Analytics init
-let ga = gAnalytics('UA-62656831-1');
+const ga = gAnalytics("UA-62656831-1");
 
 // setting google maps
 if(window.google) {
-	let locationStore = flux.store('locations');
-	locationStore.setGMaps(window.google.maps);
+  const locationStore = flux.store("locations");
+  locationStore.setGMaps(window.google.maps);
 }
 
 // Pusher Service
-let pusherClient = pusher('86d676926d4afda44089', '/api/pusher/auth');
+const pusherClient = pusher("86d676926d4afda44089", "/api/pusher/auth");
 
-let usersStore = flux.store('users'),
-	messageStore = flux.store('messages'),
-	loggedUser = usersStore.getLoggedUser();
+const usersStore = flux.store("users");
+const loggedUser = usersStore.getLoggedUser();
 
 if (loggedUser) {
-	envData.user = loggedUser;
+  envData.user = loggedUser;
 }
 
 pusherClient.subscribeUser(flux, loggedUser);
 
 usersStore.on("login", function () {
-	envData.user = usersStore.getLoggedUser();
-	messageStore.setMe(usersStore.getLoggedUser());
-	pusherClient.subscribeUser(flux, usersStore.getLoggedUser());
+  envData.user = usersStore.getLoggedUser();
+  pusherClient.subscribeUser(flux, usersStore.getLoggedUser());
 });
 
 usersStore.on("logout", function () {
-	envData.user = null;
-	pusherClient.unsubscribeUser();
+  envData.user = null;
+  pusherClient.unsubscribeUser();
 });
 
-// Trigger Download Modal
-let routesVisited = 0;
-
-// Mesure Performance
-//let Perf = React.addons.Perf;
-
-router.run(function (Handler, state) {
-	//Perf.start();
-	React.render(
-		React.createElement(Handler, {
-			flux: flux,
-			params: state.params
-		}),
-		document.getElementById('main-mount'),
-		function () {
-			//Perf.stop();
-			//Perf.printInclusive();
-			//Perf.printExclusive();
-			//Perf.printWasted();
-			//console.log("Router run!");
-			ga('send', 'pageview', state.path);
-			// todo: find better and less annoying way to show the app download popup. also if the user has the app it should not show at all
-			routesVisited++;
-			if (routesVisited === 3 && envData.mobile) {
-				flux.actions.showDownloadPopup();
-			}
-		}
-	);
-});
+ReactDOM.render(
+  <Router
+    history={createBrowserHistory()}
+    createElement={(Component, props) => <Component {...props} flux={flux} /> }>
+    { routes(envData) }
+  </Router>,
+  document.getElementById("root"),
+  () => ga("send", "pageview", window.location.href)
+);

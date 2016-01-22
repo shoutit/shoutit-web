@@ -1,22 +1,40 @@
-"use strict";
+/* eslint no-var: 0, no-console: 0 */
+/* eslint-env node */
 
-if (["developmentLocal"].indexOf(process.env.NODE_ENV) < 0) {
-	require('newrelic');
+if (process.env.NODE_ENV === "production") {
+  require("newrelic");
 }
 
 require("babel/register");
 
-/**
- * Created by Philip on 12.01.2015.
- */
-var express = require('express');
+// Prevent issues with libraries using this var (see http://tinyurl.com/pcockwk)
+delete process.env.BROWSER;
 
+var express = require("express");
 var app = express();
 
-require('./app/server/web.js')(app);
+if (process.env.NODE_ENV === "development") {
+
+  var webpack = require("webpack");
+  var webpackConfig = require("./webpack.config");
+  var webpackCompiler = webpack(webpackConfig);
+  var webpackMiddleware = require("webpack-dev-middleware");
+  app.use(webpackMiddleware(webpackCompiler, {
+    hot: true,
+    publicPath: webpackConfig.output.publicPath,
+    stats: {
+      colors: true
+    }
+  }));
+
+  app.use(require("webpack-hot-middleware")(webpackCompiler));
+}
+
+// Start the server
+require("./app/server/web.js")(app);
 
 // startup
-var port = process.env.port || 8080;
+var port = process.env.PORT || process.env.NODE_ENV === "development" ? 3000 : 8080;
 app.listen(port, function () {
-	console.log("Listening at http://localhost:" + port);
+  console.log("Listening at http://localhost:" + port);
 });

@@ -136,7 +136,7 @@ let LocationsStore = Fluxxor.createStore({
 					input: term,
 					types: ["(cities)"]
 				},
-				function (predictions, status) {
+				(predictions, status) => {
 					if (status === places.PlacesServiceStatus.OK) {
 						let results = predictions.map(prediction => ({
 							id: prediction.place_id,
@@ -165,6 +165,7 @@ let LocationsStore = Fluxxor.createStore({
 
 	setGMaps(gmaps) {
 		this.gmaps = gmaps;
+		this.gmapsGeocoder = new gmaps.Geocoder();
 		this.autocomplete = new gmaps.places.AutocompleteService();
 	},
 

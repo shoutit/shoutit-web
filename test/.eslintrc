@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "no-unused-expressions": 0,
+    "quotes": [2, "double"]
+  },
+  "env": {
+    "mocha": true,
+    "node": true,
+    "browser": true
+  }
+}

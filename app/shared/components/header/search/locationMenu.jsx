@@ -10,7 +10,7 @@ export default React.createClass({
         let currentCity = this.props.current.city;
 
         return (
-            <div className="selectpicker bla bli">
+            <div className="selectpicker">
                 <Button onClick={this.props.onFocus} key="countrySelect"
                         className="dropdown-toggle">
                     {currentCity || <Icon name="loc"/>}
