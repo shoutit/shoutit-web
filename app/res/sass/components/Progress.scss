@@ -1,0 +1,13 @@
+@import "../_flexbox.scss";
+
+.Progress {
+    @include flexbox();
+    height: 100%;
+    width: 100%;
+    &.isCenteredVertically {
+      @include align-items(center);
+    }
+    &.isCenteredHorizontally {
+      @include justify-content(center);
+    }
+}
