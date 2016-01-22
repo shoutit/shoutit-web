@@ -5,7 +5,7 @@ if (process.env.BROWSER) {
   require("styles/components/Progress.scss");
 }
 
-export default function Progress({ centerVertical=true, centerHorizontal=true, ...otherProps }) {
+export default function Progress({ centerVertical=false, centerHorizontal=true, ...otherProps }) {
 
   let className = "Progress";
 
