@@ -44,17 +44,21 @@ export default React.createClass({
     if (prevProps.params.id !== this.props.params.id) {
       this.loadData();
     }
+    const { messages } = this.state;
+    if (prevState.messages.length !== messages.length) {
+      const addedBefore = prevState.messages.length > 0 && messages.length > 0
+        && prevState.messages[0].id !== messages[0].id;
 
-    if (this.shouldUpdateScrollPosition(prevState.messages, this.state.messages)) {
       const previousHeight = prevState.scrollHeight;
       const scrollHeight = this.list.scrollHeight;
+
       let scrollTop;
-      if (!previousHeight) {
+      if (!previousHeight || !addedBefore) {
         // Scroll to bottom of the list
         scrollTop = scrollHeight;
       }
       else {
-        // keep scrollTop the same, even if new messages have been added before
+        // keep scrollTop the same as before, even if new messages have been added
         scrollTop = scrollHeight - previousHeight + prevState.scrollTop;
       }
       this.list.scrollTop = scrollTop;
@@ -103,18 +107,6 @@ export default React.createClass({
       return;
     }
     this.getFlux().actions.loadMessages(id);
-  },
-
-  shouldUpdateScrollPosition(previousMessages, currentMessages) {
-    if ((previousMessages.length === 0 && currentMessages.length === 0) ||
-      currentMessages.length === 0) {
-      return false;
-    }
-    return (
-      (previousMessages.length === 0 && currentMessages.length > 0) || // messages have been added
-      (previousMessages[0].id !== currentMessages[0].id) || // messages have been added before
-      (previousMessages.length < currentMessages.length) // messages have been added after
-    );
   },
 
   handleListScroll(e) {

@@ -77,7 +77,7 @@ export default React.createClass({
                 { loading && conversations.length === 0 ?
                   <Progress centerVertical /> :
                   conversations.length > 0 ?
-                    "Pick a message" :
+                    "Please pick a conversation." :
                     "No message!"
                 }
               </div>}
