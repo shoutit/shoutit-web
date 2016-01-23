@@ -81,16 +81,10 @@ export default React.createClass({
     },
 
     render() {
-        let isSearchPage = this.context.params.shouttype;
-
-        if( isSearchPage ) {
-            return (
-                <section className="si-card gray-card search-card">
-                    <SearchCardFilters {...this.state} onSubmit={this.onSubmit}/>
-                </section>
-            );
-        }
-
-        return null;
+        return (
+            <section className="si-card gray-card search-card">
+                <SearchCardFilters {...this.state} onSubmit={this.onSubmit}/>
+            </section>
+        );
     }
 });
