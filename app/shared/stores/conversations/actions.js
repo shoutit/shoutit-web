@@ -4,14 +4,10 @@ import {
   LOAD_MESSAGES_FAILURE,
   LOAD_PREVIOUS_MESSAGES,
   LOAD_NEXT_MESSAGES,
-  CONVERSATION_DRAFT_CHANGE,
-  REPLY_CONVERSATION,
-  REPLY_CONVERSATION_FAILURE,
-  REPLY_CONVERSATION_SUCCESS
+  CONVERSATION_DRAFT_CHANGE
 } from "./actionTypes";
 
-import { loadMessages, loadPreviousMessages, loadNextMessages, replyToConversation } from "./client";
-import { getUnixTime } from "../../../utils/DateUtils";
+import { loadMessages, loadPreviousMessages, loadNextMessages } from "./client";
 
 export const actions = {
 
@@ -58,29 +54,6 @@ export const actions = {
       const { results, next } = res.body;
       this.dispatch(LOAD_MESSAGES_SUCCESS, { results, next, id });
       done && done();
-    });
-  },
-
-  replyToConversation(id, text) {
-    const user = this.flux.store("users").getLoggedUser();
-    const tempMessageId = new Date().getUTCMilliseconds();
-    // Create a temporary message
-    const message = {
-      conversation_id: id,
-      created_at: getUnixTime(),
-      id: tempMessageId,
-      is_read: false,
-      text,
-      user
-    };
-    this.dispatch(REPLY_CONVERSATION, { id, message });
-    replyToConversation(id, message).end((error, res) => {
-      if (error || !res.ok) {
-        error = error ? { ...error, status: 500 } : res;
-        this.dispatch(REPLY_CONVERSATION_FAILURE, { id, tempMessageId, message, error });
-        return;
-      }
-      this.dispatch(REPLY_CONVERSATION_SUCCESS, { id, tempMessageId, message: res.body });
     });
   },
 

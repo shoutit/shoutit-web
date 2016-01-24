@@ -1,15 +1,22 @@
 import Fluxxor from "fluxxor";
-import { LOAD_CONVERSATIONS_SUCCESS } from "../chat/actionTypes";
+
+import {
+  LOAD_CONVERSATIONS_SUCCESS
+} from "../chat/actionTypes";
+
 import {
   LOAD_MESSAGES,
   LOAD_NEXT_MESSAGES,
   LOAD_PREVIOUS_MESSAGES,
   LOAD_MESSAGES_SUCCESS,
   LOAD_MESSAGES_FAILURE,
-  CONVERSATION_DRAFT_CHANGE,
+  CONVERSATION_DRAFT_CHANGE
+} from "../conversations/actionTypes";
+
+import {
   REPLY_CONVERSATION,
   REPLY_CONVERSATION_SUCCESS
-} from "../conversations/actionTypes";
+} from "../messages/actionTypes";
 
 const initialState = {
   conversations: {}
@@ -101,7 +108,6 @@ export const ConversationsStore = Fluxxor.createStore({
 
   handleLoadMessagesSuccess({ next, previous, results, id }) {
     this.waitFor(["messages"], () => {
-
       const messageIds = results.map(message => message.id);
       const conversation = this.state.conversations[id] || { messageIds: [] };
 
@@ -151,7 +157,7 @@ export const ConversationsStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  handleReplyStart({ id, message }) {
+  handleReplyStart({ conversationId: id, message }) {
     this.state.conversations[id].draft = null;
     this.waitFor(["messages"], () => {
       this.state.conversations[id].messageIds.push(message.id);
@@ -161,7 +167,7 @@ export const ConversationsStore = Fluxxor.createStore({
     });
   },
 
-  handleReplySuccess({ id, tempMessageId, message }) {
+  handleReplySuccess({ conversationId: id, tempMessageId, message }) {
     this.waitFor(["messages"], () => {
       const index = this.state.conversations[id].messageIds.indexOf(tempMessageId);
       this.state.conversations[id].messageIds.splice(index, 1);

@@ -2,6 +2,7 @@
 
 import { actions as chatActions } from "./stores/chat/actions";
 import { actions as conversationsActions } from "./stores/conversations/actions";
+import { actions as messagesActions } from "./stores/messages/actions";
 
 import { ChatStore } from "./stores/chat/ChatStore";
 import { ConversationsStore } from "./stores/conversations/ConversationsStore";
@@ -21,7 +22,6 @@ var merge = require('lodash/object/merge'),
 	tagActions = require('./stores/tags/actions'),
 	searchActions = require('./stores/search/actions'),
 	locationsActions = require('./stores/locations/actions'),
-	messagesActions = require('./stores/messages/actions'),
 	notificationsActions = require('./stores/notifications/actions'),
 	discoversActions = require('./stores/discovers/actions');
 
