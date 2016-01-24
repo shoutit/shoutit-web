@@ -19,7 +19,7 @@ export default function MessageGroup({ messages, showUserImage, justify="start",
     <div className={ `MessageGroup ${justify}` }>
       { showUserImage &&
         <div className="MessageGroup-userImage">
-          <UserImage image={ messages[0].user.image } />
+          <UserImage user={ messages[0].user } />
         </div>
       }
       <div className="MessageGroup-messages">
