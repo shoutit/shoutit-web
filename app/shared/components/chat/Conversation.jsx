@@ -45,7 +45,7 @@ export default React.createClass({
       this.loadData();
     }
     const { messages } = this.state;
-    if (prevState.messages.length !== messages.length) {
+    if (prevState.messages.length !== messages.length && this.list) {
       const addedBefore = prevState.messages.length > 0 && messages.length > 0
         && prevState.messages[0].id !== messages[0].id;
 
