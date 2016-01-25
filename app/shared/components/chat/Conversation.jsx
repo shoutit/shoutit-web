@@ -76,11 +76,11 @@ export default React.createClass({
     const userStore = this.getFlux().store("users");
 
     const conversation = conversationsStore.get(id);
-    const { username: me } = userStore.getLoggedUser();
+    const loggedUser = userStore.getLoggedUser();
     const state = {
       messages: [],
       loading: true,
-      me
+      loggedUser
     };
     if (conversation && conversation.didLoad) {
       const { messageIds } = conversation;
@@ -131,7 +131,7 @@ export default React.createClass({
   render() {
 
     const { id } = this.props.params;
-    const { messages, draft, didLoad, loading, loadingPrevious, me, users, about,
+    const { messages, draft, didLoad, loading, loadingPrevious, loggedUser, users, about,
       type } = this.state;
 
     const { conversationDraftChange, replyToConversation }
@@ -143,7 +143,7 @@ export default React.createClass({
       <div className="Conversation">
 
         { didLoad &&
-          <ConversationTitle users={ users } about={ about } type={ type } me={ me } /> }
+          <ConversationTitle users={ users } about={ about } type={ type } me={ loggedUser && loggedUser.username } /> }
 
         { didLoad && !hasMessages && loading && <Progress centerVertical /> }
 
@@ -159,7 +159,7 @@ export default React.createClass({
               <Progress />
             </div>
 
-            <MessagesList messages={ messages } me={ me } />
+            <MessagesList messages={ messages } me={ loggedUser && loggedUser.username } />
 
           </div>
         }
@@ -171,7 +171,7 @@ export default React.createClass({
               placeholder="Add a reply"
               draft={ draft }
               onTextChange={ text => conversationDraftChange(id, text) }
-              onSubmit={ () => replyToConversation(id, draft) }
+              onSubmit={ () => replyToConversation(loggedUser, id, draft) }
             />
           </div>
         }
