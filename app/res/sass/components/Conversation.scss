@@ -11,6 +11,12 @@
   @include flex-direction(column);
 }
 
+.Conversation-error {
+  padding: 10px;
+  text-align: center;
+  color: $si-error-color;
+}
+
 .Conversation-listContainer {
   @include flex(1, 1, 0);
   @include flexbox();

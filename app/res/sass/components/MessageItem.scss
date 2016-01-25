@@ -3,7 +3,7 @@
 $border-radius: 0.5em;
 
 .MessageItem {
-
+  font-size: 0.875em;
   margin: 1px 5px;
 
   &.start {
@@ -60,6 +60,7 @@ $border-radius: 0.5em;
   padding: 5px 10px;
 
   p {
+    font-size: 1em;
     margin: 0;
   }
 }

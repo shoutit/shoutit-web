@@ -82,7 +82,7 @@ export default React.createClass({
       loading: true,
       loggedUser
     };
-    if (conversation && conversation.didLoad) {
+    if (conversation) {
       const { messageIds } = conversation;
       const draft = conversationsStore.getDraft(id);
       const messages = messageIds ? messagesStore.getMessages(messageIds) : [];
@@ -132,7 +132,7 @@ export default React.createClass({
 
     const { id } = this.props.params;
     const { messages, draft, didLoad, loading, loadingPrevious, loggedUser, users, about,
-      type } = this.state;
+      type, error } = this.state;
 
     const { conversationDraftChange, replyToConversation }
       = this.getFlux().actions;
@@ -144,6 +144,9 @@ export default React.createClass({
 
         { didLoad &&
           <ConversationTitle users={ users } about={ about } type={ type } me={ loggedUser && loggedUser.username } /> }
+
+
+        { error && !loading && <div className="Conversation-error">Error loading this chat.</div> }
 
         { didLoad && !hasMessages && loading && <Progress centerVertical /> }
 
