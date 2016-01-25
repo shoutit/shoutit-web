@@ -193,6 +193,7 @@ describe("ConversationsStore", () => {
       });
       const conversation = store.get("abc");
       expect(conversation.error).to.be.null;
+      expect(conversation.unread_messages_count).to.equal(0);
       expect(conversation.loading).to.be.false;
       expect(conversation.didLoadMessages).to.be.true;
       expect(conversation.previous).to.equal("previous_url");

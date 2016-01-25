@@ -113,6 +113,7 @@ export const ConversationsStore = Fluxxor.createStore({
 
       conversation.error = null;
       conversation.loading = false;
+      conversation.unread_messages_count = 0;
 
       if (typeof next === "undefined") {
         // Loading previous messages
