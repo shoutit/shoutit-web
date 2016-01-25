@@ -108,10 +108,8 @@ export default React.createClass({
     const flux = this.getFlux();
     const conversation = flux.store("conversations").get(id);
     if (conversation && conversation.didLoad && conversation.didLoadMessages) {
-      // Do not request data again if already loaded
       const messages = flux.store("messages").getMessages(conversation.messageIds);
       this.setState({...conversation, messages});
-      return;
     }
     this.getFlux().actions.loadMessages(id);
   },
