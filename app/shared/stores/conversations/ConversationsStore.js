@@ -141,7 +141,7 @@ export const ConversationsStore = Fluxxor.createStore({
         conversation.messageIds = messageIds;
         conversation.loading = false;
         conversation.didLoadMessages = true;
-
+        conversation.last_message = results[results.length-1];
       }
 
       this.state.conversations[id] = conversation;
