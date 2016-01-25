@@ -10,7 +10,10 @@ import {
   REPLY_CONVERSATION_FAILURE,
   SEND_MESSAGE,
   SEND_MESSAGE_SUCCESS,
-  SEND_MESSAGE_FAILURE
+  SEND_MESSAGE_FAILURE,
+  REPLY_SHOUT,
+  REPLY_SHOUT_SUCCESS,
+  REPLY_SHOUT_FAILURE
 } from "../messages/actionTypes";
 
 const initialState = {
@@ -30,6 +33,9 @@ export const MessagesStore = Fluxxor.createStore({
       REPLY_CONVERSATION, this.handleSendStart,
       REPLY_CONVERSATION_SUCCESS, this.handleSendSuccess,
       REPLY_CONVERSATION_FAILURE, this.handleSendFailure,
+      REPLY_SHOUT, this.handleSendStart,
+      REPLY_SHOUT_SUCCESS, this.handleSendSuccess,
+      REPLY_SHOUT_FAILURE, this.handleSendFailure,
       SEND_MESSAGE, this.handleSendStart,
       SEND_MESSAGE_SUCCESS, this.handleSendSuccess,
       SEND_MESSAGE_FAILURE, this.handleSendFailure
