@@ -13,15 +13,17 @@ import {
   SEND_MESSAGE_FAILURE
 } from "../messages/actionTypes";
 
-
 const initialState = {
   messages: {}
 };
 
 export const MessagesStore = Fluxxor.createStore({
 
-  initialize() {
+  initialize({messages}) {
     this.state = initialState;
+    if (messages) {
+      this.state.messages = messages;
+    }
 
     this.bindActions(
       LOAD_MESSAGES_SUCCESS, this.handleLoadMessagesSuccess,
