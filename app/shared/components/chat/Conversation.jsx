@@ -1,5 +1,7 @@
 import React from "react";
 import { FluxMixin, StoreWatchMixin } from "fluxxor";
+import Dialog from "material-ui/lib/dialog";
+import FlatButton from "material-ui/lib/flat-button";
 
 import ConversationTitle from "../chat/ConversationTitle.jsx";
 import MessagesList from "../chat/MessagesList.jsx";
@@ -19,6 +21,11 @@ export default React.createClass({
 
   mixins: [new FluxMixin(React), new StoreWatchMixin("conversations")],
 
+  getInitialState() {
+    return {
+      showDeleteConversationDialog: false
+    };
+  },
   componentDidMount() {
     this.loadData();
     if (this.list) {
@@ -132,9 +139,9 @@ export default React.createClass({
 
     const { id } = this.props.params;
     const { messages, draft, didLoad, loading, loadingPrevious, loggedUser, users, about,
-      type, error } = this.state;
+      type, error, showDeleteConversationDialog } = this.state;
 
-    const { conversationDraftChange, replyToConversation }
+    const { conversationDraftChange, replyToConversation, deleteConversation }
       = this.getFlux().actions;
 
     const hasMessages = messages.length > 0 ;
@@ -142,8 +149,16 @@ export default React.createClass({
     return (
       <div className="Conversation">
 
-        { didLoad &&
-          <ConversationTitle users={ users } about={ about } type={ type } me={ loggedUser && loggedUser.username } /> }
+      { didLoad &&
+        <ConversationTitle
+            onDeleteConversationTouchTap={ () => this.setState({showDeleteConversationDialog: true}) }
+            onDeleteMessagesTouchTap={ () => {} }
+            users={ users }
+            about={ about }
+            type={ type }
+            me={ loggedUser && loggedUser.username }
+          />
+        }
 
 
         { error && !loading && <div className="Conversation-error">Error loading this chat.</div> }
@@ -178,6 +193,19 @@ export default React.createClass({
             />
           </div>
         }
+
+        <Dialog
+          actions={[
+            <FlatButton label="Cancel" secondary onTouchTap={ () => this.setState({showDeleteConversationDialog: false}) } />,
+            <FlatButton label="Delete" primary onTouchTap={ () => this.setState({showDeleteConversationDialog: false}) } />
+          ]}
+          modal={ false }
+          onRequestClose={ () => this.setState({showDeleteConversationDialog: false})}
+          title="Delete this entire conversation?"
+          open={showDeleteConversationDialog}>
+          Once you delete your copy of this conversation, it cannot be undone.
+        </Dialog>
+
       </div>
     );
   }
