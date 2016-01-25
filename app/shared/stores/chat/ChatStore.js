@@ -5,7 +5,7 @@ import {
   LOAD_CONVERSATIONS_FAILURE
 } from "./actionTypes";
 
-import { REPLY_CONVERSATION_SUCCESS } from "../conversations/actionTypes";
+import { REPLY_CONVERSATION_SUCCESS } from "../messages/actionTypes";
 
 const initialState = {
   next: null,
@@ -84,8 +84,9 @@ export const ChatStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  handleReplySuccess({ id: conversationId }) {
-    this.waitFor(["conversations"], () => {
+  handleReplySuccess({ conversationId }) {
+    this.waitFor(["messages"], () => {
+      // sort the conversations by putting the replyed one at first
       const index = this.state.conversationIds.indexOf(conversationId);
       this.state.conversationIds.splice(index, 1);
       this.state.conversationIds.splice(0, 0, conversationId);

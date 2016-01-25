@@ -1,10 +1,17 @@
 import Fluxxor from "fluxxor";
+
 import {
-  LOAD_MESSAGES_SUCCESS,
+  LOAD_MESSAGES_SUCCESS
+} from "../conversations/actionTypes";
+
+import {
   REPLY_CONVERSATION,
   REPLY_CONVERSATION_SUCCESS,
-  REPLY_CONVERSATION_FAILURE
-} from "../conversations/actionTypes";
+  REPLY_CONVERSATION_FAILURE,
+  SEND_MESSAGE,
+  SEND_MESSAGE_SUCCESS,
+  SEND_MESSAGE_FAILURE
+} from "../messages/actionTypes";
 
 const initialState = {
   messages: {}
@@ -12,14 +19,20 @@ const initialState = {
 
 export const MessagesStore = Fluxxor.createStore({
 
-  initialize() {
+  initialize({messages}) {
     this.state = initialState;
+    if (messages) {
+      this.state.messages = messages;
+    }
 
     this.bindActions(
       LOAD_MESSAGES_SUCCESS, this.handleLoadMessagesSuccess,
-      REPLY_CONVERSATION, this.handleReplyStart,
-      REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
-      REPLY_CONVERSATION_FAILURE, this.handleReplyFailure
+      REPLY_CONVERSATION, this.handleSendStart,
+      REPLY_CONVERSATION_SUCCESS, this.handleSendSuccess,
+      REPLY_CONVERSATION_FAILURE, this.handleSendFailure,
+      SEND_MESSAGE, this.handleSendStart,
+      SEND_MESSAGE_SUCCESS, this.handleSendSuccess,
+      SEND_MESSAGE_FAILURE, this.handleSendFailure
     );
 
   },
@@ -46,20 +59,21 @@ export const MessagesStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  handleReplyStart({ message }) {
+  handleSendStart({ message }) {
     message.sending = true;
     this.state.messages[message.id] = message;
     this.emit("change");
   },
 
-  handleReplySuccess({ tempMessageId, message }) {
+  handleSendSuccess({ tempMessageId, message }) {
     delete this.state.messages[tempMessageId];
     this.state.messages[message.id] = message;
     this.emit("change");
   },
 
-  handleReplyFailure({ tempMessageId, error }) {
-    this.state.messages[tempMessageId].sendError = error;
+  handleSendFailure({ message, error }) {
+    this.state.messages[message.id].sending = false;
+    this.state.messages[message.id].sendError = error;
     this.emit("change");
   },
 
