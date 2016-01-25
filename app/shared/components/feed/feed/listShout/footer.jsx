@@ -34,10 +34,11 @@ export default React.createClass({
   },
 
   render() {
+    const { shout } = this.props;
     const { loggedUser } = this.state;
     return (
       <div>
-      { loggedUser &&
+      { loggedUser && shout.user.username !== loggedUser.username &&
         <div className="shout-footer">
           <UserImage image={loggedUser.image} type="square" height={36} width={36}/>
           <form ref="form">
