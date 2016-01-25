@@ -18,7 +18,7 @@ export default React.createClass({
 
   displayName: "Chat",
 
-  mixins: [new FluxMixin(React), new StoreWatchMixin("chat", "users")],
+  mixins: [new FluxMixin(React), new StoreWatchMixin("chat", "users", "conversations")],
 
   componentDidMount() {
     this.getFlux().actions.loadConversations();
