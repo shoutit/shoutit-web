@@ -26,16 +26,12 @@ function createTempMessage(data) {
 
 export const actions = {
 
-  replyToConversation(conversationId, text) {
-    const user = this.flux.store("users").getLoggedUser();
-
-    // Create a temporary message
+  replyToConversation(user, conversationId, text) {
     const message = createTempMessage({
       conversation_id: conversationId,
       text,
       user
     });
-
     this.dispatch(REPLY_CONVERSATION, { conversationId, message });
     client.replyToConversation(conversationId, message).end((error, res) => {
       if (error || !res.ok) {
@@ -49,18 +45,25 @@ export const actions = {
       }
       this.dispatch(REPLY_CONVERSATION_SUCCESS, {
         conversationId,
-        tempMessageId: message.tempMessageId,
+        tempMessageId: message.id,
         message: res.body
       });
     });
+
+    return message;
   },
 
-  replyToShout(shoutId, text) {
-    const user = this.flux.store("users").getLoggedUser();
-
-    const message = createTempMessage({ text,  user});
+  /**
+   * Reply to a shout.
+   * @param  {Object}   loggedUser The logged user (that is sending the message)
+   * @param  {String}   shoutId
+   * @param  {String}   text    The content of the message
+   * @param  {Function} [done]  Optional. A callback function (err, sentMessage)
+   * @return {Object}   The temporary message that is going to be sent.
+   */
+  replyToShout(loggedUser, shoutId, text, done) {
+    const message = createTempMessage({ text,  user: loggedUser });
     this.dispatch(REPLY_SHOUT, { shoutId, message });
-
     client.replyToShout(shoutId, message).end((error, res) => {
       if (error || !res.ok) {
         error = error ? { status: 500, ...error } : res;
@@ -69,35 +72,49 @@ export const actions = {
           message,
           error
         });
+        done && done(error);
         return;
       }
       this.dispatch(REPLY_SHOUT_SUCCESS, {
         shoutId,
-        tempMessageId: message.tempMessageId,
+        tempMessageId: message.id,
         message: res.body
       });
+      done && done(error, res.body);
     });
+    return message;
   },
 
-  sendMessage(username, text) {
-    const message = createTempMessage({ text,  user: { username: username }});
-    this.dispatch(SEND_MESSAGE, { username, message });
+  /**
+   * Send a message to a user.
+   * @param  {Object}   loggedUser The logged user (that is sending the message)
+   * @param  {String}   to      The username of the recipeint
+   * @param  {String}   text    The content of the message
+   * @param  {Function} [done]  Optional. A callback function (err, sentMessage)
+   * @return {Object}   The temporary message that is going to be sent.
+   */
+  sendMessage(loggedUser, to, text, done) {
+    const message = createTempMessage({ text, user: loggedUser });
+    this.dispatch(SEND_MESSAGE, { to, message });
     client.sendMessage(message).end((error, res) => {
       if (error || !res.ok) {
         error = error ? { status: 500, ...error } : res;
         this.dispatch(SEND_MESSAGE_FAILURE, {
-          username,
+          to,
           message,
           error
         });
+        done && done(error);
         return;
       }
       this.dispatch(SEND_MESSAGE_SUCCESS, {
-        username,
-        tempMessageId: message.tempMessageId,
+        to,
+        tempMessageId: message.id,
         message: res.body
       });
+      done && done(error, res.body);
     });
+    return message;
   }
 
 };
