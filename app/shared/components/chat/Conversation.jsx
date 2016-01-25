@@ -117,7 +117,11 @@ export default React.createClass({
       didLoad && previous && !loadingPrevious;
 
     if (shouldLoadPreviousMessages) {
-      this.getFlux().actions.loadPreviousMessages(this.props.params.id);
+      const { id } = this.props.params;
+      this.getFlux().actions.loadPreviousMessages(
+        id,
+        messages[0].created_at
+      );
     }
 
     this.setState({ scrollTop });

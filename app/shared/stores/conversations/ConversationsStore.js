@@ -24,8 +24,12 @@ const initialState = {
 
 export const ConversationsStore = Fluxxor.createStore({
 
-  initialize() {
+
+  initialize({ conversations }) {
     this.state = initialState;
+    if (conversations) {
+      this.state.conversations = conversations;
+    }
 
     this.bindActions(
       LOAD_CONVERSATIONS_SUCCESS, this.handleLoadConversations,
@@ -55,16 +59,6 @@ export const ConversationsStore = Fluxxor.createStore({
 
   getDraft(id) {
     return this.state.conversations[id].draft;
-  },
-
-  getLastMessageId(conversationId) {
-    const { messageIds } = this.state.conversations[conversationId];
-    return messageIds[messageIds.length - 1];
-  },
-
-  getFirstMessageId(conversationId) {
-    const { messageIds } = this.state.conversations[conversationId];
-    return messageIds[0];
   },
 
   getPreviousUrl(id) {
@@ -109,9 +103,14 @@ export const ConversationsStore = Fluxxor.createStore({
   handleLoadMessagesSuccess({ next, previous, results, id }) {
     this.waitFor(["messages"], () => {
       const messageIds = results.map(message => message.id);
-      const conversation = this.state.conversations[id] || { messageIds: [] };
+      const conversation = this.get(id);
+
+      if (!conversation.messageIds) {
+        conversation.messageIds = [];
+      }
 
       conversation.error = null;
+      conversation.loading = false;
 
       if (typeof next === "undefined") {
         // Loading previous messages
@@ -132,6 +131,7 @@ export const ConversationsStore = Fluxxor.createStore({
         ];
       }
       else {
+
         // Loading the default batch of messages
         conversation.previous = previous;
         conversation.next = next;
