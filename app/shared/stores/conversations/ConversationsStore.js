@@ -150,6 +150,8 @@ export const ConversationsStore = Fluxxor.createStore({
 
   handleLoadMessagesFailure({ error, id }) {
     this.state.conversations[id].loading = false;
+    this.state.conversations[id].loadingPrevious = false;
+    this.state.conversations[id].loadingNext = false;
     this.state.conversations[id].error = error;
     this.emit("change");
   },

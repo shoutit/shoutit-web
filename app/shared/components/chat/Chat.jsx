@@ -58,6 +58,7 @@ export default React.createClass({
                     <ConversationItem
                       { ...conversation }
                       me={ me }
+                      unread = { conversation.unread_messages_count > 0 }
                       selected={ conversation.id === params.id }
                     />
                   </li>

@@ -43,7 +43,7 @@ export default React.createClass({
 								   listType={this.props.listType}
 								   shout={shout}
 								   />
-						<ShoutFooter flux={this.context.flux} />
+						<ShoutFooter shout={shout} flux={this.context.flux} />
 					</div>
 				</ItemScope>
 				<ItemScope type="Product">

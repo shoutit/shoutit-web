@@ -1,45 +1,54 @@
-import React from 'react';
-import {StoreWatchMixin} from 'fluxxor';
-import {Link} from 'react-router';
-import UserImage from '../../../user/userImage.jsx';
-import {Input} from 'react-bootstrap';
-import {Icon} from '../../../helper';
+import React from "react";
+import { Input } from "react-bootstrap";
+import UserImage from "../../../user/userImage.jsx";
+import { Icon } from "../../../helper";
+import { StoreWatchMixin } from "fluxxor";
+import { History } from "react-router";
 
 export default React.createClass({
-    displayName: "ShoutFooter",
-    mixins: [StoreWatchMixin('users')],
+  displayName: "ShoutFooter",
+  mixins: [StoreWatchMixin("users"), History],
 
-    getStateFromFlux() {
-        let flux = this.props.flux;
-        return {
-            user: flux.store('users').getState().user,
-            users: flux.store('users').getState().users
+  getStateFromFlux() {
+    const usersStore = this.props.flux.store("users");
+    const loggedUser = usersStore.getLoggedUser();
+    const { users } = usersStore.getState();
+    return { loggedUser, users };
+  },
+
+  submit() {
+    const { loggedUser } = this.state;
+    const { shout } = this.props;
+    const text = this.refs.form.text.value.trim();
+    this.props.flux.actions.replyToShout(
+      loggedUser,
+      shout.id,
+      text,
+      (error, message) => {
+        if (error) {
+          throw(error);
         }
-    },
+        this.history.pushState(null, `/chat/${message.conversation_id}`);
+      }
+    );
+  },
 
-    renderFooter() {
-        let userImage;
-        let footer = [];
+  render() {
+    const { shout } = this.props;
+    const { loggedUser } = this.state;
+    return (
+      <div>
+      { loggedUser && shout.user.username !== loggedUser.username &&
+        <div className="shout-footer">
+          <UserImage image={loggedUser.image} type="square" height={36} width={36}/>
+          <form ref="form">
+            <Input name="text" type="text" placeholder="Reply to shout…"/>
+            <Icon name="send" onSwitchClick={ () => this.submit() } className="shout-send" />
+          </form>
+        </div>
+      }
+      </div>
+    );
+  }
 
-        if(this.state.user) {
-            let img = this.state.users[this.state.user].image;
-            userImage = <UserImage image={img} type="square" height={36} width={36}/>;
-            footer = (
-                <div className="shout-footer">
-                    {userImage}
-                    <Input ref='pass' type='text' placeholder='Send a Message...'/>
-                    <Icon name='send' className='shout-send' />
-                </div>
-                );
-        }
-        return footer;
-    },
-
-    render() {
-        return (
-            <div>
-                {this.renderFooter()}
-            </div>
-        );
-    }
 });

@@ -8,15 +8,25 @@ if (process.env.BROWSER) {
   require("styles/components/ConversationItem.scss");
 }
 
-export default function ConversationItem({ id, type, users, last_message, about, me, selected=false }) {
+export default function ConversationItem({ id, type, users, last_message, about, me, selected=false, unread=false }) {
 
   const partecipants = users
     .filter(user => user.username !== me)
     .map(user => user.name)
     .join(", ");
 
+  let className = "ConversationItem";
+
+  if (selected) {
+    className = `${className} isSelected`;
+  }
+
+  if (unread) {
+    className = `${className} isUnread`;
+  }
+
   return (
-    <Link to={ `/chat/${id}` } className={ `ConversationItem${selected ? " isSelected" : ""} `}>
+    <Link to={ `/chat/${id}` } className={ className }>
       <div className="ConversationItem-usersImage">
         <ManyUsersImage users={ users.filter(user => user.username !== me) } />
       </div>
