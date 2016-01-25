@@ -39,7 +39,7 @@ export const actions = {
     this.dispatch(REPLY_CONVERSATION, { conversationId, message });
     client.replyToConversation(conversationId, message).end((error, res) => {
       if (error || !res.ok) {
-        error = error ? { ...error, status: 500 } : res;
+        error = error ? { status: 500, ...error } : res;
         this.dispatch(REPLY_CONVERSATION_FAILURE, {
           conversationId,
           message,
@@ -63,7 +63,7 @@ export const actions = {
 
     client.replyToShout(shoutId, message).end((error, res) => {
       if (error || !res.ok) {
-        error = error ? { ...error, status: 500 } : res;
+        error = error ? { status: 500, ...error } : res;
         this.dispatch(REPLY_SHOUT_FAILURE, {
           shoutId,
           message,
@@ -84,7 +84,7 @@ export const actions = {
     this.dispatch(SEND_MESSAGE, { username, message });
     client.sendMessage(message).end((error, res) => {
       if (error || !res.ok) {
-        error = error ? { ...error, status: 500 } : res;
+        error = error ? { status: 500, ...error } : res;
         this.dispatch(SEND_MESSAGE_FAILURE, {
           username,
           message,
