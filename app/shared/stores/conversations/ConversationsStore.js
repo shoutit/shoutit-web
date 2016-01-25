@@ -15,7 +15,8 @@ import {
 
 import {
   REPLY_CONVERSATION,
-  REPLY_CONVERSATION_SUCCESS
+  REPLY_CONVERSATION_SUCCESS,
+  REPLY_CONVERSATION_FAILURE
 } from "../messages/actionTypes";
 
 const initialState = {
@@ -40,7 +41,8 @@ export const ConversationsStore = Fluxxor.createStore({
       LOAD_MESSAGES_FAILURE, this.handleLoadMessagesFailure,
       CONVERSATION_DRAFT_CHANGE, this.handleDraftChange,
       REPLY_CONVERSATION, this.handleReplyStart,
-      REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess
+      REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
+      REPLY_CONVERSATION_FAILURE, this.handleReplyFailure
     );
 
   },
@@ -175,6 +177,10 @@ export const ConversationsStore = Fluxxor.createStore({
       this.state.conversations[id].last_message = message;
       this.emit("change");
     });
+  },
+
+  handleReplyFailure() {
+    this.waitFor(["messages"], () => this.emit("change"));
   },
 
   serialize() {

@@ -8,7 +8,8 @@ import { ConversationsStore } from "../../app/shared/stores/conversations/Conver
 import * as actionTypes from "../../app/shared/stores/conversations/actionTypes";
 import {
   REPLY_CONVERSATION,
-  REPLY_CONVERSATION_SUCCESS
+  REPLY_CONVERSATION_SUCCESS,
+  REPLY_CONVERSATION_FAILURE
 } from "../../app/shared/stores/messages/actionTypes";
 
 import {
@@ -265,7 +266,7 @@ describe("ConversationsStore", () => {
     });
 
 
-    it("should handle the a reply success", () => {
+    it("should handle a reply success", () => {
       const flux = initFlux({ "abc": { messageIds: ["foo", "temp"], messages_count: 2 } });
       const store = flux.store("ConversationsStore");
       sinon.stub(store, "waitFor", (store, done) => done());
@@ -283,6 +284,17 @@ describe("ConversationsStore", () => {
       expect(conversation.messageIds).to.eql(["foo", "newId"]);
       expect(conversation.messages_count).to.equal(2);
       expect(conversation.last_message).to.eql({ id: "newId", created_at: 100});
+      expect(spy).to.have.been.calledWith("change");
+    });
+
+    it("should emit a change after reply failures", () => {
+      const flux = initFlux({ "abc": { messageIds: ["foo", "temp"], messages_count: 2 } });
+      const store = flux.store("ConversationsStore");
+      sinon.stub(store, "waitFor", (store, done) => done({status: 500}));
+      const spy = sinon.spy(store, "emit");
+      flux.dispatcher.dispatch({
+        type: REPLY_CONVERSATION_FAILURE
+      });
       expect(spy).to.have.been.calledWith("change");
     });
 
