@@ -46,6 +46,20 @@ describe("ConversationItem", () => {
     expect(output.props.className).to.contain("isSelected");
   });
 
+  it("should use isUnread class", () => {
+    const shallowRenderer = TestUtils.createRenderer();
+    shallowRenderer.render(
+      <ConversationItem
+        id={100}
+        unread
+        users={ users }
+      />
+    );
+
+    const output = shallowRenderer.getRenderOutput();
+    expect(output.props.className).to.contain("isUnread");
+  });
+
   it("should show the title of the shout it is about", () => {
     const tree = sd.shallowRender(
       <ConversationItem
