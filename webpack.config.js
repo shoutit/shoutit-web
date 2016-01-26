@@ -5,7 +5,7 @@ var path = require("path");
 var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var isDevelopment = process.env.NODE_ENV === "development";
-
+var WebpackErrorNotificationPlugin = require("webpack-error-notification");
 var context = path.join(__dirname, "./app");
 var entries = ["./client/index.js"];
 
@@ -80,7 +80,8 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     !isDevelopment ? new ExtractTextPlugin("../css/main.css") : new Function(),
     isDevelopment ? new webpack.HotModuleReplacementPlugin() : new Function(),
-    isDevelopment ? new webpack.NoErrorsPlugin() : new Function()
+    isDevelopment ? new webpack.NoErrorsPlugin() : new Function(),
+    isDevelopment ? new WebpackErrorNotificationPlugin() : new Function()
 
   ]
 };

@@ -8,6 +8,8 @@ import Explore from './explore.jsx';
 import Footer from './footer.jsx';
 import {ANDROID_LINK, IOS_LINK} from '../../consts/defaults';
 
+import { imagesPath } from "../../../../config";
+
 export default React.createClass({
     displayName: "MainPage",
     mixins: [new StoreWatchMixin("users"), History],
@@ -47,6 +49,7 @@ export default React.createClass({
                     <Grid fluid={true} className="mainpage-cover-opacity">
                         <Grid fluid={true} className="hero">
                             <Column size="7" offset="2">
+
                                 <h1>Everything Much Cheaper!</h1>
                                 <p>
                                     Lorem ipsum dolor sit amet, quo ad adhuc debet munere. Harum congue ne his, suas viris constituam ne cum, sonet mandamus at his.
@@ -64,6 +67,7 @@ export default React.createClass({
                         </Grid>
                     </Grid>
                 </Grid>
+
                 <Grid className="mainpage-search">
                     <div className="grid-9 offset-3">
                         <SearchBar height="45" flux={this.props.flux}/>
@@ -88,5 +92,4 @@ export default React.createClass({
             </div>
         );
     }
-
 });

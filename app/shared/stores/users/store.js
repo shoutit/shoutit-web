@@ -129,7 +129,7 @@ var UserStore = Fluxxor.createStore({
 		}
 
 		this.bindActions(
-			consts.RESEDND_EMAIL_VERIF, this.onResendEmail,
+			consts.RESEND_EMAIL_VERIF, this.onResendEmail,
 			consts.VERIFY_EMAIL, this.onEmailVerify,
 			consts.FORGET_RESULT, this.onForgetResult,
 			consts.SIGNUP_SUCCESS, this.onSignupSuccess,
@@ -233,7 +233,7 @@ var UserStore = Fluxxor.createStore({
 						this.state.verifyResponse = res.body;
 						this.emit("change");
 					}
-					
+
 				}
 			}.bind(this));
 	},
@@ -334,7 +334,7 @@ var UserStore = Fluxxor.createStore({
 		const patch = this.state.profile.changes;
 
 		const isPatchable = this.state.users[user].is_owner && Object.keys(patch).length > 0;
-		
+
 		if(isPatchable) {
 			client.update(patch).end((err, res) => {
 				if (err) {
@@ -433,9 +433,9 @@ var UserStore = Fluxxor.createStore({
 				} else {
 					// find errors
 					if (res.body)
-					this.state.editors["password"] = 
+					this.state.editors["password"] =
 						{loading: false,msg:'Current password does not match!'};
-				}	
+				}
 			}
 			this.emit("change");
 		}.bind(this));
@@ -466,7 +466,7 @@ var UserStore = Fluxxor.createStore({
 		let patch = this.augmentPatch(field, payload.value);
 
 		if (this.state.users[user]) {
-			
+
 			client.update(patch).end(function (err, res) {
 				if (err) {
 					console.log(err);
@@ -487,7 +487,7 @@ var UserStore = Fluxxor.createStore({
 						this.state.loading = false;
 						this.emit("change");
 					}
-					
+
 				}
 			}.bind(this));
 		}
@@ -515,7 +515,7 @@ var UserStore = Fluxxor.createStore({
 				// Update users Listening/Listeners count List without getting data from API
 				if (this.state.users[username].hasOwnProperty('listeners_count')) {
 					let counts = Number(this.state.users[username].listeners_count);
-					this.state.users[username].listeners_count = counts + 1; 
+					this.state.users[username].listeners_count = counts + 1;
 				}
 				if (this.state.users[this.state.user].listening_count) {
 					let counts = Number(this.state.users[this.state.user].listening_count.users);
@@ -623,7 +623,7 @@ var UserStore = Fluxxor.createStore({
 			this.state.loading = true;
 			this.emit("change");
 		}
-		
+
 	},
 
 	onLoadUserListening(payload) {
@@ -680,7 +680,7 @@ var UserStore = Fluxxor.createStore({
 						stock = [...stock, ...list];
 						this.state.listens[username].listening.list = stock;
 						this.state.listens[username].listening.next = next;
-						
+
 						this.state.loading = false;
 						this.emit("change");
 					}
@@ -710,7 +710,7 @@ var UserStore = Fluxxor.createStore({
 			this.state.loading = false;
 			this.emit("change");
 		});
-		
+
 	},
 
 	onLoadUserTagsFail() {
@@ -729,7 +729,7 @@ var UserStore = Fluxxor.createStore({
 						console.log(err);
 					} else {
 						let next = this.parseNextPage(res.body.next);
-						
+
 						let stock = this.state.listens[username].tags.list;
 						let list = res.body.tags.map(item => item.name);
 						stock = [...stock, ...list];
@@ -739,7 +739,7 @@ var UserStore = Fluxxor.createStore({
 
 						// add tags to tag store
 						this.flux.store('tags').addTags(res.body.tags);
-						
+
 						this.state.loading = false;
 						this.emit("change");
 					}

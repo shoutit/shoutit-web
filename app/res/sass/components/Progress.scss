@@ -7,6 +7,7 @@
       height: 100%;
     }
     &.isCenteredHorizontally {
+      width: 100%;
       @include justify-content(center);
     }
 }

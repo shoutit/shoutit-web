@@ -58,6 +58,7 @@ export default React.createClass({
                     <ConversationItem
                       { ...conversation }
                       me={ me }
+                      unread = { conversation.unread_messages_count > 0 }
                       selected={ conversation.id === params.id }
                     />
                   </li>
@@ -65,7 +66,7 @@ export default React.createClass({
               </ul>
             }
 
-            { loading && <div style={ {align: "center" }}><Progress /></div> }
+            { loading && <Progress /> }
 
           </div>
 
@@ -75,12 +76,10 @@ export default React.createClass({
             { !children &&
               <div className="Chat-placeholder">
                 { loading && conversations.length === 0 ?
-                    <div style={{ align: "center" }}>
-                      <Progress />
-                    </div> :
+                  <Progress centerVertical /> :
                   conversations.length > 0 ?
-                    "Pick a message " :
-                    "No message!"
+                    "Please pick a conversation." :
+                    "No messages, yet!"
                 }
               </div>}
           </div>
