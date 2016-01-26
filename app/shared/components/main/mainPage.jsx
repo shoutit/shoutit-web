@@ -7,6 +7,8 @@ import Explore from './explore.jsx';
 import Footer from './footer.jsx';
 import {ANDROID_LINK, IOS_LINK} from '../../consts/defaults';
 
+import { imagesPath } from "../../../../config";
+
 export default React.createClass({
     displayName: "MainPage",
     mixins: [new StoreWatchMixin("users"), History],
@@ -44,6 +46,8 @@ export default React.createClass({
                     <div className="mainpage-cover-opacity si-container">
                         <div className="hero si-container">
                             <div className="grid-7 offset-2">
+                                <img src={ `${imagesPath}/aww.jpg` } width={300} />
+
                                 <h1>Everything Much Cheaper!</h1>
                                 <p>
                                     Lorem ipsum dolor sit amet, quo ad adhuc debet munere. Harum congue ne his, suas viris constituam ne cum, sonet mandamus at his.
@@ -61,8 +65,10 @@ export default React.createClass({
                         </div>
                     </div>
                 </div>
+
                 <div className="mainpage-search si-container">
                     <div className="grid-9 offset-3">
+
                         <SearchBar height="45" flux={this.props.flux}/>
                     </div>
                 </div>
@@ -74,10 +80,10 @@ export default React.createClass({
                 <Element name="how" className="mainpage-how si-container">
                     <h2>How It Works</h2>
                 </Element>
-                
+
                 <Footer />
                 {this.props.children}
-               
+
             </div>
         );
     }

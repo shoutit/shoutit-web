@@ -297,6 +297,11 @@ module.exports = function (app) {
   // TODO: Replace by nginx static serving
   app.use(serveStatic("./app/public"));
 
+  const maxAge = 365 * 24 * 60 * 60;
+  if (process.env.NODE_ENV === "development") {
+    app.use("/images", serveStatic("./assets/images", { maxAge }));
+  }
+  
   if (process.env.NODE_ENV === "developmentLocal") {
       var webpackDevMiddleware = require("webpack-dev-middleware"),
         webpack = require("webpack");
