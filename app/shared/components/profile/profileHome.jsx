@@ -1,6 +1,6 @@
 import React from 'react';
 import {Grid, Column} from '../helper';
-import RightBoard from '../feed/rightboard.jsx';
+import Board from '../feed/board.jsx';
 import Header from '../header/header.jsx';
 import Profile from './profile.jsx';
 
@@ -38,7 +38,7 @@ export default React.createClass({
                             {this.props.children}
                         </Column>
                         <Column size="3">
-                            <RightBoard />
+                            <Board items={[]}/>
                         </Column>
                     </Grid>
                 </div>
