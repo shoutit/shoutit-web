@@ -1,15 +1,23 @@
 import Fluxxor from "fluxxor";
-import { LOAD_CONVERSATIONS_SUCCESS } from "../chat/actionTypes";
+
+import {
+  LOAD_CONVERSATIONS_SUCCESS
+} from "../chat/actionTypes";
+
 import {
   LOAD_MESSAGES,
   LOAD_NEXT_MESSAGES,
   LOAD_PREVIOUS_MESSAGES,
   LOAD_MESSAGES_SUCCESS,
   LOAD_MESSAGES_FAILURE,
-  CONVERSATION_DRAFT_CHANGE,
-  REPLY_CONVERSATION,
-  REPLY_CONVERSATION_SUCCESS
+  CONVERSATION_DRAFT_CHANGE
 } from "../conversations/actionTypes";
+
+import {
+  REPLY_CONVERSATION,
+  REPLY_CONVERSATION_SUCCESS,
+  REPLY_CONVERSATION_FAILURE
+} from "../messages/actionTypes";
 
 const initialState = {
   conversations: {}
@@ -17,8 +25,12 @@ const initialState = {
 
 export const ConversationsStore = Fluxxor.createStore({
 
-  initialize() {
+
+  initialize({ conversations }) {
     this.state = initialState;
+    if (conversations) {
+      this.state.conversations = conversations;
+    }
 
     this.bindActions(
       LOAD_CONVERSATIONS_SUCCESS, this.handleLoadConversations,
@@ -29,7 +41,8 @@ export const ConversationsStore = Fluxxor.createStore({
       LOAD_MESSAGES_FAILURE, this.handleLoadMessagesFailure,
       CONVERSATION_DRAFT_CHANGE, this.handleDraftChange,
       REPLY_CONVERSATION, this.handleReplyStart,
-      REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess
+      REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
+      REPLY_CONVERSATION_FAILURE, this.handleReplyFailure
     );
 
   },
@@ -48,16 +61,6 @@ export const ConversationsStore = Fluxxor.createStore({
 
   getDraft(id) {
     return this.state.conversations[id].draft;
-  },
-
-  getLastMessageId(conversationId) {
-    const { messageIds } = this.state.conversations[conversationId];
-    return messageIds[messageIds.length - 1];
-  },
-
-  getFirstMessageId(conversationId) {
-    const { messageIds } = this.state.conversations[conversationId];
-    return messageIds[0];
   },
 
   getPreviousUrl(id) {
@@ -101,11 +104,15 @@ export const ConversationsStore = Fluxxor.createStore({
 
   handleLoadMessagesSuccess({ next, previous, results, id }) {
     this.waitFor(["messages"], () => {
-
       const messageIds = results.map(message => message.id);
-      const conversation = this.state.conversations[id] || { messageIds: [] };
+      const conversation = this.get(id);
+
+      if (!conversation.messageIds) {
+        conversation.messageIds = [];
+      }
 
       conversation.error = null;
+      conversation.loading = false;
 
       if (typeof next === "undefined") {
         // Loading previous messages
@@ -126,6 +133,7 @@ export const ConversationsStore = Fluxxor.createStore({
         ];
       }
       else {
+
         // Loading the default batch of messages
         conversation.previous = previous;
         conversation.next = next;
@@ -142,6 +150,8 @@ export const ConversationsStore = Fluxxor.createStore({
 
   handleLoadMessagesFailure({ error, id }) {
     this.state.conversations[id].loading = false;
+    this.state.conversations[id].loadingPrevious = false;
+    this.state.conversations[id].loadingNext = false;
     this.state.conversations[id].error = error;
     this.emit("change");
   },
@@ -151,7 +161,7 @@ export const ConversationsStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  handleReplyStart({ id, message }) {
+  handleReplyStart({ conversationId: id, message }) {
     this.state.conversations[id].draft = null;
     this.waitFor(["messages"], () => {
       this.state.conversations[id].messageIds.push(message.id);
@@ -161,7 +171,7 @@ export const ConversationsStore = Fluxxor.createStore({
     });
   },
 
-  handleReplySuccess({ id, tempMessageId, message }) {
+  handleReplySuccess({ conversationId: id, tempMessageId, message }) {
     this.waitFor(["messages"], () => {
       const index = this.state.conversations[id].messageIds.indexOf(tempMessageId);
       this.state.conversations[id].messageIds.splice(index, 1);
@@ -169,6 +179,10 @@ export const ConversationsStore = Fluxxor.createStore({
       this.state.conversations[id].last_message = message;
       this.emit("change");
     });
+  },
+
+  handleReplyFailure() {
+    this.waitFor(["messages"], () => this.emit("change"));
   },
 
   serialize() {

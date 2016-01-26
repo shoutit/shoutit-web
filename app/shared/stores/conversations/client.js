@@ -11,7 +11,3 @@ export function loadPreviousMessages(id, before) {
 export function loadNextMessages(id, after) {
   return request.get(`/api/conversations/${id}/messages`).query({ after });
 }
-
-export function replyToConversation(id, message) {
-  return request.post(`/api/conversations/${id}/reply`).send(message);
-}

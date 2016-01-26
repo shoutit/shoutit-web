@@ -16,7 +16,7 @@ export const actions = {
     this.dispatch(LOAD_CONVERSATIONS);
     loadConversations().end((error, res) => {
       if (error || !res.ok) {
-        error = error ? { ...error, status: 500 } : res;
+        error = error ? { status: 500, ...error } : res;
         this.dispatch(LOAD_CONVERSATIONS_FAILURE, { error });
         return;
       }
@@ -30,7 +30,7 @@ export const actions = {
     const firstConversation = this.flux.store("conversations").get(firstId);
     loadPreviousConversations(firstConversation.created_at).end((error, res) => {
       if (error || !res.ok) {
-        error = error ? { ...error, status: 500 } : res;
+        error = error ? { status: 500, ...error } : res;
         this.dispatch(LOAD_CONVERSATIONS_FAILURE, { error });
         return;
       }
@@ -45,7 +45,7 @@ export const actions = {
     const lastConversation = this.flux.store("conversations").get(lastId);
     loadNextConversations(lastConversation.created_at).end((error, res) => {
       if (error || !res.ok) {
-        error = error ? { ...error, status: 500 } : res;
+        error = error ? { status: 500, ...error } : res;
         this.dispatch(LOAD_CONVERSATIONS_FAILURE, { error });
         return;
       }
