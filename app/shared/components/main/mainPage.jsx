@@ -10,6 +10,10 @@ import {ANDROID_LINK, IOS_LINK} from '../../consts/defaults';
 
 import { imagesPath } from "../../../../config";
 
+if (process.env.BROWSER) {
+    require("styles/pages/mainpage.scss");
+}
+
 export default React.createClass({
     displayName: "MainPage",
     mixins: [new StoreWatchMixin("users"), History],
