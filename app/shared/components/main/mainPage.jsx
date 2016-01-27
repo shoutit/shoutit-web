@@ -89,6 +89,9 @@ export default React.createClass({
                     <Grid>
                         <Element name="how" className="mainpage-how">
                             <h2>How It Works</h2>
+                            <Grid fluid={true} style={{textAlign: "center"}}>
+                                <img src={`${imagesPath}/m_howto.png`} />
+                            </Grid>
                         </Element>
                     </Grid>
 
