@@ -46,6 +46,7 @@
 @mixin green-button($width, $height, $font-size: $default-font-size)  {
   @extend .si-button;
   font-size: $font-size;
+  font-weight: 300;
   width: $width;
   height: $height;
   background: $si-green;

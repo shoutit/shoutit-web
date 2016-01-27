@@ -29,10 +29,11 @@
       .btn-login {
         @include green-button(119px,38px, 1.6rem);
         float: right;
-        margin-left:20px;
+        margin-left:25px;
       }
       .btn-d {
         @include button(70px, 30px, 1.6rem);
+        margin-left:15px;
         float: right;
       }
     }
@@ -63,6 +64,7 @@
         }
         .btn-explore {
           @include green-button(170px, 50px, 1.9rem);
+          margin-right: 20px;
         }
         .btn-how {
           @include border-button(170px, 50px, 1.9rem);
