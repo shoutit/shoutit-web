@@ -13,8 +13,9 @@
   }
   h2 {
     font-size: 2.6rem;
-    font-weight: 700;
+    font-weight: 500;
     color: #747476;
+    letter-spacing: 1px;
   }
   .mainpage-nav {
     padding-top: 20px;
@@ -88,12 +89,13 @@
     }
   }
   .mainpage-how {
-    min-height: 600px;
-    background: lighten($si-bg, 5%);
+    height: 600px;
+    background: $si-white;
     h2 {
-      text-align:center;
-      height:40px;
-      margin-top:0;
+      text-align: center;
+      height: 40px;
+      margin-top: 30px;
+      height: 50px;
       background: $si-bg;
     }
   }

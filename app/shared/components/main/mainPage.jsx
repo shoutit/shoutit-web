@@ -38,7 +38,7 @@ export default React.createClass({
     render() {
         return (
             <DocumentTitle title="ShoutIt - Find The Best Deals You Can Have!">
-                <div className="mainpage">
+                <Column className="mainpage">
                     <Grid>
                         <Element name="nav" className="mainpage-nav">
                             <Column clear={true} size="8" className="nav-left">
@@ -75,9 +75,9 @@ export default React.createClass({
                     </Grid>
 
                     <Grid className="mainpage-search">
-                        <div className="grid-9 offset-3">
+                        <Column size="9" offset="3" >
                             <SearchBar height="45" flux={this.props.flux}/>
-                        </div>
+                        </Column>
                     </Grid>
 
                     <Grid>
@@ -95,7 +95,7 @@ export default React.createClass({
                     <Footer />
                     {this.props.children}
 
-                </div>
+                </Column>
             </DocumentTitle>
         );
     }

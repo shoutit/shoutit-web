@@ -37,7 +37,7 @@ export default React.createClass({
 		this.props.res = null;
 
 		let flux = this.props.flux;
-		let email = React.findDOMNode(this.refs.email).children[0].value;
+		let email = this.refs.email.children[0].value;
 
 		flux.actions.forgetPass(email);
 	}

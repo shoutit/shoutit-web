@@ -1,9 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {StoreWatchMixin} from 'fluxxor';
 import {History, Link} from 'react-router';
 import DocumentTitle from 'react-document-title';
-import {Input,Button,Overlay,Tooltip} from 'react-bootstrap';
+import {Input,Button} from 'react-bootstrap';
 import {Dialog} from 'material-ui';
 import SocialLogin from './socialLogin.jsx';
 
@@ -106,7 +105,7 @@ export default React.createClass({
 
 		return(
 			<DocumentTitle title="Sign Up - Shoutit">
-				<Dialog ref="signupDialog" onDismiss={this.onDismiss} contentStyle={{marginTop:'-50px'}} contentClassName="si-dialog">
+				<Dialog open={true} onRequestClose={this.onDismiss} contentStyle={{marginTop:'-50px'}} contentClassName="si-dialog">
 					{form}
 
 				</Dialog>
@@ -114,16 +113,11 @@ export default React.createClass({
 		);
 	},
 
-	componentDidMount() {
-		this.refs.signupDialog.show();
-	},
-
 	onDismiss() {
 		this.history.goBack();
 	},
 
 	componentDidUpdate() {
-		this.refs.signupDialog.show();
 		// handling server response
 		if (this.state.loading) {
 			if (this.state.signup.hasOwnProperty("status")) {
@@ -149,10 +143,10 @@ export default React.createClass({
 		let flux = this.props.flux;
 
 		let acc = {};
-		acc.name = ReactDOM.findDOMNode(this.refs.fname).children[0].value;
-		acc.name += ' ' + ReactDOM.findDOMNode(this.refs.lname).children[0].value;
-		acc.email = ReactDOM.findDOMNode(this.refs.email).children[0].value;
-		acc.pass = ReactDOM.findDOMNode(this.refs.pass).children[0].value;
+		acc.name = this.refs.fname.children[0].value;
+		acc.name += ' ' + this.refs.lname.children[0].value;
+		acc.email = this.refs.email.children[0].value;
+		acc.pass = this.refs.pass.children[0].value;
 
 		if (acc.name && acc.email && acc.pass){
 			flux.actions.signup(acc);
