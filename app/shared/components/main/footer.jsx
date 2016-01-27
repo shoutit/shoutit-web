@@ -46,8 +46,8 @@ export default React.createClass({
                                     Go to top
                     </ScrollLink>
                 </Column>
-                <Column size="2" className="links-section">
-                    <h3>Mobile</h3>
+                <Column size="3" className="links-section">
+                    <h3 style={{textAlign: "center"}}>Mobile</h3>
                     <a href={ANDROID_LINK} target="_blank">
                         <Icon name="app-store-small" />
                     </a>

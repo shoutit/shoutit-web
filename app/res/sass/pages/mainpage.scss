@@ -99,7 +99,7 @@
   }
   .mainpage-footer {
     height: 233px;
-    background: $si-light-gray;
+    background-color: $si-footer-bg;
     .logo-section{
       .icon {
         margin: 38px auto 107px 118px;
@@ -113,17 +113,22 @@
     .links-section {
       h3 {
         color: $si-white;
-        font-weight: 600;
+        font-weight: 700;
+        font-size: 1.4rem;
         margin-top: 50px;
         margin-bottom: 29px;
+        color: $si-footer-text;
       }
       a {
         display: block;
         color: $si-white;
-        margin:0 auto 15px 0;
+        margin:0 auto 12px 0;
+        font-weight: 300;
+        font-size: 1.4rem;
+        color: $si-footer-text;
       }
-      .icon-app-store-small {
-        margin-bottom: 7px;
+      .icon {
+        margin: 0 auto 7px;
       }
 
     }
