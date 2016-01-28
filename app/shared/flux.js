@@ -7,8 +7,8 @@ import { ChatStore } from "./stores/chat/ChatStore";
 import { ConversationsStore } from "./stores/conversations/ConversationsStore";
 import { MessagesStore } from "./stores/messages/MessagesStore";
 
-import { suggestionsActions } from "./stores/suggestions/actions";
-import { SuggestionsStore } from "./stores/suggestions/store";
+import suggestionsActions from "./stores/suggestions/actions";
+import SuggestionsStore from "./stores/suggestions/store";
 
 var merge = require('lodash/object/merge'),
 	Fluxxor = require("fluxxor"),

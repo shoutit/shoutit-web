@@ -7,7 +7,7 @@ var express = require('express'),
 router.route('/geocode')
     .get(require('./geocode')(ShoutClient));
 
-router.router('/suggestions')
+router.route('/suggestions')
     .get(require('./suggestions')(ShoutClient));
 
 
