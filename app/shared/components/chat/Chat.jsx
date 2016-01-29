@@ -18,7 +18,7 @@ export default React.createClass({
 
   displayName: "Chat",
 
-  mixins: [new FluxMixin(React), new StoreWatchMixin("chat", "users")],
+  mixins: [new FluxMixin(React), new StoreWatchMixin("chat", "users", "conversations")],
 
   componentDidMount() {
     this.getFlux().actions.loadConversations();
@@ -27,12 +27,12 @@ export default React.createClass({
   getStateFromFlux() {
     const { conversationIds, loading, next, previous } = this.getFlux().store("chat").getState();
     const conversations = this.getFlux().store("conversations").getConversations(conversationIds);
-    const { username: me } = this.getFlux().store("users").getLoggedUser();
-    return { conversations, loading, me, next, previous };
+    const loggedUser = this.getFlux().store("users").getLoggedUser();
+    return { conversations, loading, loggedUser, next, previous };
   },
 
   render() {
-    const { conversations, me, loading, previous } = this.state;
+    const { conversations, loggedUser, loading, previous } = this.state;
     const { flux, params, children } = this.props;
     const unread = conversations.filter(c => c.unread_messages_count > 0);
 
@@ -57,7 +57,7 @@ export default React.createClass({
                   <li key={ conversation.id }>
                     <ConversationItem
                       { ...conversation }
-                      me={ me }
+                      me={ loggedUser && loggedUser.username }
                       unread = { conversation.unread_messages_count > 0 }
                       selected={ conversation.id === params.id }
                     />

@@ -4,7 +4,10 @@ import {
   LOAD_MESSAGES_FAILURE,
   LOAD_PREVIOUS_MESSAGES,
   LOAD_NEXT_MESSAGES,
-  CONVERSATION_DRAFT_CHANGE
+  CONVERSATION_DRAFT_CHANGE,
+  DELETE_CONVERSATION,
+  DELETE_CONVERSATION_SUCCESS,
+  DELETE_CONVERSATION_FAILURE
 } from "./actionTypes";
 
 import * as client from "./client";
@@ -51,6 +54,20 @@ export const actions = {
 
   conversationDraftChange(id, draft) {
     this.dispatch(CONVERSATION_DRAFT_CHANGE, { id, draft });
+  },
+
+  deleteConversation(id, done) {
+    this.dispatch(DELETE_CONVERSATION, { id });
+    client.deleteConversation(id).end((error, res) => {
+      if (error || !res.ok) {
+        error = error ? { status: 500, ...error } : res;
+        this.dispatch(DELETE_CONVERSATION_FAILURE, { id, error });
+        done && done(error);
+        return;
+      }
+      this.dispatch(DELETE_CONVERSATION_SUCCESS, { id });
+      done && done();
+    });
   }
 
 };

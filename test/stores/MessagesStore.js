@@ -8,8 +8,11 @@ import { MessagesStore } from "../../app/shared/stores/messages/MessagesStore";
 import * as actionTypes from "../../app/shared/stores/messages/actionTypes";
 
 import {
-  LOAD_MESSAGES_SUCCESS
+  LOAD_MESSAGES_SUCCESS,
+  DELETE_CONVERSATION_SUCCESS
 } from "../../app/shared/stores/conversations/actionTypes";
+
+import { LOGOUT } from "../../app/shared/stores/users/consts";
 
 chai.use(sinonChai);
 
@@ -92,10 +95,10 @@ describe("MessagesStore", () => {
       flux.dispatcher.dispatch({
         type: actionTypes.SEND_MESSAGE,
         payload: {
-          message: { id: "temp", text: "bar" }
+          message: { id: "temp2", text: "bar" }
         }
       });
-      const message = store.get("temp");
+      const message = store.get("temp2");
       expect(message).to.be.defined;
       expect(message.sending).to.be.true;
       expect(spy).to.have.been.calledWith("change");
@@ -103,18 +106,18 @@ describe("MessagesStore", () => {
     });
 
     it("should handle a sent message", () => {
-      const flux = initFlux({ temp: { text: "a message", sending: true } });
+      const flux = initFlux({ temp2: { text: "a message", sending: true } });
       const store = flux.store("MessagesStore");
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
         type: actionTypes.SEND_MESSAGE_SUCCESS,
         payload: {
-          tempMessageId: "temp",
+          tempMessageId: "temp2",
           message: { id: "A", text: "bar" }
         }
       });
-      const tempMessage = store.get("temp");
+      const tempMessage = store.get("temp2");
       const message = store.get("A");
       expect(tempMessage).to.not.be.defined;
       expect(message).to.be.eql({ id: "A", text: "bar" });
@@ -137,7 +140,42 @@ describe("MessagesStore", () => {
       expect(message).to.be.eql(
         { text: "bar", sending: false, sendError: "an error" }
       );
+
       expect(spy).to.have.been.calledWith("change");
+    });
+
+    it("should handle a deleted conversation", () => {
+      const flux = initFlux({
+        A: { id: "A", conversation_id: "foo" },
+        B: { id: "B", conversation_id: "bar" },
+        C: { id: "C", conversation_id: "foo" }
+      });
+      const store = flux.store("MessagesStore");
+      sinon.stub(store, "waitFor", (store, done) => done());
+      const spy = sinon.spy(store, "emit");
+
+      flux.dispatcher.dispatch({
+        type: DELETE_CONVERSATION_SUCCESS,
+        payload: { id: "foo" }
+      });
+      const state = store.getState();
+      expect(state.messages).to.eql({
+        B: {id: "B", conversation_id: "bar" }
+      });
+      expect(spy).to.have.been.calledWith("change");
+    });
+
+    it("should handle logout", () => {
+      const flux = initFlux({
+        A: { id: "A", conversation_id: "foo" },
+        B: { id: "B", conversation_id: "bar" },
+        C: { id: "C", conversation_id: "foo" }
+      });
+      const store = flux.store("MessagesStore");
+      flux.dispatcher.dispatch({
+        type: LOGOUT
+      });
+      expect(store.getState().messages).to.eql({});
     });
 
   });

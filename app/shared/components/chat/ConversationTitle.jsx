@@ -37,7 +37,7 @@ export default function ConversationTitle({ users, about, type, me, onDeleteConv
       </div>
       <div className="ConversationTitle-toolbar">
         <IconMenu
-          anchorOrigin={{horizontal: "right", vertical: "top" }}
+          anchorOrigin={{horizontal: "left", vertical: "bottom" }}
           iconButtonElement={
           <IconButton><NavigationMoreVert /></IconButton>
           }

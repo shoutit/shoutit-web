@@ -16,6 +16,9 @@ import {
   LOAD_CONVERSATIONS_SUCCESS
 } from "../../app/shared/stores/chat/actionTypes";
 
+
+import { LOGOUT } from "../../app/shared/stores/users/consts";
+
 chai.use(sinonChai);
 
 function initFlux(conversations) {
@@ -193,6 +196,7 @@ describe("ConversationsStore", () => {
       });
       const conversation = store.get("abc");
       expect(conversation.error).to.be.null;
+      expect(conversation.unread_messages_count).to.equal(0);
       expect(conversation.loading).to.be.false;
       expect(conversation.didLoadMessages).to.be.true;
       expect(conversation.previous).to.equal("previous_url");
@@ -265,7 +269,6 @@ describe("ConversationsStore", () => {
       expect(spy).to.have.been.calledWith("change");
     });
 
-
     it("should handle a reply success", () => {
       const flux = initFlux({ "abc": { messageIds: ["foo", "temp"], messages_count: 2 } });
       const store = flux.store("ConversationsStore");
@@ -297,6 +300,64 @@ describe("ConversationsStore", () => {
       });
       expect(spy).to.have.been.calledWith("change");
     });
+
+    it("should handle the delete conversation start", () => {
+      const flux = initFlux({ "abc": { messageIds: ["foo"] } });
+      const store = flux.store("ConversationsStore");
+      const spy = sinon.spy(store, "emit");
+
+      flux.dispatcher.dispatch({
+        type: actionTypes.DELETE_CONVERSATION,
+        payload: { id: "abc", deletingError: "a previous error" }
+      });
+      const conversation = store.get("abc");
+      expect(conversation.isDeleting).to.be.true;
+      expect(conversation.deletingError).to.not.be.defined;
+      expect(spy).to.have.been.calledWith("change");
+    });
+
+    it("should handle a delete conversation success", () => {
+      const flux = initFlux({ "abc": { messageIds: ["foo"] } });
+      const store = flux.store("ConversationsStore");
+      const spy = sinon.spy(store, "emit");
+
+      flux.dispatcher.dispatch({
+        type: actionTypes.DELETE_CONVERSATION_SUCCESS,
+        payload: { id: "abc" }
+      });
+      const conversation = store.get("abc");
+      expect(conversation).to.not.be.defined;
+      expect(spy).to.have.been.calledWith("change");
+    });
+
+    it("should handle a delete conversation failure", () => {
+      const flux = initFlux({ "abc": { messageIds: ["foo"], isDeleting: true } });
+      const store = flux.store("ConversationsStore");
+      const spy = sinon.spy(store, "emit");
+
+      flux.dispatcher.dispatch({
+        type: actionTypes.DELETE_CONVERSATION_FAILURE,
+        payload: { id: "abc", error: "an error" }
+      });
+      const conversation = store.get("abc");
+      expect(conversation.isDeleting).to.be.false;
+      expect(conversation.deletingError).to.equal("an error");
+      expect(spy).to.have.been.calledWith("change");
+    });
+
+    it("should handle logout", () => {
+      const flux = initFlux({
+        A: { id: "A", conversation_id: "foo" },
+        B: { id: "B", conversation_id: "bar" },
+        C: { id: "C", conversation_id: "foo" }
+      });
+      const store = flux.store("ConversationsStore");
+      flux.dispatcher.dispatch({
+        type: LOGOUT
+      });
+      expect(store.getState().conversations).to.eql({});
+    });
+
 
   });
 

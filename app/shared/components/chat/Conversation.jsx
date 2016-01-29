@@ -2,6 +2,7 @@ import React from "react";
 import { FluxMixin, StoreWatchMixin } from "fluxxor";
 import Dialog from "material-ui/lib/dialog";
 import FlatButton from "material-ui/lib/flat-button";
+import { History } from "react-router";
 
 import ConversationTitle from "../chat/ConversationTitle.jsx";
 import MessagesList from "../chat/MessagesList.jsx";
@@ -19,7 +20,7 @@ export default React.createClass({
 
   displayName: "Conversation",
 
-  mixins: [new FluxMixin(React), new StoreWatchMixin("conversations")],
+  mixins: [new FluxMixin(React), new StoreWatchMixin("conversations"), History],
 
   getInitialState() {
     return {
@@ -108,10 +109,8 @@ export default React.createClass({
     const flux = this.getFlux();
     const conversation = flux.store("conversations").get(id);
     if (conversation && conversation.didLoad && conversation.didLoadMessages) {
-      // Do not request data again if already loaded
       const messages = flux.store("messages").getMessages(conversation.messageIds);
       this.setState({...conversation, messages});
-      return;
     }
     this.getFlux().actions.loadMessages(id);
   },
@@ -139,13 +138,12 @@ export default React.createClass({
 
     const { id } = this.props.params;
     const { messages, draft, didLoad, loading, loadingPrevious, loggedUser, users, about,
-      type, error, showDeleteConversationDialog } = this.state;
+      type, error, showDeleteConversationDialog, isDeleting } = this.state;
 
     const { conversationDraftChange, replyToConversation, deleteConversation }
       = this.getFlux().actions;
 
     const hasMessages = messages.length > 0 ;
-
     return (
       <div className="Conversation">
 
@@ -161,7 +159,14 @@ export default React.createClass({
         }
 
 
-        { error && !loading && <div className="Conversation-error">Error loading this chat.</div> }
+        { error && !loading &&
+          <div className="Conversation-error">
+            { error.status && error.status === 404 ?
+              "Page not found" :
+              "Error loading this chat."
+            }
+          </div>
+        }
 
         { didLoad && !hasMessages && loading && <Progress centerVertical /> }
 
@@ -196,13 +201,30 @@ export default React.createClass({
 
         <Dialog
           actions={[
-            <FlatButton label="Cancel" secondary onTouchTap={ () => this.setState({showDeleteConversationDialog: false}) } />,
-            <FlatButton label="Delete" primary onTouchTap={ () => this.setState({showDeleteConversationDialog: false}) } />
+            <FlatButton
+              key="cancel"
+              secondary
+              label="Cancel"
+              onTouchTap={
+                () => this.setState({showDeleteConversationDialog: false})
+              }
+            />,
+            <FlatButton
+              key="submit"
+              primary
+              disabled={ isDeleting }
+              label={ isDeleting ? "Deleting..." : "Delete" }
+              onTouchTap={ () => deleteConversation(id,
+                error => this.history.pushState(null, '/chat')
+              )}
+            />
           ]}
           modal={ false }
-          onRequestClose={ () => this.setState({showDeleteConversationDialog: false})}
+          onRequestClose={
+            () => this.setState({showDeleteConversationDialog: false})
+          }
           title="Delete this entire conversation?"
-          open={showDeleteConversationDialog}>
+          open={ showDeleteConversationDialog }>
           Once you delete your copy of this conversation, it cannot be undone.
         </Dialog>
 

@@ -139,7 +139,6 @@ describe("ConversationActions", () => {
 
   });
 
-
   describe("conversationDraftChange", () => {
 
     it("should dispatch", () => {
@@ -148,6 +147,52 @@ describe("ConversationActions", () => {
         actionTypes.CONVERSATION_DRAFT_CHANGE,
         { draft: "foo", id: 1 }
       );
+    });
+
+  });
+
+  describe("deleteConversation", () => {
+    afterEach(() => Request.prototype.end.restore());
+
+    it("should dispatch on success", () => {
+      const done = sinon.spy();
+      sinon.stub(Request.prototype, "end", done => done(null, {
+        ok: true
+      }));
+      actions.deleteConversation("abc", done);
+      expect(dispatch).to.have.been.calledWith(
+        actionTypes.DELETE_CONVERSATION,
+        { id: "abc" }
+      );
+      expect(dispatch).to.have.been.calledWith(
+        actionTypes.DELETE_CONVERSATION_SUCCESS,
+        { id: "abc" }
+      );
+      expect(done).to.have.been.called.twice;
+    });
+
+    it("should dispatch response on failure", () => {
+      const done = sinon.spy();
+      sinon.stub(Request.prototype, "end", done => done(null, { ok: false }));
+      actions.deleteConversation("abc", done);
+      expect(actions.dispatch).to.have.been.calledWith(
+        actionTypes.DELETE_CONVERSATION_FAILURE,
+        { error: { ok: false }, id: "abc" }
+      );
+      expect(done).to.have.been.calledWith({ ok: false });
+      expect(done).to.have.been.called.twice;
+    });
+
+    it("should dispatch error on failure", () => {
+      const done = sinon.spy();
+      sinon.stub(Request.prototype, "end", done => done({ status: 404}, {x: "y"}));
+      actions.deleteConversation("abc", done);
+      expect(actions.dispatch).to.have.been.calledWith(
+        actionTypes.DELETE_CONVERSATION_FAILURE,
+        { error: { status: 404 }, id: "abc" }
+      );
+      expect(done).to.have.been.called.twice;
+      expect(done).to.have.been.calledWith({ status: 404});
     });
 
   });
