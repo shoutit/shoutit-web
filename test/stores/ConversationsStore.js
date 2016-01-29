@@ -345,6 +345,20 @@ describe("ConversationsStore", () => {
       expect(spy).to.have.been.calledWith("change");
     });
 
+    it("should handle logout", () => {
+      const flux = initFlux({
+        A: { id: "A", conversation_id: "foo" },
+        B: { id: "B", conversation_id: "bar" },
+        C: { id: "C", conversation_id: "foo" }
+      });
+      const store = flux.store("ConversationsStore");
+      flux.dispatcher.dispatch({
+        type: LOGOUT
+      });
+      expect(store.getState().conversations).to.eql({});
+    });
+
+
   });
 
 

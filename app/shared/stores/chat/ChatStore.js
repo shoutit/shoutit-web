@@ -5,7 +5,17 @@ import {
   LOAD_CONVERSATIONS_FAILURE
 } from "./actionTypes";
 
-import { REPLY_CONVERSATION_SUCCESS } from "../messages/actionTypes";
+import {
+  REPLY_CONVERSATION_SUCCESS
+} from "../messages/actionTypes";
+
+import {
+  DELETE_CONVERSATION_SUCCESS
+} from "../conversations/actionTypes";
+
+import {
+  LOGOUT
+} from "../users/consts";
 
 const initialState = {
   next: null,
@@ -18,15 +28,15 @@ const initialState = {
 export const ChatStore = Fluxxor.createStore({
 
   initialize() {
-    this.state = initialState;
+    this.state = {...initialState};
 
     this.bindActions(
       LOAD_CONVERSATIONS, this.handleStart,
       LOAD_CONVERSATIONS_SUCCESS, this.handleSuccess,
       LOAD_CONVERSATIONS_FAILURE, this.handleFailure,
-      REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess
       REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
       DELETE_CONVERSATION_SUCCESS, this.handleDeleteSuccess,
+      LOGOUT, this.handleLogout
     );
 
   },
@@ -103,6 +113,12 @@ export const ChatStore = Fluxxor.createStore({
       this.emit("change");
     });
   },
+
+  handleLogout() {
+    this.state = initialState;
+    this.emit("change");
+  },
+
   serialize() {
     return JSON.stringify(this.getState());
   },

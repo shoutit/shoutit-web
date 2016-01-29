@@ -22,6 +22,10 @@ import {
   REPLY_CONVERSATION_FAILURE
 } from "../messages/actionTypes";
 
+import {
+  LOGOUT
+} from "../users/consts";
+
 const initialState = {
   conversations: {}
 };
@@ -48,6 +52,7 @@ export const ConversationsStore = Fluxxor.createStore({
       DELETE_CONVERSATION, this.handleDeleteConversationStart,
       DELETE_CONVERSATION_SUCCESS, this.handleDeleteConversationSuccess,
       DELETE_CONVERSATION_FAILURE, this.handleDeleteConversationFailure,
+      LOGOUT, this.handleLogout
     );
 
   },
@@ -211,6 +216,10 @@ export const ConversationsStore = Fluxxor.createStore({
     this.emit("change");
   },
 
+  handleLogout() {
+    this.state = initialState;
+    this.emit("change");
+  },
 
   serialize() {
     return JSON.stringify(this.getState());
