@@ -1,6 +1,7 @@
 import React from "react";
 import { FluxMixin, StoreWatchMixin } from "fluxxor";
 import { History } from "react-router";
+// import throttle from "lodash/function/throttle";
 
 import ConversationTitle from "../chat/ConversationTitle.jsx";
 import ConversationDeleteDialog from "../chat/ConversationDeleteDialog.jsx";
@@ -8,7 +9,7 @@ import MessagesList from "../chat/MessagesList.jsx";
 import MessageReplyForm from "../chat/MessageReplyForm.jsx";
 import Progress from "../helper/Progress.jsx";
 
-import { client as pusher} from "../../../client/pusher";
+import { subscribe, unsubscribe } from "../../../client/pusher";
 
 if (process.env.BROWSER) {
   require("styles/components/Conversation.scss");
@@ -25,13 +26,14 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      showDeleteConversationDialog: false
+      showDeleteConversationDialog: false,
+      typingUsers: []
     };
   },
 
   componentDidMount() {
     this.loadData();
-    pusher.subscribe(`presence-c-${this.props.params.id}`, this.props.loggedUser);
+    this.subscribePresenceChannel();
     if (this.list) {
       this.list.scrollTop = this.list.scrollHeight;
       this.setState({
@@ -54,8 +56,8 @@ export default React.createClass({
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.params.id !== this.props.params.id) {
       this.loadData();
-      pusher.unsubscribe(`presence-c-${prevProps.params.id}`, this.props.loggedUser);
-      pusher.subscribe(`presence-c-${this.props.params.id}`, this.props.loggedUser);
+      this.unsubscribePresenceChannel();
+      this.subscribePresenceChannel();
     }
     const { messages } = this.state;
     if (prevState.messages.length !== messages.length && this.list) {
@@ -81,10 +83,11 @@ export default React.createClass({
   },
 
   componentWillUnmount() {
-    pusher.unsubscribe(`presence-c-${this.props.params.id}`);
+    this.unsubscribePresenceChannel();
   },
 
   list: null,
+  presenceChannel: null,
 
   getStateFromFlux() {
     const { id } = this.props.params;
@@ -117,6 +120,26 @@ export default React.createClass({
     this.getFlux().actions.loadMessages(id);
   },
 
+  subscribePresenceChannel() {
+    const { params, loggedUser } = this.props;
+    this.presenceChannel = subscribe(
+      `presence-c-${params.id}`, loggedUser, (err, channel) => {
+        if (err) {
+          console.error(err); // eslint-disable-line no-console
+          return;
+        }
+        channel.bind("client-user_is_typing", user => this.handleUserIsTyping(user));
+      }
+    );
+  },
+
+  unsubscribePresenceChannel() {
+    if (this.presenceChannel) {
+      unsubscribe(this.presenceChannel);
+      this.presenceChannel = null;
+    }
+  },
+
   handleListScroll(e) {
     const scrollTop = e.target.scrollTop;
     const { didLoad, previous, loadingPrevious, messages } = this.state;
@@ -134,14 +157,30 @@ export default React.createClass({
     this.setState({ scrollTop });
   },
 
+  handleUserIsTyping(user) {
+    const { typingUsers } = this.state;
+    const { loggedUser } = this.props;
+    if (!typingUsers.find(typingUser => typingUser.id === user.id) &&
+        (loggedUser.id !== user.id)) {
+      this.setState({
+        typingUsers: [...typingUsers, user]
+      });
+    }
+  },
+
+  handleTextChange(text) {
+    const { params, loggedUser } = this.props;
+    this.presenceChannel.trigger("client-user_is_typing", loggedUser);
+    this.getFlux().actions.conversationDraftChange(params.id, text);
+  },
+
   render() {
 
     const { id } = this.props.params;
     const { messages, draft, didLoad, loading, loadingPrevious, loggedUser, users, about,
-      type, error, showDeleteConversationDialog, isDeleting } = this.state;
+      type, error, showDeleteConversationDialog, isDeleting, typingUsers } = this.state;
 
-    const { conversationDraftChange, replyToConversation, deleteConversation }
-      = this.getFlux().actions;
+    const { replyToConversation, deleteConversation } = this.getFlux().actions;
 
     return (
       <div className="Conversation">
@@ -175,7 +214,11 @@ export default React.createClass({
             style={ loadingPrevious ? null : { visibility: "hidden" }}>
             <Progress />
           </div>
-          <MessagesList messages={ messages } me={ loggedUser && loggedUser.username } />
+          <MessagesList
+            typingUsers={ typingUsers }
+            messages={ messages }
+            me={ loggedUser && loggedUser.username }
+          />
         </div>
       }
 
@@ -185,7 +228,7 @@ export default React.createClass({
             autoFocus
             placeholder="Add a reply"
             draft={ draft }
-            onTextChange={ text => conversationDraftChange(id, text) }
+            onTextChange={ text => this.handleTextChange(text) }
             onSubmit={ () => replyToConversation(loggedUser, id, draft) }
           />
         </div>

@@ -1,7 +1,8 @@
 import React from "react";
+import moment from "moment";
 
 import MessageGroup from "../chat/MessageGroup.jsx";
-import moment from "moment";
+import MessagesTypingUsers from "../chat/MessagesTypingUsers.jsx";
 
 /**
  * Return an array of messages grouped by its username
@@ -18,6 +19,7 @@ function groupMessages(messages) {
 
     const shouldDisplayDay = i === 0 ||
       !moment.unix(messages[i - 1].created_at).isSame(moment.unix(message.created_at), "day");
+
     if (isNewBlock) {
       const group = {
         messages: [message],
@@ -44,7 +46,7 @@ function groupMessages(messages) {
  * @param {Array}  props.messages
  * @param {String}  props.me
  */
-export default function MessageList({ messages, me, onRetryClick }) {
+export default function MessageList({ messages, me, onRetryClick, typingUsers=[] }) {
   const groups = groupMessages(messages);
   return (
     <div>
@@ -52,9 +54,9 @@ export default function MessageList({ messages, me, onRetryClick }) {
       { groups.map( group => {
         const { messages, dayIndexes } = group;
         const isMe = messages[0].user && messages[0].user.username === me;
-
+        const className = `MessagesList-group${isMe ? " isMe" : ""}`;
         return (
-          <div key={ messages[0].id } className={ `MessagesList-group${isMe ? " isMe" : ""}` }>
+          <div key={ messages[0].id } className={ className }>
             <MessageGroup
               onRetryClick={ onRetryClick }
               dayIndexes={ dayIndexes }
@@ -65,6 +67,9 @@ export default function MessageList({ messages, me, onRetryClick }) {
           </div>
         );})
       }
+
+      { typingUsers.length > 0 && <MessagesTypingUsers users={ typingUsers } /> }
+
     </div>
   );
 

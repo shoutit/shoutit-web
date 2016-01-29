@@ -9,6 +9,17 @@ if (process.env.NODE_ENV === "development") {
 
 export let client;
 
+export function subscribe(channelName, data, callback) {
+  const channel = client.subscribe(channelName, data);
+  channel.bind("pusher:subscription_error", status => callback(status, channel));
+  channel.bind("pusher:subscription_succeeded", () => callback(null, channel));
+  return channel;
+}
+
+export function unsubscribe(channel) {
+  client.unsubscribe(channel.name);
+}
+
 export function setup(usersStore, {
   onNewMessage,
   onNewListener,
