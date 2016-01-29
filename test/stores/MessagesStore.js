@@ -194,7 +194,7 @@ describe("MessagesStore", () => {
       });
     });
 
-    it("should handle logout", () => {
+    it("should reset to initial state after logout", () => {
       const flux = initFlux({
         A: { id: "A", conversation_id: "foo" },
         B: { id: "B", conversation_id: "bar" },
