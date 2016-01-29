@@ -410,7 +410,18 @@ describe("ConversationsStore", () => {
       expect(spy).to.have.been.calledWith("change");
     });
 
-    it("should handle logout", () => {
+    it("should reset the last loaded conversation", () => {
+      const flux = initFlux({ "abc": { messageIds: ["foo"], isDeleting: true } });
+      const store = flux.store("ConversationsStore");
+      const spy = sinon.spy(store, "emit");
+      flux.dispatcher.dispatch({
+        type: actionTypes.RESET_LAST_LOADED_CONVERSATION
+      });
+      expect(store.getLastLoadedId()).to.be.null;
+      expect(spy).to.have.been.calledWith("change");
+    });
+
+    it("should reset to initial state after logout", () => {
       const flux = initFlux({
         A: { id: "A", conversation_id: "foo" },
         B: { id: "B", conversation_id: "bar" },

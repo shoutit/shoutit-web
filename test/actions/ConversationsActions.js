@@ -42,7 +42,7 @@ describe("ConversationActions", () => {
     it("should dispatch response on failure", () => {
       sinon.stub(Request.prototype, "end", done => done(null, { ok: false }));
       actions.loadMessages("abc", "bar");
-      expect(actions.dispatch).to.have.been.calledWith(
+      expect(dispatch).to.have.been.calledWith(
         actionTypes.LOAD_MESSAGES_FAILURE,
         { error: { ok: false }, id: "abc" }
       );
@@ -51,7 +51,7 @@ describe("ConversationActions", () => {
     it("should dispatch error on failure", () => {
       sinon.stub(Request.prototype, "end", done => done({ status: 404} ));
       actions.loadMessages("abc", "bar");
-      expect(actions.dispatch).to.have.been.calledWith(
+      expect(dispatch).to.have.been.calledWith(
         actionTypes.LOAD_MESSAGES_FAILURE,
         { error: { status: 404 }, id: "abc" }
       );
@@ -82,7 +82,7 @@ describe("ConversationActions", () => {
     it("should dispatch response on failure", () => {
       sinon.stub(Request.prototype, "end", done => done(null, { ok: false }));
       actions.loadPreviousMessages("abc", "bar");
-      expect(actions.dispatch).to.have.been.calledWith(
+      expect(dispatch).to.have.been.calledWith(
         actionTypes.LOAD_MESSAGES_FAILURE,
         { error: { ok: false }, id: "abc" }
       );
@@ -91,7 +91,7 @@ describe("ConversationActions", () => {
     it("should dispatch error on failure", () => {
       sinon.stub(Request.prototype, "end", done => done({ status: 404} ));
       actions.loadPreviousMessages("abc", "bar");
-      expect(actions.dispatch).to.have.been.calledWith(
+      expect(dispatch).to.have.been.calledWith(
         actionTypes.LOAD_MESSAGES_FAILURE,
         { error: { status: 404 }, id: "abc" }
       );
@@ -122,7 +122,7 @@ describe("ConversationActions", () => {
     it("should dispatch response on failure", () => {
       sinon.stub(Request.prototype, "end", done => done(null, { ok: false }));
       actions.loadNextMessages("abc", "bar");
-      expect(actions.dispatch).to.have.been.calledWith(
+      expect(dispatch).to.have.been.calledWith(
         actionTypes.LOAD_MESSAGES_FAILURE,
         { error: { ok: false }, id: "abc" }
       );
@@ -131,7 +131,7 @@ describe("ConversationActions", () => {
     it("should dispatch error on failure", () => {
       sinon.stub(Request.prototype, "end", done => done({ status: 404}, {x: "y"}));
       actions.loadNextMessages("abc", "bar");
-      expect(actions.dispatch).to.have.been.calledWith(
+      expect(dispatch).to.have.been.calledWith(
         actionTypes.LOAD_MESSAGES_FAILURE,
         { error: { status: 404 }, id: "abc" }
       );
@@ -140,7 +140,6 @@ describe("ConversationActions", () => {
   });
 
   describe("conversationDraftChange", () => {
-
     it("should dispatch", () => {
       actions.conversationDraftChange(1, "foo");
       expect(dispatch).to.have.been.calledWith(
@@ -175,7 +174,7 @@ describe("ConversationActions", () => {
       const done = sinon.spy();
       sinon.stub(Request.prototype, "end", done => done(null, { ok: false }));
       actions.deleteConversation("abc", done);
-      expect(actions.dispatch).to.have.been.calledWith(
+      expect(dispatch).to.have.been.calledWith(
         actionTypes.DELETE_CONVERSATION_FAILURE,
         { error: { ok: false }, id: "abc" }
       );
@@ -187,7 +186,7 @@ describe("ConversationActions", () => {
       const done = sinon.spy();
       sinon.stub(Request.prototype, "end", done => done({ status: 404}, {x: "y"}));
       actions.deleteConversation("abc", done);
-      expect(actions.dispatch).to.have.been.calledWith(
+      expect(dispatch).to.have.been.calledWith(
         actionTypes.DELETE_CONVERSATION_FAILURE,
         { error: { status: 404 }, id: "abc" }
       );
