@@ -93,7 +93,7 @@ export default {
     },
 
     resendEmailVerif() {
-        this.dispatch(consts.RESEDND_EMAIL_VERIF);
+        this.dispatch(consts.RESEND_EMAIL_VERIF);
     },
 
     verifyEmail(token) {
