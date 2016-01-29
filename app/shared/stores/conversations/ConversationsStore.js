@@ -19,7 +19,8 @@ import {
 import {
   REPLY_CONVERSATION,
   REPLY_CONVERSATION_SUCCESS,
-  REPLY_CONVERSATION_FAILURE
+  REPLY_CONVERSATION_FAILURE,
+  NEW_PUSHED_MESSAGE
 } from "../messages/actionTypes";
 
 import {
@@ -49,6 +50,7 @@ export const ConversationsStore = Fluxxor.createStore({
       REPLY_CONVERSATION, this.handleReplyStart,
       REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
       REPLY_CONVERSATION_FAILURE, this.handleReplyFailure,
+      NEW_PUSHED_MESSAGE, this.handlePushedMessage,
       DELETE_CONVERSATION, this.handleDeleteConversationStart,
       DELETE_CONVERSATION_SUCCESS, this.handleDeleteConversationSuccess,
       DELETE_CONVERSATION_FAILURE, this.handleDeleteConversationFailure,
@@ -197,6 +199,22 @@ export const ConversationsStore = Fluxxor.createStore({
 
   handleReplyFailure() {
     this.waitFor(["messages"], () => this.emit("change"));
+  },
+
+  handlePushedMessage(message) {
+    this.waitFor(["messages"], () => {
+      const conversation = this.get(message.conversation_id);
+      if (!conversation) {
+        return;
+      }
+      const index = conversation.messageIds.findIndex(id => id === message.id);
+      if (index === -1) {
+        conversation.messageIds.push(message.id);
+        conversation.last_message = message;
+        conversation.messages_count += 1;
+        this.emit("change");
+      }
+    });
   },
 
   handleDeleteConversationStart({ id }) {

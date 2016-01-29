@@ -9,7 +9,8 @@ import * as actionTypes from "../../app/shared/stores/conversations/actionTypes"
 import {
   REPLY_CONVERSATION,
   REPLY_CONVERSATION_SUCCESS,
-  REPLY_CONVERSATION_FAILURE
+  REPLY_CONVERSATION_FAILURE,
+  NEW_PUSHED_MESSAGE
 } from "../../app/shared/stores/messages/actionTypes";
 
 import {
@@ -299,6 +300,46 @@ describe("ConversationsStore", () => {
         type: REPLY_CONVERSATION_FAILURE
       });
       expect(spy).to.have.been.calledWith("change");
+    });
+
+    it("should handle a pushed message", () => {
+      const flux = initFlux({ "abc": { messageIds: ["foo"], messages_count: 1 } });
+      const store = flux.store("ConversationsStore");
+      sinon.stub(store, "waitFor", (store, done) => done());
+      const spy = sinon.spy(store, "emit");
+      const message = { id: "bar", conversation_id: "abc" };
+      flux.dispatcher.dispatch({
+        type: NEW_PUSHED_MESSAGE,
+        payload: message
+      });
+      const conversation = store.get("abc");
+      expect(conversation.messageIds).to.eql(["foo", "bar"]);
+      expect(conversation.last_message).to.eql(message);
+      expect(conversation.messages_count).to.eql(2);
+      expect(spy).to.have.been.calledWith("change");
+    });
+
+    it("should skip a pushed message that already exists", () => {
+      const flux = initFlux({
+        "abc": {
+          messageIds: ["foo", "bar"],
+          messages_count: 2,
+          last_message: "bar"
+        }
+      });
+      const store = flux.store("ConversationsStore");
+      sinon.stub(store, "waitFor", (store, done) => done());
+      const spy = sinon.spy(store, "emit");
+      const message = { id: "foo", conversation_id: "abc" };
+      flux.dispatcher.dispatch({
+        type: NEW_PUSHED_MESSAGE,
+        payload: message
+      });
+      const conversation = store.get("abc");
+      expect(conversation.messageIds).to.eql(["foo", "bar"]);
+      expect(conversation.last_message).to.eql("bar");
+      expect(conversation.messages_count).to.eql(2);
+      expect(spy).to.not.have.been.called;
     });
 
     it("should handle the delete conversation start", () => {
