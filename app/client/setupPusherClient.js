@@ -1,27 +1,28 @@
-/* eslint no-console: 0 */
 import Pusher from "pusher-js";
 
 const APP_KEY = "86d676926d4afda44089";
-const AUTH_ENDPOINT = "/api/pusher/auth";
 
 if (process.env.NODE_ENV === "development") {
   Pusher.log = function(message) {
-    console.log(message);
+    console.log(message); // eslint-disable-line no-console
   };
 }
 
 let isPusherClientInitialized = false;
 
-export default function setupPusherClient(usersStore, { onNewMessage, onNewListen, onProfileChange } ) {
+export default function setupPusherClient(usersStore, {
+  onNewMessage,
+  onNewListen,
+  onProfileChange
+} ) {
 
   if (isPusherClientInitialized) {
-    console.warn("Pusher client already initialized."); // eslint-ignore-line
     return;
   }
 
   const pusherClient = new Pusher(APP_KEY, {
     encrypted: true,
-    authEndpoint: AUTH_ENDPOINT
+    authEndpoint: "/api/pusher/auth"
   });
 
   const subscribeUser = user => {
@@ -30,8 +31,6 @@ export default function setupPusherClient(usersStore, { onNewMessage, onNewListe
     pusherClient.presenceChannel = presenceChannel;
 
     presenceChannel.bind("pusher:subscription_succeeded", () => {
-      console.log("Pusher subscribed to channel", channelId);
-
       presenceChannel.bind("new_message", onNewMessage);
       presenceChannel.bind("new_listen", onNewListen);
       presenceChannel.bind("profile_change", onProfileChange);
