@@ -42,7 +42,7 @@ if(window.google) {
 }
 
 setupPusherClient(flux.store("users"), {
-  onNewMessage: message => console.log(message)
+  onNewMessage: flux.actions.newPushedMessage
 });
 
 ReactDOM.render(

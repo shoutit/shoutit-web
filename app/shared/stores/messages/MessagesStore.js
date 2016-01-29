@@ -14,7 +14,8 @@ import {
   SEND_MESSAGE_FAILURE,
   REPLY_SHOUT,
   REPLY_SHOUT_SUCCESS,
-  REPLY_SHOUT_FAILURE
+  REPLY_SHOUT_FAILURE,
+  NEW_PUSHED_MESSAGE
 } from "../messages/actionTypes";
 
 import {
@@ -45,6 +46,7 @@ export const MessagesStore = Fluxxor.createStore({
       SEND_MESSAGE_SUCCESS, this.handleSendSuccess,
       SEND_MESSAGE_FAILURE, this.handleSendFailure,
       DELETE_CONVERSATION_SUCCESS, this.handleDeleteConversationSuccess,
+      NEW_PUSHED_MESSAGE, this.handlePush,
       LOGOUT, this.handleLogout
     );
 
@@ -100,6 +102,13 @@ export const MessagesStore = Fluxxor.createStore({
         .forEach(messageId => delete this.state.messages[messageId]);
       this.emit("change");
     });
+  },
+
+  handlePush(message) {
+    if (!this.get(message.id)) {
+      this.state.messages[message.id] = message;
+      this.emit("change");
+    }
   },
 
   handleLogout() {

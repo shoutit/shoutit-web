@@ -7,7 +7,8 @@ import {
   REPLY_CONVERSATION_FAILURE,
   REPLY_SHOUT,
   REPLY_SHOUT_SUCCESS,
-  REPLY_SHOUT_FAILURE
+  REPLY_SHOUT_FAILURE,
+  NEW_PUSHED_MESSAGE
 } from "../messages/actionTypes";
 
 import * as client from "../messages/client";
@@ -51,6 +52,10 @@ export const actions = {
     });
 
     return message;
+  },
+
+  newPushedMessage(message) {
+    this.dispatch(NEW_PUSHED_MESSAGE, message);
   },
 
   /**
