@@ -7,7 +7,8 @@ import {
   CONVERSATION_DRAFT_CHANGE,
   DELETE_CONVERSATION,
   DELETE_CONVERSATION_SUCCESS,
-  DELETE_CONVERSATION_FAILURE
+  DELETE_CONVERSATION_FAILURE,
+  RESET_LAST_LOADED_CONVERSATION
 } from "./actionTypes";
 
 import * as client from "./client";
@@ -68,6 +69,10 @@ export const actions = {
       this.dispatch(DELETE_CONVERSATION_SUCCESS, { id });
       done && done();
     });
+  },
+
+  resetLastLoadedConversation() {
+    this.dispatch(RESET_LAST_LOADED_CONVERSATION);
   }
 
 };

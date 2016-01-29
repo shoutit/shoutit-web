@@ -22,9 +22,9 @@ import { LOGOUT } from "../../app/shared/stores/users/consts";
 
 chai.use(sinonChai);
 
-function initFlux(conversations) {
+function initFlux(conversations, lastLoadedId) {
   const flux = new Flux({
-    ConversationsStore: new ConversationsStore({ conversations })
+    ConversationsStore: new ConversationsStore({ conversations, lastLoadedId })
   });
   return flux;
 }
@@ -35,7 +35,9 @@ describe("ConversationsStore", () => {
     const flux = initFlux();
     const store = flux.store("ConversationsStore");
     expect(store.getState()).to.have.property("conversations");
+    expect(store.getState()).to.have.property("lastLoadedId");
     expect(store.getState().conversations).to.eql({});
+    expect(store.getState().lastLoadedId).to.be.null;
   });
 
   it("should initialize with conversations", () => {
@@ -73,7 +75,7 @@ describe("ConversationsStore", () => {
   it("should serialize its state", () => {
     const flux = initFlux({ "abc": { foo: "bar"} });
     const store = flux.store("ConversationsStore");
-    expect(store.serialize()).to.equal(`{"conversations":{"abc":{"foo":"bar"}}}`);
+    expect(store.serialize()).to.equal(`{"conversations":{"abc":{"foo":"bar"}},"lastLoadedId":null}`);
   });
 
   it("should hydrate from JSON", () => {
@@ -195,6 +197,7 @@ describe("ConversationsStore", () => {
           next: "next_url"
         }
       });
+
       const conversation = store.get("abc");
       expect(conversation.error).to.be.null;
       expect(conversation.unread_messages_count).to.equal(0);
@@ -203,6 +206,7 @@ describe("ConversationsStore", () => {
       expect(conversation.previous).to.equal("previous_url");
       expect(conversation.next).to.equal("next_url");
       expect(conversation.messageIds).to.eql(["foo", "bar"]);
+      expect(store.getLastLoadedId()).to.equal("abc");
       expect(spy).to.have.been.calledWith("change");
     });
 
@@ -303,7 +307,7 @@ describe("ConversationsStore", () => {
     });
 
     it("should handle a pushed message", () => {
-      const flux = initFlux({ "abc": { messageIds: ["foo"], messages_count: 1 } });
+      const flux = initFlux({ "abc": { messageIds: ["foo"], messages_count: 1, unread_messages_count: 0 } });
       const store = flux.store("ConversationsStore");
       sinon.stub(store, "waitFor", (store, done) => done());
       const spy = sinon.spy(store, "emit");
@@ -316,7 +320,27 @@ describe("ConversationsStore", () => {
       expect(conversation.messageIds).to.eql(["foo", "bar"]);
       expect(conversation.last_message).to.eql(message);
       expect(conversation.messages_count).to.eql(2);
+      expect(conversation.unread_messages_count).to.eql(1);
       expect(spy).to.have.been.calledWith("change");
+    });
+
+    it("should not increase the unread count upon a pushed message", () => {
+      const flux = initFlux({
+        "abc": {
+          messageIds: ["foo"],
+          messages_count: 1,
+          unread_messages_count: 0
+        }
+      }, "abc");
+      const store = flux.store("ConversationsStore");
+      sinon.stub(store, "waitFor", (store, done) => done());
+      const message = { id: "bar", conversation_id: "abc" };
+      flux.dispatcher.dispatch({
+        type: NEW_PUSHED_MESSAGE,
+        payload: message
+      });
+      const conversation = store.get("abc");
+      expect(conversation.unread_messages_count).to.eql(0);
     });
 
     it("should skip a pushed message that already exists", () => {
@@ -397,6 +421,7 @@ describe("ConversationsStore", () => {
         type: LOGOUT
       });
       expect(store.getState().conversations).to.eql({});
+      expect(store.getLastLoadedId()).to.be.null;
     });
 
 

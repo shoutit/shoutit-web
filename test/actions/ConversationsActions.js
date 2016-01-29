@@ -197,4 +197,16 @@ describe("ConversationActions", () => {
 
   });
 
+  describe("resetLastLoadedConversation", () => {
+
+    it("should dispatch", () => {
+      actions.resetLastLoadedConversation();
+      expect(dispatch).to.have.been.calledWith(
+        actionTypes.RESET_LAST_LOADED_CONVERSATION
+      );
+    });
+
+  });
+
+
 });
