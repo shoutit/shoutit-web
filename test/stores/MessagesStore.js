@@ -8,7 +8,8 @@ import { MessagesStore } from "../../app/shared/stores/messages/MessagesStore";
 import * as actionTypes from "../../app/shared/stores/messages/actionTypes";
 
 import {
-  LOAD_MESSAGES_SUCCESS
+  LOAD_MESSAGES_SUCCESS,
+  DELETE_CONVERSATION_SUCCESS
 } from "../../app/shared/stores/conversations/actionTypes";
 
 chai.use(sinonChai);
@@ -137,6 +138,28 @@ describe("MessagesStore", () => {
       expect(message).to.be.eql(
         { text: "bar", sending: false, sendError: "an error" }
       );
+
+      expect(spy).to.have.been.calledWith("change");
+    });
+
+    it("should handle a deleted conversation", () => {
+      const flux = initFlux({
+        A: { id: "A", conversation_id: "foo" },
+        B: { id: "B", conversation_id: "bar" },
+        C: { id: "C", conversation_id: "foo" }
+      });
+      const store = flux.store("MessagesStore");
+      sinon.stub(store, "waitFor", (store, done) => done());
+      const spy = sinon.spy(store, "emit");
+
+      flux.dispatcher.dispatch({
+        type: DELETE_CONVERSATION_SUCCESS,
+        payload: { id: "foo" }
+      });
+      const state = store.getState();
+      expect(state.messages).to.eql({
+        B: {id: "B", conversation_id: "bar" }
+      });
       expect(spy).to.have.been.calledWith("change");
     });
 

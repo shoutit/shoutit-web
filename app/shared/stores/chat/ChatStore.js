@@ -25,6 +25,8 @@ export const ChatStore = Fluxxor.createStore({
       LOAD_CONVERSATIONS_SUCCESS, this.handleSuccess,
       LOAD_CONVERSATIONS_FAILURE, this.handleFailure,
       REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess
+      REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
+      DELETE_CONVERSATION_SUCCESS, this.handleDeleteSuccess,
     );
 
   },
@@ -94,6 +96,13 @@ export const ChatStore = Fluxxor.createStore({
     });
   },
 
+  handleDeleteSuccess({ id }) {
+    this.waitFor(["conversations"], () => {
+      const index = this.state.conversationIds.indexOf(id);
+      this.state.conversationIds.splice(index, 1);
+      this.emit("change");
+    });
+  },
   serialize() {
     return JSON.stringify(this.getState());
   },

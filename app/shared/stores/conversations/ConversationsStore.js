@@ -10,7 +10,10 @@ import {
   LOAD_PREVIOUS_MESSAGES,
   LOAD_MESSAGES_SUCCESS,
   LOAD_MESSAGES_FAILURE,
-  CONVERSATION_DRAFT_CHANGE
+  CONVERSATION_DRAFT_CHANGE,
+  DELETE_CONVERSATION,
+  DELETE_CONVERSATION_SUCCESS,
+  DELETE_CONVERSATION_FAILURE
 } from "../conversations/actionTypes";
 
 import {
@@ -25,9 +28,8 @@ const initialState = {
 
 export const ConversationsStore = Fluxxor.createStore({
 
-
   initialize({ conversations }) {
-    this.state = initialState;
+    this.state = {...initialState};
     if (conversations) {
       this.state.conversations = conversations;
     }
@@ -42,7 +44,10 @@ export const ConversationsStore = Fluxxor.createStore({
       CONVERSATION_DRAFT_CHANGE, this.handleDraftChange,
       REPLY_CONVERSATION, this.handleReplyStart,
       REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
-      REPLY_CONVERSATION_FAILURE, this.handleReplyFailure
+      REPLY_CONVERSATION_FAILURE, this.handleReplyFailure,
+      DELETE_CONVERSATION, this.handleDeleteConversationStart,
+      DELETE_CONVERSATION_SUCCESS, this.handleDeleteConversationSuccess,
+      DELETE_CONVERSATION_FAILURE, this.handleDeleteConversationFailure,
     );
 
   },
@@ -144,7 +149,10 @@ export const ConversationsStore = Fluxxor.createStore({
         conversation.last_message = results[results.length-1];
       }
 
-      this.state.conversations[id] = conversation;
+      this.state.conversations = {
+        ...this.state.conversations,
+        [conversation.id]: conversation
+      };
       this.emit("change");
     });
   },
@@ -185,6 +193,24 @@ export const ConversationsStore = Fluxxor.createStore({
   handleReplyFailure() {
     this.waitFor(["messages"], () => this.emit("change"));
   },
+
+  handleDeleteConversationStart({ id }) {
+    this.get(id).isDeleting = true;
+    delete this.get(id).deletingError;
+    this.emit("change");
+  },
+
+  handleDeleteConversationSuccess({ id }) {
+    delete this.state.conversations[id];
+    this.emit("change");
+  },
+
+  handleDeleteConversationFailure({ id, error }) {
+    this.get(id).isDeleting = false;
+    this.get(id).deletingError = error;
+    this.emit("change");
+  },
+
 
   serialize() {
     return JSON.stringify(this.getState());

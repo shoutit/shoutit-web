@@ -11,3 +11,7 @@ export function loadPreviousMessages(id, before) {
 export function loadNextMessages(id, after) {
   return request.get(`/api/conversations/${id}/messages`).query({ after });
 }
+
+export function deleteConversation(id) {
+  return request.del(`/api/conversations/${id}`);
+}
