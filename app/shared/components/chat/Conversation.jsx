@@ -1,13 +1,14 @@
 import React from "react";
 import { FluxMixin, StoreWatchMixin } from "fluxxor";
-import Dialog from "material-ui/lib/dialog";
-import FlatButton from "material-ui/lib/flat-button";
 import { History } from "react-router";
 
 import ConversationTitle from "../chat/ConversationTitle.jsx";
+import ConversationDeleteDialog from "../chat/ConversationDeleteDialog.jsx";
 import MessagesList from "../chat/MessagesList.jsx";
 import MessageReplyForm from "../chat/MessageReplyForm.jsx";
 import Progress from "../helper/Progress.jsx";
+
+import { client as pusher} from "../../../client/pusher";
 
 if (process.env.BROWSER) {
   require("styles/components/Conversation.scss");
@@ -27,8 +28,10 @@ export default React.createClass({
       showDeleteConversationDialog: false
     };
   },
+
   componentDidMount() {
     this.loadData();
+    pusher.subscribe(`presence-c-${this.props.params.id}`, this.props.loggedUser);
     if (this.list) {
       this.list.scrollTop = this.list.scrollHeight;
       this.setState({
@@ -51,6 +54,8 @@ export default React.createClass({
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.params.id !== this.props.params.id) {
       this.loadData();
+      pusher.unsubscribe(`presence-c-${prevProps.params.id}`, this.props.loggedUser);
+      pusher.subscribe(`presence-c-${this.props.params.id}`, this.props.loggedUser);
     }
     const { messages } = this.state;
     if (prevState.messages.length !== messages.length && this.list) {
@@ -75,6 +80,10 @@ export default React.createClass({
 
   },
 
+  componentWillUnmount() {
+    pusher.unsubscribe(`presence-c-${this.props.params.id}`);
+  },
+
   list: null,
 
   getStateFromFlux() {
@@ -82,25 +91,18 @@ export default React.createClass({
     const conversationsStore = this.getFlux().store("conversations");
     const messagesStore = this.getFlux().store("messages");
     const userStore = this.getFlux().store("users");
-
     const conversation = conversationsStore.get(id);
     const loggedUser = userStore.getLoggedUser();
-    const state = {
-      messages: [],
-      loading: true,
-      loggedUser
-    };
+
+    const state = { messages: [], loading: true, loggedUser };
+
     if (conversation) {
       const { messageIds } = conversation;
       const draft = conversationsStore.getDraft(id);
       const messages = messageIds ? messagesStore.getMessages(messageIds) : [];
-      return {
-        ...state,
-        ...conversation,
-        messages,
-        draft
-      };
+      return { ...state, ...conversation, messages, draft };
     }
+
     return state;
   },
 
@@ -129,9 +131,7 @@ export default React.createClass({
         messages[0].created_at
       );
     }
-
     this.setState({ scrollTop });
-
   },
 
   render() {
@@ -143,90 +143,60 @@ export default React.createClass({
     const { conversationDraftChange, replyToConversation, deleteConversation }
       = this.getFlux().actions;
 
-    const hasMessages = messages.length > 0 ;
     return (
       <div className="Conversation">
 
       { didLoad &&
         <ConversationTitle
-            onDeleteConversationTouchTap={ () => this.setState({showDeleteConversationDialog: true}) }
-            onDeleteMessagesTouchTap={ () => {} }
-            users={ users }
-            about={ about }
-            type={ type }
-            me={ loggedUser && loggedUser.username }
+          onDeleteConversationTouchTap={ () => this.setState({showDeleteConversationDialog: true}) }
+          onDeleteMessagesTouchTap={ () => {} }
+          users={ users }
+          about={ about }
+          type={ type }
+          me={ loggedUser && loggedUser.username }
+        />
+      }
+
+      { error && !loading &&
+        <div className="Conversation-error">
+          { error.status && error.status === 404 ? "Page not found" : "Error loading this chat." }
+        </div>
+      }
+
+      { didLoad && !messages.length > 0 && loading && <Progress centerVertical /> }
+
+      { messages.length > 0 &&
+        <div className="Conversation-listContainer"
+          ref={ ref => this.list = ref }
+          onScroll={ this.handleListScroll }>
+          <div className="Conversation-listTopSeparator" />
+          <div
+            className="Conversation-progress"
+            style={ loadingPrevious ? null : { visibility: "hidden" }}>
+            <Progress />
+          </div>
+          <MessagesList messages={ messages } me={ loggedUser && loggedUser.username } />
+        </div>
+      }
+
+      { messages.length > 0 &&
+        <div className="Conversation-replyFormContainer">
+          <MessageReplyForm
+            autoFocus
+            placeholder="Add a reply"
+            draft={ draft }
+            onTextChange={ text => conversationDraftChange(id, text) }
+            onSubmit={ () => replyToConversation(loggedUser, id, draft) }
           />
-        }
+        </div>
+      }
 
-
-        { error && !loading &&
-          <div className="Conversation-error">
-            { error.status && error.status === 404 ?
-              "Page not found" :
-              "Error loading this chat."
-            }
-          </div>
-        }
-
-        { didLoad && !hasMessages && loading && <Progress centerVertical /> }
-
-        { hasMessages &&
-          <div className="Conversation-listContainer"
-            ref={ ref => this.list = ref }
-            onScroll={ this.handleListScroll }>
-
-            <div className="Conversation-listTopSeparator" />
-
-            <div className="Conversation-progress"
-              style={ loadingPrevious ? null : { visibility: "hidden" }}>
-              <Progress />
-            </div>
-
-            <MessagesList messages={ messages } me={ loggedUser && loggedUser.username } />
-
-          </div>
-        }
-
-        { hasMessages &&
-          <div className="Conversation-replyFormContainer">
-            <MessageReplyForm
-              autoFocus
-              placeholder="Add a reply"
-              draft={ draft }
-              onTextChange={ text => conversationDraftChange(id, text) }
-              onSubmit={ () => replyToConversation(loggedUser, id, draft) }
-            />
-          </div>
-        }
-
-        <Dialog
-          actions={[
-            <FlatButton
-              key="cancel"
-              secondary
-              label="Cancel"
-              onTouchTap={
-                () => this.setState({showDeleteConversationDialog: false})
-              }
-            />,
-            <FlatButton
-              key="submit"
-              primary
-              disabled={ isDeleting }
-              label={ isDeleting ? "Deleting..." : "Delete" }
-              onTouchTap={ () => deleteConversation(id,
-                error => this.history.pushState(null, '/chat')
-              )}
-            />
-          ]}
-          modal={ false }
-          onRequestClose={
-            () => this.setState({showDeleteConversationDialog: false})
-          }
-          title="Delete this entire conversation?"
-          open={ showDeleteConversationDialog }>
-          Once you delete your copy of this conversation, it cannot be undone.
-        </Dialog>
+      <ConversationDeleteDialog
+        open={ showDeleteConversationDialog }
+        onCancel={ () => this.setState({showDeleteConversationDialog: false}) }
+        onConfirm={() => deleteConversation(id, () => this.history.pushState(null, "/chat") )}
+        isDeleting={ isDeleting }
+      />
 
       </div>
     );

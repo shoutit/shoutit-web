@@ -10,7 +10,7 @@ import routes from "../shared/routes.jsx";
 import Flux from "../shared/flux";
 import facebook from "../client/fb";
 import gAnalytics from "../client/ga";
-import pusherClient from "../client/pusherClient";
+import { setup as setupPusher } from "../client/pusher";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 
 import "styles/main.scss";
@@ -41,7 +41,7 @@ if(window.google) {
   locationStore.setGMaps(window.google.maps);
 }
 
-pusherClient.setup(flux.store("users"), {
+setupPusher(flux.store("users"), {
   onNewMessage: flux.actions.newPushedMessage
 });
 

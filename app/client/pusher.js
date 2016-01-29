@@ -1,5 +1,4 @@
 import Pusher from "pusher-js";
-let client;
 const APP_KEY = "86d676926d4afda44089";
 
 if (process.env.NODE_ENV === "development") {
@@ -8,9 +7,7 @@ if (process.env.NODE_ENV === "development") {
   };
 }
 
-export function get() {
-  return client;
-}
+export let client;
 
 export function setup(usersStore, {
   onNewMessage,
