@@ -53,7 +53,7 @@ export default React.createClass({
                             <Icon name="message" style={{transform:'scale(0.7)', margin:'5px 15px 0 -5px'}}/>
                         </Column>
                         <Column fluid={true} size="12" className="card-list-item">
-                            <Link to="/chat">Messages</Link>
+                            <Link to="/messages">Messages</Link>
                         </Column>
                         <Column fluid={true} clear={true} size="3" className="card-list-img">
                             <Icon name="browse" />

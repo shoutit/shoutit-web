@@ -8,6 +8,7 @@ if (process.env.BROWSER) {
 
 export default function MessageItem({ created_at, sending, text, justify="start", showDay, sendError, attachments=[] }) {
   const createdAt = moment.unix(created_at);
+  
   return (
     <div className={ `MessageItem ${justify}${sendError ? " didError" : ""}`}>
       { showDay && <div className="MessageItem-day">

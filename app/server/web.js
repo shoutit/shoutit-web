@@ -301,7 +301,7 @@ module.exports = function (app) {
   if (process.env.NODE_ENV === "development") {
     app.use("/images", serveStatic("./assets/images", { maxAge }));
   }
-  
+
   if (process.env.NODE_ENV === "developmentLocal") {
       var webpackDevMiddleware = require("webpack-dev-middleware"),
         webpack = require("webpack");
@@ -411,7 +411,7 @@ module.exports = function (app) {
       res.redirect("/search/" + req.params.term);
     });
 
-  app.use("/chat/?*", function redirectNotLoggedUser(req, res, next) {
+  app.use("/messages/?*", function redirectNotLoggedUser(req, res, next) {
       if (req.session && req.session.user) {
         next();
       } else {
