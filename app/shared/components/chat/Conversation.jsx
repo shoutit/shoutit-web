@@ -26,7 +26,7 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      showDeleteConversationDialog: false,
+      showDelete: false,
       typingUsers: []
     };
   },
@@ -88,6 +88,7 @@ export default React.createClass({
 
   list: null,
   presenceChannel: null,
+  typingTimeouts: {},
 
   getStateFromFlux() {
     const { id } = this.props.params;
@@ -103,7 +104,16 @@ export default React.createClass({
       const { messageIds } = conversation;
       const draft = conversationsStore.getDraft(id);
       const messages = messageIds ? messagesStore.getMessages(messageIds) : [];
-      return { ...state, ...conversation, messages, draft };
+
+      // Remove typing user if last message is the same
+      const typingUsers = [ ...this.state.typingUsers];
+      const typingUserIndex = typingUsers.findIndex(
+        user => user.id === conversation.last_message.user.id
+      );
+      if (typingUserIndex > -1) {
+        typingUsers.splice(typingUserIndex, 1);
+      }
+      return { ...state, ...conversation, typingUsers, messages, draft };
     }
 
     return state;
@@ -157,37 +167,59 @@ export default React.createClass({
     this.setState({ scrollTop });
   },
 
+  clearTypingTimeout(user) {
+    clearTimeout(this.typingTimeouts[user.id]);
+    delete this.typingTimeouts[user.id];
+  },
+
+  setTypingTimeout(user) {
+    this.typingTimeouts[user.id] = setTimeout(() => {
+      const index = this.state.typingUsers.findIndex(
+        typingUser => typingUser.id === user.id
+      );
+      const typingUsers = [ ...this.state.typingUsers];
+      typingUsers.splice(index, 1);
+      this.setState({ typingUsers });
+    }, 3000);
+  },
+
   handleUserIsTyping(user) {
     const { typingUsers } = this.state;
     const { loggedUser } = this.props;
-    if (!typingUsers.find(typingUser => typingUser.id === user.id) &&
-        (loggedUser.id !== user.id)) {
-      this.setState({
-        typingUsers: [...typingUsers, user]
-      });
-    }
-  },
 
-  handleTextChange(text) {
-    const { params, loggedUser } = this.props;
-    this.presenceChannel.trigger("client-user_is_typing", loggedUser);
-    this.getFlux().actions.conversationDraftChange(params.id, text);
+    const isAlreadyTyping = typingUsers.find(typingUser => typingUser.id === user.id);
+
+    if (loggedUser.id === user.id) {
+      return;
+    }
+
+    if (isAlreadyTyping) {
+      this.clearTypingTimeout(user);
+      this.setTypingTimeout(user);
+    }
+    else {
+      this.setState({
+        typingUsers: [...this.state.typingUsers, user]
+      }, () => this.setTypingTimeout(user));
+    }
+
   },
 
   render() {
 
     const { id } = this.props.params;
-    const { messages, draft, didLoad, loading, loadingPrevious, loggedUser, users, about,
-      type, error, showDeleteConversationDialog, isDeleting, typingUsers } = this.state;
+    const { messages, draft, didLoad, loading, loadingPrevious, loggedUser, users,
+      about, type, error, showDelete, isDeleting, typingUsers } = this.state;
 
-    const { replyToConversation, deleteConversation } = this.getFlux().actions;
+    const { replyToConversation, deleteConversation, conversationDraftChange }
+      = this.getFlux().actions;
 
     return (
       <div className="Conversation">
 
       { didLoad &&
         <ConversationTitle
-          onDeleteConversationTouchTap={ () => this.setState({showDeleteConversationDialog: true}) }
+          onDeleteConversationTouchTap={ () => this.setState({showDelete: true}) }
           onDeleteMessagesTouchTap={ () => {} }
           users={ users }
           about={ about }
@@ -228,16 +260,21 @@ export default React.createClass({
             autoFocus
             placeholder="Add a reply"
             draft={ draft }
-            onTextChange={ text => this.handleTextChange(text) }
+            onTextChange={ text => conversationDraftChange(id, text) }
+            onTyping={ () =>
+              this.presenceChannel.trigger("client-user_is_typing", loggedUser)
+            }
             onSubmit={ () => replyToConversation(loggedUser, id, draft) }
           />
         </div>
       }
 
       <ConversationDeleteDialog
-        open={ showDeleteConversationDialog }
-        onCancel={ () => this.setState({showDeleteConversationDialog: false}) }
-        onConfirm={() => deleteConversation(id, () => this.history.pushState(null, "/chat") )}
+        open={ showDelete }
+        onCancel={ () => this.setState({ showDelete: false }) }
+        onConfirm={() => deleteConversation(id,
+          () => this.history.pushState(null, "/chat") )
+        }
         isDeleting={ isDeleting }
       />
 

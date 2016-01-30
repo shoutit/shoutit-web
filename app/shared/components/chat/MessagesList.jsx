@@ -68,7 +68,7 @@ export default function MessageList({ messages, me, onRetryClick, typingUsers=[]
         );})
       }
 
-      { typingUsers.length > 0 && <MessagesTypingUsers users={ typingUsers } /> }
+      <MessagesTypingUsers users={ typingUsers } />
 
     </div>
   );
