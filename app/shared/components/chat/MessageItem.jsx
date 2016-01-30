@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import ShoutItem from "../shout/ShoutItem";
+import GoogleStaticMap from "../misc/GoogleStaticMap";
 
 if (process.env.BROWSER) {
   require("styles/components/MessageItem.scss");
@@ -8,7 +9,24 @@ if (process.env.BROWSER) {
 
 export default function MessageItem({ created_at, sending, text, justify="start", showDay, sendError, attachments=[] }) {
   const createdAt = moment.unix(created_at);
-  
+
+  const attachmentsContent = attachments.map(attachment => {
+
+    if (attachment.shout) {
+      return <ShoutItem { ...attachment.shout }/>;
+    }
+
+    if (attachment.location) {
+      return (
+        <GoogleStaticMap
+          center={ attachment.location }
+          markers={[{ ...attachment.location }]}
+        />
+      );
+    }
+
+  });
+
   return (
     <div className={ `MessageItem ${justify}${sendError ? " didError" : ""}`}>
       { showDay && <div className="MessageItem-day">
@@ -16,11 +34,7 @@ export default function MessageItem({ created_at, sending, text, justify="start"
       </div> }
       <div className="MessageItem-wrapper">
 
-        { attachments.map(attachment => {
-          if (attachment.shout) {
-            return <ShoutItem { ...attachment.shout }/>;
-          }
-        })}
+        { attachmentsContent }
 
         <p>
           { text }
