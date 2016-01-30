@@ -42,7 +42,14 @@ if(window.google) {
 }
 
 setupPusher(flux.store("users"), {
-  onNewMessage: flux.actions.newPushedMessage
+  onNewMessage: (message) => {
+    if (flux.store("conversations").get(message.conversation_id)) {
+      flux.actions.newPushedMessage(message);
+    }
+    else {
+      flux.actions.loadConversations();
+    }
+  }
 });
 
 ReactDOM.render(
