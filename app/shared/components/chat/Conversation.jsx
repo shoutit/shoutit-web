@@ -4,6 +4,7 @@ import { History } from "react-router";
 
 import ConversationTitle from "../chat/ConversationTitle.jsx";
 import ConversationDeleteDialog from "../chat/ConversationDeleteDialog.jsx";
+import UserShoutsSelectDialog from "../user/UserShoutsSelectDialog.jsx";
 import MessagesList from "../chat/MessagesList.jsx";
 import MessageReplyForm from "../chat/MessageReplyForm.jsx";
 import Progress from "../helper/Progress.jsx";
@@ -27,7 +28,8 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      showDelete: false
+      showDelete: false,
+      showAttachShout: false
     };
   },
 
@@ -209,7 +211,7 @@ export default React.createClass({
 
     const { id } = this.props.params;
     const { messages, draft, didLoad, loading, loadingPrevious, loggedUser, users,
-      about, type, error, showDelete, isDeleting, typingUsers } = this.state;
+      about, type, error, showDelete, isDeleting, typingUsers, showAttachShout } = this.state;
 
     const { replyToConversation, deleteConversation, conversationDraftChange }
       = this.getFlux().actions;
@@ -264,6 +266,7 @@ export default React.createClass({
             onTyping={ () =>
               this.presenceChannel.trigger("client-user_is_typing", loggedUser)
             }
+            onAttachShoutClick={ () => this.setState({showAttachShout: true}) }
             onSubmit={ () => replyToConversation(loggedUser, id, draft) }
           />
         </div>
@@ -271,11 +274,24 @@ export default React.createClass({
 
       <ConversationDeleteDialog
         open={ showDelete }
-        onCancel={ () => this.setState({ showDelete: false }) }
+        onRequestClose={ () => this.setState({ showDelete: false }) }
         onConfirm={() => deleteConversation(id,
           () => this.history.pushState(null, "/chat") )
         }
         isDeleting={ isDeleting }
+      />
+
+      <UserShoutsSelectDialog
+        buttonLabel="Send"
+        user={ loggedUser }
+        flux={ this.getFlux() }
+        open={ showAttachShout }
+        onRequestClose={ () => this.setState({ showAttachShout: false }) }
+        onSelectionConfirm={ shouts => {
+          const attachments = shouts.map(shout => ({ shout }));
+          replyToConversation(loggedUser, id, draft, attachments);
+          this.setState({ showAttachShout: false });
+        }}
       />
 
       </div>

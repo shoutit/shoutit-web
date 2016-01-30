@@ -24,7 +24,8 @@ export default class MessageReplyForm extends Component {
     typingTimeout: PropTypes.number,
     onTyping: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
-    onTextChange: PropTypes.func.isRequired
+    onTextChange: PropTypes.func.isRequired,
+    onAttachShoutClick: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -73,7 +74,7 @@ export default class MessageReplyForm extends Component {
   }
 
   render() {
-    const  { draft, autoFocus, disabled=false,  placeholder } = this.props;
+    const  { draft, autoFocus, disabled, onAttachShoutClick, placeholder } = this.props;
     return (
       <form className="MessageReplyForm" onSubmit={ e => this.handleFormSubmit(e) }>
         <div className="MessageReplyForm-inputContainer">
@@ -88,8 +89,11 @@ export default class MessageReplyForm extends Component {
           />
         </div>
         <div>
-          <Button type="submit" disabled={ disabled  || !draft.trim() } className="reply">
+          <Button type="submit" disabled={ disabled  || !draft } className="reply">
             Send
+          </Button>
+          <Button type="button" disabled={ disabled } onClick={ onAttachShoutClick }>
+            Attach shout
           </Button>
         </div>
       </form>
