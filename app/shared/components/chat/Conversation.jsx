@@ -1,13 +1,15 @@
 import React from "react";
 import { FluxMixin, StoreWatchMixin } from "fluxxor";
-import Dialog from "material-ui/lib/dialog";
-import FlatButton from "material-ui/lib/flat-button";
 import { History } from "react-router";
+// import throttle from "lodash/function/throttle";
 
 import ConversationTitle from "../chat/ConversationTitle.jsx";
+import ConversationDeleteDialog from "../chat/ConversationDeleteDialog.jsx";
 import MessagesList from "../chat/MessagesList.jsx";
 import MessageReplyForm from "../chat/MessageReplyForm.jsx";
 import Progress from "../helper/Progress.jsx";
+
+import { subscribe, unsubscribe } from "../../../client/pusher";
 
 if (process.env.BROWSER) {
   require("styles/components/Conversation.scss");
@@ -24,11 +26,14 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      showDeleteConversationDialog: false
+      showDelete: false,
+      typingUsers: []
     };
   },
+
   componentDidMount() {
     this.loadData();
+    this.subscribePresenceChannel();
     if (this.list) {
       this.list.scrollTop = this.list.scrollHeight;
       this.setState({
@@ -51,6 +56,8 @@ export default React.createClass({
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.params.id !== this.props.params.id) {
       this.loadData();
+      this.unsubscribePresenceChannel();
+      this.subscribePresenceChannel();
     }
     const { messages } = this.state;
     if (prevState.messages.length !== messages.length && this.list) {
@@ -75,32 +82,40 @@ export default React.createClass({
 
   },
 
+  componentWillUnmount() {
+    this.unsubscribePresenceChannel();
+  },
+
   list: null,
+  presenceChannel: null,
+  typingTimeouts: {},
 
   getStateFromFlux() {
     const { id } = this.props.params;
     const conversationsStore = this.getFlux().store("conversations");
     const messagesStore = this.getFlux().store("messages");
     const userStore = this.getFlux().store("users");
-
     const conversation = conversationsStore.get(id);
     const loggedUser = userStore.getLoggedUser();
-    const state = {
-      messages: [],
-      loading: true,
-      loggedUser
-    };
+
+    const state = { messages: [], loading: true, loggedUser };
+
     if (conversation) {
       const { messageIds } = conversation;
       const draft = conversationsStore.getDraft(id);
       const messages = messageIds ? messagesStore.getMessages(messageIds) : [];
-      return {
-        ...state,
-        ...conversation,
-        messages,
-        draft
-      };
+
+      // Remove typing user if last message is the same
+      const typingUsers = [ ...this.state.typingUsers];
+      const typingUserIndex = typingUsers.findIndex(
+        user => user.id === conversation.last_message.user.id
+      );
+      if (typingUserIndex > -1) {
+        typingUsers.splice(typingUserIndex, 1);
+      }
+      return { ...state, ...conversation, typingUsers, messages, draft };
     }
+
     return state;
   },
 
@@ -113,6 +128,26 @@ export default React.createClass({
       this.setState({...conversation, messages});
     }
     this.getFlux().actions.loadMessages(id);
+  },
+
+  subscribePresenceChannel() {
+    const { params, loggedUser } = this.props;
+    this.presenceChannel = subscribe(
+      `presence-c-${params.id}`, loggedUser, (err, channel) => {
+        if (err) {
+          console.error(err); // eslint-disable-line no-console
+          return;
+        }
+        channel.bind("client-user_is_typing", user => this.handleUserIsTyping(user));
+      }
+    );
+  },
+
+  unsubscribePresenceChannel() {
+    if (this.presenceChannel) {
+      unsubscribe(this.presenceChannel);
+      this.presenceChannel = null;
+    }
   },
 
   handleListScroll(e) {
@@ -129,104 +164,119 @@ export default React.createClass({
         messages[0].created_at
       );
     }
-
     this.setState({ scrollTop });
+  },
+
+  clearTypingTimeout(user) {
+    clearTimeout(this.typingTimeouts[user.id]);
+    delete this.typingTimeouts[user.id];
+  },
+
+  setTypingTimeout(user) {
+    this.typingTimeouts[user.id] = setTimeout(() => {
+      const index = this.state.typingUsers.findIndex(
+        typingUser => typingUser.id === user.id
+      );
+      const typingUsers = [ ...this.state.typingUsers];
+      typingUsers.splice(index, 1);
+      this.setState({ typingUsers });
+    }, 3000);
+  },
+
+  handleUserIsTyping(user) {
+    const { typingUsers } = this.state;
+    const { loggedUser } = this.props;
+
+    const isAlreadyTyping = typingUsers.find(typingUser => typingUser.id === user.id);
+
+    if (loggedUser.id === user.id) {
+      return;
+    }
+
+    if (isAlreadyTyping) {
+      this.clearTypingTimeout(user);
+      this.setTypingTimeout(user);
+    }
+    else {
+      this.setState({
+        typingUsers: [...this.state.typingUsers, user]
+      }, () => this.setTypingTimeout(user));
+    }
 
   },
 
   render() {
 
     const { id } = this.props.params;
-    const { messages, draft, didLoad, loading, loadingPrevious, loggedUser, users, about,
-      type, error, showDeleteConversationDialog, isDeleting } = this.state;
+    const { messages, draft, didLoad, loading, loadingPrevious, loggedUser, users,
+      about, type, error, showDelete, isDeleting, typingUsers } = this.state;
 
-    const { conversationDraftChange, replyToConversation, deleteConversation }
+    const { replyToConversation, deleteConversation, conversationDraftChange }
       = this.getFlux().actions;
 
-    const hasMessages = messages.length > 0 ;
     return (
       <div className="Conversation">
 
       { didLoad &&
         <ConversationTitle
-            onDeleteConversationTouchTap={ () => this.setState({showDeleteConversationDialog: true}) }
-            onDeleteMessagesTouchTap={ () => {} }
-            users={ users }
-            about={ about }
-            type={ type }
+          onDeleteConversationTouchTap={ () => this.setState({showDelete: true}) }
+          onDeleteMessagesTouchTap={ () => {} }
+          users={ users }
+          about={ about }
+          type={ type }
+          me={ loggedUser && loggedUser.username }
+        />
+      }
+
+      { error && !loading &&
+        <div className="Conversation-error">
+          { error.status && error.status === 404 ? "Page not found" : "Error loading this chat." }
+        </div>
+      }
+
+      { didLoad && !messages.length > 0 && loading && <Progress centerVertical /> }
+
+      { messages.length > 0 &&
+        <div className="Conversation-listContainer"
+          ref={ ref => this.list = ref }
+          onScroll={ this.handleListScroll }>
+          <div className="Conversation-listTopSeparator" />
+          <div
+            className="Conversation-progress"
+            style={ loadingPrevious ? null : { visibility: "hidden" }}>
+            <Progress />
+          </div>
+          <MessagesList
+            typingUsers={ typingUsers }
+            messages={ messages }
             me={ loggedUser && loggedUser.username }
           />
-        }
+        </div>
+      }
 
-
-        { error && !loading &&
-          <div className="Conversation-error">
-            { error.status && error.status === 404 ?
-              "Page not found" :
-              "Error loading this chat."
+      { messages.length > 0 &&
+        <div className="Conversation-replyFormContainer">
+          <MessageReplyForm
+            autoFocus
+            placeholder="Add a reply"
+            draft={ draft }
+            onTextChange={ text => conversationDraftChange(id, text) }
+            onTyping={ () =>
+              this.presenceChannel.trigger("client-user_is_typing", loggedUser)
             }
-          </div>
+            onSubmit={ () => replyToConversation(loggedUser, id, draft) }
+          />
+        </div>
+      }
+
+      <ConversationDeleteDialog
+        open={ showDelete }
+        onCancel={ () => this.setState({ showDelete: false }) }
+        onConfirm={() => deleteConversation(id,
+          () => this.history.pushState(null, "/chat") )
         }
-
-        { didLoad && !hasMessages && loading && <Progress centerVertical /> }
-
-        { hasMessages &&
-          <div className="Conversation-listContainer"
-            ref={ ref => this.list = ref }
-            onScroll={ this.handleListScroll }>
-
-            <div className="Conversation-listTopSeparator" />
-
-            <div className="Conversation-progress"
-              style={ loadingPrevious ? null : { visibility: "hidden" }}>
-              <Progress />
-            </div>
-
-            <MessagesList messages={ messages } me={ loggedUser && loggedUser.username } />
-
-          </div>
-        }
-
-        { hasMessages &&
-          <div className="Conversation-replyFormContainer">
-            <MessageReplyForm
-              autoFocus
-              placeholder="Add a reply"
-              draft={ draft }
-              onTextChange={ text => conversationDraftChange(id, text) }
-              onSubmit={ () => replyToConversation(loggedUser, id, draft) }
-            />
-          </div>
-        }
-
-        <Dialog
-          actions={[
-            <FlatButton
-              key="cancel"
-              secondary
-              label="Cancel"
-              onTouchTap={
-                () => this.setState({showDeleteConversationDialog: false})
-              }
-            />,
-            <FlatButton
-              key="submit"
-              primary
-              disabled={ isDeleting }
-              label={ isDeleting ? "Deleting..." : "Delete" }
-              onTouchTap={ () => deleteConversation(id,
-                error => this.history.pushState(null, '/chat')
-              )}
-            />
-          ]}
-          modal={ false }
-          onRequestClose={
-            () => this.setState({showDeleteConversationDialog: false})
-          }
-          title="Delete this entire conversation?"
-          open={ showDeleteConversationDialog }>
-          Once you delete your copy of this conversation, it cannot be undone.
-        </Dialog>
+        isDeleting={ isDeleting }
+      />
 
       </div>
     );

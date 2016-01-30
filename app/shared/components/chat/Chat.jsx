@@ -72,7 +72,7 @@ export default React.createClass({
 
           <div className="Chat-messages">
 
-            { children && React.cloneElement(children, { flux }) }
+            { children && React.cloneElement(children, { flux, loggedUser }) }
             { !children &&
               <div className="Chat-placeholder">
                 { loading && conversations.length === 0 ?

@@ -73,6 +73,19 @@ describe("MessagesActions", () => {
 
   });
 
+  describe("newPushedMessage", () => {
+
+    it("should dispatch a pushed message", () => {
+      const message = {id: "abc", text: "a message"};
+      actions.newPushedMessage(message);
+      expect(dispatch).to.have.been.calledWith(
+        actionTypes.NEW_PUSHED_MESSAGE,
+        message
+      );
+    });
+
+  });
+
   describe("replyToShout", () => {
 
     afterEach(() => Request.prototype.end.restore());

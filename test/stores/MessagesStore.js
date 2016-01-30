@@ -165,7 +165,36 @@ describe("MessagesStore", () => {
       expect(spy).to.have.been.calledWith("change");
     });
 
-    it("should handle logout", () => {
+    it("should handle a message received via push", () => {
+      const flux = initFlux({
+        A: { id: "A", conversation_id: "foo" }
+      });
+      const store = flux.store("MessagesStore");
+      flux.dispatcher.dispatch({
+        type: actionTypes.NEW_PUSHED_MESSAGE,
+        payload: { id: "B", conversation_id: "bar" }
+      });
+      expect(store.getState().messages).to.eql({
+        A: { id: "A", conversation_id: "foo" },
+        B: { id: "B", conversation_id: "bar" }
+      });
+    });
+
+    it("should not push an existing message", () => {
+      const flux = initFlux({
+        A: { id: "A", conversation_id: "bar" }
+      });
+      const store = flux.store("MessagesStore");
+      flux.dispatcher.dispatch({
+        type: actionTypes.NEW_PUSHED_MESSAGE,
+        payload: { id: "A", conversation_id: "foo" }
+      });
+      expect(store.getState().messages).to.eql({
+        A: { id: "A", conversation_id: "bar" }
+      });
+    });
+
+    it("should reset to initial state after logout", () => {
       const flux = initFlux({
         A: { id: "A", conversation_id: "foo" },
         B: { id: "B", conversation_id: "bar" },

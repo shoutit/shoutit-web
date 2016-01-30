@@ -33,7 +33,7 @@ let All = new FeedListContainer("all"),
 	Requests = new FeedListContainer("request");
 
 
-export default function (envData) {
+export default function routes() {
 	return (
 			<Route component={Root}>
 				<Route component={App}>

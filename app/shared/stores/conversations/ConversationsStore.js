@@ -13,13 +13,15 @@ import {
   CONVERSATION_DRAFT_CHANGE,
   DELETE_CONVERSATION,
   DELETE_CONVERSATION_SUCCESS,
-  DELETE_CONVERSATION_FAILURE
+  DELETE_CONVERSATION_FAILURE,
+  RESET_LAST_LOADED_CONVERSATION
 } from "../conversations/actionTypes";
 
 import {
   REPLY_CONVERSATION,
   REPLY_CONVERSATION_SUCCESS,
-  REPLY_CONVERSATION_FAILURE
+  REPLY_CONVERSATION_FAILURE,
+  NEW_PUSHED_MESSAGE
 } from "../messages/actionTypes";
 
 import {
@@ -27,15 +29,19 @@ import {
 } from "../users/consts";
 
 const initialState = {
-  conversations: {}
+  conversations: {},
+  lastLoadedId: null
 };
 
 export const ConversationsStore = Fluxxor.createStore({
 
-  initialize({ conversations }) {
+  initialize({ conversations, lastLoadedId }) {
     this.state = {...initialState};
     if (conversations) {
       this.state.conversations = conversations;
+    }
+    if (lastLoadedId) {
+      this.state.lastLoadedId = lastLoadedId;
     }
 
     this.bindActions(
@@ -49,9 +55,11 @@ export const ConversationsStore = Fluxxor.createStore({
       REPLY_CONVERSATION, this.handleReplyStart,
       REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
       REPLY_CONVERSATION_FAILURE, this.handleReplyFailure,
+      NEW_PUSHED_MESSAGE, this.handlePushedMessage,
       DELETE_CONVERSATION, this.handleDeleteConversationStart,
       DELETE_CONVERSATION_SUCCESS, this.handleDeleteConversationSuccess,
       DELETE_CONVERSATION_FAILURE, this.handleDeleteConversationFailure,
+      RESET_LAST_LOADED_CONVERSATION, this.handleResetLastLoaded,
       LOGOUT, this.handleLogout
     );
 
@@ -63,6 +71,10 @@ export const ConversationsStore = Fluxxor.createStore({
 
   get(id) {
     return this.state.conversations[id];
+  },
+
+  getLastLoadedId() {
+    return this.state.lastLoadedId;
   },
 
   getConversations(ids=[]) {
@@ -158,6 +170,9 @@ export const ConversationsStore = Fluxxor.createStore({
         ...this.state.conversations,
         [conversation.id]: conversation
       };
+
+      this.state.lastLoadedId = id;
+
       this.emit("change");
     });
   },
@@ -199,6 +214,25 @@ export const ConversationsStore = Fluxxor.createStore({
     this.waitFor(["messages"], () => this.emit("change"));
   },
 
+  handlePushedMessage(message) {
+    this.waitFor(["messages"], () => {
+      const conversation = this.get(message.conversation_id);
+      if (!conversation) {
+        return;
+      }
+      const index = conversation.messageIds.findIndex(id => id === message.id);
+      if (index === -1) {
+        conversation.messageIds.push(message.id);
+        conversation.last_message = message;
+        conversation.messages_count += 1;
+        if (message.conversation_id !== this.getLastLoadedId()) {
+          conversation.unread_messages_count += 1;
+        }
+        this.emit("change");
+      }
+    });
+  },
+
   handleDeleteConversationStart({ id }) {
     this.get(id).isDeleting = true;
     delete this.get(id).deletingError;
@@ -213,6 +247,11 @@ export const ConversationsStore = Fluxxor.createStore({
   handleDeleteConversationFailure({ id, error }) {
     this.get(id).isDeleting = false;
     this.get(id).deletingError = error;
+    this.emit("change");
+  },
+
+  handleResetLastLoaded() {
+    this.state.lastLoadedId = null;
     this.emit("change");
   },
 
