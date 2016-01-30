@@ -1,4 +1,5 @@
 import React from "react";
+import { googleMapsKey } from "../../../../config";
 
 export default function GoogleStaticMap({
   center={ latitude: 40.714728, longitude: -73.998672 },
@@ -12,7 +13,7 @@ export default function GoogleStaticMap({
 
   const src = ["https://maps.googleapis.com/maps/api/staticmap?"];
 
-  src.push("key=AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc");
+  src.push(`key=${googleMapsKey}`);
   src.push("scale=2"); // for retina displays
 
   src.push(`center=${center.latitude},${center.longitude}`);

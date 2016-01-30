@@ -223,7 +223,8 @@ function reactServerRender(req, res) {
             // Extract title from current Router State
               title: DocumentTitle.rewind(),
               graph: meta,
-              production: process.env.NODE_ENV === "production"
+              production: process.env.NODE_ENV === "production",
+              googleMapsKey: require("../../config").googleMapsKey
             });
         });
     }
