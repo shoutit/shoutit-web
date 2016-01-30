@@ -8,7 +8,7 @@ if (process.env.BROWSER) {
 export default function ConversationsTitle({ unreadCount }) {
   return (
     <div className="ConversationsTitle">
-      <Link to="/chat">
+      <Link to="/messages">
         Conversations { unreadCount > 0 ? `(${unreadCount} unread)` : "" }
       </Link>
     </div>

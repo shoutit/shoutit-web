@@ -65,8 +65,8 @@ export default function routes() {
 						<IndexRoute component={Discover} />
 					</Route>
 				</Route>
-				<Route path="/chat" component={ Chat }>
-					<Route path="/chat/:id" component={ Conversation } />
+				<Route path="/messages" component={ Chat }>
+					<Route path="/messages/:id" component={ Conversation } />
 				</Route>
 				<Route path="static" component={Reduced}>
 					<Route path="/tos" component={Static}/>

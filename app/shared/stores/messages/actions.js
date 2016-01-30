@@ -27,11 +27,12 @@ function createTempMessage(data) {
 
 export const actions = {
 
-  replyToConversation(user, conversationId, text) {
+  replyToConversation(user, conversationId, text, attachments) {
     const message = createTempMessage({
       conversation_id: conversationId,
       text,
-      user
+      user,
+      attachments
     });
     this.dispatch(REPLY_CONVERSATION, { conversationId, message });
     client.replyToConversation(conversationId, message).end((error, res) => {

@@ -23,7 +23,7 @@ export default React.createClass({
     render() {
         return (
             <div onMouseEnter={this.onMouseHover} onMouseLeave={this.onMouseExit} className="topbar-buttons-notif">
-                <Link to="/chat"><Icon name="chat"/></Link>
+                <Link to="/messages"><Icon name="chat"/></Link>
                 {this.state.buttonIsActive?
                     <ChatNotificationBox />:
                     null
