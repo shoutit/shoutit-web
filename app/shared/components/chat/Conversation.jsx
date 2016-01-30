@@ -1,7 +1,6 @@
 import React from "react";
 import { FluxMixin, StoreWatchMixin } from "fluxxor";
 import { History } from "react-router";
-// import throttle from "lodash/function/throttle";
 
 import ConversationTitle from "../chat/ConversationTitle.jsx";
 import ConversationDeleteDialog from "../chat/ConversationDeleteDialog.jsx";
@@ -9,9 +8,11 @@ import MessagesList from "../chat/MessagesList.jsx";
 import MessageReplyForm from "../chat/MessageReplyForm.jsx";
 import Progress from "../helper/Progress.jsx";
 
-import { subscribe, unsubscribe } from "../../../client/pusher";
+let subscribe, unsubscribe;
 
 if (process.env.BROWSER) {
+  subscribe = require("../../../client/pusher").subscribe;
+  unsubscribe = require("../../../client/pusher").unsubscribe;
   require("styles/components/Conversation.scss");
 }
 
@@ -26,8 +27,7 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      showDelete: false,
-      typingUsers: []
+      showDelete: false
     };
   },
 
@@ -98,7 +98,7 @@ export default React.createClass({
     const conversation = conversationsStore.get(id);
     const loggedUser = userStore.getLoggedUser();
 
-    const state = { messages: [], loading: true, loggedUser };
+    const state = { messages: [], loading: true, loggedUser, typingUsers: [] };
 
     if (conversation) {
       const { messageIds } = conversation;
@@ -106,7 +106,7 @@ export default React.createClass({
       const messages = messageIds ? messagesStore.getMessages(messageIds) : [];
 
       // Remove typing user if last message is the same
-      const typingUsers = [ ...this.state.typingUsers];
+      const typingUsers = this.state ? [ ...this.state.typingUsers] : [];
       const typingUserIndex = typingUsers.findIndex(
         user => user.id === conversation.last_message.user.id
       );

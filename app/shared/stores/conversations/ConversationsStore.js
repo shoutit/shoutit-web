@@ -156,14 +156,15 @@ export const ConversationsStore = Fluxxor.createStore({
         ];
       }
       else {
-
-        // Loading the default batch of messages
-        conversation.previous = previous;
-        conversation.next = next;
-        conversation.messageIds = messageIds;
+        if (conversation.messageIds.length === 0) {
+          // Loading the default batch of messages
+          conversation.previous = previous;
+          conversation.next = next;
+          conversation.messageIds = messageIds;
+          conversation.last_message = results[results.length-1];
+        }
         conversation.loading = false;
         conversation.didLoadMessages = true;
-        conversation.last_message = results[results.length-1];
       }
 
       this.state.conversations = {
