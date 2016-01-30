@@ -88,7 +88,7 @@ export default class MessageReplyForm extends Component {
           />
         </div>
         <div>
-          <Button type="submit" disabled={ disabled } className="reply">
+          <Button type="submit" disabled={ disabled  || !draft.trim() } className="reply">
             Send
           </Button>
         </div>
