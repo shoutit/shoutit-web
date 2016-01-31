@@ -8,6 +8,14 @@ export default React.createClass({
         items: React.PropTypes.array.isRequired
     },
 
+    contextTypes: {
+        flux: React.PropTypes.object
+    },
+
+    componentDidMount() {
+        this.context.flux.actions.getSuggestions();
+    },
+
     render() {
         const {items} = this.props;
 
