@@ -1,12 +1,16 @@
 import Fluxxor from 'fluxxor';
 import consts from './consts';
 import client from './client';
+import assign from 'lodash/object/assign';
 
 var SuggestionsStore = Fluxxor.createStore({
     initialize(props) {
         this.state = {
             loading: false,
-            suggestion: {}
+            pages: [],
+            shouts: [],
+            tags: [],
+            users: []
         };
 
         if(props.suggestions) {
@@ -16,6 +20,13 @@ var SuggestionsStore = Fluxxor.createStore({
         this.bindActions(
             consts.GET_SUGGESTIONS, this.onGetSuggestions
         );
+    },
+
+    addSuggestionList(listObj) {
+        const keyName = Object.keys(listObj)[0];
+        if(keyName) {
+            this.state[keyName] = assign({loading: false}, {list: listObj[keyName]});
+        }
     },
 
     onGetSuggestions(payload) {
@@ -32,7 +43,12 @@ var SuggestionsStore = Fluxxor.createStore({
                 if(err) {
                     console.error(err);
                 } else {
-                    this.state.suggestion = res.body;
+                    const {pages, shouts, tags, users} = res.body;
+                    this.addSuggestionList({ pages });
+                    this.addSuggestionList({ shouts });
+                    this.addSuggestionList({ tags });
+                    this.addSuggestionList({ users });
+
                     this.state.loading = false;
 
                     this.emit('change');
