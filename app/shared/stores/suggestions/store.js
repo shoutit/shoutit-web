@@ -1,5 +1,6 @@
 import Fluxxor from 'fluxxor';
 import consts from './consts';
+import client from './client';
 
 var SuggestionsStore = Fluxxor.createStore({
     initialize(props) {
@@ -17,10 +18,27 @@ var SuggestionsStore = Fluxxor.createStore({
         );
     },
 
-    onGetSuggestion(payload) {
-        // TODO: get location from location store
-        const location = null;
-        // TODO: load suggestios here
+    onGetSuggestions(payload) {
+        // TODO: should get location for logged user from their profile for server rendering
+        // It is happening now but we need it before onComponentDidMount
+        const location = this.flux.store('locations').getState().current;
+
+        client.getSuggestions({
+            country: location.country,
+            state: location.state,
+            city: location.city,
+            page_size: 8
+            }).end((err, res) => {
+                if(err) {
+                    console.error(err);
+                } else {
+                    this.state.suggestion = res.body;
+                    this.state.loading = false;
+
+                    this.emit('change');
+                }
+            });
+
         this.state.loading = true;
         this.emit("change");
     },
