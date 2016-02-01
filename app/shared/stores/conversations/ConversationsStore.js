@@ -21,6 +21,7 @@ import {
   REPLY_CONVERSATION,
   REPLY_CONVERSATION_SUCCESS,
   REPLY_CONVERSATION_FAILURE,
+  REPLY_SHOUT_SUCCESS,
   NEW_PUSHED_MESSAGE
 } from "../messages/actionTypes";
 
@@ -55,6 +56,7 @@ export const ConversationsStore = Fluxxor.createStore({
       REPLY_CONVERSATION, this.handleReplyStart,
       REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
       REPLY_CONVERSATION_FAILURE, this.handleReplyFailure,
+      REPLY_SHOUT_SUCCESS, this.handleReplySuccess,
       NEW_PUSHED_MESSAGE, this.handlePushedMessage,
       DELETE_CONVERSATION, this.handleDeleteConversationStart,
       DELETE_CONVERSATION_SUCCESS, this.handleDeleteConversationSuccess,
