@@ -30,7 +30,7 @@ export default React.createClass({
 			redirecturi: "postmessage",
 			accesstype: "offline",
 			requestvisibleactions: "http://schemas.google.com/AddActivity",
-			scope: "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/youtube.upload",
+			scope: "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email",
 			callback(authResult) {
 				if (authResult.status.signed_in) {
 					if (!This.state.running) {
