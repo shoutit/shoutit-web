@@ -4,6 +4,13 @@ import Cards from '../cards';
 export default React.createClass({
     displayName: "Board",
 
+    statics: {
+        fetchId: 'suggestions',
+        fetchData(client, session, params) {
+            return client.misc().suggestions(session, params);
+        }
+    },
+
     propTypes: {
         items: React.PropTypes.array.isRequired
     },
