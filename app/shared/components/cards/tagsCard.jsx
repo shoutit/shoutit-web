@@ -1,5 +1,6 @@
 import React from 'react';
 import {Icon, Column, Grid} from '../helper';
+import TagListenButton from '../general/tagListenButton.jsx';
 
 export default function TagsCard(props) {
     const {suggestions} = props;
@@ -23,7 +24,7 @@ export default function TagsCard(props) {
                                 <span>{tag.name}</span>
                             </Column>
                             <Column fluid={true} size="3" >
-                                <Icon name="listen" className="card-listen-btn"/>
+                                <TagListenButton hasTitle={false} tag={tag} />
                             </Column>
                         </Grid>
                     );
