@@ -7,10 +7,10 @@ var SuggestionsStore = Fluxxor.createStore({
     initialize(props) {
         this.state = {
             loading: false,
-            pages: [],
-            shouts: [],
-            tags: [],
-            users: []
+            pages: {},
+            shouts: {},
+            tags: {},
+            users: {}
         };
 
         if(props.suggestions) {
@@ -22,10 +22,16 @@ var SuggestionsStore = Fluxxor.createStore({
         );
     },
 
-    addSuggestionList(listObj) {
-        const keyName = Object.keys(listObj)[0];
+    createSuggestionList(keyName, loading = false) {
         if(keyName) {
-            this.state[keyName] = assign({loading: false}, {list: listObj[keyName]});
+            this.state[keyName] = assign({loading: loading}, {list: []});
+        }
+    },
+
+    addSuggestionList(collection) {
+        for (keyName in collection) {
+            !this.state[keyName] && this.createSuggestionList(keyName);
+            this.state[keyName].list = collection[keyName];
         }
     },
 
@@ -44,10 +50,7 @@ var SuggestionsStore = Fluxxor.createStore({
                     console.error(err);
                 } else {
                     const {pages, shouts, tags, users} = res.body;
-                    this.addSuggestionList({ pages });
-                    this.addSuggestionList({ shouts });
-                    this.addSuggestionList({ tags });
-                    this.addSuggestionList({ users });
+                    this.addSuggestionList({pages, shouts, tags, users});
 
                     this.state.loading = false;
 
