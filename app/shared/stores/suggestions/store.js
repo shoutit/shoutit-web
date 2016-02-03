@@ -29,7 +29,7 @@ var SuggestionsStore = Fluxxor.createStore({
     },
 
     addSuggestionList(collection) {
-        for (keyName in collection) {
+        for (let keyName in collection) {
             !this.state[keyName] && this.createSuggestionList(keyName);
             this.state[keyName].list = collection[keyName];
         }
