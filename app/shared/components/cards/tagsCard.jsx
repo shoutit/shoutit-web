@@ -1,20 +1,22 @@
 import React from 'react';
-import {Icon, Column, Grid} from '../helper';
+import {Icon, Column, Grid, Progress} from '../helper';
 import TagListenButton from '../general/tagListenButton.jsx';
 
-export default function TagsCard(props) {
+const TagsCard = (props, context) => {
     const {suggestions} = props;
+
     const tags = suggestions? suggestions.tags: null;
+    const loading = suggestions.loading || tags.loading;
 
     return (
         <section className="si-card">
             <div className="card-header">
                 <h3>suggested tags</h3>
             </div>
-            {tags.loading?
+            {loading?
                 <Progress />
                 :
-                tags.list.map((tag, idx) => {
+                tags.list && tags.list.map((tag, idx) => {
                     return (
                         <Grid fluid={true} key={`card-tag-${idx}`}>
                             <Column fluid={true} clear={true} size="3" className="card-list-img">
@@ -24,7 +26,7 @@ export default function TagsCard(props) {
                                 <span>{tag.name}</span>
                             </Column>
                             <Column fluid={true} size="3" >
-                                <TagListenButton hasTitle={false} tag={tag} />
+                                <TagListenButton hasTitle={false} tag={tag} flux={context.flux}/>
                             </Column>
                         </Grid>
                     );
@@ -32,4 +34,11 @@ export default function TagsCard(props) {
             }
         </section>
     );
-}
+};
+
+// Getting flux from context
+TagsCard.contextTypes = {
+    flux: React.PropTypes.object
+};
+
+export default TagsCard;
