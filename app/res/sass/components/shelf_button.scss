@@ -1,0 +1,33 @@
+@import "../defaults.scss";
+@import "../colors.scss";
+
+.si-shelf-button {
+  cursor: pointer;
+  width: 100%;
+  .img-holder {
+    position: relative;
+    height: 26px;
+    img, div {
+      margin: 0 20px;
+    }
+  }
+  .text-holder {
+    height: 25px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 1.3rem;
+  }
+  &.loading {
+    cursor: progress;
+    .text-holder {
+      font-size: 1.1rem;
+      color: $si-light-gray;
+    }
+  }
+  &.disabled {
+    cursor: not-allowed;
+  }
+  &.not-clickable {
+    cursor: auto;
+  }
+}
