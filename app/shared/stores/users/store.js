@@ -881,8 +881,8 @@ var UserStore = Fluxxor.createStore({
           }
         }.bind(this));
 
-      this.state.users[username] = {};
-      this.state.users[username].loading = true;
+      if(!users[username]) { users[username] = {} };
+      users[username].loading = true;
       this.emit("change");
     }
   },
