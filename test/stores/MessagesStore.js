@@ -170,6 +170,7 @@ describe("MessagesStore", () => {
         A: { id: "A", conversation_id: "foo" }
       });
       const store = flux.store("MessagesStore");
+      const spy = sinon.spy(store, "emit");
       flux.dispatcher.dispatch({
         type: actionTypes.NEW_PUSHED_MESSAGE,
         payload: { id: "B", conversation_id: "bar" }
@@ -178,6 +179,7 @@ describe("MessagesStore", () => {
         A: { id: "A", conversation_id: "foo" },
         B: { id: "B", conversation_id: "bar" }
       });
+      expect(spy).to.have.been.calledWith("change");
     });
 
     it("should not push an existing message", () => {
