@@ -1,5 +1,5 @@
 /**
-* Separatng the hustle of conditional statements form the main component. 
+* Separatng the hustle of conditional statements form the main component.
 * It's to make the popuplist works for listening, listeners and listening-tags lists.
 */
 class POPUPLIST_HELPER {
@@ -24,7 +24,7 @@ class POPUPLIST_HELPER {
 
     /**
     * Getting the list of listeners from store based on the type
-    * And returning and array of user objects for listeners and listening lists 
+    * And returning and array of user objects for listeners and listening lists
     * Or returning an array of tag objects based on type
     *
     * @param {Object} store - the app state containing listens, users and tags from store
@@ -45,7 +45,6 @@ class POPUPLIST_HELPER {
           break;
         case "Tags" :
           let tagslist = listens[username].tags.list;
-          console.log(tagslist);
           return tagslist.map(item => tags[item] && tags[item].tag);
           break;
         }
@@ -54,4 +53,4 @@ class POPUPLIST_HELPER {
 }
 
 const popuplistHelper = (type, username) => new POPUPLIST_HELPER(type, username);
-export default popuplistHelper; 
+export default popuplistHelper;
