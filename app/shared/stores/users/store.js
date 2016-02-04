@@ -860,25 +860,31 @@ var UserStore = Fluxxor.createStore({
   },
 
   onLoadUser(payload) {
-    var username = payload.username;
+    const username = payload.username;
+    const {users, listens} = this.state;
+    const isUserFullyLoaded = Boolean(users[username] && users[username].location && listens[username]);
+    const isLoading = users[username]? users[username].loading: false;
 
-    client.get(username)
-      .end(function (err, res) {
-        if (err || res.status !== 200) {
-          this.onLoadUserFailed({
-            username: username
-          });
-        } else {
-          this.onLoadUserSuccess({
-            username: username,
-            res: res.body
-          });
-        }
-      }.bind(this));
+    // Checking to see if the user is already fully loaded
+    if(!isUserFullyLoaded && !isLoading) {
+      client.get(username)
+        .end(function (err, res) {
+          if (err || res.status !== 200) {
+            this.onLoadUserFailed({
+              username: username
+            });
+          } else {
+            this.onLoadUserSuccess({
+              username: username,
+              res: res.body
+            });
+          }
+        }.bind(this));
 
-    this.state.users[username] = {};
-    this.state.users[username].loading = true;
-    this.emit("change");
+      this.state.users[username] = {};
+      this.state.users[username].loading = true;
+      this.emit("change");
+    }
   },
 
   onLoadUserSuccess(payload) {
