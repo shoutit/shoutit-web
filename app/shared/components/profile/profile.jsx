@@ -13,7 +13,11 @@ import NotificationSystem from "react-notification-system";
 export default React.createClass({
   displayName: "Profile",
   mixins: [new StoreWatchMixin("users")],
+
   _notificationSystem: null,
+
+  // Use this to keep track of the latest loaded user through params
+  lastLoadedUser: null,
 
   // Need to move it later to profileOffers after moving this path to home route path
   statics: {
@@ -56,7 +60,10 @@ export default React.createClass({
   },
 
   componentDidUpdate(prevProps, prevState) {
-    this.loadUser();
+    // Run this only if user is changed
+    if(this.lastLoadedUser !== this.props.params.username) {
+      this.loadUser();
+    }
 
     this._notificationSystem = this.refs.notificationSystem;
     const status = this.state.profile.status;
@@ -78,7 +85,9 @@ export default React.createClass({
 
   loadUser() {
     const {username} = this.props.params;
+
     this.props.flux.actions.loadUser(username);
+    this.lastLoadedUser = username;
   },
 
   onModeChange(ev) {
@@ -89,8 +98,7 @@ export default React.createClass({
     const username = this.props.params.username,
       user = this.state.users[username],
       mode = this.state.editMode;
-    console.log('profile loading info for');
-    console.log(username);
+
     return (
       <DocumentTitle title={user.name + " - Shoutit"}>
         <div>
@@ -145,6 +153,7 @@ export default React.createClass({
   render() {
     const {username} = this.props.params,
       user = this.state.users[username];
+    console.log(user);
 
     if (user && user.location) {
       return this.renderProfilePage();
