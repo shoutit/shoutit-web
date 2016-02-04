@@ -1,9 +1,9 @@
 import React from 'react';
 
 export default React.createClass({
-	displayName: "Clear",
+  displayName: "Clear",
 
-	render() {
-		return (<div className="clear"></div>);
-	}
+  render() {
+    return (<div className="clear"></div>);
+  }
 });

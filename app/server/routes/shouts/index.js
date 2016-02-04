@@ -5,21 +5,21 @@
 var ShoutClient = require("../../resources").shouts();
 
 var express = require("express"),
-	      router = express.Router();
+        router = express.Router();
 
 router.route("/")
-	.get(require("./list")(ShoutClient))
-	.post(require("./create")(ShoutClient));
+  .get(require("./list")(ShoutClient))
+  .post(require("./create")(ShoutClient));
 
 router.route("/:id")
-	.get(require("./get")(ShoutClient))
-	.delete(require("./delete")(ShoutClient));
+  .get(require("./get")(ShoutClient))
+  .delete(require("./delete")(ShoutClient));
 
 router.route("/:id/related")
     .get(require("./get_related")(ShoutClient));
 
 router.route("/:id/reply")
-	.post(require("./reply")(ShoutClient));
+  .post(require("./reply")(ShoutClient));
 
 module.exports = router;
 

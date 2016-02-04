@@ -2,16 +2,16 @@ import React from 'react';
 import {Image} from '../helper';
 
 export default React.createClass({
-	displayName: "TagProfileImage",
+  displayName: "TagProfileImage",
 
-	render() {
-		let image = this.props.image ? <Image infix="tag" size="small" src={this.props.image}/> : null;
+  render() {
+    let image = this.props.image ? <Image infix="tag" size="small" src={this.props.image}/> : null;
 
-		return (
-			<div className="profile-img">
-				{image}
-				<h4>{this.props.name}</h4>
-			</div>
-		);
-	}
+    return (
+      <div className="profile-img">
+        {image}
+        <h4>{this.props.name}</h4>
+      </div>
+    );
+  }
 });

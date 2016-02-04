@@ -4,7 +4,7 @@
 
 
 var express = require("express"),
-	      apiRouter = new express.Router();
+        apiRouter = new express.Router();
 
 apiRouter.use("/shouts", require("./shouts"));
 apiRouter.use("/users", require("./users"));

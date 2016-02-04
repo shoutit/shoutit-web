@@ -4,11 +4,11 @@
 * Handling image uploads and deletes from web-app to AWS-S3
 */
 var multer  = require("multer"),
-	      Imagemin = require("imagemin"),
-	      os = require("os"),
-	      fs = require("fs"),
+        Imagemin = require("imagemin"),
+        os = require("os"),
+        fs = require("fs"),
   path = require("path"),
-	      Promise = require("bluebird"),
+        Promise = require("bluebird"),
   gm = require("gm").subClass({imageMagick: true}),
   s3Uploader = require("./s3Uploader");
 

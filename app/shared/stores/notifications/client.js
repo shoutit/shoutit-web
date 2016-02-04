@@ -7,27 +7,27 @@ import request from "superagent";
 const PREFIX = "/api/notifications";
 
 export default {
-	      loadNotifications() {
-		      return request
-			.get(PREFIX + "/");
-	},
+        loadNotifications() {
+          return request
+      .get(PREFIX + "/");
+  },
 
-	      loadMoreNotifications(query) {
-		      return this.loadNotifications().query(query);
-	},
+        loadMoreNotifications(query) {
+          return this.loadNotifications().query(query);
+  },
 
-	      resetNotifications() {
-		      return request
-			.post(PREFIX + "/reset");
-	},
+        resetNotifications() {
+          return request
+      .post(PREFIX + "/reset");
+  },
 
-	      readNotification(id) {
-		      return request
-			.post(PREFIX + "/" + id + "/read");
-	},
+        readNotification(id) {
+          return request
+      .post(PREFIX + "/" + id + "/read");
+  },
 
-	      unreadNotification(id) {
-		      return request
-			.del(PREFIX + "/" + id + "/read");
-	}
+        unreadNotification(id) {
+          return request
+      .del(PREFIX + "/" + id + "/read");
+  }
 };
