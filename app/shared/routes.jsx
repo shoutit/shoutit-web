@@ -33,7 +33,7 @@ let All = new FeedListContainer("all"),
 	Requests = new FeedListContainer("request");
 
 
-export default function (envData) {
+export default function routes() {
 	return (
 			<Route component={Root}>
 				<Route component={App}>
@@ -65,8 +65,8 @@ export default function (envData) {
 						<IndexRoute component={Discover} />
 					</Route>
 				</Route>
-				<Route path="/chat" component={ Chat }>
-					<Route path="/chat/:id" component={ Conversation } />
+				<Route path="/messages" component={ Chat }>
+					<Route path="/messages/:id" component={ Conversation } />
 				</Route>
 				<Route path="static" component={Reduced}>
 					<Route path="/tos" component={Static}/>

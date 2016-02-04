@@ -21,7 +21,7 @@ describe("ConversationItem", () => {
     const output = tree.getRenderOutput();
 
     expect(output.type).to.equal(Link);
-    expect(output.props.to).to.equal("/chat/100");
+    expect(output.props.to).to.equal("/messages/100");
     expect(output.props.className).to.contain("ConversationItem");
 
     expect(tree.findNode(".ConversationItem-usersImage")).to.be.defined;

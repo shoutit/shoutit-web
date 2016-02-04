@@ -1,7 +1,8 @@
 import Fluxxor from "fluxxor";
 
 import {
-  LOAD_MESSAGES_SUCCESS
+  LOAD_MESSAGES_SUCCESS,
+  DELETE_CONVERSATION_SUCCESS
 } from "../conversations/actionTypes";
 
 import {
@@ -13,8 +14,13 @@ import {
   SEND_MESSAGE_FAILURE,
   REPLY_SHOUT,
   REPLY_SHOUT_SUCCESS,
-  REPLY_SHOUT_FAILURE
+  REPLY_SHOUT_FAILURE,
+  NEW_PUSHED_MESSAGE
 } from "../messages/actionTypes";
+
+import {
+  LOGOUT
+} from "../users/consts";
 
 const initialState = {
   messages: {}
@@ -22,8 +28,8 @@ const initialState = {
 
 export const MessagesStore = Fluxxor.createStore({
 
-  initialize({messages}) {
-    this.state = initialState;
+  initialize({ messages }) {
+    this.state = {...initialState};
     if (messages) {
       this.state.messages = messages;
     }
@@ -38,7 +44,10 @@ export const MessagesStore = Fluxxor.createStore({
       REPLY_SHOUT_FAILURE, this.handleSendFailure,
       SEND_MESSAGE, this.handleSendStart,
       SEND_MESSAGE_SUCCESS, this.handleSendSuccess,
-      SEND_MESSAGE_FAILURE, this.handleSendFailure
+      SEND_MESSAGE_FAILURE, this.handleSendFailure,
+      DELETE_CONVERSATION_SUCCESS, this.handleDeleteConversationSuccess,
+      NEW_PUSHED_MESSAGE, this.handlePush,
+      LOGOUT, this.handleLogout
     );
 
   },
@@ -67,7 +76,10 @@ export const MessagesStore = Fluxxor.createStore({
 
   handleSendStart({ message }) {
     message.sending = true;
-    this.state.messages[message.id] = message;
+    this.state.messages = {
+      ...this.state.messages,
+      [message.id]: message
+    };
     this.emit("change");
   },
 
@@ -80,6 +92,27 @@ export const MessagesStore = Fluxxor.createStore({
   handleSendFailure({ message, error }) {
     this.state.messages[message.id].sending = false;
     this.state.messages[message.id].sendError = error;
+    this.emit("change");
+  },
+
+  handleDeleteConversationSuccess({ id }) {
+    this.waitFor(["conversations"], () => {
+      Object.keys(this.state.messages)
+        .filter(messageId => this.get(messageId).conversation_id === id)
+        .forEach(messageId => delete this.state.messages[messageId]);
+      this.emit("change");
+    });
+  },
+
+  handlePush(message) {
+    if (!this.get(message.id)) {
+      this.state.messages[message.id] = message;
+      this.emit("change");
+    }
+  },
+
+  handleLogout() {
+    this.state = {...initialState};
     this.emit("change");
   },
 

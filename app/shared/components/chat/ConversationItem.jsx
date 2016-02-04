@@ -26,7 +26,7 @@ export default function ConversationItem({ id, type, users, last_message, about,
   }
 
   return (
-    <Link to={ `/chat/${id}` } className={ className }>
+    <Link to={ `/messages/${id}` } className={ className }>
       <div className="ConversationItem-usersImage">
         <ManyUsersImage users={ users.filter(user => user.username !== me) } />
       </div>

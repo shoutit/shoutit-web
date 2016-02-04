@@ -5,6 +5,10 @@ import statuses from '../../consts/statuses.js';
 
 const {LISTEN_BTN_LOADING} = statuses;
 
+if(process.env.BROWSER) {
+    require("styles/components/shelf_button.scss");
+}
+
 export default React.createClass({
     mixins: [new StoreWatchMixin('users')],
     displayName: "TagListenButton",

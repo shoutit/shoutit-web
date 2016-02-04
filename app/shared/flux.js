@@ -8,6 +8,9 @@ import { ChatStore } from "./stores/chat/ChatStore";
 import { ConversationsStore } from "./stores/conversations/ConversationsStore";
 import { MessagesStore } from "./stores/messages/MessagesStore";
 
+import suggestionsActions from "./stores/suggestions/actions";
+import SuggestionsStore from "./stores/suggestions/store";
+
 var merge = require('lodash/object/merge'),
 	Fluxxor = require("fluxxor"),
 	UsersStore = require('./stores/users/store'),
@@ -39,12 +42,15 @@ module.exports = function (router, user, data, params, currencies, categories, s
         chat: new ChatStore(merge({}, data, {loggedUser: user, params})),
         messages: new MessagesStore(merge({}, data, {loggedUser: user, params})),
 		notifications: new NotificationsStore({data}),
-		discovers: new DiscoversStore(data)
+		discovers: new DiscoversStore(data),
+		suggestions: new SuggestionsStore(data)
+
 	};
 
 	var actions = merge({},
 		userActions, shoutActions, tagActions, searchActions, locationsActions,
-		messagesActions, chatActions, conversationsActions, notificationsActions, discoversActions);
+		messagesActions, chatActions, conversationsActions, notificationsActions,
+		discoversActions, suggestionsActions);
 
   var flux = new Fluxxor.Flux(stores, actions);
 

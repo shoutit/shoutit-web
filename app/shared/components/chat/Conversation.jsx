@@ -1,14 +1,19 @@
 import React from "react";
 import { FluxMixin, StoreWatchMixin } from "fluxxor";
-import Dialog from "material-ui/lib/dialog";
-import FlatButton from "material-ui/lib/flat-button";
+import { History } from "react-router";
 
 import ConversationTitle from "../chat/ConversationTitle.jsx";
+import ConversationDeleteDialog from "../chat/ConversationDeleteDialog.jsx";
+import UserShoutsSelectDialog from "../user/UserShoutsSelectDialog.jsx";
 import MessagesList from "../chat/MessagesList.jsx";
 import MessageReplyForm from "../chat/MessageReplyForm.jsx";
 import Progress from "../helper/Progress.jsx";
 
+let subscribe, unsubscribe;
+
 if (process.env.BROWSER) {
+  subscribe = require("../../../client/pusher").subscribe;
+  unsubscribe = require("../../../client/pusher").unsubscribe;
   require("styles/components/Conversation.scss");
 }
 
@@ -19,15 +24,18 @@ export default React.createClass({
 
   displayName: "Conversation",
 
-  mixins: [new FluxMixin(React), new StoreWatchMixin("conversations")],
+  mixins: [new FluxMixin(React), new StoreWatchMixin("conversations"), History],
 
   getInitialState() {
     return {
-      showDeleteConversationDialog: false
+      showDelete: false,
+      showAttachShout: false
     };
   },
+
   componentDidMount() {
     this.loadData();
+    this.subscribePresenceChannel();
     if (this.list) {
       this.list.scrollTop = this.list.scrollHeight;
       this.setState({
@@ -50,6 +58,8 @@ export default React.createClass({
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.params.id !== this.props.params.id) {
       this.loadData();
+      this.unsubscribePresenceChannel();
+      this.subscribePresenceChannel();
     }
     const { messages } = this.state;
     if (prevState.messages.length !== messages.length && this.list) {
@@ -74,32 +84,40 @@ export default React.createClass({
 
   },
 
+  componentWillUnmount() {
+    this.unsubscribePresenceChannel();
+  },
+
   list: null,
+  presenceChannel: null,
+  typingTimeouts: {},
 
   getStateFromFlux() {
     const { id } = this.props.params;
     const conversationsStore = this.getFlux().store("conversations");
     const messagesStore = this.getFlux().store("messages");
     const userStore = this.getFlux().store("users");
-
     const conversation = conversationsStore.get(id);
     const loggedUser = userStore.getLoggedUser();
-    const state = {
-      messages: [],
-      loading: true,
-      loggedUser
-    };
+
+    const state = { messages: [], loading: true, loggedUser, typingUsers: [] };
+
     if (conversation) {
       const { messageIds } = conversation;
       const draft = conversationsStore.getDraft(id);
       const messages = messageIds ? messagesStore.getMessages(messageIds) : [];
-      return {
-        ...state,
-        ...conversation,
-        messages,
-        draft
-      };
+
+      // Remove typing user if last message is the same
+      const typingUsers = this.state ? [ ...this.state.typingUsers] : [];
+      const typingUserIndex = typingUsers.findIndex(
+        user => user.id === conversation.last_message.user.id
+      );
+      if (typingUserIndex > -1) {
+        typingUsers.splice(typingUserIndex, 1);
+      }
+      return { ...state, ...conversation, typingUsers, messages, draft };
     }
+
     return state;
   },
 
@@ -108,12 +126,30 @@ export default React.createClass({
     const flux = this.getFlux();
     const conversation = flux.store("conversations").get(id);
     if (conversation && conversation.didLoad && conversation.didLoadMessages) {
-      // Do not request data again if already loaded
       const messages = flux.store("messages").getMessages(conversation.messageIds);
       this.setState({...conversation, messages});
-      return;
     }
     this.getFlux().actions.loadMessages(id);
+  },
+
+  subscribePresenceChannel() {
+    const { params, loggedUser } = this.props;
+    this.presenceChannel = subscribe(
+      `presence-c-${params.id}`, loggedUser, (err, channel) => {
+        if (err) {
+          console.error(err); // eslint-disable-line no-console
+          return;
+        }
+        channel.bind("client-user_is_typing", user => this.handleUserIsTyping(user));
+      }
+    );
+  },
+
+  unsubscribePresenceChannel() {
+    if (this.presenceChannel) {
+      unsubscribe(this.presenceChannel);
+      this.presenceChannel = null;
+    }
   },
 
   handleListScroll(e) {
@@ -130,81 +166,133 @@ export default React.createClass({
         messages[0].created_at
       );
     }
-
     this.setState({ scrollTop });
+  },
+
+  clearTypingTimeout(user) {
+    clearTimeout(this.typingTimeouts[user.id]);
+    delete this.typingTimeouts[user.id];
+  },
+
+  setTypingTimeout(user) {
+    this.typingTimeouts[user.id] = setTimeout(() => {
+      const index = this.state.typingUsers.findIndex(
+        typingUser => typingUser.id === user.id
+      );
+      const typingUsers = [ ...this.state.typingUsers];
+      typingUsers.splice(index, 1);
+      this.setState({ typingUsers });
+    }, 3000);
+  },
+
+  handleUserIsTyping(user) {
+    const { typingUsers } = this.state;
+    const { loggedUser } = this.props;
+
+    const isAlreadyTyping = typingUsers.find(typingUser => typingUser.id === user.id);
+
+    if (loggedUser.id === user.id) {
+      return;
+    }
+
+    if (isAlreadyTyping) {
+      this.clearTypingTimeout(user);
+      this.setTypingTimeout(user);
+    }
+    else {
+      this.setState({
+        typingUsers: [...this.state.typingUsers, user]
+      }, () => this.setTypingTimeout(user));
+    }
 
   },
 
   render() {
 
     const { id } = this.props.params;
-    const { messages, draft, didLoad, loading, loadingPrevious, loggedUser, users, about,
-      type, error, showDeleteConversationDialog } = this.state;
+    const { messages, draft, didLoad, loading, loadingPrevious, loggedUser, users,
+      about, type, error, showDelete, isDeleting, typingUsers, showAttachShout } = this.state;
 
-    const { conversationDraftChange, replyToConversation, deleteConversation }
+    const { replyToConversation, deleteConversation, conversationDraftChange }
       = this.getFlux().actions;
-
-    const hasMessages = messages.length > 0 ;
 
     return (
       <div className="Conversation">
 
       { didLoad &&
         <ConversationTitle
-            onDeleteConversationTouchTap={ () => this.setState({showDeleteConversationDialog: true}) }
-            onDeleteMessagesTouchTap={ () => {} }
-            users={ users }
-            about={ about }
-            type={ type }
+          onDeleteConversationTouchTap={ () => this.setState({showDelete: true}) }
+          onDeleteMessagesTouchTap={ () => {} }
+          users={ users }
+          about={ about }
+          type={ type }
+          me={ loggedUser && loggedUser.username }
+        />
+      }
+
+      { error && !loading &&
+        <div className="Conversation-error">
+          { error.status && error.status === 404 ? "Page not found" : "Error loading this chat." }
+        </div>
+      }
+
+      { didLoad && !messages.length > 0 && loading && <Progress centerVertical /> }
+
+      { messages.length > 0 &&
+        <div className="Conversation-listContainer"
+          ref={ ref => this.list = ref }
+          onScroll={ this.handleListScroll }>
+          <div className="Conversation-listTopSeparator" />
+          <div
+            className="Conversation-progress"
+            style={ loadingPrevious ? null : { visibility: "hidden" }}>
+            <Progress />
+          </div>
+          <MessagesList
+            typingUsers={ typingUsers }
+            messages={ messages }
             me={ loggedUser && loggedUser.username }
           />
+        </div>
+      }
+
+      { messages.length > 0 &&
+        <div className="Conversation-replyFormContainer">
+          <MessageReplyForm
+            autoFocus
+            placeholder="Add a reply"
+            draft={ draft }
+            onTextChange={ text => conversationDraftChange(id, text) }
+            onTyping={ () =>
+              this.presenceChannel.trigger("client-user_is_typing", loggedUser)
+            }
+            onAttachShoutClick={ () => this.setState({showAttachShout: true}) }
+            onSubmit={ () => replyToConversation(loggedUser, id, draft) }
+          />
+        </div>
+      }
+
+      <ConversationDeleteDialog
+        open={ showDelete }
+        onRequestClose={ () => this.setState({ showDelete: false }) }
+        onConfirm={() => deleteConversation(id,
+          () => this.history.pushState(null, "/chat") )
         }
+        isDeleting={ isDeleting }
+      />
 
-
-        { error && !loading && <div className="Conversation-error">Error loading this chat.</div> }
-
-        { didLoad && !hasMessages && loading && <Progress centerVertical /> }
-
-        { hasMessages &&
-          <div className="Conversation-listContainer"
-            ref={ ref => this.list = ref }
-            onScroll={ this.handleListScroll }>
-
-            <div className="Conversation-listTopSeparator" />
-
-            <div className="Conversation-progress"
-              style={ loadingPrevious ? null : { visibility: "hidden" }}>
-              <Progress />
-            </div>
-
-            <MessagesList messages={ messages } me={ loggedUser && loggedUser.username } />
-
-          </div>
-        }
-
-        { hasMessages &&
-          <div className="Conversation-replyFormContainer">
-            <MessageReplyForm
-              autoFocus
-              placeholder="Add a reply"
-              draft={ draft }
-              onTextChange={ text => conversationDraftChange(id, text) }
-              onSubmit={ () => replyToConversation(loggedUser, id, draft) }
-            />
-          </div>
-        }
-
-        <Dialog
-          actions={[
-            <FlatButton label="Cancel" secondary onTouchTap={ () => this.setState({showDeleteConversationDialog: false}) } />,
-            <FlatButton label="Delete" primary onTouchTap={ () => this.setState({showDeleteConversationDialog: false}) } />
-          ]}
-          modal={ false }
-          onRequestClose={ () => this.setState({showDeleteConversationDialog: false})}
-          title="Delete this entire conversation?"
-          open={showDeleteConversationDialog}>
-          Once you delete your copy of this conversation, it cannot be undone.
-        </Dialog>
+      <UserShoutsSelectDialog
+        buttonLabel="Send"
+        user={ loggedUser }
+        flux={ this.getFlux() }
+        open={ showAttachShout }
+        onRequestClose={ () => this.setState({ showAttachShout: false }) }
+        onSelectionConfirm={ shouts => {
+          const attachments = shouts.map(shout => ({ shout }));
+          replyToConversation(loggedUser, id, draft, attachments);
+          this.setState({ showAttachShout: false });
+        }}
+      />
 
       </div>
     );

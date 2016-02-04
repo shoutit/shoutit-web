@@ -38,7 +38,7 @@ export default React.createClass({
                             {this.props.children}
                         </Column>
                         <Column size="3">
-                            <Board items={[]}/>
+                            <Board items={["tagsCard", "listenToCard", "suggestShoutCard"]}/>
                         </Column>
                     </Grid>
                 </div>

@@ -1,7 +1,8 @@
 import React from "react";
+import moment from "moment";
 
 import MessageGroup from "../chat/MessageGroup.jsx";
-import moment from "moment";
+import MessagesTypingUsers from "../chat/MessagesTypingUsers.jsx";
 
 /**
  * Return an array of messages grouped by its username
@@ -11,9 +12,14 @@ import moment from "moment";
  */
 function groupMessages(messages) {
   return messages.reduce((groups, message, i, messages) => {
-    const isNewBlock = i === 0 || messages[i-1].user.username !== message.user.username;
+
+    const isNewBlock = i === 0 ||
+      !message.user || !messages[i-1].user || // consider if user left conversation
+      messages[i-1].user.username !== message.user.username;
+
     const shouldDisplayDay = i === 0 ||
       !moment.unix(messages[i - 1].created_at).isSame(moment.unix(message.created_at), "day");
+
     if (isNewBlock) {
       const group = {
         messages: [message],
@@ -40,27 +46,30 @@ function groupMessages(messages) {
  * @param {Array}  props.messages
  * @param {String}  props.me
  */
-export default function MessageList({ messages, me, onRetryClick }) {
+export default function MessageList({ messages, me, onRetryClick, typingUsers=[] }) {
   const groups = groupMessages(messages);
   return (
     <div>
 
       { groups.map( group => {
         const { messages, dayIndexes } = group;
-        const isMe = messages[0].user.username === me;
-
+        const isMe = messages[0].user && messages[0].user.username === me;
+        const className = `MessagesList-group${isMe ? " isMe" : ""}`;
         return (
-          <div key={ messages[0].id } className={ `MessagesList-group${isMe ? " isMe" : ""}` }>
+          <div key={ messages[0].id } className={ className }>
             <MessageGroup
               onRetryClick={ onRetryClick }
               dayIndexes={ dayIndexes }
               messages={ messages }
-              showUserImage={ !isMe }
+              showUserImage={ messages[0].user && !isMe }
               justify={ isMe ? "end" : "start" }
             />
           </div>
         );})
       }
+
+      <MessagesTypingUsers users={ typingUsers } />
+
     </div>
   );
 

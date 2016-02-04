@@ -28,7 +28,7 @@ export default React.createClass({
         if (error) {
           throw(error);
         }
-        this.history.pushState(null, `/chat/${message.conversation_id}`);
+        this.history.pushState(null, `/messages/${message.conversation_id}`);
       }
     );
   },

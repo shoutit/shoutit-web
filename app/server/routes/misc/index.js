@@ -7,5 +7,8 @@ var express = require('express'),
 router.route('/geocode')
     .get(require('./geocode')(ShoutClient));
 
+router.route('/suggestions')
+    .get(require('./suggestions')(ShoutClient));
+
 
 module.exports = router;
