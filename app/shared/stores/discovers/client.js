@@ -3,24 +3,24 @@ const PREFIX = "/api/discover";
 
 export default {
   getDiscover(query) {
-      return request
+    return request
             .get(PREFIX + "/")
             .query({
               country: query,
               page_size: 8
             });
-    },
+  },
 
   getDiscoverList(id) {
-      return request
+    return request
             .get(PREFIX + "/" + id);
-    },
+  },
 
   getDiscoverShouts(id) {
-      return request
+    return request
             .get(PREFIX + "/" + id + "/shouts")
             .query({
               page_size: 8
             });
-    }
+  }
 };

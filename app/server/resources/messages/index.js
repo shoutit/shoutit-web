@@ -5,7 +5,7 @@
 var SUBROUTE = "messages";
 
 module.exports = function () {
-	  return {
-		  del: require("./delete")(this, SUBROUTE)
-	};
+  return {
+    del: require("./delete")(this, SUBROUTE)
+  };
 };

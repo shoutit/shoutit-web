@@ -5,10 +5,10 @@
 var ShoutClient = require("../../resources").messages();
 
 var express = require("express"),
-	  router = new express.Router();
+  router = new express.Router();
 
 router.route("/:id")
-	.delete(require("./delete")(ShoutClient));
+  .delete(require("./delete")(ShoutClient));
 
 module.exports = router;
 

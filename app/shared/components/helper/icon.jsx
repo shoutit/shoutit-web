@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default React.createClass({
-	displayName: "Icon",
+  displayName: "Icon",
 
     getDefaultProps() {
         return {
@@ -9,12 +9,12 @@ export default React.createClass({
         }
     },
 
-	render() {
-		let className = "icon icon-" + this.props.name + " " + (this.props.className || "");
+  render() {
+    let className = "icon icon-" + this.props.name + " " + (this.props.className || "");
         let icon = this.props.onSwitchClick? 
                 <div className={className} style={this.props.style} onClick={this.props.onSwitchClick}/>:
                 <div className={className} style={this.props.style}/>;
 
-		return icon;
-	}
+    return icon;
+  }
 });

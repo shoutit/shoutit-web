@@ -9,78 +9,78 @@ const S3_ENDPOINT = "/services/data_image_upload";
 
 export default {
   update(update) {
-      return request
+    return request
             .post(PREFIX + "/me")
             .type("json")
             .accept("json")
             .send(update);
-    },
+  },
 
   changePass(query) {
-      return request
+    return request
             .post(AUTH_PREFIX + "/change_password")
             .send(query);
-    },
+  },
 
   resendEmail(email) {
-      return request
+    return request
             .post(AUTH_PREFIX + "/verify_email")
             .send({email:email});
-    },
+  },
 
   verify(payload) {
-      return request
+    return request
             .get("/services/verify_email")
             .query({verify_token: payload.token});
 
-    },
+  },
 
   get(username) {
-      return request
+    return request
             .get(PREFIX + "/" + username);
-    },
+  },
 
   getListening(username, query) {
-      return request
+    return request
             .get(PREFIX + "/" + username + "/listening")
             .query(query);
-    },
+  },
 
   getTags(username, query = {}) {
-      query.type = "tags";
+    query.type = "tags";
         
-      return request
+    return request
             .get(PREFIX + "/" + username + "/listening")
             .query(query);
-    },
+  },
 
   getListeners(username, query) {
-      return request
+    return request
             .get(PREFIX + "/" + username + "/listeners")
             .query(query);
-    },
+  },
 
   listen(username) {
-      return request
+    return request
             .post(PREFIX + "/" + username + "/listen");
-    },
+  },
 
   stopListen(username) {
-      return request
+    return request
             .del(PREFIX + "/" + username + "/listen");
-    },
+  },
 
   loadShouts(username, query) {
-      return request
+    return request
             .get(PREFIX + "/" + username + "/shouts")
             .query(query);
-    },
+  },
 
   list(query) {
-      return request
+    return request
             .get(PREFIX + "/")
             .query(query);
-    },
+  },
 
     /** 
      * This function uploads base64 Data URI images to S3 server to any buckets
@@ -90,33 +90,33 @@ export default {
      * @returns {object} with .end(err, res) method which could be used to retrieve S3 Link
      */
   uploadDataImage(dataImage, bucket) {
-      return request
+    return request
                 .post(S3_ENDPOINT, bucket)
                 .send({dataImage, bucket});
-    },
+  },
 
   signup(payload) {
-      return request
+    return request
             .post("/auth/signup")
             .type("json")
             .accept("json")
             .send(payload);
-    },
+  },
 
   forgetPass(email) {
-      return request
+    return request
             .post("/auth/forget")
             .type("json")
             .accept("json")
             .send({email:email});
-    },
+  },
 
   login(token, type) {
-      let endpoint;
-      let dataPackage = {token:token};
+    let endpoint;
+    let dataPackage = {token:token};
 
-      if (type === "gplus")
-          endpoint = "/auth/gplus";
+    if (type === "gplus")
+      endpoint = "/auth/gplus";
         else if (type === "fb")
           endpoint = "/auth/fb";
         else if (type === "shoutit") {
@@ -124,15 +124,15 @@ export default {
           dataPackage = {email:token.email,pass:token.pass};
         }
 
-      return request
+    return request
             .post(endpoint)
             .type("json")
             .accept("json")
             .send(dataPackage);
-    },
+  },
 
   logout() {
-      return request.get("/auth/logout")
+    return request.get("/auth/logout")
             .accept("json");
-    }
+  }
 };

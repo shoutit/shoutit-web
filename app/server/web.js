@@ -105,7 +105,7 @@ function fetchData(userSession, routes, params, query) {
   return Promise.all(routes.filter(function (route) {
     return route.component? route.component.fetchData: false;
   }).map(function (route) {
-      return new Promise(function (resolve) {
+    return new Promise(function (resolve) {
       route.component.fetchData(ShoutitClient, userSession, params, route.name, query)
         .on("complete", function (result, resp) {
           if (result instanceof Error || resp.statusCode !== 200) {
@@ -118,7 +118,7 @@ function fetchData(userSession, routes, params, query) {
         console.log("Fetched data for", route.component.fetchId);
         data[route.component.fetchId] = fetched;
       });
-    })).then(function () {
+  })).then(function () {
     return data;
   });
 }
@@ -131,23 +131,11 @@ function getMetaFromData(relUrl, innerRoute, data) {
   case "shout":
     var shout = data.shout;
     if (shout) {
-        if (shout.type == "offer") {
-            addData = {
-              type: "shout",
-              shoutType: "offer",
-              shoutTypePrefix: "Offer",
-              title: shout.title + " - Shoutit",
-              image: shout.thumbnail,
-              user: shout.user.name,
-              description: "Offer by " + shout.user.name + ": " + shout.text,
-              price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
-              location: shout.location.city + " - " + shout.location.country
-            };
-          } else if (shout.type === "request") {
-            addData = {
+      if (shout.type == "offer") {
+        addData = {
             type: "shout",
-            shoutType: "request",
-            shoutTypePrefix: "Request",
+            shoutType: "offer",
+            shoutTypePrefix: "Offer",
             title: shout.title + " - Shoutit",
             image: shout.thumbnail,
             user: shout.user.name,
@@ -155,9 +143,21 @@ function getMetaFromData(relUrl, innerRoute, data) {
             price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
             location: shout.location.city + " - " + shout.location.country
           };
-          }
+      } else if (shout.type === "request") {
+          addData = {
+              type: "shout",
+              shoutType: "request",
+              shoutTypePrefix: "Request",
+              title: shout.title + " - Shoutit",
+              image: shout.thumbnail,
+              user: shout.user.name,
+              description: "Offer by " + shout.user.name + ": " + shout.text,
+              price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
+              location: shout.location.city + " - " + shout.location.country
+            };
+        }
 
-      }
+    }
     break;
   case "user":
   case "useroffers":
@@ -167,19 +167,19 @@ function getMetaFromData(relUrl, innerRoute, data) {
   case "listening":
     var user = data.user;
     if (user) {
-        addData = {
-            type: "user",
-            title: user.name + " - Shoutit",
-            image: user.image,
-            description: user.name + "'s profile on Shoutit - See the users shouts."
-          };
-      }
+      addData = {
+        type: "user",
+        title: user.name + " - Shoutit",
+        image: user.image,
+        description: user.name + "'s profile on Shoutit - See the users shouts."
+      };
+    }
     break;
   default:
     addData = {
-        type: "home",
-        image: url.resolve(SERVER_ROOT, graphData.image)
-      };
+      type: "home",
+      image: url.resolve(SERVER_ROOT, graphData.image)
+    };
   }
   return merge({
     url: url.resolve(SERVER_ROOT, relUrl)
@@ -192,14 +192,14 @@ function reactServerRender(req, res) {
   // Run router to determine the desired state
   ReactRouter.match({ routes: Routes, location: req.url }, function(error, redirectLocation, renderProps) {
     if (redirectLocation) {
-        res.redirect(301, redirectLocation.pathname + redirectLocation.search);
-      } else if (error) {
-          res.status(500).send(error.message);
-        } else if (!renderProps) {
-      res.status(404).send("Not found");
-    } else {
-      console.time("ApiFetch");
-      fetchData(req.session, renderProps.routes, renderProps.params, renderProps.location.query)
+      res.redirect(301, redirectLocation.pathname + redirectLocation.search);
+    } else if (error) {
+      res.status(500).send(error.message);
+    } else if (!renderProps) {
+        res.status(404).send("Not found");
+      } else {
+        console.time("ApiFetch");
+        fetchData(req.session, renderProps.routes, renderProps.params, renderProps.location.query)
         .then(function (data) {
           console.timeEnd("ApiFetch");
 
@@ -227,7 +227,7 @@ function reactServerRender(req, res) {
             googleMapsKey: require("../../config").googleMapsKey
           });
         });
-    }
+      }
   });
 
 }
@@ -251,11 +251,11 @@ function detectionMiddleware(req, res, next) {
   if (/like Mac OS X/.test(ua)) {
     $.iOS = /CPU( iPhone)? OS ([0-9\._]+) like Mac OS X/.exec(ua)[2].replace(/_/g, ".");
     if (/iPhone/.test(ua)) {
-        $.iPhone = /iPhone/.test(ua);
-      }
+      $.iPhone = /iPhone/.test(ua);
+    }
     if (/iPad/.test(ua)) {
-        $.iPad = /iPad/.test(ua);
-      }
+      $.iPad = /iPad/.test(ua);
+    }
   }
 
   if (/Android/.test(ua)) {
@@ -305,25 +305,25 @@ module.exports = function (app) {
 
   if (process.env.NODE_ENV === "developmentLocal") {
     var webpackDevMiddleware = require("webpack-dev-middleware"),
-        webpack = require("webpack");
+      webpack = require("webpack");
 
     app.use(webpackDevMiddleware(webpack(
         require("../../webpack.config")),
-        {
-          publicPath: "/",
-          stats: {
-            hash: true,
-            version: false,
-            timings: true,
-            assets: false,
-            chunks: true,
-            chunkModules: false,
-            modules: true,
-            cached: false,
-            reasons: false,
-            colors: true
-          }
-        }));
+      {
+        publicPath: "/",
+        stats: {
+          hash: true,
+          version: false,
+          timings: true,
+          assets: false,
+          chunks: true,
+          chunkModules: false,
+          modules: true,
+          cached: false,
+          reasons: false,
+          colors: true
+        }
+      }));
   }
 
   app.use(morgan("tiny"));
@@ -366,18 +366,18 @@ module.exports = function (app) {
   //Redirect all trailing slashes
   app.use(function (req, res, next) {
     if (req.path.substr(-1) == "/" && req.path.length > 1) {
-        var query = req.url.slice(req.path.length);
-        res.redirect(301, req.path.slice(0, -1) + query);
-      } else {
-        next();
-      }
+      var query = req.url.slice(req.path.length);
+      res.redirect(301, req.path.slice(0, -1) + query);
+    } else {
+      next();
+    }
   });
 
   // Adding user agent to a global navigator (will be used by material-ui components)
   app.use(function(req, res, next) {
     GLOBAL.navigator = {
-        userAgent: req.headers["user-agent"]
-      };
+      userAgent: req.headers["user-agent"]
+    };
     next();
   });
 
@@ -402,10 +402,10 @@ module.exports = function (app) {
     var user = req.session ? req.session.user : null;
 
     if (user && user.username) {
-        res.redirect("/user/" + user.username);
-      } else {
-        res.redirect("/login");
-      }
+      res.redirect("/user/" + user.username);
+    } else {
+      res.redirect("/login");
+    }
   });
 
   app.use("/search/:term/shouts", function shoutSearchRedirect(req, res) {
@@ -414,28 +414,28 @@ module.exports = function (app) {
 
   app.use("/messages/?*", function redirectNotLoggedUser(req, res, next) {
     if (req.session && req.session.user) {
-        next();
-      } else {
-        res.redirect("/login");
-      }
+      next();
+    } else {
+      res.redirect("/login");
+    }
   });
 
   app.use("/app", detectionMiddleware, function (req, res) {
     console.log(req.devices);
 
     if (req.devices) {
-        if (req.devices.iOS || req.devices.iPhone || req.devices.iPad) {
-            console.log("Detected iOS Device");
-            res.redirect("https://geo.itunes.apple.com/de/app/shoutit-app/id947017118?mt=8");
-          } else if (req.devices.Android) {
-            console.log("Detected Android Device");
-            res.redirect("https://play.google.com/store/apps/details?id=com.shoutit.app.android");
-          } else {
-            res.redirect("/");
-          }
-      } else {
-        res.redirect("/");
-      }
+      if (req.devices.iOS || req.devices.iPhone || req.devices.iPad) {
+        console.log("Detected iOS Device");
+        res.redirect("https://geo.itunes.apple.com/de/app/shoutit-app/id947017118?mt=8");
+      } else if (req.devices.Android) {
+          console.log("Detected Android Device");
+          res.redirect("https://play.google.com/store/apps/details?id=com.shoutit.app.android");
+        } else {
+          res.redirect("/");
+        }
+    } else {
+      res.redirect("/");
+    }
   }
   );
 
@@ -443,7 +443,7 @@ module.exports = function (app) {
   var smsCodeRegex = /^(z|Z)[a-zA-Z0-9]{5,9}/;
   app.use("/:smsCode", function redirectSMSCode(req, res, next) {
     if (req.params.smsCode && req.params.smsCode.match(smsCodeRegex)) {
-        oauth.sms(req, req.params.smsCode)
+      oauth.sms(req, req.params.smsCode)
         .then(function (user) {
           ShoutitClient.users().getShouts(req.session, user.username)
             .on("complete", function (result, resp) {
@@ -457,9 +457,9 @@ module.exports = function (app) {
         }, function () {
           res.redirect("/");
         });
-      } else {
-        next();
-      }
+    } else {
+      next();
+    }
   });
 
   app.get("*", reactServerRender);

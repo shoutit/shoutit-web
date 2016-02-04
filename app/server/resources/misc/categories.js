@@ -3,7 +3,7 @@
  */
 
 module.exports = function (client, path) {
-	  return function () {
-		  return client.get(path + "/categories");
-	};
+  return function () {
+    return client.get(path + "/categories");
+  };
 };
