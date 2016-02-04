@@ -8,7 +8,7 @@ if (process.env.BROWSER) {
   require("styles/components/ConversationItem.scss");
 }
 
-export default function ConversationItem({ id, type, users, last_message, about, me, selected=false, unread=false }) {
+export default function ConversationItem({ id, type, users, last_message, about, me, selected=false, unread=false, onClick }) {
 
   const partecipants = users
     .filter(user => user.username !== me)
@@ -26,7 +26,7 @@ export default function ConversationItem({ id, type, users, last_message, about,
   }
 
   return (
-    <Link to={ `/messages/${id}` } className={ className }>
+    <Link onClick={ onClick } to={ `/messages/${id}` } className={ className }>
       <div className="ConversationItem-usersImage">
         <ManyUsersImage users={ users.filter(user => user.username !== me) } />
       </div>
