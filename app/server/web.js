@@ -25,7 +25,7 @@ var oauth = require("./auth/oauth"),
   imageUpload = require("./services/imageUpload");
 
 var Flux = require("../shared/flux"),
-  Routes = require("../shared/routes.jsx")(null),
+  routes = require("../shared/routes"),
   DocumentTitle = require("react-document-title");
 
 // middleware
@@ -190,7 +190,7 @@ function reactServerRender(req, res) {
   var user = req.session ? req.session.user : null;
 
   // Run router to determine the desired state
-  ReactRouter.match({ routes: Routes, location: req.url }, function(error, redirectLocation, renderProps) {
+  ReactRouter.match({ routes, location: req.url }, function(error, redirectLocation, renderProps) {
     if (redirectLocation) {
       res.redirect(301, redirectLocation.pathname + redirectLocation.search);
     } else if (error) {

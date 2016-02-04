@@ -6,7 +6,7 @@ import ReactDOM from "react-dom";
 import { Router } from "react-router";
 import injectTapEventPlugin from "react-tap-event-plugin";
 
-import routes from "../shared/routes.jsx";
+import routes from "../shared/routes";
 import Flux from "../shared/flux";
 import facebook from "../client/fb";
 import gAnalytics from "../client/ga";
