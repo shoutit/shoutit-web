@@ -40,5 +40,5 @@ export default {
 
   searchLoadMore() {
     this.dispatch(consts.SEARCH_LOAD_MORE);
-  },
+  }
 };

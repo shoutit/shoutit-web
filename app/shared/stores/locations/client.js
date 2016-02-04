@@ -13,9 +13,9 @@ const SHOUTIT_GEOCODE_ENDPOINT = "/api/misc/geocode";
 
 export default {
   geocode(lat, lng) {
-    let pos = {};
+    const pos = {};
     pos.latlng = [lat, lng].join(",");
-    
+
     // just to prevent npm from caching 0,0 position
     if(lat === 0 && lng === 0) {
       pos.key = Date.now() + Math.floor(Math.random() * 100);

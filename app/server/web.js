@@ -1,3 +1,4 @@
+/* eslint no-var: 0, no-console: 0 */
 "use strict";
 
 var express = require("express");
@@ -29,7 +30,6 @@ var Flux = require("../shared/flux"),
 
 // middleware
 var morgan = require("morgan"),
-  bodyParser = require("body-parser"),
   methodOverride = require("method-override"),
   session = require("express-session"),
   RedisStore = require("connect-redis")(session),

@@ -48,7 +48,7 @@ export default {
 
   getTags(username, query = {}) {
     query.type = "tags";
-        
+
     return request
             .get(PREFIX + "/" + username + "/listening")
             .query(query);
@@ -82,7 +82,7 @@ export default {
             .query(query);
   },
 
-    /** 
+    /**
      * This function uploads base64 Data URI images to S3 server to any buckets
      *
      * @param {String} dataImage Data URI image string
@@ -115,14 +115,16 @@ export default {
     let endpoint;
     let dataPackage = {token:token};
 
-    if (type === "gplus")
+    if (type === "gplus") {
       endpoint = "/auth/gplus";
-        else if (type === "fb")
-          endpoint = "/auth/fb";
-        else if (type === "shoutit") {
-          endpoint = "/auth/shoutit";
-          dataPackage = {email:token.email,pass:token.pass};
-        }
+    }
+    else if (type === "fb") {
+      endpoint = "/auth/fb";
+    }
+    else if (type === "shoutit") {
+      endpoint = "/auth/shoutit";
+      dataPackage = {email:token.email,pass:token.pass};
+    }
 
     return request
             .post(endpoint)

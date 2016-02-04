@@ -11,7 +11,7 @@ import { MessagesStore } from "./stores/messages/MessagesStore";
 import suggestionsActions from "./stores/suggestions/actions";
 import SuggestionsStore from "./stores/suggestions/store";
 
-var merge = require("lodash/object/merge"),
+const merge = require("lodash/object/merge"),
   Fluxxor = require("fluxxor"),
   UsersStore = require("./stores/users/store"),
   ShoutStore = require("./stores/shouts/store"),
@@ -29,7 +29,7 @@ var merge = require("lodash/object/merge"),
   discoversActions = require("./stores/discovers/actions");
 
 module.exports = function (router, user, data, params, currencies, categories, sortTypes) {
-  var stores = {
+  const stores = {
     users: new UsersStore(merge({}, {
       loggedUser: user,
       router: router
@@ -47,17 +47,17 @@ module.exports = function (router, user, data, params, currencies, categories, s
 
   };
 
-  var actions = merge({},
+  const actions = merge({},
     userActions, shoutActions, tagActions, searchActions, locationsActions,
     messagesActions, chatActions, conversationsActions, notificationsActions,
     discoversActions, suggestionsActions);
 
-  var flux = new Fluxxor.Flux(stores, actions);
+  const flux = new Fluxxor.Flux(stores, actions);
 
   flux.serialize = function () {
-    var storeData = {};
+    const storeData = {};
 
-    for (var store in stores) {
+    for (const store in stores) {
       if (stores.hasOwnProperty(store)) {
         storeData[store] = stores[store].serialize();
       }
@@ -67,7 +67,7 @@ module.exports = function (router, user, data, params, currencies, categories, s
   };
 
   flux.hydrate = function (storeData) {
-    for (var store in storeData) {
+    for (const store in storeData) {
       if (storeData.hasOwnProperty(store)) {
         stores[store].hydrate(storeData[store]);
       }

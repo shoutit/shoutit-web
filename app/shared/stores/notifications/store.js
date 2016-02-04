@@ -11,7 +11,7 @@ import consts from "./consts";
 
 const LOG_TAG = "[Notifications-Store]";
 
-let NotificationStore = Fluxxor.createStore({
+const NotificationStore = Fluxxor.createStore({
   initialize({notifications}) {
     this.state = {
       notifications: notifications || [],
@@ -73,7 +73,7 @@ let NotificationStore = Fluxxor.createStore({
 
   onLoadMoreNotificationsSuccess({res}) {
     res.results.forEach(function (not) {
-      var index = this.getIndex(not.id);
+      const index = this.getIndex(not.id);
       if (index >= 0) {
         this.state.notifications[index] = not;
       } else {
@@ -104,7 +104,7 @@ let NotificationStore = Fluxxor.createStore({
   },
 
   onReadNotificationSuccess({id}) {
-    let index = this.getIndex(id);
+    const index = this.getIndex(id);
     if (index) {
       this.state.notifications[index].is_read = true;
     }
@@ -118,7 +118,7 @@ let NotificationStore = Fluxxor.createStore({
   },
 
   onUnreadNotificationSuccess({id}) {
-    let index = this.getIndex(id);
+    const index = this.getIndex(id);
     if (index) {
       this.state.notifications[index].is_read = false;
     }

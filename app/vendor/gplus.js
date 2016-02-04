@@ -1,3 +1,6 @@
+/* eslint no-var: 0, no-console: 0 */
+/* eslint-env browser */
+
 /**
  * Created by Philip on 12.01.2015.
  */
@@ -41,4 +44,3 @@ module.exports = {
     window.signInCallback = signInCallback;
   }
 };
-
