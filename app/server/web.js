@@ -106,7 +106,7 @@ function fetchData(userSession, routes, params, query) {
     return route.component? route.component.fetchData: false;
   }).map(function (route) {
     return new Promise(function (resolve) {
-        route.component.fetchData(ShoutitClient, userSession, params, route.name, query)
+      route.component.fetchData(ShoutitClient, userSession, params, route.name, query)
         .on("complete", function (result, resp) {
           if (result instanceof Error || resp.statusCode !== 200) {
             resolve({});
@@ -114,13 +114,13 @@ function fetchData(userSession, routes, params, query) {
             resolve(result);
           }
         });
-      }).then(function (fetched) {
-      console.log("Fetched data for", route.component.fetchId);
-      data[route.component.fetchId] = fetched;
-    });
+    }).then(function (fetched) {
+        console.log("Fetched data for", route.component.fetchId);
+        data[route.component.fetchId] = fetched;
+      });
   })).then(function () {
-      return data;
-    });
+    return data;
+  });
 }
 
 
@@ -132,19 +132,19 @@ function getMetaFromData(relUrl, innerRoute, data) {
     var shout = data.shout;
     if (shout) {
       if (shout.type == "offer") {
+        addData = {
+            type: "shout",
+            shoutType: "offer",
+            shoutTypePrefix: "Offer",
+            title: shout.title + " - Shoutit",
+            image: shout.thumbnail,
+            user: shout.user.name,
+            description: "Offer by " + shout.user.name + ": " + shout.text,
+            price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
+            location: shout.location.city + " - " + shout.location.country
+          };
+      } else if (shout.type === "request") {
           addData = {
-              type: "shout",
-              shoutType: "offer",
-              shoutTypePrefix: "Offer",
-              title: shout.title + " - Shoutit",
-              image: shout.thumbnail,
-              user: shout.user.name,
-              description: "Offer by " + shout.user.name + ": " + shout.text,
-              price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
-              location: shout.location.city + " - " + shout.location.country
-            };
-        } else if (shout.type === "request") {
-            addData = {
               type: "shout",
               shoutType: "request",
               shoutTypePrefix: "Request",
@@ -155,7 +155,7 @@ function getMetaFromData(relUrl, innerRoute, data) {
               price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
               location: shout.location.city + " - " + shout.location.country
             };
-          }
+        }
 
     }
     break;
@@ -168,11 +168,11 @@ function getMetaFromData(relUrl, innerRoute, data) {
     var user = data.user;
     if (user) {
       addData = {
-          type: "user",
-          title: user.name + " - Shoutit",
-          image: user.image,
-          description: user.name + "'s profile on Shoutit - See the users shouts."
-        };
+        type: "user",
+        title: user.name + " - Shoutit",
+        image: user.image,
+        description: user.name + "'s profile on Shoutit - See the users shouts."
+      };
     }
     break;
   default:
@@ -194,12 +194,12 @@ function reactServerRender(req, res) {
     if (redirectLocation) {
       res.redirect(301, redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
-        res.status(500).send(error.message);
-      } else if (!renderProps) {
-          res.status(404).send("Not found");
-        } else {
-          console.time("ApiFetch");
-          fetchData(req.session, renderProps.routes, renderProps.params, renderProps.location.query)
+      res.status(500).send(error.message);
+    } else if (!renderProps) {
+        res.status(404).send("Not found");
+      } else {
+        console.time("ApiFetch");
+        fetchData(req.session, renderProps.routes, renderProps.params, renderProps.location.query)
         .then(function (data) {
           console.timeEnd("ApiFetch");
 
@@ -227,7 +227,7 @@ function reactServerRender(req, res) {
             googleMapsKey: require("../../config").googleMapsKey
           });
         });
-        }
+      }
   });
 
 }
@@ -312,17 +312,17 @@ module.exports = function (app) {
       {
         publicPath: "/",
         stats: {
-            hash: true,
-            version: false,
-            timings: true,
-            assets: false,
-            chunks: true,
-            chunkModules: false,
-            modules: true,
-            cached: false,
-            reasons: false,
-            colors: true
-          }
+          hash: true,
+          version: false,
+          timings: true,
+          assets: false,
+          chunks: true,
+          chunkModules: false,
+          modules: true,
+          cached: false,
+          reasons: false,
+          colors: true
+        }
       }));
   }
 
@@ -425,14 +425,14 @@ module.exports = function (app) {
 
     if (req.devices) {
       if (req.devices.iOS || req.devices.iPhone || req.devices.iPad) {
-          console.log("Detected iOS Device");
-          res.redirect("https://geo.itunes.apple.com/de/app/shoutit-app/id947017118?mt=8");
-        } else if (req.devices.Android) {
-            console.log("Detected Android Device");
-            res.redirect("https://play.google.com/store/apps/details?id=com.shoutit.app.android");
-          } else {
-            res.redirect("/");
-          }
+        console.log("Detected iOS Device");
+        res.redirect("https://geo.itunes.apple.com/de/app/shoutit-app/id947017118?mt=8");
+      } else if (req.devices.Android) {
+          console.log("Detected Android Device");
+          res.redirect("https://play.google.com/store/apps/details?id=com.shoutit.app.android");
+        } else {
+          res.redirect("/");
+        }
     } else {
       res.redirect("/");
     }

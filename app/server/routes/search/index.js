@@ -5,7 +5,7 @@
 var ShoutClient = require("../../resources");
 
 var express = require("express"),
-	    router = express.Router();
+	      router = express.Router();
 
 router.route("/:term")
 	.get(require("./searchAll")(ShoutClient));

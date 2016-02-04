@@ -4,11 +4,11 @@
 * Handling image uploads and deletes from web-app to AWS-S3
 */
 var multer  = require("multer"),
-	    Imagemin = require("imagemin"),
-	    os = require("os"),
-	    fs = require("fs"),
+	      Imagemin = require("imagemin"),
+	      os = require("os"),
+	      fs = require("fs"),
   path = require("path"),
-	    Promise = require("bluebird"),
+	      Promise = require("bluebird"),
   gm = require("gm").subClass({imageMagick: true}),
   s3Uploader = require("./s3Uploader");
 
@@ -77,18 +77,18 @@ var upload = multer({
 var checkDir = function () {
   try {
     if (!fs.lstatSync(TEMP_UPLOAD_DIR).isDirectory()) {
-        fs.mkdirSync(TEMP_UPLOAD_DIR);
-      }
-  } catch (e) {
       fs.mkdirSync(TEMP_UPLOAD_DIR);
     }
+  } catch (e) {
+    fs.mkdirSync(TEMP_UPLOAD_DIR);
+  }
   try {
     if (!fs.lstatSync(TEMP_COMPRESSED_DIR).isDirectory()) {
-        fs.mkdirSync(TEMP_COMPRESSED_DIR);
-      }
-  } catch (e) {
       fs.mkdirSync(TEMP_COMPRESSED_DIR);
     }
+  } catch (e) {
+    fs.mkdirSync(TEMP_COMPRESSED_DIR);
+  }
 };
 
 var removeFromTmp = function (imageName) {
@@ -110,7 +110,7 @@ var convertToJPG = function (fileAddr) {
   } else {
     var newFileAddr = fileAddr.replace(ext, ".jpg");
     return new Promise(function (resolve, reject) {
-        gm(fileAddr)
+      gm(fileAddr)
                 .background("white")
                 .setFormat("jpg")
                 .write(newFileAddr, function (err) {
@@ -125,7 +125,7 @@ var convertToJPG = function (fileAddr) {
                     reject(err);
                   }
                 });
-      });
+    });
   }
 };
 
@@ -150,11 +150,11 @@ var addImage = function (req, res) {
         // check if folders exists
     checkDir();
     upload(req, res, function (err) {
-        if (err) {
-            console.error(err);
-            res.status(400).send("Bad Request");
-          } else if (req.file) {
-              convertToJPG(req.file.path) // only if applicable
+      if (err) {
+          console.error(err);
+          res.status(400).send("Bad Request");
+        } else if (req.file) {
+            convertToJPG(req.file.path) // only if applicable
                     .then(compressImage)
                     .then(function (imagePath) {
                         // Uploading to S3
@@ -165,8 +165,8 @@ var addImage = function (req, res) {
                               res.send(s3Link);
                             });
                     });
-            }
-      });
+          }
+    });
   } else {
     console.error("un-Authorized access");
   }
@@ -182,25 +182,25 @@ var addDataImage = function (req, res) {
     var config = s3Config[bucket];
 
     if (config) {
-        var imageName = Date.now() + "-" + req.session.user.id + ".jpg";
+      var imageName = Date.now() + "-" + req.session.user.id + ".jpg";
             // save data image as a file on tmp
-        var base64 = dataImage && dataImage.replace(/^data:image\/\w+;base64,/, "");
-        var buf = new Buffer(base64, "base64");
-        var imagePath = path.join(TEMP_UPLOAD_DIR, imageName);
-        fs.writeFile(imagePath , buf, function(err) {
-            if(err) {
-                console.log(err);
-              } else {
+      var base64 = dataImage && dataImage.replace(/^data:image\/\w+;base64,/, "");
+      var buf = new Buffer(base64, "base64");
+      var imagePath = path.join(TEMP_UPLOAD_DIR, imageName);
+      fs.writeFile(imagePath , buf, function(err) {
+          if(err) {
+              console.log(err);
+            } else {
                     // Uploading to S3
-                s3Uploader.add(imagePath, config)
+              s3Uploader.add(imagePath, config)
                         .then(function (s3Link) {
                           var fileName = path.basename(imagePath);
                           removeFromTmp(fileName);
                           res.send(s3Link);
                         });
-              }
-          });
-      }
+            }
+        });
+    }
   }
 };
 
@@ -218,8 +218,8 @@ var removeImagesFromS3 = function (req, res) {
     s3Uploader.remove(fileName, s3Config["shout"].bucketName);
         // remove from variations bucket
     for (var size in variation) {
-        s3Uploader.remove(variation[size], S3_VARIATIONS_BUCKET);
-      }
+      s3Uploader.remove(variation[size], S3_VARIATIONS_BUCKET);
+    }
   }
 };
 

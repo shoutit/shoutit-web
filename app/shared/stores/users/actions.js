@@ -4,39 +4,39 @@ import client from "./client";
 export default {
   signup(payload) {
     client.signup(payload).end(function(err,res) {
-        if(res) {
-            if(res.body.id) { 
+      if(res) {
+          if(res.body.id) { 
                     // success
-                this.dispatch(consts.SIGNUP_SUCCESS, res.body);
-              } else { // API rejection
-                this.dispatch(consts.SIGNUP_FAIL, res.body);
-              }
-          }
-      }.bind(this));
+              this.dispatch(consts.SIGNUP_SUCCESS, res.body);
+            } else { // API rejection
+              this.dispatch(consts.SIGNUP_FAIL, res.body);
+            }
+        }
+    }.bind(this));
   },
 
     // Can be used for more UI errors in the future
   loginErr(type) { 
     if(type ==="no_fb_email") {
-        this.dispatch(consts.LOGIN_FB_ERROR);
-      }
+      this.dispatch(consts.LOGIN_FB_ERROR);
+    }
   },
 
   forgetPass(email) {
     client.forgetPass(email).end(function(err,res) {
-        if(err) {
-            this.dispatch(consts.FORGET_RESULT, err);
-          } else {
-            this.dispatch(consts.FORGET_RESULT, res.body);
-          }
-      }.bind(this));
+      if(err) {
+          this.dispatch(consts.FORGET_RESULT, err);
+        } else {
+          this.dispatch(consts.FORGET_RESULT, res.body);
+        }
+    }.bind(this));
   },
 
   login(type, token) {
     this.dispatch(consts.LOGIN, {
-        type: type,
-        token: token
-      });
+      type: type,
+      token: token
+    });
   },
 
   logout() {
@@ -45,8 +45,8 @@ export default {
 
   profileChange(changes) {
     this.dispatch(consts.PROFILE_CHANGE, {
-        changes
-      });
+      changes
+    });
   },
 
   saveProfileChanges() {
@@ -55,40 +55,40 @@ export default {
 
   uploadProfilePicture(editedImage) {
     this.dispatch(consts.PROFILE_PICTURE_UPLOAD, {
-        editedImage
-      });
+      editedImage
+    });
   },
 
   uploadCoverImage(editedImage) {
     this.dispatch(consts.COVER_IMAGE_UPLOAD, {
-        editedImage
-      });
+      editedImage
+    });
   },
 
   changeInfo(field, value) {
     this.dispatch(consts.INFO_CHANGE, {
-        field: field,
-        value: value
-      });
+      field: field,
+      value: value
+    });
   },
 
   saveInfo(field, value) {
     this.dispatch(consts.INFO_SAVE, {
-        field: field,
-        value: value
-      });
+      field: field,
+      value: value
+    });
   },
 
   changePass(payload) {
     let dataPackage = {};
     if (payload.value.length === 3) {
-        dataPackage.old_password = payload.value[0];
-        dataPackage.new_password = payload.value[1];
-        dataPackage.new_password2 = payload.value[2];
-      } else {
-        dataPackage.new_password = payload.value[0];
-        dataPackage.new_password2 = payload.value[1];
-      }
+      dataPackage.old_password = payload.value[0];
+      dataPackage.new_password = payload.value[1];
+      dataPackage.new_password2 = payload.value[2];
+    } else {
+      dataPackage.new_password = payload.value[0];
+      dataPackage.new_password2 = payload.value[1];
+    }
     this.dispatch(consts.PASS_CHANGE, dataPackage);
   },
 
@@ -103,58 +103,58 @@ export default {
 
   listen(username) {
     this.dispatch(consts.LISTEN, {
-        username
-      });
+      username
+    });
   },
 
   stopListen(username, updateListeningCount = false) {
     this.dispatch(consts.STOP_LISTEN, {
-        username,
-        updateListeningCount
-      });
+      username,
+      updateListeningCount
+    });
   },
 
   loadUserListening(username) {
     this.dispatch(consts.LOAD_USER_LISTENING, {
-        username: username
-      });
+      username: username
+    });
   },
 
   loadMoreUserListening(username) {
     this.dispatch(consts.LOAD_MORE_USER_LISTENING, {
-        username: username
-      });
+      username: username
+    });
   },
 
   loadUserListeningTags(username) {
     client.getTags(username).end((err, res) => {
-        if (err) {
-            this.dispatch(consts.LOAD_USER_TAGS_FAIL);
-          } else {
-            if(res.body.tags) {
-                this.dispatch(consts.LOAD_USER_TAGS_SUCCESS, {res: res.body, username: username});
-              }
-          }
-      });
+      if (err) {
+          this.dispatch(consts.LOAD_USER_TAGS_FAIL);
+        } else {
+          if(res.body.tags) {
+              this.dispatch(consts.LOAD_USER_TAGS_SUCCESS, {res: res.body, username: username});
+            }
+        }
+    });
     this.dispatch(consts.LOAD_USER_TAGS);
   },
 
   loadMoreUserListeningTags(username) {
     this.dispatch(consts.LOAD_MORE_USER_TAGS, {
-        username: username
-      });
+      username: username
+    });
   },
 
   loadUserListeners(username) {
     this.dispatch(consts.LOAD_USER_LISTENERS, {
-        username: username
-      });
+      username: username
+    });
   },
 
   loadMoreUserListeners(username) {
     this.dispatch(consts.LOAD_MORE_USER_LISTENERS, {
-        username: username
-      });
+      username: username
+    });
   },
 
   loadUserShouts(username, type, limit=0) {
@@ -168,15 +168,15 @@ export default {
 
   loadMoreUserShouts(username, type) {
     this.dispatch(consts.LOAD_MORE_USER_SHOUTS, {
-        username: username,
-        type: type
-      });
+      username: username,
+      type: type
+    });
   },
 
   loadUser(username) {
     this.dispatch(consts.LOAD_USER, {
-        username: username
-      });
+      username: username
+    });
   },
 
   showDownloadPopup() {

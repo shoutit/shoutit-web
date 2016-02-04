@@ -31,20 +31,20 @@ var SearchStore = Fluxxor.createStore({
     this.state.settings = {};
 
     if (props.categories) {
-        this.state.categories = props.categories;
-      }
+      this.state.categories = props.categories;
+    }
 
     if (props.searchShouts) {
-        this.state[SHOUT_SEARCH] = props.searchShouts.results;
-      }
+      this.state[SHOUT_SEARCH] = props.searchShouts.results;
+    }
 
     if (props.searchUsers) {
-        this.state[USER_SEARCH] = props.searchUsers.results;
-      }
+      this.state[USER_SEARCH] = props.searchUsers.results;
+    }
 
     if (props.searchTags) {
-        this.state[TAG_SEARCH] = props.searchTags.results;
-      }
+      this.state[TAG_SEARCH] = props.searchTags.results;
+    }
 
     this.searchShouts = this.onSearch(SHOUT_SEARCH);
     this.searchTags = this.onSearch(TAG_SEARCH);
@@ -67,71 +67,71 @@ var SearchStore = Fluxxor.createStore({
 
   onSearch(type) {
     var onCancel = this.onSearchCancel(type),
-        onSuccess = this.onSearchSuccess(type);
+      onSuccess = this.onSearchSuccess(type);
 
     return function (payload) {
-        let searchQuery = {};
-        onCancel();
+      let searchQuery = {};
+      onCancel();
             // sync-ing app's internal data with API acceptable properties
-        if(type === SHOUT_SEARCH) {
-            searchQuery = {
-                page_size: defaults.PAGE_SIZE,
-                search: payload.term,
-                shout_type: payload.shouttype !== defaults.ALL_TYPE? payload.shouttype: undefined,
-                category: payload.category !== defaults.ALL_TYPE? payload.category: undefined,
-                tags: payload.tags || undefined,
-                min_price: payload.min || undefined,
-                max_price: payload.max || undefined,
-                country: payload.country || undefined,
-                city: payload.city || undefined
-              };
-          } else {
+      if(type === SHOUT_SEARCH) {
+          searchQuery = {
+              page_size: defaults.PAGE_SIZE,
+              search: payload.term,
+              shout_type: payload.shouttype !== defaults.ALL_TYPE? payload.shouttype: undefined,
+              category: payload.category !== defaults.ALL_TYPE? payload.category: undefined,
+              tags: payload.tags || undefined,
+              min_price: payload.min || undefined,
+              max_price: payload.max || undefined,
+              country: payload.country || undefined,
+              city: payload.city || undefined
+            };
+        } else {
                 // only term for tags and user search
-            searchQuery = {
-                page_size: defaults.PAGE_SIZE,
-                search: payload.term
-              };
-          }
+          searchQuery = {
+              page_size: defaults.PAGE_SIZE,
+              search: payload.term
+            };
+        }
 
             // saving search settings
-        this.state.settings = searchQuery;
+      this.state.settings = searchQuery;
 
-        let searchReq = clients[type].list(searchQuery);
-        searchReq.end(function (err, res) {
-            this.state.reqs[type] = null;
-            this.state.searching[type] = false;
-            this.emit("change");
-            if (err) {
-                console.log(err);
-              } else {
-                onSuccess(res.body);
-              }
-          }.bind(this));
+      let searchReq = clients[type].list(searchQuery);
+      searchReq.end(function (err, res) {
+          this.state.reqs[type] = null;
+          this.state.searching[type] = false;
+          this.emit("change");
+          if (err) {
+              console.log(err);
+            } else {
+              onSuccess(res.body);
+            }
+        }.bind(this));
 
-        this.state.reqs[type] = searchReq;
-        this.state.searching[type] = true;
-        this.emit("change");
-      }.bind(this);
+      this.state.reqs[type] = searchReq;
+      this.state.searching[type] = true;
+      this.emit("change");
+    }.bind(this);
   },
 
   onSearchCancel(type) {
     return function () {
-        if (this.state.reqs[type] && this.state.reqs[type].abort) {
-            this.state.reqs[type].abort();
-            this.state.reqs[type] = null;
-            this.state.searching[type] = false;
-            this.emit("change");
-          }
-      }.bind(this);
+      if (this.state.reqs[type] && this.state.reqs[type].abort) {
+          this.state.reqs[type].abort();
+          this.state.reqs[type] = null;
+          this.state.searching[type] = false;
+          this.emit("change");
+        }
+    }.bind(this);
   },
 
   onSearchSuccess(type) {
     return function (data) {
-        this.state[type] = data.results;
+      this.state[type] = data.results;
             // keeping next page number in settings
-        this.state.settings.page = data.next? this.parseNextPage(data.next): undefined;
-        this.emit("change");
-      }.bind(this);
+      this.state.settings.page = data.next? this.parseNextPage(data.next): undefined;
+      this.emit("change");
+    }.bind(this);
   },
 
   onLoadMore() {
@@ -139,20 +139,20 @@ var SearchStore = Fluxxor.createStore({
     let settings = this.state.settings;
 
     if (settings.page) {
-        let searchReq = clients[SHOUT_SEARCH].list(settings);
-        searchReq.end((err, res) => {
-            this.state.searching[SHOUT_SEARCH] = false;
-            this.emit("change");
-            if (err) {
-                console.log(err);
-              } else {
-                this.onLoadMoreSuccess(res.body);
-              }
-          });
+      let searchReq = clients[SHOUT_SEARCH].list(settings);
+      searchReq.end((err, res) => {
+          this.state.searching[SHOUT_SEARCH] = false;
+          this.emit("change");
+          if (err) {
+              console.log(err);
+            } else {
+              this.onLoadMoreSuccess(res.body);
+            }
+        });
 
-        this.state.searching[SHOUT_SEARCH] = true;
-        this.emit("change");
-      }
+      this.state.searching[SHOUT_SEARCH] = true;
+      this.emit("change");
+    }
   },
 
   onLoadMoreSuccess(data) {
@@ -168,9 +168,9 @@ var SearchStore = Fluxxor.createStore({
 
   parseNextPage(nextUrl) {
     if (nextUrl) {
-        let parsed = url.parse(nextUrl, true);
-        return Number(parsed.query.page);
-      }
+      let parsed = url.parse(nextUrl, true);
+      return Number(parsed.query.page);
+    }
     return null;
   },
 

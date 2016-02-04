@@ -7,38 +7,38 @@ import url from "url";
 var DiscoverStore = Fluxxor.createStore({
   initialize(props) {
     this.state = {
-        loading: false,
-        countries: {},
-        discovers: {},
-        shouts: {}
-      };
+      loading: false,
+      countries: {},
+      discovers: {},
+      shouts: {}
+    };
 
         // Checking server rendering conditions
 
     if(props.discoverlist) {
-        const {country, results: {id}} = props.discoverlist;
-        this.onLoadDiscoverWithCodeSuccess({country, id});
-      }
+      const {country, results: {id}} = props.discoverlist;
+      this.onLoadDiscoverWithCodeSuccess({country, id});
+    }
 
     if(props.discoverid) {
-        const res = props.discoverid;
+      const res = props.discoverid;
             // TODO: Bring it back after dicoverShouts were also supported by server rendering
             //this.addDiscoverEntry(res.id);
             //this.onLoadDiscoverWithIdSuccess({res , id: res.id});
-      }
+    }
 
         // TODO: should be implemented to be fetched in components and routes
     if(props.discoverShouts) {
-        const res = props.discoverShouts;
+      const res = props.discoverShouts;
 
-        if(res.show_shouts) {
-            this.addDiscoverShoutsEntry(res.id);
-            this.state.shouts[res.id].next = this.parseNextPage(res.next);
+      if(res.show_shouts) {
+          this.addDiscoverShoutsEntry(res.id);
+          this.state.shouts[res.id].next = this.parseNextPage(res.next);
 
                 // save the list of shouts id in this store
-            this.state.shouts[res.id].list = res.results.map((item) => item.id);
-          }
-      }
+          this.state.shouts[res.id].list = res.results.map((item) => item.id);
+        }
+    }
 
     this.bindActions(
             consts.LOAD_DISCOVER_WITH_CODE, this.onLoadDiscoverWithCode,
@@ -55,27 +55,27 @@ var DiscoverStore = Fluxxor.createStore({
 
   addDiscoverEntry(id) {
     if(!this.state.discovers[id]) {
-        this.state.discovers[id] = {
-            loading: false,
-            id: null,
-            title: null,
-            description: null,
-            cover: null,
+      this.state.discovers[id] = {
+          loading: false,
+          id: null,
+          title: null,
+          description: null,
+          cover: null,
                 // An array of objects with discover items
-            children: []
-          };
-      }
+          children: []
+        };
+    }
   },
 
   addDiscoverShoutsEntry(id) {
     if(!this.state.shouts[id]) {
-        this.state.shouts[id] = {
-            loading: false,
-            next: null,
+      this.state.shouts[id] = {
+          loading: false,
+          next: null,
                 // An array of shouts id (find the shout objects in shout store)
-            list: []
-          };
-      }
+          list: []
+        };
+    }
   },
 
   onLoadDiscoverWithCode() {
@@ -112,8 +112,8 @@ var DiscoverStore = Fluxxor.createStore({
     this.state.discovers[id].cover = result.cover;
 
     if(result.show_children) {
-        this.state.discovers[id].children = result.children;
-      }
+      this.state.discovers[id].children = result.children;
+    }
         // Pause loading
     this.state.discovers[id].loading = false;
     this.emit("change");
@@ -134,13 +134,13 @@ var DiscoverStore = Fluxxor.createStore({
   onLoadDiscoverShoutsSuccess({id, res}) {
         // Waiting for the shouts store to handle and store the shouts data
     this.waitFor(["shouts"], () => {
-        this.state.shouts[id].loading = false;
-        this.state.shouts[id].next = this.parseNextPage(res.next);
+      this.state.shouts[id].loading = false;
+      this.state.shouts[id].next = this.parseNextPage(res.next);
 
             // save the list of shouts id in this store
-        this.state.shouts[id].list = res.results.map((item) => item.id);
-        this.emit("change");
-      });
+      this.state.shouts[id].list = res.results.map((item) => item.id);
+      this.emit("change");
+    });
   },
 
   onLoadDiscoverShoutsFail({id}) {
@@ -150,9 +150,9 @@ var DiscoverStore = Fluxxor.createStore({
 
   parseNextPage(nextUrl) {
     if (nextUrl) {
-        let parsed = url.parse(nextUrl, true);
-        return Number(parsed.query.page);
-      }
+      let parsed = url.parse(nextUrl, true);
+      return Number(parsed.query.page);
+    }
     return null;
   },
 

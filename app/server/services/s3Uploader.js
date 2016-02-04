@@ -29,22 +29,22 @@ function addToS3(localFile, config) {
   var params = {
     localFile: localFile,
     s3Params: {
-        Bucket: bucketName,
-        Key: fileName
-      }
+      Bucket: bucketName,
+      Key: fileName
+    }
   };
 
   return new Promise(function (resolve, reject) {
     var s3Uploader = s3Client.uploadFile(params);
 
     s3Uploader.on("error", function (err) {
-        console.error("unable to upload:", err.stack);
-        reject(err.stack);
-      });
+      console.error("unable to upload:", err.stack);
+      reject(err.stack);
+    });
     s3Uploader.on("end", function () {
-        var s3Link = cdnURL + "/" + fileName;
-        resolve(s3Link);
-      });
+      var s3Link = cdnURL + "/" + fileName;
+      resolve(s3Link);
+    });
   });
 }
 
@@ -80,10 +80,10 @@ function removeFromS3(fileName, bucketName) {
   var params = {
     Bucket: bucketName,
     Delete: {
-        Objects: [
+      Objects: [
                 {Key: fileName}
-          ]
-      }
+        ]
+    }
   };
 
   var res = s3Client.deleteObjects(params);

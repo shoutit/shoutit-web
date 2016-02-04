@@ -5,7 +5,7 @@
 var ShoutClient = require("../../resources").shouts();
 
 var express = require("express"),
-	    router = express.Router();
+	      router = express.Router();
 
 router.route("/")
 	.get(require("./list")(ShoutClient))

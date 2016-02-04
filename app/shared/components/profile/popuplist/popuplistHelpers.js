@@ -35,20 +35,20 @@ class POPUPLIST_HELPER {
 
       if(listens[username]) {
         switch(this.type) {
-          case "Listening":
-            let listening = listens[username].listening.list;
-            return listening.map(item => users[item]);
-            break;
-          case "Listeners" :
-            let listeners = listens[username].listeners.list;
-            return listeners.map(item => users[item]);
-            break;
-          case "Tags" :
-            let tagslist = listens[username].tags.list;
-            console.log(tagslist);
-            return tagslist.map(item => tags[item] && tags[item].tag);
-            break;
-          }
+        case "Listening":
+          let listening = listens[username].listening.list;
+          return listening.map(item => users[item]);
+          break;
+        case "Listeners" :
+          let listeners = listens[username].listeners.list;
+          return listeners.map(item => users[item]);
+          break;
+        case "Tags" :
+          let tagslist = listens[username].tags.list;
+          console.log(tagslist);
+          return tagslist.map(item => tags[item] && tags[item].tag);
+          break;
+        }
       }
     }
 }

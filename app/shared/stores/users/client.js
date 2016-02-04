@@ -116,7 +116,7 @@ export default {
     let dataPackage = {token:token};
 
     if (type === "gplus")
-        endpoint = "/auth/gplus";
+      endpoint = "/auth/gplus";
         else if (type === "fb")
           endpoint = "/auth/fb";
         else if (type === "shoutit") {
