@@ -10,6 +10,7 @@
   "scripts": {
     "start": "node app.js",
     "build": "webpack -p --stats",
+    "lint": "eslint app test",
     "test": "mocha --require ./test/setup.js --compilers js:babel/register --recursive",
     "test:watch": "npm test -- --watch --watch-extensions jsx",
     "cover": "istanbul cover -- _mocha --recursive --compilers js:babel/register --reporter spec",
