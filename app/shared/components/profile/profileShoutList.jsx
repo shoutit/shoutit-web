@@ -22,11 +22,11 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    let username = this.props.username,
+    const username = this.props.username,
       userShouts = this.props.shouts[username] || {},
-      shouts = userShouts[this.props.type + 's'];
+      offers = userShouts[this.props.type + 's'];
 
-    if (!userShouts || !shouts) {
+    if (!offers) {
       this.context.flux.actions.loadUserShouts(this.props.username, this.props.type);
     }
   },

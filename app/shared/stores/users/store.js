@@ -860,39 +860,48 @@ var UserStore = Fluxxor.createStore({
   },
 
   onLoadUser(payload) {
-    var username = payload.username;
+    const username = payload.username;
+    const {users, listens} = this.state;
+    const isUserFullyLoaded = Boolean(users[username] && users[username].location && listens[username]);
+    const isLoading = users[username]? users[username].loading: false;
 
-    client.get(username)
-      .end(function (err, res) {
-        if (err || res.status !== 200) {
-          this.onLoadUserFailed({
-            username: username
-          });
-        } else {
-          this.onLoadUserSuccess({
-            username: username,
-            res: res.body
-          });
-        }
-      }.bind(this));
+    // Checking to see if the user is already fully loaded
+    if(!isUserFullyLoaded && !isLoading) {
+      client.get(username)
+        .end(function (err, res) {
+          if (err || res.status !== 200) {
+            this.onLoadUserFailed({
+              username: username
+            });
+          } else {
+            this.onLoadUserSuccess({
+              username: username,
+              res: res.body
+            });
+          }
+        }.bind(this));
 
-    this.state.loading = true;
-    this.emit("change");
+      if(!users[username]) { users[username] = {} };
+      users[username].loading = true;
+      this.emit("change");
+    }
   },
 
   onLoadUserSuccess(payload) {
-    this.state.users[payload.username] = payload.res;
-    this.state.shouts[payload.username] = initUserShoutEntry();
-    this.state.listens[payload.username] = initUserListenEntry();
+    const {username, res} = payload;
+
+    this.state.users[username] = res;
+    this.state.shouts[username] = initUserShoutEntry();
+    this.state.listens[username] = initUserListenEntry();
     this.onLoadUserListeners(payload);
     this.onLoadUserListening(payload);
-    this.state.loading = false;
+
+    this.state.users[username].loading = false;
     this.emit("change");
   },
 
-  onLoadUserFailed(payload) {
-    this.state.users[payload.username] = null;
-    this.state.loading = false;
+  onLoadUserFailed({username}) {
+    this.state.users[username] = null;
     this.emit("change");
   },
 
