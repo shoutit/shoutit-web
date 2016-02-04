@@ -153,14 +153,15 @@ export default React.createClass({
   render() {
     const {username} = this.props.params,
       user = this.state.users[username];
-    console.log(user);
 
-    if (user && user.location) {
-      return this.renderProfilePage();
-    } else if (user === null) {
-      return this.renderNotFound();
+    if(user) {
+      if(user.loading) {
+        return this.renderLoading();
+      } else {
+        return this.renderProfilePage();
+      }
     } else {
-      return this.renderLoading();
+      return this.renderNotFound();
     }
   }
 });
