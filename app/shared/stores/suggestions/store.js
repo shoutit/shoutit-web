@@ -46,17 +46,17 @@ var SuggestionsStore = Fluxxor.createStore({
       city: location.city,
       page_size: 8
     }).end((err, res) => {
-        if(err) {
-            console.error(err);
-          } else {
-            const {pages, shouts, tags, users} = res.body;
-            this.addSuggestionList({pages, shouts, tags, users});
+      if(err) {
+        console.error(err);
+      } else {
+        const {pages, shouts, tags, users} = res.body;
+        this.addSuggestionList({pages, shouts, tags, users});
 
-            this.state.loading = false;
+        this.state.loading = false;
 
-            this.emit("change");
-          }
-      });
+        this.emit("change");
+      }
+    });
 
     this.state.loading = true;
     this.emit("change");

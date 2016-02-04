@@ -3,9 +3,9 @@
  */
 
 module.exports = function (client, path) {
-        return function (session, tagName) {
-          return client.post(path + "/" + tagName + "/listen", {
+  return function (session, tagName) {
+    return client.post(path + "/" + tagName + "/listen", {
             accessToken: session && session.accessToken ? session.accessToken : null
-    });
+          });
   };
 };

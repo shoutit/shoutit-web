@@ -14,37 +14,37 @@ const OFFER_TYPE = "offer";
 const ALL_TYPE = "all";
 
 function initUserShoutEntry() {
-        return {
-          offers: null,
-          nextOffersPage: null,
-          maxOffers: null,
-          requests: null,
-          nextRequestsPage: null,
-          maxRequest: null
+  return {
+    offers: null,
+    nextOffersPage: null,
+    maxOffers: null,
+    requests: null,
+    nextRequestsPage: null,
+    maxRequest: null
   };
 }
 
 // data structure for all listening, listeners and tags
 function initUserListenEntry() {
-        return {
-          listeners: {
+  return {
+    listeners: {
             next: null,
             list: []
-    },
-          listening: {
+          },
+    listening: {
             next: null,
             list: []
-    },
-          tags: {
+          },
+    tags: {
             next: null,
             list: []
-    },
+          },
   };
 }
 
 var UserStore = Fluxxor.createStore({
-        initialize(props) {
-          this.state = {
+  initialize(props) {
+    this.state = {
             user: null,
             users: {},
             listens: {},
@@ -63,16 +63,16 @@ var UserStore = Fluxxor.createStore({
               profilePictureUploading: false,
               coverUploading: false,
               changes: {}
-      }
-    };
+            }
+          };
 
-          if (props.loggedUser) {
+    if (props.loggedUser) {
             let loggedUsername = props.loggedUser.username;
             this.state.users[loggedUsername] = props.loggedUser;
             this.state.user = loggedUsername;
-    }
+          }
 
-          if (props.user) {
+    if (props.user) {
             let username = props.user.username;
 
             this.state.users[username] = props.user;
@@ -85,7 +85,7 @@ var UserStore = Fluxxor.createStore({
               userShouts.offers = loadedOffers.results;
               userShouts.maxOffers = loadedOffers.count;
               userShouts.nextOffersPage = this.parseNextPage(loadedOffers.next);
-      }
+            }
 
             if (props.userrequests) {
               let userShouts = this.state.shouts[username],
@@ -93,7 +93,7 @@ var UserStore = Fluxxor.createStore({
               userShouts.requests = loadedRequests.results;
               userShouts.maxRequest = loadedRequests.count;
               userShouts.nextRequestsPage = this.parseNextPage(loadedRequests.next);
-      }
+            }
 
             if (props.listeners) {
               let list = props.listeners.results.map(item => item.username);
@@ -102,10 +102,10 @@ var UserStore = Fluxxor.createStore({
               let listUsers = {};
               props.listeners.results.forEach((item) => {
                 return listUsers[item.username] = item;
-        });
+              });
 
               assign(this.state.users, listUsers);
-      }
+            }
 
             if (props.listening) {
               let list = props.listening.users.map(item => item.username);
@@ -114,10 +114,10 @@ var UserStore = Fluxxor.createStore({
               let listUsers = {};
               props.listening.users.forEach((item) => {
                 return listUsers[item.username] = item;
-        });
+              });
 
               assign(this.state.users, listUsers);
-      }
+            }
 
             if (props.listeningTags) {
 
@@ -125,10 +125,10 @@ var UserStore = Fluxxor.createStore({
               this.state.listens[username].tags.list = list;
         // add tags to tag store
         //this.flux.store('tags').addTags(list);
-      }
-    }
+            }
+          }
 
-          this.bindActions(
+    this.bindActions(
       consts.RESEND_EMAIL_VERIF, this.onResendEmail,
       consts.VERIFY_EMAIL, this.onEmailVerify,
       consts.FORGET_RESULT, this.onForgetResult,
@@ -163,64 +163,64 @@ var UserStore = Fluxxor.createStore({
     );
   },
 
-        parseNextPage(nextUrl) {
-          if (nextUrl) {
+  parseNextPage(nextUrl) {
+    if (nextUrl) {
             var parsed = url.parse(nextUrl, true);
             return Number(parsed.query.page);
-    }
-          return null;
+          }
+    return null;
   },
 
-        saveLocation(loc) {
-          let patch = {
+  saveLocation(loc) {
+    let patch = {
             location: {
               longitude: loc.longitude,
               latitude: loc.latitude
-      }
-    };
+            }
+          };
 
-          if(this.state.user) {
+    if(this.state.user) {
             client.update({location:loc})
         .end((err, res) => {
-                if(err) {
-                  console.log(err);
+          if(err) {
+            console.log(err);
           } else {
-                  this.state.users[this.state.user] = res.body;
-                  this.emit("change");
+            this.state.users[this.state.user] = res.body;
+            this.emit("change");
           }
         });
-    }
+          }
   },
 
   // returns location object if they are properly filled otherwise false
-        getLocFromUser() {
-          let user = this.state.users[this.state.user];
-          if (user === undefined) {
+  getLocFromUser() {
+    let user = this.state.users[this.state.user];
+    if (user === undefined) {
             return false;
-    }
-          let loc = user.location;
+          }
+    let loc = user.location;
 
-          let isLocationsFilled = loc? loc.country && loc.city && loc.state && loc.latitude && loc.longitude: false;
+    let isLocationsFilled = loc? loc.country && loc.city && loc.state && loc.latitude && loc.longitude: false;
 
-          if(isLocationsFilled) {
+    if(isLocationsFilled) {
             return loc;
-    } else {
+          } else {
             return false;
-    }
+          }
   },
 
-        onAcqireLoc() {
-          let loc = this.getLocFromUser();
-          loc? this.flux.store("locations").updateLocation(loc): undefined;
+  onAcqireLoc() {
+    let loc = this.getLocFromUser();
+    loc? this.flux.store("locations").updateLocation(loc): undefined;
   },
 
-        onEmailVerify(token) {
-          client.verify(token)
+  onEmailVerify(token) {
+    client.verify(token)
       .end(function(err, res) {
-              if(err) {
-                console.log(err);
+        if(err) {
+          console.log(err);
         } else {
-                if(res.status === 200) {
+          if(res.status === 200) {
                   let loggedUser = res.body;
                   if (typeof loggedUser.username !== "undefined") {
                     this.state.users[loggedUser.username] = loggedUser;
@@ -228,55 +228,55 @@ var UserStore = Fluxxor.createStore({
                     this.state.verifyResponse = "SUCCESS";
                     this.emit("change");
                     this.emit("login");
-            }
-          } else {
+                  }
+                } else {
                   this.state.verifyResponse = res.body;
                   this.emit("change");
-          }
+                }
 
         }
       }.bind(this));
   },
 
-        onSignupSuccess(data) {
-          let loggedUser = data;
+  onSignupSuccess(data) {
+    let loggedUser = data;
 
-          this.state.users[loggedUser.username] = loggedUser;
-          this.state.user = loggedUser.username;
-          this.state.signupStatus = {name:loggedUser.first_name, email:loggedUser.email};
-          this.state.signupStatus.status = consts.SIGNUP_SUCCESS;
+    this.state.users[loggedUser.username] = loggedUser;
+    this.state.user = loggedUser.username;
+    this.state.signupStatus = {name:loggedUser.first_name, email:loggedUser.email};
+    this.state.signupStatus.status = consts.SIGNUP_SUCCESS;
 
-          this.emit("change");
-          this.emit("login");
+    this.emit("change");
+    this.emit("login");
   },
 
-        onSignupFail(data) {
-          this.state.signupStatus = data;
-          this.state.signupStatus.status = consts.SIGNUP_FAIL;
-          this.emit("change");
+  onSignupFail(data) {
+    this.state.signupStatus = data;
+    this.state.signupStatus.status = consts.SIGNUP_FAIL;
+    this.emit("change");
   },
 
-        onForgetResult(payload) {
-          if (payload.email) {
+  onForgetResult(payload) {
+    if (payload.email) {
             this.state.forgetResult = payload.email[0];
-    } else if (payload.success) {
+          } else if (payload.success) {
             this.state.forgetResult = payload.success;
-    }
-          this.emit("change");
+          }
+    this.emit("change");
   },
 
-        onLogin(payload) {
-          this.state.logingIn = true;
-          this.emit("change");
+  onLogin(payload) {
+    this.state.logingIn = true;
+    this.emit("change");
 
-          client.login(payload.token, payload.type)
+    client.login(payload.token, payload.type)
       .end(function (err, res) {
-              if (err) {
-                this.state.logingIn = false;
-                this.state.loginFailed = null;
-                this.emit("change");
+        if (err) {
+          this.state.logingIn = false;
+          this.state.loginFailed = null;
+          this.emit("change");
         } else {
-                if(res.status !== 200) { // API error
+          if(res.status !== 200) { // API error
                   let apiErr = res.body;
                   if(apiErr.email)
                     this.state.loginFailed = apiErr.email;
@@ -286,7 +286,7 @@ var UserStore = Fluxxor.createStore({
                     this.state.loginFailed = apiErr.error;
                   this.state.logingIn = false;
                   this.emit("change");
-          } else {
+                } else {
                   let loggedUser = res.body;
                   if (typeof loggedUser.username !== "undefined") {
                     this.state.users[loggedUser.username] = loggedUser;
@@ -295,78 +295,78 @@ var UserStore = Fluxxor.createStore({
                     this.state.loginFailed = null;
                     this.emit("change");
                     this.emit("login");
-            }
-          }
+                  }
+                }
         }
       }.bind(this));
   },
 
-        onLoginFBError() {
-          this.state.loginFailed = "no_fb_email";
-          this.emit("change");
+  onLoginFBError() {
+    this.state.loginFailed = "no_fb_email";
+    this.emit("change");
   },
 
-        onLogout() {
-          client.logout()
+  onLogout() {
+    client.logout()
       .end(function (err, res) {
-              if (err) {
-                console.error(err);
+        if (err) {
+          console.error(err);
         } else if (res.status === 200 && res.body.loggedOut) {
                 this.state.user = null;
                 this.emit("change");
                 this.emit("logout");
-        }
+              }
       }.bind(this));
   },
 
-        onProfileChange(payload) {
-          let {changes} = payload;
-          assign(this.state.profile.changes, changes);
-          this.emit("change");
+  onProfileChange(payload) {
+    let {changes} = payload;
+    assign(this.state.profile.changes, changes);
+    this.emit("change");
   },
 
-        onProfileChangesSave() {
+  onProfileChangesSave() {
     // clear status
-          this.state.profile.status = "saving";
-          this.emit("change");
+    this.state.profile.status = "saving";
+    this.emit("change");
     // patch the changes
-          const user = this.state.user;
-          const patch = this.state.profile.changes;
+    const user = this.state.user;
+    const patch = this.state.profile.changes;
 
-          const isPatchable = this.state.users[user].is_owner && Object.keys(patch).length > 0;
+    const isPatchable = this.state.users[user].is_owner && Object.keys(patch).length > 0;
 
-          if(isPatchable) {
+    if(isPatchable) {
             client.update(patch).end((err, res) => {
               if (err) {
                 console.log(err);
-        } else {
+              } else {
                 if(res.status !== 200) {
                   if(res.body) {
                     const err = res.body;
                     this.state.profile.status = "err";
                     this.state.profile.errors = res.body;
                     this.emit("change");
-            }
-          } else {
+                  }
+                } else {
                   const username = res.body.username;
                   if(username) {
                     this.state.users[username] = res.body;
-            }
+                  }
                   this.state.profile.status = "saved";
                   this.emit("change");
-          }
-        }
+                }
+              }
         // clear changes
               this.state.profile.changes = {};
-      });
-    }
+            });
+          }
   },
 
-        onProfilePictureUpload(payload) {
-          this.state.profile.profilePictureUploading = true;
-          this.emit("change");
+  onProfilePictureUpload(payload) {
+    this.state.profile.profilePictureUploading = true;
+    this.emit("change");
     // uploading to user bucket
-  client.uploadDataImage(payload.editedImage, "user")
+    client.uploadDataImage(payload.editedImage, "user")
             .end((err, res) => {
               if(err) {
                 console.log(err);
@@ -374,8 +374,8 @@ var UserStore = Fluxxor.createStore({
                 if(res.status == 200) {
                   const s3Link = res.text;
                   this.onProfileChange({
-                          changes: {image: s3Link}
-                    });
+                    changes: {image: s3Link}
+                  });
                 } else {
                   console.log("Error on saving file.");
                 }
@@ -385,11 +385,11 @@ var UserStore = Fluxxor.createStore({
             });
   },
 
-        onCoverImageUpload(payload) {
-          this.state.profile.coverUploading = true;
-          this.emit("change");
+  onCoverImageUpload(payload) {
+    this.state.profile.coverUploading = true;
+    this.emit("change");
     // uploading to user bucket
-  client.uploadDataImage(payload.editedImage, "user")
+    client.uploadDataImage(payload.editedImage, "user")
             .end((err, res) => {
               if(err) {
                 console.log(err);
@@ -397,12 +397,12 @@ var UserStore = Fluxxor.createStore({
                 if(res.status == 200) {
                   const s3Link = res.text;
                   this.onProfileChange({
-                          changes: {cover: s3Link}
-                    });
+                    changes: {cover: s3Link}
+                  });
                         // now save changes
                   this.onProfileChangesSave();
                 } else {
-                      console.log(res);
+                  console.log(res);
                   console.log("Error on saving file.");
                 }
               }
@@ -411,66 +411,66 @@ var UserStore = Fluxxor.createStore({
             });
   },
 
-        onInfoChange(payload) {
-          if (this.state.user[payload.field]) {
+  onInfoChange(payload) {
+    if (this.state.user[payload.field]) {
             this.state.user[payload.field] = payload.value;
-    }
-          this.emit("change");
+          }
+    this.emit("change");
   },
 
-        onPassChange(dataPackage) {
-          this.state.editors["password"] = {};
-          this.state.editors["password"].loading = true;
-          this.emit("change");
+  onPassChange(dataPackage) {
+    this.state.editors["password"] = {};
+    this.state.editors["password"].loading = true;
+    this.emit("change");
 
-          client.changePass(dataPackage).end(function(err,res) {
+    client.changePass(dataPackage).end(function(err,res) {
             if(err) {
               console.log(err);
               this.state.editors["password"].loading = false;
-      } else {
+            } else {
               if (res.body.success) {
                 this.state.editors["password"] = {loading: false,msg:res.body.success};
-        } else {
+              } else {
           // find errors
                 if (res.body)
-                this.state.editors["password"] =
+                  this.state.editors["password"] =
             {loading: false,msg:"Current password does not match!"};
-        }
-      }
+              }
+            }
             this.emit("change");
-    }.bind(this));
+          }.bind(this));
   },
 
-        augmentPatch(field, value) {
-          let apiMap = {
+  augmentPatch(field, value) {
+    let apiMap = {
             email: {email: value},
             username: {username: value},
             address: {
               location: {
                 address:value
-        }
-      }
-    };
+              }
+            }
+          };
 
-          return apiMap[field];
+    return apiMap[field];
   },
 
 
-        onInfoSave(payload) {
-          let field = payload.field;
-          this.state.editors[field] = {};
-          this.state.editors[field].loading = true;
-          this.emit("change");
+  onInfoSave(payload) {
+    let field = payload.field;
+    this.state.editors[field] = {};
+    this.state.editors[field].loading = true;
+    this.emit("change");
 
-          let user = this.state.user;
-          let patch = this.augmentPatch(field, payload.value);
+    let user = this.state.user;
+    let patch = this.augmentPatch(field, payload.value);
 
-          if (this.state.users[user]) {
+    if (this.state.users[user]) {
 
             client.update(patch).end(function (err, res) {
               if (err) {
                 console.log(err);
-        } else {
+              } else {
                 this.state.editors[field].loading = false;
                 if(res.status !== 200) {
                   if(res.body[field]) {
@@ -478,94 +478,94 @@ var UserStore = Fluxxor.createStore({
                     this.state.editors[field] = {loading: false,msg:err};
                     this.state.loading = false;
                     this.emit("change");
-            }
-          } else {
+                  }
+                } else {
                   var loggedUser = res.body;
                   this.state.users[loggedUser.username] = loggedUser;
                   this.state.user = loggedUser.username;
                   this.state.editors[field] = {loading: false};
                   this.state.loading = false;
                   this.emit("change");
+                }
+
+              }
+            }.bind(this));
           }
-
-        }
-      }.bind(this));
-    }
-          this.state.loading = true;
-          this.emit("change");
+    this.state.loading = true;
+    this.emit("change");
   },
 
-        onResendEmail() {
-          let user = this.state.users[this.state.user];
-          if(user) {
+  onResendEmail() {
+    let user = this.state.users[this.state.user];
+    if(user) {
             client.resendEmail(user.email).end();
-    }
+          }
   },
 
-        onListen(payload) {
-          var username = payload.username;
+  onListen(payload) {
+    var username = payload.username;
     // set loading status
-          this.state.users[username].fluxStatus = LISTEN_BTN_LOADING;
-          this.emit("change");
+    this.state.users[username].fluxStatus = LISTEN_BTN_LOADING;
+    this.emit("change");
 
-          client.listen(username).end(function (err, res) {
+    client.listen(username).end(function (err, res) {
             if (err) {
               console.log(err);
-      } else if(res.body.success) {
+            } else if(res.body.success) {
         // Update users Listening/Listeners count List without getting data from API
               if (this.state.users[username].hasOwnProperty("listeners_count")) {
-                let counts = Number(this.state.users[username].listeners_count);
-                this.state.users[username].listeners_count = counts + 1;
+          let counts = Number(this.state.users[username].listeners_count);
+          this.state.users[username].listeners_count = counts + 1;
         }
               if (this.state.users[this.state.user].listening_count) {
-                let counts = Number(this.state.users[this.state.user].listening_count.users);
-                this.state.users[this.state.user].listening_count.users = counts + 1;
+          let counts = Number(this.state.users[this.state.user].listening_count.users);
+          this.state.users[this.state.user].listening_count.users = counts + 1;
         }
 
         // optimistically change button condition till the real data loads
               this.state.users[username].is_listening = true;
               this.state.users[username].fluxStatus = null;
               this.emit("change");
-      }
-    }.bind(this));
+            }
+          }.bind(this));
   },
 
-        onStopListen(payload) {
-          var username = payload.username;
+  onStopListen(payload) {
+    var username = payload.username;
     // set loading status
-          this.state.users[username].fluxStatus = LISTEN_BTN_LOADING;
-          this.emit("change");
+    this.state.users[username].fluxStatus = LISTEN_BTN_LOADING;
+    this.emit("change");
 
-          client.stopListen(username)
+    client.stopListen(username)
       .end(function (err, res) {
-              if (err) {
-                console.log(err);
+        if (err) {
+          console.log(err);
         } else if(res.body.success) {
           // Update users Listening/Listeners count List without getting data from API
                 if (this.state.users[username].hasOwnProperty("listeners_count")) {
-                  let counts = Number(this.state.users[username].listeners_count);
-                  this.state.users[username].listeners_count = counts - 1;
+            let counts = Number(this.state.users[username].listeners_count);
+            this.state.users[username].listeners_count = counts - 1;
           }
                 if (this.state.users[this.state.user].listening_count) {
-                  let counts = Number(this.state.users[this.state.user].listening_count.users);
-                  this.state.users[this.state.user].listening_count.users = counts - 1;
+            let counts = Number(this.state.users[this.state.user].listening_count.users);
+            this.state.users[this.state.user].listening_count.users = counts - 1;
           }
 
           // optimistically change button condition till the real data loads
                 this.state.users[username].is_listening = false;
                 this.state.users[username].fluxStatus = null;
                 this.emit("change");
-        }
+              }
       }.bind(this));
   },
 
-        onLoadUserListeners(payload) {
-          var username = payload.username;
+  onLoadUserListeners(payload) {
+    var username = payload.username;
 
-          client.getListeners(username).end(function (err, res) {
+    client.getListeners(username).end(function (err, res) {
             if (err) {
               console.log(err);
-      } else {
+            } else {
               let next = this.parseNextPage(res.body.next);
               let list = res.body.results.map(item => item.username);
 
@@ -573,66 +573,66 @@ var UserStore = Fluxxor.createStore({
               let listUsers = {};
               res.body.results.forEach((item) => {
                 return listUsers[item.username] = item;
-        });
+              });
 
               assign(this.state.users, listUsers);
 
               this.state.listens[username].listeners.list = list;
               this.state.listens[username].listeners.next = next;
 
-      }
+            }
             this.state.loading = false;
             this.emit("change");
-    }.bind(this));
+          }.bind(this));
 
-          this.state.loading = true;
-          this.emit("change");
+    this.state.loading = true;
+    this.emit("change");
   },
 
-        onLoadMoreUserListeners(payload) {
-          let username = payload.username;
-          let current = this.state.listens[username].listeners.next;
+  onLoadMoreUserListeners(payload) {
+    let username = payload.username;
+    let current = this.state.listens[username].listeners.next;
 
-          if (current) {
+    if (current) {
             client.getListeners(username, {page: current})
         .end((err, res) => {
-                if (err) {
-                  console.log(err);
+          if (err) {
+            console.log(err);
           } else {
-                  let next = this.parseNextPage(res.body.next);
-                  let list = res.body.results.map(item => item.username);
-                  let stock = this.state.listens[username].listeners.list;
+            let next = this.parseNextPage(res.body.next);
+            let list = res.body.results.map(item => item.username);
+            let stock = this.state.listens[username].listeners.list;
 
             // making an object with usernames as key values to be merged with other users in store
-                  let listUsers = {};
-                  res.body.results.forEach((item) => {
+            let listUsers = {};
+            res.body.results.forEach((item) => {
                     return listUsers[item.username] = item;
-            });
+                  });
 
-                  assign(this.state.users, listUsers);
+            assign(this.state.users, listUsers);
 
-                  stock = [...stock, ...list];
-                  this.state.listens[username].listeners.list = stock;
-                  this.state.listens[username].listeners.next = next;
+            stock = [...stock, ...list];
+            this.state.listens[username].listeners.list = stock;
+            this.state.listens[username].listeners.next = next;
 
-                  this.state.loading = false;
-                  this.emit("change");
+            this.state.loading = false;
+            this.emit("change");
           }
         });
 
             this.state.loading = true;
             this.emit("change");
-    }
+          }
 
   },
 
-        onLoadUserListening(payload) {
-          var username = payload.username;
+  onLoadUserListening(payload) {
+    var username = payload.username;
 
-          client.getListening(username).end((err, res) => {
+    client.getListening(username).end((err, res) => {
             if (err) {
               console.log(err);
-      } else {
+            } else {
               let next = this.parseNextPage(res.body.next);
               let list = res.body.users.map(item => item.username);
 
@@ -640,64 +640,64 @@ var UserStore = Fluxxor.createStore({
               let listUsers = {};
               res.body.users.forEach((item) => {
                 return listUsers[item.username] = item;
-        });
+              });
 
               assign(this.state.users, listUsers);
 
               this.state.listens[username].listening.list = list;
               this.state.listens[username].listening.next = next;
-      }
+            }
             this.state.loading = false;
             this.emit("change");
-    });
+          });
 
-          this.state.loading = true;
-          this.emit("change");
+    this.state.loading = true;
+    this.emit("change");
   },
 
-        onLoadMoreUserListening(payload) {
-          let username = payload.username;
-          let current = this.state.listens[username].listening.next;
+  onLoadMoreUserListening(payload) {
+    let username = payload.username;
+    let current = this.state.listens[username].listening.next;
 
-          if(current) {
+    if(current) {
             client.getListening(username, {page: current})
         .end((err, res) => {
-                if (err) {
-                  console.log(err);
+          if (err) {
+            console.log(err);
           } else {
-                  let next = this.parseNextPage(res.body.next);
-                  let list = res.body.users.map(item => item.username);
-                  let stock = this.state.listens[username].listening.list;
+            let next = this.parseNextPage(res.body.next);
+            let list = res.body.users.map(item => item.username);
+            let stock = this.state.listens[username].listening.list;
 
             // making an object with usernames as key values to be merged with other users in store
-                  let listUsers = {};
-                  res.body.users.forEach((item) => {
+            let listUsers = {};
+            res.body.users.forEach((item) => {
                     return listUsers[item.username] = item;
-            });
+                  });
 
-                  assign(this.state.users, listUsers);
+            assign(this.state.users, listUsers);
 
-                  stock = [...stock, ...list];
-                  this.state.listens[username].listening.list = stock;
-                  this.state.listens[username].listening.next = next;
+            stock = [...stock, ...list];
+            this.state.listens[username].listening.list = stock;
+            this.state.listens[username].listening.next = next;
 
-                  this.state.loading = false;
-                  this.emit("change");
+            this.state.loading = false;
+            this.emit("change");
           }
         });
 
             this.state.loading = true;
             this.emit("change");
-    }
+          }
   },
 
-        onLoadUserTags() {
-          this.state.loading = true;
-          this.emit("change");
+  onLoadUserTags() {
+    this.state.loading = true;
+    this.emit("change");
   },
 
-        onLoadUserTagsSuccess(payload) {
-          this.waitFor(["tags"], function() {
+  onLoadUserTagsSuccess(payload) {
+    this.waitFor(["tags"], function() {
             let res = payload.res;
             let username = payload.username;
 
@@ -709,227 +709,227 @@ var UserStore = Fluxxor.createStore({
 
             this.state.loading = false;
             this.emit("change");
-    });
+          });
 
   },
 
-        onLoadUserTagsFail() {
-          this.state.loading = false;
-          this.emit("change");
+  onLoadUserTagsFail() {
+    this.state.loading = false;
+    this.emit("change");
   },
 
-        onLoadMoreUserTags(payload) {
-          var username = payload.username;
-          let current = this.state.listens[username].tags.next;
+  onLoadMoreUserTags(payload) {
+    var username = payload.username;
+    let current = this.state.listens[username].tags.next;
 
-          if(current) {
+    if(current) {
             client.getTags(username, {page: current})
         .end((err, res) => {
-                if (err) {
-                  console.log(err);
+          if (err) {
+            console.log(err);
           } else {
-                  let next = this.parseNextPage(res.body.next);
+            let next = this.parseNextPage(res.body.next);
 
-                  let stock = this.state.listens[username].tags.list;
-                  let list = res.body.tags.map(item => item.name);
-                  stock = [...stock, ...list];
+            let stock = this.state.listens[username].tags.list;
+            let list = res.body.tags.map(item => item.name);
+            stock = [...stock, ...list];
 
-                  this.state.listens[username].tags.list = stock;
-                  this.state.listens[username].tags.next = next;
+            this.state.listens[username].tags.list = stock;
+            this.state.listens[username].tags.next = next;
 
             // add tags to tag store
-                  this.flux.store("tags").addTags(res.body.tags);
+            this.flux.store("tags").addTags(res.body.tags);
 
-                  this.state.loading = false;
-                  this.emit("change");
+            this.state.loading = false;
+            this.emit("change");
           }
-                this.state.loading = false;
-                this.emit("change");
+          this.state.loading = false;
+          this.emit("change");
         });
             this.state.loading = true;
             this.emit("change");
-    }
+          }
   },
 
-        onLoadUserShouts(payload) {
-          var username = payload.username,
+  onLoadUserShouts(payload) {
+    var username = payload.username,
             type = payload.type;
 
-          client.loadShouts(username, {
+    client.loadShouts(username, {
             shout_type: type || ALL_TYPE,
             page_size: payload.limit? payload.limit: PAGE_SIZE
-    }).end(function (err, res) {
+          }).end(function (err, res) {
             if (err) {
-              console.log(err);
+        console.log(err);
       } else {
-              this.onLoadUserShoutsSuccess({
+        this.onLoadUserShoutsSuccess({
                 username: username,
                 result: res.body,
                 type: type
-        });
+              });
       }
-    }.bind(this));
-          this.state.loading = true;
-          this.emit("change");
+          }.bind(this));
+    this.state.loading = true;
+    this.emit("change");
   },
 
-        onLoadUserShoutsSuccess(payload) {
-          let username = payload.username,
+  onLoadUserShoutsSuccess(payload) {
+    let username = payload.username,
             type = payload.type;
 
-          if (!this.state.shouts[username]) {
+    if (!this.state.shouts[username]) {
             this.state.shouts[username] = initUserShoutEntry();
-    }
-          let userShouts = this.state.shouts[username],
+          }
+    let userShouts = this.state.shouts[username],
             loadedShouts = payload.result;
 
-          if (type === "offer") {
+    if (type === "offer") {
             userShouts.offers = loadedShouts.results;
             userShouts.maxOffers = loadedShouts.count;
             userShouts.nextOffersPage = this.parseNextPage(loadedShouts.next);
-    } else if (type === "request") {
+          } else if (type === "request") {
             userShouts.requests = loadedShouts.results;
             userShouts.maxRequest = Number(loadedShouts.count);
             userShouts.nextRequestsPage = this.parseNextPage(loadedShouts.next);
-    }
+          }
 
-          this.state.loading = false;
-          this.emit("change");
+    this.state.loading = false;
+    this.emit("change");
   },
 
-        onLoadMoreUserShouts(payload) {
-          let username = payload.username,
+  onLoadMoreUserShouts(payload) {
+    let username = payload.username,
             type = payload.type;
 
-          let userShouts = this.state.shouts[username],
+    let userShouts = this.state.shouts[username],
             nextPage;
 
-          if (type === OFFER_TYPE) {
+    if (type === OFFER_TYPE) {
             nextPage = userShouts.nextOffersPage;
-    } else if (type === REQUEST_TYPE) {
+          } else if (type === REQUEST_TYPE) {
             nextPage = userShouts.nextRequestsPage;
-    }
+          }
 
-          if (nextPage) {
+    if (nextPage) {
             client.loadShouts(username, {
               shout_type: type || ALL_TYPE,
               page_size: PAGE_SIZE,
               page: nextPage
-      }).end(function (err, res) {
+            }).end(function (err, res) {
               if (err) {
-                console.log(err);
+          console.log(err);
         } else {
-                this.onLoadMoreUserShoutsSuccess({
+          this.onLoadMoreUserShoutsSuccess({
                   username: username,
                   result: res.body,
                   type: type
-          });
+                });
         }
-      }.bind(this));
+            }.bind(this));
             this.state.loading = true;
             this.emit("change");
-    }
+          }
   },
 
-        onLoadMoreUserShoutsSuccess(payload) {
-          let username = payload.username,
+  onLoadMoreUserShoutsSuccess(payload) {
+    let username = payload.username,
             type = payload.type;
 
-          if (!this.state.shouts[username]) {
+    if (!this.state.shouts[username]) {
             this.state.shouts[username] = initUserShoutEntry();
-    }
-          let userShouts = this.state.shouts[username],
+          }
+    let userShouts = this.state.shouts[username],
             loadedShouts = payload.result;
 
-          if (type === "offer") {
+    if (type === "offer") {
             loadedShouts.results.forEach(function(val) {
               userShouts.offers.push(val);
-      }.bind(this));
+            }.bind(this));
             userShouts.maxOffers = Number(loadedShouts.count);
             userShouts.nextOffersPage = this.parseNextPage(loadedShouts.next);
-    } else if (type === "request") {
+          } else if (type === "request") {
             loadedShouts.results.forEach(function(val) {
-              userShouts.requests.push(val);
+        userShouts.requests.push(val);
       }.bind(this));
             userShouts.maxRequest = Number(loadedShouts.count);
             userShouts.nextRequestsPage = this.parseNextPage(loadedShouts.next);
-    }
+          }
 
-          this.state.loading = false;
-          this.emit("change");
+    this.state.loading = false;
+    this.emit("change");
   },
 
-        onLoadUser(payload) {
-          var username = payload.username;
+  onLoadUser(payload) {
+    var username = payload.username;
 
-          client.get(username)
+    client.get(username)
       .end(function (err, res) {
-              if (err || res.status !== 200) {
-                this.onLoadUserFailed({
+        if (err || res.status !== 200) {
+          this.onLoadUserFailed({
                   username: username
-          });
+                });
         } else {
-                this.onLoadUserSuccess({
+          this.onLoadUserSuccess({
                   username: username,
                   res: res.body
-          });
+                });
         }
       }.bind(this));
 
-          this.state.loading = true;
-          this.emit("change");
+    this.state.loading = true;
+    this.emit("change");
   },
 
-        onLoadUserSuccess(payload) {
-          this.state.users[payload.username] = payload.res;
-          this.state.shouts[payload.username] = initUserShoutEntry();
-          this.state.listens[payload.username] = initUserListenEntry();
-          this.onLoadUserListeners(payload);
-          this.onLoadUserListening(payload);
-          this.state.loading = false;
-          this.emit("change");
+  onLoadUserSuccess(payload) {
+    this.state.users[payload.username] = payload.res;
+    this.state.shouts[payload.username] = initUserShoutEntry();
+    this.state.listens[payload.username] = initUserListenEntry();
+    this.onLoadUserListeners(payload);
+    this.onLoadUserListening(payload);
+    this.state.loading = false;
+    this.emit("change");
   },
 
-        onLoadUserFailed(payload) {
-          this.state.users[payload.username] = null;
-          this.state.loading = false;
-          this.emit("change");
+  onLoadUserFailed(payload) {
+    this.state.users[payload.username] = null;
+    this.state.loading = false;
+    this.emit("change");
   },
 
-        onShowDownloadPopup() {
-          this.state.showDownloadPopup = true;
-          this.emit("change");
+  onShowDownloadPopup() {
+    this.state.showDownloadPopup = true;
+    this.emit("change");
   },
 
-        onHideDownloadPopup() {
-          this.state.showDownloadPopup = false;
-          this.emit("change");
+  onHideDownloadPopup() {
+    this.state.showDownloadPopup = false;
+    this.emit("change");
   },
 
-        setFluxStatus(status) {
-          this.state.status = status;
-          this.emit("change");
+  setFluxStatus(status) {
+    this.state.status = status;
+    this.emit("change");
     //clearing status to avoid displaying old messages
-          setTimeout(() => {
+    setTimeout(() => {
             this.state.status = null;
             this.emit("change");
-    },0);
+          },0);
   },
 
-        serialize() {
-          return JSON.stringify(this.state);
+  serialize() {
+    return JSON.stringify(this.state);
   },
 
-        hydrate(json) {
-          this.state = JSON.parse(json);
+  hydrate(json) {
+    this.state = JSON.parse(json);
   },
 
-        getState() {
-          return this.state;
+  getState() {
+    return this.state;
   },
 
-        getLoggedUser() {
-          return this.state.users[this.state.user];
+  getLoggedUser() {
+    return this.state.users[this.state.user];
   }
 });
 

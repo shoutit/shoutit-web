@@ -5,12 +5,12 @@
 let loggedUser;
 
 module.exports = function (newUser) {
-        if (newUser) {
-          loggedUser = newUser;
-          module.exports = {
+  if (newUser) {
+    loggedUser = newUser;
+    module.exports = {
             getUser() {
               return loggedUser;
-      }
-    };
+            }
+          };
   }
 };

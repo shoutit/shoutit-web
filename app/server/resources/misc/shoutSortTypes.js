@@ -3,7 +3,7 @@
  */
 
 module.exports = function (client, path) {
-        return function () {
-          return client.get(path + "/shouts_sort_types");
+  return function () {
+    return client.get(path + "/shouts_sort_types");
   };
 };

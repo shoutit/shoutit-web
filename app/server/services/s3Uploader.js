@@ -82,7 +82,7 @@ function removeFromS3(fileName, bucketName) {
     Delete: {
       Objects: [
                 {Key: fileName}
-        ]
+      ]
     }
   };
 

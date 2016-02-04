@@ -115,9 +115,9 @@ function fetchData(userSession, routes, params, query) {
           }
         });
     }).then(function (fetched) {
-        console.log("Fetched data for", route.component.fetchId);
-        data[route.component.fetchId] = fetched;
-      });
+      console.log("Fetched data for", route.component.fetchId);
+      data[route.component.fetchId] = fetched;
+    });
   })).then(function () {
     return data;
   });
@@ -133,29 +133,29 @@ function getMetaFromData(relUrl, innerRoute, data) {
     if (shout) {
       if (shout.type == "offer") {
         addData = {
-            type: "shout",
-            shoutType: "offer",
-            shoutTypePrefix: "Offer",
-            title: shout.title + " - Shoutit",
-            image: shout.thumbnail,
-            user: shout.user.name,
-            description: "Offer by " + shout.user.name + ": " + shout.text,
-            price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
-            location: shout.location.city + " - " + shout.location.country
-          };
+          type: "shout",
+          shoutType: "offer",
+          shoutTypePrefix: "Offer",
+          title: shout.title + " - Shoutit",
+          image: shout.thumbnail,
+          user: shout.user.name,
+          description: "Offer by " + shout.user.name + ": " + shout.text,
+          price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
+          location: shout.location.city + " - " + shout.location.country
+        };
       } else if (shout.type === "request") {
-          addData = {
-              type: "shout",
-              shoutType: "request",
-              shoutTypePrefix: "Request",
-              title: shout.title + " - Shoutit",
-              image: shout.thumbnail,
-              user: shout.user.name,
-              description: "Offer by " + shout.user.name + ": " + shout.text,
-              price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
-              location: shout.location.city + " - " + shout.location.country
-            };
-        }
+        addData = {
+          type: "shout",
+          shoutType: "request",
+          shoutTypePrefix: "Request",
+          title: shout.title + " - Shoutit",
+          image: shout.thumbnail,
+          user: shout.user.name,
+          description: "Offer by " + shout.user.name + ": " + shout.text,
+          price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
+          location: shout.location.city + " - " + shout.location.country
+        };
+      }
 
     }
     break;
@@ -196,10 +196,10 @@ function reactServerRender(req, res) {
     } else if (error) {
       res.status(500).send(error.message);
     } else if (!renderProps) {
-        res.status(404).send("Not found");
-      } else {
-        console.time("ApiFetch");
-        fetchData(req.session, renderProps.routes, renderProps.params, renderProps.location.query)
+      res.status(404).send("Not found");
+    } else {
+      console.time("ApiFetch");
+      fetchData(req.session, renderProps.routes, renderProps.params, renderProps.location.query)
         .then(function (data) {
           console.timeEnd("ApiFetch");
 
@@ -227,7 +227,7 @@ function reactServerRender(req, res) {
             googleMapsKey: require("../../config").googleMapsKey
           });
         });
-      }
+    }
   });
 
 }
@@ -428,11 +428,11 @@ module.exports = function (app) {
         console.log("Detected iOS Device");
         res.redirect("https://geo.itunes.apple.com/de/app/shoutit-app/id947017118?mt=8");
       } else if (req.devices.Android) {
-          console.log("Detected Android Device");
-          res.redirect("https://play.google.com/store/apps/details?id=com.shoutit.app.android");
-        } else {
-          res.redirect("/");
-        }
+        console.log("Detected Android Device");
+        res.redirect("https://play.google.com/store/apps/details?id=com.shoutit.app.android");
+      } else {
+        res.redirect("/");
+      }
     } else {
       res.redirect("/");
     }

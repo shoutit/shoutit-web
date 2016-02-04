@@ -6,7 +6,7 @@ import ItemProp from "./itemprop.jsx";
 import ItemScope from "./itemscope.jsx";
 
 export default {
-        ItemProp,
-        ItemScope
+  ItemProp,
+  ItemScope
 };
 

@@ -4,11 +4,11 @@
 * Handling image uploads and deletes from web-app to AWS-S3
 */
 var multer  = require("multer"),
-        Imagemin = require("imagemin"),
-        os = require("os"),
-        fs = require("fs"),
+  Imagemin = require("imagemin"),
+  os = require("os"),
+  fs = require("fs"),
   path = require("path"),
-        Promise = require("bluebird"),
+  Promise = require("bluebird"),
   gm = require("gm").subClass({imageMagick: true}),
   s3Uploader = require("./s3Uploader");
 
@@ -151,10 +151,10 @@ var addImage = function (req, res) {
     checkDir();
     upload(req, res, function (err) {
       if (err) {
-          console.error(err);
-          res.status(400).send("Bad Request");
-        } else if (req.file) {
-            convertToJPG(req.file.path) // only if applicable
+        console.error(err);
+        res.status(400).send("Bad Request");
+      } else if (req.file) {
+        convertToJPG(req.file.path) // only if applicable
                     .then(compressImage)
                     .then(function (imagePath) {
                         // Uploading to S3
@@ -165,7 +165,7 @@ var addImage = function (req, res) {
                               res.send(s3Link);
                             });
                     });
-          }
+      }
     });
   } else {
     console.error("un-Authorized access");
@@ -188,18 +188,18 @@ var addDataImage = function (req, res) {
       var buf = new Buffer(base64, "base64");
       var imagePath = path.join(TEMP_UPLOAD_DIR, imageName);
       fs.writeFile(imagePath , buf, function(err) {
-          if(err) {
-              console.log(err);
-            } else {
+        if(err) {
+          console.log(err);
+        } else {
                     // Uploading to S3
-              s3Uploader.add(imagePath, config)
+          s3Uploader.add(imagePath, config)
                         .then(function (s3Link) {
                           var fileName = path.basename(imagePath);
                           removeFromTmp(fileName);
                           res.send(s3Link);
                         });
-            }
-        });
+        }
+      });
     }
   }
 };

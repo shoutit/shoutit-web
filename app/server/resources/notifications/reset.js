@@ -3,9 +3,9 @@
  */
 
 module.exports = function (client, path) {
-        return function (session) {
-          return client.post(path, {
+  return function (session) {
+    return client.post(path, {
             accessToken: session && session.accessToken ? session.accessToken : null,
-    });
+          });
   };
 };

@@ -5,7 +5,7 @@
 var ShoutClient = require("../../resources").notifications();
 
 var express = require("express"),
-        router = new express.Router();
+  router = new express.Router();
 
 router.route("/")
   .get(require("./list")(ShoutClient));
