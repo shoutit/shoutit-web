@@ -1,7 +1,6 @@
 import React from 'react';
 import {Grid, Column} from '../helper';
 import RightBoard from './rightboard.jsx';
-import Header from '../header/header.jsx';
 
 export default React.createClass({
     displayName: "DiscoverHome",
@@ -22,19 +21,16 @@ export default React.createClass({
 
     render() {
         return (
-            <div>
-                <Header flux={this.props.flux} />
-                <div className="discover-holder">
-                    <Grid >
-                        <Column size="12" clear={true}>
-                            {this.props.children}
-                        </Column>
-                        <Column size="3">
-                            <RightBoard />
-                        </Column>
-                    </Grid>
-                </div>
-            </div>
+              <div className="discover-holder">
+                  <Grid >
+                      <Column size="12" clear={true}>
+                          {this.props.children}
+                      </Column>
+                      <Column size="3">
+                          <RightBoard />
+                      </Column>
+                  </Grid>
+              </div>
         );
     }
 });
