@@ -32,7 +32,7 @@ export default React.createClass({
 	render() {
 		return (
 			<DocumentTitle title="Log In - Shoutit">
-				<Dialog ref="loginDialog" onDismiss={this.onDismiss} contentStyle={{marginTop:'-50px'}} contentClassName="si-dialog" >
+				<Dialog open={true} onRequestClose={this.onDismiss} contentStyle={{marginTop:'-50px'}} contentClassName="si-dialog" >
 					<div className="si-login">
 						<div className="icon res1x-sign_logo"></div>
 						<h3>Login</h3>
@@ -61,12 +61,10 @@ export default React.createClass({
 	},
 
 	componentDidMount() {
-		this.refs.loginDialog.show();
 		this.checkLogin();
 	},
 
 	componentDidUpdate() {
-		this.refs.loginDialog.show();
 		this.checkLogin();
 	},
 

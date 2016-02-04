@@ -3,7 +3,6 @@
   display: inline-block;
   text-align: center;
   text-decoration: none;
-  margin: 0 $default-spacing;
   transition: all .1s ease-out;
   cursor: pointer;
   user-select: none;
@@ -47,6 +46,7 @@
 @mixin green-button($width, $height, $font-size: $default-font-size)  {
   @extend .si-button;
   font-size: $font-size;
+  font-weight: 300;
   width: $width;
   height: $height;
   background: $si-green;

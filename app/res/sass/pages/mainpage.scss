@@ -1,3 +1,7 @@
+@import "../defaults.scss";
+@import "../colors.scss";
+@import "../pages/mixins.scss";
+
 .mainpage {
   .si-container {
     overflow: hidden;
@@ -9,12 +13,13 @@
   }
   h2 {
     font-size: 2.6rem;
-    font-weight: 700;
+    font-weight: 500;
     color: #747476;
+    letter-spacing: 1px;
   }
   .mainpage-nav {
     padding-top: 20px;
-    padding-bottom: 22px;
+    height: 75px;
     background: $si-white;
     .nav-left {
       padding-left:40px;
@@ -24,10 +29,11 @@
       .btn-login {
         @include green-button(119px,38px, 1.6rem);
         float: right;
-        margin-left:20px;
+        margin-left:25px;
       }
       .btn-d {
         @include button(70px, 30px, 1.6rem);
+        margin-left:15px;
         float: right;
       }
     }
@@ -58,6 +64,7 @@
         }
         .btn-explore {
           @include green-button(170px, 50px, 1.9rem);
+          margin-right: 20px;
         }
         .btn-how {
           @include border-button(170px, 50px, 1.9rem);
@@ -84,18 +91,18 @@
     }
   }
   .mainpage-how {
-    min-height: 600px;
-    background: lighten($si-bg, 5%);
+    height: 650px;
+    background: $si-white;
     h2 {
-      text-align:center;
-      height:40px;
-      margin-top:0;
+      text-align: center;
+      margin: 30px 0 60px;
+      height: 50px;
       background: $si-bg;
     }
   }
   .mainpage-footer {
     height: 233px;
-    background: $si-light-gray;
+    background-color: $si-footer-bg;
     .logo-section{
       .icon {
         margin: 38px auto 107px 118px;
@@ -109,17 +116,22 @@
     .links-section {
       h3 {
         color: $si-white;
-        font-weight: 600;
+        font-weight: 700;
+        font-size: 1.4rem;
         margin-top: 50px;
         margin-bottom: 29px;
+        color: $si-footer-text;
       }
       a {
         display: block;
         color: $si-white;
-        margin:0 auto 15px 0;
+        margin:0 auto 12px 0;
+        font-weight: 300;
+        font-size: 1.4rem;
+        color: $si-footer-text;
       }
-      .icon-app-store-small {
-        margin-bottom: 7px;
+      .icon {
+        margin: 0 auto 7px;
       }
 
     }
