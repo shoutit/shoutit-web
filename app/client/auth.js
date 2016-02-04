@@ -8,9 +8,9 @@ module.exports = function (newUser) {
   if (newUser) {
     loggedUser = newUser;
     module.exports = {
-            getUser() {
+      getUser() {
               return loggedUser;
             }
-          };
+    };
   }
 };

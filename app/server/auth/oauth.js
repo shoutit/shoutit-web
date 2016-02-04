@@ -51,10 +51,10 @@ function requestAccessToken(type, grantToken) {
           reject(err);
         } else {
           if(res.status === 400) {
-                  reject(res.body);
-                } else {
-                  resolve(res.body);
-                } 
+            reject(res.body);
+          } else {
+            resolve(res.body);
+          } 
         }
       });
   });
@@ -81,10 +81,10 @@ function requestNewAccount(reqToken) {
           reject(err);
         } else {
           if (res.body.access_token) {
-                  resolve(res.body);
-                } else {
-                  reject(res.body);
-                }
+            resolve(res.body);
+          } else {
+            reject(res.body);
+          }
         }
       });
   });
@@ -112,10 +112,10 @@ function fetchUser(accessToken) {
           reject(err);
         } else {
           if (resp.body.id) {
-                  resolve(resp.body);
-                } else {
-                  reject(resp.body);
-                }
+            resolve(resp.body);
+          } else {
+            reject(resp.body);
+          }
         }
       });
   });
@@ -125,7 +125,7 @@ function auth(type) {
   return function (req, res) {
     var code = req.body.token || {email:req.body.email,pass:req.body.pass};
     if (code) {
-            requestAccessToken(type, code)
+      requestAccessToken(type, code)
         .then(updateSession(req))
         .then(fetchUser)
         .then(function (user) {
@@ -135,9 +135,9 @@ function auth(type) {
         .catch(function (err) {
           res.status(400).send(err);
         });
-          } else {
-            res.status(400).send("Bad Request");
-          }
+    } else {
+      res.status(400).send("Bad Request");
+    }
   };
 }
 
@@ -186,13 +186,13 @@ module.exports = {
 
   logout: function (req, res) {
     req.session.destroy(function (err) {
-            if (err) {
+      if (err) {
               res.status(500).send(err);
             } else {
               res.status(200).send({
                 loggedOut: true
               });
             }
-          });
+    });
   }
 };

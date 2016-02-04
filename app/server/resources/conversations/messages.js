@@ -5,8 +5,8 @@
 module.exports = function (client, path) {
   return function (session, id, query) {
     return client.get(path + "/" + id + "/messages", {
-            query: query,
-            accessToken: session && session.accessToken ? session.accessToken : null
-          });
+      query: query,
+      accessToken: session && session.accessToken ? session.accessToken : null
+    });
   };
 };

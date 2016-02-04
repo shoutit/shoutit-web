@@ -5,8 +5,8 @@
 module.exports = function (client, path) {
   return function (session, id, data) {
     return client.json("POST", path + "/" + id + "/reply", data, {
-            accessToken: session && session.accessToken ? session.accessToken : null,
-          });
+      accessToken: session && session.accessToken ? session.accessToken : null,
+    });
   };
 };
 

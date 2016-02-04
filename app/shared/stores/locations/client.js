@@ -18,8 +18,8 @@ export default {
     
     // just to prevent npm from caching 0,0 position
     if(lat === 0 && lng === 0) {
-            pos.key = Date.now() + Math.floor(Math.random() * 100);
-          }
+      pos.key = Date.now() + Math.floor(Math.random() * 100);
+    }
 
     return request.get(SHOUTIT_GEOCODE_ENDPOINT).query(pos);
   },

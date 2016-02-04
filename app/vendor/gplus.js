@@ -25,8 +25,8 @@ function signInCallback(authResult) {
     //   "access_denied" – Der Nutzer hat den Zugriff für Ihre App abgelehnt.
     //   "immediate_failed" – Automatische Anmeldung des Nutzers ist fehlgeschlagen.
     // console.log('Es gab einen Fehler: ' + authResult['Fehler']);
-          console.error(authResult["error"]);
-        }
+    console.error(authResult["error"]);
+  }
 }
 
 module.exports = {
