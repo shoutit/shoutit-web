@@ -88,7 +88,6 @@ export default class UserShoutsSelectDialog extends Component {
           onTouchTap={ () => onSelectionConfirm(selected) }
       />
     ];
-    console.info("selected", selected);
     return (
       <Dialog modal={ false }
         onRequestClose={ onRequestClose }
