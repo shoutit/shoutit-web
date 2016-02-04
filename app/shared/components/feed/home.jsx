@@ -3,7 +3,6 @@ import {match} from "react-router";
 import routes from "../../routes";
 import {Grid, Column} from "../helper";
 import Board from "./board.jsx";
-import Header from "../header/header.jsx";
 import findLast from "lodash/collection/findLast";
 
 export default React.createClass({
@@ -57,26 +56,23 @@ export default React.createClass({
         // Calculating middle column size (15 is 100%)
     const middleColumnSize = leftBoard && rightBoard? "9": leftBoard || rightBoard? "12" : "15";
     return (
-            <div>
-                <Header flux={this.props.flux} />
-                <Grid className="homepage-holder">
-                    {leftBoard &&
-                        <Column size="3" clear={true}>
-                            <Board items={leftBoard}/>
-                        </Column>
-                    }
+      <Grid className="homepage-holder">
+          {leftBoard &&
+              <Column size="3" clear={true}>
+                  <Board items={leftBoard}/>
+              </Column>
+          }
 
-                    <Column size={middleColumnSize} clear={!leftBoard}>
-                        {React.cloneElement(this.props.children, {flux: this.props.flux})}
-                    </Column>
+          <Column size={middleColumnSize} clear={!leftBoard}>
+              {React.cloneElement(this.props.children, {flux: this.props.flux})}
+          </Column>
 
-                    {rightBoard &&
-                        <Column size="3">
-                            <Board items={rightBoard}/>
-                        </Column>
-                    }
-                </Grid>
-            </div>
-        );
+          {rightBoard &&
+              <Column size="3">
+                  <Board items={rightBoard}/>
+              </Column>
+          }
+      </Grid>
+    );
   }
 });
