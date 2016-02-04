@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from "react";
 import { FluxMixin, StoreWatchMixin } from "fluxxor";
 import DocumentTitle from "react-document-title";
 
@@ -20,7 +20,11 @@ export default React.createClass({
 
   displayName: "Chat",
 
-  mixins: [new FluxMixin(React), new StoreWatchMixin("chat", "users", "conversations")],
+  propTypes: {
+    loggedUser: PropTypes.object.isRequired
+  },
+
+  mixins: [new FluxMixin(React), new StoreWatchMixin("chat", "conversations")],
 
   componentDidMount() {
     this.getFlux().actions.loadConversations();
@@ -29,13 +33,12 @@ export default React.createClass({
   getStateFromFlux() {
     const { conversationIds, loading, next, previous } = this.getFlux().store("chat").getState();
     const conversations = this.getFlux().store("conversations").getConversations(conversationIds);
-    const loggedUser = this.getFlux().store("users").getLoggedUser();
-    return { conversations, loading, loggedUser, next, previous };
+    return { conversations, loading, next, previous };
   },
 
   render() {
-    const { conversations, loggedUser, loading, previous } = this.state;
-    const { flux, params, children } = this.props;
+    const { conversations, loading, previous } = this.state;
+    const { flux, params, children, loggedUser } = this.props;
     const unread = conversations.filter(c => c.unread_messages_count > 0);
 
     const { loadPreviousConversations } = this.getFlux().actions;

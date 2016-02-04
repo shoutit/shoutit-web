@@ -98,9 +98,8 @@ export default React.createClass({
     const messagesStore = this.getFlux().store("messages");
     const userStore = this.getFlux().store("users");
     const conversation = conversationsStore.get(id);
-    const loggedUser = userStore.getLoggedUser();
 
-    const state = { messages: [], loading: true, loggedUser, typingUsers: [] };
+    const state = { messages: [], loading: true, typingUsers: [] };
 
     if (conversation) {
       const { messageIds } = conversation;
@@ -208,9 +207,9 @@ export default React.createClass({
   },
 
   render() {
-
+    const { loggedUser } = this.props;
     const { id } = this.props.params;
-    const { messages, draft, didLoad, loading, loadingPrevious, loggedUser, users,
+    const { messages, draft, didLoad, loading, loadingPrevious, users,
       about, type, error, showDelete, isDeleting, typingUsers, showAttachShout } = this.state;
 
     const { replyToConversation, deleteConversation, conversationDraftChange }
