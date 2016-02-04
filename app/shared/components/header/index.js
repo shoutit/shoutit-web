@@ -6,7 +6,9 @@ import Logo from "./logo.jsx";
 import {StoreWatchMixin} from "fluxxor";
 import {Grid, Column} from "../helper";
 import {Icon} from "../helper";
-import ChatTopbarButton from "./notifications/chatTopbarButton.jsx";
+
+import MessagesButton from "../header/MessagesButton.jsx";
+
 import NotifTopbarButton from "./notifications/notifTopbarButton.jsx";
 import NewShoutButton from "../shouting/newShoutButton.jsx";
 
@@ -16,7 +18,9 @@ export default React.createClass({
 
   propTypes: {
     flux: PropTypes.object.isRequired,
-    loggedUser: PropTypes.object
+    loggedUser: PropTypes.object,
+    conversations: PropTypes.array,
+    chat: PropTypes.object
   },
 
   mixins: [new StoreWatchMixin("locations")],
@@ -34,7 +38,7 @@ export default React.createClass({
 
   render() {
 
-    const { flux, loggedUser } = this.props;
+    const { flux, loggedUser, chat, conversations } = this.props;
     const country = encodeURIComponent(this.state.locations.current);
     return (
       <header>
@@ -53,7 +57,7 @@ export default React.createClass({
 
             {/* Notification Icons */}
             <Icon name="home"/>
-            <ChatTopbarButton flux={flux} user={loggedUser} />
+            <MessagesButton conversations={ conversations } chat={ chat } loggedUser={ loggedUser} />
             <NotifTopbarButton flux={flux} user={loggedUser} />
 
             <NewShoutButton flux={flux}/>
