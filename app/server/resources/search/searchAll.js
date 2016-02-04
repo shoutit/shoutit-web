@@ -48,14 +48,14 @@ FakeClient.prototype.search = function (client, session, term) {
     makePromiseFromRequest(tagClient.search(session, searchQuery)),
     makePromiseFromRequest(userClient.search(session, term))
   ]).spread(function (shouts, tags, users) {
-      emitter.emit("complete", {
+    emitter.emit("complete", {
       shouts: shouts.results,
       tags: tags.results,
       users: users.results
     }, {
         statusCode: 200
       });
-    }, function (err) {
+  }, function (err) {
     emitter.emit("error", err);
   });
 

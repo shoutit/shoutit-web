@@ -28,9 +28,9 @@ var merge = require("lodash/object/merge"),
 module.exports = function (router, user, data, params, currencies, categories, sortTypes) {
   var stores = {
     users: new UsersStore(merge({}, {
-        loggedUser: user,
-        router: router
-      }, data)),
+      loggedUser: user,
+      router: router
+    }, data)),
     shouts: new ShoutStore(merge({}, data, {currencies, categories, sortTypes}), params),
     tags: new TagStore(data, params),
     search: new SearchStore(merge({}, data, {categories}, params)),

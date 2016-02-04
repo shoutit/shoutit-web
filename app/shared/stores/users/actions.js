@@ -5,13 +5,13 @@ export default {
   signup(payload) {
     client.signup(payload).end(function(err,res) {
       if(res) {
-          if(res.body.id) { 
+        if(res.body.id) { 
                     // success
-              this.dispatch(consts.SIGNUP_SUCCESS, res.body);
-            } else { // API rejection
-              this.dispatch(consts.SIGNUP_FAIL, res.body);
-            }
+          this.dispatch(consts.SIGNUP_SUCCESS, res.body);
+        } else { // API rejection
+          this.dispatch(consts.SIGNUP_FAIL, res.body);
         }
+      }
     }.bind(this));
   },
 
@@ -25,10 +25,10 @@ export default {
   forgetPass(email) {
     client.forgetPass(email).end(function(err,res) {
       if(err) {
-          this.dispatch(consts.FORGET_RESULT, err);
-        } else {
-          this.dispatch(consts.FORGET_RESULT, res.body);
-        }
+        this.dispatch(consts.FORGET_RESULT, err);
+      } else {
+        this.dispatch(consts.FORGET_RESULT, res.body);
+      }
     }.bind(this));
   },
 
@@ -129,12 +129,12 @@ export default {
   loadUserListeningTags(username) {
     client.getTags(username).end((err, res) => {
       if (err) {
-          this.dispatch(consts.LOAD_USER_TAGS_FAIL);
-        } else {
-          if(res.body.tags) {
-              this.dispatch(consts.LOAD_USER_TAGS_SUCCESS, {res: res.body, username: username});
-            }
+        this.dispatch(consts.LOAD_USER_TAGS_FAIL);
+      } else {
+        if(res.body.tags) {
+          this.dispatch(consts.LOAD_USER_TAGS_SUCCESS, {res: res.body, username: username});
         }
+      }
     });
     this.dispatch(consts.LOAD_USER_TAGS);
   },

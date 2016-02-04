@@ -14,9 +14,9 @@ const LOG_TAG = "[Notifications-Store]";
 let NotificationStore = Fluxxor.createStore({
   initialize({notifications}) {
     this.state = {
-        notifications: notifications || [],
-        loading: false
-      };
+      notifications: notifications || [],
+      loading: false
+    };
 
     this.bindActions(
       consts.LOAD_NOTIFICATIONS, this.onLoadNotifications,
@@ -48,8 +48,8 @@ let NotificationStore = Fluxxor.createStore({
 
   saveNotifications(res) {
     if (res.results && res.results.length) {
-        this.state.notifications = res.results;
-      }
+      this.state.notifications = res.results;
+    }
   },
 
   onLoadNotificationsSuccess({res}) {
@@ -60,10 +60,10 @@ let NotificationStore = Fluxxor.createStore({
 
   onRequestFailed(tag) {
     return function ({error}) {
-        console.error(LOG_TAG, tag, error);
-        this.state.loading = false;
-        this.emit("change");
-      };
+      console.error(LOG_TAG, tag, error);
+      this.state.loading = false;
+      this.emit("change");
+    };
   },
 
   onLoadMoreNotifications() {
@@ -73,13 +73,13 @@ let NotificationStore = Fluxxor.createStore({
 
   onLoadMoreNotificationsSuccess({res}) {
     res.results.forEach(function (not) {
-        var index = this.getIndex(not.id);
-        if (index >= 0) {
-          this.state.notifications[index] = not;
-        } else {
-          this.state.notifications.push(not);
-        }
-      }.bind(this));
+      var index = this.getIndex(not.id);
+      if (index >= 0) {
+        this.state.notifications[index] = not;
+      } else {
+        this.state.notifications.push(not);
+      }
+    }.bind(this));
 
     this.state.loading = false;
     this.emit("change");
@@ -92,8 +92,8 @@ let NotificationStore = Fluxxor.createStore({
 
   onResetNotificationsSuccess() {
     this.state.notifications.forEach(function (not) {
-        not.is_read = true;
-      });
+      not.is_read = true;
+    });
     this.state.loading = false;
     this.emit("change");
   },
@@ -106,8 +106,8 @@ let NotificationStore = Fluxxor.createStore({
   onReadNotificationSuccess({id}) {
     let index = this.getIndex(id);
     if (index) {
-        this.state.notifications[index].is_read = true;
-      }
+      this.state.notifications[index].is_read = true;
+    }
     this.state.loading = false;
     this.emit("change");
   },
@@ -120,8 +120,8 @@ let NotificationStore = Fluxxor.createStore({
   onUnreadNotificationSuccess({id}) {
     let index = this.getIndex(id);
     if (index) {
-        this.state.notifications[index].is_read = false;
-      }
+      this.state.notifications[index].is_read = false;
+    }
     this.state.loading = false;
     this.emit("change");
   },

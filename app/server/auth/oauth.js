@@ -187,12 +187,12 @@ module.exports = {
   logout: function (req, res) {
     req.session.destroy(function (err) {
       if (err) {
-          res.status(500).send(err);
-        } else {
-          res.status(200).send({
-            loggedOut: true
-          });
-        }
+        res.status(500).send(err);
+      } else {
+        res.status(200).send({
+          loggedOut: true
+        });
+      }
     });
   }
 };

@@ -41,56 +41,56 @@ function replyDraftInit(text) {
 let ShoutStore = Fluxxor.createStore({
   initialize(props) {
     this.state = {
-        all: shoutCollectionInit(),
-        offer: shoutCollectionInit(),
-        request: shoutCollectionInit(),
-        relatedShouts: {},
-        discoverShouts: {},
-        fullShouts: {},
-        loading: false,
-        currencies: {},
-        categories: [],
-        sortTypes: {},
-        draft: shoutDraftInit(),
-        replyDrafts: {},
-        status: {},
-        waiting:false
-      };
+      all: shoutCollectionInit(),
+      offer: shoutCollectionInit(),
+      request: shoutCollectionInit(),
+      relatedShouts: {},
+      discoverShouts: {},
+      fullShouts: {},
+      loading: false,
+      currencies: {},
+      categories: [],
+      sortTypes: {},
+      draft: shoutDraftInit(),
+      replyDrafts: {},
+      status: {},
+      waiting:false
+    };
 
     if (props.currencies) {
-        this.state.currencies = props.currencies;
-      }
+      this.state.currencies = props.currencies;
+    }
 
     if (props.categories) {
-        this.state.categories = props.categories;
-      }
+      this.state.categories = props.categories;
+    }
 
     if (props.sortTypes) {
-        this.state.sortTypes = props.sortTypes;
-      }
+      this.state.sortTypes = props.sortTypes;
+    }
 
     let shoutData = props.all || props.default;
     if (shoutData) {
-        this.saveUpdate(shoutData, defaults.ALL_TYPE);
-      }
+      this.saveUpdate(shoutData, defaults.ALL_TYPE);
+    }
 
     if (props.offers) {
-        this.saveUpdate(props.offers, defaults.OFFER_TYPE);
-      }
+      this.saveUpdate(props.offers, defaults.OFFER_TYPE);
+    }
 
     if (props.requests) {
-        this.saveUpdate(props.requests, defaults.REQUEST_TYPE);
-      }
+      this.saveUpdate(props.requests, defaults.REQUEST_TYPE);
+    }
 
     if (props.shout) {
-        this.state.fullShouts[props.shout.id] = this.augmentShout(props.shout);
-      }
+      this.state.fullShouts[props.shout.id] = this.augmentShout(props.shout);
+    }
 
     if(props.discoverShouts) {
-        const res = props.discoverid;
+      const res = props.discoverid;
 
-        this.onDiscoverShoutsSuccess({res});
-      }
+      this.onDiscoverShoutsSuccess({res});
+    }
 
 
     this.bindActions(
@@ -119,28 +119,28 @@ let ShoutStore = Fluxxor.createStore({
 
   augmentShout(shout) {
     if (shout.currency && this.state.currencies[shout.currency]) {
-        shout.origCurrency = shout.currency;
-        shout.currency = this.state.currencies[shout.currency].name;
-      }
+      shout.origCurrency = shout.currency;
+      shout.currency = this.state.currencies[shout.currency].name;
+    }
     return shout;
   },
 
   saveUpdate(res, type = defaults.ALL_Type) {
     if (res.results) {
-        let collection = this.state[type];
-        collection.shouts = this.augmentShouts(res.results);
-        collection.maxCount = Number(res.count);
-        collection.next = this.parsePage(res.next);
-        collection.prev = this.parsePage(res.previous);
-        collection.page = collection.next - 1 || collection.prev + 1 || 1;
-      }
+      let collection = this.state[type];
+      collection.shouts = this.augmentShouts(res.results);
+      collection.maxCount = Number(res.count);
+      collection.next = this.parsePage(res.next);
+      collection.prev = this.parsePage(res.previous);
+      collection.page = collection.next - 1 || collection.prev + 1 || 1;
+    }
   },
 
   parsePage(encUrl) {
     if (encUrl) {
-        var parsed = url.parse(encUrl, true);
-        return Number(parsed.query.page || 1);
-      }
+      var parsed = url.parse(encUrl, true);
+      return Number(parsed.query.page || 1);
+    }
     return null;
   },
 
@@ -151,30 +151,30 @@ let ShoutStore = Fluxxor.createStore({
   onUpdate(type = defaults.ALL_TYPE) {
     let locationsStore = this.flux.store("locations");
     client.list({
-        page_size: defaults.PAGE_SIZE,
-        city: locationsStore.getCurrentCity(),
-        country: locationsStore.getCurrentCountry(),
-        state: locationsStore.getCurrentState(),
-        shout_type: type
-      }).end(function (err, res) {
-        if (err || !res.body) {
-        this.flux.actions.requestFailed(err);
-      } else {
-        this.flux.actions.updateSuccess(res.body, type);
-      }
-      }.bind(this));
+      page_size: defaults.PAGE_SIZE,
+      city: locationsStore.getCurrentCity(),
+      country: locationsStore.getCurrentCountry(),
+      state: locationsStore.getCurrentState(),
+      shout_type: type
+    }).end(function (err, res) {
+      if (err || !res.body) {
+          this.flux.actions.requestFailed(err);
+        } else {
+          this.flux.actions.updateSuccess(res.body, type);
+        }
+    }.bind(this));
   },
 
   onLocUpdate() {
     if (this.state[defaults.ALL_TYPE].page) {
-        this.onUpdate(defaults.ALL_TYPE);
-      }
+      this.onUpdate(defaults.ALL_TYPE);
+    }
     if (this.state[defaults.OFFER_TYPE].page) {
-        this.onUpdate(defaults.OFFER_TYPE);
-      }
+      this.onUpdate(defaults.OFFER_TYPE);
+    }
     if (this.state[defaults.REQUEST_TYPE].page) {
-        this.onUpdate(defaults.REQUEST_TYPE);
-      }
+      this.onUpdate(defaults.REQUEST_TYPE);
+    }
   },
 
   onUpdateSuccess({res, type}) {
@@ -232,8 +232,8 @@ let ShoutStore = Fluxxor.createStore({
 
   onLoadShoutFailed({shoutId, res}) {
     if (res.status !== 404) {
-        console.error(res.body);
-      }
+      console.error(res.body);
+    }
     this.state.fullShouts[shoutId] = null;
     this.state.loading = false;
     this.emit("change");
@@ -241,10 +241,10 @@ let ShoutStore = Fluxxor.createStore({
 
   onLoadMore({type = defaults.ALL_TYPE}) {
     let locationsStore = this.flux.store("locations"),
-        collection = this.state[type];
+      collection = this.state[type];
 
     if (collection.next || collection.shouts.length === 0) {
-        client
+      client
         .list({
           page: collection.next,
           shout_type: type,
@@ -261,32 +261,32 @@ let ShoutStore = Fluxxor.createStore({
           }
         }.bind(this));
 
-        this.state.loading = true;
-        this.emit("change");
-      }
+      this.state.loading = true;
+      this.emit("change");
+    }
   },
 
   findShout(shoutId) {
     if(!shoutId) {return;}
 
     var state = this.state,
-        index = this.getIndex(shoutId);
+      index = this.getIndex(shoutId);
     if (state.fullShouts[shoutId]) {
-        return {
-          full: true,
-          shout: state.fullShouts[shoutId]
+      return {
+        full: true,
+        shout: state.fullShouts[shoutId]
+      };
+    } else if (index >= 0) {
+      return {
+          full: false,
+          shout: state.shouts[index]
         };
-      } else if (index >= 0) {
-        return {
-        full: false,
-        shout: state.shouts[index]
-      };
-      } else {
-        return {
-        full: false,
-        shout: null
-      };
-      }
+    } else {
+      return {
+          full: false,
+          shout: null
+        };
+    }
   },
 
   getIndex(collection, shoutId) {
@@ -296,13 +296,13 @@ let ShoutStore = Fluxxor.createStore({
   onLoadMoreSuccess({res, type=defaults.ALL_TYPE}) {
     let collection = this.state[type];
     res.results.forEach(function (shout) {
-        var index = this.getIndex(collection, shout.id);
-        if (index >= 0) {
-          collection.shouts[index] = this.augmentShout(shout);
-        } else {
-          collection.shouts.push(this.augmentShout(shout));
-        }
-      }.bind(this));
+      var index = this.getIndex(collection, shout.id);
+      if (index >= 0) {
+        collection.shouts[index] = this.augmentShout(shout);
+      } else {
+        collection.shouts.push(this.augmentShout(shout));
+      }
+    }.bind(this));
 
     collection.maxCount = Number(res.count);
     collection.next = this.parsePage(res.next);
@@ -337,7 +337,7 @@ let ShoutStore = Fluxxor.createStore({
 
   sendShout(shoutDraft) {
     return new Promise(function (resolve, reject) {
-        client.create(shoutDraft)
+      client.create(shoutDraft)
         .end(function (err, res) {
           if (err || !res.body) {
             console.log(err);
@@ -346,79 +346,79 @@ let ShoutStore = Fluxxor.createStore({
             resolve(res.body);
           }
         });
-      });
+    });
   },
 
   transformDraft(shoutDraft) {
     let locationStore = this.flux.store("locations");
 
     return new Promise(function (resolve, reject) {
-        let shoutToSend = {};
+      let shoutToSend = {};
 
-        shoutToSend.title = shoutDraft.title;
-        shoutToSend.text = shoutDraft.text;
-        shoutToSend.type = shoutDraft.type;
-        shoutToSend.price = shoutDraft.price;
-        shoutToSend.images = shoutDraft.images;
-        shoutToSend.currency = shoutDraft.currency.code;
-        shoutToSend.location = {
-          latitude: shoutDraft.latLng.lat(),
-          longitude: shoutDraft.latLng.lng()
-        };
-        shoutToSend.tags = shoutDraft.tags.map(function (tag) {
-          return {
+      shoutToSend.title = shoutDraft.title;
+      shoutToSend.text = shoutDraft.text;
+      shoutToSend.type = shoutDraft.type;
+      shoutToSend.price = shoutDraft.price;
+      shoutToSend.images = shoutDraft.images;
+      shoutToSend.currency = shoutDraft.currency.code;
+      shoutToSend.location = {
+        latitude: shoutDraft.latLng.lat(),
+        longitude: shoutDraft.latLng.lng()
+      };
+      shoutToSend.tags = shoutDraft.tags.map(function (tag) {
+        return {
             name: tag
           };
-        });
-        shoutToSend.category = {
-          name: shoutDraft.category.name
-        };
+      });
+      shoutToSend.category = {
+        name: shoutDraft.category.name
+      };
 
 
-        locationStore.geocode(shoutDraft.latLng, function (err, response) {
-          if (err) {
+      locationStore.geocode(shoutDraft.latLng, function (err, response) {
+        if (err) {
             console.log(err);
             reject(err);
           } else {
             shoutToSend.location.google_geocode_response = response;
             resolve(shoutToSend);
           }
-        });
       });
+    });
   },
 
   validateDraft(shoutDraft) {
     let errors = {};
 
     return new Promise(function (resolve, reject) {
-        if (!shoutDraft.title || shoutDraft.title.length < 10) {
-          errors.title = "Enter a title with 10 to 200 characters";
-        }
-        if (!shoutDraft.text || shoutDraft.text.length < 10 || shoutDraft.text.length > 1000) {
-          errors.text = "Enter a description with 10 to 1000 characters";
-        }
-        if (!shoutDraft.currency) {
-          errors.currency = "Select a currency";
-        }
-        if (!shoutDraft.price) {
-          errors.price = "Select a price";
-        }
-        if (!shoutDraft.latLng) {
-          errors.location = "Select a location";
-        }
-        if (!shoutDraft.category) {
-          errors.category = "Select a category";
-        }
+      if (!shoutDraft.title || shoutDraft.title.length < 10) {
+        errors.title = "Enter a title with 10 to 200 characters";
+      }
+      if (!shoutDraft.text || shoutDraft.text.length < 10 || shoutDraft.text.length > 1000) {
+        errors.text = "Enter a description with 10 to 1000 characters";
+      }
+      if (!shoutDraft.currency) {
+        errors.currency = "Select a currency";
+      }
+      if (!shoutDraft.price) {
+        errors.price = "Select a price";
+      }
+      if (!shoutDraft.latLng) {
+        errors.location = "Select a location";
+      }
+      if (!shoutDraft.category) {
+        errors.category = "Select a category";
+      }
       // if (!shoutDraft.images.length) {
       //  errors.images = "Upload at least one image";
       // }
 
-        if (keys(errors).length) {
-          reject(errors);
-        } else {
-          resolve(shoutDraft);
-        }
-      });
+      if (keys(errors).length) {
+        reject(errors);
+      } else {
+        resolve(shoutDraft);
+      }
+    });
   },
 
   onRemoveShoutImage({fileName}) {
@@ -434,10 +434,10 @@ let ShoutStore = Fluxxor.createStore({
     let draft = this.state.replyDrafts[shoutId];
 
     if (draft) {
-        draft.text = text;
-      } else {
-        this.state.replyDrafts[shoutId] = replyDraftInit(text);
-      }
+      draft.text = text;
+    } else {
+      this.state.replyDrafts[shoutId] = replyDraftInit(text);
+    }
 
     this.emit("change");
   },

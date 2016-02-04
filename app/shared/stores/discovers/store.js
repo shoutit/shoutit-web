@@ -32,12 +32,12 @@ var DiscoverStore = Fluxxor.createStore({
       const res = props.discoverShouts;
 
       if(res.show_shouts) {
-          this.addDiscoverShoutsEntry(res.id);
-          this.state.shouts[res.id].next = this.parseNextPage(res.next);
+        this.addDiscoverShoutsEntry(res.id);
+        this.state.shouts[res.id].next = this.parseNextPage(res.next);
 
                 // save the list of shouts id in this store
-          this.state.shouts[res.id].list = res.results.map((item) => item.id);
-        }
+        this.state.shouts[res.id].list = res.results.map((item) => item.id);
+      }
     }
 
     this.bindActions(
@@ -56,25 +56,25 @@ var DiscoverStore = Fluxxor.createStore({
   addDiscoverEntry(id) {
     if(!this.state.discovers[id]) {
       this.state.discovers[id] = {
-          loading: false,
-          id: null,
-          title: null,
-          description: null,
-          cover: null,
+        loading: false,
+        id: null,
+        title: null,
+        description: null,
+        cover: null,
                 // An array of objects with discover items
-          children: []
-        };
+        children: []
+      };
     }
   },
 
   addDiscoverShoutsEntry(id) {
     if(!this.state.shouts[id]) {
       this.state.shouts[id] = {
-          loading: false,
-          next: null,
+        loading: false,
+        next: null,
                 // An array of shouts id (find the shout objects in shout store)
-          list: []
-        };
+        list: []
+      };
     }
   },
 

@@ -11,9 +11,9 @@ export default {
 
   searchShoutsSuccess(term, res) {
     this.dispatch(consts.SEARCH_SHOUTS_SUCCESS, {
-        term: term,
-        res: res
-      });
+      term: term,
+      res: res
+    });
   },
 
   searchTags(payload) {
@@ -22,9 +22,9 @@ export default {
 
   searchTagsSuccess(term, res) {
     this.dispatch(consts.SEARCH_TAGS_SUCCESS, {
-        term: term,
-        res: res
-      });
+      term: term,
+      res: res
+    });
   },
 
   searchUsers(payload) {
@@ -33,9 +33,9 @@ export default {
 
   searchUsersSuccess(term, res) {
     this.dispatch(consts.SEARCH_USERS_SUCCESS, {
-        term: term,
-        res: res
-      });
+      term: term,
+      res: res
+    });
   },
 
   searchLoadMore() {

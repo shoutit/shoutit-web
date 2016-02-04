@@ -13,30 +13,30 @@ import client from "./client";
 let LocationsStore = Fluxxor.createStore({
   initialize(props) {
     this.state = {
-        runningAutocomplete: null,
-        current: {
-          location: null,
-          country: null,
-          city: null,
-          state: null
-        },
-        locations: {},
-        search: {}
-      };
+      runningAutocomplete: null,
+      current: {
+        location: null,
+        country: null,
+        city: null,
+        state: null
+      },
+      locations: {},
+      search: {}
+    };
 
     this.router = props.router;
 
     if (props.currentLocation) {
-        this.state.current.location = props.currentLocation;
-      }
+      this.state.current.location = props.currentLocation;
+    }
 
     if (props.params) {
-        if (props.params.city) {
-          this.state.current.city = props.params.city;
-          this.state.current.country = props.params.country;
-          this.state.current.state = props.params.state;
-        }
+      if (props.params.city) {
+        this.state.current.city = props.params.city;
+        this.state.current.country = props.params.country;
+        this.state.current.state = props.params.state;
       }
+    }
 
     this.bindActions(
       consts.LOAD_PREDICTIONS, this.onLoadPredicitions,
@@ -70,9 +70,9 @@ let LocationsStore = Fluxxor.createStore({
 
     // wait for user location to provide location if already saved
     this.waitFor(["users"], () => {
-        if (isLocAvailable() === false) {
+      if (isLocAvailable() === false) {
         // acquring user location from shoutit geocoding API
-          client.geocode(lat, lng)
+        client.geocode(lat, lng)
           .end((err, res) => {
             if(err) {
               console.log(err);
@@ -82,17 +82,17 @@ let LocationsStore = Fluxxor.createStore({
               this.emit("change");
             }
           });
-        }
-      });
+      }
+    });
   },
 
   onLoadPredicitions({term}) {
     if (this.state.runningAutocomplete) {
-        clearTimeout(this.state.runningAutocomplete);
-      }
+      clearTimeout(this.state.runningAutocomplete);
+    }
     if (!this.state.locations[term]) {
-        this.state.runningAutocomplete = setTimeout(function () {
-          this.loadPlacePredictions(term, function (err, loadedTerm, results) {
+      this.state.runningAutocomplete = setTimeout(function () {
+        this.loadPlacePredictions(term, function (err, loadedTerm, results) {
             if (err) {
               console.warn(err);
             } else {
@@ -101,9 +101,9 @@ let LocationsStore = Fluxxor.createStore({
               this.emit("change");
             }
           }.bind(this));
-        }.bind(this), 500);
-        this.emit("change");
-      }
+      }.bind(this), 500);
+      this.emit("change");
+    }
   },
 
   onSelectLocation({prediction}) {
@@ -131,36 +131,36 @@ let LocationsStore = Fluxxor.createStore({
 
   loadPlacePredictions(term, cb) {
     if (this.autocomplete && term.length >= 3) {
-        let places = this.gmaps.places;
-        this.autocomplete.getPlacePredictions({
-          input: term,
-          types: ["(cities)"]
-        },
+      let places = this.gmaps.places;
+      this.autocomplete.getPlacePredictions({
+        input: term,
+        types: ["(cities)"]
+      },
         (predictions, status) => {
           if (status === places.PlacesServiceStatus.OK) {
             let results = predictions.map(prediction => ({
-                id: prediction.place_id,
-                description: prediction.description,
-                city: prediction.terms[0].value,
-                country: prediction.terms[prediction.terms.length - 1].value
-              }));
+              id: prediction.place_id,
+              description: prediction.description,
+              city: prediction.terms[0].value,
+              country: prediction.terms[prediction.terms.length - 1].value
+            }));
             cb(null, term, results);
           } else {
             cb(predictions);
           }
         }
       );
-      }
+    }
   },
 
   setLocation(latLng) {
     if (!this.state.current.location) {
-        this.state.current.location = latLng;
-        if (!this.state.current.city) {
-          this.resolvePosition(latLng);
-        }
-        this.emit("change");
+      this.state.current.location = latLng;
+      if (!this.state.current.city) {
+        this.resolvePosition(latLng);
       }
+      this.emit("change");
+    }
   },
 
   setGMaps(gmaps) {
@@ -174,49 +174,49 @@ let LocationsStore = Fluxxor.createStore({
     let location = results[0].geometry.location;
 
     if (results.length) {
-        let localityResultsForCity = uniq(where(flatten(pluck(results, "address_components")), {
-            types: ["locality"]
-          }), "short_name"),
-          localityResultsForCountry = uniq(where(flatten(pluck(results, "address_components")), {
+      let localityResultsForCity = uniq(where(flatten(pluck(results, "address_components")), {
+          types: ["locality"]
+        }), "short_name"),
+        localityResultsForCountry = uniq(where(flatten(pluck(results, "address_components")), {
             types: ["country"]
           }), "short_name"),
-          localityResultsForState = uniq(where(flatten(pluck(results, "address_components")), {
+        localityResultsForState = uniq(where(flatten(pluck(results, "address_components")), {
             types: ["administrative_area_level_1"]
           }), "short_name");
-        if (localityResultsForCity.length) {
-          newCity = localityResultsForCity[0];
-        }
-        if (localityResultsForCountry.length) {
-          newCountry = localityResultsForCountry[0];
-        }
-        if (localityResultsForState.length) {
-          newState = localityResultsForState[0];
-        }
+      if (localityResultsForCity.length) {
+        newCity = localityResultsForCity[0];
+      }
+      if (localityResultsForCountry.length) {
+        newCountry = localityResultsForCountry[0];
+      }
+      if (localityResultsForState.length) {
+        newState = localityResultsForState[0];
+      }
 
-        if (results[0].geometry) {
-          newLocation = new window.google.maps.LatLng(location.lat, location.lng);
-        }
+      if (results[0].geometry) {
+        newLocation = new window.google.maps.LatLng(location.lat, location.lng);
+      }
 
-        if (this.state.current.city != newCity.long_name ||
+      if (this.state.current.city != newCity.long_name ||
         this.state.current.country != newCountry.short_name ||
         this.state.current.state != newState.short_name) {
 
-          let locObj = {};
-          locObj.city = newCity.long_name;
-          locObj.country = newCountry.short_name;
-          locObj.state = newState ? newState.short_name : null;
-          locObj.latitude = location.lat;
-          locObj.longitude = location.lng;
+        let locObj = {};
+        locObj.city = newCity.long_name;
+        locObj.country = newCountry.short_name;
+        locObj.state = newState ? newState.short_name : null;
+        locObj.latitude = location.lat;
+        locObj.longitude = location.lng;
 
-          this.updateLocation(locObj, true);
-        }
-
-        if (newLocation) {
-          this.state.current.location = newLocation;
-        }
-      } else {
-        console.warn("No results found");
+        this.updateLocation(locObj, true);
       }
+
+      if (newLocation) {
+        this.state.current.location = newLocation;
+      }
+    } else {
+      console.warn("No results found");
+    }
 
     this.emit("change");
   },
