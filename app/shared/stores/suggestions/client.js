@@ -1,11 +1,11 @@
-import request from 'superagent';
+import request from "superagent";
 
 const PREFIX = "/api/misc/suggestions";
 
 export default {
-    getSuggestions(query) {
-        return request
-            .get(PREFIX + '/')
+  getSuggestions(query) {
+      return request
+            .get(PREFIX + "/")
             .query(query);
     }
 };

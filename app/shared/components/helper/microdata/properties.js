@@ -4,18 +4,18 @@
 
 
 module.exports = {
-	name: {},
-	image: {},
-	description: {},
-	brand: {},
-	offers: {
-		itemScope: "Offer"
+	  name: {},
+	  image: {},
+	  description: {},
+	  brand: {},
+	  offers: {
+		  itemScope: "Offer"
 	},
-	price: {},
-	priceCurrency: {},
-	url : {},
-	reviews: {
-		itemScope: "Review"
+	  price: {},
+	  priceCurrency: {},
+	  url : {},
+	  reviews: {
+		  itemScope: "Review"
 	},
-	video: {}
+	  video: {}
 };

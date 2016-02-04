@@ -3,11 +3,11 @@
  */
 
 
-var SUBROUTE = 'pusher';
+var SUBROUTE = "pusher";
 
 module.exports = function() {
-	return {
-		auth: require('./auth')(this, SUBROUTE)
+	  return {
+		  auth: require("./auth")(this, SUBROUTE)
 	};
 };
 
