@@ -29,8 +29,8 @@ function checkErrors(resp) {
     if(err.msg) {
       reject(err.msg);
     } else if(resp.access_token) {
-            resolve(resp);
-          }
+      resolve(resp);
+    }
   });
 }
 

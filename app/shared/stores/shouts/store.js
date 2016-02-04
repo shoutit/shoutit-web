@@ -157,12 +157,12 @@ let ShoutStore = Fluxxor.createStore({
       state: locationsStore.getCurrentState(),
       shout_type: type
     }).end(function (err, res) {
-            if (err || !res.body) {
-              this.flux.actions.requestFailed(err);
-            } else {
-              this.flux.actions.updateSuccess(res.body, type);
-            }
-          }.bind(this));
+      if (err || !res.body) {
+        this.flux.actions.requestFailed(err);
+      } else {
+        this.flux.actions.updateSuccess(res.body, type);
+      }
+    }.bind(this));
   },
 
   onLocUpdate() {
@@ -273,20 +273,20 @@ let ShoutStore = Fluxxor.createStore({
       index = this.getIndex(shoutId);
     if (state.fullShouts[shoutId]) {
       return {
-              full: true,
-              shout: state.fullShouts[shoutId]
-            };
+        full: true,
+        shout: state.fullShouts[shoutId]
+      };
     } else if (index >= 0) {
-            return {
-              full: false,
-              shout: state.shouts[index]
-            };
-          } else {
-            return {
-              full: false,
-              shout: null
-            };
-          }
+      return {
+        full: false,
+        shout: state.shouts[index]
+      };
+    } else {
+      return {
+        full: false,
+        shout: null
+      };
+    }
   },
 
   getIndex(collection, shoutId) {
@@ -298,10 +298,10 @@ let ShoutStore = Fluxxor.createStore({
     res.results.forEach(function (shout) {
       var index = this.getIndex(collection, shout.id);
       if (index >= 0) {
-              collection.shouts[index] = this.augmentShout(shout);
-            } else {
-              collection.shouts.push(this.augmentShout(shout));
-            }
+        collection.shouts[index] = this.augmentShout(shout);
+      } else {
+        collection.shouts.push(this.augmentShout(shout));
+      }
     }.bind(this));
 
     collection.maxCount = Number(res.count);
@@ -362,28 +362,28 @@ let ShoutStore = Fluxxor.createStore({
       shoutToSend.images = shoutDraft.images;
       shoutToSend.currency = shoutDraft.currency.code;
       shoutToSend.location = {
-              latitude: shoutDraft.latLng.lat(),
-              longitude: shoutDraft.latLng.lng()
-            };
+        latitude: shoutDraft.latLng.lat(),
+        longitude: shoutDraft.latLng.lng()
+      };
       shoutToSend.tags = shoutDraft.tags.map(function (tag) {
-              return {
-                name: tag
-              };
-            });
+        return {
+          name: tag
+        };
+      });
       shoutToSend.category = {
-              name: shoutDraft.category.name
-            };
+        name: shoutDraft.category.name
+      };
 
 
       locationStore.geocode(shoutDraft.latLng, function (err, response) {
-              if (err) {
-                console.log(err);
-                reject(err);
-              } else {
-                shoutToSend.location.google_geocode_response = response;
-                resolve(shoutToSend);
-              }
-            });
+        if (err) {
+          console.log(err);
+          reject(err);
+        } else {
+          shoutToSend.location.google_geocode_response = response;
+          resolve(shoutToSend);
+        }
+      });
     });
   },
 
@@ -392,32 +392,32 @@ let ShoutStore = Fluxxor.createStore({
 
     return new Promise(function (resolve, reject) {
       if (!shoutDraft.title || shoutDraft.title.length < 10) {
-              errors.title = "Enter a title with 10 to 200 characters";
-            }
+        errors.title = "Enter a title with 10 to 200 characters";
+      }
       if (!shoutDraft.text || shoutDraft.text.length < 10 || shoutDraft.text.length > 1000) {
-              errors.text = "Enter a description with 10 to 1000 characters";
-            }
+        errors.text = "Enter a description with 10 to 1000 characters";
+      }
       if (!shoutDraft.currency) {
-              errors.currency = "Select a currency";
-            }
+        errors.currency = "Select a currency";
+      }
       if (!shoutDraft.price) {
-              errors.price = "Select a price";
-            }
+        errors.price = "Select a price";
+      }
       if (!shoutDraft.latLng) {
-              errors.location = "Select a location";
-            }
+        errors.location = "Select a location";
+      }
       if (!shoutDraft.category) {
-              errors.category = "Select a category";
-            }
+        errors.category = "Select a category";
+      }
       // if (!shoutDraft.images.length) {
       //  errors.images = "Upload at least one image";
       // }
 
       if (keys(errors).length) {
-              reject(errors);
-            } else {
-              resolve(shoutDraft);
-            }
+        reject(errors);
+      } else {
+        resolve(shoutDraft);
+      }
     });
   },
 

@@ -10,8 +10,8 @@ module.exports = function (client, path) {
       multipart: true,
       accessToken: session && session.accessToken ? session.accessToken : null,
       data: {
-              "image_file": rest.data(filename, contentType, data)
-            }
+        "image_file": rest.data(filename, contentType, data)
+      }
     });
   };
 };

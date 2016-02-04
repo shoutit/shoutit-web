@@ -49,15 +49,15 @@ FakeClient.prototype.search = function (client, session, term) {
     makePromiseFromRequest(userClient.search(session, term))
   ]).spread(function (shouts, tags, users) {
     emitter.emit("complete", {
-            shouts: shouts.results,
-            tags: tags.results,
-            users: users.results
-          }, {
+      shouts: shouts.results,
+      tags: tags.results,
+      users: users.results
+    }, {
       statusCode: 200
     });
   }, function (err) {
-          emitter.emit("error", err);
-        });
+    emitter.emit("error", err);
+  });
 
   return this;
 };

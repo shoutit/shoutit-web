@@ -9,8 +9,8 @@ module.exports = function (newUser) {
     loggedUser = newUser;
     module.exports = {
       getUser() {
-              return loggedUser;
-            }
+        return loggedUser;
+      }
     };
   }
 };
