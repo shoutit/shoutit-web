@@ -12,32 +12,32 @@ const DEFAULT_LANGUAGE = "en";
 const SHOUTIT_GEOCODE_ENDPOINT = "/api/misc/geocode";
 
 export default {
-	  geocode(lat, lng) {
-		  let pos = {};
-		  pos.latlng = [lat, lng].join(",");
+	    geocode(lat, lng) {
+		    let pos = {};
+		    pos.latlng = [lat, lng].join(",");
 		
 		// just to prevent npm from caching 0,0 position
-		  if(lat === 0 && lng === 0) {
-			  pos.key = Date.now() + Math.floor(Math.random() * 100);
+		    if(lat === 0 && lng === 0) {
+			    pos.key = Date.now() + Math.floor(Math.random() * 100);
 		}
 
-		  return request.get(SHOUTIT_GEOCODE_ENDPOINT).query(pos);
+		    return request.get(SHOUTIT_GEOCODE_ENDPOINT).query(pos);
 	},
 
-	  cityGeocode(country, state, city) {
-		  return request.get(GEOCODE_URL)
+	    cityGeocode(country, state, city) {
+		    return request.get(GEOCODE_URL)
 			.query({
-				  address: city,
-				  components: "country:" + country + "|administrative_area:" + state
+				    address: city,
+				    components: "country:" + country + "|administrative_area:" + state
 			});
 	},
 
-	  placeGeocode(placeId) {
-		  return request.get(GEOCODE_URL)
+	    placeGeocode(placeId) {
+		    return request.get(GEOCODE_URL)
 			.query({
-				  place_id: placeId,
-				  language: DEFAULT_LANGUAGE,
-				  key: API_KEY
+				    place_id: placeId,
+				    language: DEFAULT_LANGUAGE,
+				    key: API_KEY
 			});
 	}
 };

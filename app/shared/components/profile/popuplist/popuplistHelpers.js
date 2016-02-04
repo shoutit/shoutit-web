@@ -10,16 +10,16 @@ class POPUPLIST_HELPER {
 
     getTitle() {
       switch(this.type) {
-        case "Listening":
-          return "Listening to you";
-          break;
-        case "Listeners" :
-          return "Your Listeners";
-          break;
-        case "Tags" :
-          return "Tags you are listening";
-          break;
-        }
+      case "Listening":
+        return "Listening to you";
+        break;
+      case "Listeners" :
+        return "Your Listeners";
+        break;
+      case "Tags" :
+        return "Tags you are listening";
+        break;
+      }
     }
 
     /**
@@ -34,22 +34,22 @@ class POPUPLIST_HELPER {
       const {listens, users, tags} = store;
 
       if(listens[username]) {
-          switch(this.type) {
-            case "Listening":
-              let listening = listens[username].listening.list;
-              return listening.map(item => users[item]);
-              break;
-            case "Listeners" :
-              let listeners = listens[username].listeners.list;
-              return listeners.map(item => users[item]);
-              break;
-            case "Tags" :
-              let tagslist = listens[username].tags.list;
-              console.log(tagslist);
-              return tagslist.map(item => tags[item] && tags[item].tag);
-              break;
-            }
-        }
+        switch(this.type) {
+          case "Listening":
+            let listening = listens[username].listening.list;
+            return listening.map(item => users[item]);
+            break;
+          case "Listeners" :
+            let listeners = listens[username].listeners.list;
+            return listeners.map(item => users[item]);
+            break;
+          case "Tags" :
+            let tagslist = listens[username].tags.list;
+            console.log(tagslist);
+            return tagslist.map(item => tags[item] && tags[item].tag);
+            break;
+          }
+      }
     }
 }
 

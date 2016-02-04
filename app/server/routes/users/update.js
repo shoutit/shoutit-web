@@ -3,18 +3,18 @@
  */
 
 module.exports = function (client) {
-	  return function (req, res) {
-		  client.update(req.session, req.params.id || "me", req.body)
+	    return function (req, res) {
+		    client.update(req.session, req.params.id || "me", req.body)
 			.on("success", function (data) {
-				  req.session.user = data;
-				  res.json(data);
+				    req.session.user = data;
+				    res.json(data);
 			})
 			.on("fail", function (data, resp) {
-				  res.status(resp.statusCode).json(data);
+				    res.status(resp.statusCode).json(data);
 			})
 			.on("error", function (err) {
-				  console.error(err);
-				  res.status(500).send(err);
+				    console.error(err);
+				    res.status(500).send(err);
 			});
 	};
 };

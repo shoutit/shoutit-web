@@ -5,7 +5,7 @@
 var FakeClient = require("./searchAll");
 
 module.exports = function() {
-	  return new FakeClient();
+	    return new FakeClient();
 };
 
 

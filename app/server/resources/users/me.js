@@ -3,8 +3,8 @@
  */
 
 module.exports = function(client, path) {
-	  return function() {
-		  return client
+	    return function() {
+		    return client
 			.get(path + "/me");
 	};
 };

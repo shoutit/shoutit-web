@@ -3,7 +3,7 @@
  **/
 module.exports = function (client) {
   return function (req, res) {
-      client.get(req.session, req.params.pk, req.query, true)
+    client.get(req.session, req.params.pk, req.query, true)
             .on("success", function (data) {
               res.json(data);
             })
@@ -14,5 +14,5 @@ module.exports = function (client) {
               console.error(err);
               res.status(500).send(err);
             });
-    };
+  };
 };

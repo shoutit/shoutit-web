@@ -10,9 +10,9 @@ module.exports = {
   image: "/img/cover.png",
   fbId: "353625811317277",
   twitter: {
-      site: "@Shoutitcom",
-      iPhone: "947017118",
-      iPad: "947017118",
-      android: "com.shoutit.app.android"
-    }
+    site: "@Shoutitcom",
+    iPhone: "947017118",
+    iPad: "947017118",
+    android: "com.shoutit.app.android"
+  }
 };
