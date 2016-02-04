@@ -17,16 +17,10 @@ export default React.createClass({
 
   // Need to move it later to profileOffers after moving this path to home route path
   statics: {
-    fetchId:'useroffers',
+    fetchId: 'useroffers',
     fetchData(client, session, params) {
       return client.users().getShouts(session, params.username, 'offer');
     }
-  },
-
-  contextTypes: {
-    params: React.PropTypes.object,
-    flux: React.PropTypes.object,
-    location: React.PropTypes.object
   },
 
   getInitialState() {
@@ -38,7 +32,7 @@ export default React.createClass({
   },
 
   getStateFromFlux() {
-    let users = this.context.flux.store("users").getState();
+    let users = this.props.flux.store("users").getState();
     return JSON.parse(JSON.stringify(users));
   },
 
@@ -53,42 +47,38 @@ export default React.createClass({
 
   componentDidMount() {
     this.loadUser();
+
     // Setting edit mode from query
-    const query = this.context.location.query;
+    const {query} = this.props.location;
     this.setState({editMode: Boolean(query._edit)});
+
     this._notificationSystem = this.refs.notificationSystem;
   },
 
   componentDidUpdate(prevProps, prevState) {
     this.loadUser();
-    this._notificationSystem = this.refs.notificationSystem;
 
+    this._notificationSystem = this.refs.notificationSystem;
     const status = this.state.profile.status;
 
-    if(prevState.profile.status !== status && status ==='saved') {
-      // show success notification
+    // Checks related to profile edit modes
+    if (prevState.profile.status !== status && status === 'saved') {
       this.displayNotif('Changes saved successfully.');
       this.setState({editMode: false});
     }
-    if(prevState.profile.status !== status && status ==='err') {
+    if (prevState.profile.status !== status && status === 'err') {
       this.setState({editMode: false});
 
       const errors = this.state.profile.errors;
-      for(let err in errors) {
+      for (let err in errors) {
         this.displayNotif(errors[err][0], 'warning');
       }
     }
   },
 
   loadUser() {
-    let username = this.context.params.username,
-      user = this.state.users[username],
-      // condition
-      shouldLoadUser = (!user || !user.location) && !this.state.loading;
-
-    if(shouldLoadUser){
-      this.context.flux.actions.loadUser(username);
-    }
+    const {username} = this.props.params;
+    this.props.flux.actions.loadUser(username);
   },
 
   onModeChange(ev) {
@@ -96,43 +86,44 @@ export default React.createClass({
   },
 
   renderProfilePage() {
-    const username = this.context.params.username,
+    const username = this.props.params.username,
       user = this.state.users[username],
       mode = this.state.editMode;
-
+    console.log('profile loading info for');
+    console.log(username);
     return (
-        <DocumentTitle title={user.name + " - Shoutit"}>
-          <div>
-            <Grid >
-              <Column size="12" clear={true}>
-                <ProfileCover
-                  profile={this.state.profile}
-                  onModeChange={this.onModeChange}
-                  user={user}
-                  editMode={mode}
-                  />
-              </Column>
-            </Grid>
-            <Grid >
-              <Column size="3" clear={true}>
-                <ProfileLeftBoard
-                  user={user}
-                  onUserListenChange={this.onUserListenChange}
-                  editMode={mode}
-                  />
-              </Column>
-              <Column size="9" style={{paddingTop: "15px"}}>
-                {user.is_owner? (
-                  <EmbeddedShout collapsed={true}/>
-                  ): null}
-                <ProfileOffers {...this.state} username={username} />
+      <DocumentTitle title={user.name + " - Shoutit"}>
+        <div>
+          <Grid >
+            <Column size="12" clear={true}>
+              <ProfileCover
+                profile={this.state.profile}
+                onModeChange={this.onModeChange}
+                user={user}
+                editMode={mode}
+              />
+            </Column>
+          </Grid>
+          <Grid >
+            <Column size="3" clear={true}>
+              <ProfileLeftBoard
+                user={user}
+                onUserListenChange={this.onUserListenChange}
+                editMode={mode}
+              />
+            </Column>
+            <Column size="9" style={{paddingTop: "15px"}}>
+              {user.is_owner ? (
+                <EmbeddedShout collapsed={true}/>
+              ) : null}
+              <ProfileOffers {...this.state} username={username}/>
 
-              </Column>
-            </Grid>
-            <NotificationSystem ref="notificationSystem" />
-          </div>
-        </DocumentTitle>
-      );
+            </Column>
+          </Grid>
+          <NotificationSystem ref="notificationSystem"/>
+        </div>
+      </DocumentTitle>
+    );
   },
 
   renderNotFound() {
@@ -140,24 +131,24 @@ export default React.createClass({
       <DocumentTitle title={"User Not Found! - Shoutit"}>
         <h3>User not found!</h3>
       </DocumentTitle>
-      );
+    );
   },
 
   renderLoading() {
-    return(
+    return (
       <DocumentTitle title={"[Loading...] - Shoutit"}>
         <Progress />
       </DocumentTitle>
-      );
+    );
   },
 
   render() {
-    let username = this.context.params.username,
+    const {username} = this.props.params,
       user = this.state.users[username];
 
-    if(user && user.location) {
+    if (user && user.location) {
       return this.renderProfilePage();
-    } else if(user === null) {
+    } else if (user === null) {
       return this.renderNotFound();
     } else {
       return this.renderLoading();
