@@ -80,59 +80,52 @@ export default React.createClass({
     },
 
     render() {
-        let {shoutId, location, title} = this.context.params;
         let {shout, user} = this.state;
         let ownerUser = null;
         try {
             ownerUser = shout.shout? shout.shout.user.username: null;
         } catch(e) {}
 
-        if(shoutId) {
-            return (
-                <div>
-                    <section className="si-card gray-card share-shout-card">
-                        <div className="card-header">
-                            <Icon name="call-to-action" />
-                            <h3>share this shout</h3>
-                        </div>
-                        <Column fluid={true} clear={true} size="7" className="share-button">
-                            <Icon name="facebook" />
-                            <Icon name="share-bubble" className="share-bubble"/>
-                            <span>0</span>
-                        </Column>
-                        <Column fluid={true} size="7" className="share-button">
-                            <Icon name="twitter" />
-                            <Icon name="share-bubble" className="share-bubble"/>
-                            <span>2</span>
-                        </Column>
-                        <Column fluid={true} clear={true} size="7" className="share-button">
-                            <Icon name="google-plus" />
-                            <Icon name="share-bubble" className="share-bubble"/>
-                            <span>0</span>
-                        </Column>
-                        <Column fluid={true} size="7" className="share-button">
-                            <Icon name="mail" />
-                            <Icon name="share-bubble" className="share-bubble"/>
-                            <span>0</span>
-                        </Column>
-                        <Column fluid={true} size="15" style={{margin:'10px 15px'}}>
-                            <Separator />
-                        </Column>
-                        <Column fluid={true} size="15" style={{margin:'10px 15px'}}>
-                            <ReactVisible condition={user && ownerUser !== user}>
-                                <Icon name="report" style={{display: "inline-block"}}/>
-                                <span className="report-button">Report this Shout</span>
-                            </ReactVisible>
-                        </Column>
-                        {this.renderOwnerControl()}
-                    </section>
-                    {this.renderUsersControl()}
-                </div>
-            );
-        } else {
-            return null;
-        }
-        
-
+        return (
+            <div>
+                <section className="si-card gray-card share-shout-card">
+                    <div className="card-header">
+                        <Icon name="call-to-action" />
+                        <h3>share this shout</h3>
+                    </div>
+                    <Column fluid={true} clear={true} size="7" className="share-button">
+                        <Icon name="facebook" />
+                        <Icon name="share-bubble" className="share-bubble"/>
+                        <span>0</span>
+                    </Column>
+                    <Column fluid={true} size="7" className="share-button">
+                        <Icon name="twitter" />
+                        <Icon name="share-bubble" className="share-bubble"/>
+                        <span>2</span>
+                    </Column>
+                    <Column fluid={true} clear={true} size="7" className="share-button">
+                        <Icon name="google-plus" />
+                        <Icon name="share-bubble" className="share-bubble"/>
+                        <span>0</span>
+                    </Column>
+                    <Column fluid={true} size="7" className="share-button">
+                        <Icon name="mail" />
+                        <Icon name="share-bubble" className="share-bubble"/>
+                        <span>0</span>
+                    </Column>
+                    <Column fluid={true} size="15" style={{margin:'10px 15px'}}>
+                        <Separator />
+                    </Column>
+                    <Column fluid={true} size="15" style={{margin:'10px 15px'}}>
+                        <ReactVisible condition={user && ownerUser !== user}>
+                            <Icon name="report" style={{display: "inline-block"}}/>
+                            <span className="report-button">Report this Shout</span>
+                        </ReactVisible>
+                    </Column>
+                    {this.renderOwnerControl()}
+                </section>
+                {this.renderUsersControl()}
+            </div>
+        );
     }
 });

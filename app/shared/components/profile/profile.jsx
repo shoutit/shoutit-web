@@ -4,7 +4,7 @@ import {Grid, Column, Progress} from '../helper';
 import ProfileOffers from './profileOffers.jsx';
 import DocumentTitle from 'react-document-title';
 import ProfileCover from './profileCover.jsx';
-import ProfileLeftBar from './profileLeftBar.jsx';
+import ProfileLeftBoard from './profileLeftBoard.jsx';
 import assign from 'lodash/object/assign';
 import EmbeddedShout from '../shouting/embeddedShout.jsx';
 import NotificationSystem from 'react-notification-system';
@@ -115,7 +115,7 @@ export default React.createClass({
                         </Grid>
                         <Grid >
                             <Column size="3" clear={true}>
-                                <ProfileLeftBar
+                                <ProfileLeftBoard
                                     user={user}
                                     onUserListenChange={this.onUserListenChange}
                                     editMode={mode}

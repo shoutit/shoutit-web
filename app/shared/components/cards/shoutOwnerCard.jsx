@@ -79,8 +79,8 @@ export default React.createClass({
                     </div>
                 </section>
             );
+        } else {
+            return null;
         }
-
-        return null;
     }
 });
