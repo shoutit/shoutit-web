@@ -32,9 +32,9 @@ export default React.createClass({
 
         return (
             <h5>{types[shout.type]} by&nbsp;
-				<span className="poster">
+        <span className="poster">
                     {link}
-				</span>
+        </span>
                 &nbsp;-&nbsp;
                 {moment.unix(shout.date_published).fromNow()}
             </h5>

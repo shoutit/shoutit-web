@@ -4,22 +4,22 @@
 */
 class POPUPLIST_HELPER {
     constructor(type, username) {
-        this.type = type;
-        this.username = username;
+      this.type = type;
+      this.username = username;
     }
 
     getTitle() {
-        switch(this.type) {
-        case 'Listening':
-            return 'Listening to you';
-            break;
-        case 'Listeners' :
-            return 'Your Listeners';
-            break;
-        case 'Tags' :
-            return 'Tags you are listening';
-            break;
-        }
+      switch(this.type) {
+      case "Listening":
+        return "Listening to you";
+        break;
+      case "Listeners" :
+        return "Your Listeners";
+        break;
+      case "Tags" :
+        return "Tags you are listening";
+        break;
+      }
     }
 
     /**
@@ -30,26 +30,26 @@ class POPUPLIST_HELPER {
     * @param {Object} store - the app state containing listens, users and tags from store
     */
     getList(store) {
-        const username = this.username;
-        const {listens, users, tags} = store;
+      const username = this.username;
+      const {listens, users, tags} = store;
 
-        if(listens[username]) {
-            switch(this.type) {
-            case 'Listening':
-                let listening = listens[username].listening.list;
-                return listening.map(item => users[item]);
-                break;
-            case 'Listeners' :
-                let listeners = listens[username].listeners.list;
-                return listeners.map(item => users[item]);
-                break;
-            case 'Tags' :
-                let tagslist = listens[username].tags.list;
-                console.log(tagslist);
-                return tagslist.map(item => tags[item] && tags[item].tag);
-                break;
-            }
+      if(listens[username]) {
+        switch(this.type) {
+        case "Listening":
+          let listening = listens[username].listening.list;
+          return listening.map(item => users[item]);
+          break;
+        case "Listeners" :
+          let listeners = listens[username].listeners.list;
+          return listeners.map(item => users[item]);
+          break;
+        case "Tags" :
+          let tagslist = listens[username].tags.list;
+          console.log(tagslist);
+          return tagslist.map(item => tags[item] && tags[item].tag);
+          break;
         }
+      }
     }
 }
 

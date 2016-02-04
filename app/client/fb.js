@@ -4,10 +4,10 @@
 
 export default function(appId) {
     // Facebook init
-    if (window.FB) {
-        window.FB.init({
-            appId: appId,
-            version: 'v2.0'
-        });
-    }
+  if (window.FB) {
+    window.FB.init({
+      appId: appId,
+      version: "v2.0"
+    });
+  }
 }

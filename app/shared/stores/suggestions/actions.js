@@ -1,7 +1,7 @@
-import consts from './consts';
+import consts from "./consts";
 
 export default {
-    getSuggestions() {
-        this.dispatch(consts.GET_SUGGESTIONS);
-    }
-}
+  getSuggestions() {
+    this.dispatch(consts.GET_SUGGESTIONS);
+  }
+};

@@ -29,53 +29,53 @@ import Discover from './components/discover/discover.jsx';
 import DiscoverPage from './components/discover/discoverPage.jsx';
 
 let All = new FeedListContainer("all"),
-	Offers = new FeedListContainer("offer"),
-	Requests = new FeedListContainer("request");
+  Offers = new FeedListContainer("offer"),
+  Requests = new FeedListContainer("request");
 
 
 export default function routes() {
-	return (
-			<Route component={Root}>
-				<Route component={App}>
-					<Route path="/" component={MainPage}>
-						<Route path="login" component={Login}/>
-						<Route path="signup" component={Signup}/>
-					</Route>
-					<Route path="/home" component={HomePage}>
-						<Route path="/all/:country/:state/:city(/:page)" component={All}/>
-						<Route path="/offers/:country/:state/:city(/:page)" component={Offers}/>
-						<Route path="/requests/:country/:state/:city(/:page)" component={Requests}/>
-						<Route path="/shout/:shoutId(/:location)(/:title)" component={Shout}/>
-						<Route path="/tag/:tagName" component={TagProfile}>
-							<Route path="tagrequests" component={TagProfileRequest}/>
-							<Route path="taglisteners" component={TagProfileListeners}/>
-							<IndexRoute component={TagProfileShouts}/>
-						</Route>
-						<Route path="/search/:shouttype/:category(/:term)" component={Search}>
-							<IndexRoute component={Search}/>
-						</Route>
-						<IndexRoute component={All}/>
-					</Route>
-					<Route path="/user/:username" component={ProfileHome} >
-						<Route path="/page/:username" component={Page} />
-						<IndexRoute component={Profile}/>
-					</Route>
-					<Route path="/discover/:country" component={DiscoverHome}>
-						<Route path="/discover/:country/:pk" component={DiscoverPage} />
-						<IndexRoute component={Discover} />
-					</Route>
-				</Route>
-				<Route path="/messages" component={ Chat }>
-					<Route path="/messages/:id" component={ Conversation } />
-				</Route>
-				<Route path="static" component={Reduced}>
-					<Route path="/tos" component={Static}/>
-					<Route path="/rules" component={Static}/>
-					<Route path="/policy" component={Static}/>
-				</Route>
+  return (
+      <Route component={Root}>
+        <Route component={App}>
+          <Route path="/" component={MainPage}>
+            <Route path="login" component={Login}/>
+            <Route path="signup" component={Signup}/>
+          </Route>
+          <Route path="/home" component={HomePage}>
+            <Route path="/all/:country/:state/:city(/:page)" component={All}/>
+            <Route path="/offers/:country/:state/:city(/:page)" component={Offers}/>
+            <Route path="/requests/:country/:state/:city(/:page)" component={Requests}/>
+            <Route path="/shout/:shoutId(/:location)(/:title)" component={Shout}/>
+            <Route path="/tag/:tagName" component={TagProfile}>
+              <Route path="tagrequests" component={TagProfileRequest}/>
+              <Route path="taglisteners" component={TagProfileListeners}/>
+              <IndexRoute component={TagProfileShouts}/>
+            </Route>
+            <Route path="/search/:shouttype/:category(/:term)" component={Search}>
+              <IndexRoute component={Search}/>
+            </Route>
+            <IndexRoute component={All}/>
+          </Route>
+          <Route path="/user/:username" component={ProfileHome} >
+            <Route path="/page/:username" component={Page} />
+            <IndexRoute component={Profile}/>
+          </Route>
+          <Route path="/discover/:country" component={DiscoverHome}>
+            <Route path="/discover/:country/:pk" component={DiscoverPage} />
+            <IndexRoute component={Discover} />
+          </Route>
+        </Route>
+        <Route path="/messages" component={ Chat }>
+          <Route path="/messages/:id" component={ Conversation } />
+        </Route>
+        <Route path="static" component={Reduced}>
+          <Route path="/tos" component={Static}/>
+          <Route path="/rules" component={Static}/>
+          <Route path="/policy" component={Static}/>
+        </Route>
 
-				<Route path="/auth/verify_email" component={VerifyEmail}/>
-				<Route path="*" component={NotFound}/>
-			</Route>
-	);
+        <Route path="/auth/verify_email" component={VerifyEmail}/>
+        <Route path="*" component={NotFound}/>
+      </Route>
+  );
 }
