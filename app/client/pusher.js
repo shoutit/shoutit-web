@@ -1,11 +1,9 @@
 import Pusher from "pusher-js";
+import debug from "debug";
+
 const APP_KEY = "86d676926d4afda44089";
 
-if (process.env.NODE_ENV === "development") {
-  Pusher.log = function(message) {
-    console.log(message); // eslint-disable-line no-console
-  };
-}
+Pusher.log = message => debug("shoutit:pusher")(message);
 
 export let client;
 

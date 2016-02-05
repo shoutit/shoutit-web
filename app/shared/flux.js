@@ -1,4 +1,5 @@
 /* eslint-env node */
+import debug from "debug";
 
 import { actions as chatActions } from "./stores/chat/actions";
 import { actions as conversationsActions } from "./stores/conversations/actions";
@@ -46,6 +47,12 @@ module.exports = function (router, user, data, params, currencies, categories, s
     suggestions: new SuggestionsStore(data)
 
   };
+
+  for (const store in stores) {
+    stores[store].on("change", () =>
+      debug(`shoutit:stores:${store}`)("Emitted change", stores[store].getState())
+    );
+  }
 
   const actions = merge({},
     userActions, shoutActions, tagActions, searchActions, locationsActions,
