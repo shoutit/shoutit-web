@@ -1,9 +1,9 @@
 import React from 'react';
 import {Grid, Column} from '../helper';
 import Profile from './profile.jsx';
+import {ListenToCard, TagsCard, SuggestShoutCard} from "../cards";
 
 export default React.createClass({
-  displayName: "Home",
 
   childContextTypes: {
     flux: React.PropTypes.object,
@@ -34,7 +34,9 @@ export default React.createClass({
             {this.props.children}
           </Column>
           <Column size="3">
-
+            <TagsCard />
+            <ListenToCard />
+            <SuggestShoutCard />
           </Column>
         </Grid>
       </div>
