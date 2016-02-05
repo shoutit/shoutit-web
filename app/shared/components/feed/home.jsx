@@ -22,10 +22,12 @@ export default React.createClass({
   getStateFromFlux() {
     const {flux} = this.context;
     const suggestions = flux.store('suggestions').getState();
+    const tags = flux.store('tags').getState();
 
     return {
-      suggestions
-    }
+      suggestions,
+      tags
+    };
   },
 
   getChildContext() {
@@ -40,8 +42,19 @@ export default React.createClass({
     this.props.flux.actions.getSuggestions();
   },
 
+  /**
+   * Loading tags objects straight from Tags store
+   * @param suggestedTags
+   * @returns {Array}
+   */
+  getTagsFromStore(suggestedTags) {
+    const {tags} = this.state.tags;
+    return suggestedTags.map((item) => tags[item]);
+  },
+
   render() {
     const {suggestions} = this.state;
+    const tagsData = this.getTagsFromStore(suggestions.tags.list);
 
     return (
       <Grid className="homepage-holder">
@@ -54,7 +67,7 @@ export default React.createClass({
               {React.cloneElement(this.props.children, {flux: this.props.flux})}
           </Column>
           <Column size="3">
-            <TagsCard />
+            <TagsCard tags={tagsData} loading={suggestions.loading || tags.loading}/>
             <ListenToCard />
             <SuggestShoutCard />
           </Column>

@@ -3,10 +3,7 @@ import {Icon, Column, Grid, Progress} from '../helper';
 import TagListenButton from '../general/tagListenButton.jsx';
 
 const TagsCard = (props, context) => {
-    const {suggestions} = props;
-
-    const tags = suggestions? suggestions.tags: null;
-    const loading = suggestions.loading || tags.loading;
+    const {loading, tags} = props;
 
     return (
         <section className="si-card">
