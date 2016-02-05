@@ -7,37 +7,31 @@ var SuggestionsStore = Fluxxor.createStore({
   initialize(props) {
     this.state = {
       loading: false,
-      pages: {},
-      shouts: {},
-      tags: {},
-      users: {}
+      pages: new this.emptyList(),
+      shouts: new this.emptyList(),
+      tags: new this.emptyList(),
+      users: new this.emptyList()
     };
 
     if(props.suggestions) {
-            // TODO: load suggestions here
+      // TODO: load suggestions here
     }
 
     this.bindActions(
-            consts.GET_SUGGESTIONS, this.onGetSuggestions
-        );
+      consts.GET_SUGGESTIONS, this.onGetSuggestions
+    );
   },
 
-  createSuggestionList(keyName, loading = false) {
-    if(keyName) {
-      this.state[keyName] = assign({loading: loading}, {list: []});
-    }
-  },
-
-  addSuggestionList(collection) {
-    for (let keyName in collection) {
-      !this.state[keyName] && this.createSuggestionList(keyName);
-      this.state[keyName].list = collection[keyName];
-    }
+  emptyList() {
+    return {
+      loading: false,
+      list: []
+    };
   },
 
   onGetSuggestions(payload) {
-        // TODO: should get location for logged user from their profile for server rendering
-        // It is happening now but we need it before onComponentDidMount
+    // TODO: should get location for logged user from their profile for server rendering
+    // It is happening now but we need it before onComponentDidMount
     const location = this.flux.store("locations").getState().current;
 
     client.getSuggestions({
@@ -50,7 +44,6 @@ var SuggestionsStore = Fluxxor.createStore({
         console.error(err);
       } else {
         const {pages, shouts, tags, users} = res.body;
-        this.addSuggestionList({pages, shouts, tags, users});
 
         this.state.loading = false;
 
