@@ -1,6 +1,7 @@
 import React from "react";
 import {Grid, Column} from "../helper";
-import {StoreWatchMixin} from 'fluxxor';
+import {StoreWatchMixin} from "fluxxor";
+import {ListeningCard, ListenToCard, PagesCard, ProfileCard, TagsCard, SuggestShoutCard} from "../cards";
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("suggestions")],
@@ -40,17 +41,22 @@ export default React.createClass({
   },
 
   render() {
+    const {suggestions} = this.state;
 
     return (
       <Grid className="homepage-holder">
           <Column size="3" clear={true}>
-
+            <ProfileCard />
+            <ListeningCard />
+            <PagesCard />
           </Column>
           <Column size="9">
               {React.cloneElement(this.props.children, {flux: this.props.flux})}
           </Column>
           <Column size="3">
-
+            <TagsCard />
+            <ListenToCard />
+            <SuggestShoutCard />
           </Column>
       </Grid>
     );
