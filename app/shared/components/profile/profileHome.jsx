@@ -1,6 +1,5 @@
 import React from 'react';
 import {Grid, Column} from '../helper';
-import Board from '../feed/board.jsx';
 import Profile from './profile.jsx';
 
 export default React.createClass({
@@ -35,7 +34,7 @@ export default React.createClass({
                         {this.props.children}
                     </Column>
                     <Column size="3">
-                        <Board items={["tagsCard", "listenToCard", "suggestShoutCard"]}/>
+
                     </Column>
                 </Grid>
             </div>
