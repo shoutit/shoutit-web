@@ -1,9 +1,11 @@
 import React from 'react';
+import {StoreWatchMixin} from "fluxxor";
 import {Grid, Column} from '../helper';
 import Profile from './profile.jsx';
 import {ListenToCard, TagsCard, SuggestShoutCard} from "../cards";
 
 export default React.createClass({
+  mixins: [new StoreWatchMixin("users")],
 
   childContextTypes: {
     flux: React.PropTypes.object,
@@ -16,6 +18,11 @@ export default React.createClass({
     fetchData(client, session, params) {
       return client.users().get(session, params.username);
     }
+  },
+
+  getStateFromFlux() {
+    const users = this.props.flux.store("users").getState();
+    return JSON.parse(JSON.stringify(users));
   },
 
   getChildContext() {
@@ -31,10 +38,10 @@ export default React.createClass({
       <div className="profile-holder">
         <Grid >
           <Column size="12" clear={true}>
-            {this.props.children}
+            { React.cloneElement(this.props.children, {...this.state}) }
           </Column>
           <Column size="3">
-            <TagsCard />
+            <TagsCard tags={[]} loading={false}/>
             <ListenToCard />
             <SuggestShoutCard />
           </Column>
