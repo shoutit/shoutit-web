@@ -14,15 +14,21 @@ export default React.createClass({
     flux: PropTypes.object.isRequired
   },
 
-  mixins: [new FluxMixin(React), new StoreWatchMixin("users")],
+  mixins: [new FluxMixin(React), new StoreWatchMixin("users", "chat")],
+
+  componentDidMount() {
+    this.props.flux.actions.loadConversations();
+  },
 
   getStateFromFlux() {
-    const loggedUser = this.getFlux().store("users").getLoggedUser();
-    return { loggedUser };
+    const loggedUser = this.props.flux.store("users").getLoggedUser();
+    const chat = this.props.flux.store("chat").getState();
+    const conversations = this.props.flux.store("conversations").getConversations(chat.conversationIds);
+    return { loggedUser, conversations, chat  };
   },
 
   render() {
-    const { loggedUser } = this.state;
+    const { loggedUser, chat, conversations } = this.state;
     const { children, flux, routes } = this.props;
 
     const hideHeader = routes.some(route =>
@@ -31,8 +37,14 @@ export default React.createClass({
 
     return (
       <div>
-        { !hideHeader && <Header loggedUser={ loggedUser } flux={ flux }  /> }
-        { React.cloneElement(children, { loggedUser }) }
+        { !hideHeader &&
+          <Header loggedUser={ loggedUser }
+            flux={ flux }
+            chat={ chat }
+            conversations={ conversations }
+          />
+        }
+        { React.cloneElement(children, { loggedUser, chat, conversations }) }
       </div>
     );
   }

@@ -5,6 +5,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Router } from "react-router";
 import injectTapEventPlugin from "react-tap-event-plugin";
+import debug from "debug";
 
 import routes from "../shared/routes";
 import Flux from "../shared/flux";
@@ -17,6 +18,9 @@ import "styles/main.scss";
 
 injectTapEventPlugin();
 
+window.debug = debug;
+const log = debug("shoutit");
+
 const flux = new Flux(null);
 
 if (window.fluxData) {
@@ -27,11 +31,9 @@ if (window.fluxData) {
   );
 }
 
-if (process.env.NODE_ENV === "development") {
-  flux.on("dispatch", function (type, payload) {
-    console.log("[Flux]", type, payload);
-  });
-}
+flux.on("dispatch", (type, payload) =>
+  debug("shoutit:actions")("Dispatching %s", type, payload)
+);
 
 facebook("353625811317277");
 const ga = gAnalytics("UA-62656831-1");
@@ -52,6 +54,8 @@ setupPusher(flux.store("users"), {
   }
 });
 
+log("Mounting…");
+
 ReactDOM.render(
   <Router
     history={createBrowserHistory()}
@@ -64,5 +68,8 @@ ReactDOM.render(
     { routes }
   </Router>,
   document.getElementById("root"),
-  () => ga("send", "pageview", window.location.href)
+  () => {
+    log("App has been mounted");
+    ga("send", "pageview", window.location.href);
+  }
 );
