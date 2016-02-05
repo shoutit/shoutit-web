@@ -14,7 +14,7 @@ import MainPage from "./components/main/mainPage.jsx";
 import NotFound from "./components/misc/notfound.jsx";
 import Page from "./components/profile/page/pageProfile.jsx";
 import Profile from "./components/profile/profile.jsx";
-import ProfileHome from "./components/profile/profileHome.jsx";
+import ProfileContainer from "./components/profile/profileContainer.jsx";
 import Reduced from "./components/reduced/reduced.jsx";
 import Search from "./components/search/search.jsx";
 import Shout from "./components/shout/shoutDetail.jsx";
@@ -50,7 +50,7 @@ const routes = (
       </Route>
       <IndexRoute component={ new FeedListContainer("all") }/>
     </Route>
-    <Route path="/user/:username" component={ ProfileHome} >
+    <Route path="/user/:username" component={ ProfileContainer} >
       <Route path="/page/:username" component={ Page} />
       <IndexRoute component={ Profile }/>
     </Route>
