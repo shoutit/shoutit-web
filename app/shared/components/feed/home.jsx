@@ -5,6 +5,13 @@ import {StoreWatchMixin} from 'fluxxor';
 export default React.createClass({
   mixins: [new StoreWatchMixin("suggestions")],
 
+  statics: {
+    fetchId: 'suggestions',
+    fetchData(client, session, params) {
+      return client.misc().suggestions(session, params);
+    }
+  },
+
   childContextTypes: {
     flux: React.PropTypes.object,
     params: React.PropTypes.object,
