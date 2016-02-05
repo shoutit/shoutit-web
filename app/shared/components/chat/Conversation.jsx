@@ -96,7 +96,6 @@ export default React.createClass({
     const { id } = this.props.params;
     const conversationsStore = this.getFlux().store("conversations");
     const messagesStore = this.getFlux().store("messages");
-    const userStore = this.getFlux().store("users");
     const conversation = conversationsStore.get(id);
 
     const state = { messages: [], loading: true, typingUsers: [] };
