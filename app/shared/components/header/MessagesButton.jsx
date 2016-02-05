@@ -14,29 +14,29 @@ export default class MessagesButton extends Component {
 
   render() {
     const { conversations, chat, loggedUser } = this.props;
-    const { open, anchor } = this.state;
+    const { open } = this.state;
     return (
-      <div>
-        <Link to="/messages" onClick={ (e) => {
-          e.preventDefault();
-          this.setState({ open: !open, anchor: e.currentTarget });
-        }}>
+      <div className="topbar-buttons-notif"
+        onMouseEnter={ () => this.setState({ open: true }) }
+        onMouseLeave={ () => this.setState({ open: false }) }>
+        <Link to="/messages">
           <Icon name="chat"/>
         </Link>
-        <Popover
-         open={ open }
-         anchorEl={ anchor }
-         anchorOrigin = { {vertical: "bottom", horizontal: "right" } }
-         animated={ false }
-         useLayerForClickAway={ false }
-         onRequestClose={ () => this.setState({ open: false })}>
-          <ConversationsList
-            onItemClick={ () => this.setState({ open: false })}
-            conversations={ conversations }
-            loading={ chat.loading }
-            loggedUser={ loggedUser }
-          />
-        </Popover>
+        { open &&
+          <div className="topbar-notification-holder">
+              <div className="topbar-notification-box">
+                <ConversationsList
+                  onItemClick={ () => this.setState({ open: false })}
+                  conversations={ conversations }
+                  loading={ chat.loading }
+                  loggedUser={ loggedUser }
+                />
+                <Link to="/messages" className="notifbox-see-all">
+                    See All
+                </Link>
+              </div>
+            </div>
+          }
       </div>
     );
   }
