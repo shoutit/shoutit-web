@@ -35,6 +35,10 @@ export default React.createClass({
     };
   },
 
+  componentDidMount() {
+    this.props.flux.actions.getSuggestions();
+  },
+
   render() {
 
     return (
