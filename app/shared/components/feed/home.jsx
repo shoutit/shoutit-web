@@ -1,13 +1,23 @@
 import React from "react";
 import {Grid, Column} from "../helper";
+import {StoreWatchMixin} from 'fluxxor';
 
 export default React.createClass({
-  displayName: "Home",
+  mixins: [new StoreWatchMixin("suggestions")],
 
   childContextTypes: {
     flux: React.PropTypes.object,
     params: React.PropTypes.object,
     location: React.PropTypes.object
+  },
+
+  getStateFromFlux() {
+    const {flux} = this.context;
+    const suggestions = flux.store('suggestions').getState();
+
+    return {
+      suggestions
+    }
   },
 
   getChildContext() {
