@@ -27,6 +27,14 @@ export default React.createClass({
     }
   },
 
+  componentDidMount() {
+    this.loadTag();
+  },
+
+  componentDidUpdate() {
+    this.loadTag();
+  },
+
   render() {
     const {params, flux} = this.props;
     return (

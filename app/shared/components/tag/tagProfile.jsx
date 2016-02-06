@@ -27,7 +27,7 @@ export default React.createClass({
       let linkParams = {tagName: encodeURIComponent(tagName)},
         tag = JSON.parse(JSON.stringify(tagEntry.tag)),
         listenerCount = tag.listeners_count,
-        childProps = assign({tagName: tagName, flux: this.props.flux},this.state);
+        childProps = assign({tagName: tagName, flux: this.props.flux},this.props);
 
       return (
         <DocumentTitle title={tag.name + " - Shoutit"}>
@@ -56,12 +56,10 @@ export default React.createClass({
   },
 
   componentDidUpdate() {
-    this.loadTag();
     this._notificationSystem = this.refs.notificationSystem;
   },
 
   componentDidMount() {
-    this.loadTag();
     this._notificationSystem = this.refs.notificationSystem;
   },
 
