@@ -39,11 +39,11 @@ export default React.createClass({
     const {params, flux} = this.props;
     return (
       <Grid >
-        <Column size="3">
+        <Column size="3" clear={true}>
           <TagProfileCard params={params} flux={flux} {...this.state}/>
           <RelatedTagsCard />
         </Column>
-        <Column size="9" clear={true}>
+        <Column size="9">
           { React.cloneElement(this.props.children, {...this.state}) }
         </Column>
         <Column size="3">
