@@ -14,12 +14,14 @@ import MainPage from "./components/main/mainPage.jsx";
 import NotFound from "./components/misc/notfound.jsx";
 import Page from "./components/profile/page/pageProfile.jsx";
 import Profile from "./components/profile/profile.jsx";
-import ProfileHome from "./components/profile/profileHome.jsx";
+import ProfileContainer from "./components/profile/profileContainer.jsx";
 import Reduced from "./components/reduced/reduced.jsx";
 import Search from "./components/search/search.jsx";
+import ShoutContainer from "./components/shout/shoutContainer.jsx";
 import Shout from "./components/shout/shoutDetail.jsx";
 import Signup from "./components/login/signup.jsx";
 import Static from "./components/helper/static.jsx";
+import TagProfileContainer from "./components/tag/tagProfileContainer.jsx";
 import TagProfile from "./components/tag/tagProfile.jsx";
 import TagProfileListeners from "./components/tag/tagProfileListeners.jsx";
 import TagProfileRequest from "./components/tag/tagProfileRequests.jsx";
@@ -39,18 +41,22 @@ const routes = (
         component={ new FeedListContainer("offer") } />
       <Route path="/requests/:country/:state/:city(/:page)"
         component={ new FeedListContainer("request")} />
-      <Route path="/shout/:shoutId(/:location)(/:title)" component={ Shout }/>
-      <Route path="/tag/:tagName" component={ TagProfile }>
-        <Route path="tagrequests" component={ TagProfileRequest }/>
-        <Route path="taglisteners" component={ TagProfileListeners }/>
-        <IndexRoute component={ TagProfileShouts }/>
-      </Route>
       <Route path="/search/:shouttype/:category(/:term)" component={ Search }>
         <IndexRoute component={ Search }/>
       </Route>
       <IndexRoute component={ new FeedListContainer("all") }/>
     </Route>
-    <Route path="/user/:username" component={ ProfileHome} >
+    <Route component={ ShoutContainer } >
+      <Route path="/shout/:shoutId(/:location)(/:title)" component={ Shout }/>
+    </Route>
+    <Route component={ TagProfileContainer }>
+      <Route path="/tag/:tagName" component={ TagProfile }>
+        <Route path="tagrequests" component={ TagProfileRequest }/>
+        <Route path="taglisteners" component={ TagProfileListeners }/>
+        <IndexRoute component={ TagProfileShouts }/>
+      </Route>
+    </Route>
+    <Route path="/user/:username" component={ ProfileContainer} >
       <Route path="/page/:username" component={ Page} />
       <IndexRoute component={ Profile }/>
     </Route>

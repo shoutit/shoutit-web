@@ -1,5 +1,4 @@
 import React from 'react';
-import {StoreWatchMixin} from 'fluxxor';
 import DocumentTitle from 'react-document-title';
 import ShoutDetailBody from './shoutDetailBody.jsx';
 import Progress from '../helper/Progress.jsx';
@@ -10,98 +9,66 @@ import {Column, Grid} from '../helper';
 var USER_EXTRA_SHOUTS_LIMIT = 3;
 
 export default React.createClass({
-  displayName: "ShoutDetail",
-  mixins: [new StoreWatchMixin('shouts', 'locations', 'users')],
-
-  statics: {
-    fetchId: 'shout',
-    fetchData(client, session, params) {
-      return client.shouts().get(session, params.shoutId);
-    }
-  },
-
-  getStateFromFlux() {
-    let shoutStore = this.props.flux.store("shouts"),
-      userStoreState = this.props.flux.store("users").getState(),
-      shoutStoreState = JSON.parse(JSON.stringify(shoutStore.getState())),
-      current = this.props.flux.store("locations").getState().current,
-      findRes = shoutStore.findShout(this.props.params.shoutId);
-
-    return {
-      shoutId: this.props.params.shoutId,
-      shout: findRes.shout || {},
-      full: findRes.full,
-      loading: shoutStoreState.loading,
-      user: userStoreState.user,
-      userShouts: userStoreState.shouts,
-      relatedShouts: shoutStoreState.relatedShouts,
-      replyDrafts: shoutStoreState.replyDrafts,
-      current: current
-    };
-  },
-
   componentDidUpdate(prevProps, prevState) {
+    const {shout, params, flux} = this.props;
+
     // conditiones are critical to make the transition between shouts and loading extra shouts smoothly happen
     // DO NOT change if you are not sure what exactly is happening
     // setTimeouts are here to prevent action dispatching collide
     // TODO: Refactor later by doing all the tasks in store
-    if(prevProps.params.shoutId !== this.props.params.shoutId) {
+    if(prevProps.params.shoutId !== params.shoutId) {
       setTimeout(() => {
-        this.props.flux.actions.loadShout(this.props.params.shoutId);
+        flux.actions.loadShout(params.shoutId);
       },0);
     }
 
-    let shout = this.state.shout;
-    if(shout.id) {
-      if (shout.id !== this.props.params.shoutId) {
-        setTimeout(() => {
-          this.props.flux.actions.loadUserShouts(shout.user.username, 'offer', USER_EXTRA_SHOUTS_LIMIT);
-          this.props.flux.actions.loadRelatedShouts(shout.id);
-        },0);
-      }
+    if (shout.id && shout.id !== params.shoutId) {
+      setTimeout(() => {
+        flux.actions.loadUserShouts(shout.user.username, 'offer', USER_EXTRA_SHOUTS_LIMIT);
+        flux.actions.loadRelatedShouts(shout.id);
+      },0);
     }
 
-    if(prevState.shout.id !== this.state.shout.id){
+
+    if(shout.id && prevProps.shout.id !== shout.id){
       setTimeout(() => {
-        this.props.flux.actions.loadUserShouts(shout.user.username, 'offer', USER_EXTRA_SHOUTS_LIMIT);
-        this.props.flux.actions.loadRelatedShouts(shout.id);
+        flux.actions.loadUserShouts(shout.user.username, 'offer', USER_EXTRA_SHOUTS_LIMIT);
+        flux.actions.loadRelatedShouts(shout.id);
       },0);
     }
 
   },
 
   componentDidMount() {
-    let shout = this.state.shout;
+    const {shout, flux, params} = this.props;
     setTimeout(() => {
-      this.props.flux.actions.loadShout(this.props.params.shoutId);
+      flux.actions.loadShout(params.shoutId);
       if(shout.id) { //happens when loading shout page directly
-        this.props.flux.actions.loadUserShouts(shout.user.username, 'offer', USER_EXTRA_SHOUTS_LIMIT);
-        this.props.flux.actions.loadRelatedShouts(shout.id);
+        flux.actions.loadUserShouts(shout.user.username, 'offer', USER_EXTRA_SHOUTS_LIMIT);
+        flux.actions.loadRelatedShouts(shout.id);
       }
     },0);
   },
 
   render() {
-    let shout = this.state.shout,
-      loading = this.state.loading,
-      username = shout.id? shout.user.username: null,
-      content,
-      extraShouts = {};
+    const {flux, current, shout, loading, userShouts, relatedShouts} = this.props,
+      username = shout.id? shout.user.username: null;
+    let content, extraShouts = {};
 
-    extraShouts.more = username? this.state.userShouts[username]: null;
-    extraShouts.related = shout? this.state.relatedShouts[shout.id]: null;
+    extraShouts.more = username? userShouts[username]: null;
+    extraShouts.related = shout? relatedShouts[shout.id]: null;
 
     if (shout.id) {
       content =
         <DocumentTitle title={shout.title + " - Shoutit"}>
           <div>
             <ShoutDetailBody shout={shout}
-                     current={this.state.current}
-                     flux={this.props.flux}
+                     current={current}
+                     flux={flux}
                      />
             <ShoutExtra extra={extraShouts}
                   creator={shout.user}
-                  flux={this.props.flux}
+                  flux={flux}
                 />
           </div>
         </DocumentTitle>;
@@ -128,19 +95,4 @@ export default React.createClass({
     );
   }
 
-  // onReplyTextChange(text) {
-  //  this.props.flux.actions.changeReplyDraft(this.state.shoutId, text);
-  // },
-
-  // onReplySendClicked() {
-  //  this.props.flux.actions.sendShoutReply(this.state.shoutId, this.state.replyDrafts[this.state.shoutId]);
-  // }
 });
-/*
-<ShoutReplySection
-  shout={shout}
-  user={this.state.user}
-  onReplyTextChange={this.onReplyTextChange}
-  onReplySendClicked={this.onReplySendClicked}
-  replyDrafts={this.state.replyDrafts}/>
-  */
