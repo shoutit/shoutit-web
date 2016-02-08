@@ -18,9 +18,9 @@ module.exports = {
   context: context,
   entry: entries,
   output: {
-    path: path.join(__dirname, "./app/public/js"),
+    path: path.join(__dirname, "./app/public/assets"),
     filename: "main.js",
-    publicPath: "/js"
+    publicPath: "http://localhost:3000/assets/"
   },
   resolve: {
     extensions: ["", ".js", ".jsx", ".scss"],
