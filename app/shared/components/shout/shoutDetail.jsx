@@ -128,19 +128,4 @@ export default React.createClass({
     );
   }
 
-  // onReplyTextChange(text) {
-  //  this.props.flux.actions.changeReplyDraft(this.state.shoutId, text);
-  // },
-
-  // onReplySendClicked() {
-  //  this.props.flux.actions.sendShoutReply(this.state.shoutId, this.state.replyDrafts[this.state.shoutId]);
-  // }
 });
-/*
-<ShoutReplySection
-  shout={shout}
-  user={this.state.user}
-  onReplyTextChange={this.onReplyTextChange}
-  onReplySendClicked={this.onReplySendClicked}
-  replyDrafts={this.state.replyDrafts}/>
-  */
