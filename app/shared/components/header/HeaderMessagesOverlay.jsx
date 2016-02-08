@@ -7,6 +7,7 @@ if (process.env.BROWSER) {
 }
 
 export default function HeaderMessagesOverlay({ loggedUser, chat, conversations, unreadConversations, onMarkAsReadClick, onItemClick }) {
+
   return (
     <div className="ListOverlay">
       <div className="ListOverlay-header">
@@ -14,19 +15,24 @@ export default function HeaderMessagesOverlay({ loggedUser, chat, conversations,
           Messages
           { unreadConversations > 0 && <span> ({ unreadConversations })</span> }
         </span>
-        { unreadConversations &&
+        { unreadConversations > 0 ?
           <span className="ListOverlay-action" onClick={ onMarkAsReadClick }>
               Mark All As Read
-          </span>
+          </span> : null
         }
       </div>
       <div className="ListOverlay-body">
-      <ConversationsList
-        onItemClick={ onItemClick }
-        conversations={ conversations }
-        loading={ chat.loading }
-        loggedUser={ loggedUser }
-      />
+      { (chat.loading || conversations.length > 0) ?
+        <ConversationsList
+          onItemClick={ onItemClick }
+          conversations={ conversations }
+          loading={ chat.loading }
+          loggedUser={ loggedUser }
+        /> :
+        <div className="ListOverlay-empty">
+          <p>No messages</p>
+        </div>
+      }
       </div>
       <div className="ListOverlay-footer">
         <Link to="/messages">

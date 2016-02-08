@@ -26,6 +26,13 @@
   overflow: auto;
 }
 
+.ListOverlay-empty > p {
+  padding: 20px 10px;
+  color: $color-light;
+  text-align: center;
+  font-weight: bold;
+}
+
 .ListOverlay-footer {
   text-align: center;
   a {
