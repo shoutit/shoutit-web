@@ -12,6 +12,10 @@ export function loadNextMessages(id, after) {
   return request.get(`/api/conversations/${id}/messages`).query({ after });
 }
 
+export function markAsRead(id) {
+  return request.post(`/api/conversations/${id}/read`);
+}
+
 export function deleteConversation(id) {
   return request.del(`/api/conversations/${id}`);
 }

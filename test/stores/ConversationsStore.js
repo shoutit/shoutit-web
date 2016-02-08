@@ -390,6 +390,34 @@ describe("ConversationsStore", () => {
       expect(spy).to.not.have.been.called;
     });
 
+    it("should mark successfully a conversation as read", () => {
+      const flux = initFlux({ "abc": { unread_messages_count: 2 } });
+      const store = flux.store("ConversationsStore");
+      const spy = sinon.spy(store, "emit");
+
+      flux.dispatcher.dispatch({
+        type: actionTypes.MARK_AS_READ_SUCCESS,
+        payload: { id: "abc" }
+      });
+      const conversation = store.get("abc");
+      expect(conversation.unread_messages_count).to.equal(0);
+      expect(spy).to.have.been.calledWith("change");
+    });
+
+    it("should handle the error when marking a conversation as read", () => {
+      const flux = initFlux({ "abc": { unread_messages_count: 2 } });
+      const store = flux.store("ConversationsStore");
+      const spy = sinon.spy(store, "emit");
+
+      flux.dispatcher.dispatch({
+        type: actionTypes.MARK_AS_READ_FAILURE,
+        payload: { id: "abc" }
+      });
+      const conversation = store.get("abc");
+      expect(conversation.unread_messages_count).to.equal(2);
+      expect(spy).to.have.been.calledWith("change");
+    });
+
     it("should handle the delete conversation start", () => {
       const flux = initFlux({ "abc": { messageIds: ["foo"] } });
       const store = flux.store("ConversationsStore");
