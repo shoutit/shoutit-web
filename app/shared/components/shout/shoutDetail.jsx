@@ -31,7 +31,7 @@ export default React.createClass({
       }
     }
 
-    if(prevState.shout.id !== shout.id){
+    if(prevProps.shout.id !== shout.id){
       setTimeout(() => {
         flux.actions.loadUserShouts(shout.user.username, 'offer', USER_EXTRA_SHOUTS_LIMIT);
         flux.actions.loadRelatedShouts(shout.id);
