@@ -6,6 +6,20 @@ import {ListenToCard, TagsCard, SuggestShoutCard, ShareShoutCard, ShoutOwnerCard
 export default React.createClass({
   mixins: [new StoreWatchMixin('shouts', 'locations', 'users')],
 
+  childContextTypes: {
+    flux: React.PropTypes.object,
+    params: React.PropTypes.object,
+    location: React.PropTypes.object
+  },
+
+  getChildContext() {
+    return {
+      flux: this.props.flux,
+      params: this.props.params,
+      location: this.props.location
+    };
+  },
+
   statics: {
     fetchId: 'shout',
     fetchData(client, session, params) {
