@@ -5,7 +5,7 @@ machine:
 test:
   override:
     - docker-compose run -d www
-    - mocha
+    - npm test
 
 deployment:
   hub-master:
