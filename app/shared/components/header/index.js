@@ -83,7 +83,6 @@ export default class Header extends Component {
             onProfileClick={ e => this.showOverlay(e, "profile") }
             onNotificationsClick={ e => this.showOverlay(e, "notifications") }
             onNewShoutClick={ () => this.setState({ openNewShoutDialog: true }) }
-            flux={ flux }
             loggedUser={ loggedUser }
             unreadConversations={ unreadConversations }
           /> :
@@ -91,6 +90,7 @@ export default class Header extends Component {
         }
 
         { loggedUser && [
+
           <Overlay arrow rootClose
             style={ { width: 400, marginLeft: 4  }}
             show={ overlayName === "messages" }
@@ -106,6 +106,7 @@ export default class Header extends Component {
                 onMarkAsReadClick={ () => {} }
               />
           </Overlay>,
+
           <Overlay arrow rootClose
             style={ { width: 400, marginLeft: 4  }}
             show={ overlayName === "notifications" }
@@ -115,6 +116,7 @@ export default class Header extends Component {
             target={ () => overlayTarget }>
               <p>Notifications</p>
           </Overlay>,
+
           <Overlay rootClose arrow inverted
             style={ { width: 200, marginLeft: 10 }}
             show={ overlayName === "profile" } placement="bottom" container={ this }
@@ -125,6 +127,7 @@ export default class Header extends Component {
                 onLogoutClick={ () => flux.actions.logout() }
               />
           </Overlay>,
+
           <Dialog
             open={ openNewShoutDialog }
             autoDetectWindowHeight={true}
@@ -139,6 +142,7 @@ export default class Header extends Component {
               currentLocation={ currentLocation }
             />
           </Dialog>
+
         ]}
 
       </header>
