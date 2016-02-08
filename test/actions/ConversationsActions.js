@@ -150,7 +150,7 @@ describe("ConversationActions", () => {
 
   });
 
-  describe("markAsRead", () => {
+  describe("markConversationAsRead", () => {
     afterEach(() => Request.prototype.end.restore());
 
     it("should dispatch on success", () => {
@@ -158,7 +158,7 @@ describe("ConversationActions", () => {
       sinon.stub(Request.prototype, "end", done => done(null, {
         ok: true
       }));
-      actions.markAsRead("abc", done);
+      actions.markConversationAsRead("abc", done);
       expect(dispatch).to.have.been.calledWith(
         actionTypes.MARK_AS_READ,
         { id: "abc" }
@@ -173,7 +173,7 @@ describe("ConversationActions", () => {
     it("should dispatch response on failure", () => {
       const done = sinon.spy();
       sinon.stub(Request.prototype, "end", done => done(null, { ok: false }));
-      actions.markAsRead("abc", done);
+      actions.markConversationAsRead("abc", done);
       expect(dispatch).to.have.been.calledWith(
         actionTypes.MARK_AS_READ_FAILURE,
         { error: { ok: false }, id: "abc" }
@@ -185,7 +185,7 @@ describe("ConversationActions", () => {
     it("should dispatch error on failure", () => {
       const done = sinon.spy();
       sinon.stub(Request.prototype, "end", done => done({ status: 404}));
-      actions.markAsRead("abc", done);
+      actions.markConversationAsRead("abc", done);
       expect(dispatch).to.have.been.calledWith(
         actionTypes.MARK_AS_READ_FAILURE,
         { error: { status: 404 }, id: "abc" }
@@ -195,6 +195,43 @@ describe("ConversationActions", () => {
     });
   });
 
+  describe("markConversationsAsRead", () => {
+    afterEach(() => Request.prototype.end.restore());
+
+    it("should return a promise", () => {
+      sinon.stub(Request.prototype, "end", done => done(null, {
+        ok: true
+      }));
+      const result = actions.markConversationsAsRead(["abc", "bar"]);
+      expect(result).to.be.a("Promise");
+    });
+
+    it("should resolve if all resolves", (done) => {
+      const success = sinon.spy();
+      sinon.stub(Request.prototype, "end", done => done(null, {
+        ok: true
+      }));
+      const result = actions.markConversationsAsRead(["abc", "bar"]);
+      result.then(() => {
+        success();
+        expect(success).to.have.been.called;
+        done();
+      });
+    });
+
+    it("should fail if all fails", (done) => {
+      const success = sinon.spy();
+      sinon.stub(Request.prototype, "end", done => done(null, {
+        ok: true
+      }));
+      const result = actions.markConversationsAsRead(["abc", "bar"]);
+      result.then(() => {
+        success();
+        expect(success).to.have.been.called;
+        done();
+      });
+    });
+  });
 
   describe("deleteConversation", () => {
     afterEach(() => Request.prototype.end.restore());

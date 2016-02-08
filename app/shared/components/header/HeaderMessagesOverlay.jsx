@@ -6,16 +6,16 @@ if (process.env.BROWSER) {
   require("styles/components/ListOverlay.scss");
 }
 
-export default function HeaderMessagesOverlay({ loggedUser, chat, conversations, unreadConversations, onMarkAsReadClick, onItemClick }) {
+export default function HeaderMessagesOverlay({ loggedUser, chat, conversations, unreadCount, onMarkAsReadClick, onItemClick }) {
 
   return (
     <div className="ListOverlay">
       <div className="ListOverlay-header">
         <span className="ListOverlay-title">
           Messages
-          { unreadConversations > 0 && <span> ({ unreadConversations })</span> }
+          { unreadCount > 0 && <span> ({ unreadCount })</span> }
         </span>
-        { unreadConversations > 0 ?
+        { unreadCount > 0 ?
           <span className="ListOverlay-action" onClick={ onMarkAsReadClick }>
               Mark All As Read
           </span> : null
