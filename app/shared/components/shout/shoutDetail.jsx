@@ -1,5 +1,4 @@
 import React from 'react';
-import {StoreWatchMixin} from 'fluxxor';
 import DocumentTitle from 'react-document-title';
 import ShoutDetailBody from './shoutDetailBody.jsx';
 import Progress from '../helper/Progress.jsx';
@@ -10,36 +9,6 @@ import {Column, Grid} from '../helper';
 var USER_EXTRA_SHOUTS_LIMIT = 3;
 
 export default React.createClass({
-  displayName: "ShoutDetail",
-  mixins: [new StoreWatchMixin('shouts', 'locations', 'users')],
-
-  statics: {
-    fetchId: 'shout',
-    fetchData(client, session, params) {
-      return client.shouts().get(session, params.shoutId);
-    }
-  },
-
-  getStateFromFlux() {
-    let shoutStore = this.props.flux.store("shouts"),
-      userStoreState = this.props.flux.store("users").getState(),
-      shoutStoreState = JSON.parse(JSON.stringify(shoutStore.getState())),
-      current = this.props.flux.store("locations").getState().current,
-      findRes = shoutStore.findShout(this.props.params.shoutId);
-
-    return {
-      shoutId: this.props.params.shoutId,
-      shout: findRes.shout || {},
-      full: findRes.full,
-      loading: shoutStoreState.loading,
-      user: userStoreState.user,
-      userShouts: userStoreState.shouts,
-      relatedShouts: shoutStoreState.relatedShouts,
-      replyDrafts: shoutStoreState.replyDrafts,
-      current: current
-    };
-  },
-
   componentDidUpdate(prevProps, prevState) {
     const {shout, params, flux} = this.props;
 
