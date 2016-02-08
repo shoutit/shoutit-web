@@ -1,13 +1,15 @@
 import React, { Component, PropTypes } from "react";
 import { Link } from "react-router";
-import Overlay from "../helper/Overlay";
+import { Dialog } from "material-ui";
 
+import Overlay from "../helper/Overlay";
 import SearchBar from "./searchBar.jsx";
 
 import HeaderMessagesOverlay from "../header/HeaderMessagesOverlay.jsx";
 import HeaderProfileOverlay from "../header/HeaderProfileOverlay.jsx";
 import HeaderProfile from "../header/HeaderProfile.jsx";
 import HeaderLoggedOut from "../header/HeaderLoggedOut.jsx";
+import HeaderNewShout from "../header/HeaderNewShout.jsx";
 
 import { imagesPath } from "../../../../config";
 
@@ -31,7 +33,7 @@ export default class Header extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.location.key !== this.props.location.key) {
+    if (nextProps.location && nextProps.location.key !== this.props.location.key) {
       this.hideOverlay();
     }
   }
@@ -48,7 +50,7 @@ export default class Header extends Component {
   render() {
     const { flux, loggedUser, conversations, chat, currentLocation } = this.props;
 
-    const { overlayName, overlayTarget } = this.state;
+    const { overlayName, overlayTarget, openNewShoutDialog } = this.state;
 
     const unreadConversations = conversations ?
       conversations.filter(c => c.unread_messages_count > 0).length : 0;
@@ -80,6 +82,7 @@ export default class Header extends Component {
             onMessagesClick={  e => this.showOverlay(e, "messages")  }
             onProfileClick={ e => this.showOverlay(e, "profile") }
             onNotificationsClick={ e => this.showOverlay(e, "notifications") }
+            onNewShoutClick={ () => this.setState({ openNewShoutDialog: true }) }
             flux={ flux }
             loggedUser={ loggedUser }
             unreadConversations={ unreadConversations }
@@ -87,39 +90,56 @@ export default class Header extends Component {
           <HeaderLoggedOut />
         }
 
-        <Overlay arrow rootClose
-          style={ { width: 400, marginLeft: 4  }}
-          show={ overlayName === "messages" }
-          placement="bottom"
-          container={ this }
-          onHide={ () => this.hideOverlay() }
-          target={ () => overlayTarget }>
-            <HeaderMessagesOverlay
+        { loggedUser && [
+          <Overlay arrow rootClose
+            style={ { width: 400, marginLeft: 4  }}
+            show={ overlayName === "messages" }
+            placement="bottom"
+            container={ this }
+            onHide={ () => this.hideOverlay() }
+            target={ () => overlayTarget }>
+              <HeaderMessagesOverlay
+                loggedUser={ loggedUser }
+                chat={ chat }
+                conversations={ conversations }
+                unreadConversations={ 10 }
+                onMarkAsReadClick={ () => {} }
+              />
+          </Overlay>,
+          <Overlay arrow rootClose
+            style={ { width: 400, marginLeft: 4  }}
+            show={ overlayName === "notifications" }
+            placement="bottom"
+            container={ this }
+            onHide={ () => this.hideOverlay() }
+            target={ () => overlayTarget }>
+              <p>Notifications</p>
+          </Overlay>,
+          <Overlay rootClose arrow inverted
+            style={ { width: 200, marginLeft: 10 }}
+            show={ overlayName === "profile" } placement="bottom" container={ this }
+            onHide={ () => this.hideOverlay() }
+            target={ () => overlayTarget }>
+              <HeaderProfileOverlay
+                loggedUser={ loggedUser }
+                onLogoutClick={ () => flux.actions.logout() }
+              />
+          </Overlay>,
+          <Dialog
+            open={ openNewShoutDialog }
+            autoDetectWindowHeight={true}
+            autoScrollBodyContent={true}
+            bodyStyle={{ borderRadius: "5px"}}
+            contentClassName="new-shout-popup"
+            onRequestClose={ () => this.setState({ openNewShoutDialog: false }) }>
+            <HeaderNewShout
+              flux={ flux }
+              onShoutSent={ () => this.setState({ openNewShoutDialog: false }) }
               loggedUser={ loggedUser }
-              chat={ chat }
-              conversations={ conversations }
-              unreadConversations={ 10 }
-              onMarkAsReadClick={ () => {} }
+              currentLocation={ currentLocation }
             />
-        </Overlay>
-
-        <Overlay arrow rootClose
-          style={ { width: 400, marginLeft: 4  }}
-          show={ overlayName === "notifications" }
-          placement="bottom"
-          container={ this }
-          onHide={ () => this.hideOverlay() }
-          target={ () => overlayTarget }>
-            <p>Notifications</p>
-        </Overlay>
-
-        <Overlay rootClose arrow inverted
-          style={ { width: 200, marginLeft: 10 }}
-          show={ overlayName === "profile" } placement="bottom" container={ this }
-          onHide={ () => this.hideOverlay() }
-          target={ () => overlayTarget }>
-            <HeaderProfileOverlay loggedUser={ loggedUser } onLogoutClick={ () => flux.actions.logout() } />
-        </Overlay>
+          </Dialog>
+        ]}
 
       </header>
     );
