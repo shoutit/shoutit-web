@@ -51,8 +51,8 @@ export default React.createClass({
   render() {
     return (
       <Grid className="profile-holder">
-        <Column size="3">
-          <ShareShoutCard clear={true}/>
+        <Column size="3" clear={true}>
+          <ShareShoutCard />
         </Column>
         <Column size="9">
           { React.cloneElement(this.props.children, {...this.state}) }
