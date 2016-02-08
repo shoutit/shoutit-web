@@ -150,6 +150,52 @@ describe("ConversationActions", () => {
 
   });
 
+  describe("markAsRead", () => {
+    afterEach(() => Request.prototype.end.restore());
+
+    it("should dispatch on success", () => {
+      const done = sinon.spy();
+      sinon.stub(Request.prototype, "end", done => done(null, {
+        ok: true
+      }));
+      actions.markAsRead("abc", done);
+      expect(dispatch).to.have.been.calledWith(
+        actionTypes.MARK_AS_READ,
+        { id: "abc" }
+      );
+      expect(dispatch).to.have.been.calledWith(
+        actionTypes.MARK_AS_READ_SUCCESS,
+        { id: "abc" }
+      );
+      expect(done).to.have.been.called.twice;
+    });
+
+    it("should dispatch response on failure", () => {
+      const done = sinon.spy();
+      sinon.stub(Request.prototype, "end", done => done(null, { ok: false }));
+      actions.markAsRead("abc", done);
+      expect(dispatch).to.have.been.calledWith(
+        actionTypes.MARK_AS_READ_FAILURE,
+        { error: { ok: false }, id: "abc" }
+      );
+      expect(done).to.have.been.calledWith({ ok: false });
+      expect(done).to.have.been.called.twice;
+    });
+
+    it("should dispatch error on failure", () => {
+      const done = sinon.spy();
+      sinon.stub(Request.prototype, "end", done => done({ status: 404}));
+      actions.markAsRead("abc", done);
+      expect(dispatch).to.have.been.calledWith(
+        actionTypes.MARK_AS_READ_FAILURE,
+        { error: { status: 404 }, id: "abc" }
+      );
+      expect(done).to.have.been.called.twice;
+      expect(done).to.have.been.calledWith({ status: 404});
+    });
+  });
+
+
   describe("deleteConversation", () => {
     afterEach(() => Request.prototype.end.restore());
 
