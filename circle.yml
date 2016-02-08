@@ -1,0 +1,22 @@
+machine:
+  timezone:
+    Europe/Berlin
+  node:
+    version: 4.2.2
+  services:
+    - docker
+
+test:
+  override:
+    - docker-compose run -d www
+    - npm test
+
+deployment:
+  hub-master:
+    branch: master
+    commands:
+      - $DEPLOY_MASTER
+  hub-develop:
+    branch: develop
+    commands:
+      - $DEPLOY_DEVELOP
