@@ -7,7 +7,7 @@ if (process.env.BROWSER) {
 }
 
 export default function HeaderProfile({
-  unreadConversations,
+  unreadCount,
   loggedUser,
   onMessagesClick,
   onProfileClick,
@@ -18,7 +18,7 @@ export default function HeaderProfile({
     <div className="HeaderProfile">
       <div>
         <Link to="/messages" onClick={ onMessagesClick }>
-          <SVGIcon name="balloon-dots" badge={ unreadConversations } />
+          <SVGIcon name="balloon-dots" badge={ unreadCount } />
         </Link>
       </div>
       <div>

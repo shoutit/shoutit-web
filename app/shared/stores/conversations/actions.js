@@ -60,9 +60,9 @@ export const actions = {
     this.dispatch(CONVERSATION_DRAFT_CHANGE, { id, draft });
   },
 
-  markAsRead(id, done) {
+  markConversationAsRead(id, done) {
     this.dispatch(MARK_AS_READ, { id });
-    client.markAsRead(id).end((error, res) => {
+    client.markConversationAsRead(id).end((error, res) => {
       if (error || !res.ok) {
         error = error ? { status: 500, ...error } : res;
         this.dispatch(MARK_AS_READ_FAILURE, { id, error });
@@ -72,6 +72,31 @@ export const actions = {
       this.dispatch(MARK_AS_READ_SUCCESS, { id });
       done && done();
     });
+  },
+
+  /**
+   * Mark many conversations as read. Returns a promise.
+   * @param  {[String]} ids
+   * @return {Promise}
+   */
+  markConversationsAsRead(ids) {
+    const promises = [];
+    ids.forEach(id => {
+      promises.push(
+
+        new Promise((resolve, reject) =>
+          actions.markConversationAsRead(id, (err, res) => {
+            if (err) {
+              reject(err);
+              return;
+            }
+            resolve(res);
+          }
+        ))
+
+      );
+    });
+    return Promise.all(promises);
   },
 
   deleteConversation(id, done) {

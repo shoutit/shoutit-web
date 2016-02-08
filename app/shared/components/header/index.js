@@ -53,7 +53,7 @@ export default class Header extends Component {
     const { overlayName, overlayTarget, openNewShoutDialog } = this.state;
 
     const unreadConversations = conversations ?
-      conversations.filter(c => c.unread_messages_count > 0).length : 0;
+      conversations.filter(c => c.unread_messages_count > 0) : [];
 
     return (
       <header className="si-container Header">
@@ -84,12 +84,12 @@ export default class Header extends Component {
             onNotificationsClick={ e => this.showOverlay(e, "notifications") }
             onNewShoutClick={ () => this.setState({ openNewShoutDialog: true }) }
             loggedUser={ loggedUser }
-            unreadConversations={ unreadConversations }
+            unreadCount={ unreadConversations.length }
           /> :
           <HeaderLoggedOut />
         }
 
-        { loggedUser && [
+        { process.env.BROWSER && loggedUser && [
 
           <Overlay arrow rootClose
             style={ { width: 400, marginLeft: 4  }}
@@ -102,8 +102,10 @@ export default class Header extends Component {
                 loggedUser={ loggedUser }
                 chat={ chat }
                 conversations={ conversations }
-                unreadConversations={ 10 }
-                onMarkAsReadClick={ () => {} }
+                unreadCount={ unreadConversations.length }
+                onMarkAsReadClick={ () => {
+                  unreadConversations.forEach(c => flux.actions.markConversationAsRead(c.id));
+                }}
               />
           </Overlay>,
 
