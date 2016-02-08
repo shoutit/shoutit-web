@@ -22,16 +22,15 @@ export default React.createClass({
       },0);
     }
 
-    if(shout.id) {
-      if (shout.id !== params.shoutId) {
-        setTimeout(() => {
-          flux.actions.loadUserShouts(shout.user.username, 'offer', USER_EXTRA_SHOUTS_LIMIT);
-          flux.actions.loadRelatedShouts(shout.id);
-        },0);
-      }
+    if (shout.id && shout.id !== params.shoutId) {
+      setTimeout(() => {
+        flux.actions.loadUserShouts(shout.user.username, 'offer', USER_EXTRA_SHOUTS_LIMIT);
+        flux.actions.loadRelatedShouts(shout.id);
+      },0);
     }
 
-    if(prevProps.shout.id !== shout.id){
+
+    if(shout.id && prevProps.shout.id !== shout.id){
       setTimeout(() => {
         flux.actions.loadUserShouts(shout.user.username, 'offer', USER_EXTRA_SHOUTS_LIMIT);
         flux.actions.loadRelatedShouts(shout.id);

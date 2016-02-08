@@ -10,56 +10,54 @@ export default React.createClass({
     displayName: "ShoutExtra",
 
     renderUserShouts() {
-        let extra = this.props.extra;
-        let moreShouts = extra.more? extra.more.offers: [];
+        const {extra} = this.props;
 
-        try {
-            if(extra.more.loading) {
-                return (<Progress />);
+        if(extra.more && extra.more.offers) {
+            const moreShouts = extra.more.offers;
+
+            if(extra.more && extra.more.loading) {
+              return (<Progress />);
+            } else if(!moreShouts.length) {
+              return null;
             } else {
-                if(moreShouts.length) {
-                    return (
-                        <div>
-                            <h3 className="extra-title">more shouts by this user</h3>
-                            {moreShouts.map((shout, idx) => (
-                                <GridShout shout={shout}
-                                           creator={this.props.creator}
-                                           index={idx}
-                                           key={'grid-' + idx}/>
-                            ))}
-                        </div>
-                    );
-                }
+              return (
+                <div>
+                  <h3 className="extra-title">more shouts by this user</h3>
+                  {moreShouts.map((shout, idx) => (
+                    <GridShout shout={shout}
+                               creator={this.props.creator}
+                               index={idx}
+                               key={'grid-' + idx}/>
+                  ))}
+                </div>
+              );
             }
-        } catch(e) {
-            console.log(e);
         }
     },
 
     renderRelatedShouts() {
-        let extra = this.props.extra;
-        let relatedShouts = extra.related? extra.related.res: [];
+        const {extra} = this.props;
 
-        try {
-            if(extra.more.loading) {
-                return (<Progress />);
-            } else {
-                if(relatedShouts.length) {
-                    return (
-                        <div>
-                            <h3 className="extra-title">related shouts</h3>
-                            {relatedShouts.map((shout, idx) => (
-                                <GridShout shout={shout}
-                                           creator={shout.user}
-                                           index={idx}
-                                           key={'grid-' + idx}/>
-                            ))}
-                        </div>
-                    );
-                }
-            }
-        } catch(e) {
-            console.log(e);
+        if(extra.related && extra.related.res) {
+          const relatedShouts = extra.related.res;
+
+          if(extra.more && extra.more.loading) {
+            return (<Progress />);
+          } else if(!relatedShouts.length) {
+            return null;
+          } else {
+            return (
+              <div>
+                <h3 className="extra-title">related shouts</h3>
+                {relatedShouts.map((shout, idx) => (
+                  <GridShout shout={shout}
+                             creator={shout.user}
+                             index={idx}
+                             key={'grid-' + idx}/>
+                ))}
+              </div>
+            );
+          }
         }
     },
 
