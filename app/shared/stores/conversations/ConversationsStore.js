@@ -227,6 +227,9 @@ export const ConversationsStore = Fluxxor.createStore({
       if (!conversation) {
         return;
       }
+      if (!conversation.messageIds) {
+        conversation.messageIds = [];
+      }
       const index = conversation.messageIds.findIndex(id => id === message.id);
       if (index === -1) {
         conversation.messageIds.push(message.id);
