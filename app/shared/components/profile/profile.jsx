@@ -1,5 +1,4 @@
 import React from "react";
-import {StoreWatchMixin} from "fluxxor";
 import {Grid, Column, Progress} from "../helper";
 import ProfileOffers from "./profileOffers.jsx";
 import DocumentTitle from "react-document-title";
@@ -12,7 +11,6 @@ import NotificationSystem from "react-notification-system";
 
 export default React.createClass({
   displayName: "Profile",
-  mixins: [new StoreWatchMixin("users")],
 
   _notificationSystem: null,
 
@@ -32,12 +30,7 @@ export default React.createClass({
       editMode: false,
       edited: {},
       uploading: null
-    }
-  },
-
-  getStateFromFlux() {
-    let users = this.props.flux.store("users").getState();
-    return JSON.parse(JSON.stringify(users));
+    };
   },
 
   displayNotif(msg, type = 'success') {
@@ -59,24 +52,24 @@ export default React.createClass({
     this._notificationSystem = this.refs.notificationSystem;
   },
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     // Run this only if user is changed
     if(this.lastLoadedUser !== this.props.params.username) {
       this.loadUser();
     }
 
     this._notificationSystem = this.refs.notificationSystem;
-    const status = this.state.profile.status;
+    const status = this.props.profile.status;
 
     // Checks related to profile edit modes
-    if (prevState.profile.status !== status && status === 'saved') {
+    if (prevProps.profile.status !== status && status === 'saved') {
       this.displayNotif('Changes saved successfully.');
       this.setState({editMode: false});
     }
-    if (prevState.profile.status !== status && status === 'err') {
+    if (prevProps.profile.status !== status && status === 'err') {
       this.setState({editMode: false});
 
-      const errors = this.state.profile.errors;
+      const errors = this.props.profile.errors;
       for (let err in errors) {
         this.displayNotif(errors[err][0], 'warning');
       }
@@ -96,7 +89,7 @@ export default React.createClass({
 
   renderProfilePage() {
     const username = this.props.params.username,
-      user = this.state.users[username],
+      user = this.props.users[username],
       mode = this.state.editMode;
 
     return (
@@ -105,7 +98,7 @@ export default React.createClass({
           <Grid >
             <Column size="12" clear={true}>
               <ProfileCover
-                profile={this.state.profile}
+                profile={this.props.profile}
                 onModeChange={this.onModeChange}
                 user={user}
                 editMode={mode}
@@ -124,7 +117,7 @@ export default React.createClass({
               {user.is_owner ? (
                 <EmbeddedShout collapsed={true}/>
               ) : null}
-              <ProfileOffers {...this.state} username={username}/>
+              <ProfileOffers {...this.props} username={username}/>
 
             </Column>
           </Grid>
@@ -152,7 +145,7 @@ export default React.createClass({
 
   render() {
     const {username} = this.props.params,
-      user = this.state.users[username];
+      user = this.props.users[username];
 
     if(user) {
       if(user.loading) {

@@ -3,10 +3,7 @@ import {Icon, Column, Grid, Progress} from '../helper';
 import TagListenButton from '../general/tagListenButton.jsx';
 
 const TagsCard = (props, context) => {
-    const {suggestions} = props;
-
-    const tags = suggestions? suggestions.tags: null;
-    const loading = suggestions.loading || tags.loading;
+    const {loading, tags} = props;
 
     return (
         <section className="si-card">
@@ -16,7 +13,7 @@ const TagsCard = (props, context) => {
             {loading?
                 <Progress />
                 :
-                tags.list && tags.list.map((tag, idx) => {
+                tags.map((tag, idx) => {
                     return (
                         <Grid fluid={true} key={`card-tag-${idx}`}>
                             <Column fluid={true} clear={true} size="3" className="card-list-img">

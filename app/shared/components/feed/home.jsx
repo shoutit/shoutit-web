@@ -1,12 +1,17 @@
 import React from "react";
-import {match} from "react-router";
-import routes from "../../routes";
 import {Grid, Column} from "../helper";
-import Board from "./board.jsx";
-import findLast from "lodash/collection/findLast";
+import {StoreWatchMixin} from "fluxxor";
+import {ListeningCard, ListenToCard, PagesCard, ProfileCard, TagsCard, SuggestShoutCard} from "../cards";
 
 export default React.createClass({
-  displayName: "Home",
+  mixins: [new StoreWatchMixin("suggestions")],
+
+  statics: {
+    fetchId: 'suggestions',
+    fetchData(client, session, params) {
+      return client.misc().suggestions(session, params);
+    }
+  },
 
   childContextTypes: {
     flux: React.PropTypes.object,
@@ -14,11 +19,15 @@ export default React.createClass({
     location: React.PropTypes.object
   },
 
-  statics: {
-    layoutConfig: {
-      leftBoard: ["profileCard", "listeningCard", "pagesCard"],
-      rightBoard: ["tagsCard", "listenToCard", "suggestShoutCard"]
-    }
+  getStateFromFlux() {
+    const {flux} = this.props;
+    const suggestions = flux.store('suggestions').getState();
+    const tags = flux.store('tags').getState();
+
+    return {
+      suggestions,
+      tags
+    };
   },
 
   getChildContext() {
@@ -29,49 +38,41 @@ export default React.createClass({
     };
   },
 
-    /**
-     * Getting developer's required layout for the path in the tree
-     *
-     * Component should be defined under /home tree in react router and uses a static object called layoutConfig
-     * @returns {OBJECT} latest configured layout object in the routes tree, if any
-     */
-  getLayoutConfig() {
-    let lastConfiguredLayoutRoute;
-    match({routes, location: this.props.location.pathname + this.props.location.search},
-            (error, redirectLocation, renderProps) => {
-              lastConfiguredLayoutRoute = findLast(renderProps.routes, (item) => {
-                return item.component.layoutConfig;
-              });
-            });
+  componentDidMount() {
+    this.props.flux.actions.getSuggestions();
+  },
 
-        // There is no layoutConfig defined in the whole route tree - NOT GOOD!
-    if(!lastConfiguredLayoutRoute) { return null; }
-
-    return lastConfiguredLayoutRoute.component? lastConfiguredLayoutRoute.component.layoutConfig: null;
+  /**
+   * Loading tags objects straight from Tags store
+   * @param suggestedTags
+   * @returns {Array}
+   */
+  getTagsFromStore(suggestedTags) {
+    const {tags} = this.state.tags;
+    return suggestedTags.map((item) => tags[item]);
   },
 
   render() {
-    const {leftBoard, rightBoard} = this.getLayoutConfig();
+    const {suggestions} = this.state;
+    // TODO: bring it back when store support is complete
+    //const tagsData = this.getTagsFromStore(suggestions.tags.list);
+    const tagsData = [];
 
-        // Calculating middle column size (15 is 100%)
-    const middleColumnSize = leftBoard && rightBoard? "9": leftBoard || rightBoard? "12" : "15";
     return (
       <Grid className="homepage-holder">
-          {leftBoard &&
-              <Column size="3" clear={true}>
-                  <Board items={leftBoard}/>
-              </Column>
-          }
-
-          <Column size={middleColumnSize} clear={!leftBoard}>
+          <Column size="3" clear={true}>
+            <ProfileCard />
+            <ListeningCard />
+            <PagesCard />
+          </Column>
+          <Column size="9">
               {React.cloneElement(this.props.children, {flux: this.props.flux})}
           </Column>
-
-          {rightBoard &&
-              <Column size="3">
-                  <Board items={rightBoard}/>
-              </Column>
-          }
+          <Column size="3">
+            <TagsCard tags={tagsData} loading={suggestions.loading || suggestions.tags.loading}/>
+            <ListenToCard />
+            <SuggestShoutCard />
+          </Column>
       </Grid>
     );
   }

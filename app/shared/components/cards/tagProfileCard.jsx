@@ -1,5 +1,4 @@
 import React from 'react';
-import {StoreWatchMixin} from 'fluxxor';
 import {Icon, Grid, Column, Progress } from '../helper';
 import Separator from '../general/separator.jsx';
 import NotificationSystem from 'react-notification-system';
@@ -8,18 +7,7 @@ import TagListenButton from '../general/tagListenButton.jsx';
 import TagListenersButton from '../general/tagListenersButton.jsx';
 
 export default React.createClass({
-    displayName: "tagProfileCard",
-    mixins: [new StoreWatchMixin('tags')],
     _notificationSystem: null,
-
-    contextTypes: {
-        flux: React.PropTypes.object,
-        params: React.PropTypes.object
-    },
-
-    getStateFromFlux() {
-        return this.context.flux.store('tags').getState();
-    },
 
     displayNotif(msg, type = 'success') {
         this._notificationSystem.addNotification({
@@ -31,8 +19,8 @@ export default React.createClass({
     },
 
     renderProfile() {
-        let tagName = this.context.params.tagName,
-            tagEntry = this.state.tags[tagName];
+        let tagName = this.props.params.tagName,
+            tagEntry = this.props.tags[tagName];
 
         if (tagEntry) {
             let tag = JSON.parse(JSON.stringify(tagEntry.tag));
@@ -59,11 +47,11 @@ export default React.createClass({
                         </div>
                     </Column>
                     <Column fluid={true} size={5}>
-                        <TagListenButton tag={tag} onChange={this.handleListen} flux={this.context.flux }/>
+                        <TagListenButton tag={tag} onChange={this.handleListen} flux={this.props.flux }/>
                     </Column>
                 </Grid>
             );
-        } else if (!this.state.loading && tagEntry === null) {
+        } else if (!this.props.loading && tagEntry === null) {
             return (
                 <Grid fluid={true}>
                     <h3>Tag not found!</h3>
@@ -97,16 +85,16 @@ export default React.createClass({
     },
 
     loadTag() {
-        let tagName = this.context.params.tagName,
-            tagEntry = this.state.tags[tagName];
+        let tagName = this.props.params.tagName,
+            tagEntry = this.props.tags[tagName];
 
-        if (!this.state.loading && !tagEntry && tagEntry !== null) {
-            this.context.flux.actions.loadTag(tagName);
+        if (!this.props.loading && !tagEntry && tagEntry !== null) {
+            this.props.flux.actions.loadTag(tagName);
         }
     },
 
     render() {
-        let isTagProfile = this.context.params.tagName;
+        let isTagProfile = this.props.params.tagName;
 
         if(isTagProfile) {
             return (
