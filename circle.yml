@@ -8,13 +8,13 @@ machine:
 
 general:
   artifacts:
-    - "coverage"
+    - ./coverage
 
 test:
   override:
     - MOCHA_FILE=$CIRCLE_TEST_REPORTS/test-results.xml npm run test:cover
-  post:
-    - cp -R coverage $CIRCLE_ARTIFACTS/coverage/
+  # post:
+    # - cp -R coverage $CIRCLE_ARTIFACTS/coverage/
 
 deployment:
   hub-master:
