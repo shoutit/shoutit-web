@@ -7,7 +7,6 @@ import {createSlug} from "../../components/helper";
 var SuggestionsStore = Fluxxor.createStore({
   initialize(props) {
     this.state = {
-      loading: false,
       data: {}
     };
 
@@ -24,7 +23,7 @@ var SuggestionsStore = Fluxxor.createStore({
 
   emptyList() {
     return {
-      loading: false,
+      loading: true,
       list: []
     };
   },
@@ -65,8 +64,6 @@ var SuggestionsStore = Fluxxor.createStore({
 
     // Initiate empty variable names
     this.addEmptyLists(citySlug);
-
-    this.state.loading = true;
     this.emit("change");
   },
 
@@ -81,12 +78,17 @@ var SuggestionsStore = Fluxxor.createStore({
     this.addTagsList(citySlug, tags);
     this.addUsersList(citySlug, users);
 
-    this.state.loading = false;
     this.emit("change");
   },
 
-  onGetSuggestionsFail() {
-    this.state.loading = false;
+  onGetSuggestionsFail({ currentLocation }) {
+    const citySlug = createSlug(currentLocation.city);
+
+    // Removing the whole data after fail disable the loadings inside each list easily
+    if(this.state.data[citySlug]) {
+      delete this.state.data[citySlug];
+    }
+
     this.emit("change");
   },
 
