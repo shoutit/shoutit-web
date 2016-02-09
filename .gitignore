@@ -10,3 +10,4 @@ newrelic_agent.log
 npm-debug.log
 public/assets
 test-results.xml
+webpack-stats.json
