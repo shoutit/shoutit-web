@@ -43,13 +43,11 @@ export default React.createClass({
 
   /**
    * Loading tags objects straight from Tags store
-   * @param suggestedTags
    * @returns {Array}
    */
   getTagsFromStore() {
     const {suggestions} = this.props;
     const {tags} = this.state.tags;
-    console.log(tags);
 
     if(suggestions.data) {
       return suggestions.data.tags.list.map((item) => tags[item].tag);
@@ -60,7 +58,6 @@ export default React.createClass({
 
   render() {
     const {suggestions} = this.props;
-    // TODO: bring it back when store support is complete
     const tagsData = this.getTagsFromStore();
 
     return (
