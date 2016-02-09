@@ -1,7 +1,9 @@
+import { apiUrl } from "../../../config";
+
 var request = require("superagent"),
   url = require("url");
 
-var ENDPOINT_SERVER = process.env.API_URL,
+var ENDPOINT_SERVER = apiUrl,
   SETPASS_ENDPOINT = "auth/set_password";
 
 function handleGet(req, res) {
@@ -11,7 +13,7 @@ function handleGet(req, res) {
 function handlePost(req, res) {
   var api = url.resolve(ENDPOINT_SERVER, SETPASS_ENDPOINT);
 
-  request 
+  request
     .post(api)
     .type("json")
     .accept("json")

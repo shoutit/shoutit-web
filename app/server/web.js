@@ -3,6 +3,8 @@
 
 var express = require("express");
 
+var config = require("../../config");
+
 var cons = require("consolidate"),
   serveStatic = require("serve-static"),
   path = require("path"),
@@ -15,7 +17,6 @@ var cons = require("consolidate"),
 var React = require("react"),
   ReactRouter = require("react-router"),
   ReactDOMServer = require("react-dom/server");
-
 
 var oauth = require("./auth/oauth"),
   ShoutitClient = require("./resources"),
@@ -38,14 +39,13 @@ var morgan = require("morgan"),
   cors = require("cors");
 
 // Runtime Data:
-var SERVER_ROOT = process.env.SERVER_ROOT ||
-  process.env.NODE_ENV === "development" ? "localhost:3000" : "localhost:8080";
+var SERVER_ROOT = `${config.host}:${config.port}`;
 
 var graphData = require("./resources/consts/graphData");
 var currencies, categories, sortTypes;
 var whitelist = ["https://shoutit.com", "https://www.shoutit.com", "http://dev.www.shoutit.com"];
 if (process.env.NODE_ENV === "development") {
-  whitelist.push("http://localhost");
+  whitelist.push("http://${config.host}");
 }
 var corsOptions = {
   origin: function (origin, callback) {
@@ -237,9 +237,7 @@ var redisOptions = {
   db: 11
 };
 
-redisOptions.host = process.env.REDIS_HOST || "localhost";
-
-console.log("REDIS_HOST:", redisOptions.host);
+redisOptions.host = config.redisHost;
 
 function detectionMiddleware(req, res, next) {
   var ua = req.headers["user-agent"],
