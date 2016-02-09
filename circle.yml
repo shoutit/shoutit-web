@@ -8,7 +8,6 @@ machine:
 
 test:
   override:
-    - docker-compose run -d www
     - npm test
 
 deployment:
