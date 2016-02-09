@@ -16,7 +16,7 @@ export default {
       if(err) {
         this.dispatch(consts.GET_SUGGESTIONS_FAIL, {currentLocation});
         debug(err);
-      } else if(res.statusCode === 200) {
+      } else if(res.status === 200) {
         this.dispatch(consts.GET_SUGGESTIONS_SUCCESS, {
           res: res.body,
           currentLocation
