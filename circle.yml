@@ -6,10 +6,17 @@ machine:
   services:
     - docker
 
+general:
+  artifacts:
+    - ./coverage
+
 test:
+  pre:
+    - npm run build --production
   override:
-    - docker-compose run -d www
-    - npm test
+    - MOCHA_FILE=$CIRCLE_TEST_REPORTS/test-results.xml npm run test:cover
+  post:
+    - cp -R ./coverage $CIRCLE_ARTIFACTS
 
 deployment:
   hub-master:

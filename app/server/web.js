@@ -3,6 +3,8 @@
 
 var express = require("express");
 
+var config = require("../../config");
+
 var cons = require("consolidate"),
   serveStatic = require("serve-static"),
   path = require("path"),
@@ -15,7 +17,6 @@ var cons = require("consolidate"),
 var React = require("react"),
   ReactRouter = require("react-router"),
   ReactDOMServer = require("react-dom/server");
-
 
 var oauth = require("./auth/oauth"),
   ShoutitClient = require("./resources"),
@@ -38,14 +39,13 @@ var morgan = require("morgan"),
   cors = require("cors");
 
 // Runtime Data:
-var SERVER_ROOT = process.env.SERVER_ROOT ||
-  process.env.NODE_ENV === "development" ? "localhost:3000" : "localhost:8080";
+var SERVER_ROOT = `${config.host}:${config.port}`;
 
 var graphData = require("./resources/consts/graphData");
 var currencies, categories, sortTypes;
 var whitelist = ["https://shoutit.com", "https://www.shoutit.com", "http://dev.www.shoutit.com"];
 if (process.env.NODE_ENV === "development") {
-  whitelist.push("http://localhost");
+  whitelist.push("http://${config.host}");
 }
 var corsOptions = {
   origin: function (origin, callback) {
@@ -224,7 +224,8 @@ function reactServerRender(req, res) {
             title: DocumentTitle.rewind(),
             graph: meta,
             production: process.env.NODE_ENV === "production",
-            googleMapsKey: require("../../config").googleMapsKey
+            googleMapsKey: config.googleMapsKey,
+            chunkNames: process.env.NODE_ENV === "production" ? require("../../public/assets/stats.json") : { main: "main.js", css: "main.css" }
           });
         });
     }
@@ -236,9 +237,7 @@ var redisOptions = {
   db: 11
 };
 
-redisOptions.host = process.env.REDIS_HOST || "localhost";
-
-console.log("REDIS_HOST:", redisOptions.host);
+redisOptions.host = config.redisHost;
 
 function detectionMiddleware(req, res, next) {
   var ua = req.headers["user-agent"],
@@ -295,37 +294,6 @@ module.exports = function (app) {
   // gzip it
   app.use(compression());
 
-  // TODO: Replace by nginx static serving
-  app.use(serveStatic("./app/public"));
-
-  const maxAge = 365 * 24 * 60 * 60;
-  if (process.env.NODE_ENV === "development") {
-    app.use("/images", serveStatic("./assets/images", { maxAge }));
-  }
-
-  if (process.env.NODE_ENV === "developmentLocal") {
-    var webpackDevMiddleware = require("webpack-dev-middleware"),
-      webpack = require("webpack");
-
-    app.use(webpackDevMiddleware(webpack(
-        require("../../webpack.config")),
-      {
-        publicPath: "/",
-        stats: {
-          hash: true,
-          version: false,
-          timings: true,
-          assets: false,
-          chunks: true,
-          chunkModules: false,
-          modules: true,
-          cached: false,
-          reasons: false,
-          colors: true
-        }
-      }));
-  }
-
   app.use(morgan("tiny"));
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
@@ -336,6 +304,12 @@ module.exports = function (app) {
     resave: false,
     saveUninitialized: true
   }));
+
+  const maxAge = 365 * 24 * 60 * 60;
+  if (process.env.NODE_ENV === "production") {
+    app.use("/assets", serveStatic("./public/assets", { maxAge }));
+  }
+  app.use("/images", serveStatic("./assets/images", { maxAge }));
 
   // TODO Add csrf tokens to the webapp
   //app.use(csurf());

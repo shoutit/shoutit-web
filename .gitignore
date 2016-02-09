@@ -8,4 +8,6 @@ node_modules
 coverage
 newrelic_agent.log
 npm-debug.log
-app/public/assets
+public/assets
+test-results.xml
+webpack-stats.json
