@@ -11,7 +11,8 @@ general:
     - ./coverage
 
 test:
-  pre: npm build
+  pre:
+    - npm build
   override:
     - MOCHA_FILE=$CIRCLE_TEST_REPORTS/test-results.xml npm run test:cover
   post:
