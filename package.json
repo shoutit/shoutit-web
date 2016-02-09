@@ -9,7 +9,6 @@
   },
   "scripts": {
     "start": "node app.js",
-    "prebuild": "npm test",
     "build": "webpack -p --stats",
     "lint": "eslint app test",
     "test": "mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel/register --recursive",
