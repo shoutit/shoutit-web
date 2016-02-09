@@ -14,7 +14,9 @@ import {
   DELETE_CONVERSATION,
   DELETE_CONVERSATION_SUCCESS,
   DELETE_CONVERSATION_FAILURE,
-  RESET_LAST_LOADED_CONVERSATION
+  RESET_LAST_LOADED_CONVERSATION,
+  MARK_AS_READ_SUCCESS,
+  MARK_AS_READ_FAILURE
 } from "../conversations/actionTypes";
 
 import {
@@ -58,6 +60,8 @@ export const ConversationsStore = Fluxxor.createStore({
       REPLY_CONVERSATION_FAILURE, this.handleReplyFailure,
       REPLY_SHOUT_SUCCESS, this.handleReplySuccess,
       NEW_PUSHED_MESSAGE, this.handlePushedMessage,
+      MARK_AS_READ_SUCCESS, this.handleMarkAsReadSuccess,
+      MARK_AS_READ_FAILURE, this.handleMarkAsReadFailure,
       DELETE_CONVERSATION, this.handleDeleteConversationStart,
       DELETE_CONVERSATION_SUCCESS, this.handleDeleteConversationSuccess,
       DELETE_CONVERSATION_FAILURE, this.handleDeleteConversationFailure,
@@ -223,6 +227,9 @@ export const ConversationsStore = Fluxxor.createStore({
       if (!conversation) {
         return;
       }
+      if (!conversation.messageIds) {
+        conversation.messageIds = [];
+      }
       const index = conversation.messageIds.findIndex(id => id === message.id);
       if (index === -1) {
         conversation.messageIds.push(message.id);
@@ -234,6 +241,15 @@ export const ConversationsStore = Fluxxor.createStore({
         this.emit("change");
       }
     });
+  },
+
+  handleMarkAsReadSuccess({ id }) {
+    this.get(id).unread_messages_count = 0;
+    this.emit("change");
+  },
+
+  handleMarkAsReadFailure({ id, error }) {
+    this.emit("change");
   },
 
   handleDeleteConversationStart({ id }) {

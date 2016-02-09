@@ -8,7 +8,10 @@ import {
   DELETE_CONVERSATION,
   DELETE_CONVERSATION_SUCCESS,
   DELETE_CONVERSATION_FAILURE,
-  RESET_LAST_LOADED_CONVERSATION
+  RESET_LAST_LOADED_CONVERSATION,
+  MARK_AS_READ,
+  MARK_AS_READ_FAILURE,
+  MARK_AS_READ_SUCCESS
 } from "./actionTypes";
 
 import * as client from "./client";
@@ -55,6 +58,45 @@ export const actions = {
 
   conversationDraftChange(id, draft) {
     this.dispatch(CONVERSATION_DRAFT_CHANGE, { id, draft });
+  },
+
+  markConversationAsRead(id, done) {
+    this.dispatch(MARK_AS_READ, { id });
+    client.markConversationAsRead(id).end((error, res) => {
+      if (error || !res.ok) {
+        error = error ? { status: 500, ...error } : res;
+        this.dispatch(MARK_AS_READ_FAILURE, { id, error });
+        done && done(error);
+        return;
+      }
+      this.dispatch(MARK_AS_READ_SUCCESS, { id });
+      done && done();
+    });
+  },
+
+  /**
+   * Mark many conversations as read. Returns a promise.
+   * @param  {[String]} ids
+   * @return {Promise}
+   */
+  markConversationsAsRead(ids) {
+    const promises = [];
+    ids.forEach(id => {
+      promises.push(
+
+        new Promise((resolve, reject) =>
+          actions.markConversationAsRead(id, (err, res) => {
+            if (err) {
+              reject(err);
+              return;
+            }
+            resolve(res);
+          }
+        ))
+
+      );
+    });
+    return Promise.all(promises);
   },
 
   deleteConversation(id, done) {
