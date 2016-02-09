@@ -44,7 +44,7 @@ if (process.env.SHOUTIT_ENV === "www") {
   baseUrl = SHOUTIT_BASE_URL;
   googleMapsKey = "AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc";
   redisHost = REDIS_HOST || "localhost";
-  apiUrl = "http://dev.api.shoutit.com/v2/";
+  apiUrl = "http://api.shoutit.com/v2/";
 }
 
 imagesPath = `${baseUrl}/images`;
