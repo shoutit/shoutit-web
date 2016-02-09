@@ -2,7 +2,7 @@ import Fluxxor from "fluxxor";
 import consts from "./consts";
 import client from "./client";
 import assign from "lodash/object/assign";
-import {createSlug} from "../components/helpers";
+import {createSlug} from "../../components/helper";
 
 var SuggestionsStore = Fluxxor.createStore({
   initialize(props) {
