@@ -52,25 +52,20 @@ var SuggestionsStore = Fluxxor.createStore({
   addPagesList(citySlug, data) {
     this.state.data[citySlug].pages.list = data.map((item) => item.username);
     this.state.data[citySlug].pages.loading = false;
-    this.emit("change");
   },
 
   addShoutsList(citySlug, data) {
     this.state.data[citySlug].shouts.list = data.map((item) => item.id);
     this.state.data[citySlug].shouts.loading = false;
-    this.emit("change");
-  },
 
   addUsersList(citySlug, data) {
     this.state.data[citySlug].users.list = data.map((item) => item.username);
     this.state.data[citySlug].users.loading = false;
-    this.emit("change");
   },
 
   addTagsList(citySlug, data) {
     this.state.data[citySlug].tags.list = data.map((item) => item.name);
     this.state.data[citySlug].tags.loading = false;
-    this.emit("change");
   },
 
   onGetSuggestions({ currentLocation }) {
