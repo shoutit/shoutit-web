@@ -10,7 +10,7 @@
   "scripts": {
     "start": "DEBUG=shoutit:server,shoutit:error node app.js",
     "prebuild": "rimraf public/assets",
-    "build": "NODE_ENV=production DEBUG=shoutit:webpack webpack -p --stats --json --progress > webpack-stats.json",
+    "build": "NODE_ENV=production DEBUG=shoutit:webpack webpack -p --stats --json > webpack-stats.json",
     "postbuild": "npm run build:analyze",
     "build:analyze": "cat webpack-stats.json | webpack-bundle-size-analyzer",
     "lint": "eslint app test",
