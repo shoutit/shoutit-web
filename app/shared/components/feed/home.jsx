@@ -46,16 +46,22 @@ export default React.createClass({
    * @param suggestedTags
    * @returns {Array}
    */
-  getTagsFromStore(suggestedTags) {
+  getTagsFromStore() {
+    const {suggestions} = this.props;
     const {tags} = this.state.tags;
-    return suggestedTags.map((item) => tags[item]);
+    console.log(tags);
+
+    if(suggestions.data) {
+      return suggestions.data.tags.list.map((item) => tags[item].tag);
+    } else {
+      return [];
+    }
   },
 
   render() {
     const {suggestions} = this.props;
     // TODO: bring it back when store support is complete
-    //const tagsData = this.getTagsFromStore(suggestions.tags.list);
-    const tagsData = [];
+    const tagsData = this.getTagsFromStore();
 
     return (
       <Grid className="homepage-holder">
