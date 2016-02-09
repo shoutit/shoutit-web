@@ -39,8 +39,8 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    console.log(currentLocation);
-    this.props.flux.actions.getSuggestions(this.props.currentLocation);
+    const {flux, currentLocation} = this.props;
+    flux.actions.getSuggestions(currentLocation);
   },
 
   /**
