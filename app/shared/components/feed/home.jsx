@@ -21,7 +21,7 @@ export default React.createClass({
 
   getStateFromFlux() {
     const {flux} = this.props;
-    const tags = flux.store('tags').getState();
+    const tags = JSON.parse(JSON.stringify( flux.store('tags').getState() ));
 
     return {
       tags
