@@ -4,7 +4,8 @@ RUN mkdir /src
 
 WORKDIR /src
 ADD . /src
-RUN npm install --production
+RUN npm install
+RUN npm run build
 
 EXPOSE 8080
 
