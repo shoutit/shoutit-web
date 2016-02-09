@@ -224,7 +224,8 @@ function reactServerRender(req, res) {
             title: DocumentTitle.rewind(),
             graph: meta,
             production: process.env.NODE_ENV === "production",
-            googleMapsKey: require("../../config").googleMapsKey
+            googleMapsKey: config.googleMapsKey,
+            chunkNames: process.env.NODE_ENV === "production" ? require("../../public/assets/stats.json") : { main: "main.js", css: "main.css" }
           });
         });
     }
@@ -295,13 +296,7 @@ module.exports = function (app) {
   // gzip it
   app.use(compression());
 
-  // TODO: Replace by nginx static serving
-  app.use(serveStatic("./app/public"));
 
-  const maxAge = 365 * 24 * 60 * 60;
-  if (process.env.NODE_ENV === "development") {
-    app.use("/images", serveStatic("./assets/images", { maxAge }));
-  }
 
   if (process.env.NODE_ENV === "developmentLocal") {
     var webpackDevMiddleware = require("webpack-dev-middleware"),
@@ -336,6 +331,12 @@ module.exports = function (app) {
     resave: false,
     saveUninitialized: true
   }));
+
+  const maxAge = 365 * 24 * 60 * 60;
+  if (process.env.NODE_ENV === "production") {
+    app.use("/assets", serveStatic("./public/assets", { maxAge }));
+  }
+  app.use("/images", serveStatic("./assets/images", { maxAge }));
 
   // TODO Add csrf tokens to the webapp
   //app.use(csurf());

@@ -6,6 +6,7 @@ var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var isDevelopment = process.env.NODE_ENV === "development";
 var WebpackErrorNotificationPlugin = require("webpack-error-notification");
+var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin
 var context = path.join(__dirname, "./app");
 var entries = ["./client/index.js"];
 
@@ -19,8 +20,8 @@ module.exports = {
   entry: entries,
   output: {
     path: path.join(__dirname, "./app/public/assets"),
-    filename: "main.js",
     publicPath: "http://localhost:3000/assets/"
+    filename: isDevelopment ? "main.js" : "main-[hash].js",
   },
   resolve: {
     extensions: ["", ".js", ".jsx", ".scss"],
@@ -78,10 +79,20 @@ module.exports = {
     }),
     new webpack.ContextReplacementPlugin(/buffer/, require("buffer")),
     new webpack.optimize.OccurenceOrderPlugin(),
-    !isDevelopment ? new ExtractTextPlugin("../css/main.css") : new Function(),
+    !isDevelopment ? new ExtractTextPlugin(isDevelopment ? "main.css" : "main-[hash].css") : new Function(),
     isDevelopment ? new webpack.HotModuleReplacementPlugin() : new Function(),
     isDevelopment ? new webpack.NoErrorsPlugin() : new Function(),
-    isDevelopment ? new WebpackErrorNotificationPlugin() : new Function()
+    isDevelopment ? new WebpackErrorNotificationPlugin() : new Function(),
+
+    !isDevelopment ? // Write out stats.json file to build directory.
+      new StatsWriterPlugin({
+        transform: function (data) {
+          return JSON.stringify({
+            main: data.assetsByChunkName.main[0],
+            css: data.assetsByChunkName.main[1]
+          }, null, 2);
+        }
+      }) : new Function()
 
   ]
 };
