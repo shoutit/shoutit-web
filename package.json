@@ -8,7 +8,7 @@
     "url": "https://bitbucket.org/shoutitcom/shoutit_webapp.git"
   },
   "scripts": {
-    "start": "DEBUG=shoutit:server node app.js",
+    "start": "DEBUG=shoutit:server,shoutit:error node app.js",
     "prebuild": "rimraf public/assets",
     "build": "NODE_ENV=production DEBUG=shoutit:webpack webpack -p --stats --progress",
     "lint": "eslint app test",

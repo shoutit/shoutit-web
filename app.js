@@ -41,17 +41,26 @@ require("./app/server/web.js")(app);
 
 // Startup
 
+
+const summary = [];
+summary.push("");
+summary.push("  shoutit-web-app config");
+summary.push("  ------------------------------------------------------------");
+summary.push();
+summary.push("  Node environment:     " + process.env.NODE_ENV);
+summary.push("  Shoutit environment:  " + config.shoutitEnv);
+summary.push("  Base URL:             " + config.baseUrl);
+summary.push("  API URL:              " + config.apiUrl);
+summary.push("  Redis host:           " + config.redisHost);
+summary.push("");
+
+console.log(summary.join("\n"));
+
 config.reportWarnings().forEach(function(msg) {
-  console.log(`${msg}`);
   error(msg);
 });
 
-log("Node environment is '%s'", process.env.NODE_ENV);
-log("Shoutit environment is '%s'", config.shoutitEnv, config.baseUrl);
-log("Base URL is '%s'", config.baseUrl);
-log("API URL is '%s'", config.apiUrl);
-
-
 app.listen(config.port, config.host, function () {
+  console.log();
   log("Server is now listening to %s:%s...", config.host, config.port);
 });

@@ -4,8 +4,6 @@
 require("babel/register");
 
 var path = require("path");
-var debug = require("debug");
-
 var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var isDevelopment = process.env.NODE_ENV === "development";
@@ -18,8 +16,6 @@ var config = require("./config");
 if (isDevelopment) {
   entries.push("webpack-hot-middleware/client");
 }
-
-debug("shoutit:webpack")("Using config\n", config);
 
 module.exports = {
   devtool: isDevelopment ? "cheap-module-eval-source-map" : "source-map",
