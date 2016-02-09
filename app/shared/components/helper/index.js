@@ -9,3 +9,4 @@ export Mui from "./mui.jsx";
 export Progress from "./Progress.jsx";
 export ReactVisible from "./visible.jsx";
 export Static from "./static.jsx";
+export createSlug from "./createSlug";
