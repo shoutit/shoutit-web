@@ -6,6 +6,8 @@
   z-index: 1000;
   border: 1px solid $border-color-dark;
   background-color: white;
+  // ⚠️ if you change the shadow remember to update the arrows-* PNG ui-elements
+  // to match the new shadow!
   box-shadow: 0 0 10px rgba(black, 0.2);
   &.arrow.bottom {
     transform: translateY(18px);
