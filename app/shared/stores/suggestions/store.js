@@ -2,6 +2,7 @@ import Fluxxor from "fluxxor";
 import consts from "./consts";
 import client from "./client";
 import assign from "lodash/object/assign";
+import {snakeCase} from "lodash/string";
 
 var SuggestionsStore = Fluxxor.createStore({
   initialize(props) {
@@ -15,8 +16,19 @@ var SuggestionsStore = Fluxxor.createStore({
     }
 
     this.bindActions(
-      consts.GET_SUGGESTIONS, this.onGetSuggestions
+      consts.GET_SUGGESTIONS, this.onGetSuggestions,
+      consts.GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess,
+      consts.GET_SUGGESTIONS_FAIL, this.onGetSuggestionsFail
     );
+  },
+
+  /**
+   * Making slug ids
+   * @param name
+   * @returns {STRING}
+   */
+  createSlug(name) {
+    return snakeCase(name).replace('_', '-');
   },
 
   emptyList() {
@@ -26,66 +38,68 @@ var SuggestionsStore = Fluxxor.createStore({
     };
   },
 
-  addEmptyLists() {
-    return {
-      pages: new this.emptyList(),
-      shouts: new this.emptyList(),
-      tags: new this.emptyList(),
-      users: new this.emptyList()
-    };
+  addEmptyLists(citySlug) {
+    if(!this.state.data[citySlug]) {
+      this.state.data[citySlug] = {
+        pages: new this.emptyList(),
+        shouts: new this.emptyList(),
+        tags: new this.emptyList(),
+        users: new this.emptyList()
+      };
+    }
   },
 
-  addPagesList(city, data) {
-    this.state.data[city].pages.list = data.map((item) => item.username);
-    this.state.data[city].pages.loading = false;
+  addPagesList(citySlug, data) {
+    this.state.data[citySlug].pages.list = data.map((item) => item.username);
+    this.state.data[citySlug].pages.loading = false;
     this.emit("change");
   },
 
-  addShoutsList(city, data) {
-    this.state.data[city].shouts.list = data.map((item) => item.id);
-    this.state.data[city].shouts.loading = false;
+  addShoutsList(citySlug, data) {
+    this.state.data[citySlug].shouts.list = data.map((item) => item.id);
+    this.state.data[citySlug].shouts.loading = false;
     this.emit("change");
   },
 
-  addUsersList(city, data) {
-    this.state.data[city].users.list = data.map((item) => item.username);
-    this.state.data[city].users.loading = false;
+  addUsersList(citySlug, data) {
+    this.state.data[citySlug].users.list = data.map((item) => item.username);
+    this.state.data[citySlug].users.loading = false;
     this.emit("change");
   },
 
-  addTagsList(city, data) {
-    this.state.data[city].tags.list = data.map((item) => item.name);
-    this.state.data[city].tags.loading = false;
+  addTagsList(citySlug, data) {
+    this.state.data[citySlug].tags.list = data.map((item) => item.name);
+    this.state.data[citySlug].tags.loading = false;
     this.emit("change");
   },
 
-  onGetSuggestions(payload) {
-    // TODO: should get location for logged user from their profile for server rendering
-    // It is happening now but we need it before onComponentDidMount
-    const location = this.flux.store("locations").getState().current;
+  onGetSuggestions({ currentLocation }) {
+    const citySlug = this.createSlug(currentLocation.city);
 
-    client.getSuggestions({
-      country: location.country,
-      state: location.state,
-      city: location.city,
-      page_size: 8
-    }).end((err, res) => {
-      if(err) {
-        console.error(err);
-      } else {
-        const {pages, shouts, tags, users} = res.body;
-        this.addPagesList(pages);
-        this.addShoutsList(shouts);
-        this.addTagsList(tags);
-        this.addUsersList(users);
-
-        this.state.loading = false;
-
-        this.emit("change");
-      }
-    });
+    // Initiate empty variable names
+    this.addEmptyLists(citySlug);
 
     this.state.loading = true;
+    this.emit("change");
+  },
+
+  onGetSuggestionsSuccess({ res, currentLocation }) {
+    const {pages, shouts, tags, users} = res;
+
+    // Making slug name for city of the selected location to be used as id in store
+    const citySlug = this.createSlug(currentLocation.city);
+
+    this.addPagesList(citySlug, pages);
+    this.addShoutsList(citySlug, shouts);
+    this.addTagsList(citySlug, tags);
+    this.addUsersList(citySlug, users);
+
+    this.state.loading = false;
+    this.emit("change");
+  },
+
+  onGetSuggestionsFail() {
+    this.state.loading = false;
     this.emit("change");
   },
 
