@@ -6,6 +6,6 @@ WORKDIR /src
 ADD . /src
 RUN npm install --production
 
-EXPOSE 3000
+EXPOSE 8080
 
-CMD npm start 
+CMD npm start
