@@ -4,7 +4,7 @@ import {StoreWatchMixin} from "fluxxor";
 import {ListeningCard, ListenToCard, PagesCard, ProfileCard, TagsCard, SuggestShoutCard} from "../cards";
 
 export default React.createClass({
-  mixins: [new StoreWatchMixin("suggestions")],
+  mixins: [new StoreWatchMixin("tags")],
 
   statics: {
     fetchId: 'suggestions',
@@ -21,11 +21,9 @@ export default React.createClass({
 
   getStateFromFlux() {
     const {flux} = this.props;
-    const suggestions = flux.store('suggestions').getState();
     const tags = flux.store('tags').getState();
 
     return {
-      suggestions,
       tags
     };
   },
@@ -54,7 +52,7 @@ export default React.createClass({
   },
 
   render() {
-    const {suggestions} = this.state;
+    const {suggestions} = this.props;
     // TODO: bring it back when store support is complete
     //const tagsData = this.getTagsFromStore(suggestions.tags.list);
     const tagsData = [];
@@ -70,7 +68,10 @@ export default React.createClass({
               {React.cloneElement(this.props.children, {flux: this.props.flux})}
           </Column>
           <Column size="3">
-            <TagsCard tags={tagsData} loading={suggestions.loading || suggestions.tags.loading}/>
+            <TagsCard
+              tags={tagsData}
+              loading={suggestions.loading || suggestions.data && suggestions.data.tags.loading}
+            />
             <ListenToCard />
             <SuggestShoutCard />
           </Column>
