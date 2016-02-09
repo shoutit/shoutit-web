@@ -296,31 +296,6 @@ module.exports = function (app) {
   // gzip it
   app.use(compression());
 
-
-
-  if (process.env.NODE_ENV === "developmentLocal") {
-    var webpackDevMiddleware = require("webpack-dev-middleware"),
-      webpack = require("webpack");
-
-    app.use(webpackDevMiddleware(webpack(
-        require("../../webpack.config")),
-      {
-        publicPath: "/",
-        stats: {
-          hash: true,
-          version: false,
-          timings: true,
-          assets: false,
-          chunks: true,
-          chunkModules: false,
-          modules: true,
-          cached: false,
-          reasons: false,
-          colors: true
-        }
-      }));
-  }
-
   app.use(morgan("tiny"));
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
