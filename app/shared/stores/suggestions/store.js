@@ -7,10 +7,7 @@ var SuggestionsStore = Fluxxor.createStore({
   initialize(props) {
     this.state = {
       loading: false,
-      pages: new this.emptyList(),
-      shouts: new this.emptyList(),
-      tags: new this.emptyList(),
-      users: new this.emptyList()
+      data: {}
     };
 
     if(props.suggestions) {
@@ -29,27 +26,36 @@ var SuggestionsStore = Fluxxor.createStore({
     };
   },
 
-  addPagesList(data) {
-    this.state.pages.list = data.map((item) => item.username);
-    this.state.pages.loading = false;
+  addEmptyLists() {
+    return {
+      pages: new this.emptyList(),
+      shouts: new this.emptyList(),
+      tags: new this.emptyList(),
+      users: new this.emptyList()
+    };
+  },
+
+  addPagesList(city, data) {
+    this.state.data[city].pages.list = data.map((item) => item.username);
+    this.state.data[city].pages.loading = false;
     this.emit("change");
   },
 
-  addShoutsList(data) {
-    this.state.shouts.list = data.map((item) => item.id);
-    this.state.shouts.loading = false;
+  addShoutsList(city, data) {
+    this.state.data[city].shouts.list = data.map((item) => item.id);
+    this.state.data[city].shouts.loading = false;
     this.emit("change");
   },
 
-  addUsersList(data) {
-    this.state.users.list = data.map((item) => item.username);
-    this.state.users.loading = false;
+  addUsersList(city, data) {
+    this.state.data[city].users.list = data.map((item) => item.username);
+    this.state.data[city].users.loading = false;
     this.emit("change");
   },
 
-  addTagsList(data) {
-    this.state.tags.list = data.map((item) => item.name);
-    this.state.tags.loading = false;
+  addTagsList(city, data) {
+    this.state.data[city].tags.list = data.map((item) => item.name);
+    this.state.data[city].tags.loading = false;
     this.emit("change");
   },
 
