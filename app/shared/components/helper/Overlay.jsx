@@ -21,6 +21,12 @@ function OverlayWrapper({ arrow, arrowOffsetLeft, arrowOffsetTop, children, styl
 /**
  * Return an Overlay from react-overlays that can add an arrow when passing
  * `arrow={true}`. When setting `inverted` will use the dark version.
+ *
+ * Docs about react-overlays: https://github.com/react-bootstrap/react-overlays
+ *
+ * Container element (i.e. that specified by the `container` prop) must have a
+ * css relative position!
+ * 
  */
 export default function Overlay({ arrow, inverted, placement="bottom", children, style, className, ...overlayProps }) {
 
