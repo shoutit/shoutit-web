@@ -118,7 +118,7 @@ var TagStore = Fluxxor.createStore({
   },
 
   onGetSuggestionsSuccess({ res }) {
-    this.addTags(res.tags.list);
+    this.addTags(res.tags);
   },
 
   onLoadUserTagsSuccess(payload) {
