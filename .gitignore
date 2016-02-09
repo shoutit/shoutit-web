@@ -9,3 +9,4 @@ coverage
 newrelic_agent.log
 npm-debug.log
 app/public/assets
+test-results.xml
