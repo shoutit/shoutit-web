@@ -6,6 +6,10 @@ machine:
   services:
     - docker
 
+general:
+  artifacts:
+    - "coverage"
+
 test:
   override:
     - sh ./scripts/ci-test.sh
