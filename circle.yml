@@ -15,8 +15,8 @@ deployment:
   hub-master:
     branch: master
     commands:
-      - $DEPLOY_MASTER
+      - eval "$DEPLOY_MASTER"
   hub-develop:
     branch: develop
     commands:
-      - $DEPLOY_DEVELOP
+      - eval "$DEPLOY_DEVELOP"
