@@ -70,7 +70,7 @@ export default React.createClass({
           <Column size="3">
             <TagsCard
               tags={tagsData}
-              loading={suggestions.loading || suggestions.data && suggestions.data.tags.loading}
+              loading={suggestions.data && suggestions.data.tags.loading}
             />
             <ListenToCard />
             <SuggestShoutCard />
