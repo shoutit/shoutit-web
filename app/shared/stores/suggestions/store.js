@@ -2,7 +2,7 @@ import Fluxxor from "fluxxor";
 import consts from "./consts";
 import client from "./client";
 import assign from "lodash/object/assign";
-import {snakeCase} from "lodash/string";
+import {createSlug} from "../components/helpers";
 
 var SuggestionsStore = Fluxxor.createStore({
   initialize(props) {
@@ -20,15 +20,6 @@ var SuggestionsStore = Fluxxor.createStore({
       consts.GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess,
       consts.GET_SUGGESTIONS_FAIL, this.onGetSuggestionsFail
     );
-  },
-
-  /**
-   * Making slug ids
-   * @param name
-   * @returns {STRING}
-   */
-  createSlug(name) {
-    return snakeCase(name).replace('_', '-');
   },
 
   emptyList() {
@@ -57,6 +48,7 @@ var SuggestionsStore = Fluxxor.createStore({
   addShoutsList(citySlug, data) {
     this.state.data[citySlug].shouts.list = data.map((item) => item.id);
     this.state.data[citySlug].shouts.loading = false;
+  },
 
   addUsersList(citySlug, data) {
     this.state.data[citySlug].users.list = data.map((item) => item.username);
@@ -69,7 +61,7 @@ var SuggestionsStore = Fluxxor.createStore({
   },
 
   onGetSuggestions({ currentLocation }) {
-    const citySlug = this.createSlug(currentLocation.city);
+    const citySlug = createSlug(currentLocation.city);
 
     // Initiate empty variable names
     this.addEmptyLists(citySlug);
@@ -82,7 +74,7 @@ var SuggestionsStore = Fluxxor.createStore({
     const {pages, shouts, tags, users} = res;
 
     // Making slug name for city of the selected location to be used as id in store
-    const citySlug = this.createSlug(currentLocation.city);
+    const citySlug = createSlug(currentLocation.city);
 
     this.addPagesList(citySlug, pages);
     this.addShoutsList(citySlug, shouts);
