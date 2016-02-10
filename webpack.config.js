@@ -24,7 +24,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, "public/assets/"),
     filename: isDevelopment ? "main.js" : "main-[hash].js",
-    publicPath: `${config.baseUrl}/assets/`
+    publicPath: `${config.assetsUrl}/assets/`
   },
   resolve: {
     extensions: ["", ".js", ".jsx", ".scss"],
