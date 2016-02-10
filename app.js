@@ -60,7 +60,7 @@ config.reportWarnings().forEach(function(msg) {
   error(msg);
 });
 
-app.listen(config.port, config.host, function () {
+app.listen(config.port, function () {
   console.log();
-  log("Server is now listening to %s:%s...", config.host, config.port);
+  log("Server is now listening to %s...", config.port);
 });
