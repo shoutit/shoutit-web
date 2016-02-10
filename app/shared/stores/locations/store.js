@@ -6,6 +6,7 @@ import where from "lodash/collection/where";
 import pluck from "lodash/collection/pluck";
 import flatten from "lodash/array/flatten";
 import uniq from "lodash/array/uniq";
+import {clone} from "lodash/lang";
 
 import consts from "./consts";
 import client from "./client";
@@ -265,6 +266,10 @@ let LocationsStore = Fluxxor.createStore({
 
   getCurrentState() {
     return this.state.current.state;
+  },
+
+  getCurrent() {
+    return clone(this.state.current, true);
   },
 
   getGMapsInstance() {
