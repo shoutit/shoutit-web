@@ -61,7 +61,6 @@ export default React.createClass({
   getUsersFromStore() {
     const {suggestions} = this.props;
     const {users} = this.state;
-    console.log(users);
 
     if(suggestions.data) {
       return suggestions.data.users.list.map((item) => users[item]);
@@ -71,10 +70,9 @@ export default React.createClass({
   },
 
   render() {
-    const {suggestions} = this.props;
+    const {suggestions, flux} = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
-    console.log(usersData);
 
     return (
       <Grid className="homepage-holder">
