@@ -10,8 +10,7 @@
   "scripts": {
     "start": "DEBUG=shoutit:server,shoutit:error node app.js",
     "prebuild": "rimraf public/assets",
-    "build": "NODE_ENV=production webpack -p --stats --json > webpack-stats.json",
-    "postbuild": "npm run build:analyze",
+    "build": "NODE_ENV=production webpack",
     "build:analyze": "cat webpack-stats.json | webpack-bundle-size-analyzer",
     "lint": "eslint app test",
     "test": "mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel/register --recursive",
