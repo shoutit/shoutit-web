@@ -1,17 +1,17 @@
 FROM node:4
 
+# Create app directory
 RUN mkdir /src
 WORKDIR /src
-ADD . /src
 
-ENV NODE_ENV=production
-ENV PORT=8080
-ENV HOST=localhost
-ENV SHOUTIT_ENV=stage
+COPY . /src
 
-CMD npm install
-CMD npm run build
+RUN npm install
+
+# Bundle app source
+# COPY . /src
 
 EXPOSE 8080
 
+ENV NODE_ENV production
 CMD npm start
