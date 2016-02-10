@@ -10,7 +10,7 @@ const {
 } = process.env;
 
 export const host = HOST || "localhost";
-export const port = PORT || NODE_ENV === "production" ? 8080 : 3000;
+export const port = PORT || (NODE_ENV === "production" ? 8080 : 3000);
 export const shoutitEnv = SHOUTIT_ENV || "develop";
 
 export let baseUrl;
