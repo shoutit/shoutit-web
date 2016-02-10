@@ -29,9 +29,9 @@ deployment:
   hub-master:
     branch: master
     commands:
-      - docker build -t shoutit/shoutit-web:beta .
+      - docker build -t shoutit/shoutit-web:master .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push shoutit/shoutit-web:beta
+      - docker push shoutit/shoutit-web:master
   hub-develop:
     branch: develop
     commands:
