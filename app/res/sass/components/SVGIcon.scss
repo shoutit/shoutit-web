@@ -49,7 +49,15 @@ $size-large: 36px;
   line-height: 14px;
   right: 6px;
   margin-right: -6px;
-  top: -20px;;
+  top: -20px;
+  transition: transform 0.2s, opacity 0.2s;
+  opacity: 1;
+  transform: scale(1);
+  &.isHidden {
+    color: $si-red;
+    opacity: 0;
+    transform: scale(0);
+  }
 }
 
 .SVGIcon-icon.balloon-dots {

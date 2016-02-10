@@ -22,8 +22,7 @@ export default function SVGIcon({ name, active=false, on=false, fill=false, size
   if (typeof badge !== "undefined") {
     // Set visibility hidden to leave the space once the badge get a value
     badgeEl = (
-      <span className="SVGIcon-badge"
-        style={ badge === 0 ? { visibility: "hidden" } : null }>
+      <span className={ `SVGIcon-badge ${ badge === 0 ? " isHidden": "" }` }>
         { badge }
       </span>
     );
