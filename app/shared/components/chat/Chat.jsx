@@ -3,7 +3,6 @@ import DocumentTitle from "react-document-title";
 
 import FixedHeightPage from "../helper/FixedHeightPage.jsx";
 
-
 import ConversationsTitle from "../chat/ConversationsTitle.jsx";
 import ConversationsList from "../chat/ConversationsList.jsx";
 
