@@ -4,7 +4,7 @@ import {StoreWatchMixin} from "fluxxor";
 import {ListeningCard, ListenToCard, PagesCard, ProfileCard, TagsCard, SuggestShoutCard} from "../cards";
 
 export default React.createClass({
-  mixins: [new StoreWatchMixin("tags")],
+  mixins: [new StoreWatchMixin("tags", "users")],
 
   statics: {
     fetchId: 'suggestions',
@@ -21,10 +21,12 @@ export default React.createClass({
 
   getStateFromFlux() {
     const {flux} = this.props;
-    const tags = flux.store('tags').getState();
+    const tags = flux.store("tags").getState();
+    const users = flux.store("users").getUsersState();
 
     return {
-      tags
+      tags,
+      users
     };
   },
 
@@ -56,9 +58,23 @@ export default React.createClass({
     }
   },
 
+  getUsersFromStore() {
+    const {suggestions} = this.props;
+    const {users} = this.state;
+    console.log(users);
+
+    if(suggestions.data) {
+      return suggestions.data.users.list.map((item) => users[item]);
+    } else {
+      return [];
+    }
+  },
+
   render() {
     const {suggestions} = this.props;
     const tagsData = this.getTagsFromStore();
+    const usersData = this.getUsersFromStore();
+    console.log(usersData);
 
     return (
       <Grid className="homepage-holder">
@@ -75,7 +91,10 @@ export default React.createClass({
               tags={ JSON.parse(JSON.stringify(tagsData)) }
               loading={ suggestions.data && suggestions.data.tags.loading }
             />
-            <ListenToCard />
+            <ListenToCard
+              users={ usersData }
+              loading={ suggestions.data && suggestions.data.users.loading }
+            />
             <SuggestShoutCard />
           </Column>
       </Grid>

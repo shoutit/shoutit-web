@@ -206,6 +206,7 @@ var UserStore = Fluxxor.createStore({
         this.state.users[item.username] = item;
       }
     });
+    this.emit("change");
   },
 
   // returns location object if they are properly filled otherwise false
@@ -951,6 +952,10 @@ var UserStore = Fluxxor.createStore({
 
   getState() {
     return this.state;
+  },
+
+  getUsersState() {
+    return JSON.parse(JSON.stringify(this.state.users));
   },
 
   getLoggedUser() {
