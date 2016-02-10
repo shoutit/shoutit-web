@@ -81,7 +81,7 @@ module.exports = {
     }),
     new webpack.ContextReplacementPlugin(/buffer/, require("buffer")),
     new webpack.optimize.OccurenceOrderPlugin(),
-    !isDevelopment ? new ExtractTextPlugin(isDevelopment ? "main.css" : "main-[hash].css") : new Function(),
+    new ExtractTextPlugin(isDevelopment ? "main.css" : "main-[hash].css"),
     isDevelopment ? new webpack.HotModuleReplacementPlugin() : new Function(),
     isDevelopment ? new webpack.NoErrorsPlugin() : new Function(),
     isDevelopment ? new WebpackErrorNotificationPlugin() : new Function(),
