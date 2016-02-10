@@ -24,6 +24,7 @@
   "license": "ISC",
   "dependencies": {
     "babel": "5.8.35",
+    "basic-auth": "1.0.3",
     "bluebird": "2.10.2",
     "body-parser": "1.14.2",
     "buffer": "3.6.0",

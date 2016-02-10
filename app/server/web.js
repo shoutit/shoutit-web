@@ -14,6 +14,8 @@ var cons = require("consolidate"),
   pluck = require("lodash/collection/pluck"),
   Promise = require("bluebird");
 
+var auth = require('basic-auth');
+
 var React = require("react"),
   ReactRouter = require("react-router"),
   ReactDOMServer = require("react-dom/server");
@@ -304,6 +306,25 @@ module.exports = function (app) {
     resave: false,
     saveUninitialized: true
   }));
+
+  if (process.env.BASIC_AUTH_USERNAME && process.env.BASIC_AUTH_PASSWORD) {
+
+    app.use((req, res, next) => {
+      var credentials = auth(req);
+
+      if (!credentials ||
+          credentials.name !== process.env.BASIC_AUTH_USERNAME ||
+          credentials.pass !== process.env.BASIC_AUTH_PASSWORD) {
+        res.statusCode = 401;
+        res.setHeader(`WWW-Authenticate`, `Basic realm="shoutit"`);
+        res.end("Access denied");
+      }
+      else {
+        next();
+      }
+    });
+
+  }
 
   const maxAge = 365 * 24 * 60 * 60;
   if (process.env.NODE_ENV === "production") {
