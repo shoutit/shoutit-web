@@ -52,7 +52,6 @@ export default React.createClass({
     const { loggedUser, chat, conversations, currentLocation, suggestions } = this.state;
     const { children, flux, routes, location } = this.props;
     const suggestionsData = {
-      loading: suggestions.loading,
       data: suggestions.data[createSlug(currentLocation.city)]
     };
 
