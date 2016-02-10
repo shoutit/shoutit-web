@@ -68,17 +68,19 @@ var SuggestionsStore = Fluxxor.createStore({
   },
 
   onGetSuggestionsSuccess({ res, currentLocation }) {
-    const {pages, shouts, tags, users} = res;
+    this.waitFor(["users", "tags"], () => {
+      const {pages, shouts, tags, users} = res;
 
-    // Making slug name for city of the selected location to be used as id in store
-    const citySlug = createSlug(currentLocation.city);
+      // Making slug name for city of the selected location to be used as id in store
+      const citySlug = createSlug(currentLocation.city);
 
-    this.addPagesList(citySlug, pages);
-    this.addShoutsList(citySlug, shouts);
-    this.addTagsList(citySlug, tags);
-    this.addUsersList(citySlug, users);
+      this.addPagesList(citySlug, pages);
+      this.addShoutsList(citySlug, shouts);
+      this.addTagsList(citySlug, tags);
+      this.addUsersList(citySlug, users);
 
-    this.emit("change");
+      this.emit("change");
+    });
   },
 
   onGetSuggestionsFail({ currentLocation }) {
