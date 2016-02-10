@@ -92,6 +92,7 @@ export default React.createClass({
               loading={ suggestions.data && suggestions.data.tags.loading }
             />
             <ListenToCard
+              flux={flux}
               users={ usersData }
               loading={ suggestions.data && suggestions.data.users.loading }
             />

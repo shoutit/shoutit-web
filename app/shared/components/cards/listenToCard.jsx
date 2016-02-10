@@ -1,5 +1,6 @@
 import React from 'react';
 import {Icon, Column, Grid, Progress} from '../helper';
+import ListenButton from "../general/listenButton.jsx";
 import UserImage from '../user/userImage.jsx';
 
 export default React.createClass({
@@ -32,7 +33,6 @@ export default React.createClass({
           <Progress />
           :
           users.map((user, idx) => {
-            console.log(user);
             return (
               <Grid fluid={true} key={ `card-listen-to-${idx}` }>
                 <Column fluid={true} clear={true} size="3" className="card-list-img">
@@ -42,7 +42,10 @@ export default React.createClass({
                   <span>{ user.name }</span>
                 </Column>
                 <Column fluid={true} size="3">
-                  <Icon name="listen" className="card-listen-btn"/>
+                  <ListenButton flux={this.props.flux}
+                    username={ user.username }
+                    hasTitle={ false }
+                  />
                 </Column>
               </Grid>
             );
