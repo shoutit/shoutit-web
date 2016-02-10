@@ -48,19 +48,16 @@ summary.push("  shoutit-web-app config");
 summary.push("  ------------------------------------------------------------");
 summary.push();
 summary.push("  Node environment:     " + process.env.NODE_ENV);
-summary.push("  Shoutit environment:  " + config.shoutitEnv);
 summary.push("  Base URL:             " + config.baseUrl);
 summary.push("  API URL:              " + config.apiUrl);
-summary.push("  Redis host:           " + config.redisHost);
+summary.push("  Redis host:           " + process.env.REDIS_HOST);
 summary.push("");
 
 console.log(summary.join("\n"));
 
-config.reportWarnings().forEach(function(msg) {
-  error(msg);
-});
+var port = process.env.PORT || "3000";
 
-app.listen(config.port, function () {
+app.listen(port, function () {
   console.log();
-  log("Server is now listening to %s...", config.port);
+  log("Server is now listening to localhost:%s...", port);
 });

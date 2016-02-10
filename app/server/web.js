@@ -237,7 +237,7 @@ var redisOptions = {
   db: 11
 };
 
-redisOptions.host = config.redisHost;
+redisOptions.host = process.env.REDIS_HOST;
 
 function detectionMiddleware(req, res, next) {
   var ua = req.headers["user-agent"],
