@@ -1,15 +1,18 @@
 FROM node:4
 
-# Create app directory
-RUN mkdir /src
+# Provides cached layer for node_modules
+ADD package.json /tmp/package.json
+RUN cd /tmp && npm install --production
+RUN mkdir -p /src && cp -a /tmp/node_modules /src/
+
+# Define working directory
 WORKDIR /src
 
 COPY . /src
 
-RUN npm install
-RUN npm run build
-
 EXPOSE 8080
 
 ENV NODE_ENV production
+ENV PORT 8080
+
 CMD npm start
