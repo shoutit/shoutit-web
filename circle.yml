@@ -10,9 +10,14 @@ general:
   artifacts:
     - ./coverage
 
+dependencies:
+  override:
+    - npm install
+  post:
+    - npm run build
+
 test:
   pre:
-    - npm run build --production
   override:
     - MOCHA_FILE=$CIRCLE_TEST_REPORTS/test-results.xml npm run test:cover
   post:
