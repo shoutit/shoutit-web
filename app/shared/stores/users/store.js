@@ -3,6 +3,7 @@ import url from "url";
 import consts from "./consts";
 import statuses from "../../consts/statuses";
 import locConsts from "../locations/consts";
+import sugConsts from "../suggestions/consts";
 import client from "./client";
 import assign from "lodash/object/assign";
 
@@ -159,7 +160,8 @@ var UserStore = Fluxxor.createStore({
       consts.LOAD_MORE_USER_SHOUTS, this.onLoadMoreUserShouts,
       consts.SHOW_DOWNLOAD_POPUP, this.onShowDownloadPopup,
       consts.HIDE_DOWNLOAD_POPUP, this.onHideDownloadPopup,
-      locConsts.ACQUIRE_LOCATION, this.onAcqireLoc
+      locConsts.ACQUIRE_LOCATION, this.onAcqireLoc,
+      sugConsts.GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess
     );
   },
 
@@ -190,6 +192,20 @@ var UserStore = Fluxxor.createStore({
           }
         });
     }
+  },
+
+  /**
+   * Fill the store with all the loaded data from suggestion endpoint
+   * remember that pages are also users so there is no difference in how we store them
+   * @param {res, currentLocation}
+   */
+  onGetSuggestionsSuccess({ res }) {
+    const { users, pages } = res;
+    [...users, ...pages].forEach((item, idx) => {
+      if (!this.state.users[item.username]) {
+        this.state.users[item.username] = item;
+      }
+    });
   },
 
   // returns location object if they are properly filled otherwise false
