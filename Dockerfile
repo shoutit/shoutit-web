@@ -7,9 +7,7 @@ WORKDIR /src
 COPY . /src
 
 RUN npm install
-
-# Bundle app source
-# COPY . /src
+RUN npm run build
 
 EXPOSE 8080
 
