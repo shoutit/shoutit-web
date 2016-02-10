@@ -21,7 +21,7 @@ export default React.createClass({
 
   getStateFromFlux() {
     const {flux} = this.props;
-    const tags = JSON.parse(JSON.stringify( flux.store('tags').getState() ));
+    const tags = flux.store('tags').getState();
 
     return {
       tags
@@ -50,7 +50,7 @@ export default React.createClass({
     const {tags} = this.state.tags;
 
     if(suggestions.data) {
-      return suggestions.data.tags.list.map((item) => tags[item].tag);
+      return suggestions.data.tags.list.map((item) => tags[item] && tags[item].tag);
     } else {
       return [];
     }
@@ -68,12 +68,12 @@ export default React.createClass({
             <PagesCard />
           </Column>
           <Column size="9">
-              {React.cloneElement(this.props.children, {flux: this.props.flux})}
+              { React.cloneElement(this.props.children, {flux: this.props.flux}) }
           </Column>
           <Column size="3">
             <TagsCard
-              tags={tagsData}
-              loading={suggestions.data && suggestions.data.tags.loading}
+              tags={ JSON.parse(JSON.stringify(tagsData)) }
+              loading={ suggestions.data && suggestions.data.tags.loading }
             />
             <ListenToCard />
             <SuggestShoutCard />
