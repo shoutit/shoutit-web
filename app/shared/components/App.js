@@ -40,7 +40,9 @@ export default React.createClass({
 
   getData() {
     const { flux } = this.props;
-    flux.actions.loadConversations();
+    if (this.state.loggedUser) {
+      flux.actions.loadConversations();
+    }
     flux.actions.acquireLocation();
   },
 
