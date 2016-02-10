@@ -24,8 +24,13 @@ export default React.createClass({
   },
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.loggedUser !== this.state.loggedUser) {
+    const { loggedUser, currentLocation } = this.state;
+    if (prevState.loggedUser !== loggedUser) {
       this.getData();
+    }
+    // Actions triggered in location change
+    if ( prevState.currentLocation.city !== currentLocation.city) {
+      this.props.flux.actions.getSuggestions(currentLocation);
     }
   },
 
@@ -34,7 +39,7 @@ export default React.createClass({
     const loggedUser = flux.store("users").getLoggedUser();
     const chat = flux.store("chat").getState();
     const conversations = flux.store("conversations").getConversations(chat.conversationIds);
-    const currentLocation = flux.store("locations").getState().current;
+    const currentLocation = flux.store("locations").getCurrent();
     const suggestions = flux.store('suggestions').getState();
     return { loggedUser, conversations, chat, currentLocation, suggestions };
   },
@@ -45,7 +50,10 @@ export default React.createClass({
 
     flux.actions.loadConversations();
     flux.actions.acquireLocation();
-    flux.actions.getSuggestions(currentLocation);
+
+    if(currentLocation.city) {
+      flux.actions.getSuggestions(currentLocation);
+    }
   },
 
   render() {
