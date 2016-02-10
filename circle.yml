@@ -11,6 +11,8 @@ general:
     - ./coverage
 
 dependencies:
+  pre:
+    - npm prune
   override:
     - npm install
   post:
