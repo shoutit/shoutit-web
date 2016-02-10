@@ -18,9 +18,10 @@ export default React.createClass({
 
   render() {
     const { users, loading } = this.props;
+    const itemsLimit = this.state.more? users.length: 3;
 
     return (
-      <section className="si-card" style={{maxHeight: this.state.more? "initial": "157px"}}>
+      <section className="si-card" >
         <div className="card-header">
           <h3 className="pull-left">to listen to</h3>
           <span className="refresh-btn pull-right">Refresh</span>
@@ -32,7 +33,7 @@ export default React.createClass({
         { loading?
           <Progress />
           :
-          users.map((user, idx) => {
+          users.slice(0, itemsLimit).map((user, idx) => {
             return (
               <Grid fluid={true} key={ `card-listen-to-${idx}` }>
                 <Column fluid={true} clear={true} size="3" className="card-list-img">
@@ -42,7 +43,7 @@ export default React.createClass({
                   <span>{ user.name }</span>
                 </Column>
                 <Column fluid={true} size="3">
-                  <ListenButton flux={this.props.flux}
+                  <ListenButton flux={ this.props.flux }
                     username={ user.username }
                     hasTitle={ false }
                   />
