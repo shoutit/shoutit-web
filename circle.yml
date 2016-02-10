@@ -15,11 +15,15 @@ dependencies:
     - npm install
   post:
     - npm run build
+    - docker info
+    - docker build -t shoutit/shoutit-web:develop .
 
 test:
   pre:
   override:
     - MOCHA_FILE=$CIRCLE_TEST_REPORTS/test-results.xml npm run test:cover
+    - docker run -e SHOUTIT_BASE_URL=http:/localhost:8080 -e PORT=8080 -d -p 8080:8080 shoutit/shoutit-web:develop; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:8080
   post:
     - cp -R ./coverage $CIRCLE_ARTIFACTS
 
@@ -31,4 +35,6 @@ deployment:
   hub-develop:
     branch: develop
     commands:
-      - eval "$DEPLOY_DEVELOP"
+      - docker build -t shoutit/shoutit-web:develop .
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push shoutit/shoutit-web:develop
