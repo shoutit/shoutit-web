@@ -58,7 +58,7 @@ export const ConversationsStore = Fluxxor.createStore({
       REPLY_CONVERSATION, this.handleReplyStart,
       REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
       REPLY_CONVERSATION_FAILURE, this.handleReplyFailure,
-      REPLY_SHOUT_SUCCESS, this.handleReplySuccess,
+      REPLY_SHOUT_SUCCESS, this.handleReplyShoutSuccess,
       NEW_PUSHED_MESSAGE, this.handlePushedMessage,
       MARK_AS_READ_SUCCESS, this.handleMarkAsReadSuccess,
       MARK_AS_READ_FAILURE, this.handleMarkAsReadFailure,
@@ -219,6 +219,16 @@ export const ConversationsStore = Fluxxor.createStore({
 
   handleReplyFailure() {
     this.waitFor(["messages"], () => this.emit("change"));
+  },
+
+  handleReplyShoutSuccess({ conversationId, tempMessageId, message }) {
+    const conversation = this.get(conversationId);
+    if (conversation) {
+      this.handleReplySuccess({ conversationId, tempMessageId, message});
+    }
+    else {
+      this.emit("change");
+    }
   },
 
   handlePushedMessage(message) {

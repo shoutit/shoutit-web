@@ -6,7 +6,7 @@ html
         title= title
         link(rel='icon', type='image/png' href="/img/fav.png")
         if production
-          link(rel='stylesheet', href='/assets/#{chunkNames.css}', type='text/css' )
+          link(rel='stylesheet', href='#{chunkNames.css}', type='text/css' )
     body
         #root!= reactMarkup
 
@@ -17,6 +17,7 @@ html
 
         script(async,src="https://apis.google.com/js/client:platform.js")
         script(async,src="https://connect.facebook.net/en_US/sdk.js")
-        script(async,src="https://www.google-analytics.com/analytics.js")
+        if ga
+          script(async,src="https://www.google-analytics.com/analytics.js")
         script(type="text/javascript",src="https://maps.googleapis.com/maps/api/js?key=#{googleMapsKey}&libraries=places&language=en-us")
-        script(async,src="/assets/#{chunkNames.main}")
+        script(async,src="#{chunkNames.main}")

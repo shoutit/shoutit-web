@@ -9,14 +9,12 @@
   },
   "scripts": {
     "start": "DEBUG=shoutit:server,shoutit:error node app.js",
-    "prebuild": "rimraf public/assets",
-    "build": "NODE_ENV=production webpack -p --bail",
-    "build:analyze": "cat webpack-stats.json | webpack-bundle-size-analyzer",
+    "build": "NODE_ENV=production webpack -p --bail && cp -R assets/images/ public/images",
     "lint": "eslint app test",
     "test": "mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel/register --recursive",
     "test:watch": "npm test -- --watch --watch-extensions jsx",
     "test:cover": "istanbul cover -- _mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel/register --recursive",
-    "dev": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=development SHOUTIT_ASSETS_URL=http://localhost:3000 npm start",
+    "dev": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=development SHOUTIT_PUBLIC_URL=http://localhost:3000 npm start",
     "dev:built": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=production npm start",
     "sprite": "sprity create app/res/sass/ app/res/img/res1x/*.png -s sprites.scss --margin 0 -b && rm app/res/sass/sprite.png"
   },

@@ -51,7 +51,7 @@ export default class Header extends Component {
 
   render() {
     const { flux, loggedUser, conversations, chat, currentLocation } = this.props;
-
+    const { country } = currentLocation;
     const { overlayName, overlayTarget, openNewShoutDialog } = this.state;
 
     const unreadConversations = conversations ?
@@ -72,7 +72,7 @@ export default class Header extends Component {
         <div className="Header-links">
           <span className="Header-separator" />
           <Button to="/home" label="Browse" />
-          <Button to={`/discover/${encodeURIComponent(currentLocation)}`} label="Discover" />
+          <Button to={ "/discover" + (country ? ("/" + country.toLowerCase()) : "") } label="Discover" />
           { loggedUser && <span className="Header-separator" /> }
         </div>
 

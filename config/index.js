@@ -1,11 +1,11 @@
 /* eslint no-var: 0 */
 
-var assetsUrl = process.env.SHOUTIT_ASSETS_URL || "";
+var publicUrl = process.env.SHOUTIT_PUBLIC_URL || "";
 var apiUrl = process.env.SHOUTIT_API_URL || "http://dev.api.shoutit.com/v2/";
 
 module.exports = {
-  assetsUrl: assetsUrl,
+  publicUrl: publicUrl,
   googleMapsKey: "AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc",
   apiUrl: apiUrl,
-  imagesPath: assetsUrl + "/images"
+  imagesPath: publicUrl + "/images"
 };
