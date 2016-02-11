@@ -107,11 +107,9 @@ export const ChatStore = Fluxxor.createStore({
   },
 
   handleDeleteSuccess({ id }) {
-    this.waitFor(["conversations"], () => {
-      const index = this.state.conversationIds.indexOf(id);
-      this.state.conversationIds.splice(index, 1);
-      this.emit("change");
-    });
+    const index = this.state.conversationIds.indexOf(id);
+    this.state.conversationIds.splice(index, 1);
+    this.emit("change");
   },
 
   handleLogout() {
