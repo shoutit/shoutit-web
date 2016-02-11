@@ -11,7 +11,6 @@ import HeaderMessagesOverlay from "../header/HeaderMessagesOverlay.jsx";
 import HeaderNotificationsOverlay from "../header/HeaderNotificationsOverlay.jsx";
 import HeaderProfileOverlay from "../header/HeaderProfileOverlay.jsx";
 import HeaderProfile from "../header/HeaderProfile.jsx";
-import HeaderLoggedOut from "../header/HeaderLoggedOut.jsx";
 import HeaderNewShout from "../header/HeaderNewShout.jsx";
 
 import { imagesPath } from "../../../../config";
@@ -77,15 +76,20 @@ export default class Header extends Component {
         </div>
 
         { loggedUser ?
-          <HeaderProfile
-            onMessagesClick={  e => this.showOverlay(e, "messages")  }
-            onProfileClick={ e => this.showOverlay(e, "profile") }
-            onNotificationsClick={ e => this.showOverlay(e, "notifications") }
-            onNewShoutClick={ () => this.setState({ openNewShoutDialog: true }) }
-            loggedUser={ loggedUser }
-            unreadCount={ unreadConversations.length }
-          /> :
-          <HeaderLoggedOut />
+          <div className="Header-tools loggedIn">
+            <HeaderProfile
+              onMessagesClick={  e => this.showOverlay(e, "messages")  }
+              onProfileClick={ e => this.showOverlay(e, "profile") }
+              onNotificationsClick={ e => this.showOverlay(e, "notifications") }
+              onNewShoutClick={ () => this.setState({ openNewShoutDialog: true }) }
+              loggedUser={ loggedUser }
+              unreadCount={ unreadConversations.length }
+            />
+          </div> :
+          <div className="Header-tools loggedOut">
+            <Button to="/login" label="Login" />
+            <Button to="/signup" label="Signup" primary  />
+          </div>
         }
 
         { process.env.BROWSER && loggedUser && [
