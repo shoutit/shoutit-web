@@ -61,7 +61,7 @@ export default class Header extends Component {
       <header className="Header">
         <div className="Header-logo">
           <Link to="/">
-            <img height="36" src={ `${imagesPath}/logo.png` } />
+            <img height="36" width="132" src={ `${imagesPath}/logo.png` } />
           </Link>
         </div>
 
