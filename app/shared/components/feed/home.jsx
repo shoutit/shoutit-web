@@ -75,7 +75,7 @@ export default React.createClass({
     const usersData = this.getUsersFromStore();
 
     return (
-      <Grid className="homepage-holder">
+      <Grid>
           <Column size="3" clear={true}>
             <ProfileCard />
             <ListeningCard />

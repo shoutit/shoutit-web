@@ -58,11 +58,10 @@ export default class Header extends Component {
       conversations.filter(c => c.unread_messages_count > 0) : [];
 
     return (
-      <header className="si-container Header">
-
+      <header className="Header">
         <div className="Header-logo">
           <Link to="/">
-            <img height="36" src={ `${imagesPath}/logo.png` } />
+            <img height="36" width="132" src={ `${imagesPath}/logo.png` } />
           </Link>
         </div>
 
