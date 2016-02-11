@@ -1,10 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 
-import IconMenu from "material-ui/lib/menus/icon-menu";
-import MenuItem from "material-ui/lib/menus/menu-item";
-import IconButton from "material-ui/lib/icon-button";
-import { NavigationMoreVert } from "material-ui/lib/svg-icons";
+import SVGIcon from "../helper/SVGIcon";
 
 if (process.env.BROWSER) {
   require("styles/components/ConversationTitle.scss");
@@ -36,18 +33,7 @@ export default function ConversationTitle({ users, about, type, me, onDeleteConv
         </div>
       </div>
       <div className="ConversationTitle-toolbar">
-        <IconMenu
-          anchorOrigin={{horizontal: "left", vertical: "bottom" }}
-          iconButtonElement={
-          <IconButton><NavigationMoreVert /></IconButton>
-          }
-        >
-          <MenuItem primaryText="Delete conversation…"
-            onTouchTap={ onDeleteConversationTouchTap } />
-            {/* disabled for https://github.com/shoutit/shoutit-web/issues/100 */}
-          { false && <MenuItem primaryText="Delete messages…"
-            onTouchTap={ onDeleteMessagesTouchTap } /> }
-        </IconMenu>
+        <SVGIcon name="trash" onClick={ onDeleteConversationTouchTap } />
       </div>
     </div>
   );
