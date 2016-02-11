@@ -37,7 +37,7 @@ export default React.createClass({
 
     render() {
         return (
-            <DocumentTitle title="ShoutIt - Find The Best Deals You Can Have!">
+            <DocumentTitle title="Buy and Sell while Chatting on Shoutit!">
                 <Column className="mainpage">
                     <Grid>
                         <Element name="nav" className="mainpage-nav">
