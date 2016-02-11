@@ -4,7 +4,7 @@ import { expect } from "chai";
 
 import Progress from "../../app/shared/components/helper/Progress.jsx";
 
-describe("Loader", () => {
+describe("Progress", () => {
 
   it("should render correctly", () => {
     const shallowRenderer = TestUtils.createRenderer();

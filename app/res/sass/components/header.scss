@@ -19,21 +19,30 @@
 }
 
 .Header-links {
-  padding: 0 30px;
-  width: 220px;
-  align-content: space-around;
-  display: flex;
-  justify-content: space-between;
-  border-right: 1px solid #CCC;
-  border-left: 1px solid #CCC;
-  margin: 30px;
+  &:before {
+    height: 20px;
+    top: 4px;
+    position: relative;
+    content: "";
+    border-right: 1px solid #ccc;
+  }
+}
+
+.Header-tools {
+  text-align: right;
+  &.loggedOut {
+    margin-right: 40px;
+  }
+  &.loggedIn {
+    margin-left: 40px;
+  }
 }
 
 .Header-search {
-  max-width: 450px;
-  @include flex();
   @include flexbox();
+  @include flex(1);
   @include align-items(center);
+  margin-right: 30px;
 }
 
 .Header-overlay {

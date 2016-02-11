@@ -4,34 +4,24 @@
 
 * Make sure to have node.js 4+ installed with `node --version`.
 
-```
+```bash
 git clone git@github.com:shoutit/shoutit-web.git
 cd shoutit-web
 npm install
 ```
 
-## Run the app
+## Running the app
 
 The app must be built before starting:
 
-```
+```bash
 npm run build # build the app
 npm start     # start server
 ```
 
 then open [http://localhost:8080](http://localhost:8080).
 
-## Start the dev environment
-
-The dev environment is used for developing. It enables hot modules reload.
-
-```
-npm run dev
-```
-
-then open  [http://localhost:3000](http://localhost:3000)
-
-## Environment variables
+### Environment variables
 
 The following variables define the configuration used to build and run the app.
 
@@ -50,9 +40,9 @@ if (process.env.BROWSER) {
 }
 ```
 
-## Running the docker container
+### Starting the docker container
 
-```
+```bash
 # Pull the container from Docker Hub
 docker pull shoutit/shoutit-web:develop
 
@@ -72,3 +62,30 @@ docker run -e SHOUTIT_ASSETS_URL=http://192.168.99.100:8080 -e PORT=8080 -p 8080
 and then open [http://192.168.99.100:8080](http://192.168.99.100:8080).
 
 To get the IP of the docker machine, run `docker-machine ip`.
+
+## Development
+
+Start the development environment to enable hot modules reload:
+
+```bash
+npm run dev
+```
+
+then open  [http://localhost:3000](http://localhost:3000)
+
+### Tests
+
+Unit tests run with [mocha](http://mochajs.org) and [chai](http://chaijs.com):
+
+```bash
+npm test
+npm run test:watch    # Watch mode
+```
+
+Test coverage with [istanbul](https://github.com/gotwarlost/istanbul):
+
+```bash
+npm run test:cover
+```
+
+then open [coverage/lcov-report/index.html](coverage/lcov-report/index.html).

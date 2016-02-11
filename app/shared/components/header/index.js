@@ -3,12 +3,14 @@ import { Link } from "react-router";
 import { Dialog } from "material-ui";
 
 import Overlay from "../helper/Overlay";
+import Button from "../helper/Button.jsx";
+
 import SearchBar from "./searchBar.jsx";
 
 import HeaderMessagesOverlay from "../header/HeaderMessagesOverlay.jsx";
+import HeaderNotificationsOverlay from "../header/HeaderNotificationsOverlay.jsx";
 import HeaderProfileOverlay from "../header/HeaderProfileOverlay.jsx";
 import HeaderProfile from "../header/HeaderProfile.jsx";
-import HeaderLoggedOut from "../header/HeaderLoggedOut.jsx";
 import HeaderNewShout from "../header/HeaderNewShout.jsx";
 
 import { imagesPath } from "../../../../config";
@@ -69,24 +71,25 @@ export default class Header extends Component {
         </div>
 
         <div className="Header-links">
-          <Link to="/home">
-            Browse
-          </Link>
-          <Link to={`/discover/${encodeURIComponent(currentLocation)}`}>
-            Discover
-          </Link>
+          <Button to="/home" label="Browse" />
+          <Button to={`/discover/${encodeURIComponent(currentLocation)}`} label="Discover" />
         </div>
 
         { loggedUser ?
-          <HeaderProfile
-            onMessagesClick={  e => this.showOverlay(e, "messages")  }
-            onProfileClick={ e => this.showOverlay(e, "profile") }
-            onNotificationsClick={ e => this.showOverlay(e, "notifications") }
-            onNewShoutClick={ () => this.setState({ openNewShoutDialog: true }) }
-            loggedUser={ loggedUser }
-            unreadCount={ unreadConversations.length }
-          /> :
-          <HeaderLoggedOut />
+          <div className="Header-tools loggedIn">
+            <HeaderProfile
+              onMessagesClick={  e => this.showOverlay(e, "messages")  }
+              onProfileClick={ e => this.showOverlay(e, "profile") }
+              onNotificationsClick={ e => this.showOverlay(e, "notifications") }
+              onNewShoutClick={ () => this.setState({ openNewShoutDialog: true }) }
+              loggedUser={ loggedUser }
+              unreadCount={ unreadConversations.length }
+            />
+          </div> :
+          <div className="Header-tools loggedOut">
+            <Button to="/login" label="Login" />
+            <Button to="/signup" label="Signup" primary  />
+          </div>
         }
 
         { process.env.BROWSER && loggedUser && [
@@ -116,7 +119,10 @@ export default class Header extends Component {
             container={ this }
             onHide={ () => this.hideOverlay() }
             target={ () => overlayTarget }>
-              <p>Notifications</p>
+              <HeaderNotificationsOverlay
+                unreadCount={ 0 }
+                onMarkAsReadClick={ () => { }}
+              />
           </Overlay>,
 
           <Overlay rootClose arrow inverted

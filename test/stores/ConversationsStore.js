@@ -437,7 +437,7 @@ describe("ConversationsStore", () => {
       const flux = initFlux({ "abc": { messageIds: ["foo"] } });
       const store = flux.store("ConversationsStore");
       const spy = sinon.spy(store, "emit");
-
+      sinon.stub(store, "waitFor", (store, done) => done());
       flux.dispatcher.dispatch({
         type: actionTypes.DELETE_CONVERSATION_SUCCESS,
         payload: { id: "abc" }

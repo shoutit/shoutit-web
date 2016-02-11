@@ -259,8 +259,10 @@ export const ConversationsStore = Fluxxor.createStore({
   },
 
   handleDeleteConversationSuccess({ id }) {
-    delete this.state.conversations[id];
-    this.emit("change");
+    this.waitFor(["chat"], () => {
+      delete this.state.conversations[id];
+      this.emit("change");
+    });
   },
 
   handleDeleteConversationFailure({ id, error }) {
