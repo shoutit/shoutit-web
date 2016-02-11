@@ -4,7 +4,7 @@ import {StoreWatchMixin} from "fluxxor";
 import {ListeningCard, ListenToCard, PagesCard, ProfileCard, TagsCard, SuggestShoutCard} from "../cards";
 
 export default React.createClass({
-  mixins: [new StoreWatchMixin("suggestions")],
+  mixins: [new StoreWatchMixin("tags", "users")],
 
   statics: {
     fetchId: 'suggestions',
@@ -21,12 +21,12 @@ export default React.createClass({
 
   getStateFromFlux() {
     const {flux} = this.props;
-    const suggestions = flux.store('suggestions').getState();
-    const tags = flux.store('tags').getState();
+    const tags = flux.store("tags").getState();
+    const users = flux.store("users").getUsersState();
 
     return {
-      suggestions,
-      tags
+      tags,
+      users
     };
   },
 
@@ -39,24 +39,40 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    this.props.flux.actions.getSuggestions();
+    const {flux, currentLocation} = this.props;
+    flux.actions.getSuggestions(currentLocation);
   },
 
   /**
    * Loading tags objects straight from Tags store
-   * @param suggestedTags
    * @returns {Array}
    */
-  getTagsFromStore(suggestedTags) {
+  getTagsFromStore() {
+    const {suggestions} = this.props;
     const {tags} = this.state.tags;
-    return suggestedTags.map((item) => tags[item]);
+
+    if(suggestions.data) {
+      return suggestions.data.tags.list.map((item) => tags[item] && tags[item].tag);
+    } else {
+      return [];
+    }
+  },
+
+  getUsersFromStore() {
+    const {suggestions} = this.props;
+    const {users} = this.state;
+
+    if(suggestions.data) {
+      return suggestions.data.users.list.map((item) => users[item]);
+    } else {
+      return [];
+    }
   },
 
   render() {
-    const {suggestions} = this.state;
-    // TODO: bring it back when store support is complete
-    //const tagsData = this.getTagsFromStore(suggestions.tags.list);
-    const tagsData = [];
+    const {suggestions, flux} = this.props;
+    const tagsData = this.getTagsFromStore();
+    const usersData = this.getUsersFromStore();
 
     return (
       <Grid className="homepage-holder">
@@ -66,11 +82,18 @@ export default React.createClass({
             <PagesCard />
           </Column>
           <Column size="9">
-              {React.cloneElement(this.props.children, {flux: this.props.flux})}
+              { React.cloneElement(this.props.children, {flux: this.props.flux}) }
           </Column>
           <Column size="3">
-            <TagsCard tags={tagsData} loading={suggestions.loading || suggestions.tags.loading}/>
-            <ListenToCard />
+            <TagsCard
+              tags={ JSON.parse(JSON.stringify(tagsData)) }
+              loading={ suggestions.data && suggestions.data.tags.loading }
+            />
+            <ListenToCard
+              flux={flux}
+              users={ usersData }
+              loading={ suggestions.data && suggestions.data.users.loading }
+            />
             <SuggestShoutCard />
           </Column>
       </Grid>

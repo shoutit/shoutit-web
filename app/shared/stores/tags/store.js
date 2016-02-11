@@ -2,6 +2,7 @@ import Fluxxor from "fluxxor";
 import url from "url";
 import consts from "./consts";
 import usersConsts from "../users/consts";
+import sugConsts from "../suggestions/consts";
 import client from "./client";
 import statuses from "../../consts/statuses.js";
 import assign from "lodash/object/assign";
@@ -64,7 +65,8 @@ var TagStore = Fluxxor.createStore({
       consts.LOAD_TAGS_SPRITE_FAILED, this.onLoadTagsSpriteFailed,
       consts.REQUEST_SPRITING, this.onRequestSpriting,
       consts.REQUEST_SPRITING_SUCCESS, this.onLoadTagsSpriteSuccess,
-      consts.REQUEST_SPRITING_FAILED, this.onRequestSpritingFailed
+      consts.REQUEST_SPRITING_FAILED, this.onRequestSpritingFailed,
+      sugConsts.GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess
     );
   },
 
@@ -115,6 +117,10 @@ var TagStore = Fluxxor.createStore({
     });
   },
 
+  onGetSuggestionsSuccess({ res }) {
+    this.addTags(res.tags);
+  },
+
   onLoadUserTagsSuccess(payload) {
 
     let tags = payload.res.tags;
@@ -142,8 +148,8 @@ var TagStore = Fluxxor.createStore({
   onListenTag(payload) {
     var tagName = payload.tagName;
     // add to tags list if not available
-    !this.state.tags[tagName]? this.addTagEntry(tagName): undefined; 
-    
+    !this.state.tags[tagName]? this.addTagEntry(tagName): undefined;
+
     client.listen(tagName).end(function(res) {
       if(res.body.success) {
         this.state.tags[tagName].tag.is_listening = true;
@@ -160,7 +166,7 @@ var TagStore = Fluxxor.createStore({
   onStopListenTag(payload) {
     var tagName = payload.tagName;
     // add to tags list if not available
-    !this.state.tags[tagName]? this.addTagEntry(tagName): undefined; 
+    !this.state.tags[tagName]? this.addTagEntry(tagName): undefined;
 
     client.unlisten(tagName).end(function(res) {
       if(res.body.success) {
@@ -217,7 +223,7 @@ var TagStore = Fluxxor.createStore({
       page: next,
     };
     type !== "all"? query.shout_type = type: undefined;
-      
+
     if(next !== null) {
       client.getShouts(tagName, query).end(function(err,res) {
         if (err) {
