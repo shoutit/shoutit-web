@@ -1,0 +1,178 @@
+@import "../colors.scss";
+
+$border-radius: 5px;
+
+.Button {
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: $border-radius;
+  height: 36px;
+  line-height: 32px;
+
+  white-space: nowrap;
+
+  -webkit-appearance: none;
+  border: 1px solid transparent;
+  padding: 0;
+
+  &:hover {
+    .Button-label {
+      color: $si-green;
+    }
+  }
+
+  .Button-label {
+    color: black;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .Button-icon {
+    display: inline-block;
+    vertical-align: middle;
+    height: inherit;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  &.size-small {
+
+    height: 32px;
+    line-height: 28px;
+
+    > .Button-label {
+      padding-left: 10px;
+      padding-right: 10px;
+      font-size: 14px;
+    }
+
+  }
+
+  &.size-large {
+
+    height: 42px;
+    line-height: 38px;
+
+    > .Button-label {
+      padding-left: 30px;
+      padding-right: 30px;
+      font-size: 18px;
+      font-weight: 300;
+    }
+
+  }
+
+}
+
+  .Button + .Button {
+    margin-left: 10px;
+  }
+
+  .Button.outline {
+    border: 1px solid $si-green;
+    .Button-label {
+      color: $si-green;
+      position: relative;
+      top: -1px;
+    }
+    &:hover {
+      background-color: $si-green;
+      .Button-label {
+        color: white;
+      }
+    }
+  }
+
+  .Button.primary {
+    border: 0;
+    background-color: $si-green;
+    &:hover {
+      background-color: darken($si-green, 10);
+      .Button-label {
+        color: white;
+      }
+      .Button-icon {
+        background-color: darken($si-green, 20);
+      }
+    }
+    .Button-label {
+      color: white;
+    }
+    .Button-icon {
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+      background-color: darken($si-green, 10);
+    }
+  }
+
+  .Button.secondary {
+    border: 0;
+    background-color: $si-orange;
+
+    &:hover {
+      background-color: darken($si-orange, 10);
+      .Button-label {
+        color: white;
+      }
+      .Button-icon {
+        background-color: darken($si-orange, 20);
+      }
+    }
+    .Button-label {
+      color: white;
+    }
+    .Button-icon {
+      background-color: darken($si-orange, 10);
+    }
+  }
+
+  .Button.destructive {
+    border: 0;
+    background-color: $si-red;
+    &:hover {
+      background-color: darken($si-red, 10);
+      .Button-label {
+        color: white;
+      }
+      .Button-icon {
+        background-color: darken($si-red, 20);
+      }
+    }
+    .Button-label {
+      color: white;
+    }
+    .Button-icon {
+      background-color: darken($si-red, 10);
+    }
+  }
+
+  .Button.disabled {
+    cursor: default;
+    color: darken(#edefed, 15);
+    &:hover {
+      color: darken(#edefed, 15);
+    }
+    &.primary,
+    &.secondary,
+    &.destructive
+     {
+      background-color: #edefed;
+      border: 1px solid #edefed;
+      &:hover {
+        background-color: #edefed;
+        border: 1px solid #edefed;
+      }
+    }
+    &.outline {
+      color: #edefed;
+      background-color: white;
+      border: 1px solid #edefed;
+      &:hover {
+        color: #edefed;
+        background-color: white;
+        border: 1px solid #edefed;
+      }
+    }
+  }
