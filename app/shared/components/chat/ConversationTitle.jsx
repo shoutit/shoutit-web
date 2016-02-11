@@ -44,8 +44,9 @@ export default function ConversationTitle({ users, about, type, me, onDeleteConv
         >
           <MenuItem primaryText="Delete conversation…"
             onTouchTap={ onDeleteConversationTouchTap } />
-          <MenuItem primaryText="Delete messages…"
-            onTouchTap={ onDeleteMessagesTouchTap } />
+            {/* disabled for https://github.com/shoutit/shoutit-web/issues/100 */}
+          { false && <MenuItem primaryText="Delete messages…"
+            onTouchTap={ onDeleteMessagesTouchTap } /> }
         </IconMenu>
       </div>
     </div>
