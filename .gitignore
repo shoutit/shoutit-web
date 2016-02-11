@@ -1,5 +1,3 @@
-.idea
-.sass-cache
 app/public/css
 app/public/img
 app/public/js
@@ -8,6 +6,9 @@ node_modules
 coverage
 newrelic_agent.log
 npm-debug.log
-public/assets
 test-results.xml
 webpack-stats.json
+public/images
+public/scripts
+public/styles
+public/stats.json

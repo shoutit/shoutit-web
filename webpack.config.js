@@ -22,9 +22,9 @@ module.exports = {
   context: context,
   entry: entries,
   output: {
-    path: path.join(__dirname, "public/assets/"),
-    filename: isDevelopment ? "main.js" : "main-[hash].js",
-    publicPath: `${config.assetsUrl}/assets/`
+    path: path.join(__dirname, "public/"),
+    filename: isDevelopment ? "main.js" : "/scripts/main-[hash].js",
+    publicPath: isDevelopment ? config.publicUrl + "/assets/" : `${config.publicUrl}`
   },
   resolve: {
     extensions: ["", ".js", ".jsx", ".scss"],
@@ -42,7 +42,10 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/,
-        loader: "file"
+        loader: "file",
+        query: isDevelopment ?  null : {
+          name: "/images/[name]-[hash].[ext]"
+        }
       },
       {
         test: /\.jsx?$/,
@@ -75,14 +78,14 @@ module.exports = {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       "process.env": {
-        SHOUTIT_ASSETS_URL: JSON.stringify(process.env.SHOUTIT_ASSETS_URL || ""),
+        SHOUTIT_PUBLIC_URL: JSON.stringify(process.env.SHOUTIT_PUBLIC_URL || ""),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || "development"),
         BROWSER: JSON.stringify(true)
       }
     }),
     new webpack.ContextReplacementPlugin(/buffer/, require("buffer")),
     new webpack.optimize.OccurenceOrderPlugin(),
-    new ExtractTextPlugin(isDevelopment ? "main.css" : "main-[hash].css"),
+    new ExtractTextPlugin(isDevelopment ? "main.css" : "/styles/main-[contenthash].css"),
     isDevelopment ? new webpack.HotModuleReplacementPlugin() : new Function(),
     isDevelopment ? new webpack.NoErrorsPlugin() : new Function(),
     isDevelopment ? new WebpackErrorNotificationPlugin() : new Function(),

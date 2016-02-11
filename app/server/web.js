@@ -14,7 +14,7 @@ var cons = require("consolidate"),
   pluck = require("lodash/collection/pluck"),
   Promise = require("bluebird");
 
-var auth = require('basic-auth');
+var auth = require("basic-auth");
 
 var React = require("react"),
   ReactRouter = require("react-router"),
@@ -133,7 +133,7 @@ function getMetaFromData(relUrl, innerRoute, data) {
   case "shout":
     var shout = data.shout;
     if (shout) {
-      if (shout.type == "offer") {
+      if (shout.type === "offer") {
         addData = {
           type: "shout",
           shoutType: "offer",
@@ -227,7 +227,9 @@ function reactServerRender(req, res) {
             graph: meta,
             production: process.env.NODE_ENV === "production",
             googleMapsKey: config.googleMapsKey,
-            chunkNames: process.env.NODE_ENV === "production" ? require("../../public/assets/stats.json") : { main: "main.js", css: "main.css" }
+            chunkNames: process.env.NODE_ENV === "production" ?
+              require("../../public/stats.json") :
+              { main: "/assets/main.js", css: "/assets/main.css" }
           });
         });
     }
@@ -327,10 +329,15 @@ module.exports = function (app) {
   }
 
   const maxAge = 365 * 24 * 60 * 60;
+
   if (process.env.NODE_ENV === "production") {
-    app.use("/assets", serveStatic("./public/assets", { maxAge }));
+    app.use("/scripts", serveStatic("./public/scripts", { maxAge }));
+    app.use("/images", serveStatic("./public/images", { maxAge }));
+    app.use("/styles", serveStatic("./public/styles", { maxAge }));
   }
-  app.use("/images", serveStatic("./assets/images", { maxAge }));
+  else {
+    app.use("/images", serveStatic("./assets/images", { maxAge }));
+  }
 
   // TODO Add csrf tokens to the webapp
   //app.use(csurf());
