@@ -6,6 +6,12 @@ import UserImage from '../user/userImage.jsx';
 export default React.createClass({
   displayName: "listenToCard",
 
+  getDefaultProps() {
+    return {
+      users: []
+    };
+  },
+
   getInitialState() {
     return {
       more: false
