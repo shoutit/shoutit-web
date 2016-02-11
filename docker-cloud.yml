@@ -1,0 +1,69 @@
+redis:
+  image: 'redis:latest'
+  ports:
+    - '6379:6379'
+  restart: always
+  tags:
+    - redis
+    - prod
+    - web
+redis-beta:
+  image: 'redis:latest'
+  ports:
+    - '6379:6379'
+  restart: always
+  tags:
+    - redis
+    - dev
+    - beta
+    - web
+redis-staging:
+  image: 'redis:latest'
+  ports:
+    - '6379:6379'
+  restart: always
+  tags:
+    - redis
+    - dev
+    - staging
+    - web
+web:
+  image: 'shoutit/shoutit-web:master'
+  environment:
+    - REDIS_HOST=
+  links:
+    - 'redis:redis'
+  ports:
+    - '80:8080'
+  restart: always
+  tags:
+    - web
+    - prod
+web-beta:
+  image: 'shoutit/shoutit-web:master'
+  autoredeploy: true
+  environment:
+    - REDIS_HOST=
+  links:
+    - 'redis-beta:redis'
+  ports:
+    - '80:8080'
+  restart: always
+  tags:
+    - web
+    - dev
+    - beta
+web-staging:
+  image: 'shoutit/shoutit-web:develop'
+  autoredeploy: true
+  environment:
+    - REDIS_HOST=
+  links:
+    - 'redis-staging:redis'
+  ports:
+    - '80:8080'
+  restart: always
+  tags:
+    - web
+    - dev
+    - staging
