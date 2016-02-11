@@ -23,7 +23,9 @@ $headerHeight: 74px;
 
 .App-content {
   z-index: 0;
-  padding-top: ($headerHeight + 10px);
+  .App.stickyHeader & {
+    padding-top: ($headerHeight + 10px);
+  }
   width: $contentWidth;
   margin: 0 auto;
 }
