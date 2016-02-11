@@ -75,6 +75,7 @@ module.exports = {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       "process.env": {
+        SHOUTIT_ASSETS_URL: JSON.stringify(process.env.SHOUTIT_ASSETS_URL || ""),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || "development"),
         BROWSER: JSON.stringify(true)
       }
