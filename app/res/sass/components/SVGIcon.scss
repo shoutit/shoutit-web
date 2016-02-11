@@ -1,0 +1,128 @@
+@import "../colors.scss";
+
+$size-small: 18px;
+$size-medium: 24px;
+$size-large: 36px;
+
+.SVGIcon {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  height: $size-medium;
+  min-width: $size-medium;
+  &.small {
+    min-width: $size-small;
+    height: $size-small;
+  }
+}
+.SVGIcon-icon {
+  background-repeat: no-repeat;
+  display: inline-block;
+  background-size: contain;
+  background-position: center;
+  width: $size-medium;
+  height: $size-medium;
+
+  .SVGIcon.small & {
+    width: $size-small;
+    height: $size-small;
+  }
+
+  .SVGIcon.large & {
+    width: $size-large;
+    height: $size-large;
+  }
+
+}
+
+.SVGIcon-badge {
+  position: relative;
+  display: inline-block;
+  background-color: $si-red;
+  color: $si-white;
+  font-size: 9px;
+  border-radius: 7px;
+  min-width: 14px;
+  text-align: center;
+  padding: 0 4px;
+  height: 14px;
+  line-height: 14px;
+  right: 6px;
+  margin-right: -6px;
+  top: -20px;
+  transition: transform 0.2s, opacity 0.2s;
+  opacity: 1;
+  transform: scale(1);
+  &.isHidden {
+    color: $si-red;
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+.SVGIcon-icon.balloon-dots {
+  background-image: url("../../../../assets/icons/balloon-dots.svg");
+}
+
+  .SVGIcon.active .SVGIcon-icon.balloon-dots {
+    background-image: url("../../../../assets/icons/balloon-dots-active.svg");
+  }
+
+.SVGIcon-icon.bell {
+  background-image: url("../../../../assets/icons/bell.svg");
+}
+
+  .SVGIcon.active .SVGIcon-icon.bell {
+    background-image: url("../../../../assets/icons/bell-active.svg");
+  }
+
+.SVGIcon-icon.cog {
+  background-image: url("../../../../assets/icons/cog.svg");
+}
+
+  .SVGIcon.active .SVGIcon-icon.cog {
+    background-image: url("../../../../assets/icons/cog-active.svg");
+  }
+
+.SVGIcon-icon.exit {
+  background-image: url("../../../../assets/icons/exit.svg");
+}
+
+  .SVGIcon.active .SVGIcon-icon.exit {
+    background-image: url("../../../../assets/icons/exit-active.svg");
+  }
+
+.SVGIcon-icon.pencil {
+  background-image: url("../../../../assets/icons/pencil.svg");
+}
+
+  .SVGIcon.active .SVGIcon-icon.pencil {
+    background-image: url("../../../../assets/icons/pencil-active.svg");
+  }
+
+.SVGIcon-icon.profile {
+  background-image: url("../../../../assets/icons/profile.svg");
+}
+
+  .SVGIcon.active .SVGIcon-icon.profile {
+    background-image: url("../../../../assets/icons/profile-active.svg");
+  }
+
+.SVGIcon-icon.question-circle {
+  background-image: url("../../../../assets/icons/question-circle.svg");
+}
+
+  .SVGIcon.active .SVGIcon-icon.question-circle {
+    background-image: url("../../../../assets/icons/question-circle-active.svg");
+  }
+
+.SVGIcon-icon.sparkle {
+  background-image: url("../../../../assets/icons/sparkle.svg");
+}
+
+  .SVGIcon.active .SVGIcon-icon.sparkle {
+    background-image: url("../../../../assets/icons/sparkle-active.svg");
+  }
+  .SVGIcon.fill .SVGIcon-icon.sparkle {
+    background-image: url("../../../../assets/icons/sparkle-fill.svg");
+  }

@@ -6,17 +6,35 @@ machine:
   services:
     - docker
 
-test:
+general:
+  artifacts:
+    - ./coverage
+
+dependencies:
+  pre:
+    - npm prune
   override:
-    - docker-compose run -d www
-    - npm test
+    - npm install
+  post:
+    - npm run build
+
+test:
+  pre:
+  override:
+    - MOCHA_FILE=$CIRCLE_TEST_REPORTS/test-results.xml npm run test:cover
+  post:
+    - cp -R ./coverage $CIRCLE_ARTIFACTS
 
 deployment:
   hub-master:
     branch: master
     commands:
-      - $DEPLOY_MASTER
+      - docker build -t shoutit/shoutit-web:master .
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push shoutit/shoutit-web:master
   hub-develop:
     branch: develop
     commands:
-      - $DEPLOY_DEVELOP
+      - docker build -t shoutit/shoutit-web:develop .
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push shoutit/shoutit-web:develop

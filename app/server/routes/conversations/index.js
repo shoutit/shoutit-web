@@ -24,4 +24,3 @@ router.route("/:id/reply")
   .post(require("./reply")(ShoutClient));
 
 module.exports = router;
-

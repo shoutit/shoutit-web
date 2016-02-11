@@ -1,13 +1,14 @@
 /**
  * Created by Philip on 12.01.2015.
  */
+import { apiUrl } from "../../../config";
+
 var url = require("url");
 
 var Promise = require("bluebird"),
   request = require("superagent");
 
-
-var ENDPOINT_SERVER = process.env.API_URL,
+var ENDPOINT_SERVER = apiUrl,
   ACCESSTOKEN_ENDPOINT = "oauth2/access_token",
   FORGETPASS_ENDPOINT = "auth/reset_password",
   USER_ENDPOINT = "users/me",
@@ -36,7 +37,7 @@ function requestAccessToken(type, grantToken) {
   else { // fb and gplus
     requestData[GRANT_TYPES[type]] = grantToken;
   }
-  
+
   //console.log(requestData);
   //console.log(url.resolve(ENDPOINT_SERVER,  ACCESSTOKEN_ENDPOINT));
 
@@ -54,7 +55,7 @@ function requestAccessToken(type, grantToken) {
             reject(res.body);
           } else {
             resolve(res.body);
-          } 
+          }
         }
       });
   });

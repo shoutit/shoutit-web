@@ -1,13 +1,18 @@
 FROM node:4
 
-RUN mkdir /src
+# Provides cached layer for node_modules
+ADD package.json /tmp/package.json
+RUN cd /tmp && npm install --production
+RUN mkdir -p /src && cp -a /tmp/node_modules /src/
 
-RUN npm install nodemon -g  # Todo: not sure why this is installed!
-
+# Define working directory
 WORKDIR /src
-ADD . /src
-RUN npm install  # Todo: shouldn't we add `--production`?
 
-EXPOSE 3000
+COPY . /src
 
-CMD npm run dev  # Todo: define run script for production and use it here
+EXPOSE 8080
+
+ENV NODE_ENV production
+ENV PORT 8080
+
+CMD npm start

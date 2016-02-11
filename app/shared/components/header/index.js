@@ -1,76 +1,155 @@
-import React, { PropTypes } from "react";
-import { Link} from "react-router";
+import React, { Component, PropTypes } from "react";
+import { Link } from "react-router";
+import { Dialog } from "material-ui";
+
+import Overlay from "../helper/Overlay";
 import SearchBar from "./searchBar.jsx";
-import ProfileDropdown from "./profileDropdown.jsx";
-import Logo from "./logo.jsx";
-import {StoreWatchMixin} from "fluxxor";
-import {Grid, Column} from "../helper";
-import {Icon} from "../helper";
 
-import MessagesButton from "../header/MessagesButton.jsx";
+import HeaderMessagesOverlay from "../header/HeaderMessagesOverlay.jsx";
+import HeaderProfileOverlay from "../header/HeaderProfileOverlay.jsx";
+import HeaderProfile from "../header/HeaderProfile.jsx";
+import HeaderLoggedOut from "../header/HeaderLoggedOut.jsx";
+import HeaderNewShout from "../header/HeaderNewShout.jsx";
 
-import NotifTopbarButton from "./notifications/notifTopbarButton.jsx";
-import NewShoutButton from "../shouting/newShoutButton.jsx";
+import { imagesPath } from "../../../../config";
 
-export default React.createClass({
+if (process.env.BROWSER) {
+  require("styles/components/header.scss");
+}
 
-  displayName: "Header",
+export default class Header extends Component {
 
-  propTypes: {
+  static propTypes = {
     flux: PropTypes.object.isRequired,
     loggedUser: PropTypes.object,
+    location: PropTypes.object,
     conversations: PropTypes.array,
-    chat: PropTypes.object
-  },
+    chat: PropTypes.object,
+    currentLocation: PropTypes.object
+  };
 
-  mixins: [new StoreWatchMixin("locations")],
+  state = {
+    overlayName: null
+  }
 
-  componentDidMount() {
-    this.props.flux.actions.acquireLocation();
-  },
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location && nextProps.location.key !== this.props.location.key) {
+      this.hideOverlay();
+    }
+  }
 
-  getStateFromFlux() {
-    const { flux } = this.props;
-    return {
-      locations: flux.store("locations").getState()
-    };
-  },
+  showOverlay(e, overlayName) {
+    e.preventDefault();
+    this.setState({ overlayName, overlayTarget: e.target });
+  }
+
+  hideOverlay() {
+    this.setState({ overlayName: null, overlayTarget: null });
+  }
 
   render() {
+    const { flux, loggedUser, conversations, chat, currentLocation } = this.props;
 
-    const { flux, loggedUser, chat, conversations } = this.props;
-    const country = encodeURIComponent(this.state.locations.current);
+    const { overlayName, overlayTarget, openNewShoutDialog } = this.state;
+
+    const unreadConversations = conversations ?
+      conversations.filter(c => c.unread_messages_count > 0) : [];
+
     return (
-      <header>
-        <Grid className="si-header">
-          <Column size="2" className="header-logo" clear>
-            <Logo/>
-          </Column>
-          <Column className="header-search" size="6">
-            <SearchBar height="36" flux={flux}/>
-          </Column>
-          <Column size="7" className="topbar-buttons">
-            <div className="topbar-links">
-              <Link to={`/home`}>Browse</Link>
-              <Link to={`/discover/${country}`}>Discover</Link>
-            </div>
+      <header className="si-container Header">
 
-            {/* Notification Icons */}
-            <Icon name="home"/>
-            <MessagesButton conversations={ conversations } chat={ chat } loggedUser={ loggedUser} />
-            <NotifTopbarButton flux={flux} user={loggedUser} />
+        <div className="Header-logo">
+          <Link to="/">
+            <img height="36" src={ `${imagesPath}/logo.png` } />
+          </Link>
+        </div>
 
-            <NewShoutButton flux={flux}/>
+        <div className="Header-search">
+          <SearchBar height="36" flux={flux}/>
+        </div>
 
-            {loggedUser ?
-              <ProfileDropdown user={loggedUser}/> :
-              <div style={{fontSize: "12px"}}>
-                Not logged in
-              </div>
-            }
-          </Column>
-        </Grid>
+        <div className="Header-links">
+          <Link to="/home">
+            Browse
+          </Link>
+          <Link to={`/discover/${encodeURIComponent(currentLocation)}`}>
+            Discover
+          </Link>
+        </div>
+
+        { loggedUser ?
+          <HeaderProfile
+            onMessagesClick={  e => this.showOverlay(e, "messages")  }
+            onProfileClick={ e => this.showOverlay(e, "profile") }
+            onNotificationsClick={ e => this.showOverlay(e, "notifications") }
+            onNewShoutClick={ () => this.setState({ openNewShoutDialog: true }) }
+            loggedUser={ loggedUser }
+            unreadCount={ unreadConversations.length }
+          /> :
+          <HeaderLoggedOut />
+        }
+
+        { process.env.BROWSER && loggedUser && [
+
+          <Overlay arrow rootClose
+            style={ { width: 400, marginLeft: 4  }}
+            show={ overlayName === "messages" }
+            placement="bottom"
+            container={ this }
+            onHide={ () => this.hideOverlay() }
+            target={ () => overlayTarget }>
+              <HeaderMessagesOverlay
+                loggedUser={ loggedUser }
+                chat={ chat }
+                conversations={ conversations }
+                unreadCount={ unreadConversations.length }
+                onMarkAsReadClick={ () => {
+                  unreadConversations.forEach(c => flux.actions.markConversationAsRead(c.id));
+                }}
+              />
+          </Overlay>,
+
+          <Overlay arrow rootClose
+            style={ { width: 400, marginLeft: 4  }}
+            show={ overlayName === "notifications" }
+            placement="bottom"
+            container={ this }
+            onHide={ () => this.hideOverlay() }
+            target={ () => overlayTarget }>
+              <p>Notifications</p>
+          </Overlay>,
+
+          <Overlay rootClose arrow inverted
+            placement="bottom"
+            container={ this }
+            style={ { width: 200, marginLeft: 10 }}
+            show={ overlayName === "profile" }
+            onHide={ () => this.hideOverlay() }
+            target={ () => overlayTarget }>
+              <HeaderProfileOverlay
+                loggedUser={ loggedUser }
+                onLogoutClick={ () => flux.actions.logout() }
+              />
+          </Overlay>,
+
+          <Dialog
+            open={ openNewShoutDialog }
+            autoDetectWindowHeight={true}
+            autoScrollBodyContent={true}
+            bodyStyle={{ borderRadius: "5px"}}
+            contentClassName="new-shout-popup"
+            onRequestClose={ () => this.setState({ openNewShoutDialog: false }) }>
+            <HeaderNewShout
+              flux={ flux }
+              onShoutSent={ () => this.setState({ openNewShoutDialog: false }) }
+              loggedUser={ loggedUser }
+              currentLocation={ currentLocation }
+            />
+          </Dialog>
+
+        ]}
+
       </header>
     );
   }
-});
+}

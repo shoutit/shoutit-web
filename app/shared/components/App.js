@@ -46,14 +46,11 @@ export default React.createClass({
 
   getData() {
     const { flux } = this.props;
-    const {currentLocation} = this.state;
+    const {currentLocation, loggedUser} = this.state;
 
-    flux.actions.loadConversations();
     flux.actions.acquireLocation();
-
-    if(currentLocation.city) {
-      flux.actions.getSuggestions(currentLocation);
-    }
+    loggedUser && flux.actions.loadConversations();
+    currentLocation.city && flux.actions.getSuggestions(currentLocation);
   },
 
   render() {

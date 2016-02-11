@@ -10,6 +10,12 @@ require("babel/register");
 // Prevent issues with libraries using this var (see http://tinyurl.com/pcockwk)
 delete process.env.BROWSER;
 
+var debug = require("debug");
+var log = debug("shoutit:server");
+var error = debug("shoutit:error");
+
+var config = require("./config");
+
 var express = require("express");
 var app = express();
 
@@ -33,8 +39,25 @@ if (process.env.NODE_ENV === "development") {
 // Start the server
 require("./app/server/web.js")(app);
 
-// startup
-var port = process.env.PORT || process.env.NODE_ENV === "development" ? 3000 : 8080;
+// Startup
+
+
+const summary = [];
+summary.push("");
+summary.push("  shoutit-web-app config");
+summary.push("  ------------------------------------------------------------");
+summary.push();
+summary.push("  Node environment:     " + process.env.NODE_ENV);
+summary.push("  Assets URL:           " + config.assetsUrl);
+summary.push("  API URL:              " + config.apiUrl);
+summary.push("  Redis host:           " + process.env.REDIS_HOST);
+summary.push("");
+
+console.log(summary.join("\n"));
+
+var port = process.env.PORT || "3000";
+
 app.listen(port, function () {
-  console.log("Listening at http://localhost:" + port);
+  console.log();
+  log("Server is now listening to localhost:%s...", port);
 });
