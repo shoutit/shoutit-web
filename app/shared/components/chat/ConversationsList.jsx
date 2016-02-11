@@ -22,7 +22,7 @@ export default function ConversationList({ conversations, loading, loggedUser, s
         </ul>
       }
 
-      { loading && <Progress /> }
+      { loading && conversations.length === 0 && <Progress /> }
 
     </div>
 
