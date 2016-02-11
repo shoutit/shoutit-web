@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 import SVGIcon from "../helper/SVGIcon";
+import Button from "../helper/Button.jsx";
 
 if (process.env.BROWSER) {
   require("styles/components/HeaderProfile.scss");
@@ -25,10 +26,12 @@ export default function HeaderProfile({
         <SVGIcon name="bell" badge={ 0 } onClick={ onNotificationsClick } />
       </div>
       <div>
-        <span className="HeaderProfile-newShout" onClick={ onNewShoutClick }>
-          <span><SVGIcon name="sparkle" fill /></span>
-          <span>Create Shout</span>
-        </span>
+        <Button
+          primary
+          size="small"
+          label="Create Shout"
+          onClick={ onNewShoutClick }
+          leftIcon={ <SVGIcon name="sparkle" fill /> } />
       </div>
       <div>
           <Link

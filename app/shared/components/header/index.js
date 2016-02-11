@@ -3,6 +3,8 @@ import { Link } from "react-router";
 import { Dialog } from "material-ui";
 
 import Overlay from "../helper/Overlay";
+import Button from "../helper/Button.jsx";
+
 import SearchBar from "./searchBar.jsx";
 
 import HeaderMessagesOverlay from "../header/HeaderMessagesOverlay.jsx";
@@ -70,12 +72,8 @@ export default class Header extends Component {
         </div>
 
         <div className="Header-links">
-          <Link to="/home">
-            Browse
-          </Link>
-          <Link to={`/discover/${encodeURIComponent(currentLocation)}`}>
-            Discover
-          </Link>
+          <Button to="/home" label="Browse" />
+          <Button to={`/discover/${encodeURIComponent(currentLocation)}`} label="Discover" />
         </div>
 
         { loggedUser ?
