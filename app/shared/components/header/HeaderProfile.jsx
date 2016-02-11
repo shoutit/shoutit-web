@@ -22,7 +22,7 @@ export default function HeaderProfile({
         </Link>
       </div>
       <div>
-        <SVGIcon name="bell" badge={ 4 } onClick={ onNotificationsClick } />
+        <SVGIcon name="bell" badge={ 0 } onClick={ onNotificationsClick } />
       </div>
       <div>
         <span className="HeaderProfile-newShout" onClick={ onNewShoutClick }>

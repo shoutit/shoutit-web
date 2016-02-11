@@ -6,6 +6,7 @@ import Overlay from "../helper/Overlay";
 import SearchBar from "./searchBar.jsx";
 
 import HeaderMessagesOverlay from "../header/HeaderMessagesOverlay.jsx";
+import HeaderNotificationsOverlay from "../header/HeaderNotificationsOverlay.jsx";
 import HeaderProfileOverlay from "../header/HeaderProfileOverlay.jsx";
 import HeaderProfile from "../header/HeaderProfile.jsx";
 import HeaderLoggedOut from "../header/HeaderLoggedOut.jsx";
@@ -116,7 +117,10 @@ export default class Header extends Component {
             container={ this }
             onHide={ () => this.hideOverlay() }
             target={ () => overlayTarget }>
-              <p>Notifications</p>
+              <HeaderNotificationsOverlay
+                unreadCount={ 0 }
+                onMarkAsReadClick={ () => { }}
+              />
           </Overlay>,
 
           <Overlay rootClose arrow inverted
