@@ -28,6 +28,7 @@ The following variables define the configuration used to build and run the app.
 * `PORT`: the port the server listens to. Default is `8080` for production, `3000` for development.
 * `SHOUTIT_API_URL`: the url for the REST API. Default is http://dev.api.shoutit.com/v2/
 * `SHOUTIT_PUBLIC_URL`: the url where the public assets are stored (can be a CDN url, such as http://s3.amazon.com/shoutit/stage). Default is empty (served by node).
+* `SHOUTIT_GANALYTICS`: Google Analytics id, e.g. `UA-62656831-1`.
 * `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD`: username and password to enforce a basic authentication access control
 * `REDIS_HOST`: the host for the redis server, default is `localhost`
 * `BROWSER`: used by our code to *require* modules only from the browser:

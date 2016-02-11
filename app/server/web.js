@@ -227,6 +227,7 @@ function reactServerRender(req, res) {
             graph: meta,
             production: process.env.NODE_ENV === "production",
             googleMapsKey: config.googleMapsKey,
+            ga: process.env.SHOUTIT_GANALYTICS,
             chunkNames: process.env.NODE_ENV === "production" ?
               require("../../public/stats.json") :
               { main: "/assets/main.js", css: "/assets/main.css" }

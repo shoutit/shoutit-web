@@ -36,7 +36,11 @@ flux.on("dispatch", (type, payload) =>
 );
 
 facebook("353625811317277");
-const ga = gAnalytics("UA-62656831-1");
+
+let ga;
+if (process.env.SHOUTIT_GANALYTICS) {
+  ga = gAnalytics(process.env.SHOUTIT_GANALYTICS);
+}
 
 if(window.google) {
   const locationStore = flux.store("locations");
@@ -70,6 +74,8 @@ ReactDOM.render(
   document.getElementById("root"),
   () => {
     log("App has been mounted");
-    ga("send", "pageview", window.location.href);
+    if (ga) {
+      ga("send", "pageview", window.location.href);
+    }
   }
 );
