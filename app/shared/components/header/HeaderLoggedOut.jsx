@@ -1,12 +1,12 @@
 import React from "react";
-import { Link } from "react-router";
+
+import Button from "../helper/Button.jsx";
 
 export default function HeaderLoggedOut({  }) {
   return (
     <div>
-      <Link to="/login">
-        Login
-      </Link>
+      <Button to="/login" label="Login" />
+      <Button to="/signup" label="Signup" primary  />
     </div>
   );
 }
