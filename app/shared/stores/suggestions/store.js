@@ -2,63 +2,95 @@ import Fluxxor from "fluxxor";
 import consts from "./consts";
 import client from "./client";
 import assign from "lodash/object/assign";
+import {createSlug} from "../../components/helper";
 
 var SuggestionsStore = Fluxxor.createStore({
   initialize(props) {
     this.state = {
-      loading: false,
-      pages: {},
-      shouts: {},
-      tags: {},
-      users: {}
+      data: {}
     };
 
     if(props.suggestions) {
-            // TODO: load suggestions here
+      // TODO: load suggestions here
     }
 
     this.bindActions(
-            consts.GET_SUGGESTIONS, this.onGetSuggestions
-        );
+      consts.GET_SUGGESTIONS, this.onGetSuggestions,
+      consts.GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess,
+      consts.GET_SUGGESTIONS_FAIL, this.onGetSuggestionsFail
+    );
   },
 
-  createSuggestionList(keyName, loading = false) {
-    if(keyName) {
-      this.state[keyName] = assign({loading: loading}, {list: []});
+  emptyList() {
+    return {
+      loading: true,
+      list: []
+    };
+  },
+
+  addEmptyLists(citySlug) {
+    if(!this.state.data[citySlug]) {
+      this.state.data[citySlug] = {
+        pages: new this.emptyList(),
+        shouts: new this.emptyList(),
+        tags: new this.emptyList(),
+        users: new this.emptyList()
+      };
     }
   },
 
-  addSuggestionList(collection) {
-    for (let keyName in collection) {
-      !this.state[keyName] && this.createSuggestionList(keyName);
-      this.state[keyName].list = collection[keyName];
-    }
+  addPagesList(citySlug, data) {
+    this.state.data[citySlug].pages.list = data.map((item) => item.username);
+    this.state.data[citySlug].pages.loading = false;
   },
 
-  onGetSuggestions(payload) {
-        // TODO: should get location for logged user from their profile for server rendering
-        // It is happening now but we need it before onComponentDidMount
-    const location = this.flux.store("locations").getState().current;
+  addShoutsList(citySlug, data) {
+    this.state.data[citySlug].shouts.list = data.map((item) => item.id);
+    this.state.data[citySlug].shouts.loading = false;
+  },
 
-    client.getSuggestions({
-      country: location.country,
-      state: location.state,
-      city: location.city,
-      page_size: 8
-    }).end((err, res) => {
-      if(err) {
-        console.error(err);
-      } else {
-        const {pages, shouts, tags, users} = res.body;
-        this.addSuggestionList({pages, shouts, tags, users});
+  addUsersList(citySlug, data) {
+    this.state.data[citySlug].users.list = data.map((item) => item.username);
+    this.state.data[citySlug].users.loading = false;
+  },
 
-        this.state.loading = false;
+  addTagsList(citySlug, data) {
+    this.state.data[citySlug].tags.list = data.map((item) => item.name);
+    this.state.data[citySlug].tags.loading = false;
+  },
 
-        this.emit("change");
-      }
+  onGetSuggestions({ currentLocation }) {
+    const citySlug = createSlug(currentLocation.city);
+
+    // Initiate empty variable names
+    this.addEmptyLists(citySlug);
+    this.emit("change");
+  },
+
+  onGetSuggestionsSuccess({ res, currentLocation }) {
+    this.waitFor(["users", "tags"], () => {
+      const {pages, shouts, tags, users} = res;
+
+      // Making slug name for city of the selected location to be used as id in store
+      const citySlug = createSlug(currentLocation.city);
+
+      this.addPagesList(citySlug, pages);
+      this.addShoutsList(citySlug, shouts);
+      this.addTagsList(citySlug, tags);
+      this.addUsersList(citySlug, users);
+
+      this.emit("change");
     });
+  },
 
-    this.state.loading = true;
+  onGetSuggestionsFail({ currentLocation }) {
+    const citySlug = createSlug(currentLocation.city);
+
+    // Removing the whole data after fail disable the loadings inside each list easily
+    if(this.state.data[citySlug]) {
+      delete this.state.data[citySlug];
+    }
+
     this.emit("change");
   },
 
