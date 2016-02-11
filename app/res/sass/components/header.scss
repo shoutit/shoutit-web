@@ -18,14 +18,15 @@
   padding: 20px;
 }
 
-.Header-links {
-  &:before {
-    height: 20px;
-    top: 4px;
-    position: relative;
-    content: "";
-    border-right: 1px solid #ccc;
-  }
+.Header-separator {
+  margin: 0 10px;
+  position: relative;
+  top: 6px;
+  display: inline-block;
+  height: 20px;
+  position: relative;
+  content: "";
+  border-right: 1px solid #ccc;
 }
 
 .Header-tools {
@@ -34,7 +35,7 @@
     margin-right: 40px;
   }
   &.loggedIn {
-    margin-left: 40px;
+    margin-left: 16px;
   }
 }
 

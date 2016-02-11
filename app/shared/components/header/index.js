@@ -71,8 +71,10 @@ export default class Header extends Component {
         </div>
 
         <div className="Header-links">
+          <span className="Header-separator" />
           <Button to="/home" label="Browse" />
           <Button to={`/discover/${encodeURIComponent(currentLocation)}`} label="Discover" />
+          { loggedUser && <span className="Header-separator" /> }
         </div>
 
         { loggedUser ?

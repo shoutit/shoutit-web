@@ -40,7 +40,7 @@ export default React.createClass({
     const chat = flux.store("chat").getState();
     const conversations = flux.store("conversations").getConversations(chat.conversationIds);
     const currentLocation = flux.store("locations").getCurrent();
-    const suggestions = flux.store('suggestions').getState();
+    const suggestions = flux.store("suggestions").getState();
     return { loggedUser, conversations, chat, currentLocation, suggestions };
   },
 
