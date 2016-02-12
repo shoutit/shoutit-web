@@ -38,7 +38,8 @@ export default React.createClass({
         ownerUsername = shout.user.username,
         userImage = <UserImage image={img} type="rounded" height={44} width={44}/>,
         country = shout.location.country,
-        city = shout.location.city;
+        city = shout.location.city,
+        {loggedUser} = this.props;
 
       return (
         <section className="si-card shout-owner-card">
@@ -52,17 +53,21 @@ export default React.createClass({
           </Column>
           <div className="holder">
             <Separator />
-            <Column fluid={true} clear={true} size="5" className="owner-contact-action">
-              <ListenersButton user={ shout.user }/>
-            </Column>
-            <Column fluid={true} size="5" className="owner-contact-action">
-              <Icon name="message"/>
-              Message
-            </Column>
-            <Column fluid={true} size="5" className="owner-contact-action">
-              <ListenButton flux={ flux } username={ ownerUsername }/>
-            </Column>
-            <Separator />
+            {ownerUsername !== loggedUser.username &&
+              <div>
+                <Column fluid={true} clear={true} size="5" className="owner-contact-action">
+                  <ListenersButton user={ shout.user }/>
+                </Column>
+                <Column fluid={true} size="5" className="owner-contact-action">
+                  <Icon name="message"/>
+                  Message
+                </Column>
+                <Column fluid={true} size="5" className="owner-contact-action">
+                  <ListenButton flux={ flux } username={ ownerUsername }/>
+                </Column>
+                <Separator />
+              </div>
+            }
             <ul className="owner-contact-details">
               <li>
                 <Icon name="date"/>

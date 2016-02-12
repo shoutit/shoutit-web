@@ -49,6 +49,7 @@ export default React.createClass({
   },
 
   render() {
+    const {loggedUser} = this.props;
     return (
       <Grid className="profile-holder">
         <Column size="3" clear={true}>
@@ -58,7 +59,7 @@ export default React.createClass({
           { React.cloneElement(this.props.children, {...this.state}) }
         </Column>
         <Column size="3">
-          <ShoutOwnerCard />
+          <ShoutOwnerCard loggedUser={loggedUser}/>
           <TagsCard tags={[]} loading={false}/>
           <ListenToCard />
           <SuggestShoutCard />
