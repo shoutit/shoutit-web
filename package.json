@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "DEBUG=shoutit:server,shoutit:error node app.js",
-    "build": "NODE_ENV=production webpack -p --bail && cp -R assets/images/ public/images",
+    "build": "NODE_ENV=production webpack -p --bail",
     "lint": "eslint app test",
     "test": "mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel/register --recursive",
     "test:watch": "npm test -- --watch --watch-extensions jsx",
@@ -76,6 +76,7 @@
     "babel-plugin-react-transform": "1.1.1",
     "babel-runtime": "5.8.35",
     "chai": "3.5.0",
+    "copy-webpack-plugin": "1.1.1",
     "css-loader": "0.23.1",
     "eslint": "1.10.3",
     "eslint-plugin-react": "3.16.1",

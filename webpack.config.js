@@ -6,12 +6,17 @@ require("babel/register");
 var path = require("path");
 var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var isDevelopment = process.env.NODE_ENV === "development";
 var WebpackErrorNotificationPlugin = require("webpack-error-notification");
 var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin;
+var CopyPlugin = require("copy-webpack-plugin");
+
+var isDevelopment = process.env.NODE_ENV === "development";
+
 var context = path.join(__dirname, "./app");
 var entries = ["./client/index.js"];
 var config = require("./config");
+
+function noop() {};
 
 if (isDevelopment) {
   entries.push("webpack-hot-middleware/client");
@@ -87,9 +92,9 @@ module.exports = {
     new webpack.ContextReplacementPlugin(/buffer/, require("buffer")),
     new webpack.optimize.OccurenceOrderPlugin(),
     new ExtractTextPlugin(isDevelopment ? "main.css" : "/styles/main-[contenthash].css"),
-    isDevelopment ? new webpack.HotModuleReplacementPlugin() : new Function(),
-    isDevelopment ? new webpack.NoErrorsPlugin() : new Function(),
-    isDevelopment ? new WebpackErrorNotificationPlugin() : new Function(),
+    isDevelopment ? new webpack.HotModuleReplacementPlugin() : noop,
+    isDevelopment ? new webpack.NoErrorsPlugin() : noop,
+    isDevelopment ? new WebpackErrorNotificationPlugin() : noop,
 
     !isDevelopment ? // Write out stats.json file to build directory.
       new StatsWriterPlugin({
@@ -99,7 +104,9 @@ module.exports = {
             css: data.assetsByChunkName.main[1]
           }, null, 2);
         }
-      }) : new Function()
+      }) : noop,
+
+    !isDevelopment ? new CopyPlugin([{ from: "../assets/images/", to: "./images" }]) : noop
 
   ]
 };
