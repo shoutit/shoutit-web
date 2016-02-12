@@ -14,6 +14,8 @@ import gAnalytics from "../client/ga";
 import { setup as setupPusher } from "../client/pusher";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 
+import "babel-core/polyfill";
+
 import "styles/main.scss";
 
 injectTapEventPlugin();
