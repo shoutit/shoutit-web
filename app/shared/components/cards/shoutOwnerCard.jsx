@@ -5,6 +5,7 @@ import Separator from '../general/separator.jsx';
 import UserImage from '../user/userImage.jsx';
 import ListenButton from "../general/listenButton.jsx";
 import ListenersButton from "../general/listenersButton.jsx";
+import moment from "moment";
 
 export default function shoutOwnerCard(props) {
   const {shout, flux, users, loggedUser} = props;
@@ -42,10 +43,12 @@ export default function shoutOwnerCard(props) {
               : null
             }
             <ul className="owner-contact-details">
-              <li>
-                <Icon name="date"/>
-                <span>Joined: 10/13/2015</span>
-              </li>
+              {users[shout.user.username] &&
+                <li>
+                  <Icon name="date"/>
+                  <span>{ moment.unix(users[shout.user.username].date_joined).fromNow() }</span>
+                </li>
+              }
               <li>
                 <Icon name="phone"/>
                 <span>+13-33252514</span>
