@@ -7,4 +7,3 @@ test
 .eslintrc
 .gitignore
 circle.yml
-gulpfile.js
