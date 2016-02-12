@@ -41,6 +41,7 @@ export default React.createClass({
       full: findRes.full,
       loading: shoutStoreState.loading,
       user: userStoreState.user,
+      users: userStoreState.users,
       userShouts: userStoreState.shouts,
       relatedShouts: shoutStoreState.relatedShouts,
       replyDrafts: shoutStoreState.replyDrafts,
@@ -49,7 +50,8 @@ export default React.createClass({
   },
 
   render() {
-    const {loggedUser} = this.props;
+    const { loggedUser, flux } = this.props;
+    const { shout, users } = this.state;
     return (
       <Grid className="profile-holder">
         <Column size="3" clear={true}>
@@ -59,8 +61,15 @@ export default React.createClass({
           { React.cloneElement(this.props.children, {...this.state}) }
         </Column>
         <Column size="3">
-          <ShoutOwnerCard loggedUser={loggedUser}/>
-          <TagsCard tags={[]} loading={false}/>
+          <ShoutOwnerCard
+            loggedUser={loggedUser}
+            shout={ shout }
+            users={ users }
+            flux={ flux }
+            />
+          <TagsCard tags={[]}
+              loading={false}
+              />
           <ListenToCard />
           <SuggestShoutCard />
         </Column>

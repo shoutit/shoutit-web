@@ -1,72 +1,45 @@
 import React from 'react';
-import {StoreWatchMixin} from 'fluxxor';
 import {Link} from 'react-router';
-import {Icon, Column, Flag} from '../helper';
+import {Icon, Grid, Column, Flag, Progress} from '../helper';
 import Separator from '../general/separator.jsx';
 import UserImage from '../user/userImage.jsx';
 import ListenButton from "../general/listenButton.jsx";
 import ListenersButton from "../general/listenersButton.jsx";
 
-export default React.createClass({
-  displayName: "ShoutOwnerCard",
-  mixins: [StoreWatchMixin('users', 'shouts')],
+export default function shoutOwnerCard(props) {
+  const {shout, flux, users, loggedUser} = props;
 
-  contextTypes: {
-    flux: React.PropTypes.object,
-    params: React.PropTypes.object
-  },
+  const loggedUsername = loggedUser? loggedUser.username: undefined;
 
-  getStateFromFlux() {
-    let flux = this.context.flux,
-      shoutStore = flux.store("shouts"),
-      shoutObj = this.context.params.shoutId ? shoutStore.findShout(this.context.params.shoutId) : null;
-
-    return {
-      users: flux.store('users').getState().users,
-      user: flux.store('users').getState().user,
-      shout: shoutObj ? shoutObj.shout : null
-    };
-  },
-
-  render() {
-    const shout = this.state.shout;
-
-    if (shout) {
-      const {flux} = this.context,
-        img = shout.user.image,
-        name = shout.user.name,
-        ownerUsername = shout.user.username,
-        userImage = <UserImage image={img} type="rounded" height={44} width={44}/>,
-        country = shout.location.country,
-        city = shout.location.city,
-        {loggedUser} = this.props;
-
-      return (
-        <section className="si-card shout-owner-card">
+  return (
+    <section className="si-card shout-owner-card">
+      { shout.user?
+        <Grid fluid={true}>
           <Column fluid={true} clear={true} size="4" className="owner-info-left">
-            {userImage}
+            <UserImage image={ shout.user.image } type="rounded" height={44} width={44}/>
           </Column>
           <Column fluid={true} size="11" className="owner-info-right">
-            <Link to="">{name}</Link>
-            <Flag country={country} size="16"/>
-            <span>{city}</span>
+            <Link to="">{ shout.user.name }</Link>
+            <Flag country={ shout.location.country } size="16"/>
+            <span>{ shout.location.city }</span>
           </Column>
           <div className="holder">
             <Separator />
-            {ownerUsername !== loggedUser.username &&
+            {shout.user.username !== loggedUsername && users[shout.user.username] ?
               <div>
                 <Column fluid={true} clear={true} size="5" className="owner-contact-action">
-                  <ListenersButton user={ shout.user }/>
+                  <ListenersButton user={ users[shout.user.username] }/>
                 </Column>
                 <Column fluid={true} size="5" className="owner-contact-action">
                   <Icon name="message"/>
                   Message
                 </Column>
                 <Column fluid={true} size="5" className="owner-contact-action">
-                  <ListenButton flux={ flux } username={ ownerUsername }/>
+                  <ListenButton flux={ flux } username={ shout.user.username }/>
                 </Column>
                 <Separator />
               </div>
+              : null
             }
             <ul className="owner-contact-details">
               <li>
@@ -79,10 +52,10 @@ export default React.createClass({
               </li>
             </ul>
           </div>
-        </section>
-      );
-    } else {
-      return null;
-    }
-  }
-});
+        </Grid>
+        :
+        <Progress />
+      }
+    </section>
+  );
+}
