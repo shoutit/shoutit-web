@@ -41,7 +41,7 @@ export default React.createClass({
       { loggedUser && shout.user.username !== loggedUser.username &&
         <div className="shout-footer">
           <UserImage image={loggedUser.image} type="square" height={36} width={36}/>
-          <form ref="form">
+          <form ref="form" onSubmit={ (e) => e.preventDefault() }>
             <Input name="text" type="text" placeholder="Reply to shout…"/>
             <Icon name="send" onSwitchClick={ () => this.submit() } className="shout-send" />
           </form>
