@@ -18,6 +18,7 @@ export const actions = {
       if (error || !res.ok) {
         error = error ? { status: 500, ...error } : res;
         this.dispatch(LOAD_CONVERSATIONS_FAILURE, { error });
+        done && done(error);
         return;
       }
       this.dispatch(LOAD_CONVERSATIONS_SUCCESS, res.body);
