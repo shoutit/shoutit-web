@@ -83,6 +83,11 @@ var TagStore = Fluxxor.createStore({
 
   onLoadTag(payload) {
     var tagName = payload.tagName;
+
+    if(!this.state.tags[tagName]) {
+      this.addTagEntry(payload.tagName);
+    }
+
     client.get(tagName)
       .end(function (err, res) {
         if (err || res.status !== 200) {
@@ -108,7 +113,10 @@ var TagStore = Fluxxor.createStore({
         shouts: null,
         shoutsNext: null,
         listeners: null,
-        related: null
+        related: {
+          loading: false,
+          list: []
+        }
       };
     }
   },
@@ -137,7 +145,6 @@ var TagStore = Fluxxor.createStore({
   },
 
   onLoadTagSuccess(payload) {
-    this.addTagEntry(payload.tagName);
     this.state.tags[payload.tagName].tag = payload.res;
     this.state.loading = false;
     this.emit("change");
@@ -285,6 +292,10 @@ var TagStore = Fluxxor.createStore({
   onLoadTagRelated(payload) {
     var tagName = payload.tagName;
 
+    if (!this.state.tags[payload.tagName]) {
+      this.addTagEntry(payload.tagName);
+    }
+
     client.getRelated(tagName).end((err, res) => {
       if (err) {
         log(err);
@@ -296,16 +307,13 @@ var TagStore = Fluxxor.createStore({
       }
     });
 
-    this.state.loading = true;
+    this.state.tags[tagName].related.loading = true;
     this.emit("change");
   },
 
   onLoadTagRelatedSuccess(payload) {
-    if (!this.state.tags[payload.tagName]) {
-      this.addTagEntry(payload.tagName);
-    }
     this.state.tags[payload.tagName].related = payload.res.results;
-    this.state.loading = false;
+    this.state.tags[tagName].related.loading = false;
     this.emit("change");
   },
 
