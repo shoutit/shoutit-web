@@ -1,7 +1,7 @@
 /* eslint no-var: 0, no-console: 0 */
 /* eslint-env node */
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production" && process.env.NEW_RELIC_APP_NAME && process.env.NEW_RELIC_LICENSE_KEY) {
   require("newrelic");
 }
 
@@ -12,7 +12,6 @@ delete process.env.BROWSER;
 
 var debug = require("debug");
 var log = debug("shoutit:server");
-var error = debug("shoutit:error");
 
 var config = require("./config");
 
@@ -39,9 +38,6 @@ if (process.env.NODE_ENV === "development") {
 // Start the server
 require("./app/server/web.js")(app);
 
-// Startup
-
-
 const summary = [];
 summary.push("");
 summary.push("  shoutit-web-app config");
@@ -51,6 +47,8 @@ summary.push("  Node environment:     " + process.env.NODE_ENV);
 summary.push("  Public assets URL:    " + config.publicUrl);
 summary.push("  API URL:              " + config.apiUrl);
 summary.push("  Redis host:           " + process.env.REDIS_HOST);
+summary.push("  New Relic Key:        " + process.env.NEW_RELIC_LICENSE_KEY);
+summary.push("  Google Analytics:     " + process.env.SHOUTIT_GANALYTICS);
 summary.push("");
 
 console.log(summary.join("\n"));
