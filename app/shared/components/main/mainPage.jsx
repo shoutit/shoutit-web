@@ -51,7 +51,7 @@ export default React.createClass({
                             </Column>
                         </Element>
                     </Grid>
-                    <Grid className="mainpage-cover" style={{backgroundImage: `url(${imagesPath}/m_cover.png)`}}>
+                    <Grid className="mainpage-cover" style={{backgroundImage: `url(${imagesPath}/m_cover.jpg)`}}>
                         <Grid fluid={true} className="mainpage-cover-opacity">
                             <Grid fluid={true} className="hero">
                                 <Column size="7" offset="2">
