@@ -4,6 +4,8 @@ import {Link} from 'react-router';
 import {Icon, Column, Flag} from '../helper';
 import Separator from '../general/separator.jsx';
 import UserImage from '../user/userImage.jsx';
+import ListenButton from "../general/listenButton.jsx";
+import ListenersButton from "../general/listenersButton.jsx";
 
 export default React.createClass({
     displayName: "ShoutOwnerCard",
@@ -26,16 +28,14 @@ export default React.createClass({
         }
     },
 
-
     render() {
-        let shout = this.state.shout;
-        let users = this.state.users;
+        const shout = this.state.shout;
 
         if(shout) {
-            let img = shout.user.image,
+            const {flux} = this.context,
+                img = shout.user.image,
                 name = shout.user.name,
                 ownerUsername = shout.user.username,
-                listeners = users[ownerUsername]? users[ownerUsername].listeners_count: null,
                 userImage = <UserImage image={img} type="rounded" height={44} width={44}/>,
                 country = shout.location.country,
                 city = shout.location.city;
@@ -53,22 +53,19 @@ export default React.createClass({
                     <div className="holder">
                         <Separator />
                         <Column fluid={true} clear={true} size="5" className="owner-contact-action">
-                            <Icon name="listening" />
-                            <span className="listeners-count">{listeners}</span>
-                            Listeners
+                            <ListenersButton user={ shout.user }/>
                         </Column>
                         <Column fluid={true} size="5" className="owner-contact-action">
-                            <Icon name="message" /> 
+                            <Icon name="message" />
                             Message
                         </Column>
                         <Column fluid={true}  size="5" className="owner-contact-action">
-                            <Icon name="listen" /> 
-                            Listen
+                            <ListenButton flux={ flux } username={ ownerUsername }/>
                         </Column>
                         <Separator />
                         <ul className="owner-contact-details">
                             <li>
-                                <Icon name="date" /> 
+                                <Icon name="date" />
                                 <span>Joined: 10/13/2015</span>
                             </li>
                             <li>
