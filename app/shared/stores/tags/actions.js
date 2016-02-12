@@ -49,6 +49,12 @@ export default {
     });
   },
 
+  loadTagRelated(tagName) {
+    this.dispatch(consts.LOAD_TAG_RELATED, {
+      tagName: tagName
+    });
+  },
+
   loadTagListenersSuccess(tagName, res) {
     this.dispatch(consts.LOAD_TAG_LISTENERS, {
       tagName: tagName,

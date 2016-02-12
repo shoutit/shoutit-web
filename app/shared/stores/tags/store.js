@@ -6,8 +6,10 @@ import sugConsts from "../suggestions/consts";
 import client from "./client";
 import statuses from "../../consts/statuses.js";
 import assign from "lodash/object/assign";
+import debug from "debug";
 
 var {LISTEN_BTN_LOADING} = statuses;
+const log = debug("shoutit:store:tags");
 
 var TagStore = Fluxxor.createStore({
   initialize(props) {
@@ -59,6 +61,7 @@ var TagStore = Fluxxor.createStore({
       consts.LOAD_MORE_TAG_SHOUTS, this.onLoadMoreTagShouts,
       consts.LOAD_TAG_LISTENERS, this.onLoadTagListeners,
       consts.LOAD_TAG_LISTENERS_SUCCESS, this.onLoadTagListenersSuccess,
+      consts.LOAD_TAG_RELATED, this.onLoadTagRelated,
       usersConsts.LOAD_USER_TAGS_SUCCESS, this.onLoadUserTagsSuccess,
       consts.LOAD_TAGS_SPRITE, this.onLoadTagsSprite,
       consts.LOAD_TAGS_SPRITE_SUCCESS, this.onLoadTagsSpriteSuccess,
@@ -104,7 +107,8 @@ var TagStore = Fluxxor.createStore({
         tag: {},
         shouts: null,
         shoutsNext: null,
-        listeners: null
+        listeners: null,
+        related: null
       };
     }
   },
@@ -274,6 +278,33 @@ var TagStore = Fluxxor.createStore({
   onLoadTagListenersSuccess(payload) {
     this.addTagEntry(payload.tagName);
     this.state.tags[payload.tagName].listeners = payload.res.results;
+    this.state.loading = false;
+    this.emit("change");
+  },
+
+  onLoadTagRelated(payload) {
+    var tagName = payload.tagName;
+
+    client.getRelated(tagName).end((err, res) => {
+      if (err) {
+        log(err);
+      } else {
+        this.onLoadTagRelatedSuccess({
+          tagName: tagName,
+          res: res.body
+        });
+      }
+    });
+
+    this.state.loading = true;
+    this.emit("change");
+  },
+
+  onLoadTagRelatedSuccess(payload) {
+    if (!this.state.tags[payload.tagName]) {
+      this.addTagEntry(payload.tagName);
+    }
+    this.state.tags[payload.tagName].related = payload.res.results;
     this.state.loading = false;
     this.emit("change");
   },
