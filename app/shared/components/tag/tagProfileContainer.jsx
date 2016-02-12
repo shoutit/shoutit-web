@@ -25,6 +25,9 @@ export default React.createClass({
     if (!this.state.loading && !tagEntry && tagEntry !== null) {
       flux.actions.loadTag(tagName);
     }
+    if(!tagEntry.related.loading) {
+      flux.actions.loadTagRelated(tagName);
+    }
   },
 
   componentDidMount() {
