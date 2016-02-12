@@ -49,10 +49,12 @@ export default function shoutOwnerCard(props) {
                   <span>{ moment.unix(users[shout.user.username].date_joined).fromNow() }</span>
                 </li>
               }
+              {/*
               <li>
                 <Icon name="phone"/>
                 <span>+13-33252514</span>
               </li>
+              */}
             </ul>
           </div>
         </Grid>
