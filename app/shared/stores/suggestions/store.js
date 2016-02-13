@@ -45,7 +45,7 @@ var SuggestionsStore = Fluxxor.createStore({
   },
 
   addShoutsList(citySlug, data) {
-    this.state.data[citySlug].shouts.list = data.map((item) => item.id);
+    this.state.data[citySlug].shouts.list = data;
     this.state.data[citySlug].shouts.loading = false;
   },
 
