@@ -26,8 +26,8 @@ export default React.createClass({
           <Input ref="email" type="email" placeholder="Email or Username" className="input-email" />
           <Input ref="password" type="password" placeholder="Password" className="input-pass" />
           <Button bsSize="large" type="submit" block
-              className={ this.props.logingIn ? "btn-signin btn-signin-disabled" : "btn-signin" }>
-          {this.props.logingIn? "Logging in...": "Log in"}</Button>
+              className={ this.props.loggingIn ? "btn-signin btn-signin-disabled" : "btn-signin" }>
+          {this.props.loggingIn? "Logging in...": "Log in"}</Button>
           <Input type="checkbox" label="Keep me logged in" />
         </form>
       </div>
