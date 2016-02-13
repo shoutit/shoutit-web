@@ -19,7 +19,9 @@ dependencies:
 test:
   pre:
   override:
-    - MOCHA_FILE=$CIRCLE_TEST_REPORTS/test-results.xml npm run test:cover
+    - >
+      MOCHA_FILE=$CIRCLE_TEST_REPORTS/test-results.xml
+      npm run test:cover
   post:
     - cp -R ./coverage $CIRCLE_ARTIFACTS
 
@@ -29,14 +31,26 @@ deployment:
     commands:
       - SHOUTIT_PUBLIC_URL=$SHOUTIT_PUBLIC_URL_BETA npm run build
       - SHOUTIT_S3_BASEPATH=$SHOUTIT_S3_BASEPATH_BETA npm run build:upload
-      - docker build -t shoutit/shoutit-web:master .
+      - docker build -t -e SHOUTIT_PUBLIC_URL=$SHOUTIT_PUBLIC_URL_BETA shoutit/shoutit-web:master .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:master
   hub-develop:
     branch: develop
     commands:
-      - SHOUTIT_PUBLIC_URL=$SHOUTIT_PUBLIC_URL_STAGE npm run build
-      - SHOUTIT_S3_BASEPATH=$SHOUTIT_S3_BASEPATH_STAGE npm run build:upload
-      - docker build -t shoutit/shoutit-web:develop .
+      - >
+        SHOUTIT_PUBLIC_URL=https://stage.web.static.shoutit.com
+        npm run build
+      - >
+        SHOUTIT_S3_BASEPATH=stage
+        npm run build:upload
+      - >
+        docker build -t
+        --build-arg
+        SHOUTIT_PUBLIC_URL=https://stage.web.static.shoutit.com
+        SHOUTIT_API_URL=http://dev.api.shoutit.com/v2/
+        SHOUTIT_GANALYTICS=UA-62656831-1
+        NEW_RELIC_LICENSE_KEY=
+        NEW_RELIC_APP_NAME=
+        shoutit/shoutit-web:develop .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:develop
