@@ -43,11 +43,6 @@ deployment:
       - >
         SHOUTIT_S3_BASEPATH=stage
         npm run build:upload
-      - >
-        docker build
-        --build-arg SHOUTIT_PUBLIC_URL=https://stage.web.static.shoutit.com
-        --build-arg SHOUTIT_API_URL=http://dev.api.shoutit.com/v2/
-        --build-arg SHOUTIT_GANALYTICS=UA-62656831-1
-        -t shoutit/shoutit-web:develop .
+      - docker build --build-arg SHOUTIT_PUBLIC_URL=https://stage.web.static.shoutit.com -t shoutit/shoutit-web:develop .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:develop
