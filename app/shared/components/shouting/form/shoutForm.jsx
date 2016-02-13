@@ -3,7 +3,7 @@ import Router from 'react-router';
 import {History} from 'react-router';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
-import {Button, Input, DropdownButton, MenuItem, Tooltip} from 'react-bootstrap';
+import {Input, DropdownButton, MenuItem, Tooltip} from 'react-bootstrap';
 import Overlay from 'react-overlays/lib/Overlay';
 import TagsInput from 'react-tagsinput';
 import DropzoneComponent from 'react-dropzone-component';
@@ -12,6 +12,8 @@ import UserImage from '../../user/userImage.jsx';
 import LocationSearch from '../../general/locationSearch.jsx';
 import map from 'lodash/collection/map';
 import Clearfix from '../../helper/clearFix.jsx';
+import Button from "../../helper/Button.jsx";
+import SVGIcon from "../../helper/SVGIcon";
 
 const shoutTypes = {
   offer: "Offers",
@@ -385,10 +387,13 @@ export default React.createClass({
               <Column fluid={true} clear={true} size="11">
                 <LocationSearch onSelect={this.onLocationSelect} ref="location" flux={this.props.flux} />
               </Column>
-              <Column fluid={true} size="4">
-                <Button onClick={this.onSubmit} style={{float:'right'}} disabled={this.props.waiting} className="shout-btn">
-                  {this.props.waiting? "Loading...": "Create Shout"}
-                </Button>
+              <Column fluid={true} size="4" style={{ textAlign: "right" }}>
+                <Button
+                  leftIcon={ <SVGIcon name="sparkle" fill /> }
+                  label={this.props.waiting? "Loading...": "Create Shout"}
+                  primary
+                  onClick={this.onSubmit}
+                  disabled={this.props.waiting} />
               </Column>
             </Grid>
           </ReactVisible>
