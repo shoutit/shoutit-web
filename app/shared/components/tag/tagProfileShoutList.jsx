@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid} from '../helper';
+import {Grid, Progress} from '../helper';
 import Shout from '../feed/feed/shout.jsx';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 
