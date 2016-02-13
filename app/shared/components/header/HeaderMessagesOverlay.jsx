@@ -34,11 +34,12 @@ export default function HeaderMessagesOverlay({ loggedUser, chat, conversations,
         </div>
       }
       </div>
-      <div className="ListOverlay-footer">
+      { conversations.length > 0 && <div className="ListOverlay-footer">
         <Link to="/messages">
             See All
         </Link>
       </div>
+      }
     </div>
 
   );

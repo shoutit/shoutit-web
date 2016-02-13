@@ -86,63 +86,6 @@ describe("MessagesActions", () => {
 
   });
 
-  describe("replyToShout", () => {
-
-    afterEach(() => Request.prototype.end.restore());
-
-    it("should dispatch on success and call the callback", () => {
-      const done = sinon.spy();
-      sinon.stub(Request.prototype, "end", done => done(null, {
-        ok: true,
-        body: { text: "a message" }
-      }));
-      const tempMessage = actions.replyToShout(loggedUser, "shout_id", "a message", done);
-      expect(dispatch).to.have.been.calledWith(
-        actionTypes.REPLY_SHOUT,
-        { shoutId: "shout_id", message: tempMessage }
-      );
-      expect(dispatch).to.have.been.calledWith(
-        actionTypes.REPLY_SHOUT_SUCCESS, {
-          shoutId: "shout_id",
-          tempMessageId: tempMessage.id,
-          message: { text: "a message" }
-        }
-      );
-      expect(done).to.have.been.calledWith(null, { text: "a message" });
-    });
-
-    it("should dispatch response on failure and call the callback", () => {
-      const done = sinon.spy();
-      sinon.stub(Request.prototype, "end", done => done(null, {
-        ok: false
-      }));
-      const tempMessage = actions.replyToShout(loggedUser, "shout_id", "a message", done);
-      expect(dispatch).to.have.been.calledWith(
-        actionTypes.REPLY_SHOUT_FAILURE, {
-          shoutId: "shout_id",
-          message: tempMessage,
-          error: { ok: false }
-        }
-      );
-      expect(done).to.have.been.calledWith({ ok: false });
-    });
-
-    it("should dispatch error on failure and call the callback", () => {
-      const done = sinon.spy();
-      sinon.stub(Request.prototype, "end", done => done({status: 404}, null));
-      const tempMessage = actions.replyToShout(loggedUser, "shout_id", "a message", done);
-      expect(dispatch).to.have.been.calledWith(
-        actionTypes.REPLY_SHOUT_FAILURE, {
-          shoutId: "shout_id",
-          message: tempMessage,
-          error: { status: 404 }
-        }
-      );
-      expect(done).to.have.been.calledWith({ status: 404 });
-    });
-
-  });
-
   describe("sendMessage", () => {
 
     afterEach(() => Request.prototype.end.restore());
