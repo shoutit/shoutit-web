@@ -324,6 +324,7 @@ button {
 }
 
 .si-dialog {
+  -webkit-font-smoothing: subpixel-antialiased;
   width: 400px!important;
   & > div {
     border-radius: 5px!important;
