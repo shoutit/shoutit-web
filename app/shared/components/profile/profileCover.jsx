@@ -27,7 +27,7 @@ export default React.createClass({
         if(this.state.coverEditBox) {
             return (
                 <div style={{position: "relative"}}>
-                    <AvatarEditor 
+                    <AvatarEditor
                       image={this.imageData}
                       width={940}
                       height={300}
@@ -51,7 +51,7 @@ export default React.createClass({
     renderEditControls() {
         const editMode = this.props.editMode;
         if(editMode) {
-            
+
             return (
                 <Grid fluid={true} className="profile-cover-editmode">
                     {/* Could be refactored as a separate image edit layer component to handle uploads*/}
@@ -157,7 +157,7 @@ export default React.createClass({
 
     render() {
         return (
-            <Grid fluid={true}>
+            <Grid fluid={true} style={{position: "relative"}}>
                 {this.renderCoverPhoto()}
                 {this.renderEditButton()}
             </Grid>

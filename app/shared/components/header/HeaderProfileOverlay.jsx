@@ -16,15 +16,15 @@ export default function HeaderProfileOverlay( { loggedUser, onLogoutClick }) {
         </Link>
       </li>
       <li>
-        <Link to={`/user/${loggedUser.username}/edit`}>
+        <Link to={`/user/${loggedUser.username}`}  query={ {_edit: 1} }>
           <SVGIcon name="pencil" active />Edit Profile
         </Link>
       </li>
-      <li>
+      {/*<li>
         <Link to="/settings">
           <SVGIcon name="cog" active />Settings
         </Link>
-      </li>
+      </li>*/}
       <li>
         <Link to="/logout" className="item" onClick={ e => {
           e.preventDefault();

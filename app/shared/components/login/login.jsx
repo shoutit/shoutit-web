@@ -22,7 +22,7 @@ export default React.createClass({
     let store = flux.store('users').getState();
 
     return {
-      logingIn: store.logingIn,
+      loggingIn: store.loggingIn,
       loginFailed: store.loginFailed,
       forgetResult: store.forgetResult,
       user: store.user
@@ -98,7 +98,7 @@ export default React.createClass({
 
   renderNativeLogin() {
     return this.state.loginFailed !== 'no_fb_email' && !this.state.forgetPass ?
-      <NativeLogin flux={this.props.flux} logingIn={this.state.logingIn}/> : null;
+      <NativeLogin flux={this.props.flux} loggingIn={this.state.loggingIn}/> : null;
   },
 
   renderForgetPass() {

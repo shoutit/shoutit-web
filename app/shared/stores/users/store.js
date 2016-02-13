@@ -52,7 +52,7 @@ var UserStore = Fluxxor.createStore({
       shouts: {},
       loading: false,
       showDownloadPopup: false,
-      logingIn: false,
+      loggingIn: false,
       loginFailed: null,
       signupStatus: {},
       forgetResult: null,
@@ -283,13 +283,13 @@ var UserStore = Fluxxor.createStore({
   },
 
   onLogin(payload) {
-    this.state.logingIn = true;
+    this.state.loggingIn = true;
     this.emit("change");
 
     client.login(payload.token, payload.type)
       .end(function (err, res) {
         if (err) {
-          this.state.logingIn = false;
+          this.state.loggingIn = false;
           this.state.loginFailed = null;
           this.emit("change");
         } else {
@@ -301,14 +301,14 @@ var UserStore = Fluxxor.createStore({
               this.state.loginFailed = apiErr.password;
             if(apiErr.error)
               this.state.loginFailed = apiErr.error;
-            this.state.logingIn = false;
+            this.state.loggingIn = false;
             this.emit("change");
           } else {
             let loggedUser = res.body;
             if (typeof loggedUser.username !== "undefined") {
               this.state.users[loggedUser.username] = loggedUser;
               this.state.user = loggedUser.username;
-              this.state.logingIn = false;
+              this.state.loggingIn = false;
               this.state.loginFailed = null;
               this.emit("change");
               this.emit("login");

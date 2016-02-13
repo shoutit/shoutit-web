@@ -80,9 +80,15 @@ input[type=text], [type=email], input[type=password], input[type=number] {
     -webkit-box-shadow: none;
     box-shadow: none;
     border: 2px solid $si-green;
+    &.form-control {
+      padding: 4px 11px;
+    }
   }
   &.input-alert {
     border: 2px solid $si-error-color;
+    &.form-control {
+      padding: 4px 11px;
+    }
   }
 }
 textarea {
@@ -93,6 +99,9 @@ textarea {
     -webkit-box-shadow: none!important;
     box-shadow: none!important;
     border: 2px solid $si-green!important;
+    &.form-control {
+      padding: 5px 11px;
+    }
   }
 }
 button {
@@ -205,6 +214,7 @@ button {
   width: 100%;
   height: 36px;
   .form-group {
+    width: 100%;
     margin-bottom: 0;
     display:inline-block;
     .input-group {
@@ -323,6 +333,7 @@ button {
 }
 
 .si-dialog {
+  -webkit-font-smoothing: subpixel-antialiased;
   width: 400px!important;
   & > div {
     border-radius: 5px!important;
