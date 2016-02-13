@@ -20,6 +20,9 @@ router.route("/:id/listen")
 router.route("/:id/listeners")
   .get(require("./getListeners")(ShoutClient));
 
+router.route("/:id/related")
+  .get(require("./getRelated")(ShoutClient));
+
 router.route("/:id/shouts")
   .get(require("./getShouts")(ShoutClient));
 
