@@ -4,7 +4,8 @@ html
         include meta
 
         title= title
-        link(rel='icon', type='image/png' href="/img/fav.png")
+        link(rel='shortcut icon', type='image/png' href="#{publicUrl}/images/favicons/favicon.ico")
+        link(rel='apple-touch-icon', size='256x256' type='image/png' href="#{publicUrl}/images/favicons/apple-touch-icon.png")
         if production
           link(rel='stylesheet', href='#{chunkNames.css}', type='text/css' )
     body
