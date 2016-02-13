@@ -10,11 +10,11 @@ export default React.createClass({
     return(
       <div>
         <form onSubmit={this.onLoginSubmit}>
-          <Input ref='email' type='email' placeholder='Email or username' className='input-email' />
+          <Input ref='email' type='email' placeholder='Email or Username' className='input-email' />
           <Input ref='pass' type='password' placeholder='Password' className='input-pass' />
-          <Button bsSize='large' type='submit' block 
+          <Button bsSize='large' type='submit' block
               className={this.props.logingIn? 'btn-signin btn-signin-disabled':'btn-signin'}>
-          {this.props.logingIn? 'Logging In...': 'Log In'}</Button>
+          {this.props.logingIn? 'Logging in...': 'Log in'}</Button>
           <Input type='checkbox' label='Keep me logged in' />
         </form>
       </div>

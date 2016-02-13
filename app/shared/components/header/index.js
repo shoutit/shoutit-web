@@ -88,8 +88,8 @@ export default class Header extends Component {
             />
           </div> :
           <div className="Header-tools loggedOut">
-            <Button to="/login" label="Login" />
-            <Button to="/signup" label="Signup" primary  />
+            <Button to="/login" label="Log in" />
+            <Button to="/signup" label="Sign up" primary  />
           </div>
         }
 

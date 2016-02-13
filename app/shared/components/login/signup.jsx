@@ -34,7 +34,7 @@ export default React.createClass({
       form =
       <div className="si-signup">
         <div className="icon res1x-sign_logo"></div>
-        <h3>Sign Up</h3>
+        <h3>Sign up</h3>
         <SocialLogin flux={this.props.flux} loginFailed={this.state.loginFailed} />
         <div className="separator separator-or"></div>
         <form onSubmit={this.onSignupSubmit}>
@@ -67,17 +67,17 @@ export default React.createClass({
           <Input ref='pass' type='password' placeholder='Password' className=
             {this.state.alerts["password"]? "input-pass input-alert": "input-pass"} />
 
-          <Button bsSize='large' type='submit' block disabled={!this.state.tosChecked}
+          <Button bsSize='large' type='submit' block
           className={this.state.loading? 'btn-signup btn-signup-disabled':'btn-signup'}>
-          {this.state.loading? 'Signing Up...': 'Sign Up'}</Button>
-          <Input onChange={this.handleTos} checked={this.state.tosChecked} type='checkbox' label='I accept Shoutit terms of use'
+          {this.state.loading? 'Signing up...': 'Sign up'}</Button>
+          <Input onChange={this.handleTos} checked={this.state.tosChecked} type='checkbox' label='By signing up, you agree to the Terms of Service and Privacy Policy'
            disabled={this.state.loading} />
         </form>
         <div className="separator"></div>
           <center>
             <div style={{marginBottom: '15px'}}>
-              Already have an account&#63;&nbsp;
-              <Link to="/login">Login</Link>
+              Have an account&#63;&nbsp;
+              <Link to="/login">Log in</Link>
             </div>
           </center>
       </div>;
@@ -85,12 +85,12 @@ export default React.createClass({
       form =
         <div className="si-signup">
           <div className="icon res1x-sign_logo"></div>
-          <h3>Sign Up</h3>
+          <h3>Sign up</h3>
           <p style={{marginTop:'50px'}}>
             Dear {this.state.signup.name}, welcome to Shoutit. We are happy to have you here!
           </p>
           <p className="small">
-            To use Shoutit with full potential please verify your email by clicking 
+            To use Shoutit with full potential please verify your email by clicking
             on the link we have sent to your email <span>{this.state.signup.email}</span>
           </p>
           <center>
@@ -104,7 +104,7 @@ export default React.createClass({
 
 
     return(
-      <DocumentTitle title="Sign Up - Shoutit">
+      <DocumentTitle title="Sign up - Shoutit">
         <Dialog open={true} onRequestClose={this.onDismiss} contentStyle={{marginTop:'-50px'}} contentClassName="si-dialog">
           {form}
 
@@ -125,7 +125,7 @@ export default React.createClass({
 
         this.setState({loading:false});
 
-        if (status === 'SIGNUP_FAIL') 
+        if (status === 'SIGNUP_FAIL')
           this.showFormAlerts();
         else if (status === 'SIGNUP_SUCCESS') {
           this.setState({signupFinished: true});

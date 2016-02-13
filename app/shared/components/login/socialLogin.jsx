@@ -12,8 +12,8 @@ export default React.createClass({
   render() {
     return(
       <div>
-        <span className="social-btn facebook" onClick={this.onFBLogin}>Login With Facebook</span>
-        <span className="social-btn google" onClick={this.onGPlusLogin}>Login With Google+</span>
+        <span className="social-btn facebook" onClick={this.onFBLogin}>Log in with Facebook</span>
+        <span className="social-btn google" onClick={this.onGPlusLogin}>Log in with Google+</span>
       </div>
     );
   },
@@ -80,7 +80,7 @@ export default React.createClass({
             } else {
               flux.actions.loginErr('no_fb_email');
             }
-          }); 
+          });
         } else {
           console.log('User cancelled login or did not fully authorize.');
         }
@@ -92,7 +92,7 @@ export default React.createClass({
         response.data.forEach(function(perm) {
           if(perm.permission === 'email' && perm.status === 'granted') {
             callback(perm.status);
-          } else if(perm.permission === 'email') { 
+          } else if(perm.permission === 'email') {
             callback(perm.status);
           }
         });
