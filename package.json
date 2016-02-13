@@ -10,6 +10,7 @@
   "scripts": {
     "start": "DEBUG=shoutit:server,shoutit:error node app.js",
     "build": "NODE_ENV=production webpack -p --bail",
+    "build:upload": "./aws-uploader.js",
     "lint": "eslint app test",
     "test": "mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel/register --recursive",
     "test:watch": "npm test -- --watch --watch-extensions jsx",

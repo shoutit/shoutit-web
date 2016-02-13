@@ -29,12 +29,14 @@ deployment:
   hub-master:
     branch: master
     commands:
+      - npm run build:upload
       - docker build -t shoutit/shoutit-web:master .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:master
   hub-develop:
     branch: develop
     commands:
+      - npm run build:upload
       - docker build -t shoutit/shoutit-web:develop .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:develop

@@ -16,7 +16,7 @@ var context = path.join(__dirname, "./app");
 var entries = ["./client/index.js"];
 var config = require("./config");
 
-function noop() {};
+function noop() {}
 
 if (isDevelopment) {
   entries.push("webpack-hot-middleware/client");
@@ -106,7 +106,8 @@ module.exports = {
         }
       }) : noop,
 
-    !isDevelopment ? new CopyPlugin([{ from: "../assets/images/", to: "./images" }]) : noop
+    !isDevelopment ?
+      new CopyPlugin([{ from: "../assets/images/", to: "./images" }]) : noop
 
   ]
 };
