@@ -20,19 +20,14 @@ export default React.createClass({
     },
 
   render() {
-    let tagName = this.props.params.tagName,
+    const tagName = this.props.tagName,
       tagEntry = this.props.tags[tagName];
 
     if (tagEntry) {
-      let linkParams = {tagName: encodeURIComponent(tagName)},
-        tag = JSON.parse(JSON.stringify(tagEntry.tag)),
-        listenerCount = tag.listeners_count,
-        childProps = assign({tagName: tagName, flux: this.props.flux},this.props);
-
       return (
-        <DocumentTitle title={tag.name + " - Shoutit"}>
+        <DocumentTitle title={tagName + " - Shoutit"}>
           <Grid fluid={true}>
-              {React.cloneElement(this.props.children, childProps)}
+              {React.cloneElement(this.props.children, this.props)}
           </Grid>
         </DocumentTitle>
       );

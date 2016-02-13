@@ -59,7 +59,7 @@ export default React.createClass({
           />
         </Column>
         <Column size="9">
-          { React.cloneElement(this.props.children, {...this.state}) }
+          { React.cloneElement(this.props.children, { ...this.state, tagName }) }
         </Column>
         <Column size="3">
           <TagsCard tags={[]} loading={false}/>
