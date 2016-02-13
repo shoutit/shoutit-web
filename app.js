@@ -40,9 +40,9 @@ require("./app/server/web.js")(app);
 
 const summary = [];
 summary.push("");
-summary.push("  shoutit-web-app config");
-summary.push("  ------------------------------------------------------------");
-summary.push();
+summary.push("shoutit-web-app config");
+summary.push("------------------------------------------------------------");
+summary.push("");
 summary.push("  Node environment:     " + process.env.NODE_ENV);
 summary.push("  Public assets URL:    " + config.publicUrl);
 summary.push("  API URL:              " + config.apiUrl);
