@@ -35,6 +35,7 @@ deployment:
         SHOUTIT_PUBLIC_URL=https://beta.web.static.shoutit.com
         npm run build
       - pip install awscli
+      - aws s3 sync public s3://shoutit-web-static/beta
       - >
         SHOUTIT_S3_BASEPATH=beta
         npm run build:upload
@@ -56,6 +57,7 @@ deployment:
         SHOUTIT_PUBLIC_URL=https://stage.web.static.shoutit.com
         npm run build
       - pip install awscli
+      - aws s3 sync public s3://shoutit-web-static/stage
       - >
         SHOUTIT_S3_BASEPATH=stage
         npm run build:upload
