@@ -12,8 +12,8 @@ export default React.createClass({
   render() {
     return(
       <div>
-        <span className="social-btn facebook" onClick={this.onFBLogin}>Log in with Facebook</span>
-        <span className="social-btn google" onClick={this.onGPlusLogin}>Log in with Google+</span>
+        <span className="social-btn facebook" onClick={this.onFBLogin}>Facebook</span>
+        <span className="social-btn google" onClick={this.onGPlusLogin}>Google+</span>
       </div>
     );
   },

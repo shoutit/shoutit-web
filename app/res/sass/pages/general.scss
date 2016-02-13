@@ -352,11 +352,25 @@ button {
         background: $si-light-gray2;
       }
       .separator-or {
-        margin: 35px auto;
+        margin: 25px auto;
         &:after {
           content: 'or';
           position: relative;
           margin-left: 45%;
+          top: -10px;
+          z-index: 1;
+          background: $si-white;
+          color: darken($si-light-gray2, 10%);
+          font-size: 16px;
+          padding: 5px 10px;
+        }
+      }
+      .separator-with {
+        margin: 25px auto;
+        &:after {
+          content: 'with';
+          position: relative;
+          margin-left: 43%;
           top: -10px;
           z-index: 1;
           background: $si-white;
@@ -402,6 +416,13 @@ button {
           letter-spacing: 0.02rem;
           font-size: 1.4rem;
         }
+      }
+      .signup-note {
+        text-align: center;
+        color: lighten($si-gray,20%);
+        letter-spacing: 0.02rem;
+        font-size: 1.4rem;
+        padding-top: 15px;
       }
     }
     .forgot-btn {

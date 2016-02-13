@@ -37,6 +37,7 @@ export default React.createClass({
           <div className="si-login">
             <div className="icon res1x-sign_logo"></div>
             <h3>Log in</h3>
+            <div className="separator separator-with"></div>
             <SocialLogin flux={this.props.flux} loginFailed={this.state.loginFailed}/>
             <div className="separator separator-or"></div>
 
@@ -48,7 +49,7 @@ export default React.createClass({
             <center>
             <span style={{marginBottom: '5px'}}>
               New to Shoutit&#63;&nbsp;
-              <Link to="/signup">Sign up</Link>
+              <Link to="/signup"><b>Sign up</b></Link>
             </span>
             </center>
           </div>
