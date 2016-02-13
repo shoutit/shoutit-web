@@ -1,17 +1,17 @@
-import React from 'react';
-import Router from 'react-router';
-import {History} from 'react-router';
-import ReactDOM from 'react-dom';
-import ReactDOMServer from 'react-dom/server';
-import {Input, DropdownButton, MenuItem, Tooltip} from 'react-bootstrap';
-import Overlay from 'react-overlays/lib/Overlay';
-import TagsInput from 'react-tagsinput';
-import DropzoneComponent from 'react-dropzone-component';
-import {ReactVisible, Column, Grid, Icon} from '../../helper';
-import UserImage from '../../user/userImage.jsx';
-import LocationSearch from '../../general/locationSearch.jsx';
-import map from 'lodash/collection/map';
-import Clearfix from '../../helper/clearFix.jsx';
+import React from "react";
+import Router from "react-router";
+import {History} from "react-router";
+import ReactDOM from "react-dom";
+import ReactDOMServer from "react-dom/server";
+import {Input, DropdownButton, MenuItem, Tooltip} from "react-bootstrap";
+import Overlay from "react-overlays/lib/Overlay";
+import TagsInput from "react-tagsinput";
+import DropzoneComponent from "react-dropzone-component";
+import {ReactVisible, Column, Grid, Icon} from "../../helper";
+import UserImage from "../../user/userImage.jsx";
+import LocationSearch from "../../general/locationSearch.jsx";
+import map from "lodash/collection/map";
+import Clearfix from "../../helper/clearFix.jsx";
 import Button from "../../helper/Button.jsx";
 import SVGIcon from "../../helper/SVGIcon";
 
@@ -82,7 +82,7 @@ export default React.createClass({
            placeholder="Type Price..."
            min="0"
            value={this.props.draft.price}
-           onChange={this.onTextChange('price')}
+           onChange={this.onTextChange("price")}
         />
     );
   },
@@ -102,7 +102,7 @@ export default React.createClass({
     return (
       <DropdownButton
         className="shout-form-dropdown"
-        style={{marginLeft: '17px'}}
+        style={{marginLeft: "17px"}}
         ref="currency"
         onSelect={this.onCurrencySelect}
         title={title}>
@@ -135,9 +135,9 @@ export default React.createClass({
 
   renderImageUpload() {
     let componentConfig = {
-      allowedFiletypes: ['.jpg', '.png'],
+      allowedFiletypes: [".jpg", ".png"],
       showFiletypeIcon: true,
-      postUrl: '/services/image_upload'
+      postUrl: "/services/image_upload"
     };
     let eventHandlers = {
       init: null,
@@ -154,7 +154,7 @@ export default React.createClass({
       maxFilesize: 5, // 5 MB
       addRemoveLinks: true,
       maxFiles: 7,
-      dictCancelUpload:'',
+      dictCancelUpload:"",
       method: "POST"
     };
     return <DropzoneComponent config={componentConfig}
@@ -168,11 +168,11 @@ export default React.createClass({
       filesList=[];
 
     files.push({name: file.name,remoteName: resp});
-    filesList = files.map((item)=>item.remoteName);
+    filesList = files.map((item) => item.remoteName);
 
     this.setState({files:files});
     this.props.flux.actions.changeShoutDraft("images", filesList);
-    this.onTouch('images');
+    this.onTouch("images");
   },
 
   onImageRemoved(file) {
@@ -182,10 +182,10 @@ export default React.createClass({
       filesList=[];
 
     // getting the name of the image on s3 server and removing url part
-    deletedImageName = files.filter((item)=> item.name === file.name)[0]
+    deletedImageName = files.filter((item) => item.name === file.name)[0]
         .remoteName.match(/[^\/]*$/)[0];
     cleanedFiles = files.filter((val) => val.name !== file.name);
-    filesList = cleanedFiles.map((item)=>item.remoteName);
+    filesList = cleanedFiles.map((item) => item.remoteName);
 
     this.setState({files:cleanedFiles});
     this.props.flux.actions.changeShoutDraft("images", filesList);
@@ -193,23 +193,23 @@ export default React.createClass({
   },
 
   onCurrencySelect(ev, key) {
-    this.onTouch('currency');
+    this.onTouch("currency");
     let code = key.split(":")[1];
     this.props.flux.actions.changeShoutDraft("currency", this.props.currencies[code]);
   },
 
   onCategorySelect(ev, key) {
-    this.onTouch('category');
+    this.onTouch("category");
     let index = key.split(":")[1];
     this.props.flux.actions.changeShoutDraft("category", this.props.categories[index]);
   },
 
   renderDescTextArea() {
     return (
-      <Input type='textarea'
+      <Input type="textarea"
            rows="3"
            ref="text"
-           onChange={this.onTextChange('text')}
+           onChange={this.onTextChange("text")}
            value={this.props.draft.text}
            placeholder="Description"/>
     );
@@ -248,7 +248,7 @@ export default React.createClass({
   renderTagInput() {
     return (
       <div className="form-group">
-        <TagsInput ref='tags' value={this.props.draft.tags}
+        <TagsInput ref="tags" value={this.props.draft.tags}
                onChange={this.onTagsChange}
                placeholder="Add a key word" addKeys={[9, 13, 32]}>
         </TagsInput>
@@ -262,13 +262,13 @@ export default React.createClass({
 
   componentDidUpdate(prevProps) {
     let status = this.props.status || {};
-    if(status.id && !prevProps.status.id) {
+    if (status.id && !prevProps.status.id) {
       // Shout sent successfully
       let shoutPath = status.web_url.match(/\/[^\/]*\/[^\/]*$/)[0];
-      if(this.props.onUserFocus) {
+      if (this.props.onUserFocus) {
         this.props.onUserFocus({focused: false});
       }
-      if(this.props.onShoutSent) {
+      if (this.props.onShoutSent) {
         this.props.onShoutSent(true);
       }
       this.clearForms();
@@ -281,9 +281,9 @@ export default React.createClass({
   clearForms() {
     let {title, text, price} = this.refs;
 
-    title.value = '';
-    text.value =  '';
-    price.value = '';
+    title.value = "";
+    text.value =  "";
+    price.value = "";
   },
 
   getErrorTooltip(errorField) {
@@ -292,13 +292,13 @@ export default React.createClass({
   },
 
   getErrorProps(errorField) {
-    if(this.props.status[errorField]) {
+    if (this.props.status[errorField]) {
       return {
         show: !this.state.touched[errorField],
         container: this,
         target: () => ReactDOM.findDOMNode(this.refs[errorField]),
-        placement: 'bottom'
-      }
+        placement: "bottom"
+      };
     }
   },
 
@@ -314,26 +314,26 @@ export default React.createClass({
   },
 
   renderAlerts() {
-    if(!this.props.status.id && !this.props.collapsed) {
+    if (!this.props.status.id && !this.props.collapsed) {
       return (
         <section>
-          <Overlay {...this.getErrorProps('title')} >
-            {this.getErrorTooltip('title')}
+          <Overlay {...this.getErrorProps("title")} >
+            {this.getErrorTooltip("title")}
           </Overlay>
-          <Overlay {...this.getErrorProps('text')} >
-            {this.getErrorTooltip('text')}
+          <Overlay {...this.getErrorProps("text")} >
+            {this.getErrorTooltip("text")}
           </Overlay>
-          <Overlay {...this.getErrorProps('currency')} >
-            {this.getErrorTooltip('currency')}
+          <Overlay {...this.getErrorProps("currency")} >
+            {this.getErrorTooltip("currency")}
           </Overlay>
-          <Overlay {...this.getErrorProps('price')} >
-            {this.getErrorTooltip('price')}
+          <Overlay {...this.getErrorProps("price")} >
+            {this.getErrorTooltip("price")}
           </Overlay>
-          <Overlay {...this.getErrorProps('category')} >
-            {this.getErrorTooltip('category')}
+          <Overlay {...this.getErrorProps("category")} >
+            {this.getErrorTooltip("category")}
           </Overlay>
-          <Overlay {...this.getErrorProps('location')} >
-            {this.getErrorTooltip('location')}
+          <Overlay {...this.getErrorProps("location")} >
+            {this.getErrorTooltip("location")}
           </Overlay>
         </section>
       );
@@ -341,7 +341,7 @@ export default React.createClass({
   },
 
   onLocationSelect(newLatLng) {
-    this.onTouch('location');
+    this.onTouch("location");
     this.props.flux.actions.changeShoutDraft("latLng", newLatLng);
   },
 
@@ -350,7 +350,7 @@ export default React.createClass({
     let collapsed = this.props.collapsed;
 
     return (
-      <div className={collapsed? 'shout-form collapsed': 'shout-form'} >
+      <div className={collapsed? "shout-form collapsed": "shout-form"} >
         <form>
           {this.renderAlerts()}
           <Grid fluid={true} >
@@ -359,7 +359,7 @@ export default React.createClass({
                 {this.renderTypeSelect()}
               </Column>
             </ReactVisible>
-            <Column fluid={true} size={collapsed? '0': '11'}>
+            <Column fluid={true} size={collapsed? "0": "11"}>
               {this.renderTitleInput()}
             </Column>
           </Grid>
@@ -383,7 +383,7 @@ export default React.createClass({
             <Grid fluid={true}>
               {this.renderImageUpload()}
             </Grid>
-            <Grid fluid={true} style={{marginTop:'20px'}}>
+            <Grid fluid={true} style={{marginTop:"20px"}}>
               <Column fluid={true} clear={true} size="11">
                 <LocationSearch onSelect={this.onLocationSelect} ref="location" flux={this.props.flux} />
               </Column>
