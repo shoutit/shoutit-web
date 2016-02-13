@@ -22,7 +22,7 @@ export default React.createClass({
     let store = flux.store('users').getState();
 
     return {
-      logingIn: store.logingIn,
+      loggingIn: store.loggingIn,
       loginFailed: store.loginFailed,
       forgetResult: store.forgetResult,
       user: store.user
@@ -31,32 +31,34 @@ export default React.createClass({
 
   render() {
     return (
-      <DocumentTitle title="Log In - Shoutit">
-        <Dialog open={true} onRequestClose={this.onDismiss} contentStyle={{marginTop:'-50px'}} contentClassName="si-dialog" >
+      <DocumentTitle title="Log in - Shoutit">
+        <Dialog open={true} onRequestClose={this.onDismiss} contentStyle={{marginTop:'-50px'}}
+                contentClassName="si-dialog">
           <div className="si-login">
             <div className="icon res1x-sign_logo"></div>
-            <h3>Login</h3>
-            <SocialLogin flux={this.props.flux} loginFailed={this.state.loginFailed} />
+            <h3>Log in</h3>
+            <div className="separator separator-with"></div>
+            <SocialLogin flux={this.props.flux} loginFailed={this.state.loginFailed}/>
             <div className="separator separator-or"></div>
 
             <p>{this.renderLoginError()}</p>
             {this.renderNativeLogin()}
             {this.renderForgetPass()}
-            
+
             <div className="separator"></div>
             <center>
             <span style={{marginBottom: '5px'}}>
-              Need an account&#63;&nbsp;
-              <Link to="/signup">Sign Up</Link>
+              New to Shoutit&#63;&nbsp;
+              <Link to="/signup"><b>Sign up</b></Link>
             </span>
             </center>
           </div>
           <span className="forgot-btn" onClick={() => this.setState({forgetPass: true})}>
-            Forgot password?
+            Forgot your password?
           </span>
         </Dialog>
-        
-      </DocumentTitle>  
+
+      </DocumentTitle>
     );
   },
 
@@ -69,7 +71,7 @@ export default React.createClass({
   },
 
   checkLogin() {
-    if(this.state.user) {
+    if (this.state.user) {
       this.history.replaceState(null, 'home');
     }
   },
@@ -79,12 +81,12 @@ export default React.createClass({
   },
 
   renderLoginError() {
-    if(this.state.loginFailed === 'no_fb_email') {
-      return(
+    if (this.state.loginFailed === 'no_fb_email') {
+      return (
         <div>
           <p>In order to enter Shoutit using your Facebook account you
-          need to allow us access to your email permission. Please try again
-          or use other sign-in methods.</p>
+            need to allow us access to your email permission. Please try again
+            or use other sign-in methods.</p>
           <span className="forget-btn" onClick={() => this.setState({loginFailed: ''})}>
             Go back to Login page
           </span>
@@ -95,12 +97,12 @@ export default React.createClass({
   },
 
   renderNativeLogin() {
-    return this.state.loginFailed !== 'no_fb_email' && !this.state.forgetPass?
-      <NativeLogin flux={this.props.flux} logingIn={this.state.logingIn}/>: null;
+    return this.state.loginFailed !== 'no_fb_email' && !this.state.forgetPass ?
+      <NativeLogin flux={this.props.flux} loggingIn={this.state.loggingIn}/> : null;
   },
 
   renderForgetPass() {
-    return this.state.forgetPass?
-      <ForgetPass flux={this.props.flux} res={this.state.forgetResult} />: null;
+    return this.state.forgetPass ?
+      <ForgetPass flux={this.props.flux} res={this.state.forgetResult}/> : null;
   }
 });

@@ -79,6 +79,7 @@ export default class MessageReplyForm extends Component {
       <form className="MessageReplyForm" onSubmit={ e => this.handleFormSubmit(e) }>
         <div className="MessageReplyForm-inputContainer">
           <Input
+            autoComplete="off"
             autoFocus={ autoFocus }
             placeholder={ placeholder }
             disabled={ disabled }

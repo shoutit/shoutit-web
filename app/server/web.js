@@ -15,6 +15,7 @@ var cons = require("consolidate"),
   Promise = require("bluebird");
 
 var auth = require("basic-auth");
+var favicon = require("serve-favicon");
 
 var React = require("react"),
   ReactRouter = require("react-router"),
@@ -228,6 +229,7 @@ function reactServerRender(req, res) {
             production: process.env.NODE_ENV === "production",
             googleMapsKey: config.googleMapsKey,
             ga: process.env.SHOUTIT_GANALYTICS,
+            publicUrl: config.publicUrl,
             chunkNames: process.env.NODE_ENV === "production" ?
               require("../../public/stats.json") :
               { main: "/assets/main.js", css: "/assets/main.css" }
@@ -300,6 +302,13 @@ module.exports = function (app) {
   app.use(compression());
 
   app.use(morgan("tiny"));
+
+  if (process.env.NODE_ENV === "production") {
+    app.use(favicon("./public/images/favicons/favicon.ico"));
+  } else {
+    app.use(favicon("./assets/images/favicons/favicon.ico"));
+  }
+
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
   app.use(methodOverride());

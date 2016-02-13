@@ -45,8 +45,8 @@ export default React.createClass({
                                 <Link to="/"><Icon name="logo" /></Link>
                             </Column>
                             <Column size="7" className="nav-right">
-                                <Link to="/login"><span className="btn-login">Login</span></Link>
-                                <Link to="/signup"><span className="btn-d">Signup</span></Link>
+                                <Link to="/login"><span className="btn-login">Log in</span></Link>
+                                <Link to="/signup"><span className="btn-d">Sign up</span></Link>
                                 <span className="btn-d">About</span>
                             </Column>
                         </Element>

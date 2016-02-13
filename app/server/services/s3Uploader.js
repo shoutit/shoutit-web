@@ -6,9 +6,6 @@ var Promise = require("bluebird"),
   s3 = require("s3"),
   path = require("path");
 
-var ACCESS_KEY = process.env.S3_ACCESS_KEY,
-  SECRET_KEY = process.env.S3_SECRET_KEY;
-
 var s3Client = s3.createClient({
   maxAsyncS3: 10,
   s3RetryCount: 3,
@@ -16,8 +13,8 @@ var s3Client = s3.createClient({
   multipartUploadThreshold: 20971520, // (20 MB)
   multipartUploadSize: 15728640, //  (15 MB)
   s3Options: {
-    accessKeyId: ACCESS_KEY,
-    secretAccessKey: SECRET_KEY
+    accessKeyId: process.env.SHOUTIT_S3_ACCESS_KEY,
+    secretAccessKey: process.env.SHOUTIT_S3_SECRET_KEY
   }
 });
 
@@ -48,7 +45,7 @@ function addToS3(localFile, config) {
   });
 }
 
-// change 
+// change
 // function addImageDataToS3(dataImage, config) {
 //     var bucketName = config.bucketName,
 //         cdnURL = config.cdnURL,

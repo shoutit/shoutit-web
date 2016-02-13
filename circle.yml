@@ -1,4 +1,6 @@
 machine:
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   timezone:
     Europe/Berlin
   node:
@@ -15,13 +17,13 @@ dependencies:
     - npm prune
   override:
     - npm install
-  post:
-    - npm run build
 
 test:
   pre:
   override:
-    - MOCHA_FILE=$CIRCLE_TEST_REPORTS/test-results.xml npm run test:cover
+    - >
+      MOCHA_FILE=$CIRCLE_TEST_REPORTS/test-results.xml
+      npm run test:cover
   post:
     - cp -R ./coverage $CIRCLE_ARTIFACTS
 
@@ -29,12 +31,39 @@ deployment:
   hub-master:
     branch: master
     commands:
-      - docker build -t shoutit/shoutit-web:master .
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - >
+        SHOUTIT_PUBLIC_URL=https://beta.web.static.shoutit.com
+        npm run build
+      - pip install awscli
+      - aws s3 sync public s3://shoutit-web-static/beta
+      - >
+        docker build
+        --build-arg SHOUTIT_PUBLIC_URL=https://beta.web.static.shoutit.com
+        --build-arg SHOUTIT_API_URL=http://api.shoutit.com/v2/
+        --build-arg SHOUTIT_GANALYTICS=UA-62656831-1
+        --build-arg NEW_RELIC_LICENSE_KEY=
+        --build-arg NEW_RELIC_APP_NAME=
+        --build-arg BASIC_AUTH_USERNAME=beta
+        --build-arg BASIC_AUTH_PASSWORD=beta
+        -t shoutit/shoutit-web:master .
       - docker push shoutit/shoutit-web:master
   hub-develop:
     branch: develop
     commands:
-      - docker build -t shoutit/shoutit-web:develop .
+      - >
+        SHOUTIT_PUBLIC_URL=https://stage.web.static.shoutit.com
+        npm run build
+      - pip install awscli
+      - aws s3 sync public s3://shoutit-web-static/stage
+      - >
+        docker build
+        --build-arg SHOUTIT_PUBLIC_URL=https://stage.web.static.shoutit.com
+        --build-arg SHOUTIT_API_URL=http://dev.api.shoutit.com/v2/
+        --build-arg SHOUTIT_GANALYTICS=UA-62656831-1
+        --build-arg NEW_RELIC_LICENSE_KEY=
+        --build-arg NEW_RELIC_APP_NAME=
+        --build-arg BASIC_AUTH_USERNAME=stage
+        --build-arg BASIC_AUTH_PASSWORD=stage
+        -t shoutit/shoutit-web:develop .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:develop
