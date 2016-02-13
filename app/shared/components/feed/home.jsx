@@ -73,7 +73,7 @@ export default React.createClass({
     const {suggestions, flux} = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
-    const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: [];
+    const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
 
     return (
       <Grid className="homepage-holder">
