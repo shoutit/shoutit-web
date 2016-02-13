@@ -25,8 +25,8 @@ $ npm start     # start the server
 * `HOST`: the host where to start the Express server. Default is `localhost`.
 * `PORT`: the port the server listens to. Default is `8080` for production, `3000` for development.
 * `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD`: username and password to enforce a basic authentication access control (e.g. on stage servers).
-* `REDIS_HOST`: the host for the redis server, default is `localhost`
-* `SHOUTIT_API_URL`: the url for the REST API. Default is http://dev.api.shoutit.com/v2/. In production must point to the production URL.
+* `REDIS_HOST`: the host for the redis server, default is *localhost*
+* `SHOUTIT_API_URL`: the url for the REST API. Default is *http://dev.api.shoutit.com/v2/*.. In production must point to the production URL.
 * `SHOUTIT_PUBLIC_URL`: the url where the public assets are stored. Can be a CDN url, such as *https://stage.web.static.shoutit.com*. Don't include the / at the end of it! Default is empty, so assets are served by node.
 * Amazon Web Services: when set with `SHOUTIT_PUBLIC_URL`, the build script will upload the [public](public) assets on S3.
 	* `SHOUTIT_S3_SECRET_KEY`
