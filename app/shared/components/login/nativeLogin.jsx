@@ -21,7 +21,7 @@ export default React.createClass({
   render() {
     return(
       <div>
-        <form onSubmit={ this.onLoginSubmit }>
+        <form onSubmit={ this.onLoginSubmit } noValidate>
           <Input ref="email" type="email" placeholder="Email or Username" className="input-email" />
           <Input ref="pass" type="password" placeholder="Password" className="input-pass" />
           <Button bsSize="large" type="submit" block
