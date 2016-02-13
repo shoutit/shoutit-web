@@ -1,4 +1,6 @@
 machine:
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   timezone:
     Europe/Berlin
   node:
@@ -43,6 +45,13 @@ deployment:
       - >
         SHOUTIT_S3_BASEPATH=stage
         npm run build:upload
-      - docker build --build-arg SHOUTIT_PUBLIC_URL=https://stage.web.static.shoutit.com -t shoutit/shoutit-web:develop .
+      - >
+        docker build
+        --build-arg SHOUTIT_PUBLIC_URL=https://stage.web.static.shoutit.com
+        --build-arg SHOUTIT_API_URL=http://dev.api.shoutit.com/v2/
+        --build-arg SHOUTIT_GANALYTICS=UA-62656831-1
+        --build-arg NEW_RELIC_LICENSE_KEY=
+        --build-arg NEW_RELIC_APP_NAME=
+        -t shoutit/shoutit-web:develop .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:develop
