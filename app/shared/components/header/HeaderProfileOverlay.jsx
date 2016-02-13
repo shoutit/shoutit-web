@@ -20,11 +20,11 @@ export default function HeaderProfileOverlay( { loggedUser, onLogoutClick }) {
           <SVGIcon name="pencil" active />Edit Profile
         </Link>
       </li>
-      <li>
+      {/*<li>
         <Link to="/settings">
           <SVGIcon name="cog" active />Settings
         </Link>
-      </li>
+      </li>*/}
       <li>
         <Link to="/logout" className="item" onClick={ e => {
           e.preventDefault();
