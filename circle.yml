@@ -15,8 +15,6 @@ dependencies:
     - npm prune
   override:
     - npm install
-  post:
-    - npm run build
 
 test:
   pre:
@@ -29,14 +27,16 @@ deployment:
   hub-master:
     branch: master
     commands:
-      - SHOUTIT_S3_BUCKET=shoutit-web-static SHOUTIT_S3_BASEPATH=beta SHOUTIT_S3_REGION=eu-west-1 npm run build:upload
+      - SHOUTIT_PUBLIC_URL=$SHOUTIT_PUBLIC_URL_BETA npm run build
+      - SHOUTIT_S3_BASEPATH=$SHOUTIT_S3_BASEPATH_BETA npm run build:upload
       - docker build -t shoutit/shoutit-web:master .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:master
   hub-develop:
     branch: develop
     commands:
-      - SHOUTIT_S3_BUCKET=shoutit-web-static SHOUTIT_S3_BASEPATH=stage SHOUTIT_S3_REGION=eu-west-1 npm run build:upload
+      - SHOUTIT_PUBLIC_URL=$SHOUTIT_PUBLIC_URL_STAGE npm run build
+      - SHOUTIT_S3_BASEPATH=$SHOUTIT_S3_BASEPATH_STAGE npm run build:upload
       - docker build -t shoutit/shoutit-web:develop .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:develop

@@ -26,7 +26,6 @@ summary.push("");
 summary.push("aws uploader");
 summary.push("------------------------------------------------------------");
 summary.push("");
-summary.push("  Access Key:   " + process.env.SHOUTIT_S3_ACCESS_KEY);
 summary.push("  Region:       " + process.env.SHOUTIT_S3_REGION);
 summary.push("  Bucket:       " + process.env.SHOUTIT_S3_BUCKET);
 summary.push("  Base path:    " + process.env.SHOUTIT_S3_BASEPATH);
