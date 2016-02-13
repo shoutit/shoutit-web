@@ -73,6 +73,7 @@ export default React.createClass({
     const {suggestions, flux} = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
+    const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: [];
 
     return (
       <Grid className="homepage-holder">
@@ -94,7 +95,10 @@ export default React.createClass({
               users={ usersData }
               loading={ suggestions.data && suggestions.data.users.loading }
             />
-            <SuggestShoutCard />
+            <SuggestShoutCard
+              shout={ shoutsData }
+              loading={ suggestions.data && suggestions.data.shouts.loading }
+            />
           </Column>
       </Grid>
     );
