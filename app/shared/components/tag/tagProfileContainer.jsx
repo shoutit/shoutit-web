@@ -41,9 +41,12 @@ export default React.createClass({
   render() {
     const { params, flux } = this.props;
     const { tagName } = params;
-    const tag = this.state.tags[tagName];
+    // Avoiding mutation problems in store
+    const clonedTags = JSON.parse(JSON.stringify(this.state.tags));
+
+    const tag = clonedTags[tagName];
     // Reading the list of related tags name and converting them to full tag objects
-    const relatedTagsData = tag? tag.related.list.map(item => this.state.tags[item].tag): [];
+    const relatedTagsData = tag? tag.related.list.map(item => clonedTags[item].tag): [];
 
     return (
       <Grid >
