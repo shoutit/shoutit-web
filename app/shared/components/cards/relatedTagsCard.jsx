@@ -1,5 +1,6 @@
 import React from 'react';
 import {Icon, Grid, Column, Progress} from '../helper';
+import TagListenButton from "../general/tagListenButton.jsx";
 
 export default function RelatedTags(props) {
   return (
@@ -20,7 +21,7 @@ export default function RelatedTags(props) {
                   <span>{ item.name }</span>
                 </Column>
                 <Column fluid={true} size="3">
-                  <Icon name="listen" className="card-listen-btn"/>
+                  <TagListenButton flux={ props.flux } tag={ item } hasTitle={ false }/>
                 </Column>
               </Grid>
             );

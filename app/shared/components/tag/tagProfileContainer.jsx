@@ -42,13 +42,18 @@ export default React.createClass({
     const { params, flux } = this.props;
     const { tagName } = params;
     const tag = this.state.tags[tagName];
-    const relatedTags = tag? tag.related.list: [];
+    // Reading the list of related tags name and converting them to full tag objects
+    const relatedTagsData = tag? tag.related.list.map(item => this.state.tags[item].tag): [];
 
     return (
       <Grid >
         <Column size="3" clear={true}>
           <TagProfileCard params={params} flux={flux} {...this.state}/>
-          <RelatedTagsCard tags={ relatedTags } loading={ tag && tag.related.loading }/>
+          <RelatedTagsCard
+            tags={ relatedTagsData }
+            loading={ tag && tag.related.loading }
+            flux={ flux }
+          />
         </Column>
         <Column size="9">
           { React.cloneElement(this.props.children, {...this.state}) }
