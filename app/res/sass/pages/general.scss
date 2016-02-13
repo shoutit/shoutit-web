@@ -99,6 +99,9 @@ textarea {
     -webkit-box-shadow: none!important;
     box-shadow: none!important;
     border: 2px solid $si-green!important;
+    &.form-control {
+      padding: 5px 11px;
+    }
   }
 }
 button {
