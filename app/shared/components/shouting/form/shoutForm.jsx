@@ -52,7 +52,9 @@ export default React.createClass({
              placeholder="What are you Shouting ..."
              value={this.props.draft.title}
              ref="title"
-             onFocus={this.onUserFocus({focused: true})}
+             onFocus={ () => {
+               this.props.onUserFocus && this.props.onUserFocus({focused: true });
+             }}
              onChange={this.onTextChange("title")}
           />
         <ReactVisible condition={this.props.collapsed}>
@@ -60,12 +62,6 @@ export default React.createClass({
         </ReactVisible>
       </div>
     );
-  },
-
-  onUserFocus(ev) {
-    return function() {
-      this.props.onUserFocus(ev);
-    }.bind(this);
   },
 
   onTextChange(key) {
@@ -159,8 +155,8 @@ export default React.createClass({
       dictCancelUpload:'',
       method: "POST"
     };
-    return <DropzoneComponent config={componentConfig} 
-                       eventHandlers={eventHandlers} 
+    return <DropzoneComponent config={componentConfig}
+                       eventHandlers={eventHandlers}
                        djsConfig={djsConfig}/>;
   },
 
@@ -188,7 +184,7 @@ export default React.createClass({
         .remoteName.match(/[^\/]*$/)[0];
     cleanedFiles = files.filter((val) => val.name !== file.name);
     filesList = cleanedFiles.map((item)=>item.remoteName);
-    
+
     this.setState({files:cleanedFiles});
     this.props.flux.actions.changeShoutDraft("images", filesList);
     this.props.flux.actions.removeShoutImage(deletedImageName);
@@ -264,7 +260,7 @@ export default React.createClass({
 
   componentDidUpdate(prevProps) {
     let status = this.props.status || {};
-    if(status.id && !prevProps.status.id) { 
+    if(status.id && !prevProps.status.id) {
       // Shout sent successfully
       let shoutPath = status.web_url.match(/\/[^\/]*\/[^\/]*$/)[0];
       if(this.props.onUserFocus) {
@@ -276,7 +272,7 @@ export default React.createClass({
       this.clearForms();
       setTimeout(() => {
         this.history.pushState(null, shoutPath);
-      },1000);  
+      },1000);
     }
   },
 
@@ -396,7 +392,7 @@ export default React.createClass({
               </Column>
             </Grid>
           </ReactVisible>
-          
+
         </form>
       </div>
     );
@@ -405,11 +401,11 @@ export default React.createClass({
   onSubmit() {
     this.props.flux.actions.sendShout();
     this.clearTouches();
-    
+
   }
 });
 
-/* 
+/*
 <LocationSelection
   onChange={this.onLocationSelectionChange}
   flux={this.props.flux}
