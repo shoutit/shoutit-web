@@ -31,10 +31,22 @@ deployment:
   hub-master:
     branch: master
     commands:
-      - SHOUTIT_PUBLIC_URL=$SHOUTIT_PUBLIC_URL_BETA npm run build
-      - SHOUTIT_S3_BASEPATH=$SHOUTIT_S3_BASEPATH_BETA npm run build:upload
-      - docker build -t -e SHOUTIT_PUBLIC_URL=$SHOUTIT_PUBLIC_URL_BETA shoutit/shoutit-web:master .
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - >
+        SHOUTIT_PUBLIC_URL=https://beta.web.static.shoutit.com
+        npm run build
+      - >
+        SHOUTIT_S3_BASEPATH=beta
+        npm run build:upload
+      - >
+        docker build
+        --build-arg SHOUTIT_PUBLIC_URL=https://beta.web.static.shoutit.com
+        --build-arg SHOUTIT_API_URL=http://api.shoutit.com/v2/
+        --build-arg SHOUTIT_GANALYTICS=UA-62656831-1
+        --build-arg NEW_RELIC_LICENSE_KEY=
+        --build-arg NEW_RELIC_APP_NAME=
+        --build-arg BASIC_AUTH_USERNAME=beta
+        --build-arg BASIC_AUTH_PASSWORD=beta
+        -t shoutit/shoutit-web:master .
       - docker push shoutit/shoutit-web:master
   hub-develop:
     branch: develop
