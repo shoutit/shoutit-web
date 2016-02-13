@@ -25,7 +25,7 @@ export default React.createClass({
     if (!this.state.loading && !tagEntry && tagEntry !== null) {
       flux.actions.loadTag(tagName);
     }
-    if(!tagEntry.related.loading) {
+    if(tagEntry && !tagEntry.related.loading && !tagEntry.related.list.length) {
       flux.actions.loadTagRelated(tagName);
     }
   },
@@ -42,12 +42,13 @@ export default React.createClass({
     const { params, flux } = this.props;
     const { tagName } = params;
     const tag = this.state.tags[tagName];
+    const relatedTags = tag? tag.related.list: [];
 
     return (
       <Grid >
         <Column size="3" clear={true}>
           <TagProfileCard params={params} flux={flux} {...this.state}/>
-          <RelatedTagsCard tags={ tag.related } loading={ tag.related && tag.related.loading }/>
+          <RelatedTagsCard tags={ relatedTags } loading={ tag && tag.related.loading }/>
         </Column>
         <Column size="9">
           { React.cloneElement(this.props.children, {...this.state}) }
