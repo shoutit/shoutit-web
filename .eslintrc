@@ -20,6 +20,7 @@
     "quotes": [2, "double"],
     "semi": [2, "always"],
     "space-before-blocks": 2,
+    "space-after-keywords": 2,
 
     "react/jsx-no-duplicate-props": 2,
     "react/jsx-no-undef": 2,
