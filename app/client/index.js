@@ -23,6 +23,10 @@ const log = debug("shoutit");
 
 const flux = new Flux(null);
 
+flux.setDispatchInterceptor((action, dispatch) =>  {
+  ReactDOM.unstable_batchedUpdates(() => dispatch(action));
+});
+
 if (window.fluxData) {
   flux.hydrate(window.fluxData);
   document.body.replaceChild(
