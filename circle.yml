@@ -52,6 +52,8 @@ deployment:
         --build-arg SHOUTIT_GANALYTICS=UA-62656831-1
         --build-arg NEW_RELIC_LICENSE_KEY=
         --build-arg NEW_RELIC_APP_NAME=
+        --build-arg BASIC_AUTH_USERNAME=stage
+        --build-arg BASIC_AUTH_PASSWORD=stage
         -t shoutit/shoutit-web:develop .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:develop
