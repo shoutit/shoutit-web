@@ -1,13 +1,15 @@
 import React from "react";
 import { Input } from "react-bootstrap";
-import UserImage from "../../../user/userImage.jsx";
-import { Icon } from "../../../helper";
+import UserImage from "../user/userImage.jsx";
+import { Icon } from "../helper";
 import { StoreWatchMixin } from "fluxxor";
 import { History } from "react-router";
 
 export default React.createClass({
-  displayName: "ShoutFooter",
-  mixins: [StoreWatchMixin("users"), History],
+
+  displayName: "ReplyShoutForm",
+
+  mixins: [ StoreWatchMixin("users"), History],
 
   getStateFromFlux() {
     const usersStore = this.props.flux.store("users");

@@ -1,12 +1,10 @@
-import React from 'react';
-import {Col} from 'react-bootstrap';
-import ShoutHeader from './listShout/header.jsx';
-import ShoutBody from './listShout/body.jsx';
-import ShoutFooter from './listShout/footer.jsx';
-import GridShoutItem from './gridShout/gridShoutItem.jsx';
-import moment from 'moment';
-
-import {ItemScope} from '../../helper/microdata';
+import React from "react";
+import ShoutHeader from "./listShout/header.jsx";
+import ShoutBody from "./listShout/body.jsx";
+import ReplyShoutForm from "../../shout/ReplyShoutForm.jsx";
+import GridShoutItem from "./gridShout/gridShoutItem.jsx";
+import moment from "moment";
+import {ItemScope} from "../../helper/microdata";
 
 export default React.createClass({
   displayName: "Shout",
@@ -17,11 +15,11 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      presentLayer: 'list'
-    }
+      presentLayer: "list"
+    };
   },
 
-  agoText(){
+  agoText() {
     return moment.unix(this.props.shout.date_published).fromNow();
   },
 
@@ -33,7 +31,7 @@ export default React.createClass({
     return (
       <section>
         <ItemScope type="Product">
-          <div className={presentLayer!=='list'? 'hide si-shout': 'si-shout'}>
+          <div className={presentLayer!=="list"? "hide si-shout": "si-shout"}>
             <ShoutHeader creator={shout.user}
                    listType={this.props.listType}
                    agoText={ago}
@@ -43,11 +41,11 @@ export default React.createClass({
                    listType={this.props.listType}
                    shout={shout}
                    />
-            <ShoutFooter shout={shout} flux={this.context.flux} />
+            <ReplyShoutForm shout={shout} flux={this.context.flux} />
           </div>
         </ItemScope>
         <ItemScope type="Product">
-          <GridShoutItem className={presentLayer!=='grid'? 'hide': ''}
+          <GridShoutItem className={presentLayer!=="grid"? "hide": ""}
                    creator={shout.user}
                    index={this.props.index}
                    flux={this.context.flux}
