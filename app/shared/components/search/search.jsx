@@ -79,7 +79,7 @@ export default React.createClass({
     return (
       <DocumentTitle title={"Shoutit Search - " + this.state.term}>
         <div>
-          <SearchTagsList { ...this.state } { ...this.props }/>
+          {/*<SearchTagsList { ...this.state } { ...this.props }/>*/}
           <SearchShoutList { ...this.state } { ...this.props }/>
         </div>
       </DocumentTitle>
