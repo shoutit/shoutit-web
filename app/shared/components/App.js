@@ -59,7 +59,7 @@ export default React.createClass({
 
   render() {
     const { loggedUser, chat, conversations, currentLocation, suggestions } = this.state;
-    const { children, flux, routes, location } = this.props;
+    const { children, flux, routes, location, history } = this.props;
     const suggestionsData = {
       data: suggestions.data[createSlug(currentLocation.city)]
     };
@@ -67,13 +67,14 @@ export default React.createClass({
     const hideHeader = routes.some(route =>
       pagesWithoutHeader.indexOf(route.component) > -1
     );
-    const props = { loggedUser, chat, conversations, currentLocation, location, suggestions: suggestionsData };
+    const props = { loggedUser, chat, conversations, currentLocation, location, suggestions: suggestionsData, history };
 
     return (
       <div className={`App${hideHeader ? "" : " stickyHeader"}` }>
         { !hideHeader &&
           <div className="App-header">
             <Header
+              history={ history }
               loggedUser={ loggedUser }
               currentLocation={ currentLocation }
               flux={ flux }
