@@ -192,3 +192,50 @@ $border-radius: 5px;
       }
     }
   }
+
+
+/* Special buttons */
+
+$facebook-base-color: #395185;
+.Button.facebook {
+  background-color: lighten($facebook-base-color, 10);
+  color: white;
+  .Button-icon {
+    background-color: $facebook-base-color;
+  }
+  .Button-label {
+    color: white;
+  }
+  &:hover {
+    color: white;
+    background-color: $facebook-base-color;
+    .Button-label {
+      color: white;
+    }
+    .Button-icon {
+      background-color: darken($facebook-base-color, 10);
+    }
+  }
+}
+
+$google-base-color: darken(#DC4E41, 10);
+.Button.google {
+  background-color: lighten($google-base-color, 10);
+  color: white;
+  .Button-icon {
+    background-color: $google-base-color;
+  }
+  .Button-label {
+    color: white;
+  }
+  &:hover {
+    color: white;
+    background-color: $google-base-color;
+    .Button-label {
+      color: white;
+    }
+    .Button-icon {
+      background-color: darken($google-base-color, 10);
+    }
+  }
+}
