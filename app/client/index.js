@@ -9,7 +9,7 @@ import debug from "debug";
 
 import routes from "../shared/routes";
 import Flux from "../shared/flux";
-import facebook from "../client/fb";
+import "../client/initializeFacebook";
 import gAnalytics from "../client/ga";
 import { setup as setupPusher } from "../client/pusher";
 import createBrowserHistory from "history/lib/createBrowserHistory";
@@ -41,14 +41,12 @@ flux.on("dispatch", (type, payload) =>
   debug("shoutit:actions")("Dispatching %s", type, payload)
 );
 
-facebook("353625811317277");
-
 let ga;
 if (process.env.SHOUTIT_GANALYTICS) {
   ga = gAnalytics(process.env.SHOUTIT_GANALYTICS);
 }
 
-if(window.google) {
+if (window.google) {
   const locationStore = flux.store("locations");
   locationStore.setGMaps(window.google.maps);
 }
