@@ -9,7 +9,6 @@ import DiscoverHome from "./components/discover/discoverHome.jsx";
 import DiscoverPage from "./components/discover/discoverPage.jsx";
 import FeedListContainer from "./components/feed/feedListContainer.jsx";
 import HomePage from "./components/feed/home.jsx";
-import Login from "./components/login/login.jsx";
 import MainPage from "./components/main/mainPage.jsx";
 import NotFound from "./components/misc/notfound.jsx";
 import Page from "./components/profile/page/pageProfile.jsx";
@@ -19,7 +18,6 @@ import Reduced from "./components/reduced/reduced.jsx";
 import Search from "./components/search/search.jsx";
 import ShoutContainer from "./components/shout/shoutContainer.jsx";
 import Shout from "./components/shout/shoutDetail.jsx";
-import Signup from "./components/login/signup.jsx";
 import Static from "./components/helper/static.jsx";
 import TagProfileContainer from "./components/tag/tagProfileContainer.jsx";
 import TagProfile from "./components/tag/tagProfile.jsx";
@@ -28,52 +26,60 @@ import TagProfileRequest from "./components/tag/tagProfileRequests.jsx";
 import TagProfileShouts from "./components/tag/tagProfileShouts.jsx";
 import VerifyEmail from "./components/user/verifyEmail.jsx";
 
+import LoginRedirect from "./components/helper/LoginRedirect";
+import ModalHost from "./components/helper/ModalHost";
+
 const routes = (
   <Route component={ App }>
-    <Route path="/" component={ MainPage }>
-      <Route path="login" component={ Login } xyz={false} />
-      <Route path="signup" component={ Signup } />
-    </Route>
-    <Route path="/home" component={ HomePage }>
-      <Route path="/all/:country/:state/:city(/:page)"
-        component={ new FeedListContainer("all") } />
-      <Route path="/offers/:country/:state/:city(/:page)"
-        component={ new FeedListContainer("offer") } />
-      <Route path="/requests/:country/:state/:city(/:page)"
-        component={ new FeedListContainer("request")} />
-      <Route path="/search/:shouttype/:category(/:term)" component={ Search }>
-        <IndexRoute component={ Search }/>
+    <Route component={ LoginRedirect }>
+      <Route component={ ModalHost }>
+
+        <Route path="/" component={ MainPage } />
+        <Route path="/login" component={ MainPage } />
+        <Route path="/signup" component={ MainPage } />
+
+        <Route path="/home" component={ HomePage }>
+          <Route path="/all/:country/:state/:city(/:page)"
+            component={ new FeedListContainer("all") } />
+          <Route path="/offers/:country/:state/:city(/:page)"
+            component={ new FeedListContainer("offer") } />
+          <Route path="/requests/:country/:state/:city(/:page)"
+            component={ new FeedListContainer("request")} />
+          <Route path="/search/:shouttype/:category(/:term)" component={ Search }>
+            <IndexRoute component={ Search }/>
+          </Route>
+          <IndexRoute component={ new FeedListContainer("all") }/>
+        </Route>
+        <Route component={ ShoutContainer } >
+          <Route path="/shout/:shoutId(/:location)(/:title)" component={ Shout }/>
+        </Route>
+        <Route component={ TagProfileContainer }>
+          <Route path="/tag/:tagName" component={ TagProfile }>
+            <Route path="tagrequests" component={ TagProfileRequest }/>
+            <Route path="taglisteners" component={ TagProfileListeners }/>
+            <IndexRoute component={ TagProfileShouts }/>
+          </Route>
+        </Route>
+        <Route path="/user/:username" component={ ProfileContainer} >
+          <Route path="/page/:username" component={ Page} />
+          <IndexRoute component={ Profile }/>
+        </Route>
+        <Route path="/discover/:country" component={ DiscoverHome }>
+          <Route path="/discover/:country/:pk" component={ DiscoverPage} />
+          <IndexRoute component={ Discover} />
+        </Route>
+        <Route path="/messages" component={ Chat  }>
+          <Route path="/messages/:id" component={ Conversation } />
+        </Route>
+        <Route path="static" component={ Reduced }>
+          <Route path="/tos" component={ Static }/>
+          <Route path="/rules" component={ Static }/>
+          <Route path="/policy" component={ Static }/>
+        </Route>
+        <Route path="/auth/verify_email" component={ VerifyEmail }/>
+        <Route path="*" component={ NotFound }/>
       </Route>
-      <IndexRoute component={ new FeedListContainer("all") }/>
     </Route>
-    <Route component={ ShoutContainer } >
-      <Route path="/shout/:shoutId(/:location)(/:title)" component={ Shout }/>
-    </Route>
-    <Route component={ TagProfileContainer }>
-      <Route path="/tag/:tagName" component={ TagProfile }>
-        <Route path="tagrequests" component={ TagProfileRequest }/>
-        <Route path="taglisteners" component={ TagProfileListeners }/>
-        <IndexRoute component={ TagProfileShouts }/>
-      </Route>
-    </Route>
-    <Route path="/user/:username" component={ ProfileContainer} >
-      <Route path="/page/:username" component={ Page} />
-      <IndexRoute component={ Profile }/>
-    </Route>
-    <Route path="/discover/:country" component={ DiscoverHome }>
-      <Route path="/discover/:country/:pk" component={ DiscoverPage} />
-      <IndexRoute component={ Discover} />
-    </Route>
-    <Route path="/messages" component={ Chat  }>
-      <Route path="/messages/:id" component={ Conversation } />
-    </Route>
-    <Route path="static" component={ Reduced }>
-      <Route path="/tos" component={ Static }/>
-      <Route path="/rules" component={ Static }/>
-      <Route path="/policy" component={ Static }/>
-    </Route>
-    <Route path="/auth/verify_email" component={ VerifyEmail }/>
-    <Route path="*" component={ NotFound }/>
   </Route>
 );
 
