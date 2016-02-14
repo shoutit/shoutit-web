@@ -19,14 +19,14 @@ export default React.createClass({
                     {bio}
                     <Separator />
                 </p>
-                
+
                 {website?
                     <Grid fluid={true}>
                         <Column fluid={true} clear={true} size="2" >
                             <Icon name="browse" className="pull-right" />
                         </Column>
                         <Column className="profile-bio-item" fluid={true} size="13">
-                            <span>{website}</span>
+                            <a href={ website }>{website}</a>
                         </Column>
                     </Grid>
                     : null}

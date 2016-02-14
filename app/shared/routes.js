@@ -15,6 +15,7 @@ import Page from "./components/profile/page/pageProfile.jsx";
 import Profile from "./components/profile/profile.jsx";
 import ProfileContainer from "./components/profile/profileContainer.jsx";
 import Reduced from "./components/reduced/reduced.jsx";
+import SearchContainer from "./components/search/searchContainer.jsx";
 import Search from "./components/search/search.jsx";
 import ShoutContainer from "./components/shout/shoutContainer.jsx";
 import Shout from "./components/shout/shoutDetail.jsx";
@@ -40,13 +41,13 @@ const routes = (
 
         <Route path="/home" component={ HomePage }>
           <Route path="/all/:country/:state/:city(/:page)"
-            component={ new FeedListContainer("all") } />
+                 component={ new FeedListContainer("all") } />
           <Route path="/offers/:country/:state/:city(/:page)"
-            component={ new FeedListContainer("offer") } />
+                 component={ new FeedListContainer("offer") } />
           <Route path="/requests/:country/:state/:city(/:page)"
-            component={ new FeedListContainer("request")} />
-          <Route path="/search/:shouttype/:category(/:term)" component={ Search }>
-            <IndexRoute component={ Search }/>
+                 component={ new FeedListContainer("request")} />
+          <Route component={ SearchContainer} >
+            <Route path="/search/:shouttype/:category(/:term)" component={ Search } />
           </Route>
           <IndexRoute component={ new FeedListContainer("all") }/>
         </Route>
@@ -80,6 +81,7 @@ const routes = (
         <Route path="*" component={ NotFound }/>
       </Route>
     </Route>
+    >>>>>>> develop
   </Route>
 );
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Progress, Grid} from '../helper';
+import {Grid, Progress} from '../helper';
 import Shout from '../feed/feed/shout.jsx';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 
@@ -15,6 +15,15 @@ export default React.createClass({
     let tagName = this.props.tagName;
 
     if (!this.props.tags[tagName] || !this.props.tags[tagName]['shouts']) {
+      this.props.flux.actions.loadTagShouts(this.props.tagName, 'all');
+    }
+  },
+
+  componentDidUpdate() {
+    const {tagName, loading} = this.props;
+    const tagEntry = this.props.tags[tagName];
+
+    if (!tagEntry || !tagEntry.shouts && !loading ) {
       this.props.flux.actions.loadTagShouts(this.props.tagName, 'all');
     }
   },
@@ -53,12 +62,7 @@ export default React.createClass({
   },
 
   renderViewportSensor() {
-    if(this.props.loading) {
-      return (
-        <Grid fluid={true}>
-          <Progress />
-        </Grid>);
-    } else {
+    if(!this.props.loading) {
       return (
         <Grid fluid={true}>
           <ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>

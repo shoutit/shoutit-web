@@ -1,25 +1,12 @@
 import React from 'react';
 import {History} from 'react-router';
-import {StoreWatchMixin} from 'fluxxor';
 import SearchShoutList from './searchShoutList.jsx';
 import SearchTagsList from './searchTagsList.jsx';
 import DocumentTitle from 'react-document-title';
 
-
 export default React.createClass({
-  mixins: [new StoreWatchMixin("search"), History],
+  mixins: [History],
   displayName: "Search",
-
-  statics: {
-    fetchId: 'searchShouts',
-    fetchData(client, session, params, name, queries) {
-      return client.shouts().list(session, {
-        search: params.term,
-        category: params.category,
-        shout_type: params.shouttype
-      });
-    }
-  },
 
   childContextTypes: {
     flux: React.PropTypes.object,
@@ -49,15 +36,6 @@ export default React.createClass({
     };
   },
 
-  getStateFromFlux(){
-    let flux = this.props.flux;
-    return {
-      search: flux.store("search").getState(),
-      locations: flux.store("locations").getState()
-    };
-
-  },
-
   onSubmit(filters){
     let searchParams = {},
       searchQueries = {};
@@ -67,7 +45,7 @@ export default React.createClass({
     searchParams.category = filters.category;
     searchParams.shouttype = filters.shouttype;
 
-    filters.min? 
+    filters.min?
       searchQueries.min = filters.min: undefined;
     filters.max?
       searchQueries.max = filters.max: undefined;
@@ -75,12 +53,12 @@ export default React.createClass({
       searchQueries.tags = filters.tags: undefined;
 
     // setting location if available
-    let location = this.state.locations;
-    if(location.current) {
-      location.current.city? 
-        searchQueries.city = encodeURIComponent(location.current.city): undefined;
-      location.current.country? 
-        searchQueries.country = encodeURIComponent(location.current.country): undefined;
+    const { currentLocation } = this.props;
+    if(currentLocation) {
+      currentLocation.city?
+        searchQueries.city = encodeURIComponent(currentLocation.city): undefined;
+      currentLocation.country?
+        searchQueries.country = encodeURIComponent(currentLocation.country): undefined;
     }
 
     // create url path (new react router path style)
@@ -101,8 +79,8 @@ export default React.createClass({
     return (
       <DocumentTitle title={"Shoutit Search - " + this.state.term}>
         <div>
-          <SearchTagsList {...this.state}/>
-          <SearchShoutList {...this.state}/>
+          {/*<SearchTagsList { ...this.state } { ...this.props }/>*/}
+          <SearchShoutList { ...this.state } { ...this.props }/>
         </div>
       </DocumentTitle>
     );

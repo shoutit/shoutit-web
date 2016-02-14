@@ -6,8 +6,10 @@ import sugConsts from "../suggestions/consts";
 import client from "./client";
 import statuses from "../../consts/statuses.js";
 import assign from "lodash/object/assign";
+import debug from "debug";
 
 var {LISTEN_BTN_LOADING} = statuses;
+const log = debug("shoutit:store:tags");
 
 var TagStore = Fluxxor.createStore({
   initialize(props) {
@@ -59,6 +61,7 @@ var TagStore = Fluxxor.createStore({
       consts.LOAD_MORE_TAG_SHOUTS, this.onLoadMoreTagShouts,
       consts.LOAD_TAG_LISTENERS, this.onLoadTagListeners,
       consts.LOAD_TAG_LISTENERS_SUCCESS, this.onLoadTagListenersSuccess,
+      consts.LOAD_TAG_RELATED, this.onLoadTagRelated,
       usersConsts.LOAD_USER_TAGS_SUCCESS, this.onLoadUserTagsSuccess,
       consts.LOAD_TAGS_SPRITE, this.onLoadTagsSprite,
       consts.LOAD_TAGS_SPRITE_SUCCESS, this.onLoadTagsSpriteSuccess,
@@ -80,6 +83,11 @@ var TagStore = Fluxxor.createStore({
 
   onLoadTag(payload) {
     var tagName = payload.tagName;
+
+    if(!this.state.tags[tagName]) {
+      this.addTagEntry(payload.tagName);
+    }
+
     client.get(tagName)
       .end(function (err, res) {
         if (err || res.status !== 200) {
@@ -104,7 +112,11 @@ var TagStore = Fluxxor.createStore({
         tag: {},
         shouts: null,
         shoutsNext: null,
-        listeners: null
+        listeners: null,
+        related: {
+          loading: false,
+          list: []
+        }
       };
     }
   },
@@ -133,7 +145,6 @@ var TagStore = Fluxxor.createStore({
   },
 
   onLoadTagSuccess(payload) {
-    this.addTagEntry(payload.tagName);
     this.state.tags[payload.tagName].tag = payload.res;
     this.state.loading = false;
     this.emit("change");
@@ -275,6 +286,35 @@ var TagStore = Fluxxor.createStore({
     this.addTagEntry(payload.tagName);
     this.state.tags[payload.tagName].listeners = payload.res.results;
     this.state.loading = false;
+    this.emit("change");
+  },
+
+  onLoadTagRelated(payload) {
+    var tagName = payload.tagName;
+
+    if (!this.state.tags[payload.tagName]) {
+      this.addTagEntry(payload.tagName);
+    }
+
+    client.getRelated(tagName).end((err, res) => {
+      if (err) {
+        log(err);
+      } else {
+        this.onLoadTagRelatedSuccess({
+          tagName: tagName,
+          res: res.body
+        });
+      }
+    });
+
+    this.state.tags[tagName].related.loading = true;
+    this.emit("change");
+  },
+
+  onLoadTagRelatedSuccess({ res, tagName}) {
+    this.state.tags[tagName].related.list = res.results.map(item => item.name);
+    this.addTags(res.results);
+    this.state.tags[tagName].related.loading = false;
     this.emit("change");
   },
 

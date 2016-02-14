@@ -73,6 +73,7 @@ export default React.createClass({
     const {suggestions, flux} = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
+    const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
 
     return (
       <Grid>
@@ -86,6 +87,7 @@ export default React.createClass({
           </Column>
           <Column size="3">
             <TagsCard
+              flux={flux}
               tags={ JSON.parse(JSON.stringify(tagsData)) }
               loading={ suggestions.data && suggestions.data.tags.loading }
             />
@@ -94,7 +96,10 @@ export default React.createClass({
               users={ usersData }
               loading={ suggestions.data && suggestions.data.users.loading }
             />
-            <SuggestShoutCard />
+            <SuggestShoutCard
+              shout={ shoutsData }
+              loading={ suggestions.data && suggestions.data.shouts.loading }
+            />
           </Column>
       </Grid>
     );

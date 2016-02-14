@@ -147,7 +147,7 @@ export default React.createClass({
     const {username} = this.props.params,
       user = this.props.users[username];
 
-    if(user) {
+    if(user && user.location) {
       if(user.loading) {
         return this.renderLoading();
       } else {

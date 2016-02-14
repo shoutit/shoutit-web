@@ -29,6 +29,11 @@ export default {
       .get(PREFIX + "/" + tagName + "/listeners");
   },
 
+  getRelated(tagName) {
+    return request
+      .get(PREFIX + "/" + tagName + "/related");
+  },
+
   getShouts(tagName, query) {
     return request
       .get(PREFIX + "/" + tagName + "/shouts")
