@@ -40,12 +40,14 @@ export default React.createClass({
                         <Column fluid={true} clear={true} size="15" >
                             <span onClick={this.back} className="back-btn">Back to search results</span>
                         </Column>
+                      {/*
                         <Column fluid={true} clear={true} size="7">
                             <span className="prev-btn">Previous Shout</span>
                         </Column>
                         <Column fluid={true} size="7">
                             <span className="next-btn">Next Shout</span>
                         </Column>
+                        */}
                     </Grid>
                 );
             }
@@ -126,7 +128,7 @@ export default React.createClass({
                   }
                     {/*this.renderOwnerControl()*/}
                 </section>
-                {this.renderUsersControl()}
+                {/*this.renderUsersControl()*/}
             </div>
         );
     }
