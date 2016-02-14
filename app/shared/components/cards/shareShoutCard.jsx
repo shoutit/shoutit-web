@@ -24,10 +24,10 @@ export default React.createClass({
     },
 
     back() {
-        if(window.previousLocation) { 
+        if(window.previousLocation) {
             this.history.goBack();
         } else {
-           this.history.pushState(null, '/home'); 
+           this.history.pushState(null, '/home');
         }
     },
 
@@ -64,7 +64,7 @@ export default React.createClass({
                             <span>Messages</span>
                         </li>
                         <li>
-                            <Icon name="edit-gray" style={{marginRight: "22px"}}/> 
+                            <Icon name="edit-gray" style={{marginRight: "22px"}}/>
                             <span>Edit Shout</span>
                         </li>
                         <li>
@@ -74,9 +74,9 @@ export default React.createClass({
                     </ul>
                 );
             }
-            
+
         } catch(e) {}
-        
+
     },
 
     render() {
@@ -116,13 +116,15 @@ export default React.createClass({
                     <Column fluid={true} size="15" style={{margin:'10px 15px'}}>
                         <Separator />
                     </Column>
+                  {/*
                     <Column fluid={true} size="15" style={{margin:'10px 15px'}}>
                         <ReactVisible condition={user && ownerUser !== user}>
                             <Icon name="report" style={{display: "inline-block"}}/>
                             <span className="report-button">Report this Shout</span>
                         </ReactVisible>
-                    </Column>
-                    {this.renderOwnerControl()}
+                    </Column> */
+                  }
+                    {/*this.renderOwnerControl()*/}
                 </section>
                 {this.renderUsersControl()}
             </div>
