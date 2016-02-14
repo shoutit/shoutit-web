@@ -50,13 +50,11 @@ export default class Header extends Component {
   }
 
   render() {
-    const { flux, loggedUser, conversations, chat, currentLocation } = this.props;
+    const { flux, loggedUser, conversations, chat, currentLocation, location, history } = this.props;
     const { country } = currentLocation;
     const { overlayName, overlayTarget, openNewShoutDialog } = this.state;
-
     const unreadConversations = conversations ?
       conversations.filter(c => c.unread_messages_count > 0) : [];
-
     return (
       <header className="Header">
         <div className="Header-logo">
@@ -88,14 +86,29 @@ export default class Header extends Component {
             />
           </div> :
           <div className="Header-tools loggedOut">
-            <Button to="/login" label="Log in" />
-            <Button to="/signup" label="Sign up" primary  />
+            <Button
+              label="Log in"
+              to="/login"
+              onClick={ e => {
+                e.preventDefault();
+                history.pushState({ modal: "login" }, location.pathname);
+              }}
+            />
+            <Button
+              label="Sign up"
+              primary
+              to="/signup"
+              onClick={ e => {
+                e.preventDefault();
+                history.pushState({ modal: "signup" }, location.pathname);
+              }}
+            />
           </div>
         }
 
         { process.env.BROWSER && loggedUser && [
 
-          <Overlay arrow rootClose
+          <Overlay key="messages" arrow rootClose
             style={ { width: 400, marginLeft: 4  }}
             show={ overlayName === "messages" }
             placement="bottom"
@@ -113,7 +126,7 @@ export default class Header extends Component {
               />
           </Overlay>,
 
-          <Overlay arrow rootClose
+          <Overlay key="notifications" arrow rootClose
             style={ { width: 400, marginLeft: 4  }}
             show={ overlayName === "notifications" }
             placement="bottom"
@@ -126,7 +139,7 @@ export default class Header extends Component {
               />
           </Overlay>,
 
-          <Overlay rootClose arrow inverted
+          <Overlay key="profile" rootClose arrow inverted
             placement="bottom"
             container={ this }
             style={ { width: 200, marginLeft: 10 }}
@@ -140,6 +153,7 @@ export default class Header extends Component {
           </Overlay>,
 
           <Dialog
+            key="newShout"
             open={ openNewShoutDialog }
             autoDetectWindowHeight={true}
             autoScrollBodyContent={true}

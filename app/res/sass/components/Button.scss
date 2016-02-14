@@ -4,6 +4,8 @@ $border-radius: 5px;
 
 .Button {
   display: inline-block;
+  overflow-y: hidden;
+  position: relative;
   vertical-align: middle;
   border-radius: $border-radius;
   height: 36px;
@@ -65,10 +67,23 @@ $border-radius: 5px;
 
   }
 
+  &.block {
+    display: block;
+    width: 100%;
+    > .Button-icon {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
+
 }
 
-  .Button + .Button {
+  .Button + .Button:not(.block) {
     margin-left: 10px;
+  }
+  .Button + .Button.block {
+    margin-top: 10px;
   }
 
   .Button.outline {
@@ -177,3 +192,50 @@ $border-radius: 5px;
       }
     }
   }
+
+
+/* Special buttons */
+
+$facebook-base-color: #395185;
+.Button.facebook {
+  background-color: lighten($facebook-base-color, 10);
+  color: white;
+  .Button-icon {
+    background-color: $facebook-base-color;
+  }
+  .Button-label {
+    color: white;
+  }
+  &:hover {
+    color: white;
+    background-color: $facebook-base-color;
+    .Button-label {
+      color: white;
+    }
+    .Button-icon {
+      background-color: darken($facebook-base-color, 10);
+    }
+  }
+}
+
+$google-base-color: darken(#DC4E41, 10);
+.Button.google {
+  background-color: lighten($google-base-color, 10);
+  color: white;
+  .Button-icon {
+    background-color: $google-base-color;
+  }
+  .Button-label {
+    color: white;
+  }
+  &:hover {
+    color: white;
+    background-color: $google-base-color;
+    .Button-label {
+      color: white;
+    }
+    .Button-icon {
+      background-color: darken($google-base-color, 10);
+    }
+  }
+}

@@ -1,0 +1,27 @@
+.CountryFlag {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+
+  img {
+    height: inherit;
+    width: inherit;
+    border-radius: 12px;
+  }
+
+  &.size-medium {
+    width: 48px;
+    height: 48px;
+    img {
+      border-radius: 24px;
+    }
+  }
+  
+  &.size-large {
+    width: 64px;
+    height: 64px;
+    img {
+      border-radius: 32px;
+    }
+  }
+}

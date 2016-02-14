@@ -1,32 +1,33 @@
-import React from 'react';
-import {StoreWatchMixin} from 'fluxxor';
-import {Link} from 'react-router';
-import TagList from '../../../general/tagList.jsx';
-import Separator from '../../../general/separator.jsx';
-import {Image, Icon} from '../../../helper';
-import {ItemProp} from '../../../helper/microdata';
-import moment from 'moment';
-import currency from '../../../../consts/currencies';
+import React from "react";
+import {StoreWatchMixin} from "fluxxor";
+import {Link} from "react-router";
+import TagList from "../../../general/tagList.jsx";
+import Separator from "../../../general/separator.jsx";
+import {Image, Icon} from "../../../helper";
+import {ItemProp} from "../../../helper/microdata";
 
+import CountryFlag from "../../../helper/CountryFlag.jsx";
 
+import moment from "moment";
+import currency from "../../../../consts/currencies";
 
-let types = {
+const types = {
   offer: "Offer",
   request: "Request"
 };
 
 export default React.createClass({
   displayName: "ShoutBody",
-  mixins: [StoreWatchMixin('users')],
+  mixins: [StoreWatchMixin("users")],
 
   getStateFromFlux() {
-    let flux = this.props.flux;
+    const { flux } = this.props;
 
     return {
-      users: flux.store('users').getState().users
-    }
+      users: flux.store("users").getState().users
+    };
   },
-  
+
   renderBottom(shout) {
     return this.props.listType === "small" ?
       (
@@ -34,14 +35,14 @@ export default React.createClass({
           <ul>
             <li className="postby">
               {"Posted by : " + shout.user.name + ", " +
-              moment.unix(shout.date_published).format('L')}
+              moment.unix(shout.date_published).format("L")}
             </li>
           </ul>
         </div>
       ) :
       (
         <div className="btn-bottom">
-          <Actions/>
+          {/*<Actions />*/}
           <TagList tags={shout.tags}/>
         </div>
       );
@@ -68,7 +69,7 @@ export default React.createClass({
   },
 
   renderSubtitle(shout) {
-    let link = shout.user.is_activated ?
+    const link = shout.user.is_activated ?
       <Link to="user" params={{username: encodeURIComponent(shout.user.username)}}>
         {shout.user.name}
       </Link> : shout.user.name;
@@ -103,7 +104,7 @@ export default React.createClass({
       <h4>
         <ItemProp property="url">
           <Link to="shout"
-              params={{shoutId: shout.id, location: shout.location.city, title: encodeURIComponent(shout.title.replace(/\s+/g, '-'))}}>
+              params={{shoutId: shout.id, location: shout.location.city, title: encodeURIComponent(shout.title.replace(/\s+/g, "-"))}}>
             <ItemProp property="name">
               <span>{shout.title}</span>
             </ItemProp>
@@ -116,7 +117,7 @@ export default React.createClass({
   renderDescription(shout) {
     // limit text to 40 words
     let textReg = shout.text.match(/\S+\s/g) || [];
-    let text = textReg.length > 40? textReg.slice(0,40).join('') + '...': shout.text;
+    let text = textReg.length > 40? textReg.slice(0,40).join("") + "...": shout.text;
     return (
       <ItemProp property="description">
         <p>{text}</p>
@@ -132,18 +133,16 @@ export default React.createClass({
 
   renderFootnote(shout) {
     // getting user info for country name
-    let user = this.state.users[shout.user.username] || {};
-    let country = user.location? user.location.country: 'noflag';
+    const user = this.state.users[shout.user.username] || {};
 
     // Same photo just to have support from API
-    let catIcon = 'http://i.imgur.com/e2asioJ.png';
-    let countryFlag = 'http://i.imgur.com/rfZuNla.png';
-    
+    const catIcon = "http://i.imgur.com/e2asioJ.png";
+
     return (
       <div className="shout-footnote">
-        <span>
-          <img src={countryFlag} />
-        </span>
+        { user.location  && user.location.country &&
+          <CountryFlag code={ user.location.country } />
+        }
         <span>
           <img src={catIcon} />
         </span>
@@ -154,10 +153,10 @@ export default React.createClass({
     );
   },
 
-  render(){
+  render() {
     let shout = this.props.shout;
-    let URITitle = encodeURIComponent(shout.title.replace(/\s+/g, '-'));
-    let separatorSize = shout.thumbnail? '90%': '94%';
+    let URITitle = encodeURIComponent(shout.title.replace(/\s+/g, "-"));
+    let separatorSize = shout.thumbnail? "90%": "94%";
     let currencySign = currency[shout.origCurrency]? currency[shout.origCurrency].sign: shout.origCurrency;
 
     return (
@@ -168,8 +167,8 @@ export default React.createClass({
               <span className="shout-title">{shout.title}</span>
             </Link>
           </ItemProp>
-          <Icon name="drop_down" style={{transform: 'rotate(270deg)', margin:'2px 10px',display:'inline-block'}} />
-          
+          <Icon name="drop_down" style={{transform: "rotate(270deg)", margin:"2px 10px",display:"inline-block"}} />
+
           <Link to={`/tag/${encodeURIComponent(shout.category.slug)}`}>
             <span className="shout-cat">
               {shout.category.name}
@@ -179,12 +178,12 @@ export default React.createClass({
         <span className="shout-price">
           {currencySign}&nbsp;{shout.price}
         </span>
-        
+
         <div className="body-holder">
           {this.renderThumbnail(shout)}
           <div className="body-text">
             {this.renderDescription(shout)}
-            {this.renderTags(shout)} 
+            {this.renderTags(shout)}
             <Separator size={separatorSize}/>
             {this.renderFootnote(shout)}
           </div>

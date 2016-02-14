@@ -113,7 +113,7 @@ export const ChatStore = Fluxxor.createStore({
   },
 
   handleLogout() {
-    this.state = initialState;
+    this.state = {...initialState};
     this.emit("change");
   },
 
