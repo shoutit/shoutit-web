@@ -11,17 +11,17 @@ export default React.createClass({
 
     getInitialState(){
         const { params } = this.props;
-        const { queries } = this.props.location;
+        const { query } = this.props.location;
 
         return {
             term: params.term || "",
             shouttype: params.shouttype || "",
             category: params.category || "",
-            min: queries.min || null,
-            max: queries.max || null,
-            tags: queries.tags || "",
-            city: queries.city || undefined,
-            country: queries.country || undefined
+            min: query.min || null,
+            max: query.max || null,
+            tags: query.tags || "",
+            city: query.city || undefined,
+            country: query.country || undefined
         };
     },
 
@@ -31,8 +31,7 @@ export default React.createClass({
         return {
             users: flux.store('users').getState().users,
             user: flux.store('users').getState().user,
-            search: flux.store("search").getState(),
-            locations: flux.store("locations").getState()
+            search: flux.store("search").getState()
         }
     },
 
@@ -52,12 +51,12 @@ export default React.createClass({
             searchQueries.tags = filters.tags: undefined;
 
         // setting location if available
-        const {location} = this.state;
-        if(location.current) {
-            location.current.city?
-                searchQueries.city = encodeURIComponent(location.current.city): undefined;
-            location.current.country?
-                searchQueries.country = encodeURIComponent(location.current.country): undefined;
+        const {currentLocation} = this.props;
+        if(currentLocation) {
+          currentLocation.city?
+                searchQueries.city = encodeURIComponent(currentLocation.city): undefined;
+          currentLocation.country?
+                searchQueries.country = encodeURIComponent(currentLocation.country): undefined;
         }
 
         // create url path (new react router path style)

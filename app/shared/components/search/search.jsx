@@ -53,12 +53,12 @@ export default React.createClass({
       searchQueries.tags = filters.tags: undefined;
 
     // setting location if available
-    let location = this.props.locations;
-    if(location.current) {
-      location.current.city?
-        searchQueries.city = encodeURIComponent(location.current.city): undefined;
-      location.current.country?
-        searchQueries.country = encodeURIComponent(location.current.country): undefined;
+    const { currentLocation } = this.props;
+    if(currentLocation) {
+      currentLocation.city?
+        searchQueries.city = encodeURIComponent(currentLocation.city): undefined;
+      currentLocation.country?
+        searchQueries.country = encodeURIComponent(currentLocation.country): undefined;
     }
 
     // create url path (new react router path style)

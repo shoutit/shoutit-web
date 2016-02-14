@@ -22,13 +22,11 @@ export default React.createClass({
     const tags = flux.store("tags").getState();
     const users = flux.store("users").getUsersState();
     const search = flux.store("search").getState();
-    const locations = flux.store("locations").getState();
 
     return {
       tags,
       users,
-      search,
-      locations
+      search
     };
   },
 
@@ -59,7 +57,7 @@ export default React.createClass({
   },
 
   render() {
-    const { suggestions, flux, params, location } = this.props;
+    const { suggestions, flux, params, location, currentLocation } = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
@@ -67,10 +65,15 @@ export default React.createClass({
     return (
       <Grid >
         <Column size="3" clear={true}>
-          <SearchCard params={ params } flux={ flux } location={ location }/>
+          <SearchCard
+            params={ params }
+            flux={ flux }
+            location={ location }
+            currentLocation={ currentLocation }
+          />
         </Column>
         <Column size="9">
-          { React.cloneElement(this.props.children, { ...this.state }) }
+          { React.cloneElement(this.props.children, { ...this.state, currentLocation}) }
         </Column>
         <Column size="3">
           <TagsCard
