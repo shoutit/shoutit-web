@@ -341,7 +341,6 @@ button {
       padding: 24px 0 0!important;
     }
     span {
-      color: lighten($si-gray,20%);
       text-align: center;
     }
     .si-login, .si-signup {
@@ -430,9 +429,8 @@ button {
       }
       .signup-note {
         text-align: center;
-        color: lighten($si-gray,20%);
-        letter-spacing: 0.02rem;
-        font-size: 1.4rem;
+        color: lighten($si-gray, 20);
+        font-size: 12px;
         padding-top: 15px;
       }
     }

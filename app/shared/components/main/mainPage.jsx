@@ -96,7 +96,8 @@ export default React.createClass({
                     </Grid>
 
                     <Footer />
-                    {this.props.children}
+                    { this.props.children &&
+                      React.cloneElement(this.props.children, { loggedUser: this.props.loggedUser }) }
 
                 </Column>
             </DocumentTitle>

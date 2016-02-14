@@ -1,13 +1,13 @@
-import React from 'react';
-import {Input,Button} from 'react-bootstrap';
+import React from "react";
+import {Input,Button} from "react-bootstrap";
 
 export default React.createClass({
-  displayName: "ForgetPass",
+  displayName: "RecoverPasswordForm",
 
   getInitialState() {
     return {
       waiting: false
-    }
+    };
   },
 
   render() {
@@ -17,16 +17,16 @@ export default React.createClass({
         <p>{this.props.res}</p>
         <Input ref='email' type='text' placeholder='Email or Username'
           className='input-email' />
-        <Button style={{marginBottom: '20px'}} bsSize='large' type='submit' block
-          className={this.state.waiting? 'btn-signin btn-signin-disabled':'btn-signin'}>
-          {this.state.waiting? 'Sending request...': 'Request password'}
+        <Button style={{marginBottom: "20px"}} bsSize='large' type='submit' block
+          className={this.state.waiting? "btn-signin btn-signin-disabled":"btn-signin"}>
+          {this.state.waiting? "Sending request...": "Request password"}
         </Button>
       </form>
       );
   },
 
   componentDidUpdate() {
-    if(this.props.res)
+    if (this.props.res)
       this.setState({waiting: false});
   },
 
