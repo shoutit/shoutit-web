@@ -20,11 +20,12 @@ export default React.createClass({
   },
 
   render() {
+    const {flux, params} = this.props;
     return (
       <div className="discover-holder">
         <Grid >
           <Column size="12" clear={true}>
-            {this.props.children}
+            { React.cloneElement(this.props.children, {flux, params}) }
           </Column>
           <Column size="3">
             <RightBoard />

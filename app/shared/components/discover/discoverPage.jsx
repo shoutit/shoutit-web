@@ -20,14 +20,9 @@ export default React.createClass({
     }
   },
 
-  contextTypes: {
-    params: React.PropTypes.object,
-    flux: React.PropTypes.object
-  },
-
   getStateFromFlux() {
-    const disStore = this.context.flux.store("discovers").getState();
-    const shoutsStore = this.context.flux.store("shouts").getState();
+    const disStore = this.props.flux.store("discovers").getState();
+    const shoutsStore = this.props.flux.store("shouts").getState();
     return {
       loading: disStore.loading,
       countries: disStore.countries,
@@ -46,19 +41,19 @@ export default React.createClass({
   },
 
   loadData() {
-    const disId = this.props.pk || this.context.params.pk,
+    const disId = this.props.pk || this.props.params.pk,
       {discovers} = this.state,
       discover = disId && discovers ? discovers[disId] : null;
 
     if (!discover) {
-      this.context.flux.actions.loadDiscoverWithId(disId);
+      this.props.flux.actions.loadDiscoverWithId(disId);
     }
   },
 
   renderDiscoverPage(discover) {
-    const disId = this.props.pk || this.context.params.pk
+    const disId = this.props.pk || this.props.params.pk
     const list = discover.children;
-    const country = this.context.params.country;
+    const country = this.props.params.country;
     const shoutsList = this.state.shouts[disId] ? this.state.shouts[disId].list : [];
     const shoutsAreLoading = this.state.shouts[disId] ? this.state.shouts[disId].loading : false;
     const shouts = shoutsList.map((shoutId) => this.state.discoverShouts[shoutId]);
@@ -126,8 +121,14 @@ export default React.createClass({
     }
   },
 
+  onLastVisibleChange(isVisible) {
+    if (isVisible) {
+      this.props.flux.actions.loadMoreDiscoverShouts(this.props.pk);
+    }
+  },
+
   render() {
-    const disId = this.props.pk || this.context.params.pk,
+    const disId = this.props.pk || this.props.params.pk,
       {discovers} = this.state,
       discover = disId && discovers ? discovers[disId] : null;
 
