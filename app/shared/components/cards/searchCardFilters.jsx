@@ -36,7 +36,7 @@ export default React.createClass({
 
     renderFilters() {
         let categories = this.props.search.categories;
-        let catItems = categories.length? categories.map(function(item,idx) { 
+        let catItems = categories.length? categories.map(function(item,idx) {
             return {payload: item.slug, text: item.name}}): [];
 
         let shouttypeItems = [
@@ -80,7 +80,7 @@ export default React.createClass({
                 display: 'none'
             }
         }
-        
+
         return (
             <div>
                 <div>
@@ -107,7 +107,7 @@ export default React.createClass({
                                     name="max" ref="max" onInput={this.handlePrice}/>
                         </span>
                     </div>
-                    
+
                 </div>
                 <span className="search-card-btn" onClick={this.onSubmit} block>Go</span>
             </div>
@@ -127,7 +127,7 @@ export default React.createClass({
         let price = elm.target.value,
             name = elm.target.name;
 
-        if(name === "min") {  
+        if(name === "min") {
             this.setState({min: price});
         } else if (name === "max") {
             this.setState({max: price});
@@ -153,13 +153,13 @@ export default React.createClass({
         let stickyStyle = {
             position: 'fixed',
             left: WINDOW_LEFT,
-            top: '30px',
+            top: '100px',
             width: '220px'
         };
 
         return (
             <div>
-                <Sticky topOffset={120} stickyStyle={stickyStyle}>
+                <Sticky topOffset={20} stickyStyle={stickyStyle}>
                     <div className="search-filters">
                         <p>What kind of information you need?</p>
                         {this.renderFilters()}
