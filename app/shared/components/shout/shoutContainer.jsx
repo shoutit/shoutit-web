@@ -4,7 +4,7 @@ import {Grid, Column} from '../helper';
 import {ListenToCard, TagsCard, SuggestShoutCard, ShareShoutCard, ShoutOwnerCard} from "../cards";
 
 export default React.createClass({
-  mixins: [new StoreWatchMixin('shouts', 'locations', 'users')],
+  mixins: [new StoreWatchMixin("shouts", "locations", "users", "tags")],
 
   childContextTypes: {
     flux: React.PropTypes.object,
@@ -29,6 +29,7 @@ export default React.createClass({
 
   getStateFromFlux() {
     const {flux, params} = this.props;
+    const tags = flux.store("tags").getState();
     const shoutStore = flux.store("shouts"),
       userStoreState = flux.store("users").getState(),
       shoutStoreState = JSON.parse(JSON.stringify(shoutStore.getState())),
@@ -45,12 +46,43 @@ export default React.createClass({
       userShouts: userStoreState.shouts,
       relatedShouts: shoutStoreState.relatedShouts,
       replyDrafts: shoutStoreState.replyDrafts,
-      current: current
+      current,
+      tags
     };
   },
 
+  /**
+   * Loading tags objects straight from Tags store
+   * @returns {Array}
+   */
+  getTagsFromStore() {
+    const {suggestions} = this.props;
+    const {tags} = this.state.tags;
+
+    if(suggestions.data) {
+      return suggestions.data.tags.list.map((item) => tags[item] && tags[item].tag);
+    } else {
+      return [];
+    }
+  },
+
+  getUsersFromStore() {
+    const {suggestions} = this.props;
+    const {users} = this.state;
+
+    if(suggestions.data) {
+      return suggestions.data.users.list.map((item) => users[item]);
+    } else {
+      return [];
+    }
+  },
+
   render() {
-    const { loggedUser, flux } = this.props;
+    const {suggestions, flux, loggedUser} = this.props;
+    const tagsData = this.getTagsFromStore();
+    const usersData = this.getUsersFromStore();
+    const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
+
     const { shout, users } = this.state;
     return (
       <Grid className="profile-holder">
@@ -67,11 +99,20 @@ export default React.createClass({
             users={ users }
             flux={ flux }
             />
-          <TagsCard tags={[]}
-              loading={false}
-              />
-          <ListenToCard />
-          <SuggestShoutCard />
+          <TagsCard
+            flux={flux}
+            tags={ JSON.parse(JSON.stringify(tagsData)) }
+            loading={ suggestions.data && suggestions.data.tags.loading }
+          />
+          <ListenToCard
+            flux={flux}
+            users={ usersData }
+            loading={ suggestions.data && suggestions.data.users.loading }
+          />
+          <SuggestShoutCard
+            shout={ shoutsData }
+            loading={ suggestions.data && suggestions.data.shouts.loading }
+          />
         </Column>
       </Grid>
     );
