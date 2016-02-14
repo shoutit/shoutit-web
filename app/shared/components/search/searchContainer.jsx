@@ -59,7 +59,7 @@ export default React.createClass({
   },
 
   render() {
-    const { suggestions, flux } = this.props;
+    const { suggestions, flux, params, location } = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
@@ -67,7 +67,7 @@ export default React.createClass({
     return (
       <Grid >
         <Column size="3" clear={true}>
-          <SearchCard />
+          <SearchCard params={ params } flux={ flux } location={ location }/>
         </Column>
         <Column size="9">
           { React.cloneElement(this.props.children, { ...this.state }) }

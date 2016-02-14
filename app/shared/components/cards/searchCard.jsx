@@ -9,15 +9,9 @@ export default React.createClass({
     displayName: "SearchCard",
     mixins: [StoreWatchMixin('users'), History],
 
-    contextTypes: {
-        flux: React.PropTypes.object,
-        params: React.PropTypes.object,
-        location: React.PropTypes.object
-    },
-
     getInitialState(){
-        let params = this.context.params;
-        let queries = this.context.location.query;
+        const { params } = this.props;
+        const queries = this.props.location;
 
         return {
             term: params.term || "",
@@ -32,7 +26,7 @@ export default React.createClass({
     },
 
     getStateFromFlux() {
-        let flux = this.context.flux;
+        const flux = this.props;
 
         return {
             users: flux.store('users').getState().users,
@@ -50,7 +44,7 @@ export default React.createClass({
         searchParams.category = filters.category;
         searchParams.shouttype = filters.shouttype;
 
-        filters.min? 
+        filters.min?
             searchQueries.min = filters.min: undefined;
         filters.max?
             searchQueries.max = filters.max: undefined;
@@ -58,11 +52,11 @@ export default React.createClass({
             searchQueries.tags = filters.tags: undefined;
 
         // setting location if available
-        let location = this.state.locations;
+        const {location} = this.state;
         if(location.current) {
-            location.current.city? 
+            location.current.city?
                 searchQueries.city = encodeURIComponent(location.current.city): undefined;
-            location.current.country? 
+            location.current.country?
                 searchQueries.country = encodeURIComponent(location.current.country): undefined;
         }
 
@@ -77,7 +71,7 @@ export default React.createClass({
 
     updateSearch(params, queries, path) {
         this.history.replaceState(null, path, queries);
-        this.context.flux.actions.searchShouts(assign(params, queries));
+        this.props.flux.actions.searchShouts(assign(params, queries));
     },
 
     render() {
