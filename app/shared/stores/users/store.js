@@ -306,6 +306,8 @@ var UserStore = Fluxxor.createStore({
           } else {
             let loggedUser = res.body;
             if (typeof loggedUser.username !== "undefined") {
+              // keeping the login type here
+              loggedUser.loggedInWith = payload.type;
               this.state.users[loggedUser.username] = loggedUser;
               this.state.user = loggedUser.username;
               this.state.loggingIn = false;

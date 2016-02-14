@@ -25,8 +25,17 @@ export default React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.open && this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
-      this.setState({ showSuccessMessage: true });
+    const { open, loggedUser } = this.props;
+
+    if (open && loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
+      if (nextProps.loggedUser.loggedInWith === "gplus" ||  nextProps.loggedUser.loggedInWith === "fb") {
+        this.props.history.replaceState(null, "/home");
+        return;
+      }
+      this.setState({
+        loading: false,
+        showSuccessMessage: true
+      });
     }
   },
 
@@ -34,14 +43,8 @@ export default React.createClass({
     const { loading, signupStatus } = this.state;
     const { status } = signupStatus;
     // handling server response
-
-    if (loading && status) {
-      if (status === "SIGNUP_FAIL") {
-        this.setState({ loading:false }, () => this.showFormAlerts());
-      }
-      if (status === "SIGNUP_SUCCESS") {
-        this.setState({ loading: false, showSuccessMessage: true});
-      }
+    if (loading && status === "SIGNUP_FAIL") {
+      this.setState({ loading:false }, () => this.showFormAlerts());
     }
   },
 
