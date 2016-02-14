@@ -39,7 +39,7 @@ export default React.createClass({
         { loading?
           <Progress />
           :
-          users.isArray && users.slice(0, itemsLimit).map((user, idx) => {
+          users.slice(0, itemsLimit).map((user, idx) => {
             return (
               <Grid fluid={true} key={ `card-listen-to-${idx}` }>
                 <Column fluid={true} clear={true} size="3" className="card-list-img">
