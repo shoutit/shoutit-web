@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router";
 import {Icon, Column, Grid, Progress} from '../helper';
 import ListenButton from "../general/listenButton.jsx";
 import UserImage from '../user/userImage.jsx';
@@ -46,7 +47,7 @@ export default React.createClass({
                   <UserImage type="circle" size="26" className="pull-left" image={ user.image }/>
                 </Column>
                 <Column fluid={true} size="9" className="card-list-item">
-                  <span>{ user.name }</span>
+                  <Link to={`/user/${user.username}`}>{ user.name }</Link>
                 </Column>
                 <Column fluid={true} size="3">
                   <ListenButton flux={ this.props.flux }
