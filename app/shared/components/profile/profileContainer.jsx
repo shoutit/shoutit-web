@@ -56,7 +56,7 @@ export default React.createClass({
 
   getUsersFromStore() {
     const {suggestions} = this.props;
-    const {users} = this.state;
+    const {users} = this.state.users;
 
     if(suggestions.data) {
       return suggestions.data.users.list.map((item) => users[item]);
