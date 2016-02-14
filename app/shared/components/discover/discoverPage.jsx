@@ -7,6 +7,7 @@ import {ItemScope, ItemProp} from './../helper/microdata';
 import CoverImage from './coverImage.jsx';
 import GridDiscover from './gridDiscover.jsx';
 import GridShout from './../feed/feed/gridShout/gridShoutItem.jsx';
+import ViewportSensor from '../misc/ViewportSensor.jsx';
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("discovers", "shouts")],
@@ -83,17 +84,20 @@ export default React.createClass({
             {shoutsAreLoading ?
               <Progress />
               :
-              shouts.map((item, idx) => {
-                return (
-                  <ItemScope type="Product" key={"disShout-" + idx}>
-                    <GridShout index={idx}
-                               shout={item}
-                               creator={item.user}
-                               clearOn={4}
-                    />
-                  </ItemScope>
-                );
-              })
+              <Grid fluid={true}>
+                {shouts.map((item, idx) => {
+                  return (
+                    <ItemScope type="Product" key={"disShout-" + idx}>
+                      <GridShout index={idx}
+                                 shout={item}
+                                 creator={item.user}
+                                 clearOn={4}
+                      />
+                    </ItemScope>
+                  );
+                })}
+                {this.renderViewportSensor()}
+              </Grid>
             }
           </Grid>
           {shouts.length ? <Link to="" className="si-more-link pull-right">Explore More...</Link> : null}
@@ -108,6 +112,18 @@ export default React.createClass({
         <Progress />
       </DocumentTitle>
     );
+  },
+
+  renderViewportSensor() {
+    const { discoverShouts } = this.state;
+    const { pk } = this.props;
+
+    if(!discoverShouts[pk].loading) {
+      return (
+        <Grid fluid={true}>
+          <ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
+        </Grid>);
+    }
   },
 
   render() {
