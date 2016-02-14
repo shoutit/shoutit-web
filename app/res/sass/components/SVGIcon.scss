@@ -162,12 +162,18 @@ $size-large: 36px;
   .SVGIcon.active .SVGIcon-icon.facebook {
     background-image: url("../../../../assets/icons/facebook-active.svg");
   }
+  .SVGIcon.fill .SVGIcon-icon.facebook {
+    background-image: url("../../../../assets/icons/facebook-fill.svg");
+  }
 
 .SVGIcon-icon.google-plus {
   background-image: url("../../../../assets/icons/google-plus.svg");
 }
   .SVGIcon.active .SVGIcon-icon.google-plus {
     background-image: url("../../../../assets/icons/google-plus-active.svg");
+  }
+  .SVGIcon.fill .SVGIcon-icon.google-plus {
+    background-image: url("../../../../assets/icons/google-plus-fill.svg");
   }
 
 .SVGIcon-icon.home {
