@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router";
 import {Icon, Column, Grid, Progress} from '../helper';
 import TagListenButton from '../general/tagListenButton.jsx';
 
@@ -20,7 +21,7 @@ const TagsCard = (props, context) => {
                                 <Icon name="tag" className="tag-card-icon"/>
                             </Column>
                             <Column fluid={true} size="9" className="card-list-item">
-                                <span>{tag.name}</span>
+                                <Link to={`/tag/${tag.name}`}>{ tag.name }</Link>
                             </Column>
                             <Column fluid={true} size="3" >
                                 <TagListenButton hasTitle={false} tag={tag} flux={context.flux}/>
