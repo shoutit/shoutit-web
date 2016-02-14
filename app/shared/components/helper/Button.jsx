@@ -14,6 +14,7 @@ export default function Button({
   secondary=false, // filled orange
   destructive=false, // danger thing
   outline=false, // bordered
+  block=false,
   className,
   ...attributes
 }) {
@@ -27,28 +28,27 @@ export default function Button({
   } else {
     Element = "button";
   }
-
   let elClassName = "Button";
+
+  if (block) {
+    elClassName += " block";
+  }
+
   if (primary) {
     elClassName += " primary";
-  }
-  if (secondary) {
+  } else if (secondary) {
     elClassName += " secondary";
-  }
-  else if (destructive) {
+  } else if (destructive) {
     elClassName += " destructive";
-  }
-  else if (outline) {
+  } else if (outline) {
     elClassName += " outline";
   }
+
   if (attributes.disabled) {
     elClassName += " disabled";
   }
   if (size) {
     elClassName += ` size-${size}`;
-  }
-  if (leftIcon) {
-    elClassName += ` with-left-icon`;
   }
   if (className) {
     elClassName += ` ${className}`;

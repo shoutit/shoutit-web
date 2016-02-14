@@ -4,6 +4,8 @@ $border-radius: 5px;
 
 .Button {
   display: inline-block;
+  overflow-y: hidden;
+  position: relative;
   vertical-align: middle;
   border-radius: $border-radius;
   height: 36px;
@@ -65,10 +67,23 @@ $border-radius: 5px;
 
   }
 
+  &.block {
+    display: block;
+    width: 100%;
+    > .Button-icon {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
+
 }
 
-  .Button + .Button {
+  .Button + .Button:not(.block) {
     margin-left: 10px;
+  }
+  .Button + .Button.block {
+    margin-top: 10px;
   }
 
   .Button.outline {
