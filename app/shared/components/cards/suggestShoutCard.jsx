@@ -13,12 +13,14 @@ export default function SuggestShoutCard(props) {
         <Progress />
       : props.shout &&
         <Grid fluid={true}>
-          <Link to="">
+          <Link to={`/shout/${props.shout.id}`}>
             <div style={{backgroundImage:`url(${props.shout.thumbnail})`}} className="suggest-image" ></div>
           </Link>
           <Grid fluid={true}>
               <Grid fluid={true} className="suggest-title">
+                <Link to={`/shout/${props.shout.id}`}>
                   { props.shout.title }
+                </Link>
               </Grid>
               <Column fluid={true} clear={true} size="11" className="suggest-user">
                   { props.shout.user.name }
