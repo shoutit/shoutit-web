@@ -62,8 +62,8 @@ const routes = (
       <Route path="/discover/:country/:pk" component={ DiscoverPage} />
       <IndexRoute component={ Discover} />
     </Route>
-    <Route path="/search/:shouttype/:category(/:term)" component={ SearchContainer }>
-      <IndexRoute component={ Search }/>
+    <Route component={ SearchContainer }>
+      <Route path="/search/:shouttype/:category(/:term)" component={ Search } />
     </Route>
     <Route path="/messages" component={ Chat  }>
       <Route path="/messages/:id" component={ Conversation } />
