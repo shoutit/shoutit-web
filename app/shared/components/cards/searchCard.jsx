@@ -11,7 +11,7 @@ export default React.createClass({
 
     getInitialState(){
         const { params } = this.props;
-        const queries = this.props.location;
+        const { queries } = this.props.location;
 
         return {
             term: params.term || "",
@@ -26,7 +26,7 @@ export default React.createClass({
     },
 
     getStateFromFlux() {
-        const flux = this.props;
+        const {flux} = this.props;
 
         return {
             users: flux.store('users').getState().users,
