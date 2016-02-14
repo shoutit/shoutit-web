@@ -4,7 +4,7 @@ import {Grid, Column} from "../helper";
 import {ListenToCard, TagsCard, SuggestShoutCard, TagProfileCard, RelatedTagsCard} from "../cards";
 
 export default React.createClass({
-  mixins: [new StoreWatchMixin("tags")],
+  mixins: [new StoreWatchMixin("tags", "users")],
 
   statics: {
     fetchId: 'tag',
@@ -14,15 +14,22 @@ export default React.createClass({
   },
 
   getStateFromFlux() {
-    return this.props.flux.store("tags").getState();
+    const {flux} = this.props;
+    const tags = flux.store("tags").getState();
+    const users = flux.store("users").getUsersState();
+
+    return {
+      tags,
+      users
+    };
   },
 
   loadTag() {
     const {params, flux} = this.props,
       tagName = params.tagName,
-      tagEntry = this.state.tags[tagName];
+      tagEntry = this.state.tags.tags[tagName];
 
-    if (!this.state.loading && !tagEntry && tagEntry !== null) {
+    if (!this.state.tags.loading && !tagEntry && tagEntry !== null) {
       flux.actions.loadTag(tagName);
     }
     if(tagEntry && !tagEntry.related.loading && !tagEntry.related.list.length) {
@@ -34,15 +41,45 @@ export default React.createClass({
     this.loadTag();
   },
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     this.loadTag();
   },
 
+  /**
+   * Loading tags objects straight from Tags store
+   * @returns {Array}
+   */
+  getTagsFromStore() {
+    const {suggestions} = this.props;
+    const {tags} = this.state.tags;
+
+    if(suggestions.data) {
+      return suggestions.data.tags.list.map((item) => tags[item] && tags[item].tag);
+    } else {
+      return [];
+    }
+  },
+
+  getUsersFromStore() {
+    const {suggestions} = this.props;
+    const {users} = this.state;
+
+    if(suggestions.data) {
+      return suggestions.data.users.list.map((item) => users[item]);
+    } else {
+      return [];
+    }
+  },
+
   render() {
-    const { params, flux } = this.props;
+    const {suggestions, flux, params} = this.props;
+    const tagsData = this.getTagsFromStore();
+    const usersData = this.getUsersFromStore();
+    const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
+
     const { tagName } = params;
     // Avoiding mutation problems in store
-    const clonedTags = JSON.parse(JSON.stringify(this.state.tags));
+    const clonedTags = JSON.parse(JSON.stringify(this.state.tags.tags));
 
     const tag = clonedTags[tagName];
     // Reading the list of related tags name and converting them to full tag objects
@@ -51,7 +88,7 @@ export default React.createClass({
     return (
       <Grid >
         <Column size="3" clear={true}>
-          <TagProfileCard params={params} flux={flux} {...this.state}/>
+          <TagProfileCard params={params} flux={flux} {...this.state.tags}/>
           <RelatedTagsCard
             tags={ relatedTagsData }
             loading={ tag && tag.related.loading }
@@ -59,12 +96,23 @@ export default React.createClass({
           />
         </Column>
         <Column size="9">
-          { React.cloneElement(this.props.children, { ...this.state, tagName }) }
+          { React.cloneElement(this.props.children, { ...this.state.tags, tagName }) }
         </Column>
         <Column size="3">
-          <TagsCard tags={[]} loading={false}/>
-          <ListenToCard />
-          <SuggestShoutCard />
+          <TagsCard
+            flux={flux}
+            tags={ JSON.parse(JSON.stringify(tagsData)) }
+            loading={ suggestions.data && suggestions.data.tags.loading }
+          />
+          <ListenToCard
+            flux={flux}
+            users={ usersData }
+            loading={ suggestions.data && suggestions.data.users.loading }
+          />
+          <SuggestShoutCard
+            shout={ shoutsData }
+            loading={ suggestions.data && suggestions.data.shouts.loading }
+          />
         </Column>
       </Grid>
     );
