@@ -23,7 +23,6 @@ import {
   REPLY_CONVERSATION,
   REPLY_CONVERSATION_SUCCESS,
   REPLY_CONVERSATION_FAILURE,
-  REPLY_SHOUT_SUCCESS,
   NEW_PUSHED_MESSAGE
 } from "../messages/actionTypes";
 
@@ -58,7 +57,6 @@ export const ConversationsStore = Fluxxor.createStore({
       REPLY_CONVERSATION, this.handleReplyStart,
       REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
       REPLY_CONVERSATION_FAILURE, this.handleReplyFailure,
-      REPLY_SHOUT_SUCCESS, this.handleReplySuccess,
       NEW_PUSHED_MESSAGE, this.handlePushedMessage,
       MARK_AS_READ_SUCCESS, this.handleMarkAsReadSuccess,
       MARK_AS_READ_FAILURE, this.handleMarkAsReadFailure,
@@ -109,6 +107,7 @@ export const ConversationsStore = Fluxxor.createStore({
   handleStart({ id }) {
     this.state.conversations[id] = {
       ...this.state.conversations[id],
+      id,
       loading: true
     };
     this.emit("change");
@@ -162,20 +161,18 @@ export const ConversationsStore = Fluxxor.createStore({
         ];
       }
       else {
-        if (conversation.messageIds.length === 0) {
-          // Loading the default batch of messages
-          conversation.previous = previous;
-          conversation.next = next;
-          conversation.messageIds = messageIds;
-          conversation.last_message = results[results.length-1];
-        }
+        // Loading the default batch of messages
+        conversation.previous = previous;
+        conversation.next = next;
+        conversation.messageIds = messageIds;
+        conversation.last_message = results[results.length-1];
         conversation.loading = false;
         conversation.didLoadMessages = true;
       }
 
       this.state.conversations = {
         ...this.state.conversations,
-        [conversation.id]: conversation
+        [id]: conversation
       };
 
       this.state.lastLoadedId = id;
@@ -259,8 +256,10 @@ export const ConversationsStore = Fluxxor.createStore({
   },
 
   handleDeleteConversationSuccess({ id }) {
-    delete this.state.conversations[id];
-    this.emit("change");
+    this.waitFor(["chat"], () => {
+      delete this.state.conversations[id];
+      this.emit("change");
+    });
   },
 
   handleDeleteConversationFailure({ id, error }) {

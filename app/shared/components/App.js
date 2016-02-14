@@ -6,6 +6,10 @@ import MainPage from "./main/mainPage.jsx";
 
 const pagesWithoutHeader = [ MainPage ];
 
+if (process.env.BROWSER) {
+  require("styles/components/App.scss");
+}
+
 export default React.createClass({
 
   displayName: "App",
@@ -29,7 +33,7 @@ export default React.createClass({
       this.getData();
     }
     // Actions triggered in location change
-    if ( prevState.currentLocation.city !== currentLocation.city) {
+    if (prevState.currentLocation.city !== currentLocation.city) {
       this.props.flux.actions.getSuggestions(currentLocation);
     }
   },
@@ -40,7 +44,7 @@ export default React.createClass({
     const chat = flux.store("chat").getState();
     const conversations = flux.store("conversations").getConversations(chat.conversationIds);
     const currentLocation = flux.store("locations").getCurrent();
-    const suggestions = flux.store('suggestions').getState();
+    const suggestions = flux.store("suggestions").getState();
     return { loggedUser, conversations, chat, currentLocation, suggestions };
   },
 
@@ -64,19 +68,24 @@ export default React.createClass({
       pagesWithoutHeader.indexOf(route.component) > -1
     );
     const props = { loggedUser, chat, conversations, currentLocation, location, suggestions: suggestionsData };
+
     return (
-      <div>
+      <div className={`App${hideHeader ? "" : " stickyHeader"}` }>
         { !hideHeader &&
-          <Header
-            loggedUser={ loggedUser }
-            currentLocation={ currentLocation }
-            flux={ flux }
-            chat={ chat }
-            conversations={ conversations }
-            location={ location }
-          />
+          <div className="App-header">
+            <Header
+              loggedUser={ loggedUser }
+              currentLocation={ currentLocation }
+              flux={ flux }
+              chat={ chat }
+              conversations={ conversations }
+              location={ location }
+            />
+          </div>
         }
-        { React.cloneElement(children, props) }
+        <div className="App-content">
+          { React.cloneElement(children, props) }
+        </div>
       </div>
     );
   }

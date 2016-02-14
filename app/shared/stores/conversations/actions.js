@@ -18,15 +18,17 @@ import * as client from "./client";
 
 export const actions = {
 
-  loadMessages(id) {
+  loadMessages(id, done) {
     this.dispatch(LOAD_MESSAGES, { id });
     client.loadMessages(id).end((error, res) => {
       if (error || !res.ok) {
         error = error ? { status: 500, ...error } : res;
         this.dispatch(LOAD_MESSAGES_FAILURE, { id, error });
+        done && done(error);
         return;
       }
       this.dispatch(LOAD_MESSAGES_SUCCESS, {...res.body, id } );
+      done && done(null, {...res.body, id });
     });
   },
 

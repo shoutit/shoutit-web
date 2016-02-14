@@ -3,12 +3,14 @@ import { Link } from "react-router";
 import { Dialog } from "material-ui";
 
 import Overlay from "../helper/Overlay";
+import Button from "../helper/Button.jsx";
+
 import SearchBar from "./searchBar.jsx";
 
 import HeaderMessagesOverlay from "../header/HeaderMessagesOverlay.jsx";
+import HeaderNotificationsOverlay from "../header/HeaderNotificationsOverlay.jsx";
 import HeaderProfileOverlay from "../header/HeaderProfileOverlay.jsx";
 import HeaderProfile from "../header/HeaderProfile.jsx";
-import HeaderLoggedOut from "../header/HeaderLoggedOut.jsx";
 import HeaderNewShout from "../header/HeaderNewShout.jsx";
 
 import { imagesPath } from "../../../../config";
@@ -49,18 +51,17 @@ export default class Header extends Component {
 
   render() {
     const { flux, loggedUser, conversations, chat, currentLocation } = this.props;
-
+    const { country } = currentLocation;
     const { overlayName, overlayTarget, openNewShoutDialog } = this.state;
 
     const unreadConversations = conversations ?
       conversations.filter(c => c.unread_messages_count > 0) : [];
 
     return (
-      <header className="si-container Header">
-
+      <header className="Header">
         <div className="Header-logo">
           <Link to="/">
-            <img height="36" src={ `${imagesPath}/logo.png` } />
+            <img height="36" width="132" src={ `${imagesPath}/logo.png` } />
           </Link>
         </div>
 
@@ -69,24 +70,27 @@ export default class Header extends Component {
         </div>
 
         <div className="Header-links">
-          <Link to="/home">
-            Browse
-          </Link>
-          <Link to={`/discover/${encodeURIComponent(currentLocation)}`}>
-            Discover
-          </Link>
+          <span className="Header-separator" />
+          <Button to="/home" label="Browse" />
+          <Button to={ "/discover" + (country ? ("/" + country.toLowerCase()) : "") } label="Discover" />
+          { loggedUser && <span className="Header-separator" /> }
         </div>
 
         { loggedUser ?
-          <HeaderProfile
-            onMessagesClick={  e => this.showOverlay(e, "messages")  }
-            onProfileClick={ e => this.showOverlay(e, "profile") }
-            onNotificationsClick={ e => this.showOverlay(e, "notifications") }
-            onNewShoutClick={ () => this.setState({ openNewShoutDialog: true }) }
-            loggedUser={ loggedUser }
-            unreadCount={ unreadConversations.length }
-          /> :
-          <HeaderLoggedOut />
+          <div className="Header-tools loggedIn">
+            <HeaderProfile
+              onMessagesClick={  e => this.showOverlay(e, "messages")  }
+              onProfileClick={ e => this.showOverlay(e, "profile") }
+              onNotificationsClick={ e => this.showOverlay(e, "notifications") }
+              onNewShoutClick={ () => this.setState({ openNewShoutDialog: true }) }
+              loggedUser={ loggedUser }
+              unreadCount={ unreadConversations.length }
+            />
+          </div> :
+          <div className="Header-tools loggedOut">
+            <Button to="/login" label="Log in" />
+            <Button to="/signup" label="Sign up" primary  />
+          </div>
         }
 
         { process.env.BROWSER && loggedUser && [
@@ -116,7 +120,10 @@ export default class Header extends Component {
             container={ this }
             onHide={ () => this.hideOverlay() }
             target={ () => overlayTarget }>
-              <p>Notifications</p>
+              <HeaderNotificationsOverlay
+                unreadCount={ 0 }
+                onMarkAsReadClick={ () => { }}
+              />
           </Overlay>,
 
           <Overlay rootClose arrow inverted

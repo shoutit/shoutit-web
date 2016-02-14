@@ -76,7 +76,7 @@ export default React.createClass({
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
 
     return (
-      <Grid className="homepage-holder">
+      <Grid>
           <Column size="3" clear={true}>
             <ProfileCard />
             <ListeningCard />

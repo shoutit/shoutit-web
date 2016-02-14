@@ -37,7 +37,7 @@ export default React.createClass({
 
     render() {
         return (
-            <DocumentTitle title="ShoutIt - Find The Best Deals You Can Have!">
+            <DocumentTitle title="Buy and Sell while Chatting on Shoutit!">
                 <Column className="mainpage">
                     <Grid>
                         <Element name="nav" className="mainpage-nav">
@@ -45,13 +45,13 @@ export default React.createClass({
                                 <Link to="/"><Icon name="logo" /></Link>
                             </Column>
                             <Column size="7" className="nav-right">
-                                <Link to="/login"><span className="btn-login">Login</span></Link>
-                                <Link to="/signup"><span className="btn-d">Signup</span></Link>
+                                <Link to="/login"><span className="btn-login">Log in</span></Link>
+                                <Link to="/signup"><span className="btn-d">Sign up</span></Link>
                                 <span className="btn-d">About</span>
                             </Column>
                         </Element>
                     </Grid>
-                    <Grid className="mainpage-cover" style={{backgroundImage: `url(${imagesPath}/m_cover.png)`}}>
+                    <Grid className="mainpage-cover" style={{backgroundImage: `url(${imagesPath}/m_cover.jpg)`}}>
                         <Grid fluid={true} className="mainpage-cover-opacity">
                             <Grid fluid={true} className="hero">
                                 <Column size="7" offset="2">

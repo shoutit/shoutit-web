@@ -41,7 +41,7 @@ describe("ConversationActions", () => {
 
     it("should dispatch response on failure", () => {
       sinon.stub(Request.prototype, "end", done => done(null, { ok: false }));
-      actions.loadMessages("abc", "bar");
+      actions.loadMessages("abc");
       expect(dispatch).to.have.been.calledWith(
         actionTypes.LOAD_MESSAGES_FAILURE,
         { error: { ok: false }, id: "abc" }
@@ -50,7 +50,7 @@ describe("ConversationActions", () => {
 
     it("should dispatch error on failure", () => {
       sinon.stub(Request.prototype, "end", done => done({ status: 404} ));
-      actions.loadMessages("abc", "bar");
+      actions.loadMessages("abc");
       expect(dispatch).to.have.been.calledWith(
         actionTypes.LOAD_MESSAGES_FAILURE,
         { error: { status: 404 }, id: "abc" }

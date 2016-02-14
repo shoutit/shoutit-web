@@ -15,9 +15,9 @@ export default React.createClass({
     return(
       <form onSubmit={this.onForgetSubmit}>
         <p>{this.props.res}</p>
-        <Input ref='email' type='text' placeholder='Email or username' 
+        <Input ref='email' type='text' placeholder='Email or Username'
           className='input-email' />
-        <Button style={{marginBottom: '20px'}} bsSize='large' type='submit' block 
+        <Button style={{marginBottom: '20px'}} bsSize='large' type='submit' block
           className={this.state.waiting? 'btn-signin btn-signin-disabled':'btn-signin'}>
           {this.state.waiting? 'Sending request...': 'Request password'}
         </Button>

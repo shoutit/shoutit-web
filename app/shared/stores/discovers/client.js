@@ -1,26 +1,21 @@
 import request from "superagent";
-const PREFIX = "/api/discover";
+
+const page_size = 8;
 
 export default {
-  getDiscover(query) {
-    return request
-            .get(PREFIX + "/")
-            .query({
-              country: query,
-              page_size: 8
-            });
+
+  getDiscover(countryCode) {
+    return request.get("/api/discover/").query({
+      country: countryCode.toUpperCase(),
+      page_size
+    });
   },
 
   getDiscoverList(id) {
-    return request
-            .get(PREFIX + "/" + id);
+    return request.get(`/api/discover/${id}`);
   },
 
   getDiscoverShouts(id) {
-    return request
-            .get(PREFIX + "/" + id + "/shouts")
-            .query({
-              page_size: 8
-            });
+    return request.get(`/api/discover/${id}/shouts`).query({ page_size });
   }
 };

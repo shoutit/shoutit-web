@@ -6,12 +6,17 @@ require("babel/register");
 var path = require("path");
 var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var isDevelopment = process.env.NODE_ENV === "development";
 var WebpackErrorNotificationPlugin = require("webpack-error-notification");
 var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin;
+var CopyPlugin = require("copy-webpack-plugin");
+
+var isDevelopment = process.env.NODE_ENV === "development";
+
 var context = path.join(__dirname, "./app");
 var entries = ["./client/index.js"];
 var config = require("./config");
+
+function noop() {}
 
 if (isDevelopment) {
   entries.push("webpack-hot-middleware/client");
@@ -22,9 +27,9 @@ module.exports = {
   context: context,
   entry: entries,
   output: {
-    path: path.join(__dirname, "public/assets/"),
-    filename: isDevelopment ? "main.js" : "main-[hash].js",
-    publicPath: `${config.assetsUrl}/assets/`
+    path: path.join(__dirname, "public/"),
+    filename: isDevelopment ? "main.js" : "/scripts/main-[hash].js",
+    publicPath: isDevelopment ? config.publicUrl + "/assets/" : `${config.publicUrl}`
   },
   resolve: {
     extensions: ["", ".js", ".jsx", ".scss"],
@@ -42,7 +47,10 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/,
-        loader: "file"
+        loader: "file",
+        query: isDevelopment ?  null : {
+          name: "/images/[name]-[hash].[ext]"
+        }
       },
       {
         test: /\.jsx?$/,
@@ -75,17 +83,18 @@ module.exports = {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       "process.env": {
-        SHOUTIT_ASSETS_URL: JSON.stringify(process.env.SHOUTIT_ASSETS_URL || ""),
+        SHOUTIT_GANALYTICS: JSON.stringify(process.env.SHOUTIT_GANALYTICS || ""),
+        SHOUTIT_PUBLIC_URL: JSON.stringify(process.env.SHOUTIT_PUBLIC_URL || ""),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || "development"),
         BROWSER: JSON.stringify(true)
       }
     }),
     new webpack.ContextReplacementPlugin(/buffer/, require("buffer")),
     new webpack.optimize.OccurenceOrderPlugin(),
-    new ExtractTextPlugin(isDevelopment ? "main.css" : "main-[hash].css"),
-    isDevelopment ? new webpack.HotModuleReplacementPlugin() : new Function(),
-    isDevelopment ? new webpack.NoErrorsPlugin() : new Function(),
-    isDevelopment ? new WebpackErrorNotificationPlugin() : new Function(),
+    new ExtractTextPlugin(isDevelopment ? "main.css" : "/styles/main-[contenthash].css"),
+    isDevelopment ? new webpack.HotModuleReplacementPlugin() : noop,
+    isDevelopment ? new webpack.NoErrorsPlugin() : noop,
+    isDevelopment ? new WebpackErrorNotificationPlugin() : noop,
 
     !isDevelopment ? // Write out stats.json file to build directory.
       new StatsWriterPlugin({
@@ -95,7 +104,10 @@ module.exports = {
             css: data.assetsByChunkName.main[1]
           }, null, 2);
         }
-      }) : new Function()
+      }) : noop,
+
+    !isDevelopment ?
+      new CopyPlugin([{ from: "../assets/images/", to: "./images" }]) : noop
 
   ]
 };

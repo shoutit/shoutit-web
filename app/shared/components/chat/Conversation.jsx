@@ -274,7 +274,7 @@ export default React.createClass({
         open={ showDelete }
         onRequestClose={ () => this.setState({ showDelete: false }) }
         onConfirm={() => deleteConversation(id,
-          () => this.history.pushState(null, "/chat") )
+          () => this.history.replaceState(null, "/messages") )
         }
         isDeleting={ isDeleting }
       />

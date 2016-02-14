@@ -81,12 +81,18 @@ export const actions = {
         done && done(error);
         return;
       }
-      this.dispatch(REPLY_SHOUT_SUCCESS, {
-        shoutId,
-        tempMessageId: message.id,
-        message: res.body
+      this.flux.actions.loadMessages(res.body.conversation_id, () => {
+        this.flux.actions.loadConversations(() => {
+
+          this.dispatch(REPLY_SHOUT_SUCCESS, {
+            shoutId,
+            tempMessageId: message.id,
+            message: res.body
+          });
+          done && done(null, res.body);
+
+        });
       });
-      done && done(error, res.body);
     });
     return message;
   },

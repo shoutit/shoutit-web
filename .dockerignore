@@ -7,5 +7,3 @@ test
 .eslintrc
 .gitignore
 circle.yml
-flightplan.js
-gulpfile.js

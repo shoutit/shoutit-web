@@ -7,7 +7,7 @@ if (process.env.BROWSER) {
 }
 
 export default function HeaderMessagesOverlay({ loggedUser, chat, conversations, unreadCount, onMarkAsReadClick, onItemClick }) {
-
+  const enableMarkAllAsRead = false; // wait for https://github.com/shoutit/shoutit-web/issues/98
   return (
     <div className="ListOverlay">
       <div className="ListOverlay-header">
@@ -15,7 +15,7 @@ export default function HeaderMessagesOverlay({ loggedUser, chat, conversations,
           Messages
           { unreadCount > 0 && <span> ({ unreadCount })</span> }
         </span>
-        { unreadCount > 0 ?
+        { enableMarkAllAsRead && !unreadCount > 0 ?
           <span className="ListOverlay-action" onClick={ onMarkAsReadClick }>
               Mark All As Read
           </span> : null
@@ -34,11 +34,12 @@ export default function HeaderMessagesOverlay({ loggedUser, chat, conversations,
         </div>
       }
       </div>
-      <div className="ListOverlay-footer">
+      { conversations.length > 0 && <div className="ListOverlay-footer">
         <Link to="/messages">
             See All
         </Link>
       </div>
+      }
     </div>
 
   );

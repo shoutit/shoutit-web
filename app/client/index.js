@@ -14,6 +14,8 @@ import gAnalytics from "../client/ga";
 import { setup as setupPusher } from "../client/pusher";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 
+import "babel-core/polyfill";
+
 import "styles/main.scss";
 
 injectTapEventPlugin();
@@ -22,6 +24,10 @@ window.debug = debug;
 const log = debug("shoutit");
 
 const flux = new Flux(null);
+
+flux.setDispatchInterceptor((action, dispatch) =>  {
+  ReactDOM.unstable_batchedUpdates(() => dispatch(action));
+});
 
 if (window.fluxData) {
   flux.hydrate(window.fluxData);
@@ -36,7 +42,11 @@ flux.on("dispatch", (type, payload) =>
 );
 
 facebook("353625811317277");
-const ga = gAnalytics("UA-62656831-1");
+
+let ga;
+if (process.env.SHOUTIT_GANALYTICS) {
+  ga = gAnalytics(process.env.SHOUTIT_GANALYTICS);
+}
 
 if(window.google) {
   const locationStore = flux.store("locations");
@@ -70,6 +80,8 @@ ReactDOM.render(
   document.getElementById("root"),
   () => {
     log("App has been mounted");
-    ga("send", "pageview", window.location.href);
+    if (ga) {
+      ga("send", "pageview", window.location.href);
+    }
   }
 );

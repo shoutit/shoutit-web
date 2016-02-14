@@ -10,7 +10,6 @@ import {
   REPLY_CONVERSATION,
   REPLY_CONVERSATION_SUCCESS,
   REPLY_CONVERSATION_FAILURE,
-  REPLY_SHOUT_SUCCESS,
   NEW_PUSHED_MESSAGE
 } from "../../app/shared/stores/messages/actionTypes";
 
@@ -307,29 +306,6 @@ describe("ConversationsStore", () => {
       expect(spy).to.have.been.calledWith("change");
     });
 
-
-    it("should handle a shout reply", () => {
-      const flux = initFlux({ "abc": { messageIds: ["foo", "temp"], messages_count: 2 } });
-      const store = flux.store("ConversationsStore");
-      sinon.stub(store, "waitFor", (store, done) => done());
-      const spy = sinon.spy(store, "emit");
-
-      flux.dispatcher.dispatch({
-        type: REPLY_SHOUT_SUCCESS,
-        payload: {
-          conversationId: "abc",
-          tempMessageId: "temp",
-          message: { id: "newId", created_at: 100 }
-        }
-      });
-      const conversation = store.get("abc");
-      expect(conversation.messageIds).to.eql(["foo", "newId"]);
-      expect(conversation.messages_count).to.equal(2);
-      expect(conversation.last_message).to.eql({ id: "newId", created_at: 100});
-      expect(spy).to.have.been.calledWith("change");
-    });
-
-
     it("should handle a pushed message", () => {
       const flux = initFlux({ "abc": { messageIds: ["foo"], messages_count: 1, unread_messages_count: 0 } });
       const store = flux.store("ConversationsStore");
@@ -437,7 +413,7 @@ describe("ConversationsStore", () => {
       const flux = initFlux({ "abc": { messageIds: ["foo"] } });
       const store = flux.store("ConversationsStore");
       const spy = sinon.spy(store, "emit");
-
+      sinon.stub(store, "waitFor", (store, done) => done());
       flux.dispatcher.dispatch({
         type: actionTypes.DELETE_CONVERSATION_SUCCESS,
         payload: { id: "abc" }
