@@ -95,7 +95,7 @@ export default class Header extends Component {
 
         { process.env.BROWSER && loggedUser && [
 
-          <Overlay arrow rootClose
+          <Overlay key="messages" arrow rootClose
             style={ { width: 400, marginLeft: 4  }}
             show={ overlayName === "messages" }
             placement="bottom"
@@ -113,7 +113,7 @@ export default class Header extends Component {
               />
           </Overlay>,
 
-          <Overlay arrow rootClose
+          <Overlay key="notifications" arrow rootClose
             style={ { width: 400, marginLeft: 4  }}
             show={ overlayName === "notifications" }
             placement="bottom"
@@ -126,7 +126,7 @@ export default class Header extends Component {
               />
           </Overlay>,
 
-          <Overlay rootClose arrow inverted
+          <Overlay key="profile" rootClose arrow inverted
             placement="bottom"
             container={ this }
             style={ { width: 200, marginLeft: 10 }}
@@ -140,6 +140,7 @@ export default class Header extends Component {
           </Overlay>,
 
           <Dialog
+            key="newShout"
             open={ openNewShoutDialog }
             autoDetectWindowHeight={true}
             autoScrollBodyContent={true}
