@@ -3,8 +3,8 @@ import { Link } from "react-router";
 import {Icon, Column, Grid, Progress} from '../helper';
 import TagListenButton from '../general/tagListenButton.jsx';
 
-const TagsCard = (props, context) => {
-  const {loading, tags} = props;
+export default function TagsCard(props){
+  const {loading, tags, flux} = props;
 
   return (
     <section className="si-card">
@@ -24,7 +24,7 @@ const TagsCard = (props, context) => {
                 <Link to={`/tag/${tag.name}`}>{ tag.name }</Link>
               </Column>
               <Column fluid={true} size="3">
-                <TagListenButton hasTitle={false} tag={tag} flux={context.flux}/>
+                <TagListenButton hasTitle={ false } tag={ tag } flux={ flux }/>
               </Column>
             </Grid>
           );
@@ -32,11 +32,4 @@ const TagsCard = (props, context) => {
       }
     </section>
   );
-};
-
-// Getting flux from context
-TagsCard.contextTypes = {
-  flux: React.PropTypes.object
-};
-
-export default TagsCard;
+}

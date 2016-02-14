@@ -87,6 +87,7 @@ export default React.createClass({
           </Column>
           <Column size="3">
             <TagsCard
+              flux={flux}
               tags={ JSON.parse(JSON.stringify(tagsData)) }
               loading={ suggestions.data && suggestions.data.tags.loading }
             />
