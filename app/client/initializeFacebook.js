@@ -4,12 +4,20 @@ import debug from "debug";
 
 const log = debug("shoutit:facebook");
 
+let appId;
+let version;
+if (process.env.NODE_ENV === "development") {
+  appId = "353625811317277";
+  version = "v2.0";
+}
+else {
+  appId = "353625811317277";
+  version = "v2.0";
+}
+
 window.fbAsyncInit = function() {
   log("Facebook SDK has been loaded.");
-  window.FB.init({
-    appId      : "353625811317277",
-    version    : "v2.5"
-  });
+  window.FB.init({ appId, version });
   log("Facebook has been initialized.");
 };
 
