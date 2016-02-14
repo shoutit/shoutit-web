@@ -245,7 +245,7 @@ export const ConversationsStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  handleMarkAsReadFailure({ id, error }) {
+  handleMarkAsReadFailure() {
     this.emit("change");
   },
 
@@ -274,7 +274,7 @@ export const ConversationsStore = Fluxxor.createStore({
   },
 
   handleLogout() {
-    this.state = initialState;
+    this.state = {...initialState};
     this.emit("change");
   },
 

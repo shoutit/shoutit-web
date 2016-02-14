@@ -70,7 +70,6 @@ describe("Button", () => {
     shallowRenderer.render(<Button leftIcon={ <p>foo</p> }>bar</Button>);
 
     const output = shallowRenderer.getRenderOutput();
-    expect(output.props.className).to.include("with-left-icon");
     expect(output.props.children[0].type).to.equal("span");
     expect(output.props.children[0].props.className).to.equal("Button-icon");
     expect(output.props.children[1]).to.equal("bar");
