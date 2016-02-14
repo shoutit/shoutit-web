@@ -28,14 +28,15 @@ export default function shoutOwnerCard(props) {
             <Separator />
             {shout.user.username !== loggedUsername && users[shout.user.username] ?
               <div>
-                <Column fluid={true} clear={true} size="5" className="owner-contact-action">
+                <Column fluid={true} clear={true} size="7" className="owner-contact-action">
                   <ListenersButton user={ users[shout.user.username] }/>
                 </Column>
-                <Column fluid={true} size="5" className="owner-contact-action">
+                {/*<Column fluid={true} size="5" className="owner-contact-action">
                   <Icon name="message"/>
                   Message
                 </Column>
-                <Column fluid={true} size="5" className="owner-contact-action">
+                */}
+                <Column fluid={true} size="7"  className="owner-contact-action">
                   <ListenButton flux={ flux } username={ shout.user.username }/>
                 </Column>
                 <Separator />
