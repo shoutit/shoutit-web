@@ -16,6 +16,7 @@ import Page from "./components/profile/page/pageProfile.jsx";
 import Profile from "./components/profile/profile.jsx";
 import ProfileContainer from "./components/profile/profileContainer.jsx";
 import Reduced from "./components/reduced/reduced.jsx";
+import SearchContainer from "./components/search/searchContainer.jsx";
 import Search from "./components/search/search.jsx";
 import ShoutContainer from "./components/shout/shoutContainer.jsx";
 import Shout from "./components/shout/shoutDetail.jsx";
@@ -41,9 +42,6 @@ const routes = (
         component={ new FeedListContainer("offer") } />
       <Route path="/requests/:country/:state/:city(/:page)"
         component={ new FeedListContainer("request")} />
-      <Route path="/search/:shouttype/:category(/:term)" component={ Search }>
-        <IndexRoute component={ Search }/>
-      </Route>
       <IndexRoute component={ new FeedListContainer("all") }/>
     </Route>
     <Route component={ ShoutContainer } >
@@ -63,6 +61,9 @@ const routes = (
     <Route path="/discover/:country" component={ DiscoverHome }>
       <Route path="/discover/:country/:pk" component={ DiscoverPage} />
       <IndexRoute component={ Discover} />
+    </Route>
+    <Route path="/search/:shouttype/:category(/:term)" component={ SearchContainer }>
+      <IndexRoute component={ Search }/>
     </Route>
     <Route path="/messages" component={ Chat  }>
       <Route path="/messages/:id" component={ Conversation } />
