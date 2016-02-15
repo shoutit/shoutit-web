@@ -3,7 +3,7 @@ import {Grid, Column} from '../helper';
 
 import { imagesPath } from "../../../../config";
 
-var defaultDiscoverCoverImage = `${imagesPath}/pattern.png`;
+var defaultDiscoverCoverImage = `${imagesPath}/pattern@2x.png`;
 
 var CoverImage = (props) => {
     const image = props.image || defaultDiscoverCoverImage;
@@ -12,7 +12,7 @@ var CoverImage = (props) => {
     };
     return (
         <Grid fluid={true} style={style} className="discover-cover">
-            <div className={image? "title with-image": "title"}>
+            <div className={props.image? "title with-image": "title"}>
                 {props.title}
             </div>
         </Grid>
