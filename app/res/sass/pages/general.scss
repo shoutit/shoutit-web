@@ -490,3 +490,18 @@ button {
     margin: 0 auto;
   }
 }
+
+
+.tooltip {
+  opacity: 1;
+}
+//
+// .tooltip-inner {
+//   background-color: lighten($si-light-gray2, 15%);
+//   color: $si-gray;
+//   border-radius: 20px;
+//   font-size: 1.5rem;
+// }
+// .tooltip.bottom .tooltip-arrow {
+//   border-bottom-color: lighten($si-light-gray2, 15%);
+// }

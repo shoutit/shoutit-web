@@ -1,15 +1,30 @@
 import React from "react";
 import { Input } from "react-bootstrap";
-import UserImage from "../user/userImage.jsx";
-import { Icon } from "../helper";
+
+import SVGIcon from "../../components/helper/SVGIcon";
+import UserAvatar from "../../components/helper/UserAvatar.jsx";
+
 import { StoreWatchMixin } from "fluxxor";
 import { History } from "react-router";
+
+if (process.env.BROWSER) {
+  require("styles/components/ReplyShoutForm.scss");
+}
+
+// TODO: pass logged user as prop (gpbl)
+// TODO: logic to check if logged user is defined should go up in the tree (gpbl)
 
 export default React.createClass({
 
   displayName: "ReplyShoutForm",
 
   mixins: [ StoreWatchMixin("users"), History],
+
+  getInitialState() {
+    return {
+      loading: false
+    };
+  },
 
   getStateFromFlux() {
     const usersStore = this.props.flux.store("users");
@@ -18,15 +33,33 @@ export default React.createClass({
     return { loggedUser, users };
   },
 
-  submit() {
-    const { loggedUser } = this.state;
+  handleFormSubmit(e) {
+    e.preventDefault();
+
     const { shout } = this.props;
-    const text = this.refs.form.text.value.trim();
+    const { loading, loggedUser } = this.state;
+    const { form } = this.refs;
+
+    const text = form.text.value.trim();
+    if (!text) {
+      form.text.focus();
+      return;
+    }
+
+    form.text.blur();
+
+    if (loading) {
+      return;
+    }
+
+    this.setState({ loading: true });
+
     this.props.flux.actions.replyToShout(
       loggedUser,
       shout.id,
       text,
       (error, message) => {
+        this.setState({ loading: false });
         if (error) {
           throw(error);
         }
@@ -38,17 +71,25 @@ export default React.createClass({
   render() {
     const { shout } = this.props;
     const { loggedUser } = this.state;
+
+    if (!loggedUser || (shout.user.username === loggedUser.username)) {
+      return null;
+    }
+
     return (
-      <div>
-      { loggedUser && shout.user.username !== loggedUser.username &&
-        <div className="shout-footer">
-          <UserImage image={loggedUser.image} type="square" height={36} width={36}/>
-          <form ref="form" onSubmit={ e => { e.preventDefault(); this.submit(); }}>
-            <Input autoComplete="off" name="text" type="text" placeholder="Reply to shout…"/>
-            <Icon name="send" onSwitchClick={ () => this.submit() } className="shout-send" />
-          </form>
-        </div>
-      }
+      <div className="ReplyShoutForm">
+        <span className="ReplyShoutForm-avatar">
+          <UserAvatar src={loggedUser.image} clip />
+        </span>
+        <form ref="form" className="ReplyShoutForm-form" onSubmit={ e => this.handleFormSubmit(e) }>
+          <Input
+            name="text"
+            autoComplete="off"
+            type="text"
+            placeholder="Reply to this shout…"
+          />
+          <SVGIcon className="ReplyShoutForm-btn" name="send" hover onClick={ e => this.handleFormSubmit(e) } />
+        </form>
       </div>
     );
   }

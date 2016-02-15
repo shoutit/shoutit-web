@@ -1,6 +1,8 @@
 import React from "react";
 import {StoreWatchMixin} from "fluxxor";
 import {Link} from "react-router";
+import currencyFormatter from "currency-formatter";
+
 import TagList from "../../../general/tagList.jsx";
 import Separator from "../../../general/separator.jsx";
 import {Image, Icon} from "../../../helper";
@@ -54,13 +56,7 @@ export default React.createClass({
         <ItemProp property="offers">
           <div className="price-offer">
             <div className="price">
-              <ItemProp property="price">
-                <span>{shout.price}</span>
-              </ItemProp>
-              &nbsp;
-              <ItemProp property="priceCurrency" content={shout.origCurrency}>
-                <span>{shout.currency}</span>
-              </ItemProp>
+              { currencyFormatter.format(shout.price/100, { code: shout.currency } )}
             </div>
           </div>
         </ItemProp>
@@ -176,7 +172,7 @@ export default React.createClass({
           </Link>
         </div>
         <span className="shout-price">
-          {currencySign}&nbsp;{shout.price}
+          { currencyFormatter.format(shout.price/100, { code: shout.origCurrency } )}
         </span>
 
         <div className="body-holder">

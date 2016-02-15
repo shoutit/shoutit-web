@@ -1,6 +1,6 @@
 @import "../_flexbox.scss";
 @import "../colors.scss";
-$border-radius: 0.5em;
+$border-radius: 5px;
 
 .MessageItem {
   font-size: 0.875em;
@@ -14,36 +14,14 @@ $border-radius: 0.5em;
     margin-right: 10px;
   }
 
-  &.end .MessageItem-wrapper {
+  &.end .MessageItem-text {
     background-color: $background-color-alt;
     border: 1px solid $border-color-alt;
   }
-  &.start .MessageItem-wrapper {
+
+  &.start .MessageItem-text {
     background-color: white;
     border: 1px solid $border-color;
-  }
-
-  &.start .MessageItem-wrapper  {
-    border-top-right-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
-
-  }
-  &.start:first-child .MessageItem-wrapper {
-    border-top-left-radius: $border-radius;
-  }
-  &.start:last-child .MessageItem-wrapper {
-    border-bottom-left-radius: $border-radius;
-  }
-
-  &.end .MessageItem-wrapper  {
-    border-top-left-radius: $border-radius;
-    border-bottom-left-radius: $border-radius;
-  }
-  &.end:first-child  .MessageItem-wrapper {
-    border-top-right-radius: $border-radius;
-  }
-  &.end:last-child  .MessageItem-wrapper {
-    border-bottom-right-radius: $border-radius;
   }
 
   &.didError .MessageItem-wrapper {
@@ -57,11 +35,31 @@ $border-radius: 0.5em;
   display: inline-block;
   min-width: 25%;
   max-width: 75%;
-  padding: 5px 10px;
+}
 
+.MessageItem-attachment {
+  margin-top: 5px;
+}
+
+.MessageItem-text {
+  padding: 5px 10px;
+  border-radius: $border-radius;
   p {
     font-size: 1em;
     margin: 0;
+  }
+}
+
+.MessageItem-attachments {
+  > .MessageItem-footer {
+    margin: 5px 10px;
+  }
+  + .MessageItem-text {
+    margin-top: 5px;
+  }
+  .ShoutItem {
+    border: 1px solid $border-color;
+    box-shadow: none;
   }
 }
 
@@ -72,6 +70,7 @@ $border-radius: 0.5em;
   color: #999;
   margin: 1em;
 }
+
 
 .MessageItem-footer {
   font-size: 0.65em;
