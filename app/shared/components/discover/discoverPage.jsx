@@ -110,10 +110,10 @@ export default React.createClass({
   },
 
   renderViewportSensor() {
-    const { discoverShouts } = this.state;
-    const { pk } = this.props;
+    const { shouts } = this.state;
+    const disId = this.props.pk || this.props.params.pk;
 
-    if(!discoverShouts[pk].loading) {
+    if(shouts[disId] && !shouts[disId].loading) {
       return (
         <Grid fluid={true}>
           <ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
