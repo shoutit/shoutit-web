@@ -10,9 +10,6 @@ require("babel/register");
 // Prevent issues with libraries using this var (see http://tinyurl.com/pcockwk)
 delete process.env.BROWSER;
 
-var debug = require("debug");
-var log = debug("shoutit:server");
-
 var config = require("./config");
 
 var express = require("express");
@@ -57,5 +54,5 @@ var port = process.env.PORT || "3000";
 
 app.listen(port, function () {
   console.log();
-  log("Server is now listening to localhost:%s...", port);
+  console.log("Server is now listening to localhost:%s...", port);
 });
