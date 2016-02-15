@@ -1,9 +1,21 @@
 import React from 'react';
+import { Link } from "react-router";
+import { Grid, Column, Progress } from "../helper";
 
 export default React.createClass({
   displayName: 'explore',
 
-  pickCategories() {
+  getInitialState() {
+    return {
+      cats: []
+    };
+  },
+
+  componentDidMount() {
+    this.loadCategories();
+  },
+
+  loadCategories() {
     let cats = this.props.categories;
 
     if (cats.length) {
@@ -25,43 +37,46 @@ export default React.createClass({
       for (let i = 0; i < 6; i++) {
         picked.push(cats[codes[i]]);
       }
-      return picked;
-    } else {
-      return [];
+      this.setState({cats: picked});
     }
   },
 
   renderExplore() {
-    let picked = this.pickCategories();
+    const { cats } = this.state;
 
-    if (picked.length) {
+    if (cats.length) {
       return (
-        picked.map(function (item, idx) {
+        cats.map(function (item, idx) {
           // clear every three item
-          let className = idx % 3 === 0 ? 'clear grid-3' : 'grid-3';
+
           return (
-            <div key={idx} className={className}>
+            <Column size="3" clear={ idx % 3 === 0 } key={`main-explore-${idx}`}>
               <div className="si-item-box">
-                <div className="img" style={{backgroundImage:`url(${item.main_tag.image})`}}></div>
-                <h3>{item.name}</h3>
+                <Link to={`/tag/${item.slug}`}>
+                  <div className="img" style={{backgroundImage:`url(${item.main_tag.image})`}}></div>
+                </Link>
+                <Link className="subtitle" to={`/tag/${item.slug}`}>{item.name}</Link>
               </div>
-            </div>
+            </Column>
           );
         })
       );
     } else {
-      <div>Loading</div>
+      return  <Progress /> ;
     }
   },
+
 
 
   render() {
 
     return (
-      <div className="grid-9 offset-3">
-        <h2>Explore Shouts</h2>
-        {this.renderExplore()}
-      </div>
+      <Grid>
+        <Column offset="3" size="9">
+          <h2>Explore Shouts</h2>
+          {this.renderExplore()}
+        </Column>
+      </Grid>
     );
   }
 });

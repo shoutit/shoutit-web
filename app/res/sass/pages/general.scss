@@ -204,7 +204,9 @@ button {
     overflow: hidden;
   }
   h3, .subtitle {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
+    transition: 0.2s all;
+    line-height: 3;
     margin: 10px 22px;
   }
 }
