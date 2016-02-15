@@ -49,7 +49,10 @@ var DiscoverStore = Fluxxor.createStore({
       consts.LOAD_DISCOVER_WITH_ID_FAIL, this.onLoadDiscoverWithIdFail,
       consts.LOAD_DISCOVER_SHOUTS, this.onLoadDiscoverShouts,
       consts.LOAD_DISCOVER_SHOUTS_SUCCESS, this.onLoadDiscoverShoutsSuccess,
-      consts.LOAD_DISCOVER_SHOUTS_FAIL, this.onLoadDiscoverShoutsFail
+      consts.LOAD_DISCOVER_SHOUTS_FAIL, this.onLoadDiscoverShoutsFail,
+      consts.LOAD_MORE_DISCOVER_SHOUTS, this.onLoadMoreDiscoverShouts,
+      consts.LOAD_MORE_DISCOVER_SHOUTS_SUCCESS, this.onLoadMoreDiscoverShoutsSuccess,
+      consts.LOAD_MORE_DISCOVER_SHOUTS_FAIL, this.onLoadMoreDiscoverShoutsFail
     );
   },
 
@@ -148,6 +151,29 @@ var DiscoverStore = Fluxxor.createStore({
     this.emit("change");
   },
 
+  onLoadMoreDiscoverShouts({ id }) {
+    this.state.shouts[id].loading = true;
+    this.emit("change");
+  },
+
+  onLoadMoreDiscoverShoutsSuccess({ id, res }) {
+    // Waiting for the shouts store to handle and store the shouts data
+    this.waitFor(["shouts"], () => {
+      this.state.shouts[id].loading = false;
+      this.state.shouts[id].next = this.parseNextPage(res.next);
+
+      // save the list of shouts id in this store
+      const stock = this.state.shouts[id].list;
+      this.state.shouts[id].list = [...stock, ...res.results.map((item) => item.id)];
+      this.emit("change");
+    });
+  },
+
+  onLoadMoreDiscoverShoutsFail({ id }) {
+    this.state.shouts[id].loading = false;
+    this.emit("change");
+  },
+
   parseNextPage(nextUrl) {
     if (nextUrl) {
       let parsed = url.parse(nextUrl, true);
@@ -166,6 +192,10 @@ var DiscoverStore = Fluxxor.createStore({
 
   getState() {
     return this.state;
+  },
+
+  getShoutsState(id) {
+    return this.state.shouts[id];
   }
 });
 
