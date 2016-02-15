@@ -1,17 +1,18 @@
+/* eslint no-console: 0 */
 
-
-module.exports = function (client) {
-  return function (req, res) {
-    client.geocode(req.session, req.query)
-            .on("success", function (data) {
-              res.json(data);
-            })
-            .on("fail", function (data, resp) {
-              res.status(resp.statusCode).json(data);
-            })
-            .on("error", function (err) {
-              console.error(err);
-              res.status(500).send(err);
-            });
+export default function(client) {
+  return (req, res) => {
+    const options = {
+      headers: {
+        "X-Forwarded-For": req.connection.remoteAddress
+      }
+    };
+    client.geocode(req.session, req.query, options)
+      .on("success", data => res.json(data))
+      .on("fail", (data, response) => res.status(response.statusCode).json(data))
+      .on("error", (err) => {
+        console.error(err);
+        res.status(500).send(err);
+      });
   };
-};
+}
