@@ -71,7 +71,7 @@ let LocationsStore = Fluxxor.createStore({
 
     // wait for user location to provide location if already saved
     this.waitFor(["users"], () => {
-      if (isLocAvailable() === false && process.env.BROWSER) {
+      if (isLocAvailable() === false) {
         // acquring user location from shoutit geocoding API
         client.geocode(lat, lng)
           .end((err, res) => {
