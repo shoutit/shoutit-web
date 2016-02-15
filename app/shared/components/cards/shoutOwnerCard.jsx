@@ -1,10 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {Icon, Grid, Column, Flag, Progress} from '../helper';
+import {Icon, Grid, Column, Progress} from '../helper';
 import Separator from '../general/separator.jsx';
 import UserImage from '../user/userImage.jsx';
 import ListenButton from "../general/listenButton.jsx";
 import ListenersButton from "../general/listenersButton.jsx";
+import CountryFlag from "../helper/CountryFlag";
+
 import moment from "moment";
 
 export default function shoutOwnerCard(props) {
@@ -21,7 +23,7 @@ export default function shoutOwnerCard(props) {
           </Column>
           <Column fluid={true} size="11" className="owner-info-right">
             <Link to="">{ shout.user.name }</Link>
-            <Flag country={ shout.location.country } size="16"/>
+            <CountryFlag code={ shout.location.country } />
             <span>{ shout.location.city }</span>
           </Column>
           <div className="holder">

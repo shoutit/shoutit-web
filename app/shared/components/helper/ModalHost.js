@@ -18,12 +18,12 @@ export default class ModalHost extends React.Component {
         <LoginDialog
           {...props}
           open={ showLogin }
-          onRequestClose={ () => {  console.info("requestclose"); history.pushState(null, location.pathname === "/login" ? "/" : location.pathname) }}
+          onRequestClose={ () => history.pushState(null, location.pathname === "/login" ? "/" : location.pathname) }
         />
         <SignupDialog
           {...props}
           open={ showSignup }
-          onRequestClose={ () => { console.info("requestclose"); history.pushState(null, location.pathname === "/signup" ? "/" : location.pathname); }}
+          onRequestClose={ () => history.pushState(null, location.pathname === "/signup" ? "/" : location.pathname) }
         />
         { React.cloneElement(children, props) }
       </div>

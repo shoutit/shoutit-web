@@ -2,11 +2,12 @@
   display: inline-block;
   width: 24px;
   height: 24px;
+  text-align: center;
 
   img {
-    height: inherit;
-    width: inherit;
-    border-radius: 12px;
+    height: 18px;
+    width: 18px;
+    border-radius: 9px;
   }
 
   &.size-medium {
@@ -16,7 +17,7 @@
       border-radius: 24px;
     }
   }
-  
+
   &.size-large {
     width: 64px;
     height: 64px;

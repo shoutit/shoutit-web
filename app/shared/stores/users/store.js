@@ -306,6 +306,8 @@ var UserStore = Fluxxor.createStore({
           } else {
             let loggedUser = res.body;
             if (typeof loggedUser.username !== "undefined") {
+              // keeping the login type here
+              loggedUser.loggedInWith = payload.type;
               this.state.users[loggedUser.username] = loggedUser;
               this.state.user = loggedUser.username;
               this.state.loggingIn = false;
@@ -740,29 +742,28 @@ var UserStore = Fluxxor.createStore({
     let current = this.state.listens[username].tags.next;
 
     if(current) {
+
       client.getTags(username, {page: current})
         .end((err, res) => {
           if (err) {
             console.log(err);
-          } else {
-            let next = this.parseNextPage(res.body.next);
-
-            let stock = this.state.listens[username].tags.list;
-            let list = res.body.tags.map(item => item.name);
-            stock = [...stock, ...list];
-
-            this.state.listens[username].tags.list = stock;
-            this.state.listens[username].tags.next = next;
-
-            // add tags to tag store
-            this.flux.store("tags").addTags(res.body.tags);
-
-            this.state.loading = false;
-            this.emit("change");
+            return;
           }
+          let next = this.parseNextPage(res.body.next);
+          let stock = this.state.listens[username].tags.list;
+          let list = res.body.tags.map(item => item.name);
+          stock = [...stock, ...list];
+
+          this.state.listens[username].tags.list = stock;
+          this.state.listens[username].tags.next = next;
+
+          // add tags to tag store
+          this.flux.store("tags").addTags(res.body.tags);
+
           this.state.loading = false;
           this.emit("change");
         });
+
       this.state.loading = true;
       this.emit("change");
     }
@@ -906,10 +907,17 @@ var UserStore = Fluxxor.createStore({
 
   onLoadUserSuccess(payload) {
     const {username, res} = payload;
+    let userShouts = this.state.shouts[username];
+    let listensShouts = this.state.listens[username];
 
     this.state.users[username] = res;
-    this.state.shouts[username] = initUserShoutEntry();
-    this.state.listens[username] = initUserListenEntry();
+
+    if (!userShouts) {
+      userShouts = initUserShoutEntry();
+    }
+    if (!listensShouts) {
+      listensShouts = initUserListenEntry();
+    }
     this.onLoadUserListeners(payload);
     this.onLoadUserListening(payload);
 
