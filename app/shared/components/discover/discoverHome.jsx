@@ -1,6 +1,5 @@
 import React from 'react';
 import {Grid, Column} from '../helper';
-import RightBoard from './rightboard.jsx';
 
 export default React.createClass({
   displayName: "DiscoverHome",
@@ -28,7 +27,7 @@ export default React.createClass({
             { React.cloneElement(this.props.children, {flux, params}) }
           </Column>
           <Column size="3">
-            <RightBoard />
+
           </Column>
         </Grid>
       </div>
