@@ -65,7 +65,6 @@ export default React.createClass({
   },
 
   renderSubtitle(shout) {
-    console.log(shout.category);
     const link = shout.user.is_activated ?
       <Link to="user" params={{username: encodeURIComponent(shout.user.username)}}>
         {shout.user.name}
