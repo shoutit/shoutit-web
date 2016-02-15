@@ -7,14 +7,19 @@ if (process.env.BROWSER) {
 
 export default function ShoutItem({
   shout,
+  horizontal=false,         // show item horizontally
   shadow=false,             // add a shadow
   outline=false,            // outline with a border
   thumbnailRatio=4/3,       // 4/3, 16/9 etc.
-  alwaysShowThumbnail=false // show thumbnail also when not available
+  alwaysShowThumbnail=false // show thumbnail also when not available (only when horizontal is false)
 }) {
   const { price, currency: code, title, user, thumbnail } = shout;
 
   let className = "ShoutItem";
+  if (horizontal) {
+    alwaysShowThumbnail = true;
+    className += " horizontal";
+  }
   if (outline) {
     className += " outline";
   }
@@ -30,9 +35,9 @@ export default function ShoutItem({
     thumbnailStyle = {
       backgroundImage: `url("${thumbnail}")`
     };
-    thumbWrapperStyle = {
+    thumbWrapperStyle = !horizontal ? {
       paddingBottom: `${100/thumbnailRatio}%`
-    };
+    } : null;
   }
 
   return (
