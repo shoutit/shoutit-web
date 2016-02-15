@@ -131,6 +131,9 @@ $size-large: 36px;
   .SVGIcon.active .SVGIcon-icon.camera {
     background-image: url("../../../../assets/icons/camera-active.svg");
   }
+  .SVGIcon.fill .SVGIcon-icon.camera {
+    background-image: url("../../../../assets/icons/camera-fill.svg");
+  }
 
 .SVGIcon-icon.clock {
   background-image: url("../../../../assets/icons/clock.svg");
@@ -272,6 +275,17 @@ $size-large: 36px;
   .SVGIcon.hover:hover .SVGIcon-icon.more,
   .SVGIcon.active .SVGIcon-icon.more {
     background-image: url("../../../../assets/icons/more-active.svg");
+  }
+
+.SVGIcon-icon.no-camera {
+  background-image: url("../../../../assets/icons/no-camera.svg");
+}
+  .SVGIcon.hover:hover .SVGIcon-icon.no-camera,
+  .SVGIcon.active .SVGIcon-icon.no-camera {
+    background-image: url("../../../../assets/icons/no-camera-active.svg");
+  }
+  .SVGIcon.fill .SVGIcon-icon.no-camera {
+    background-image: url("../../../../assets/icons/no-camera-fill.svg");
   }
 
 .SVGIcon-icon.pencil {
