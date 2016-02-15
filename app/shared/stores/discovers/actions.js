@@ -52,5 +52,26 @@ export default {
     });
 
     this.dispatch(consts.LOAD_DISCOVER_SHOUTS, {id});
+  },
+
+  loadMoreDiscoverShouts(id) {
+    const { next } = this.flux.store("discovers").getShoutsState(id);
+
+    if(next) {
+      client.getDiscoverShouts(id, {
+        page: next
+      }).end((err, res) => {
+        if(err) {
+          this.dispatch(consts.LOAD_MORE_DISCOVER_SHOUTS_FAIL, { id });
+        } else {
+          this.dispatch(consts.LOAD_MORE_DISCOVER_SHOUTS_SUCCESS, {
+            id,
+            res: res.body
+          });
+        }
+      });
+
+      this.dispatch(consts.LOAD_MORE_DISCOVER_SHOUTS, { id });
+    }
   }
 };

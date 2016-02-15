@@ -20,13 +20,8 @@ export default React.createClass({
         }
     },
 
-    contextTypes: {
-        params: React.PropTypes.object,
-        flux: React.PropTypes.object
-    },
-
     getStateFromFlux() {
-        const disStore = this.context.flux.store("discovers").getState();
+        const disStore = this.props.flux.store("discovers").getState();
         return {
             loading: disStore.loading,
             countries: disStore.countries,
@@ -36,8 +31,8 @@ export default React.createClass({
     },
 
     componentDidMount() {
-        const {country} = this.context.params;
-        const {flux} = this.context;
+        const {country} = this.props.params;
+        const {flux} = this.props;
 
         if(this.state.countries && !this.state.countries[country]) {
             flux.actions.loadDiscoverWithCode(country);
@@ -53,13 +48,14 @@ export default React.createClass({
     },
 
     renderDiscoverPage(id) {
+      const { flux, params } = this.props;
         return (
-            <DiscoverPage pk={id} />
+            <DiscoverPage flux={ flux } params={ params } pk={ id } />
         )
     },
 
     render() {
-        const {country} = this.context.params,
+        const {country} = this.props.params,
               {countries, discovers, loading} = this.state,
               disId = countries? countries[country]: null,
               discover = disId && discovers? discovers[disId]: null;

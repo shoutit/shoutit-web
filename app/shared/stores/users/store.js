@@ -907,10 +907,17 @@ var UserStore = Fluxxor.createStore({
 
   onLoadUserSuccess(payload) {
     const {username, res} = payload;
+    let userShouts = this.state.shouts[username];
+    let listensShouts = this.state.listens[username];
 
     this.state.users[username] = res;
-    this.state.shouts[username] = initUserShoutEntry();
-    this.state.listens[username] = initUserListenEntry();
+
+    if (!userShouts) {
+      userShouts = initUserShoutEntry();
+    }
+    if (!listensShouts) {
+      listensShouts = initUserListenEntry();
+    }
     this.onLoadUserListeners(payload);
     this.onLoadUserListening(payload);
 

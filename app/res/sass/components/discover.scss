@@ -1,6 +1,7 @@
 .discover-cover {
   position: relative;
-  background-size: cover;
+  background-size: 60%;
+  background-color: #ffffff;
   height: 150px;
   border-radius: 8px;
   margin-bottom: 20px;
@@ -8,7 +9,7 @@
   .title {
     display: inline-block;
     padding: 5px 30px;
-    margin-top: 50px;
+    margin-top: 45px;
     font-size: 3.4rem;
     font-weight: 700;
     line-height: 50px;

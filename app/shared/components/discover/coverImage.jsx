@@ -1,8 +1,9 @@
 import React from 'react';
 import {Grid, Column} from '../helper';
 
-// TODO: Change it to shoutit default cover (for discover page)
-var defaultDiscoverCoverImage = 'http://luminous-landscape.com/articleImages/KWR_Home_Page_Images/Whats_New_Images/V10-DSF1668-Flat.jpg'
+import { imagesPath } from "../../../../config";
+
+var defaultDiscoverCoverImage = `${imagesPath}/pattern@2x.png`;
 
 var CoverImage = (props) => {
     const image = props.image || defaultDiscoverCoverImage;
@@ -11,11 +12,11 @@ var CoverImage = (props) => {
     };
     return (
         <Grid fluid={true} style={style} className="discover-cover">
-            <div className={image? "title with-image": "title"}>
+            <div className={props.image? "title with-image": "title"}>
                 {props.title}
             </div>
         </Grid>
     );
-}
+};
 
 export default CoverImage;
