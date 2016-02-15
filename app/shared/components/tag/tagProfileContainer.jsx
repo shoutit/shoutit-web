@@ -92,11 +92,13 @@ export default React.createClass({
       <Grid >
         <Column size="3" clear={true}>
           <TagProfileCard params={params} flux={flux} {...this.state.tags}/>
-          <RelatedTagsCard
-            tags={ relatedTagsData }
-            loading={ tag && tag.related.loading }
-            flux={ flux }
-          />
+          {tag && !tag.related.err &&
+            <RelatedTagsCard
+              tags={ relatedTagsData }
+              loading={ tag && tag.related.loading }
+              flux={ flux }
+            />
+          }
         </Column>
         <Column size="9">
           { React.cloneElement(this.props.children, { ...this.state.tags, tagName }) }
