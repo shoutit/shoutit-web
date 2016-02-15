@@ -1,7 +1,8 @@
 import React, { PropTypes, Component } from "react";
-import Dialog from "material-ui/lib/dialog";
-import FlatButton from "material-ui/lib/flat-button";
+import { Modal } from "react-bootstrap";
+
 import Progress from "../helper/Progress";
+import Button from "../helper/Button";
 import ShoutItem from "../shout/ShoutItem";
 
 export default class UserShoutsSelectDialog extends Component {
@@ -47,7 +48,7 @@ export default class UserShoutsSelectDialog extends Component {
       this.setState({
         selected: [],
         shouts: user.username !== prevProps.user.username ? [] : this.state.shouts
-      })
+      });
     }
   }
 
@@ -81,40 +82,40 @@ export default class UserShoutsSelectDialog extends Component {
   render() {
     const { open, onRequestClose, onSelectionConfirm, buttonLabel } = this.props;
     const { selected, loading, shouts } = this.state;
-    const actions = [
-      <FlatButton key="cancel" secondary label="Cancel" onTouchTap={ onRequestClose } />,
-      <FlatButton key="submit" primary disabled={ selected.length === 0 }
-          label={ buttonLabel }
-          onTouchTap={ () => onSelectionConfirm(selected) }
-      />
-    ];
     return (
-      <Dialog modal={ false }
-        onRequestClose={ onRequestClose }
-        title="Attach a shout"
-        open={ open }
-        actions={ actions }>
+      <Modal show={ open } onHide={ onRequestClose }>
+        <Modal.Header>
+          <Modal.Title>Attach a shout</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+          { shouts.map(shout =>
+            <div key={shout.id}>
+              <input
+                onChange={ e => this.handleSelectionChange(e.target.checked, shout) }
+                type="checkbox"
+                id={`UserShoutsSelectDialog${shout.id}`}
+                value={ shout.id }
+                name="shoutIds"
+              />
+              <label htmlFor={`UserShoutsSelectDialog${shout.id}`}>
+                <ShoutItem horizontal shout={ shout } />
+              </label>
+            </div>
+          )}
+          </form>
 
-        <form>
-        { shouts.map(shout =>
-          <div key={shout.id}>
-            <input
-              onChange={ e => this.handleSelectionChange(e.target.checked, shout) }
-              type="checkbox"
-              id={`UserShoutsSelectDialog${shout.id}`}
-              value={ shout.id }
-              name="shoutIds"
-            />
-            <label htmlFor={`UserShoutsSelectDialog${shout.id}`}>
-              <ShoutItem { ...shout} />
-            </label>
-          </div>
-        )}
-        </form>
-
-        { loading && shouts.length === 0 && <Progress /> }
-
-      </Dialog>
+              { loading && shouts.length === 0 && <Progress /> }
+        </Modal.Body>
+        <Modal.Footer>
+           <Button label="Cancel" onClick={ onRequestClose}  />
+           <Button
+              disabled={ selected.length === 0}
+              label={ buttonLabel }
+              primary
+              onClick={() => { selected.length > 0 ? onSelectionConfirm(selected) : null; } } />
+        </Modal.Footer>
+      </Modal>
     );
   }
 }

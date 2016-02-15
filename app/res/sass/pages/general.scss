@@ -204,8 +204,10 @@ button {
     overflow: hidden;
   }
   h3, .subtitle {
-    font-size: 1.8rem;
-    margin: 10px 22px;
+    font-size: 1.65rem;
+    transition: 0.2s all;
+    margin: 10px 20px;
+    float: left;
   }
 }
 /* Search */
@@ -488,3 +490,18 @@ button {
     margin: 0 auto;
   }
 }
+
+
+.tooltip {
+  opacity: 1;
+}
+//
+// .tooltip-inner {
+//   background-color: lighten($si-light-gray2, 15%);
+//   color: $si-gray;
+//   border-radius: 20px;
+//   font-size: 1.5rem;
+// }
+// .tooltip.bottom .tooltip-arrow {
+//   border-bottom-color: lighten($si-light-gray2, 15%);
+// }

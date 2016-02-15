@@ -83,48 +83,15 @@
               cursor: pointer;
             }
           }
-          
+
         }
-        
+
       }
       .shout-img {
         float: left;
         max-width: 440px;
         padding: 10px 0 20px 20px;
       }
-    }
-  }
-  .shout-footer {
-    display: table;
-    width: 100%;
-    background: #f8f9f8;
-    border-top: 1px solid $si-light-gray2;
-    border-bottom: 1px solid $si-light-gray2;
-    .user-image {
-      float: left;
-      margin: 11px;
-    }
-    .form-group {
-      width: 620px;
-      margin-top: 11px;
-      float: left;
-      input {
-        width: 620px;
-        height: 36px;
-        border: 1px solid $si-light-gray2;
-        border-radius: 0;
-        padding-right:35px;
-        &:focus {
-          border-color: darken($si-light-gray2, 10%);
-        }
-      }
-    }
-    .shout-send {
-      position: relative;
-      display:inline-block;
-      left: -33px;
-      top: 18px;
-      cursor: pointer;
     }
   }
 }
