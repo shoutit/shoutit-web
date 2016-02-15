@@ -156,7 +156,7 @@ export default React.createClass({
               <ItemProp property="offers">
                   <div className="price-offer">
                       <div className="price">
-                        { currencyFormatter.format(shout.price/100, { code: currencySign } )}
+                        { currencyFormatter.format(shout.price, { code: currencySign } )}
                       </div>
                   </div>
               </ItemProp>

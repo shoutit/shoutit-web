@@ -89,6 +89,7 @@ export default class UserShoutsSelectDialog extends Component {
         </Modal.Header>
         <Modal.Body>
           <form>
+
           { shouts.map(shout =>
             <div key={shout.id}>
               <input
@@ -105,7 +106,9 @@ export default class UserShoutsSelectDialog extends Component {
           )}
           </form>
 
-              { loading && shouts.length === 0 && <Progress /> }
+          { !loading && shouts.length === 0 && <p>You don't have any shout, yet.</p> }
+          { loading && shouts.length === 0 && <Progress /> }
+
         </Modal.Body>
         <Modal.Footer>
            <Button label="Cancel" onClick={ onRequestClose}  />

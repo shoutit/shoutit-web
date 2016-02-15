@@ -46,7 +46,13 @@ var SERVER_ROOT = `${config.host}:${config.port}`;
 
 var graphData = require("./resources/consts/graphData");
 var currencies, categories, sortTypes;
-var whitelist = ["https://shoutit.com", "https://www.shoutit.com", "http://dev.www.shoutit.com"];
+var whitelist = [
+  "https://shoutit.com",
+  "https://www.shoutit.com",
+  "http://stage.www.shoutit.com",
+  "http://beta.www.shoutit.com",
+  "http://shoutit.dev"
+];
 if (process.env.NODE_ENV === "development") {
   whitelist.push("http://${config.host}");
 }
