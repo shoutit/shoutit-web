@@ -109,7 +109,8 @@ let ShoutStore = Fluxxor.createStore({
       consts.CHANGE_SHOUT_REPLY_DRAFT, this.onChangeShoutReplyDraft,
       consts.SEND_SHOUT_REPLY, this.onSendShoutReply,
       consts.SEND_SHOUT_REPLY_FAILED, this.onReqFailed,
-            discoverConsts.LOAD_DISCOVER_SHOUTS_SUCCESS, this.onDiscoverShoutsSuccess
+      discoverConsts.LOAD_DISCOVER_SHOUTS_SUCCESS, this.onDiscoverShoutsSuccess,
+      discoverConsts.LOAD_MORE_DISCOVER_SHOUTS_SUCCESS, this.onMoreDiscoverShoutsSuccess
     );
   },
 
@@ -184,6 +185,15 @@ let ShoutStore = Fluxxor.createStore({
 
   onDiscoverShoutsSuccess(payload) {
         // Fill the store with discover shouts
+    const results = payload.res.results;
+
+    results.forEach((item) => {
+      this.state.discoverShouts[item.id] = this.augmentShout(item);
+    });
+  },
+
+  onMoreDiscoverShoutsSuccess(payload) {
+    // Fill the store with discover shouts
     const results = payload.res.results;
 
     results.forEach((item) => {

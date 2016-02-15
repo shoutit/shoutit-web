@@ -204,8 +204,10 @@ button {
     overflow: hidden;
   }
   h3, .subtitle {
-    font-size: 1.8rem;
-    margin: 10px 22px;
+    font-size: 1.65rem;
+    transition: 0.2s all;
+    margin: 10px 20px;
+    float: left;
   }
 }
 /* Search */
