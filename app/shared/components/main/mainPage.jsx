@@ -81,14 +81,14 @@ export default React.createClass({
             </Column>
           </Grid>
 
-          <Grid>
-            <Element name="explore" className="mainpage-explore">
+          <Grid className="mainpage-explore">
+            <Element name="explore" >
               <Explore categories={this.state.categories}/>
             </Element>
           </Grid>
 
-          <Grid>
-            <Element name="how" className="mainpage-how">
+          <Grid className="mainpage-how">
+            <Element name="how">
               <h2>How It Works</h2>
               <Grid fluid={true} style={{textAlign: "center"}}>
                 <img src={`${imagesPath}/m_howto.png`}/>

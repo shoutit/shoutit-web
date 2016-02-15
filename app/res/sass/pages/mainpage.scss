@@ -3,9 +3,6 @@
 @import "../pages/mixins.scss";
 
 .mainpage {
-  .si-container {
-    overflow: hidden;
-  }
   h1 {
     font-size: 3.0rem;
     font-weight: 700;
@@ -80,9 +77,9 @@
     height: 90px;
     background: $si-gray;
     padding-top: 23px;
-    overflow: hidden;
   }
   .mainpage-explore {
+    height:600px;
     padding-top: 20px;
     padding-bottom: 20px;
     background: $si-bg;
