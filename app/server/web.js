@@ -46,7 +46,13 @@ var SERVER_ROOT = `${config.host}:${config.port}`;
 
 var graphData = require("./resources/consts/graphData");
 var currencies, categories, sortTypes;
-var whitelist = ["https://shoutit.com", "https://www.shoutit.com", "http://dev.www.shoutit.com"];
+var whitelist = [
+  "https://shoutit.com",
+  "https://www.shoutit.com",
+  "http://stage.www.shoutit.com",
+  "http://beta.www.shoutit.com",
+  "http://shoutit.dev"
+];
 if (process.env.NODE_ENV === "development") {
   whitelist.push("http://${config.host}");
 }
@@ -60,36 +66,27 @@ var corsOptions = {
 
 function updateCurrencies() {
   ShoutitClient.misc().currencies()
-    .on("complete", function (result, resp) {
+    .on("complete", (result, resp) => {
       if (result instanceof Error || resp.statusCode !== 200) {
-        console.error("Cannot fetch currencies.");
-      } else {
-        currencies = object(pluck(result, "code"), result);
-        console.log("Fetched " + result.length + " currencies.");
+        console.error("Cannot fetch currencies.", result);
+        return;
       }
+      currencies = object(pluck(result, "code"), result);
     });
 }
-
 updateCurrencies();
-
-// Update Currencies every 2 minutes
-setInterval(updateCurrencies, 1000 * 60 * 2);
 
 function updateCategories() {
   ShoutitClient.misc().categories()
-    .on("complete", function (result, resp) {
+    .on("complete", (result, resp) => {
       if (result instanceof Error || resp.statusCode !== 200) {
-        console.error("Cannot fetch currencies.");
-      } else {
-        categories = result;
-        console.log("Fetched " + result.length + " categories.");
+        console.error("Cannot fetch categories.", result);
+        return;
       }
+      categories = result;
     });
 }
-
 updateCategories();
-
-setInterval(updateCategories, 1000 * 60 * 5);
 
 ShoutitClient.misc().sortTypes()
   .on("complete", function (result, resp) {

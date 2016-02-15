@@ -1,7 +1,5 @@
 
-
-module.exports = function (client, path) {
-  return function (session, query) {
-    return client.get(path + "/geocode?latlng=" + query.latlng + "&rnd=" + query.key);
-  };
-};
+export default function (client, path) {
+  return (session, query, options) =>
+    client.get(`${path}/geocode?latlng=${query.latlng}`, options);
+}

@@ -56,7 +56,7 @@ export default React.createClass({
         <ItemProp property="offers">
           <div className="price-offer">
             <div className="price">
-              { currencyFormatter.format(shout.price/100, { code: shout.currency } )}
+              { currencyFormatter.format(shout.price, { code: shout.currency } )}
             </div>
           </div>
         </ItemProp>
@@ -132,7 +132,7 @@ export default React.createClass({
     const user = this.state.users[shout.user.username] || {};
 
     // Same photo just to have support from API
-    const catIcon = "http://i.imgur.com/e2asioJ.png";
+    const catIcon = shout.category.icon;
 
     return (
       <div className="shout-footnote">
@@ -172,7 +172,7 @@ export default React.createClass({
           </Link>
         </div>
         <span className="shout-price">
-          { currencyFormatter.format(shout.price/100, { code: shout.origCurrency } )}
+          { currencyFormatter.format(shout.price, { code: shout.origCurrency } )}
         </span>
 
         <div className="body-holder">

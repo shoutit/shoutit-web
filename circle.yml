@@ -40,11 +40,6 @@ deployment:
         docker build
         --build-arg SHOUTIT_PUBLIC_URL=https://beta.web.static.shoutit.com
         --build-arg SHOUTIT_API_URL=https://api.shoutit.com/v2/
-        --build-arg SHOUTIT_GANALYTICS=UA-62656831-1
-        --build-arg NEW_RELIC_LICENSE_KEY=
-        --build-arg NEW_RELIC_APP_NAME=
-        --build-arg BASIC_AUTH_USERNAME=beta
-        --build-arg BASIC_AUTH_PASSWORD=beta
         -t shoutit/shoutit-web:master .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:master
@@ -60,11 +55,6 @@ deployment:
         docker build
         --build-arg SHOUTIT_PUBLIC_URL=https://stage.web.static.shoutit.com
         --build-arg SHOUTIT_API_URL=http://dev.api.shoutit.com/v2/
-        --build-arg SHOUTIT_GANALYTICS=UA-62656831-1
-        --build-arg NEW_RELIC_LICENSE_KEY=
-        --build-arg NEW_RELIC_APP_NAME=
-        --build-arg BASIC_AUTH_USERNAME=stage
-        --build-arg BASIC_AUTH_PASSWORD=stage
         -t shoutit/shoutit-web:develop .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:develop

@@ -58,7 +58,7 @@ export default function ShoutItem({
           { user.name }
         </span>
         <span className="ShoutItem-price">
-          { currencyFormatter.format(price/100, { code } )}
+          { currencyFormatter.format(price, { code } )}
         </span>
       </div>
     </div>

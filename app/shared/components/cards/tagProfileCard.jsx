@@ -32,21 +32,10 @@ export default React.createClass({
                     </div>
                     <h3 className="tag-name">{tag.name}</h3>
                     <Separator />
-                    <Column fluid={true} clear={true} size={5}>
+                    <Column fluid={true} clear={true} size={7}>
                         <TagListenersButton tag={tag} />
                     </Column>
-                    <Column fluid={true} size={5}>
-                        {/* make it a component later (category)*/}
-                        <div className="si-shelf-button">
-                            <div className="img-holder">
-                                <Icon name="message" />
-                            </div>
-                            <div className="text-holder">
-                                Computers
-                            </div>
-                        </div>
-                    </Column>
-                    <Column fluid={true} size={5}>
+                    <Column fluid={true} size={7}>
                         <TagListenButton tag={tag} onChange={this.handleListen} flux={this.props.flux }/>
                     </Column>
                 </Grid>

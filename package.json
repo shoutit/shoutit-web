@@ -8,7 +8,7 @@
     "url": "https://bitbucket.org/shoutitcom/shoutit_webapp.git"
   },
   "scripts": {
-    "start": "DEBUG=shoutit:server,shoutit:error node app.js",
+    "start": "node app.js",
     "build": "NODE_ENV=production webpack -p --bail",
     "lint": "eslint app test",
     "test": "mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel/register --recursive",
