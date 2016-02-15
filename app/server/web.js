@@ -60,36 +60,27 @@ var corsOptions = {
 
 function updateCurrencies() {
   ShoutitClient.misc().currencies()
-    .on("complete", function (result, resp) {
+    .on("complete", (result, resp) => {
       if (result instanceof Error || resp.statusCode !== 200) {
-        console.error("Cannot fetch currencies.");
-      } else {
-        currencies = object(pluck(result, "code"), result);
-        console.log("Fetched " + result.length + " currencies.");
+        console.error("Cannot fetch currencies.", result);
+        return;
       }
+      currencies = object(pluck(result, "code"), result);
     });
 }
-
 updateCurrencies();
-
-// Update Currencies every 2 minutes
-setInterval(updateCurrencies, 1000 * 60 * 2);
 
 function updateCategories() {
   ShoutitClient.misc().categories()
-    .on("complete", function (result, resp) {
+    .on("complete", (result, resp) => {
       if (result instanceof Error || resp.statusCode !== 200) {
-        console.error("Cannot fetch currencies.");
-      } else {
-        categories = result;
-        console.log("Fetched " + result.length + " categories.");
+        console.error("Cannot fetch categories.", result);
+        return;
       }
+      categories = result;
     });
 }
-
 updateCategories();
-
-setInterval(updateCategories, 1000 * 60 * 5);
 
 ShoutitClient.misc().sortTypes()
   .on("complete", function (result, resp) {
