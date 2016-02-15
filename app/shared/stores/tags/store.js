@@ -312,8 +312,13 @@ var TagStore = Fluxxor.createStore({
   },
 
   onLoadTagRelatedSuccess({ res, tagName}) {
-    this.state.tags[tagName].related.list = res.results.map(item => item.name);
-    this.addTags(res.results);
+    if (res.results.length === 0) {
+      this.state.tags[tagName].related.err = true;
+    } else {
+      this.state.tags[tagName].related.list = res.results.map(item => item.name);
+      this.addTags(res.results);
+    }
+
     this.state.tags[tagName].related.loading = false;
     this.emit("change");
   },
