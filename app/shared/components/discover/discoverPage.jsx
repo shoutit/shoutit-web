@@ -55,7 +55,6 @@ export default React.createClass({
     const list = discover.children;
     const country = this.props.params.country;
     const shoutsList = this.state.shouts[disId] ? this.state.shouts[disId].list : [];
-    const shoutsAreLoading = this.state.shouts[disId] ? this.state.shouts[disId].loading : false;
     const shouts = shoutsList.map((shoutId) => this.state.discoverShouts[shoutId]);
 
     return (
@@ -75,24 +74,25 @@ export default React.createClass({
             }
           </Grid>
           <Grid fluid={true}>
-            {shouts.length ? <h3 className="si-center-header">Shouts</h3> : null}
-            {shoutsAreLoading ?
-              <Progress />
-              :
+            {shouts.length?
               <Grid fluid={true}>
+                <h3 className="si-center-header">Shouts</h3>
                 {shouts.map((item, idx) => {
                   return (
                     <ItemScope type="Product" key={"disShout-" + idx}>
-                      <GridShout index={idx}
-                                 shout={item}
-                                 creator={item.user}
-                                 clearOn={4}
+                      <GridShout
+                        index={idx}
+                        shout={item}
+                        creator={item.user}
+                        clearOn={4}
                       />
                     </ItemScope>
                   );
                 })}
                 {this.renderViewportSensor()}
               </Grid>
+              :
+              null
             }
           </Grid>
           {shouts.length ? <Link to="" className="si-more-link pull-right">Explore More...</Link> : null}
@@ -113,11 +113,18 @@ export default React.createClass({
     const { shouts } = this.state;
     const disId = this.props.pk || this.props.params.pk;
 
-    if(shouts[disId] && !shouts[disId].loading) {
+    if (!shouts[disId]) { return null; };
+
+    if(shouts[disId].loading) {
+      return (
+        <Progress />
+      );
+    } else {
       return (
         <Grid fluid={true}>
           <ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
-        </Grid>);
+        </Grid>
+      );
     }
   },
 
