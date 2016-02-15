@@ -39,7 +39,7 @@ deployment:
       - >
         docker build
         --build-arg SHOUTIT_PUBLIC_URL=https://beta.web.static.shoutit.com
-        --build-arg SHOUTIT_API_URL=http://api.shoutit.com/v2/
+        --build-arg SHOUTIT_API_URL=https://api.shoutit.com/v2/
         --build-arg SHOUTIT_GANALYTICS=UA-62656831-1
         --build-arg NEW_RELIC_LICENSE_KEY=
         --build-arg NEW_RELIC_APP_NAME=
