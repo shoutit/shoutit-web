@@ -1,14 +1,17 @@
+/* eslint no-console: 0 */
+
 import { getValidIPv4Address } from "../../../utils/InternetUtils";
 
 export default function(client) {
   return (req, res) => {
     const options = {};
 
-    const ip = getValidIPv4Address("192.168.0.1");
+    const ip = getValidIPv4Address(req.connection.remoteAddress);
     if (ip) {
       options.headers = {
         "X-Forwarded-For": ip
       };
+      console.log("Forwarding ip %s", ip);
     }
 
     client.geocode(req.session, req.query, options)
