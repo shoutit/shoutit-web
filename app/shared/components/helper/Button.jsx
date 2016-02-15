@@ -59,8 +59,8 @@ export default function Button({
       Element,
       { ...attributes, className: elClassName},
       [
-        leftIcon ? <span className="Button-icon">{ leftIcon }</span>  : null,
-        label ? <span className="Button-label">{ label }</span> : children
+        leftIcon ? <span key="button-icon" className="Button-icon">{ leftIcon }</span>  : null,
+        label ? <span key="button-label" className="Button-label">{ label }</span> : children
       ]
     )
   );
