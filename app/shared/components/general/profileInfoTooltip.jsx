@@ -1,7 +1,8 @@
 import React from 'react';
-import {Icon, Column, Grid, Flag} from '../helper';
+import {Icon, Column, Grid} from '../helper';
 import Separator from '../general/separator.jsx';
 import UserImage from '../user/userImage.jsx';
+import CountryFlag from '../helper/CountryFlag.jsx';
 
 export default React.createClass({
     displayName: 'ProfileInfoTooltip',
@@ -35,19 +36,19 @@ export default React.createClass({
                 <Grid fluid={true} className="profile-actions">
                     <Column fluid={true} clear={true} size="5">
                         <div className="si-country-button">
-                            <Flag country={country} size="20" />
+                            <CountryFlag code={ country } />
                             {country}
                         </div>
                     </Column>
                     <Column fluid={true} size="5">
                         <div className="si-listening-button">
-                            <Icon name="listening" /> 
+                            <Icon name="listening" />
                             Listening
                         </div>
                     </Column>
                     <Column fluid={true}  size="5">
                         <div className="si-message-button">
-                            <Icon name="message" /> 
+                            <Icon name="message" />
                             Message
                         </div>
                     </Column>
