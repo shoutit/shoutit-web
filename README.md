@@ -68,6 +68,14 @@ and then open [http://192.168.99.100:8080](http://192.168.99.100:8080).
 
 To get the IP of the docker machine, run `docker-machine ip`.
 
+### Building the docker container
+
+Run this command from the project root:
+
+```bash
+$ docker build .
+```
+
 ## Development
 
 Start the development environment to enable hot modules reload:
