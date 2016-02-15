@@ -65,6 +65,7 @@ export default React.createClass({
   },
 
   renderSubtitle(shout) {
+    console.log(shout.category);
     const link = shout.user.is_activated ?
       <Link to="user" params={{username: encodeURIComponent(shout.user.username)}}>
         {shout.user.name}
@@ -132,7 +133,7 @@ export default React.createClass({
     const user = this.state.users[shout.user.username] || {};
 
     // Same photo just to have support from API
-    const catIcon = "http://i.imgur.com/e2asioJ.png";
+    const catIcon = shout.category.icon;
 
     return (
       <div className="shout-footnote">
