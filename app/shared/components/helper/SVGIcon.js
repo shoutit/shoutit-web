@@ -4,7 +4,17 @@ if (process.env.BROWSER) {
   require("styles/components/SVGIcon.scss");
 }
 
-export default function SVGIcon({ name, active=false, on=false, fill=false, size="medium", badge, ...props }) {
+export default function SVGIcon({
+  name,
+  active=false,
+  disabled=false,
+  on=false,
+  fill=false,
+  size="medium",
+  badge,
+  hover=false,
+  ...props
+}) {
 
   let className = `SVGIcon ${size}`;
 
@@ -17,7 +27,13 @@ export default function SVGIcon({ name, active=false, on=false, fill=false, size
   if (fill) {
     className += ` fill`;
   }
-
+  if (hover) {
+    className += ` hover`;
+  }
+  if (disabled) {
+    className += ` disabled`;
+  }
+  
   let badgeEl;
   if (typeof badge !== "undefined") {
     // Set visibility hidden to leave the space once the badge get a value
