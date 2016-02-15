@@ -1,5 +1,5 @@
 import request from "superagent";
-import {assign} from "lodash/objects";
+import {assign} from "lodash/object";
 
 const page_size = 8;
 
