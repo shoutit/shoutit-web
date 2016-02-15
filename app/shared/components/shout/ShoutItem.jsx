@@ -7,15 +7,19 @@ if (process.env.BROWSER) {
 
 export default function ShoutItem({
   shout,
-  outline=false,            // show a border instead of a shadow
+  shadow=false,             // add a shadow
+  outline=false,            // outline with a border
   thumbnailRatio=4/3,       // 4/3, 16/9 etc.
-  alwaysShowThumbnail=true  // show thumbnail also when not available
+  alwaysShowThumbnail=false // show thumbnail also when not available
 }) {
   const { price, currency: code, title, user, thumbnail } = shout;
 
   let className = "ShoutItem";
   if (outline) {
-    className += ` ${outline}`;
+    className += " outline";
+  }
+  if (shadow) {
+    className += " shadow";
   }
   if (!thumbnail) {
     className += " no-thumbnail";
@@ -49,7 +53,7 @@ export default function ShoutItem({
           { user.name }
         </span>
         <span className="ShoutItem-price">
-          { currencyFormatter.format(price, { code } )}
+          { currencyFormatter.format(price/100, { code } )}
         </span>
       </div>
     </div>
