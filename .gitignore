@@ -1,4 +1,14 @@
-.idea
-node_modules
+app/public/css
+app/public/img
+app/public/js
 app/res/vendor
-.sass-cache
+node_modules
+coverage
+newrelic_agent.log
+npm-debug.log
+test-results.xml
+webpack-stats.json
+public/images
+public/scripts
+public/styles
+public/stats.json

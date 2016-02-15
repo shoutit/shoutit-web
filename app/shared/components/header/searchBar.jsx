@@ -1,146 +1,170 @@
 import React from 'react';
-import {Navigation} from 'react-router';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
-import {Row, Input} from 'react-bootstrap';
+import {History} from 'react-router';
+import {StoreWatchMixin} from 'fluxxor';
+import {Input} from 'react-bootstrap';
 
 import Search from './search.jsx';
 import SearchResultList from './search/searchResultList.jsx';
+import assign from 'lodash/object/assign';
 
 export default React.createClass({
-	mixins: [new FluxMixin(React), new StoreWatchMixin("search", "locations"), Navigation],
+  mixins: [new StoreWatchMixin("search", "locations"), History],
 
-	displayName: "SearchBar",
+  displayName: "SearchBar",
 
-	getStateFromFlux() {
-		let flux = this.getFlux();
-		return {
-			search: flux.store("search").getState(),
-			users: flux.store("users").getState(),
-			locations: flux.store('locations').getState()
-		};
-	},
+  getStateFromFlux() {
+    let flux = this.props.flux;
+    return {
+      search: flux.store("search").getState(),
+      users: flux.store("users").getState(),
+      locations: flux.store('locations').getState()
+    };
+  },
 
-	getInitialState() {
-		return {
-			showSearch: 0,
-			term: "",
-			locTerm: ""
-		};
-	},
+  getInitialState() {
+    return {
+      showSearch: 0,
+      term: "",
+      locTerm: ""
+    };
+  },
 
-	renderSearchList() {
-		let term = this.state.term,
-			search = this.state.search;
-		return (<SearchResultList
-			results={{
-                users: search.users[term],
-                shouts: search.shouts[term],
-                tags: search.tags[term]
-            }}
-			term={term}
-			onBlur={this.onBlurSearch}
-			/>);
-	},
+  renderSearchList() {
+    let term = this.state.term,
+      search = this.state.search;
 
-	renderLocationList() {
-		let placePredictions = this.state.locations.locations[this.state.locTerm];
+    if(term) {
+      return (<SearchResultList
+        results={{
+                  users: search.users,
+                  shouts: search.shouts,
+                  tags: search.tags
+              }}
+        params={{term, category: 'all', shouttype: 'all'}}
+        onBlur={this.onBlurSearch}
+        />);
+    }
+  },
 
-		let placesList = placePredictions && placePredictions.length ?
-			<li>
-				<span>Results</span>
-				<ul className="list-search-sub">
-					{placePredictions.map((prediction, i) => (
-						<li onClick={this.onLocationSelect(prediction)} key={"prediction" + i}>
-							{prediction.description}
-						</li>))}
-				</ul>
-			</li> : null;
+  renderLocationList() {
+    let placePredictions = this.state.locations.locations[this.state.locTerm];
 
-		return (<div className="list-search">
-			<ul>
-				<li>
-					<span>Select your Location</span>
-					<ul className="list-search-sub">
-						<Input
-							id="locationSearch"
-							ref="locationInput"
-							type="text"
-							placeholder="Search"
-							onChange={this.onLocInputChange}
-							value={this.state.locTerm}
-							/>
-					</ul>
-				</li>
-				{placesList}
-			</ul>
-		</div>);
+    let placesList = placePredictions && placePredictions.length ?
+        <div>
+          <div className="list-search-title">Results</div>
+          {placePredictions.map((prediction, i) => (
+            <div className="list-search-loc" onClick={this.onLocationSelect(prediction)} key={"prediction" + i}>
+              {prediction.description}
+            </div>
+          ))}
+        </div>
+          : null;
 
-	},
+    return (<div className="list-search">
+          <div className="list-search-title">Select your Location</div>
+            <Input
+              id="locationSearch"
+              ref="locationInput"
+              type="text"
+              placeholder="Search"
+              onChange={this.onLocInputChange}
+              value={this.state.locTerm}
+              height={this.props.height + 'px'}
+              />
+        {placesList}
+    </div>);
 
-	renderList() {
-		switch (this.state.showSearch) {
-			case 1:
-				return this.renderSearchList();
-			case 2:
-				return this.renderLocationList();
-			default:
-				return null;
-		}
-	},
+  },
 
-	render() {
-		let backdrop = this.state.showSearch ?
-			<div onClick={this.onBlurSearch} className="backdrop"/> : null;
+  renderList() {
+    switch (this.state.showSearch) {
+      case 1:
+        return this.renderSearchList();
+      case 2:
+        return this.renderLocationList();
+      default:
+        return null;
+    }
+  },
 
-		return (
-			<Row className="searchBar">
-				<Search
-					flux={this.getFlux()}
-					onFocus={this.onFocusSearch}
-					onChangeSearch={this.onChangeSearch}
-					onSubmit={this.onSubmit}
-					onBlur={this.onBlurSearch}
-					term={this.state.term}
-					/>
-				{this.renderList()}
-				{backdrop}
-			</Row>
-		);
-	},
+  render() {
+    return (
+      <div className="search-bar">
+        <Search
+          flux={this.props.flux}
+          onFocus={this.onFocusSearch}
+          onChangeSearch={this.onChangeSearch}
+          onSubmit={this.onSubmit}
+          onBlur={this.onBlurSearch}
+          term={this.state.term}
+          height={this.props.height}
+          />
+        {this.renderList()}
+      </div>
+    );
+  },
 
-	onFocusSearch(type) {
-		return function () {
-			this.setState({showSearch: type});
-		}.bind(this);
-	},
+  onFocusSearch(type) {
+    return function () {
+      this.setState({showSearch: type});
+    }.bind(this);
+  },
 
-	onBlurSearch() {
-		this.setState({showSearch: false});
-	},
+  onBlurSearch() {
+    this.setState({showSearch: false});
+  },
 
-	onChangeSearch(ev) {
-		let newTerm = ev.target.value;
-		this.setState({term: newTerm});
-		this.getFlux().actions.searchAll(newTerm);
-	},
+  onChangeSearch(ev) {
+    let newTerm = ev.target.value;
+    this.setState({term: newTerm});
+    this.searchAll(newTerm);
+  },
 
-	onSubmit() {
-		this.setState({showSearch: false});
-		if (this.state.term.length > 0) {
-			this.transitionTo("search", {term: encodeURIComponent(this.state.term)});
-		}
-	},
+  onSubmit() {
+    this.setState({showSearch: false});
+    this.searchAll(this.state.term, true);
+  },
 
-	onLocInputChange(ev) {
-		let newTerm = ev.target.value;
-		this.setState({locTerm: newTerm});
-		this.getFlux().actions.loadPredictions(newTerm);
-	},
+  searchAll(term, moveToSearchPage=false) {
+    let searchReq = {};
+    let searchQuery = {};
 
-	onLocationSelect(prediction) {
-		return function () {
-			this.setState({showSearch: false});
-			this.getFlux().actions.selectLocation(prediction);
-		}.bind(this);
-	}
+    searchReq.term = term;
+    // setting location if available
+    let location = this.state.locations;
+    if(location.current) {
+      location.current.city? 
+        searchQuery.city = location.current.city: undefined;
+      location.current.country? 
+        searchQuery.country = location.current.country: undefined;
+    }
+
+    // no category and shout selection in main page
+    searchReq.shouttype = 'all';
+    searchReq.category = 'all';
+
+    // send search action
+    this.props.flux.actions.searchAll(assign(searchReq,searchQuery));
+    // move to search page if requested
+    if (moveToSearchPage) {
+      searchReq.term = encodeURIComponent(searchReq.term);
+      searchQuery.city = encodeURIComponent(searchQuery.city);
+      searchQuery.country = encodeURIComponent(searchQuery.country);
+      this.history.pushState(null, 
+        `/search/${searchReq.shouttype}/${searchReq.category}/${searchReq.term}`, searchQuery);
+    }
+  },
+
+  onLocInputChange(ev) {
+    let newTerm = ev.target.value;
+    this.setState({locTerm: newTerm});
+    this.props.flux.actions.loadPredictions(newTerm);
+  },
+
+  onLocationSelect(prediction) {
+    return function () {
+      this.setState({showSearch: false});
+      this.props.flux.actions.selectLocation(prediction);
+    }.bind(this);
+  }
 });

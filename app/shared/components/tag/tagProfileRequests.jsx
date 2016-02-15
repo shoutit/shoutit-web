@@ -3,17 +3,18 @@ import React from 'react';
 import ProfileShoutList  from './tagProfileShoutList.jsx';
 
 export default React.createClass({
-	displayName: "TagProfileRequests",
+  displayName: "TagProfileRequests",
 
-	statics: {
-		fetchData(client, session, params) {
-			return client.tags().getShouts(session, params.tagName, 'request');
-		}
-	},
+  statics: {
+    fetchId: 'tagrequests',
+    fetchData(client, session, params) {
+      return client.tags().getShouts(session, params.tagName, 'request');
+    }
+  },
 
-	render() {
-		return (
-			<ProfileShoutList type="request" {...this.props}/>
-		);
-	}
+  render() {
+    return (
+      <ProfileShoutList type="request" {...this.props}/>
+    );
+  }
 });

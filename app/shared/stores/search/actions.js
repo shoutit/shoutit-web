@@ -1,48 +1,44 @@
-import consts from './consts';
+import consts from "./consts";
 
 export default {
-	searchAll(term) {
-		this.dispatch(consts.SEARCH_ALL, {
-			term: term
-		});
-	},
+  searchAll(payload) {
+    this.dispatch(consts.SEARCH_ALL, payload);
+  },
 
-	searchShouts(term) {
-		this.dispatch(consts.SEARCH_SHOUTS, {
-			term: term
-		});
-	},
+  searchShouts(payload) {
+    this.dispatch(consts.SEARCH_SHOUTS, payload);
+  },
 
-	searchShoutsSuccess(term, res) {
-		this.dispatch(consts.SEARCH_SHOUTS_SUCCESS, {
-			term: term,
-			res: res
-		});
-	},
+  searchShoutsSuccess(term, res) {
+    this.dispatch(consts.SEARCH_SHOUTS_SUCCESS, {
+      term: term,
+      res: res
+    });
+  },
 
-	searchTags(term) {
-		this.dispatch(consts.SEARCH_TAGS, {
-			term: term
-		});
-	},
+  searchTags(payload) {
+    this.dispatch(consts.SEARCH_TAGS, payload);
+  },
 
-	searchTagsSuccess(term, res) {
-		this.dispatch(consts.SEARCH_TAGS_SUCCESS, {
-			term: term,
-			res: res
-		});
-	},
+  searchTagsSuccess(term, res) {
+    this.dispatch(consts.SEARCH_TAGS_SUCCESS, {
+      term: term,
+      res: res
+    });
+  },
 
-	searchUsers(term) {
-		this.dispatch(consts.SEARCH_USERS, {
-			term: term
-		});
-	},
+  searchUsers(payload) {
+    this.dispatch(consts.SEARCH_USERS, payload);
+  },
 
-	searchUsersSuccess(term, res) {
-		this.dispatch(consts.SEARCH_USERS_SUCCESS, {
-			term: term,
-			res: res
-		});
-	}
+  searchUsersSuccess(term, res) {
+    this.dispatch(consts.SEARCH_USERS_SUCCESS, {
+      term: term,
+      res: res
+    });
+  },
+
+  searchLoadMore() {
+    this.dispatch(consts.SEARCH_LOAD_MORE);
+  }
 };

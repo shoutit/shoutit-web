@@ -1,226 +1,368 @@
-import Fluxxor from 'fluxxor';
+import Fluxxor from "fluxxor";
+import url from "url";
+import consts from "./consts";
+import usersConsts from "../users/consts";
+import sugConsts from "../suggestions/consts";
+import client from "./client";
+import statuses from "../../consts/statuses.js";
+import assign from "lodash/object/assign";
+import debug from "debug";
 
-import consts from './consts';
-import client from './client';
+var {LISTEN_BTN_LOADING} = statuses;
+const log = debug("shoutit:store:tags");
 
 var TagStore = Fluxxor.createStore({
-	initialize(props) {
-		this.state = {
-			tags: {},
-			featuredTags: null,
-			loading: false,
-			sprite: null
-		};
+  initialize(props) {
+    this.state = {
+      tags: {},
+      featuredTags: null,
+      loading: false,
+      sprite: null,
+      status: null
+    };
 
-		if (props.tag) {
-			this.state.tags[props.tag.name] = {
-				tag: null,
-				offers: null,
-				requests: null,
-				listeners: null
-			};
+    if (props.tag) {
+      this.addTagEntry(props.tag.name);
 
-			this.state.tags[props.tag.name].tag = props.tag;
+      this.state.tags[props.tag.name].tag = props.tag;
 
-			if (props.tagoffers) {
-				this.state.tags[props.tag.name].offers = props.tagoffers.results;
-			}
+      if (props.tagshouts) {
+        this.state.tags[props.tag.name].shouts = props.tagshouts.results;
+        this.state.tags[props.tag.name].shoutsNext = this.parseNextPage(props.tagshouts.next);
+      }
 
-			if (props.tagrequests) {
-				this.state.tags[props.tag.name].requests = props.tagrequests.results;
-			}
+      if (props.taglisteners) {
+        this.state.tags[props.tag.name].listeners = props.taglisteners.results;
+      }
 
-			if (props.taglisteners) {
-				this.state.tags[props.tag.name].listeners = props.taglisteners.results;
-			}
-		}
+    }
 
-		let tagsData = props.tags || props.feed;
-		if (tagsData) {
-			this.state.featuredTags = tagsData.results;
-		}
+    let tagsData = props.tags || props.feed;
+    if (tagsData) {
+      this.state.featuredTags = tagsData.results;
+    }
 
+    if (props.listeningTags) {
+      let tags = props.listeningTags.tags;
 
-		this.bindActions(
-			consts.LOAD_TAG, this.onLoadTag,
-			consts.LOAD_TAG_SUCCESS, this.onLoadTagSuccess,
-			consts.LISTEN_TAG, this.onListenTag,
-			consts.STOP_LISTEN_TAG, this.onStopListenTag,
-			consts.LOAD_TAG_SHOUTS, this.onLoadTagShouts,
-			consts.LOAD_TAG_SHOUTS_SUCCESS, this.onLoadTagShoutsSuccess,
-			consts.LOAD_TAG_LISTENERS, this.onLoadTagListeners,
-			consts.LOAD_TAG_LISTENERS_SUCCESS, this.onLoadTagListenersSuccess,
-			consts.LOAD_TAGS_SUCCESS, this.onLoadTagsSuccess,
-			consts.LOAD_TAGS_SPRITE, this.onLoadTagsSprite,
-			consts.LOAD_TAGS_SPRITE_SUCCESS, this.onLoadTagsSpriteSuccess,
-			consts.LOAD_TAGS_SPRITE_FAILED, this.onLoadTagsSpriteFailed,
-			consts.REQUEST_SPRITING, this.onRequestSpriting,
-			consts.REQUEST_SPRITING_SUCCESS, this.onLoadTagsSpriteSuccess,
-			consts.REQUEST_SPRITING_FAILED, this.onRequestSpritingFailed
-		);
-	},
+      tags.forEach(tag => {
+        this.addTagEntry(tag.name);
+        this.state.tags[tag.name].tag = tag;
+      });
+    }
 
-	onLoadTag(payload) {
-		var tagName = payload.tagName;
-		client.get(tagName)
-			.end(function (err, res) {
-				if (err || res.status !== 200) {
-					this.onLoadTagFailed({
-						res: res.body,
-						tagName: tagName
-					});
-				} else {
-					this.onLoadTagSuccess({
-						res: res.body,
-						tagName: tagName
-					});
-				}
-			}.bind(this));
-		this.state.loading = true;
-		this.emit("change");
-	},
+    this.bindActions(
+      consts.LOAD_TAG, this.onLoadTag,
+      consts.LOAD_TAG_SUCCESS, this.onLoadTagSuccess,
+      consts.LISTEN_TAG, this.onListenTag,
+      consts.STOP_LISTEN_TAG, this.onStopListenTag,
+      consts.LOAD_TAG_SHOUTS, this.onLoadTagShouts,
+      consts.LOAD_TAG_SHOUTS_SUCCESS, this.onLoadTagShoutsSuccess,
+      consts.LOAD_MORE_TAG_SHOUTS, this.onLoadMoreTagShouts,
+      consts.LOAD_TAG_LISTENERS, this.onLoadTagListeners,
+      consts.LOAD_TAG_LISTENERS_SUCCESS, this.onLoadTagListenersSuccess,
+      consts.LOAD_TAG_RELATED, this.onLoadTagRelated,
+      usersConsts.LOAD_USER_TAGS_SUCCESS, this.onLoadUserTagsSuccess,
+      consts.LOAD_TAGS_SPRITE, this.onLoadTagsSprite,
+      consts.LOAD_TAGS_SPRITE_SUCCESS, this.onLoadTagsSpriteSuccess,
+      consts.LOAD_TAGS_SPRITE_FAILED, this.onLoadTagsSpriteFailed,
+      consts.REQUEST_SPRITING, this.onRequestSpriting,
+      consts.REQUEST_SPRITING_SUCCESS, this.onLoadTagsSpriteSuccess,
+      consts.REQUEST_SPRITING_FAILED, this.onRequestSpritingFailed,
+      sugConsts.GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess
+    );
+  },
 
-	addTagEntry(tagName) {
-		if (!this.state.tags[tagName]) {
-			this.state.tags[tagName] = {
-				tag: null,
-				offers: null,
-				requests: null,
-				listeners: null
-			};
-		}
-	},
+  parseNextPage(nextUrl) {
+    if (nextUrl) {
+      var parsed = url.parse(nextUrl, true);
+      return Number(parsed.query.page);
+    }
+    return null;
+  },
 
-	onLoadTagSuccess(payload) {
-		this.addTagEntry(payload.tagName);
-		this.state.tags[payload.tagName].tag = payload.res;
-		this.state.loading = false;
-		this.emit("change");
-	},
+  onLoadTag(payload) {
+    var tagName = payload.tagName;
 
-	onLoadTagFailed(payload) {
-		this.state.tags[payload.tagName] = null;
-		this.state.loading = false;
-		this.emit("change");
-	},
+    if(!this.state.tags[tagName]) {
+      this.addTagEntry(payload.tagName);
+    }
 
-	onListenTag(payload) {
-		var tagName = payload.tagName;
+    client.get(tagName)
+      .end(function (err, res) {
+        if (err || res.status !== 200) {
+          this.onLoadTagFailed({
+            res: res.body,
+            tagName: tagName
+          });
+        } else {
+          this.onLoadTagSuccess({
+            res: res.body,
+            tagName: tagName
+          });
+        }
+      }.bind(this));
+    this.state.loading = true;
+    this.emit("change");
+  },
 
-		client.listen(tagName).end(function (err) {
-			if (err) {
-				console.log(err);
-			} else {
-				this.onLoadTag({
-					tagName: tagName
-				});
-			}
-		}.bind(this));
+  addTagEntry(tagName) {
+    if (!this.state.tags[tagName]) {
+      this.state.tags[tagName] = {
+        tag: {},
+        shouts: null,
+        shoutsNext: null,
+        listeners: null,
+        related: {
+          loading: false,
+          list: []
+        }
+      };
+    }
+  },
 
-	},
+  // adding chunks of tag objects to the store
+  addTags(tags) {
+    tags.forEach(tag => {
+      this.addTagEntry(tag.name);
+      this.state.tags[tag.name].tag = tag;
+    });
+  },
 
-	onStopListenTag(payload) {
-		var tagName = payload.tagName;
+  onGetSuggestionsSuccess({ res }) {
+    this.addTags(res.tags);
+  },
 
-		client.unlisten(tagName).end(function (err) {
-			if (err) {
-				console.log(err);
-			} else {
-				this.onLoadTag({
-					tagName: tagName
-				});
-			}
-		}.bind(this));
+  onLoadUserTagsSuccess(payload) {
 
-	},
+    let tags = payload.res.tags;
+    tags.forEach(tag => {
+      this.addTagEntry(tag.name);
+      this.state.tags[tag.name].tag = tag;
+    });
 
-	onLoadTagShouts(payload) {
-		var tagName = payload.tagName,
-			type = payload.type;
+    this.emit("change");
+  },
 
-		client.getShouts(tagName, {
-			shout_type: type
-		}).end(function (err, res) {
-			if (err) {
-				console.log(err);
-			} else {
-				this.onLoadTagShoutsSuccess({
-					tagName: tagName,
-					res: res.body,
-					type: type
-				});
-			}
-		}.bind(this));
-		this.state.loading = true;
-		this.emit("change");
-	},
+  onLoadTagSuccess(payload) {
+    this.state.tags[payload.tagName].tag = payload.res;
+    this.state.loading = false;
+    this.emit("change");
+  },
 
-	onLoadTagShoutsSuccess(payload) {
-		this.addTagEntry(payload.tagName);
-		this.state.tags[payload.tagName][payload.type + "s"] = payload.res.results;
-		this.state.loading = false;
-		this.emit("change");
-	},
+  onLoadTagFailed(payload) {
+    this.state.tags[payload.tagName] = null;
+    this.state.loading = false;
+    this.emit("change");
+  },
 
-	onLoadTagListeners(payload) {
-		var tagName = payload.tagName;
+  onListenTag(payload) {
+    var tagName = payload.tagName;
+    // add to tags list if not available
+    !this.state.tags[tagName]? this.addTagEntry(tagName): undefined;
 
-		client.getListeners(tagName).end(function (err, res) {
-			if (err) {
-				console.log(err);
-			} else {
-				this.onLoadTagListenersSuccess({
-					tagName: tagName,
-					res: res.body
-				});
-			}
-		}.bind(this));
-		this.state.loading = true;
-		this.emit("change");
-	},
+    client.listen(tagName).end(function(res) {
+      if(res.body.success) {
+        this.state.tags[tagName].tag.is_listening = true;
+        this.state.tags[tagName].tag.listeners_count+= 1;
+        this.state.tags[tagName].tag.fluxStatus = null;
+        this.emit("change");
+      }
+    }.bind(this));
 
-	onLoadTagListenersSuccess(payload) {
-		this.addTagEntry(payload.tagName);
-		this.state.tags[payload.tagName].listeners = payload.res.results;
-		this.state.loading = false;
-		this.emit("change");
-	},
+    this.state.tags[tagName].tag.fluxStatus = LISTEN_BTN_LOADING;
+    this.emit("change");
+  },
 
-	onLoadTagsSuccess({res}) {
-		this.state.featuredTags = res.results;
-		this.emit("change");
-	},
+  onStopListenTag(payload) {
+    var tagName = payload.tagName;
+    // add to tags list if not available
+    !this.state.tags[tagName]? this.addTagEntry(tagName): undefined;
 
-	onLoadTagsSprite({hash}) {
-	},
+    client.unlisten(tagName).end(function(res) {
+      if(res.body.success) {
+        this.state.tags[tagName].tag.is_listening = false;
+        this.state.tags[tagName].tag.listeners_count-= 1;
+        this.state.tags[tagName].tag.fluxStatus = null;
+        this.emit("change");
+      }
+    }.bind(this));
 
-	onLoadTagsSpriteSuccess({res}) {
-		this.state.sprite = res;
-		this.emit("change");
-	},
+    this.state.tags[tagName].tag.fluxStatus = LISTEN_BTN_LOADING;
+    this.emit("change");
+  },
 
-	onLoadTagsSpriteFailed({hash}) {
-		this.state.sprite = undefined;
-		this.emit("change");
-	},
+  onLoadTagShouts(payload) {
+    var tagName = payload.tagName,
+      type = payload.type;
 
-	onRequestSpriting() {
-	},
+    let query = {page_size: 10};
+    type !== "all"? query.shout_type = type: undefined;
 
-	onRequestSpritingFailed() {
-	},
+    client.getShouts(tagName, query).end(function (err, res) {
+      if (err) {
+        console.log(err);
+      } else {
+        this.onLoadTagShoutsSuccess({
+          tagName: tagName,
+          res: res.body
+        });
+      }
+    }.bind(this));
+    this.state.loading = true;
+    this.emit("change");
+  },
 
-	serialize() {
-		return JSON.stringify(this.state);
-	},
+  onLoadTagShoutsSuccess(payload) {
+    let next = this.parseNextPage(payload.res.next);
+    let tagShouts = this.state.tags[payload.tagName];
 
-	hydrate(json) {
-		this.state = JSON.parse(json);
-	},
+    this.addTagEntry(payload.tagName);
+    tagShouts["shouts"] = payload.res.results;
+    tagShouts["shoutsNext"] = next;
+    this.state.loading = false;
+    this.emit("change");
+  },
 
-	getState() {
-		return this.state;
-	}
+  onLoadMoreTagShouts(payload) {
+    let tagName = payload.tagName,
+      type = payload.type,
+      tagShouts = this.state.tags[tagName],
+      next = tagShouts["shoutsNext"];
+
+    let query = {
+      page: next,
+    };
+    type !== "all"? query.shout_type = type: undefined;
+
+    if(next !== null) {
+      client.getShouts(tagName, query).end(function(err,res) {
+        if (err) {
+          console.log(err);
+        } else {
+          this.onLoadMoreTagShoutsSuccess({
+                  tagName: tagName,
+                  res: res.body
+                });
+        }
+      }.bind(this));
+      this.state.loading = true;
+      this.emit("change");
+    }
+  },
+
+  onLoadMoreTagShoutsSuccess(payload) {
+    let tagName = payload.tagName,
+      tagShouts = this.state.tags[tagName],
+      next = this.parseNextPage(payload.res.next),
+      data = payload.res.results;
+
+    data.forEach(function(val) {
+      tagShouts["shouts"].push(val);
+    }.bind(this));
+    tagShouts["shoutsNext"] = next;
+    this.state.loading = false;
+    this.emit("change");
+  },
+
+  onLoadTagListeners(payload) {
+    var tagName = payload.tagName;
+
+    client.getListeners(tagName).end(function (err, res) {
+      if (err) {
+        console.log(err);
+      } else {
+        this.onLoadTagListenersSuccess({
+          tagName: tagName,
+          res: res.body
+        });
+      }
+    }.bind(this));
+    this.state.loading = true;
+    this.emit("change");
+  },
+
+  onLoadTagListenersSuccess(payload) {
+    this.addTagEntry(payload.tagName);
+    this.state.tags[payload.tagName].listeners = payload.res.results;
+    this.state.loading = false;
+    this.emit("change");
+  },
+
+  onLoadTagRelated(payload) {
+    var tagName = payload.tagName;
+
+    if (!this.state.tags[payload.tagName]) {
+      this.addTagEntry(payload.tagName);
+    }
+
+    client.getRelated(tagName).end((err, res) => {
+      if (err) {
+        log(err);
+      } else {
+        this.onLoadTagRelatedSuccess({
+          tagName: tagName,
+          res: res.body
+        });
+      }
+    });
+
+    this.state.tags[tagName].related.loading = true;
+    this.emit("change");
+  },
+
+  onLoadTagRelatedSuccess({ res, tagName}) {
+    this.state.tags[tagName].related.list = res.results.map(item => item.name);
+    this.addTags(res.results);
+    this.state.tags[tagName].related.loading = false;
+    this.emit("change");
+  },
+
+  onLoadTagsSuccess({res}) {
+    this.state.featuredTags = res.results;
+    this.emit("change");
+  },
+
+  onLoadTagsSprite({hash}) {
+  },
+
+  onLoadTagsSpriteSuccess({res}) {
+    this.state.sprite = res;
+    this.emit("change");
+  },
+
+  onLoadTagsSpriteFailed({hash}) {
+    this.state.sprite = undefined;
+    this.emit("change");
+  },
+
+  setFluxStatus(status) {
+    this.state.status = status;
+    this.emit("change");
+    //clearing status to avoid displaying old messages
+    setTimeout(() => {
+      this.state.status = null;
+      this.emit("change");
+    },0);
+  },
+
+  onRequestSpriting() {
+  },
+
+  onRequestSpritingFailed() {
+  },
+
+  serialize() {
+    return JSON.stringify(this.state);
+  },
+
+  hydrate(json) {
+    this.state = JSON.parse(json);
+  },
+
+  getState() {
+    return this.state;
+  }
 });
 
 export default TagStore;

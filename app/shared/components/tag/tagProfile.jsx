@@ -1,120 +1,68 @@
 import React from 'react';
-import {State} from 'react-router';
-import {RouteHandler} from 'react-router';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
-import Loader from '../helper/loader.jsx';
-
-import {Col} from 'react-bootstrap';
-import {NavItemLink} from 'react-router-bootstrap';
-
-import {Clear, Icon} from '../helper';
+import Progress from '../helper/Progress.jsx';
+import {Icon, Grid} from '../helper';
 import DocumentTitle from 'react-document-title';
-
 import TagProfileImage from './tagProfileImage.jsx';
-import TagProfileActions from './tagProfileActions.jsx';
-
-let STORE_NAME = "tags";
+import NotificationSystem from 'react-notification-system';
+import assign from 'lodash/object/assign';
 
 export default React.createClass({
-	mixins: [new FluxMixin(React), new StoreWatchMixin(STORE_NAME), State],
+  _notificationSystem: null,
+  displayName: "TagProfile",
 
-	displayName: "TagProfile",
+  displayNotif(msg, type = 'success') {
+        this._notificationSystem.addNotification({
+            message: msg,
+            level: type,
+            position: 'tr', // top right
+            autoDismiss: 4
+        });
+    },
 
-	statics: {
-		fetchData(client, session, params) {
-			return client.tags().get(session, params.tagName);
-		}
-	},
+  render() {
+    const tagName = this.props.tagName,
+      tagEntry = this.props.tags[tagName];
 
-	getStateFromFlux() {
-		return this.getFlux().store(STORE_NAME).getState();
-	},
+    if (tagEntry) {
+      return (
+        <DocumentTitle title={tagName + " - Shoutit"}>
+          <Grid fluid={true}>
+              {React.cloneElement(this.props.children, this.props)}
+          </Grid>
+        </DocumentTitle>
+      );
+    } else if (!this.props.loading && tagEntry === null) {
+      return (
+        <DocumentTitle title="Not Found - Shoutit">
+          <Grid fluid={true}>
+            <h3>Tag not found!</h3>
+          </Grid>
+        </DocumentTitle>
+      );
+    } else {
+      return (
+        <DocumentTitle title="Loading - Shoutit">
+          <Grid fluid={true}>
+            <Progress/>
+          </Grid>
+        </DocumentTitle>
+      );
+    }
+  },
 
-	render() {
-		let tagName = this.getParams().tagName,
-			tagEntry = this.state.tags[tagName];
+  componentDidUpdate() {
+    this._notificationSystem = this.refs.notificationSystem;
+  },
 
-		if (tagEntry) {
-			let linkParams = {tagName: encodeURIComponent(tagName)},
-				tag = tagEntry.tag,
-				listenerCount = tag.listeners_count;
+  componentDidMount() {
+    this._notificationSystem = this.refs.notificationSystem;
+  },
 
-			return (
-				<DocumentTitle title={"Shoutit Tag Profile - " + tag.name}>
-					<div className="profile">
-						<Col xs={12} md={3} className="profile-left">
-							<TagProfileImage image={tag.image} name={tag.name}/>
-							<TagProfileActions tag={tag} flux={this.getFlux() }/>
-							<Clear/>
-							<ul>
-								<NavItemLink to="tagoffers" params={linkParams}>
-									<Icon name="lis2"/>
-									Offers
-									<span/>
-								</NavItemLink>
-								<NavItemLink to="tagrequests" params={linkParams}>
-									<Icon name="lis3"/>
-									Requests
-									<span/>
-								</NavItemLink>
-								<NavItemLink to="taglisteners" params={linkParams}>
-									<Icon name="lis"/>
-									Listeners
-									<span>{listenerCount}</span>
-								</NavItemLink>
-							</ul>
-						</Col>
-						<Col xs={12} md={9} className="pro-right-padding">
-							<RouteHandler {...this.state}
-								tagName={tagName}
-								flux={this.getFlux()}
-								/>
-						</Col>
-					</div>
-				</DocumentTitle>
-			);
-		} else if (!this.state.loading && tagEntry === null) {
-			return (
-				<DocumentTitle title="Shoutit Profile - Not Found">
-					<div className="profile">
-						<Col xs={12} md={3} className="profile-left">
-						</Col>
-						<Col xs={12} md={9} className="pro-right-padding">
-							<h3>Tag not found.</h3>
-						</Col>
-					</div>
-				</DocumentTitle>
-			);
-		} else {
-			return (
-				<DocumentTitle title="Shoutit Profile - Loading">
-					<div className="profile">
-						<Col xs={12} md={3} className="profile-left">
-							<Loader/>
-						</Col>
-						<Col xs={12} md={9} className="pro-right-padding">
-							<Loader/>
-						</Col>
-					</div>
-				</DocumentTitle>
-			);
-		}
-	},
-
-	componentDidUpdate() {
-		this.loadTag();
-	},
-
-	componentDidMount() {
-		this.loadTag();
-	},
-
-	loadTag() {
-		let tagName = this.getParams().tagName,
-			tagEntry = this.state.tags[tagName];
-
-		if (!this.state.loading && !tagEntry && tagEntry !== null) {
-			this.getFlux().actions.loadTag(tagName);
-		}
-	}
+  handleListen(ev) {
+    if(ev.isListening) {
+      this.displayNotif(`You are listening to ${ev.tag}`);
+    } else {
+      this.displayNotif(`You are no longer listening to ${ev.tag}`, 'warning');
+    }
+  }
 });

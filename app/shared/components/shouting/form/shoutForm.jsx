@@ -1,229 +1,421 @@
-import React from 'react';
-import {FluxMixin} from 'fluxxor';
-
-import {Row, Col, Button, Input, DropdownButton, MenuItem} from 'react-bootstrap';
-import TagsInput from 'react-tagsinput';
-
-import map from 'lodash/collection/map';
-
-import Clearfix from '../../helper/clearFix.jsx';
-import LocationSelection from './locationSelection.jsx';
+import React from "react";
+import Router from "react-router";
+import {History} from "react-router";
+import ReactDOM from "react-dom";
+import ReactDOMServer from "react-dom/server";
+import {Input, DropdownButton, MenuItem, Tooltip} from "react-bootstrap";
+import Overlay from "react-overlays/lib/Overlay";
+import TagsInput from "react-tagsinput";
+import DropzoneComponent from "react-dropzone-component";
+import {ReactVisible, Column, Grid, Icon} from "../../helper";
+import UserImage from "../../user/userImage.jsx";
+import LocationSearch from "../../general/locationSearch.jsx";
+import map from "lodash/collection/map";
+import Clearfix from "../../helper/clearFix.jsx";
+import Button from "../../helper/Button.jsx";
+import SVGIcon from "../../helper/SVGIcon";
 
 const shoutTypes = {
-	offer: "Offer",
-	request: "Request"
+  offer: "Offers",
+  request: "Requests"
 };
 
 export default React.createClass({
-	displayName: "ShoutForm",
-	mixins: [new FluxMixin(React)],
+  displayName: "ShoutForm",
+  mixins: [History],
 
-	getInitialState() {
-		return {
-			gmap: null,
-			marker: null
-		};
-	},
+  getInitialState() {
+    return {
+      gmap: null,
+      marker: null,
+      files: [],
+      touched: {}
+    };
+  },
 
-	renderTitleInput() {
-		return (
-			<Input type="text"
-				   placeholder="What are you shouting about?"
-				   value={this.props.draft.title}
-				   onChange={this.onTextChange("title")}
-				/>
-		);
-	},
+  componentDidMount() {
+    this.props.flux.actions.changeShoutDraft("latLng", this.props.current.location);
+  },
 
-	onTextChange(key) {
-		return function (event) {
-			this.getFlux().actions.changeShoutDraft(key, event.target.value);
-		}.bind(this);
-	},
+  renderUserImage() {
+    return (
+      <UserImage image={this.props.user.image} type="circle" height={40} width={40} />
+      );
+  },
 
-	renderPriceInput() {
-		return (
-			<Input type="number"
-				   className="price"
-				   placeholder="1.000"
-				   value={this.props.draft.price}
-				   onChange={this.onTextChange('price')}
-				   buttonAfter={this.renderCurrencyDropdown()}
-				/>
-		);
-	},
+  renderTitleInput() {
+    let userImage = this.props.collapsed? this.renderUserImage(): null;
 
-	renderCurrencyDropdown() {
-		let currencies = map(this.props.currencies, (currency) => (
-				<MenuItem eventKey={"currency:" + currency.code}>
-					{currency.name + "(" + currency.code + ")"}
-				</MenuItem>)
-		);
+    return (
+      <div>
+        {userImage}
+        <Input type="text"
+             className="shout-form-title"
+             placeholder="What are you Shouting ..."
+             value={this.props.draft.title}
+             ref="title"
+             onFocus={ () => {
+               this.props.onUserFocus && this.props.onUserFocus({focused: true });
+             }}
+             onChange={this.onTextChange("title")}
+          />
+        <ReactVisible condition={this.props.collapsed}>
+          <Icon name="upload_image" className="shout-form-title-icon" />
+        </ReactVisible>
+      </div>
+    );
+  },
 
-		let selected = this.props.draft.currency || this.props.currencies['AED'],
-			title = selected.name + "(" + selected.code + ")";
+  onTextChange(key) {
 
-		return (
-			<DropdownButton
-				bsStyle="pills"
-				onSelect={this.onCurrencySelect}
-				title={title}>
-				{currencies}
-			</DropdownButton>
-		);
-	},
+    return function (event) {
+      this.props.flux.actions.changeShoutDraft(key, event.target.value);
+      this.onTouch(key);
+    }.bind(this);
+  },
 
-	renderCategoryDropdown() {
-		let categories = map(this.props.categories, (category, i) => (
-				<MenuItem eventKey={"category:" + i}>
-					{category.name}
-				</MenuItem>)
-		);
+  renderPriceInput() {
+    return (
+      <Input type="number"
+           className="shout-form-price"
+           ref="price"
+           placeholder="Type Price..."
+           min="0"
+           value={this.props.draft.price}
+           onChange={this.onTextChange("price")}
+        />
+    );
+  },
 
-		let selected = this.props.draft.category,
-			title = selected ? selected.name : "Select a category";
+  renderCurrencyDropdown() {
+    let currencies = map(this.props.currencies, (currency) => (
+        <MenuItem  eventKey={"currency:" + currency.code} key={currency.code}>
+          {currency.name + "(" + currency.code + ")"}
+        </MenuItem>
 
-		return (
-			<DropdownButton
-				className="categoryDropdown"
-				block
-				bsStyle="pills"
-				onSelect={this.onCategorySelect}
-				title={title}>
-				{categories}
-			</DropdownButton>
-		);
-	},
+        )
+    );
 
-	onCurrencySelect(key) {
-		let code = key.split(":")[1];
-		this.getFlux().actions.changeShoutDraft("currency", this.props.currencies[code]);
-	},
+    let selected = this.props.draft.currency,
+      title = selected ? selected.name : "Select a currency";
 
-	onCategorySelect(key) {
-		let index = key.split(":")[1];
-		this.getFlux().actions.changeShoutDraft("category", this.props.categories[index]);
-	},
+    return (
+      <DropdownButton
+        className="shout-form-dropdown"
+        style={{marginLeft: "17px"}}
+        ref="currency"
+        onSelect={this.onCurrencySelect}
+        title={title}>
+        {currencies}
+      </DropdownButton>
+    );
+  },
 
-	renderDescTextArea() {
-		return (
-			<Input type='textarea'
-				   rows="3"
-				   onChange={this.onTextChange('text')}
-				   value={this.props.draft.text}
-				   placeholder="Description"/>
-		);
-	},
+  renderCategoryDropdown() {
+    let categories = map(this.props.categories, (category, i) => (
+        <MenuItem  eventKey={"category:" + i} key={i} className="shout-form-cat">
+          {category.name}
+        </MenuItem>)
+    );
 
-	renderTypeSelect()
-	{
-		let options = map(shoutTypes, (value, key) => {
-			return (
-				<MenuItem eventKey={"type:" + key}>
-					{value}
-				</MenuItem>
-			);
-		});
+    let selected = this.props.draft.category,
+      title = selected ? selected.name : "Select a category";
+
+    return (
+      <DropdownButton
+        className="shout-form-dropdown"
+        block
+        ref="category"
+        onSelect={this.onCategorySelect}
+        title={title}>
+        {categories}
+      </DropdownButton>
+    );
+  },
+
+  renderImageUpload() {
+    let componentConfig = {
+      allowedFiletypes: [".jpg", ".png"],
+      showFiletypeIcon: true,
+      postUrl: "/services/image_upload"
+    };
+    let eventHandlers = {
+      init: null,
+      addedfile: null,
+      removedfile: this.onImageRemoved,
+      uploadprogress: null,
+      sending: null,
+      success: this.onImageUploaded,
+      complete: null,
+      maxfilesexceeded: null
+    };
+    var djsConfig = {
+      paramName: "shout_image",
+      maxFilesize: 5, // 5 MB
+      addRemoveLinks: true,
+      maxFiles: 7,
+      dictCancelUpload:"",
+      method: "POST"
+    };
+    return <DropzoneComponent config={componentConfig}
+                       eventHandlers={eventHandlers}
+                       djsConfig={djsConfig}/>;
+  },
 
 
-		let title = shoutTypes[this.props.draft.type];
+  onImageUploaded(file, resp) {
+    let files = this.state.files.slice(),
+      filesList=[];
 
-		return (
-			<DropdownButton
-				bsStyle="pills"
-				onSelect={this.onTypeSelect}
-				title={title}>
-				{options}
-			</DropdownButton>
-		);
-	}
-	,
+    files.push({name: file.name,remoteName: resp});
+    filesList = files.map((item) => item.remoteName);
 
-	onTypeSelect(key)
-	{
-		let type = key.split(":")[1];
-		this.getFlux().actions.changeShoutDraft("type", type);
-	}
-	,
+    this.setState({files:files});
+    this.props.flux.actions.changeShoutDraft("images", filesList);
+    this.onTouch("images");
+  },
 
-	renderTagInput()
-	{
-		return (
-			<div className="form-group">
-				<TagsInput ref='tags' value={this.props.draft.tags}
-						   onChange={this.onTagsChange}
-						   placeholder="Add a key word" addKeys={[9, 13, 32]}>
-				</TagsInput>
-			</div>
-		);
-	}
-	,
+  onImageRemoved(file) {
+    let files = this.state.files.slice(),
+      cleanedFiles,
+      deletedImageName,
+      filesList=[];
 
-	onTagsChange(newTags) {
-		this.getFlux().actions.changeShoutDraft("tags", newTags);
-	},
+    // getting the name of the image on s3 server and removing url part
+    deletedImageName = files.filter((item) => item.name === file.name)[0]
+        .remoteName.match(/[^\/]*$/)[0];
+    cleanedFiles = files.filter((val) => val.name !== file.name);
+    filesList = cleanedFiles.map((item) => item.remoteName);
 
-	render() {
-		return (
-			<div className="modal-form">
-				<form>
-					<Row>
-						<Col sm={7} md={7}>
-							{this.renderTitleInput()}
-						</Col>
-						<Col sm={5} md={5}>
-							{this.renderPriceInput()}
-						</Col>
-					</Row>
-					<Clearfix/>
-					<Row>
-						<Col sm={12} md={12}>
-							{this.renderDescTextArea()}
-						</Col>
-					</Row>
-					<Row>
-						<Col sm={2} md={2}>
-							{this.renderTypeSelect()}
-						</Col>
-						<Col sm={4} md={4}>
-							{this.renderCategoryDropdown()}
-						</Col>
-						<Col sm={12} md={6}>
-							{this.renderTagInput()}
-						</Col>
-					</Row>
-					<Row>
-						<Col sm={12} md={12}>
-							Click on the Map to select a location.
-						</Col>
-					</Row>
-					<Row>
-						<LocationSelection
-							onChange={this.onLocationSelectionChange}
-							flux={this.props.flux}
-							selected={this.props.draft.latLng}
-							startLocation={this.props.current.location}
-							/>
-					</Row>
-					<Row className="row-submit">
-						<Button onClick={this.onSubmit} className="btn-submit submit">
-							Shoutit!
-						</Button>
-					</Row>
-				</form>
-			</div>
-		);
-	}
-	,
+    this.setState({files:cleanedFiles});
+    this.props.flux.actions.changeShoutDraft("images", filesList);
+    this.props.flux.actions.removeShoutImage(deletedImageName);
+  },
 
-	onSubmit() {
-		this.getFlux().actions.sendShout();
-		if(this.props.requestHide) {
-			this.props.requestHide();
-		}
-	},
+  onCurrencySelect(ev, key) {
+    this.onTouch("currency");
+    let code = key.split(":")[1];
+    this.props.flux.actions.changeShoutDraft("currency", this.props.currencies[code]);
+  },
 
-	onLocationSelectionChange(newLatLng) {
-		this.getFlux().actions.changeShoutDraft("latLng", newLatLng);
-	}
+  onCategorySelect(ev, key) {
+    this.onTouch("category");
+    let index = key.split(":")[1];
+    this.props.flux.actions.changeShoutDraft("category", this.props.categories[index]);
+  },
+
+  renderDescTextArea() {
+    return (
+      <Input type="textarea"
+           rows="3"
+           ref="text"
+           onChange={this.onTextChange("text")}
+           value={this.props.draft.text}
+           placeholder="Description"/>
+    );
+  },
+
+  renderTypeSelect() {
+    let options = map(shoutTypes, (value, key) => {
+      return (
+        <MenuItem key={key} eventKey={"type:" + key}>
+          {value}
+        </MenuItem>
+      );
+    });
+
+
+    let title = shoutTypes[this.props.draft.type];
+
+    return (
+      <div>
+        {this.renderUserImage()}
+        <DropdownButton
+          className="shout-form-dropdown shout-form-type"
+          onSelect={this.onTypeSelect}
+          title={title}>
+          {options}
+        </DropdownButton>
+      </div>
+    );
+  },
+
+  onTypeSelect(ev, key) {
+    let type = key.split(":")[1];
+    this.props.flux.actions.changeShoutDraft("type", type);
+  },
+
+  renderTagInput() {
+    return (
+      <div className="form-group">
+        <TagsInput ref="tags" value={this.props.draft.tags}
+               onChange={this.onTagsChange}
+               placeholder="Add a key word" addKeys={[9, 13, 32]}>
+        </TagsInput>
+      </div>
+    );
+  },
+
+  onTagsChange(newTags) {
+    this.props.flux.actions.changeShoutDraft("tags", newTags);
+  },
+
+  componentDidUpdate(prevProps) {
+    let status = this.props.status || {};
+    if (status.id && !prevProps.status.id) {
+      // Shout sent successfully
+      let shoutPath = status.web_url.match(/\/[^\/]*\/[^\/]*$/)[0];
+      if (this.props.onUserFocus) {
+        this.props.onUserFocus({focused: false});
+      }
+      if (this.props.onShoutSent) {
+        this.props.onShoutSent(true);
+      }
+      this.clearForms();
+      setTimeout(() => {
+        this.history.pushState(null, shoutPath);
+      },1000);
+    }
+  },
+
+  clearForms() {
+    let {title, text, price} = this.refs;
+
+    title.value = "";
+    text.value =  "";
+    price.value = "";
+  },
+
+  getErrorTooltip(errorField) {
+    let status = this.props.status;
+    return <Tooltip>{status[errorField]}</Tooltip>;
+  },
+
+  getErrorProps(errorField) {
+    if (this.props.status[errorField]) {
+      return {
+        show: !this.state.touched[errorField],
+        container: this,
+        target: () => ReactDOM.findDOMNode(this.refs[errorField]),
+        placement: "bottom"
+      };
+    }
+  },
+
+  onTouch(elm) {
+    // flag element as touched
+    let touched = this.state.touched;
+    touched[elm] = true;
+    this.setState({touched:touched});
+  },
+
+  clearTouches() {
+    this.setState({touched:{}});
+  },
+
+  renderAlerts() {
+    if (!this.props.status.id && !this.props.collapsed) {
+      return (
+        <section>
+          <Overlay {...this.getErrorProps("title")} >
+            {this.getErrorTooltip("title")}
+          </Overlay>
+          <Overlay {...this.getErrorProps("text")} >
+            {this.getErrorTooltip("text")}
+          </Overlay>
+          <Overlay {...this.getErrorProps("currency")} >
+            {this.getErrorTooltip("currency")}
+          </Overlay>
+          <Overlay {...this.getErrorProps("price")} >
+            {this.getErrorTooltip("price")}
+          </Overlay>
+          <Overlay {...this.getErrorProps("category")} >
+            {this.getErrorTooltip("category")}
+          </Overlay>
+          <Overlay {...this.getErrorProps("location")} >
+            {this.getErrorTooltip("location")}
+          </Overlay>
+        </section>
+      );
+    }
+  },
+
+  onLocationSelect(newLatLng) {
+    this.onTouch("location");
+    this.props.flux.actions.changeShoutDraft("latLng", newLatLng);
+  },
+
+
+  render() {
+    let collapsed = this.props.collapsed;
+
+    return (
+      <div className={collapsed? "shout-form collapsed": "shout-form"} >
+        <form>
+          {this.renderAlerts()}
+          <Grid fluid={true} >
+            <ReactVisible condition={!collapsed}>
+              <Column fluid={true} clear={true} size="4" className="shout-form-type">
+                {this.renderTypeSelect()}
+              </Column>
+            </ReactVisible>
+            <Column fluid={true} size={collapsed? "0": "11"}>
+              {this.renderTitleInput()}
+            </Column>
+          </Grid>
+          <ReactVisible condition={!collapsed}>
+            <Grid fluid={true} className="shout-form-desc">
+              {this.renderDescTextArea()}
+            </Grid>
+
+            <Grid fluid={true}>
+              <Column fluid={true} clear={true} size="5">
+                {this.renderCategoryDropdown()}
+              </Column>
+              <Column fluid={true} size="6">
+                {this.renderPriceInput()}
+              </Column>
+              <Column fluid={true} size="4">
+                {this.renderCurrencyDropdown()}
+              </Column>
+            </Grid>
+
+            <Grid fluid={true}>
+              {this.renderImageUpload()}
+            </Grid>
+            <Grid fluid={true} style={{marginTop:"20px"}}>
+              <Column fluid={true} clear={true} size="11">
+                <LocationSearch onSelect={this.onLocationSelect} ref="location" flux={this.props.flux} />
+              </Column>
+              <Column fluid={true} size="4" style={{ textAlign: "right" }}>
+                <Button
+                  leftIcon={ <SVGIcon name="sparkle" fill /> }
+                  label={this.props.waiting? "Loading...": "Create Shout"}
+                  primary
+                  onClick={this.onSubmit}
+                  disabled={this.props.waiting} />
+              </Column>
+            </Grid>
+          </ReactVisible>
+
+        </form>
+      </div>
+    );
+  },
+
+  onSubmit() {
+    this.props.flux.actions.sendShout();
+    this.clearTouches();
+
+  }
 });
+
+/*
+<LocationSelection
+  onChange={this.onLocationSelectionChange}
+  flux={this.props.flux}
+  ref="location"
+  selected={this.props.draft.latLng || this.props.current.location}
+  startLocation={this.props.current.location}
+  />onBlurCapture={this.onUserFocus({focused: false})}
+*/

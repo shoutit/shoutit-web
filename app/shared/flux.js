@@ -1,67 +1,85 @@
-"use strict";
+/* eslint-env node */
+import debug from "debug";
 
-/**
- * Created by Philip on 17.02.2015.
- */
+import { actions as chatActions } from "./stores/chat/actions";
+import { actions as conversationsActions } from "./stores/conversations/actions";
+import { actions as messagesActions } from "./stores/messages/actions";
 
-var merge = require('lodash/object/merge'),
-	Fluxxor = require("fluxxor"),
-	UsersStore = require('./stores/users/store'),
-	ShoutStore = require('./stores/shouts/store'),
-	TagStore = require('./stores/tags/store'),
-	SearchStore = require('./stores/search/store'),
-	LocationsStore = require('./stores/locations/store'),
-	MessagesStore = require('./stores/messages/store'),
-	NotificationsStore = require('./stores/notifications/store'),
-	userActions = require('./stores/users/actions'),
-	shoutActions = require('./stores/shouts/actions'),
-	tagActions = require('./stores/tags/actions'),
-	searchActions = require('./stores/search/actions'),
-	locationsActions = require('./stores/locations/actions'),
-	messagesActions = require('./stores/messages/actions'),
-	notificationsActions = require('./stores/notifications/actions');
+import { ChatStore } from "./stores/chat/ChatStore";
+import { ConversationsStore } from "./stores/conversations/ConversationsStore";
+import { MessagesStore } from "./stores/messages/MessagesStore";
+
+import suggestionsActions from "./stores/suggestions/actions";
+import SuggestionsStore from "./stores/suggestions/store";
+
+const merge = require("lodash/object/merge"),
+  Fluxxor = require("fluxxor"),
+  UsersStore = require("./stores/users/store"),
+  ShoutStore = require("./stores/shouts/store"),
+  TagStore = require("./stores/tags/store"),
+  SearchStore = require("./stores/search/store"),
+  LocationsStore = require("./stores/locations/store"),
+  NotificationsStore = require("./stores/notifications/store"),
+  DiscoversStore = require("./stores/discovers/store"),
+  userActions = require("./stores/users/actions"),
+  shoutActions = require("./stores/shouts/actions"),
+  tagActions = require("./stores/tags/actions"),
+  searchActions = require("./stores/search/actions"),
+  locationsActions = require("./stores/locations/actions"),
+  notificationsActions = require("./stores/notifications/actions"),
+  discoversActions = require("./stores/discovers/actions");
 
 module.exports = function (router, user, data, params, currencies, categories, sortTypes) {
-	var stores = {
-		users: new UsersStore(merge({}, {
-			loggedUser: user,
-			router: router
-		}, data)),
-		shouts: new ShoutStore(merge({}, data, {currencies, categories, sortTypes}), params),
-		tags: new TagStore(data, params),
-		search: new SearchStore(merge({}, data, params)),
-		locations: new LocationsStore(merge({}, data, {router, params})),
-		messages: new MessagesStore(merge({}, data, {loggedUser: user, params})),
-		notifications: new NotificationsStore({
-			data
-		})
-	};
+  const stores = {
+    users: new UsersStore(merge({}, {
+      loggedUser: user,
+      router: router
+    }, data)),
+    shouts: new ShoutStore(merge({}, data, {currencies, categories, sortTypes}), params),
+    tags: new TagStore(data, params),
+    search: new SearchStore(merge({}, data, {categories}, params)),
+    locations: new LocationsStore(merge({}, data, {router, params})),
+    conversations: new ConversationsStore(merge({}, data, {loggedUser: user, params})),
+    chat: new ChatStore(merge({}, data, {loggedUser: user, params})),
+    messages: new MessagesStore(merge({}, data, {loggedUser: user, params})),
+    notifications: new NotificationsStore({data}),
+    discovers: new DiscoversStore(data),
+    suggestions: new SuggestionsStore(data)
 
-	var actions = merge({},
-		userActions, shoutActions, tagActions, searchActions, locationsActions,
-		messagesActions, notificationsActions);
+  };
 
-	var flux = new Fluxxor.Flux(stores, actions);
+  for (const store in stores) {
+    stores[store].on("change", () =>
+      debug(`shoutit:stores:${store}`)("Emitted change", {...stores[store].getState()})
+    );
+  }
 
-	flux.serialize = function () {
-		var storeData = {};
+  const actions = merge({},
+    userActions, shoutActions, tagActions, searchActions, locationsActions,
+    messagesActions, chatActions, conversationsActions, notificationsActions,
+    discoversActions, suggestionsActions);
 
-		for (var store in stores) {
-			if (stores.hasOwnProperty(store)) {
-				storeData[store] = stores[store].serialize();
-			}
-		}
+  const flux = new Fluxxor.Flux(stores, actions);
 
-		return JSON.stringify(storeData);
-	};
+  flux.serialize = function () {
+    const storeData = {};
 
-	flux.hydrate = function (storeData) {
-		for (var store in storeData) {
-			if (storeData.hasOwnProperty(store)) {
-				stores[store].hydrate(storeData[store]);
-			}
-		}
-	};
+    for (const store in stores) {
+      if (stores.hasOwnProperty(store)) {
+        storeData[store] = stores[store].serialize();
+      }
+    }
 
-	return flux;
+    return JSON.stringify(storeData);
+  };
+
+  flux.hydrate = function (storeData) {
+    for (const store in storeData) {
+      if (storeData.hasOwnProperty(store)) {
+        stores[store].hydrate(storeData[store]);
+      }
+    }
+  };
+
+  return flux;
 };

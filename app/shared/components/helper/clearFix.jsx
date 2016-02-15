@@ -3,9 +3,9 @@
 import React from 'react';
 
 export default React.createClass({
-	displayName: "Clearfix",
+  displayName: "Clearfix",
 
-	render() {
-		return (<div className="clearfix"></div>);
-	}
+  render() {
+    return (<div className="clearfix"></div>);
+  }
 });

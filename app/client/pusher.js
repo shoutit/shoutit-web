@@ -1,73 +1,64 @@
-/**
- * Created by Philip on 22.06.2015.
- */
+import Pusher from "pusher-js";
+import debug from "debug";
 
-let Pusher = require('imports?define=>false!pusher-js');
+const APP_KEY = "86d676926d4afda44089";
 
-const LOG_TAG = "[Pusher]";
+Pusher.log = message => debug("shoutit:pusher")(message);
 
-export default function (APP_KEY, authEndpoint) {
+export let client;
 
-	let pusher = new Pusher(APP_KEY, {
-		encrypted: true,
-		authEndpoint: authEndpoint
-	});
+export function subscribe(channelName, data, callback) {
+  const channel = client.subscribe(channelName, data);
+  channel.bind("pusher:subscription_error", status => callback(status, channel));
+  channel.bind("pusher:subscription_succeeded", () => callback(null, channel));
+  return channel;
+}
 
-	pusher.connection.bind('error', function (err) {
-		if (err.data && err.data.code === 4004) {
-			console.warn(LOG_TAG, 'detected limit error');
-		} else {
-			console.warn(LOG_TAG, err);
-		}
-	});
+export function unsubscribe(channel) {
+  client.unsubscribe(channel.name);
+}
 
-	pusher.connection.bind('initialized', function () {
-		console.log(LOG_TAG, 'initialized');
-	});
+export function setup(usersStore, {
+  onNewMessage,
+  onNewListener,
+  onProfileChange
+} ) {
 
-	pusher.connection.bind('connecting', function () {
-		console.log(LOG_TAG, 'connecting');
-	});
+  if (client) {
+    return;
+  }
 
-	pusher.connection.bind('connected', function () {
-		console.log(LOG_TAG, 'initialized');
-	});
+  client = new Pusher(APP_KEY, {
+    encrypted: true,
+    authEndpoint: "/api/pusher/auth"
+  });
 
-	pusher.connection.bind('unavailable', function () {
-		console.log(LOG_TAG, 'unavailable');
-	});
+  const subscribe = user => {
+    const channelId = `presence-u-${user.id}`;
+    const presenceChannel = client.subscribe(channelId);
+    client.presenceChannel = presenceChannel;
 
-	pusher.connection.bind('failed', function () {
-		console.log(LOG_TAG, 'failed');
-	});
+    presenceChannel.bind("pusher:subscription_succeeded", () => {
+      presenceChannel.bind("new_message", onNewMessage);
+      presenceChannel.bind("new_listen", onNewListener);
+      presenceChannel.bind("profile_change", onProfileChange);
+    });
 
-	pusher.connection.bind('disconnected', function () {
-		console.log(LOG_TAG, 'disconnected');
-	});
+  };
 
-	pusher.subscribeUser = function (flux, loggedUser) {
-		if (loggedUser) {
-			let channelId = 'presence-u-' + loggedUser.id;
-			let presenceChannel = pusher.subscribe(channelId);
-			presenceChannel.bind('pusher:subscription_succeeded', function () {
-				console.log(LOG_TAG, "Subscribed:", channelId);
-				presenceChannel.bind("new_message", function (message) {
-					flux.actions.newMessage(message);
-				});
-				//presenceChannel.bind("new_listen", this.onNewListen.bind(this));
-				//this.state.presenceChannel.bind("profile_change", this.onProfileChange.bind(this));
-			});
+  const unsubscribe = () => {
+    if (client.presenceChannel) {
+      client.unsubscribe(client.presenceChannel.name);
+      client.presenceChannel = null;
+    }
+  };
 
-			pusher.presenceChannel = presenceChannel;
-		}
-	};
+  const loggedUser = usersStore.getLoggedUser();
 
-	pusher.unsubscribeUser = function () {
-		if (pusher.presenceChannel) {
-			pusher.unsubscribe(pusher.presenceChannel.name);
-			pusher.presenceChannel = null;
-		}
-	};
+  if (loggedUser) {
+    subscribe(loggedUser);
+  }
 
-	return pusher;
+  usersStore.on("login", () => subscribe(usersStore.getLoggedUser()));
+  usersStore.on("logout", () => unsubscribe() );
 }

@@ -1,163 +1,132 @@
-/**
- * Created by Philip on 22.06.2015.
- */
+import {
+  SEND_MESSAGE,
+  SEND_MESSAGE_SUCCESS,
+  SEND_MESSAGE_FAILURE,
+  REPLY_CONVERSATION,
+  REPLY_CONVERSATION_SUCCESS,
+  REPLY_CONVERSATION_FAILURE,
+  REPLY_SHOUT,
+  REPLY_SHOUT_SUCCESS,
+  REPLY_SHOUT_FAILURE,
+  NEW_PUSHED_MESSAGE
+} from "../messages/actionTypes";
 
-import consts from './consts';
-import client from './client';
+import * as client from "../messages/client";
+import { getUnixTime } from "../../../utils/DateUtils";
 
-export default {
-	loadConversations() {
-		this.dispatch(consts.LOAD_CONVERSATIONS);
+function createTempMessage(data) {
+  const tempMessageId = new Date().getUTCMilliseconds();
+  const message = {
+    created_at: getUnixTime(),
+    id: tempMessageId,
+    is_read: false,
+    ...data
+  };
+  return message;
+}
 
-		client.loadConversations()
-			.end(function (error, res) {
-				if (error || !res.ok) {
-					this.dispatch(consts.LOAD_CONVERSATIONS_FAILED, {
-						error
-					});
-				} else {
-					this.dispatch(consts.LOAD_CONVERSATIONS_SUCCESS, {
-						res: res.body
-					});
-				}
-			}.bind(this));
-	},
+export const actions = {
 
-	loadMoreConversations(before) {
-		this.dispatch(consts.LOAD_MORE_CONVERSATIONS, {
-			before
-		});
+  replyToConversation(user, conversationId, text, attachments) {
+    const message = createTempMessage({
+      conversation_id: conversationId,
+      text,
+      user,
+      attachments
+    });
+    this.dispatch(REPLY_CONVERSATION, { conversationId, message });
+    client.replyToConversation(conversationId, message).end((error, res) => {
+      if (error || !res.ok) {
+        error = error ? { status: 500, ...error } : res;
+        this.dispatch(REPLY_CONVERSATION_FAILURE, {
+          conversationId,
+          message,
+          error
+        });
+        return;
+      }
+      this.dispatch(REPLY_CONVERSATION_SUCCESS, {
+        conversationId,
+        tempMessageId: message.id,
+        message: res.body
+      });
+    });
 
-		client.loadMoreConversations({
-			before
-		}).end(function (error, res) {
-			if (error || !res.ok) {
-				this.dispatch(consts.LOAD_MORE_CONVERSATIONS_FAILED, {
-					error
-				});
-			} else {
-				this.dispatch(consts.LOAD_MORE_CONVERSATIONS_SUCCESS, {
-					before,
-					res: res.body
-				});
-			}
-		}.bind(this));
-	},
+    return message;
+  },
 
-	loadConversation(id) {
-		this.dispatch(consts.LOAD_CONVERSATION, {
-			id
-		});
+  newPushedMessage(message) {
+    this.dispatch(NEW_PUSHED_MESSAGE, message);
+  },
 
-		client.loadMessages(id)
-			.end(function (error, res) {
-				if (error || !res.ok) {
-					this.dispatch(consts.LOAD_CONVERSATION_FAILED, {
-						error
-					});
-				} else {
-					this.dispatch(consts.LOAD_CONVERSATION_SUCCESS, {
-						id,
-						res: res.body
-					});
-				}
-			}.bind(this));
-	},
+  /**
+   * Reply to a shout.
+   * @param  {Object}   loggedUser The logged user (that is sending the message)
+   * @param  {String}   shoutId
+   * @param  {String}   text    The content of the message
+   * @param  {Function} [done]  Optional. A callback function (err, sentMessage)
+   * @return {Object}   The temporary message that is going to be sent.
+   */
+  replyToShout(loggedUser, shoutId, text, done) {
+    const message = createTempMessage({ text,  user: loggedUser });
+    this.dispatch(REPLY_SHOUT, { shoutId, message });
+    client.replyToShout(shoutId, message).end((error, res) => {
+      if (error || !res.ok) {
+        error = error ? { status: 500, ...error } : res;
+        this.dispatch(REPLY_SHOUT_FAILURE, {
+          shoutId,
+          message,
+          error
+        });
+        done && done(error);
+        return;
+      }
+      this.flux.actions.loadMessages(res.body.conversation_id, () => {
+        this.flux.actions.loadConversations(() => {
 
-	loadMoreConversation(id, before) {
-		this.dispatch(consts.LOAD_MORE_CONVERSATION, {id, before});
+          this.dispatch(REPLY_SHOUT_SUCCESS, {
+            shoutId,
+            tempMessageId: message.id,
+            message: res.body
+          });
+          done && done(null, res.body);
 
-		client.loadMoreMessages(id, {before}).end(function (error, res) {
-			if (error || !res.ok) {
-				this.dispatch(consts.LOAD_MORE_CONVERSATION_FAILED, {id, before, error});
-			} else {
-				this.dispatch(consts.LOAD_MORE_CONVERSATION_SUCCESS, {id, before, res: res.body});
-			}
-		}.bind(this));
-	},
+        });
+      });
+    });
+    return message;
+  },
 
-	deleteConversation(id) {
-		this.dispatch(consts.DELETE_CONVERSATION, {
-			id
-		});
-
-		client.deleteConversation(id)
-			.end(function (error, res) {
-				if (error || !res.ok) {
-					this.dispatch(consts.DELETE_CONVERSATION_FAILED, {
-						id, error
-					});
-				} else {
-					this.dispatch(consts.DELETE_CONVERSATION_SUCCESS, {
-						id,
-						res: res.body
-					});
-				}
-			}.bind(this));
-	},
-
-
-	readConversation(id) {
-		this.dispatch(consts.READ_CONVERSATION, {id});
-
-		client.readConversation(id)
-			.end(function (error, res) {
-				if (error || !res.ok) {
-					this.dispatch(consts.READ_CONVERSATION_FAILED, {
-						id, error
-					});
-				} else {
-					this.dispatch(consts.READ_CONVERSATION_SUCCESS, {
-						id
-					});
-				}
-			}.bind(this));
-	},
-
-	unreadConversation(id) {
-		this.dispatch(consts.UNREAD_CONVERSATION, {id});
-
-		client.unreadConversation(id).end(function (error, res) {
-			if (error || !res.ok) {
-				this.dispatch(consts.UNREAD_CONVERSATION_FAILED, {id, error});
-			} else {
-				this.dispatch(consts.UNREAD_CONVERSATION_SUCCESS, {id});
-			}
-		}.bind(this));
-	},
-
-	replyConversation(id, message) {
-		this.dispatch(consts.REPLY_CONVERSATION, {id, message});
-
-		client.replyConversation(id, message).end(function (error, res) {
-			if (error || !res.ok) {
-				this.dispatch(consts.REPLY_CONVERSATION_FAILED, {id, message, error});
-			} else {
-				this.dispatch(consts.REPLY_CONVERSATION_SUCCESS, {id, res: res.body});
-			}
-		}.bind(this));
-	},
-
-	deleteMessage(id, conId) {
-		this.dispatch(consts.DELETE_MESSAGE, {id, conId});
-
-		client.deleteMessage(id).end(function (error, res) {
-			if (error || !res.ok) {
-				this.dispatch(consts.DELETE_MESSAGE_FAILED, {id, conId, error});
-			} else {
-				this.dispatch(consts.DELETE_MESSAGE_SUCCESS, {id, conId});
-			}
-		}.bind(this));
-	},
-
-	newMessage(message) {
-		this.dispatch(consts.NEW_MESSAGE, {message});
-	},
-
-	messageDraftChange(field, value) {
-		this.dispatch(consts.MESSAGE_DRAFT_CHANGE, {
-			field, value
-		});
-	}
+  /**
+   * Send a message to a user.
+   * @param  {Object}   loggedUser The logged user (that is sending the message)
+   * @param  {String}   to      The username of the recipeint
+   * @param  {String}   text    The content of the message
+   * @param  {Function} [done]  Optional. A callback function (err, sentMessage)
+   * @return {Object}   The temporary message that is going to be sent.
+   */
+  sendMessage(loggedUser, to, text, done) {
+    const message = createTempMessage({ text, user: loggedUser });
+    this.dispatch(SEND_MESSAGE, { to, message });
+    client.sendMessage(message).end((error, res) => {
+      if (error || !res.ok) {
+        error = error ? { status: 500, ...error } : res;
+        this.dispatch(SEND_MESSAGE_FAILURE, {
+          to,
+          message,
+          error
+        });
+        done && done(error);
+        return;
+      }
+      this.dispatch(SEND_MESSAGE_SUCCESS, {
+        to,
+        tempMessageId: message.id,
+        message: res.body
+      });
+      done && done(error, res.body);
+    });
+    return message;
+  }
 
 };

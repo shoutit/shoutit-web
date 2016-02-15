@@ -1,82 +1,33 @@
-@import "bootstrap";
-@import "bootstrap/theme";
+@import "bootstrap.scss";
+@import "grid.scss";
+@import "sprites.scss";
 
-$shoutit-dark-green: #99ca3b;
-$shoutit-light-green: #bfdd6d;
-$shoutit-dark-gray: #343837;
-$shoutit-light-gray: #f1efef;
+@import "colors.scss";
+@import "defaults.scss";
 
-@import "customstyle";
-@import "fonts";
-@import "header/header";
-@import "style";
-@import "vuong";
 
-.form-control, .modal-form .btn-group .btn {
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
+// External libs
+@import "dropzone.scss";
+@import "image-gallery.scss";
+@import "video-player.scss";
+@import "tagsinput.scss";
 
-//#main-mount > div > div {
-//  position: fixed;
-//  top: 0;
-//  left: 0;
-//  min-width: 320px;
-//  height: 100%;
-//}
+// Components and Pages
+@import "pages/_mixins.scss";
+@import "pages/general.scss";
 
-#main-mount > div > div {
-  padding-top: 83px;
-  padding-bottom: 56px;
-  //overflow-y: scroll;
-  //min-height: 100%;
-}
+@import "components/card.scss";
+@import "components/shout.scss";
+@import "components/shout_detail.scss";
+@import "components/tags.scss";
+@import "components/shout_form.scss";
+@import "components/location_search.scss";
+@import "components/profile_menu.scss";
+@import "components/profile_info_tooltip.scss";
+@import "components/popup_list.scss";
+@import "components/topbar_buttons.scss";
+@import "components/si_buttons.scss";
+@import "components/discover.scss";
 
-body, #main-mount > div > div {
-  background-color: $shoutit-light-gray;
-}
-
-.container section > div {
-  margin-top: 5px;
-}
-
-.downloadPopup {
-  z-index: 110;
-}
-
-$icons-sprite-dimensions: true;
-$icons-layout: smart;
-@import "compass/utilities/sprites";
-@import "icons/*.png";
-@include all-icons-sprites;
-
-.icons-tag {
-  display: inline-block;
-  margin-bottom: 0 !important;
-  margin-top: 1px;
-  margin-right: 2px;
-}
-
-@import "tagsinput";
-
-.appstore_btn {
-  display: inline-block;
-  overflow: hidden;
-  background: url(https://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.png) no-repeat;
-
-  height: 45px;
-  @media only screen {
-    background-image: url(https://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg);
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .shoutFeed {
-    padding: 0;
-
-    section > div {
-      padding: 0;
-    }
-  }
-}
-
+@import "pages/search.scss";
+@import "pages/profilepage.scss";

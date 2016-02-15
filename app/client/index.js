@@ -1,101 +1,85 @@
-import React from 'react'; // /addons
-import Router from 'react-router';
+/* eslint no-console: 0 */
+/* eslint-env browser */
 
-import routes from '../shared/routes.jsx';
-import Flux from '../shared/flux';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Router } from "react-router";
+import injectTapEventPlugin from "react-tap-event-plugin";
+import debug from "debug";
 
-import facebook from './fb';
-import gAnalytics from './ga';
-import geolocation from './geolocation';
-import pusher from './pusher';
+import routes from "../shared/routes";
+import Flux from "../shared/flux";
+import "../client/initializeFacebook";
+import gAnalytics from "../client/ga";
+import { setup as setupPusher } from "../client/pusher";
+import createBrowserHistory from "history/lib/createBrowserHistory";
 
-import isMobile from 'ismobilejs';
+import "babel-core/polyfill";
 
-let envData = {};
+import "styles/main.scss";
 
-envData.mobile = isMobile.any;
+injectTapEventPlugin();
 
-let router = Router.create({
-	routes: routes(envData),
-	location: Router.HistoryLocation
+window.debug = debug;
+const log = debug("shoutit");
+
+const flux = new Flux(null);
+
+flux.setDispatchInterceptor((action, dispatch) =>  {
+  ReactDOM.unstable_batchedUpdates(() => dispatch(action));
 });
-
-let flux = new Flux(router);
 
 if (window.fluxData) {
-	flux.hydrate(window.fluxData);
-	document.body.replaceChild(document.createElement('script'), document.getElementById('fluxData'));
+  flux.hydrate(window.fluxData);
+  document.body.replaceChild(
+    document.createElement("script"),
+    document.getElementById("fluxData")
+  );
 }
 
-flux.on("dispatch", function (type, payload) {
-	if (console && console.log) {
-		console.log("[Flux]", type, payload);
-	}
-});
+flux.on("dispatch", (type, payload) =>
+  debug("shoutit:actions")("Dispatching %s", type, payload)
+);
 
-// Facebook init
-facebook("353625811317277");
-
-// Google Analytics init
-let ga = gAnalytics('UA-62656831-1');
-
-// Maps Geolocation
-geolocation(function (gmaps, pos) {
-	let locationsStore = flux.store('locations');
-
-	locationsStore.setGMaps(gmaps);
-	locationsStore.setLocation(pos);
-});
-
-// Pusher Service
-let pusherClient = pusher('86d676926d4afda44089', '/api/pusher/auth');
-
-let usersStore = flux.store('users'),
-	messageStore = flux.store('messages'),
-	loggedUser = usersStore.getLoggedUser();
-
-if (loggedUser) {
-	envData.user = loggedUser;
+let ga;
+if (process.env.SHOUTIT_GANALYTICS) {
+  ga = gAnalytics(process.env.SHOUTIT_GANALYTICS);
 }
 
-pusherClient.subscribeUser(flux, loggedUser);
+if (window.google) {
+  const locationStore = flux.store("locations");
+  locationStore.setGMaps(window.google.maps);
+}
 
-usersStore.on("login", function () {
-	envData.user = usersStore.getLoggedUser();
-	messageStore.setMe(usersStore.getLoggedUser());
-	pusherClient.subscribeUser(flux, usersStore.getLoggedUser());
+setupPusher(flux.store("users"), {
+  onNewMessage: (message) => {
+    if (flux.store("conversations").get(message.conversation_id)) {
+      flux.actions.newPushedMessage(message);
+    }
+    else {
+      flux.actions.loadConversations();
+    }
+  }
 });
 
-usersStore.on("logout", function () {
-	envData.user = null;
-	pusherClient.unsubscribeUser();
-});
+log("Mounting…");
 
-// Trigger Download Modal
-let routesVisited = 0;
-
-// Mesure Performance
-//let Perf = React.addons.Perf;
-
-router.run(function (Handler, state) {
-	//Perf.start();
-	React.render(
-		React.createElement(Handler, {
-			flux: flux,
-			params: state.params
-		}),
-		document.getElementById('main-mount'),
-		function () {
-			//Perf.stop();
-			//Perf.printInclusive();
-			//Perf.printExclusive();
-			//Perf.printWasted();
-			//console.log("Router run!");
-			ga('send', 'pageview', state.path);
-			routesVisited++;
-			if (routesVisited === 3 && envData.mobile) {
-				flux.actions.showDownloadPopup();
-			}
-		}
-	);
-});
+ReactDOM.render(
+  <Router
+    history={createBrowserHistory()}
+    createElement={ (Component, props) => {
+      // Save prevous location to know if history.back() can work –
+      // should be placed in an external utility
+      window.previousLocation = props.location;
+      return <Component {...props} flux={flux} />;
+    } }>
+    { routes }
+  </Router>,
+  document.getElementById("root"),
+  () => {
+    log("App has been mounted");
+    if (ga) {
+      ga("send", "pageview", window.location.href);
+    }
+  }
+);

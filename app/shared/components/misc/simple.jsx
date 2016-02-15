@@ -1,19 +1,19 @@
-import React from 'react';
-import DocumentTitle from 'react-document-title';
-import Loader from '../helper/loader.jsx';
+import React from "react";
+import DocumentTitle from "react-document-title";
+import Progress from "../helper/Progress.jsx";
 
 export default React.createClass({
-    displayName: "Simple",
+  displayName: "Simple",
 
-    title: "Shoutit- Not implemented yet.",
+  title: "Not implemented yet - Shoutit",
 
-    render() {
-        return (
-            <DocumentTitle title={this.title}>
-                <div>
-                    <Loader/>
-                </div>
-            </DocumentTitle>
-        );
-    }
+  render() {
+    return (
+      <DocumentTitle title={this.title}>
+          <div>
+              <Progress/>
+          </div>
+      </DocumentTitle>
+    );
+  }
 });

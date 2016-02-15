@@ -9,6 +9,9 @@
   }
 
   .logo {
+    @media (max-width: 620px) {
+      margin-right: -17px;
+    }
     img {
       height: 32px;
     }
@@ -16,6 +19,10 @@
 
   @import "./topBar/searchRow";
 
+  .actionsCol42 {
+    margin-left: -6%;
+    width: 42%;
+  }
   #loginButton {
     background: $shoutit-light-green;
     border: none;

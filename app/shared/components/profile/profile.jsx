@@ -1,138 +1,160 @@
-import React from 'react';
-import {State} from 'react-router';
-import {RouteHandler} from 'react-router';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
-import {Loader, Clear, Icon} from '../helper';
-import {Col} from 'react-bootstrap';
-import {NavItemLink} from 'react-router-bootstrap';
-import DocumentTitle from 'react-document-title';
+import React from "react";
+import {Grid, Column, Progress} from "../helper";
+import ProfileOffers from "./profileOffers.jsx";
+import DocumentTitle from "react-document-title";
+import ProfileCover from "./profileCover.jsx";
+import ProfileLeftBoard from "./profileLeftBoard.jsx";
+import assign from "lodash/object/assign";
+import EmbeddedShout from "../shouting/embeddedShout.jsx";
+import NotificationSystem from "react-notification-system";
 
-import ProfileImage from './profileImage.jsx';
-import ProfileDetails from './profileDetails.jsx';
 
 export default React.createClass({
-	mixins: [new FluxMixin(React), new StoreWatchMixin("users"), State],
+  displayName: "Profile",
 
-	displayName: "Profile",
+  _notificationSystem: null,
 
-	statics: {
-		fetchData(client, session, params) {
-			return client.users().get(session, params.username);
-		}
-	},
+  // Use this to keep track of the latest loaded user through params
+  lastLoadedUser: null,
 
-	getStateFromFlux() {
-		return this.getFlux().store("users").getState();
-	},
+  // Need to move it later to profileOffers after moving this path to home route path
+  statics: {
+    fetchId: 'useroffers',
+    fetchData(client, session, params) {
+      return client.users().getShouts(session, params.username, 'offer');
+    }
+  },
 
-	renderSettingsLink(user, linkParams) {
-		return user.is_owner ? (
-			<NavItemLink to="settings" params={linkParams}>
-				<Icon name="set"/>
-				Profile Settings
-				<span></span>
-			</NavItemLink>
-		) : null;
-	},
+  getInitialState() {
+    return {
+      editMode: false,
+      edited: {},
+      uploading: null
+    };
+  },
 
-	render() {
-		let username = this.getParams().username,
-			user = this.state.users[username];
+  displayNotif(msg, type = 'success') {
+    this._notificationSystem.addNotification({
+      message: msg,
+      level: type,
+      position: 'tr', // top right
+      autoDismiss: 4
+    });
+  },
 
-		if (user) {
-			let linkParams = {username: encodeURIComponent(user.username)},
-				listenerCount = this.state.listeners[username] ?
-					this.state.listeners[username].length :
-					user.listeners_count,
-				listeningCountUsers = this.state.listening[username] && this.state.listening[username].users ?
-					this.state.listening[username].users.length :
-					user.listening_count.users,
-				listeningCountTags = this.state.listening[username] && this.state.listening[username].tags ?
-					this.state.listening[username].tags.length :
-					user.listening_count.tags;
+  componentDidMount() {
+    this.loadUser();
 
-			return (
-				<DocumentTitle title={"Shoutit Profile - " + user.username}>
-					<div className="profile">
-						<Col xs={12} md={3} className="profile-left">
-							<ProfileImage image={user.image} name={user.name} username={user.username || " "}/>
-							<ProfileDetails location={user.location} joined={user.date_joined}/>
-							<Clear/>
-							<ul>
-								{this.renderSettingsLink(user, linkParams)}
-								<NavItemLink to="useroffers" params={linkParams}>
-									<Icon name="lis2"/>
-									User's Offers
-									<span/>
-								</NavItemLink>
-								<NavItemLink to="userrequests" params={linkParams}>
-									<Icon name="lis3"/>
-									User's Requests
-									<span/>
-								</NavItemLink>
-								<NavItemLink to="listeners" params={linkParams}>
-									<Icon name="lis"/>
-									Listeners
-									<span>{listenerCount}</span>
-								</NavItemLink>
-								<NavItemLink to="listening" params={linkParams}>
-									<Icon name="lis1"/>
-									Listening
-									<span>{listeningCountUsers + "|" + listeningCountTags }</span>
-								</NavItemLink>
-							</ul>
-						</Col>
-						<Col xs={12} md={9} className="pro-right-padding">
-							<RouteHandler {...this.state}
-								username={username}
-								flux={this.getFlux()}
-								/>
-						</Col>
-					</div>
-				</DocumentTitle>
-			);
-		} else if (user === null) {
-			return (
-				<DocumentTitle title="Shoutit Profile - Not Found">
-					<div className="profile">
-						<Col xs={12} md={3} className="profile-left">
-							<h3>User not found.</h3>
-						</Col>
-						<Col xs={12} md={9} className="pro-right-padding">
-						</Col>
-					</div>
-				</DocumentTitle>
-			);
-		} else {
-			return (
-				<DocumentTitle title="Shoutit Profile - Loading">
-					<div className="profile">
-						<Col xs={12} md={3} className="profile-left">
-							<Loader/>
-						</Col>
-						<Col xs={12} md={9} className="pro-right-padding">
-							<Loader/>
-						</Col>
-					</div>
-				</DocumentTitle>
-			);
-		}
-	},
+    // Setting edit mode from query
+    const {query} = this.props.location;
+    this.setState({editMode: Boolean(query._edit)});
 
-	componentDidUpdate() {
-		this.loadUser();
-	},
+    this._notificationSystem = this.refs.notificationSystem;
+  },
 
-	componentDidMount() {
-		this.loadUser();
-	},
+  componentDidUpdate(prevProps) {
+    // Run this only if user is changed
+    if(this.lastLoadedUser !== this.props.params.username) {
+      this.loadUser();
+    }
 
-	loadUser() {
-		let username = this.getParams().username,
-			user = this.state.users[username];
+    this._notificationSystem = this.refs.notificationSystem;
+    const status = this.props.profile.status;
 
-		if (!this.state.loading && !user && user !== null) {
-			this.getFlux().actions.loadUser(username);
-		}
-	}
+    // Checks related to profile edit modes
+    if (prevProps.profile.status !== status && status === 'saved') {
+      this.displayNotif('Changes saved successfully.');
+      this.setState({editMode: false});
+    }
+    if (prevProps.profile.status !== status && status === 'err') {
+      this.setState({editMode: false});
+
+      const errors = this.props.profile.errors;
+      for (let err in errors) {
+        this.displayNotif(errors[err][0], 'warning');
+      }
+    }
+  },
+
+  loadUser() {
+    const {username} = this.props.params;
+
+    this.props.flux.actions.loadUser(username);
+    this.lastLoadedUser = username;
+  },
+
+  onModeChange(ev) {
+    this.setState({editMode: ev.editMode});
+  },
+
+  renderProfilePage() {
+    const username = this.props.params.username,
+      user = this.props.users[username],
+      mode = this.state.editMode;
+
+    return (
+      <DocumentTitle title={user.name + " - Shoutit"}>
+        <div>
+          <Grid >
+            <Column size="12" clear={true}>
+              <ProfileCover
+                profile={this.props.profile}
+                onModeChange={this.onModeChange}
+                user={user}
+                editMode={mode}
+              />
+            </Column>
+          </Grid>
+          <Grid >
+            <Column size="3" clear={true}>
+              <ProfileLeftBoard
+                user={user}
+                onUserListenChange={this.onUserListenChange}
+                editMode={mode}
+              />
+            </Column>
+            <Column size="9" style={{paddingTop: "15px"}}>
+              {user.is_owner ? (
+                <EmbeddedShout collapsed={true}/>
+              ) : null}
+              <ProfileOffers {...this.props} username={username}/>
+
+            </Column>
+          </Grid>
+          <NotificationSystem ref="notificationSystem"/>
+        </div>
+      </DocumentTitle>
+    );
+  },
+
+  renderNotFound() {
+    return (
+      <DocumentTitle title={"User Not Found! - Shoutit"}>
+        <h3>User not found!</h3>
+      </DocumentTitle>
+    );
+  },
+
+  renderLoading() {
+    return (
+      <DocumentTitle title={"[Loading...] - Shoutit"}>
+        <Progress />
+      </DocumentTitle>
+    );
+  },
+
+  render() {
+    const {username} = this.props.params,
+      user = this.props.users[username];
+
+    if(user && user.location) {
+      if(user.loading) {
+        return this.renderLoading();
+      } else {
+        return this.renderProfilePage();
+      }
+    } else {
+      return this.renderNotFound();
+    }
+  }
 });

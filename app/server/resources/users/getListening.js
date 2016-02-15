@@ -6,16 +6,11 @@
  */
 
 module.exports = function (client, path) {
-	return function (session, username, page) {
-		var query = {};
+  return function (session, username, query) {
 
-		if (page && isNumber(page)) {
-			query.page = page;
-		}
-
-		return client.get(path + '/' + username + '/listening', {
-			accessToken: session && session.accessToken ? session.accessToken : null,
-			query: query
-		});
-	}
+    return client.get(path + "/" + username + "/listening", {
+      accessToken: session && session.accessToken ? session.accessToken : null,
+      query: query
+    });
+  };
 };

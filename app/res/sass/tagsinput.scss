@@ -1,6 +1,6 @@
 .react-tagsinput {
   border: 1px solid #e1e1e1;
-  background: $shoutit-light-gray;
+  background: $si-gray;
   padding: 6px 12px;
   overflow-y: auto;
   border-radius: 5px;
@@ -9,9 +9,9 @@
 
 .react-tagsinput-tag {
   display: block;
-  border: 1px solid $shoutit-dark-green;
-  background: $shoutit-light-green;
-  color: $shoutit-dark-gray;
+  border: 1px solid $si-green;
+  background: $si-green;
+  color: $si-gray;
   font-size: 15px;
   font-family: 'Helvetica Neue', 'Arial', sans-serif;
   float: left;
@@ -32,7 +32,7 @@
 
 .react-tagsinput-remove {
   font-weight: bold;
-  color: $shoutit-dark-gray;
+  color: $si-gray;
   text-decoration: none;
   font-size: 11px;
   cursor: pointer;

@@ -1,43 +1,13 @@
-/**
- * Created by Philip on 22.06.2015.
- */
+import request from "superagent";
 
-import request from 'superagent';
+export function replyToConversation(conversationId, message) {
+  return request.post(`/api/conversations/${conversationId}/reply`).send(message);
+}
 
-const MESSAGES_PREFIX = "/api/messages";
-const CONVERSATIONS_PREFIX = "/api/conversations";
+export function replyToShout(shoutId, message) {
+  return request.post(`/api/shouts/${shoutId}/reply`).send(message);
+}
 
-export default {
-	loadConversations() {
-		return request.get(CONVERSATIONS_PREFIX);
-	},
-
-	loadMoreConversations(query) {
-		return this.loadConversations().query(query);
-	},
-
-	loadMessages(id) {
-		return request.get(CONVERSATIONS_PREFIX + '/' + id + '/messages');
-	},
-
-	loadMoreMessages(id, query) {
-		return this.loadMessages(id).query(query);
-	},
-
-	deleteMessage(id) {
-		return request.del(MESSAGES_PREFIX + '/' + id);
-	},
-
-	readConversation(id) {
-		return request.post(CONVERSATIONS_PREFIX + '/' + id + '/read');
-	},
-
-	unreadConversation(id) {
-		return request.del(CONVERSATIONS_PREFIX + '/' + id + '/read');
-	},
-
-	replyConversation(id, message) {
-		return request.post(CONVERSATIONS_PREFIX + '/' + id + '/reply')
-			.send(message);
-	}
-};
+export function sendMessage(username, message) {
+  return request.post(`/api/users/${username}/message`).send(message);
+}

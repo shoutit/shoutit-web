@@ -1,61 +1,82 @@
 import React from 'react';
-import {Col} from 'react-bootstrap';
-import {Loader, Clear} from '../helper';
-
+import {Grid, Progress} from '../helper';
 import Shout from '../feed/feed/shout.jsx';
+import ViewportSensor from '../misc/ViewportSensor.jsx';
 
 let map = {
-	request: "Requests",
-	offer: "Offers"
+  request: "Requests",
+  offer: "Offers"
 };
 
 export default React.createClass({
-	displayName: "TagProfileShoutList",
+  displayName: "TagProfileShoutList",
 
-	componentDidMount() {
-		let tagName = this.props.tagName;
+  componentDidMount() {
+    let tagName = this.props.tagName;
 
-		if (!this.props.tags[tagName] || !this.props.tags[tagName][this.props.type + 's']) {
-			this.props.flux.actions.loadTagShouts(this.props.tagName, this.props.type);
-		}
-	},
+    if (!this.props.tags[tagName] || !this.props.tags[tagName]['shouts']) {
+      this.props.flux.actions.loadTagShouts(this.props.tagName, 'all');
+    }
+  },
 
-	renderTagProfileShouts(shouts) {
-		return shouts.length ? shouts.map(function (shout, i) {
-			return <Shout listType="small" key={"shout-" + i} shout={shout} index={i}/>;
-		}) : <h4>No shouts.</h4>;
-	},
+  componentDidUpdate() {
+    const {tagName, loading} = this.props;
+    const tagEntry = this.props.tags[tagName];
 
-	render() {
-		let tagName = this.props.tagName,
-			tag = this.props.tags[tagName].tag,
-			tags = this.props.tags[tagName][this.props.type + 's'],
-			content, stat;
+    if (!tagEntry || !tagEntry.shouts && !loading ) {
+      this.props.flux.actions.loadTagShouts(this.props.tagName, 'all');
+    }
+  },
 
-		if (tags) {
-			content = this.renderTagProfileShouts(tags);
-			stat = <span>{' (' + tags.length + ')'}</span>;
-		} else {
-			content = <Loader/>;
-		}
+  renderTagProfileShouts(shouts) {
+    return shouts.length ? shouts.map(function (shout, i) {
+      return <Shout listType="small" key={"shout-" + i} shout={shout} index={i}/>;
+              //last={i === shouts.length - 1 ? onLastVisibleChange : null}/>;
+    }) : <h4>No shouts.</h4>;
+  },
 
-		return (
-			<Col xs={12} md={12} className="content-listener">
-				<div className="listener">
-					<div className="listener-title">
-						<p>
-							{tag.name + " - " + map[this.props.type] + ":"}
-							{stat}
-						</p>
-					</div>
-					<Clear />
+  render() {
+    let tagName = this.props.tagName,
+      tag = this.props.tags[tagName].tag,
+      tags = this.props.tags[tagName]['shouts'],
+      content, stat;
 
-					<div className="listener-scroll ctn-offerpro" tabIndex="5000"
-						 style={{outline: "none"}}>
-						{content}
-					</div>
-				</div>
-			</Col>
-		);
-	}
+    if (tags) {
+      content = this.renderTagProfileShouts(tags);
+      stat = <span>{' (' + tags.length + ')'}</span>;
+    } else {
+      content = <Progress/>;
+    }
+
+    return (
+      <div>
+        <Grid fluid={true}>
+          <h3 className="si-subtitle">{tag.name + " shouts"}</h3>
+        </Grid>
+        <Grid fluid={true}>
+          {content}
+          {this.renderViewportSensor()}
+        </Grid>
+      </div>
+    );
+  },
+
+  renderViewportSensor() {
+    if(!this.props.loading) {
+      return (
+        <Grid fluid={true}>
+          <ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
+        </Grid>);
+    }
+  },
+
+  onLastVisibleChange(isVisible) {
+    if (isVisible) {
+      this.loadMore();
+    }
+  },
+
+  loadMore() {
+    this.props.flux.actions.loadMoreTagShouts(this.props.tagName, 'all');
+  }
 });

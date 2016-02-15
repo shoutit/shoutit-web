@@ -1,21 +1,11 @@
-/**
- * Created by Philip on 08.05.2015.
- */
-
-import Icon from './icon.jsx';
-import Clear from './clear.jsx';
-import ClearFix from './clearFix.jsx';
-import Static from './static.jsx';
-import Image from './image.jsx';
-import Mui from './mui.jsx';
-import Loader from './loader.jsx';
-
-export default {
-    Icon,
-    Clear,
-    ClearFix,
-    Static,
-    Image,
-    Mui,
-    Loader
-};
+export Clear from "./clear.jsx";
+export ClearFix from "./clearFix.jsx";
+export Column from "./column.jsx";
+export Grid from "./grid.jsx";
+export Icon from "./icon.jsx";
+export Image from "./image.jsx";
+export Mui from "./mui.jsx";
+export Progress from "./Progress.jsx";
+export ReactVisible from "./visible.jsx";
+export Static from "./static.jsx";
+export createSlug from "./createSlug";

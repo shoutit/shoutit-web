@@ -1,117 +1,134 @@
-import consts from './consts';
-import client from './client';
+import consts from "./consts";
+import client from "./client";
 
 export default {
-	loadTag(tagName) {
-		this.dispatch(consts.LOAD_TAG, {
-			tagName: tagName
-		});
-	},
+  loadTag(tagName) {
+    this.dispatch(consts.LOAD_TAG, {
+      tagName: tagName
+    });
+  },
 
-	loadTagSuccess(tagName, res) {
-		this.dispatch(consts.LOAD_TAG_SUCCESS, {
-			tagName: tagName,
-			res: res
-		});
-	},
+  loadTagSuccess(tagName, res) {
+    this.dispatch(consts.LOAD_TAG_SUCCESS, {
+      tagName: tagName,
+      res: res
+    });
+  },
 
-	listenTag(tagName) {
-		this.dispatch(consts.LISTEN_TAG, {
-			tagName: tagName
-		});
-	},
+  addTag(tag) {
+    this.dispatch(consts.LOAD_TAG, tag);
+  },
 
-	listenTagSuccess(tagName) {
-		this.dispatch(consts.LISTEN_TAG_SUCCESS, {
-			tagName: tagName
-		});
-	},
+  listenTag(tagName) {
+    this.dispatch(consts.LISTEN_TAG, {
+      tagName: tagName
+    });
+  },
 
-	stopListenTag(tagName) {
-		this.dispatch(consts.STOP_LISTEN_TAG, {
-			tagName: tagName
-		});
-	},
+  listenTagSuccess(tagName) {
+    this.dispatch(consts.LISTEN_TAG_SUCCESS, {
+      tagName: tagName
+    });
+  },
 
-	stopListenTagSuccess(tagName) {
-		this.dispatch(consts.STOP_LISTEN_TAG_SUCCESS, {
-			tagName: tagName
-		});
-	},
+  stopListenTag(tagName) {
+    this.dispatch(consts.STOP_LISTEN_TAG, {
+      tagName: tagName
+    });
+  },
 
-	loadTagListeners(tagName) {
-		this.dispatch(consts.LOAD_TAG_LISTENERS, {
-			tagName: tagName
-		});
-	},
+  stopListenTagSuccess(tagName) {
+    this.dispatch(consts.STOP_LISTEN_TAG_SUCCESS, {
+      tagName: tagName
+    });
+  },
 
-	loadTagListenersSuccess(tagName, res) {
-		this.dispatch(consts.LOAD_TAG_LISTENERS, {
-			tagName: tagName,
-			res: res
-		});
-	},
+  loadTagListeners(tagName) {
+    this.dispatch(consts.LOAD_TAG_LISTENERS, {
+      tagName: tagName
+    });
+  },
 
-	loadTagShouts(tagName, type) {
-		this.dispatch(consts.LOAD_TAG_SHOUTS, {
-			tagName: tagName,
-			type: type
-		});
-	},
+  loadTagRelated(tagName) {
+    this.dispatch(consts.LOAD_TAG_RELATED, {
+      tagName: tagName
+    });
+  },
 
-	loadTags(query) {
-		this.dispatch(consts.LOAD_TAGS, {query});
+  loadTagListenersSuccess(tagName, res) {
+    this.dispatch(consts.LOAD_TAG_LISTENERS, {
+      tagName: tagName,
+      res: res
+    });
+  },
 
-		client.list(query)
-			.end(function (error, res) {
-				if (error || !res.ok) {
-					this.dispatch(consts.LOAD_TAGS_FAILED, {
-						error
-					});
-				} else {
-					this.dispatch(consts.LOAD_TAGS_SUCCESS, {
-						res: res.body
-					});
-				}
-			}.bind(this));
-	},
+  loadTagShouts(tagName, type) {
+    this.dispatch(consts.LOAD_TAG_SHOUTS, {
+      tagName: tagName,
+      type: type
+    });
+  },
 
-	loadSpriteInfo(hash) {
-		this.dispatch(consts.LOAD_TAGS_SPRITE, {hash});
+  loadMoreTagShouts(tagName, type) {
+    this.dispatch(consts.LOAD_MORE_TAG_SHOUTS, {
+      tagName: tagName,
+      type: type
+    });
+  },
 
-		client.loadSpriteInfo(hash)
-			.end(function (error, res) {
-				if (error || !res.ok || !res.body) {
-					this.dispatch(consts.LOAD_TAGS_SPRITE_FAILED, {
-						hash,
-						error
-					});
-				} else {
-					this.dispatch(consts.LOAD_TAGS_SPRITE_SUCCESS, {
-						hash,
-						res: res.body
-					});
-				}
-			}.bind(this));
+  loadTags(query) {
+    this.dispatch(consts.LOAD_TAGS, {query});
 
-	},
+    client.list(query)
+      .end(function (error, res) {
+        if (error || !res.ok) {
+          this.dispatch(consts.LOAD_TAGS_FAILED, {
+            error
+          });
+        } else {
+          this.dispatch(consts.LOAD_TAGS_SUCCESS, {
+            res: res.body
+          });
+        }
+      }.bind(this));
+  },
 
-	requestSpriting(images) {
-		this.dispatch(consts.REQUEST_SPRITING, {images});
+  loadSpriteInfo(hash) {
+    this.dispatch(consts.LOAD_TAGS_SPRITE, {hash});
 
-		client.requestSpriting(images)
-			.end(function (error, res) {
-				if (error || !res.ok) {
-					this.dispatch(consts.REQUEST_SPRITING_FAILED, {
-						error
-					});
-				} else {
-					this.dispatch(consts.REQUEST_SPRITING_SUCCESS, {
-						res: res.body
-					});
-				}
-			}.bind(this));
-	}
+    client.loadSpriteInfo(hash)
+      .end(function (error, res) {
+        if (error || !res.ok || !res.body) {
+          this.dispatch(consts.LOAD_TAGS_SPRITE_FAILED, {
+            hash,
+            error
+          });
+        } else {
+          this.dispatch(consts.LOAD_TAGS_SPRITE_SUCCESS, {
+            hash,
+            res: res.body
+          });
+        }
+      }.bind(this));
+
+  },
+
+  requestSpriting(images) {
+    this.dispatch(consts.REQUEST_SPRITING, {images});
+
+    client.requestSpriting(images)
+      .end(function (error, res) {
+        if (error || !res.ok) {
+          this.dispatch(consts.REQUEST_SPRITING_FAILED, {
+            error
+          });
+        } else {
+          this.dispatch(consts.REQUEST_SPRITING_SUCCESS, {
+            res: res.body
+          });
+        }
+      }.bind(this));
+  }
 
 };
 

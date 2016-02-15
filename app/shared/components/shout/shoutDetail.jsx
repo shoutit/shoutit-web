@@ -1,102 +1,98 @@
 import React from 'react';
-import {State} from 'react-router';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
-import {Col} from 'react-bootstrap';
 import DocumentTitle from 'react-document-title';
 import ShoutDetailBody from './shoutDetailBody.jsx';
-import Loader from '../helper/loader.jsx';
+import Progress from '../helper/Progress.jsx';
 import ShoutReplySection from './shoutReplySection.jsx';
+import ShoutExtra from './shoutExtra.jsx';
+import {Column, Grid} from '../helper';
+
+var USER_EXTRA_SHOUTS_LIMIT = 3;
 
 export default React.createClass({
-	displayName: "ShoutDetail",
-	mixins: [new FluxMixin(React), new StoreWatchMixin("shouts"), State],
+  componentDidUpdate(prevProps, prevState) {
+    const {shout, params, flux} = this.props;
 
-	statics: {
-		fetchData(client, session, params) {
-			return client.shouts().get(session, params.shoutId);
-		}
-	},
+    // conditiones are critical to make the transition between shouts and loading extra shouts smoothly happen
+    // DO NOT change if you are not sure what exactly is happening
+    // setTimeouts are here to prevent action dispatching collide
+    // TODO: Refactor later by doing all the tasks in store
+    if(prevProps.params.shoutId !== params.shoutId) {
+      setTimeout(() => {
+        flux.actions.loadShout(params.shoutId);
+      },0);
+    }
 
-	getStateFromFlux() {
-		let shoutStore = this.getFlux().store("shouts"),
-			userStoreState = this.getFlux().store("users").getState(),
-			shoutStoreState = shoutStore.getState(),
-			findRes = shoutStore.findShout(this.getParams().shoutId);
+    if (shout.id && shout.id !== params.shoutId) {
+      setTimeout(() => {
+        flux.actions.loadUserShouts(shout.user.username, 'offer', USER_EXTRA_SHOUTS_LIMIT);
+        flux.actions.loadRelatedShouts(shout.id);
+      },0);
+    }
 
-		return {
-			shoutId: this.getParams().shoutId,
-			shout: findRes.shout,
-			full: findRes.full,
-			loading: shoutStoreState.loading,
-			user: userStoreState.user,
-			replyDrafts: shoutStoreState.replyDrafts
-		};
-	},
 
-	componentDidUpdate() {
-		this.loadFullShout();
-	},
+    if(shout.id && prevProps.shout.id !== shout.id){
+      setTimeout(() => {
+        flux.actions.loadUserShouts(shout.user.username, 'offer', USER_EXTRA_SHOUTS_LIMIT);
+        flux.actions.loadRelatedShouts(shout.id);
+      },0);
+    }
 
-	componentDidMount() {
-		this.loadFullShout();
-	},
+  },
 
-	loadFullShout() {
-		if (!this.state.loadingFull && !this.state.full) {
-			this.setState({
-				loadingFull: true
-			});
-			this.getFlux().actions.loadShout(this.state.shoutId);
-		}
-	},
+  componentDidMount() {
+    const {shout, flux, params} = this.props;
+    setTimeout(() => {
+      flux.actions.loadShout(params.shoutId);
+      if(shout.id) { //happens when loading shout page directly
+        flux.actions.loadUserShouts(shout.user.username, 'offer', USER_EXTRA_SHOUTS_LIMIT);
+        flux.actions.loadRelatedShouts(shout.id);
+      }
+    },0);
+  },
 
-	render() {
-		let shout = this.state.shout,
-			loading = this.state.loading;
+  render() {
+    const {flux, current, shout, loading, userShouts, relatedShouts} = this.props,
+      username = shout.id? shout.user.username: null;
+    let content, extraShouts = {};
 
-		let content;
+    extraShouts.more = username? userShouts[username]: null;
+    extraShouts.related = shout? relatedShouts[shout.id]: null;
 
-		if (shout && shout.id) {
-			content =
-				<DocumentTitle title={"Shoutit - " + shout.title}>
-					<ShoutDetailBody shout={shout} flux={this.getFlux()}/>
-				</DocumentTitle>;
-		} else if (!loading && shout === null) {
-			content = (
-				<DocumentTitle title={"Shoutit - Not found"}>
-					<Col xs={12} md={12} className="section-right">
-						<h1>Shout not found!</h1>
-					</Col>
-				</DocumentTitle>
-			);
-		} else {
-			content = (
-				<Col xs={12} md={12} className="section-right">
-					<Loader/>
-				</Col>
-			);
-		}
+    if (shout.id) {
+      content =
+        <DocumentTitle title={shout.title + " - Shoutit"}>
+          <div>
+            <ShoutDetailBody shout={shout}
+                     current={current}
+                     flux={flux}
+                     />
+            <ShoutExtra extra={extraShouts}
+                  creator={shout.user}
+                  flux={flux}
+                />
+          </div>
+        </DocumentTitle>;
+    } else if (!loading && shout === null) {
+      content = (
+        <DocumentTitle title={"Not found - Shoutit"}>
+          <Grid fluid={true}>
+            <h1>Shout not found!</h1>
+          </Grid>
+        </DocumentTitle>
+      );
+    } else {
+      content = (
+        <Grid fluid={true}>
+          <Progress/>
+        </Grid>
+      );
+    }
 
-		return (
-			<Col xs={12} md={8}>
-				<section className="col-xs-12 col-md-12 section-12">
-					{content}
-				</section>
-				<ShoutReplySection
-					shout={shout}
-					user={this.state.user}
-					onReplyTextChange={this.onReplyTextChange}
-					onReplySendClicked={this.onReplySendClicked}
-					replyDrafts={this.state.replyDrafts}/>
-			</Col>
-		);
-	},
+    return (
+      <div>
+        {content}
+      </div>
+    );
+  }
 
-	onReplyTextChange(e) {
-		this.getFlux().actions.changeReplyDraft(this.state.shoutId, e.target.value);
-	},
-
-	onReplySendClicked() {
-		this.getFlux().actions.sendShoutReply(this.state.shoutId, this.state.replyDrafts[this.state.shoutId]);
-	}
 });

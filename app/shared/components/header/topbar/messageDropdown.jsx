@@ -5,23 +5,23 @@ import {Icon} from '../../helper';
 import DropdownHeader from './messages/dropdownHeader.jsx';
 
 export default React.createClass({
-	displayName: "MessagePopup",
+  displayName: "MessagePopup",
 
-	render() {
-		let title = (<div>
-			<Icon name="message-icon"/>
-			<span className="small-circle">3</span>
-		</div>);
+  render() {
+    let title = (<div>
+      <Icon name="message-icon"/>
+      <span className="small-circle">3</span>
+    </div>);
 
-		return (
-			<DropdownButton title={title} className="messages" navItem={true} noCaret={true}>
-				<DropdownHeader unread={0}/>
+    return (
+      <DropdownButton title={title} className="messages" navItem={true} noCaret={true}>
+        <DropdownHeader unread={0}/>
 
-				<MenuItem className="see-all">
-					<span>See all messages</span>
-				</MenuItem>
-			</DropdownButton>
-		);
-	}
+        <MenuItem className="see-all">
+          <span>See all messages</span>
+        </MenuItem>
+      </DropdownButton>
+    );
+  }
 });
 

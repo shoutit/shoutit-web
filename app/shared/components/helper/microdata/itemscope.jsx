@@ -9,18 +9,18 @@ import keys from 'lodash/object/keys';
 let typeArray = keys(itemTypes);
 
 export default React.createClass({
-	displayName: "itemScope",
+  displayName: "itemScope",
 
-	propTypes: {
-		children: React.PropTypes.element.isRequired,
-		type: React.PropTypes.oneOf(typeArray)
-	},
+  propTypes: {
+    children: React.PropTypes.element.isRequired,
+    type: React.PropTypes.oneOf(typeArray)
+  },
 
-	render() {
-		let inputReactObject = React.Children.only(this.props.children);
-		return React.cloneElement(inputReactObject, {
-			itemScope: true,
-			itemType: itemTypes[this.props.type]
-		});
-	}
+  render() {
+    let inputReactObject = React.Children.only(this.props.children);
+    return React.cloneElement(inputReactObject, {
+      itemScope: true,
+      itemType: itemTypes[this.props.type]
+    });
+  }
 });

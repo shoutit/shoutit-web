@@ -1,0 +1,21 @@
+.discover-cover {
+  position: relative;
+  background-size: cover;
+  height: 150px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  .title {
+    display: inline-block;
+    padding: 5px 30px;
+    margin-top: 50px;
+    font-size: 3.4rem;
+    font-weight: 700;
+    line-height: 50px;
+    border-radius: 2px;
+    &.with-image {
+      background-color: rgba(255, 255, 255, 0.6);
+
+    }
+  }
+}

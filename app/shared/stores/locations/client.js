@@ -2,35 +2,42 @@
  * Created by Philip on 23.06.2015.
  */
 
-import request from 'superagent';
+import request from "superagent";
 
-const API_KEY = 'AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc';
+// GOOGLE API
+const API_KEY = "AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc";
 const GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
 const DEFAULT_LANGUAGE = "en";
 
+const SHOUTIT_GEOCODE_ENDPOINT = "/api/misc/geocode";
+
 export default {
-	geocode(lat, lng) {
-		return request.get(GEOCODE_URL)
-			.query({
-				latlng: [lat, lng].join(","),
-				language: DEFAULT_LANGUAGE
-			});
-	},
+  geocode(lat, lng) {
+    const pos = {};
+    pos.latlng = [lat, lng].join(",");
 
-	cityGeocode(country, state, city) {
-		return request.get(GEOCODE_URL)
-			.query({
-				address: city,
-				components: 'country:' + country + "|administrative_area:" + state
-			});
-	},
+    // just to prevent npm from caching 0,0 position
+    if(lat === 0 && lng === 0) {
+      pos.key = Date.now() + Math.floor(Math.random() * 100);
+    }
 
-	placeGeocode(placeId) {
-		return request.get(GEOCODE_URL)
-			.query({
-				place_id: placeId,
-				language: DEFAULT_LANGUAGE,
-				key: API_KEY
-			});
-	}
+    return request.get(SHOUTIT_GEOCODE_ENDPOINT).query(pos);
+  },
+
+  cityGeocode(country, state, city) {
+    return request.get(GEOCODE_URL)
+      .query({
+        address: city,
+        components: "country:" + country + "|administrative_area:" + state
+      });
+  },
+
+  placeGeocode(placeId) {
+    return request.get(GEOCODE_URL)
+      .query({
+        place_id: placeId,
+        language: DEFAULT_LANGUAGE,
+        key: API_KEY
+      });
+  }
 };

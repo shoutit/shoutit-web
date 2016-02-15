@@ -1,207 +1,119 @@
-# Shoutit Webserver
+# Shoutit web app
 
-## Stack
-* nodejs
-	* express
-	* jade
-	* react
-* redis
+## Setup
 
-## Installation
-* clone this repo
-* cd into work copy
-* install node dependencies using `npm install`
-* start development server via `gulp`
+Make sure to have node.js 4+ installed with `node --version`.
 
-## System requirements
-* sass: `gem install sass`
-* compass: `gem install compass`
+```bash
+git clone git@github.com:shoutit/shoutit-web.git
+cd shoutit-web
+npm install
+```
 
-## Basic concept: Isomorphic WebApp
-* Rendering on client and server
-	* Server renders the initial page for the desired route
-	* Client takes the rendering over after loading the initial page in the browser
-	* Advantages:
-		* Pages can be crawled by Google etc (SEO)
-		* Less load on the server due to client side rendering
-* Webserver as oAuth-Client
-	* The server acts as a oAuth-Client to the backend server like the android and ios app.
-	* Sessions and Cookies are used for the browser authentication.
-		* Session-oAuth-Token-Mapping is saved via a redis db on the webserver machine.
+## Running the app
 
+The app must be built before starting:
 
-## Server Setup (for ubuntu/debian)
-1. Build and install NodeJS from Source
-    1. `mkdir ~/sources && cd ~/sources`
-    2. `wget http://nodejs.org/dist/v0.12.0/node-v0.12.0.tar.gz`
-    3. `tar xzf node-v0.12.0.tar.gz && cd node-v0.12.0`
-    4. `./configure && make`
-    5. `make install`
-    6. Test installation with `node -v` and `npm -v`
+```bash
+$ npm run build # build the app
+$ npm start     # start the server
+```
 
-2. Build and install NGINX from Source
-	1. `cd ~/sources`
-	2. `wget http://nginx.org/download/nginx-1.6.2.tar.gz`
-	3. `tar xzf nginx-1.6.2.tar.gz && cd nginx-1.6.2`
-	4. `./configure --prefix=/etc/nginx/
-					--sbin-path=/usr/sbin/nginx
-					--conf-path=/etc/nginx/nginx.conf
-					--pid-path=/var/run/nginx.pid
-					--error-log-path=/var/log/nginx/error.log
-					--http-log-path=/var/log/nginx/access.log
-					--with-http_ssl_module
-					--with-http_spdy_module`
-	5. `make && make install`
-	6. Create init script:
-		1. `sudo nano /etc/init.d/nginx`
-		2. Copy from below.
-		3. Make it executable: `sudo chmod +x /etc/init.d/nginx`
-        4. Test it `/etc/init.d/nginx start`
+### Environment variables
 
-3. Build and install Redis from Source
-	1. `apt-get install tcl8.5`
-	2. `wget http://download.redis.io/releases/redis-2.8.19.tar.gz`
-	3. `tar xzf redis-2.8.19.tar.gz && cd redis-2.8.19/`
-	4. `make && make install`
-	5. `cd utils && ./install_server.sh`
-	6. Test it: `redis-cli PING`
-	7. Improve performance: `nano /etc/sysctl.conf` and add `vm.overcommit_memory = 1`
+* `NODE_ENV`: can be `production` or `development`.
+* `HOST`: the host where to start the Express server. Default is `localhost`.
+* `PORT`: the port the server listens to. Default is `8080` for production, `3000` for development.
+* `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD`: username and password to enforce a basic authentication access control (e.g. on stage servers).
+* `REDIS_HOST`: the host for the redis server, default is *localhost*
+* `SHOUTIT_API_URL`: the url for the REST API. Default is *http://dev.api.shoutit.com/v2/*.. In production must point to the production URL.
+* `SHOUTIT_PUBLIC_URL`: the url where the public assets are stored. Can be a CDN url, such as *https://stage.web.static.shoutit.com*. Don't include the / at the end of it! Default is empty, so assets are served by node.
+* Amazon Web Services: when set with `SHOUTIT_PUBLIC_URL`, the build script will upload the [public](public) assets on S3.
+	* `SHOUTIT_S3_SECRET_KEY`
+	* `SHOUTIT_S3_ACCESS_KEY`
+	* `SHOUTIT_S3_BUCKET`, e.g. *shoutit-web-static*
+	* `SHOUTIT_S3_BASEPATH`, eg. *stage*, *prod* or *beta*
+	* `SHOUTIT_S3_REGION`, eg. *eu-west-1*
+* `SHOUTIT_GANALYTICS`: Google Analytics id, e.g. `UA-62656831-1`. Should be skipped in development.
+* `NEW_RELIC_LICENSE_KEY`: the New Relic user's license key
+* `NEW_RELIC_APP_NAME`: the New Relic application name
+* `BROWSER`: used by our code to *require* modules only from the browser:
 
-4. Install PM2 process Manager using npm
-	1. `npm install -g pm2`
-	2. `pm2 list`
-	3. `pm2 startup ubuntu`
+```js
+if (process.env.BROWSER) {
+	require("styles/mystyle.scss");
+}
+```
 
-5. Configure NGINX Static File Server and Backend upstream
-	1. `nano /etc/nginx/nginx.conf` see config file below
+### Starting the docker container
 
-6. Create nginx user and deployment folder (/var/www/)
-	1. 
+```bash
+# Pull the container from Docker Hub
+$ docker pull shoutit/shoutit-web:develop
 
-7. Configure PM2
-	1. `
+# Run the container
+$ docker run -e SHOUTIT_PUBLIC_URL=http://localhost:8080 -e PORT=8080 -p 8080:8080 -it shoutit/shoutit-web:develop
+```
 
+Then open [http://localhost:8080](http://localhost:8080).
 
+**On OS X** you should use the docker machine ip instead of `localhost`, e.g.:
 
-### nginx init script (/etc/init.d/nginx)
+```bash
+# Run the container
+$ docker run -e SHOUTIT_PUBLIC_URL=http://192.168.99.100:8080 -e PORT=8080 -p 8080:8080 -it shoutit/shoutit-web:develop
+```
 
-	#! /bin/sh
+and then open [http://192.168.99.100:8080](http://192.168.99.100:8080).
 
-	### BEGIN INIT INFO
-	# Provides:          nginx
-	# Required-Start:    $all
-	# Required-Stop:     $all
-	# Default-Start:     2 3 4 5
-	# Default-Stop:      0 1 6
-	# Short-Description: starts the nginx web server
-	# Description:       starts nginx using start-stop-daemon
-	### END INIT INFO
+To get the IP of the docker machine, run `docker-machine ip`.
 
-	PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-	DAEMON=/usr/sbin/nginx
-	NAME=nginx
-	DESC=nginx
+## Development
 
-	test -x $DAEMON || exit 0
+Start the development environment to enable hot modules reload:
 
-	# Include nginx defaults if available
-	if [ -f /etc/default/nginx ] ; then
-		. /etc/default/nginx
-	fi
+```bash
+$ npm run dev
+```
 
-	set -e
+then open  [http://localhost:3000](http://localhost:3000)
 
-	. /lib/lsb/init-functions
+### Tests
 
-	case "$1" in
-	  start)
-		echo -n "Starting $DESC: "
-		start-stop-daemon --start --quiet --pidfile /var/run/$NAME.pid \
-			--exec $DAEMON -- $DAEMON_OPTS || true
-		echo "$NAME."
-		;;
-	  stop)
-		echo -n "Stopping $DESC: "
-		start-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pid \
-			--exec $DAEMON || true
-		echo "$NAME."
-		;;
-	  restart|force-reload)
-		echo -n "Restarting $DESC: "
-		start-stop-daemon --stop --quiet --pidfile \
-			/var/run/$NAME.pid --exec $DAEMON || true
-		sleep 1
-		start-stop-daemon --start --quiet --pidfile \
-			/var/run/$NAME.pid --exec $DAEMON -- $DAEMON_OPTS || true
-		echo "$NAME."
-		;;
-	  reload)
-		  echo -n "Reloading $DESC configuration: "
-		  start-stop-daemon --stop --signal HUP --quiet --pidfile /var/run/$NAME.pid \
-			  --exec $DAEMON || true
-		  echo "$NAME."
-		  ;;
-	  status)
-		  status_of_proc -p /var/run/$NAME.pid "$DAEMON" nginx && exit 0 || exit $?
-		  ;;
-	  *)
-		N=/etc/init.d/$NAME
-		echo "Usage: $N {start|stop|restart|reload|force-reload|status}" >&2
-		exit 1
-		;;
-	esac
+Unit tests run with [mocha](http://mochajs.org) and [chai](http://chaijs.com):
 
-	exit 0
+```bash
+$ npm test
+$ npm run test:watch    # Watch mode
+```
 
+Test coverage with [istanbul](https://github.com/gotwarlost/istanbul):
 
-### NGINX server config (/etc/nginx/nginx.conf)
+```bash
+$ npm run test:cover
+```
 
-	user nginx;
-	worker_processes  1;
+then open [coverage/lcov-report/index.html](coverage/lcov-report/index.html).
 
-	events {
-		worker_connections  1024;
-	}
+## Building
 
-	http {
-		include       mime.types;
-		default_type  application/octet-stream;
+To build the app run
 
-		sendfile        on;
+```bash
+$ npm run build
+```
 
-		keepalive_timeout  65;
+The script will build the app with webpack and output into the [public](public) folder.
 
-		gzip  on;
+* After the build, this directory will contain `scripts`, `images` and `styles` folders
+* Non built images are copied from [assets/images](assets/images)
+* Copy the content of this directory to the CDN and set the `SHOUTIT_PUBLIC_URL` to serve from it.
+* It is served by node.js in case `SHOUTIT_PUBLIC_URL` is not set.
 
-		server {
-		   listen         80;
-		   server_name    web.shoutit.com;
-		   root /var/www/shoutit-web/app/public;
+### To test the built app
 
+```
+$ PORT=8080 npm run dev:built
+```
 
-		   location @webserver {
-			  proxy_pass       http://localhost:8080;
-			  proxy_set_header Host      $host;
-			  proxy_set_header X-Real-IP $remote_addr;
-		   }
-
-		   location / {
-			  expires 30m;
-			  try_files $uri @webserver;
-		   }
-
-		}
-	}
-
-### PM2 Process Config JSON (/var/www/shoutit-web.json)
-
-	{
-      "apps" : [{
-        "name": "shoutit-web",
-        "script": "/var/www/shoutit-web/app.js",
-        "port": 8080,
-        "env": {
-          "API_URL": "http://<internal-api-ip>:/api/v2/"
-        }
-      }]
-    }
+and open [http://localhost:8080](http://localhost:8080).

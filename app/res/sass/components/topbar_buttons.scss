@@ -1,0 +1,74 @@
+.topbar-buttons-notif {
+  position: relative;
+  cursor: pointer;
+  .topbar-notification-holder {
+    position: absolute;
+    top: 15px;
+    left: -352px;
+    width: 372px;
+    z-index: 3;
+    padding: 20px;
+    float: left;
+    background: rgba(255,255,255,0);
+    .topbar-notification-box {
+        position: absolute;
+        width: 100%;
+        height:100%;
+        background: $si-white;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+        border-radius: 1px;
+        min-height: 100px;
+        cursor: auto;
+        .notifbox-item {
+          height: 70px;
+          overflow: hidden;
+          border-top: 1px solid $si-bg;
+          border-bottom: 1px solid darken($si-bg, 10%);
+          background: $si-white;
+          cursor: pointer;
+          &:hover {
+            background: $si-bg;
+          }
+          &-image {
+            padding: 10px;
+          }
+          &-info {
+            h3 {
+              margin-top: 15px;
+              font-size: 1.3rem;
+              font-weight: 700;
+              color: $si-gray;
+            }
+            span {
+              font-size: 1.3rem;
+              color: lighten($si-gray, 10%);
+              padding: 10px 0;
+            }
+          }
+        }
+        .notif-box-btn {
+          font-size: 1.4rem;
+          color: $si-gray;
+          padding: 6px;
+          letter-spacing: -0.5px;
+        }
+        .notif-box-btn-mark {
+          color: $si-blue;
+          font-size: 1.4rem;
+          padding: 6px;
+          letter-spacing: -0.5px;
+        }
+        .notifbox-see-all {
+          background: $si-green;
+          text-align: center;
+          font-size: 1.3rem;
+          font-weight: 600;
+          height: 30px;
+          padding-top: 5px;
+          color: $si-white;
+          cursor: pointer;
+        }
+      }
+  }
+  
+}

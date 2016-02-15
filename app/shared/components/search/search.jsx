@@ -1,54 +1,89 @@
 import React from 'react';
-import {State,Navigation} from 'react-router';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
-
-import SearchForm from './searchForm.jsx';
-import SearchResults from './searchResults.jsx';
+import {History} from 'react-router';
+import SearchShoutList from './searchShoutList.jsx';
+import SearchTagsList from './searchTagsList.jsx';
 import DocumentTitle from 'react-document-title';
 
 export default React.createClass({
-	mixins: [new FluxMixin(React), new StoreWatchMixin("search"), State, Navigation],
-	displayName: "Search",
+  mixins: [History],
+  displayName: "Search",
 
-	getInitialState(){
-		let params = this.getParams();
+  childContextTypes: {
+    flux: React.PropTypes.object,
+    params: React.PropTypes.object
+  },
 
-		return {
-			term: params.term || ""
-		};
-	},
+  getChildContext() {
+    return {
+      flux: this.props.flux,
+      params: this.props.params
+    }
+  },
 
-	getStateFromFlux(){
-		return {
-			search: this.getFlux().store("search").getState()
-		};
-	},
+  getInitialState(){
+    let params = this.props.params;
+    let queries = this.props.location.search;
 
-	render(){
-		return (
-			<DocumentTitle title={"Shoutit Search - " + this.state.term}>
-				<div className="profile">
-					<SearchForm {...this.state} />
-					<SearchResults {...this.state}
-						flux={this.getFlux()}
-						onTermChange={this.onTermChange}
-						onSubmit={this.onSubmit}/>
-				</div>
-			</DocumentTitle>
-		);
-	},
+    return {
+      term: params.term || "",
+      shouttype: params.shouttype || "",
+      category: params.category || "",
+      min: queries.min || null,
+      max: queries.max || null,
+      tags: queries.tags || "",
+      city: queries.city || undefined,
+      country: queries.country || undefined
+    };
+  },
 
-	onSubmit(){
-	},
+  onSubmit(filters){
+    let searchParams = {},
+      searchQueries = {};
 
-	onTermChange(ev) {
-		let newTerm = ev.target.value;
-		this.setState({
-			term: newTerm
-		});
-		this.getFlux().actions.searchAll(newTerm);
-		if (newTerm.length > 0) {
-			this.transitionTo("search", {term: newTerm});
-		}
-	}
+    // Departing URL params from queries
+    searchParams.term = filters.term;
+    searchParams.category = filters.category;
+    searchParams.shouttype = filters.shouttype;
+
+    filters.min?
+      searchQueries.min = filters.min: undefined;
+    filters.max?
+      searchQueries.max = filters.max: undefined;
+    filters.tags?
+      searchQueries.tags = filters.tags: undefined;
+
+    // setting location if available
+    const { currentLocation } = this.props;
+    if(currentLocation) {
+      currentLocation.city?
+        searchQueries.city = encodeURIComponent(currentLocation.city): undefined;
+      currentLocation.country?
+        searchQueries.country = encodeURIComponent(currentLocation.country): undefined;
+    }
+
+    // create url path (new react router path style)
+    let urlPath = `/search/${searchParams.shouttype}/${searchParams.category}`;
+    if(searchParams.term) {
+      urlPath = `${urlPath}/${searchParams.term}`;
+    }
+
+    this.updateSearch(searchParams, searchQueries, urlPath);
+  },
+
+  updateSearch(params, queries, path) {
+    this.history.replaceWith(path, queries);
+    this.props.flux.actions.searchShouts(assign(params, queries));
+  },
+
+  render(){
+    return (
+      <DocumentTitle title={"Shoutit Search - " + this.state.term}>
+        <div>
+          {/*<SearchTagsList { ...this.state } { ...this.props }/>*/}
+          <SearchShoutList { ...this.state } { ...this.props }/>
+        </div>
+      </DocumentTitle>
+    );
+  }
 });
+//<SearchFilters {...this.state} onSubmit={this.onSubmit}/>

@@ -1,240 +1,280 @@
 /**
  * Created by Philip on 08.05.2015.
  */
-import Fluxxor from 'fluxxor';
-import where from 'lodash/collection/where';
-import pluck from 'lodash/collection/pluck';
-import flatten from 'lodash/array/flatten';
-import uniq from 'lodash/array/uniq';
+import Fluxxor from "fluxxor";
+import where from "lodash/collection/where";
+import pluck from "lodash/collection/pluck";
+import flatten from "lodash/array/flatten";
+import uniq from "lodash/array/uniq";
+import {clone} from "lodash/lang";
 
-import consts from './consts';
-import client from './client';
+import consts from "./consts";
+import client from "./client";
 
 let LocationsStore = Fluxxor.createStore({
-	initialize(props) {
-		this.state = {
-			runningAutocomplete: null,
-			current: {
-				location: null,
-				country: null,
-				city: null,
-				state: null
-			},
-			locations: {},
-			search: {}
-		};
+  initialize(props) {
+    this.state = {
+      runningAutocomplete: null,
+      current: {
+        location: null,
+        country: null,
+        city: null,
+        state: null
+      },
+      locations: {},
+      search: {}
+    };
 
-		this.router = props.router;
+    this.router = props.router;
 
-		if (props.currentLocation) {
-			this.state.current.location = props.currentLocation;
-		}
+    if (props.currentLocation) {
+      this.state.current.location = props.currentLocation;
+    }
 
-		if (props.params) {
-			if (props.params.city) {
-				this.state.current.city = props.params.city;
-				this.state.current.country = props.params.country;
-				this.state.current.state = props.params.state;
-			}
-		}
+    if (props.params) {
+      if (props.params.city) {
+        this.state.current.city = props.params.city;
+        this.state.current.country = props.params.country;
+        this.state.current.state = props.params.state;
+      }
+    }
 
-		this.bindActions(
-			consts.LOAD_PREDICTIONS, this.onLoadPredicitions,
-			consts.SELECT_LOCATION, this.onSelectLocation,
-			consts.UPDATE_LOCATION_TO_FEED, this.onLocationUpdateToFeed
-		);
-	},
+    this.bindActions(
+      consts.LOAD_PREDICTIONS, this.onLoadPredicitions,
+      consts.SELECT_LOCATION, this.onSelectLocation,
+      consts.UPDATE_LOCATION_TO_FEED, this.onLocationUpdateToFeed,
+      consts.ACQUIRE_LOCATION, this.onAcquireLoc
+    );
+  },
 
-	onLoadPredicitions({term}) {
-		if (this.state.runningAutocomplete) {
-			clearTimeout(this.state.runningAutocomplete);
-		}
-		if (!this.state.locations[term]) {
-			this.state.runningAutocomplete = setTimeout(function () {
-				this.loadPlacePredictions(term, function (err, loadedTerm, results) {
-					if (err) {
-						console.warn(err);
-					} else {
-						this.state.locations[loadedTerm] = results;
-						this.state.runningAutocomplete = null;
-						this.emit("change");
-					}
-				}.bind(this));
-			}.bind(this), 500);
-			this.emit('change');
-		}
-	},
+  isLocAvailable() {
+    let loc = this.state.current;
+    return loc.country && loc.city && loc.state? true: false;
+  },
 
-	onSelectLocation({prediction}) {
-		client.placeGeocode(prediction.id)
-			.end(function (err, res) {
-				if (err) {
-					console.error(err);
-				} else {
-					this.parseGeocoderResult(res.body.results);
-				}
-			}.bind(this));
-	},
+  updateLocation(loc, patchUserStore = false) {
+    let {country, state, city} = loc;
 
-	onLocUpdate() {
-		this.flux.store('shouts').onLocUpdate();
-	},
+    this.state.current.country = country;
+    this.state.current.city = city;
+    this.state.current.state = state;
 
-	onLocationUpdateToFeed() {
-		client.cityGeocode(
-			this.state.current.country, this.state.current.state, this.state.current.city
-		).end(function (err, res) {
-				if (err) {
-					console.error(err);
-				} else {
-					this.parseGeocoderResult(res.body.results);
-				}
-			}.bind(this));
-	},
+    // updating location for shouts
+    this.flux.store("shouts").onLocUpdate();
 
-	loadPlacePredictions(term, cb){
-		if (this.autocomplete && term.length >= 3) {
-			let places = this.gmaps.places;
-			this.autocomplete.getPlacePredictions({
-					input: term,
-					types: ["(cities)"]
-				},
-				function (predictions, status) {
-					if (status === places.PlacesServiceStatus.OK) {
-						let results = predictions.map(prediction => ({
-							id: prediction.place_id,
-							description: prediction.description,
-							city: prediction.terms[0].value,
-							country: prediction.terms[prediction.terms.length - 1].value
-						}));
-						cb(null, term, results);
-					} else {
-						cb(predictions);
-					}
-				}
-			);
-		}
-	},
+    patchUserStore? this.flux.store("users").saveLocation(loc): undefined;
+  },
 
-	setLocation(latLng) {
-		if (!this.state.current.location) {
-			this.state.current.location = latLng;
-			if (!this.state.current.city) {
-				this.resolvePosition(latLng);
-			}
-			this.emit("change");
-		}
-	},
+  onAcquireLoc() {
+    let {isLocAvailable} = this;
+    let lat = 0, lng = 0;
 
+    // wait for user location to provide location if already saved
+    this.waitFor(["users"], () => {
+      if (isLocAvailable() === false) {
+        // acquring user location from shoutit geocoding API
+        client.geocode(lat, lng)
+          .end((err, res) => {
+            if(err) {
+              console.log(err);
+            } else {
+              let loc = res.body;
+              this.updateLocation(loc, true);
+              this.emit("change");
+            }
+          });
+      }
+    });
+  },
 
-	setGMaps(gmaps) {
-		this.gmaps = gmaps;
-		this.autocomplete = new gmaps.places.AutocompleteService();
-	},
+  onLoadPredicitions({term}) {
+    if (this.state.runningAutocomplete) {
+      clearTimeout(this.state.runningAutocomplete);
+    }
+    if (!this.state.locations[term]) {
+      this.state.runningAutocomplete = setTimeout(function () {
+        this.loadPlacePredictions(term, function (err, loadedTerm, results) {
+          if (err) {
+                  console.warn(err);
+                } else {
+                  this.state.locations[loadedTerm] = results;
+                  this.state.runningAutocomplete = null;
+                  this.emit("change");
+                }
+        }.bind(this));
+      }.bind(this), 500);
+      this.emit("change");
+    }
+  },
 
-	parseGeocoderResult(results) {
-		let newCity, newCountry, newState, newLocation;
-		if (results.length) {
-			let localityResultsForCity = uniq(where(flatten(pluck(results, 'address_components')), {
-					types: ['locality']
-				}), 'short_name'),
-				localityResultsForCountry = uniq(where(flatten(pluck(results, 'address_components')), {
-					types: ['country']
-				}), 'short_name'),
-				localityResultsForState = uniq(where(flatten(pluck(results, 'address_components')), {
-					types: ['administrative_area_level_1']
-				}), 'short_name');
-			if (localityResultsForCity.length) {
-				newCity = localityResultsForCity[0];
-			}
-			if (localityResultsForCountry.length) {
-				newCountry = localityResultsForCountry[0];
-			}
-			if (localityResultsForState.length) {
-				newState = localityResultsForState[0];
-			}
+  onSelectLocation({prediction}) {
+    client.placeGeocode(prediction.id)
+      .end(function (err, res) {
+        if (err) {
+          console.error(err);
+        } else {
+          this.parseGeocoderResult(res.body.results);
+        }
+      }.bind(this));
+  },
 
-			if (results[0].geometry) {
-				let location = results[0].geometry.location;
-				newLocation = new window.google.maps.LatLng(location.lat, location.lng);
-			}
+  onLocationUpdateToFeed() {
+    client.cityGeocode(
+      this.state.current.country, this.state.current.state, this.state.current.city
+    ).end(function (err, res) {
+      if (err) {
+        console.error(err);
+      } else {
+        this.parseGeocoderResult(res.body.results);
+      }
+    }.bind(this));
+  },
 
-			if (this.state.current.city != newCity.long_name ||
-				this.state.current.country != newCountry.short_name ||
-				this.state.current.state != newState.short_name) {
+  loadPlacePredictions(term, cb) {
+    if (this.autocomplete && term.length >= 3) {
+      let places = this.gmaps.places;
+      this.autocomplete.getPlacePredictions({
+        input: term,
+        types: ["(cities)"]
+      },
+        (predictions, status) => {
+          if (status === places.PlacesServiceStatus.OK) {
+            let results = predictions.map(prediction => ({
+              id: prediction.place_id,
+              description: prediction.description,
+              city: prediction.terms[0].value,
+              country: prediction.terms[prediction.terms.length - 1].value
+            }));
+            cb(null, term, results);
+          } else {
+            cb(predictions);
+          }
+        }
+      );
+    }
+  },
 
-				this.state.current.city = newCity.long_name;
-				this.state.current.country = newCountry.short_name;
+  setLocation(latLng) {
+    if (!this.state.current.location) {
+      this.state.current.location = latLng;
+      if (!this.state.current.city) {
+        this.resolvePosition(latLng);
+      }
+      this.emit("change");
+    }
+  },
 
-				this.state.current.state = newState ? newState.short_name : null;
+  setGMaps(gmaps) {
+    this.gmaps = gmaps;
+    this.gmapsGeocoder = new gmaps.Geocoder();
+    this.autocomplete = new gmaps.places.AutocompleteService();
+  },
 
-				if (this.state.current.city &&
-					this.state.current.country
-				) {
-					// Populate Change to Shouts store
-					this.onLocUpdate();
-				}
-			}
+  parseGeocoderResult(results) {
+    let newCity, newCountry, newState, newLocation;
+    let location = results[0].geometry.location;
 
-			if (newLocation) {
-				this.state.current.location = newLocation;
-			}
-		} else {
-			console.warn("No results found");
-		}
+    if (results.length) {
+      let localityResultsForCity = uniq(where(flatten(pluck(results, "address_components")), {
+          types: ["locality"]
+        }), "short_name"),
+        localityResultsForCountry = uniq(where(flatten(pluck(results, "address_components")), {
+          types: ["country"]
+        }), "short_name"),
+        localityResultsForState = uniq(where(flatten(pluck(results, "address_components")), {
+          types: ["administrative_area_level_1"]
+        }), "short_name");
+      if (localityResultsForCity.length) {
+        newCity = localityResultsForCity[0];
+      }
+      if (localityResultsForCountry.length) {
+        newCountry = localityResultsForCountry[0];
+      }
+      if (localityResultsForState.length) {
+        newState = localityResultsForState[0];
+      }
 
-		this.emit("change");
-	},
+      if (results[0].geometry) {
+        newLocation = new window.google.maps.LatLng(location.lat, location.lng);
+      }
 
-	resolvePosition(pos) {
-		client.geocode(pos.lat(), pos.lng())
-			.end(function (err, res) {
-				if (err) {
-					console.error(err);
-				} else {
-					this.parseGeocoderResult(res.body.results);
-				}
-			}.bind(this));
-	},
+      if (this.state.current.city != newCity.long_name ||
+        this.state.current.country != newCountry.short_name ||
+        this.state.current.state != newState.short_name) {
 
-	geocode(latLng, cb) {
-		client.geocode(latLng.lat(), latLng.lng())
-			.end(function (err, res) {
-				if (err) {
-					cb(err);
-				} else {
-					cb(null, res.body);
-				}
-			});
-	},
+        let locObj = {};
+        locObj.city = newCity.long_name;
+        locObj.country = newCountry.short_name;
+        locObj.state = newState ? newState.short_name : null;
+        locObj.latitude = location.lat;
+        locObj.longitude = location.lng;
 
-	serialize() {
-		return JSON.stringify(this.state);
-	},
+        this.updateLocation(locObj, true);
+      }
 
-	hydrate(json) {
-		this.state = JSON.parse(json);
-	},
+      if (newLocation) {
+        this.state.current.location = newLocation;
+      }
+    } else {
+      console.warn("No results found");
+    }
 
-	getState() {
-		return this.state;
-	},
+    this.emit("change");
+  },
 
-	getCurrentCity() {
-		return this.state.current.city;
-	},
+  resolvePosition(pos) {
+    client.geocode(pos.lat(), pos.lng())
+      .end(function (err, res) {
+        if (err) {
+          console.error(err);
+        } else {
+          this.parseGeocoderResult(res.body.results);
+        }
+      }.bind(this));
+  },
 
-	getCurrentCountry() {
-		return this.state.current.country;
-	},
+  geocode(latLng, cb) {
+    client.geocode(latLng.lat(), latLng.lng())
+      .end(function (err, res) {
+        if (err) {
+          cb(err);
+        } else {
+          cb(null, res.body);
+        }
+      });
+  },
 
-	getCurrentState() {
-		return this.state.current.state;
-	},
+  serialize() {
+    return JSON.stringify(this.state);
+  },
 
-	getGMapsInstance() {
-		return this.gmaps;
-	}
+  hydrate(json) {
+    this.state = JSON.parse(json);
+  },
+
+  getState() {
+    return this.state;
+  },
+
+  getCurrentCity() {
+    return this.state.current.city;
+  },
+
+  getCurrentCountry() {
+    return this.state.current.country;
+  },
+
+  getCurrentState() {
+    return this.state.current.state;
+  },
+
+  getCurrent() {
+    return clone(this.state.current, true);
+  },
+
+  getGMapsInstance() {
+    return this.gmaps;
+  }
 });
 
 export default LocationsStore;

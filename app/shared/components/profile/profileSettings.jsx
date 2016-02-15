@@ -4,35 +4,61 @@ import {Col} from 'react-bootstrap';
 
 import BasicInfo from './settings/basicInformation.jsx';
 import ContactInfos from './settings/contactInfos.jsx';
+import AccountInfo from './settings/accountInfo.jsx';
 
 export default React.createClass({
-	displayName: "ProfileSettings",
-	mixins: [Navigation],
+  displayName: "ProfileSettings",
+  mixins: [Navigation],
 
-	render() {
-		let user = this.props.users[this.props.username];
+  componentDidUpdate() {
+    let username = this.props.user;
+    let paramUsername = this.props.username;
 
-		return (
-			<Col xs={12} md={12} className="profile-right">
-				<BasicInfo user={user} onSaveClicked={this.onSaveClicked} onInfoChange={this.onInfoChange}/>
-				<ContactInfos user={user} onSaveClicked={this.onSaveClicked}
-							  onInfoChange={this.onInfoChange}/>
-			</Col>
-		);
-	},
+    if(username !== paramUsername) {
+      this.onUserChanged(username);
+    }
+  },
 
-	onSaveClicked(field, newValue) {
-		this.props.flux.actions.saveInfo(field, newValue);
+  render() {
+    let username = this.props.username;
+    let user = this.props.users[username];
 
-	},
+    return (
+      <Col xs={12} md={12} className="profile-right">
+        <BasicInfo status={this.props.editors} user={user} onSaveClicked={this.onSaveClicked} 
+                onInfoChange={this.onInfoChange} />
+        <ContactInfos status={this.props.editors} user={user} onSaveClicked={this.onSaveClicked}
+                onInfoChange={this.onInfoChange}
+                onVerifyClicked={this.handleVerify}/>
+        <AccountInfo status={this.props.editors} user={user} onSaveClicked={this.onSaveClicked} 
+                onInfoChange={this.onInfoChange}/>
+      </Col>
+    );
+  },
 
-	componentWillMount() {
-		if (!this.props.user || !this.props.users[this.props.username].is_owner) {
-			this.transitionTo("useroffers", {username: this.props.username});
-		}
-	},
+  onSaveClicked(field, newValue) {
+    let flux = this.props.flux;
 
-	onInfoChange(field, newValue) {
-		this.props.flux.actions.changeInfo(field, newValue);
-	}
+    field !== 'password'?
+      flux.actions.saveInfo(field, newValue):
+      flux.actions.changePass(newValue);
+  },
+
+  onUserChanged(newUser) {
+    this.replaceWith('user', {username: newUser});
+  },
+
+  componentWillMount() {
+    if (!this.props.user || !this.props.users[this.props.username].is_owner) {
+      this.replaceWith("useroffers", {username: this.props.username});
+    }
+  },
+
+  onInfoChange(field, newValue) {
+    this.props.flux.actions.changeInfo(field, newValue);
+  },
+
+  handleVerify(field) {
+    this.props.flux.actions.resendEmailVerif();
+  }
 });
