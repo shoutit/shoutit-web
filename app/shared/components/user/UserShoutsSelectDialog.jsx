@@ -106,7 +106,7 @@ export default class UserShoutsSelectDialog extends Component {
               name="shoutIds"
             />
             <label htmlFor={`UserShoutsSelectDialog${shout.id}`}>
-              <ShoutItem { ...shout} />
+              <ShoutItem shout={ shout } />
             </label>
           </div>
         )}
