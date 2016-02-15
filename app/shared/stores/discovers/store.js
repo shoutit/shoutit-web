@@ -13,66 +13,69 @@ var DiscoverStore = Fluxxor.createStore({
       shouts: {}
     };
 
-        // Checking server rendering conditions
+    // Checking server rendering conditions
 
-    if(props.discoverlist) {
+    if (props.discoverlist) {
       const {country, results: {id}} = props.discoverlist;
       this.onLoadDiscoverWithCodeSuccess({country, id});
     }
 
-    if(props.discoverid) {
+    if (props.discoverid) {
       const res = props.discoverid;
-            // TODO: Bring it back after dicoverShouts were also supported by server rendering
-            //this.addDiscoverEntry(res.id);
-            //this.onLoadDiscoverWithIdSuccess({res , id: res.id});
+      // TODO: Bring it back after dicoverShouts were also supported by server rendering
+      //this.addDiscoverEntry(res.id);
+      //this.onLoadDiscoverWithIdSuccess({res , id: res.id});
     }
 
-        // TODO: should be implemented to be fetched in components and routes
-    if(props.discoverShouts) {
+    // TODO: should be implemented to be fetched in components and routes
+    if (props.discoverShouts) {
       const res = props.discoverShouts;
 
-      if(res.show_shouts) {
+      if (res.show_shouts) {
         this.addDiscoverShoutsEntry(res.id);
         this.state.shouts[res.id].next = this.parseNextPage(res.next);
 
-                // save the list of shouts id in this store
+        // save the list of shouts id in this store
         this.state.shouts[res.id].list = res.results.map((item) => item.id);
       }
     }
 
     this.bindActions(
-            consts.LOAD_DISCOVER_WITH_CODE, this.onLoadDiscoverWithCode,
-            consts.LOAD_DISCOVER_WITH_CODE_SUCCESS, this.onLoadDiscoverWithCodeSuccess,
-            consts.LOAD_DISCOVER_FAIL, this.onLoadDiscoverFail,
-            consts.LOAD_DISCOVER_WITH_ID, this.onLoadDiscoverWithId,
-            consts.LOAD_DISCOVER_WITH_ID_SUCCESS, this.onLoadDiscoverWithIdSuccess,
-            consts.LOAD_DISCOVER_WITH_ID_FAIL, this.onLoadDiscoverWithIdFail,
-            consts.LOAD_DISCOVER_SHOUTS, this.onLoadDiscoverShouts,
-            consts.LOAD_DISCOVER_SHOUTS_SUCCESS, this.onLoadDiscoverShoutsSuccess,
-            consts.LOAD_DISCOVER_SHOUTS_FAIL, this.onLoadDiscoverShoutsFail
-        );
+      consts.LOAD_DISCOVER_WITH_CODE, this.onLoadDiscoverWithCode,
+      consts.LOAD_DISCOVER_WITH_CODE_SUCCESS, this.onLoadDiscoverWithCodeSuccess,
+      consts.LOAD_DISCOVER_FAIL, this.onLoadDiscoverFail,
+      consts.LOAD_DISCOVER_WITH_ID, this.onLoadDiscoverWithId,
+      consts.LOAD_DISCOVER_WITH_ID_SUCCESS, this.onLoadDiscoverWithIdSuccess,
+      consts.LOAD_DISCOVER_WITH_ID_FAIL, this.onLoadDiscoverWithIdFail,
+      consts.LOAD_DISCOVER_SHOUTS, this.onLoadDiscoverShouts,
+      consts.LOAD_DISCOVER_SHOUTS_SUCCESS, this.onLoadDiscoverShoutsSuccess,
+      consts.LOAD_DISCOVER_SHOUTS_FAIL, this.onLoadDiscoverShoutsFail,
+      consts.LOAD_MORE_DISCOVER_SHOUTS, this.onLoadMoreDiscoverShouts,
+      consts.LOAD_MORE_DISCOVER_SHOUTS_SUCCESS, this.onLoadMoreDiscoverShoutsSuccess,
+      consts.LOAD_MORE_DISCOVER_SHOUTS_FAIL, this.onLoadMoreDiscoverShoutsFail
+    );
   },
 
   addDiscoverEntry(id) {
-    if(!this.state.discovers[id]) {
+    if (!this.state.discovers[id]) {
       this.state.discovers[id] = {
         loading: false,
         id: null,
         title: null,
         description: null,
         cover: null,
-                // An array of objects with discover items
+        // An array of objects with discover items
         children: []
       };
     }
   },
 
   addDiscoverShoutsEntry(id) {
-    if(!this.state.shouts[id]) {
+    if (!this.state.shouts[id]) {
       this.state.shouts[id] = {
         loading: false,
         next: null,
-                // An array of shouts id (find the shout objects in shout store)
+        // An array of shouts id (find the shout objects in shout store)
         list: []
       };
     }
@@ -111,10 +114,10 @@ var DiscoverStore = Fluxxor.createStore({
     this.state.discovers[id].description = result.description;
     this.state.discovers[id].cover = result.cover;
 
-    if(result.show_children) {
+    if (result.show_children) {
       this.state.discovers[id].children = result.children;
     }
-        // Pause loading
+    // Pause loading
     this.state.discovers[id].loading = false;
     this.emit("change");
   },
@@ -132,18 +135,41 @@ var DiscoverStore = Fluxxor.createStore({
   },
 
   onLoadDiscoverShoutsSuccess({id, res}) {
-        // Waiting for the shouts store to handle and store the shouts data
+    // Waiting for the shouts store to handle and store the shouts data
     this.waitFor(["shouts"], () => {
       this.state.shouts[id].loading = false;
       this.state.shouts[id].next = this.parseNextPage(res.next);
 
-            // save the list of shouts id in this store
+      // save the list of shouts id in this store
       this.state.shouts[id].list = res.results.map((item) => item.id);
       this.emit("change");
     });
   },
 
   onLoadDiscoverShoutsFail({id}) {
+    this.state.shouts[id].loading = false;
+    this.emit("change");
+  },
+
+  onLoadMoreDiscoverShouts({ id }) {
+    this.state.shouts[id].loading = true;
+    this.emit("change");
+  },
+
+  onLoadMoreDiscoverShoutsSuccess({ id, res }) {
+    // Waiting for the shouts store to handle and store the shouts data
+    this.waitFor(["shouts"], () => {
+      this.state.shouts[id].loading = false;
+      this.state.shouts[id].next = this.parseNextPage(res.next);
+
+      // save the list of shouts id in this store
+      const stock = this.state.shouts[id].list;
+      this.state.shouts[id].list = [...stock, ...res.results.map((item) => item.id)];
+      this.emit("change");
+    });
+  },
+
+  onLoadMoreDiscoverShoutsFail({ id }) {
     this.state.shouts[id].loading = false;
     this.emit("change");
   },
@@ -166,6 +192,10 @@ var DiscoverStore = Fluxxor.createStore({
 
   getState() {
     return this.state;
+  },
+
+  getShoutsState(id) {
+    return this.state.shouts[id];
   }
 });
 

@@ -1,4 +1,5 @@
 import request from "superagent";
+import {assign} from "lodash/object";
 
 const page_size = 8;
 
@@ -15,7 +16,8 @@ export default {
     return request.get(`/api/discover/${id}`);
   },
 
-  getDiscoverShouts(id) {
-    return request.get(`/api/discover/${id}/shouts`).query({ page_size });
+  getDiscoverShouts(id, query = {}) {
+    return request.get(`/api/discover/${id}/shouts`)
+      .query( assign(query, {page_size}) );
   }
 };
