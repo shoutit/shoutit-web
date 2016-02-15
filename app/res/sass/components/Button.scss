@@ -18,7 +18,7 @@ $border-radius: 5px;
   border: 1px solid transparent;
   padding: 0;
 
-  &:hover {
+  &:not(.disabled):hover {
     .Button-label {
       color: $si-green;
     }
@@ -93,7 +93,7 @@ $border-radius: 5px;
       position: relative;
       top: -1px;
     }
-    &:hover {
+    &:not(.disabled):hover {
       background-color: $si-green;
       .Button-label {
         color: white;
@@ -104,7 +104,7 @@ $border-radius: 5px;
   .Button.primary {
     border: 0;
     background-color: $si-green;
-    &:hover {
+    &:not(.disabled):hover {
       background-color: darken($si-green, 10);
       .Button-label {
         color: white;
@@ -127,7 +127,7 @@ $border-radius: 5px;
     border: 0;
     background-color: $si-orange;
 
-    &:hover {
+    &:not(.disabled):hover {
       background-color: darken($si-orange, 10);
       .Button-label {
         color: white;
@@ -147,7 +147,7 @@ $border-radius: 5px;
   .Button.destructive {
     border: 0;
     background-color: $si-red;
-    &:hover {
+    &:not(.disabled):hover {
       background-color: darken($si-red, 10);
       .Button-label {
         color: white;
@@ -166,31 +166,7 @@ $border-radius: 5px;
 
   .Button.disabled {
     cursor: default;
-    color: darken(#edefed, 15);
-    &:hover {
-      color: darken(#edefed, 15);
-    }
-    &.primary,
-    &.secondary,
-    &.destructive
-     {
-      background-color: #edefed;
-      border: 1px solid #edefed;
-      &:hover {
-        background-color: #edefed;
-        border: 1px solid #edefed;
-      }
-    }
-    &.outline {
-      color: #edefed;
-      background-color: white;
-      border: 1px solid #edefed;
-      &:hover {
-        color: #edefed;
-        background-color: white;
-        border: 1px solid #edefed;
-      }
-    }
+    opacity: 0.5;
   }
 
 
@@ -206,7 +182,7 @@ $facebook-base-color: #395185;
   .Button-label {
     color: white;
   }
-  &:hover {
+  &:not(.disabled):hover {
     color: white;
     background-color: $facebook-base-color;
     .Button-label {
@@ -228,7 +204,7 @@ $google-base-color: darken(#DC4E41, 10);
   .Button-label {
     color: white;
   }
-  &:hover {
+  &:not(.disabled):hover {
     color: white;
     background-color: $google-base-color;
     .Button-label {
