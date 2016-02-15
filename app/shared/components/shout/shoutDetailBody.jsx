@@ -2,6 +2,8 @@ import React from "react";
 import {Link} from "react-router";
 import moment from "moment";
 
+import currencyFormatter from "currency-formatter";
+
 //import Rating from './rating.jsx';
 import ShoutDetailActions from "./shoutDetailActions.jsx";
 import TagList from "../general/tagList.jsx";
@@ -154,12 +156,7 @@ export default React.createClass({
               <ItemProp property="offers">
                   <div className="price-offer">
                       <div className="price">
-                          <ItemProp property="price">
-                              <span>{shout.price}</span>
-                          </ItemProp>
-                          <ItemProp property="priceCurrency" content={shout.origCurrency}>
-                              <span>{currencySign}</span>
-                          </ItemProp>
+                        { currencyFormatter.format(shout.price/100, { code: currencySign } )}
                       </div>
                   </div>
               </ItemProp>
