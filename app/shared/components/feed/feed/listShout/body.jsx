@@ -132,7 +132,7 @@ export default React.createClass({
     const user = this.state.users[shout.user.username] || {};
 
     // Same photo just to have support from API
-    const catIcon = "http://i.imgur.com/e2asioJ.png";
+    const catIcon = shout.category.icon;
 
     return (
       <div className="shout-footnote">
