@@ -29,10 +29,13 @@ export default React.createClass({
       tagName = params.tagName,
       tagEntry = this.state.tags.tags[tagName];
 
+    const relatedTagIsNotLoaded = tagEntry && !tagEntry.related.loading &&
+      !tagEntry.related.err && !tagEntry.related.list.length;
+
     if (!this.state.tags.loading && !tagEntry && tagEntry !== null) {
       flux.actions.loadTag(tagName);
     }
-    if(tagEntry && !tagEntry.related.loading && !tagEntry.related.list.length) {
+    if(relatedTagIsNotLoaded) {
       flux.actions.loadTagRelated(tagName);
     }
   },
@@ -89,11 +92,13 @@ export default React.createClass({
       <Grid >
         <Column size="3" clear={true}>
           <TagProfileCard params={params} flux={flux} {...this.state.tags}/>
-          <RelatedTagsCard
-            tags={ relatedTagsData }
-            loading={ tag && tag.related.loading }
-            flux={ flux }
-          />
+          {tag && !tag.related.err &&
+            <RelatedTagsCard
+              tags={ relatedTagsData }
+              loading={ tag && tag.related.loading }
+              flux={ flux }
+            />
+          }
         </Column>
         <Column size="9">
           { React.cloneElement(this.props.children, { ...this.state.tags, tagName }) }
