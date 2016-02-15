@@ -95,7 +95,7 @@ export default React.createClass({
               null
             }
           </Grid>
-          {shouts.length ? <Link to="" className="si-more-link pull-right">Explore More...</Link> : null}
+          {/*shouts.length ? <Link to="" className="si-more-link pull-right">Explore More...</Link> : null*/}
         </Grid>
       </DocumentTitle>
     );
