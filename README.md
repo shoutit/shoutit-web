@@ -21,29 +21,25 @@ $ npm start     # start the server
 
 ### Environment variables
 
-* `NODE_ENV`: can be `production` or `development`.
-* `HOST`: the host where to start the Express server. Default is `localhost`.
-* `PORT`: the port the server listens to. Default is `8080` for production, `3000` for development.
-* `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD`: username and password to enforce a basic authentication access control (e.g. on stage servers).
-* `REDIS_HOST`: the host for the redis server, default is *localhost*
-* `SHOUTIT_API_URL`: the url for the REST API. Default is *http://dev.api.shoutit.com/v2/*.. In production must point to the production URL.
-* `SHOUTIT_PUBLIC_URL`: the url where the public assets are stored. Can be a CDN url, such as *https://stage.web.static.shoutit.com*. Don't include the / at the end of it! Default is empty, so assets are served by node.
-* Amazon Web Services: when set with `SHOUTIT_PUBLIC_URL`, the build script will upload the [public](public) assets on S3.
-	* `SHOUTIT_S3_SECRET_KEY`
-	* `SHOUTIT_S3_ACCESS_KEY`
-	* `SHOUTIT_S3_BUCKET`, e.g. *shoutit-web-static*
-	* `SHOUTIT_S3_BASEPATH`, eg. *stage*, *prod* or *beta*
-	* `SHOUTIT_S3_REGION`, eg. *eu-west-1*
-* `SHOUTIT_GANALYTICS`: Google Analytics id, e.g. `UA-62656831-1`. Should be skipped in development.
-* `NEW_RELIC_LICENSE_KEY`: the New Relic user's license key
-* `NEW_RELIC_APP_NAME`: the New Relic application name
-* `BROWSER`: used by our code to *require* modules only from the browser:
+#### Required on the server
 
-```js
-if (process.env.BROWSER) {
-	require("styles/mystyle.scss");
-}
-```
+* `SHOUTIT_S3_SECRET_KEY`
+* `SHOUTIT_S3_ACCESS_KEY`
+* `REDIS_HOST`: the host for the redis server, default is *localhost*
+* `NODE_ENV`: must be set on *production*
+
+#### Optional on the server
+
+* `SHOUTIT_GANALYTICS`: Google Analytics id, e.g. *UA-62656831-1*
+* `NEW_RELIC_LICENSE_KEY` and `NEW_RELIC_APP_NAME`: the New Relic application name
+* `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD`: username and password to enforce a basic authentication access control
+* `HOST`: the host where to start the Express server. Default is *localhost*.
+* `PORT`: the port the server listens to. Default is *8080* for production, *3000* for development.
+
+#### Required when building the docker container
+
+* `SHOUTIT_API_URL`: the url for the REST API. Default is *http://dev.api.shoutit.com/v2/*. On production must point to the production URL.
+* `SHOUTIT_PUBLIC_URL`: the URL where the public assets are stored. Can be a CDN url, such as *https://stage.web.static.shoutit.com*. Don't include the / at the end of it! Default is empty, so assets are served by node.
 
 ### Starting the docker container
 
