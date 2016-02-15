@@ -47,7 +47,7 @@ export default React.createClass({
                     </ItemProp>
                     <span className="subtitle">{creator.name}</span>
                     <span className="price">
-                      { currencyFormatter.format(shout.price/100, { code } )}
+                      { currencyFormatter.format(shout.price, { code } )}
                     </span>
                 </div>
             </Column>
