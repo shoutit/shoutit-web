@@ -1,7 +1,6 @@
 export Clear from "./clear.jsx";
 export ClearFix from "./clearFix.jsx";
 export Column from "./column.jsx";
-export Flag from "./flag.jsx";
 export Grid from "./grid.jsx";
 export Icon from "./icon.jsx";
 export Image from "./image.jsx";
