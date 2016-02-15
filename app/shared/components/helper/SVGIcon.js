@@ -34,7 +34,7 @@ export default function SVGIcon({ name, active=false, on=false, fill=false, size
   }
 
   return (
-    <span style={ style } className={ className } { ...props }>
+    <span { ...props } style={ style } className={ className } >
       <span className={ `SVGIcon-icon ${name}` } />
       { badgeEl }
     </span>
