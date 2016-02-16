@@ -142,9 +142,6 @@ export default React.createClass({
         <span>
           <img src={catIcon} />
         </span>
-        <span>
-          <Icon name="chat" className="shout-chat-icon" />
-        </span>
       </div>
     );
   },

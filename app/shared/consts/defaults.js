@@ -8,6 +8,9 @@ const OFFER_TYPE = "offer";
 const REQUEST_TYPE = "request";
 const ANDROID_LINK = "https://play.google.com/store/apps/details?id=com.shoutit.app.android&hl=en";
 const IOS_LINK = "https://itunes.apple.com/us/app/shoutit-app/id947017118?mt=8";
+const FACEBOOK = "https://web.facebook.com/Shoutitcom";
+const TWITTER = "https://twitter.com/Shoutitcom";
+const INSTAGRAM = "https://www.instagram.com/shoutitcom";
 
 export default {
   PAGE_SIZE,
@@ -15,5 +18,8 @@ export default {
   OFFER_TYPE,
   REQUEST_TYPE,
   ANDROID_LINK,
-  IOS_LINK
+  IOS_LINK,
+  FACEBOOK,
+  TWITTER,
+  INSTAGRAM
 };
