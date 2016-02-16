@@ -1,13 +1,13 @@
 import React from 'react';
-import {Icon, Column, Grid} from '../helper';
+import {Icon, Column, Grid, Progress} from '../helper';
 import Separator from '../general/separator.jsx';
 import UserImage from '../user/userImage.jsx';
-import CountryFlag from '../helper/CountryFlag.jsx';
+import CountryShelfButton from '../general/CountryShelfButton.jsx';
 
 import { imagesPath } from "../../../../config";
 
 export default function ProfileInfoTooltip(props) {
-  const { user, loading } = this.props;
+  const { user, loading } = props;
   const defaultCoverImg = imagesPath + "/pattern@2x.png";
 
   return (
@@ -32,10 +32,7 @@ export default function ProfileInfoTooltip(props) {
             <Separator />
             <Grid fluid={true} className="profile-actions">
               <Column fluid={true} clear={true} size="7">
-                <div className="si-country-button">
-                  <CountryFlag code={ user.location.country }/>
-                  { user.location.country }
-                </div>
+                <CountryShelfButton country={ user.location.country } city={ user.location.city } />
               </Column>
               <Column fluid={true} size="7">
                 <div className="si-listening-button">
