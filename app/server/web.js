@@ -1,21 +1,21 @@
 /* eslint no-var: 0, no-console: 0 */
-"use strict";
 
-var express = require("express");
+import express from "express";
+import consolidate from "consolidate";
+import serveStatic from "serve-static";
+import path from "path";
+import url from "url";
+import merge from "lodash/object/merge";
+import object from "lodash/array/object";
+import pluck from "lodash/collection/pluck";
+import auth from "basic-auth";
+import favicon from "serve-favicon";
 
-var config = require("../../config");
+import Promise from "bluebird";
 
-var cons = require("consolidate"),
-  serveStatic = require("serve-static"),
-  path = require("path"),
-  url = require("url"),
-  merge = require("lodash/object/merge"),
-  object = require("lodash/array/object"),
-  pluck = require("lodash/collection/pluck"),
-  Promise = require("bluebird");
+import config from "../../config";
 
-var auth = require("basic-auth");
-var favicon = require("serve-favicon");
+import { uploadImageMiddleware, deleteImageMiddleware } from "./services/images";
 
 var React = require("react"),
   ReactRouter = require("react-router"),
@@ -25,8 +25,8 @@ var oauth = require("./auth/oauth"),
   ShoutitClient = require("./resources"),
   apiRouter = require("./routes"),
   resetPass = require("./services/resetPassword"),
-  verifyEmail = require("./services/verifyEmail"),
-  imageUpload = require("./services/imageUpload");
+  verifyEmail = require("./services/verifyEmail");
+
 
 var Flux = require("../shared/flux"),
   routes = require("../shared/routes"),
@@ -284,7 +284,7 @@ function detectionMiddleware(req, res, next) {
 
 module.exports = function (app) {
   // view stuff
-  app.engine("jade", cons.jade);
+  app.engine("jade", consolidate.jade);
   app.set("view engine", "jade");
   app.set("views", path.join(__dirname, "views"));
 
@@ -364,9 +364,9 @@ module.exports = function (app) {
   servicesRouter.get("/reset_password", resetPass.get);
   servicesRouter.post("/reset_password", resetPass.post);
   servicesRouter.get("/verify_email", verifyEmail);
-  servicesRouter.post("/image_upload", imageUpload.add);
-  servicesRouter.post("/image_remove", imageUpload.remove);
-  servicesRouter.post("/data_image_upload", imageUpload.addData);
+
+  servicesRouter.post("/images/:resourceType", uploadImageMiddleware);
+  servicesRouter.delete("/images", deleteImageMiddleware);
 
   app.use("/auth", authRouter);
   app.use("/services", servicesRouter);

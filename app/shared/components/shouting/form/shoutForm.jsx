@@ -137,7 +137,7 @@ export default React.createClass({
     let componentConfig = {
       allowedFiletypes: [".jpg", ".png"],
       showFiletypeIcon: true,
-      postUrl: "/services/image_upload"
+      postUrl: "/services/images/shout"
     };
     let eventHandlers = {
       init: null,
