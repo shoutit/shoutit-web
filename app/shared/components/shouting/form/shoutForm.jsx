@@ -8,7 +8,7 @@ import Overlay from "react-overlays/lib/Overlay";
 import TagsInput from "react-tagsinput";
 import DropzoneComponent from "react-dropzone-component";
 import {ReactVisible, Column, Grid, Icon} from "../../helper";
-import UserImage from "../../user/userImage.jsx";
+import UserAvatar from "../../user/UserAvatar.jsx";
 import LocationSearch from "../../general/locationSearch.jsx";
 import map from "lodash/collection/map";
 import Clearfix from "../../helper/clearFix.jsx";
@@ -39,7 +39,7 @@ export default React.createClass({
 
   renderUserImage() {
     return (
-      <UserImage image={this.props.user.image} type="circle" height={40} width={40} />
+      <UserAvatar user={this.props.user} />
       );
   },
 
