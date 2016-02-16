@@ -23,10 +23,14 @@ export default React.createClass({
     const {flux} = this.props;
     const tags = flux.store("tags").getState();
     const users = flux.store("users").getUsersState();
+    const listens = flux.store("users").getState().listens;
+    const loading = flux.store("users").getState().loading;
 
     return {
       tags,
-      users
+      users,
+      listens,
+      loading
     };
   },
 
@@ -41,6 +45,20 @@ export default React.createClass({
   componentDidMount() {
     const {flux, currentLocation} = this.props;
     flux.actions.getSuggestions(currentLocation);
+
+    this.loadListeningData();
+  },
+
+  componentDidUpdate() {
+    this.loadListeningData();
+  },
+
+  loadListeningData() {
+    const { listens, loading } = this.state;
+    const { loggedUser, flux } = this.props;
+    if (loggedUser && !loading && !listens[loggedUser.username]) {
+      flux.actions.loadUserListening(loggedUser.username);
+    }
   },
 
   /**
@@ -70,10 +88,15 @@ export default React.createClass({
   },
 
   render() {
-    const {suggestions, flux} = this.props;
+    const {suggestions, flux, loggedUser} = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
+
+    const { listens } = this.state;
+    if (loggedUser && listens[loggedUser.username]) {
+      console.log(listens[loggedUser.username]);
+    }
 
     return (
       <Grid>

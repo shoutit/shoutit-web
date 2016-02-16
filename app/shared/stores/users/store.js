@@ -648,6 +648,10 @@ var UserStore = Fluxxor.createStore({
   onLoadUserListening(payload) {
     var username = payload.username;
 
+    if (!this.state.listens[username]) {
+      this.state.listens[username] = initUserListenEntry();
+    }
+
     client.getListening(username).end((err, res) => {
       if (err) {
         console.log(err);
