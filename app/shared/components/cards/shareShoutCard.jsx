@@ -75,13 +75,14 @@ export default React.createClass({
   },
 
   render() {
-    let {shout, user} = this.state;
-    let ownerUser;
+    let {shout, loggedUser} = this.props;
+    const ownerUser = shout.user? shout.user.username: null;
 
-    ownerUser = shout.shout ? shout.shout.user.username : null;
+    const shareUrl = `https://www.shoutit.com/shout/${ shout.id }`;
+    const shareTitle = `Check ${ shout.title }...`;
 
-    const shareUrl = `https://www.shoutit.com/shout/1`;
-    const shareTitle = `Get it now from ShoutIt! `;
+    // Only for FB and Twitter
+    const shoutitSocialUser = " @Shoutitcom";
 
     return (
       <div>
@@ -93,7 +94,7 @@ export default React.createClass({
           <Column fluid={true} clear={true} size="7">
             <FacebookShareButton
               url={shareUrl}
-              title={shareTitle}>
+              title={shareTitle + shoutitSocialUser}>
               <div className="share-button">
                 <Icon name="facebook"/>
                 <Icon name="share-bubble" className="share-bubble"/>
@@ -115,7 +116,7 @@ export default React.createClass({
           <Column fluid={true} clear={true} size="7">
             <TwitterShareButton
               url={shareUrl}
-              title={shareTitle}>
+              title={shareTitle + shoutitSocialUser}>
               <div className="share-button">
                 <Icon name="twitter"/>
               </div>
