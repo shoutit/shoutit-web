@@ -24,26 +24,28 @@ export default React.createClass({
 
                 {website?
                     <Grid fluid={true}>
-                        <Column fluid={true} clear={true} size="2" >
-                            <Icon name="browse" className="pull-right" />
+                        <Column fluid={true} clear={true} size="3" >
+                            <Icon name="browse" className="pull-right" style={{marginRight: "4px"}}/>
                         </Column>
-                        <Column fluid={true} size="13">
+                        <Column fluid={true} size="12">
                             <a className="profile-bio-item" href={ website } target="_blank">{website}</a>
                         </Column>
                     </Grid>
                     : null}
-                <Column fluid={true} clear={true} size="2" >
-                    <SVGIcon name="clock" active={true} className="pull-right"/>
+                <Column fluid={true} clear={true} size="3" >
+                  <div className="pull-right">
+                    <SVGIcon name="clock" active={true} />
+                  </div>
                 </Column>
-                <Column className="profile-bio-item" fluid={true} size="13">
+                <Column className="profile-bio-item" fluid={true} size="12" >
                     <span>Joined: {moment.unix(date_joined).calendar()}</span>
                 </Column>
-                <Column fluid={true} clear={true} size="2" >
+                <Column fluid={true} clear={true} size="3" >
                   <span className="pull-right">
                     <CountryFlag code={country} />
                   </span>
                 </Column>
-                <Column className="profile-bio-item" fluid={true} size="13">
+                <Column className="profile-bio-item" fluid={true} size="12">
                     <span>{city}</span>
                 </Column>
             </Grid>
