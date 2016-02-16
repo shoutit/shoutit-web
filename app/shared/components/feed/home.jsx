@@ -94,15 +94,19 @@ export default React.createClass({
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
 
     const { listens } = this.state;
+    let listening, listeningData;
     if (loggedUser && listens[loggedUser.username]) {
-      console.log(listens[loggedUser.username]);
+      listening = listens[loggedUser.username].listening.list;
+      listeningData = listening.map(item => this.state.users[item]);
     }
 
     return (
       <Grid>
           <Column size="3" clear={true}>
             <ProfileCard />
-            <ListeningCard />
+            { listeningData &&
+              <ListeningCard listening={ listeningData }/>
+            }
             <PagesCard />
           </Column>
           <Column size="9">
