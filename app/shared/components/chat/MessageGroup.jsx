@@ -1,7 +1,7 @@
 import React from "react";
 
 import MessageItem from "../chat/MessageItem.jsx";
-import UserImage from "../user/userImage.jsx";
+import UserAvatar from "../user/UserAvatar.jsx";
 
 if (process.env.BROWSER) {
   require("styles/components/MessageGroup.scss");
@@ -19,7 +19,7 @@ export default function MessageGroup({ messages, showUserImage, justify="start",
     <div className={ `MessageGroup ${justify}` }>
       { showUserImage &&
         <div className="MessageGroup-userImage">
-          <UserImage user={ messages[0].user } />
+          <UserAvatar user={ messages[0].user } />
         </div>
       }
       <div className="MessageGroup-messages">

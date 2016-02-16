@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router";
 import {Icon, Column, Grid} from '../helper';
-import UserImage from '../user/userImage.jsx';
+import UserAvatar from '../user/UserAvatar.jsx';
 import ProfileInfoTooltip from '../general/profileInfoTooltip.jsx';
 
 var HOVER_EFFECT_DURATION = 500;
@@ -59,7 +59,9 @@ export default React.createClass({
               onMouseEnter={this.mouseEnterHandle(idx)}
               onMouseLeave={this.mouseLeaveHandle(idx)}>
               <Column fluid={true} clear={true} size="3" className="card-list-img">
-                <UserImage type="circle" size="26" className="pull-left" image={ item.image }/>
+                <span className="pull-left">
+                  <UserAvatar user={ item } size="small" linkToUserPage />
+                </span>
               </Column>
               <Column fluid={true} size="12" className="card-list-item">
                 <Link to={`/user/${item.username}`}>{ item.name }</Link>

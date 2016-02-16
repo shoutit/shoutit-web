@@ -2,7 +2,7 @@ import React from "react";
 import { Input } from "react-bootstrap";
 
 import SVGIcon from "../../components/helper/SVGIcon";
-import UserAvatar from "../../components/helper/UserAvatar.jsx";
+import UserAvatar from "../../components/user/UserAvatar";
 
 import { StoreWatchMixin } from "fluxxor";
 import { History } from "react-router";
@@ -79,7 +79,7 @@ export default React.createClass({
     return (
       <div className="ReplyShoutForm">
         <span className="ReplyShoutForm-avatar">
-          <UserAvatar src={loggedUser.image} clip />
+          <UserAvatar user={ loggedUser }  />
         </span>
         <form ref="form" className="ReplyShoutForm-form" onSubmit={ e => this.handleFormSubmit(e) }>
           <Input
