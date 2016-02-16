@@ -25,8 +25,7 @@ var oauth = require("./auth/oauth"),
   ShoutitClient = require("./resources"),
   apiRouter = require("./routes"),
   resetPass = require("./services/resetPassword"),
-  verifyEmail = require("./services/verifyEmail"),
-  imageUpload = require("./services/imageUpload");
+  verifyEmail = require("./services/verifyEmail");
 
 
 var Flux = require("../shared/flux"),
@@ -368,8 +367,6 @@ module.exports = function (app) {
 
   servicesRouter.post("/images/:resourceType", uploadImageMiddleware);
   servicesRouter.delete("/images", deleteImageMiddleware);
-
-  servicesRouter.post("/data_image_upload", imageUpload.addData);
 
   app.use("/auth", authRouter);
   app.use("/services", servicesRouter);
