@@ -28,6 +28,21 @@ test:
     - cp -R ./coverage $CIRCLE_ARTIFACTS
 
 deployment:
+  release:
+    tag: /release-.*/
+    commands:
+      - >
+        SHOUTIT_PUBLIC_URL=https://web.web.static.shoutit.com
+        npm run build
+      - pip install awscli
+      - aws s3 sync public s3://shoutit-web-static/prod
+      - >
+        docker build
+        --build-arg SHOUTIT_PUBLIC_URL=https://web.static.shoutit.com
+        --build-arg SHOUTIT_API_URL=http://api.shoutit.com/v2/
+        -t shoutit/shoutit-web:live .
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push shoutit/shoutit-web:live
   hub-master:
     branch: master
     commands:
