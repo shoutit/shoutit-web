@@ -9,19 +9,17 @@ const API_KEY = "AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc";
 const GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
 const DEFAULT_LANGUAGE = "en";
 
-const SHOUTIT_GEOCODE_ENDPOINT = "/api/misc/geocode";
-
 export default {
   geocode(lat, lng) {
     const pos = {};
     pos.latlng = [lat, lng].join(",");
 
     // just to prevent npm from caching 0,0 position
-    if(lat === 0 && lng === 0) {
+    if (lat === 0 && lng === 0) {
       pos.key = Date.now() + Math.floor(Math.random() * 100);
     }
 
-    return request.get(SHOUTIT_GEOCODE_ENDPOINT).query(pos);
+    return request.get("/api/misc/geocode").query(pos);
   },
 
   cityGeocode(country, state, city) {

@@ -32,14 +32,13 @@ deployment:
     tag: /release-.*/
     commands:
       - >
-        SHOUTIT_PUBLIC_URL=https://web.static.shoutit.com
+        SHOUTIT_ENV=live
         npm run build
       - pip install awscli
       - aws s3 sync public s3://shoutit-web-static/prod
       - >
         docker build
-        --build-arg SHOUTIT_PUBLIC_URL=https://web.static.shoutit.com
-        --build-arg SHOUTIT_API_URL=https://api.shoutit.com/v2/
+        --build-arg SHOUTIT_ENV=live
         -t shoutit/shoutit-web:live .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:live
@@ -47,14 +46,13 @@ deployment:
     branch: master
     commands:
       - >
-        SHOUTIT_PUBLIC_URL=https://beta.web.static.shoutit.com
+        SHOUTIT_ENV=beta
         npm run build
       - pip install awscli
       - aws s3 sync public s3://shoutit-web-static/beta
       - >
         docker build
-        --build-arg SHOUTIT_PUBLIC_URL=https://beta.web.static.shoutit.com
-        --build-arg SHOUTIT_API_URL=https://api.shoutit.com/v2/
+        --build-arg SHOUTIT_ENV=beta
         -t shoutit/shoutit-web:master .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:master
@@ -62,14 +60,13 @@ deployment:
     branch: develop
     commands:
       - >
-        SHOUTIT_PUBLIC_URL=https://stage.web.static.shoutit.com
+        SHOUTIT_ENV=stage
         npm run build
       - pip install awscli
       - aws s3 sync public s3://shoutit-web-static/stage
       - >
         docker build
-        --build-arg SHOUTIT_PUBLIC_URL=https://stage.web.static.shoutit.com
-        --build-arg SHOUTIT_API_URL=http://dev.api.shoutit.com/v2/
+        --build-arg SHOUTIT_ENV=stage
         -t shoutit/shoutit-web:develop .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:develop
