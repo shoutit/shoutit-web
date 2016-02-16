@@ -32,7 +32,7 @@ deployment:
     tag: /release-.*/
     commands:
       - >
-        SHOUTIT_PUBLIC_URL=https://web.web.static.shoutit.com
+        SHOUTIT_PUBLIC_URL=https://web.static.shoutit.com
         npm run build
       - pip install awscli
       - aws s3 sync public s3://shoutit-web-static/prod
