@@ -311,6 +311,9 @@ $size-large: 36px;
   .SVGIcon.active .SVGIcon-icon.profile {
     background-image: url("../../../../assets/icons/profile-active.svg");
   }
+  .SVGIcon.fill .SVGIcon-icon.profile {
+    background-image: url("../../../../assets/icons/profile-fill.svg");
+  }
 
 .SVGIcon-icon.question-circle {
   background-image: url("../../../../assets/icons/question-circle.svg");

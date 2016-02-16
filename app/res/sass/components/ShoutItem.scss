@@ -22,40 +22,45 @@ $border-radius: 5px;
 }
 
 .ShoutItem-thumbwrapper {
-  .ShoutItem:not(.horizontal) & {
-    width: 100%;
-    padding-bottom: 100%;
-    border-top-left-radius: $border-radius;
-    border-top-right-radius: $border-radius;
-  }
-  .ShoutItem.horizontal & {
-    width: 75px;
-    height: 75px;
-  }
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
   position: relative;
   background-color: $background-color;
   background-image: url("../../../../assets/icons/camera-fill.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 64px;
-  > .ShoutItem-thumb {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+
+  .ShoutItem:not(.horizontal) & {
+    width: 100%;
+    padding-bottom: 100%;
   }
+
+  .ShoutItem.horizontal & {
+    @include flex(0 0 75px);
+    height: 75px;
+    border-radius: $border-radius;
+  }
+
   .ShoutItem.no-thumbnail & {
     background-image: url("../../../../assets/icons/no-camera-fill.svg");
   }
 }
 
 .ShoutItem-thumb {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
+  .ShoutItem.horizontal & {
+    border-radius: $border-radius;
+  }
 }
 
 

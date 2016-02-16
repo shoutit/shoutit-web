@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router";
 import {Icon, Column, Grid, Progress} from '../helper';
 import ListenButton from "../general/listenButton.jsx";
-import UserImage from '../user/userImage.jsx';
+import UserAvatar from '../user/UserAvatar.jsx';
 
 export default React.createClass({
   displayName: "listenToCard",
@@ -44,7 +44,9 @@ export default React.createClass({
             return (
               <Grid fluid={true} key={ `card-listen-to-${idx}` }>
                 <Column fluid={true} clear={true} size="3" className="card-list-img">
-                  <UserImage type="circle" size="26" className="pull-left" image={ user.image }/>
+                  <span className="pull-left">
+                    <UserAvatar user={ user } size="small" linkToUserPage />
+                  </span>
                 </Column>
                 <Column fluid={true} size="9" className="card-list-item">
                   <Link to={`/user/${user.username}`}>{ user.name }</Link>

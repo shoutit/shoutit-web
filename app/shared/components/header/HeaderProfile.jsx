@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import SVGIcon from "../helper/SVGIcon";
 import Button from "../helper/Button.jsx";
+import UserAvatar from "../user/UserAvatar";
 
 if (process.env.BROWSER) {
   require("styles/components/HeaderProfile.scss");
@@ -38,9 +39,7 @@ export default function HeaderProfile({
             className="HeaderProfile-profileLink"
             to={`/user/${loggedUser.username}`}
             onClick={ onProfileClick }>
-              <div className="HeaderProfile-image">
-                <img src={ loggedUser.image } />
-              </div>
+              <UserAvatar user={ loggedUser } size="large" mask />
           </Link>
       </div>
     </div>

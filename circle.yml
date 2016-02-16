@@ -29,7 +29,6 @@ test:
 
 deployment:
   release:
-    branch: master
     tag: /release-.*/
     commands:
       - >

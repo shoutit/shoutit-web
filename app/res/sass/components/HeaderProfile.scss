@@ -13,30 +13,9 @@
   }
 }
 
-.HeaderProfile-image {
-  margin: 0 10px;
-  position: relative;
-  width: 48px;
-  height: 48px;
-  img {
-    width: inherit;
-    height: inherit;
-  }
-  &:after {
-    position: absolute;
-    z-index: 1;
-    content: "";
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../../../../assets/ui-elements/user-mask.png");
-    background-size: contain;
-  }
-}
-
 .HeaderProfile-profileLink {
   cursor: pointer;
+  padding: 0 10px;
 }
 
 .HeaderProfile-newShout {
