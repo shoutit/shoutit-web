@@ -1,37 +1,37 @@
-import React from 'react';
-import {Link} from 'react-router';
-import {Icon, Grid, Column, Progress} from '../helper';
-import Separator from '../general/separator.jsx';
-import UserImage from '../user/userImage.jsx';
+import React from "react";
+import {Link} from "react-router";
+import {Icon, Grid, Column, Progress} from "../helper";
+import Separator from "../general/separator.jsx";
+import UserAvatar from "../user/UserAvatar.jsx";
 import ListenButton from "../general/listenButton.jsx";
 import ListenersButton from "../general/listenersButton.jsx";
 import CountryFlag from "../helper/CountryFlag";
+import SVGIcon from "../helper/SVGIcon";
 
 import moment from "moment";
 
-export default function shoutOwnerCard(props) {
-  const {shout, flux, users, loggedUser} = props;
-
+export default function shoutOwnerCard({ shout, flux, users, loggedUser }) {
+  const { user, location } = shout;
   const loggedUsername = loggedUser? loggedUser.username: undefined;
 
   return (
     <section className="si-card shout-owner-card">
-      { shout.user?
+      { user ?
         <Grid fluid={true}>
           <Column fluid={true} clear={true} size="4" className="owner-info-left">
-            <UserImage image={ shout.user.image } type="rounded" height={44} width={44}/>
+            <UserAvatar user={ user } size="large" linkToUserPage />
           </Column>
           <Column fluid={true} size="11" className="owner-info-right">
-            <Link to="">{ shout.user.name }</Link>
-            <CountryFlag code={ shout.location.country } />
-            <span>{ shout.location.city }</span>
+            <Link to={ `/user/${user.username}`}>{ user.name }</Link>
+            <CountryFlag code={ location.country } />
+            <span>{ location.city }</span>
           </Column>
           <div className="holder">
             <Separator />
-            {shout.user.username !== loggedUsername && users[shout.user.username] ?
+            {user.username !== loggedUsername && users[user.username] ?
               <div>
                 <Column fluid={true} clear={true} size="7" className="owner-contact-action">
-                  <ListenersButton user={ users[shout.user.username] }/>
+                  <ListenersButton user={ users[user.username] }/>
                 </Column>
                 {/*<Column fluid={true} size="5" className="owner-contact-action">
                   <Icon name="message"/>
@@ -39,17 +39,17 @@ export default function shoutOwnerCard(props) {
                 </Column>
                 */}
                 <Column fluid={true} size="7"  className="owner-contact-action">
-                  <ListenButton flux={ flux } username={ shout.user.username }/>
+                  <ListenButton flux={ flux } username={ user.username }/>
                 </Column>
                 <Separator />
               </div>
               : null
             }
             <ul className="owner-contact-details">
-              {users[shout.user.username] &&
+              {users[user.username] &&
                 <li>
-                  <Icon name="date"/>
-                  <span>{ moment.unix(users[shout.user.username].date_joined).fromNow() }</span>
+                  <SVGIcon name="clock" active />
+                  <span>{ moment.unix(users[user.username].date_joined).fromNow() }</span>
                 </li>
               }
               {/*
