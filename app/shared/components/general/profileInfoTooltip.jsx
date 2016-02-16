@@ -1,13 +1,15 @@
 import React from 'react';
 import {Icon, Column, Grid, Progress} from '../helper';
-import Separator from '../general/separator.jsx';
+import Separator from './separator.jsx';
 import UserImage from '../user/userImage.jsx';
-import CountryShelfButton from '../general/CountryShelfButton.jsx';
+import ListenButton from "./listenButton.jsx";
+import ListenersButton from "./listenersButton.jsx";
+import CountryShelfButton from './CountryShelfButton.jsx';
 
 import { imagesPath } from "../../../../config";
 
 export default function ProfileInfoTooltip(props) {
-  const { user, loading } = props;
+  const { user, loading, flux } = props;
   const defaultCoverImg = imagesPath + "/pattern@2x.png";
 
   return (
@@ -31,14 +33,14 @@ export default function ProfileInfoTooltip(props) {
             </Grid>
             <Separator />
             <Grid fluid={true} className="profile-actions">
-              <Column fluid={true} clear={true} size="7">
+              <Column fluid={true} clear={true} size="5">
+                <ListenersButton user={ user }/>
+              </Column>
+              <Column fluid={true} size="5">
                 <CountryShelfButton country={ user.location.country } city={ user.location.city } />
               </Column>
-              <Column fluid={true} size="7">
-                <div className="si-listening-button">
-                  <Icon name="listening"/>
-                  Listening
-                </div>
+              <Column fluid={true} size="5">
+                <ListenButton flux={ flux } username={ user.username }/>
               </Column>
             </Grid>
           </div>
