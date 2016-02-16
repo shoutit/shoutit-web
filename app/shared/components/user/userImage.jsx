@@ -42,7 +42,7 @@ export default React.createClass({
 
   generateStyle() {
     const img = this.props.user? this.props.user.image: this.props.image;
-    const url = this.props.size <= 64? this.getSmallUrl(img): img;
+    const url = (img && this.props.size <= 64)? this.getSmallUrl(img): img;
     let style = {
       "height": this.props.height ? this.props.height + "px":
           this.props.size? this.props.size + "px": "32px",
