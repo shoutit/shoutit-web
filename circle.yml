@@ -39,7 +39,7 @@ deployment:
       - >
         docker build
         --build-arg SHOUTIT_PUBLIC_URL=https://web.static.shoutit.com
-        --build-arg SHOUTIT_API_URL=http://api.shoutit.com/v2/
+        --build-arg SHOUTIT_API_URL=https://api.shoutit.com/v2/
         -t shoutit/shoutit-web:live .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:live
