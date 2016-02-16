@@ -1,7 +1,7 @@
 import React from "react";
 import {Grid, Column} from "../helper";
 import {StoreWatchMixin} from "fluxxor";
-import {ListeningCard, ListenToCard, PagesCard, ProfileCard, TagsCard, SuggestShoutCard} from "../cards";
+import {ListeningCard, ListenToCard, ProfileCard, TagsCard, SuggestShoutCard} from "../cards";
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users")],
@@ -107,8 +107,6 @@ export default React.createClass({
             { listeningData &&
               <ListeningCard listening={ listeningData } flux={ flux }/>
             }
-            <PagesCard />
-
           </Column>
           <Column size="9">
               { React.cloneElement(this.props.children, {flux: this.props.flux}) }

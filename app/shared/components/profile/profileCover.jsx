@@ -3,6 +3,10 @@ import {Grid, Icon} from '../helper';
 import Button from '../general/button.jsx';
 import AvatarEditor from 'react-avatar-editor';
 
+import { imagesPath } from "../../../../config";
+
+var defaultCoverImage = `${imagesPath}/pattern@2x.png`;
+
 export default React.createClass({
     displayName: "ProfileCover",
 
@@ -19,9 +23,11 @@ export default React.createClass({
 
     renderCoverPhoto() {
         // placeholder cover
-        let image = this.props.user.cover || 'http://data.hdwallpapers.im/beautiful_sunrise_over_valley.jpg';
-        let imgStyle = {
-            backgroundImage: `url('${image}')`
+        const image = this.props.user.cover || defaultCoverImage;
+        const imgStyle = {
+          backgroundImage: `url('${image}')`,
+          backgroundSize: "60%",
+          backgroundRepeat: "repeat-x"
         };
 
         if(this.state.coverEditBox) {
