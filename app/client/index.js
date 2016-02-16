@@ -13,6 +13,7 @@ import "../client/initializeFacebook";
 import gAnalytics from "../client/ga";
 import { setup as setupPusher } from "../client/pusher";
 import createBrowserHistory from "history/lib/createBrowserHistory";
+import config from "../../config";
 
 import "babel-core/polyfill";
 
@@ -42,8 +43,8 @@ flux.on("dispatch", (type, payload) =>
 );
 
 let ga;
-if (process.env.SHOUTIT_GANALYTICS) {
-  ga = gAnalytics(process.env.SHOUTIT_GANALYTICS);
+if (config.ga) {
+  ga = gAnalytics(config.ga);
 }
 
 if (window.google) {

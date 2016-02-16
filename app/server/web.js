@@ -220,12 +220,11 @@ function reactServerRender(req, res) {
           res.render("index", {
             reactMarkup: content,
             serializedFlux: serializedFlux,
-            // Extract title from current Router State
             title: DocumentTitle.rewind(),
             graph: meta,
             production: process.env.NODE_ENV === "production",
             googleMapsKey: config.googleMapsKey,
-            ga: process.env.SHOUTIT_GANALYTICS,
+            ga: config.ga,
             publicUrl: config.publicUrl,
             chunkNames: process.env.NODE_ENV === "production" ?
               require("../../public/stats.json") :

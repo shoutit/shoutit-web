@@ -22,6 +22,12 @@ if (isDevelopment) {
   entries.push("webpack-hot-middleware/client");
 }
 
+var NotifyConfigPlugin = function() {};
+NotifyConfigPlugin.prototype.apply = () => {
+  config.printSummary();
+  console.log("\nWebpack is compiling...\n");
+};
+
 module.exports = {
   devtool: isDevelopment ? "cheap-module-eval-source-map" : "source-map",
   context: context,
@@ -84,11 +90,13 @@ module.exports = {
     ]
   },
   plugins: [
+
+    !isDevelopment ? new NotifyConfigPlugin() : noop,
+
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       "process.env": {
-        SHOUTIT_GANALYTICS: JSON.stringify(process.env.SHOUTIT_GANALYTICS || ""),
-        SHOUTIT_PUBLIC_URL: JSON.stringify(process.env.SHOUTIT_PUBLIC_URL || ""),
+        SHOUTIT_ENV: JSON.stringify(process.env.SHOUTIT_ENV),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || "development"),
         BROWSER: JSON.stringify(true)
       }
