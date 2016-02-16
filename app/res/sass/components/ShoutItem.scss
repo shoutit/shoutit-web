@@ -24,21 +24,24 @@ $border-radius: 5px;
 .ShoutItem-thumbwrapper {
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
-  .ShoutItem:not(.horizontal) & {
-    width: 100%;
-    padding-bottom: 100%;
-  }
-  .ShoutItem.horizontal & {
-    @include flex(0 0 75px);
-    height: 75px;
-    border-radius: $border-radius;
-  }
   position: relative;
   background-color: $background-color;
   background-image: url("../../../../assets/icons/camera-fill.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 64px;
+
+  .ShoutItem:not(.horizontal) & {
+    width: 100%;
+    padding-bottom: 100%;
+  }
+
+  .ShoutItem.horizontal & {
+    @include flex(0 0 75px);
+    height: 75px;
+    border-radius: $border-radius;
+  }
+
   .ShoutItem.no-thumbnail & {
     background-image: url("../../../../assets/icons/no-camera-fill.svg");
   }
