@@ -173,35 +173,41 @@ var addImage = function (req, res) {
 };
 
 // need to check
-var addDataImage = function (req, res) {
-  if (req.session.user) {
-        // check if folders exists
-    checkDir();
-    var dataImage = req.body.dataImage;
-    var bucket = req.body.bucket;
-    var config = s3Config[bucket];
-
-    if (config) {
-      var imageName = Date.now() + "-" + req.session.user.id + ".jpg";
-            // save data image as a file on tmp
-      var base64 = dataImage && dataImage.replace(/^data:image\/\w+;base64,/, "");
-      var buf = new Buffer(base64, "base64");
-      var imagePath = path.join(TEMP_UPLOAD_DIR, imageName);
-      fs.writeFile(imagePath , buf, function(err) {
-        if(err) {
-          console.log(err);
-        } else {
-                    // Uploading to S3
-          s3Uploader.add(imagePath, config)
-                        .then(function (s3Link) {
-                          var fileName = path.basename(imagePath);
-                          removeFromTmp(fileName);
-                          res.send(s3Link);
-                        });
-        }
-      });
-    }
+const addDataImage = (req, res) => {
+  console.log("imageUpload: adding data image...");
+  if (!req.session.user) {
+    console.error("imageUpload: user not in session");
+    return;
   }
+        // check if folders exists
+  checkDir();
+  const dataImage = req.body.dataImage;
+  const bucket = req.body.bucket;
+  const config = s3Config[bucket];
+  if (!config) {
+    console.error("imageUpload: config not found for bucket %s", bucket);
+    return;
+  }
+
+  const imageName = `${Date.now()}-${req.session.user.id}.jpg`;
+  console.log("imageUpload: image name is %s", imageName);
+
+  // save data image as a file on tmp
+  const base64 = dataImage && dataImage.replace(/^data:image\/\w+;base64,/, "");
+  const buffer = new Buffer(base64, "base64");
+  const imagePath = path.join(TEMP_UPLOAD_DIR, imageName);
+  fs.writeFile(imagePath, buffer, err => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // Uploading to S3
+    s3Uploader.add(imagePath, config).then(link => {
+      const fileName = path.basename(imagePath);
+      removeFromTmp(fileName);
+      res.send(link);
+    });
+  });
 };
 
 var removeImagesFromS3 = function (req, res) {
