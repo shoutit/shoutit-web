@@ -123,7 +123,9 @@ export default React.createClass({
             </TwitterShareButton>
           </Column>
           <Column fluid={true} size="7" className="share-button">
-            <Icon name="mail"/>
+            <a href={`mailto:?subject=${ encodeURI(shareTitle) }&body=${ encodeURI(shareUrl) }`} target="_blank">
+              <Icon name="mail"/>
+            </a>
           </Column>
           <Column fluid={true} size="15" style={{margin:'10px 15px'}}>
             <Separator />
