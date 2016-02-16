@@ -31,6 +31,7 @@ web:
   image: 'shoutit/shoutit-web:master'
   environment:
     - REDIS_HOST=
+    -SHOUTIT_ENV=live
   links:
     - 'redis:redis'
   ports:
@@ -44,6 +45,7 @@ web-beta:
   autoredeploy: true
   environment:
     - REDIS_HOST=
+    -SHOUTIT_ENV=beta
   links:
     - 'redis-beta:redis'
   ports:
@@ -58,6 +60,7 @@ web-staging:
   autoredeploy: true
   environment:
     - REDIS_HOST=
+    -SHOUTIT_ENV=stage
   links:
     - 'redis-staging:redis'
   ports:

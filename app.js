@@ -41,6 +41,7 @@ summary.push("shoutit-web-app config");
 summary.push("------------------------------------------------------------");
 summary.push("");
 summary.push("  Node environment:     " + process.env.NODE_ENV);
+summary.push("  Shoutit environment:  " + process.env.SHOUTIT_ENV);
 summary.push("  Public assets URL:    " + config.publicUrl);
 summary.push("  API URL:              " + config.apiUrl);
 summary.push("  Redis host:           " + process.env.REDIS_HOST);
