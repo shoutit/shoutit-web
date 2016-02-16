@@ -107,9 +107,8 @@ export default React.createClass({
             { listeningData &&
               <ListeningCard listening={ listeningData }/>
             }
-            {/*
             <PagesCard />
-            */}
+
           </Column>
           <Column size="9">
               { React.cloneElement(this.props.children, {flux: this.props.flux}) }
