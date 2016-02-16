@@ -18,7 +18,7 @@ else {
 window.fbAsyncInit = function() {
   log("Facebook SDK has been loaded.");
   window.FB.init({ appId, version });
-  log("Facebook has been initialized.");
+  log("Facebook App: " + appId + " has been initialized.");
 };
 
 (function(d, s, id) {
