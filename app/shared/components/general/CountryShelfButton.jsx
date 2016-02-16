@@ -9,7 +9,7 @@ export default function CountryShelfButton(props) {
   return (
     <div className="CountryShelfButton">
       <CountryFlag code={ props.country }/>
-      { props.city }
+      <span className="text-holder">{ props.city }</span>
     </div>
   );
 }

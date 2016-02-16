@@ -10,7 +10,7 @@ import { imagesPath } from "../../../../config";
 
 export default function ProfileInfoTooltip(props) {
   const { user, loading, flux } = props;
-  const defaultCoverImg = imagesPath + "/pattern@2x.png";
+  const defaultCoverImg = imagesPath + "/pattern.png";
 
   return (
     <div className="profile-info-tooltip">
@@ -19,20 +19,17 @@ export default function ProfileInfoTooltip(props) {
           <Progress />
         : user.location &&
           <div>
-            <Grid fluid={true} className="profile-cover" backgroundImage={ `url(${user.cover || defaultCoverImg}` }>
-            </Grid>
+            <Grid fluid={true} className="profile-cover" style={{
+              backgroundImage: `url(${user.cover || defaultCoverImg})`,
+              backgroundColor: "#fff"
+            }}/>
             <Grid fluid={true} className="profile-context">
-              <Column fluid={true} clear={true} size="13">
                 <UserImage image={ user.image } size="64" type="rounded" className="profile-context-image"/>
                 <h3>{ user.name }</h3>
                 <h4>{ user.username }</h4>
-              </Column>
-              <Column fluid={true} size="2">
-                <Icon name="listen" className="profile-context-listen"/>
-              </Column>
             </Grid>
-            <Separator />
-            <Grid fluid={true} className="profile-actions">
+            <Separator style={{marginTop: "-5px"}}/>
+            <Grid fluid={true} style={{marginTop: "-10px"}}>
               <Column fluid={true} clear={true} size="5">
                 <ListenersButton user={ user }/>
               </Column>

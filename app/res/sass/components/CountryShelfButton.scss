@@ -1,12 +1,15 @@
 .CountryShelfButton {
   text-align:center;
+  padding-top: 12px;
   .CountryFlag {
     margin: 0 auto;
     height: auto;
     display: block;
   }
-  img {
-    display: block;
-    margin: 0 auto;
+  .text-holder {
+    height: 25px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 1.3rem;
   }
 }
