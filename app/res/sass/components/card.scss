@@ -148,6 +148,9 @@
     }
     .share-button {
       margin-top: 20px;
+      .share-count-holder {
+        display: inline-block;
+      }
       .icon {
         display: inline-block;
         margin-left: 15px;
@@ -157,7 +160,7 @@
       .share-bubble {
         margin-left: 5px;
       }
-      span {
+      .share-count {
         position: relative;
         margin-left: -25px;
       }

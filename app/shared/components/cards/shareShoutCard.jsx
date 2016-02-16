@@ -10,6 +10,11 @@ const {
   TwitterShareButton
   } = ShareButtons;
 
+const {
+  FacebookShareCount,
+  GooglePlusShareCount
+  } = ShareCounts;
+
 export default React.createClass({
   displayName: "ShoutShareCard",
   mixins: [ History ],
@@ -97,8 +102,18 @@ export default React.createClass({
               title={shareTitle + shoutitSocialUser}>
               <div className="share-button">
                 <Icon name="facebook"/>
-                <Icon name="share-bubble" className="share-bubble"/>
-                <span>2</span>
+                <FacebookShareCount
+                  url={shareUrl}
+                  className="share-count-holder">
+                  {count => {
+                    return (
+                      <span>
+                        <Icon name="share-bubble" className="share-bubble"/>
+                        <span className="share-count">{count}</span>
+                      </span>
+                    );
+                  }}
+                </FacebookShareCount>
               </div>
             </FacebookShareButton>
           </Column>
@@ -108,8 +123,19 @@ export default React.createClass({
               title={shareTitle}>
               <div className="share-button">
                 <Icon name="google-plus"/>
-                <Icon name="share-bubble" className="share-bubble"/>
-                <span>2</span>
+                <GooglePlusShareCount
+                  url={shareUrl}
+                  className="share-count-holder">
+                  {count => {
+                    return (
+                      <span>
+                        <Icon name="share-bubble" className="share-bubble"/>
+                        <span className="share-count">{count}</span>
+                      </span>
+                    );
+                  }}
+                </GooglePlusShareCount>
+
               </div>
             </GooglePlusShareButton>
           </Column>
