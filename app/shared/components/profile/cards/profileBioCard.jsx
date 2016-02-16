@@ -27,8 +27,8 @@ export default React.createClass({
                         <Column fluid={true} clear={true} size="2" >
                             <Icon name="browse" className="pull-right" />
                         </Column>
-                        <Column className="profile-bio-item" fluid={true} size="13">
-                            <a href={ website }>{website}</a>
+                        <Column fluid={true} size="13">
+                            <a className="profile-bio-item" href={ website } target="_blank">{website}</a>
                         </Column>
                     </Grid>
                     : null}
