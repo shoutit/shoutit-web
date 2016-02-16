@@ -6,8 +6,8 @@ const log = debug("shoutit:facebook");
 
 let appId;
 let version;
-if (process.env.NODE_ENV === "development") {
-  appId = "353625811317277";
+if (process.env.NODE_ENV === "development" || process.env.SHOUTIT_ENV === "stage") {
+  appId = "1151546964858487";
   version = "v2.0";
 }
 else {
