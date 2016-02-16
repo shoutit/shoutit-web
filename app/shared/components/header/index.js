@@ -142,7 +142,7 @@ export default class Header extends Component {
           <Overlay key="profile" rootClose arrow inverted
             placement="bottom"
             container={ this }
-            style={ { width: 200, marginLeft: 10 }}
+            style={ { width: 200, marginLeft: 3 }}
             show={ overlayName === "profile" }
             onHide={ () => this.hideOverlay() }
             target={ () => overlayTarget }>
