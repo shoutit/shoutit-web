@@ -47,7 +47,7 @@ export default React.createClass({
               <Column size="7" className="nav-right">
                 <Link to="/login"><span className="btn-login">Log in</span></Link>
                 <Link to="/signup"><span className="btn-d">Sign up</span></Link>
-                <span className="btn-d">About</span>
+                {/* <span className="btn-d">About</span> */}
               </Column>
             </Element>
           </Grid>
@@ -56,10 +56,9 @@ export default React.createClass({
               <Grid fluid={true} className="hero">
                 <Column size="7" offset="2">
 
-                  <h1>Everything Much Cheaper!</h1>
+                  <h1>Buy and Sell while Chatting!</h1>
                   <p>
-                    Lorem ipsum dolor sit amet, quo ad adhuc debet munere. Harum congue ne his, suas viris constituam ne
-                    cum, sonet mandamus at his.
+                    Shoutit is the fastest way to list and share what you want to sell or buy. Chat with buyers and sellers in your area or anywhere in the world!
                   </p>
                   <ScrollLink to="explore" className="btn-explore" smooth={true}
                               offset={0} duration={800}>Explore</ScrollLink>

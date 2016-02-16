@@ -1,7 +1,6 @@
 import request from "superagent";
 
 const PREFIX = "/api/shouts";
-const IMG_REMOVE_ENDPOINT = "/services/image_remove";
 
 export default {
   list(query) {
@@ -28,8 +27,8 @@ export default {
 
   remove(fileName) {
     return request
-      .post(IMG_REMOVE_ENDPOINT)
-      .send({shout_image: fileName});
+      .query({ fileName })
+      .del("/services/images");
   },
 
   reply(shoutId, message) {

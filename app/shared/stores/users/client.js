@@ -3,10 +3,6 @@ import request from "superagent";
 const PREFIX = "/api/users";
 const AUTH_PREFIX = "/api/auth";
 
-// Only for uploading base64 (data URI) images
-// for uploading image files use /services/image_upload
-const S3_ENDPOINT = "/services/data_image_upload";
-
 export default {
   update(update) {
     return request
@@ -91,8 +87,8 @@ export default {
      */
   uploadDataImage(dataImage, bucket) {
     return request
-                .post(S3_ENDPOINT, bucket)
-                .send({dataImage, bucket});
+                .post(`/services/images/${bucket}`)
+                .send({ dataImage });
   },
 
   signup(payload) {
