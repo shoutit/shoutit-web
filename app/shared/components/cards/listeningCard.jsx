@@ -20,12 +20,15 @@ export default React.createClass({
   },
 
   mouseEnterHandle(itemIdx) {
+    const { listening, flux } = this.props;
+
     return () => {
       this.focusedItem = itemIdx;
       // checking if the mouse stayed for a period on the item or not
       ((idx) => {
         setTimeout(() => {
           if (this.focusedItem === idx) {
+            flux.actions.loadUser(listening[idx].username);
             this.setState({activeTooltip: idx});
           }
         }, HOVER_EFFECT_DURATION)
@@ -61,8 +64,8 @@ export default React.createClass({
               <Column fluid={true} size="12" className="card-list-item">
                 <Link to={`/user/${item.username}`}>{ item.name }</Link>
               </Column>
-              {/*this.state.activeTooltip === idx ?
-                <ProfileInfoTooltip user={ item }/> : null*/}
+              {this.state.activeTooltip === idx ?
+                <ProfileInfoTooltip user={ item } loading={ !item.location }/> : null}
             </Grid>
           );
         })}
