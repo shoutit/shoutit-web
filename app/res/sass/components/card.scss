@@ -148,13 +148,13 @@
     }
     .share-button {
       margin-top: 20px;
-      & > div {
+      .icon {
         display: inline-block;
         margin-left: 15px;
         vertical-align: middle;
         cursor: pointer;
       }
-      & .share-bubble {
+      .share-bubble {
         margin-left: 5px;
       }
       span {
