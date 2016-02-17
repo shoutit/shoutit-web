@@ -135,6 +135,7 @@ export default React.createClass({
               flux={flux}
               users={ usersData }
               loading={ suggestions.data && suggestions.data.users.loading }
+              onListeningChange={ this.onListeningChange }
             />
             <SuggestShoutCard
               shout={ shoutsData }
