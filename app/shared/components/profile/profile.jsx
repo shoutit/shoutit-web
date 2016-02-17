@@ -154,7 +154,11 @@ export default React.createClass({
         return this.renderProfilePage();
       }
     } else {
-      return this.renderNotFound();
+      if(user === null) {
+        return this.renderNotFound();
+      } else {
+        return this.renderLoading();
+      }
     }
   }
 });
