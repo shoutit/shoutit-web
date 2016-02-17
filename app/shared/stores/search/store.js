@@ -79,7 +79,6 @@ var SearchStore = Fluxxor.createStore({
           search: payload.term,
           shout_type: payload.shouttype !== defaults.ALL_TYPE? payload.shouttype: undefined,
           category: payload.category !== defaults.ALL_TYPE? payload.category: undefined,
-          tags: payload.tags || undefined,
           min_price: payload.min || undefined,
           max_price: payload.max || undefined,
           country: payload.country || undefined,
