@@ -5,8 +5,8 @@ import { getValidIPv4Address } from "../../../utils/InternetUtils";
 export default function(client) {
   return (req, res) => {
     const options = {};
-
-    const ip = getValidIPv4Address(req.connection.remoteAddress);
+    const remoteAddress = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    const ip = getValidIPv4Address(remoteAddress);
     if (ip) {
       options.headers = {
         "X-Forwarded-For": ip

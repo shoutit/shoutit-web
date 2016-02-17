@@ -42,6 +42,7 @@ function printSummary() {
   summary.push("  Redis host:           " + process.env.REDIS_HOST);
   summary.push("  New Relic Key:        " + process.env.NEW_RELIC_LICENSE_KEY);
   summary.push("");
+  summary.push("  Site URL:             " + config.siteUrl);
   summary.push("  Public assets URL:    " + config.publicUrl);
   summary.push("  API URL:              " + config.apiUrl);
   summary.push("  Google Analytics:     " + config.ga);
