@@ -26,14 +26,18 @@ export default React.createClass({
     }
   },
 
+  componentWillUnmount() {
+
+  },
+
   getStateFromFlux() {
     const flux = this.props.flux;
-    const { loggingIn, loginFailed, forgetResult } = flux.store("users").getState();
-    return { loggingIn, loginFailed, forgetResult };
+    const { loggingIn, loginErrorFields, forgetResult } = flux.store("users").getState();
+    return { loggingIn, loginErrorFields, forgetResult };
   },
 
   render() {
-    const { loggingIn, loginFailed, forgetResult, showRecoverPassword } = this.state;
+    const { loggingIn, loginErrorFields, forgetResult, showRecoverPassword } = this.state;
     const { flux, open, onRequestClose } = this.props;
 
     return (
@@ -59,7 +63,7 @@ export default React.createClass({
               !showRecoverPassword ?
                 <div>
                   <NativeLoginFrom
-                    errorMessage={ loginFailed }
+                    errorFields={ loginErrorFields }
                     onSubmit={ data => flux.actions.login("shoutit", data) }
                     loading={ loggingIn }
                   />

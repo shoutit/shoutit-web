@@ -53,7 +53,7 @@ var UserStore = Fluxxor.createStore({
       loading: false,
       showDownloadPopup: false,
       loggingIn: false,
-      loginErrorMessage: null,
+      loginErrorFields: null,
       signupStatus: {},
       forgetResult: null,
       editors: {},
@@ -282,46 +282,35 @@ var UserStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onLogin(payload) {
+  onLogin({ token, type }) {
     this.state.loggingIn = true;
     this.emit("change");
-
-    client.login(payload.token, payload.type)
-      .end(function (err, res) {
-        if (err) {
-          this.state.loggingIn = false;
-          this.state.loginErrorMessage = null;
-          this.emit("change");
-        } else {
-          if (res.status !== 200) { // API error
-            let apiErr = res.body;
-            if (apiErr.email)
-              this.state.loginErrorMessage = apiErr.email;
-            if (apiErr.password)
-              this.state.loginErrorMessage = apiErr.password;
-            if (apiErr.error)
-              this.state.loginErrorMessage = apiErr.error;
-            this.state.loggingIn = false;
-            this.emit("change");
-          } else {
-            let loggedUser = res.body;
-            if (typeof loggedUser.username !== "undefined") {
-              // keeping the login type here
-              loggedUser.loggedInWith = payload.type;
-              this.state.users[loggedUser.username] = loggedUser;
-              this.state.user = loggedUser.username;
-              this.state.loggingIn = false;
-              this.state.loginErrorMessage = null;
-              this.emit("change");
-              this.emit("login");
-            }
-          }
-        }
-      }.bind(this));
+    client.login(token, type).end((err, res) => {
+      this.state.loggingIn = false;
+      if (err) {
+        this.state.loginErrorFields = { unknown: ["Unknown error during login"]};
+        console.error(err);
+        this.emit("change");
+        return;
+      }
+      if (!res.ok) { // API error
+        this.state.loginErrorFields = res.body;
+        this.emit("change");
+        return;
+      }
+      const loggedUser = res.body;
+      // keeping the login type here
+      loggedUser.loggedInWith = type;
+      this.state.users[loggedUser.username] = loggedUser;
+      this.state.user = loggedUser.username;
+      this.state.loginErrorFields = null;
+      this.emit("change");
+      this.emit("login");
+    });
   },
 
   onLoginFBError() {
-    this.state.loginErrorMessage = "no_fb_email";
+    this.state.loginErrorFields = "no_fb_email";
     this.emit("change");
   },
 
