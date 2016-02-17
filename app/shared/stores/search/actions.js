@@ -2,7 +2,9 @@ import consts from "./consts";
 
 export default {
   searchAll(payload) {
-    this.dispatch(consts.SEARCH_ALL, payload);
+    this.dispatch(consts.SEARCH_TAGS, payload);
+    this.dispatch(consts.SEARCH_USERS, payload);
+    this.dispatch(consts.SEARCH_SHOUTS, payload);
   },
 
   searchShouts(payload) {
