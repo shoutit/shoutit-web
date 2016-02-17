@@ -19,7 +19,7 @@ export default function MessageGroup({ messages, showUserImage, justify="start",
     <div className={ `MessageGroup ${justify}` }>
       { showUserImage &&
         <div className="MessageGroup-userImage">
-          <UserAvatar user={ messages[0].user } />
+          <UserAvatar user={ messages[0].user } linkToUserPage />
         </div>
       }
       <div className="MessageGroup-messages">

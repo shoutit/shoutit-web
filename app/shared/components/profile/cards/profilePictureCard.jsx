@@ -1,6 +1,6 @@
 import React from 'react';
 import {Grid, Icon} from '../../helper';
-import UserImage from '../../user/userImage.jsx';
+import UserAvatar from '../../user/UserAvatar.jsx';
 import AvatarEditor from 'react-avatar-editor';
 import Dialog from 'material-ui/lib/dialog';
 
@@ -74,7 +74,7 @@ export default React.createClass({
               onRequestClose={this.handleEditBoxClose}>
                 <Grid fluid={true} style={{textAlign: "center"}} className="profile-picture-editmodal">
                     <p>Fit your profile picture by moving the image</p>
-                    <AvatarEditor 
+                    <AvatarEditor
                       image={this.imageData}
                       width={126}
                       height={126}
@@ -92,10 +92,16 @@ export default React.createClass({
         let user = this.props.user,
             editMode = this.props.editMode,
             imageStyle = {
-                position: "relative",
-                margin: "-63px auto 0",
-                border: "2px solid white",
-                boxShadow: "0 0px 6px rgba(0, 0, 0, 0.3)"
+              position: "relative",
+              border: "2px solid white",
+              boxShadow: "0 0px 6px rgba(0, 0, 0, 0.3)",
+              display: "inline-block",
+              borderRadius: "10%",
+              height: 128,
+              width: 128,
+              boxSizing: "content-box",
+              marginTop: "-63px",
+              marginLeft: "48px"
             };
 
         // use data uri image only in edit mode
@@ -103,10 +109,9 @@ export default React.createClass({
 
         return (
             <Grid fluid={true} style={{position: "relative"}}>
-                <UserImage image={userImage}
-                           size="126"
-                           type="rounded2x"
-                           style={imageStyle} />
+                <span style={imageStyle}>
+                  <UserAvatar user={ user } size="huge" />
+                </span>
                 {editMode && this.renderEditLayer()}
                 <h2 className="si-name">{user.name}</h2>
                 {this.renderAvatarEditor()}

@@ -16,13 +16,13 @@ export default React.createClass({
         return (
             <Grid fluid={true}>
                 <ProfilePictureCard editMode={editMode} user={user} />
-                {editMode? 
+                {editMode?
                     <ProfileEditorCard user={user} />
                     :
                     <Grid fluid={true}>
                         <ProfileButtonsCard user={user} />
                         <ProfileBioCard user={user} />
-                        <ProfilePagesCard user={user} />
+                        {/*<ProfilePagesCard user={user} />*/}
                     </Grid>
                 }
             </Grid>

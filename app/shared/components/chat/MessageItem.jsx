@@ -12,7 +12,7 @@ if (process.env.BROWSER) {
 export default function MessageItem({ created_at, sending, text, justify="start", showDay, sendError, attachments=[] }) {
   const createdAt = moment.unix(created_at);
 
-  const attachmentsContent = attachments.map(attachment => {
+  const attachmentsContent = attachments.map((attachment, i) => {
     const { shout, location } = attachment;
     let content;
     if (shout) {
@@ -25,7 +25,10 @@ export default function MessageItem({ created_at, sending, text, justify="start"
     if (location) {
       content = <GoogleStaticMap center={ location } markers={[{ ...location }]} />;
     }
-    return <div className="MessageItem-attachment">{ content }</div>;
+    if (!content) {
+      return null;
+    }
+    return <div key={ i } className="MessageItem-attachment">{ content }</div>;
   });
 
   const footer = (
@@ -48,7 +51,7 @@ export default function MessageItem({ created_at, sending, text, justify="start"
       </div> }
 
       <div className="MessageItem-wrapper">
-        { attachmentsContent &&
+        { attachmentsContent.length > 0 &&
             <div className="MessageItem-attachments">
               { attachmentsContent }
               { !text && footer }
