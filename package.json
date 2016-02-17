@@ -70,6 +70,7 @@
     "react-tagsinput": "3.1.0",
     "react-tap-event-plugin": "0.2.2",
     "restler": "3.4.0",
+    "scroll-behavior": "0.3.2",
     "serve-favicon": "2.3.0",
     "serve-static": "1.10.2",
     "superagent": "0.21.0"
