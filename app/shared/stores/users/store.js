@@ -136,6 +136,7 @@ var UserStore = Fluxxor.createStore({
       consts.SIGNUP_SUCCESS, this.onSignupSuccess,
       consts.SIGNUP_FAIL, this.onSignupFail,
       consts.LOGIN, this.onLogin,
+      consts.RESET_LOGIN_ERROR, this.onResetLoginError,
       consts.LOGOUT, this.onLogout,
       consts.PROFILE_CHANGE, this.onProfileChange,
       consts.PROFILE_CHANGES_SAVE, this.onProfileChangesSave,
@@ -287,7 +288,9 @@ var UserStore = Fluxxor.createStore({
     client.login(token, type).end((err, res) => {
       this.state.loggingIn = false;
       if (err) {
-        this.state.loginErrorFields = { unknown: ["Unknown error during login"]};
+        this.state.loginErrorFields = {
+          unknown: ["Unknown error during login, please try again."]
+        };
         console.error(err);
         this.emit("change");
         return;
@@ -306,6 +309,11 @@ var UserStore = Fluxxor.createStore({
       this.emit("change");
       this.emit("login");
     });
+  },
+
+  onResetLoginError() {
+    this.state.loginErrorFields = null;
+    this.emit("change");
   },
 
   onLogout() {

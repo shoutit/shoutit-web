@@ -32,6 +32,10 @@ export default {
     });
   },
 
+  resetLoginError() {
+    this.dispatch(consts.RESET_LOGIN_ERROR);
+  },
+
   logout() {
     this.dispatch(consts.LOGOUT);
   },

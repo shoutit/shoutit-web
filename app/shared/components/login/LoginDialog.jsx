@@ -24,10 +24,10 @@ export default React.createClass({
     if (this.props.open && this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
       this.props.history.replaceState(null, "/home");
     }
-  },
-
-  componentWillUnmount() {
-
+    if (this.props.open && !nextProps.open) {
+      // Dialog has been closed
+      this.props.flux.actions.resetLoginError();
+    }
   },
 
   getStateFromFlux() {
