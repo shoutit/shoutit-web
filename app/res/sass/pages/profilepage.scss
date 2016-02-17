@@ -56,7 +56,9 @@
     margin: 0 auto;
     border-radius: 5px;
     cursor: pointer;
-    @include size(122px, 122px);
+    width: 128px;
+    height: 128px;
+    border-radius: 10%;
     .icon {
       margin: 40px auto;
     }
