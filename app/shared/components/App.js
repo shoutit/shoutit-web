@@ -3,6 +3,7 @@ import { FluxMixin, StoreWatchMixin } from "fluxxor";
 import {createSlug} from "./helper";
 import Header from "./header";
 import MainPage from "./main/mainPage.jsx";
+import NotificationSystem from "react-notification-system";
 
 const pagesWithoutHeader = [ MainPage ];
 
@@ -23,8 +24,18 @@ export default React.createClass({
     new StoreWatchMixin("users", "chat", "conversations", "locations", "suggestions")
   ],
 
+  displayUINotif(message, type = "success") {
+    this._UINotif.addNotification({
+      message: message,
+      level: type,
+      position: 'tr', // top right
+      autoDismiss: 4
+    });
+  },
+
   componentDidMount() {
     this.getData();
+    this._UINotif = this.refs.UINotifSystem;
   },
 
   componentDidUpdate(prevProps, prevState) {
@@ -60,6 +71,8 @@ export default React.createClass({
   render() {
     const { loggedUser, chat, conversations, currentLocation, suggestions } = this.state;
     const { children, flux, routes, location, history } = this.props;
+    const { displayUINotif } = this;
+
     const suggestionsData = {
       data: suggestions.data[createSlug(currentLocation.city)]
     };
@@ -67,7 +80,8 @@ export default React.createClass({
     const hideHeader = routes.some(route =>
       pagesWithoutHeader.indexOf(route.component) > -1
     );
-    const props = { loggedUser, chat, conversations, currentLocation, location, suggestions: suggestionsData, history };
+    const props = { loggedUser, chat, conversations, currentLocation, location,
+      suggestions: suggestionsData, history, displayUINotif };
 
     return (
       <div className={`App${hideHeader ? "" : " stickyHeader"}` }>
@@ -87,6 +101,7 @@ export default React.createClass({
         <div className="App-content">
           { React.cloneElement(children, props) }
         </div>
+        <NotificationSystem ref="UINotifSystem" />
       </div>
     );
   }
