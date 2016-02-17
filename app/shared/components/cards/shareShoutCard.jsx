@@ -154,7 +154,7 @@ export default React.createClass({
             </a>
           </Column>
           <Column fluid={true} size="15" style={{margin:'10px 15px'}}>
-            {/*<Separator />/*}
+            {/*<Separator />*/}
           </Column>
           {/*
            <Column fluid={true} size="15" style={{margin:'10px 15px'}}>
