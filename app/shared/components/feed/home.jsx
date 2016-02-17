@@ -87,6 +87,15 @@ export default React.createClass({
     }
   },
 
+  onListeningChange({ isListening, name }) {
+    const { displayUINotif } = this.props;
+    if(isListening) {
+      displayUINotif(`You are listening to ${name}`);
+    } else {
+      displayUINotif(`You are no longer listening to ${name}`, "warning");
+    }
+  },
+
   render() {
     const {suggestions, flux, loggedUser, displayUINotif} = this.props;
     const tagsData = this.getTagsFromStore();
@@ -105,7 +114,11 @@ export default React.createClass({
           <Column size="3" clear={true}>
             <ProfileCard />
             { listeningData &&
-              <ListeningCard listening={ listeningData } flux={ flux } displayUINotif={displayUINotif}/>
+              <ListeningCard
+                listening={ listeningData }
+                flux={ flux }
+                onListeningChange={ this.onListeningChange }
+              />
             }
           </Column>
           <Column size="9">
@@ -116,6 +129,7 @@ export default React.createClass({
               flux={flux}
               tags={ JSON.parse(JSON.stringify(tagsData)) }
               loading={ suggestions.data && suggestions.data.tags.loading }
+              onListeningChange={ this.onListeningChange }
             />
             <ListenToCard
               flux={flux}
