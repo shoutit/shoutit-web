@@ -46,10 +46,10 @@ const routes = (
                  component={ new FeedListContainer("offer") } />
           <Route path="/requests/:country/:state/:city(/:page)"
                  component={ new FeedListContainer("request")} />
-          <Route component={ SearchContainer} >
-            <Route path="/search/:shouttype/:category(/:term)" component={ Search } />
-          </Route>
           <IndexRoute component={ new FeedListContainer("all") }/>
+        </Route>
+        <Route component={ SearchContainer} >
+          <Route path="/search/:shouttype/:category(/:term)" component={ Search } />
         </Route>
         <Route component={ ShoutContainer } >
           <Route path="/shout/:shoutId(/:location)(/:title)" component={ Shout }/>
