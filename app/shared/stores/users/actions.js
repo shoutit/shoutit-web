@@ -5,7 +5,7 @@ export default {
   signup(payload) {
     client.signup(payload).end(function(err,res) {
       if(res) {
-        if(res.body.id) { 
+        if(res.body.id) {
                     // success
           this.dispatch(consts.SIGNUP_SUCCESS, res.body);
         } else { // API rejection
@@ -13,13 +13,6 @@ export default {
         }
       }
     }.bind(this));
-  },
-
-    // Can be used for more UI errors in the future
-  loginErr(type) { 
-    if(type ==="no_fb_email") {
-      this.dispatch(consts.LOGIN_FB_ERROR);
-    }
   },
 
   forgetPass(email) {

@@ -136,7 +136,6 @@ var UserStore = Fluxxor.createStore({
       consts.SIGNUP_SUCCESS, this.onSignupSuccess,
       consts.SIGNUP_FAIL, this.onSignupFail,
       consts.LOGIN, this.onLogin,
-      consts.LOGIN_FB_ERROR, this.onLoginFBError,
       consts.LOGOUT, this.onLogout,
       consts.PROFILE_CHANGE, this.onProfileChange,
       consts.PROFILE_CHANGES_SAVE, this.onProfileChangesSave,
@@ -307,11 +306,6 @@ var UserStore = Fluxxor.createStore({
       this.emit("change");
       this.emit("login");
     });
-  },
-
-  onLoginFBError() {
-    this.state.loginErrorFields = "no_fb_email";
-    this.emit("change");
   },
 
   onLogout() {
