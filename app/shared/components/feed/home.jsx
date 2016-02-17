@@ -88,7 +88,7 @@ export default React.createClass({
   },
 
   render() {
-    const {suggestions, flux, loggedUser} = this.props;
+    const {suggestions, flux, loggedUser, displayUINotif} = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
@@ -105,7 +105,7 @@ export default React.createClass({
           <Column size="3" clear={true}>
             <ProfileCard />
             { listeningData &&
-              <ListeningCard listening={ listeningData } flux={ flux }/>
+              <ListeningCard listening={ listeningData } flux={ flux } displayUINotif={displayUINotif}/>
             }
           </Column>
           <Column size="9">

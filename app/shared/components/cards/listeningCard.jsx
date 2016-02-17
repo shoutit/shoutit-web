@@ -44,7 +44,7 @@ export default React.createClass({
   },
 
   render() {
-    const { listening, flux } = this.props;
+    const { listening, flux, displayUINotif } = this.props;
 
     return (
       <section className="si-card gray-card" style={{overflow: "visible"}}>
@@ -66,8 +66,14 @@ export default React.createClass({
               <Column fluid={true} size="12" className="card-list-item">
                 <Link to={`/user/${item.username}`}>{ item.name }</Link>
               </Column>
-              {this.state.activeTooltip === idx ?
-                <ProfileInfoTooltip user={ item } loading={ !item.location } flux={ flux }/> : null}
+              {this.state.activeTooltip === idx &&
+                <ProfileInfoTooltip
+                  user={ item }
+                  loading={ !item.location }
+                  flux={ flux }
+                  displayUINotif={ displayUINotif }
+                />
+              }
             </Grid>
           );
         })}
