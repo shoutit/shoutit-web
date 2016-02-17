@@ -100,16 +100,19 @@ export default React.createClass({
             shout={ shout }
             users={ users }
             flux={ flux }
+            onListeningChange={ onListeningChange }
             />
           <TagsCard
             flux={flux}
             tags={ JSON.parse(JSON.stringify(tagsData)) }
             loading={ suggestions.data && suggestions.data.tags.loading }
+            onListeningChange={ onListeningChange }
           />
           <ListenToCard
             flux={flux}
             users={ usersData }
             loading={ suggestions.data && suggestions.data.users.loading }
+            onListeningChange={ onListeningChange }
           />
           <SuggestShoutCard
             shout={ shoutsData }
