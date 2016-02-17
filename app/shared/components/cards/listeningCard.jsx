@@ -43,17 +43,8 @@ export default React.createClass({
     }
   },
 
-  onListeningChange({ isListening, name }) {
-    const { displayUINotif } = this.props;
-    if(isListening) {
-      displayUINotif(`You are listening to ${name}`);
-    } else {
-      displayUINotif(`You are no longer listening to ${name}`, "warning");
-    }
-  },
-
   render() {
-    const { listening, flux } = this.props;
+    const { listening, flux, onListeningChange } = this.props;
 
     return (
       <section className="si-card gray-card" style={{overflow: "visible"}}>
@@ -80,7 +71,7 @@ export default React.createClass({
                   user={ item }
                   loading={ !item.location }
                   flux={ flux }
-                  onListeningChange={ this.onListeningChange }
+                  onListeningChange={ onListeningChange }
                 />
               }
             </Grid>
