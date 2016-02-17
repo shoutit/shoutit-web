@@ -4,7 +4,7 @@ import { Dialog } from "material-ui";
 
 import Overlay from "../helper/Overlay";
 import Button from "../helper/Button.jsx";
-
+import { assign } from "lodash/object";
 import SearchBar from "./searchBar.jsx";
 
 import HeaderMessagesOverlay from "../header/HeaderMessagesOverlay.jsx";
@@ -49,6 +49,25 @@ export default class Header extends Component {
     this.setState({ overlayName: null, overlayTarget: null });
   }
 
+  onBrowseClick(e) {
+    e.preventDefault();
+    let queries = {};
+    const { currentLocation, flux, history } = this.props;
+
+    if(currentLocation) {
+      currentLocation.city?
+        queries.city = encodeURIComponent(currentLocation.city): undefined;
+      currentLocation.country?
+        queries.country = encodeURIComponent(currentLocation.country): undefined;
+    }
+
+    history.pushState(null, "/search/all/all", queries);
+    flux.actions.searchShouts(assign({
+      category: "all",
+      shouttype: "all"
+    }, queries));
+  }
+
   render() {
     const { flux, loggedUser, conversations, chat, currentLocation, location, history } = this.props;
     const { country } = currentLocation;
@@ -69,7 +88,7 @@ export default class Header extends Component {
 
         <div className="Header-links">
           <span className="Header-separator" />
-          <Button to="/home" label="Browse" />
+          <Button onClick={this.onBrowseClick.bind(this)} label="Browse" />
           <Button to={ "/discover" + (country ? ("/" + country.toLowerCase()) : "") } label="Discover" />
           { loggedUser && <span className="Header-separator" /> }
         </div>
