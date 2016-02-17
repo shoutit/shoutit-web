@@ -5,6 +5,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Router } from "react-router";
 import injectTapEventPlugin from "react-tap-event-plugin";
+import useScroll from "scroll-behavior/lib/useStandardScroll";
+import createHistory from "history/lib/createBrowserHistory";
 import debug from "debug";
 
 import routes from "../shared/routes";
@@ -12,7 +14,6 @@ import Flux from "../shared/flux";
 import "../client/initializeFacebook";
 import gAnalytics from "../client/ga";
 import { setup as setupPusher } from "../client/pusher";
-import createBrowserHistory from "history/lib/createBrowserHistory";
 import config from "../../config";
 
 import "babel-core/polyfill";
@@ -67,7 +68,7 @@ log("Mounting…");
 
 ReactDOM.render(
   <Router
-    history={createBrowserHistory()}
+    history={useScroll(createHistory)()}
     createElement={ (Component, props) => {
       // Save prevous location to know if history.back() can work –
       // should be placed in an external utility

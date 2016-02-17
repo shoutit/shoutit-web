@@ -349,16 +349,6 @@ button {
     .si-login, .si-signup {
       width: 316px;
       margin: 0 auto;
-      .icon-sign_logo {
-        margin: 10px auto 0;
-      }
-      h3 {
-        margin: 0 0 17px;
-        font-size: 24px;
-        font-weight: 300;
-        line-height: 40px;
-        text-align: center;
-      }
       .separator {
         @include size(100%, 1px);
         margin: 10px auto;

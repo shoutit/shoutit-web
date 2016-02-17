@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from "react";
 import { Link } from "react-router";
-import { Dialog } from "material-ui";
 
+import Dialog from "../helper/Dialog";
 import Overlay from "../helper/Overlay";
 import Button from "../helper/Button.jsx";
-
 import SearchBar from "./searchBar.jsx";
 
 import HeaderMessagesOverlay from "../header/HeaderMessagesOverlay.jsx";
@@ -49,6 +48,21 @@ export default class Header extends Component {
     this.setState({ overlayName: null, overlayTarget: null });
   }
 
+  handleBrowseClick(e) {
+    e.preventDefault();
+    const { currentLocation, flux, history } = this.props;
+    const query = {
+      city: currentLocation && currentLocation.city ?
+        encodeURIComponent(currentLocation.city) : undefined,
+      country: currentLocation && currentLocation.country ?
+        encodeURIComponent(currentLocation.country) : undefined
+    };
+    history.pushState(null, "/search/all/all", query);
+    flux.actions.searchShouts({
+      category: "all", shouttype: "all", ...query
+    });
+  }
+
   render() {
     const { flux, loggedUser, conversations, chat, currentLocation, location, history } = this.props;
     const { country } = currentLocation;
@@ -69,7 +83,7 @@ export default class Header extends Component {
 
         <div className="Header-links">
           <span className="Header-separator" />
-          <Button to="/home" label="Browse" />
+          <Button onClick={ e => this.handleBrowseClick(e) } label="Browse" />
           <Button to={ "/discover" + (country ? ("/" + country.toLowerCase()) : "") } label="Discover" />
           { loggedUser && <span className="Header-separator" /> }
         </div>
@@ -153,6 +167,7 @@ export default class Header extends Component {
           </Overlay>,
 
           <Dialog
+            titleWithIcon="Create a new shout"
             key="newShout"
             open={ openNewShoutDialog }
             autoDetectWindowHeight={true}
