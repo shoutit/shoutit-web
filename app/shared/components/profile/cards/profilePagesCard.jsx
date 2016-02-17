@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from 'react-router';
 import {Grid, Column} from '../../helper';
 import Separator from '../../general/separator.jsx';
-import UserImage from '../../user/userImage.jsx';
 
 export default React.createClass({
     propTypes: {
@@ -31,7 +30,9 @@ export default React.createClass({
             return (
                 <Grid fluid={true} key={"page-card-" + idx}>
                     <Column fluid={true} clear={true} size="3" className="card-list-img">
-                        <UserImage type="circle" size="26" className="pull-left" image={item.image} />
+                        {/*
+                          Use a component for displaying pages images here (if needed)
+                          <UserImage type="circle" size="26" className="pull-left" image={item.image} />*/}
                     </Column>
                     <Column fluid={true} size="12" className="card-list-item">
                         <Link to={`/page/${item.username}`}>{item.name}</Link>
