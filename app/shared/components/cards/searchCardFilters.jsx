@@ -39,15 +39,13 @@ export default React.createClass({
         let catItems = categories.length? categories.map(function(item,idx) {
             return {payload: item.slug, text: item.name}}): [];
 
+      catItems.unshift({payload: 'all', text: 'All Categories'});
+
         let shouttypeItems = [
            { payload: 'all', text: 'All' },
            { payload: 'offer', text: 'Offers' },
            { payload: 'request', text: 'Request' }
         ];
-        // specifying default selected index
-        if(!this.props.category) {
-            catItems.unshift({payload: 'all', text: 'Select Category'});
-        }
 
         let shouttypeIdx = this.getIndexOfObject(shouttypeItems, 'payload', this.state.shouttype);
         let catIdx = this.getIndexOfObject(catItems, 'payload', this.state.cat);

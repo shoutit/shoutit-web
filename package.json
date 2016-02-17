@@ -64,6 +64,7 @@
     "react-overlays": "0.5.2",
     "react-router": "1.0.3",
     "react-scroll": "0.35.0",
+    "react-share": "1.4.1",
     "react-sticky": "3.0.0",
     "react-swipeable": "3.1.0",
     "react-tagsinput": "3.1.0",

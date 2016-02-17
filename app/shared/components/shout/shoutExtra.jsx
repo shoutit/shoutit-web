@@ -1,9 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {Image, Progress} from '../helper';
 import {ItemProp, ItemScope} from '../helper/microdata';
 import currency from '../../consts/currencies';
-import {Column, Grid, ReactVisible} from '../helper';
+import {Column, Grid, ReactVisible, Image, Progress} from '../helper';
 import GridShout from '../feed/feed/gridShout/gridShoutItem.jsx';
 
 export default React.createClass({
@@ -21,7 +20,7 @@ export default React.createClass({
         return null;
       } else {
         return (
-          <div>
+          <Grid fluid={true}>
             <h3 className="extra-title">more shouts by this user</h3>
             {moreShouts.map((shout, idx) => (
               <GridShout shout={shout}
@@ -29,7 +28,7 @@ export default React.createClass({
                          index={idx}
                          key={'grid-' + idx}/>
             ))}
-          </div>
+          </Grid>
         );
       }
     }
@@ -47,7 +46,7 @@ export default React.createClass({
         return null;
       } else {
         return (
-          <div>
+          <Grid fluid={true}>
             <h3 className="extra-title">related shouts</h3>
             {relatedShouts.map((shout, idx) => (
               <GridShout shout={shout}
@@ -55,7 +54,7 @@ export default React.createClass({
                          index={idx}
                          key={'grid-' + idx}/>
             ))}
-          </div>
+          </Grid>
         );
       }
     }

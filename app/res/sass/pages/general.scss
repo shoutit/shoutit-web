@@ -241,13 +241,14 @@ button {
   }
   .search-button {
     @extend .icon-search !optional;
-    position: relative;
+    @extend .icon;
+    position: absolute;
     float: right;
     z-index: 2;
     padding: 0;
     border: none;
-    right: 20px;
-    top: -40px;
+    right: 15px;
+    bottom: 20%;
   }
 
   #locationSearch {

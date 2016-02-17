@@ -54,15 +54,8 @@ var SearchStore = Fluxxor.createStore({
             consts.SEARCH_SHOUTS, this.searchShouts,
             consts.SEARCH_TAGS, this.searchTags,
             consts.SEARCH_USERS, this.searchUsers,
-            consts.SEARCH_ALL, this.onSearchAll,
             consts.SEARCH_LOAD_MORE, this.onLoadMore
         );
-  },
-
-  onSearchAll(payload) {
-    this.searchShouts(payload);
-    this.searchTags(payload);
-    this.searchUsers(payload);
   },
 
   onSearch(type) {
@@ -79,7 +72,6 @@ var SearchStore = Fluxxor.createStore({
           search: payload.term,
           shout_type: payload.shouttype !== defaults.ALL_TYPE? payload.shouttype: undefined,
           category: payload.category !== defaults.ALL_TYPE? payload.category: undefined,
-          tags: payload.tags || undefined,
           min_price: payload.min || undefined,
           max_price: payload.max || undefined,
           country: payload.country || undefined,

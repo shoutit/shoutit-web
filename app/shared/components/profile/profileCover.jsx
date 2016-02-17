@@ -26,7 +26,7 @@ export default React.createClass({
         const image = this.props.user.cover || defaultCoverImage;
         const imgStyle = {
           backgroundImage: `url('${image}')`,
-          backgroundSize: "60%",
+          backgroundSize: this.props.user.cover? "100%": "60%",
           backgroundRepeat: "repeat-x"
         };
 

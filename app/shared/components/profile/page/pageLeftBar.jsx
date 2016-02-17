@@ -13,7 +13,7 @@ export default React.createClass({
             <Grid fluid={true}>
                 <ProfilePictureCard user={user} />
                 <ProfileButtonsCard user={user} />
-                <PageAdminsCard user={user} />
+                {/*<PageAdminsCard user={user} />*/}
             </Grid>
         );
     }
