@@ -1,7 +1,5 @@
 .git
 coverage
-flights
-node_modules
 test
 .editorconfig
 .eslintrc
