@@ -21,7 +21,7 @@ export default React.createClass({
 
     getStateFromFlux() {
         let loggedIn = this.props.flux.store('users').getState().user;
-        
+
         return {
             loggedIn
         }
@@ -32,7 +32,7 @@ export default React.createClass({
             // call parent for change
             if(nextProps.tag.name === this.props.tag.name && this.props.onChange) {
                 this.props.onChange({
-                    tag: nextProps.tag.name,
+                    name: nextProps.tag.name,
                     isListening: nextProps.tag.is_listening
                 });
             }
