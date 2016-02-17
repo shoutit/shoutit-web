@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from "react";
 import { Link } from "react-router";
-import { Dialog } from "material-ui";
 
+import Dialog from "../helper/Dialog";
 import Overlay from "../helper/Overlay";
 import Button from "../helper/Button.jsx";
-import { assign } from "lodash/object";
 import SearchBar from "./searchBar.jsx";
 
 import HeaderMessagesOverlay from "../header/HeaderMessagesOverlay.jsx";
@@ -49,23 +48,19 @@ export default class Header extends Component {
     this.setState({ overlayName: null, overlayTarget: null });
   }
 
-  onBrowseClick(e) {
+  handleBrowseClick(e) {
     e.preventDefault();
-    let queries = {};
     const { currentLocation, flux, history } = this.props;
-
-    if(currentLocation) {
-      currentLocation.city?
-        queries.city = encodeURIComponent(currentLocation.city): undefined;
-      currentLocation.country?
-        queries.country = encodeURIComponent(currentLocation.country): undefined;
-    }
-
-    history.pushState(null, "/search/all/all", queries);
-    flux.actions.searchShouts(assign({
-      category: "all",
-      shouttype: "all"
-    }, queries));
+    const query = {
+      city: currentLocation && currentLocation.city ?
+        encodeURIComponent(currentLocation.city) : undefined,
+      country: currentLocation && currentLocation.country ?
+        encodeURIComponent(currentLocation.country) : undefined
+    };
+    history.pushState(null, "/search/all/all", query);
+    flux.actions.searchShouts({
+      category: "all", shouttype: "all", ...query
+    });
   }
 
   render() {
@@ -88,7 +83,7 @@ export default class Header extends Component {
 
         <div className="Header-links">
           <span className="Header-separator" />
-          <Button onClick={this.onBrowseClick.bind(this)} label="Browse" />
+          <Button onClick={ e => this.handleBrowseClick(e) } label="Browse" />
           <Button to={ "/discover" + (country ? ("/" + country.toLowerCase()) : "") } label="Discover" />
           { loggedUser && <span className="Header-separator" /> }
         </div>
@@ -172,6 +167,7 @@ export default class Header extends Component {
           </Overlay>,
 
           <Dialog
+            titleWithIcon="Create a new shout"
             key="newShout"
             open={ openNewShoutDialog }
             autoDetectWindowHeight={true}
