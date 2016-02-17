@@ -54,15 +54,8 @@ var SearchStore = Fluxxor.createStore({
             consts.SEARCH_SHOUTS, this.searchShouts,
             consts.SEARCH_TAGS, this.searchTags,
             consts.SEARCH_USERS, this.searchUsers,
-            consts.SEARCH_ALL, this.onSearchAll,
             consts.SEARCH_LOAD_MORE, this.onLoadMore
         );
-  },
-
-  onSearchAll(payload) {
-    this.searchShouts(payload);
-    this.searchTags(payload);
-    this.searchUsers(payload);
   },
 
   onSearch(type) {
