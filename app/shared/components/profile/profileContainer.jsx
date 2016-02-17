@@ -66,7 +66,7 @@ export default React.createClass({
   },
 
   render() {
-    const {suggestions, flux} = this.props;
+    const { suggestions, flux, onListeningChange } = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
@@ -82,11 +82,13 @@ export default React.createClass({
               flux={flux}
               tags={ JSON.parse(JSON.stringify(tagsData)) }
               loading={ suggestions.data && suggestions.data.tags.loading }
+              onListeningChange={ onListeningChange }
             />
             <ListenToCard
               flux={flux}
               users={ usersData }
               loading={ suggestions.data && suggestions.data.users.loading }
+              onListeningChange={ onListeningChange }
             />
             <SuggestShoutCard
               shout={ shoutsData }
