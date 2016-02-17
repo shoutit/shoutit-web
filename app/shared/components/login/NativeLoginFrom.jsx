@@ -3,7 +3,7 @@ import { Input } from "react-bootstrap";
 
 import Button from "../helper/Button.jsx";
 
-export default function NativeLoginFrom({ loading, onSubmit }) {
+export default function NativeLoginFrom({ loading, onSubmit, errorMessage }) {
 
   const handleSubmit = (e) => {
 
@@ -25,6 +25,12 @@ export default function NativeLoginFrom({ loading, onSubmit }) {
 
   return(
     <div>
+      { errorMessage &&
+        <p style={ { color: "red", textAlign: "center" }}>
+          { errorMessage }
+        </p>
+      }
+
       <form onSubmit={ handleSubmit } noValidate>
         <Input
           name="email"

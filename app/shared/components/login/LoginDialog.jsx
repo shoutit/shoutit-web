@@ -33,7 +33,7 @@ export default React.createClass({
   },
 
   render() {
-    const { loggingIn, forgetResult, showRecoverPassword } = this.state;
+    const { loggingIn, loginFailed, forgetResult, showRecoverPassword } = this.state;
     const { flux, open, onRequestClose } = this.props;
 
     return (
@@ -57,10 +57,13 @@ export default React.createClass({
 
             {
               !showRecoverPassword ?
-                <NativeLoginFrom
-                  onSubmit={ data => flux.actions.login("shoutit", data) }
-                  loading={loggingIn}
-                /> :
+                <div>
+                  <NativeLoginFrom
+                    errorMessage={ loginFailed }
+                    onSubmit={ data => flux.actions.login("shoutit", data) }
+                    loading={ loggingIn }
+                  />
+                </div> :
               <RecoverPasswordForm flux={flux} res={forgetResult}/>
 
             }
