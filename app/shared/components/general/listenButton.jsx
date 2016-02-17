@@ -32,7 +32,6 @@ export default React.createClass({
     },
 
     shouldComponentUpdate(nextProps, nextState) {
-
         if(nextState.user.is_listening !== this.state.user.is_listening) {
             // call to inform parent for the change
             if(nextState.user.username === this.state.user.username && this.props.onChange) {
@@ -42,7 +41,7 @@ export default React.createClass({
                     name: nextState.user.name
                 });
             }
-            
+
             return true;
         } else if(nextState.user.fluxStatus !== this.state.fluxStatus) {
             return true;

@@ -9,7 +9,7 @@ import CountryShelfButton from './CountryShelfButton.jsx';
 import { imagesPath } from "../../../../config";
 
 export default function ProfileInfoTooltip(props) {
-  const { user, loading, flux, displayUINotif } = props;
+  const { user, loading, flux } = props;
   const defaultCoverImg = imagesPath + "/pattern.png";
 
   return (
@@ -39,7 +39,7 @@ export default function ProfileInfoTooltip(props) {
                 <CountryShelfButton country={ user.location.country } city={ user.location.city } />
               </Column>
               <Column fluid={true} size="5">
-                <ListenButton flux={ flux } username={ user.username } displayUINotif={ displayUINotif }/>
+                <ListenButton flux={ flux } username={ user.username } onChange={ props.onListeningChange }/>
               </Column>
             </Grid>
           </div>
