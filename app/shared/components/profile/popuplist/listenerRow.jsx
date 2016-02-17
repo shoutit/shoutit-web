@@ -1,8 +1,8 @@
-import React from 'react';
-import {Link} from 'react-router';
-import {Grid, Column} from '../../helper';
-import ListenButton from '../../general/listenButton.jsx';
-import UserImage from '../../user/userImage.jsx';
+import React from "react";
+import {Link} from "react-router";
+import {Grid, Column} from "../../helper";
+import ListenButton from "../../general/listenButton.jsx";
+import UserAvatar from "../../user/UserAvatar.jsx";
 
 export default React.createClass({
   displayName: "ListenerRow",
@@ -12,7 +12,7 @@ export default React.createClass({
   },
 
   onButtonChange(ev) {
-    if(this.props.onChange) {
+    if (this.props.onChange) {
       this.props.onChange(ev);
     }
   },
@@ -21,13 +21,11 @@ export default React.createClass({
     const listener = this.props.user;
     const flux = this.context.flux;
 
-    if(listener.username) {
+    if (listener.username) {
       return (
         <Grid fluid={true} className="popuplist-row">
           <Column fluid={true} clear={true} size="2" >
-            <Link to={`/user/${encodeURIComponent(listener.username)}`}>
-              <UserImage size="32" image={listener.image} type="circle"/>
-            </Link>
+              <UserAvatar user={ listener } linkToUserPage />
           </Column>
           <Column fluid={true} size="10" className="popuplist-text-row">
             <Link to={`/user/${encodeURIComponent(listener.username)}`}>

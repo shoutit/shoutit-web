@@ -1,7 +1,7 @@
 import React from 'react';
 import {Icon, Column, Grid, Progress} from '../helper';
 import Separator from './separator.jsx';
-import UserImage from '../user/userImage.jsx';
+import UserAvatar from '../user/UserAvatar.jsx';
 import ListenButton from "./listenButton.jsx";
 import ListenersButton from "./listenersButton.jsx";
 import CountryShelfButton from './CountryShelfButton.jsx';
@@ -24,7 +24,9 @@ export default function ProfileInfoTooltip(props) {
               backgroundColor: "#fff"
             }}/>
             <Grid fluid={true} className="profile-context">
-                <UserImage image={ user.image } size="64" type="rounded" className="profile-context-image"/>
+                <span className="profile-context-image">
+                  <UserAvatar size="large" user={ user } outline />
+                </span>
                 <h3>{ user.name }</h3>
                 <h4>{ user.username }</h4>
             </Grid>
