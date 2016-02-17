@@ -1,45 +1,48 @@
 import React from "react";
-import {Input,Button} from "react-bootstrap";
+import { Input } from "react-bootstrap";
+import Button from "../../components/helper/Button";
 
 export default React.createClass({
   displayName: "RecoverPasswordForm",
 
   getInitialState() {
     return {
-      waiting: false
+      loading: false
     };
   },
 
-  render() {
+  componentDidUpdate() {
+    if (this.props.res) {
+      this.setState({ loading: false });
+    }
+  },
 
+  handleSubmit(e) {
+    e.preventDefault();
+    this.setState({
+      loading:true
+    });
+    e.target.email.blur();
+    this.props.flux.actions.forgetPass(e.target.email.value);
+  },
+
+  render() {
+    const { loading } = this.state;
     return(
-      <form onSubmit={this.onForgetSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <p>{this.props.res}</p>
-        <Input ref='email' type='text' placeholder='Email or Username'
-          className='input-email' />
-        <Button style={{marginBottom: "20px"}} bsSize='large' type='submit' block
-          className={this.state.waiting? "btn-signin btn-signin-disabled":"btn-signin"}>
-          {this.state.waiting? "Sending request...": "Request password"}
-        </Button>
+        <Input
+          name="email"
+          type="text"
+          placeholder="Email or Username"
+          className="input-email" />
+
+        <Button
+          type="submit" primary block disabled={ loading }
+          label={loading ? "Sending request...": "Request password reset"}
+          />
       </form>
       );
-  },
-
-  componentDidUpdate() {
-    if (this.props.res)
-      this.setState({waiting: false});
-  },
-
-  onForgetSubmit(e) {
-    e.preventDefault();
-
-    this.setState({waiting:true});
-    this.props.res = null;
-
-    let flux = this.props.flux;
-    let email = this.refs.email.children[0].value;
-
-    flux.actions.forgetPass(email);
   }
 
 });
