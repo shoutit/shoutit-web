@@ -5,7 +5,7 @@ import ListenButton from "../../general/listenButton.jsx";
 import UserAvatar from "../../user/UserAvatar.jsx";
 
 export default function ListenerRow(props) {
-  const { flux , user, onListeningChange } = props;
+  const { user, onListeningChange, onListen, onStopListen } = props;
 
   return (
     <Grid fluid={true} className="popuplist-row">
@@ -23,7 +23,8 @@ export default function ListenerRow(props) {
           username={ user.username }
           onChange={ onListeningChange }
           hasTitle={ false }
-          flux={ flux }
+          onListen={ onListen }
+          onStopListen={ onStopListen }
         />
       </Column>
     </Grid>

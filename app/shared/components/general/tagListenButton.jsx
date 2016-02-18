@@ -85,12 +85,12 @@ export default React.createClass({
     },
 
     toggleListen() {
-        let tag = this.props.tag;
+        const { tag, onStopListenTag, onListenTag } = this.props;
 
         if (tag.is_listening) {
-            this.props.flux.actions.stopListenTag(tag.name);
+            onStopListenTag(tag.name);
         } else {
-            this.props.flux.actions.listenTag(tag.name);
+            onListenTag(tag.name);
         }
     }
 });

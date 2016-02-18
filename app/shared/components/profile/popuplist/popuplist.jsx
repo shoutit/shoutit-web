@@ -132,6 +132,8 @@ export default React.createClass({
                       key={`tags-popuplist-${idx}`}
                       tag={tag}
                       onListeningChange={ onListeningChange }
+                      onListenTag={ flux.actions.listenTag }
+                      onStopListenTag={ flux.actions.stopListenTag }
                     />
                   );
                 })
@@ -144,7 +146,8 @@ export default React.createClass({
                       key={`listens-popuplist-${idx}`}
                       user={user}
                       onListeningChange={ onListeningChange }
-                      flux={ flux }
+                      onListen={ flux.actions.listen }
+                      onStopListen={ flux.actions.stopListen }
                     />
                   );
                 })

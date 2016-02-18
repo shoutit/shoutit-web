@@ -91,12 +91,13 @@ export default React.createClass({
     },
 
     toggleListen() {
-        let user = this.state.user;
+        const { user } = this.state;
+        const { onStopListen, onListen } = this.props;
 
         if (user.is_listening) {
-            this.props.flux.actions.stopListen(user.username);
+            onStopListen(user.username);
         } else {
-            this.props.flux.actions.listen(user.username);
+            onListen(user.username);
         }
     }
 });
