@@ -39,7 +39,12 @@ export default function ProfileInfoTooltip(props) {
                 <CountryShelfButton country={ user.location.country } city={ user.location.city } />
               </Column>
               <Column fluid={true} size="5">
-                <ListenButton flux={ flux } username={ user.username } onChange={ props.onListeningChange }/>
+                <ListenButton
+                  onListen={ flux.actions.listen }
+                  onStopListen={ flux.actions.stopListen }
+                  username={ user.username }
+                  onChange={ props.onListeningChange }
+                />
               </Column>
             </Grid>
           </div>

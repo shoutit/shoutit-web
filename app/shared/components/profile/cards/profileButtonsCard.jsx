@@ -89,7 +89,12 @@ export default React.createClass({
           <MessageButton />
         </Column>
         <Column fluid={true} size="5">
-          <ListenButton username={username} onChange={this.onUserListenChange} flux={flux}/>
+          <ListenButton
+            username={ username }
+            onChange={ this.onUserListenChange }
+            onListen={ flux.actions.listen }
+            onStopListen={ flux.actions.stopListen }
+          />
         </Column>
         <NotificationSystem ref="notificationSystem"/>
       </Grid>
