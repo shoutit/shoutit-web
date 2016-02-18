@@ -34,7 +34,7 @@ export default React.createClass({
 
   renderPopuplists() {
     const {username} = this.props.user;
-    const { onListeningChange } = this.props;
+    const { onListeningChange, flux } = this.props;
     return (
       <Popuplist
         open={Boolean(this.state.activePopuplist)}
@@ -42,6 +42,7 @@ export default React.createClass({
         username={ username }
         type={ this.state.activePopuplist }
         onListeningChange={ onListeningChange }
+        flux={ flux }
       />
     );
   },

@@ -8,7 +8,7 @@ export default React.createClass({
     displayName: "TagRow",
 
     contextTypes: {
-        flux: React.PropTypes.object 
+        flux: React.PropTypes.object
     },
 
     onButtonChange(ev) {
@@ -37,7 +37,7 @@ export default React.createClass({
                     <Column fluid={true} size="3" style={{paddingTop: "5px"}}>
                         <TagListenButton tag={tag}
                                          hasTitle={false}
-                                         onChange={this.onButtonChange}
+                                         onChange={this.}
                                          flux={flux}
                                          />
                     </Column>

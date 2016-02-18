@@ -109,7 +109,7 @@ export default React.createClass({
   },
 
   render() {
-    const { onListeningChange } = this.props;
+    const { onListeningChange, flux } = this.props;
     const title = this.helper.getTitle();
     const list = this.helper.getList(this.state);
 
