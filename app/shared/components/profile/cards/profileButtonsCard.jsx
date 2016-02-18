@@ -34,12 +34,15 @@ export default React.createClass({
 
     renderPopuplists() {
         const {username} = this.props.user;
+        const { onListeningChange } = this.props;
         return (
-            <Popuplist open={Boolean(this.state.activePopuplist)}
-                       onClose={this.onPopuplistClose}
-                       username={username}
-                       type={this.state.activePopuplist}
-                       />
+            <Popuplist
+              open={Boolean(this.state.activePopuplist)}
+              onClose={this.onPopuplistClose}
+              username={username}
+              type={this.state.activePopuplist}
+              onListeningChange={ onListeningChange }
+            />
         );
     },
 

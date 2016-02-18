@@ -3,6 +3,7 @@ import {StoreWatchMixin} from "fluxxor";
 import {Grid, Column} from '../helper';
 import Profile from './profile.jsx';
 import {ListenToCard, TagsCard, SuggestShoutCard} from "../cards";
+import { assign } from "lodash";
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users")],
@@ -75,7 +76,8 @@ export default React.createClass({
       <div className="profile-holder">
         <Grid >
           <Column size="12" clear={true}>
-            { React.cloneElement(this.props.children, {...this.state.users}) }
+            { React.cloneElement(this.props.children,
+              assign({ ...this.state.users }, { onListeningChange })) }
           </Column>
           <Column size="3">
             <TagsCard
