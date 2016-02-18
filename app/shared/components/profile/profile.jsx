@@ -3,11 +3,14 @@ import {Grid, Column, Progress} from "../helper";
 import ProfileOffers from "./profileOffers.jsx";
 import DocumentTitle from "react-document-title";
 import ProfileCover from "./profileCover.jsx";
-import ProfileLeftBoard from "./profileLeftBoard.jsx";
 import assign from "lodash/object/assign";
 import EmbeddedShout from "../shouting/embeddedShout.jsx";
 import NotificationSystem from "react-notification-system";
-
+import ProfilePictureCard from './cards/profilePictureCard.jsx';
+import ProfileBioCard from './cards/profileBioCard.jsx';
+import ProfileButtonsCard from './cards/profileButtonsCard.jsx';
+import ProfilePagesCard from './cards/profilePagesCard.jsx';
+import ProfileEditorCard from './cards/profileEditorCard.jsx';
 
 export default React.createClass({
   displayName: "Profile",
@@ -107,11 +110,20 @@ export default React.createClass({
           </Grid>
           <Grid >
             <Column size="3" clear={true}>
-              <ProfileLeftBoard
-                user={user}
-                onUserListenChange={this.onUserListenChange}
-                editMode={mode}
-              />
+
+              <Grid fluid={true}>
+                <ProfilePictureCard editMode={mode} user={user} />
+                {editMode?
+                  <ProfileEditorCard user={user} />
+                  :
+                  <Grid fluid={true}>
+                    <ProfileButtonsCard user={user} />
+                    <ProfileBioCard user={user} />
+                    {/*<ProfilePagesCard user={user} />*/}
+                  </Grid>
+                }
+              </Grid>
+
             </Column>
             <Column size="9" style={{paddingTop: "15px"}}>
               {user.is_owner ? (
