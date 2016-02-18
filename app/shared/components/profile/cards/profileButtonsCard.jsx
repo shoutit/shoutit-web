@@ -1,6 +1,5 @@
 import React from 'react';
 import {Grid, Column, Icon} from '../../helper';
-import NotificationSystem from 'react-notification-system';
 import ListenButton from '../../general/listenButton.jsx';
 import MessageButton from '../../general/messageButton.jsx';
 import ListenersButton from '../../general/listenersButton.jsx';
@@ -10,7 +9,6 @@ import Popuplist from '../popuplist/popuplist.jsx';
 
 export default React.createClass({
     displayName: "ProfileButtonsCard",
-    _notificationSystem: null,
 
     propTypes: {
         user: React.PropTypes.object.isRequired
@@ -26,29 +24,12 @@ export default React.createClass({
         }
     },
 
-    displayNotif(msg, type = 'success') {
-        this._notificationSystem.addNotification({
-            message: msg,
-            level: type,
-            position: 'tr', // top right
-            autoDismiss: 4
-        });
-    },
-
     componentDidMount() {
         this._notificationSystem = this.refs.notificationSystem;
     },
 
     componentDidUpdate() {
         this._notificationSystem = this.refs.notificationSystem;
-    },
-
-    onUserListenChange(ev) {
-        if(ev.isListening) {
-            this.displayNotif(`You are listening to ${ev.name}`);
-        } else {
-            this.displayNotif(`You are no longer listening to ${ev.name}`, 'warning');
-        }
     },
 
     renderPopuplists() {
@@ -118,5 +99,5 @@ export default React.createClass({
             return this.renderForViewers();
         }
     }
-        
+
 });
