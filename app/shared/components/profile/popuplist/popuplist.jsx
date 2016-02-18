@@ -5,7 +5,6 @@ import Separator from '../../general/separator.jsx';
 import ListenerRow from './listenerRow.jsx';
 import TagRow from './tagRow.jsx';
 import ViewportSensor from '../../misc/ViewportSensor.jsx';
-import NotificationSystem from 'react-notification-system';
 import Dialog from 'material-ui/lib/dialog';
 import popuplistHelper from './popuplistHelpers';
 import {Scrollbars} from 'react-custom-scrollbars';
@@ -13,7 +12,6 @@ import SearchBar from './searchBar.jsx';
 
 export default React.createClass({
     displayName: "PopupList",
-    _notificationSystem: null,
     mixins: [ StoreWatchMixin('users', 'tags') ],
 
     propTypes: {
@@ -37,15 +35,6 @@ export default React.createClass({
             listens: userStore.listens,
             loading: userStore.loading
         }
-    },
-
-    displayNotif(msg, type = 'success') {
-        this._notificationSystem.addNotification({
-            message: msg,
-            level: type,
-            position: 'tr', // top right
-            autoDismiss: 4
-        });
     },
 
     componentWillMount() {
@@ -72,12 +61,6 @@ export default React.createClass({
                 break;
             }
         }
-
-        this._notificationSystem = this.refs.notificationSystem;
-    },
-
-    handleChange() {
-
     },
 
     handleClose() {
