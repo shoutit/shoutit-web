@@ -109,6 +109,7 @@ export default React.createClass({
   },
 
   render() {
+    const { onListeningChange } = this.props;
     const title = this.helper.getTitle();
     const list = this.helper.getList(this.state);
 
@@ -130,18 +131,20 @@ export default React.createClass({
                     <TagRow
                       key={`tags-popuplist-${idx}`}
                       tag={tag}
-                      onChange={this.handleChange}
+                      onListeningChange={ onListeningChange }
                     />
                   );
                 })
                 :
                 /* Could be listeners or listenings - both use ListenerRow component*/
-                list.map((item, idx) => {
+                list.map((user, idx) => {
+                  if(!user) { return null; };
                   return (
                     <ListenerRow
                       key={`listens-popuplist-${idx}`}
-                      user={item}
-                      onChange={this.handleChange}
+                      user={user}
+                      onListeningChange={ onListeningChange }
+                      flux={ flux }
                     />
                   );
                 })
