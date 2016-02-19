@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router";
 import {Icon, Grid, Column, Progress} from '../helper';
 import TagListenButton from "../general/tagListenButton.jsx";
 
@@ -18,7 +19,7 @@ export default function RelatedTags(props) {
                   <Icon name="tag" className="tag-card-icon"/>
                 </Column>
                 <Column fluid={true} size="9" className="card-list-item">
-                  <span>{ item.name }</span>
+                  <Link to={`/tag/${item.name}`}>{ item.name }</Link>
                 </Column>
                 <Column fluid={true} size="3">
                   <TagListenButton flux={ props.flux } tag={ item } hasTitle={ false }/>
