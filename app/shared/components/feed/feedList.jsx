@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col } from 'react-bootstrap';
 import {Link} from 'react-router';
-import Shout from './feed/shout.jsx';
+import ShoutPreview from "../shout/ShoutPreview.jsx";
 import Progress from '../helper/Progress.jsx';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 import {Icon, Column} from '../helper';
@@ -55,9 +55,17 @@ export default React.createClass({
     }
 
     shoutEls.push(shouts.length > 0 ?
-        shouts.map((shout, i) => (<Shout presentLayer={this.state.presentLayer} key={"shout-" + (i + 1) } shout={shout} index={i}/>)) :
-        (<h5 key="warning">There are currently no shouts in your country. You may want to select another
-          location above.</h5>)
+      shouts.map((shout, i) => (
+        <ShoutPreview
+          presentLayer={this.state.presentLayer}
+          key={"shout-" + (i + 1) }
+          shout={shout}
+          index={i}
+        />
+      ))
+    :
+      (<h5 key="warning">There are currently no shouts in your country. You may want to select another
+        location above.</h5>)
     );
 
     if (isLoading && typeof window !== 'undefined') {

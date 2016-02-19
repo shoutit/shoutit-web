@@ -1,6 +1,6 @@
 import React from 'react';
 import {Progress, Icon, Column, Grid} from '../helper';
-import Shout from '../feed/feed/shout.jsx';
+import ShoutPreview from '../shout/ShoutPreview.jsx';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 
 let map = {
@@ -35,7 +35,15 @@ export default React.createClass({
     let onLastVisibleChange = this.onLastVisibleChange;
 
     return shouts.length ? shouts.map((shout, i) => {
-      return <Shout presentLayer={this.state.presentLayer} listType="small" key={"shout-" + i} shout={shout} index={i}/>;
+      return (
+        <ShoutPreview
+          presentLayer={this.state.presentLayer}
+          listType="small"
+          key={"shout-" + i}
+          shout={shout}
+          index={i}
+        />
+      );
     }) : <h4>No shouts posted by this user yet :(</h4>;
   },
 
