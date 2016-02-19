@@ -20,8 +20,8 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      presentLayer: 'list'
-    }
+      gridview: false
+    };
   },
 
   renderShouts() {
@@ -57,10 +57,10 @@ export default React.createClass({
     shoutEls.push(shouts.length > 0 ?
       shouts.map((shout, i) => (
         <ShoutPreview
-          presentLayer={this.state.presentLayer}
-          key={"shout-" + (i + 1) }
-          shout={shout}
-          index={i}
+          gridview={ this.state.gridview }
+          key={ "shout-" + (i + 1) }
+          shout={ shout }
+          index={ i }
         />
       ))
     :
@@ -92,17 +92,29 @@ export default React.createClass({
   },
 
   renderSwitchBar() {
-    let sortItems = [
+    const { gridview } = this.state;
+    const sortItems = [
       { payload: '1', text: 'Most Recent' },
       { payload: '2', text: 'Most Relevant'}
     ];
-    let gridBtn = this.state.presentLayer === 'grid'? 'grid_active': 'grid_inactive';
-    let listBtn = this.state.presentLayer === 'list'? 'list_active': 'list_inactive';
+
+    let gridIcon, listIcon;
+
+    if(gridview) {
+      gridIcon = "grid_active";
+      listIcon = "list_inactive";
+    } else {
+      gridIcon = "grid_inactive";
+      listIcon = "list_active";
+    }
+
     return (
       <Column size="9" clear={true}>
         <div className=" switch-bar pull-right">
-          <Icon name={gridBtn} onSwitchClick={this.presentToggle} className="grid-btn pull-left"/>
-          <Icon name={listBtn} onSwitchClick={this.presentToggle} className="list-btn pull-left"/>
+          <Icon name={gridIcon} onSwitchClick={ () => { this.setState({gridview: !gridview}); } }
+            className="grid-btn pull-left"/>
+          <Icon name={listIcon} onSwitchClick={ () => { this.setState({gridview: !gridview}); } }
+            className="list-btn pull-left"/>
           <Separator size="20px" vertical={true} />
           <span style={{fontSize:'14px', float:'left', margin: '18px -25px 0 5px', color: '#888888'}}>Sort by:</span>
 
@@ -117,16 +129,6 @@ export default React.createClass({
         </div>
       </Column>
     );
-  },
-
-  presentToggle() {
-    let present = this.state.presentLayer;
-
-    if(present === 'list') {
-      this.setState({presentLayer: 'grid'});
-    } else if(present === 'grid') {
-      this.setState({presentLayer: 'list'});
-    }
   },
 
   render() {
