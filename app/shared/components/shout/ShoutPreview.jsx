@@ -8,6 +8,8 @@ import {Image, Column, Grid} from "../helper";
 import { ItemScope, ItemProp } from "../helper/microdata";
 import { kebabCase } from "lodash/string";
 
+import { ImagesPath } from "../../../../config";
+
 if (process.env.BROWSER) {
   require("styles/components/ShoutPreview.scss");
   require("styles/components/ShoutGridview.scss");
@@ -18,17 +20,18 @@ export default function ShoutPreview({ gridview = false, listType, shout, index}
   const city = encodeURIComponent(shout.location.city);
   const title = encodeURIComponent(kebabCase(shout.title));
   const countryCode = shout.origCurrency || shout.currency;
+  const thumbnail = shout.thumbnail || `${ImagesPath}/pattern.png`;
 
   let content;
 
   if(gridview) {
     content = (
-      <div className="ShoutGridview">
-        <Column size="3" clear={3}>
-          <div onClick={this.onItemClick} className={className + " si-shout-grid"}>
+      <Column size="3" clear={index % 3 === 0} className="ShoutGridview">
+        <Link to={ `/shout/${shout.id}/${city}/${title}` }>
+          <div>
             { shout.thumbnail ?
               <div className="img" style={{
-                backgroundImage: `url(${ shout.thumbnail.replace(/\.jpg$/i, "_medium.jpg") })`
+                backgroundImage: `url(${ thumbnail.replace(/\.jpg$/i, "_medium.jpg") })`
               }}>
               </div>
               :
@@ -42,8 +45,8 @@ export default function ShoutPreview({ gridview = false, listType, shout, index}
               { currencyFormatter.format(shout.price, { countryCode } )}
             </span>
           </div>
-        </Column>
-      </div>
+        </Link>
+      </Column>
     );
   } else {
     content = (
@@ -54,11 +57,9 @@ export default function ShoutPreview({ gridview = false, listType, shout, index}
   }
 
   return (
-    <section>
-      <ItemScope type="Product">
-        { content }
-      </ItemScope>
-    </section>
+    <ItemScope type="Product">
+      { content }
+    </ItemScope>
   );
 
 }
