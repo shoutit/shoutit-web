@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import { Link } from "react-router";
-import {Icon, Grid, Column, Progress} from '../helper';
+import {Icon, Grid, Column, Progress} from "../helper";
 import TagListenButton from "../general/tagListenButton.jsx";
 
 export default function RelatedTags(props) {
