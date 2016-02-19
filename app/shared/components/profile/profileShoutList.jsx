@@ -32,12 +32,10 @@ export default React.createClass({
   },
 
   renderProfileShouts(shouts) {
-    let onLastVisibleChange = this.onLastVisibleChange;
-
     return shouts.length ? shouts.map((shout, i) => {
       return (
         <ShoutPreview
-          gridview={this.state.presentLayer}
+          gridview={this.state.gridview}
           listType="small"
           key={"shout-" + i}
           shout={shout}
