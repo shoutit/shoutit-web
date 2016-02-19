@@ -17,8 +17,8 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      presentLayer: 'list'
-    }
+      gridview: false
+    };
   },
 
   componentDidMount() {
@@ -37,7 +37,7 @@ export default React.createClass({
     return shouts.length ? shouts.map((shout, i) => {
       return (
         <ShoutPreview
-          presentLayer={this.state.presentLayer}
+          gridview={this.state.presentLayer}
           listType="small"
           key={"shout-" + i}
           shout={shout}
@@ -77,11 +77,19 @@ export default React.createClass({
 
   renderSwitchBar(shouts) {
     const {users, username} = this.props;
+    const { gridview } = this.state;
+    let gridIcon, listIcon;
     shouts = shouts || {};
 
-    const gridBtn = this.state.presentLayer === 'grid'? 'grid_active': 'grid_inactive';
-    const listBtn = this.state.presentLayer === 'list'? 'list_active': 'list_inactive';
-    const name = users[username]? users[username].name: '';
+    if(gridview) {
+      gridIcon = "grid_active";
+      listIcon = "list_inactive";
+    } else {
+      gridIcon = "grid_inactive";
+      listIcon = "list_active";
+    }
+
+    const name = users[username]? users[username].name: "";
 
     return (
       <Grid fluid={true}>
@@ -91,23 +99,15 @@ export default React.createClass({
         <Column size="4" fluid={true}>
           {shouts.length?
             <div className="switch-bar pull-right">
-              <Icon name={gridBtn} onSwitchClick={this.presentToggle} className="grid-btn pull-left"/>
-              <Icon name={listBtn} onSwitchClick={this.presentToggle} className="list-btn pull-left"/>
+              <Icon name={gridIcon} onSwitchClick={ () => { this.setState({gridview: !gridview}); } }
+                className="grid-btn pull-left"/>
+              <Icon name={listIcon} onSwitchClick={ () => { this.setState({gridview: !gridview}); } }
+                className="list-btn pull-left"/>
             </div>
           : null}
         </Column>
       </Grid>
     );
-  },
-
-  presentToggle() {
-    let present = this.state.presentLayer;
-
-    if(present === 'list') {
-      this.setState({presentLayer: 'grid'});
-    } else if(present === 'grid') {
-      this.setState({presentLayer: 'list'});
-    }
   },
 
   render() {
