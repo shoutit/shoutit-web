@@ -5,15 +5,16 @@ import ReplyShoutForm from "./ReplyShoutForm.jsx";
 import UserAvatar from "../user/UserAvatar.jsx";
 import {Image, Column, Grid, Icon} from "../helper";
 import Separator from "../general/separator.jsx";
-import CountryFlag from "../helper/CountryFlag.jsx";
 import TagList from "../general/tagList.jsx";
+
+import CountryFlag from "../helper/CountryFlag.jsx";
+import CategoryIcon from "../helper/CategoryIcon.jsx";
 
 import moment from "moment";
 import currencyFormatter from "currency-formatter";
 import { kebabCase, trunc } from "lodash/string";
 
 import { ItemScope, ItemProp } from "../helper/microdata";
-
 
 import { imagesPath } from "../../../../config";
 
@@ -99,13 +100,25 @@ export default function ShoutPreview({ gridview = false, shout, index}) {
               <p>{ trunc(shout.text, 150) }</p>
             </ItemProp>
             <TagList tags={shout.tags}/>
+
             <Separator />
-            <div className="shout-footnote">
-              <CountryFlag code={ shout.location.country } />
-              <span>
-                <img src={ shout.category.icon } />
-              </span>
-            </div>
+
+            <Grid fluid className="ShoutPreview-footnote">
+              <Column fluid clear size="7">
+                <CountryFlag
+                  code={ shout.location.country }
+                  size="normal"
+                />
+              </Column>
+              <Column fluid size="7">
+                <CategoryIcon
+                  slug={ shout.category.slug }
+                  tooltip={ shout.category.name }
+                  icon={ shout.category.icon }
+                />
+              </Column>
+            </Grid>
+
           </Column>
         </Grid>
       </Grid>
