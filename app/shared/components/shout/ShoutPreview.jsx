@@ -30,7 +30,7 @@ export default function ShoutPreview({ gridview = false, shout, index}) {
   const title = encodeURIComponent(kebabCase(shout.title));
   const currency = shout.origCurrency || shout.currency;
 
-  const thumbnail = shout.thumbnail && shout.thumbnail.replace(/\.jpg$/i, "_medium.jpg").replace("https", "http") ||
+  const thumbnail = shout.thumbnail && shout.thumbnail.replace(/\.jpg$/i, "_medium.jpg") ||
     `${imagesPath}/pattern@2x.png`;
 
   let content;
@@ -83,21 +83,21 @@ export default function ShoutPreview({ gridview = false, shout, index}) {
             </div>
           </Column>
         </Grid>
-        <Grid fluid={true} className="ShoutPreview-body">
-
-
+        <Grid fluid={true}>
           <Column fluid={true} clear size="9">
-            <ItemProp property="image">
-              <div className={shout.thumbnail? `ShoutPreview-image`: `ShoutPreview-image default`}
-                 style={{backgroundImage: `url(${ thumbnail })`}}>
-              </div>
-            </ItemProp>
+            <Link to={ `/shout/${shout.id}/${city}/${title}` }>
+              <ItemProp property="image">
+                <div className={shout.thumbnail? `ShoutPreview-image`: `ShoutPreview-image default`}
+                   style={{backgroundImage: `url(${ thumbnail })`}}>
+                </div>
+              </ItemProp>
+            </Link>
           </Column>
 
 
           <Column fluid={true} size="6">
             <ItemProp property="description">
-              <p>{ trunc(shout.text, 150) }</p>
+              <p className="ShoutPreview-text">{ trunc(shout.text, 150) }</p>
             </ItemProp>
             <TagList tags={shout.tags}/>
 
