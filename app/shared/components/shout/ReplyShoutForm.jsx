@@ -20,6 +20,10 @@ export default React.createClass({
 
   mixins: [ StoreWatchMixin("users"), History],
 
+  contextTypes: {
+    flux: React.PropTypes.object
+  },
+
   getInitialState() {
     return {
       loading: false
@@ -27,7 +31,7 @@ export default React.createClass({
   },
 
   getStateFromFlux() {
-    const usersStore = this.props.flux.store("users");
+    const usersStore = this.context.flux.store("users");
     const loggedUser = usersStore.getLoggedUser();
     const { users } = usersStore.getState();
     return { loggedUser, users };
@@ -54,7 +58,7 @@ export default React.createClass({
 
     this.setState({ loading: true });
 
-    this.props.flux.actions.replyToShout(
+    this.context.flux.actions.replyToShout(
       loggedUser,
       shout.id,
       text,
