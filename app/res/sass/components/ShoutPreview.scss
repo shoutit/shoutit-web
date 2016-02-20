@@ -40,22 +40,10 @@
     padding: 10px 20px;
     overflow: hidden;
   }
-  //.shout-footnote {
-  //  margin: 0 auto;
-  //  width: 100%;
-    //& > span {
-    //  display: inline-block;
-    //  width: 33%;
-    //  text-align: center;
-    //  & > img {
-    //    height: 23px;
-    //    margin: 5px 0;
-    //    vertical-align: sub;
-    //    cursor: pointer;
-    //  }
-    //}
+}
 
-  //}
+.ShoutPreview-footnote {
+  text-align: center;
 }
 
 .ShoutPreview-image {
