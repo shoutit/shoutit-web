@@ -15,9 +15,15 @@
     margin: 15px;
     color: $si-blue;
     display: inline-block;
+    &:hover {
+      color: lighten($si-blue, 10%);
+    }
   }
-  .SoutPreview-cat {
-    color: $si-blue;
+  .ShoutPreview-cat {
+    color: lighten($si-light-gray, 10%);
+    &:hover {
+      color: lighten($si-light-gray, 15%);
+    }
   }
   .ShoutPreview-price {
     margin: 10px 20px 0 0;
