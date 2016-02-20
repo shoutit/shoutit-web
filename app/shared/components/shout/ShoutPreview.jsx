@@ -121,15 +121,19 @@ export default function ShoutPreview({ gridview = false, shout, index}) {
 
           </Column>
         </Grid>
+        { !gridview &&
+          <ReplyShoutForm shout={shout} />
+        }
       </Grid>
     );
   }
 
   return (
-    <ItemScope type="Product">
-      { content }
-    </ItemScope>
+    <div>
+      <ItemScope type="Product">
+        { content }
+      </ItemScope>
+    </div>
   );
-
 }
 
