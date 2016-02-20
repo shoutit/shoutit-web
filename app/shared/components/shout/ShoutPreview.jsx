@@ -1,16 +1,19 @@
 import React from "react";
 import { Link } from "react-router";
-import moment from "moment";
+
 import ReplyShoutForm from "./ReplyShoutForm.jsx";
 import UserAvatar from "../user/UserAvatar.jsx";
-import currencyFormatter from "currency-formatter";
 import {Image, Column, Grid, Icon} from "../helper";
 import Separator from "../general/separator.jsx";
 import CountryFlag from "../helper/CountryFlag.jsx";
 import TagList from "../general/tagList.jsx";
 
+import moment from "moment";
+import currencyFormatter from "currency-formatter";
+import { kebabCase, trunc } from "lodash/string";
+
 import { ItemScope, ItemProp } from "../helper/microdata";
-import { kebabCase } from "lodash/string";
+
 
 import { imagesPath } from "../../../../config";
 
@@ -30,7 +33,7 @@ export default function ShoutPreview({ gridview = false, shout, index}) {
     `${imagesPath}/pattern@2x.png`;
 
   let content;
-
+  console.log(shout);
   if(gridview) {
     content = (
       <Column size="3" clear={index % 3 === 0} className="ShoutGridview">
@@ -60,7 +63,7 @@ export default function ShoutPreview({ gridview = false, shout, index}) {
           <span className="ShoutPreview-date">{ publishedDate }</span>
         </div>
         <Grid fluid={true} className="ShoutPreview-caption">
-          <Column fluid={true} size="13" clear>
+          <Column fluid={true} size="12" clear>
             <ItemProp property="name">
               <Link to={ `/shout/${shout.id}/${city}/${title}` } className="ShoutPreview-title bold">
                 { shout.title }
@@ -73,39 +76,37 @@ export default function ShoutPreview({ gridview = false, shout, index}) {
               { shout.category.name }
             </Link>
           </Column>
-          <Column size="2" fluid={true}>
-            <span className="ShoutPreview-price bold">
+          <Column size="3" fluid={true}>
+            <div className="ShoutPreview-price bold">
               { currencyFormatter.format(shout.price, { code: currency } )}
-            </span>
+            </div>
           </Column>
         </Grid>
         <Grid fluid={true} className="ShoutPreview-body">
 
-          {shout.thumbnail &&
+
           <Column fluid={true} clear size="9">
             <ItemProp property="image">
-              <div className="ShoutPreview-image" style={{backgroundImage: `url(${ thumbnail })`}}>
+              <div className={shout.thumbnail? `ShoutPreview-image`: `ShoutPreview-image default`}
+                 style={{backgroundImage: `url(${ thumbnail })`}}>
               </div>
             </ItemProp>
           </Column>
-          }
 
-          <Column fluid={true} size={shout.thumbnail? 6: 14}>
+
+          <Column fluid={true} size="6">
             <ItemProp property="description">
-              <p>{ shout.text }</p>
+              <p>{ trunc(shout.text, 150) }</p>
             </ItemProp>
             <TagList tags={shout.tags}/>
             <Separator />
             <div className="shout-footnote">
-              { shout.user.location  && shout.user.location.country &&
-                <CountryFlag code={ shout.user.location.country } />
-              }
+              <CountryFlag code={ shout.location.country } />
               <span>
                 <img src={ shout.category.icon } />
               </span>
             </div>
           </Column>
-
         </Grid>
       </Grid>
     );
