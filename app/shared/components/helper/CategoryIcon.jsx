@@ -4,12 +4,12 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export default function CategoryIcon({ icon, slug, tooltip, className, style }) {
 
-  const tooltip = (
+  const categoryTooltip = (
     <Tooltip>{ tooltip }</Tooltip>
   );
 
   return (
-    <OverlayTrigger placement="top" overlay={ tooltip }>
+    <OverlayTrigger placement="top" overlay={ categoryTooltip }>
       <span className={ className } style={ style }>
           <Link to={ `/tag/${slug}` }>
             <img src={ icon } />
