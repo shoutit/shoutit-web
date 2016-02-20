@@ -34,7 +34,7 @@ export default function ShoutPreview({ gridview = false, shout, index}) {
     `${imagesPath}/pattern@2x.png`;
 
   let content;
-  console.log(shout);
+
   if(gridview) {
     content = (
       <Column size="3" clear={index % 3 === 0} className="ShoutGridview">
