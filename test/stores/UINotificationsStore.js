@@ -45,7 +45,4 @@ describe("UINotifications Store", function() {
     });
   });
 
-  it
-
-
 });
