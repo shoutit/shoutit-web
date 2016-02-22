@@ -23,6 +23,15 @@ if (process.env.BROWSER) {
   require("styles/components/ShoutGridview.scss");
 }
 
+/**
+ * This component shows individual shouts in lists. Also supports shouts in grid view
+ *
+ * @param gridview - present the shout in grid mode if true
+ * @param shout - the shout object retrieved from the API
+ * @param index - the index of the shout in list (usually the second parameter from array.map())
+ * @param columnsPerRow - only used for grid view items
+ * @returns {component}
+ */
 export default function ShoutPreview({ gridview = false, shout, index, columnsPerRow = 3}) {
   const publishedDate = moment.unix(shout.date_published).fromNow();
 
