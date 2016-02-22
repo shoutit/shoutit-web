@@ -12,8 +12,8 @@ export const UINotificationsStore = Fluxxor.createStore({
 
     this.bindActions(
       LISTEN_SUCCESS, { username } => this.handleNotification(`You are listening to ${username}`),
-      STOP_LISTEN_SUCCESS, { username } => this.handleNotification(`You are not longer listening to ${username}`)
-
+      STOP_LISTEN_SUCCESS, { username } => this.handleNotification(`You are not longer listening to ${username}`),
+      DISMISS_NOTIFICATION, onDismissNotification
     );
   },
 
@@ -43,7 +43,7 @@ export const UINotificationsStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  dismissNotification(id) {
+  onDismissNotification(id) {
     clearTimeout(this.state.notifications[id].hideTimeout);
     delete this.state.notification[id];
     this.emit("change");

@@ -118,6 +118,7 @@ export default React.createClass({
         </div>
         <NotificationHost
           notifications={ this.state.notifications }
+          onDismissClick={ flux.actions.dismissNotification }
         />
       </div>
     );
