@@ -3,7 +3,7 @@ import { FluxMixin, StoreWatchMixin } from "fluxxor";
 import {createSlug} from "./helper";
 import Header from "./header";
 import MainPage from "./main/mainPage.jsx";
-import NotificationSystem from "react-notification-system";
+import NotificationHost from "./helper/NotificationHost.jsx";
 
 const pagesWithoutHeader = [ MainPage ];
 
@@ -21,7 +21,7 @@ export default React.createClass({
 
   mixins: [
     new FluxMixin(React),
-    new StoreWatchMixin("users", "chat", "conversations", "locations", "suggestions")
+    new StoreWatchMixin("users", "chat", "conversations", "locations", "suggestions", "ui_notifications")
   ],
 
   /**
@@ -70,7 +70,8 @@ export default React.createClass({
     const conversations = flux.store("conversations").getConversations(chat.conversationIds);
     const currentLocation = flux.store("locations").getCurrent();
     const suggestions = flux.store("suggestions").getState();
-    return { loggedUser, conversations, chat, currentLocation, suggestions };
+    const uiNotifications = flux.store("ui_notifications").getNotifications();
+    return { loggedUser, conversations, chat, currentLocation, suggestions, uiNotifications };
   },
 
   getData() {
@@ -115,7 +116,9 @@ export default React.createClass({
         <div className="App-content">
           { React.cloneElement(children, props) }
         </div>
-        <NotificationSystem ref="UINotifSystem" />
+        <NotificationHost
+          notifications={ this.state.notifications }
+        />
       </div>
     );
   }
