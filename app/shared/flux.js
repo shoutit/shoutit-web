@@ -12,7 +12,7 @@ import { MessagesStore } from "./stores/messages/MessagesStore";
 import suggestionsActions from "./stores/suggestions/actions";
 import SuggestionsStore from "./stores/suggestions/store";
 
-import UINotificationsStore from "./stores/ui_notifications/UINotificationsStore";
+import { UINotificationsStore } from "./stores/ui_notifications/UINotificationsStore";
 
 const merge = require("lodash/object/merge"),
   Fluxxor = require("fluxxor"),
