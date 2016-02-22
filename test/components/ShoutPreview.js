@@ -98,10 +98,10 @@ describe("ShoutPreview ", function() {
       shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
 
       const result = shallowRenderer.getRenderOutput();
-      const shoutHolder = result.props.children.props.children;
+      const target = shallowHelpers.findClass(result, "ShoutPreview-caption");
 
-      expect(shoutHolder.props.children[1].type.displayName).to.equal("Grid");
-      expect(shoutHolder.props.children[1].props.className).to.equal("ShoutPreview-caption");
+      expect(target).to.exist;
+      expect(target.type.displayName).to.equal("Grid");
     });
 
     it("should render an image from shout", function() {
@@ -109,13 +109,11 @@ describe("ShoutPreview ", function() {
       shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
 
       const result = shallowRenderer.getRenderOutput();
-      const shoutHolder = result.props.children.props.children;
-      const bodyHolder = shoutHolder.props.children[2];
-      const imageDiv = bodyHolder.props.children[0].props.children.props.children.props.children;
+      const target = shallowHelpers.findClass(result, "ShoutPreview-image");
 
-      expect(imageDiv.type).to.equal("div");
-      expect(imageDiv.props.className).to.equal("ShoutPreview-image");
-      expect(imageDiv.props.style.backgroundImage).to.exist;
+      expect(target.type).to.equal("div");
+      expect(target.props.className).to.equal("ShoutPreview-image");
+      expect(target.props.style.backgroundImage).to.exist;
     });
 
     it("should render shout description", function() {
@@ -123,12 +121,10 @@ describe("ShoutPreview ", function() {
       shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
 
       const result = shallowRenderer.getRenderOutput();
-      const shoutHolder = result.props.children.props.children;
-      const bodyHolder = shoutHolder.props.children[2];
-      const textHolder = bodyHolder.props.children[1].props.children[0].props.children;
+      const target = shallowHelpers.findClass(result, "ShoutPreview-text");
 
-      expect(textHolder.type).to.equal("p");
-      expect(textHolder.props.className).to.equal("ShoutPreview-text");
+      expect(target).to.be.ok;
+      expect(target.type).to.equal("p");
     });
 
   });
