@@ -1,7 +1,7 @@
 import React from 'react';
 import {Progress, Clear, Column, Grid} from '../helper';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
-import Shout from '../feed/feed/shout.jsx';
+import ShoutPreview from "../shout/ShoutPreview.jsx";
 
 export default React.createClass({
   displayName: "SearchShoutList",
@@ -31,8 +31,15 @@ export default React.createClass({
 
   renderShouts(shouts) {
     return shouts.length ? shouts.map(function (shout, i) {
-      return <Shout listType="small" key={"shout-" + i} shout={shout} index={i}/>;
-    }) : <h4>No shouts.</h4>;
+      return (
+        <ShoutPreview
+          listType="small"
+          key={"shout-" + i}
+          shout={shout}
+          index={i}
+        />
+      );
+    }) : <h4>No shouts found to display!</h4>;
   },
 
   render() {

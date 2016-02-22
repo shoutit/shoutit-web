@@ -1,0 +1,53 @@
+@import "../colors.scss";
+
+.ShoutGridview {
+  width: 220px;
+  height: 240px;
+  background-color: $si-white;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  margin: 10px 0;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all .2s ease-out;
+  &:hover {
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.25);
+  }
+}
+
+.ShoutGridview-title {
+  color: $si-light-gray;
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin: 10px;
+  height: 18px;
+  overflow: hidden;
+  &:hover {
+    color: darken($si-light-gray, 5%);
+  }
+}
+
+.ShoutGridview-subtitle {
+  margin: 0 10px 10px 10px;
+  font-size:1.3rem;
+  color: $si-light-gray2;
+  float:left;
+  width: 155px;
+}
+
+.ShoutGridview-price {
+  color: $si-green;
+  float:right;
+  font-size:1.3rem;
+  margin-right: 10px;
+}
+
+.ShoutGridview-image {
+  width: 220px;
+  height: 180px;
+  background-size: cover;
+  overflow: hidden;
+  &.default {
+    background-size: 200%;
+  }
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Grid, Progress} from '../helper';
-import Shout from '../feed/feed/shout.jsx';
+import ShoutPreview from "../shout/ShoutPreview.jsx";
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 
 let map = {
@@ -30,9 +30,15 @@ export default React.createClass({
 
   renderTagProfileShouts(shouts) {
     return shouts.length ? shouts.map(function (shout, i) {
-      return <Shout listType="small" key={"shout-" + i} shout={shout} index={i}/>;
-              //last={i === shouts.length - 1 ? onLastVisibleChange : null}/>;
-    }) : <h4>No shouts.</h4>;
+      return (
+        <ShoutPreview
+          listType="small"
+          key={"shout-" + i}
+          shout={shout}
+          index={i}
+        />
+      );
+    }) : <h4>No shouts found to show!</h4>;
   },
 
   render() {
