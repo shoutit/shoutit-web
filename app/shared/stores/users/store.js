@@ -6,8 +6,11 @@ import locConsts from "../locations/consts";
 import sugConsts from "../suggestions/consts";
 import client from "./client";
 import assign from "lodash/object/assign";
+import debug from "debug";
 
 const {LISTEN_BTN_LOADING} = statuses;
+
+const log = debug("stores:users");
 
 const PAGE_SIZE = 10;
 const REQUEST_TYPE = "request";
@@ -518,7 +521,8 @@ var UserStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onListenFail({ username }) {
+  onListenFail({ username, err }) {
+    log(err);
     this.state.users[username].fluxStatus = null;
     this.emit("change");
   },
@@ -545,7 +549,7 @@ var UserStore = Fluxxor.createStore({
   },
 
   onStopFail({ username, err }) {
-
+    log(err);
     this.state.users[username].fluxStatus = null;
     this.emit("change");
   },
