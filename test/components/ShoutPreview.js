@@ -1,5 +1,6 @@
 import React from "react";
 import TestUtils from "react-addons-test-utils";
+import shallowHelpers from "react-shallow-renderer-helpers";
 import { expect } from "chai";
 
 import ShoutPreview from "../../app/shared/components/shout/ShoutPreview.jsx";
