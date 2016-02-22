@@ -60,51 +60,51 @@ describe("ShoutPreview ", function() {
     expect(result.type).to.equal("div");
   });
 
-  it("should render a gridview", function() {
-    const shallowRenderer = TestUtils.createRenderer();
-    shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ true } />);
+  describe("In gridview", function() {
+    let result;
 
-    const result = shallowRenderer.getRenderOutput();
-    const shoutHolder = result.props.children.props.children;
-    expect(shoutHolder.props.className).to.equal("ShoutGridview");
+    before(function(done) {
+      const shallowRenderer = TestUtils.createRenderer();
+      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ true } />);
+      result = shallowRenderer.getRenderOutput();
+      done();
+    });
+
+    it("should render a gridview", function() {
+      const shoutHolder = result.props.children.props.children;
+      expect(shoutHolder.props.className).to.equal("ShoutGridview");
+    });
+
+    it("should ")
   });
 
   describe("In non-gridview", function() {
-
-    it("should render a div with ShoutPreview class", function() {
+    let result;
+    before(function(done) {
       const shallowRenderer = TestUtils.createRenderer();
       shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
+      result = shallowRenderer.getRenderOutput();
+      done();
+    });
 
-      const result = shallowRenderer.getRenderOutput();
-      const shoutHolder = result.props.children.props.children;
-      expect(shoutHolder.props.className).to.equal("ShoutPreview");
+    it("should render a Grid with ShoutPreview class", function() {
+      const target = shallowHelpers.findClass(result, "ShoutPreview");
+      expect(target).to.be.ok;
+      expect(target.type.displayName).to.equal("Grid");
     });
 
     it("should have 4 children", function() {
-      const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
-
-      const result = shallowRenderer.getRenderOutput();
-      const shoutHolder = result.props.children.props.children;
-      expect(shoutHolder.props.children).to.have.length(4);
+      const target = shallowHelpers.findClass(result, "ShoutPreview");
+      expect(target.props.children).to.have.length(4);
     });
 
     it("should render a heading", function() {
-      const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
-
-      const result = shallowRenderer.getRenderOutput();
-      const shoutHolder = result.props.children.props.children;
-
-      expect(shoutHolder.props.children[0].type).to.equal("div");
-      expect(shoutHolder.props.children[0].props.className).to.equal("ShoutPreview-heading");
+      const target = shallowHelpers.findClass(result, "ShoutPreview-heading");
+      expect(target).to.be.ok;
+      expect(target.type).to.equal("div");
     });
 
-    it("should render a caption", function() {
-      const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
-
-      const result = shallowRenderer.getRenderOutput();
+    it("should render a caption inside a Grid", function() {
       const target = shallowHelpers.findClass(result, "ShoutPreview-caption");
 
       expect(target).to.exist;
@@ -112,10 +112,6 @@ describe("ShoutPreview ", function() {
     });
 
     it("should render an image from shout", function() {
-      const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
-
-      const result = shallowRenderer.getRenderOutput();
       const target = shallowHelpers.findClass(result, "ShoutPreview-image");
 
       expect(target.type).to.equal("div");
@@ -124,10 +120,6 @@ describe("ShoutPreview ", function() {
     });
 
     it("should render shout description", function() {
-      const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
-
-      const result = shallowRenderer.getRenderOutput();
       const target = shallowHelpers.findClass(result, "ShoutPreview-text");
 
       expect(target).to.be.ok;
@@ -135,10 +127,6 @@ describe("ShoutPreview ", function() {
     });
 
     it("should render tags", function() {
-      const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
-
-      const result = shallowRenderer.getRenderOutput();
       const target = shallowHelpers.findType(result, TagList);
 
       expect(target).to.be.ok;
@@ -146,10 +134,6 @@ describe("ShoutPreview ", function() {
     });
 
     it("should render country flag", function() {
-      const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
-
-      const result = shallowRenderer.getRenderOutput();
       const target = shallowHelpers.findType(result, CountryFlag);
 
       expect(target).to.be.ok;
@@ -158,10 +142,6 @@ describe("ShoutPreview ", function() {
     });
 
     it("should render category icon", function() {
-      const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
-
-      const result = shallowRenderer.getRenderOutput();
       const target = shallowHelpers.findType(result, CategoryIcon);
 
       expect(target).to.be.ok;
