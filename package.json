@@ -70,6 +70,7 @@
     "react-tagsinput": "3.1.0",
     "react-tap-event-plugin": "0.2.2",
     "restler": "3.4.0",
+    "scroll-behavior": "0.3.2",
     "serve-favicon": "2.3.0",
     "serve-static": "1.10.2",
     "superagent": "0.21.0"
@@ -92,6 +93,7 @@
     "mocha-circleci-reporter": "0.0.1",
     "node-sass": "3.4.2",
     "react-addons-test-utils": "0.14.7",
+    "react-shallow-renderer-helpers": "2.0.2",
     "react-transform-catch-errors": "1.0.1",
     "react-transform-hmr": "1.0.1",
     "redbox-react": "1.2.0",

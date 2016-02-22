@@ -3,12 +3,10 @@ import { StoreWatchMixin } from "fluxxor";
 import { Link } from "react-router";
 import DocumentTitle from "react-document-title";
 import { Input } from "react-bootstrap";
-import { Dialog } from "material-ui";
+import Dialog from "../helper/Dialog.jsx";
 
 import SocialLoginForm from "../login/SocialLoginForm.jsx";
 import Button from "../helper/Button.jsx";
-
-import { imagesPath } from "../../../../config";
 
 export default React.createClass({
 
@@ -102,12 +100,6 @@ export default React.createClass({
 
     return (
       <div className="si-signup">
-
-        <div style={{ textAlign: "center"}}>
-          <img src={ `${imagesPath}/mark.svg` } height={44} />
-        </div>
-        <h3>Sign up</h3>
-
         <div className="separator separator-with"></div>
 
         <SocialLoginForm flux={ this.props.flux } />
@@ -174,13 +166,10 @@ export default React.createClass({
     const { loggedUser } = this.props;
     return (
       <div className="si-signup">
-        <div style={{ textAlign: "center"}}>
-          <img src={ `${imagesPath}/mark.svg` } height={44} />
-        </div>
-        <h3>Success!</h3>
         <div className="separator"></div>
         <p style={{ marginTop:"25px" }}>
-          Dear { loggedUser.first_name }, welcome to Shoutit. We are happy to have you here!
+          Dear { loggedUser.first_name }, welcome to Shoutit.
+          We are happy to have you here!
         </p>
         <p className="small">
           To use Shoutit with full potential, please verify your e-mail address
@@ -188,7 +177,11 @@ export default React.createClass({
         </p>
         <center>
           <div style={{margin: "30px"}}>
-            Go to your <Link to="/home"><strong>Home Page</strong></Link> now.
+            <Button
+              primary
+              block
+              to="/home"
+              label="Go to your home page" />
           </div>
         </center>
       </div>
@@ -197,18 +190,17 @@ export default React.createClass({
 
   render() {
     const { open, onRequestClose, loggedUser } = this.props;
+    const showSuccess = this.state.showSuccessMessage || loggedUser;
     return(
       <DocumentTitle title="Sign up - Shoutit">
         <Dialog
+          titleWithIcon={ showSuccess ? "You are done!" : "Sign up" }
           open={ open }
           onRequestClose={ onRequestClose }
           contentStyle={{ marginTop: -50 }}
           contentClassName="si-dialog">
 
-          { (!this.state.showSuccessMessage || !loggedUser) ?
-              this.renderForm() :
-              this.renderSuccessMessage()
-          }
+          { !showSuccess ? this.renderForm() : this.renderSuccessMessage() }
 
         </Dialog>
       </DocumentTitle>

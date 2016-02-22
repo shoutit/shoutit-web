@@ -41,9 +41,6 @@ var morgan = require("morgan"),
   compression = require("compression"),
   cors = require("cors");
 
-// Runtime Data:
-var SERVER_ROOT = `${config.host}:${config.port}`;
-
 var graphData = require("./resources/consts/graphData");
 var currencies, categories, sortTypes;
 var whitelist = [
@@ -178,11 +175,11 @@ function getMetaFromData(relUrl, innerRoute, data) {
   default:
     addData = {
       type: "home",
-      image: url.resolve(SERVER_ROOT, graphData.image)
+      image: url.resolve(config.siteUrl, graphData.image)
     };
   }
   return merge({
-    url: url.resolve(SERVER_ROOT, relUrl)
+    url: url.resolve(config.siteUrl, relUrl)
   }, graphData, addData);
 }
 
