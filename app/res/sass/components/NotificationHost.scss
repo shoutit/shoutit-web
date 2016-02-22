@@ -1,0 +1,16 @@
+@import "../colors";
+
+.NotificationHost {
+  position: absolute;
+  top: 70px;
+  right: 25px;
+  z-index: 3;
+}
+
+.NotificationHost-notification {
+  min-height: 40px;
+  background-color: $si-white;
+  opacity: 0.8;
+  color: $si-gray;
+  padding: 10px;
+}
