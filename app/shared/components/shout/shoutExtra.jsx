@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import {ItemProp, ItemScope} from '../helper/microdata';
 import currency from '../../consts/currencies';
 import {Column, Grid, ReactVisible, Image, Progress} from '../helper';
-import GridShout from '../feed/feed/gridShout/gridShoutItem.jsx';
+import ShoutPreview from "./ShoutPreview.jsx";
 
 export default React.createClass({
   displayName: "ShoutExtra",
@@ -23,10 +23,12 @@ export default React.createClass({
           <Grid fluid={true}>
             <h3 className="extra-title">more shouts by this user</h3>
             {moreShouts.map((shout, idx) => (
-              <GridShout shout={shout}
-                         creator={this.props.creator}
-                         index={idx}
-                         key={'grid-' + idx}/>
+              <ShoutPreview
+                shout={shout}
+                gridview={true}
+                index={idx}
+                key={"grid-" + idx}
+              />
             ))}
           </Grid>
         );
