@@ -1,5 +1,6 @@
 import consts from "./consts";
 import client from "./client";
+const {LISTEN_BTN_LOADING} = statuses;
 
 export default {
   signup(payload) {
@@ -99,16 +100,29 @@ export default {
   },
 
   listen(username) {
-    this.dispatch(consts.LISTEN, {
-      username
+    client.listen(username).end((err, res) => {
+      if (err) {
+        this.dispatch(consts.LISTEN_FAIL, { username, err });
+      } else if (res.body.success) {
+        this.dispatch(consts.LISTEN_SUCCESS, { username });
+      } else {
+        this.dispatch(consts.LISTEN_FAIL, { username });
+      }
     });
+
+    this.dispatch(consts.LISTEN, {username});
   },
 
-  stopListen(username, updateListeningCount = false) {
-    this.dispatch(consts.STOP_LISTEN, {
-      username,
-      updateListeningCount
-    });
+  stopListen(username) {
+    client.stopListen(username)
+      .end(function (err, res) {
+        if (err) {
+          this.dispatch(consts.STOP_LISTEN_FAIL, { username, err });
+        } else if (res.body.success) {
+          this.dispatch(consts.STOP_LISTEN_SUCCESS, { username });
+        }
+      });
+    this.dispatch(consts.STOP_LISTEN, { username });
   },
 
   loadUserListening(username) {

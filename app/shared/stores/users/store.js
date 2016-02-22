@@ -512,61 +512,58 @@ var UserStore = Fluxxor.createStore({
     }
   },
 
-  onListen(payload) {
-    var username = payload.username;
+  onListen({ username }) {
     // set loading status
     this.state.users[username].fluxStatus = LISTEN_BTN_LOADING;
     this.emit("change");
-
-    client.listen(username).end(function (err, res) {
-      if (err) {
-        console.log(err);
-      } else if (res.body.success) {
-        // Update users Listening/Listeners count List without getting data from API
-        if (this.state.users[username].hasOwnProperty("listeners_count")) {
-          let counts = Number(this.state.users[username].listeners_count);
-          this.state.users[username].listeners_count = counts + 1;
-        }
-        if (this.state.users[this.state.user].listening_count) {
-          let counts = Number(this.state.users[this.state.user].listening_count.users);
-          this.state.users[this.state.user].listening_count.users = counts + 1;
-        }
-
-        // optimistically change button condition till the real data loads
-        this.state.users[username].is_listening = true;
-        this.state.users[username].fluxStatus = null;
-        this.emit("change");
-      }
-    }.bind(this));
   },
 
-  onStopListen(payload) {
-    var username = payload.username;
-    // set loading status
+  onListenFail({ username }) {
+    this.state.users[username].fluxStatus = null;
+    this.emit("change");
+  },
+
+  onListenSuccess({ username, res }) {
+    // Update users Listening/Listeners count List in the store
+    if (this.state.users[username].hasOwnProperty("listeners_count")) {
+      const counts = Number(this.state.users[username].listeners_count);
+      this.state.users[username].listeners_count = counts + 1;
+    }
+    if (this.state.users[this.state.user].listening_count) {
+      let counts = Number(this.state.users[this.state.user].listening_count.users);
+      this.state.users[this.state.user].listening_count.users = counts + 1;
+    }
+
+    this.state.users[username].is_listening = true;
+    this.state.users[username].fluxStatus = null;
+    this.emit("change");
+  },
+
+  onStopListen({ username }) {
     this.state.users[username].fluxStatus = LISTEN_BTN_LOADING;
     this.emit("change");
+  },
 
-    client.stopListen(username)
-      .end(function (err, res) {
-        if (err) {
-          console.log(err);
-        } else if (res.body.success) {
-          // Update users Listening/Listeners count List without getting data from API
-          if (this.state.users[username].hasOwnProperty("listeners_count")) {
-            let counts = Number(this.state.users[username].listeners_count);
-            this.state.users[username].listeners_count = counts - 1;
-          }
-          if (this.state.users[this.state.user].listening_count) {
-            let counts = Number(this.state.users[this.state.user].listening_count.users);
-            this.state.users[this.state.user].listening_count.users = counts - 1;
-          }
+  onStopFail({ username, err }) {
 
-          // optimistically change button condition till the real data loads
-          this.state.users[username].is_listening = false;
-          this.state.users[username].fluxStatus = null;
-          this.emit("change");
-        }
-      }.bind(this));
+    this.state.users[username].fluxStatus = null;
+    this.emit("change");
+  },
+
+  onStopListenSuccess({ username }) {
+    // Update users Listening/Listeners count in store
+    if (this.state.users[username].hasOwnProperty("listeners_count")) {
+      const counts = Number(this.state.users[username].listeners_count);
+      this.state.users[username].listeners_count = counts - 1;
+    }
+    if (this.state.users[this.state.user].listening_count) {
+      const counts = Number(this.state.users[this.state.user].listening_count.users);
+      this.state.users[this.state.user].listening_count.users = counts - 1;
+    }
+
+    this.state.users[username].is_listening = false;
+    this.state.users[username].fluxStatus = null;
+    this.emit("change");
   },
 
   onLoadUserListeners(payload) {
