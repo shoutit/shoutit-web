@@ -73,7 +73,7 @@ export default function ShoutPreview({ gridview = false, shout, index}) {
             <Icon name="drop_down" style={{
               transform: "rotate(270deg)", margin:"2px 10px",display:"inline-block"
             }} />
-            <Link to={ `/tag/${encodeURIComponent(shout.category.slug)}` } className="ShoutPreview-cat bold">
+            <Link to={ `/tag/${encodeURIComponent(shout.category.slug)}` } className="ShoutPreview-cat">
               { shout.category.name }
             </Link>
           </Column>
