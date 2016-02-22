@@ -23,7 +23,7 @@ if (process.env.BROWSER) {
   require("styles/components/ShoutGridview.scss");
 }
 
-export default function ShoutPreview({ gridview = false, shout, index}) {
+export default function ShoutPreview({ gridview = false, shout, index, columnsPerRow = 3}) {
   const publishedDate = moment.unix(shout.date_published).fromNow();
 
   const city = encodeURIComponent(shout.location.city);
@@ -37,7 +37,7 @@ export default function ShoutPreview({ gridview = false, shout, index}) {
 
   if(gridview) {
     content = (
-      <Column size="3" clear={index % 3 === 0} className="ShoutGridview">
+      <Column size="3" clear={index % columnsPerRow === 0} className="ShoutGridview">
         <Link to={ `/shout/${shout.id}/${city}/${title}` }>
           <div>
             <div className={shout.thumbnail? `ShoutGridview-image`: `ShoutGridview-image default`} style={{
