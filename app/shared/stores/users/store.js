@@ -149,7 +149,11 @@ var UserStore = Fluxxor.createStore({
       consts.INFO_SAVE, this.onInfoSave,
       consts.PASS_CHANGE, this.onPassChange,
       consts.LISTEN, this.onListen,
+      consts.LISTEN_SUCCESS, this.onListenSucess,
+      consts.LISTEN_FAIL, this.onListenFail,
       consts.STOP_LISTEN, this.onStopListen,
+      consts.STOP_LISTEN_SUCCESS, this.onStopListenSuccess,
+      consts.STOP_LISTEN_FAIL, this.onStopListenFail,
       consts.LOAD_USER_LISTENERS, this.onLoadUserListeners,
       consts.LOAD_MORE_USER_LISTENERS, this.onLoadMoreUserListeners,
       consts.LOAD_USER_LISTENING, this.onLoadUserListening,
@@ -548,7 +552,7 @@ var UserStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onStopFail({ username, err }) {
+  onStopListenFail({ username, err }) {
     log(err);
     this.state.users[username].fluxStatus = null;
     this.emit("change");
