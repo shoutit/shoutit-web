@@ -51,10 +51,12 @@ export default React.createClass({
           <Grid fluid={true}>
             <h3 className="extra-title">related shouts</h3>
             {relatedShouts.map((shout, idx) => (
-              <GridShout shout={shout}
-                         creator={shout.user}
-                         index={idx}
-                         key={'grid-' + idx}/>
+              <ShoutPreview
+                shout={shout}
+                gridview={true}
+                index={idx}
+                key={"grid-" + idx}
+              />
             ))}
           </Grid>
         );
