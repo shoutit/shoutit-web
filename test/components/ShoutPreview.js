@@ -75,7 +75,24 @@ describe("ShoutPreview ", function() {
       expect(shoutHolder.props.className).to.equal("ShoutGridview");
     });
 
-    it("should ")
+    it("should have a title", function() {
+      const target = shallowHelpers.findClass(result, "ShoutGridview-title");
+      expect(target).to.exist;
+      expect(target.type).to.equal("h3");
+      expect(target.props.children).to.not.be.null;
+    });
+
+    it("should have a subtitle", function() {
+      const target = shallowHelpers.findClass(result, "ShoutGridview-subtitle");
+      expect(target).to.exist;
+      expect(target.type).to.equal("span");
+    });
+
+    it("should have a price", function() {
+      const target = shallowHelpers.findClass(result, "ShoutGridview-price");
+      expect(target).to.exist;
+      expect(target.type).to.equal("span");
+    });
   });
 
   describe("In non-gridview", function() {
