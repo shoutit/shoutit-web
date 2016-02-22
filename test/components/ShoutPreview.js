@@ -3,8 +3,15 @@ import TestUtils from "react-addons-test-utils";
 import shallowHelpers from "react-shallow-renderer-helpers";
 import { expect } from "chai";
 
+// For type checking
+import TagList from "../../app/shared/components/general/tagList.jsx";
+import CountryFlag from "../../app/shared/components/helper/CountryFlag.jsx";
+import CategoryIcon from "../../app/shared/components/helper/CategoryIcon.jsx";
+
+// component to be tested
 import ShoutPreview from "../../app/shared/components/shout/ShoutPreview.jsx";
 
+// sample API shout object
 const shoutMockData = {
   "id": "ac2d9694-e1c3-41a0-b4b5-65f179d6a37b",
   "location": {
@@ -125,6 +132,42 @@ describe("ShoutPreview ", function() {
 
       expect(target).to.be.ok;
       expect(target.type).to.equal("p");
+    });
+
+    it("should render tags", function() {
+      const shallowRenderer = TestUtils.createRenderer();
+      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
+
+      const result = shallowRenderer.getRenderOutput();
+      const target = shallowHelpers.findType(result, TagList);
+
+      expect(target).to.be.ok;
+      expect(target.props.tags).to.exist;
+    });
+
+    it("should render country flag", function() {
+      const shallowRenderer = TestUtils.createRenderer();
+      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
+
+      const result = shallowRenderer.getRenderOutput();
+      const target = shallowHelpers.findType(result, CountryFlag);
+
+      expect(target).to.be.ok;
+      expect(target.props.code).to.exist;
+      expect(target.props.size).to.exist;
+    });
+
+    it("should render category icon", function() {
+      const shallowRenderer = TestUtils.createRenderer();
+      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
+
+      const result = shallowRenderer.getRenderOutput();
+      const target = shallowHelpers.findType(result, CategoryIcon);
+
+      expect(target).to.be.ok;
+      expect(target.props.slug).to.exist;
+      expect(target.props.tooltip).to.exist;
+      expect(target.props.icon).to.exist;
     });
 
   });
