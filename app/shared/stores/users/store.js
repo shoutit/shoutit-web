@@ -29,14 +29,17 @@ function initUserShoutEntry() {
 function initUserListenEntry() {
   return {
     listeners: {
+      loaded: false,
       next: null,
       list: []
     },
     listening: {
+      loaded: false,
       next: null,
       list: []
     },
     tags: {
+      loaded: false,
       next: null,
       list: []
     },
@@ -303,9 +306,10 @@ var UserStore = Fluxxor.createStore({
       const loggedUser = res.body;
       // keeping the login type here
       loggedUser.loggedInWith = type;
-      this.state.users[loggedUser.username] = loggedUser;
+      this.onLoadUserSuccess({ username: loggedUser.username, res: loggedUser });
       this.state.user = loggedUser.username;
       this.state.loginErrorFields = null;
+
       this.emit("change");
       this.emit("login");
     });
@@ -491,7 +495,7 @@ var UserStore = Fluxxor.createStore({
                   }
           } else {
             var loggedUser = res.body;
-            this.state.users[loggedUser.username] = loggedUser;
+            this.onLoadUserSuccess({ username: loggedUser.username, res: loggedUser });
             this.state.user = loggedUser.username;
             this.state.editors[field] = {loading: false};
             this.state.loading = false;
@@ -576,8 +580,8 @@ var UserStore = Fluxxor.createStore({
       if (err) {
         console.log(err);
       } else {
-        let next = this.parseNextPage(res.body.next);
-        let list = res.body.results.map(item => item.username);
+        const next = this.parseNextPage(res.body.next);
+        const list = res.body.results.map(item => item.username);
 
         // making an object with usernames as key values to be merged with other users in store
         let listUsers = {};
@@ -589,6 +593,7 @@ var UserStore = Fluxxor.createStore({
 
         this.state.listens[username].listeners.list = list;
         this.state.listens[username].listeners.next = next;
+        this.state.listens[username].listeners.loaded = true;
 
       }
       this.state.loading = false;
@@ -609,14 +614,14 @@ var UserStore = Fluxxor.createStore({
           if (err) {
             console.log(err);
           } else {
-            let next = this.parseNextPage(res.body.next);
-            let list = res.body.results.map(item => item.username);
+            const next = this.parseNextPage(res.body.next);
+            const list = res.body.results.map(item => item.username);
             let stock = this.state.listens[username].listeners.list;
 
             // making an object with usernames as key values to be merged with other users in store
             let listUsers = {};
             res.body.results.forEach((item) => {
-              return listUsers[item.username] = item;
+              listUsers[item.username] = item;
             });
 
             assign(this.state.users, listUsers);
@@ -647,19 +652,20 @@ var UserStore = Fluxxor.createStore({
       if (err) {
         console.log(err);
       } else {
-        let next = this.parseNextPage(res.body.next);
-        let list = res.body.users.map(item => item.username);
+        const next = this.parseNextPage(res.body.next);
+        const list = res.body.users.map(item => item.username);
 
         // making an object with usernames as key values to be merged with other users in store
-        let listUsers = {};
+        const listUsers = {};
         res.body.users.forEach((item) => {
-          return listUsers[item.username] = item;
+          listUsers[item.username] = item;
         });
 
         assign(this.state.users, listUsers);
 
         this.state.listens[username].listening.list = list;
         this.state.listens[username].listening.next = next;
+        this.state.listens[username].listening.loaded = true;
       }
       this.state.loading = false;
       this.emit("change");
@@ -679,12 +685,12 @@ var UserStore = Fluxxor.createStore({
           if (err) {
             console.log(err);
           } else {
-            let next = this.parseNextPage(res.body.next);
-            let list = res.body.users.map(item => item.username);
+            const next = this.parseNextPage(res.body.next);
+            const list = res.body.users.map(item => item.username);
             let stock = this.state.listens[username].listening.list;
 
             // making an object with usernames as key values to be merged with other users in store
-            let listUsers = {};
+            const listUsers = {};
             res.body.users.forEach((item) => {
               return listUsers[item.username] = item;
             });
@@ -712,14 +718,14 @@ var UserStore = Fluxxor.createStore({
 
   onLoadUserTagsSuccess(payload) {
     this.waitFor(["tags"], function() {
-      let res = payload.res;
-      let username = payload.username;
+      const { username, res } = payload;
 
-      let next = this.parseNextPage(res.next);
-      let list = res.tags.map(item => item.name);
+      const next = this.parseNextPage(res.next);
+      const list = res.tags.map(item => item.name);
 
       this.state.listens[username].tags.list = list;
       this.state.listens[username].tags.next = next;
+      this.state.listens[username].tags.loaded = true;
 
       this.state.loading = false;
       this.emit("change");
