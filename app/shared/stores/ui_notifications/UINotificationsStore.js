@@ -1,5 +1,6 @@
 import Fluxxor from "fluxxor";
 import { LISTEN_SUCCESS, STOP_LISTEN_SUCCESS } from "../users/consts";
+import { DISMISS_NOTIFICATION } from "./consts";
 
 const initialState = {
   notifications: {}
