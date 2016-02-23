@@ -1,9 +1,10 @@
 import Fluxxor from "fluxxor";
 import { LISTEN_SUCCESS, STOP_LISTEN_SUCCESS } from "../users/consts";
 import { DISMISS_NOTIFICATION } from "./consts";
+import { findIndex } from "lodash/array";
 
 const initialState = {
-  notifications: {}
+  notifications: []
 };
 
 export const UINotificationsStore = Fluxxor.createStore({
@@ -45,8 +46,9 @@ export const UINotificationsStore = Fluxxor.createStore({
   },
 
   onDismissNotification(id) {
-    clearTimeout(this.state.notifications[id].hideTimeout);
-    delete this.state.notification[id];
+    const indexId = findIndex(this.state.notifications, (chr) => chr.id === id);
+    clearTimeout(this.state.notifications[indexId].hideTimeout);
+    delete this.state.notification[indexId];
     this.emit("change");
   },
 
