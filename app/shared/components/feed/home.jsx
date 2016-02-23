@@ -22,7 +22,7 @@ export default React.createClass({
   getStateFromFlux() {
     const {flux} = this.props;
     const tags = flux.store("tags").getState();
-    const users = flux.store("users").getUsersState();
+    const users = flux.store("users").getState().users;
     const listens = flux.store("users").getState().listens;
     const loading = flux.store("users").getState().loading;
 
@@ -95,7 +95,7 @@ export default React.createClass({
 
     const { listens } = this.state;
     let listening, listeningData;
-    if (loggedUser && listens[loggedUser.username]) {
+    if (loggedUser && listens[loggedUser.username].listening.loaded) {
       listening = listens[loggedUser.username].listening.list;
       listeningData = listening.map(item => this.state.users[item]);
     }
