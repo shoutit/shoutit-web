@@ -306,9 +306,10 @@ var UserStore = Fluxxor.createStore({
       const loggedUser = res.body;
       // keeping the login type here
       loggedUser.loggedInWith = type;
-      this.state.users[loggedUser.username] = loggedUser;
+      this.onLoadUserSuccess({ username: loggedUser.username, res: loggedUser });
       this.state.user = loggedUser.username;
       this.state.loginErrorFields = null;
+
       this.emit("change");
       this.emit("login");
     });
