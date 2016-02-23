@@ -75,7 +75,7 @@ export default React.createClass({
   },
 
   render() {
-    const {suggestions, flux, params, onListeningChange} = this.props;
+    const { suggestions, flux, params } = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
@@ -97,7 +97,6 @@ export default React.createClass({
               tags={ relatedTagsData }
               loading={ tag && tag.related.loading }
               flux={ flux }
-              onListeningChange={ onListeningChange }
             />
           }
         </Column>
@@ -109,13 +108,11 @@ export default React.createClass({
             flux={flux}
             tags={ JSON.parse(JSON.stringify(tagsData)) }
             loading={ suggestions.data && suggestions.data.tags.loading }
-            onListeningChange={ onListeningChange }
           />
           <ListenToCard
             flux={flux}
             users={ usersData }
             loading={ suggestions.data && suggestions.data.users.loading }
-            onListeningChange={ onListeningChange }
           />
           <SuggestShoutCard
             shout={ shoutsData }

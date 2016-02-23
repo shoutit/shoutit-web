@@ -5,7 +5,7 @@ import ListenButton from "../../general/listenButton.jsx";
 import UserAvatar from "../../user/UserAvatar.jsx";
 
 export default function ListenerRow(props) {
-  const { user, onListeningChange, onListen, onStopListen } = props;
+  const { user, onListen, onStopListen } = props;
 
   return (
     <Grid fluid={true} className="popuplist-row">
@@ -21,7 +21,6 @@ export default function ListenerRow(props) {
         <ListenButton
           key={ user.id }
           username={ user.username }
-          onChange={ onListeningChange }
           hasTitle={ false }
           onListen={ onListen }
           onStopListen={ onStopListen }

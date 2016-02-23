@@ -24,7 +24,7 @@ export default React.createClass({
   },
 
   render() {
-    const { users, loading, onListeningChange, flux } = this.props;
+    const { users, loading, flux } = this.props;
     const itemsLimit = this.state.more? users.length: 3;
 
     return (
@@ -57,7 +57,6 @@ export default React.createClass({
                     onStopListen={ flux.actions.stopListen }
                     username={ user.username }
                     hasTitle={ false }
-                    onChange={ onListeningChange }
                   />
                 </Column>
               </Grid>

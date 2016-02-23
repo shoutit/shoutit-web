@@ -10,7 +10,7 @@ import SVGIcon from "../helper/SVGIcon";
 
 import moment from "moment";
 
-export default function shoutOwnerCard({ shout, flux, users, loggedUser, onListeningChange }) {
+export default function shoutOwnerCard({ shout, flux, users, loggedUser }) {
   const { user, location } = shout;
   const loggedUsername = loggedUser? loggedUser.username: undefined;
 
@@ -43,7 +43,6 @@ export default function shoutOwnerCard({ shout, flux, users, loggedUser, onListe
                     onListen={ flux.actions.listen }
                     onStopListen={ flux.actions.stopListen }
                     username={ user.username }
-                    onChange={ onListeningChange }
                   />
                 </Column>
                 <Separator />

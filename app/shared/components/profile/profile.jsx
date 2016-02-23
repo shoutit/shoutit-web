@@ -91,7 +91,7 @@ export default React.createClass({
   },
 
   renderProfilePage() {
-    const { onListeningChange, flux } = this.props;
+    const { flux } = this.props;
     const username = this.props.params.username,
       user = this.props.users[username],
       mode = this.state.editMode;
@@ -120,7 +120,6 @@ export default React.createClass({
                   <Grid fluid={true}>
                     <ProfileButtonsCard
                       user={user}
-                      onListeningChange={ onListeningChange }
                       flux={ flux }
                     />
                     <ProfileBioCard user={user} />

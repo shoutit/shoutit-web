@@ -43,7 +43,6 @@ export default function ProfileInfoTooltip(props) {
                   onListen={ flux.actions.listen }
                   onStopListen={ flux.actions.stopListen }
                   username={ user.username }
-                  onChange={ props.onListeningChange }
                 />
               </Column>
             </Grid>

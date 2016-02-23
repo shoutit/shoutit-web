@@ -67,7 +67,7 @@ export default React.createClass({
   },
 
   render() {
-    const { suggestions, flux, onListeningChange } = this.props;
+    const { suggestions, flux } = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
@@ -76,21 +76,18 @@ export default React.createClass({
       <div className="profile-holder">
         <Grid >
           <Column size="12" clear={true}>
-            { React.cloneElement(this.props.children,
-              assign({ ...this.state.users }, { onListeningChange })) }
+            { React.cloneElement(this.props.children, { ...this.state.users }) }
           </Column>
           <Column size="3">
             <TagsCard
               flux={flux}
               tags={ JSON.parse(JSON.stringify(tagsData)) }
               loading={ suggestions.data && suggestions.data.tags.loading }
-              onListeningChange={ onListeningChange }
             />
             <ListenToCard
               flux={flux}
               users={ usersData }
               loading={ suggestions.data && suggestions.data.users.loading }
-              onListeningChange={ onListeningChange }
             />
             <SuggestShoutCard
               shout={ shoutsData }

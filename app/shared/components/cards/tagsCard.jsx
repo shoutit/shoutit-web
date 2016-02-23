@@ -27,7 +27,6 @@ export default function TagsCard(props){
                 <TagListenButton
                   hasTitle={ false }
                   tag={ tag }
-                  onChange={ props.onListeningChange }
                   flux={ flux }
                 />
               </Column>

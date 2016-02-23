@@ -109,7 +109,7 @@ export default React.createClass({
   },
 
   render() {
-    const { onListeningChange, flux } = this.props;
+    const { flux } = this.props;
     const title = this.helper.getTitle();
     const list = this.helper.getList(this.state);
 
@@ -131,7 +131,6 @@ export default React.createClass({
                     <TagRow
                       key={`tags-popuplist-${idx}`}
                       tag={tag}
-                      onListeningChange={ onListeningChange }
                       onListenTag={ flux.actions.listenTag }
                       onStopListenTag={ flux.actions.stopListenTag }
                     />
@@ -145,7 +144,6 @@ export default React.createClass({
                     <ListenerRow
                       key={`listens-popuplist-${idx}`}
                       user={user}
-                      onListeningChange={ onListeningChange }
                       onListen={ flux.actions.listen }
                       onStopListen={ flux.actions.stopListen }
                     />

@@ -6,7 +6,7 @@ import UserImage from '../../user/userImage.jsx';
 
 export default function TagRow(props) {
   const tag = JSON.parse(JSON.stringify(this.props.tag));
-  const { onListeningChange, onListenTag, onStopListenTag } = this.props;
+  const { onListenTag, onStopListenTag } = this.props;
 
   return (
     <Grid fluid={true} className="popuplist-row">
@@ -24,7 +24,6 @@ export default function TagRow(props) {
         <TagListenButton
           tag={ tag }
           hasTitle={ false }
-          onChange={ onListeningChange }
           onListenTag={ onListenTag }
           onStopListenTag={ onStopListenTag }
         />

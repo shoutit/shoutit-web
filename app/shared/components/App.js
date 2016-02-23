@@ -24,32 +24,8 @@ export default React.createClass({
     new StoreWatchMixin("users", "chat", "conversations", "locations", "suggestions", "ui_notifications")
   ],
 
-  /**
-   * Show UI Notification when a user/tag listening event is triggered
-   *
-   * @param {OBJECT.<isListening, name>} ev - The event returned from buttons
-   */
-  onListeningChange({ isListening, name }) {
-    if(isListening) {
-      this._UINotif.addNotification({
-        message: `You are listening to ${name}`,
-        level: "success",
-        position: 'tr', // top right
-        autoDismiss: 4
-      });
-    } else {
-      this._UINotif.addNotification({
-        message: `You are no longer listening to ${name}`,
-        level: "warning",
-        position: 'tr', // top right
-        autoDismiss: 4
-      });
-    }
-  },
-
   componentDidMount() {
     this.getData();
-    this._UINotif = this.refs.UINotifSystem;
   },
 
   componentDidUpdate(prevProps, prevState) {
@@ -86,7 +62,6 @@ export default React.createClass({
   render() {
     const { loggedUser, chat, conversations, currentLocation, suggestions } = this.state;
     const { children, flux, routes, location, history } = this.props;
-    const { onListeningChange } = this;
 
     const suggestionsData = {
       data: suggestions.data[createSlug(currentLocation.city)]
@@ -96,7 +71,7 @@ export default React.createClass({
       pagesWithoutHeader.indexOf(route.component) > -1
     );
     const props = { loggedUser, chat, conversations, currentLocation, location,
-      suggestions: suggestionsData, history, onListeningChange };
+      suggestions: suggestionsData, history };
 
     return (
       <div className={`App${hideHeader ? "" : " stickyHeader"}` }>

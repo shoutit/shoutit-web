@@ -34,14 +34,13 @@ export default React.createClass({
 
   renderPopuplists() {
     const {username} = this.props.user;
-    const { onListeningChange, flux } = this.props;
+    const { flux } = this.props;
     return (
       <Popuplist
         open={Boolean(this.state.activePopuplist)}
         onClose={ this.onPopuplistClose }
         username={ username }
         type={ this.state.activePopuplist }
-        onListeningChange={ onListeningChange }
         flux={ flux }
       />
     );
@@ -91,7 +90,6 @@ export default React.createClass({
         <Column fluid={true} size="5">
           <ListenButton
             username={ username }
-            onChange={ this.onUserListenChange }
             onListen={ flux.actions.listen }
             onStopListen={ flux.actions.stopListen }
           />

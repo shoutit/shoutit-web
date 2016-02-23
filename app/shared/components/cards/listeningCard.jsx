@@ -44,7 +44,7 @@ export default React.createClass({
   },
 
   render() {
-    const { listening, flux, onListeningChange } = this.props;
+    const { listening, flux } = this.props;
 
     return (
       <section className="si-card gray-card" style={{overflow: "visible"}}>
@@ -71,7 +71,6 @@ export default React.createClass({
                   user={ item }
                   loading={ !item.location }
                   flux={ flux }
-                  onListeningChange={ onListeningChange }
                 />
               }
             </Grid>
