@@ -1,6 +1,6 @@
 import consts from "./consts";
 import client from "./client";
-const {LISTEN_BTN_LOADING} = statuses;
+import { LISTEN_BTN_LOADING } from "../../consts/statuses";
 
 export default {
   signup(payload) {
