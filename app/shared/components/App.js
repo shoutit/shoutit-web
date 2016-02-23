@@ -117,7 +117,7 @@ export default React.createClass({
           { React.cloneElement(children, props) }
         </div>
         <NotificationHost
-          notifications={ this.state.notifications }
+          notifications={ this.state.uiNotifications }
           onDismissClick={ flux.actions.dismissNotification }
         />
       </div>
