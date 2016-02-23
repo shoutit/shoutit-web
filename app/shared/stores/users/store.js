@@ -495,7 +495,7 @@ var UserStore = Fluxxor.createStore({
                   }
           } else {
             var loggedUser = res.body;
-            this.state.users[loggedUser.username] = loggedUser;
+            this.onLoadUserSuccess({ username: loggedUser.username, res: loggedUser });
             this.state.user = loggedUser.username;
             this.state.editors[field] = {loading: false};
             this.state.loading = false;
