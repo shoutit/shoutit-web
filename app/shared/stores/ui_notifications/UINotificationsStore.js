@@ -34,13 +34,11 @@ export const UINotificationsStore = Fluxxor.createStore({
     // optional: autohide a notification after 4 seconds
     if (autoHide) {
       notification.hideTimeout = setTimeout(
-        () => this.dismissNotification(id), 4000
+        () => this.flux.actions.dismissNotification(id), 4000
       );
     }
 
-    this.state.notifications.push({
-      [id]: notification
-    });
+    this.state.notifications.push({ ...notification });
 
     this.emit("change");
   },
@@ -48,7 +46,7 @@ export const UINotificationsStore = Fluxxor.createStore({
   onDismissNotification(id) {
     const indexId = findIndex(this.state.notifications, (chr) => chr.id === id);
     clearTimeout(this.state.notifications[indexId].hideTimeout);
-    delete this.state.notification[indexId];
+    delete this.state.notifications[indexId];
     this.emit("change");
   },
 
@@ -58,6 +56,10 @@ export const UINotificationsStore = Fluxxor.createStore({
 
   hydrate(json) {
     this.state = JSON.parse(json);
+  },
+
+  getState() {
+    return this.state;
   }
 
 });
