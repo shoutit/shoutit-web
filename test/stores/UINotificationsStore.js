@@ -21,27 +21,36 @@ describe("UINotifications Store", function() {
     const flux = initFlux();
     const store = flux.store("UINotificationsStore");
     expect(store.state).to.have.property("notifications");
-    expect(store.state.notifications).to.deep.equal({});
+    expect(store.state.notifications).to.deep.equal([]);
   });
 
   it("should serialize the state", function() {
     const flux = initFlux();
     const store = flux.store("UINotificationsStore");
-    store.state.notifications = {check: { toSee: "It Works"}};
+    store.state.notifications = [
+      {
+        id: "1",
+        message: "Hi"
+      }
+    ];
     expect(store).to.include.keys("serialize");
-    expect(store.serialize()).to.equal(`{"notifications":{"check":{"toSee":"It Works"}}}`);
+    expect(store.serialize()).to.equal(`{"notifications":[{"id":"1","message":"Hi"}]}`);
   });
 
   it("should hydrate the state", function() {
     const flux = initFlux();
     const store = flux.store("UINotificationsStore");
-    const sampleJSON = `{"notifications":{"check":{"toSee":"It Works"}}}`;
-    expect(store.hydrate(sampleJSON)).to.deep.equal({
-      notifications: {
-        check: {
-          toSee: "It Works"
+    const sampleJSON = `{"notifications":[{"id":"1","message":"Hi"}]}`;
+
+    store.hydrate(sampleJSON);
+
+    expect(store.state).to.deep.equal({
+      notifications: [
+        {
+          id: "1",
+          message: "Hi"
         }
-      }
+      ]
     });
   });
 
