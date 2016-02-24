@@ -1,5 +1,6 @@
 import Fluxxor from "fluxxor";
 import { LISTEN_SUCCESS, STOP_LISTEN_SUCCESS } from "../users/consts";
+import { LISTEN_TAG_SUCCESS, STOP_LISTEN_TAG_SUCCESS } from "../tags/consts";
 import { DISMISS_NOTIFICATION } from "./consts";
 import { findIndex } from "lodash/array";
 
@@ -15,6 +16,8 @@ export const UINotificationsStore = Fluxxor.createStore({
     this.bindActions(
       LISTEN_SUCCESS, ({ username }) => this.handleNotification(`You are listening to ${username}`),
       STOP_LISTEN_SUCCESS, ({ username }) => this.handleNotification(`You are not longer listening to ${username}`),
+      LISTEN_TAG_SUCCESS, ({ username }) => this.handleNotification(`You are listening to ${username}`),
+      STOP_LISTEN_TAG_SUCCESS, ({ username }) => this.handleNotification(`You are not longer listening to ${username}`),
       DISMISS_NOTIFICATION, this.onDismissNotification
     );
   },
