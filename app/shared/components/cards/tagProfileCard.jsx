@@ -24,6 +24,7 @@ export default React.createClass({
 
         if (tagEntry) {
             let tag = JSON.parse(JSON.stringify(tagEntry.tag));
+            const { flux } = this.props;
 
             return (
                 <Grid fluid={true}>
@@ -36,7 +37,13 @@ export default React.createClass({
                         <TagListenersButton tag={tag} />
                     </Column>
                     <Column fluid={true} size={7}>
-                        <TagListenButton tag={tag} onChange={this.handleListen} flux={this.props.flux }/>
+                        <TagListenButton
+                          tag={tag}
+                          onChange={this.handleListen}
+                          flux={ flux }
+                          onListenTag={ flux.actions.listenTag }
+                          onStopListenTag={ flux.actions.stopListenTag }
+                        />
                     </Column>
                 </Grid>
             );

@@ -28,6 +28,8 @@ export default function TagsCard(props){
                   hasTitle={ false }
                   tag={ tag }
                   flux={ flux }
+                  onListenTag={ flux.actions.listenTag }
+                  onStopListenTag={ flux.actions.stopListenTag }
                 />
               </Column>
             </Grid>

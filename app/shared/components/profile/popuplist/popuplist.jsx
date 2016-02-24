@@ -131,6 +131,7 @@ export default React.createClass({
                     <TagRow
                       key={`tags-popuplist-${idx}`}
                       tag={tag}
+                      flux={ flux }
                       onListenTag={ flux.actions.listenTag }
                       onStopListenTag={ flux.actions.stopListenTag }
                     />
