@@ -22,7 +22,7 @@
 
   &.notification-enter.notification-enter-active {
     opacity: 1;
-    transition: opacity 500ms ease-in;
+    transition: opacity 100ms ease-in;
   }
 
   &.notification-leave {
@@ -31,7 +31,7 @@
 
   &.notification-leave.notification-leave-active {
     opacity: 0.01;
-    transition: opacity 300ms ease-in;
+    transition: opacity 200ms ease-in;
   }
 }
 
@@ -42,12 +42,12 @@
   outline: 0;
   border: 0;
   border-radius: 10px;
-  background-color: $si-error-color;;
-  color: $si-white;
+  background-color: lighten($si-bg, 5%);
+  color: $si-error-color;
   font-size: 0.9rem;
   transition: 0.3s all;
   &:hover {
     background-color: lighten($si-error-color, 15%);
+    color: $si-white;
   }
 }
-
