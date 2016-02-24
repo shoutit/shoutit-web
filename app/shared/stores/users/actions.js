@@ -115,7 +115,7 @@ export default {
 
   stopListen(username) {
     client.stopListen(username)
-      .end(function (err, res) {
+      .end((err, res) => {
         if (err) {
           this.dispatch(consts.STOP_LISTEN_FAIL, { username, err });
         } else if (res.body.success) {
