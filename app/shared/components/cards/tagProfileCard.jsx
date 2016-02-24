@@ -1,13 +1,11 @@
 import React from 'react';
 import {Icon, Grid, Column, Progress } from '../helper';
 import Separator from '../general/separator.jsx';
-import NotificationSystem from 'react-notification-system';
 import TagProfileImage from '../tag/tagProfileImage.jsx';
 import TagListenButton from '../general/tagListenButton.jsx';
 import TagListenersButton from '../general/tagListenersButton.jsx';
 
 export default React.createClass({
-    _notificationSystem: null,
 
     displayNotif(msg, type = 'success') {
         this._notificationSystem.addNotification({
@@ -64,12 +62,10 @@ export default React.createClass({
 
     componentDidUpdate() {
         this.loadTag();
-        this._notificationSystem = this.refs.notificationSystem;
     },
 
     componentDidMount() {
         this.loadTag();
-        this._notificationSystem = this.refs.notificationSystem;
     },
 
     handleListen(ev) {
@@ -96,7 +92,6 @@ export default React.createClass({
             return (
                 <section className="si-card tag-profile-card">
                     {this.renderProfile()}
-                    <NotificationSystem ref="notificationSystem" />
                 </section>
                 );
         } else {
