@@ -5,7 +5,6 @@ import DocumentTitle from "react-document-title";
 import ProfileCover from "./profileCover.jsx";
 import assign from "lodash/object/assign";
 import EmbeddedShout from "../shouting/embeddedShout.jsx";
-import NotificationSystem from "react-notification-system";
 import ProfilePictureCard from './cards/profilePictureCard.jsx';
 import ProfileBioCard from './cards/profileBioCard.jsx';
 import ProfileButtonsCard from './cards/profileButtonsCard.jsx';
@@ -14,8 +13,6 @@ import ProfileEditorCard from './cards/profileEditorCard.jsx';
 
 export default React.createClass({
   displayName: "Profile",
-
-  _notificationSystem: null,
 
   // Use this to keep track of the latest loaded user through params
   lastLoadedUser: null,
@@ -36,23 +33,12 @@ export default React.createClass({
     };
   },
 
-  displayNotif(msg, type = 'success') {
-    this._notificationSystem.addNotification({
-      message: msg,
-      level: type,
-      position: 'tr', // top right
-      autoDismiss: 4
-    });
-  },
-
   componentDidMount() {
     this.loadUser();
 
     // Setting edit mode from query
     const {query} = this.props.location;
     this.setState({editMode: Boolean(query._edit)});
-
-    this._notificationSystem = this.refs.notificationSystem;
   },
 
   componentDidUpdate(prevProps) {
@@ -61,12 +47,12 @@ export default React.createClass({
       this.loadUser();
     }
 
-    this._notificationSystem = this.refs.notificationSystem;
     const status = this.props.profile.status;
 
     // Checks related to profile edit modes
     if (prevProps.profile.status !== status && status === 'saved') {
-      this.displayNotif('Changes saved successfully.');
+      // TODO: change it to new notification system
+      //this.displayNotif('Changes saved successfully.');
       this.setState({editMode: false});
     }
     if (prevProps.profile.status !== status && status === 'err') {
@@ -74,7 +60,8 @@ export default React.createClass({
 
       const errors = this.props.profile.errors;
       for (let err in errors) {
-        this.displayNotif(errors[err][0], 'warning');
+        // TODO: change it to new notification system
+        //this.displayNotif(errors[err][0], 'warning');
       }
     }
   },
@@ -137,7 +124,6 @@ export default React.createClass({
 
             </Column>
           </Grid>
-          <NotificationSystem ref="notificationSystem"/>
         </div>
       </DocumentTitle>
     );
