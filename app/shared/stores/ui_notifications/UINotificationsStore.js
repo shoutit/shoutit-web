@@ -15,9 +15,9 @@ export const UINotificationsStore = Fluxxor.createStore({
 
     this.bindActions(
       LISTEN_SUCCESS, ({ username }) => this.handleNotification(`You are listening to ${username}`),
-      STOP_LISTEN_SUCCESS, ({ username }) => this.handleNotification(`You are not longer listening to ${username}`),
-      LISTEN_TAG_SUCCESS, ({ username }) => this.handleNotification(`You are listening to ${username}`),
-      STOP_LISTEN_TAG_SUCCESS, ({ username }) => this.handleNotification(`You are not longer listening to ${username}`),
+      STOP_LISTEN_SUCCESS, ({ username }) => this.handleNotification(`You are no longer listening to ${username}`),
+      LISTEN_TAG_SUCCESS, ({ tagName }) => this.handleNotification(`You are listening to ${tagName}`),
+      STOP_LISTEN_TAG_SUCCESS, ({ tagName }) => this.handleNotification(`You are no longer listening to ${tagName}`),
       DISMISS_NOTIFICATION, this.onDismissNotification
     );
   },
