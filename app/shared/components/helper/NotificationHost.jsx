@@ -7,8 +7,8 @@ if (process.env.BROWSER) {
 export default function NotificationHost({ notifications, onDismissClick }) {
   return (
     <div className="NotificationHost">
-      { notifications.map(notification =>
-        <div className="NotificationHost-notification">
+      { notifications.map((notification, idx) =>
+        <div className="NotificationHost-notification" key={`ui-notif-${idx}`}>
           { notification.message }
           <button onClick={ () => onDismissClick(notification.id) }>Dismiss</button>
         </div>
