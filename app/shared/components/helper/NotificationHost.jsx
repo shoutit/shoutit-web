@@ -10,7 +10,7 @@ export default function NotificationHost({ notifications, onDismissClick }) {
       { notifications.map((notification, idx) =>
         <div className="NotificationHost-notification" key={`ui-notif-${idx}`}>
           { notification.message }
-          <button onClick={ () => onDismissClick(notification.id) }>Dismiss</button>
+          <button className="NotificationHost-closeButton" onClick={ () => onDismissClick(notification.id) }>X</button>
         </div>
       )}
     </div>

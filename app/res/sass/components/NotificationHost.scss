@@ -1,16 +1,36 @@
 @import "../colors";
+@import "../pages/_mixins";
 
 .NotificationHost {
-  position: absolute;
-  top: 70px;
+  position: fixed;
+  top: 100px;
   right: 25px;
   z-index: 3;
 }
 
 .NotificationHost-notification {
+  position: relative;
+  @include paper();
   min-height: 40px;
-  background-color: $si-white;
-  opacity: 0.8;
+  font-size: 1.3rem;
   color: $si-gray;
-  padding: 10px;
+  padding: 10px 25px 10px 10px;
+  margin-bottom: 15px;
+}
+
+.NotificationHost-closeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  outline: 0;
+  border: 0;
+  border-radius: 10px;
+  background-color: $si-bg;
+  color: $si-error-color;
+  font-size: 0.9rem;
+  transition: 0.3s all;
+  &:hover {
+    background-color: $si-error-color;
+    color: $si-bg;
+  }
 }
