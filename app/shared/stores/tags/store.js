@@ -55,7 +55,11 @@ var TagStore = Fluxxor.createStore({
       consts.LOAD_TAG, this.onLoadTag,
       consts.LOAD_TAG_SUCCESS, this.onLoadTagSuccess,
       consts.LISTEN_TAG, this.onListenTag,
+      consts.LISTEN_TAG_SUCCESS, this.onListenTagSuccess,
+      consts.LISTEN_TAG_FAIL, this.onListenTagFail,
       consts.STOP_LISTEN_TAG, this.onStopListenTag,
+      consts.STOP_LISTEN_TAG_SUCCESS, this.onStopListenTagSuccess,
+      consts.STOP_LISTEN_TAG_FAIL, this.onStopListenTagFail,
       consts.LOAD_TAG_SHOUTS, this.onLoadTagShouts,
       consts.LOAD_TAG_SHOUTS_SUCCESS, this.onLoadTagShoutsSuccess,
       consts.LOAD_MORE_TAG_SHOUTS, this.onLoadMoreTagShouts,
@@ -160,17 +164,19 @@ var TagStore = Fluxxor.createStore({
     var tagName = payload.tagName;
     // add to tags list if not available
     !this.state.tags[tagName]? this.addTagEntry(tagName): undefined;
-
-    client.listen(tagName).end(function(res) {
-      if(res.body.success) {
-        this.state.tags[tagName].tag.is_listening = true;
-        this.state.tags[tagName].tag.listeners_count+= 1;
-        this.state.tags[tagName].tag.fluxStatus = null;
-        this.emit("change");
-      }
-    }.bind(this));
-
     this.state.tags[tagName].tag.fluxStatus = LISTEN_BTN_LOADING;
+    this.emit("change");
+  },
+
+  onListenTagFail({ tagName }) {
+    this.state.tags[tagName].tag.fluxStatus = null;
+    this.emit("change");
+  },
+
+  onListenTagSuccess({ tagName }) {
+    this.state.tags[tagName].tag.is_listening = true;
+    this.state.tags[tagName].tag.listeners_count+= 1;
+    this.state.tags[tagName].tag.fluxStatus = null;
     this.emit("change");
   },
 
@@ -178,17 +184,19 @@ var TagStore = Fluxxor.createStore({
     var tagName = payload.tagName;
     // add to tags list if not available
     !this.state.tags[tagName]? this.addTagEntry(tagName): undefined;
-
-    client.unlisten(tagName).end(function(res) {
-      if(res.body.success) {
-        this.state.tags[tagName].tag.is_listening = false;
-        this.state.tags[tagName].tag.listeners_count-= 1;
-        this.state.tags[tagName].tag.fluxStatus = null;
-        this.emit("change");
-      }
-    }.bind(this));
-
     this.state.tags[tagName].tag.fluxStatus = LISTEN_BTN_LOADING;
+    this.emit("change");
+  },
+
+  onStopListenTagFail({ tagName }) {
+    this.state.tags[tagName].tag.fluxStatus = null;
+    this.emit("change");
+  },
+
+  onStopListenTagSuccess({ tagName }) {
+    this.state.tags[tagName].tag.is_listening = false;
+    this.state.tags[tagName].tag.listeners_count-= 1;
+    this.state.tags[tagName].tag.fluxStatus = null;
     this.emit("change");
   },
 
