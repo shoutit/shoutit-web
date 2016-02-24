@@ -24,14 +24,6 @@ export default React.createClass({
     }
   },
 
-  componentDidMount() {
-    this._notificationSystem = this.refs.notificationSystem;
-  },
-
-  componentDidUpdate() {
-    this._notificationSystem = this.refs.notificationSystem;
-  },
-
   renderPopuplists() {
     const {username} = this.props.user;
     const { flux } = this.props;
@@ -95,7 +87,6 @@ export default React.createClass({
             flux={ flux }
           />
         </Column>
-        <NotificationSystem ref="notificationSystem"/>
       </Grid>
     );
   },

@@ -7,15 +7,6 @@ import TagListenersButton from '../general/tagListenersButton.jsx';
 
 export default React.createClass({
 
-    displayNotif(msg, type = 'success') {
-        this._notificationSystem.addNotification({
-            message: msg,
-            level: type,
-            position: 'tr', // top right
-            autoDismiss: 4
-        });
-    },
-
     renderProfile() {
         let tagName = this.props.params.tagName,
             tagEntry = this.props.tags[tagName];
@@ -37,7 +28,6 @@ export default React.createClass({
                     <Column fluid={true} size={7}>
                         <TagListenButton
                           tag={tag}
-                          onChange={this.handleListen}
                           flux={ flux }
                           onListenTag={ flux.actions.listenTag }
                           onStopListenTag={ flux.actions.stopListenTag }
@@ -66,14 +56,6 @@ export default React.createClass({
 
     componentDidMount() {
         this.loadTag();
-    },
-
-    handleListen(ev) {
-        if(ev.isListening) {
-            this.displayNotif(`You are listening to ${ev.tag}`);
-        } else {
-            this.displayNotif(`You are no longer listening to ${ev.tag}`, 'warning');
-        }
     },
 
     loadTag() {
