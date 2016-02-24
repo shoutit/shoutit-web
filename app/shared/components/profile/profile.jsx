@@ -114,7 +114,7 @@ export default React.createClass({
 
               <Grid fluid={true}>
                 <ProfilePictureCard editMode={mode} user={user} />
-                {editMode?
+                {mode?
                   <ProfileEditorCard user={user} />
                   :
                   <Grid fluid={true}>
