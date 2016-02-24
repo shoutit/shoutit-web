@@ -24,6 +24,7 @@ export default function ListenerRow(props) {
           hasTitle={ false }
           onListen={ onListen }
           onStopListen={ onStopListen }
+          flux={ flux }
         />
       </Column>
     </Grid>

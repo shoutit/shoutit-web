@@ -55,6 +55,7 @@ export default React.createClass({
                   <ListenButton
                     onListen={ flux.actions.listen }
                     onStopListen={ flux.actions.stopListen }
+                    flux={ flux }
                     username={ user.username }
                     hasTitle={ false }
                   />

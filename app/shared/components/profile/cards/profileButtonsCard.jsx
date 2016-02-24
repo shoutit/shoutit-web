@@ -92,6 +92,7 @@ export default React.createClass({
             username={ username }
             onListen={ flux.actions.listen }
             onStopListen={ flux.actions.stopListen }
+            flux={ flux }
           />
         </Column>
         <NotificationSystem ref="notificationSystem"/>

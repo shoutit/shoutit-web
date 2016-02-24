@@ -146,6 +146,7 @@ export default React.createClass({
                       user={user}
                       onListen={ flux.actions.listen }
                       onStopListen={ flux.actions.stopListen }
+                      flux={ flux }
                     />
                   );
                 })

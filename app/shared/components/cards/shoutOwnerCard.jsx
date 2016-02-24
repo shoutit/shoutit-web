@@ -42,6 +42,7 @@ export default function shoutOwnerCard({ shout, flux, users, loggedUser }) {
                   <ListenButton
                     onListen={ flux.actions.listen }
                     onStopListen={ flux.actions.stopListen }
+                    flux={ flux }
                     username={ user.username }
                   />
                 </Column>
