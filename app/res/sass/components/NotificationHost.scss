@@ -37,18 +37,17 @@
 
 .NotificationHost-closeButton {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -5px;
+  right: -5px;
   outline: 0;
   border: 0;
   border-radius: 10px;
-  background-color: $si-bg;
-  color: $si-error-color;
+  background-color: $si-error-color;;
+  color: $si-white;
   font-size: 0.9rem;
   transition: 0.3s all;
   &:hover {
-    background-color: $si-error-color;
-    color: $si-bg;
+    background-color: lighten($si-error-color, 15%);
   }
 }
 
