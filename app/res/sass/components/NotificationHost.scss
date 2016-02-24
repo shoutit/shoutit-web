@@ -1,0 +1,53 @@
+@import "../colors";
+@import "../pages/_mixins";
+
+.NotificationHost {
+  position: fixed;
+  top: 100px;
+  right: 25px;
+  z-index: 3;
+}
+
+.NotificationHost-notification {
+  position: relative;
+  @include paper();
+  min-height: 40px;
+  font-size: 1.3rem;
+  color: $si-gray;
+  padding: 10px 25px 10px 10px;
+  margin-bottom: 15px;
+  &.notification-enter {
+    opacity: 0.01;
+  }
+
+  &.notification-enter.notification-enter-active {
+    opacity: 1;
+    transition: opacity 100ms ease-in;
+  }
+
+  &.notification-leave {
+    opacity: 1;
+  }
+
+  &.notification-leave.notification-leave-active {
+    opacity: 0.01;
+    transition: opacity 200ms ease-in;
+  }
+}
+
+.NotificationHost-closeButton {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  outline: 0;
+  border: 0;
+  border-radius: 10px;
+  background-color: lighten($si-bg, 5%);
+  color: $si-error-color;
+  font-size: 0.9rem;
+  transition: 0.3s all;
+  &:hover {
+    background-color: lighten($si-error-color, 15%);
+    color: $si-white;
+  }
+}

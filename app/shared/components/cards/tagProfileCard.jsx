@@ -1,22 +1,11 @@
 import React from 'react';
 import {Icon, Grid, Column, Progress } from '../helper';
 import Separator from '../general/separator.jsx';
-import NotificationSystem from 'react-notification-system';
 import TagProfileImage from '../tag/tagProfileImage.jsx';
 import TagListenButton from '../general/tagListenButton.jsx';
 import TagListenersButton from '../general/tagListenersButton.jsx';
 
 export default React.createClass({
-    _notificationSystem: null,
-
-    displayNotif(msg, type = 'success') {
-        this._notificationSystem.addNotification({
-            message: msg,
-            level: type,
-            position: 'tr', // top right
-            autoDismiss: 4
-        });
-    },
 
     renderProfile() {
         let tagName = this.props.params.tagName,
@@ -24,6 +13,7 @@ export default React.createClass({
 
         if (tagEntry) {
             let tag = JSON.parse(JSON.stringify(tagEntry.tag));
+            const { flux } = this.props;
 
             return (
                 <Grid fluid={true}>
@@ -36,7 +26,12 @@ export default React.createClass({
                         <TagListenersButton tag={tag} />
                     </Column>
                     <Column fluid={true} size={7}>
-                        <TagListenButton tag={tag} onChange={this.handleListen} flux={this.props.flux }/>
+                        <TagListenButton
+                          tag={tag}
+                          flux={ flux }
+                          onListenTag={ flux.actions.listenTag }
+                          onStopListenTag={ flux.actions.stopListenTag }
+                        />
                     </Column>
                 </Grid>
             );
@@ -57,20 +52,10 @@ export default React.createClass({
 
     componentDidUpdate() {
         this.loadTag();
-        this._notificationSystem = this.refs.notificationSystem;
     },
 
     componentDidMount() {
         this.loadTag();
-        this._notificationSystem = this.refs.notificationSystem;
-    },
-
-    handleListen(ev) {
-        if(ev.isListening) {
-            this.displayNotif(`You are listening to ${ev.tag}`);
-        } else {
-            this.displayNotif(`You are no longer listening to ${ev.tag}`, 'warning');
-        }
     },
 
     loadTag() {
@@ -89,7 +74,6 @@ export default React.createClass({
             return (
                 <section className="si-card tag-profile-card">
                     {this.renderProfile()}
-                    <NotificationSystem ref="notificationSystem" />
                 </section>
                 );
         } else {

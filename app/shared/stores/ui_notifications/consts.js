@@ -1,0 +1,4 @@
+
+export default {
+  DISMISS_NOTIFICATION: "DISMISS_NOTIFICATION"
+};

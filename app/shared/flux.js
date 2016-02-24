@@ -12,6 +12,9 @@ import { MessagesStore } from "./stores/messages/MessagesStore";
 import suggestionsActions from "./stores/suggestions/actions";
 import SuggestionsStore from "./stores/suggestions/store";
 
+import uiNotificationsActions from "./stores/ui_notifications/actions";
+import { UINotificationsStore } from "./stores/ui_notifications/UINotificationsStore";
+
 const merge = require("lodash/object/merge"),
   Fluxxor = require("fluxxor"),
   UsersStore = require("./stores/users/store"),
@@ -44,8 +47,8 @@ module.exports = function (router, user, data, params, currencies, categories, s
     messages: new MessagesStore(merge({}, data, {loggedUser: user, params})),
     notifications: new NotificationsStore({data}),
     discovers: new DiscoversStore(data),
-    suggestions: new SuggestionsStore(data)
-
+    suggestions: new SuggestionsStore(data),
+    ui_notifications: new UINotificationsStore()
   };
 
   for (const store in stores) {
@@ -57,7 +60,7 @@ module.exports = function (router, user, data, params, currencies, categories, s
   const actions = merge({},
     userActions, shoutActions, tagActions, searchActions, locationsActions,
     messagesActions, chatActions, conversationsActions, notificationsActions,
-    discoversActions, suggestionsActions);
+    discoversActions, suggestionsActions, uiNotificationsActions);
 
   const flux = new Fluxxor.Flux(stores, actions);
 

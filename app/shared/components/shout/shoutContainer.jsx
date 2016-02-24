@@ -78,7 +78,7 @@ export default React.createClass({
   },
 
   render() {
-    const {suggestions, flux, loggedUser} = this.props;
+    const {suggestions, flux, loggedUser } = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;

@@ -4,46 +4,29 @@ import {Grid, Column} from "../../helper";
 import ListenButton from "../../general/listenButton.jsx";
 import UserAvatar from "../../user/UserAvatar.jsx";
 
-export default React.createClass({
-  displayName: "ListenerRow",
+export default function ListenerRow(props) {
+  const { user, onListen, onStopListen } = props;
 
-  contextTypes: {
-    flux: React.PropTypes.object
-  },
-
-  onButtonChange(ev) {
-    if (this.props.onChange) {
-      this.props.onChange(ev);
-    }
-  },
-
-  render() {
-    const listener = this.props.user;
-    const flux = this.context.flux;
-
-    if (listener.username) {
-      return (
-        <Grid fluid={true} className="popuplist-row">
-          <Column fluid={true} clear={true} size="2" >
-              <UserAvatar user={ listener } linkToUserPage />
-          </Column>
-          <Column fluid={true} size="10" className="popuplist-text-row">
-            <Link to={`/user/${encodeURIComponent(listener.username)}`}>
-              {listener.name}
-            </Link>
-          </Column>
-          <Column fluid={true} size="3" style={{paddingTop: "5px"}}>
-            <ListenButton key={listener.id}
-                    username={listener.username}
-                    onChange={this.onButtonChange}
-                    hasTitle={false}
-                    flux={flux}
-                    />
-          </Column>
-        </Grid>
-      );
-    } else {
-      return null;
-    }
-  }
-});
+  return (
+    <Grid fluid={true} className="popuplist-row">
+      <Column fluid={true} clear={true} size="2" >
+          <UserAvatar user={ user } linkToUserPage />
+      </Column>
+      <Column fluid={true} size="10" className="popuplist-text-row">
+        <Link to={`/user/${encodeURIComponent( user.username )}`}>
+          { user.name }
+        </Link>
+      </Column>
+      <Column fluid={true} size="3" style={{ paddingTop: "5px" }}>
+        <ListenButton
+          key={ user.id }
+          username={ user.username }
+          hasTitle={ false }
+          onListen={ onListen }
+          onStopListen={ onStopListen }
+          flux={ flux }
+        />
+      </Column>
+    </Grid>
+  );
+}

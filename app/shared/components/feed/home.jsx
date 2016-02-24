@@ -105,7 +105,10 @@ export default React.createClass({
           <Column size="3" clear={true}>
             <ProfileCard />
             { listeningData &&
-              <ListeningCard listening={ listeningData } flux={ flux }/>
+              <ListeningCard
+                listening={ listeningData }
+                flux={ flux }
+              />
             }
           </Column>
           <Column size="9">

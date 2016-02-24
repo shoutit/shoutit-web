@@ -24,7 +24,13 @@ export default function TagsCard(props){
                 <Link to={`/tag/${tag.name}`}>{ tag.name }</Link>
               </Column>
               <Column fluid={true} size="3">
-                <TagListenButton hasTitle={ false } tag={ tag } flux={ flux }/>
+                <TagListenButton
+                  hasTitle={ false }
+                  tag={ tag }
+                  flux={ flux }
+                  onListenTag={ flux.actions.listenTag }
+                  onStopListenTag={ flux.actions.stopListenTag }
+                />
               </Column>
             </Grid>
           );

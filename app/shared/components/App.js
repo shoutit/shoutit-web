@@ -3,6 +3,7 @@ import { FluxMixin, StoreWatchMixin } from "fluxxor";
 import {createSlug} from "./helper";
 import Header from "./header";
 import MainPage from "./main/mainPage.jsx";
+import NotificationHost from "./helper/NotificationHost.jsx";
 
 const pagesWithoutHeader = [ MainPage ];
 
@@ -20,7 +21,7 @@ export default React.createClass({
 
   mixins: [
     new FluxMixin(React),
-    new StoreWatchMixin("users", "chat", "conversations", "locations", "suggestions")
+    new StoreWatchMixin("users", "chat", "conversations", "locations", "suggestions", "ui_notifications")
   ],
 
   componentDidMount() {
@@ -45,7 +46,8 @@ export default React.createClass({
     const conversations = flux.store("conversations").getConversations(chat.conversationIds);
     const currentLocation = flux.store("locations").getCurrent();
     const suggestions = flux.store("suggestions").getState();
-    return { loggedUser, conversations, chat, currentLocation, suggestions };
+    const uiNotifications = flux.store("ui_notifications").getNotifications();
+    return { loggedUser, conversations, chat, currentLocation, suggestions, uiNotifications };
   },
 
   getData() {
@@ -60,6 +62,7 @@ export default React.createClass({
   render() {
     const { loggedUser, chat, conversations, currentLocation, suggestions } = this.state;
     const { children, flux, routes, location, history } = this.props;
+
     const suggestionsData = {
       data: suggestions.data[createSlug(currentLocation.city)]
     };
@@ -67,7 +70,8 @@ export default React.createClass({
     const hideHeader = routes.some(route =>
       pagesWithoutHeader.indexOf(route.component) > -1
     );
-    const props = { loggedUser, chat, conversations, currentLocation, location, suggestions: suggestionsData, history };
+    const props = { loggedUser, chat, conversations, currentLocation, location,
+      suggestions: suggestionsData, history };
 
     return (
       <div className={`App${hideHeader ? "" : " stickyHeader"}` }>
@@ -87,6 +91,10 @@ export default React.createClass({
         <div className="App-content">
           { React.cloneElement(children, props) }
         </div>
+        <NotificationHost
+          notifications={ this.state.uiNotifications }
+          onDismissClick={ flux.actions.dismissNotification }
+        />
       </div>
     );
   }

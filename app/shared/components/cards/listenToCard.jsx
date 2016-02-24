@@ -24,7 +24,7 @@ export default React.createClass({
   },
 
   render() {
-    const { users, loading } = this.props;
+    const { users, loading, flux } = this.props;
     const itemsLimit = this.state.more? users.length: 3;
 
     return (
@@ -52,7 +52,10 @@ export default React.createClass({
                   <Link to={`/user/${user.username}`}>{ user.name }</Link>
                 </Column>
                 <Column fluid={true} size="3">
-                  <ListenButton flux={ this.props.flux }
+                  <ListenButton
+                    onListen={ flux.actions.listen }
+                    onStopListen={ flux.actions.stopListen }
+                    flux={ flux }
                     username={ user.username }
                     hasTitle={ false }
                   />

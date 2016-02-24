@@ -66,8 +66,13 @@ export default React.createClass({
               <Column fluid={true} size="12" className="card-list-item">
                 <Link to={`/user/${item.username}`}>{ item.name }</Link>
               </Column>
-              {this.state.activeTooltip === idx ?
-                <ProfileInfoTooltip user={ item } loading={ !item.location } flux={ flux }/> : null}
+              {this.state.activeTooltip === idx &&
+                <ProfileInfoTooltip
+                  user={ item }
+                  loading={ !item.location }
+                  flux={ flux }
+                />
+              }
             </Grid>
           );
         })}

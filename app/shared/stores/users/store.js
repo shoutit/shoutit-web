@@ -6,8 +6,11 @@ import locConsts from "../locations/consts";
 import sugConsts from "../suggestions/consts";
 import client from "./client";
 import assign from "lodash/object/assign";
+import debug from "debug";
 
 const {LISTEN_BTN_LOADING} = statuses;
+
+const log = debug("stores:users");
 
 const PAGE_SIZE = 10;
 const REQUEST_TYPE = "request";
@@ -149,7 +152,11 @@ var UserStore = Fluxxor.createStore({
       consts.INFO_SAVE, this.onInfoSave,
       consts.PASS_CHANGE, this.onPassChange,
       consts.LISTEN, this.onListen,
+      consts.LISTEN_SUCCESS, this.onListenSuccess,
+      consts.LISTEN_FAIL, this.onListenFail,
       consts.STOP_LISTEN, this.onStopListen,
+      consts.STOP_LISTEN_SUCCESS, this.onStopListenSuccess,
+      consts.STOP_LISTEN_FAIL, this.onStopListenFail,
       consts.LOAD_USER_LISTENERS, this.onLoadUserListeners,
       consts.LOAD_MORE_USER_LISTENERS, this.onLoadMoreUserListeners,
       consts.LOAD_USER_LISTENING, this.onLoadUserListening,
@@ -516,61 +523,59 @@ var UserStore = Fluxxor.createStore({
     }
   },
 
-  onListen(payload) {
-    var username = payload.username;
+  onListen({ username }) {
     // set loading status
     this.state.users[username].fluxStatus = LISTEN_BTN_LOADING;
     this.emit("change");
-
-    client.listen(username).end(function (err, res) {
-      if (err) {
-        console.log(err);
-      } else if (res.body.success) {
-        // Update users Listening/Listeners count List without getting data from API
-        if (this.state.users[username].hasOwnProperty("listeners_count")) {
-          let counts = Number(this.state.users[username].listeners_count);
-          this.state.users[username].listeners_count = counts + 1;
-        }
-        if (this.state.users[this.state.user].listening_count) {
-          let counts = Number(this.state.users[this.state.user].listening_count.users);
-          this.state.users[this.state.user].listening_count.users = counts + 1;
-        }
-
-        // optimistically change button condition till the real data loads
-        this.state.users[username].is_listening = true;
-        this.state.users[username].fluxStatus = null;
-        this.emit("change");
-      }
-    }.bind(this));
   },
 
-  onStopListen(payload) {
-    var username = payload.username;
-    // set loading status
+  onListenFail({ username, err }) {
+    log(err);
+    this.state.users[username].fluxStatus = null;
+    this.emit("change");
+  },
+
+  onListenSuccess({ username, res }) {
+    // Update users Listening/Listeners count List in the store
+    if (this.state.users[username].hasOwnProperty("listeners_count")) {
+      const counts = Number(this.state.users[username].listeners_count);
+      this.state.users[username].listeners_count = counts + 1;
+    }
+    if (this.state.users[this.state.user].listening_count) {
+      let counts = Number(this.state.users[this.state.user].listening_count.users);
+      this.state.users[this.state.user].listening_count.users = counts + 1;
+    }
+
+    this.state.users[username].is_listening = true;
+    this.state.users[username].fluxStatus = null;
+    this.emit("change");
+  },
+
+  onStopListen({ username }) {
     this.state.users[username].fluxStatus = LISTEN_BTN_LOADING;
     this.emit("change");
+  },
 
-    client.stopListen(username)
-      .end(function (err, res) {
-        if (err) {
-          console.log(err);
-        } else if (res.body.success) {
-          // Update users Listening/Listeners count List without getting data from API
-          if (this.state.users[username].hasOwnProperty("listeners_count")) {
-            let counts = Number(this.state.users[username].listeners_count);
-            this.state.users[username].listeners_count = counts - 1;
-          }
-          if (this.state.users[this.state.user].listening_count) {
-            let counts = Number(this.state.users[this.state.user].listening_count.users);
-            this.state.users[this.state.user].listening_count.users = counts - 1;
-          }
+  onStopListenFail({ username, err }) {
+    log(err);
+    this.state.users[username].fluxStatus = null;
+    this.emit("change");
+  },
 
-          // optimistically change button condition till the real data loads
-          this.state.users[username].is_listening = false;
-          this.state.users[username].fluxStatus = null;
-          this.emit("change");
-        }
-      }.bind(this));
+  onStopListenSuccess({ username }) {
+    // Update users Listening/Listeners count in store
+    if (this.state.users[username].hasOwnProperty("listeners_count")) {
+      const counts = Number(this.state.users[username].listeners_count);
+      this.state.users[username].listeners_count = counts - 1;
+    }
+    if (this.state.users[this.state.user].listening_count) {
+      const counts = Number(this.state.users[this.state.user].listening_count.users);
+      this.state.users[this.state.user].listening_count.users = counts - 1;
+    }
+
+    this.state.users[username].is_listening = false;
+    this.state.users[username].fluxStatus = null;
+    this.emit("change");
   },
 
   onLoadUserListeners(payload) {
