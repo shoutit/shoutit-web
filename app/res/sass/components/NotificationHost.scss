@@ -16,6 +16,23 @@
   color: $si-gray;
   padding: 10px 25px 10px 10px;
   margin-bottom: 15px;
+  &.notification-enter {
+    opacity: 0.01;
+  }
+
+  &.notification-enter.notification-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+  }
+
+  &.notification-leave {
+    opacity: 1;
+  }
+
+  &.notification-leave.notification-leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+  }
 }
 
 .NotificationHost-closeButton {
@@ -34,3 +51,4 @@
     color: $si-bg;
   }
 }
+
