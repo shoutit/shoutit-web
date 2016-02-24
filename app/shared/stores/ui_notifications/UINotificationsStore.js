@@ -43,10 +43,11 @@ export const UINotificationsStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onDismissNotification(id) {
+  onDismissNotification({ id }) {
     const indexId = findIndex(this.state.notifications, (chr) => chr.id === id);
     clearTimeout(this.state.notifications[indexId].hideTimeout);
-    delete this.state.notifications[indexId];
+    this.state.notifications.splice(indexId, 1);
+
     this.emit("change");
   },
 
