@@ -8,6 +8,7 @@ meta(property="og:image" content=graph.image)
 if graph.type === "home"
 
 else if graph.type === "shout"
+  meta(property="og:type" content=graph.shoutType)
   meta(property="shoutitcom:price" content=graph.price)
 
 else if graph.type === "user"
