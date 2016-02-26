@@ -13,13 +13,11 @@ import favicon from "serve-favicon";
 
 import Promise from "bluebird";
 
+import HtmlDocument from "../../app/shared/components/HtmlDocument";
+
 import config from "../../config";
 
 import { uploadImageMiddleware, deleteImageMiddleware } from "./services/images";
-
-var React = require("react"),
-  ReactRouter = require("react-router"),
-  ReactDOMServer = require("react-dom/server");
 
 var oauth = require("./auth/oauth"),
   ShoutitClient = require("./resources"),
@@ -27,6 +25,9 @@ var oauth = require("./auth/oauth"),
   resetPass = require("./services/resetPassword"),
   verifyEmail = require("./services/verifyEmail");
 
+var React = require("react"),
+    ReactRouter = require("react-router"),
+    ReactDOMServer = require("react-dom/server");
 
 var Flux = require("../shared/flux"),
   routes = require("../shared/routes"),
@@ -184,51 +185,53 @@ function getMetaFromData(relUrl, innerRoute, data) {
 }
 
 function reactServerRender(req, res) {
+
   var user = req.session ? req.session.user : null;
 
   // Run router to determine the desired state
-  ReactRouter.match({ routes, location: req.url }, function(error, redirectLocation, renderProps) {
+  ReactRouter.match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
       res.redirect(301, redirectLocation.pathname + redirectLocation.search);
-    } else if (error) {
-      res.status(500).send(error.message);
-    } else if (!renderProps) {
-      res.status(404).send("Not found");
-    } else {
-      console.time("ApiFetch");
-      fetchData(req.session, renderProps.routes, renderProps.params, renderProps.location.query)
-        .then(function (data) {
-          console.timeEnd("ApiFetch");
-
-          var flux = new Flux(null, user, data, renderProps.params, currencies, categories, sortTypes),
-            serializedFlux = flux.serialize(),
-            content;
-
-          const createFluxComponent = (Component, props) => {
-            return <Component {...props} flux={flux} />;
-          };
-          content = ReactDOMServer.renderToString(
-            <ReactRouter.RoutingContext createElement={createFluxComponent} {...renderProps} />
-            );
-
-          var loadedRoute = renderProps.routes[renderProps.routes.length - 1];
-          var meta = getMetaFromData(req.url, loadedRoute, data);
-
-          res.render("index", {
-            reactMarkup: content,
-            serializedFlux: serializedFlux,
-            title: DocumentTitle.rewind(),
-            graph: meta,
-            production: process.env.NODE_ENV === "production",
-            googleMapsKey: config.googleMapsKey,
-            ga: config.ga,
-            publicUrl: config.publicUrl,
-            chunkNames: process.env.NODE_ENV === "production" ?
-              require("../../public/stats.json") :
-              { main: "/assets/main.js", css: "/assets/main.css" }
-          });
-        });
+      return;
     }
+    if (error) {
+      res.status(500).send(error.message);
+      return;
+    }
+    if (!renderProps) {
+      res.status(404).send("Not found");
+      return;
+    }
+
+    fetchData(req.session, renderProps.routes, renderProps.params, renderProps.location.query)
+      .then(data => {
+
+        const flux = new Flux(null, user, data, renderProps.params, currencies, categories, sortTypes);
+        const state = flux.serialize();
+
+        const content = ReactDOMServer.renderToString(
+          <ReactRouter.RoutingContext
+            createElement={ (Component, props) => <Component {...props} flux={ flux } /> }
+            {...renderProps}
+          />
+        );
+
+        var loadedRoute = renderProps.routes[renderProps.routes.length - 1];
+        var meta = getMetaFromData(req.url, loadedRoute, data);
+
+        const html = ReactDOMServer.renderToStaticMarkup(
+          <HtmlDocument
+            content={ content }
+            state={ state }
+            title={ DocumentTitle.rewind() }
+            meta={ meta }
+          />
+        );
+
+        res.send(`<!doctype html>${html}`);
+
+      });
+
   });
 
 }
