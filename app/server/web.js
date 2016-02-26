@@ -10,6 +10,7 @@ import object from "lodash/array/object";
 import pluck from "lodash/collection/pluck";
 import auth from "basic-auth";
 import favicon from "serve-favicon";
+import { capitalize } from "lodash/string";
 
 import Promise from "bluebird";
 
@@ -121,56 +122,30 @@ function fetchData(userSession, routes, params, query) {
 }
 
 
-function getMetaFromData(relUrl, innerRoute, data) {
+function getMetaFromData(relUrl, data) {
   var addData;
-
-  switch (innerRoute.name) {
+  const urlPathName = url.parse(relUrl).pathname.split("/")[1];
+  console.log(data);
+  switch (urlPathName) {
   case "shout":
-    var shout = data.shout;
+    const { shout } = data;
     if (shout) {
-      if (shout.type === "offer") {
-        addData = {
-          type: "shout",
-          shoutType: "offer",
-          shoutTypePrefix: "Offer",
-          title: shout.title + " - Shoutit",
-          image: shout.thumbnail,
-          user: shout.user.name,
-          description: "Offer by " + shout.user.name + ": " + shout.text,
-          price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
-          location: shout.location.city + " - " + shout.location.country
-        };
-      } else if (shout.type === "request") {
-        addData = {
-          type: "shout",
-          shoutType: "request",
-          shoutTypePrefix: "Request",
-          title: shout.title + " - Shoutit",
-          image: shout.thumbnail,
-          user: shout.user.name,
-          description: "Offer by " + shout.user.name + ": " + shout.text,
-          price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
-          location: shout.location.city + " - " + shout.location.country
-        };
-      }
-
+      addData = {
+        type: "shoutitcom:" + shout.type,
+        title: shout.title + " - Shoutit",
+        image: shout.thumbnail,
+        user: shout.user.name,
+        description: capitalize(shout.type) + " by " + shout.user.name + ": " + shout.text,
+        price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
+        location: shout.location.city + " - " + shout.location.country
+      };
     }
     break;
   case "user":
-  case "useroffers":
-  case "userrequests":
-  case "settings":
-  case "listeners":
-  case "listening":
-    var user = data.user;
-    if (user) {
-      addData = {
-        type: "user",
-        title: user.name + " - Shoutit",
-        image: user.image,
-        description: user.name + "'s profile on Shoutit - See the users shouts."
-      };
-    }
+    addData = {
+      type: "shoutitcom:user",
+      title: ""
+    };
     break;
   default:
     addData = {
@@ -209,10 +184,9 @@ function reactServerRender(req, res) {
           };
           content = ReactDOMServer.renderToString(
             <ReactRouter.RoutingContext createElement={createFluxComponent} {...renderProps} />
-            );
+          );
 
-          var loadedRoute = renderProps.routes[renderProps.routes.length - 1];
-          var meta = getMetaFromData(req.url, loadedRoute, data);
+          var meta = getMetaFromData(req.url, data);
 
           res.render("index", {
             reactMarkup: content,

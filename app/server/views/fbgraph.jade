@@ -7,17 +7,11 @@ meta(property="og:image" content=graph.image)
 
 if graph.type === "home"
 
-else if graph.type === "shout" && graph.shoutType
-    if graph.shoutType === "offer"
-        meta(property="og:type" content="shoutitcom:offer")
-    else if graph.shoutType === "request"
-        meta(property="og:type" content="shoutitcom:request")
-    meta(property="shoutitcom:price" content=graph.price)
+else if graph.type === "shout"
+  meta(property="shoutitcom:price" content=graph.price)
 
 else if graph.type === "user"
-    meta(property="og:type" content="shoutitcom:user")
-
-else if graph.type === "tag"
+  meta(property="og:type" content=graph.userType)
 
 else
 
