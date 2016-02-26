@@ -23,10 +23,8 @@ export default function HtmlDocument({
   metatags.push({ property: "og:site_name", content: meta.siteName });
   metatags.push({ property: "og:image", content: meta.image });
 
-  switch (meta.type) {
-  case "offer": metatags.push({ property: "og:type", content: "shoutitcom:offer" }); break;
-  case "request": metatags.push({ property: "og:type", content: "shoutitcom:request" }); break;
-  case "user": metatags.push({ property: "og:type", content: "shoutitcom:user" }); break;
+  if(meta.ogType) {
+    metatags.push({ property: "og:type", content: meta.ogType });
   }
 
   if (meta.price) {
