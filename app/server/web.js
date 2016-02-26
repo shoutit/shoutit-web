@@ -10,10 +10,13 @@ import object from "lodash/array/object";
 import pluck from "lodash/collection/pluck";
 import auth from "basic-auth";
 import favicon from "serve-favicon";
+import Fetcher from "fetchr";
+import bodyParser from "body-parser";
 
 import Promise from "bluebird";
 
 import HtmlDocument from "../../app/shared/components/HtmlDocument";
+import * as services from "../services";
 
 import config from "../../config";
 
@@ -287,9 +290,11 @@ module.exports = function (app) {
   app.set("view engine", "jade");
   app.set("views", path.join(__dirname, "views"));
 
-  var bodyParser = require("body-parser");
   app.use(bodyParser.json({limit: "5mb"}));
   app.use(bodyParser.urlencoded({limit: "50mb", extended: true}));
+
+  Fetcher.registerService(services.twilio);
+  app.use("/fetchr", Fetcher.middleware());
 
   // CORS Protection
   app.use(cors(corsOptions));
