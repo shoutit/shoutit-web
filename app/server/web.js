@@ -125,26 +125,30 @@ function fetchData(userSession, routes, params, query) {
 function getMetaFromData(relUrl, data) {
   var addData;
   const urlPathName = url.parse(relUrl).pathname.split("/")[1];
-  console.log(data);
+
   switch (urlPathName) {
   case "shout":
     const { shout } = data;
     if (shout) {
       addData = {
-        type: "shoutitcom:" + shout.type,
+        type: "shout",
+        shoutTypePrefix: capitalize(shout.type),
+        shoutType: "shoutitcom:" + shout.type,
         title: shout.title + " - Shoutit",
-        image: shout.thumbnail,
+        image: shout.image,
         user: shout.user.name,
         description: capitalize(shout.type) + " by " + shout.user.name + ": " + shout.text,
-        price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
+        price: shout.price ? shout.price + " " + shout.currency : "",
         location: shout.location.city + " - " + shout.location.country
       };
     }
     break;
   case "user":
     addData = {
-      type: "shoutitcom:user",
-      title: ""
+      type: "user",
+      userType: "shoutitcom:user",
+      title: data.user.name,
+      image: data.user.image
     };
     break;
   default:
