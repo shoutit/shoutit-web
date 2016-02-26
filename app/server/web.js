@@ -10,6 +10,7 @@ import object from "lodash/array/object";
 import pluck from "lodash/collection/pluck";
 import auth from "basic-auth";
 import favicon from "serve-favicon";
+import { capitalize } from "lodash";
 
 import Promise from "bluebird";
 
@@ -122,57 +123,38 @@ function fetchData(userSession, routes, params, query) {
 }
 
 
-function getMetaFromData(relUrl, innerRoute, data) {
+function getMetaFromData(relUrl, data) {
   var addData;
+  const urlPathName = url.parse(relUrl).pathname.split("/")[1];
 
-  switch (innerRoute.name) {
+  switch (urlPathName) {
   case "shout":
-    var shout = data.shout;
+    const { shout } = data;
     if (shout) {
-      if (shout.type === "offer") {
-        addData = {
-          type: "shout",
-          shoutType: "offer",
-          shoutTypePrefix: "Offer",
-          title: shout.title + " - Shoutit",
-          image: shout.thumbnail,
-          user: shout.user.name,
-          description: "Offer by " + shout.user.name + ": " + shout.text,
-          price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
-          location: shout.location.city + " - " + shout.location.country
-        };
-      } else if (shout.type === "request") {
-        addData = {
-          type: "shout",
-          shoutType: "request",
-          shoutTypePrefix: "Request",
-          title: shout.title + " - Shoutit",
-          image: shout.thumbnail,
-          user: shout.user.name,
-          description: "Offer by " + shout.user.name + ": " + shout.text,
-          price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
-          location: shout.location.city + " - " + shout.location.country
-        };
-      }
-
-    }
-    break;
-  case "user":
-  case "useroffers":
-  case "userrequests":
-  case "settings":
-  case "listeners":
-  case "listening":
-    var user = data.user;
-    if (user) {
       addData = {
-        type: "user",
-        title: user.name + " - Shoutit",
-        image: user.image,
-        description: user.name + "'s profile on Shoutit - See the users shouts."
+        type: "shout",
+        shoutTypePrefix: capitalize(shout.type),
+        ogType: "shoutitcom:" + shout.type,
+        title: shout.title + " - Shoutit",
+        image: shout.thumbnail,
+        user: shout.user.name,
+        description: capitalize(shout.type) + " by " + shout.user.name + ": " + shout.text,
+        price: shout.price ? shout.price + " " + shout.currency : "",
+        location: shout.location.city + " - " + shout.location.country
       };
     }
     break;
+  case "user":
+    const { user } = data;
+    if (user) {
+      addData = {
+        type: "user",
+        ogType: "shoutitcom:user",
+        title: user.name,
+        image: user.image,
+        location: user.location.city + " - " + user.location.country
+      };
+    }
   default:
     addData = {
       type: "home",
@@ -216,8 +198,7 @@ function reactServerRender(req, res) {
           />
         );
 
-        var loadedRoute = renderProps.routes[renderProps.routes.length - 1];
-        var meta = getMetaFromData(req.url, loadedRoute, data);
+        var meta = getMetaFromData(req.url, data);
 
         const html = ReactDOMServer.renderToStaticMarkup(
           <HtmlDocument
