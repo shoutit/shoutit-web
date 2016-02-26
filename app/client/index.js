@@ -77,7 +77,7 @@ ReactDOM.render(
     } }>
     { routes }
   </Router>,
-  document.getElementById("root"),
+  document.getElementById("content"),
   () => {
     log("App has been mounted");
     if (ga) {
