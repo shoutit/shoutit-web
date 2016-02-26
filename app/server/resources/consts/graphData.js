@@ -1,14 +1,11 @@
-/**
- * Created by Philip on 22.04.2015.
- */
+import config from "../../../../config";
 
-
-module.exports = {
+export default {
   description: "Shoutit is the fastest way to share and offer what you want to sell or buy. Take a photo or video of the item you want to sell or buy and connect to potential buyers or sellers directly.",
   siteName: "Shoutit",
   title: "Shoutit",
   image: "/img/cover.png",
-  fbId: "353625811317277",
+  fbId: config.facebookId,
   twitter: {
     site: "@Shoutitcom",
     iPhone: "947017118",
