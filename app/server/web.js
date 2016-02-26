@@ -151,10 +151,10 @@ function getMetaFromData(relUrl, data) {
         type: "user",
         ogType: "shoutitcom:user",
         title: user.name,
-        image: user.image,
-        location: user.location.city + " - " + user.location.country
+        image: user.image
       };
     }
+    break;
   default:
     addData = {
       type: "home",
