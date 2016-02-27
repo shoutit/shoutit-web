@@ -77,13 +77,13 @@ export default React.createClass({
             {shouts.length?
               <Grid fluid={true}>
                 <h3 className="si-center-header">Shouts</h3>
-                {shouts.map((item, idx) => {
+                {shouts.map((shout, idx) => {
                   return (
                     <ItemScope type="Product" key={"disShout-" + idx}>
                       <ShoutPreview
                         index={idx}
-                        shout={item}
-                        gridview={true}
+                        shout={shout}
+                        gridView
                         columnsPerRow={4}
                       />
                     </ItemScope>
