@@ -60,17 +60,17 @@ describe("ShoutPreview ", function() {
     expect(result.type).to.equal("div");
   });
 
-  describe("In gridview", function() {
+  describe("In gridView", function() {
     let result;
 
     before(function(done) {
       const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ true } />);
+      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridView />);
       result = shallowRenderer.getRenderOutput();
       done();
     });
 
-    it("should render a gridview", function() {
+    it("should render a gridView", function() {
       const shoutHolder = result.props.children.props.children;
       expect(shoutHolder.props.className).to.equal("ShoutGridview");
     });
@@ -95,11 +95,11 @@ describe("ShoutPreview ", function() {
     });
   });
 
-  describe("In non-gridview", function() {
+  describe("In non-gridView", function() {
     let result;
     before(function(done) {
       const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridview={ false } />);
+      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" />);
       result = shallowRenderer.getRenderOutput();
       done();
     });
