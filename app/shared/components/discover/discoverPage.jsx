@@ -77,18 +77,16 @@ export default React.createClass({
             {shouts.length?
               <Grid fluid={true}>
                 <h3 className="si-center-header">Shouts</h3>
-                {shouts.map((item, idx) => {
-                  return (
-                    <ItemScope type="Product" key={"disShout-" + idx}>
-                      <ShoutPreview
-                        index={idx}
-                        shout={item}
-                        gridview={true}
-                        columnsPerRow={4}
-                      />
-                    </ItemScope>
-                  );
-                })}
+                {shouts.map((shout, idx) =>
+                  <ItemScope type="Product" key={"disShout-" + idx}>
+                    <ShoutPreview
+                      index={idx}
+                      shout={shout}
+                      gridView
+                      columnsPerRow={4}
+                    />
+                  </ItemScope>
+                )}
                 {this.renderViewportSensor()}
               </Grid>
               :

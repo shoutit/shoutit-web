@@ -10,13 +10,11 @@ import object from "lodash/array/object";
 import pluck from "lodash/collection/pluck";
 import auth from "basic-auth";
 import favicon from "serve-favicon";
-import Fetchr from "fetchr";
-import bodyParser from "body-parser";
+import { capitalize } from "lodash";
 
 import Promise from "bluebird";
 
 import HtmlDocument from "../../app/shared/components/HtmlDocument";
-import * as services from "../services";
 
 import config from "../../config";
 
@@ -125,54 +123,35 @@ function fetchData(userSession, routes, params, query) {
 }
 
 
-function getMetaFromData(relUrl, innerRoute, data) {
+function getMetaFromData(relUrl, data) {
   var addData;
+  const urlPathName = url.parse(relUrl).pathname.split("/")[1];
 
-  switch (innerRoute.name) {
+  switch (urlPathName) {
   case "shout":
-    var shout = data.shout;
+    const { shout } = data;
     if (shout) {
-      if (shout.type === "offer") {
-        addData = {
-          type: "shout",
-          shoutType: "offer",
-          shoutTypePrefix: "Offer",
-          title: shout.title + " - Shoutit",
-          image: shout.thumbnail,
-          user: shout.user.name,
-          description: "Offer by " + shout.user.name + ": " + shout.text,
-          price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
-          location: shout.location.city + " - " + shout.location.country
-        };
-      } else if (shout.type === "request") {
-        addData = {
-          type: "shout",
-          shoutType: "request",
-          shoutTypePrefix: "Request",
-          title: shout.title + " - Shoutit",
-          image: shout.thumbnail,
-          user: shout.user.name,
-          description: "Offer by " + shout.user.name + ": " + shout.text,
-          price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
-          location: shout.location.city + " - " + shout.location.country
-        };
-      }
-
+      addData = {
+        type: "shout",
+        shoutTypePrefix: capitalize(shout.type),
+        ogType: "shoutitcom:" + shout.type,
+        title: shout.title + " - Shoutit",
+        image: shout.thumbnail,
+        user: shout.user.name,
+        description: capitalize(shout.type) + " by " + shout.user.name + ": " + shout.text,
+        price: shout.price ? shout.price + " " + shout.currency : "",
+        location: shout.location.city + " - " + shout.location.country
+      };
     }
     break;
   case "user":
-  case "useroffers":
-  case "userrequests":
-  case "settings":
-  case "listeners":
-  case "listening":
-    var user = data.user;
+    const { user } = data;
     if (user) {
       addData = {
         type: "user",
-        title: user.name + " - Shoutit",
-        image: user.image,
-        description: user.name + "'s profile on Shoutit - See the users shouts."
+        ogType: "shoutitcom:user",
+        title: user.name,
+        image: user.image
       };
     }
     break;
@@ -190,8 +169,6 @@ function getMetaFromData(relUrl, innerRoute, data) {
 function reactServerRender(req, res) {
 
   var user = req.session ? req.session.user : null;
-
-  const fetchr = new Fetchr({ xhrPath: "/fetchr", req });
 
   // Run router to determine the desired state
   ReactRouter.match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
@@ -212,9 +189,6 @@ function reactServerRender(req, res) {
       .then(data => {
 
         const flux = new Flux(null, user, data, renderProps.params, currencies, categories, sortTypes);
-
-        flux.service = fetchr;
-
         const state = flux.serialize();
 
         const content = ReactDOMServer.renderToString(
@@ -224,8 +198,7 @@ function reactServerRender(req, res) {
           />
         );
 
-        var loadedRoute = renderProps.routes[renderProps.routes.length - 1];
-        var meta = getMetaFromData(req.url, loadedRoute, data);
+        var meta = getMetaFromData(req.url, data);
 
         const html = ReactDOMServer.renderToStaticMarkup(
           <HtmlDocument
@@ -295,6 +268,7 @@ module.exports = function (app) {
   app.set("view engine", "jade");
   app.set("views", path.join(__dirname, "views"));
 
+  var bodyParser = require("body-parser");
   app.use(bodyParser.json({limit: "5mb"}));
   app.use(bodyParser.urlencoded({limit: "50mb", extended: true}));
 
@@ -340,9 +314,6 @@ module.exports = function (app) {
     });
 
   }
-
-  Object.keys(services).forEach(name => Fetchr.registerService(services[name]) );
-  app.use("/fetchr", Fetchr.middleware());
 
   const maxAge = 365 * 24 * 60 * 60;
 

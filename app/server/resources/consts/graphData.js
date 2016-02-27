@@ -1,7 +1,3 @@
-/**
- * Created by Philip on 22.04.2015.
- */
-
 import config from "../../../../config";
 
 module.exports = {
@@ -9,7 +5,7 @@ module.exports = {
   siteName: "Shoutit",
   title: "Shoutit",
   image: `${config.imagesPath}/social-cover.png`,
-  fbId: "353625811317277",
+  fbId: config.facebookId,
   twitter: {
     site: "@Shoutitcom",
     iPhone: "947017118",

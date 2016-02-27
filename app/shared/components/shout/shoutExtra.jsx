@@ -25,7 +25,7 @@ export default React.createClass({
             {moreShouts.map((shout, idx) => (
               <ShoutPreview
                 shout={shout}
-                gridview={true}
+                gridView
                 index={idx}
                 key={"grid-" + idx}
               />
@@ -53,7 +53,7 @@ export default React.createClass({
             {relatedShouts.map((shout, idx) => (
               <ShoutPreview
                 shout={shout}
-                gridview={true}
+                gridView
                 index={idx}
                 key={"grid-" + idx}
               />

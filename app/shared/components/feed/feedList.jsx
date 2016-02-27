@@ -20,7 +20,7 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      gridview: false
+      gridView: false
     };
   },
 
@@ -57,7 +57,7 @@ export default React.createClass({
     shoutEls.push(shouts.length > 0 ?
       shouts.map((shout, i) => (
         <ShoutPreview
-          gridview={ this.state.gridview }
+          gridView={ this.state.gridView }
           key={ "shout-" + (i + 1) }
           shout={ shout }
           index={ i }
@@ -92,7 +92,7 @@ export default React.createClass({
   },
 
   renderSwitchBar() {
-    const { gridview } = this.state;
+    const { gridView } = this.state;
     const sortItems = [
       { payload: '1', text: 'Most Recent' },
       { payload: '2', text: 'Most Relevant'}
@@ -100,7 +100,7 @@ export default React.createClass({
 
     let gridIcon, listIcon;
 
-    if(gridview) {
+    if(gridView) {
       gridIcon = "grid_active";
       listIcon = "list_inactive";
     } else {
@@ -111,9 +111,9 @@ export default React.createClass({
     return (
       <Column size="9" clear={true}>
         <div className=" switch-bar pull-right">
-          <Icon name={gridIcon} onSwitchClick={ () => { this.setState({gridview: !gridview}); } }
+          <Icon name={gridIcon} onSwitchClick={ () => { this.setState({gridView: !gridView}); } }
             className="grid-btn pull-left"/>
-          <Icon name={listIcon} onSwitchClick={ () => { this.setState({gridview: !gridview}); } }
+          <Icon name={listIcon} onSwitchClick={ () => { this.setState({gridView: !gridView}); } }
             className="list-btn pull-left"/>
           <Separator size="20px" vertical={true} />
           <span style={{fontSize:'14px', float:'left', margin: '18px -25px 0 5px', color: '#888888'}}>Sort by:</span>
