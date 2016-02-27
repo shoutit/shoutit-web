@@ -298,9 +298,6 @@ module.exports = function (app) {
   app.use(bodyParser.json({limit: "5mb"}));
   app.use(bodyParser.urlencoded({limit: "50mb", extended: true}));
 
-  Fetcher.registerService(services.twilio);
-  app.use("/fetchr", Fetcher.middleware());
-
   // CORS Protection
   app.use(cors(corsOptions));
 
@@ -343,6 +340,9 @@ module.exports = function (app) {
     });
 
   }
+
+  Object.keys(services).forEach(name => Fetchr.registerService(services[name]) );
+  app.use("/fetchr", Fetchr.middleware());
 
   const maxAge = 365 * 24 * 60 * 60;
 
