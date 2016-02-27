@@ -10,7 +10,7 @@ import object from "lodash/array/object";
 import pluck from "lodash/collection/pluck";
 import auth from "basic-auth";
 import favicon from "serve-favicon";
-import Fetcher from "fetchr";
+import Fetchr from "fetchr";
 import bodyParser from "body-parser";
 
 import Promise from "bluebird";
@@ -191,6 +191,8 @@ function reactServerRender(req, res) {
 
   var user = req.session ? req.session.user : null;
 
+  const fetchr = new Fetchr({ xhrPath: "/fetchr", req });
+
   // Run router to determine the desired state
   ReactRouter.match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
@@ -210,6 +212,9 @@ function reactServerRender(req, res) {
       .then(data => {
 
         const flux = new Flux(null, user, data, renderProps.params, currencies, categories, sortTypes);
+
+        flux.service = fetchr;
+
         const state = flux.serialize();
 
         const content = ReactDOMServer.renderToString(
