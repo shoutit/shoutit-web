@@ -17,7 +17,7 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      gridview: false
+      gridView: false
     };
   },
 
@@ -35,7 +35,7 @@ export default React.createClass({
     return shouts.length ? shouts.map((shout, i) => {
       return (
         <ShoutPreview
-          gridview={this.state.gridview}
+          gridView={this.state.gridView}
           listType="small"
           key={"shout-" + i}
           shout={shout}
@@ -75,11 +75,11 @@ export default React.createClass({
 
   renderSwitchBar(shouts) {
     const {users, username} = this.props;
-    const { gridview } = this.state;
+    const { gridView } = this.state;
     let gridIcon, listIcon;
     shouts = shouts || {};
 
-    if(gridview) {
+    if(gridView) {
       gridIcon = "grid_active";
       listIcon = "list_inactive";
     } else {
@@ -97,9 +97,9 @@ export default React.createClass({
         <Column size="4" fluid={true}>
           {shouts.length?
             <div className="switch-bar pull-right">
-              <Icon name={gridIcon} onSwitchClick={ () => { this.setState({gridview: !gridview}); } }
+              <Icon name={gridIcon} onSwitchClick={ () => { this.setState({gridView: !gridView}); } }
                 className="grid-btn pull-left"/>
-              <Icon name={listIcon} onSwitchClick={ () => { this.setState({gridview: !gridview}); } }
+              <Icon name={listIcon} onSwitchClick={ () => { this.setState({gridView: !gridView}); } }
                 className="list-btn pull-left"/>
             </div>
           : null}

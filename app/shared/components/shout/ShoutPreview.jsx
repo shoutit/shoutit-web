@@ -26,13 +26,13 @@ if (process.env.BROWSER) {
 /**
  * This component shows individual shouts in lists. Also supports shouts in grid view
  *
- * @param gridview - present the shout in grid mode if true
+ * @param gridView - present the shout in grid mode if true
  * @param shout - the shout object retrieved from the API
  * @param index - the index of the shout in list (usually the second parameter from array.map())
  * @param columnsPerRow - only used for grid view items
  * @returns {component}
  */
-export default function ShoutPreview({ gridview = false, shout, index, columnsPerRow = 3}) {
+export default function ShoutPreview({ gridView = false, shout, index, columnsPerRow = 3}) {
   const publishedDate = moment.unix(shout.date_published).fromNow();
 
   const city = encodeURIComponent(shout.location.city);
@@ -44,7 +44,7 @@ export default function ShoutPreview({ gridview = false, shout, index, columnsPe
 
   let content;
 
-  if(gridview) {
+  if(gridView) {
     content = (
       <Column size="3" clear={index % columnsPerRow === 0} className="ShoutGridview">
         <Link to={ `/shout/${shout.id}/${city}/${title}` }>
@@ -130,7 +130,7 @@ export default function ShoutPreview({ gridview = false, shout, index, columnsPe
 
           </Column>
         </Grid>
-        { !gridview &&
+        { !gridView &&
           <ReplyShoutForm shout={shout} />
         }
       </Grid>

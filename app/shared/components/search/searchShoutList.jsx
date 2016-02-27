@@ -30,16 +30,17 @@ export default React.createClass({
   },
 
   renderShouts(shouts) {
-    return shouts.length ? shouts.map(function (shout, i) {
-      return (
-        <ShoutPreview
-          listType="small"
-          key={"shout-" + i}
-          shout={shout}
-          index={i}
-        />
-      );
-    }) : <h4>No shouts found to display!</h4>;
+    if (!shouts.length) {
+      return <h4>No shouts found to display!</h4>;
+    }
+    return shouts.map((shout, i) =>
+      <ShoutPreview
+        listType="small"
+        key={"shout-" + i}
+        shout={shout}
+        index={i}
+      />
+    );
   },
 
   render() {

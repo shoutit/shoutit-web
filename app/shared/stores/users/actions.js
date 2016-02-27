@@ -101,13 +101,11 @@ export default {
 
   listen(username) {
     client.listen(username).end((err, res) => {
-      if (err) {
+      if (err || !res.ok) {
         this.dispatch(consts.LISTEN_FAIL, { username, err });
-      } else if (res.body.success) {
-        this.dispatch(consts.LISTEN_SUCCESS, { username });
-      } else {
-        this.dispatch(consts.LISTEN_FAIL, { username });
+        return;
       }
+      this.dispatch(consts.LISTEN_SUCCESS, { username });
     });
 
     this.dispatch(consts.LISTEN, {username});
@@ -116,11 +114,11 @@ export default {
   stopListen(username) {
     client.stopListen(username)
       .end((err, res) => {
-        if (err) {
+        if (err || !res.ok) {
           this.dispatch(consts.STOP_LISTEN_FAIL, { username, err });
-        } else if (res.body.success) {
-          this.dispatch(consts.STOP_LISTEN_SUCCESS, { username });
+          return;
         }
+        this.dispatch(consts.STOP_LISTEN_SUCCESS, { username });
       });
     this.dispatch(consts.STOP_LISTEN, { username });
   },
