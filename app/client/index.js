@@ -8,6 +8,7 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 import useScroll from "scroll-behavior/lib/useStandardScroll";
 import createHistory from "history/lib/createBrowserHistory";
 import debug from "debug";
+import Fetchr from "fetchr";
 
 import routes from "../shared/routes";
 import Flux from "../shared/flux";
@@ -26,6 +27,7 @@ window.debug = debug;
 const log = debug("shoutit");
 
 const flux = new Flux(null);
+flux.service = new Fetchr({ xhrPath: "/fetchr", xhrTimeout: 20000 });
 
 flux.setDispatchInterceptor((action, dispatch) =>  {
   ReactDOM.unstable_batchedUpdates(() => dispatch(action));
