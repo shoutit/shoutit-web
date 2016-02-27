@@ -30,6 +30,14 @@ export const VideoCallStore = Fluxxor.createStore({
   handleTokenFailure({ error }) {
     this.state.tokenError = error;
     this.emit("change");
+  },
+
+  serialize() {
+    return JSON.stringify(this.state);
+  },
+
+  hydrate(json) {
+    this.state = JSON.parse(json);
   }
 
 });
