@@ -10,11 +10,14 @@ import object from "lodash/array/object";
 import pluck from "lodash/collection/pluck";
 import auth from "basic-auth";
 import favicon from "serve-favicon";
+import Fetchr from "fetchr";
+import bodyParser from "body-parser";
 import { capitalize } from "lodash";
 
 import Promise from "bluebird";
 
 import HtmlDocument from "../../app/shared/components/HtmlDocument";
+import * as services from "../services";
 
 import config from "../../config";
 
@@ -27,8 +30,8 @@ var oauth = require("./auth/oauth"),
   verifyEmail = require("./services/verifyEmail");
 
 var React = require("react"),
-    ReactRouter = require("react-router"),
-    ReactDOMServer = require("react-dom/server");
+  ReactRouter = require("react-router"),
+  ReactDOMServer = require("react-dom/server");
 
 var Flux = require("../shared/flux"),
   routes = require("../shared/routes"),
@@ -170,6 +173,8 @@ function reactServerRender(req, res) {
 
   var user = req.session ? req.session.user : null;
 
+  const fetchr = new Fetchr({ xhrPath: "/fetchr", req });
+
   // Run router to determine the desired state
   ReactRouter.match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
@@ -189,6 +194,9 @@ function reactServerRender(req, res) {
       .then(data => {
 
         const flux = new Flux(null, user, data, renderProps.params, currencies, categories, sortTypes);
+
+        flux.service = fetchr;
+
         const state = flux.serialize();
 
         const content = ReactDOMServer.renderToString(
@@ -268,7 +276,6 @@ module.exports = function (app) {
   app.set("view engine", "jade");
   app.set("views", path.join(__dirname, "views"));
 
-  var bodyParser = require("body-parser");
   app.use(bodyParser.json({limit: "5mb"}));
   app.use(bodyParser.urlencoded({limit: "50mb", extended: true}));
 
@@ -314,6 +321,9 @@ module.exports = function (app) {
     });
 
   }
+
+  Object.keys(services).forEach(name => Fetchr.registerService(services[name]) );
+  app.use("/fetchr", Fetchr.middleware());
 
   const maxAge = 365 * 24 * 60 * 60;
 
