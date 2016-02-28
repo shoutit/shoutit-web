@@ -4,13 +4,21 @@ import { TWILIO_TOKEN_SUCCESS, TWILIO_TOKEN_FAILURE } from "../video_call/action
 
 const initialState = {
   token: null,
+  identity: null,
   tokenError: null
 };
 
 export const VideoCallStore = Fluxxor.createStore({
 
-  initialize() {
+  initialize({ token, identity }) {
     this.state = {...initialState};
+
+    if (token) {
+      this.state.token = token;
+    }
+    if (identity) {
+      this.state.identity = identity;
+    }
 
     this.bindActions(
       TWILIO_TOKEN_SUCCESS, this.handleReceivedToken,

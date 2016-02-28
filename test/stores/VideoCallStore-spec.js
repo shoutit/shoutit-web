@@ -9,9 +9,9 @@ import * as actionTypes from "../../app/shared/stores/video_call/actionTypes";
 
 chai.use(sinonChai);
 
-function initFlux() {
+function initFlux(storeParams) {
   const flux = new Flux({
-    VideoCallStore: new VideoCallStore()
+    VideoCallStore: new VideoCallStore(storeParams)
   });
   return flux;
 }
@@ -25,6 +25,19 @@ describe("VideoCallStore", () => {
     expect(store.getState()).to.have.property("tokenError");
     expect(store.getState().token).to.be.null;
     expect(store.getState().tokenError).to.be.null;
+  });
+
+  it("should serialize its state", () => {
+    const flux = initFlux({ "token": "foo", "identity": "bar"});
+    const store = flux.store("VideoCallStore");
+    expect(store.serialize()).to.equal(`{"token":"foo","identity":"bar","tokenError":null}`);
+  });
+
+  it("should hydrate from JSON", () => {
+    const flux = initFlux();
+    const store = flux.store("VideoCallStore");
+    store.hydrate(`{"token":"foo","identity":"bar","tokenError":null}`);
+    expect(store.getState()).to.eql({ token: "foo", identity: "bar", tokenError: null});
   });
 
   describe("when receving actions", () => {
