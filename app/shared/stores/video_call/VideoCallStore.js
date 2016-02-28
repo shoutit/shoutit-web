@@ -30,6 +30,10 @@ export const VideoCallStore = Fluxxor.createStore({
     return this.state;
   },
 
+  getTwilioToken() {
+    return this.state.token;
+  },
+
   handleReceivedToken({ token, identity }) {
     this.state.token = token;
     this.state.identity = identity;

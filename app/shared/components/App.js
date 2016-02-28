@@ -55,14 +55,14 @@ export default React.createClass({
     const loggedUser = flux.store("users").getLoggedUser();
     const suggestions = flux.store("suggestions").getState();
     const uiNotifications = flux.store("ui_notifications").getNotifications();
-    const videoCall = flux.store("videocall").getState();
+    const twilioToken = flux.store("videocall").getTwilioToken();
     return {
       chat,
       conversations,
       currentLocation,
       loggedUser,
       suggestions,
-      videoCall,
+      twilioToken,
       uiNotifications
     };
   },
@@ -83,7 +83,7 @@ export default React.createClass({
   },
 
   render() {
-    const { loggedUser, chat, conversations, currentLocation, suggestions, videoCall } = this.state;
+    const { loggedUser, chat, conversations, currentLocation, suggestions, twilioToken } = this.state;
     const { children, flux, routes, location, history } = this.props;
 
     const suggestionsData = {
@@ -94,7 +94,7 @@ export default React.createClass({
       pagesWithoutHeader.indexOf(route.component) > -1
     );
     const props = { loggedUser, chat, conversations, currentLocation, location,
-      suggestions: suggestionsData, history, videoCall };
+      suggestions: suggestionsData, history, twilioToken };
 
     return (
       <div className={`App${hideHeader ? "" : " stickyHeader"}` }>

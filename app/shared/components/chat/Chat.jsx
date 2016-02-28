@@ -10,7 +10,7 @@ if (process.env.BROWSER) {
   require("styles/components/Chat.scss");
 }
 
-export default function Chat({ params, loggedUser, chat, conversations, children }) {
+export default function Chat({ params, loggedUser, chat, conversations, twilioToken, children }) {
 
   const unread = conversations.filter(c => c.unread_messages_count > 0);
 
@@ -31,7 +31,7 @@ export default function Chat({ params, loggedUser, chat, conversations, children
           <div className="Chat-messages">
 
             { children ?
-              React.cloneElement(children, { loggedUser }) :
+              React.cloneElement(children, { loggedUser, twilioToken }) :
               <div className="Chat-placeholder">
                 { !chat.loading &&
                   conversations.length > 0 ?

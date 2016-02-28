@@ -24,7 +24,11 @@ export default React.createClass({
 
   displayName: "Conversation",
 
-  mixins: [new FluxMixin(React), new StoreWatchMixin("conversations"), History],
+  mixins: [
+    new FluxMixin(React),
+    new StoreWatchMixin("conversations"),
+    History
+  ],
 
   getInitialState() {
     return {
@@ -206,7 +210,7 @@ export default React.createClass({
   },
 
   render() {
-    const { loggedUser } = this.props;
+    const { loggedUser, twilioToken } = this.props;
     const { id } = this.props.params;
     const { messages, draft, didLoad, loading, loadingPrevious, users,
       about, type, error, showDelete, isDeleting, typingUsers, showAttachShout } = this.state;
@@ -219,12 +223,15 @@ export default React.createClass({
 
       { didLoad &&
         <ConversationTitle
-          onDeleteConversationTouchTap={ () => this.setState({showDelete: true}) }
-          onDeleteMessagesTouchTap={ () => {} }
           users={ users }
           about={ about }
           type={ type }
           me={ loggedUser && loggedUser.username }
+          twilioToken={ twilioToken }
+          onDeleteConversationClick={ () => this.setState({showDelete: true}) }
+          onVideoStartClick={ () => this.setState({showDelete: true}) }
+          onDeleteMessagesTouchTap={ () => {} }
+
         />
       }
 
