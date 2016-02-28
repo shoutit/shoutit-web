@@ -49,10 +49,11 @@ describe("VideoCallStore", () => {
 
       flux.dispatcher.dispatch({
         type: actionTypes.TWILIO_TOKEN_SUCCESS,
-        payload: "foo"
+        payload: { token: "foo", identity: "bar"}
       });
       const state = store.getState();
       expect(state.token).to.eql("foo");
+      expect(state.identity).to.eql("bar");
       expect(spy).to.have.been.calledWith("change");
     });
 

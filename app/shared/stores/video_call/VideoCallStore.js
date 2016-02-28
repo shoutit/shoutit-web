@@ -30,8 +30,9 @@ export const VideoCallStore = Fluxxor.createStore({
     return this.state;
   },
 
-  handleReceivedToken(token) {
+  handleReceivedToken({ token, identity }) {
     this.state.token = token;
+    this.state.identity = identity;
     this.emit("change");
   },
 
