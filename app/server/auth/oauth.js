@@ -17,7 +17,7 @@ var ENDPOINT_SERVER = apiUrl,
   GRANT_TYPES = {
     gplus: "gplus_code",
     fb: "facebook_access_token",
-    shoutit:"shoutit_signin",
+    shoutit:"shoutit_login",
     signup: "shoutit_signup",
     refresh: "refresh_token",
     sms: "sms_code"
@@ -30,7 +30,7 @@ function requestAccessToken(type, grantToken) {
     grant_type: GRANT_TYPES[type]
   };
 
-  if(GRANT_TYPES[type] === "shoutit_signin") {
+  if(GRANT_TYPES[type] === "shoutit_login") {
     requestData.email = grantToken.email;
     requestData.password = grantToken.pass;
   }
