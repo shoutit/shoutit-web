@@ -84,7 +84,7 @@ export const actions = {
   receiveVideoCallInvite(invite) {
     this.dispatch(VIDEOCALL_INVITE_RECEIVED, invite);
 
-    // TODO: this shouldn't be accepted here, instead should show a dialog in the UI
+    // This shouldn't be accepted here, instead should show a dialog in the UI
     this.flux.actions.acceptVideoCallInvite(invite);
 
   },
