@@ -35,10 +35,10 @@ flux.setDispatchInterceptor((action, dispatch) =>  {
 
 if (window.fluxData) {
   flux.hydrate(window.fluxData);
-  document.body.replaceChild(
-    document.createElement("script"),
-    document.getElementById("fluxData")
-  );
+  log("Flux stores has been rehydrated", window.fluxData);
+}
+else {
+  console.warn("No data to rehydrate in the flux stores");
 }
 
 flux.on("dispatch", (type, payload) =>

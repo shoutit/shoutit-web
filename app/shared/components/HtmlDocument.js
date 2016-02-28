@@ -23,7 +23,7 @@ export default function HtmlDocument({
   metatags.push({ property: "og:site_name", content: meta.siteName });
   metatags.push({ property: "og:image", content: meta.image });
 
-  if(meta.ogType) {
+  if (meta.ogType) {
     metatags.push({ property: "og:type", content: meta.ogType });
   }
 
@@ -72,7 +72,7 @@ export default function HtmlDocument({
       <body>
         <div id="content" dangerouslySetInnerHTML={ {__html: content} } />
 
-        <script type="application/json" dangerouslySetInnerHTML={ {__html: state} } />
+        <script dangerouslySetInnerHTML={ {__html: `window.fluxData = ${state}`} } />
 
         <script async src="https://apis.google.com/js/client:platform.js" />
         { config.googleMapsKey &&
