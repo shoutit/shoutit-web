@@ -4,10 +4,12 @@ import debug from "debug";
 import { actions as chatActions } from "./stores/chat/actions";
 import { actions as conversationsActions } from "./stores/conversations/actions";
 import { actions as messagesActions } from "./stores/messages/actions";
+import { actions as VideoCallActions } from "./stores/video_call/actions";
 
 import { ChatStore } from "./stores/chat/ChatStore";
 import { ConversationsStore } from "./stores/conversations/ConversationsStore";
 import { MessagesStore } from "./stores/messages/MessagesStore";
+import { VideoCallStore } from "./stores/video_call/VideoCallStore";
 
 import suggestionsActions from "./stores/suggestions/actions";
 import SuggestionsStore from "./stores/suggestions/store";
@@ -48,19 +50,20 @@ module.exports = function (router, user, data, params, currencies, categories, s
     notifications: new NotificationsStore({data}),
     discovers: new DiscoversStore(data),
     suggestions: new SuggestionsStore(data),
-    ui_notifications: new UINotificationsStore()
+    ui_notifications: new UINotificationsStore(),
+    videocall: new VideoCallStore()
   };
 
   for (const store in stores) {
     stores[store].on("change", () =>
-      debug(`shoutit:stores:${store}`)("Emitted change", {...stores[store].getState()})
+      debug(`shoutit:stores:${store}`)("Emitted change", stores[store].getState())
     );
   }
 
   const actions = merge({},
     userActions, shoutActions, tagActions, searchActions, locationsActions,
     messagesActions, chatActions, conversationsActions, notificationsActions,
-    discoversActions, suggestionsActions, uiNotificationsActions);
+    discoversActions, suggestionsActions, uiNotificationsActions, VideoCallActions);
 
   const flux = new Fluxxor.Flux(stores, actions);
 

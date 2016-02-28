@@ -24,7 +24,11 @@ export default React.createClass({
 
   displayName: "Conversation",
 
-  mixins: [new FluxMixin(React), new StoreWatchMixin("conversations"), History],
+  mixins: [
+    new FluxMixin(React),
+    new StoreWatchMixin("conversations"),
+    History
+  ],
 
   getInitialState() {
     return {
@@ -206,12 +210,12 @@ export default React.createClass({
   },
 
   render() {
-    const { loggedUser } = this.props;
+    const { loggedUser, videoCallState } = this.props;
     const { id } = this.props.params;
     const { messages, draft, didLoad, loading, loadingPrevious, users,
       about, type, error, showDelete, isDeleting, typingUsers, showAttachShout } = this.state;
 
-    const { replyToConversation, deleteConversation, conversationDraftChange }
+    const { replyToConversation, deleteConversation, conversationDraftChange, inviteToVideoCall }
       = this.getFlux().actions;
 
     return (
@@ -219,12 +223,14 @@ export default React.createClass({
 
       { didLoad &&
         <ConversationTitle
-          onDeleteConversationTouchTap={ () => this.setState({showDelete: true}) }
-          onDeleteMessagesTouchTap={ () => {} }
           users={ users }
           about={ about }
           type={ type }
           me={ loggedUser && loggedUser.username }
+          showVideoCallButton={ videoCallState.initialized }
+          onDeleteConversationClick={ () => this.setState({ showDelete: true }) }
+          onDeleteMessagesTouchTap={ () => {} }
+          onVideoCallClick={ () => inviteToVideoCall(users.find(user => user.username !== loggedUser.username)) }
         />
       }
 
