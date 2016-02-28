@@ -22,22 +22,9 @@ describe("VideoCallStore", () => {
     const flux = initFlux();
     const store = flux.store("VideoCallStore");
     expect(store.getState()).to.have.property("token");
-    expect(store.getState()).to.have.property("tokenError");
+    expect(store.getState()).to.have.property("initError");
     expect(store.getState().token).to.be.null;
-    expect(store.getState().tokenError).to.be.null;
-  });
-
-  it("should serialize its state", () => {
-    const flux = initFlux({ "token": "foo", "identity": "bar"});
-    const store = flux.store("VideoCallStore");
-    expect(store.serialize()).to.equal(`{"token":"foo","identity":"bar","tokenError":null}`);
-  });
-
-  it("should hydrate from JSON", () => {
-    const flux = initFlux();
-    const store = flux.store("VideoCallStore");
-    store.hydrate(`{"token":"foo","identity":"bar","tokenError":null}`);
-    expect(store.getState()).to.eql({ token: "foo", identity: "bar", tokenError: null});
+    expect(store.getState().initError).to.be.null;
   });
 
   describe("when receving actions", () => {
@@ -48,7 +35,7 @@ describe("VideoCallStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.TWILIO_TOKEN_SUCCESS,
+        type: actionTypes.TWILIO_INIT_SUCCESS,
         payload: { token: "foo", identity: "bar"}
       });
       const state = store.getState();
@@ -63,13 +50,13 @@ describe("VideoCallStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.TWILIO_TOKEN_FAILURE,
+        type: actionTypes.TWILIO_INIT_FAILURE,
         payload: {
           error: "bar"
         }
       });
       const state = store.getState();
-      expect(state.tokenError).to.eql("bar");
+      expect(state.initError).to.eql("bar");
       expect(spy).to.have.been.calledWith("change");
     });
 
