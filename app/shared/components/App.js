@@ -4,6 +4,7 @@ import {createSlug} from "./helper";
 import Header from "./header";
 import MainPage from "./main/mainPage.jsx";
 import NotificationHost from "./helper/NotificationHost.jsx";
+import VideoCallHost from "./helper/VideoCallHost";
 
 const pagesWithoutHeader = [ MainPage ];
 
@@ -118,6 +119,8 @@ export default React.createClass({
           notifications={ this.state.uiNotifications }
           onDismissClick={ flux.actions.dismissNotification }
         />
+        { videoCallState.currentConversation &&
+          <VideoCallHost conversation={ videoCallState.currentConversation } /> }
       </div>
     );
   }
