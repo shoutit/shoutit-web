@@ -227,7 +227,7 @@ export default React.createClass({
           about={ about }
           type={ type }
           me={ loggedUser && loggedUser.username }
-          enableVideoCall={ !!videoCallState.conversationsClient }
+          showVideoCallButton={ videoCallState.initialized }
           onDeleteConversationClick={ () => this.setState({ showDelete: true }) }
           onDeleteMessagesTouchTap={ () => {} }
           onVideoCallClick={ () => inviteToVideoCall(users.find(user => user.username !== loggedUser.username)) }
