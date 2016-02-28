@@ -210,12 +210,12 @@ export default React.createClass({
   },
 
   render() {
-    const { loggedUser, twilioToken } = this.props;
+    const { loggedUser, videoCallState } = this.props;
     const { id } = this.props.params;
     const { messages, draft, didLoad, loading, loadingPrevious, users,
       about, type, error, showDelete, isDeleting, typingUsers, showAttachShout } = this.state;
 
-    const { replyToConversation, deleteConversation, conversationDraftChange }
+    const { replyToConversation, deleteConversation, conversationDraftChange, inviteToVideoCall }
       = this.getFlux().actions;
 
     return (
@@ -227,11 +227,10 @@ export default React.createClass({
           about={ about }
           type={ type }
           me={ loggedUser && loggedUser.username }
-          twilioToken={ twilioToken }
-          onDeleteConversationClick={ () => this.setState({showDelete: true}) }
-          onVideoStartClick={ () => this.setState({showDelete: true}) }
+          videoCallState={ videoCallState }
+          onDeleteConversationClick={ () => this.setState({ showDelete: true }) }
           onDeleteMessagesTouchTap={ () => {} }
-
+          onVideoCallClick={ () => inviteToVideoCall(users.find(user => user.username !== loggedUser.username)) }
         />
       }
 
