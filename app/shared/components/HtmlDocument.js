@@ -80,10 +80,10 @@ export default function HtmlDocument({
         { config.ga &&
           <script async src="https://www.google-analytics.com/analytics.js" /> }
 
-        <script async src="https://media.twiliocdn.com/sdk/js/common/v0.1/twilio-common.min.js" />
-        <script async src="https://media.twiliocdn.com/sdk/js/conversations/v0.13/twilio-conversations.min.js" />
+        <script src="https://media.twiliocdn.com/sdk/js/common/v0.1/twilio-common.min.js" />
+        <script src="https://media.twiliocdn.com/sdk/js/conversations/v0.13/twilio-conversations.min.js" />
 
-        <script async src={ `${config.publicUrl}${chunkNames.main}`} />
+        <script src={ `${config.publicUrl}${chunkNames.main}`} />
 
       </body>
     </html>
