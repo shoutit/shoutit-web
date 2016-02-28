@@ -51,7 +51,7 @@ module.exports = function (router, user, data, params, currencies, categories, s
     discovers: new DiscoversStore(data),
     suggestions: new SuggestionsStore(data),
     ui_notifications: new UINotificationsStore(),
-    videoCall: new VideoCallStore()
+    videocall: new VideoCallStore()
   };
 
   for (const store in stores) {
