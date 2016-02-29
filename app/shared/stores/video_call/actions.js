@@ -4,9 +4,9 @@ import {
   TWILIO_INIT,
   TWILIO_INIT_SUCCESS,
   TWILIO_INIT_FAILURE,
-  VIDEOCALL_INVITE,
-  VIDEOCALL_INVITE_SUCCESS,
-  VIDEOCALL_INVITE_FAILURE,
+  VIDEOCALL_INVITING,
+  VIDEOCALL_INVITING_SUCCESS,
+  VIDEOCALL_INVITING_FAILURE,
   VIDEOCALL_INVITE_RECEIVED,
   VIDEOCALL_INVITE_ACCEPTED
 } from "../video_call/actionTypes";
@@ -67,32 +67,32 @@ export const actions = {
     const { username: identity } = user;
     const client = this.flux.stores["videocall"].getState().conversationsClient;
 
-    this.dispatch(VIDEOCALL_INVITE, { user });
+    this.dispatch(VIDEOCALL_INVITING, { user });
 
     client.inviteToConversation(user.username)
       .then(conversation => {
         log("Connected to conversation $s with %s", conversation.sid, identity, conversation);
-        this.dispatch(VIDEOCALL_INVITE_SUCCESS, { user, conversation });
+        this.dispatch(VIDEOCALL_INVITING_SUCCESS, { user, conversation });
       }, error => {
         console.error("Could not create conversation", error); // eslint-disable-line no-console
         error.status = 500;
-        this.dispatch(VIDEOCALL_INVITE_FAILURE, { error } );
+        this.dispatch(VIDEOCALL_INVITING_FAILURE, { error } );
       });
 
   },
 
   receiveVideoCallInvite(invite) {
     this.dispatch(VIDEOCALL_INVITE_RECEIVED, invite);
-
-    // This shouldn't be accepted here, instead should show a dialog in the UI
-    this.flux.actions.acceptVideoCallInvite(invite);
+    //
+    // // This shouldn't be accepted here, instead should show a dialog in the UI
+    // this.flux.actions.acceptVideoCallInvite(invite);
 
   },
 
   acceptVideoCallInvite(invite) {
-    invite.accept().then(conversation =>
-      this.dispatch(VIDEOCALL_INVITE_ACCEPTED, { invite, conversation })
-    );
+    return invite.accept().then(conversation => {
+      this.dispatch(VIDEOCALL_INVITE_ACCEPTED, { invite, conversation });
+    });
   }
 
 };

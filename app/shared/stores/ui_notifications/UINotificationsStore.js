@@ -3,8 +3,10 @@ import Fluxxor from "fluxxor";
 import { LISTEN_SUCCESS, STOP_LISTEN_SUCCESS } from "../users/consts";
 import { LISTEN_TAG_SUCCESS, STOP_LISTEN_TAG_SUCCESS } from "../tags/consts";
 import { DISMISS_NOTIFICATION, NOTIFY } from "../ui_notifications/actionTypes";
+import { VIDEOCALL_INVITE_RECEIVED, VIDEOCALL_INVITING } from "../video_call/actionTypes";
 
 import SVGIcon from "../../components/helper/SVGIcon";
+import VideoCallNotification from "../../components/notifications/VideoCallNotification.jsx";
 
 const initialState = {
   notifications: []
@@ -17,7 +19,7 @@ export const UINotificationsStore = Fluxxor.createStore({
 
     this.bindActions(
       DISMISS_NOTIFICATION, this.handleDismiss,
-      NOTIFY, content => this.handleNotification({ content } ),
+      NOTIFY, params => this.handleNotification(params),
 
       LISTEN_SUCCESS, ({ username }) =>
         this.handleNotification({
@@ -41,6 +43,23 @@ export const UINotificationsStore = Fluxxor.createStore({
         this.handleNotification({
           content: <span>You are no longer listening to the tag <strong>{tagName}</strong>.</span>,
           icon: <SVGIcon name="tag" active />
+        }
+      ),
+
+      VIDEOCALL_INVITING, ({user}) =>
+        this.handleNotification({
+          content: <div>Waiting for <strong>{user.username}</strong> to answer…</div>,
+          autoHide: false,
+          dismissable: false,
+          icon: <SVGIcon name="video" active />
+        }
+      ),
+
+      VIDEOCALL_INVITE_RECEIVED, (invite) =>
+        this.handleNotification({
+          content: <VideoCallNotification flux={ this.flux } invite={ invite } />,
+          autoHide: false,
+          dismissable: false
         }
       )
 

@@ -4,12 +4,12 @@ import {
   TWILIO_INIT,
   TWILIO_INIT_SUCCESS,
   TWILIO_INIT_FAILURE,
-  VIDEOCALL_INVITE,
-  VIDEOCALL_INVITE_SUCCESS,
-  VIDEOCALL_INVITE_FAILURE,
+  VIDEOCALL_INVITING,
+  VIDEOCALL_INVITING_SUCCESS,
+  VIDEOCALL_INVITING_FAILURE,
   VIDEOCALL_INVITE_RECEIVED,
   VIDEOCALL_INVITE_ACCEPTED,
-  VIDEOCALL_INVITE_REJECTED
+  VIDEOCALL_INVITING_REJECTED
 } from "../video_call/actionTypes";
 
 const initialState = {
@@ -48,12 +48,12 @@ export const VideoCallStore = Fluxxor.createStore({
       TWILIO_INIT, this.handleInitStart,
       TWILIO_INIT_SUCCESS, this.handleInitSuccess,
       TWILIO_INIT_FAILURE, this.handleInitFailure,
-      VIDEOCALL_INVITE, this.handleInviteStart,
-      VIDEOCALL_INVITE_SUCCESS, this.handleInviteSuccess,
-      VIDEOCALL_INVITE_FAILURE, this.handleInviteFailure,
+      VIDEOCALL_INVITING, this.handleInviteStart,
+      VIDEOCALL_INVITING_SUCCESS, this.handleInviteSuccess,
+      VIDEOCALL_INVITING_FAILURE, this.handleInviteFailure,
       VIDEOCALL_INVITE_RECEIVED, this.handleInviteReceived,
       VIDEOCALL_INVITE_ACCEPTED, this.handleInviteAccepted,
-      VIDEOCALL_INVITE_REJECTED, this.handleInviteRejected
+      VIDEOCALL_INVITING_REJECTED, this.handleInviteRejected
     );
   },
 
