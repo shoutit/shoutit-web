@@ -41,7 +41,7 @@ export const UINotificationsStore = Fluxxor.createStore({
       );
     }
 
-    this.state.notifications.push({ ...notification });
+    this.state.notifications.push(notification);
 
     this.emit("change");
   },
