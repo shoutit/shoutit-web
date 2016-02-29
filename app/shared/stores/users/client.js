@@ -1,7 +1,9 @@
 import request from "superagent";
+import { assign } from "lodash/object";
 
 const PREFIX = "/api/users";
 const AUTH_PREFIX = "/api/auth";
+const SHOUTS_PREFIX = "/api/shouts";
 
 export default {
   update(update) {
@@ -66,10 +68,12 @@ export default {
             .del(PREFIX + "/" + username + "/listen");
   },
 
-  loadShouts(username, query) {
+  loadShouts(username, query = {}) {
+    const request = assign(query, {user: username});
+
     return request
-            .get(PREFIX + "/" + username + "/shouts")
-            .query(query);
+      .get(PREFIX + "/" + username + "/shouts")
+      .query(query);
   },
 
   list(query) {

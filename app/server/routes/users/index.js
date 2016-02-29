@@ -24,8 +24,6 @@ router.route("/:id/listen")
   .post(require("./listen")(ShoutClient))
   .delete(require("./unlisten")(ShoutClient));
 
-router.route("/:id/shouts")
-  .get(require("./getShouts")(ShoutClient));
 
 module.exports = router;
 
