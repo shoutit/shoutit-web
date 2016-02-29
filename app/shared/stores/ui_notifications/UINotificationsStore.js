@@ -26,6 +26,10 @@ export const UINotificationsStore = Fluxxor.createStore({
     return this.state.notifications;
   },
 
+  getState() {
+    return this.state;
+  },
+
   handleNotification(message, autoHide = true) {
 
     // assign a unique id to this notification
@@ -59,10 +63,7 @@ export const UINotificationsStore = Fluxxor.createStore({
 
   hydrate(json) {
     this.state = JSON.parse(json);
-  },
-
-  getState() {
-    return this.state;
   }
+
 
 });
