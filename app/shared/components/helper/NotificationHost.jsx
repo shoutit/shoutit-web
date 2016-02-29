@@ -2,7 +2,7 @@ import React from "react";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 if (process.env.BROWSER) {
-  require("styles/components/NotificationHost");
+  require("styles/components/NotificationHost.scss");
 }
 
 export default function NotificationHost({ notifications, onDismissClick }) {
