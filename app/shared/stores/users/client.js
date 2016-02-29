@@ -72,7 +72,7 @@ export default {
     const request = assign(query, {user: username});
 
     return request
-      .get(PREFIX + "/" + username + "/shouts")
+      .get(SHOUTS_PREFIX)
       .query(query);
   },
 
