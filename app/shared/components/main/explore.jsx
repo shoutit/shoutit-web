@@ -48,7 +48,7 @@ export default React.createClass({
       return (
         cats.map(function (item, idx) {
           // clear every three item
-
+          if (!item) { return null;};
           return (
             <Column size="3" clear={ idx % 3 === 0 } key={`main-explore-${idx}`}>
               <div className="si-item-box">
