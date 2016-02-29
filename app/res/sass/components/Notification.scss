@@ -52,7 +52,7 @@
   @include align-self(center);
 }
 
-.Notification-message {
+.Notification-content {
   @include flex(1);
   padding: 0 10px;
 }

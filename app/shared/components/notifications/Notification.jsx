@@ -27,19 +27,23 @@ export default class Notification extends React.Component {
   render() {
     const { notification, onDismissClick } = this.props;
     const { style } = this.state;
-
+    const { icon, content, dismissable } = notification;
     return (
       <div className="Notification-wrapper" style={ style }>
         <div ref="content" className="Notification">
-          { notification.icon }
-          { notification.message &&
-            <span className="Notification-message">
-              { notification.message }
+          { icon }
+
+          { content &&
+            <span className="Notification-content">
+              { content }
             </span>
           }
-          <span className="Notification-closeButton">
+
+          { dismissable && <span className="Notification-closeButton">
             <SVGIcon size="small" name="close" onClick={ () => onDismissClick(notification.id) } />
           </span>
+          }
+
         </div>
       </div>
     );

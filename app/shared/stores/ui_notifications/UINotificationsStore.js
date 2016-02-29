@@ -2,7 +2,7 @@ import React from "react";
 import Fluxxor from "fluxxor";
 import { LISTEN_SUCCESS, STOP_LISTEN_SUCCESS } from "../users/consts";
 import { LISTEN_TAG_SUCCESS, STOP_LISTEN_TAG_SUCCESS } from "../tags/consts";
-import { DISMISS_NOTIFICATION, NOTIFY } from "./actionTypes";
+import { DISMISS_NOTIFICATION, NOTIFY } from "../ui_notifications/actionTypes";
 
 import SVGIcon from "../../components/helper/SVGIcon";
 
@@ -17,29 +17,29 @@ export const UINotificationsStore = Fluxxor.createStore({
 
     this.bindActions(
       DISMISS_NOTIFICATION, this.handleDismiss,
-      NOTIFY, message => this.handleNotification({ message } ),
+      NOTIFY, content => this.handleNotification({ content } ),
 
       LISTEN_SUCCESS, ({ username }) =>
         this.handleNotification({
-          message: `You are listening to ${username}`,
-          icon: <SVGIcon size="large" name="listen" active />
+          content: <span>You are now listening to <strong>{username}</strong>’s activity.</span>,
+          icon: <SVGIcon name="listen" active />
         }
       ),
       STOP_LISTEN_SUCCESS, ({ username }) =>
         this.handleNotification({
-          message: `You are no longer listening to ${username}`,
+          content: <span>You are no longer listening to <strong>{username}</strong>’s activity.</span>,
           icon: <SVGIcon name="listen" on />
         }
       ),
       LISTEN_TAG_SUCCESS, ({ tagName }) =>
         this.handleNotification({
-          message: `You are listening to ${tagName}`,
+          content: <span>You are now listening to the tag <strong>{tagName}</strong>.</span>,
           icon: <SVGIcon name="tag" active />
         }
       ),
       STOP_LISTEN_TAG_SUCCESS, ({ tagName }) =>
         this.handleNotification({
-          message: `You are no longer listening to ${tagName}`,
+          content: <span>You are no longer listening to the tag <strong>{tagName}</strong>.</span>,
           icon: <SVGIcon name="tag" active />
         }
       )
@@ -55,13 +55,13 @@ export const UINotificationsStore = Fluxxor.createStore({
     return this.state;
   },
 
-  handleNotification({ message, icon }, autoHide=false) {
+  handleNotification({ content, icon, dismissable=true, autoHide=true }) {
 
     // assign a unique id to this notification
     const id = new Date().getTime();
 
-    // create a new notification object, can be extended with type: alert, message, etc.
-    const notification = { message, id, icon };
+    // create a new notification object, can be extended with type: alert, content, etc.
+    const notification = { content, id, icon, dismissable };
 
     // optional: autohide a notification after 4 seconds
     if (autoHide) {
