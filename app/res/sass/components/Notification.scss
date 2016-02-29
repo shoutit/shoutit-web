@@ -1,6 +1,7 @@
 @import "../constants/colors.scss";
 @import "../constants/dimensions.scss";
 @import "../constants/shadows.scss";
+@import "../_flexbox.scss";
 
 .Notification-wrapper {
 
@@ -43,11 +44,21 @@
 
 .Notification {
   position: relative;
-  padding: 10px 15px;
+  padding: 15px 20px;
+  @include flexbox();
+}
+
+.Notification-icon {
+  @include align-self(center);
+}
+
+.Notification-message {
+  @include flex(1);
+  padding: 0 10px;
 }
 
 .Notification-closeButton {
   position: absolute;
-  top: 8px;
-  right: 10px;
+  top: 0;
+  right: 5px;
 }

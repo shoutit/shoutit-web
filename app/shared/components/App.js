@@ -3,7 +3,7 @@ import { FluxMixin, StoreWatchMixin } from "fluxxor";
 import {createSlug} from "./helper";
 import Header from "./header";
 import MainPage from "./main/mainPage.jsx";
-import NotificationHost from "./helper/NotificationHost.jsx";
+import NotificationHost from "./notifications/NotificationHost.jsx";
 import VideoCallHost from "./helper/VideoCallHost";
 
 const pagesWithoutHeader = [ MainPage ];
@@ -113,6 +113,8 @@ export default React.createClass({
           </div>
         }
         <div className="App-content">
+        <button onClick={ () => this.props.flux.actions.notify("hello") }>Notify</button>
+
           { React.cloneElement(children, props) }
         </div>
         <NotificationHost

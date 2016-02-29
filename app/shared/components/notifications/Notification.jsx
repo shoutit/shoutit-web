@@ -31,7 +31,12 @@ export default class Notification extends React.Component {
     return (
       <div className="Notification-wrapper" style={ style }>
         <div ref="content" className="Notification">
-          { notification.message }
+          { notification.icon }
+          { notification.message &&
+            <span className="Notification-message">
+              { notification.message }
+            </span>
+          }
           <span className="Notification-closeButton">
             <SVGIcon size="small" name="close" onClick={ () => onDismissClick(notification.id) } />
           </span>
