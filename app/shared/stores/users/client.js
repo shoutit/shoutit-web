@@ -1,5 +1,4 @@
 import request from "superagent";
-import { assign } from "lodash/object";
 
 const PREFIX = "/api/users";
 const AUTH_PREFIX = "/api/auth";
@@ -69,7 +68,7 @@ export default {
   },
 
   loadShouts(username, query = {}) {
-    const request = assign(query, {user: username});
+    query.user = username;
 
     return request
       .get(SHOUTS_PREFIX)

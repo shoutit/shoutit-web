@@ -36,11 +36,11 @@ export default {
   },
 
   getShouts(tagName, query = {}) {
-    const request = {...query, tags: tagName};
+    query.tags = tagName;
 
     return request
       .get(SHOUTS_PREFIX)
-      .query(request);
+      .query(query);
   },
 
   loadSpriteInfo(hash) {
