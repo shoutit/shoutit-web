@@ -1,6 +1,3 @@
-/**
- * Created by Philip on 27.02.2015.
- */
 
 var ShoutClient = require("../../resources").tags();
 
@@ -22,9 +19,6 @@ router.route("/:id/listeners")
 
 router.route("/:id/related")
   .get(require("./getRelated")(ShoutClient));
-
-router.route("/:id/shouts")
-  .get(require("./getShouts")(ShoutClient));
 
 module.exports = router;
 

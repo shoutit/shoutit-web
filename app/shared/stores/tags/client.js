@@ -1,6 +1,7 @@
 import request from "superagent";
 
 const PREFIX = "/api/tags";
+const SHOUTS_PREFIX = "/api/shouts";
 
 export default {
   list(query) {
@@ -34,10 +35,12 @@ export default {
       .get(PREFIX + "/" + tagName + "/related");
   },
 
-  getShouts(tagName, query) {
+  getShouts(tagName, query = {}) {
+    const request = {...query, tags: tagName};
+
     return request
-      .get(PREFIX + "/" + tagName + "/shouts")
-      .query(query);
+      .get(SHOUTS_PREFIX)
+      .query(request);
   },
 
   loadSpriteInfo(hash) {
