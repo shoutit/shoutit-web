@@ -113,8 +113,6 @@ export default React.createClass({
           </div>
         }
         <div className="App-content">
-        <button onClick={ () => this.props.flux.actions.notify("hello") }>Notify</button>
-
           { React.cloneElement(children, props) }
         </div>
         <NotificationHost
