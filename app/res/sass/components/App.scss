@@ -1,6 +1,4 @@
-
-$contentWidth: 1180px;
-$headerHeight: 70px;
+@import "../constants/dimensions.scss";
 
 .App {
   position: relative;
@@ -15,8 +13,8 @@ $headerHeight: 70px;
   -webkit-font-smoothing: subpixel-antialiased;
 
   .Header {
-    height: $headerHeight;
-    width: $contentWidth;
+    height: $header-height;
+    width: $content-width;
     margin: 0 auto;
   }
 
@@ -24,9 +22,11 @@ $headerHeight: 70px;
 
 .App-content {
   z-index: 0;
-  .App.stickyHeader & {
-    padding-top: ($headerHeight + 10px);
-  }
-  width: $contentWidth;
+  width: $content-width;
   margin: 0 auto;
+
+  .App.stickyHeader & {
+    padding-top: ($header-height + 10px);
+  }
+
 }
