@@ -35,7 +35,7 @@ export default class Notification extends React.Component {
 
           { content &&
             <span className="Notification-content">
-              { content }
+              { typeof content !== "string" ? React.cloneElement(content, { notification }) : content }
             </span>
           }
 
