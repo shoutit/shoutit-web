@@ -1,4 +1,4 @@
-import { DISMISS_NOTIFICATION } from "./consts";
+import { DISMISS_NOTIFICATION } from "./actionTypes";
 
 export default {
   dismissNotification(id) {

@@ -1,7 +1,7 @@
 import Fluxxor from "fluxxor";
 import { LISTEN_SUCCESS, STOP_LISTEN_SUCCESS } from "../users/consts";
 import { LISTEN_TAG_SUCCESS, STOP_LISTEN_TAG_SUCCESS } from "../tags/consts";
-import { DISMISS_NOTIFICATION } from "./consts";
+import { DISMISS_NOTIFICATION } from "./actionTypes";
 
 const initialState = {
   notifications: []
