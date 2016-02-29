@@ -1,7 +1,7 @@
 import Fluxxor from "fluxxor";
 import { LISTEN_SUCCESS, STOP_LISTEN_SUCCESS } from "../users/consts";
 import { LISTEN_TAG_SUCCESS, STOP_LISTEN_TAG_SUCCESS } from "../tags/consts";
-import { DISMISS_NOTIFICATION } from "./actionTypes";
+import { DISMISS_NOTIFICATION, NOTIFY } from "./actionTypes";
 
 const initialState = {
   notifications: []
@@ -17,7 +17,8 @@ export const UINotificationsStore = Fluxxor.createStore({
       STOP_LISTEN_SUCCESS, ({ username }) => this.handleNotification(`You are no longer listening to ${username}`),
       LISTEN_TAG_SUCCESS, ({ tagName }) => this.handleNotification(`You are listening to ${tagName}`),
       STOP_LISTEN_TAG_SUCCESS, ({ tagName }) => this.handleNotification(`You are no longer listening to ${tagName}`),
-      DISMISS_NOTIFICATION, this.handleDismiss
+      DISMISS_NOTIFICATION, this.handleDismiss,
+      NOTIFY, message => this.handleNotification(message)
     );
   },
 
