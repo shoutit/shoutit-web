@@ -30,7 +30,7 @@ export const UINotificationsStore = Fluxxor.createStore({
     return this.state;
   },
 
-  handleNotification(message, autoHide = true) {
+  handleNotification(message, autoHide=true) {
 
     // assign a unique id to this notification
     const id = new Date().getTime();
@@ -45,7 +45,7 @@ export const UINotificationsStore = Fluxxor.createStore({
       );
     }
 
-    this.state.notifications.push(notification);
+    this.state.notifications.unshift(notification);
 
     this.emit("change");
   },
@@ -58,11 +58,11 @@ export const UINotificationsStore = Fluxxor.createStore({
   },
 
   serialize() {
-    return JSON.stringify(this.state);
+    return JSON.stringify(null);
   },
 
-  hydrate(json) {
-    this.state = JSON.parse(json);
+  hydrate() {
+
   }
 
 

@@ -1,0 +1,53 @@
+@import "../constants/colors.scss";
+@import "../constants/dimensions.scss";
+@import "../constants/shadows.scss";
+
+.Notification-wrapper {
+
+  border: 1px solid red;
+  box-shadow: $box-shadow-depth-2;
+  background-color: $background-color-alt;
+  border: 1px solid $border-color-alt;
+  border-radius: $border-radius;
+
+  height: 0;
+  position: relative;
+  transition: all 250ms;
+
+  &.notification-enter {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  &.notification-enter.notification-enter-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &.notification-leave {
+    opacity: 1;
+    height: 0;
+  }
+
+  &.notification-leave.notification-leave-active {
+    opacity: 0 !important;
+    height: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .Notification-wrapper + & {
+    margin-top: 10px;
+  }
+
+}
+
+.Notification {
+  position: relative;
+  padding: 10px 15px;
+}
+
+.Notification-closeButton {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+}
