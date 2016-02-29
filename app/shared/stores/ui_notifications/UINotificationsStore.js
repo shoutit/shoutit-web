@@ -17,7 +17,7 @@ export const UINotificationsStore = Fluxxor.createStore({
       STOP_LISTEN_SUCCESS, ({ username }) => this.handleNotification(`You are no longer listening to ${username}`),
       LISTEN_TAG_SUCCESS, ({ tagName }) => this.handleNotification(`You are listening to ${tagName}`),
       STOP_LISTEN_TAG_SUCCESS, ({ tagName }) => this.handleNotification(`You are no longer listening to ${tagName}`),
-      DISMISS_NOTIFICATION, this.onDismissNotification
+      DISMISS_NOTIFICATION, this.handleDismiss
     );
   },
 
@@ -45,12 +45,10 @@ export const UINotificationsStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onDismissNotification({ id }) {
+  handleDismiss({ id }) {
     const i = this.state.notifications.findIndex(notification => notification.id === id);
     clearTimeout(this.state.notifications[i].hideTimeout);
-    // Remove the element from array
     this.state.notifications.splice(i, 1);
-
     this.emit("change");
   },
 
