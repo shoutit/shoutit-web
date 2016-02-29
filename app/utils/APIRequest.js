@@ -29,10 +29,14 @@ request.Request.prototype.setSession = function(session) {
   return this;
 };
 
+request.Request.prototype.prefixAPIUrl = function() {
+  this.url = `${apiUrl}${this.url}`;
+  return this;
+};
+
 const oldEnd = request.Request.prototype.end;
 request.Request.prototype.end = function(callback) {
   this.end = oldEnd;
-  this.url = `${apiUrl}${this.url}`;
 
   const newCallback = (err, res) => {
     if (err || !res.ok) {
