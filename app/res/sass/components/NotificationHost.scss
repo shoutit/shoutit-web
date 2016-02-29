@@ -1,53 +1,109 @@
-@import "../colors";
-@import "../pages/_mixins";
+@import "../constants/colors.scss";
+@import "../constants/dimensions.scss";
+@import "../constants/shadows.scss";
+
+$notification-width: $content-width * 0.5;
+$notification-top: 30px;
+
+@keyframes notificationAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@-webkit-keyframes notificationAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(-$notification-top);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .NotificationHost {
   position: fixed;
-  top: 100px;
-  right: 25px;
+  top: $header-height + 10px;
+  height: 0;
+  left: 50%;
+  margin-left: -$notification-width/2;
+
+  text-align: center;
   z-index: 3;
 }
 
+  .NotificationHost-wrapper {
+    text-align: left;
+    width: $notification-width;
+    position: relative;
+  }
+
 .NotificationHost-notification {
-  position: relative;
-  @include paper();
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: lighten($background-color-alt, 4);
+  border: 1px solid transparent;
+  box-shadow: $box-shadow-depth-1;
+  border-radius: $border-radius;
+  transition: left 150ms, right 150ms, box-shadow 150ms, box-shadow 150ms, opacity 300ms, transform 300ms;
+  animation: notificationAnimation 300ms;
+
   min-height: 40px;
-  font-size: 1.3rem;
+
   color: $si-gray;
-  padding: 10px 25px 10px 10px;
-  margin-bottom: 15px;
-  &.notification-enter {
-    opacity: 0.01;
+  padding: 10px 15px;
+
+  z-index: 1;
+
+  .NotificationHost-notificationContent {
+    opacity: 0.7;
   }
 
-  &.notification-enter.notification-enter-active {
-    opacity: 1;
-    transition: opacity 100ms ease-in;
+  &.active {
+    z-index: 2;
+    background-color: $background-color-alt;
+    border: 1px solid $border-color-alt;
+    box-shadow: $box-shadow-depth-2;
+    outline: 0;
+    left: -10px;
+    right: -10px;
+    .NotificationHost-notificationContent {
+      opacity: 1;
+    }
+    .NotificationHost-closeButton {
+      display: inline-block;
+    }
   }
 
-  &.notification-leave {
-    opacity: 1;
+  /* All the notification following a focused one */
+  &.active ~ .NotificationHost-notification {
+    box-shadow: $box-shadow-depth-1;
+    left: 0;
+    right: 0;
+    background-color: lighten($background-color-alt, 4);
+    border: 1px solid transparent;
+    z-index: 1;
+    .NotificationHost-notificationContent {
+      opacity: 0.7;
+    }
+    .NotificationHost-closeButton {
+      display: none;
+    }
   }
 
-  &.notification-leave.notification-leave-active {
-    opacity: 0.01;
-    transition: opacity 200ms ease-in;
-  }
 }
 
 .NotificationHost-closeButton {
   position: absolute;
-  top: -5px;
-  right: -5px;
-  outline: 0;
-  border: 0;
-  border-radius: 10px;
-  background-color: lighten($si-bg, 5%);
-  color: $si-error-color;
-  font-size: 0.9rem;
-  transition: 0.3s all;
-  &:hover {
-    background-color: lighten($si-error-color, 15%);
-    color: $si-white;
-  }
+  display: none;
+  top: 8px;
+  right: 10px;
 }

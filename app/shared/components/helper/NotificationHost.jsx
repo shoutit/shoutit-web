@@ -1,21 +1,65 @@
 import React from "react";
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import { last } from "lodash/array";
+
+import SVGIcon from "../helper/SVGIcon";
 
 if (process.env.BROWSER) {
   require("styles/components/NotificationHost.scss");
 }
 
-export default function NotificationHost({ notifications, onDismissClick }) {
-  return (
-    <div className="NotificationHost">
-      <ReactCSSTransitionGroup transitionName="notification" transitionEnterTimeout={100} transitionLeaveTimeout={200}>
-      { notifications.map((notification, idx) =>
-        <div className="NotificationHost-notification" key={`ui-notif-${idx}`}>
+const notificationTop = 30; // Same as in NotificationHost.scss
+
+export default class NotificationHost extends React.Component {
+
+  state = {
+    activeNotificationId: null
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const lastNotification = last(nextProps.notifications);
+    const { activeNotificationId } = this.state;
+    if (lastNotification && lastNotification.id !== activeNotificationId) {
+      this.setState({
+        activeNotificationId: lastNotification.id
+      });
+    }
+  }
+
+  renderNotification(notification, i) {
+    const { activeNotificationId } = this.state;
+    const { onDismissClick, notifications } = this.props;
+    const isActive = activeNotificationId ?
+      activeNotificationId === notification.id :
+      notification.id === last(notifications).id;
+
+    return (
+      <div
+        onClick={ () => this.setState({ activeNotificationId: notification.id })}
+        className={ `NotificationHost-notification ${isActive ? " active" : ""}`}
+        key={ notification.id }
+        style={ { top: notificationTop*i }}>
+
+        <div className="NotificationHost-notificationContent">
           { notification.message }
-          <button className="NotificationHost-closeButton" onClick={ () => onDismissClick(notification.id) }>X</button>
+          <span className="NotificationHost-closeButton">
+            <SVGIcon size="small" name="close" onClick={ () => onDismissClick(notification.id) } />
+          </span>
         </div>
-      )}
-      </ReactCSSTransitionGroup>
-    </div>
-  );
+
+      </div>
+    );
+  }
+
+  render() {
+    const { notifications } = this.props;
+
+    return (
+      <div className="NotificationHost">
+        <div className="NotificationHost-wrapper">
+          { notifications.map(this.renderNotification.bind(this)) }
+        </div>
+      </div>
+    );
+  }
+
 }
