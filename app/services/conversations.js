@@ -6,6 +6,7 @@ export default {
     request
       .get("/conversations")
       .setSession(req.session)
+      .prefixAPIUrl()
       .end((err, res) => {
         if (err) {
           return callback(err);

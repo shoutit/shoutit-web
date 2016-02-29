@@ -6,6 +6,7 @@ export default {
     request
       .post(`/twilio/video_auth`)
       .setSession(req.session)
+      .prefixAPIUrl()
       .end((err, res) => {
         if (err) {
           return callback(err);
