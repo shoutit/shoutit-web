@@ -3,10 +3,11 @@ import Fluxxor from "fluxxor";
 import { LISTEN_SUCCESS, STOP_LISTEN_SUCCESS } from "../users/consts";
 import { LISTEN_TAG_SUCCESS, STOP_LISTEN_TAG_SUCCESS } from "../tags/consts";
 import { DISMISS_NOTIFICATION, NOTIFY } from "../ui_notifications/actionTypes";
-import { VIDEOCALL_INVITE_RECEIVED, VIDEOCALL_INVITING } from "../video_call/actionTypes";
+import { VIDEOCALL_INCOMING, VIDEOCALL_OUTGOING } from "../video_call/actionTypes";
 
 import SVGIcon from "../../components/helper/SVGIcon";
-import VideoCallNotification from "../../components/notifications/VideoCallNotification.jsx";
+import IncomingVideoCallNotification from "../../components/notifications/IncomingVideoCallNotification.jsx";
+import OutgoingVideoCallNotification from "../../components/notifications/OutgoingVideoCallNotification.jsx";
 
 const initialState = {
   notifications: []
@@ -46,18 +47,18 @@ export const UINotificationsStore = Fluxxor.createStore({
         }
       ),
 
-      VIDEOCALL_INVITING, ({user}) =>
+      VIDEOCALL_OUTGOING, ({user, outgoingInvite}) =>
         this.handleNotification({
-          content: <div>Waiting for <strong>{user.username}</strong> to answer…</div>,
+          content: <OutgoingVideoCallNotification flux={ this.flux } user={ user } outgoingInvite={ outgoingInvite } />,
           autoHide: false,
           dismissable: false,
           icon: <SVGIcon name="video" active />
         }
       ),
 
-      VIDEOCALL_INVITE_RECEIVED, (invite) =>
+      VIDEOCALL_INCOMING, incomingInvite =>
         this.handleNotification({
-          content: <VideoCallNotification flux={ this.flux } invite={ invite } />,
+          content: <IncomingVideoCallNotification flux={ this.flux } incomingInvite={ incomingInvite } />,
           autoHide: false,
           dismissable: false
         }

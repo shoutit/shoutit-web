@@ -33,11 +33,9 @@ export default class Notification extends React.Component {
         <div ref="content" className="Notification">
           { icon }
 
-          { content &&
-            <span className="Notification-content">
-              { typeof content !== "string" ? React.cloneElement(content, { notification }) : content }
-            </span>
-          }
+          <span className="Notification-content">
+            { typeof content !== "string" ? React.cloneElement(content, { notification }) : content }
+          </span>
 
           { dismissable && <span className="Notification-closeButton">
             <SVGIcon size="small" name="close" onClick={ () => onDismissClick(notification.id) } />
