@@ -42,7 +42,7 @@
 
 }
 
-.Notification {
+.Notification-content {
   position: relative;
   padding: 15px 20px;
   @include flexbox();
@@ -52,13 +52,19 @@
   @include align-self(center);
 }
 
-.Notification-content {
+.Notification-message {
   @include flex(1);
   padding: 0 10px;
 }
 
-.Notification-closeButton {
+.Notification-dismiss {
   position: absolute;
   top: 0;
   right: 5px;
+}
+
+.Notification-buttons {
+  background-color: white;
+  text-align: center;
+  padding: 10px;
 }

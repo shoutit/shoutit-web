@@ -117,7 +117,7 @@ export default React.createClass({
         </div>
         <NotificationHost
           notifications={ this.state.uiNotifications }
-          onDismissClick={ flux.actions.dismissNotification }
+          flux={ flux }
         />
         { videoCallState.currentConversation &&
           <VideoCallHost conversation={ videoCallState.currentConversation } /> }
