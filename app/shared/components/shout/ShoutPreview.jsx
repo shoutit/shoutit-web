@@ -5,7 +5,7 @@ import ReplyShoutForm from "./ReplyShoutForm.jsx";
 import UserAvatar from "../user/UserAvatar.jsx";
 import {Image, Column, Grid, Icon} from "../helper";
 import Separator from "../general/separator.jsx";
-import TagList from "../general/tagList.jsx";
+import TagList from "../general/TagList.jsx";
 
 import CountryFlag from "../helper/CountryFlag.jsx";
 import CategoryIcon from "../helper/CategoryIcon.jsx";
@@ -108,7 +108,7 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
             <ItemProp property="description">
               <p className="ShoutPreview-text">{ trunc(shout.text, 150) }</p>
             </ItemProp>
-            <TagList tags={shout.tags}/>
+            <TagList tags={shout.filters}/>
 
             <Separator />
 
