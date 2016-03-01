@@ -3,11 +3,13 @@ import Fluxxor from "fluxxor";
 import { LISTEN_SUCCESS, STOP_LISTEN_SUCCESS } from "../users/consts";
 import { LISTEN_TAG_SUCCESS, STOP_LISTEN_TAG_SUCCESS } from "../tags/consts";
 import { DISMISS_NOTIFICATION, NOTIFY } from "../ui_notifications/actionTypes";
-import { VIDEOCALL_INCOMING, VIDEOCALL_OUTGOING } from "../video_call/actionTypes";
+
+import { VIDEOCALL_INCOMING, VIDEOCALL_OUTGOING, VIDEOCALL_OUTGOING_FAILURE, VIDEOCALL_OUTGOING_SUCCESS, VIDEOCALL_INCOMING_ACCEPTED, VIDEOCALL_INCOMING_REJECTED } from "../video_call/actionTypes";
 
 import SVGIcon from "../../components/helper/SVGIcon";
-import IncomingVideoCallNotification from "../../components/notifications/IncomingVideoCallNotification.jsx";
-import OutgoingVideoCallNotification from "../../components/notifications/OutgoingVideoCallNotification.jsx";
+import Button from "../../components/helper/Button.jsx";
+
+import Notification from "../../components/notifications/Notification.jsx";
 
 const initialState = {
   notifications: []
@@ -20,49 +22,72 @@ export const UINotificationsStore = Fluxxor.createStore({
 
     this.bindActions(
       DISMISS_NOTIFICATION, this.handleDismiss,
-      NOTIFY, params => this.handleNotification(params),
+      NOTIFY, props => this.handleNotification(<Notification {...props} />),
 
       LISTEN_SUCCESS, ({ username }) =>
-        this.handleNotification({
-          content: <span>You are now listening to <strong>{username}</strong>’s activity.</span>,
-          icon: <SVGIcon name="listen" active />
-        }
-      ),
-      STOP_LISTEN_SUCCESS, ({ username }) =>
-        this.handleNotification({
-          content: <span>You are no longer listening to <strong>{username}</strong>’s activity.</span>,
-          icon: <SVGIcon name="listen" on />
-        }
-      ),
-      LISTEN_TAG_SUCCESS, ({ tagName }) =>
-        this.handleNotification({
-          content: <span>You are now listening to the tag <strong>{tagName}</strong>.</span>,
-          icon: <SVGIcon name="tag" active />
-        }
-      ),
-      STOP_LISTEN_TAG_SUCCESS, ({ tagName }) =>
-        this.handleNotification({
-          content: <span>You are no longer listening to the tag <strong>{tagName}</strong>.</span>,
-          icon: <SVGIcon name="tag" active />
-        }
-      ),
+        this.handleNotification(
+          <Notification
+            message={ <span>You are now listening to <strong>{username}</strong>’s activity.</span> }
+            icon= { <SVGIcon name="listen" active /> }
+          />
+        ),
 
-      VIDEOCALL_OUTGOING, ({user, outgoingInvite}) =>
-        this.handleNotification({
-          content: <OutgoingVideoCallNotification flux={ this.flux } user={ user } outgoingInvite={ outgoingInvite } />,
-          autoHide: false,
-          dismissable: false,
-          icon: <SVGIcon name="video" active />
-        }
-      ),
+      STOP_LISTEN_SUCCESS, ({ username }) =>
+        this.handleNotification(
+          <Notification
+            message={ <span>You are no longer listening to <strong>{username}</strong>’s activity.</span> }
+            icon= { <SVGIcon name="listen" on /> }
+          />
+        ),
+
+      LISTEN_TAG_SUCCESS, ({ tagName }) =>
+        this.handleNotification(
+          <Notification
+            message={ <span>You are now listening to the tag <strong>{tagName}</strong>.</span> }
+            icon= { <SVGIcon name="tag" active /> }
+          />
+        ),
+
+      STOP_LISTEN_TAG_SUCCESS, ({ tagName }) =>
+        this.handleNotification(
+          <Notification
+            message={ <span>You are no longer listening to the tag <strong>{tagName}</strong>.</span> }
+            icon= { <SVGIcon name="tag" active /> }
+          />
+        ),
+
+      VIDEOCALL_OUTGOING, ({ user, videoCallId }) =>
+        this.handleNotification(
+          <Notification
+            dismissable={ false }
+            message={ <span>Starting video call with <strong>{ user.name }</strong>...</span> }
+            icon= { <SVGIcon name="video" active /> }
+            buttons={[]}
+          />, { autoHide: false, id: videoCallId }),
+
+      VIDEOCALL_OUTGOING_FAILURE, ({ user, videoCallId }) =>
+        this.handleNotification(
+          <Notification
+            message={ <span>Cannot start video call with <strong>{ user.name }</strong>!</span> }
+            icon= { <SVGIcon name="video" active /> }
+          />, { autoHide: false, id: videoCallId }),
+
+      VIDEOCALL_OUTGOING_SUCCESS, ({ videoCallId }) => this.handleDismiss(videoCallId),
 
       VIDEOCALL_INCOMING, incomingInvite =>
-        this.handleNotification({
-          content: <IncomingVideoCallNotification flux={ this.flux } incomingInvite={ incomingInvite } />,
-          autoHide: false,
-          dismissable: false
-        }
-      )
+        this.handleNotification(
+          <Notification
+            message="Someone wants to call you!"
+            dismissable={ false }
+            buttons={[
+              <Button size="small" label="Reject" onClick={ () => this.flux.actions.rejectVideoCall(incomingInvite) } />,
+              <Button size="small" primary label="Accept" onClick={ () => this.flux.actions.acceptVideoCall(incomingInvite) } />
+            ]}
+            icon= { <SVGIcon name="video" active /> }
+          />, { autoHide: false, id: incomingInvite.conversationSid }),
+
+      VIDEOCALL_INCOMING_ACCEPTED, ({incomingInvite}) => this.handleDismiss(incomingInvite.conversationSid),
+      VIDEOCALL_INCOMING_REJECTED, ({incomingInvite}) => this.handleDismiss(incomingInvite.conversationSid)
 
     );
   },
@@ -75,22 +100,27 @@ export const UINotificationsStore = Fluxxor.createStore({
     return this.state;
   },
 
-  handleNotification({ content, icon, dismissable=true, autoHide=true }) {
+  handleNotification(content, options) {
 
-    // assign a unique id to this notification
+    // assign a unique id to this notification if not passed by the options
     const id = new Date().getTime();
 
-    // create a new notification object, can be extended with type: alert, content, etc.
-    const notification = { content, id, icon, dismissable };
+    options = { autoHide: false, id, ...options };
+
+    const notification = { id: options.id, content };
 
     // optional: autohide a notification after 4 seconds
-    if (autoHide) {
+    if (options.autoHide) {
       notification.hideTimeout = setTimeout(
-        () => this.flux.actions.dismissNotification(id), 4000
+        () => this.flux.actions.dismissNotification(options.id), 4000
       );
     }
-
-    this.state.notifications.unshift(notification);
+    const existingIndex = this.state.notifications.findIndex(notification => notification.id === options.id);
+    if (existingIndex > -1) {
+      this.state.notifications[existingIndex] = notification;
+    } else {
+      this.state.notifications.unshift(notification);
+    }
 
     this.emit("change");
   },
