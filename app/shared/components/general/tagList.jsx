@@ -1,24 +1,19 @@
 import React from 'react';
-import Tag from './tag.jsx';
+import {Link} from 'react-router';
 
-export default React.createClass({
-  displayName: "TagList",
+export default function TagList({ tags = [] }) {
 
-  getDefaultProps() {
-    return {
-      tags: []
-    };
-  },
+  const tagsList = tags.map((tag, i) =>
+    <Link to={`/tag/${encodeURIComponent(tag.slug)}.${encodeURIComponent(tag.value.slug)}`} key={tag + i}>
+      <span className="si-tag">
+          {tag.value.name}
+      </span>
+    </Link>
+  );
 
-  render() {
-    let children = this.props.tags.map(function (tag) {
-      return <Tag key={"tag-" + tag.id} tag={tag}/>;
-    });
-
-    return (
-      <div className="si-tag-list">
-        {children}
-      </div>
-    );
-  }
-});
+  return (
+    <div className="si-tag-list">
+      {tagsList}
+    </div>
+  );
+};
