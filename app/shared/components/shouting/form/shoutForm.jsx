@@ -67,11 +67,17 @@ export default React.createClass({
   },
 
   onTextChange(key) {
+    return (event) => {
+      const { flux } = this.props;
+      if (key === "price") {
+        // Prices should convert to cents for API
+        flux.actions.changeShoutDraft(key, event.target.value * 100);
+      } else {
+        flux.actions.changeShoutDraft(key, event.target.value);
+      }
 
-    return function (event) {
-      this.props.flux.actions.changeShoutDraft(key, event.target.value);
       this.onTouch(key);
-    }.bind(this);
+    };
   },
 
   renderPriceInput() {
