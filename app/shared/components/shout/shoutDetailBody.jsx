@@ -127,11 +127,6 @@ export default React.createClass({
     //return (<ShoutDetailActions/>);
   },
 
-  renderTags(shout) {
-    return shout.tags ?
-      <TagList tags={shout.filters}/> : null;
-  },
-
   renderBottom(shout) {
     return (
       <div className="btn-bottom single-shout">
@@ -178,18 +173,21 @@ export default React.createClass({
       <div>
         <ItemScope type="Product">
           <div className="si-shout-detail">
-            <Grid fluid={true} style={{height: "45px"}}>
+            <Grid fluid style={{height: "45px"}}>
               {this.renderTitle(shout)}
               {this.renderOffer(shout)}
             </Grid>
-            <Grid fluid={true}>
+            <Grid fluid>
               {this.renderImages(shout)}
             </Grid>
             <ReactVisible condition={shout.images.length > 1}>
               <Separator size="640px" style={{marginTop: "25px"}}/>
             </ReactVisible>
-            <Grid fluid={true}>
+            <Grid fluid>
               {this.renderText(shout)}
+            </Grid>
+            <Grid fluid>
+              <TagList tags={shout.filters} showWithType/>
             </Grid>
           </div>
         </ItemScope>
