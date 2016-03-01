@@ -34,7 +34,7 @@ const shoutMockData = {
     "icon": "https://tag-image.static.shoutit.com/categories/jobs-i.png",
     "image": "https://tag-image.static.shoutit.com/8e93edd1-2301-4382-a929-3614fd3cc72e-jobs.jpg",
   },
-  "tags": [
+  "filters": [
     {
       "id": "43fc3e63-7924-4fa3-9830-1839f73d1e1b",
       "name": "engineering",
