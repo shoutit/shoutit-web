@@ -4,7 +4,7 @@ import shallowHelpers from "react-shallow-renderer-helpers";
 import { expect } from "chai";
 
 // For type checking
-import TagList from "../../app/shared/components/general/tagList.jsx";
+import TagList from "../../app/shared/components/general/TagList.jsx";
 import CountryFlag from "../../app/shared/components/helper/CountryFlag.jsx";
 import CategoryIcon from "../../app/shared/components/helper/CategoryIcon.jsx";
 
