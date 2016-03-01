@@ -58,7 +58,7 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
             </ItemProp>
             <span className="ShoutGridview-subtitle">{ shout.user.name }</span>
             <span className="ShoutGridview-price">
-              { currencyFormatter.format(shout.price, { code: currency } )}
+              { currencyFormatter.format(shout.price/100, { code: currency } )}
             </span>
           </div>
         </Link>

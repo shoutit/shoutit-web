@@ -26,7 +26,7 @@ export default function SuggestShoutCard({ loading, shout }) {
                   { shout.user.name }
               </Column>
               <Column fluid={true} size="4" className="suggest-price">
-                  { currencyFormatter.format(shout.price, { code: shout.currency } )}
+                  { currencyFormatter.format(shout.price/100, { code: shout.currency } )}
               </Column>
           </Grid>
         </Grid>
