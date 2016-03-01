@@ -6,7 +6,7 @@ import currencyFormatter from "currency-formatter";
 
 //import Rating from './rating.jsx';
 import ShoutDetailActions from "./shoutDetailActions.jsx";
-import TagList from "../general/TagList.jsx";
+import TagButtons from "../general/TagButtons.jsx";
 import Separator from "../general/separator.jsx";
 import ReplyShoutForm from "../shout/ReplyShoutForm.jsx";
 
@@ -187,7 +187,7 @@ export default React.createClass({
               {this.renderText(shout)}
             </Grid>
             <Grid fluid>
-              <TagList tags={shout.filters} showWithType/>
+              <TagButtons tags={shout.filters} showWithType/>
             </Grid>
           </div>
         </ItemScope>

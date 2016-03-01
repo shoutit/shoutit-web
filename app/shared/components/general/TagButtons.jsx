@@ -5,7 +5,7 @@ if(process.env.BROWSER) {
   require("styles/components/TagButtons.scss");
 }
 
-export default function TagList({ tags = [], showWithType = false }) {
+export default function TagButtons({ tags = [], showWithType = false }) {
 
   const tagsList = tags.map((tag, i) =>
     <Link to={`/tag/${encodeURIComponent(tag.value.slug)}`} key={tag + i}>
