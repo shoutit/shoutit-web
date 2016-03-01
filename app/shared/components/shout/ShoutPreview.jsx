@@ -88,7 +88,7 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
           </Column>
           <Column size="3" fluid={true}>
             <div className="ShoutPreview-price bold">
-              { currencyFormatter.format(shout.price, { code: currency } )}
+              { currencyFormatter.format(shout.price/100, { code: currency } )}
             </div>
           </Column>
         </Grid>
