@@ -129,7 +129,7 @@ export default React.createClass({
 
   renderTags(shout) {
     return shout.tags ?
-      <TagList tags={shout.tags}/> : null;
+      <TagList tags={shout.filters}/> : null;
   },
 
   renderBottom(shout) {
