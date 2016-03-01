@@ -30,9 +30,14 @@ export default function Button({
   }
   let elClassName = "Button";
 
+  if (leftIcon) {
+    elClassName += " with-icon";
+  }
+  
   if (block) {
     elClassName += " block";
   }
+
 
   if (primary) {
     elClassName += " primary";
