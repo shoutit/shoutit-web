@@ -4,11 +4,15 @@ import {
   TWILIO_INIT,
   TWILIO_INIT_SUCCESS,
   TWILIO_INIT_FAILURE,
-  VIDEOCALL_INVITING,
-  VIDEOCALL_INVITING_SUCCESS,
-  VIDEOCALL_INVITING_FAILURE,
-  VIDEOCALL_INVITE_RECEIVED,
-  VIDEOCALL_INVITE_ACCEPTED
+
+  VIDEOCALL_OUTGOING,
+  VIDEOCALL_OUTGOING_SUCCESS,
+  VIDEOCALL_OUTGOING_FAILURE,
+
+  VIDEOCALL_INCOMING,
+  VIDEOCALL_INCOMING_ACCEPTED,
+  VIDEOCALL_INCOMING_REJECTED
+
 } from "../video_call/actionTypes";
 
 import debug from "debug";
@@ -42,7 +46,6 @@ export const actions = {
       // Start listening to client
 
       conversationsClient.listen().then(() => {
-        log("Connected to Twilio!");
         this.dispatch(TWILIO_INIT_SUCCESS, {
           token: data.token,
           identity: data.identity,
@@ -57,42 +60,45 @@ export const actions = {
 
       // Handle Twilio client events
 
-      conversationsClient.on("invite", this.flux.actions.receiveVideoCallInvite);
+      conversationsClient.on("invite", incomingInvite =>
+        this.dispatch(VIDEOCALL_INCOMING, incomingInvite)
+      );
 
     });
 
   },
 
-  inviteToVideoCall(user) {
+  inviteToVideoCall(user, done) {
     const { username: identity } = user;
     const client = this.flux.stores["videocall"].getState().conversationsClient;
 
-    this.dispatch(VIDEOCALL_INVITING, { user });
+    const outgoingInvite = client.inviteToConversation(user.username);
+    this.dispatch(VIDEOCALL_OUTGOING, { user, outgoingInvite });
 
-    client.inviteToConversation(user.username)
+    outgoingInvite
       .then(conversation => {
         log("Connected to conversation $s with %s", conversation.sid, identity, conversation);
-        this.dispatch(VIDEOCALL_INVITING_SUCCESS, { user, conversation });
-      }, error => {
+        this.dispatch(VIDEOCALL_OUTGOING_SUCCESS, { user, conversation });
+        done && done(null, conversation);
+      })
+      .catch(error => {
         console.error("Could not create conversation", error); // eslint-disable-line no-console
         error.status = 500;
-        this.dispatch(VIDEOCALL_INVITING_FAILURE, { error } );
+        this.dispatch(VIDEOCALL_OUTGOING_FAILURE, { error } );
+        done && done(error);
       });
 
   },
 
-  receiveVideoCallInvite(invite) {
-    this.dispatch(VIDEOCALL_INVITE_RECEIVED, invite);
-    //
-    // // This shouldn't be accepted here, instead should show a dialog in the UI
-    // this.flux.actions.acceptVideoCallInvite(invite);
-
+  acceptVideoCall(incomingInvite) {
+    return incomingInvite.accept().then(conversation => {
+      this.dispatch(VIDEOCALL_INCOMING_ACCEPTED, { incomingInvite, conversation });
+    });
   },
 
-  acceptVideoCallInvite(invite) {
-    return invite.accept().then(conversation => {
-      this.dispatch(VIDEOCALL_INVITE_ACCEPTED, { invite, conversation });
+  rejectVideoCall(incomingInvite) {
+    return incomingInvite.accept().then(conversation => {
+      this.dispatch(VIDEOCALL_INCOMING_REJECTED, { incomingInvite, conversation });
     });
   }
-
 };

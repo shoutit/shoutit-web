@@ -4,12 +4,12 @@ import {
   TWILIO_INIT,
   TWILIO_INIT_SUCCESS,
   TWILIO_INIT_FAILURE,
-  VIDEOCALL_INVITING,
-  VIDEOCALL_INVITING_SUCCESS,
-  VIDEOCALL_INVITING_FAILURE,
-  VIDEOCALL_INVITE_RECEIVED,
-  VIDEOCALL_INVITE_ACCEPTED,
-  VIDEOCALL_INVITING_REJECTED
+  VIDEOCALL_OUTGOING,
+  VIDEOCALL_OUTGOING_SUCCESS,
+  VIDEOCALL_OUTGOING_FAILURE,
+  VIDEOCALL_INCOMING,
+  VIDEOCALL_INCOMING_ACCEPTED,
+  VIDEOCALL_INCOMING_REJECTED
 } from "../video_call/actionTypes";
 
 const initialState = {
@@ -23,13 +23,11 @@ const initialState = {
   accessManager: null,
   conversationsClient: null,
 
-  creatingConversation: false,
-  createError: null,
-
   currentConversation: null,
 
-  invites: [] // Invites waiting to be accepted or rejected
+  incomingInvites: [],           // Invites waiting to be accepted or rejected
 
+  outgoingInvites: []
 };
 
 export const VideoCallStore = Fluxxor.createStore({
@@ -45,15 +43,19 @@ export const VideoCallStore = Fluxxor.createStore({
     }
 
     this.bindActions(
+
       TWILIO_INIT, this.handleInitStart,
       TWILIO_INIT_SUCCESS, this.handleInitSuccess,
       TWILIO_INIT_FAILURE, this.handleInitFailure,
-      VIDEOCALL_INVITING, this.handleInviteStart,
-      VIDEOCALL_INVITING_SUCCESS, this.handleInviteSuccess,
-      VIDEOCALL_INVITING_FAILURE, this.handleInviteFailure,
-      VIDEOCALL_INVITE_RECEIVED, this.handleInviteReceived,
-      VIDEOCALL_INVITE_ACCEPTED, this.handleInviteAccepted,
-      VIDEOCALL_INVITING_REJECTED, this.handleInviteRejected
+
+      VIDEOCALL_OUTGOING, this.handleOutgoingInvite,
+      VIDEOCALL_OUTGOING_SUCCESS, this.handleOutgoingInviteSuccess,
+      VIDEOCALL_OUTGOING_FAILURE, this.handleOutgoingInviteFailure,
+
+      VIDEOCALL_INCOMING, this.handleIncomingInvite,
+      VIDEOCALL_INCOMING_ACCEPTED, this.handleIncomingInviteAccepted,
+      VIDEOCALL_INCOMING_REJECTED, this.handleIncomingInviteRejected
+
     );
   },
 
@@ -84,37 +86,43 @@ export const VideoCallStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  handleInviteStart() {
-    this.state.creatingConversation = true;
+  handleOutgoingInvite(outgoingInvite) {
+    this.state.outgoingInvites.push(outgoingInvite);
     this.emit("change");
   },
 
-  handleInviteSuccess({ conversation }) {
+  handleOutgoingInviteSuccess({ outgoingInvite, conversation }) {
     this.state.currentConversation = conversation;
-    this.state.createError = null;
-    this.state.creatingConversation = false;
+    this.state.outgoingInvites.splice(
+      this.state.outgoingInvites.indexOf(outgoingInvite), 1
+    );
     this.emit("change");
   },
 
-  handleInviteFailure({ error }) {
-    this.state.createError = error;
-    this.state.creatingConversation = false;
+  handleOutgoingInviteFailure({ outgoingInvite }) {
+    this.state.outgoingInvites.splice(
+      this.state.outgoingInvites.indexOf(outgoingInvite), 1
+    );
     this.emit("change");
   },
 
-  handleInviteReceived(invite) {
-    this.state.invites.push(invite);
+  handleIncomingInvite(incomingInvite) {
+    this.state.incomingInvites.push(incomingInvite);
     this.emit("change");
   },
 
-  handleInviteAccepted({ invite, conversation }) {
+  handleIncomingInviteAccepted({ incomingInvite, conversation }) {
     this.state.currentConversation = conversation;
-    this.state.invites.splice(this.state.invites.indexOf(invite), 1);
+    this.state.incomingInvites.splice(
+      this.state.incomingInvites.indexOf(incomingInvite), 1
+    );
     this.emit("change");
   },
 
-  handleInviteRejected(invite) {
-    this.state.invites.splice(this.state.invites.indexOf(invite), 1);
+  handleIncomingInviteRejected(incomingInvite) {
+    this.state.incomingInvites.splice(
+      this.state.incomingInvites.indexOf(incomingInvite), 1
+    );
     this.emit("change");
   },
 
