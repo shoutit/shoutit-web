@@ -16,8 +16,7 @@ module.exports = function () {
     unlisten: require("./unlisten")(this, SUBROUTE),
     getListeners: require("./getListeners")(this,SUBROUTE),
     getListening: require("./getListening")(this,SUBROUTE),
-    sendMessage: require("./sendMessage")(this,SUBROUTE),
-    getShouts: require("./getShouts")(this, SUBROUTE)
+    sendMessage: require("./sendMessage")(this,SUBROUTE)
   };
 };
 

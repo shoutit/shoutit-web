@@ -2,6 +2,7 @@ import request from "superagent";
 import {assign} from "lodash/object";
 
 const page_size = 8;
+const SHOUTS_PREFIX = "/api/shouts";
 
 export default {
 
@@ -17,7 +18,9 @@ export default {
   },
 
   getDiscoverShouts(id, query = {}) {
-    return request.get(`/api/discover/${id}/shouts`)
-      .query( assign(query, {page_size}) );
+    query.discover = id;
+
+    return request.get(SHOUTS_PREFIX)
+      .query({ ...query, page_size });
   }
 };

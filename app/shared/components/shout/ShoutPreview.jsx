@@ -5,7 +5,7 @@ import ReplyShoutForm from "./ReplyShoutForm.jsx";
 import UserAvatar from "../user/UserAvatar.jsx";
 import {Image, Column, Grid, Icon} from "../helper";
 import Separator from "../general/separator.jsx";
-import TagList from "../general/tagList.jsx";
+import TagButtons from "../general/TagButtons.jsx";
 
 import CountryFlag from "../helper/CountryFlag.jsx";
 import CategoryIcon from "../helper/CategoryIcon.jsx";
@@ -58,7 +58,7 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
             </ItemProp>
             <span className="ShoutGridview-subtitle">{ shout.user.name }</span>
             <span className="ShoutGridview-price">
-              { currencyFormatter.format(shout.price, { code: currency } )}
+              { currencyFormatter.format(shout.price/100, { code: currency } )}
             </span>
           </div>
         </Link>
@@ -88,7 +88,7 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
           </Column>
           <Column size="3" fluid={true}>
             <div className="ShoutPreview-price bold">
-              { currencyFormatter.format(shout.price, { code: currency } )}
+              { currencyFormatter.format(shout.price/100, { code: currency } )}
             </div>
           </Column>
         </Grid>
@@ -108,7 +108,7 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
             <ItemProp property="description">
               <p className="ShoutPreview-text">{ trunc(shout.text, 150) }</p>
             </ItemProp>
-            <TagList tags={shout.tags}/>
+            <TagButtons tags={shout.filters}/>
 
             <Separator />
 

@@ -4,7 +4,7 @@ import shallowHelpers from "react-shallow-renderer-helpers";
 import { expect } from "chai";
 
 // For type checking
-import TagList from "../../app/shared/components/general/tagList.jsx";
+import TagButtons from "../../app/shared/components/general/TagButtons.jsx";
 import CountryFlag from "../../app/shared/components/helper/CountryFlag.jsx";
 import CategoryIcon from "../../app/shared/components/helper/CategoryIcon.jsx";
 
@@ -34,7 +34,7 @@ const shoutMockData = {
     "icon": "https://tag-image.static.shoutit.com/categories/jobs-i.png",
     "image": "https://tag-image.static.shoutit.com/8e93edd1-2301-4382-a929-3614fd3cc72e-jobs.jpg",
   },
-  "tags": [
+  "filters": [
     {
       "id": "43fc3e63-7924-4fa3-9830-1839f73d1e1b",
       "name": "engineering",
@@ -144,7 +144,7 @@ describe("ShoutPreview ", function() {
     });
 
     it("should render tags", function() {
-      const target = shallowHelpers.findType(result, TagList);
+      const target = shallowHelpers.findType(result, TagButtons);
 
       expect(target).to.be.ok;
       expect(target.props.tags).to.exist;
