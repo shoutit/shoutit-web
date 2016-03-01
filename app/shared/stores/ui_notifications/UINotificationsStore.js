@@ -54,40 +54,40 @@ export const UINotificationsStore = Fluxxor.createStore({
             message={ <span>You are no longer listening to the tag <strong>{tagName}</strong>.</span> }
             icon= { <SVGIcon name="tag" active /> }
           />
-        ),
-
-      VIDEOCALL_OUTGOING, ({ user, videoCallId }) =>
-        this.handleNotification(
-          <Notification
-            dismissable={ false }
-            message={ <span>Starting video call with <strong>{ user.name }</strong>...</span> }
-            icon= { <SVGIcon name="video" active /> }
-            buttons={[]}
-          />, { autoHide: false, id: videoCallId }),
-
-      VIDEOCALL_OUTGOING_FAILURE, ({ user, videoCallId }) =>
-        this.handleNotification(
-          <Notification
-            message={ <span>Cannot start video call with <strong>{ user.name }</strong>!</span> }
-            icon= { <SVGIcon name="video" active /> }
-          />, { autoHide: false, id: videoCallId }),
-
-      VIDEOCALL_OUTGOING_SUCCESS, ({ videoCallId }) => this.handleDismiss(videoCallId),
-
-      VIDEOCALL_INCOMING, incomingInvite =>
-        this.handleNotification(
-          <Notification
-            message="Someone wants to call you!"
-            dismissable={ false }
-            buttons={[
-              <Button size="small" label="Reject" onClick={ () => this.flux.actions.rejectVideoCall(incomingInvite) } />,
-              <Button size="small" primary label="Accept" onClick={ () => this.flux.actions.acceptVideoCall(incomingInvite) } />
-            ]}
-            icon= { <SVGIcon name="video" active /> }
-          />, { autoHide: false, id: incomingInvite.conversationSid }),
-
-      VIDEOCALL_INCOMING_ACCEPTED, ({incomingInvite}) => this.handleDismiss(incomingInvite.conversationSid),
-      VIDEOCALL_INCOMING_REJECTED, ({incomingInvite}) => this.handleDismiss(incomingInvite.conversationSid)
+        )
+      //
+      // VIDEOCALL_OUTGOING, ({ user, videoCallId }) =>
+      //   this.handleNotification(
+      //     <Notification
+      //       dismissable={ false }
+      //       message={ <span>Starting video call with <strong>{ user.name }</strong>...</span> }
+      //       icon= { <SVGIcon name="video" active /> }
+      //       buttons={[]}
+      //     />, { autoHide: false, id: videoCallId }),
+      //
+      // VIDEOCALL_OUTGOING_FAILURE, ({ user, videoCallId }) =>
+      //   this.handleNotification(
+      //     <Notification
+      //       message={ <span>Cannot start video call with <strong>{ user.name }</strong>!</span> }
+      //       icon= { <SVGIcon name="video" active /> }
+      //     />, { autoHide: false, id: videoCallId }),
+      //
+      // VIDEOCALL_OUTGOING_SUCCESS, ({ videoCallId }) => this.handleDismiss(videoCallId),
+      //
+      // VIDEOCALL_INCOMING, incomingInvite =>
+      //   this.handleNotification(
+      //     <Notification
+      //       message="Someone wants to call you!"
+      //       dismissable={ false }
+      //       buttons={[
+      //         <Button size="small" label="Reject" onClick={ () => this.flux.actions.rejectVideoCall(incomingInvite) } />,
+      //         <Button size="small" primary label="Accept" onClick={ () => this.flux.actions.acceptVideoCall(incomingInvite) } />
+      //       ]}
+      //       icon= { <SVGIcon name="video" active /> }
+      //     />, { autoHide: false, id: incomingInvite.conversationSid }),
+      //
+      // VIDEOCALL_INCOMING_ACCEPTED, ({incomingInvite}) => this.handleDismiss(incomingInvite.conversationSid),
+      // VIDEOCALL_INCOMING_REJECTED, ({incomingInvite}) => this.handleDismiss(incomingInvite.conversationSid)
 
     );
   },
