@@ -1,5 +1,9 @@
-import React from 'react';
-import {Link} from 'react-router';
+import React from "react";
+import { Link } from "react-router";
+
+if(process.env.BROWSER) {
+  require("styles/components/TagButtons.scss");
+}
 
 export default function TagList({ tags = [] }) {
 
@@ -16,4 +20,4 @@ export default function TagList({ tags = [] }) {
       {tagsList}
     </div>
   );
-};
+}

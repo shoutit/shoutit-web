@@ -1,8 +1,11 @@
-.si-tag-list {
+@import "../constants/defaults.scss";
+@import "../constants/colors.scss";
+
+.TagButtons {
   display: inline-block;
   margin:15px;
 }
-.si-tag {
+.TagButtons-button {
   display: inline-block;
   padding: 5px;
   border-radius: 5px;
