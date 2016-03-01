@@ -1,4 +1,4 @@
-import request from "../utils/APIRequest";
+import request from "../utils/request";
 
 export default {
   name: "twilioToken",
@@ -6,7 +6,7 @@ export default {
     request
       .post(`/twilio/video_auth`)
       .setSession(req.session)
-      .prefixAPIUrl()
+      .prefix()
       .end((err, res) => {
         if (err) {
           return callback(err);
