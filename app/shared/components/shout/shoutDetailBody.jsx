@@ -6,7 +6,7 @@ import currencyFormatter from "currency-formatter";
 
 //import Rating from './rating.jsx';
 import ShoutDetailActions from "./shoutDetailActions.jsx";
-import TagList from "../general/tagList.jsx";
+import TagList from "../general/TagList.jsx";
 import Separator from "../general/separator.jsx";
 import ReplyShoutForm from "../shout/ReplyShoutForm.jsx";
 

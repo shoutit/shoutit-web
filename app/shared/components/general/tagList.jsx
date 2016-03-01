@@ -9,14 +9,14 @@ export default function TagList({ tags = [] }) {
 
   const tagsList = tags.map((tag, i) =>
     <Link to={`/tag/${encodeURIComponent(tag.value.slug)}`} key={tag + i}>
-      <span className="si-tag">
+      <span className="TagButtons-button">
           {tag.value.name}
       </span>
     </Link>
   );
 
   return (
-    <div className="si-tag-list">
+    <div className="TagButtons">
       {tagsList}
     </div>
   );
