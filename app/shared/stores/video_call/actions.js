@@ -73,18 +73,19 @@ export const actions = {
     const client = this.flux.stores["videocall"].getState().conversationsClient;
 
     const outgoingInvite = client.inviteToConversation(user.username);
-    this.dispatch(VIDEOCALL_OUTGOING, { user, outgoingInvite });
+    const videoCallId = new Date().getTime();
+    this.dispatch(VIDEOCALL_OUTGOING, { user, outgoingInvite, videoCallId });
 
     outgoingInvite
       .then(conversation => {
         log("Connected to conversation $s with %s", conversation.sid, identity, conversation);
-        this.dispatch(VIDEOCALL_OUTGOING_SUCCESS, { user, conversation });
+        this.dispatch(VIDEOCALL_OUTGOING_SUCCESS, { user, conversation, videoCallId });
         done && done(null, conversation);
       })
       .catch(error => {
         console.error("Could not create conversation", error); // eslint-disable-line no-console
         error.status = 500;
-        this.dispatch(VIDEOCALL_OUTGOING_FAILURE, { error } );
+        this.dispatch(VIDEOCALL_OUTGOING_FAILURE, { user, error, videoCallId } );
         done && done(error);
       });
 
