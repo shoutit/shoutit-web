@@ -5,7 +5,6 @@ import { expect } from "chai";
 
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import NotificationHost from "../../app/shared/components/notifications/NotificationHost.jsx";
-import Notification from "../../app/shared/components/notifications/Notification.jsx";
 
 describe("NotificationHost", () => {
   let output;
@@ -26,11 +25,6 @@ describe("NotificationHost", () => {
     const wrapper = shallowHelpers.findClass(output, "NotificationHost-wrapper");
     expect(root).to.exist;
     expect(wrapper).to.exist;
-  });
-
-  it("should render all the notifications", () => {
-    const target = shallowHelpers.filter(output, el => el.type === Notification);
-    expect(target).to.have.length(2);
   });
 
   it("should use ReactCSSTransitionGroup", () => {
