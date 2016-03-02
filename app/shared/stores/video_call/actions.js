@@ -11,7 +11,8 @@ import {
 
   VIDEOCALL_INCOMING,
   VIDEOCALL_INCOMING_ACCEPTED,
-  VIDEOCALL_INCOMING_REJECTED
+  VIDEOCALL_INCOMING_REJECTED,
+  VIDEOCALL_INCOMING_FAILURE
 
 } from "../video_call/actionTypes";
 
@@ -68,7 +69,7 @@ export const actions = {
 
   },
 
-  inviteToVideoCall(user, done) {
+  inviteToVideoCall(user) {
     const { username: identity } = user;
     const client = this.flux.stores["videocall"].getState().conversationsClient;
 
@@ -80,26 +81,29 @@ export const actions = {
       .then(conversation => {
         log("Connected to conversation $s with %s", conversation.sid, identity, conversation);
         this.dispatch(VIDEOCALL_OUTGOING_SUCCESS, { user, conversation, videoCallId });
-        done && done(null, conversation);
       })
       .catch(error => {
         console.error("Could not create conversation", error); // eslint-disable-line no-console
         error.status = 500;
         this.dispatch(VIDEOCALL_OUTGOING_FAILURE, { user, error, videoCallId } );
-        done && done(error);
       });
 
   },
 
   acceptVideoCall(incomingInvite) {
-    return incomingInvite.accept().then(conversation => {
-      this.dispatch(VIDEOCALL_INCOMING_ACCEPTED, { incomingInvite, conversation });
-    });
+    incomingInvite.accept()
+      .then(conversation => {
+        this.dispatch(VIDEOCALL_INCOMING_ACCEPTED, { incomingInvite, conversation });
+      })
+      .catch(error => {
+        console.error("Could not join conversation", error); // eslint-disable-line no-console
+        error.status = 500;
+        this.dispatch(VIDEOCALL_INCOMING_FAILURE, { error, incomingInvite } );
+      });
   },
 
   rejectVideoCall(incomingInvite) {
-    return incomingInvite.accept().then(conversation => {
-      this.dispatch(VIDEOCALL_INCOMING_REJECTED, { incomingInvite, conversation });
-    });
+    incomingInvite.reject();
+    this.dispatch(VIDEOCALL_INCOMING_REJECTED, { incomingInvite });
   }
 };
