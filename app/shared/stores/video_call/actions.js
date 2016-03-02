@@ -12,12 +12,25 @@ import {
   VIDEOCALL_INCOMING,
   VIDEOCALL_INCOMING_ACCEPTED,
   VIDEOCALL_INCOMING_REJECTED,
-  VIDEOCALL_INCOMING_FAILURE
+  VIDEOCALL_INCOMING_FAILURE,
+
+  VIDEOCALL_DISCONNECTED,
+  VIDEOCALL_PARTICIPANT_DISCONNECTED
 
 } from "../video_call/actionTypes";
 
 import debug from "debug";
 const log = debug("shoutit:videocall");
+
+
+function subscribeConversationEvents(conversation, self) {
+  conversation.on("disconnected", () => {
+    self.dispatch(VIDEOCALL_DISCONNECTED, conversation);
+  });
+  conversation.on("participantDisconnected", () => {
+    self.dispatch(VIDEOCALL_PARTICIPANT_DISCONNECTED, conversation);
+  });
+}
 
 export const actions = {
 
@@ -80,6 +93,7 @@ export const actions = {
     outgoingInvite
       .then(conversation => {
         log("Connected to conversation $s with %s", conversation.sid, identity, conversation);
+        subscribeConversationEvents(conversation, this);
         this.dispatch(VIDEOCALL_OUTGOING_SUCCESS, { user, conversation, videoCallId });
       })
       .catch(error => {
@@ -93,6 +107,7 @@ export const actions = {
   acceptVideoCall(incomingInvite) {
     incomingInvite.accept()
       .then(conversation => {
+        subscribeConversationEvents(conversation, this);
         this.dispatch(VIDEOCALL_INCOMING_ACCEPTED, { incomingInvite, conversation });
       })
       .catch(error => {
@@ -106,4 +121,5 @@ export const actions = {
     incomingInvite.reject();
     this.dispatch(VIDEOCALL_INCOMING_REJECTED, { incomingInvite });
   }
+
 };

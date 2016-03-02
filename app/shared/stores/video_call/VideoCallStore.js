@@ -9,7 +9,10 @@ import {
   VIDEOCALL_OUTGOING_FAILURE,
   VIDEOCALL_INCOMING,
   VIDEOCALL_INCOMING_ACCEPTED,
-  VIDEOCALL_INCOMING_REJECTED
+  VIDEOCALL_INCOMING_REJECTED,
+
+  VIDEOCALL_DISCONNECTED
+
 } from "../video_call/actionTypes";
 
 const initialState = {
@@ -54,7 +57,9 @@ export const VideoCallStore = Fluxxor.createStore({
 
       VIDEOCALL_INCOMING, this.handleIncomingInvite,
       VIDEOCALL_INCOMING_ACCEPTED, this.handleIncomingInviteAccepted,
-      VIDEOCALL_INCOMING_REJECTED, this.handleIncomingInviteRejected
+      VIDEOCALL_INCOMING_REJECTED, this.handleIncomingInviteRejected,
+
+      VIDEOCALL_DISCONNECTED, this.handleConversationDisconnected
 
     );
   },
@@ -123,6 +128,11 @@ export const VideoCallStore = Fluxxor.createStore({
     this.state.incomingInvites.splice(
       this.state.incomingInvites.indexOf(incomingInvite), 1
     );
+    this.emit("change");
+  },
+
+  handleConversationDisconnected() {
+    this.state.currentConversation = null;
     this.emit("change");
   },
 
