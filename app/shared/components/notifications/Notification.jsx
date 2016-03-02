@@ -9,15 +9,13 @@ export default class Notification extends React.Component {
 
   static propTypes = {
     dismissNotification: React.PropTypes.func,
-    notificationId: React.PropTypes.number,
     icon: React.PropTypes.element,
-    dismissable: React.PropTypes.bool,
-    message: React.PropTypes.oneOfType([React.PropTypes.element, React.PropTypes.string]),
+    showDismissButton: React.PropTypes.bool,
     buttons: React.PropTypes.array
   };
 
   static defaultProps = {
-    dismissable: true,
+    showDismissButton: true,
     buttons: []
   };
 
@@ -32,6 +30,15 @@ export default class Notification extends React.Component {
     this.setState({ style: this.getStyle() });
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.children !== this.props.children || prevProps.message !== this.props.message) {
+      const style = this.getStyle();
+      this.refs.wrapper.scrollTop = 0;
+      this.setState({ style });
+    }
+
+  }
+
   getStyle() {
     const style = {
       visibility: "visible",
@@ -43,20 +50,19 @@ export default class Notification extends React.Component {
   }
 
   render() {
-    const { notificationId, icon, message, children, dismissNotification, dismissable, buttons } = this.props;
-
+    const { icon, children, dismissNotification, showDismissButton, buttons } = this.props;
     const { style } = this.state;
     return (
-      <div className="Notification-wrapper" style={ style }>
+      <div className="Notification-wrapper" style={ style } ref="wrapper">
         <div ref="content" className="Notification">
           <div className="Notification-content">
             { icon }
 
             <span className="Notification-message">
-              { message ? message : React.cloneElement(children, { notificationId, dismissNotification }) }
+              { children }
             </span>
 
-            { dismissable &&
+            { showDismissButton &&
               <span className="Notification-dismiss">
                 <SVGIcon size="small" name="close" onClick={ () => dismissNotification() } />
               </span>
