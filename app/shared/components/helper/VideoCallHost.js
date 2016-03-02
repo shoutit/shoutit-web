@@ -1,4 +1,7 @@
 import React from "react";
+import Draggable from "react-draggable";
+
+import Button from "../helper/Button";
 
 if (process.env.BROWSER) {
   require("styles/components/VideoCallHost.scss");
@@ -27,11 +30,17 @@ export default class VideoCallHost extends React.Component {
   }
 
   render() {
+    const { conversation } = this.props;
     return (
-      <div className="VideoCallHost">
-        <div className="VideoCallHost-remoteMedia" ref="remoteMedia"></div>
-        <div className="VideoCallHost-localMedia" ref="localMedia"></div>
-      </div>
+      <Draggable>
+        <div className="VideoCallHost">
+          <div className="VideoCallHost-remoteMedia" ref="remoteMedia"></div>
+          <div className="VideoCallHost-localMedia" ref="localMedia"></div>
+          <div className="VideoCallHost-controls">
+            <Button inverted label="Hang up" onClick={ () => conversation.disconnect() } />
+          </div>
+        </div>
+      </Draggable>
     );
   }
 
