@@ -1,7 +1,9 @@
+import React from "react";
 import Fluxxor from "fluxxor";
-import { LISTEN_SUCCESS, STOP_LISTEN_SUCCESS } from "../users/consts";
-import { LISTEN_TAG_SUCCESS, STOP_LISTEN_TAG_SUCCESS } from "../tags/consts";
-import { DISMISS_NOTIFICATION } from "./consts";
+import { DISMISS_NOTIFICATION, NOTIFY } from "../ui_notifications/actionTypes";
+import * as notificationList from "../ui_notifications/notificationList";
+
+import Notification from "../../components/notifications/Notification.jsx";
 
 const initialState = {
   notifications: []
@@ -12,12 +14,35 @@ export const UINotificationsStore = Fluxxor.createStore({
   initialize() {
     this.state = {...initialState};
 
+    Object.keys(notificationList).forEach(name => {
+      this.bindActions(name, payload => {
+        const notification = notificationList[name](payload, this.handleDismiss, this.flux);
+        if (!notification) {
+          return;
+        }
+        let content, options;
+        if (typeof notification === "string") {
+          content = <Notification>{ notification }</Notification>;
+        } else if (notification.type === Notification) {
+          content = notification;
+        } else if (typeof notification.content === "string") {
+          content = <Notification>{ notification.content }</Notification>;
+        } else if (notification.content && notification.content.type === Notification) {
+          content = notification.content;
+        } else {
+          console.warn("Could not display notification for %s", name); // eslint-disable-line no-console
+          return;
+        }
+        if (notification.options) {
+          options = notification.options;
+        }
+        this.handleNotification(content, options);
+      });
+    });
+
     this.bindActions(
-      LISTEN_SUCCESS, ({ username }) => this.handleNotification(`You are listening to ${username}`),
-      STOP_LISTEN_SUCCESS, ({ username }) => this.handleNotification(`You are no longer listening to ${username}`),
-      LISTEN_TAG_SUCCESS, ({ tagName }) => this.handleNotification(`You are listening to ${tagName}`),
-      STOP_LISTEN_TAG_SUCCESS, ({ tagName }) => this.handleNotification(`You are no longer listening to ${tagName}`),
-      DISMISS_NOTIFICATION, this.onDismissNotification
+      DISMISS_NOTIFICATION, this.handleDismiss,
+      NOTIFY, props => this.handleNotification(<Notification {...props} />)
     );
   },
 
@@ -25,45 +50,48 @@ export const UINotificationsStore = Fluxxor.createStore({
     return this.state.notifications;
   },
 
-  handleNotification(message, autoHide = true) {
+  getState() {
+    return this.state;
+  },
 
-    // assign a unique id to this notification
-    const id = new Date().getTime();
+  handleNotification(content, options) {
+    options = { autoHide: true, ...options };
+    let id;
+    if (options.notificationId) {
+      id = options.notificationId;
+    } else {
+      id = id = new Date().getTime();
+    }
 
-    // create a new notification object, can be extended with type: alert, message, etc.
-    const notification = { message, id };
+    const notification = { id, content };
 
     // optional: autohide a notification after 4 seconds
-    if (autoHide) {
+    if (options.autoHide) {
       notification.hideTimeout = setTimeout(
         () => this.flux.actions.dismissNotification(id), 4000
       );
     }
-
-    this.state.notifications.push({ ...notification });
+    const existingIndex = this.state.notifications.findIndex(notification => notification.id === id);
+    if (existingIndex > -1) {
+      this.state.notifications[existingIndex] = notification;
+    } else {
+      this.state.notifications.unshift(notification);
+    }
 
     this.emit("change");
   },
 
-  onDismissNotification({ id }) {
-    const indexId = this.state.notifications.findIndex(chr => chr.id === id);
-    clearTimeout(this.state.notifications[indexId].hideTimeout);
-    // Remove the element from array
-    this.state.notifications.splice(indexId, 1);
-
+  handleDismiss(id) {
+    const i = this.state.notifications.findIndex(notification => notification.id === id);
+    clearTimeout(this.state.notifications[i].hideTimeout);
+    this.state.notifications.splice(i, 1);
     this.emit("change");
   },
 
   serialize() {
-    return JSON.stringify(this.state);
+    return JSON.stringify(null);
   },
 
-  hydrate(json) {
-    this.state = JSON.parse(json);
-  },
-
-  getState() {
-    return this.state;
-  }
+  hydrate() { }
 
 });

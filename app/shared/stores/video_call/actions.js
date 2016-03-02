@@ -4,15 +4,33 @@ import {
   TWILIO_INIT,
   TWILIO_INIT_SUCCESS,
   TWILIO_INIT_FAILURE,
-  VIDEOCALL_INVITE,
-  VIDEOCALL_INVITE_SUCCESS,
-  VIDEOCALL_INVITE_FAILURE,
-  VIDEOCALL_INVITE_RECEIVED,
-  VIDEOCALL_INVITE_ACCEPTED
+
+  VIDEOCALL_OUTGOING,
+  VIDEOCALL_OUTGOING_SUCCESS,
+  VIDEOCALL_OUTGOING_FAILURE,
+
+  VIDEOCALL_INCOMING,
+  VIDEOCALL_INCOMING_ACCEPTED,
+  VIDEOCALL_INCOMING_REJECTED,
+  VIDEOCALL_INCOMING_FAILURE,
+
+  VIDEOCALL_DISCONNECTED,
+  VIDEOCALL_PARTICIPANT_DISCONNECTED
+
 } from "../video_call/actionTypes";
 
 import debug from "debug";
 const log = debug("shoutit:videocall");
+
+
+function subscribeConversationEvents(conversation, self) {
+  conversation.on("disconnected", () => {
+    self.dispatch(VIDEOCALL_DISCONNECTED, conversation);
+  });
+  conversation.on("participantDisconnected", () => {
+    self.dispatch(VIDEOCALL_PARTICIPANT_DISCONNECTED, conversation);
+  });
+}
 
 export const actions = {
 
@@ -42,7 +60,6 @@ export const actions = {
       // Start listening to client
 
       conversationsClient.listen().then(() => {
-        log("Connected to Twilio!");
         this.dispatch(TWILIO_INIT_SUCCESS, {
           token: data.token,
           identity: data.identity,
@@ -57,7 +74,9 @@ export const actions = {
 
       // Handle Twilio client events
 
-      conversationsClient.on("invite", this.flux.actions.receiveVideoCallInvite);
+      conversationsClient.on("invite", incomingInvite =>
+        this.dispatch(VIDEOCALL_INCOMING, incomingInvite)
+      );
 
     });
 
@@ -67,32 +86,40 @@ export const actions = {
     const { username: identity } = user;
     const client = this.flux.stores["videocall"].getState().conversationsClient;
 
-    this.dispatch(VIDEOCALL_INVITE, { user });
+    const outgoingInvite = client.inviteToConversation(user.username);
+    const videoCallId = new Date().getTime();
+    this.dispatch(VIDEOCALL_OUTGOING, { user, outgoingInvite, videoCallId });
 
-    client.inviteToConversation(user.username)
+    outgoingInvite
       .then(conversation => {
         log("Connected to conversation $s with %s", conversation.sid, identity, conversation);
-        this.dispatch(VIDEOCALL_INVITE_SUCCESS, { user, conversation });
-      }, error => {
+        subscribeConversationEvents(conversation, this);
+        this.dispatch(VIDEOCALL_OUTGOING_SUCCESS, { user, conversation, videoCallId });
+      })
+      .catch(error => {
         console.error("Could not create conversation", error); // eslint-disable-line no-console
         error.status = 500;
-        this.dispatch(VIDEOCALL_INVITE_FAILURE, { error } );
+        this.dispatch(VIDEOCALL_OUTGOING_FAILURE, { user, error, videoCallId } );
       });
 
   },
 
-  receiveVideoCallInvite(invite) {
-    this.dispatch(VIDEOCALL_INVITE_RECEIVED, invite);
-
-    // This shouldn't be accepted here, instead should show a dialog in the UI
-    this.flux.actions.acceptVideoCallInvite(invite);
-
+  acceptVideoCall(incomingInvite) {
+    incomingInvite.accept()
+      .then(conversation => {
+        subscribeConversationEvents(conversation, this);
+        this.dispatch(VIDEOCALL_INCOMING_ACCEPTED, { incomingInvite, conversation });
+      })
+      .catch(error => {
+        console.error("Could not join conversation", error); // eslint-disable-line no-console
+        error.status = 500;
+        this.dispatch(VIDEOCALL_INCOMING_FAILURE, { error, incomingInvite } );
+      });
   },
 
-  acceptVideoCallInvite(invite) {
-    invite.accept().then(conversation =>
-      this.dispatch(VIDEOCALL_INVITE_ACCEPTED, { invite, conversation })
-    );
+  rejectVideoCall(incomingInvite) {
+    incomingInvite.reject();
+    this.dispatch(VIDEOCALL_INCOMING_REJECTED, { incomingInvite });
   }
 
 };
