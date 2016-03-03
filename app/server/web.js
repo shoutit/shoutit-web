@@ -117,7 +117,6 @@ function fetchData(userSession, routes, params, query) {
           }
         });
     }).then(function (fetched) {
-      console.log("Fetched data for", route.component.fetchId);
       data[route.component.fetchId] = fetched;
     });
   })).then(function () {
