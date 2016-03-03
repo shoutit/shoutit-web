@@ -76,7 +76,13 @@ Start the development environment to enable hot modules reload:
 $ npm run dev
 ```
 
-then open  [http://localhost:3000](http://localhost:3000)
+then open  [http://localhost:3000](http://localhost:3000).
+
+If you want to test the client of another computer in the same network, use the `HOST` env variable:
+
+```bash
+$ HOST=$HOSTNAME npm run dev # Tested only on OSX
+```
 
 ### Tests
 
