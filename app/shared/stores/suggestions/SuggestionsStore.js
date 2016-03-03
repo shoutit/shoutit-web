@@ -29,6 +29,10 @@ var SuggestionsStore = Fluxxor.createStore({
   },
 
   addEmptyLists(citySlug, dataTypes) {
+    if(!this.state.data[citySlug]) {
+      this.state.data[citySlug] = {};
+    }
+
     dataTypes.forEach((type) => {
       this.state.data[citySlug][type] = new this.emptyList();
     });
