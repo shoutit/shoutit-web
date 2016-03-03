@@ -85,6 +85,7 @@ export default React.createClass({
             flux={flux}
             users={ usersData }
             loading={ suggestions.data && suggestions.data.users.loading }
+            currentLocation={ currentLocation }
           />
           <SuggestShoutCard
             shout={ shoutsData }

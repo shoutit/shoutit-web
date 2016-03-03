@@ -86,7 +86,7 @@ export default React.createClass({
   },
 
   render() {
-    const { suggestions, flux, params } = this.props;
+    const { suggestions, flux, params, currentLocation } = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
@@ -124,6 +124,7 @@ export default React.createClass({
             flux={flux}
             users={ usersData }
             loading={ suggestions.data && suggestions.data.users.loading }
+            currentLocation={ currentLocation }
           />
           <SuggestShoutCard
             shout={ shoutsData }

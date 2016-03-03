@@ -24,16 +24,17 @@ export default React.createClass({
   },
 
   render() {
-    const { users, loading, flux } = this.props;
+    const { users, loading, flux, currentLocation } = this.props;
     const itemsLimit = this.state.more? users.length: 3;
 
     return (
       <section className="si-card" >
         <div className="card-header">
           <h3 className="pull-left">to listen to</h3>
-          <span className="refresh-btn pull-right">Refresh</span>
+          <span className="refresh-btn pull-right"
+            onClick={ () => {flux.actions.getSuggestions(currentLocation, ["users"])} }>Refresh</span>
           <span onClick={this.toggleMore} className="more-btn pull-right">
-              {this.state.more ? "Less" : "More"}
+            {this.state.more ? "Less" : "More"}
           </span>
         </div>
 
