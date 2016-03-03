@@ -25,6 +25,7 @@ Options(Object):
 import React from "react";
 import SVGIcon from "../../components/helper/SVGIcon";
 import Button from "../../components/helper/Button.jsx";
+import UserAvatar from "../../components/user/UserAvatar.jsx";
 
 import Notification from "../../components/notifications/Notification.jsx";
 
@@ -63,7 +64,7 @@ export function VIDEOCALL_OUTGOING({ user, videoCallId, outgoingInvite }) {
 
   const content = (
     <Notification showDismissButton={ false } icon= { <SVGIcon name="video" active /> } buttons={buttons}>
-      Starting video call with <strong>{ user.name }</strong>…
+      Calling <strong>{ user.name }</strong>…
     </Notification>
   );
 
@@ -109,7 +110,7 @@ export function VIDEOCALL_OUTGOING_FAILURE({ user, error, videoCallId }, dismiss
   return { options, content };
 }
 
-export function VIDEOCALL_INCOMING({ incomingInvite, profile }, dismiss, flux) {
+export function VIDEOCALL_INCOMING({ incomingInvite, user }, dismiss, flux) {
   const options = { autoHide: false, notificationId: incomingInvite.conversationSid };
   const buttons = [
     <Button key="reject" size="small" label="Reject" onClick={ () => incomingInvite.reject() } />,
@@ -117,23 +118,23 @@ export function VIDEOCALL_INCOMING({ incomingInvite, profile }, dismiss, flux) {
   ];
 
   const content = (
-    <Notification showDismissButton={ false } icon= { <SVGIcon name="video" active /> } buttons={buttons}>
-      <strong>{ profile.name }</strong> wants to start a call with you.
+    <Notification showDismissButton={ false } icon= { <UserAvatar user={ user } />  } buttons={buttons}>
+      <strong>{ user.name }</strong> is calling you
     </Notification>
   );
 
   return { options, content };
 }
 
-export function VIDEOCALL_INCOMING_ACCEPTED({incomingInvite}, dismiss) {
+export function VIDEOCALL_INCOMING_ACCEPTED({ incomingInvite }, dismiss) {
   dismiss(incomingInvite.conversationSid);
 }
 
-export function VIDEOCALL_INCOMING_REJECTED({incomingInvite}, dismiss) {
+export function VIDEOCALL_INCOMING_REJECTED({ incomingInvite }, dismiss) {
   dismiss(incomingInvite.conversationSid);
 }
 
-export function VIDEOCALL_INCOMING_CANCELED({incomingInvite, error}, dismiss) {
+export function VIDEOCALL_INCOMING_CANCELED({ incomingInvite, user, error }, dismiss) {
   const notificationId = incomingInvite.conversationSid;
   const options = { autoHide: false, notificationId };
   const buttons = [
@@ -141,13 +142,13 @@ export function VIDEOCALL_INCOMING_CANCELED({incomingInvite, error}, dismiss) {
   ];
   const content = (
     <Notification icon= { <SVGIcon name="video" active /> } buttons={ buttons }>
-      <p>User canceled this call.</p>
+      <p>{ user.name } canceled this call.</p>
     </Notification>
   );
   return { options, content };
 }
 
-export function VIDEOCALL_INCOMING_FAILURE({incomingInvite, error}, dismiss) {
+export function VIDEOCALL_INCOMING_FAILURE({ incomingInvite, error }, dismiss) {
   const notificationId =  incomingInvite.conversationSid;
   const options = { autoHide: false, notificationId };
   const buttons = [
@@ -155,7 +156,7 @@ export function VIDEOCALL_INCOMING_FAILURE({incomingInvite, error}, dismiss) {
   ];
   const content = (
     <Notification icon= { <SVGIcon name="video" active /> } buttons={ buttons }>
-      <p>Cannot join this video call for an error.</p>
+      <p>Cannot start the call because of an error.</p>
       <div><small>{ error.message }</small></div>
     </Notification>
   );

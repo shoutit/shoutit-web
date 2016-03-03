@@ -58,18 +58,18 @@ export const actions = {
 
         service.read("profile")
           .params({ username: incomingInvite.from})
-          .end((err, profile) => {
+          .end((err, user) => {
 
-            this.dispatch(actionTypes.VIDEOCALL_INCOMING, { incomingInvite, profile });
+            this.dispatch(actionTypes.VIDEOCALL_INCOMING, { incomingInvite, user });
 
             incomingInvite.on("rejected", error =>
-              this.dispatch(actionTypes.VIDEOCALL_INCOMING_REJECTED, { incomingInvite, error, profile })
+              this.dispatch(actionTypes.VIDEOCALL_INCOMING_REJECTED, { incomingInvite, error, user })
             );
             incomingInvite.on("failed", error =>
-              this.dispatch(actionTypes.VIDEOCALL_INCOMING_FAILURE, { incomingInvite, error, profile })
+              this.dispatch(actionTypes.VIDEOCALL_INCOMING_FAILURE, { incomingInvite, error, user })
             );
             incomingInvite.on("canceled", error =>
-              this.dispatch(actionTypes.VIDEOCALL_INCOMING_CANCELED, { incomingInvite, error, profile })
+              this.dispatch(actionTypes.VIDEOCALL_INCOMING_CANCELED, { incomingInvite, error, user })
             );
 
           });
