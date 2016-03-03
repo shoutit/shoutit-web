@@ -1,4 +1,4 @@
-import consts from "./consts";
+import consts from "./actionTypes";
 import client from "./client";
 const debug = require("debug")("shoutit:actions");
 

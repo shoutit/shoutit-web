@@ -1,5 +1,5 @@
 import Fluxxor from "fluxxor";
-import consts from "./consts";
+import consts from "./actionTypes";
 import client from "./client";
 import assign from "lodash/object/assign";
 import {createSlug} from "../../components/helper";

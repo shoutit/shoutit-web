@@ -3,7 +3,7 @@ import url from "url";
 import consts from "./consts";
 import statuses from "../../consts/statuses";
 import locConsts from "../locations/consts";
-import sugConsts from "../suggestions/consts";
+import sugConsts from "../suggestions/actionTypes";
 import client from "./client";
 import assign from "lodash/object/assign";
 import debug from "debug";

@@ -2,7 +2,7 @@ import Fluxxor from "fluxxor";
 import url from "url";
 import consts from "./consts";
 import usersConsts from "../users/consts";
-import sugConsts from "../suggestions/consts";
+import sugConsts from "../suggestions/actionTypes";
 import client from "./client";
 import statuses from "../../consts/statuses.js";
 import assign from "lodash/object/assign";
