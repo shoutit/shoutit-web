@@ -211,11 +211,14 @@ var UserStore = Fluxxor.createStore({
    */
   onGetSuggestionsSuccess({ res }) {
     const { users, pages } = res;
-    [...users, ...pages].forEach((item, idx) => {
-      if (!this.state.users[item.username]) {
-        this.state.users[item.username] = item;
+    const usersData = pages && users? [...users, ...pages]: users || pages;
+
+    usersData.forEach((user) => {
+      if (!this.state.users[user.username]) {
+        this.state.users[user.username] = user;
       }
     });
+
     this.emit("change");
   },
 
