@@ -2,7 +2,7 @@ import Fluxxor from "fluxxor";
 import url from "url";
 import consts from "./consts";
 import usersConsts from "../users/consts";
-import sugConsts from "../suggestions/actionTypes";
+import { GET_SUGGESTIONS_SUCCESS } from "../suggestions/actionTypes";
 import client from "./client";
 import statuses from "../../consts/statuses.js";
 import assign from "lodash/object/assign";
@@ -73,7 +73,7 @@ var TagStore = Fluxxor.createStore({
       consts.REQUEST_SPRITING, this.onRequestSpriting,
       consts.REQUEST_SPRITING_SUCCESS, this.onLoadTagsSpriteSuccess,
       consts.REQUEST_SPRITING_FAILED, this.onRequestSpritingFailed,
-      sugConsts.GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess
+      GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess
     );
   },
 

@@ -3,7 +3,7 @@ import url from "url";
 import consts from "./consts";
 import statuses from "../../consts/statuses";
 import locConsts from "../locations/consts";
-import sugConsts from "../suggestions/actionTypes";
+import { GET_SUGGESTIONS_SUCCESS } from "../suggestions/actionTypes";
 import client from "./client";
 import assign from "lodash/object/assign";
 import debug from "debug";
@@ -171,7 +171,7 @@ var UserStore = Fluxxor.createStore({
       consts.SHOW_DOWNLOAD_POPUP, this.onShowDownloadPopup,
       consts.HIDE_DOWNLOAD_POPUP, this.onHideDownloadPopup,
       locConsts.ACQUIRE_LOCATION, this.onAcqireLoc,
-      sugConsts.GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess
+      GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess
     );
   },
 
