@@ -1,19 +1,9 @@
-
 @import "../constants/dimensions.scss";
-
-$notification-width: $content-width * 0.5;
 
 .NotificationHost {
   position: fixed;
   top: $header-height + 10px;
   height: 0;
   left: 50%;
-  margin-left: -$notification-width/2;
-  text-align: center;
+  transform: translateX(-50%);
 }
-
-  .NotificationHost-wrapper {
-    text-align: left;
-    width: $notification-width;
-    position: relative;
-  }
