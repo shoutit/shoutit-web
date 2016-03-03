@@ -71,12 +71,9 @@ log("Mounting…");
 ReactDOM.render(
   <Router
     history={useScroll(createHistory)()}
-    createElement={ (Component, props) => {
-      // Save prevous location to know if history.back() can work –
-      // should be placed in an external utility
-      window.previousLocation = props.location;
-      return <Component {...props} flux={flux} />;
-    } }>
+    createElement={ (Component, props) =>
+      <Component {...props} flux={flux} />
+    }>
     { routes }
   </Router>,
   document.getElementById("content"),
