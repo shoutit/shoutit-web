@@ -1,19 +1,6 @@
 import Fluxxor from "fluxxor";
 
-import {
-  TWILIO_INIT,
-  TWILIO_INIT_SUCCESS,
-  TWILIO_INIT_FAILURE,
-  VIDEOCALL_OUTGOING,
-  VIDEOCALL_OUTGOING_SUCCESS,
-  VIDEOCALL_OUTGOING_FAILURE,
-  VIDEOCALL_INCOMING,
-  VIDEOCALL_INCOMING_ACCEPTED,
-  VIDEOCALL_INCOMING_REJECTED,
-
-  VIDEOCALL_DISCONNECTED
-
-} from "../video_call/actionTypes";
+import * as actionTypes from "../video_call/actionTypes";
 
 const initialState = {
   token: null,
@@ -47,19 +34,23 @@ export const VideoCallStore = Fluxxor.createStore({
 
     this.bindActions(
 
-      TWILIO_INIT, this.handleInitStart,
-      TWILIO_INIT_SUCCESS, this.handleInitSuccess,
-      TWILIO_INIT_FAILURE, this.handleInitFailure,
+      actionTypes.TWILIO_INIT, this.handleInitStart,
+      actionTypes.TWILIO_INIT_SUCCESS, this.handleInitSuccess,
+      actionTypes.TWILIO_INIT_FAILURE, this.handleInitFailure,
 
-      VIDEOCALL_OUTGOING, this.handleOutgoingInvite,
-      VIDEOCALL_OUTGOING_SUCCESS, this.handleOutgoingInviteSuccess,
-      VIDEOCALL_OUTGOING_FAILURE, this.handleOutgoingInviteFailure,
+      actionTypes.VIDEOCALL_OUTGOING, this.handleOutgoingInvite,
+      actionTypes.VIDEOCALL_OUTGOING_ACCEPTED, this.handleOutgoingInviteSuccess,
+      actionTypes.VIDEOCALL_OUTGOING_REJECTED, this.handleOutgoingInviteFailure,
+      actionTypes.VIDEOCALL_OUTGOING_CANCELED, this.handleOutgoingInviteFailure,
+      actionTypes.VIDEOCALL_OUTGOING_FAILURE, this.handleOutgoingInviteFailure,
 
-      VIDEOCALL_INCOMING, this.handleIncomingInvite,
-      VIDEOCALL_INCOMING_ACCEPTED, this.handleIncomingInviteAccepted,
-      VIDEOCALL_INCOMING_REJECTED, this.handleIncomingInviteRejected,
+      actionTypes.VIDEOCALL_INCOMING, this.handleIncomingInvite,
+      actionTypes.VIDEOCALL_INCOMING_ACCEPTED, this.handleIncomingInviteSuccess,
+      actionTypes.VIDEOCALL_INCOMING_REJECTED, this.handleIncomingInviteFailure,
+      actionTypes.VIDEOCALL_INCOMING_CANCELED, this.handleIncomingInviteFailure,
+      actionTypes.VIDEOCALL_INCOMING_FAILURE, this.handleIncomingInviteFailure,
 
-      VIDEOCALL_DISCONNECTED, this.handleConversationDisconnected
+      actionTypes.VIDEOCALL_DISCONNECTED, this.handleConversationDisconnected
 
     );
   },
@@ -91,47 +82,46 @@ export const VideoCallStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  handleOutgoingInvite(outgoingInvite) {
+  handleOutgoingInvite({ outgoingInvite} ) {
     this.state.outgoingInvites.push(outgoingInvite);
     this.emit("change");
   },
 
   handleOutgoingInviteSuccess({ outgoingInvite, conversation }) {
     this.state.currentConversation = conversation;
-    this.state.outgoingInvites.splice(
-      this.state.outgoingInvites.indexOf(outgoingInvite), 1
-    );
+    this.state.outgoingInvites.splice(this.state.outgoingInvites.indexOf(outgoingInvite), 1);
     this.emit("change");
   },
 
   handleOutgoingInviteFailure({ outgoingInvite }) {
-    this.state.outgoingInvites.splice(
-      this.state.outgoingInvites.indexOf(outgoingInvite), 1
-    );
+    this.state.outgoingInvites.splice(this.state.outgoingInvites.indexOf(outgoingInvite), 1);
     this.emit("change");
   },
 
-  handleIncomingInvite(incomingInvite) {
+  handleIncomingInvite({ incomingInvite }) {
     this.state.incomingInvites.push(incomingInvite);
     this.emit("change");
   },
 
-  handleIncomingInviteAccepted({ incomingInvite, conversation }) {
+  handleIncomingInviteSuccess({ incomingInvite, conversation }) {
     this.state.currentConversation = conversation;
     this.state.incomingInvites.splice(
       this.state.incomingInvites.indexOf(incomingInvite), 1
     );
+    incomingInvite.removeAllListeners();
     this.emit("change");
   },
 
-  handleIncomingInviteRejected(incomingInvite) {
+  handleIncomingInviteFailure(incomingInvite) {
     this.state.incomingInvites.splice(
       this.state.incomingInvites.indexOf(incomingInvite), 1
     );
+    incomingInvite.removeAllListeners();
     this.emit("change");
   },
 
-  handleConversationDisconnected() {
+  handleConversationDisconnected(conversation) {
+    conversation.removeAllListeners();
     this.state.currentConversation = null;
     this.emit("change");
   },
