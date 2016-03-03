@@ -3,7 +3,7 @@ import client from "./client";
 const debug = require("debug")("shoutit:actions");
 
 export default {
-  getSuggestions(currentLocation) {
+  getSuggestions(currentLocation, dataTypes = ["users", "shouts", "tags", "pages"]) {
     const {country, state, city} = currentLocation;
     const pageSize = 8;
 
@@ -11,7 +11,8 @@ export default {
       country,
       state,
       city,
-      page_size: pageSize
+      page_size: pageSize,
+      type: dataTypes.split(",")
     }).end((err, res) => {
       if(err) {
         this.dispatch(GET_SUGGESTIONS_FAIL, {currentLocation});
@@ -19,11 +20,12 @@ export default {
       } else {
         this.dispatch(GET_SUGGESTIONS_SUCCESS, {
           res: res.body,
-          currentLocation
+          currentLocation,
+          dataTypes
         });
       }
     });
 
-    this.dispatch(GET_SUGGESTIONS, {currentLocation});
+    this.dispatch(GET_SUGGESTIONS, {currentLocation, dataTypes});
   }
 };

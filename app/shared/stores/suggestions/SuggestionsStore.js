@@ -1,8 +1,8 @@
 import Fluxxor from "fluxxor";
 import { GET_SUGGESTIONS, GET_SUGGESTIONS_SUCCESS, GET_SUGGESTIONS_FAIL } from "./actionTypes";
 import client from "./client";
-import assign from "lodash/object/assign";
-import {createSlug} from "../../components/helper";
+import { assign } from "lodash/object";
+import { kebabCase } from "lodash/string";
 
 var SuggestionsStore = Fluxxor.createStore({
   initialize(props) {
@@ -39,57 +39,49 @@ var SuggestionsStore = Fluxxor.createStore({
     }
   },
 
-  addPagesList(citySlug, data) {
-    this.state.data[citySlug].pages.list = data.map((item) => item.username);
-    this.state.data[citySlug].pages.loading = false;
-  },
-
-  addShoutsList(citySlug, data) {
-    this.state.data[citySlug].shouts.list = data;
-    this.state.data[citySlug].shouts.loading = false;
-  },
-
-  addUsersList(citySlug, data) {
-    this.state.data[citySlug].users.list = data.map((item) => item.username);
-    this.state.data[citySlug].users.loading = false;
-  },
-
-  addTagsList(citySlug, data) {
-    this.state.data[citySlug].tags.list = data.map((item) => item.name);
-    this.state.data[citySlug].tags.loading = false;
-  },
-
-  onGetSuggestions({ currentLocation }) {
-    const citySlug = createSlug(currentLocation.city);
+  onGetSuggestions({ currentLocation, dataTypes }) {
+    const citySlug = kebabCase(currentLocation.city);
 
     // Initiate empty variable names
     this.addEmptyLists(citySlug);
     this.emit("change");
   },
 
-  onGetSuggestionsSuccess({ res, currentLocation }) {
+  onGetSuggestionsSuccess({ res, currentLocation, dataTypes }) {
     this.waitFor(["users", "tags"], () => {
-      const {pages, shouts, tags, users} = res;
+      const citySlug = kebabCase(currentLocation.city);
 
-      // Making slug name for city of the selected location to be used as id in store
-      const citySlug = createSlug(currentLocation.city);
+      // Produce index lists for requested suggestions
+      dataTypes.forEach(type => {
+        const data = res[type];
+        this.state.data[citySlug][type].loading = false;
 
-      this.addPagesList(citySlug, pages);
-      this.addShoutsList(citySlug, shouts);
-      this.addTagsList(citySlug, tags);
-      this.addUsersList(citySlug, users);
+        switch(type) {
+        case "users":
+          this.state.data[citySlug][type].list = data.map((item) => item.username);
+          break;
+        case "shouts":
+          this.state.data[citySlug][type].list = data;
+          break;
+        case "tags":
+          this.state.data[citySlug][type].list = data.map((item) => item.name);
+          break;
+        case "pages":
+          this.state.data[citySlug][type].list = data.map((item) => item.username);
+          break;
+        }
+      });
 
       this.emit("change");
     });
   },
 
-  onGetSuggestionsFail({ currentLocation }) {
-    const citySlug = createSlug(currentLocation.city);
+  onGetSuggestionsFail({ currentLocation, dataTypes }) {
+    const citySlug = kebabCase(currentLocation.city);
 
-    // Removing the whole data after fail disable the loadings inside each list easily
-    if(this.state.data[citySlug]) {
-      delete this.state.data[citySlug];
-    }
+    dataTypes.forEach(type => {
+      this.state.data[citySlug][type].loading = false;
+    });
 
     this.emit("change");
   },
