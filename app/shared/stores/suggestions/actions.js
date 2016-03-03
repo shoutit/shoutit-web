@@ -1,4 +1,4 @@
-import consts from "./actionTypes";
+import { GET_SUGGESTIONS, GET_SUGGESTIONS_SUCCESS, GET_SUGGESTIONS_FAIL } from "./actionTypes";
 import client from "./client";
 const debug = require("debug")("shoutit:actions");
 
@@ -14,19 +14,19 @@ export default {
       page_size: pageSize
     }).end((err, res) => {
       if(err) {
-        this.dispatch(consts.GET_SUGGESTIONS_FAIL, {currentLocation});
+        this.dispatch(GET_SUGGESTIONS_FAIL, {currentLocation});
         debug(err);
       } else if(res.status === 200) {
-        this.dispatch(consts.GET_SUGGESTIONS_SUCCESS, {
+        this.dispatch(GET_SUGGESTIONS_SUCCESS, {
           res: res.body,
           currentLocation
         });
       } else {
-        this.dispatch(consts.GET_SUGGESTIONS_FAIL, {currentLocation});
+        this.dispatch(GET_SUGGESTIONS_FAIL, {currentLocation});
         debug(res.body);
       }
     });
 
-    this.dispatch(consts.GET_SUGGESTIONS, {currentLocation});
+    this.dispatch(GET_SUGGESTIONS, {currentLocation});
   }
 };

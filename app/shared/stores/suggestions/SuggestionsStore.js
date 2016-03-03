@@ -1,5 +1,5 @@
 import Fluxxor from "fluxxor";
-import consts from "./actionTypes";
+import { GET_SUGGESTIONS, GET_SUGGESTIONS_SUCCESS, GET_SUGGESTIONS_FAIL } from "./actionTypes";
 import client from "./client";
 import assign from "lodash/object/assign";
 import {createSlug} from "../../components/helper";
@@ -15,9 +15,9 @@ var SuggestionsStore = Fluxxor.createStore({
     }
 
     this.bindActions(
-      consts.GET_SUGGESTIONS, this.onGetSuggestions,
-      consts.GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess,
-      consts.GET_SUGGESTIONS_FAIL, this.onGetSuggestionsFail
+      GET_SUGGESTIONS, this.onGetSuggestions,
+      GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess,
+      GET_SUGGESTIONS_FAIL, this.onGetSuggestionsFail
     );
   },
 
