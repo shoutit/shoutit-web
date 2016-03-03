@@ -20,7 +20,8 @@ export const UINotificationsStore = Fluxxor.createStore({
         if (!notification) {
           return;
         }
-        let content, options;
+        let content;
+        let options;
         if (typeof notification === "string") {
           content = <Notification>{ notification }</Notification>;
         } else if (notification.type === Notification) {
