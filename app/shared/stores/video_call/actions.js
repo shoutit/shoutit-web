@@ -15,6 +15,7 @@ export const actions = {
 
   initTwilio() {
     this.dispatch(actionTypes.TWILIO_INIT);
+    const { service } = this.flux;
 
     if (!Twilio) {
       const error = { status: 500, message: "Missing Twilio SDK"};
@@ -23,7 +24,7 @@ export const actions = {
       return;
     }
 
-    this.flux.service.create("twilioToken").end((error, data) => {
+    service.create("twilioToken").end((error, data) => {
 
       if (error) {
         console.error("Could not get token", error); // eslint-disable-line no-console
@@ -54,17 +55,26 @@ export const actions = {
       // Handle Twilio client events
 
       conversationsClient.on("invite", incomingInvite => {
-        this.dispatch(actionTypes.VIDEOCALL_INCOMING, { incomingInvite });
 
-        incomingInvite.on("rejected", error =>
-          this.dispatch(actionTypes.VIDEOCALL_INCOMING_REJECTED, { incomingInvite, error })
-        );
-        incomingInvite.on("failed", error =>
-          this.dispatch(actionTypes.VIDEOCALL_INCOMING_FAILURE, { incomingInvite, error })
-        );
-        incomingInvite.on("canceled", error =>
-          this.dispatch(actionTypes.VIDEOCALL_INCOMING_CANCELED, { incomingInvite, error })
-        );
+        service.read("profile")
+          .params({ username: incomingInvite.from})
+          .end((err, profile) => {
+
+            this.dispatch(actionTypes.VIDEOCALL_INCOMING, { incomingInvite, profile });
+
+            incomingInvite.on("rejected", error =>
+              this.dispatch(actionTypes.VIDEOCALL_INCOMING_REJECTED, { incomingInvite, error, profile })
+            );
+            incomingInvite.on("failed", error =>
+              this.dispatch(actionTypes.VIDEOCALL_INCOMING_FAILURE, { incomingInvite, error, profile })
+            );
+            incomingInvite.on("canceled", error =>
+              this.dispatch(actionTypes.VIDEOCALL_INCOMING_CANCELED, { incomingInvite, error, profile })
+            );
+
+          });
+
+
 
       });
 
@@ -79,7 +89,6 @@ export const actions = {
         this.dispatch(actionTypes.VIDEOCALL_INCOMING_ACCEPTED, { incomingInvite, conversation });
       });
   },
-
 
   inviteToVideoCall(user) {
     const client = this.flux.stores["videocall"].getState().conversationsClient;

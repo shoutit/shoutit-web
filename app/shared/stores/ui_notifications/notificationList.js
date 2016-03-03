@@ -52,7 +52,7 @@ export function STOP_LISTEN_TAG_SUCCESS({ tagName}) {
   return `You are no longer listening listening to the tag ${tagName}.`;
 }
 
-export function VIDEOCALL_OUTGOING({ user, videoCallId, outgoingInvite }, dismiss) {
+export function VIDEOCALL_OUTGOING({ user, videoCallId, outgoingInvite }) {
   const options = { autoHide: false, notificationId: videoCallId };
   const buttons = [
     <Button
@@ -109,7 +109,7 @@ export function VIDEOCALL_OUTGOING_FAILURE({ user, error, videoCallId }, dismiss
   return { options, content };
 }
 
-export function VIDEOCALL_INCOMING({ incomingInvite }, dismiss, flux) {
+export function VIDEOCALL_INCOMING({ incomingInvite, profile }, dismiss, flux) {
   const options = { autoHide: false, notificationId: incomingInvite.conversationSid };
   const buttons = [
     <Button key="reject" size="small" label="Reject" onClick={ () => incomingInvite.reject() } />,
@@ -118,7 +118,7 @@ export function VIDEOCALL_INCOMING({ incomingInvite }, dismiss, flux) {
 
   const content = (
     <Notification showDismissButton={ false } icon= { <SVGIcon name="video" active /> } buttons={buttons}>
-      Someone wants to call you!
+      <strong>{ profile.name }</strong> wants to start a call with you.
     </Notification>
   );
 
