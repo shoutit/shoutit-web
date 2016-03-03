@@ -30,6 +30,21 @@ export default React.createClass({
     };
   },
 
+  componentDidMount() {
+    this.loadSuggestions();
+  },
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.location.pathname !== this.props.location.pathname) {
+      this.loadSuggestions();
+    }
+  },
+
+  loadSuggestions() {
+    const { flux, currentLocation } = this.props;
+    flux.actions.getSuggestions(currentLocation, ["tags", "users", "shouts"]);
+  },
+
   /**
    * Loading tags objects straight from Tags store
    * @returns {Array}
@@ -85,6 +100,7 @@ export default React.createClass({
             flux={flux}
             users={ usersData }
             loading={ suggestions.data && suggestions.data.users.loading }
+            currentLocation={ currentLocation }
           />
           <SuggestShoutCard
             shout={ shoutsData }

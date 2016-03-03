@@ -1,9 +1,9 @@
-import consts from "./consts";
+import { GET_SUGGESTIONS, GET_SUGGESTIONS_SUCCESS, GET_SUGGESTIONS_FAIL } from "./actionTypes";
 import client from "./client";
 const debug = require("debug")("shoutit:flux");
 
 export default {
-  getSuggestions(currentLocation) {
+  getSuggestions(currentLocation, dataTypes = ["users", "shouts", "tags", "pages"]) {
     const {country, state, city} = currentLocation;
     const pageSize = 8;
 
@@ -11,22 +11,21 @@ export default {
       country,
       state,
       city,
-      page_size: pageSize
+      page_size: pageSize,
+      type: dataTypes.join(",")
     }).end((err, res) => {
       if(err) {
-        this.dispatch(consts.GET_SUGGESTIONS_FAIL, {currentLocation});
+        this.dispatch(GET_SUGGESTIONS_FAIL, {currentLocation});
         debug(err);
-      } else if(res.status === 200) {
-        this.dispatch(consts.GET_SUGGESTIONS_SUCCESS, {
-          res: res.body,
-          currentLocation
-        });
       } else {
-        this.dispatch(consts.GET_SUGGESTIONS_FAIL, {currentLocation});
-        debug(res.body);
+        this.dispatch(GET_SUGGESTIONS_SUCCESS, {
+          res: res.body,
+          currentLocation,
+          dataTypes
+        });
       }
     });
 
-    this.dispatch(consts.GET_SUGGESTIONS, {currentLocation});
+    this.dispatch(GET_SUGGESTIONS, {currentLocation, dataTypes});
   }
 };

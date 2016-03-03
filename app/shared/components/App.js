@@ -70,16 +70,13 @@ export default React.createClass({
 
   getData() {
     const { flux } = this.props;
-    const { currentLocation, loggedUser } = this.state;
+    const { loggedUser } = this.state;
 
     flux.actions.acquireLocation();
 
     if (loggedUser) {
       flux.actions.loadConversations();
       flux.actions.initTwilio();
-    }
-    if (currentLocation.city) {
-      flux.actions.getSuggestions(currentLocation);
     }
   },
 

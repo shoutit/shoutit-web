@@ -12,7 +12,7 @@ import { MessagesStore } from "./stores/messages/MessagesStore";
 import { VideoCallStore } from "./stores/video_call/VideoCallStore";
 
 import suggestionsActions from "./stores/suggestions/actions";
-import SuggestionsStore from "./stores/suggestions/store";
+import SuggestionsStore from "./stores/suggestions/SuggestionsStore";
 
 import uiNotificationsActions from "./stores/ui_notifications/actions";
 import { UINotificationsStore } from "./stores/ui_notifications/UINotificationsStore";

@@ -3,7 +3,7 @@ import url from "url";
 import consts from "./consts";
 import statuses from "../../consts/statuses";
 import locConsts from "../locations/consts";
-import sugConsts from "../suggestions/consts";
+import { GET_SUGGESTIONS_SUCCESS } from "../suggestions/actionTypes";
 import client from "./client";
 import assign from "lodash/object/assign";
 import debug from "debug";
@@ -171,7 +171,7 @@ var UserStore = Fluxxor.createStore({
       consts.SHOW_DOWNLOAD_POPUP, this.onShowDownloadPopup,
       consts.HIDE_DOWNLOAD_POPUP, this.onHideDownloadPopup,
       locConsts.ACQUIRE_LOCATION, this.onAcqireLoc,
-      sugConsts.GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess
+      GET_SUGGESTIONS_SUCCESS, this.onGetSuggestionsSuccess
     );
   },
 
@@ -211,11 +211,14 @@ var UserStore = Fluxxor.createStore({
    */
   onGetSuggestionsSuccess({ res }) {
     const { users, pages } = res;
-    [...users, ...pages].forEach((item, idx) => {
-      if (!this.state.users[item.username]) {
-        this.state.users[item.username] = item;
+    const usersData = pages && users? [...users, ...pages]: users || pages;
+
+    usersData.forEach((user) => {
+      if (!this.state.users[user.username]) {
+        this.state.users[user.username] = user;
       }
     });
+
     this.emit("change");
   },
 
