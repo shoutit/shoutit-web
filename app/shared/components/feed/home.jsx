@@ -43,7 +43,6 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    this.loadSuggestions();
     this.loadListeningData();
   },
 
