@@ -42,7 +42,7 @@ else {
 }
 
 flux.on("dispatch", (type, payload) =>
-  debug("shoutit:actions")("Dispatching %s", type, payload)
+  debug("shoutit:flux")("Dispatching %s", type, payload)
 );
 
 let ga;
@@ -66,7 +66,7 @@ setupPusher(flux.store("users"), {
   }
 });
 
-log("Mounting…");
+log("Starting client web app", `\n${config.getSummary()}\n`);
 
 ReactDOM.render(
   <Router

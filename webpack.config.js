@@ -24,8 +24,8 @@ if (isDevelopment) {
 
 var NotifyConfigPlugin = function() {};
 NotifyConfigPlugin.prototype.apply = () => {
-  config.printSummary();
-  console.log("\nWebpack is compiling...\n");
+  console.log(config.getSummary()); // eslint-disable-line
+  console.log("\nWebpack is compiling...\n"); // eslint-disable-line
 };
 
 module.exports = {
@@ -98,6 +98,8 @@ module.exports = {
       "process.env": {
         SHOUTIT_ENV: JSON.stringify(process.env.SHOUTIT_ENV),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || "development"),
+        HOST: JSON.stringify(process.env.HOST),
+        PORT: JSON.stringify(process.env.PORT),
         BROWSER: JSON.stringify(true)
       }
     }),

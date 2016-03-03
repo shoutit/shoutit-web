@@ -52,13 +52,13 @@ export function STOP_LISTEN_TAG_SUCCESS({ tagName}) {
   return `You are no longer listening listening to the tag ${tagName}.`;
 }
 
-export function VIDEOCALL_OUTGOING({ user, videoCallId }, dismiss) {
+export function VIDEOCALL_OUTGOING({ user, videoCallId, outgoingInvite }, dismiss) {
   const options = { autoHide: false, notificationId: videoCallId };
   const buttons = [
     <Button
       size="small"
       label="Cancel"
-      onClick={ () => dismiss(options.notificationId) } />
+      onClick={ () => outgoingInvite.cancel() } />
   ];
 
   const content = (
@@ -70,8 +70,25 @@ export function VIDEOCALL_OUTGOING({ user, videoCallId }, dismiss) {
   return { options, content };
 }
 
-export function VIDEOCALL_OUTGOING_SUCCESS({ videoCallId }, dismiss) {
+export function VIDEOCALL_OUTGOING_ACCEPTED({ videoCallId }, dismiss) {
   dismiss(videoCallId);
+}
+
+export function VIDEOCALL_OUTGOING_CANCELED({ videoCallId }, dismiss) {
+  dismiss(videoCallId);
+}
+
+export function VIDEOCALL_OUTGOING_REJECTED({ user, videoCallId }, dismiss) {
+  const options = { autoHide: false, notificationId: videoCallId };
+  const content = (
+    <Notification
+      icon= { <SVGIcon name="video" active /> }
+      buttons={ [<Button size="small" primary label="Close" onClick={ () => dismiss(videoCallId) } />] }>
+      <p>Cannot call { user.name }</p>
+      <p><small>{ user.name } rejected the call.</small></p>
+    </Notification>
+  );
+  return { options, content };
 }
 
 export function VIDEOCALL_OUTGOING_FAILURE({ user, error, videoCallId }, dismiss, flux) {
@@ -83,23 +100,20 @@ export function VIDEOCALL_OUTGOING_FAILURE({ user, error, videoCallId }, dismiss
       flux.actions.inviteToVideoCall(user);
     }} />
   ];
-
   const content = (
     <Notification showDismissButton={ false } icon= { <SVGIcon name="video" active /> } buttons={buttons}>
-      <p>Cannot start video call with <strong>{ user.name }</strong>.</p>
-      <div><small>{ error.message }</small></div>
+        <p>Cannot call { user.name }</p>
+      <div><small>{ user.name } is offline or can't answer the call.</small></div>
     </Notification>
   );
-
   return { options, content };
 }
 
-export function VIDEOCALL_INCOMING(incomingInvite, dismiss, flux) {
+export function VIDEOCALL_INCOMING({ incomingInvite }, dismiss, flux) {
   const options = { autoHide: false, notificationId: incomingInvite.conversationSid };
-  const { rejectVideoCall, acceptVideoCall } = flux.actions;
   const buttons = [
-    <Button key="reject" size="small" label="Reject" onClick={ () => rejectVideoCall(incomingInvite) } />,
-    <Button key="accept" size="small" primary label="Accept" onClick={ () => acceptVideoCall(incomingInvite) } />
+    <Button key="reject" size="small" label="Reject" onClick={ () => incomingInvite.reject() } />,
+    <Button key="accept" size="small" primary label="Accept" onClick={ () => flux.actions.acceptVideoCall(incomingInvite) } />
   ];
 
   const content = (
@@ -119,11 +133,25 @@ export function VIDEOCALL_INCOMING_REJECTED({incomingInvite}, dismiss) {
   dismiss(incomingInvite.conversationSid);
 }
 
+export function VIDEOCALL_INCOMING_CANCELED({incomingInvite, error}, dismiss) {
+  const notificationId = incomingInvite.conversationSid;
+  const options = { autoHide: false, notificationId };
+  const buttons = [
+    <Button size="small" primary label="Close" onClick={ () => dismiss(notificationId) } />
+  ];
+  const content = (
+    <Notification icon= { <SVGIcon name="video" active /> } buttons={ buttons }>
+      <p>User canceled this call.</p>
+    </Notification>
+  );
+  return { options, content };
+}
+
 export function VIDEOCALL_INCOMING_FAILURE({incomingInvite, error}, dismiss) {
   const notificationId =  incomingInvite.conversationSid;
   const options = { autoHide: false, notificationId };
   const buttons = [
-    <Button size="small" primary label="Close" onClick={ () => dismiss(incomingInvite.conversationSid) } />
+    <Button size="small" primary label="Close" onClick={ () => dismiss(notificationId) } />
   ];
   const content = (
     <Notification icon= { <SVGIcon name="video" active /> } buttons={ buttons }>

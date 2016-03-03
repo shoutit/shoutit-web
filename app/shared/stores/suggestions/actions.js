@@ -1,6 +1,6 @@
 import { GET_SUGGESTIONS, GET_SUGGESTIONS_SUCCESS, GET_SUGGESTIONS_FAIL } from "./actionTypes";
 import client from "./client";
-const debug = require("debug")("shoutit:actions");
+const debug = require("debug")("shoutit:flux");
 
 export default {
   getSuggestions(currentLocation, dataTypes = ["users", "shouts", "tags", "pages"]) {

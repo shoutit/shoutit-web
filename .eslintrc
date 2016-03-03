@@ -16,6 +16,7 @@
     "no-spaced-func": 2,
     "no-unused-vars": 2,
     "no-var": 2,
+    "one-var": [2,  "never"],
     "prefer-const": 2,
     "quotes": [2, "double"],
     "semi": [2, "always"],
@@ -31,6 +32,7 @@
     "react/sort-comp": 2
   },
   "env": {
-    "node": true
+    "node": true,
+    "es6": true
   }
 }

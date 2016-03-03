@@ -9,7 +9,7 @@ import assign from "lodash/object/assign";
 import debug from "debug";
 
 var {LISTEN_BTN_LOADING} = statuses;
-const log = debug("shoutit:store:tags");
+const log = debug("shoutit:flux:tags");
 
 var TagStore = Fluxxor.createStore({
   initialize(props) {

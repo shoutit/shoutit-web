@@ -31,7 +31,7 @@ const uploadResources = {
   }
 };
 
-function printSummary() {
+function getSummary() {
   const summary = [];
   summary.push("");
   summary.push("shoutit-web-app");
@@ -49,8 +49,7 @@ function printSummary() {
   summary.push("  Images path:          " + config.imagesPath);
   summary.push("  Facebook ID:          " + config.facebookId);
   summary.push("");
-
-  console.log(summary.join("\n"));
+  return summary.join("\n");
 }
 
 const config = {
@@ -58,7 +57,7 @@ const config = {
   googleMapsKey: "AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc",
   imagesPath: envConfig.publicUrl + "/images",
   uploadResources,
-  printSummary,
+  getSummary,
   ...envConfig
 };
 
