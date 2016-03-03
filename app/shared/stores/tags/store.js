@@ -126,7 +126,7 @@ var TagStore = Fluxxor.createStore({
   },
 
   // adding chunks of tag objects to the store
-  addTags(tags) {
+  addTags(tags = []) {
     tags.forEach(tag => {
       this.addTagEntry(tag.name);
       this.state.tags[tag.name].tag = tag;
