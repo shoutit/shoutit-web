@@ -117,7 +117,6 @@ function fetchData(userSession, routes, params, query) {
           }
         });
     }).then(function (fetched) {
-      console.log("Fetched data for", route.component.fetchId);
       data[route.component.fetchId] = fetched;
     });
   })).then(function () {
@@ -285,7 +284,7 @@ module.exports = function (app) {
   // gzip it
   app.use(compression());
 
-  app.use(morgan("tiny"));
+  app.use(morgan(process.env.NODE_ENV === "development" ? "dev" : "combined"));
 
   if (process.env.NODE_ENV === "production") {
     app.use(favicon("./public/images/favicons/favicon.ico"));

@@ -112,7 +112,7 @@ export const VideoCallStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  handleIncomingInviteFailure(incomingInvite) {
+  handleIncomingInviteFailure({incomingInvite}) {
     this.state.incomingInvites.splice(
       this.state.incomingInvites.indexOf(incomingInvite), 1
     );

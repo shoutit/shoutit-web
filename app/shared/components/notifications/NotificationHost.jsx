@@ -8,20 +8,18 @@ if (process.env.BROWSER) {
 export default function NotificationHost({ notifications, flux }) {
   return (
     <div className="NotificationHost">
-      <div className="NotificationHost-wrapper">
-        <ReactCSSTransitionGroup transitionName="notification" transitionEnterTimeout={250} transitionLeaveTimeout={250}>
-          { notifications.map(notification =>
+      <ReactCSSTransitionGroup transitionName="notification" transitionEnterTimeout={250} transitionLeaveTimeout={250}>
+        { notifications.map(notification =>
 
-              React.cloneElement(notification.content, {
-                notificationId: notification.id,
-                key: notification.id,
-                dismissNotification: () => flux.actions.dismissNotification(notification.id)
-              })
+            React.cloneElement(notification.content, {
+              notificationId: notification.id,
+              key: notification.id,
+              dismissNotification: () => flux.actions.dismissNotification(notification.id)
+            })
 
-            )
-          }
-        </ReactCSSTransitionGroup>
-      </div>
+          )
+        }
+      </ReactCSSTransitionGroup>
     </div>
   );
 }

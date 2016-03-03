@@ -16,14 +16,30 @@ import debug from "debug";
 import config from "../../config";
 
 const apiUrl = config.apiUrl.replace(/\/$/, ""); // remove trailing / at the end of the url
-const log = debug("shoutit:server:request");
+const log = debug("shoutit:request");
 
 request.Request.prototype.setSession = function(session) {
   if (session && session.accessToken) {
     this.set("Authorization", `Bearer ${session.accessToken}`);
-    log("Authorization token has been set");
   }
   return this;
+};
+
+const oldEnd = request.Request.prototype.end;
+
+request.Request.prototype.end = function(oldCallback) {
+  this.end = oldEnd;
+  const callback = (err, res) => {
+    oldCallback(err, res);
+    if (err && !res) {
+      console.error(err); // eslint-disable-line
+    }
+    else {
+      log("Done %s %s from %s", res.status, this.method, this.url);
+    }
+  };
+  log("Started %s to %s...", this.method, this.url, this.qs);
+  return this.end.call(this, callback);
 };
 
 /**

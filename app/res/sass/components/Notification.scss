@@ -3,17 +3,19 @@
 @import "../constants/shadows.scss";
 @import "../_flexbox.scss";
 
-.Notification-wrapper {
-
-  border: 1px solid red;
-  box-shadow: $box-shadow-depth-2;
-  background-color: $background-color-alt;
-  border: 1px solid $border-color-alt;
-  border-radius: $border-radius;
-
+.Notification {
   height: 0;
+  width: 500px;
+  border-radius: $border-radius;
   position: relative;
   transition: all 250ms;
+
+  box-shadow: $box-shadow-depth-2;
+
+  &.type-message {
+    background-color: $background-color-alt;
+    border: 1px solid $border-color-alt;
+  }
 
   &.notification-enter {
     opacity: 0;
