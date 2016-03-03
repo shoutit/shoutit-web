@@ -42,10 +42,21 @@ export default React.createClass({
 
   componentDidMount() {
     this.loadTag();
+    this.loadSuggestions();
   },
 
   componentDidUpdate(prevProps) {
     this.loadTag();
+
+    // Actions triggered in route change
+    if(prevProps.location.pathname !== this.props.location.pathname) {
+      this.loadSuggestions();
+    }
+  },
+
+  loadSuggestions() {
+    const { flux, currentLocation } = this.props;
+    flux.actions.getSuggestions(currentLocation, ["tags", "users", "shouts"]);
   },
 
   /**
