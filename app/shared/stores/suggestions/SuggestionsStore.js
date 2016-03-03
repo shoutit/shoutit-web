@@ -28,22 +28,17 @@ var SuggestionsStore = Fluxxor.createStore({
     };
   },
 
-  addEmptyLists(citySlug) {
-    if(!this.state.data[citySlug]) {
-      this.state.data[citySlug] = {
-        pages: new this.emptyList(),
-        shouts: new this.emptyList(),
-        tags: new this.emptyList(),
-        users: new this.emptyList()
-      };
-    }
+  addEmptyLists(citySlug, dataTypes) {
+    dataTypes.forEach((type) => {
+      this.state.data[citySlug][type] = new this.emptyList();
+    });
   },
 
   onGetSuggestions({ currentLocation, dataTypes }) {
     const citySlug = kebabCase(currentLocation.city);
 
     // Initiate empty variable names
-    this.addEmptyLists(citySlug);
+    this.addEmptyLists(citySlug, dataTypes);
     this.emit("change");
   },
 
