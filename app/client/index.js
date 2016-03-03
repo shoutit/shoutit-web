@@ -66,13 +66,13 @@ setupPusher(flux.store("users"), {
   }
 });
 
-log("Mounting…");
+log("Starting client web app", `\n${config.getSummary()}\n`);
 
 ReactDOM.render(
   <Router
     history={useScroll(createHistory)()}
     createElement={ (Component, props) => {
-      // Save prevous location to know if history.back() can work –
+      // Save previous location to know if history.back() can work –
       // should be placed in an external utility
       window.previousLocation = props.location;
       return <Component {...props} flux={flux} />;

@@ -35,10 +35,10 @@ if (process.env.NODE_ENV === "development") {
 // Start the server
 require("./app/server/web.js")(app);
 
-config.printSummary();
+console.log(config.getSummary());
 
 var port = process.env.PORT || "3000";
 
 app.listen(port, function () {
-  console.log("\nServer is now listening to localhost:%s...", port);
+  console.log("\nServer is now listening to %s:%s...", process.env.HOST || "localhost", port);
 });
