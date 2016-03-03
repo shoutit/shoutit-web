@@ -1,6 +1,6 @@
 import consts from "./consts";
 import client from "./client";
-const debug = require("debug")("shoutit:actions");
+const debug = require("debug")("shoutit:flux");
 
 export default {
   getSuggestions(currentLocation) {

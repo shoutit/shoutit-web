@@ -42,7 +42,7 @@ else {
 }
 
 flux.on("dispatch", (type, payload) =>
-  debug("shoutit:actions")("Dispatching %s", type, payload)
+  debug("shoutit:flux")("Dispatching %s", type, payload)
 );
 
 let ga;

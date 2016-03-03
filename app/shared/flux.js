@@ -56,7 +56,7 @@ module.exports = function (router, user, data, params, currencies, categories, s
 
   for (const store in stores) {
     stores[store].on("change", () =>
-      debug(`shoutit:stores:${store}`)("Emitted change", stores[store].getState())
+      debug(`shoutit:flux:${store}`)("Emitted change", stores[store].getState())
     );
   }
 
