@@ -22,9 +22,7 @@ describe("NotificationHost", () => {
 
   it("should render correctly", () => {
     const root = shallowHelpers.findClass(output, "NotificationHost");
-    const wrapper = shallowHelpers.findClass(output, "NotificationHost-wrapper");
     expect(root).to.exist;
-    expect(wrapper).to.exist;
   });
 
   it("should use ReactCSSTransitionGroup", () => {
