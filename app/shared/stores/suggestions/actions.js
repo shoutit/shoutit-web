@@ -16,14 +16,11 @@ export default {
       if(err) {
         this.dispatch(GET_SUGGESTIONS_FAIL, {currentLocation});
         debug(err);
-      } else if(res.status === 200) {
+      } else {
         this.dispatch(GET_SUGGESTIONS_SUCCESS, {
           res: res.body,
           currentLocation
         });
-      } else {
-        this.dispatch(GET_SUGGESTIONS_FAIL, {currentLocation});
-        debug(res.body);
       }
     });
 
