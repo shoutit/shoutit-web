@@ -108,11 +108,6 @@ export const actions = {
         this.dispatch(actionType, { user, outgoingInvite, error, videoCallId });
       });
 
-  },
-
-  rejectVideoCall(incomingInvite) {
-    incomingInvite.reject();
-    this.dispatch(actionTypes.VIDEOCALL_INCOMING_REJECTED, { incomingInvite });
   }
 
 };
