@@ -90,6 +90,8 @@ export default React.createClass({
     const { loggedUser, chat, conversations, currentLocation, suggestions, videoCallState, searchKeyword } = this.state;
     const { children, flux, routes, location, history } = this.props;
 
+    const onSearchChange = (keyword) => this.setState({ searchKeyword: keyword });
+
     const suggestionsData = {
       data: suggestions.data[createSlug(currentLocation.city)]
     };
@@ -98,7 +100,7 @@ export default React.createClass({
       pagesWithoutHeader.indexOf(route.component) > -1
     );
     const props = { loggedUser, chat, conversations, currentLocation, location,
-      suggestions: suggestionsData, history, videoCallState };
+      suggestions: suggestionsData, onSearchChange, history, videoCallState };
 
     return (
       <div className={`App${hideHeader ? "" : " stickyHeader"}` }>
@@ -112,7 +114,7 @@ export default React.createClass({
               chat={ chat }
               conversations={ conversations }
               location={ location }
-              onSearchChange={ (keyword) => this.setState({ searchKeyword: keyword }) }
+              onSearchChange={ onSearchChange }
             />
           </div>
         }
