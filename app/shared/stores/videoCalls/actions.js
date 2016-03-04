@@ -1,6 +1,6 @@
 
 /* global Twilio */
-import * as actionTypes from "../video_call/actionTypes";
+import * as actionTypes from "../videoCalls/actionTypes";
 
 function subscribeConversationEvents(conversation, self) {
   conversation.on("disconnected", () => {
@@ -59,17 +59,18 @@ export const actions = {
         service.read("profile")
           .params({ username: incomingInvite.from})
           .end((err, user) => {
+            const payload = { incomingInvite, user };
 
-            this.dispatch(actionTypes.VIDEOCALL_INCOMING, { incomingInvite, user });
+            this.dispatch(actionTypes.VIDEOCALL_INCOMING, payload);
 
             incomingInvite.on("rejected", error =>
-              this.dispatch(actionTypes.VIDEOCALL_INCOMING_REJECTED, { incomingInvite, error, user })
+              this.dispatch(actionTypes.VIDEOCALL_INCOMING_REJECTED, { ...payload, error })
             );
             incomingInvite.on("failed", error =>
-              this.dispatch(actionTypes.VIDEOCALL_INCOMING_FAILURE, { incomingInvite, error, user })
+              this.dispatch(actionTypes.VIDEOCALL_INCOMING_FAILURE, { ...payload, error })
             );
             incomingInvite.on("canceled", error =>
-              this.dispatch(actionTypes.VIDEOCALL_INCOMING_CANCELED, { incomingInvite, error, user })
+              this.dispatch(actionTypes.VIDEOCALL_INCOMING_CANCELED, { ...payload, error })
             );
 
           });
@@ -80,6 +81,10 @@ export const actions = {
 
     });
 
+  },
+
+  previewVideoCall(user) {
+    this.dispatch(actionTypes.VIDEOCALL_PREVIEW, { user });
   },
 
   acceptVideoCall(incomingInvite) {
