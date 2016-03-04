@@ -118,6 +118,7 @@ function fetchData(userSession, routes, params, query) {
         });
     }).then(function (fetched) {
       data[route.component.fetchId] = fetched;
+      console.log("Server Rendering data fetched for %s", route.component.fetchId);
     });
   })).then(function () {
     return data;
