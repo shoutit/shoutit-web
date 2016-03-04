@@ -27,10 +27,14 @@ export default function UserAvatar({
     className += ` placeholder`;
   }
 
+  const style = {};
+
+  if (image) {
+    style.backgroundImage = `url(${ image })`;
+  }
+
   const avatar = (
-    <span className={ className }>
-      { image && <img src={ image } /> }
-    </span>
+    <div className={ className } style={ style } />
   );
 
   if (linkToUserPage) {
