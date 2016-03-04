@@ -1,6 +1,6 @@
 
 /* global Twilio */
-import * as actionTypes from "../video_call/actionTypes";
+import * as actionTypes from "../videoCalls/actionTypes";
 
 function subscribeConversationEvents(conversation, self) {
   conversation.on("disconnected", () => {
@@ -80,6 +80,10 @@ export const actions = {
 
     });
 
+  },
+
+  previewVideoCall(user) {
+    this.dispatch(actionTypes.VIDEOCALL_PREVIEW, { user });
   },
 
   acceptVideoCall(incomingInvite) {

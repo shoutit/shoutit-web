@@ -4,8 +4,8 @@ import sinonChai from "sinon-chai";
 
 import { Flux } from "fluxxor";
 
-import { VideoCallStore } from "../../app/shared/stores/video_call/VideoCallStore";
-import * as actionTypes from "../../app/shared/stores/video_call/actionTypes";
+import { VideoCallStore } from "../../app/shared/stores/videoCalls/VideoCallStore";
+import * as actionTypes from "../../app/shared/stores/videoCalls/actionTypes";
 
 chai.use(sinonChai);
 

@@ -28,6 +28,7 @@ import Button from "../../components/helper/Button.jsx";
 import UserAvatar from "../../components/user/UserAvatar.jsx";
 
 import Notification from "../../components/notifications/Notification.jsx";
+import VideoCallLocalMedia from "../../components/videoCalls/VideoCallLocalMedia";
 
 export function LISTEN_SUCCESS(user) {
   return (
@@ -53,8 +54,34 @@ export function STOP_LISTEN_TAG_SUCCESS({ tagName}) {
   return `You are no longer listening listening to the tag ${tagName}.`;
 }
 
-export function VIDEOCALL_OUTGOING({ user, videoCallId, outgoingInvite }) {
-  const options = { autoHide: false, notificationId: videoCallId };
+export function VIDEOCALL_PREVIEW({ user }, dismiss, flux) {
+  const options = { autoHide: false, notificationId: "videocall" };
+  const buttons = [
+    <Button
+      size="small"
+      label="Cancel"
+      onClick={ () => dismiss(options.notificationId) } />,
+    <Button
+      primary
+      size="small"
+      label="Call"
+      onClick={ () => flux.actions.inviteToVideoCall(user) } />
+  ];
+
+  const content = (
+    <Notification showDismissButton={ false } icon= {  <UserAvatar user={ user } />  } buttons={buttons}>
+      Call <strong>{ user.name }</strong>?
+      <div style={{ marginTop: 10 }}>
+        <VideoCallLocalMedia />
+      </div>
+    </Notification>
+  );
+
+  return { options, content };
+}
+
+export function VIDEOCALL_OUTGOING({ user, outgoingInvite }) {
+  const options = { autoHide: false, notificationId: "videocall" };
   const buttons = [
     <Button
       size="small"
@@ -71,20 +98,20 @@ export function VIDEOCALL_OUTGOING({ user, videoCallId, outgoingInvite }) {
   return { options, content };
 }
 
-export function VIDEOCALL_OUTGOING_ACCEPTED({ videoCallId }, dismiss) {
-  dismiss(videoCallId);
+export function VIDEOCALL_OUTGOING_ACCEPTED(payload, dismiss) {
+  dismiss("videocall");
 }
 
-export function VIDEOCALL_OUTGOING_CANCELED({ videoCallId }, dismiss) {
-  dismiss(videoCallId);
+export function VIDEOCALL_OUTGOING_CANCELED(payload, dismiss) {
+  dismiss("videocall");
 }
 
-export function VIDEOCALL_OUTGOING_REJECTED({ user, videoCallId }, dismiss) {
-  const options = { autoHide: false, notificationId: videoCallId };
+export function VIDEOCALL_OUTGOING_REJECTED({ user }, dismiss) {
+  const options = { autoHide: false, notificationId: "videocall" };
   const content = (
     <Notification
       icon= { <SVGIcon name="video" active /> }
-      buttons={ [<Button size="small" primary label="Close" onClick={ () => dismiss(videoCallId) } />] }>
+      buttons={ [<Button size="small" primary label="Close" onClick={ () => dismiss(options.notificationId) } />] }>
       <p>Cannot call { user.name }</p>
       <p><small>{ user.name } rejected the call.</small></p>
     </Notification>
@@ -92,8 +119,8 @@ export function VIDEOCALL_OUTGOING_REJECTED({ user, videoCallId }, dismiss) {
   return { options, content };
 }
 
-export function VIDEOCALL_OUTGOING_FAILURE({ user, error, videoCallId }, dismiss, flux) {
-  const options = { autoHide: false, notificationId: videoCallId };
+export function VIDEOCALL_OUTGOING_FAILURE({ user, error }, dismiss, flux) {
+  const options = { autoHide: false, notificationId: "videocall" };
   const buttons = [
     <Button key="close" size="small" label="Close" onClick={ () => dismiss(options.notificationId) } />,
     <Button key="retry" primary autoFocus size="small" label="Retry" onClick={ () => {

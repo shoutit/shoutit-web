@@ -4,12 +4,12 @@ import debug from "debug";
 import { actions as chatActions } from "./stores/chat/actions";
 import { actions as conversationsActions } from "./stores/conversations/actions";
 import { actions as messagesActions } from "./stores/messages/actions";
-import { actions as VideoCallActions } from "./stores/video_call/actions";
+import { actions as VideoCallActions } from "./stores/videoCalls/actions";
 
 import { ChatStore } from "./stores/chat/ChatStore";
 import { ConversationsStore } from "./stores/conversations/ConversationsStore";
 import { MessagesStore } from "./stores/messages/MessagesStore";
-import { VideoCallStore } from "./stores/video_call/VideoCallStore";
+import { VideoCallStore } from "./stores/videoCalls/VideoCallStore";
 
 import suggestionsActions from "./stores/suggestions/actions";
 import SuggestionsStore from "./stores/suggestions/store";
