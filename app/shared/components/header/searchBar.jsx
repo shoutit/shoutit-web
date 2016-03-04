@@ -118,8 +118,11 @@ export default React.createClass({
 
   onChangeSearch(ev) {
     const newTerm = ev.target.value;
+    const { isActive } = this.props.history;
+
     this.setState({term: newTerm});
-    this.searchAll(newTerm);
+    // Move to the search URL if the user is already in the search page
+    this.searchAll(newTerm, isActive("/search"));
   },
 
   onSubmit() {
