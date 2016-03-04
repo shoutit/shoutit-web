@@ -1,6 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router';
-import Image from '../../helper/image.jsx';
 
 export default React.createClass({
   displayName: "SearchResultList",
@@ -22,7 +21,7 @@ export default React.createClass({
               onClick={onBlurSearch}>
              <div  className="list-search-item" key={"search-header-shout-" + i}>
                <div className="img-search-holder">
-                 <Image src={shout.thumbnail} size="small" className="img-search-thumb"/>
+                 <image src={shout.thumbnail} size="small" className="img-search-thumb"/>
                </div>
                <div className="text-search-holder">
                 {shout.title}
@@ -38,7 +37,7 @@ export default React.createClass({
     let tagResultList = tagSearchResults && tagSearchResults.length ?
       tagSearchResults.map(function (tag, i) {
         return (
-          <Link to={`/tag/${encodeURIComponent(tag.name)}`} 
+          <Link to={`/tag/${encodeURIComponent(tag.name)}`}
                 onClick={onBlurSearch}>
             <div  className="list-search-item" key={"search-header-tag-" + i}>
               <div className="img-search-holder">

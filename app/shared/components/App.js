@@ -33,6 +33,12 @@ export default React.createClass({
     )
   ],
 
+  getInitialState() {
+    return {
+      searchKeyword: ""
+    };
+  },
+
   componentDidMount() {
     this.getData();
   },
@@ -83,8 +89,10 @@ export default React.createClass({
   },
 
   render() {
-    const { loggedUser, chat, conversations, currentLocation, suggestions, videoCallState } = this.state;
+    const { loggedUser, chat, conversations, currentLocation, suggestions, videoCallState, searchKeyword } = this.state;
     const { children, flux, routes, location, history } = this.props;
+
+    const onSearchChange = (keyword) => this.setState({ searchKeyword: keyword });
 
     const suggestionsData = {
       data: suggestions.data[createSlug(currentLocation.city)]
@@ -94,7 +102,7 @@ export default React.createClass({
       pagesWithoutHeader.indexOf(route.component) > -1
     );
     const props = { loggedUser, chat, conversations, currentLocation, location,
-      suggestions: suggestionsData, history, videoCallState };
+      suggestions: suggestionsData, onSearchChange, history, videoCallState };
 
     return (
       <div className={`App${hideHeader ? "" : " stickyHeader"}` }>
@@ -108,11 +116,12 @@ export default React.createClass({
               chat={ chat }
               conversations={ conversations }
               location={ location }
+              onSearchChange={ onSearchChange }
             />
           </div>
         }
         <div className="App-content">
-          { React.cloneElement(children, props) }
+          { React.cloneElement(children, { ...props, searchKeyword }) }
         </div>
         <NotificationHost
           notifications={ this.state.uiNotifications }

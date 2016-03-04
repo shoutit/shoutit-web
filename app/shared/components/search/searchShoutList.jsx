@@ -10,25 +10,6 @@ export default React.createClass({
     flux: React.PropTypes.object
   },
 
-  componentDidMount() {
-    let term = this.props.term,
-      category = this.props.category,
-      shouttype = this.props.shouttype,
-      tags = this.props.tags,
-      min = this.props.min,
-      max = this.props.max,
-      shouts = this.props.search.shouts[term],
-      city = this.props.city || undefined,
-      country = this.props.country || undefined;
-
-    if (!shouts) {
-      let payload = {
-        term, category, shouttype, tags, min, max, city, country
-      }
-      this.context.flux.actions.searchShouts(payload);
-    }
-  },
-
   renderShouts(shouts) {
     if (!shouts.length) {
       return <h4>No shouts found to display!</h4>;

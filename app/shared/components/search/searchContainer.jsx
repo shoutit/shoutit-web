@@ -7,12 +7,14 @@ export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users", "search")],
 
   statics: {
-    fetchId: 'searchShouts',
+    fetchId: "searchShouts",
     fetchData(client, session, params, name, queries) {
       return client.shouts().list(session, {
         search: params.term,
         category: params.category,
-        shout_type: params.shouttype
+        shout_type: params.shouttype,
+        city: queries.city,
+        country: queries.country
       });
     }
   },
@@ -32,12 +34,6 @@ export default React.createClass({
 
   componentDidMount() {
     this.loadSuggestions();
-  },
-
-  componentDidUpdate(prevProps) {
-    if(prevProps.location.pathname !== this.props.location.pathname) {
-      this.loadSuggestions();
-    }
   },
 
   loadSuggestions() {
@@ -72,7 +68,7 @@ export default React.createClass({
   },
 
   render() {
-    const { suggestions, flux, params, location, currentLocation } = this.props;
+    const { suggestions, flux, params, location, currentLocation, searchKeyword } = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
@@ -85,6 +81,7 @@ export default React.createClass({
             flux={ flux }
             location={ location }
             currentLocation={ currentLocation }
+            searchKeyword={ searchKeyword }
           />
         </Column>
         <Column size="9">
