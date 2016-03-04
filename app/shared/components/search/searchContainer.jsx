@@ -36,12 +36,6 @@ export default React.createClass({
     this.loadSuggestions();
   },
 
-  componentDidUpdate(prevProps) {
-    if(prevProps.location.pathname !== this.props.location.pathname) {
-      this.loadSuggestions();
-    }
-  },
-
   loadSuggestions() {
     const { flux, currentLocation } = this.props;
     flux.actions.getSuggestions(currentLocation, ["tags", "users", "shouts"]);
