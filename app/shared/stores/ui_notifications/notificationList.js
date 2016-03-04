@@ -146,7 +146,7 @@ export function VIDEOCALL_INCOMING({ incomingInvite, user }, dismiss, flux) {
 
   const content = (
     <Notification showDismissButton={ false } icon= { <UserAvatar user={ user } />  } buttons={buttons}>
-      <strong>{ user.name }</strong> is calling you
+      <strong>{ user.name }</strong> is calling you…
     </Notification>
   );
 
