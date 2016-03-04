@@ -134,6 +134,7 @@ export default React.createClass({
   onSubmit() {
     this.setState({showSearch: false});
     this.searchAll(this.state.term, true);
+    this.props.onSearchChange(this.state.term);
   },
 
   searchAll(term, moveToSearchPage=false) {
