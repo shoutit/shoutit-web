@@ -76,7 +76,9 @@ export default React.createClass({
 
     if (loggedUser) {
       flux.actions.loadConversations();
-      flux.actions.initTwilio();
+      if (require("webrtcsupport").support) {
+        flux.actions.initTwilio();
+      }
     }
     if (currentLocation.city) {
       flux.actions.getSuggestions(currentLocation);
