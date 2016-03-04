@@ -215,7 +215,7 @@ export default React.createClass({
     const { messages, draft, didLoad, loading, loadingPrevious, users,
       about, type, error, showDelete, isDeleting, typingUsers, showAttachShout } = this.state;
 
-    const { replyToConversation, deleteConversation, conversationDraftChange, inviteToVideoCall }
+    const { replyToConversation, deleteConversation, conversationDraftChange, previewVideoCall }
       = this.getFlux().actions;
 
     return (
@@ -230,7 +230,7 @@ export default React.createClass({
           showVideoCallButton={ videoCallState.initialized }
           onDeleteConversationClick={ () => this.setState({ showDelete: true }) }
           onDeleteMessagesTouchTap={ () => {} }
-          onVideoCallClick={ () => inviteToVideoCall(users.find(user => user.username !== loggedUser.username)) }
+          onVideoCallClick={ () => previewVideoCall(users.find(user => user.username !== loggedUser.username)) }
         />
       }
 

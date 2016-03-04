@@ -1,6 +1,6 @@
 import Fluxxor from "fluxxor";
 
-import * as actionTypes from "../video_call/actionTypes";
+import * as actionTypes from "../videoCalls/actionTypes";
 
 const initialState = {
   token: null,
