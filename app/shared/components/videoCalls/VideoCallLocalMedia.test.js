@@ -1,1 +1,1 @@
-import VideoCallLocalMedia from "./VideoCallLocalMedia";
+import VideoCallLocalMedia from "./VideoCallLocalMedia"; // eslint-disable-line

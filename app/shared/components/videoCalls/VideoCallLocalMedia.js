@@ -33,11 +33,10 @@ export default class VideoCallLocalMedia extends React.Component {
           media.attach(this.refs.media);
         })
         .catch(error => {
-          console.error("Unable to access local media", error);
           this.setState({ error });
         });
 
-    })
+    });
 
   }
 
