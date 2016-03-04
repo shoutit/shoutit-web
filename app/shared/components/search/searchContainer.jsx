@@ -68,7 +68,7 @@ export default React.createClass({
   },
 
   render() {
-    const { suggestions, flux, params, location, currentLocation } = this.props;
+    const { suggestions, flux, params, location, currentLocation, searchKeyword } = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
@@ -81,6 +81,7 @@ export default React.createClass({
             flux={ flux }
             location={ location }
             currentLocation={ currentLocation }
+            searchKeyword={ searchKeyword }
           />
         </Column>
         <Column size="9">

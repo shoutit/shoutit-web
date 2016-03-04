@@ -33,6 +33,12 @@ export default React.createClass({
     )
   ],
 
+  getInitialState() {
+    return {
+      searchKeyword: ""
+    };
+  },
+
   componentDidMount() {
     this.getData();
   },
@@ -81,7 +87,7 @@ export default React.createClass({
   },
 
   render() {
-    const { loggedUser, chat, conversations, currentLocation, suggestions, videoCallState } = this.state;
+    const { loggedUser, chat, conversations, currentLocation, suggestions, videoCallState, searchKeyword } = this.state;
     const { children, flux, routes, location, history } = this.props;
 
     const suggestionsData = {
@@ -106,11 +112,12 @@ export default React.createClass({
               chat={ chat }
               conversations={ conversations }
               location={ location }
+              onSearchChange={ (keyword) => this.setState({ searchKeyword: keyword }) }
             />
           </div>
         }
         <div className="App-content">
-          { React.cloneElement(children, props) }
+          { React.cloneElement(children, { ...props, searchKeyword }) }
         </div>
         <NotificationHost
           notifications={ this.state.uiNotifications }

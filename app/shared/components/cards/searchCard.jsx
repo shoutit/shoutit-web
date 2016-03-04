@@ -37,10 +37,12 @@ export default React.createClass({
   onSubmit(filters){
     const searchParams = {};
     const searchQueries = {};
+    const { searchKeyword } = this.props;
 
     // Departing URL params from queries
     searchParams.category = filters.category;
     searchParams.shouttype = filters.shouttype;
+    searchParams.term = searchKeyword;
 
     filters.min ?
       searchQueries.min = filters.min : undefined;
