@@ -11,13 +11,7 @@ $size-huge: 128px;
   width: $size-medium;
   height: $size-medium;
   border-radius: 10%;
-
-  img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border-radius: 10%;
-  }
+  background-size: cover;
 
   &.size-small {
     width: $size-small;
