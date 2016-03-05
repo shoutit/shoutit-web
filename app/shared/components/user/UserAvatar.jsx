@@ -34,7 +34,7 @@ export default function UserAvatar({
   }
 
   const avatar = (
-    <div className={ className } style={ style } />
+    <span className={ className } style={ style } />
   );
 
   if (linkToUserPage) {
