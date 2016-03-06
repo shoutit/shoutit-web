@@ -187,6 +187,10 @@ var UserStore = Fluxxor.createStore({
     return this.state.users[this.state.user];
   },
 
+  get(id) {
+    return this.state.users[id];
+  },
+
   parseNextPage(nextUrl) {
     if (nextUrl) {
       var parsed = url.parse(nextUrl, true);
