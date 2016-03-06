@@ -187,8 +187,8 @@ var UserStore = Fluxxor.createStore({
     return this.state.users[this.state.user];
   },
 
-  get(id) {
-    return this.state.users[id];
+  get(username) {
+    return this.state.users[username];
   },
 
   parseNextPage(nextUrl) {
