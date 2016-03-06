@@ -175,6 +175,18 @@ var UserStore = Fluxxor.createStore({
     );
   },
 
+  getState() {
+    return this.state;
+  },
+
+  getUsersState() {
+    return JSON.parse(JSON.stringify(this.state.users));
+  },
+
+  getLoggedUser() {
+    return this.state.users[this.state.user];
+  },
+
   parseNextPage(nextUrl) {
     if (nextUrl) {
       var parsed = url.parse(nextUrl, true);
@@ -300,20 +312,21 @@ var UserStore = Fluxxor.createStore({
     this.emit("change");
     client.login(token, type).end((err, res) => {
       this.state.loggingIn = false;
+      debugger;
       if (err) {
-        this.state.loginErrorFields = {
-          unknown: ["Unknown error during login, please try again."]
-        };
+        if (res && res.status === 400) {
+          this.state.loginErrorFields = res.body;
+        } else {
+          this.state.loginErrorFields = {
+            unknown: ["Unknown error during login, please try again."]
+          };
+        }
         console.error(err);
         this.emit("change");
         return;
       }
-      if (!res.ok) { // API error
-        this.state.loginErrorFields = res.body;
-        this.emit("change");
-        return;
-      }
       const loggedUser = res.body;
+      debugger;
       // keeping the login type here
       loggedUser.loggedInWith = type;
       this.onLoadUserSuccess({ username: loggedUser.username, res: loggedUser });
@@ -965,19 +978,8 @@ var UserStore = Fluxxor.createStore({
 
   hydrate(json) {
     this.state = JSON.parse(json);
-  },
-
-  getState() {
-    return this.state;
-  },
-
-  getUsersState() {
-    return JSON.parse(JSON.stringify(this.state.users));
-  },
-
-  getLoggedUser() {
-    return this.state.users[this.state.user];
   }
+
 });
 
 export default UserStore;
