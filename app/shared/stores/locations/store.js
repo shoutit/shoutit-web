@@ -25,7 +25,8 @@ let LocationsStore = Fluxxor.createStore({
       search: {}
     };
 
-    this.router = props.router;
+    // How is the router used here? i removed it since it doesn't seem used anywhere
+    // this.router = props.router;
 
     if (props.currentLocation) {
       this.state.current.location = props.currentLocation;

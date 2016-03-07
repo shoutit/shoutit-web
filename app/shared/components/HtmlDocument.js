@@ -72,7 +72,7 @@ export default function HtmlDocument({
       <body>
         <div id="content" dangerouslySetInnerHTML={ {__html: content} } />
 
-        <script dangerouslySetInnerHTML={ {__html: `window.fluxData = ${state}`} } />
+        <script dangerouslySetInnerHTML={ {__html: `window.__state=${state}`} } />
 
         <script async src="https://apis.google.com/js/client:platform.js" />
         { config.googleMapsKey &&

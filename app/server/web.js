@@ -193,11 +193,18 @@ function reactServerRender(req, res) {
     fetchData(req.session, renderProps.routes, renderProps.params, renderProps.location.query)
       .then(data => {
 
-        const flux = new Flux(null, user, data, renderProps.params, currencies, categories, sortTypes);
+        const initialStoreStates = {
+          auth: { loggedUsername: loggedUser ? loggedUser.username : null },
+          discovers: { ...data},
+          locations: { ...data, params: renderProps.params },
+          search: { ...data, categories },
+          shouts: { ...data, currencies, categories, sortTypes },
+          tags: { ...data },
+          users: { loggedUser, ...data }
+        };
 
-        flux.service = fetchr;
-
-        const state = flux.serialize();
+        const flux = new Flux(initialStoreStates, fetchr);
+        const state = flux.dehydrate();
 
         const content = ReactDOMServer.renderToString(
           <ReactRouter.RoutingContext
