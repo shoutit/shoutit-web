@@ -24,8 +24,16 @@ if (process.env.NODE_ENV === "development") {
   app.use(webpackMiddleware(webpackCompiler, {
     hot: true,
     publicPath: webpackConfig.output.publicPath,
+    quiet: false,
+    noInfo: false,
     stats: {
-      colors: true
+      assets: false,
+      colors: true,
+      version: false,
+      hash: false,
+      timings: true,
+      chunks: false,
+      chunkModules: false
     }
   }));
 

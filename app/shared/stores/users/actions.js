@@ -1,45 +1,7 @@
 import consts from "./consts";
 import client from "./client";
-import { LISTEN_BTN_LOADING } from "../../consts/statuses";
 
 export default {
-  signup(payload) {
-    client.signup(payload).end(function(err,res) {
-      if(res) {
-        if(res.body.id) {
-                    // success
-          this.dispatch(consts.SIGNUP_SUCCESS, res.body);
-        } else { // API rejection
-          this.dispatch(consts.SIGNUP_FAIL, res.body);
-        }
-      }
-    }.bind(this));
-  },
-
-  forgetPass(email) {
-    client.forgetPass(email).end(function(err,res) {
-      if(err) {
-        this.dispatch(consts.FORGET_RESULT, err);
-      } else {
-        this.dispatch(consts.FORGET_RESULT, res.body);
-      }
-    }.bind(this));
-  },
-
-  login(type, token) {
-    this.dispatch(consts.LOGIN, {
-      type: type,
-      token: token
-    });
-  },
-
-  resetLoginError() {
-    this.dispatch(consts.RESET_LOGIN_ERROR);
-  },
-
-  logout() {
-    this.dispatch(consts.LOGOUT);
-  },
 
   profileChange(changes) {
     this.dispatch(consts.PROFILE_CHANGE, {
@@ -88,15 +50,6 @@ export default {
       dataPackage.new_password2 = payload.value[1];
     }
     this.dispatch(consts.PASS_CHANGE, dataPackage);
-  },
-
-  resendEmailVerif() {
-    this.dispatch(consts.RESEND_EMAIL_VERIF);
-  },
-
-  verifyEmail(token) {
-    this.dispatch(consts.VERIFY_EMAIL, {token: token});
-
   },
 
   listen(username) {

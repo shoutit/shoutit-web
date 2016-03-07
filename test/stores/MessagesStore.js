@@ -12,7 +12,7 @@ import {
   DELETE_CONVERSATION_SUCCESS
 } from "../../app/shared/stores/conversations/actionTypes";
 
-import { LOGOUT } from "../../app/shared/stores/users/consts";
+import { LOGOUT } from "../../app/auth/AuthActionTypes";
 
 chai.use(sinonChai);
 

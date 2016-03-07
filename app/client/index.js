@@ -26,16 +26,16 @@ injectTapEventPlugin();
 window.debug = debug;
 const log = debug("shoutit");
 
-const flux = new Flux(null);
-flux.service = new Fetchr({ xhrPath: "/fetchr", xhrTimeout: 20000 });
+const fetchr = new Fetchr({ xhrPath: "/fetchr", xhrTimeout: 20000 });
+const flux = new Flux(undefined, fetchr);
 
 flux.setDispatchInterceptor((action, dispatch) =>  {
   ReactDOM.unstable_batchedUpdates(() => dispatch(action));
 });
 
-if (window.fluxData) {
-  flux.hydrate(window.fluxData);
-  log("Flux stores has been rehydrated", window.fluxData);
+if (window.__state) {
+  flux.rehydrate(window.__state);
+  log("Flux stores has been rehydrated");
 }
 else {
   console.warn("No data to rehydrate in the flux stores");
@@ -55,7 +55,7 @@ if (window.google) {
   locationStore.setGMaps(window.google.maps);
 }
 
-setupPusher(flux.store("users"), {
+setupPusher(flux.store("auth"), {
   onNewMessage: (message) => {
     if (flux.store("conversations").get(message.conversation_id)) {
       flux.actions.newPushedMessage(message);

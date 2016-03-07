@@ -5,37 +5,30 @@ import DocumentTitle from "react-document-title";
 import Dialog from "../helper/Dialog.jsx";
 
 import SocialLoginForm from "../login/SocialLoginForm.jsx";
-import RecoverPasswordForm from "../login/RecoverPasswordForm.jsx";
 import NativeLoginFrom from "../login/NativeLoginFrom.jsx";
 
 export default React.createClass({
   displayName: "LoginDialog",
-  mixins: [new StoreWatchMixin("users")],
-
-  getInitialState() {
-    return {
-      showRecoverPassword: false
-    };
-  },
+  mixins: [new StoreWatchMixin("auth")],
 
   componentWillReceiveProps(nextProps) {
     if (this.props.open && this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
+      // User has been logged in, redirect to home page
       this.props.history.replaceState(null, "/home");
     }
     if (this.props.open && !nextProps.open) {
       // Dialog has been closed
-      this.props.flux.actions.resetLoginError();
+      this.props.flux.actions.resetAuthErrors();
     }
   },
 
   getStateFromFlux() {
     const flux = this.props.flux;
-    const { loggingIn, loginErrorFields, forgetResult } = flux.store("users").getState();
-    return { loggingIn, loginErrorFields, forgetResult };
+    return flux.store("auth").getState();
   },
 
   render() {
-    const { loggingIn, loginErrorFields, forgetResult, showRecoverPassword } = this.state;
+    const { isLoggingIn, loginError } = this.state;
     const { flux, open, onRequestClose } = this.props;
     return (
       <DocumentTitle title="Log in - Shoutit">
@@ -53,18 +46,13 @@ export default React.createClass({
 
             <div className="separator separator-or"></div>
 
-            {
-              !showRecoverPassword ?
-                <div>
-                  <NativeLoginFrom
-                    errorFields={ loginErrorFields }
-                    onSubmit={ data => flux.actions.login("shoutit", data) }
-                    loading={ loggingIn }
-                  />
-                </div> :
-              <RecoverPasswordForm flux={flux} res={forgetResult}/>
-
-            }
+              <NativeLoginFrom
+                error={ loginError }
+                onSubmit={ ({ email, password}) =>
+                  flux.actions.login({ email, password})
+                }
+                loading={ isLoggingIn }
+              />
 
             <div className="separator"></div>
             <center>
@@ -76,9 +64,10 @@ export default React.createClass({
             </span>
             </center>
           </div>
-          <span className="forgot-btn" onClick={() => this.setState({showRecoverPassword: true})}>
+
+          <Link to="/login/password" className="forgot-btn">
             Forgot your password?
-          </span>
+          </Link>
         </Dialog>
 
       </DocumentTitle>

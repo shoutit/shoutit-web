@@ -189,3 +189,22 @@ export function VIDEOCALL_INCOMING_FAILURE({ incomingInvite, error }, dismiss) {
   );
   return { options, content };
 }
+
+export function EMAIL_VERIFICATION_SUCCESS({ user }, dismiss) {
+  const options = { autoHide: false, notificationId: "emailVerificationSuccess" };
+  const buttons = [
+    <Button size="small" primary label="Got it" onClick={ () => dismiss(options.notificationId) } />
+  ];
+  const content = (
+    <Notification icon= { <SVGIcon name="ok" active /> } buttons={ buttons }>
+      <p>Thanks <strong>{ user.name }</strong>, your e-mail is now verified.</p>
+    </Notification>
+  );
+  return {
+    options, content
+  };
+}
+
+export function PASSWORD_RESET_SUCCESS() {
+  return "The password reset link has been sent. Check your e-mail!";
+}

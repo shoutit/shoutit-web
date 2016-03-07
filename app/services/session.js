@@ -6,11 +6,11 @@ import {
   AUTH_CLIENT_SECRET as client_secret
 } from "./constants";
 
+
 export default {
-  name: "profile",
+  name: "session",
   create: (req, resource, params, body, config, callback) => {
-    const { name, email, password } = body;
-    const data = { name, email, password, client_id, client_secret, grant_type: "shoutit_signup" };
+    const data = { ...body, client_id, client_secret };
     request
       .post("/oauth2/access_token")
       .send(data)
@@ -21,7 +21,7 @@ export default {
             console.error(err); // eslint-disable-line
             return callback(err);
           }
-          const error = new Error("Error creating a new account");
+          const error = new Error("Error getting access token");
           error.statusCode = 400;
           error.output = err.response.body;
           return callback(error);
@@ -30,16 +30,7 @@ export default {
         return callback(null, res.body);
       });
   },
-  read: (req, resource, { username }, config, callback) => {
-    request
-      .get(`/profiles/${username}`)
-      .setSession(req.session)
-      .prefix()
-      .end((err, res) => {
-        if (err) {
-          return callback(err);
-        }
-        return callback(null, res.body);
-      });
+  delete: (req, resource, params, config, callback) => {
+    req.session.destroy(callback);
   }
 };

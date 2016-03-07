@@ -2,6 +2,7 @@ import React from "react";
 
 import LoginDialog from "../login/LoginDialog.jsx";
 import SignupDialog from "../login/SignupDialog.jsx";
+import ResetPasswordDialog from "../login/ResetPasswordDialog.jsx";
 
 export default class ModalHost extends React.Component {
 
@@ -11,6 +12,7 @@ export default class ModalHost extends React.Component {
     const state = location.state || {};
 
     const showLogin = state.modal === "login" || location.pathname === "/login";
+    const showPasswordRecovery = state.modal === "passwordRecovery" || location.pathname === "/login/password";
     const showSignup = state.modal === "signup" || location.pathname === "/signup";
 
     return (
@@ -19,6 +21,11 @@ export default class ModalHost extends React.Component {
           {...props}
           open={ showLogin }
           onRequestClose={ () => history.pushState(null, location.pathname === "/login" ? "/" : location.pathname) }
+        />
+        <ResetPasswordDialog
+          {...props}
+          open={ showPasswordRecovery }
+          onRequestClose={ () => history.pushState(null, location.pathname === "/login/password" ? "/" : location.pathname) }
         />
         <SignupDialog
           {...props}

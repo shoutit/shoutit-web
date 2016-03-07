@@ -87,12 +87,6 @@ export const UINotificationsStore = Fluxxor.createStore({
     clearTimeout(this.state.notifications[i].hideTimeout);
     this.state.notifications.splice(i, 1);
     this.emit("change");
-  },
-
-  serialize() {
-    return JSON.stringify(null);
-  },
-
-  hydrate() { }
+  }
 
 });

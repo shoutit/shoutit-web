@@ -19,19 +19,6 @@ export default {
             .send(query);
   },
 
-  resendEmail(email) {
-    return request
-            .post(AUTH_PREFIX + "/verify_email")
-            .send({email:email});
-  },
-
-  verify(payload) {
-    return request
-            .get("/services/verify_email")
-            .query({verify_token: payload.token});
-
-  },
-
   get(username) {
     return request
             .get(PREFIX + "/" + username);
@@ -92,48 +79,6 @@ export default {
     return request
                 .post(`/services/images/${bucket}`)
                 .send({ dataImage });
-  },
-
-  signup(payload) {
-    return request
-            .post("/auth/signup")
-            .type("json")
-            .accept("json")
-            .send(payload);
-  },
-
-  forgetPass(email) {
-    return request
-            .post("/auth/forget")
-            .type("json")
-            .accept("json")
-            .send({email:email});
-  },
-
-  login(token, type) {
-    let endpoint;
-    let dataPackage = {token:token};
-
-    if (type === "gplus") {
-      endpoint = "/auth/gplus";
-    }
-    else if (type === "fb") {
-      endpoint = "/auth/fb";
-    }
-    else if (type === "shoutit") {
-      endpoint = "/auth/shoutit";
-      dataPackage = {email:token.email,pass:token.pass};
-    }
-
-    return request
-            .post(endpoint)
-            .type("json")
-            .accept("json")
-            .send(dataPackage);
-  },
-
-  logout() {
-    return request.get("/auth/logout")
-            .accept("json");
   }
+
 };

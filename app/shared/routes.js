@@ -37,6 +37,7 @@ const routes = (
 
         <Route path="/" component={ MainPage } />
         <Route path="/login" component={ MainPage } />
+        <Route path="/login/password" component={ MainPage } />
         <Route path="/signup" component={ MainPage } />
 
         <Route path="/home" component={ HomePage }>

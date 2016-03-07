@@ -31,10 +31,9 @@ request.Request.prototype.end = function(oldCallback) {
   this.end = oldEnd;
   const callback = (err, res) => {
     oldCallback(err, res);
-    if (err && !res) {
-      console.error(err); // eslint-disable-line
-    }
-    else {
+    if (err) {
+      console.error("Error %s %s from %s: %s", res ? res.status : "(no HTTP status)", this.method, this.url, err.message); // eslint-disable-line
+    } else {
       log("Done %s %s from %s", res.status, this.method, this.url);
     }
   };

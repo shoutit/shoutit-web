@@ -26,8 +26,7 @@ import { uploadImageMiddleware, deleteImageMiddleware } from "./services/images"
 var oauth = require("./auth/oauth"),
   ShoutitClient = require("./resources"),
   apiRouter = require("./routes"),
-  resetPass = require("./services/resetPassword"),
-  verifyEmail = require("./services/verifyEmail");
+  resetPass = require("./services/resetPassword");
 
 var React = require("react"),
   ReactRouter = require("react-router"),
@@ -171,12 +170,13 @@ function getMetaFromData(relUrl, data) {
 
 function reactServerRender(req, res) {
 
-  var user = req.session ? req.session.user : null;
+  const loggedUser = req.session ? req.session.user : null;
 
   const fetchr = new Fetchr({ xhrPath: "/fetchr", req });
 
   // Run router to determine the desired state
   ReactRouter.match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+
     if (redirectLocation) {
       res.redirect(301, redirectLocation.pathname + redirectLocation.search);
       return;
@@ -193,11 +193,18 @@ function reactServerRender(req, res) {
     fetchData(req.session, renderProps.routes, renderProps.params, renderProps.location.query)
       .then(data => {
 
-        const flux = new Flux(null, user, data, renderProps.params, currencies, categories, sortTypes);
+        const initialStoreStates = {
+          auth: { loggedUsername: loggedUser ? loggedUser.username : null },
+          discovers: { ...data},
+          locations: { ...data, params: renderProps.params },
+          search: { ...data, categories },
+          shouts: { ...data, currencies, categories, sortTypes },
+          tags: { ...data },
+          users: { loggedUser, ...data }
+        };
 
-        flux.service = fetchr;
-
-        const state = flux.serialize();
+        const flux = new Flux(initialStoreStates, fetchr);
+        const state = flux.dehydrate();
 
         const content = ReactDOMServer.renderToString(
           <ReactRouter.RoutingContext
@@ -339,26 +346,15 @@ module.exports = function (app) {
   // TODO Add csrf tokens to the webapp
   //app.use(csurf());
 
-  var authRouter = new express.Router();
-
-  authRouter.post("/gplus", oauth.gplusAuth);
-  authRouter.post("/fb", oauth.fbAuth);
-  authRouter.post("/shoutit", oauth.siAuth);
-  authRouter.get("/logout", oauth.logout);
-  authRouter.post("/signup", oauth.signup);
-  authRouter.post("/forget", oauth.forgetPass);
-
   // Services router
   var servicesRouter = new express.Router();
 
   servicesRouter.get("/reset_password", resetPass.get);
   servicesRouter.post("/reset_password", resetPass.post);
-  servicesRouter.get("/verify_email", verifyEmail);
 
   servicesRouter.post("/images/:resourceType", uploadImageMiddleware);
   servicesRouter.delete("/images", deleteImageMiddleware);
 
-  app.use("/auth", authRouter);
   app.use("/services", servicesRouter);
   app.use("/api", apiRouter);
 
