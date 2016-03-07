@@ -7,7 +7,8 @@ module.exports = function () {
     sortTypes: require("./shoutSortTypes")(this, SUBROUTE),
     categories: require("./categories")(this, SUBROUTE),
     geocode: require("./geocode")(this, SUBROUTE),
-    suggestions: require("./suggestions")(this, SUBROUTE)
+    suggestions: require("./suggestions")(this, SUBROUTE),
+    shuffleCategories: require("./ShuffleCategories")(this, SUBROUTE)
   };
 };
 
