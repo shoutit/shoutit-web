@@ -18,7 +18,7 @@ import {
 } from "../../app/shared/stores/chat/actionTypes";
 
 
-import { LOGOUT } from "../../../auth/AuthActionTypes";
+import { LOGOUT } from "../../app/auth/AuthActionTypes";
 
 chai.use(sinonChai);
 
