@@ -79,14 +79,6 @@ export default {
     return request
                 .post(`/services/images/${bucket}`)
                 .send({ dataImage });
-  },
-
-  forgetPass(email) {
-    return request
-            .post("/auth/forget")
-            .type("json")
-            .accept("json")
-            .send({email:email});
   }
 
 };
