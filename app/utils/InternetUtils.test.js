@@ -1,5 +1,7 @@
+/* eslint-env mocha */
+
 import { expect } from "chai";
-import { getValidIPv4Address } from "../../app/utils/InternetUtils";
+import { getValidIPv4Address } from "./InternetUtils";
 
 describe("InternetUtils", () => {
   describe("getValidIPv4Address", () => {

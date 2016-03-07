@@ -1,6 +1,8 @@
+/* eslint-env mocha */
+
 import { expect } from "chai";
 import moment from "moment";
-import * as DateUtils from "../../app/utils/DateUtils";
+import * as DateUtils from "./DateUtils";
 
 describe("DateUtils", () => {
   describe("formatCreatedAt", () => {

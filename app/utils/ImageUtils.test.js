@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 import { expect } from "chai";
 import os from "os";
 import fs from "fs";
@@ -5,7 +7,7 @@ import path from "path";
 
 const tmp = os.tmpdir();
 
-import { convertImageToJPEG, compressImage } from "../../app/utils/ImageUtils";
+import { convertImageToJPEG, compressImage } from "./ImageUtils";
 
 describe("ImageUtils", () => {
 
@@ -14,7 +16,7 @@ describe("ImageUtils", () => {
 
     beforeEach(() => {
       tempJPGFile = `${tmp}/shoutit-test-image_${Date.now()}.jpg`;
-      fs.writeFileSync(tempJPGFile, fs.readFileSync(`${__dirname}/../_fixtures/sample.jpg`));
+      fs.writeFileSync(tempJPGFile, fs.readFileSync(`${__dirname}/../../assets/fixtures/sample.jpg`));
     });
 
     afterEach(() => {
@@ -36,8 +38,8 @@ describe("ImageUtils", () => {
     beforeEach(() => {
       tempPNGFile = `${tmp}/shoutit-test-image_${Date.now()}.png`;
       tempJPGFile = `${tmp}/shoutit-test-image_${Date.now()}.jpg`;
-      fs.writeFileSync(tempJPGFile, fs.readFileSync(`${__dirname}/../_fixtures/sample.jpg`));
-      fs.writeFileSync(tempPNGFile, fs.readFileSync(`${__dirname}/../_fixtures/sample.png`));
+      fs.writeFileSync(tempJPGFile, fs.readFileSync(`${__dirname}/../../assets/fixtures/sample.jpg`));
+      fs.writeFileSync(tempPNGFile, fs.readFileSync(`${__dirname}/../../assets/fixtures/sample.png`));
     });
 
     afterEach(() => {

@@ -1,12 +1,12 @@
-/* eslint no-console: 0 */
+/* eslint-env mocha */
 
 import { expect } from "chai";
-import { upload } from "../../app/utils/AWS";
+import { upload } from "./AWS";
 
 describe("AWS", () => {
 
   if (!process.env.SHOUTIT_S3_ACCESS_KEY || !process.env.SHOUTIT_S3_SECRET_KEY) {
-    console.log("Won't run AWS tests without S3 Access and Secret keys");
+    console.log("Won't run AWS tests without S3 Access and Secret keys"); // eslint-disable-line
     return;
   }
 

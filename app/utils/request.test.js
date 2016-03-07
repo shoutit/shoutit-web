@@ -1,7 +1,8 @@
 /* eslint no-console: 0 */
+/* eslint-env mocha */
 
 import { expect } from "chai";
-import { get } from "../../app/utils/request";
+import { get } from "./request";
 
 describe("request", () => {
 
