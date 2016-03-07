@@ -5,7 +5,7 @@ if(process.env.BROWSER) {
   require("styles/components/TagButtons.scss");
 }
 
-export default function TagButtons({ tags = [], showWithType = false }) {
+export default function TagButtons({ tags = [], showWithType = false, linear = false }) {
 
   const tagsList = tags.map((tag, i) =>
     <Link to={`/tag/${encodeURIComponent(tag.value.slug)}`} key={tag + i}>
@@ -20,7 +20,7 @@ export default function TagButtons({ tags = [], showWithType = false }) {
   );
 
   return (
-    <div className="TagButtons">
+    <div className={ linear? `TagButtons linear`: `TagButtons` }>
       {tagsList}
     </div>
   );

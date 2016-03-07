@@ -4,6 +4,11 @@
 .TagButtons {
   display: inline-block;
   margin:15px;
+  &.linear {
+    margin: 0 15px;
+    overflow: hidden;
+    height: 35px;
+  }
 }
 .TagButtons-button {
   display: inline-block;
