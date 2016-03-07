@@ -10,7 +10,7 @@ import NativeLoginFrom from "../login/NativeLoginFrom.jsx";
 
 export default React.createClass({
   displayName: "LoginDialog",
-  mixins: [new StoreWatchMixin("users")],
+  mixins: [new StoreWatchMixin("auth")],
 
   getInitialState() {
     return {
@@ -20,22 +20,22 @@ export default React.createClass({
 
   componentWillReceiveProps(nextProps) {
     if (this.props.open && this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
+      // User has been logged in, redirect to home page
       this.props.history.replaceState(null, "/home");
     }
     if (this.props.open && !nextProps.open) {
       // Dialog has been closed
-      this.props.flux.actions.resetLoginError();
+      this.props.flux.actions.resetAuthErrors();
     }
   },
 
   getStateFromFlux() {
     const flux = this.props.flux;
-    const { loggingIn, loginErrorFields, forgetResult } = flux.store("users").getState();
-    return { loggingIn, loginErrorFields, forgetResult };
+    return flux.store("auth").getState();
   },
 
   render() {
-    const { loggingIn, loginErrorFields, forgetResult, showRecoverPassword } = this.state;
+    const { isLoggingIn, loginError, showRecoverPassword } = this.state;
     const { flux, open, onRequestClose } = this.props;
     return (
       <DocumentTitle title="Log in - Shoutit">
@@ -57,9 +57,11 @@ export default React.createClass({
               !showRecoverPassword ?
                 <div>
                   <NativeLoginFrom
-                    errorFields={ loginErrorFields }
-                    onSubmit={ data => flux.actions.login("shoutit", data) }
-                    loading={ loggingIn }
+                    error={ loginError }
+                    onSubmit={ ({ email, password}) =>
+                      flux.actions.login({ email, password})
+                    }
+                    loading={ isLoggingIn }
                   />
                 </div> :
               <RecoverPasswordForm flux={flux} res={forgetResult}/>

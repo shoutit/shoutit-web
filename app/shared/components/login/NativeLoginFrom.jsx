@@ -3,7 +3,7 @@ import { Input } from "react-bootstrap";
 
 import Button from "../helper/Button.jsx";
 
-export default function NativeLoginFrom({ loading, onSubmit, errorFields }) {
+export default function NativeLoginFrom({ loading, onSubmit, error }) {
 
   const handleSubmit = (e) => {
 
@@ -14,21 +14,21 @@ export default function NativeLoginFrom({ loading, onSubmit, errorFields }) {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
-    const pass = form.pass.value;
+    const password = form.password.value;
 
-    if (email && pass) {
+    if (email && password) {
       form.email.blur();
-      form.pass.blur();
-      onSubmit && onSubmit({ email, pass});
+      form.password.blur();
+      onSubmit && onSubmit({ email, password});
     }
   };
 
   return(
     <div>
-      { errorFields &&
+      { error &&
         <ul style={ { color: "red", padding: 0 }}>
-          { Object.keys(errorFields).map(field =>
-              errorFields[field].map((error, i) =>
+          { Object.keys(error).map(field =>
+              error[field].map((error, i) =>
                 <li key={`${field}-${i}`}>{ error }</li>
               )
             )
@@ -44,7 +44,7 @@ export default function NativeLoginFrom({ loading, onSubmit, errorFields }) {
           className="input-email"
         />
         <Input
-          name="pass"
+          name="password"
           type="password"
           placeholder="Password"
           className="input-pass"
