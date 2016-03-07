@@ -83,7 +83,7 @@ export default React.createClass({
   },
 
   render() {
-    const { loggedUser, chat, conversations, currentLocation, suggestions, videoCallState, searchKeyword } = this.state;
+    const { loggedUser, chat, conversations, currentLocation, suggestions, videoCallState } = this.state;
     const { children, flux, routes, location, history } = this.props;
 
     const suggestionsData = {
