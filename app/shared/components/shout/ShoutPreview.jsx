@@ -106,7 +106,7 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
 
           <Column fluid={true} size="6">
             <ItemProp property="description">
-              <p className="ShoutPreview-text">{ trunc(shout.text, 150) }</p>
+              <p className="ShoutPreview-text">{ trunc(shout.text, 250) }</p>
             </ItemProp>
             <TagButtons tags={shout.filters} linear/>
 
