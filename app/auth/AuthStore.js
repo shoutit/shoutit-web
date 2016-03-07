@@ -150,7 +150,7 @@ export const AuthStore = Fluxxor.createStore({
 
   handleLogout() {
     this.waitFor(["users"], () => {
-      this.state = { ...initialState };
+      this.state = { ...defaultState };
       this.emit("change");
       // Used for pusher, however stores should not emit events other than `change`.
       this.emit("logout");
