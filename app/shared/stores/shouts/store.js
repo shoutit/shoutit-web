@@ -381,11 +381,7 @@ let ShoutStore = Fluxxor.createStore({
           name: tag
         };
       });
-      shoutToSend.category = {
-        name: shoutDraft.category.name
-      };
-
-
+      shoutToSend.category = shoutDraft.category.slug;
       locationStore.geocode(shoutDraft.latLng, function (err, response) {
         if (err) {
           console.log(err);
