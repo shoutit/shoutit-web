@@ -176,6 +176,10 @@ var SearchStore = Fluxxor.createStore({
 
   getState() {
     return this.state;
+  },
+
+  getSearchKeyword() {
+    return this.state.settings.search;
   }
 });
 

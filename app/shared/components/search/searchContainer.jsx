@@ -24,11 +24,13 @@ export default React.createClass({
     const tags = flux.store("tags").getState();
     const users = flux.store("users").getUsersState();
     const search = flux.store("search").getState();
+    const searchKeyword = flux.store("search").getSearchKeyword();
 
     return {
       tags,
       users,
-      search
+      search,
+      searchKeyword
     };
   },
 
@@ -68,7 +70,9 @@ export default React.createClass({
   },
 
   render() {
-    const { suggestions, flux, params, location, currentLocation, searchKeyword } = this.props;
+    const { suggestions, flux, params, location, currentLocation } = this.props;
+    const { searchKeyword } = this.state;
+
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
