@@ -36,7 +36,7 @@ export default React.createClass({
   },
 
   render() {
-    const { onSearchChange, history } = this.props;
+    const { history } = this.props;
     return (
       <DocumentTitle title="Buy and Sell while Chatting on Shoutit!">
         <Column className="mainpage">
@@ -80,7 +80,6 @@ export default React.createClass({
               <SearchBar
                 height="45"
                 flux={this.props.flux}
-                onSearchChange={ (keyword) => onSearchChange(keyword) }
                 history={ history }
               />
             </Column>
