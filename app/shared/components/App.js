@@ -94,7 +94,7 @@ export default React.createClass({
       pagesWithoutHeader.indexOf(route.component) > -1
     );
     const props = { loggedUser, chat, conversations, currentLocation, location,
-      suggestions: suggestionsData, onSearchChange, history, videoCallState };
+      suggestions: suggestionsData, history, videoCallState };
 
     return (
       <div className={`App${hideHeader ? "" : " stickyHeader"}` }>
