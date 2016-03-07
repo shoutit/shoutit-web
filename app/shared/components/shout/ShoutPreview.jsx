@@ -69,14 +69,14 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
       <Grid fluid={true} className="ShoutPreview">
         <div className="ShoutPreview-heading">
           <UserAvatar user={ shout.user } linkToUserPage />
-          <h3 className="ShoutPreview-user">{ shout.user.name }</h3>
+          <Link className="ShoutPreview-user" to={ `/user/${ shout.user.username }` }>{ shout.user.name }</Link>
           <span className="ShoutPreview-date">{ publishedDate }</span>
         </div>
         <Grid fluid={true} className="ShoutPreview-caption">
           <Column fluid={true} size="12" clear>
             <ItemProp property="name">
               <Link to={ `/shout/${shout.id}/${city}/${title}` } className="ShoutPreview-title bold">
-                { shout.title }
+                { trunc(shout.title, 45) }
               </Link>
             </ItemProp>
             <Icon name="drop_down" style={{
@@ -106,9 +106,9 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
 
           <Column fluid={true} size="6">
             <ItemProp property="description">
-              <p className="ShoutPreview-text">{ trunc(shout.text, 150) }</p>
+              <p className="ShoutPreview-text">{ trunc(shout.text, 200) }</p>
             </ItemProp>
-            <TagButtons tags={shout.filters}/>
+            <TagButtons tags={shout.filters} linear/>
 
             <Separator />
 

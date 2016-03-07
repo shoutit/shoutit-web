@@ -6,7 +6,7 @@ if (process.env.BROWSER) {
 }
 
 export default function UserAvatar({
-  user,
+  user={},
   linkToUserPage=false,
   placeholder=false,  // show placeholder behind the image (default true when user has no image)
   size="medium",     // small, medium, large or huge
