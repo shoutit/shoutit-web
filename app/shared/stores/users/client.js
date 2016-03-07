@@ -55,7 +55,7 @@ export default {
   },
 
   loadShouts(username, query = {}) {
-    query.user = username;
+    query.profile = username;
 
     return request
       .get(SHOUTS_PREFIX)
