@@ -225,11 +225,13 @@ const UserStore = Fluxxor.createStore({
     const { users, pages } = res;
     const usersData = pages && users? [...users, ...pages]: users || pages;
 
-    usersData.forEach((user) => {
-      if (!this.state.users[user.username]) {
-        this.state.users[user.username] = user;
-      }
-    });
+    if (usersData) {
+      usersData.forEach((user) => {
+        if (!this.state.users[user.username]) {
+          this.state.users[user.username] = user;
+        }
+      });
+    }
 
     this.emit("change");
   },

@@ -31,7 +31,10 @@ export default React.createClass({
 
   loadSuggestions() {
     const { flux, currentLocation } = this.props;
-    flux.actions.getSuggestions(currentLocation, ["shouts"]);
+
+    if (currentLocation.city) {
+      flux.actions.getSuggestions(currentLocation, ["shouts"]);
+    }
   },
 
   render() {
