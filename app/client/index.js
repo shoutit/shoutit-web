@@ -35,7 +35,10 @@ flux.setDispatchInterceptor((action, dispatch) =>  {
 
 if (window.fluxData) {
   flux.hydrate(window.fluxData);
-  log("Flux stores has been rehydrated", window.fluxData);
+  log("Flux stores has been rehydrated");
+  Object.keys(window.fluxData).forEach(store =>
+    debug("shoutit:flux")("Rehydrated %s store", store, JSON.parse(window.fluxData[store]))
+  );
 }
 else {
   console.warn("No data to rehydrate in the flux stores");
