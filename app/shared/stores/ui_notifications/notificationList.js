@@ -204,3 +204,7 @@ export function EMAIL_VERIFICATION_SUCCESS({ user }, dismiss) {
     options, content
   };
 }
+
+export function PASSWORD_RESET_SUCCESS() {
+  return "The password reset link has been sent. Check your e-mail!";
+}

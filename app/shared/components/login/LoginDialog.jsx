@@ -5,18 +5,11 @@ import DocumentTitle from "react-document-title";
 import Dialog from "../helper/Dialog.jsx";
 
 import SocialLoginForm from "../login/SocialLoginForm.jsx";
-import RecoverPasswordForm from "../login/RecoverPasswordForm.jsx";
 import NativeLoginFrom from "../login/NativeLoginFrom.jsx";
 
 export default React.createClass({
   displayName: "LoginDialog",
   mixins: [new StoreWatchMixin("auth")],
-
-  getInitialState() {
-    return {
-      showRecoverPassword: false
-    };
-  },
 
   componentWillReceiveProps(nextProps) {
     if (this.props.open && this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
@@ -35,7 +28,7 @@ export default React.createClass({
   },
 
   render() {
-    const { isLoggingIn, loginError, showRecoverPassword } = this.state;
+    const { isLoggingIn, loginError } = this.state;
     const { flux, open, onRequestClose } = this.props;
     return (
       <DocumentTitle title="Log in - Shoutit">
@@ -53,20 +46,13 @@ export default React.createClass({
 
             <div className="separator separator-or"></div>
 
-            {
-              !showRecoverPassword ?
-                <div>
-                  <NativeLoginFrom
-                    error={ loginError }
-                    onSubmit={ ({ email, password}) =>
-                      flux.actions.login({ email, password})
-                    }
-                    loading={ isLoggingIn }
-                  />
-                </div> :
-              <RecoverPasswordForm flux={flux} res={forgetResult}/>
-
-            }
+              <NativeLoginFrom
+                error={ loginError }
+                onSubmit={ ({ email, password}) =>
+                  flux.actions.login({ email, password})
+                }
+                loading={ isLoggingIn }
+              />
 
             <div className="separator"></div>
             <center>
@@ -78,9 +64,10 @@ export default React.createClass({
             </span>
             </center>
           </div>
-          <span className="forgot-btn" onClick={() => this.setState({showRecoverPassword: true})}>
+
+          <Link to="/login/password" className="forgot-btn">
             Forgot your password?
-          </span>
+          </Link>
         </Dialog>
 
       </DocumentTitle>

@@ -66,6 +66,22 @@ export const actions = {
       });
   },
 
+  requestPasswordReset(email, done) {
+    this.dispatch(ActionTypes.PASSWORD_RESET_START);
+    this.flux.service
+      .create("passwordReset")
+      .body({ email })
+      .end((error) => {
+        if (error) {
+          this.dispatch(ActionTypes.PASSWORD_RESET_FAILURE, { error });
+          done && done(error);
+          return;
+        }
+        this.dispatch(ActionTypes.PASSWORD_RESET_SUCCESS);
+        done && done();
+      });
+  },
+
   verifyEmail(token) {
     this.dispatch(ActionTypes.EMAIL_VERIFICATION_START);
     this.flux.service
@@ -80,7 +96,7 @@ export const actions = {
       });
   },
 
-  sendEmailVerification(email) {
+  sendEmailVerification(email, done) {
     this.dispatch(ActionTypes.SEND_EMAIL_VERIFICATION_START, { email });
     this.flux.service
       .create("emailVerification")
@@ -88,9 +104,11 @@ export const actions = {
       .end((error, data) => {
         if (error) {
           this.dispatch(ActionTypes.SEND_EMAIL_VERIFICATION_FAILURE, { error, email });
+          done && done(error);
           return;
         }
         this.dispatch(ActionTypes.SEND_EMAIL_VERIFICATION_SUCCESS, data);
+        done && done();
       });
   }
 

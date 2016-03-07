@@ -19,7 +19,10 @@ const defaultState = {
   emailVerificationError: null,
 
   loggedUsername: null,
-  isNewSignup: false
+  isNewSignup: false,
+
+  isRequestingPasswordReset: false,
+  passwordResetError: null
 
 };
 
@@ -44,6 +47,10 @@ export const AuthStore = Fluxxor.createStore({
       actionTypes.EMAIL_VERIFICATION_START, this.handleEmailVerificationStart,
       actionTypes.EMAIL_VERIFICATION_SUCCESS, this.handleLoginSuccess,
       actionTypes.EMAIL_VERIFICATION_FAILURE, this.handleEmailVerificationFailure,
+
+      actionTypes.PASSWORD_RESET_START, this.handlePasswordResetStart,
+      actionTypes.PASSWORD_RESET_SUCCESS, this.handlePasswordResetSuccess,
+      actionTypes.PASSWORD_RESET_FAILURE, this.handlePasswordResetFailure,
 
       actionTypes.LOGOUT, this.handleLogout
 
@@ -145,6 +152,7 @@ export const AuthStore = Fluxxor.createStore({
     this.state.googleLoginError = null;
     this.state.signupError = null;
     this.state.emailVerificationError = null;
+    this.state.passwordResetError = null;
     this.emit("change");
   },
 
@@ -166,6 +174,22 @@ export const AuthStore = Fluxxor.createStore({
   handleEmailVerificationFailure({ error }) {
     this.state.isVerifyingEmail = false;
     this.state.emailVerificationError = error;
+    this.emit("change");
+  },
+
+  handlePasswordResetStart() {
+    this.state.isRequestingPasswordReset = true;
+    this.emit("change");
+  },
+
+  handlePasswordResetSuccess() {
+    this.state.isRequestingPasswordReset = false;
+    this.emit("change");
+  },
+
+  handlePasswordResetFailure({ error }) {
+    this.state.isRequestingPasswordReset = false;
+    this.state.passwordResetError = error.body;
     this.emit("change");
   },
 
