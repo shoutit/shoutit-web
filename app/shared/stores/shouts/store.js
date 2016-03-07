@@ -387,7 +387,10 @@ let ShoutStore = Fluxxor.createStore({
           console.log(err);
           reject(err);
         } else {
-          shoutToSend.location.google_geocode_response = response;
+          shoutToSend.location = {
+            latitude: response.latitude,
+            longitude: response.longitude
+          };
           resolve(shoutToSend);
         }
       });
