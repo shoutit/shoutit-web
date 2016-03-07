@@ -21,7 +21,8 @@ export default React.createClass({
   mixins: [ StoreWatchMixin("users"), History],
 
   contextTypes: {
-    flux: React.PropTypes.object
+    flux: React.PropTypes.object,
+    location: React.PropTypes.object
   },
 
   getInitialState() {
@@ -43,6 +44,11 @@ export default React.createClass({
     const { shout } = this.props;
     const { loading, loggedUser } = this.state;
     const { form } = this.refs;
+
+    if (!loggedUser) {
+      const { pathname } = this.context.location;
+      this.history.pushState({ modal: "login" }, pathname);
+    }
 
     const text = form.text.value.trim();
     if (!text) {
@@ -72,11 +78,20 @@ export default React.createClass({
     );
   },
 
+  handleFocus() {
+    const { loggedUser } = this.state;
+
+    if (!loggedUser) {
+      const { pathname } = this.context.location;
+      this.history.pushState({ modal: "login" }, pathname);
+    }
+  },
+
   render() {
     const { shout } = this.props;
     const { loggedUser } = this.state;
 
-    if (!loggedUser || (shout.user.username === loggedUser.username)) {
+    if (loggedUser && (shout.user.username === loggedUser.username)) {
       return null;
     }
 
@@ -89,6 +104,7 @@ export default React.createClass({
           <Input
             name="text"
             autoComplete="off"
+            onFocus={ this.handleFocus }
             type="text"
             placeholder="Reply to this shout…"
           />
