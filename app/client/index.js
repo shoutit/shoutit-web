@@ -55,7 +55,7 @@ if (window.google) {
   locationStore.setGMaps(window.google.maps);
 }
 
-setupPusher(flux.store("users"), {
+setupPusher(flux.store("auth"), {
   onNewMessage: (message) => {
     if (flux.store("conversations").get(message.conversation_id)) {
       flux.actions.newPushedMessage(message);
