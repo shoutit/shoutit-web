@@ -59,7 +59,7 @@ export default function HtmlDocument({
 
         <title>{ title }</title>
 
-        { metatags.map(props => <meta { ...props } />) }
+        { metatags.map((props, i) => <meta { ...props } key={ i } />) }
 
         <link rel="shortcut icon" type="image/png" href={ `${config.publicUrl}/images/favicons/favicon.ico` } />
         <link rel="apple-touch-icon" type="image/png" size="256x256" href={ `${config.publicUrl}/images/favicons/apple-touch-icon.png` } />
