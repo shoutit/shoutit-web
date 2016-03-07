@@ -76,7 +76,7 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
           <Column fluid={true} size="12" clear>
             <ItemProp property="name">
               <Link to={ `/shout/${shout.id}/${city}/${title}` } className="ShoutPreview-title bold">
-                { shout.title }
+                { trunc(shout.title, 45) }
               </Link>
             </ItemProp>
             <Icon name="drop_down" style={{
