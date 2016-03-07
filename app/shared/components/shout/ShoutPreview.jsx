@@ -69,7 +69,7 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
       <Grid fluid={true} className="ShoutPreview">
         <div className="ShoutPreview-heading">
           <UserAvatar user={ shout.user } linkToUserPage />
-          <h3 className="ShoutPreview-user">{ shout.user.name }</h3>
+          <Link className="ShoutPreview-user" to={ `/user/${ shout.user.username }` }>{ shout.user.name }</Link>
           <span className="ShoutPreview-date">{ publishedDate }</span>
         </div>
         <Grid fluid={true} className="ShoutPreview-caption">
