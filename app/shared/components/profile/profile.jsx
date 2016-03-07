@@ -21,7 +21,7 @@ export default React.createClass({
   statics: {
     fetchId: 'useroffers',
     fetchData(client, session, params) {
-      return client.shouts().list(session, params);
+      return client.shouts().list(session, {profile: params.username});
     }
   },
 
