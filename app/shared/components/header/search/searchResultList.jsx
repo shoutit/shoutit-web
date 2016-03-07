@@ -21,7 +21,7 @@ export default React.createClass({
               onClick={onBlurSearch}>
              <div  className="list-search-item" key={"search-header-shout-" + i}>
                <div className="img-search-holder">
-                 <image src={shout.thumbnail} size="small" className="img-search-thumb"/>
+                 <img src={shout.thumbnail} size="small" className="img-search-thumb"/>
                </div>
                <div className="text-search-holder">
                 {shout.title}
