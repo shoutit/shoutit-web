@@ -296,6 +296,14 @@ $size-large: 36px;
     background-image: url("../../../../assets/icons/no-camera-fill.svg");
   }
 
+.SVGIcon-icon.ok {
+  background-image: url("../../../../assets/icons/ok.svg");
+}
+  .SVGIcon.hover:hover .SVGIcon-icon.ok,
+  .SVGIcon.active .SVGIcon-icon.ok {
+    background-image: url("../../../../assets/icons/ok-active.svg");
+  }
+
 .SVGIcon-icon.pencil {
   background-image: url("../../../../assets/icons/pencil.svg");
 }
