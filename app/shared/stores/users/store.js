@@ -4,6 +4,7 @@ import consts from "./consts";
 import statuses from "../../consts/statuses";
 import locConsts from "../locations/consts";
 import { GET_SUGGESTIONS_SUCCESS } from "../suggestions/actionTypes";
+import { LOGIN_SUCCESS, SIGNUP_SUCCESS, EMAIL_VERIFICATION_SUCCESS, LOGOUT } from "../../../auth/AuthActionTypes";
 import client from "./client";
 import assign from "lodash/object/assign";
 import debug from "debug";
@@ -45,11 +46,11 @@ function initUserListenEntry() {
       loaded: false,
       next: null,
       list: []
-    },
+    }
   };
 }
 
-var UserStore = Fluxxor.createStore({
+const UserStore = Fluxxor.createStore({
   initialize(props) {
     this.state = {
       user: null,
@@ -58,10 +59,6 @@ var UserStore = Fluxxor.createStore({
       shouts: {},
       loading: false,
       showDownloadPopup: false,
-      loggingIn: false,
-      loginErrorFields: null,
-      signupStatus: {},
-      forgetResult: null,
       editors: {},
       verifyResponse: "",
       status: null,
@@ -136,14 +133,13 @@ var UserStore = Fluxxor.createStore({
     }
 
     this.bindActions(
-      consts.RESEND_EMAIL_VERIF, this.onResendEmail,
-      consts.VERIFY_EMAIL, this.onEmailVerify,
-      consts.FORGET_RESULT, this.onForgetResult,
-      consts.SIGNUP_SUCCESS, this.onSignupSuccess,
-      consts.SIGNUP_FAIL, this.onSignupFail,
-      consts.LOGIN, this.onLogin,
-      consts.RESET_LOGIN_ERROR, this.onResetLoginError,
-      consts.LOGOUT, this.onLogout,
+
+      // Authorization actions
+      LOGIN_SUCCESS, this.onLoginSuccess,
+      SIGNUP_SUCCESS, this.onLoginSuccess,
+      EMAIL_VERIFICATION_SUCCESS, this.onLoginSuccess,
+      LOGOUT, this.onLogout,
+
       consts.PROFILE_CHANGE, this.onProfileChange,
       consts.PROFILE_CHANGES_SAVE, this.onProfileChangesSave,
       consts.PROFILE_PICTURE_UPLOAD, this.onProfilePictureUpload,
@@ -260,104 +256,15 @@ var UserStore = Fluxxor.createStore({
     loc? this.flux.store("locations").updateLocation(loc): undefined;
   },
 
-  onEmailVerify(token) {
-    client.verify(token)
-      .end(function(err, res) {
-        if (err) {
-          console.log(err);
-        } else {
-          if (res.status === 200) {
-            let loggedUser = res.body;
-            if (typeof loggedUser.username !== "undefined") {
-              this.state.users[loggedUser.username] = loggedUser;
-              this.state.user = loggedUser.username;
-              this.state.verifyResponse = "SUCCESS";
-              this.emit("change");
-              this.emit("login");
-            }
-          } else {
-            this.state.verifyResponse = res.body;
-            this.emit("change");
-          }
-
-        }
-      }.bind(this));
-  },
-
-  onSignupSuccess(data) {
-    let loggedUser = data;
-
-    this.state.users[loggedUser.username] = loggedUser;
-    this.state.user = loggedUser.username;
-    this.state.signupStatus = {name:loggedUser.first_name, email:loggedUser.email};
-    this.state.signupStatus.status = consts.SIGNUP_SUCCESS;
-
-    this.emit("change");
-    this.emit("login");
-  },
-
-  onSignupFail(data) {
-    this.state.signupStatus = data;
-    this.state.signupStatus.status = consts.SIGNUP_FAIL;
-    this.emit("change");
-  },
-
-  onForgetResult(payload) {
-    if (payload.email) {
-      this.state.forgetResult = payload.email[0];
-    } else if (payload.success) {
-      this.state.forgetResult = payload.success;
-    }
-    this.emit("change");
-  },
-
-  onLogin({ token, type }) {
-    this.state.loggingIn = true;
-    this.emit("change");
-    client.login(token, type).end((err, res) => {
-      this.state.loggingIn = false;
-      debugger;
-      if (err) {
-        if (res && res.status === 400) {
-          this.state.loginErrorFields = res.body;
-        } else {
-          this.state.loginErrorFields = {
-            unknown: ["Unknown error during login, please try again."]
-          };
-        }
-        console.error(err);
-        this.emit("change");
-        return;
-      }
-      const loggedUser = res.body;
-      debugger;
-      // keeping the login type here
-      loggedUser.loggedInWith = type;
-      this.onLoadUserSuccess({ username: loggedUser.username, res: loggedUser });
-      this.state.user = loggedUser.username;
-      this.state.loginErrorFields = null;
-
-      this.emit("change");
-      this.emit("login");
-    });
-  },
-
-  onResetLoginError() {
-    this.state.loginErrorFields = null;
-    this.emit("change");
+  onLoginSuccess({ user }) {
+    this.state.user = user.username;
+    // the next method will emit 'change' :/
+    this.onLoadUserSuccess({ username: user.username, res: user });
   },
 
   onLogout() {
-    client.logout()
-      .end(function (err, res) {
-        if (err) {
-          console.error(err);
-        } else if (res.status === 200 && res.body.loggedOut) {
-          this.state.user = null;
-          this.emit("change");
-          this.emit("logout");
-        }
-      }.bind(this));
+    this.state.user = null;
+    this.emit("change");
   },
 
   onProfileChange(payload) {
@@ -534,13 +441,6 @@ var UserStore = Fluxxor.createStore({
     }
     this.state.loading = true;
     this.emit("change");
-  },
-
-  onResendEmail() {
-    let user = this.state.users[this.state.user];
-    if (user) {
-      client.resendEmail(user.email).end();
-    }
   },
 
   onListen({ username }) {
