@@ -19,7 +19,6 @@ function createTempMessage(data) {
   const message = {
     created_at: getUnixTime(),
     id: tempMessageId,
-    is_read: false,
     ...data
   };
   return message;

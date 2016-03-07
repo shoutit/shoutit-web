@@ -381,17 +381,16 @@ let ShoutStore = Fluxxor.createStore({
           name: tag
         };
       });
-      shoutToSend.category = {
-        name: shoutDraft.category.name
-      };
-
-
+      shoutToSend.category = shoutDraft.category.slug;
       locationStore.geocode(shoutDraft.latLng, function (err, response) {
         if (err) {
           console.log(err);
           reject(err);
         } else {
-          shoutToSend.location.google_geocode_response = response;
+          shoutToSend.location = {
+            latitude: response.latitude,
+            longitude: response.longitude
+          };
           resolve(shoutToSend);
         }
       });
