@@ -19,13 +19,20 @@ export default React.createClass({
   displayName: "MainPage",
   mixins: [new StoreWatchMixin("users"), History],
 
+  statics: {
+    fetchId: "shuffleCategories",
+    fetchData(client, session, params) {
+      return client.misc().shuffleCategories(session, params);
+    }
+  },
+
   getStateFromFlux() {
     let flux = this.props.flux;
 
     return {
       users: flux.store("users").getState(),
       locations: flux.store("locations").getState(),
-      categories: flux.store('shouts').getState().categories
+      shuffleCategories: flux.store('shouts').getState().shuffleCategories
     };
   },
 
@@ -87,7 +94,7 @@ export default React.createClass({
 
           <Grid className="mainpage-explore">
             <Element name="explore" >
-              <Explore categories={this.state.categories}/>
+              <Explore categories={this.state.shuffleCategories}/>
             </Element>
           </Grid>
 

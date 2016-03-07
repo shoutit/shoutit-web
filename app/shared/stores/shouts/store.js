@@ -50,6 +50,7 @@ let ShoutStore = Fluxxor.createStore({
       loading: false,
       currencies: {},
       categories: [],
+      shuffleCategories: [],
       sortTypes: {},
       draft: shoutDraftInit(),
       replyDrafts: {},
@@ -63,6 +64,10 @@ let ShoutStore = Fluxxor.createStore({
 
     if (props.categories) {
       this.state.categories = props.categories;
+    }
+
+    if (props.shuffleCategories) {
+      this.state.shuffleCategories = props.shuffleCategories;
     }
 
     if (props.sortTypes) {
