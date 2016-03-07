@@ -23,12 +23,12 @@ export default React.createClass({
   mixins: [
     new FluxMixin(React),
     new StoreWatchMixin(
+      "auth",
       "chat",
       "conversations",
       "locations",
       "suggestions",
       "ui_notifications",
-      "users",
       "videocall"
     )
   ],
@@ -59,7 +59,7 @@ export default React.createClass({
     const chat = flux.store("chat").getState();
     const conversations = flux.store("conversations").getConversations(chat.conversationIds);
     const currentLocation = flux.store("locations").getCurrent();
-    const loggedUser = flux.store("users").getLoggedUser();
+    const loggedUser = flux.store("auth").getLoggedProfile();
     const suggestions = flux.store("suggestions").getState();
     const uiNotifications = flux.store("ui_notifications").getNotifications();
     const videoCallState = flux.store("videocall").getState();
