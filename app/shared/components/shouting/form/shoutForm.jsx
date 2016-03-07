@@ -71,7 +71,7 @@ export default React.createClass({
       const { flux } = this.props;
       if (key === "price") {
         // Prices should convert to cents for API
-        flux.actions.changeShoutDraft(key, event.target.value * 100);
+        flux.actions.changeShoutDraft(key, event.target.value);
       } else {
         flux.actions.changeShoutDraft(key, event.target.value);
       }

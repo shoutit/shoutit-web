@@ -368,7 +368,8 @@ let ShoutStore = Fluxxor.createStore({
       shoutToSend.title = shoutDraft.title;
       shoutToSend.text = shoutDraft.text;
       shoutToSend.type = shoutDraft.type;
-      shoutToSend.price = shoutDraft.price;
+      // multiply to 100 since API works with this unit
+      shoutToSend.price = shoutDraft.price * 100;
       shoutToSend.images = shoutDraft.images;
       shoutToSend.currency = shoutDraft.currency.code;
       shoutToSend.location = {
