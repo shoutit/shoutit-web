@@ -1,71 +1,60 @@
-import React from 'react';
-import {Navigation,Link} from 'react-router';
-import {FluxMixin, StoreWatchMixin} from 'fluxxor';
-import DocumentTitle from 'react-document-title';
+import React from "react";
+import { StoreWatchMixin } from "fluxxor";
 
+import DocumentTitle from "react-document-title";
+import Progress from "../helper/Progress.jsx";
+import Button from "../helper/Button.jsx";
 export default React.createClass({
+
   displayName: "VerifyEmail",
-  mixins: [new FluxMixin(React), new StoreWatchMixin('users'),Navigation],
 
-  getInitialState() {
-    return {
-      redirecting: false
-    }
-  },
-  
-  getStateFromFlux() {
-    let flux = this.getFlux();
-    let store = flux.store('users').getState();
-
-    if(store.verifyResponse === 'SUCCESS') {
-      this.setState({redirecting: true});
-      store.verifyResponse = '';
-      setTimeout(function(){
-        this.transitionTo("app");
-      }
-      .bind(this),2500);
-    }
-    return {
-      response: store.verifyResponse
-    }
-
-  },
+  mixins: [new StoreWatchMixin("auth")],
 
   componentDidMount() {
-    if(this.props.query.token) {
-      let flux = this.getFlux();
-
-      flux.actions.verifyEmail(this.props.query.token);
+    const { flux, location, loggedUser } = this.props;
+    if (!loggedUser || !loggedUser.is_activated) {
+      flux.actions.verifyEmail(location.query.token);
     }
   },
 
-  componentWillUpdate() {
-    
+  componentWillReceiveProps(nextProps) {
+    if (this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser
+      && nextProps.loggedUser.is_activated) {
+      // User has been logged in and it is activated: redirect to home page
+      this.props.history.replaceState(null, "/home");
+    }
+  },
+
+  getStateFromFlux() {
+    return this.props.flux.stores.auth.getState();
   },
 
   render() {
+    const { isVerifyingEmail, emailVerificationError } = this.state;
     return (
-      <DocumentTitle title="Email verification- Shoutit">
-        <div className="login">
-          <div className="login-container">
-            <div className="top-login">
-              <img src="../img/logo2.png"/>
-              <h4>Activating your email</h4>
+      <DocumentTitle title="E-mail verification - Shoutit">
+        <div>
+          { isVerifyingEmail &&
+            <div style={{ textAlign: "center" }}>
+              <Progress />
+              <p style={{ marginTop: 20 }}>Verifying your e-mail address…</p>
             </div>
-            {this.state.response || '[Please wait...]'}
-            {this.renderMsg()}
-          </div>
+           }
+          { emailVerificationError && (
+              emailVerificationError.message === `"Email address is already verified."` ?
+              <div style={{ textAlign: "center" }}>
+                <p style={{ margin: 20 }}>This e-mail address is already verified.</p>
+                <Button primary to="/login" label="Login now" />
+              </div> :
+              <div style={{ textAlign: "center" }}>
+                <p style={{ marginTop: 20 }}>Error verifying this e-mail address.</p>
+                <p className="small" style={{ margin: 20}}>{ emailVerificationError.message }</p>
+                <Button primary to="/login" label="Login now" />
+              </div>
+              )
+          }
         </div>
-      </DocumentTitle>  
+      </DocumentTitle>
     );
-  },
-
-  renderMsg() {
-    let msg;
-    if(this.state.response)
-      msg = <p>Please click <Link to="login">here</Link> to log in</p>;
-    if(this.state.redirecting)
-      msg = <p>Your email has been verified! Moving to <Link to="app">main page</Link>...</p>;
-    return msg;
   }
 });

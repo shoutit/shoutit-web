@@ -10,23 +10,27 @@ import object from "lodash/array/object";
 import pluck from "lodash/collection/pluck";
 import auth from "basic-auth";
 import favicon from "serve-favicon";
+import Fetchr from "fetchr";
+import bodyParser from "body-parser";
+import { capitalize } from "lodash";
 
 import Promise from "bluebird";
+
+import HtmlDocument from "../../app/shared/components/HtmlDocument";
+import * as services from "../services";
 
 import config from "../../config";
 
 import { uploadImageMiddleware, deleteImageMiddleware } from "./services/images";
 
-var React = require("react"),
-  ReactRouter = require("react-router"),
-  ReactDOMServer = require("react-dom/server");
-
 var oauth = require("./auth/oauth"),
   ShoutitClient = require("./resources"),
   apiRouter = require("./routes"),
-  resetPass = require("./services/resetPassword"),
-  verifyEmail = require("./services/verifyEmail");
+  resetPass = require("./services/resetPassword");
 
+var React = require("react"),
+  ReactRouter = require("react-router"),
+  ReactDOMServer = require("react-dom/server");
 
 var Flux = require("../shared/flux"),
   routes = require("../shared/routes"),
@@ -112,8 +116,8 @@ function fetchData(userSession, routes, params, query) {
           }
         });
     }).then(function (fetched) {
-      console.log("Fetched data for", route.component.fetchId);
       data[route.component.fetchId] = fetched;
+      console.log("Server Rendering data fetched for %s", route.component.fetchId);
     });
   })).then(function () {
     return data;
@@ -121,54 +125,35 @@ function fetchData(userSession, routes, params, query) {
 }
 
 
-function getMetaFromData(relUrl, innerRoute, data) {
+function getMetaFromData(relUrl, data) {
   var addData;
+  const urlPathName = url.parse(relUrl).pathname.split("/")[1];
 
-  switch (innerRoute.name) {
+  switch (urlPathName) {
   case "shout":
-    var shout = data.shout;
+    const { shout } = data;
     if (shout) {
-      if (shout.type === "offer") {
-        addData = {
-          type: "shout",
-          shoutType: "offer",
-          shoutTypePrefix: "Offer",
-          title: shout.title + " - Shoutit",
-          image: shout.thumbnail,
-          user: shout.user.name,
-          description: "Offer by " + shout.user.name + ": " + shout.text,
-          price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
-          location: shout.location.city + " - " + shout.location.country
-        };
-      } else if (shout.type === "request") {
-        addData = {
-          type: "shout",
-          shoutType: "request",
-          shoutTypePrefix: "Request",
-          title: shout.title + " - Shoutit",
-          image: shout.thumbnail,
-          user: shout.user.name,
-          description: "Offer by " + shout.user.name + ": " + shout.text,
-          price: shout.price ? shout.price + " " + currencies[shout.currency].name : "",
-          location: shout.location.city + " - " + shout.location.country
-        };
-      }
-
+      addData = {
+        type: "shout",
+        shoutTypePrefix: capitalize(shout.type),
+        ogType: "shoutitcom:" + shout.type,
+        title: shout.title + " - Shoutit",
+        image: shout.thumbnail,
+        user: shout.user.name,
+        description: capitalize(shout.type) + " by " + shout.user.name + ": " + shout.text,
+        price: shout.price ? shout.price + " " + shout.currency : "",
+        location: shout.location.city + " - " + shout.location.country
+      };
     }
     break;
   case "user":
-  case "useroffers":
-  case "userrequests":
-  case "settings":
-  case "listeners":
-  case "listening":
-    var user = data.user;
+    const { user } = data;
     if (user) {
       addData = {
         type: "user",
-        title: user.name + " - Shoutit",
-        image: user.image,
-        description: user.name + "'s profile on Shoutit - See the users shouts."
+        ogType: "shoutitcom:user",
+        title: user.name,
+        image: user.image
       };
     }
     break;
@@ -184,51 +169,65 @@ function getMetaFromData(relUrl, innerRoute, data) {
 }
 
 function reactServerRender(req, res) {
-  var user = req.session ? req.session.user : null;
+
+  const loggedUser = req.session ? req.session.user : null;
+
+  const fetchr = new Fetchr({ xhrPath: "/fetchr", req });
 
   // Run router to determine the desired state
-  ReactRouter.match({ routes, location: req.url }, function(error, redirectLocation, renderProps) {
+  ReactRouter.match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+
     if (redirectLocation) {
       res.redirect(301, redirectLocation.pathname + redirectLocation.search);
-    } else if (error) {
-      res.status(500).send(error.message);
-    } else if (!renderProps) {
-      res.status(404).send("Not found");
-    } else {
-      console.time("ApiFetch");
-      fetchData(req.session, renderProps.routes, renderProps.params, renderProps.location.query)
-        .then(function (data) {
-          console.timeEnd("ApiFetch");
-
-          var flux = new Flux(null, user, data, renderProps.params, currencies, categories, sortTypes),
-            serializedFlux = flux.serialize(),
-            content;
-
-          const createFluxComponent = (Component, props) => {
-            return <Component {...props} flux={flux} />;
-          };
-          content = ReactDOMServer.renderToString(
-            <ReactRouter.RoutingContext createElement={createFluxComponent} {...renderProps} />
-            );
-
-          var loadedRoute = renderProps.routes[renderProps.routes.length - 1];
-          var meta = getMetaFromData(req.url, loadedRoute, data);
-
-          res.render("index", {
-            reactMarkup: content,
-            serializedFlux: serializedFlux,
-            title: DocumentTitle.rewind(),
-            graph: meta,
-            production: process.env.NODE_ENV === "production",
-            googleMapsKey: config.googleMapsKey,
-            ga: config.ga,
-            publicUrl: config.publicUrl,
-            chunkNames: process.env.NODE_ENV === "production" ?
-              require("../../public/stats.json") :
-              { main: "/assets/main.js", css: "/assets/main.css" }
-          });
-        });
+      return;
     }
+    if (error) {
+      res.status(500).send(error.message);
+      return;
+    }
+    if (!renderProps) {
+      res.status(404).send("Not found");
+      return;
+    }
+
+    fetchData(req.session, renderProps.routes, renderProps.params, renderProps.location.query)
+      .then(data => {
+
+        const initialStoreStates = {
+          auth: { loggedUsername: loggedUser ? loggedUser.username : null },
+          discovers: { ...data},
+          locations: { ...data, params: renderProps.params },
+          search: { ...data, categories },
+          shouts: { ...data, currencies, categories, sortTypes },
+          tags: { ...data },
+          users: { loggedUser, ...data }
+        };
+
+        const flux = new Flux(initialStoreStates, fetchr);
+        const state = flux.dehydrate();
+
+        const content = ReactDOMServer.renderToString(
+          <ReactRouter.RoutingContext
+            createElement={ (Component, props) => <Component {...props} flux={ flux } /> }
+            {...renderProps}
+          />
+        );
+
+        var meta = getMetaFromData(req.url, data);
+
+        const html = ReactDOMServer.renderToStaticMarkup(
+          <HtmlDocument
+            content={ content }
+            state={ state }
+            title={ DocumentTitle.rewind() }
+            meta={ meta }
+          />
+        );
+
+        res.send(`<!doctype html>${html}`);
+
+      });
+
   });
 
 }
@@ -284,7 +283,6 @@ module.exports = function (app) {
   app.set("view engine", "jade");
   app.set("views", path.join(__dirname, "views"));
 
-  var bodyParser = require("body-parser");
   app.use(bodyParser.json({limit: "5mb"}));
   app.use(bodyParser.urlencoded({limit: "50mb", extended: true}));
 
@@ -294,7 +292,7 @@ module.exports = function (app) {
   // gzip it
   app.use(compression());
 
-  app.use(morgan("tiny"));
+  app.use(morgan(process.env.NODE_ENV === "development" ? "dev" : "combined"));
 
   if (process.env.NODE_ENV === "production") {
     app.use(favicon("./public/images/favicons/favicon.ico"));
@@ -331,6 +329,9 @@ module.exports = function (app) {
 
   }
 
+  Object.keys(services).forEach(name => Fetchr.registerService(services[name]) );
+  app.use("/fetchr", Fetchr.middleware());
+
   const maxAge = 365 * 24 * 60 * 60;
 
   if (process.env.NODE_ENV === "production") {
@@ -345,26 +346,15 @@ module.exports = function (app) {
   // TODO Add csrf tokens to the webapp
   //app.use(csurf());
 
-  var authRouter = new express.Router();
-
-  authRouter.post("/gplus", oauth.gplusAuth);
-  authRouter.post("/fb", oauth.fbAuth);
-  authRouter.post("/shoutit", oauth.siAuth);
-  authRouter.get("/logout", oauth.logout);
-  authRouter.post("/signup", oauth.signup);
-  authRouter.post("/forget", oauth.forgetPass);
-
   // Services router
   var servicesRouter = new express.Router();
 
   servicesRouter.get("/reset_password", resetPass.get);
   servicesRouter.post("/reset_password", resetPass.post);
-  servicesRouter.get("/verify_email", verifyEmail);
 
   servicesRouter.post("/images/:resourceType", uploadImageMiddleware);
   servicesRouter.delete("/images", deleteImageMiddleware);
 
-  app.use("/auth", authRouter);
   app.use("/services", servicesRouter);
   app.use("/api", apiRouter);
 

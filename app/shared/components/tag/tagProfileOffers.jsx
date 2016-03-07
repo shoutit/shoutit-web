@@ -8,7 +8,7 @@ export default React.createClass({
   statics: {
     fetchId: 'tagoffers',
     fetchData(client, session, params) {
-      return client.tags().getShouts(session, params.tagName, 'offer');
+      return client.shouts().list(session, params);
     }
   },
 

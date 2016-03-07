@@ -20,6 +20,11 @@ export default React.createClass({
 
   mixins: [ StoreWatchMixin("users"), History],
 
+  contextTypes: {
+    flux: React.PropTypes.object,
+    location: React.PropTypes.object
+  },
+
   getInitialState() {
     return {
       loading: false
@@ -27,7 +32,7 @@ export default React.createClass({
   },
 
   getStateFromFlux() {
-    const usersStore = this.props.flux.store("users");
+    const usersStore = this.context.flux.store("users");
     const loggedUser = usersStore.getLoggedUser();
     const { users } = usersStore.getState();
     return { loggedUser, users };
@@ -39,6 +44,11 @@ export default React.createClass({
     const { shout } = this.props;
     const { loading, loggedUser } = this.state;
     const { form } = this.refs;
+
+    if (!loggedUser) {
+      const { pathname } = this.context.location;
+      this.history.pushState({ modal: "login" }, pathname);
+    }
 
     const text = form.text.value.trim();
     if (!text) {
@@ -54,7 +64,7 @@ export default React.createClass({
 
     this.setState({ loading: true });
 
-    this.props.flux.actions.replyToShout(
+    this.context.flux.actions.replyToShout(
       loggedUser,
       shout.id,
       text,
@@ -68,11 +78,20 @@ export default React.createClass({
     );
   },
 
+  handleFocus() {
+    const { loggedUser } = this.state;
+
+    if (!loggedUser) {
+      const { pathname } = this.context.location;
+      this.history.pushState({ modal: "login" }, pathname);
+    }
+  },
+
   render() {
     const { shout } = this.props;
     const { loggedUser } = this.state;
 
-    if (!loggedUser || (shout.user.username === loggedUser.username)) {
+    if (loggedUser && (shout.user.username === loggedUser.username)) {
       return null;
     }
 
@@ -85,6 +104,7 @@ export default React.createClass({
           <Input
             name="text"
             autoComplete="off"
+            onFocus={ this.handleFocus }
             type="text"
             placeholder="Reply to this shout…"
           />

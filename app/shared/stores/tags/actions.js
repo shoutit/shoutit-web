@@ -20,21 +20,31 @@ export default {
   },
 
   listenTag(tagName) {
-    this.dispatch(consts.LISTEN_TAG, {
-      tagName: tagName
+    client.listen(tagName).end((err, res) => {
+      if(err) {
+        this.dispatch(consts.LISTEN_TAG_FAIL, { tagName });
+      } else if(res.body.success) {
+        this.dispatch(consts.LISTEN_TAG_SUCCESS, { tagName });
+      } else {
+        this.dispatch(consts.LISTEN_TAG_FAIL, { tagName });
+      }
     });
-  },
 
-  listenTagSuccess(tagName) {
-    this.dispatch(consts.LISTEN_TAG_SUCCESS, {
-      tagName: tagName
-    });
+    this.dispatch(consts.LISTEN_TAG, { tagName });
   },
 
   stopListenTag(tagName) {
-    this.dispatch(consts.STOP_LISTEN_TAG, {
-      tagName: tagName
+    client.unlisten(tagName).end((err, res) => {
+      if(err) {
+        this.dispatch(consts.STOP_LISTEN_TAG_FAIL, { tagName });
+      } else if(res.body.success) {
+        this.dispatch(consts.STOP_LISTEN_TAG_SUCCESS, { tagName });
+      } else {
+        this.dispatch(consts.STOP_LISTEN_TAG_FAIL, { tagName });
+      }
     });
+
+    this.dispatch(consts.STOP_LISTEN_TAG, { tagName });
   },
 
   stopListenTagSuccess(tagName) {

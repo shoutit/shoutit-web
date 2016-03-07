@@ -18,7 +18,7 @@ export function unsubscribe(channel) {
   client.unsubscribe(channel.name);
 }
 
-export function setup(usersStore, {
+export function setup(authStore, {
   onNewMessage,
   onNewListener,
   onProfileChange
@@ -53,12 +53,12 @@ export function setup(usersStore, {
     }
   };
 
-  const loggedUser = usersStore.getLoggedUser();
+  const loggedProfile = authStore.getLoggedProfile();
 
-  if (loggedUser) {
-    subscribe(loggedUser);
+  if (loggedProfile) {
+    subscribe(loggedProfile);
   }
 
-  usersStore.on("login", () => subscribe(usersStore.getLoggedUser()));
-  usersStore.on("logout", () => unsubscribe() );
+  authStore.on("login", () => subscribe(authStore.getLoggedProfile()));
+  authStore.on("logout", () => unsubscribe() );
 }

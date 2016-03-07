@@ -37,7 +37,7 @@ export default class SocialLoginForm extends Component {
           this.setState({ waitingForGoogle: false });
           return;
         }
-        flux.actions.login("gplus", authResult.code);
+        flux.actions.loginWithGoogle({ gplus_code: authResult.code });
       }
     });
   }
@@ -65,7 +65,7 @@ export default class SocialLoginForm extends Component {
         return;
       }
 
-      flux.actions.login("fb", authResponse.accessToken);
+      flux.actions.loginWithFacebook({ facebook_access_token: authResponse.accessToken} );
 
     }, options);
   }

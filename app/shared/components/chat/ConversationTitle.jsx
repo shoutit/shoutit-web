@@ -13,7 +13,7 @@ if (process.env.BROWSER) {
  * @param {Object} props.conversation
  * @param {String} props.me
  */
-export default function ConversationTitle({ users, about, type, me, onDeleteConversationTouchTap, onDeleteMessagesTouchTap }) {
+export default function ConversationTitle({ users, about, type, me, showVideoCallButton=false, onDeleteConversationClick, onVideoCallClick }) {
   const partecipants = users.filter(user => user.username !== me)
     .map(user => user.name)
     .join(", ");
@@ -33,7 +33,8 @@ export default function ConversationTitle({ users, about, type, me, onDeleteConv
         </div>
       </div>
       <div className="ConversationTitle-toolbar">
-        <SVGIcon name="trash" onClick={ onDeleteConversationTouchTap } />
+        { showVideoCallButton && <SVGIcon name="video" hover onClick={ onVideoCallClick } /> }
+        <SVGIcon name="trash" hover onClick={ onDeleteConversationClick } />
       </div>
     </div>
   );

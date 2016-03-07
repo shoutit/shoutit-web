@@ -7,12 +7,14 @@ export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users", "search")],
 
   statics: {
-    fetchId: 'searchShouts',
+    fetchId: "searchShouts",
     fetchData(client, session, params, name, queries) {
       return client.shouts().list(session, {
         search: params.term,
         category: params.category,
-        shout_type: params.shouttype
+        shout_type: params.shouttype,
+        city: queries.city,
+        country: queries.country
       });
     }
   },
@@ -22,12 +24,23 @@ export default React.createClass({
     const tags = flux.store("tags").getState();
     const users = flux.store("users").getUsersState();
     const search = flux.store("search").getState();
+    const searchKeyword = flux.store("search").getSearchKeyword();
 
     return {
       tags,
       users,
-      search
+      search,
+      searchKeyword
     };
+  },
+
+  componentDidMount() {
+    this.loadSuggestions();
+  },
+
+  loadSuggestions() {
+    const { flux, currentLocation } = this.props;
+    flux.actions.getSuggestions(currentLocation, ["tags", "users", "shouts"]);
   },
 
   /**
@@ -58,6 +71,8 @@ export default React.createClass({
 
   render() {
     const { suggestions, flux, params, location, currentLocation } = this.props;
+    const { searchKeyword } = this.state;
+
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
@@ -70,6 +85,7 @@ export default React.createClass({
             flux={ flux }
             location={ location }
             currentLocation={ currentLocation }
+            searchKeyword={ searchKeyword }
           />
         </Column>
         <Column size="9">
@@ -85,6 +101,7 @@ export default React.createClass({
             flux={flux}
             users={ usersData }
             loading={ suggestions.data && suggestions.data.users.loading }
+            currentLocation={ currentLocation }
           />
           <SuggestShoutCard
             shout={ shoutsData }

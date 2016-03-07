@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col } from 'react-bootstrap';
 import {Link} from 'react-router';
-import Shout from './feed/shout.jsx';
+import ShoutPreview from "../shout/ShoutPreview.jsx";
 import Progress from '../helper/Progress.jsx';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 import {Icon, Column} from '../helper';
@@ -20,8 +20,8 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      presentLayer: 'list'
-    }
+      gridView: false
+    };
   },
 
   renderShouts() {
@@ -55,9 +55,17 @@ export default React.createClass({
     }
 
     shoutEls.push(shouts.length > 0 ?
-        shouts.map((shout, i) => (<Shout presentLayer={this.state.presentLayer} key={"shout-" + (i + 1) } shout={shout} index={i}/>)) :
-        (<h5 key="warning">There are currently no shouts in your country. You may want to select another
-          location above.</h5>)
+      shouts.map((shout, i) => (
+        <ShoutPreview
+          gridView={ this.state.gridView }
+          key={ "shout-" + (i + 1) }
+          shout={ shout }
+          index={ i }
+        />
+      ))
+    :
+      (<h5 key="warning">There are currently no shouts in your country. You may want to select another
+        location above.</h5>)
     );
 
     if (isLoading && typeof window !== 'undefined') {
@@ -84,17 +92,29 @@ export default React.createClass({
   },
 
   renderSwitchBar() {
-    let sortItems = [
+    const { gridView } = this.state;
+    const sortItems = [
       { payload: '1', text: 'Most Recent' },
       { payload: '2', text: 'Most Relevant'}
     ];
-    let gridBtn = this.state.presentLayer === 'grid'? 'grid_active': 'grid_inactive';
-    let listBtn = this.state.presentLayer === 'list'? 'list_active': 'list_inactive';
+
+    let gridIcon, listIcon;
+
+    if(gridView) {
+      gridIcon = "grid_active";
+      listIcon = "list_inactive";
+    } else {
+      gridIcon = "grid_inactive";
+      listIcon = "list_active";
+    }
+
     return (
       <Column size="9" clear={true}>
         <div className=" switch-bar pull-right">
-          <Icon name={gridBtn} onSwitchClick={this.presentToggle} className="grid-btn pull-left"/>
-          <Icon name={listBtn} onSwitchClick={this.presentToggle} className="list-btn pull-left"/>
+          <Icon name={gridIcon} onSwitchClick={ () => { this.setState({gridView: !gridView}); } }
+            className="grid-btn pull-left"/>
+          <Icon name={listIcon} onSwitchClick={ () => { this.setState({gridView: !gridView}); } }
+            className="list-btn pull-left"/>
           <Separator size="20px" vertical={true} />
           <span style={{fontSize:'14px', float:'left', margin: '18px -25px 0 5px', color: '#888888'}}>Sort by:</span>
 
@@ -109,16 +129,6 @@ export default React.createClass({
         </div>
       </Column>
     );
-  },
-
-  presentToggle() {
-    let present = this.state.presentLayer;
-
-    if(present === 'list') {
-      this.setState({presentLayer: 'grid'});
-    } else if(present === 'grid') {
-      this.setState({presentLayer: 'list'});
-    }
   },
 
   render() {

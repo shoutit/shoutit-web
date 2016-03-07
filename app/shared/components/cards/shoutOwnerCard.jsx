@@ -39,7 +39,12 @@ export default function shoutOwnerCard({ shout, flux, users, loggedUser }) {
                 </Column>
                 */}
                 <Column fluid={true} size="7"  className="owner-contact-action">
-                  <ListenButton flux={ flux } username={ user.username }/>
+                  <ListenButton
+                    onListen={ flux.actions.listen }
+                    onStopListen={ flux.actions.stopListen }
+                    flux={ flux }
+                    username={ user.username }
+                  />
                 </Column>
                 <Separator />
               </div>

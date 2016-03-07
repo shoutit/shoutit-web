@@ -10,14 +10,13 @@ var Promise = require("bluebird"),
 
 var ENDPOINT_SERVER = apiUrl,
   ACCESSTOKEN_ENDPOINT = "oauth2/access_token",
-  FORGETPASS_ENDPOINT = "auth/reset_password",
   USER_ENDPOINT = "users/me",
   CLIENT_ID = "shoutit-web",
   CLIENT_SECRET = "0db3faf807534d1eb944a1a004f9cee3",
   GRANT_TYPES = {
     gplus: "gplus_code",
     fb: "facebook_access_token",
-    shoutit:"shoutit_signin",
+    shoutit:"shoutit_login",
     signup: "shoutit_signup",
     refresh: "refresh_token",
     sms: "sms_code"
@@ -30,7 +29,7 @@ function requestAccessToken(type, grantToken) {
     grant_type: GRANT_TYPES[type]
   };
 
-  if(GRANT_TYPES[type] === "shoutit_signin") {
+  if(GRANT_TYPES[type] === "shoutit_login") {
     requestData.email = grantToken.email;
     requestData.password = grantToken.pass;
   }
@@ -50,47 +49,12 @@ function requestAccessToken(type, grantToken) {
       .end(function (err, res) {
         if (err) {
           reject(err);
-        } else {
-          if(res.status === 400) {
-            reject(res.body);
-          } else {
-            resolve(res.body);
-          }
+          return;
         }
+        resolve(res.body);
       });
   });
 }
-
-function requestNewAccount(reqToken) {
-  var requestData = {
-    client_id: CLIENT_ID,
-    client_secret: CLIENT_SECRET,
-    grant_type: GRANT_TYPES["signup"],
-    name: reqToken.name,
-    email: reqToken.email,
-    password: reqToken.pass
-  };
-
-  return new Promise(function(resolve, reject) {
-    request
-      .post(url.resolve(ENDPOINT_SERVER, ACCESSTOKEN_ENDPOINT))
-      .type("json")
-      .accept("json")
-      .send(requestData)
-      .end(function(err, res) {
-        if (err) {
-          reject(err);
-        } else {
-          if (res.body.access_token) {
-            resolve(res.body);
-          } else {
-            reject(res.body);
-          }
-        }
-      });
-  });
-}
-
 
 function updateSession(req) {
   return function (resp) {
@@ -155,45 +119,7 @@ module.exports = {
         req.session.user = user;
         return Promise.resolve(user);
       });
-  },
-
-  signup: function(req, res) {
-    return requestNewAccount(req.body)
-      .then(updateSession(req))
-      .then(fetchUser)
-      .then(function (user) {
-        req.session.user = user;
-        res.status(200).json(user);
-      })
-      .catch(function(err) {
-        res.send(err);
-      });
-  },
-
-  forgetPass: function(req, res) {
-    return request
-      .post(url.resolve(ENDPOINT_SERVER, FORGETPASS_ENDPOINT))
-      .type("json")
-      .accept("json")
-      .send(req.body)
-      .end(function (err, response) {
-        if (err) {
-          res.status(500).send(err);
-        } else {
-          res.send(response.body);
-        }
-      });
-  },
-
-  logout: function (req, res) {
-    req.session.destroy(function (err) {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        res.status(200).send({
-          loggedOut: true
-        });
-      }
-    });
   }
+
+
 };

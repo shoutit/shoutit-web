@@ -15,7 +15,7 @@ import {
 
 import {
   LOGOUT
-} from "../users/consts";
+} from "../../../auth/AuthActionTypes";
 
 const initialState = {
   next: null,

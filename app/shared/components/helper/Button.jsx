@@ -14,6 +14,7 @@ export default function Button({
   secondary=false, // filled orange
   destructive=false, // danger thing
   outline=false, // bordered
+  inverted=false, // white button
   block=false,
   className,
   ...attributes
@@ -30,9 +31,14 @@ export default function Button({
   }
   let elClassName = "Button";
 
+  if (leftIcon) {
+    elClassName += " with-icon";
+  }
+
   if (block) {
     elClassName += " block";
   }
+
 
   if (primary) {
     elClassName += " primary";
@@ -42,6 +48,8 @@ export default function Button({
     elClassName += " destructive";
   } else if (outline) {
     elClassName += " outline";
+  } else if (inverted) {
+    elClassName += " inverted";
   }
 
   if (attributes.disabled) {

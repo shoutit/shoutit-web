@@ -1,4 +1,4 @@
-@import "../colors.scss";
+@import "../constants/colors.scss";
 
 $size-small: 18px;
 $size-medium: 24px;
@@ -141,6 +141,14 @@ $size-large: 36px;
   .SVGIcon.hover:hover .SVGIcon-icon.clock,
   .SVGIcon.active .SVGIcon-icon.clock {
     background-image: url("../../../../assets/icons/clock-active.svg");
+  }
+
+.SVGIcon-icon.close {
+  background-image: url("../../../../assets/icons/close.svg");
+}
+  .SVGIcon.hover:hover .SVGIcon-icon.close,
+  .SVGIcon.active .SVGIcon-icon.close {
+    background-image: url("../../../../assets/icons/close-active.svg");
   }
 
 .SVGIcon-icon.cog {
@@ -286,6 +294,14 @@ $size-large: 36px;
   }
   .SVGIcon.fill .SVGIcon-icon.no-camera {
     background-image: url("../../../../assets/icons/no-camera-fill.svg");
+  }
+
+.SVGIcon-icon.ok {
+  background-image: url("../../../../assets/icons/ok.svg");
+}
+  .SVGIcon.hover:hover .SVGIcon-icon.ok,
+  .SVGIcon.active .SVGIcon-icon.ok {
+    background-image: url("../../../../assets/icons/ok-active.svg");
   }
 
 .SVGIcon-icon.pencil {

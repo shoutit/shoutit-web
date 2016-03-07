@@ -6,7 +6,7 @@ import {Grid, Column, Progress} from '../helper';
 import {ItemScope, ItemProp} from './../helper/microdata';
 import CoverImage from './coverImage.jsx';
 import GridDiscover from './gridDiscover.jsx';
-import GridShout from './../feed/feed/gridShout/gridShoutItem.jsx';
+import ShoutPreview from "../shout/ShoutPreview.jsx";
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 
 export default React.createClass({
@@ -77,18 +77,16 @@ export default React.createClass({
             {shouts.length?
               <Grid fluid={true}>
                 <h3 className="si-center-header">Shouts</h3>
-                {shouts.map((item, idx) => {
-                  return (
-                    <ItemScope type="Product" key={"disShout-" + idx}>
-                      <GridShout
-                        index={idx}
-                        shout={item}
-                        creator={item.user}
-                        clearOn={4}
-                      />
-                    </ItemScope>
-                  );
-                })}
+                {shouts.map((shout, idx) =>
+                  <ItemScope type="Product" key={"disShout-" + idx}>
+                    <ShoutPreview
+                      index={idx}
+                      shout={shout}
+                      gridView
+                      columnsPerRow={4}
+                    />
+                  </ItemScope>
+                )}
                 {this.renderViewportSensor()}
               </Grid>
               :

@@ -10,9 +10,6 @@ router.route("/")
 router.route("/:pk")
     .get(require("./get")(ShoutClient));
 
-router.route("/:pk/shouts")
-    .get(require("./listShouts")(ShoutClient));
-
 
 module.exports = router;
 

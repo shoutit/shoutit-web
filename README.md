@@ -1,5 +1,7 @@
 # Shoutit web app
 
+[![Code Climate](https://codeclimate.com/repos/56c5b6fcc2ad1f39dc002b07/badges/1b41af543e8e6c516c95/gpa.svg)](https://codeclimate.com/repos/56c5b6fcc2ad1f39dc002b07/feed) [![Test Coverage](https://codeclimate.com/repos/56c5b6fcc2ad1f39dc002b07/badges/1b41af543e8e6c516c95/coverage.svg)](https://codeclimate.com/repos/56c5b6fcc2ad1f39dc002b07/coverage)
+
 ## Setup
 
 Make sure to have node.js 4+ installed with `node --version`.
@@ -74,7 +76,13 @@ Start the development environment to enable hot modules reload:
 $ npm run dev
 ```
 
-then open  [http://localhost:3000](http://localhost:3000)
+then open  [http://localhost:3000](http://localhost:3000).
+
+If you want to test the client of another computer in the same network, use the `HOST` env variable:
+
+```bash
+$ HOST=$HOSTNAME npm run dev # Tested only on OSX
+```
 
 ### Tests
 

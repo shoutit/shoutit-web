@@ -33,13 +33,18 @@ export default function ProfileInfoTooltip(props) {
             <Separator style={{marginTop: "-5px"}}/>
             <Grid fluid={true} style={{marginTop: "-10px"}}>
               <Column fluid={true} clear={true} size="5">
-                <ListenersButton user={ user }/>
+                <ListenersButton user={ user } />
               </Column>
               <Column fluid={true} size="5">
                 <CountryShelfButton country={ user.location.country } city={ user.location.city } />
               </Column>
               <Column fluid={true} size="5">
-                <ListenButton flux={ flux } username={ user.username }/>
+                <ListenButton
+                  onListen={ flux.actions.listen }
+                  onStopListen={ flux.actions.stopListen }
+                  flux={ flux }
+                  username={ user.username }
+                />
               </Column>
             </Grid>
           </div>

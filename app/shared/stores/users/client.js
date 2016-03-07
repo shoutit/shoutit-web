@@ -2,6 +2,7 @@ import request from "superagent";
 
 const PREFIX = "/api/users";
 const AUTH_PREFIX = "/api/auth";
+const SHOUTS_PREFIX = "/api/shouts";
 
 export default {
   update(update) {
@@ -16,19 +17,6 @@ export default {
     return request
             .post(AUTH_PREFIX + "/change_password")
             .send(query);
-  },
-
-  resendEmail(email) {
-    return request
-            .post(AUTH_PREFIX + "/verify_email")
-            .send({email:email});
-  },
-
-  verify(payload) {
-    return request
-            .get("/services/verify_email")
-            .query({verify_token: payload.token});
-
   },
 
   get(username) {
@@ -66,10 +54,12 @@ export default {
             .del(PREFIX + "/" + username + "/listen");
   },
 
-  loadShouts(username, query) {
+  loadShouts(username, query = {}) {
+    query.user = username;
+
     return request
-            .get(PREFIX + "/" + username + "/shouts")
-            .query(query);
+      .get(SHOUTS_PREFIX)
+      .query(query);
   },
 
   list(query) {
@@ -89,48 +79,6 @@ export default {
     return request
                 .post(`/services/images/${bucket}`)
                 .send({ dataImage });
-  },
-
-  signup(payload) {
-    return request
-            .post("/auth/signup")
-            .type("json")
-            .accept("json")
-            .send(payload);
-  },
-
-  forgetPass(email) {
-    return request
-            .post("/auth/forget")
-            .type("json")
-            .accept("json")
-            .send({email:email});
-  },
-
-  login(token, type) {
-    let endpoint;
-    let dataPackage = {token:token};
-
-    if (type === "gplus") {
-      endpoint = "/auth/gplus";
-    }
-    else if (type === "fb") {
-      endpoint = "/auth/fb";
-    }
-    else if (type === "shoutit") {
-      endpoint = "/auth/shoutit";
-      dataPackage = {email:token.email,pass:token.pass};
-    }
-
-    return request
-            .post(endpoint)
-            .type("json")
-            .accept("json")
-            .send(dataPackage);
-  },
-
-  logout() {
-    return request.get("/auth/logout")
-            .accept("json");
   }
+
 };

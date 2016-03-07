@@ -1,6 +1,6 @@
 @import "../_flexbox.scss";
-@import "../defaults.scss";
-@import "../colors.scss";
+@import "../constants/defaults";
+@import "../constants/colors.scss";
 @import "../pages/mixins.scss";
 
 .Chat {

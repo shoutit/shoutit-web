@@ -78,7 +78,11 @@ export default class Header extends Component {
         </div>
 
         <div className="Header-search">
-          <SearchBar height="36" flux={flux}/>
+          <SearchBar
+            height="36"
+            flux={ flux }
+            history={ history }
+          />
         </div>
 
         <div className="Header-links">

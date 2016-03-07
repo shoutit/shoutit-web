@@ -3,6 +3,7 @@ import {StoreWatchMixin} from "fluxxor";
 import {Grid, Column} from '../helper';
 import Profile from './profile.jsx';
 import {ListenToCard, TagsCard, SuggestShoutCard} from "../cards";
+import { assign } from "lodash";
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users")],
@@ -39,6 +40,21 @@ export default React.createClass({
     };
   },
 
+  componentDidMount() {
+    this.loadSuggestions();
+  },
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.location.pathname !== this.props.location.pathname) {
+      this.loadSuggestions();
+    }
+  },
+
+  loadSuggestions() {
+    const { flux, currentLocation } = this.props;
+    flux.actions.getSuggestions(currentLocation, ["tags", "users", "shouts"]);
+  },
+
   /**
    * Loading tags objects straight from Tags store
    * @returns {Array}
@@ -66,7 +82,7 @@ export default React.createClass({
   },
 
   render() {
-    const {suggestions, flux} = this.props;
+    const { suggestions, flux, currentLocation } = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
@@ -75,7 +91,7 @@ export default React.createClass({
       <div className="profile-holder">
         <Grid >
           <Column size="12" clear={true}>
-            { React.cloneElement(this.props.children, {...this.state.users}) }
+            { React.cloneElement(this.props.children, { ...this.state.users }) }
           </Column>
           <Column size="3">
             <TagsCard
@@ -87,6 +103,7 @@ export default React.createClass({
               flux={flux}
               users={ usersData }
               loading={ suggestions.data && suggestions.data.users.loading }
+              currentLocation={ currentLocation }
             />
             <SuggestShoutCard
               shout={ shoutsData }

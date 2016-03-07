@@ -3,6 +3,8 @@ import { FluxMixin, StoreWatchMixin } from "fluxxor";
 import {createSlug} from "./helper";
 import Header from "./header";
 import MainPage from "./main/mainPage.jsx";
+import NotificationHost from "./notifications/NotificationHost.jsx";
+import VideoCallHost from "./helper/VideoCallHost";
 
 const pagesWithoutHeader = [ MainPage ];
 
@@ -20,7 +22,15 @@ export default React.createClass({
 
   mixins: [
     new FluxMixin(React),
-    new StoreWatchMixin("users", "chat", "conversations", "locations", "suggestions")
+    new StoreWatchMixin(
+      "auth",
+      "chat",
+      "conversations",
+      "locations",
+      "suggestions",
+      "ui_notifications",
+      "videocall"
+    )
   ],
 
   componentDidMount() {
@@ -40,26 +50,42 @@ export default React.createClass({
 
   getStateFromFlux() {
     const { flux } = this.props;
-    const loggedUser = flux.store("users").getLoggedUser();
     const chat = flux.store("chat").getState();
     const conversations = flux.store("conversations").getConversations(chat.conversationIds);
     const currentLocation = flux.store("locations").getCurrent();
+    const loggedUser = flux.store("auth").getLoggedProfile();
     const suggestions = flux.store("suggestions").getState();
-    return { loggedUser, conversations, chat, currentLocation, suggestions };
+    const uiNotifications = flux.store("ui_notifications").getNotifications();
+    const videoCallState = flux.store("videocall").getState();
+    return {
+      chat,
+      conversations,
+      currentLocation,
+      loggedUser,
+      suggestions,
+      videoCallState,
+      uiNotifications
+    };
   },
 
   getData() {
     const { flux } = this.props;
-    const {currentLocation, loggedUser} = this.state;
+    const { loggedUser } = this.state;
 
     flux.actions.acquireLocation();
-    loggedUser && flux.actions.loadConversations();
-    currentLocation.city && flux.actions.getSuggestions(currentLocation);
+
+    if (loggedUser) {
+      flux.actions.loadConversations();
+      if (require("webrtcsupport").support) {
+        flux.actions.initTwilio();
+      }
+    }
   },
 
   render() {
-    const { loggedUser, chat, conversations, currentLocation, suggestions } = this.state;
+    const { loggedUser, chat, conversations, currentLocation, suggestions, videoCallState } = this.state;
     const { children, flux, routes, location, history } = this.props;
+
     const suggestionsData = {
       data: suggestions.data[createSlug(currentLocation.city)]
     };
@@ -67,7 +93,8 @@ export default React.createClass({
     const hideHeader = routes.some(route =>
       pagesWithoutHeader.indexOf(route.component) > -1
     );
-    const props = { loggedUser, chat, conversations, currentLocation, location, suggestions: suggestionsData, history };
+    const props = { loggedUser, chat, conversations, currentLocation, location,
+      suggestions: suggestionsData, history, videoCallState };
 
     return (
       <div className={`App${hideHeader ? "" : " stickyHeader"}` }>
@@ -87,6 +114,12 @@ export default React.createClass({
         <div className="App-content">
           { React.cloneElement(children, props) }
         </div>
+        <NotificationHost
+          notifications={ this.state.uiNotifications }
+          flux={ flux }
+        />
+        { videoCallState.currentConversation &&
+          <VideoCallHost conversation={ videoCallState.currentConversation } /> }
       </div>
     );
   }

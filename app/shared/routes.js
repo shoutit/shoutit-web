@@ -37,6 +37,7 @@ const routes = (
 
         <Route path="/" component={ MainPage } />
         <Route path="/login" component={ MainPage } />
+        <Route path="/login/password" component={ MainPage } />
         <Route path="/signup" component={ MainPage } />
 
         <Route path="/home" component={ HomePage }>
@@ -48,7 +49,7 @@ const routes = (
                  component={ new FeedListContainer("request")} />
           <IndexRoute component={ new FeedListContainer("all") }/>
         </Route>
-        <Route component={ SearchContainer} >
+        <Route path="/search" component={ SearchContainer} >
           <Route path="/search/:shouttype/:category(/:term)" component={ Search } />
         </Route>
         <Route component={ ShoutContainer } >

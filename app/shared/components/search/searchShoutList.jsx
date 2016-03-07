@@ -1,7 +1,7 @@
 import React from 'react';
 import {Progress, Clear, Column, Grid} from '../helper';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
-import Shout from '../feed/feed/shout.jsx';
+import ShoutPreview from "../shout/ShoutPreview.jsx";
 
 export default React.createClass({
   displayName: "SearchShoutList",
@@ -10,29 +10,18 @@ export default React.createClass({
     flux: React.PropTypes.object
   },
 
-  componentDidMount() {
-    let term = this.props.term,
-      category = this.props.category,
-      shouttype = this.props.shouttype,
-      tags = this.props.tags,
-      min = this.props.min,
-      max = this.props.max,
-      shouts = this.props.search.shouts[term],
-      city = this.props.city || undefined,
-      country = this.props.country || undefined;
-
-    if (!shouts) {
-      let payload = {
-        term, category, shouttype, tags, min, max, city, country
-      }
-      this.context.flux.actions.searchShouts(payload);
-    }
-  },
-
   renderShouts(shouts) {
-    return shouts.length ? shouts.map(function (shout, i) {
-      return <Shout listType="small" key={"shout-" + i} shout={shout} index={i}/>;
-    }) : <h4>No shouts.</h4>;
+    if (!shouts.length) {
+      return <h4>No shouts found to display!</h4>;
+    }
+    return shouts.map((shout, i) =>
+      <ShoutPreview
+        listType="small"
+        key={"shout-" + i}
+        shout={shout}
+        index={i}
+      />
+    );
   },
 
   render() {

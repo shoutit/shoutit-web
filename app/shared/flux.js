@@ -1,85 +1,104 @@
-/* eslint-env node */
+import Fluxxor from "fluxxor";
 import debug from "debug";
 
-import { actions as chatActions } from "./stores/chat/actions";
-import { actions as conversationsActions } from "./stores/conversations/actions";
-import { actions as messagesActions } from "./stores/messages/actions";
-
+// import stores
+import { AuthStore } from "../auth/AuthStore";
 import { ChatStore } from "./stores/chat/ChatStore";
 import { ConversationsStore } from "./stores/conversations/ConversationsStore";
 import { MessagesStore } from "./stores/messages/MessagesStore";
+import { VideoCallStore } from "./stores/videoCalls/VideoCallStore";
+import SuggestionsStore from "./stores/suggestions/SuggestionsStore";
+import { UINotificationsStore } from "./stores/ui_notifications/UINotificationsStore";
+import UsersStore from "./stores/users/store";
+import ShoutStore from "./stores/shouts/store";
+import TagStore from "./stores/tags/store";
+import SearchStore from "./stores/search/store";
+import LocationsStore from "./stores/locations/store";
+import NotificationsStore from "./stores/notifications/store";
+import DiscoversStore from "./stores/discovers/store";
 
-import suggestionsActions from "./stores/suggestions/actions";
-import SuggestionsStore from "./stores/suggestions/store";
+// import actions
+import { actions as AuthActions } from "../auth/AuthActions";
+import { actions as ChatActions } from "./stores/chat/actions";
+import { actions as ConversationsActions } from "./stores/conversations/actions";
+import { actions as MessagesActions } from "./stores/messages/actions";
+import { actions as VideoCallActions } from "./stores/videoCalls/actions";
+import UserActions from "./stores/users/actions";
+import ShoutActions from "./stores/shouts/actions";
+import TagActions from "./stores/tags/actions";
+import SearchActions from "./stores/search/actions";
+import LocationsActions from "./stores/locations/actions";
+import NotificationsActions from "./stores/notifications/actions";
+import DiscoversActions from "./stores/discovers/actions";
+import SuggestionsActions from "./stores/suggestions/actions";
+import UINotificationsActions from "./stores/ui_notifications/actions";
 
-const merge = require("lodash/object/merge"),
-  Fluxxor = require("fluxxor"),
-  UsersStore = require("./stores/users/store"),
-  ShoutStore = require("./stores/shouts/store"),
-  TagStore = require("./stores/tags/store"),
-  SearchStore = require("./stores/search/store"),
-  LocationsStore = require("./stores/locations/store"),
-  NotificationsStore = require("./stores/notifications/store"),
-  DiscoversStore = require("./stores/discovers/store"),
-  userActions = require("./stores/users/actions"),
-  shoutActions = require("./stores/shouts/actions"),
-  tagActions = require("./stores/tags/actions"),
-  searchActions = require("./stores/search/actions"),
-  locationsActions = require("./stores/locations/actions"),
-  notificationsActions = require("./stores/notifications/actions"),
-  discoversActions = require("./stores/discovers/actions");
+export default function Flux(initialState={}, fetchr) {
 
-module.exports = function (router, user, data, params, currencies, categories, sortTypes) {
   const stores = {
-    users: new UsersStore(merge({}, {
-      loggedUser: user,
-      router: router
-    }, data)),
-    shouts: new ShoutStore(merge({}, data, {currencies, categories, sortTypes}), params),
-    tags: new TagStore(data, params),
-    search: new SearchStore(merge({}, data, {categories}, params)),
-    locations: new LocationsStore(merge({}, data, {router, params})),
-    conversations: new ConversationsStore(merge({}, data, {loggedUser: user, params})),
-    chat: new ChatStore(merge({}, data, {loggedUser: user, params})),
-    messages: new MessagesStore(merge({}, data, {loggedUser: user, params})),
-    notifications: new NotificationsStore({data}),
-    discovers: new DiscoversStore(data),
-    suggestions: new SuggestionsStore(data)
-
+    auth: new AuthStore(initialState.auth),
+    chat: new ChatStore(),
+    conversations: new ConversationsStore(),
+    discovers: new DiscoversStore(initialState.discovers),
+    locations: new LocationsStore(initialState.locations),
+    messages: new MessagesStore(),
+    notifications: new NotificationsStore(initialState.notifications),
+    search: new SearchStore(initialState.search),
+    shouts: new ShoutStore(initialState.shouts),
+    suggestions: new SuggestionsStore(initialState.suggestions),
+    tags: new TagStore(initialState.tags),
+    ui_notifications: new UINotificationsStore(),
+    users: new UsersStore(initialState.users),
+    videocall: new VideoCallStore()
   };
 
   for (const store in stores) {
     stores[store].on("change", () =>
-      debug(`shoutit:stores:${store}`)("Emitted change", {...stores[store].getState()})
+      debug(`shoutit:flux:${store}`)("Emitted change", stores[store].getState())
     );
   }
 
-  const actions = merge({},
-    userActions, shoutActions, tagActions, searchActions, locationsActions,
-    messagesActions, chatActions, conversationsActions, notificationsActions,
-    discoversActions, suggestionsActions);
+  const actions = {
+    ...AuthActions,
+    ...ChatActions,
+    ...ConversationsActions,
+    ...DiscoversActions,
+    ...LocationsActions,
+    ...MessagesActions,
+    ...NotificationsActions,
+    ...SearchActions,
+    ...ShoutActions,
+    ...SuggestionsActions,
+    ...TagActions,
+    ...UINotificationsActions,
+    ...UserActions,
+    ...VideoCallActions
+  };
 
   const flux = new Fluxxor.Flux(stores, actions);
 
-  flux.serialize = function () {
-    const storeData = {};
-
-    for (const store in stores) {
-      if (stores.hasOwnProperty(store)) {
-        storeData[store] = stores[store].serialize();
+  flux.service = fetchr;
+  flux.dehydrate = () => {
+    const storesState = {};
+    Object.keys(stores).forEach(storeName => {
+      if (!stores[storeName].serialize) {
+        return debug("shoutit:flux")("Store %s has no serialize method", storeName);
       }
-    }
-
-    return JSON.stringify(storeData);
+      storesState[storeName] = stores[storeName].serialize();
+      debug("shoutit:flux")("Store %s has been dehydrated", storeName);
+    });
+    return JSON.stringify(storesState);
   };
 
-  flux.hydrate = function (storeData) {
-    for (const store in storeData) {
-      if (storeData.hasOwnProperty(store)) {
-        stores[store].hydrate(storeData[store]);
+  flux.rehydrate = storesState => {
+    Object.keys(storesState).forEach(storeName => {
+      if (!stores[storeName].hydrate) {
+        return debug("shoutit:flux")("Store %s has no hydrate method", storeName);
       }
-    }
+      stores[storeName].hydrate(storesState[storeName]);
+      debug("shoutit:flux")("Rehydrated %s store", storeName, stores[storeName].getState());
+    });
   };
 
   return flux;
-};
+}

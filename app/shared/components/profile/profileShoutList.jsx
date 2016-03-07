@@ -1,6 +1,6 @@
 import React from 'react';
 import {Progress, Icon, Column, Grid} from '../helper';
-import Shout from '../feed/feed/shout.jsx';
+import ShoutPreview from '../shout/ShoutPreview.jsx';
 import ViewportSensor from '../misc/ViewportSensor.jsx';
 
 let map = {
@@ -17,8 +17,8 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      presentLayer: 'list'
-    }
+      gridView: false
+    };
   },
 
   componentDidMount() {
@@ -32,10 +32,16 @@ export default React.createClass({
   },
 
   renderProfileShouts(shouts) {
-    let onLastVisibleChange = this.onLastVisibleChange;
-
     return shouts.length ? shouts.map((shout, i) => {
-      return <Shout presentLayer={this.state.presentLayer} listType="small" key={"shout-" + i} shout={shout} index={i}/>;
+      return (
+        <ShoutPreview
+          gridView={this.state.gridView}
+          listType="small"
+          key={"shout-" + i}
+          shout={shout}
+          index={i}
+        />
+      );
     }) : <h4>No shouts posted by this user yet :(</h4>;
   },
 
@@ -69,11 +75,19 @@ export default React.createClass({
 
   renderSwitchBar(shouts) {
     const {users, username} = this.props;
+    const { gridView } = this.state;
+    let gridIcon, listIcon;
     shouts = shouts || {};
 
-    const gridBtn = this.state.presentLayer === 'grid'? 'grid_active': 'grid_inactive';
-    const listBtn = this.state.presentLayer === 'list'? 'list_active': 'list_inactive';
-    const name = users[username]? users[username].name: '';
+    if(gridView) {
+      gridIcon = "grid_active";
+      listIcon = "list_inactive";
+    } else {
+      gridIcon = "grid_inactive";
+      listIcon = "list_active";
+    }
+
+    const name = users[username]? users[username].name: "";
 
     return (
       <Grid fluid={true}>
@@ -83,23 +97,15 @@ export default React.createClass({
         <Column size="4" fluid={true}>
           {shouts.length?
             <div className="switch-bar pull-right">
-              <Icon name={gridBtn} onSwitchClick={this.presentToggle} className="grid-btn pull-left"/>
-              <Icon name={listBtn} onSwitchClick={this.presentToggle} className="list-btn pull-left"/>
+              <Icon name={gridIcon} onSwitchClick={ () => { this.setState({gridView: !gridView}); } }
+                className="grid-btn pull-left"/>
+              <Icon name={listIcon} onSwitchClick={ () => { this.setState({gridView: !gridView}); } }
+                className="list-btn pull-left"/>
             </div>
           : null}
         </Column>
       </Grid>
     );
-  },
-
-  presentToggle() {
-    let present = this.state.presentLayer;
-
-    if(present === 'list') {
-      this.setState({presentLayer: 'grid'});
-    } else if(present === 'grid') {
-      this.setState({presentLayer: 'list'});
-    }
   },
 
   render() {

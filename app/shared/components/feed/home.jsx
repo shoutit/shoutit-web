@@ -22,7 +22,7 @@ export default React.createClass({
   getStateFromFlux() {
     const {flux} = this.props;
     const tags = flux.store("tags").getState();
-    const users = flux.store("users").getUsersState();
+    const users = flux.store("users").getState().users;
     const listens = flux.store("users").getState().listens;
     const loading = flux.store("users").getState().loading;
 
@@ -43,14 +43,20 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    const {flux, currentLocation} = this.props;
-    flux.actions.getSuggestions(currentLocation);
-
     this.loadListeningData();
   },
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     this.loadListeningData();
+
+    if(prevProps.location.pathname !== this.props.location.pathname) {
+      this.loadSuggestions();
+    }
+  },
+
+  loadSuggestions() {
+    const { flux, currentLocation } = this.props;
+    flux.actions.getSuggestions(currentLocation, ["tags", "users", "shouts"]);
   },
 
   loadListeningData() {
@@ -88,14 +94,14 @@ export default React.createClass({
   },
 
   render() {
-    const {suggestions, flux, loggedUser} = this.props;
+    const { suggestions, flux, loggedUser, currentLocation } = this.props;
     const tagsData = this.getTagsFromStore();
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
 
     const { listens } = this.state;
     let listening, listeningData;
-    if (loggedUser && listens[loggedUser.username]) {
+    if (loggedUser && listens[loggedUser.username] && listens[loggedUser.username].listening.loaded) {
       listening = listens[loggedUser.username].listening.list;
       listeningData = listening.map(item => this.state.users[item]);
     }
@@ -105,7 +111,10 @@ export default React.createClass({
           <Column size="3" clear={true}>
             <ProfileCard />
             { listeningData &&
-              <ListeningCard listening={ listeningData } flux={ flux }/>
+              <ListeningCard
+                listening={ listeningData }
+                flux={ flux }
+              />
             }
           </Column>
           <Column size="9">
@@ -121,6 +130,7 @@ export default React.createClass({
               flux={flux}
               users={ usersData }
               loading={ suggestions.data && suggestions.data.users.loading }
+              currentLocation={ currentLocation }
             />
             <SuggestShoutCard
               shout={ shoutsData }

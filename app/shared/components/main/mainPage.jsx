@@ -36,6 +36,7 @@ export default React.createClass({
   },
 
   render() {
+    const { history } = this.props;
     return (
       <DocumentTitle title="Buy and Sell while Chatting on Shoutit!">
         <Column className="mainpage">
@@ -76,7 +77,11 @@ export default React.createClass({
 
           <Grid className="mainpage-search">
             <Column size="9" offset="3">
-              <SearchBar height="45" flux={this.props.flux}/>
+              <SearchBar
+                height="45"
+                flux={this.props.flux}
+                history={ history }
+              />
             </Column>
           </Grid>
 

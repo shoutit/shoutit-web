@@ -8,6 +8,7 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 import useScroll from "scroll-behavior/lib/useStandardScroll";
 import createHistory from "history/lib/createBrowserHistory";
 import debug from "debug";
+import Fetchr from "fetchr";
 
 import routes from "../shared/routes";
 import Flux from "../shared/flux";
@@ -25,22 +26,23 @@ injectTapEventPlugin();
 window.debug = debug;
 const log = debug("shoutit");
 
-const flux = new Flux(null);
+const fetchr = new Fetchr({ xhrPath: "/fetchr", xhrTimeout: 20000 });
+const flux = new Flux(undefined, fetchr);
 
 flux.setDispatchInterceptor((action, dispatch) =>  {
   ReactDOM.unstable_batchedUpdates(() => dispatch(action));
 });
 
-if (window.fluxData) {
-  flux.hydrate(window.fluxData);
-  document.body.replaceChild(
-    document.createElement("script"),
-    document.getElementById("fluxData")
-  );
+if (window.__state) {
+  flux.rehydrate(window.__state);
+  log("Flux stores has been rehydrated");
+}
+else {
+  console.warn("No data to rehydrate in the flux stores");
 }
 
 flux.on("dispatch", (type, payload) =>
-  debug("shoutit:actions")("Dispatching %s", type, payload)
+  debug("shoutit:flux")("Dispatching %s", type, payload)
 );
 
 let ga;
@@ -53,7 +55,7 @@ if (window.google) {
   locationStore.setGMaps(window.google.maps);
 }
 
-setupPusher(flux.store("users"), {
+setupPusher(flux.store("auth"), {
   onNewMessage: (message) => {
     if (flux.store("conversations").get(message.conversation_id)) {
       flux.actions.newPushedMessage(message);
@@ -64,20 +66,17 @@ setupPusher(flux.store("users"), {
   }
 });
 
-log("Mounting…");
+log("Starting client web app", `\n${config.getSummary()}\n`);
 
 ReactDOM.render(
   <Router
     history={useScroll(createHistory)()}
-    createElement={ (Component, props) => {
-      // Save prevous location to know if history.back() can work –
-      // should be placed in an external utility
-      window.previousLocation = props.location;
-      return <Component {...props} flux={flux} />;
-    } }>
+    createElement={ (Component, props) =>
+      <Component {...props} flux={flux} />
+    }>
     { routes }
   </Router>,
-  document.getElementById("root"),
+  document.getElementById("content"),
   () => {
     log("App has been mounted");
     if (ga) {

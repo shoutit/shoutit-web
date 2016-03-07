@@ -19,6 +19,21 @@ export default React.createClass({
     };
   },
 
+  componentDidMount() {
+    this.loadSuggestions();
+  },
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.location.pathname !== this.props.location.pathname) {
+      this.loadSuggestions();
+    }
+  },
+
+  loadSuggestions() {
+    const { flux, currentLocation } = this.props;
+    flux.actions.getSuggestions(currentLocation, ["shouts"]);
+  },
+
   render() {
     const { suggestions, flux, params } = this.props;
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;

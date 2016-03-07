@@ -3,16 +3,16 @@ import {Grid, Column, Progress} from "../helper";
 import ProfileOffers from "./profileOffers.jsx";
 import DocumentTitle from "react-document-title";
 import ProfileCover from "./profileCover.jsx";
-import ProfileLeftBoard from "./profileLeftBoard.jsx";
 import assign from "lodash/object/assign";
 import EmbeddedShout from "../shouting/embeddedShout.jsx";
-import NotificationSystem from "react-notification-system";
-
+import ProfilePictureCard from './cards/profilePictureCard.jsx';
+import ProfileBioCard from './cards/profileBioCard.jsx';
+import ProfileButtonsCard from './cards/profileButtonsCard.jsx';
+import ProfilePagesCard from './cards/profilePagesCard.jsx';
+import ProfileEditorCard from './cards/profileEditorCard.jsx';
 
 export default React.createClass({
   displayName: "Profile",
-
-  _notificationSystem: null,
 
   // Use this to keep track of the latest loaded user through params
   lastLoadedUser: null,
@@ -21,7 +21,7 @@ export default React.createClass({
   statics: {
     fetchId: 'useroffers',
     fetchData(client, session, params) {
-      return client.users().getShouts(session, params.username, 'offer');
+      return client.shouts().list(session, params);
     }
   },
 
@@ -33,23 +33,12 @@ export default React.createClass({
     };
   },
 
-  displayNotif(msg, type = 'success') {
-    this._notificationSystem.addNotification({
-      message: msg,
-      level: type,
-      position: 'tr', // top right
-      autoDismiss: 4
-    });
-  },
-
   componentDidMount() {
     this.loadUser();
 
     // Setting edit mode from query
     const {query} = this.props.location;
     this.setState({editMode: Boolean(query._edit)});
-
-    this._notificationSystem = this.refs.notificationSystem;
   },
 
   componentDidUpdate(prevProps) {
@@ -58,12 +47,12 @@ export default React.createClass({
       this.loadUser();
     }
 
-    this._notificationSystem = this.refs.notificationSystem;
     const status = this.props.profile.status;
 
     // Checks related to profile edit modes
     if (prevProps.profile.status !== status && status === 'saved') {
-      this.displayNotif('Changes saved successfully.');
+      // TODO: change it to new notification system
+      //this.displayNotif('Changes saved successfully.');
       this.setState({editMode: false});
     }
     if (prevProps.profile.status !== status && status === 'err') {
@@ -71,7 +60,8 @@ export default React.createClass({
 
       const errors = this.props.profile.errors;
       for (let err in errors) {
-        this.displayNotif(errors[err][0], 'warning');
+        // TODO: change it to new notification system
+        //this.displayNotif(errors[err][0], 'warning');
       }
     }
   },
@@ -88,6 +78,7 @@ export default React.createClass({
   },
 
   renderProfilePage() {
+    const { flux } = this.props;
     const username = this.props.params.username,
       user = this.props.users[username],
       mode = this.state.editMode;
@@ -107,11 +98,23 @@ export default React.createClass({
           </Grid>
           <Grid >
             <Column size="3" clear={true}>
-              <ProfileLeftBoard
-                user={user}
-                onUserListenChange={this.onUserListenChange}
-                editMode={mode}
-              />
+
+              <Grid fluid={true}>
+                <ProfilePictureCard editMode={mode} user={user} />
+                {mode?
+                  <ProfileEditorCard user={user} />
+                  :
+                  <Grid fluid={true}>
+                    <ProfileButtonsCard
+                      user={user}
+                      flux={ flux }
+                    />
+                    <ProfileBioCard user={user} />
+                    {/*<ProfilePagesCard user={user} />*/}
+                  </Grid>
+                }
+              </Grid>
+
             </Column>
             <Column size="9" style={{paddingTop: "15px"}}>
               {user.is_owner ? (
@@ -121,7 +124,6 @@ export default React.createClass({
 
             </Column>
           </Grid>
-          <NotificationSystem ref="notificationSystem"/>
         </div>
       </DocumentTitle>
     );

@@ -6,7 +6,7 @@ if (process.env.BROWSER) {
 }
 
 export default function UserAvatar({
-  user,
+  user={},
   linkToUserPage=false,
   placeholder=false,  // show placeholder behind the image (default true when user has no image)
   size="medium",     // small, medium, large or huge
@@ -27,10 +27,14 @@ export default function UserAvatar({
     className += ` placeholder`;
   }
 
+  const style = {};
+
+  if (image) {
+    style.backgroundImage = `url(${ image })`;
+  }
+
   const avatar = (
-    <span className={ className }>
-      { image && <img src={ image } /> }
-    </span>
+    <span className={ className } style={ style } />
   );
 
   if (linkToUserPage) {

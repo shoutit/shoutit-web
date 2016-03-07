@@ -8,7 +8,7 @@ export default React.createClass({
     statics: {
         fetchId: 'tagshouts',
         fetchData(client, session, params) {
-            return client.tags().getShouts(session, params.tagName);
+            return client.shouts().list(session, { tags: params.tagName });
         }
     },
 
