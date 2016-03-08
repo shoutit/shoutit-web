@@ -32,15 +32,17 @@ export default React.createClass({
   },
 
   renderProfileShouts(shouts) {
-    return shouts.length ? shouts.map((shout, i) => {
+    return shouts? shouts.map((shout, i) => {
       return (
-        <ShoutPreview
-          gridView={this.state.gridView}
-          listType="small"
-          key={"shout-" + i}
-          shout={shout}
-          index={i}
-        />
+        <Grid fluid>
+          <ShoutPreview
+            gridView={this.state.gridView}
+            listType="small"
+            key={"shout-" + i}
+            shout={shout}
+            index={i}
+          />
+        </Grid>
       );
     }) : <h4>No shouts posted by this user yet :(</h4>;
   },
@@ -50,16 +52,14 @@ export default React.createClass({
       userShouts = this.props.shouts[username] || {},
       shouts = userShouts[this.props.type + 's'];
 
-    if(userShouts && shouts) {
-      if(this.props.loading) {
-        return (
-          <Progress />
-          );
-      } else {
-        return (
-          <ViewportSensor onChange={this.onLastVisibleChange}></ViewportSensor>
-          );
-      }
+    const { loading } = this.props;
+
+    if(shouts && !loading) {
+      return (
+        <Grid fluid={true}>
+          <ViewportSensor onChange={this.onLastVisibleChange} />
+        </Grid>
+      );
     }
   },
 
@@ -110,22 +110,20 @@ export default React.createClass({
 
   render() {
     let username = this.props.username,
-      user = this.props.users[username],
       userShouts = this.props.shouts[username] || {},
-      shouts = userShouts[this.props.type + 's'],
-      markup = null;
+      shouts = userShouts[this.props.type + 's'];
 
-    if (shouts) {
-      markup = this.renderProfileShouts(shouts);
-    } else {
-      markup = <Progress/>;
-    }
+    const { loading } = this.props;
 
     return (
       <Grid fluid={true} >
-        {this.renderSwitchBar(shouts)}
-        {markup}
-        {this.renderViewportSensor()}
+        { this.renderSwitchBar(shouts) }
+        { this.renderProfileShouts(shouts) }
+        { loading?
+          <Progress/>
+          :
+          this.renderViewportSensor()
+        }
       </Grid>
     );
   }
