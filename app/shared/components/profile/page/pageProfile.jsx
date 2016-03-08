@@ -1,7 +1,7 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
 import {Grid, Column, Progress} from '../../helper';
-import ProfileOffers from '../profileOffers.jsx';
+import ProfileShouts from '../ProfileShouts.jsx';
 import DocumentTitle from 'react-document-title';
 import ProfileCover from '../profileCover.jsx';
 import ProfileLeftBar from './pageLeftBar.jsx';
