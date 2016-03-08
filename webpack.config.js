@@ -40,7 +40,7 @@ module.exports = {
   resolve: {
     extensions: ["", ".js", ".jsx", ".scss"],
     alias: {
-      "styles": path.join(__dirname, "app/res/sass")
+      "styles": path.join(__dirname, "app/styles")
     }
   },
   module: {
