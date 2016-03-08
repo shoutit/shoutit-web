@@ -700,7 +700,7 @@ const UserStore = Fluxxor.createStore({
       }
     });
 
-    if(this.state.shouts[username]) {
+    if (!this.state.shouts[username]) {
       this.state.shouts[username] = new initUserShoutEntry();
     }
 
