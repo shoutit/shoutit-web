@@ -98,7 +98,6 @@ export default class ProfileShouts extends React.Component {
         {
           userShouts && !loading &&
             <Grid fluid>
-              hey
               <ViewportSensor onChange={ e => { this.handleSensor(e) } } />
             </Grid>
         }
