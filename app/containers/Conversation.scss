@@ -1,4 +1,3 @@
-@import "../styles/_flexbox.scss";
 @import "../styles/constants/colors.scss";
 
 .Conversation {
@@ -7,8 +6,8 @@
   right: 0;
   bottom: 0;
   left: 0;
-  @include flexbox();
-  @include flex-direction(column);
+  display: flex;
+  flex-direction: column;
 }
 
 .Conversation-error {
@@ -18,15 +17,15 @@
 }
 
 .Conversation-listContainer {
-  @include flex(1, 1, 0);
-  @include flexbox();
-  @include flex-direction(column);
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
   overflow: auto;
   padding: 10px 0;
 }
 
 .Conversation-listTopSeparator {
-  @include flex(1, 0, auto);
+  flex: 1 0 auto;
 }
 
 .Conversation-replyFormContainer {
@@ -36,7 +35,7 @@
 
 .Conversation-progress {
   height: 100%;
-  @include flexbox();
-  @include justify-content(center);
-  @include align-items(center);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

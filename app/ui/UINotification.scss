@@ -1,7 +1,7 @@
 @import "../styles/constants/colors.scss";
 @import "../styles/constants/dimensions.scss";
 @import "../styles/constants/shadows.scss";
-@import "../styles/_flexbox.scss";
+
 
 .UINotification {
   height: 0;
@@ -47,15 +47,15 @@
 .UINotification-content {
   position: relative;
   padding: 15px 20px;
-  @include flexbox();
+  display: flex;
 }
 
 .UINotification-icon {
-  @include align-self(center);
+  align-self: center;
 }
 
 .UINotification-message {
-  @include flex(1);
+  flex: 1;
   padding: 0 10px;
 }
 

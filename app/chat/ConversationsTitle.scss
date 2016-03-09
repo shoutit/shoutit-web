@@ -1,13 +1,13 @@
-@import "../styles/_flexbox.scss";
+
 @import "../styles/constants/colors.scss";
 
 .ConversationsTitle {
   background-color: $background-color;
   border-bottom: 1px solid $border-color-dark;
   min-height: 5rem;
-  @include flexbox();
-  @include flex-direction(column);
-  @include justify-content(center);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   a {
     padding: 10px;
     font-size: 1.1em;

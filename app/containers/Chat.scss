@@ -1,4 +1,4 @@
-@import "../styles/_flexbox.scss";
+
 @import "../styles/constants/defaults";
 @import "../styles/constants/colors.scss";
 @import "../styles/pages/mixins.scss";
@@ -35,9 +35,9 @@
 
   .Chat-placeholder {
     height: 100%;
-    @include flexbox();
-    @include align-items(center);
-    @include justify-content(center);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .Chat-conversationsList {

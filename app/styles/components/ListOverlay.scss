@@ -5,14 +5,14 @@
 }
 
 .ListOverlay-header {
-  @include flexbox();
+  display: flex;
   @include flex-direction(row);
   padding: 10px;
   font-size: 14px;
   overflow: auto;
   border-bottom: 1px solid $border-color-dark;
   > .ListOverlay-title {
-    @include flex(1);
+    flex: 1;
   }
   > .ListOverlay-action {
     color: $si-blue;
