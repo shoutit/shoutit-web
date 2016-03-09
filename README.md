@@ -117,6 +117,7 @@ app
 ├── auth       # components used by authentication
 ├── chat       # components for the chat
 ├── client     # client-side only stuff
+├── containers # containers component
 ├── server     # server-side only things
 ├── services   # fetchr services
 ├── shouts     # component displaying shouts
@@ -134,6 +135,7 @@ app
     - example of good names: _UserAvatar_, _ShoutDetail_, _Footer_...
     - try to use html inspired names: _ReplyShoutForm_, _SocialButton_...
 * component's filenames must be the same as the component's name. E.g. `<AwesomeComponent>` is exported from _AwesomeComponent.js_
+* container components, i.e. route handlers imported by [routes.js](app/routes.js), must be placed into the _containers_ directory
 * also each component must have a test, with extension _.test.js_ in the same folder. E.g. _MyAwesomeComponent.test.js_ (see [Tests](#tests) below)
 * a component may have a style sheet, e.g. _MyAwesomeComponent.scss_, to be placed in the same folder
     - a component must import only its own .scss file: other Sass modules can be imported from that
