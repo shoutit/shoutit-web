@@ -10,12 +10,15 @@ import createHistory from "history/lib/createBrowserHistory";
 import debug from "debug";
 import Fetchr from "fetchr";
 
-import routes from "../routes";
-import Flux from "../Flux";
-import "../client/initializeFacebook";
-import gAnalytics from "../client/ga";
-import { setup as setupPusher } from "../client/pusher";
-import config from "../../config";
+import config from "../config";
+
+import routes from "./routes";
+import Flux from "./flux";
+
+import "./client/initFacebook";
+import initGoogleAnalytics from "./client/initGoogleAnalytics";
+import { setupPusher } from "./client/pusher";
+
 
 import "babel-core/polyfill";
 
@@ -47,7 +50,7 @@ flux.on("dispatch", (type, payload) =>
 
 let ga;
 if (config.ga) {
-  ga = gAnalytics(config.ga);
+  ga = initGoogleAnalytics(config.ga);
 }
 
 if (window.google) {
