@@ -1,12 +1,10 @@
 @import "../constants/colors.scss";
-@import "../_flexbox.scss";
 
 .ListOverlay {
 }
 
 .ListOverlay-header {
   display: flex;
-  @include flex-direction(row);
   padding: 10px;
   font-size: 14px;
   overflow: auto;

@@ -1,4 +1,3 @@
-@import "../_flexbox.scss";
 @import "../constants/colors.scss";
 
 $border-radius: 5px;
@@ -16,7 +15,7 @@ $border-radius: 5px;
   }
   &.horizontal {
     display: flex;
-    @include align-items(flex-start);
+    align-items: flex-start;
     width: 100%;
   }
 }
@@ -37,7 +36,7 @@ $border-radius: 5px;
   }
 
   .ShoutItem.horizontal & {
-    @include flex(0 0 75px);
+    flex: 0 0 75px;
     height: 75px;
     border-radius: $border-radius;
   }
@@ -70,7 +69,7 @@ $border-radius: 5px;
   }
   padding: 5px 10px;
   display: flex;
-  @include flex-flow(row wrap);
+  flex-flow: row wrap;
 }
 
   .ShoutItem-title {
