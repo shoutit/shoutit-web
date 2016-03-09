@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import debug from "debug";
 
-import { FacebookButton, GoogleButton } from "../helper/SocialButtons.jsx";
+import { FacebookButton, GoogleButton } from "../shared/components/helper/SocialButtons.jsx";
 
 const logFacebook = debug("shoutit:facebook");
 

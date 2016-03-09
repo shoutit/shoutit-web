@@ -4,9 +4,9 @@ import { Link } from "react-router";
 import DocumentTitle from "react-document-title";
 import { Input } from "react-bootstrap";
 
-import Dialog from "../helper/Dialog.jsx";
-import Button from "../helper/Button.jsx";
-import SocialLoginForm from "../login/SocialLoginForm.jsx";
+import Dialog from "../shared/components/helper/Dialog.jsx";
+import Button from "../shared/components/helper/Button.jsx";
+import SocialLoginForm from "./SocialLoginForm";
 
 export default React.createClass({
 

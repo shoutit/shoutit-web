@@ -4,8 +4,8 @@ import { Link } from "react-router";
 import { Input } from "react-bootstrap";
 import { StoreWatchMixin } from "fluxxor";
 
-import Dialog from "../helper/Dialog.jsx";
-import Button from "../helper/Button";
+import Dialog from "../shared/components/helper/Dialog.jsx";
+import Button from "../shared/components/helper/Button";
 
 export default React.createClass({
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "react-bootstrap";
 
-import Button from "../helper/Button.jsx";
+import Button from "../shared/components/helper/Button.jsx";
 
 export default function NativeLoginFrom({ loading, onSubmit, error }) {
 

@@ -2,10 +2,10 @@ import React from "react";
 import {Link} from "react-router";
 import {StoreWatchMixin} from "fluxxor";
 import DocumentTitle from "react-document-title";
-import Dialog from "../helper/Dialog.jsx";
+import Dialog from "../shared/components/helper/Dialog.jsx";
 
-import SocialLoginForm from "../login/SocialLoginForm.jsx";
-import NativeLoginFrom from "../login/NativeLoginFrom.jsx";
+import SocialLoginForm from "./SocialLoginForm";
+import NativeLoginFrom from "./NativeLoginFrom";
 
 export default React.createClass({
   displayName: "LoginDialog",
