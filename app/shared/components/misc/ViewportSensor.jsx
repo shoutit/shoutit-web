@@ -50,7 +50,7 @@ export default React.createClass({
    * Check if the element is within the visible viewport
    */
   check() {
-    let el = this.getDOMNode();
+    let el = this.refs.viewportSensor;
     let rect = el.getBoundingClientRect();
     let isVisible = (
     rect.top >= 0 &&
@@ -67,6 +67,6 @@ export default React.createClass({
   },
 
   render() {
-    return (<div>{this.props.children}</div>);
+    return (<div ref="viewportSensor">{this.props.children}</div>);
   }
 });

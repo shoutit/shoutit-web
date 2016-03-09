@@ -4,7 +4,7 @@ import consts from "./consts";
 import statuses from "../../consts/statuses";
 import locConsts from "../locations/consts";
 import { GET_SUGGESTIONS_SUCCESS } from "../suggestions/actionTypes";
-import { LOGIN_SUCCESS, SIGNUP_SUCCESS, EMAIL_VERIFICATION_SUCCESS, LOGOUT } from "../../../auth/AuthActionTypes";
+import { LOGIN_SUCCESS, SIGNUP_SUCCESS, EMAIL_VERIFICATION_SUCCESS, LOGOUT } from "../../../actions/actionTypes";
 import client from "./client";
 import assign from "lodash/object/assign";
 import debug from "debug";

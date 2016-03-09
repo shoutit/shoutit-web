@@ -28,7 +28,7 @@ import Button from "../../components/helper/Button.jsx";
 import UserAvatar from "../../components/user/UserAvatar.jsx";
 
 import Notification from "../../components/notifications/Notification.jsx";
-import VideoCallLocalMedia from "../../components/videoCalls/VideoCallLocalMedia";
+import VideoCallLocalMedia from "../../../videoCalls/VideoCallLocalMedia";
 
 export function LISTEN_SUCCESS(user) {
   return (

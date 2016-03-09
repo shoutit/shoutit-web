@@ -1,0 +1,12 @@
+@import "../styles/_flexbox.scss";
+
+.MessageReplyForm {
+  @include flexbox();
+  padding: 15px;
+  padding-bottom: 0;
+}
+
+.MessageReplyForm-inputContainer {
+  @include flex(1);
+  padding-right: 5px;
+}

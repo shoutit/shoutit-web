@@ -1,0 +1,50 @@
+@import "../styles/constants/shadows.scss";
+
+$local-media-width: 300px;
+$local-media-height: $local-media-width*3/4;
+
+.VideoCallHost {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  height: $local-media-height;
+  width: $local-media-width;
+  z-index: 100000;
+  background-color: white;
+  box-shadow: $box-shadow-depth-2;
+}
+
+  .VideoCallHost-remoteMedia {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    text-align: center;
+    background-color: black;
+    video {
+      height: 100%;
+    }
+  }
+
+  .VideoCallHost-localMedia {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 33%;
+    z-index: 2;
+    video {
+      width: inherit;
+      height: 100%;
+    }
+  }
+
+  .VideoCallHost-controls {
+    position: absolute;
+    bottom: 10px;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }

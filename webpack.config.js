@@ -13,7 +13,7 @@ var CopyPlugin = require("copy-webpack-plugin");
 var isDevelopment = process.env.NODE_ENV === "development";
 
 var context = path.join(__dirname, "./app");
-var entries = ["./client/index.js"];
+var entries = ["./client.js"];
 var config = require("./config");
 
 function noop() {}

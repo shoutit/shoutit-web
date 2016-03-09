@@ -1,0 +1,47 @@
+@import "../styles/_flexbox.scss";
+@import "../styles/constants/defaults";
+@import "../styles/constants/colors.scss";
+@import "../styles/pages/mixins.scss";
+
+.Chat {
+  @include paper();
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  overflow: hidden;
+}
+
+  .Chat-conversations {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 25%;
+    overflow: auto;
+  }
+
+  .Chat-messages {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 25%;
+    overflow: auto;
+    border-left: 1px solid $border-color-dark;
+    background-color: $background-color-alt-light;
+  }
+
+  .Chat-placeholder {
+    height: 100%;
+    @include flexbox();
+    @include align-items(center);
+    @include justify-content(center);
+  }
+
+  .Chat-conversationsList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }

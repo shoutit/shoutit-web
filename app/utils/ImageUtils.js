@@ -1,4 +1,7 @@
+
 /* eslint no-console: 0 */
+
+/* WARNING: ONLY FOR SERVER SIDE */
 
 import path from "path";
 import os from "os";
