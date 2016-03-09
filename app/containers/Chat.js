@@ -1,7 +1,7 @@
 import React from "react";
 import DocumentTitle from "react-document-title";
 
-import FixedHeightPage from "../shared/components/helper/FixedHeightPage.jsx";
+import FixedHeightPage from "../ui/FixedHeightPage";
 
 import ConversationsTitle from "../chat/ConversationsTitle";
 import ConversationsList from "../chat/ConversationsList";

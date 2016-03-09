@@ -4,7 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 if (process.env.BROWSER) {
-  require("styles/FixedHeightPage.scss");
+  require("./FixedHeightPage.scss");
 }
 
 /**

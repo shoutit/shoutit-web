@@ -1,34 +1,34 @@
 import React from "react";
 import Fluxxor from "fluxxor";
-import { DISMISS_NOTIFICATION, NOTIFY } from "../ui_notifications/actionTypes";
-import * as notificationList from "../ui_notifications/notificationList";
+import { DISMISS_UI_NOTIFICATION, NOTIFY } from "../actions/actionTypes";
+import * as notifications from "../ui/UINotificationsList";
 
-import Notification from "../../components/notifications/Notification.jsx";
+import UINotification from "../ui/UINotification";
 
 const initialState = {
   notifications: []
 };
 
-export const UINotificationsStore = Fluxxor.createStore({
+export default Fluxxor.createStore({
 
   initialize() {
     this.state = {...initialState};
 
-    Object.keys(notificationList).forEach(name => {
+    Object.keys(notifications).forEach(name => {
       this.bindActions(name, payload => {
-        const notification = notificationList[name](payload, this.handleDismiss, this.flux);
+        const notification = notifications[name](payload, this.handleDismiss, this.flux);
         if (!notification) {
           return;
         }
         let content;
         let options;
         if (typeof notification === "string") {
-          content = <Notification>{ notification }</Notification>;
-        } else if (notification.type === Notification) {
+          content = <UINotification>{ notification }</UINotification>;
+        } else if (notification.type === UINotification) {
           content = notification;
         } else if (typeof notification.content === "string") {
-          content = <Notification>{ notification.content }</Notification>;
-        } else if (notification.content && notification.content.type === Notification) {
+          content = <UINotification>{ notification.content }</UINotification>;
+        } else if (notification.content && notification.content.type === UINotification) {
           content = notification.content;
         } else {
           console.warn("Could not display notification for %s", name); // eslint-disable-line no-console
@@ -42,8 +42,8 @@ export const UINotificationsStore = Fluxxor.createStore({
     });
 
     this.bindActions(
-      DISMISS_NOTIFICATION, this.handleDismiss,
-      NOTIFY, props => this.handleNotification(<Notification {...props} />)
+      DISMISS_UI_NOTIFICATION, this.handleDismiss,
+      NOTIFY, props => this.handleNotification(<UINotification {...props} />)
     );
   },
 
@@ -69,7 +69,7 @@ export const UINotificationsStore = Fluxxor.createStore({
     // optional: autohide a notification after 4 seconds
     if (options.autoHide) {
       notification.hideTimeout = setTimeout(
-        () => this.flux.actions.dismissNotification(id), 4000
+        () => this.flux.actions.dismissUINotification(id), 4000
       );
     }
     const existingIndex = this.state.notifications.findIndex(notification => notification.id === id);

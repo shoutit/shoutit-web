@@ -1,14 +1,14 @@
 import React from "react";
-import SVGIcon from "../helper/SVGIcon";
+import SVGIcon from "../shared/components/helper/SVGIcon";
 
 if (process.env.BROWSER) {
-  require("styles/components/Notification.scss");
+  require("./UINotification.scss");
 }
 
-export default class Notification extends React.Component {
+export default class UINotification extends React.Component {
 
   static propTypes = {
-    dismissNotification: React.PropTypes.func,
+    dismissUINotification: React.PropTypes.func,
     icon: React.PropTypes.element,
     showDismissButton: React.PropTypes.bool,
     buttons: React.PropTypes.array,
@@ -52,28 +52,28 @@ export default class Notification extends React.Component {
   }
 
   render() {
-    const { icon, children, dismissNotification, showDismissButton, buttons, type } = this.props;
+    const { icon, children, dismissUINotification, showDismissButton, buttons, type } = this.props;
     const { style } = this.state;
-    const className = `Notification type-${type}`;
+    const className = `UINotification type-${type}`;
 
     return (
       <div className={ className } style={ style } ref="wrapper">
         <div ref="body">
-          <div className="Notification-content">
+          <div className="UINotification-content">
             { icon }
 
-            <span className="Notification-message">
+            <span className="UINotification-message">
               { children }
             </span>
 
             { showDismissButton &&
-              <span className="Notification-dismiss">
-                <SVGIcon size="small" name="close" onClick={ () => dismissNotification() } />
+              <span className="UINotification-dismiss">
+                <SVGIcon size="small" name="close" onClick={ () => dismissUINotification() } />
               </span>
             }
 
           </div>
-          { buttons.length > 0 && <div className="Notification-buttons">
+          { buttons.length > 0 && <div className="UINotification-buttons">
             { buttons }
           </div>
           }

@@ -4,11 +4,11 @@ import debug from "debug";
 // import stores
 import AuthStore from "./stores/AuthStore";
 import ChatStore from "./stores/ChatStore";
+import UINotificationsStore from "./stores/UINotificationsStore";
 import ConversationsStore from "./stores/ConversationsStore";
 import MessagesStore from "./stores/MessagesStore";
 import VideoCallsStore from "./stores/VideoCallsStore";
 import SuggestionsStore from "./shared/stores/suggestions/SuggestionsStore";
-import { UINotificationsStore } from "./shared/stores/ui_notifications/UINotificationsStore";
 import UsersStore from "./shared/stores/users/store";
 import ShoutStore from "./shared/stores/shouts/store";
 import TagStore from "./shared/stores/tags/store";
@@ -31,7 +31,7 @@ import LocationsActions from "./shared/stores/locations/actions";
 import NotificationsActions from "./shared/stores/notifications/actions";
 import DiscoversActions from "./shared/stores/discovers/actions";
 import SuggestionsActions from "./shared/stores/suggestions/actions";
-import UINotificationsActions from "./shared/stores/ui_notifications/actions";
+import UINotificationsActions from "./actions/UINotificationsActions";
 
 export default function Flux(initialState={}, fetchr) {
 
