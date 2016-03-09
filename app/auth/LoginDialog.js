@@ -5,7 +5,7 @@ import DocumentTitle from "react-document-title";
 import Dialog from "../shared/components/helper/Dialog.jsx";
 
 import SocialLoginForm from "./SocialLoginForm";
-import NativeLoginFrom from "./NativeLoginFrom";
+import NativeLoginForm from "./NativeLoginForm";
 
 export default React.createClass({
   displayName: "LoginDialog",
@@ -46,7 +46,7 @@ export default React.createClass({
 
             <div className="separator separator-or"></div>
 
-              <NativeLoginFrom
+              <NativeLoginForm
                 error={ loginError }
                 onSubmit={ ({ email, password}) =>
                   flux.actions.login({ email, password})
