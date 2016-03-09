@@ -26,7 +26,7 @@ const defaultState = {
 
 };
 
-export const AuthStore = Fluxxor.createStore({
+export default Fluxxor.createStore({
 
   initialize(initialState) {
 

@@ -2,11 +2,11 @@ import Fluxxor from "fluxxor";
 import debug from "debug";
 
 // import stores
-import { AuthStore } from "../auth/AuthStore";
-import { ChatStore } from "./stores/chat/ChatStore";
-import { ConversationsStore } from "./stores/conversations/ConversationsStore";
-import { MessagesStore } from "./stores/messages/MessagesStore";
-import { VideoCallStore } from "./stores/videoCalls/VideoCallStore";
+import AuthStore from "../auth/AuthStore";
+import ChatStore from "../chat/ChatStore";
+import ConversationsStore from "../chat/ConversationsStore";
+import MessagesStore from "../chat/MessagesStore";
+import VideoCallsStore from "../videoCalls/VideoCallsStore";
 import SuggestionsStore from "./stores/suggestions/SuggestionsStore";
 import { UINotificationsStore } from "./stores/ui_notifications/UINotificationsStore";
 import UsersStore from "./stores/users/store";
@@ -19,10 +19,10 @@ import DiscoversStore from "./stores/discovers/store";
 
 // import actions
 import { actions as AuthActions } from "../auth/AuthActions";
-import { actions as ChatActions } from "./stores/chat/actions";
-import { actions as ConversationsActions } from "./stores/conversations/actions";
-import { actions as MessagesActions } from "./stores/messages/actions";
-import { actions as VideoCallActions } from "./stores/videoCalls/actions";
+import { actions as ChatActions } from "../chat/ChatActions";
+import { actions as ConversationsActions } from "../chat/ConversationsActions";
+import { actions as MessagesActions } from "../chat/MessagesActions";
+import { actions as VideoCallsActions } from "../videoCalls/VideoCallsActions";
 import UserActions from "./stores/users/actions";
 import ShoutActions from "./stores/shouts/actions";
 import TagActions from "./stores/tags/actions";
@@ -49,7 +49,7 @@ export default function Flux(initialState={}, fetchr) {
     tags: new TagStore(initialState.tags),
     ui_notifications: new UINotificationsStore(),
     users: new UsersStore(initialState.users),
-    videocall: new VideoCallStore()
+    videocall: new VideoCallsStore()
   };
 
   for (const store in stores) {
@@ -72,7 +72,7 @@ export default function Flux(initialState={}, fetchr) {
     ...TagActions,
     ...UINotificationsActions,
     ...UserActions,
-    ...VideoCallActions
+    ...VideoCallsActions
   };
 
   const flux = new Fluxxor.Flux(stores, actions);

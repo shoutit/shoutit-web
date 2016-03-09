@@ -4,7 +4,7 @@ import {createSlug} from "./helper";
 import Header from "./header";
 import MainPage from "./main/mainPage.jsx";
 import NotificationHost from "./notifications/NotificationHost.jsx";
-import VideoCallHost from "./helper/VideoCallHost";
+import VideoCallHost from "../../videoCalls/VideoCallHost";
 
 const pagesWithoutHeader = [ MainPage ];
 
