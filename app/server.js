@@ -16,24 +16,24 @@ import { capitalize } from "lodash";
 
 import Promise from "bluebird";
 
-import HtmlDocument from "../../app/shared/components/HtmlDocument";
-import * as services from "../services";
+import HtmlDocument from "./server/HtmlDocument";
+import * as services from "./services";
 
-import config from "../../config";
+import config from "../config";
 
-import { uploadImageMiddleware, deleteImageMiddleware } from "./services/images";
+import { uploadImageMiddleware, deleteImageMiddleware } from "./server/services/images";
 
-var oauth = require("./auth/oauth"),
-  ShoutitClient = require("./resources"),
-  apiRouter = require("./routes"),
-  resetPass = require("./services/resetPassword");
+var oauth = require("./server/auth/oauth"),
+  ShoutitClient = require("./server/resources"),
+  apiRouter = require("./server/routes"),
+  resetPass = require("./server/services/resetPassword");
 
 var React = require("react"),
   ReactRouter = require("react-router"),
   ReactDOMServer = require("react-dom/server");
 
-var Flux = require("../Flux"),
-  routes = require("../routes"),
+var Flux = require("./Flux"),
+  routes = require("./routes"),
   DocumentTitle = require("react-document-title");
 
 // middleware
@@ -45,7 +45,7 @@ var morgan = require("morgan"),
   compression = require("compression"),
   cors = require("cors");
 
-var graphData = require("./resources/consts/graphData");
+var graphData = require("./server/resources/consts/graphData");
 var currencies, categories, sortTypes;
 var whitelist = [
   "https://shoutit.com",

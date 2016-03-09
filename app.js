@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Start the server
-require("./app/server/web.js")(app);
+require("./app/server")(app);
 
 console.log(config.getSummary());
 

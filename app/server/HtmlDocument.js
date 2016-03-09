@@ -1,11 +1,11 @@
 /* eslint react/no-danger: 0 */
 
 import React from "react";
-import config from "../../../config";
+import config from "../../config";
 
 let chunkNames = { main: "/assets/main.js", css: "/assets/main.css" };
 if (process.env.NODE_ENV === "production") {
-  chunkNames = require("../../../public/stats.json");
+  chunkNames = require("../../public/stats.json");
 }
 
 export default function HtmlDocument({
