@@ -1,0 +1,12 @@
+@import "../styles/constants/dimensions.scss";
+
+.VideoCallLocalMedia {
+
+  text-align: center;
+  height: 210px;
+  video {
+    border-radius: $border-radius;
+    width: 280px;
+    height: 210px;
+  }
+}

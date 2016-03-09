@@ -1,8 +1,8 @@
 import React from "react";
 
-import LoginDialog from "../login/LoginDialog.jsx";
-import SignupDialog from "../login/SignupDialog.jsx";
-import ResetPasswordDialog from "../login/ResetPasswordDialog.jsx";
+import LoginDialog from "../../../auth/LoginDialog";
+import SignupDialog from "../../../auth/SignupDialog";
+import ResetPasswordDialog from "../../../auth/ResetPasswordDialog";
 
 export default class ModalHost extends React.Component {
 

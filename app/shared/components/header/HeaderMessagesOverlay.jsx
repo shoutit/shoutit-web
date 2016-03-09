@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import ConversationsList from "../chat/ConversationsList.jsx";
+import ConversationsList from "../../../chat/ConversationsList.js";
 
 if (process.env.BROWSER) {
   require("styles/components/ListOverlay.scss");

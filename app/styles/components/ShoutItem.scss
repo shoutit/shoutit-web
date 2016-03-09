@@ -1,0 +1,95 @@
+@import "../_flexbox.scss";
+@import "../constants/colors.scss";
+
+$border-radius: 5px;
+
+.ShoutItem {
+  width: 240px;
+  background-color: white;
+  &.outline {
+    border-radius: $border-radius;
+    border: 1px solid $border-color;
+  }
+  &.shadow {
+    border-radius: $border-radius;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  &.horizontal {
+    @include flexbox();
+    @include align-items(flex-start);
+    width: 100%;
+  }
+}
+
+.ShoutItem-thumbwrapper {
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+  position: relative;
+  background-color: $background-color;
+  background-image: url("../../../assets/icons/camera-fill.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64px;
+
+  .ShoutItem:not(.horizontal) & {
+    width: 100%;
+    padding-bottom: 100%;
+  }
+
+  .ShoutItem.horizontal & {
+    @include flex(0 0 75px);
+    height: 75px;
+    border-radius: $border-radius;
+  }
+
+  .ShoutItem.no-thumbnail & {
+    background-image: url("../../../assets/icons/no-camera-fill.svg");
+  }
+}
+
+.ShoutItem-thumb {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+  .ShoutItem.horizontal & {
+    border-radius: $border-radius;
+  }
+}
+
+
+.ShoutItem-detail {
+  .ShoutItem.horizontal & {
+    width: 100%;
+  }
+  padding: 5px 10px;
+  @include flexbox();
+  @include flex-flow(row wrap);
+}
+
+  .ShoutItem-title {
+    font-weight: 300;
+    font-size: 1em;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .ShoutItem-name {
+    @include flex(1);
+    color: $color-light;
+    font-size: 0.75em;
+    display: inline-block;
+  }
+
+  .ShoutItem-price {
+    font-size: 0.75em;
+    margin-left: 5px;
+    display: inline-block;
+    color: $si-green;
+  }

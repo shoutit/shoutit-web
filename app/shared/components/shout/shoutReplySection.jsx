@@ -2,8 +2,8 @@ import React from 'react';
 import {Link} from 'react-router';
 import {Col} from 'react-bootstrap';
 
-import ReplyInput from '../chat/MessageReplyForm.jsx';
-import MessagesList from '../chat/MessagesList.jsx';
+import ReplyInput from '../../../chat/MessageReplyForm';
+import MessagesList from '../../../chat/MessagesList';
 
 export default React.createClass({
   displayName: "ShoutReplySection",

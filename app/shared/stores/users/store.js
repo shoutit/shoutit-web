@@ -4,7 +4,7 @@ import consts from "./consts";
 import statuses from "../../consts/statuses";
 import locConsts from "../locations/consts";
 import { GET_SUGGESTIONS_SUCCESS } from "../suggestions/actionTypes";
-import { LOGIN_SUCCESS, SIGNUP_SUCCESS, EMAIL_VERIFICATION_SUCCESS, LOGOUT } from "../../../auth/AuthActionTypes";
+import { LOGIN_SUCCESS, SIGNUP_SUCCESS, EMAIL_VERIFICATION_SUCCESS, LOGOUT } from "../../../actions/actionTypes";
 import client from "./client";
 import assign from "lodash/object/assign";
 import debug from "debug";
@@ -20,12 +20,9 @@ const ALL_TYPE = "all";
 
 function initUserShoutEntry() {
   return {
-    offers: null,
-    nextOffersPage: null,
-    maxOffers: null,
-    requests: null,
-    nextRequestsPage: null,
-    maxRequest: null
+    list: [],
+    next: null,
+    loading: false
   };
 }
 
@@ -83,20 +80,11 @@ const UserStore = Fluxxor.createStore({
       this.state.shouts[username] = initUserShoutEntry();
       this.state.listens[username] = initUserListenEntry();
 
-      if (props.useroffers) {
-        let userShouts = this.state.shouts[username],
-          loadedOffers = props.useroffers;
-        userShouts.offers = loadedOffers.results;
-        userShouts.maxOffers = loadedOffers.count;
-        userShouts.nextOffersPage = this.parseNextPage(loadedOffers.next);
-      }
+      if (props.userShouts) {
+        const shouts = this.state.shouts[username];
 
-      if (props.userrequests) {
-        let userShouts = this.state.shouts[username],
-          loadedRequests = props.userrequests;
-        userShouts.requests = loadedRequests.results;
-        userShouts.maxRequest = loadedRequests.count;
-        userShouts.nextRequestsPage = this.parseNextPage(loadedRequests.next);
+        shouts.list = props.userShouts.results;
+        shouts.next = this.parseNextPage(props.userShouts.next);
       }
 
       if (props.listeners) {
@@ -225,11 +213,13 @@ const UserStore = Fluxxor.createStore({
     const { users, pages } = res;
     const usersData = pages && users? [...users, ...pages]: users || pages;
 
-    usersData.forEach((user) => {
-      if (!this.state.users[user.username]) {
-        this.state.users[user.username] = user;
-      }
-    });
+    if (usersData) {
+      usersData.forEach((user) => {
+        if (!this.state.users[user.username]) {
+          this.state.users[user.username] = user;
+        }
+      });
+    }
 
     this.emit("change");
   },
@@ -695,111 +685,70 @@ const UserStore = Fluxxor.createStore({
     }
   },
 
-  onLoadUserShouts(payload) {
-    var username = payload.username,
-      type = payload.type;
-
+  onLoadUserShouts({ username, limit }) {
     client.loadShouts(username, {
-      shout_type: type || ALL_TYPE,
-      page_size: payload.limit? payload.limit: PAGE_SIZE
-    }).end(function (err, res) {
+      page_size: limit || PAGE_SIZE
+    }).end((err, res) => {
       if (err) {
-        console.log(err);
+        log(err);
       } else {
         this.onLoadUserShoutsSuccess({
-          username: username,
-          result: res.body,
-          type: type
+          username,
+          results: res.body.results,
+          next: res.body.next
         });
       }
-    }.bind(this));
-    this.state.loading = true;
+    });
+
+    if (!this.state.shouts[username]) {
+      this.state.shouts[username] = new initUserShoutEntry();
+    }
+
+    this.state.shouts[username].loading = true;
     this.emit("change");
   },
 
-  onLoadUserShoutsSuccess(payload) {
-    let username = payload.username,
-      type = payload.type;
+  onLoadUserShoutsSuccess({ username, results, next}) {
+    const shouts = this.state.shouts[username];
 
-    if (!this.state.shouts[username]) {
-      this.state.shouts[username] = initUserShoutEntry();
-    }
-    let userShouts = this.state.shouts[username],
-      loadedShouts = payload.result;
+    shouts.list = results;
+    shouts.next = this.parseNextPage(next);
+    shouts.loading = false;
 
-    if (type === "offer") {
-      userShouts.offers = loadedShouts.results;
-      userShouts.maxOffers = loadedShouts.count;
-      userShouts.nextOffersPage = this.parseNextPage(loadedShouts.next);
-    } else if (type === "request") {
-      userShouts.requests = loadedShouts.results;
-      userShouts.maxRequest = Number(loadedShouts.count);
-      userShouts.nextRequestsPage = this.parseNextPage(loadedShouts.next);
-    }
-
-    this.state.loading = false;
     this.emit("change");
   },
 
-  onLoadMoreUserShouts(payload) {
-    let username = payload.username,
-      type = payload.type;
+  onLoadMoreUserShouts({ username }) {
+    const shouts = this.state.shouts[username];
+    if (!shouts || !shouts.next) { return; }
 
-    let userShouts = this.state.shouts[username],
-      nextPage;
+    client.loadShouts(username, {
+      page_size: PAGE_SIZE,
+      page: shouts.next
+    })
+    .end((err, res) => {
+      if (err) {
+        log(err);
+      } else {
+        this.onLoadMoreUserShoutsSuccess({
+          username,
+          results: res.body.results,
+          next: res.body.next
+        });
+      }
+    });
 
-    if (type === OFFER_TYPE) {
-      nextPage = userShouts.nextOffersPage;
-    } else if (type === REQUEST_TYPE) {
-      nextPage = userShouts.nextRequestsPage;
-    }
-
-    if (nextPage) {
-      client.loadShouts(username, {
-        shout_type: type || ALL_TYPE,
-        page_size: PAGE_SIZE,
-        page: nextPage
-      }).end(function (err, res) {
-        if (err) {
-          console.log(err);
-        } else {
-          this.onLoadMoreUserShoutsSuccess({
-                  username: username,
-                  result: res.body,
-                  type: type
-                });
-        }
-      }.bind(this));
-      this.state.loading = true;
-      this.emit("change");
-    }
+    shouts.loading = true;
+    this.emit("change");
   },
 
-  onLoadMoreUserShoutsSuccess(payload) {
-    let username = payload.username,
-      type = payload.type;
+  onLoadMoreUserShoutsSuccess({ username, results, next }) {
+    const shouts = this.state.shouts[username];
 
-    if (!this.state.shouts[username]) {
-      this.state.shouts[username] = initUserShoutEntry();
-    }
-    let userShouts = this.state.shouts[username],
-      loadedShouts = payload.result;
+    shouts.list = [ ...shouts.list, ...results ];
+    shouts.next = this.parseNextPage(next);
+    shouts.loading = false;
 
-    if (type === "offer") {
-      loadedShouts.results.forEach(function(val) {
-        userShouts.offers.push(val);
-      }.bind(this));
-      userShouts.maxOffers = Number(loadedShouts.count);
-      userShouts.nextOffersPage = this.parseNextPage(loadedShouts.next);
-    } else if (type === "request") {
-      loadedShouts.results.forEach(function(val) {
-        userShouts.requests.push(val);
-      }.bind(this));
-      userShouts.maxRequest = Number(loadedShouts.count);
-      userShouts.nextRequestsPage = this.parseNextPage(loadedShouts.next);
-    }
-
-    this.state.loading = false;
     this.emit("change");
   },
 
