@@ -13,7 +13,7 @@ import Fetchr from "fetchr";
 import config from "../config";
 
 import routes from "./routes";
-import Flux from "./flux";
+import Flux from "./Flux";
 
 import "./client/initFacebook";
 import initGoogleAnalytics from "./client/initGoogleAnalytics";
