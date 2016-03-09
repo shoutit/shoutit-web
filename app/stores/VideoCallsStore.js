@@ -1,6 +1,6 @@
 import Fluxxor from "fluxxor";
 
-import * as actionTypes from "./VideoCallsActionTypes";
+import * as actions from "../actions/actionTypes";
 
 const initialState = {
   token: null,
@@ -34,23 +34,23 @@ export default Fluxxor.createStore({
 
     this.bindActions(
 
-      actionTypes.TWILIO_INIT, this.handleInitStart,
-      actionTypes.TWILIO_INIT_SUCCESS, this.handleInitSuccess,
-      actionTypes.TWILIO_INIT_FAILURE, this.handleInitFailure,
+      actions.TWILIO_INIT, this.handleInitStart,
+      actions.TWILIO_INIT_SUCCESS, this.handleInitSuccess,
+      actions.TWILIO_INIT_FAILURE, this.handleInitFailure,
 
-      actionTypes.VIDEOCALL_OUTGOING, this.handleOutgoingInvite,
-      actionTypes.VIDEOCALL_OUTGOING_ACCEPTED, this.handleOutgoingInviteSuccess,
-      actionTypes.VIDEOCALL_OUTGOING_REJECTED, this.handleOutgoingInviteFailure,
-      actionTypes.VIDEOCALL_OUTGOING_CANCELED, this.handleOutgoingInviteFailure,
-      actionTypes.VIDEOCALL_OUTGOING_FAILURE, this.handleOutgoingInviteFailure,
+      actions.VIDEOCALL_OUTGOING, this.handleOutgoingInvite,
+      actions.VIDEOCALL_OUTGOING_ACCEPTED, this.handleOutgoingInviteSuccess,
+      actions.VIDEOCALL_OUTGOING_REJECTED, this.handleOutgoingInviteFailure,
+      actions.VIDEOCALL_OUTGOING_CANCELED, this.handleOutgoingInviteFailure,
+      actions.VIDEOCALL_OUTGOING_FAILURE, this.handleOutgoingInviteFailure,
 
-      actionTypes.VIDEOCALL_INCOMING, this.handleIncomingInvite,
-      actionTypes.VIDEOCALL_INCOMING_ACCEPTED, this.handleIncomingInviteSuccess,
-      actionTypes.VIDEOCALL_INCOMING_REJECTED, this.handleIncomingInviteFailure,
-      actionTypes.VIDEOCALL_INCOMING_CANCELED, this.handleIncomingInviteFailure,
-      actionTypes.VIDEOCALL_INCOMING_FAILURE, this.handleIncomingInviteFailure,
+      actions.VIDEOCALL_INCOMING, this.handleIncomingInvite,
+      actions.VIDEOCALL_INCOMING_ACCEPTED, this.handleIncomingInviteSuccess,
+      actions.VIDEOCALL_INCOMING_REJECTED, this.handleIncomingInviteFailure,
+      actions.VIDEOCALL_INCOMING_CANCELED, this.handleIncomingInviteFailure,
+      actions.VIDEOCALL_INCOMING_FAILURE, this.handleIncomingInviteFailure,
 
-      actionTypes.VIDEOCALL_DISCONNECTED, this.handleConversationDisconnected
+      actions.VIDEOCALL_DISCONNECTED, this.handleConversationDisconnected
 
     );
   },

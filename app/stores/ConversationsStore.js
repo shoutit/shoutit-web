@@ -1,34 +1,6 @@
 import Fluxxor from "fluxxor";
 
-import {
-  LOAD_CONVERSATIONS_SUCCESS
-} from "./ChatActionTypes";
-
-import {
-  LOAD_MESSAGES,
-  LOAD_NEXT_MESSAGES,
-  LOAD_PREVIOUS_MESSAGES,
-  LOAD_MESSAGES_SUCCESS,
-  LOAD_MESSAGES_FAILURE,
-  CONVERSATION_DRAFT_CHANGE,
-  DELETE_CONVERSATION,
-  DELETE_CONVERSATION_SUCCESS,
-  DELETE_CONVERSATION_FAILURE,
-  RESET_LAST_LOADED_CONVERSATION,
-  MARK_AS_READ_SUCCESS,
-  MARK_AS_READ_FAILURE
-} from "./ConversationsActionTypes";
-
-import {
-  REPLY_CONVERSATION,
-  REPLY_CONVERSATION_SUCCESS,
-  REPLY_CONVERSATION_FAILURE,
-  NEW_PUSHED_MESSAGE
-} from "./MessagesActionTypes";
-
-import {
-  LOGOUT
-} from "../auth/AuthActionTypes";
+import * as actions from "../actions/actionTypes";
 
 const initialState = {
   conversations: {},
@@ -47,24 +19,24 @@ export default Fluxxor.createStore({
     }
 
     this.bindActions(
-      LOAD_CONVERSATIONS_SUCCESS, this.handleLoadConversations,
-      LOAD_MESSAGES, this.handleStart,
-      LOAD_NEXT_MESSAGES, this.handleLoadNextStart,
-      LOAD_PREVIOUS_MESSAGES, this.handleLoadPreviousStart,
-      LOAD_MESSAGES_SUCCESS, this.handleLoadMessagesSuccess,
-      LOAD_MESSAGES_FAILURE, this.handleLoadMessagesFailure,
-      CONVERSATION_DRAFT_CHANGE, this.handleDraftChange,
-      REPLY_CONVERSATION, this.handleReplyStart,
-      REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
-      REPLY_CONVERSATION_FAILURE, this.handleReplyFailure,
-      NEW_PUSHED_MESSAGE, this.handlePushedMessage,
-      MARK_AS_READ_SUCCESS, this.handleMarkAsReadSuccess,
-      MARK_AS_READ_FAILURE, this.handleMarkAsReadFailure,
-      DELETE_CONVERSATION, this.handleDeleteConversationStart,
-      DELETE_CONVERSATION_SUCCESS, this.handleDeleteConversationSuccess,
-      DELETE_CONVERSATION_FAILURE, this.handleDeleteConversationFailure,
-      RESET_LAST_LOADED_CONVERSATION, this.handleResetLastLoaded,
-      LOGOUT, this.handleLogout
+      actions.LOAD_CONVERSATIONS_SUCCESS, this.handleLoadConversations,
+      actions.LOAD_MESSAGES, this.handleStart,
+      actions.LOAD_NEXT_MESSAGES, this.handleLoadNextStart,
+      actions.LOAD_PREVIOUS_MESSAGES, this.handleLoadPreviousStart,
+      actions.LOAD_MESSAGES_SUCCESS, this.handleLoadMessagesSuccess,
+      actions.LOAD_MESSAGES_FAILURE, this.handleLoadMessagesFailure,
+      actions.CONVERSATION_DRAFT_CHANGE, this.handleDraftChange,
+      actions.REPLY_CONVERSATION, this.handleReplyStart,
+      actions.REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
+      actions.REPLY_CONVERSATION_FAILURE, this.handleReplyFailure,
+      actions.NEW_PUSHED_MESSAGE, this.handlePushedMessage,
+      actions.MARK_AS_READ_SUCCESS, this.handleMarkAsReadSuccess,
+      actions.MARK_AS_READ_FAILURE, this.handleMarkAsReadFailure,
+      actions.DELETE_CONVERSATION, this.handleDeleteConversationStart,
+      actions.DELETE_CONVERSATION_SUCCESS, this.handleDeleteConversationSuccess,
+      actions.DELETE_CONVERSATION_FAILURE, this.handleDeleteConversationFailure,
+      actions.RESET_LAST_LOADED_CONVERSATION, this.handleResetLastLoaded,
+      actions.LOGOUT, this.handleLogout
     );
 
   },

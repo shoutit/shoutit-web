@@ -1,26 +1,6 @@
 import Fluxxor from "fluxxor";
 
-import {
-  LOAD_MESSAGES_SUCCESS,
-  DELETE_CONVERSATION_SUCCESS
-} from "./ConversationsActionTypes";
-
-import {
-  REPLY_CONVERSATION,
-  REPLY_CONVERSATION_SUCCESS,
-  REPLY_CONVERSATION_FAILURE,
-  SEND_MESSAGE,
-  SEND_MESSAGE_SUCCESS,
-  SEND_MESSAGE_FAILURE,
-  REPLY_SHOUT,
-  REPLY_SHOUT_SUCCESS,
-  REPLY_SHOUT_FAILURE,
-  NEW_PUSHED_MESSAGE
-} from "./MessagesActionTypes";
-
-import {
-  LOGOUT
-} from "../auth/AuthActionTypes";
+import * as actions from "../actions/actionTypes";
 
 const initialState = {
   messages: {}
@@ -35,19 +15,19 @@ export default Fluxxor.createStore({
     }
 
     this.bindActions(
-      LOAD_MESSAGES_SUCCESS, this.handleLoadMessagesSuccess,
-      REPLY_CONVERSATION, this.handleSendStart,
-      REPLY_CONVERSATION_SUCCESS, this.handleSendSuccess,
-      REPLY_CONVERSATION_FAILURE, this.handleSendFailure,
-      REPLY_SHOUT, this.handleSendStart,
-      REPLY_SHOUT_SUCCESS, this.handleSendSuccess,
-      REPLY_SHOUT_FAILURE, this.handleSendFailure,
-      SEND_MESSAGE, this.handleSendStart,
-      SEND_MESSAGE_SUCCESS, this.handleSendSuccess,
-      SEND_MESSAGE_FAILURE, this.handleSendFailure,
-      DELETE_CONVERSATION_SUCCESS, this.handleDeleteConversationSuccess,
-      NEW_PUSHED_MESSAGE, this.handlePush,
-      LOGOUT, this.handleLogout
+      actions.LOAD_MESSAGES_SUCCESS, this.handleLoadMessagesSuccess,
+      actions.REPLY_CONVERSATION, this.handleSendStart,
+      actions.REPLY_CONVERSATION_SUCCESS, this.handleSendSuccess,
+      actions.REPLY_CONVERSATION_FAILURE, this.handleSendFailure,
+      actions.REPLY_SHOUT, this.handleSendStart,
+      actions.REPLY_SHOUT_SUCCESS, this.handleSendSuccess,
+      actions.REPLY_SHOUT_FAILURE, this.handleSendFailure,
+      actions.SEND_MESSAGE, this.handleSendStart,
+      actions.SEND_MESSAGE_SUCCESS, this.handleSendSuccess,
+      actions.SEND_MESSAGE_FAILURE, this.handleSendFailure,
+      actions.DELETE_CONVERSATION_SUCCESS, this.handleDeleteConversationSuccess,
+      actions.NEW_PUSHED_MESSAGE, this.handlePush,
+      actions.LOGOUT, this.handleLogout
     );
 
   },

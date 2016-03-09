@@ -12,11 +12,11 @@ import {
   MARK_AS_READ,
   MARK_AS_READ_FAILURE,
   MARK_AS_READ_SUCCESS
-} from "./ConversationsActionTypes";
+} from "./actionTypes";
 
 import * as client from "./ConversationsClient";
 
-export const actions = {
+export default {
 
   loadMessages(id, done) {
     this.dispatch(LOAD_MESSAGES, { id });
@@ -87,7 +87,7 @@ export const actions = {
       promises.push(
 
         new Promise((resolve, reject) =>
-          actions.markConversationAsRead(id, (err, res) => {
+          this.markConversationAsRead(id, (err, res) => {
             if (err) {
               reject(err);
               return;

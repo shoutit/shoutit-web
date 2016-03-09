@@ -2,11 +2,11 @@ import Fluxxor from "fluxxor";
 import debug from "debug";
 
 // import stores
-import AuthStore from "../auth/AuthStore";
-import ChatStore from "../chat/ChatStore";
-import ConversationsStore from "../chat/ConversationsStore";
-import MessagesStore from "../chat/MessagesStore";
-import VideoCallsStore from "../videoCalls/VideoCallsStore";
+import AuthStore from "../stores/AuthStore";
+import ChatStore from "../stores/ChatStore";
+import ConversationsStore from "../stores/ConversationsStore";
+import MessagesStore from "../stores/MessagesStore";
+import VideoCallsStore from "../stores/VideoCallsStore";
 import SuggestionsStore from "./stores/suggestions/SuggestionsStore";
 import { UINotificationsStore } from "./stores/ui_notifications/UINotificationsStore";
 import UsersStore from "./stores/users/store";
@@ -18,11 +18,11 @@ import NotificationsStore from "./stores/notifications/store";
 import DiscoversStore from "./stores/discovers/store";
 
 // import actions
-import { actions as AuthActions } from "../auth/AuthActions";
-import { actions as ChatActions } from "../chat/ChatActions";
-import { actions as ConversationsActions } from "../chat/ConversationsActions";
-import { actions as MessagesActions } from "../chat/MessagesActions";
-import { actions as VideoCallsActions } from "../videoCalls/VideoCallsActions";
+import AuthActions from "../actions/AuthActions";
+import ChatActions from "../actions/ChatActions";
+import ConversationsActions from "../actions/ConversationsActions";
+import MessagesActions from "../actions/MessagesActions";
+import VideoCallsActions from "../actions/VideoCallsActions";
 import UserActions from "./stores/users/actions";
 import ShoutActions from "./stores/shouts/actions";
 import TagActions from "./stores/tags/actions";

@@ -1,6 +1,6 @@
 
 /* global Twilio */
-import * as actionTypes from "./VideoCallsActionTypes";
+import * as actionTypes from "../actions/actionTypes";
 
 function subscribeConversationEvents(conversation, self) {
   conversation.on("disconnected", () => {
@@ -11,7 +11,7 @@ function subscribeConversationEvents(conversation, self) {
   });
 }
 
-export const actions = {
+export default {
 
   initTwilio() {
     this.dispatch(actionTypes.TWILIO_INIT);

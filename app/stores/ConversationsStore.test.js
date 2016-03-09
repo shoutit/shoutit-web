@@ -5,20 +5,7 @@ import sinonChai from "sinon-chai";
 import { Flux } from "fluxxor";
 
 import ConversationsStore from "./ConversationsStore";
-import * as actionTypes from "./ConversationsActionTypes";
-import {
-  REPLY_CONVERSATION,
-  REPLY_CONVERSATION_SUCCESS,
-  REPLY_CONVERSATION_FAILURE,
-  NEW_PUSHED_MESSAGE
-} from "./MessagesActionTypes";
-
-import {
-  LOAD_CONVERSATIONS_SUCCESS
-} from "./ChatActionTypes";
-
-
-import { LOGOUT } from "../auth/AuthActionTypes";
+import * as actions from "../actions/actionTypes";
 
 chai.use(sinonChai);
 
@@ -93,7 +80,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.CONVERSATION_DRAFT_CHANGE,
+        type: actions.CONVERSATION_DRAFT_CHANGE,
         payload: { id: "abc", draft: "foo"}
       });
 
@@ -107,7 +94,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: LOAD_CONVERSATIONS_SUCCESS,
+        type: actions.LOAD_CONVERSATIONS_SUCCESS,
         payload: {
           results: [{ id: "B", bar: false }, { id: "C" }]
         }
@@ -128,7 +115,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.LOAD_MESSAGES,
+        type: actions.LOAD_MESSAGES,
         payload: { id: "abc" }
       });
 
@@ -143,7 +130,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.LOAD_PREVIOUS_MESSAGES,
+        type: actions.LOAD_PREVIOUS_MESSAGES,
         payload: { id: "abc" }
       });
 
@@ -158,7 +145,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.LOAD_NEXT_MESSAGES,
+        type: actions.LOAD_NEXT_MESSAGES,
         payload: { id: "abc" }
       });
 
@@ -173,7 +160,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.LOAD_MESSAGES_FAILURE,
+        type: actions.LOAD_MESSAGES_FAILURE,
         payload: { error: "foo", id: "abc" }
       });
 
@@ -189,7 +176,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.LOAD_MESSAGES_SUCCESS,
+        type: actions.LOAD_MESSAGES_SUCCESS,
         payload: {
           id: "abc",
           results: [{ id: "foo" }, { id: "bar" }],
@@ -218,7 +205,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.LOAD_MESSAGES_SUCCESS,
+        type: actions.LOAD_MESSAGES_SUCCESS,
         payload: {
           id: "abc",
           results: [{ id: "bar" }],
@@ -239,7 +226,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.LOAD_MESSAGES_SUCCESS,
+        type: actions.LOAD_MESSAGES_SUCCESS,
         payload: {
           id: "abc",
           results: [{ id: "bar" }],
@@ -260,7 +247,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: REPLY_CONVERSATION,
+        type: actions.REPLY_CONVERSATION,
         payload: {
           conversationId: "abc",
           message: { id: "bar", created_at: 100 }
@@ -281,7 +268,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: REPLY_CONVERSATION_SUCCESS,
+        type: actions.REPLY_CONVERSATION_SUCCESS,
         payload: {
           conversationId: "abc",
           tempMessageId: "temp",
@@ -301,7 +288,7 @@ describe("ConversationsStore", () => {
       sinon.stub(store, "waitFor", (store, done) => done({status: 500}));
       const spy = sinon.spy(store, "emit");
       flux.dispatcher.dispatch({
-        type: REPLY_CONVERSATION_FAILURE
+        type: actions.REPLY_CONVERSATION_FAILURE
       });
       expect(spy).to.have.been.calledWith("change");
     });
@@ -313,7 +300,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
       const message = { id: "bar", conversation_id: "abc" };
       flux.dispatcher.dispatch({
-        type: NEW_PUSHED_MESSAGE,
+        type: actions.NEW_PUSHED_MESSAGE,
         payload: message
       });
       const conversation = store.get("abc");
@@ -336,7 +323,7 @@ describe("ConversationsStore", () => {
       sinon.stub(store, "waitFor", (store, done) => done());
       const message = { id: "bar", conversation_id: "abc" };
       flux.dispatcher.dispatch({
-        type: NEW_PUSHED_MESSAGE,
+        type: actions.NEW_PUSHED_MESSAGE,
         payload: message
       });
       const conversation = store.get("abc");
@@ -356,7 +343,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
       const message = { id: "foo", conversation_id: "abc" };
       flux.dispatcher.dispatch({
-        type: NEW_PUSHED_MESSAGE,
+        type: actions.NEW_PUSHED_MESSAGE,
         payload: message
       });
       const conversation = store.get("abc");
@@ -372,7 +359,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.MARK_AS_READ_SUCCESS,
+        type: actions.MARK_AS_READ_SUCCESS,
         payload: { id: "abc" }
       });
       const conversation = store.get("abc");
@@ -386,7 +373,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.MARK_AS_READ_FAILURE,
+        type: actions.MARK_AS_READ_FAILURE,
         payload: { id: "abc" }
       });
       const conversation = store.get("abc");
@@ -400,7 +387,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.DELETE_CONVERSATION,
+        type: actions.DELETE_CONVERSATION,
         payload: { id: "abc", deletingError: "a previous error" }
       });
       const conversation = store.get("abc");
@@ -415,7 +402,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
       sinon.stub(store, "waitFor", (store, done) => done());
       flux.dispatcher.dispatch({
-        type: actionTypes.DELETE_CONVERSATION_SUCCESS,
+        type: actions.DELETE_CONVERSATION_SUCCESS,
         payload: { id: "abc" }
       });
       const conversation = store.get("abc");
@@ -429,7 +416,7 @@ describe("ConversationsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.DELETE_CONVERSATION_FAILURE,
+        type: actions.DELETE_CONVERSATION_FAILURE,
         payload: { id: "abc", error: "an error" }
       });
       const conversation = store.get("abc");
@@ -443,7 +430,7 @@ describe("ConversationsStore", () => {
       const store = flux.store("ConversationsStore");
       const spy = sinon.spy(store, "emit");
       flux.dispatcher.dispatch({
-        type: actionTypes.RESET_LAST_LOADED_CONVERSATION
+        type: actions.RESET_LAST_LOADED_CONVERSATION
       });
       expect(store.getLastLoadedId()).to.be.null;
       expect(spy).to.have.been.calledWith("change");
@@ -457,7 +444,7 @@ describe("ConversationsStore", () => {
       });
       const store = flux.store("ConversationsStore");
       flux.dispatcher.dispatch({
-        type: LOGOUT
+        type: actions.LOGOUT
       });
       expect(store.getState().conversations).to.eql({});
       expect(store.getLastLoadedId()).to.be.null;

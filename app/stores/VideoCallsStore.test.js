@@ -5,7 +5,7 @@ import sinonChai from "sinon-chai";
 import { Flux } from "fluxxor";
 
 import VideoCallsStore from "./VideoCallsStore";
-import * as actionTypes from "./VideoCallsActionTypes";
+import * as actions from "../actions/actionTypes";
 
 chai.use(sinonChai);
 
@@ -35,7 +35,7 @@ describe("VideoCallsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.TWILIO_INIT_SUCCESS,
+        type: actions.TWILIO_INIT_SUCCESS,
         payload: { token: "foo", identity: "bar"}
       });
       const state = store.getState();
@@ -50,7 +50,7 @@ describe("VideoCallsStore", () => {
       const spy = sinon.spy(store, "emit");
 
       flux.dispatcher.dispatch({
-        type: actionTypes.TWILIO_INIT_FAILURE,
+        type: actions.TWILIO_INIT_FAILURE,
         payload: {
           error: "bar"
         }

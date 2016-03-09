@@ -1,21 +1,5 @@
 import Fluxxor from "fluxxor";
-import {
-  LOAD_CONVERSATIONS,
-  LOAD_CONVERSATIONS_SUCCESS,
-  LOAD_CONVERSATIONS_FAILURE
-} from "./ChatActionTypes";
-
-import {
-  REPLY_CONVERSATION_SUCCESS
-} from "./MessagesActionTypes";
-
-import {
-  DELETE_CONVERSATION_SUCCESS
-} from "./ConversationsActionTypes";
-
-import {
-  LOGOUT
-} from "../auth/AuthActionTypes";
+import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   next: null,
@@ -31,12 +15,12 @@ export default Fluxxor.createStore({
     this.state = {...initialState};
 
     this.bindActions(
-      LOAD_CONVERSATIONS, this.handleStart,
-      LOAD_CONVERSATIONS_SUCCESS, this.handleSuccess,
-      LOAD_CONVERSATIONS_FAILURE, this.handleFailure,
-      REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
-      DELETE_CONVERSATION_SUCCESS, this.handleDeleteSuccess,
-      LOGOUT, this.handleLogout
+      actionTypes.LOAD_CONVERSATIONS, this.handleStart,
+      actionTypes.LOAD_CONVERSATIONS_SUCCESS, this.handleSuccess,
+      actionTypes.LOAD_CONVERSATIONS_FAILURE, this.handleFailure,
+      actionTypes.REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
+      actionTypes.DELETE_CONVERSATION_SUCCESS, this.handleDeleteSuccess,
+      actionTypes.LOGOUT, this.handleLogout
     );
 
   },

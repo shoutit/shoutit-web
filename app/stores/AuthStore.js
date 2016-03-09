@@ -1,5 +1,5 @@
 import Fluxxor from "fluxxor";
-import * as actionTypes from "./AuthActionTypes";
+import * as actionTypes from "../actions/actionTypes";
 
 const defaultState = {
 

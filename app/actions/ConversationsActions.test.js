@@ -3,8 +3,8 @@ import sinon from "sinon";
 import sinonChai from "sinon-chai";
 import { Request } from "superagent";
 
-import { actions } from "./ConversationsActions";
-import * as actionTypes from "./ConversationsActionTypes";
+import ConversationsActions from "./ConversationsActions";
+import * as actions from "../actions/actionTypes";
 
 chai.use(sinonChai);
 
@@ -13,10 +13,10 @@ describe("ConversationActions", () => {
 
   beforeEach(() => {
     dispatch = sinon.spy();
-    actions.dispatch = dispatch;
+    ConversationsActions.dispatch = dispatch;
   });
   afterEach(() => {
-    delete actions.dispatch;
+    delete ConversationsActions.dispatch;
   });
 
   describe("loadMessages", () => {
@@ -28,31 +28,31 @@ describe("ConversationActions", () => {
         ok: true,
         body: { foo: "bar" }
       }));
-      actions.loadMessages("abc");
+      ConversationsActions.loadMessages("abc");
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.LOAD_MESSAGES,
+        actions.LOAD_MESSAGES,
         { id: "abc" }
       );
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.LOAD_MESSAGES_SUCCESS,
+        actions.LOAD_MESSAGES_SUCCESS,
         { id: "abc", foo: "bar" }
       );
     });
 
     it("should dispatch response on failure", () => {
       sinon.stub(Request.prototype, "end", done => done(null, { ok: false }));
-      actions.loadMessages("abc");
+      ConversationsActions.loadMessages("abc");
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.LOAD_MESSAGES_FAILURE,
+        actions.LOAD_MESSAGES_FAILURE,
         { error: { ok: false }, id: "abc" }
       );
     });
 
     it("should dispatch error on failure", () => {
       sinon.stub(Request.prototype, "end", done => done({ status: 404} ));
-      actions.loadMessages("abc");
+      ConversationsActions.loadMessages("abc");
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.LOAD_MESSAGES_FAILURE,
+        actions.LOAD_MESSAGES_FAILURE,
         { error: { status: 404 }, id: "abc" }
       );
     });
@@ -68,31 +68,31 @@ describe("ConversationActions", () => {
         ok: true,
         body: { results: "foo", "previous": "bar" }
       }));
-      actions.loadPreviousMessages("abc", 1);
+      ConversationsActions.loadPreviousMessages("abc", 1);
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.LOAD_PREVIOUS_MESSAGES,
+        actions.LOAD_PREVIOUS_MESSAGES,
         { id: "abc" }
       );
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.LOAD_MESSAGES_SUCCESS,
+        actions.LOAD_MESSAGES_SUCCESS,
         { id: "abc", results: "foo", previous: "bar" }
       );
     });
 
     it("should dispatch response on failure", () => {
       sinon.stub(Request.prototype, "end", done => done(null, { ok: false }));
-      actions.loadPreviousMessages("abc", "bar");
+      ConversationsActions.loadPreviousMessages("abc", "bar");
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.LOAD_MESSAGES_FAILURE,
+        actions.LOAD_MESSAGES_FAILURE,
         { error: { ok: false }, id: "abc" }
       );
     });
 
     it("should dispatch error on failure", () => {
       sinon.stub(Request.prototype, "end", done => done({ status: 404} ));
-      actions.loadPreviousMessages("abc", "bar");
+      ConversationsActions.loadPreviousMessages("abc", "bar");
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.LOAD_MESSAGES_FAILURE,
+        actions.LOAD_MESSAGES_FAILURE,
         { error: { status: 404 }, id: "abc" }
       );
     });
@@ -108,31 +108,31 @@ describe("ConversationActions", () => {
         ok: true,
         body: { results: "foo", "previous": "bar" }
       }));
-      actions.loadNextMessages("abc", 1);
+      ConversationsActions.loadNextMessages("abc", 1);
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.LOAD_NEXT_MESSAGES,
+        actions.LOAD_NEXT_MESSAGES,
         { id: "abc" }
       );
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.LOAD_MESSAGES_SUCCESS,
+        actions.LOAD_MESSAGES_SUCCESS,
         { id: "abc", results: "foo", next: undefined }
       );
     });
 
     it("should dispatch response on failure", () => {
       sinon.stub(Request.prototype, "end", done => done(null, { ok: false }));
-      actions.loadNextMessages("abc", "bar");
+      ConversationsActions.loadNextMessages("abc", "bar");
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.LOAD_MESSAGES_FAILURE,
+        actions.LOAD_MESSAGES_FAILURE,
         { error: { ok: false }, id: "abc" }
       );
     });
 
     it("should dispatch error on failure", () => {
       sinon.stub(Request.prototype, "end", done => done({ status: 404}, {x: "y"}));
-      actions.loadNextMessages("abc", "bar");
+      ConversationsActions.loadNextMessages("abc", "bar");
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.LOAD_MESSAGES_FAILURE,
+        actions.LOAD_MESSAGES_FAILURE,
         { error: { status: 404 }, id: "abc" }
       );
     });
@@ -141,9 +141,9 @@ describe("ConversationActions", () => {
 
   describe("conversationDraftChange", () => {
     it("should dispatch", () => {
-      actions.conversationDraftChange(1, "foo");
+      ConversationsActions.conversationDraftChange(1, "foo");
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.CONVERSATION_DRAFT_CHANGE,
+        actions.CONVERSATION_DRAFT_CHANGE,
         { draft: "foo", id: 1 }
       );
     });
@@ -158,13 +158,13 @@ describe("ConversationActions", () => {
       sinon.stub(Request.prototype, "end", done => done(null, {
         ok: true
       }));
-      actions.markConversationAsRead("abc", done);
+      ConversationsActions.markConversationAsRead("abc", done);
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.MARK_AS_READ,
+        actions.MARK_AS_READ,
         { id: "abc" }
       );
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.MARK_AS_READ_SUCCESS,
+        actions.MARK_AS_READ_SUCCESS,
         { id: "abc" }
       );
       expect(done).to.have.been.called.twice;
@@ -173,9 +173,9 @@ describe("ConversationActions", () => {
     it("should dispatch response on failure", () => {
       const done = sinon.spy();
       sinon.stub(Request.prototype, "end", done => done(null, { ok: false }));
-      actions.markConversationAsRead("abc", done);
+      ConversationsActions.markConversationAsRead("abc", done);
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.MARK_AS_READ_FAILURE,
+        actions.MARK_AS_READ_FAILURE,
         { error: { ok: false }, id: "abc" }
       );
       expect(done).to.have.been.calledWith({ ok: false });
@@ -185,9 +185,9 @@ describe("ConversationActions", () => {
     it("should dispatch error on failure", () => {
       const done = sinon.spy();
       sinon.stub(Request.prototype, "end", done => done({ status: 404}));
-      actions.markConversationAsRead("abc", done);
+      ConversationsActions.markConversationAsRead("abc", done);
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.MARK_AS_READ_FAILURE,
+        actions.MARK_AS_READ_FAILURE,
         { error: { status: 404 }, id: "abc" }
       );
       expect(done).to.have.been.called.twice;
@@ -202,7 +202,7 @@ describe("ConversationActions", () => {
       sinon.stub(Request.prototype, "end", done => done(null, {
         ok: true
       }));
-      const result = actions.markConversationsAsRead(["abc", "bar"]);
+      const result = ConversationsActions.markConversationsAsRead(["abc", "bar"]);
       expect(result).to.be.a("Promise");
     });
 
@@ -211,7 +211,7 @@ describe("ConversationActions", () => {
       sinon.stub(Request.prototype, "end", done => done(null, {
         ok: true
       }));
-      const result = actions.markConversationsAsRead(["abc", "bar"]);
+      const result = ConversationsActions.markConversationsAsRead(["abc", "bar"]);
       result.then(() => {
         success();
         expect(success).to.have.been.called;
@@ -224,7 +224,7 @@ describe("ConversationActions", () => {
       sinon.stub(Request.prototype, "end", done => done(null, {
         ok: true
       }));
-      const result = actions.markConversationsAsRead(["abc", "bar"]);
+      const result = ConversationsActions.markConversationsAsRead(["abc", "bar"]);
       result.then(() => {
         success();
         expect(success).to.have.been.called;
@@ -241,13 +241,13 @@ describe("ConversationActions", () => {
       sinon.stub(Request.prototype, "end", done => done(null, {
         ok: true
       }));
-      actions.deleteConversation("abc", done);
+      ConversationsActions.deleteConversation("abc", done);
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.DELETE_CONVERSATION,
+        actions.DELETE_CONVERSATION,
         { id: "abc" }
       );
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.DELETE_CONVERSATION_SUCCESS,
+        actions.DELETE_CONVERSATION_SUCCESS,
         { id: "abc" }
       );
       expect(done).to.have.been.called.twice;
@@ -256,9 +256,9 @@ describe("ConversationActions", () => {
     it("should dispatch response on failure", () => {
       const done = sinon.spy();
       sinon.stub(Request.prototype, "end", done => done(null, { ok: false }));
-      actions.deleteConversation("abc", done);
+      ConversationsActions.deleteConversation("abc", done);
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.DELETE_CONVERSATION_FAILURE,
+        actions.DELETE_CONVERSATION_FAILURE,
         { error: { ok: false }, id: "abc" }
       );
       expect(done).to.have.been.calledWith({ ok: false });
@@ -268,9 +268,9 @@ describe("ConversationActions", () => {
     it("should dispatch error on failure", () => {
       const done = sinon.spy();
       sinon.stub(Request.prototype, "end", done => done({ status: 404}, {x: "y"}));
-      actions.deleteConversation("abc", done);
+      ConversationsActions.deleteConversation("abc", done);
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.DELETE_CONVERSATION_FAILURE,
+        actions.DELETE_CONVERSATION_FAILURE,
         { error: { status: 404 }, id: "abc" }
       );
       expect(done).to.have.been.called.twice;
@@ -282,9 +282,9 @@ describe("ConversationActions", () => {
   describe("resetLastLoadedConversation", () => {
 
     it("should dispatch", () => {
-      actions.resetLastLoadedConversation();
+      ConversationsActions.resetLastLoadedConversation();
       expect(dispatch).to.have.been.calledWith(
-        actionTypes.RESET_LAST_LOADED_CONVERSATION
+        actions.RESET_LAST_LOADED_CONVERSATION
       );
     });
 

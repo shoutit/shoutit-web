@@ -2,14 +2,14 @@ import {
   LOAD_CONVERSATIONS,
   LOAD_CONVERSATIONS_SUCCESS,
   LOAD_CONVERSATIONS_FAILURE
-} from "./ChatActionTypes";
+} from "./actionTypes";
 
 import {
   loadPreviousConversations,
   loadNextConversations
 } from "./ChatClient";
 
-export const actions = {
+export default {
 
   loadConversations(done) {
     this.dispatch(LOAD_CONVERSATIONS);

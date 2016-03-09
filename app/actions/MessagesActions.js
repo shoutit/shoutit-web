@@ -9,7 +9,7 @@ import {
   REPLY_SHOUT_SUCCESS,
   REPLY_SHOUT_FAILURE,
   NEW_PUSHED_MESSAGE
-} from "./MessagesActionTypes";
+} from "./actionTypes";
 
 import * as client from "./MessagesClient";
 import { getUnixTime } from "../utils/DateUtils";
@@ -24,7 +24,7 @@ function createTempMessage(data) {
   return message;
 }
 
-export const actions = {
+export default {
 
   replyToConversation(user, conversationId, text, attachments) {
     const message = createTempMessage({

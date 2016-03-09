@@ -1,6 +1,6 @@
-import * as ActionTypes from "./AuthActionTypes";
+import * as actionTypes from "./actionTypes";
 
-export const actions = {
+export default {
 
   loginWithGoogle({ gplus_code, user }) {
     const params = { gplus_code, user, grant_type: "gplus_code" };
@@ -14,7 +14,7 @@ export const actions = {
 
   login({ grant_type="shoutit_login", ...params}) {
     const data = { ...params, grant_type };
-    this.dispatch(ActionTypes.LOGIN_START, {
+    this.dispatch(actionTypes.LOGIN_START, {
       data: { grant_type: grant_type}
     });
     this.flux.service
@@ -22,36 +22,36 @@ export const actions = {
       .body(data)
       .end((error, data) => {
         if (error) {
-          this.dispatch(ActionTypes.LOGIN_FAILURE, {
+          this.dispatch(actionTypes.LOGIN_FAILURE, {
             data: { grant_type: grant_type},
             error
           });
           return;
         }
-        this.dispatch(ActionTypes.LOGIN_SUCCESS, data);
+        this.dispatch(actionTypes.LOGIN_SUCCESS, data);
       });
   },
 
   signup({ name, email, password, user }) {
     const data = { name, email, password, user };
-    this.dispatch(ActionTypes.SIGNUP_START, { name, email, user });
+    this.dispatch(actionTypes.SIGNUP_START, { name, email, user });
     this.flux.service
       .create("profile")
       .body(data)
       .end((error, data) => {
         if (error) {
-          this.dispatch(ActionTypes.SIGNUP_FAILURE, {
+          this.dispatch(actionTypes.SIGNUP_FAILURE, {
             data: { name, email, user},
             error
           });
           return;
         }
-        this.dispatch(ActionTypes.SIGNUP_SUCCESS, data);
+        this.dispatch(actionTypes.SIGNUP_SUCCESS, data);
       });
   },
 
   resetAuthErrors() {
-    this.dispatch(ActionTypes.RESET_AUTH_ERRORS);
+    this.dispatch(actionTypes.RESET_AUTH_ERRORS);
   },
 
   logout() {
@@ -62,52 +62,52 @@ export const actions = {
           console.error(error) // eslint-disable-line
           return;
         }
-        this.dispatch(ActionTypes.LOGOUT);
+        this.dispatch(actionTypes.LOGOUT);
       });
   },
 
   requestPasswordReset(email, done) {
-    this.dispatch(ActionTypes.PASSWORD_RESET_START);
+    this.dispatch(actionTypes.PASSWORD_RESET_START);
     this.flux.service
       .create("passwordReset")
       .body({ email })
       .end((error) => {
         if (error) {
-          this.dispatch(ActionTypes.PASSWORD_RESET_FAILURE, { error });
+          this.dispatch(actionTypes.PASSWORD_RESET_FAILURE, { error });
           done && done(error);
           return;
         }
-        this.dispatch(ActionTypes.PASSWORD_RESET_SUCCESS);
+        this.dispatch(actionTypes.PASSWORD_RESET_SUCCESS);
         done && done();
       });
   },
 
   verifyEmail(token) {
-    this.dispatch(ActionTypes.EMAIL_VERIFICATION_START);
+    this.dispatch(actionTypes.EMAIL_VERIFICATION_START);
     this.flux.service
       .read("emailVerification")
       .params({ token })
       .end((error, data) => {
         if (error) {
-          this.dispatch(ActionTypes.EMAIL_VERIFICATION_FAILURE, { error });
+          this.dispatch(actionTypes.EMAIL_VERIFICATION_FAILURE, { error });
           return;
         }
-        this.dispatch(ActionTypes.EMAIL_VERIFICATION_SUCCESS, data);
+        this.dispatch(actionTypes.EMAIL_VERIFICATION_SUCCESS, data);
       });
   },
 
   sendEmailVerification(email, done) {
-    this.dispatch(ActionTypes.SEND_EMAIL_VERIFICATION_START, { email });
+    this.dispatch(actionTypes.SEND_EMAIL_VERIFICATION_START, { email });
     this.flux.service
       .create("emailVerification")
       .params({ email })
       .end((error, data) => {
         if (error) {
-          this.dispatch(ActionTypes.SEND_EMAIL_VERIFICATION_FAILURE, { error, email });
+          this.dispatch(actionTypes.SEND_EMAIL_VERIFICATION_FAILURE, { error, email });
           done && done(error);
           return;
         }
-        this.dispatch(ActionTypes.SEND_EMAIL_VERIFICATION_SUCCESS, data);
+        this.dispatch(actionTypes.SEND_EMAIL_VERIFICATION_SUCCESS, data);
         done && done();
       });
   }
