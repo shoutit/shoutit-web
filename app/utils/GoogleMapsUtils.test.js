@@ -8,7 +8,7 @@ describe("GoogleMapsUtils", () => {
 
     it("should include latitude and longitude", () => {
       const url = createLinkToGoogleMaps({latitude: 1, longitude: 2});
-      expect(url).to.equal("https://www.google.com/maps?&ll=1,2");
+      expect(url).to.equal("https://www.google.com/maps?&ll=1,2&q=loc:1,2");
     });
 
     it("should include address", () => {

@@ -23,12 +23,14 @@ export function createLinkToGoogleMaps(location) {
   }
   q = q.join(",%20");
 
-  if (q) {
-    search += "&q=" + q;
-  }
-
   if (ll) {
     search += "&" + ll;
+  }
+
+  if (q) {
+    search += "&q=" + q;
+  } else {
+    search += `&q=loc:${location.latitude},${location.longitude}`;
   }
 
   return `https://www.google.com/maps?${search}`;
