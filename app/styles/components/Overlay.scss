@@ -26,9 +26,9 @@
   .Overlay.bottom & {
     top: 0;
     transform: translate(-24px, -18px);
-    background-image: url("../../../../assets/ui-elements/overlays/arrow-bottom.png");
+    background-image: url("../../../assets/ui-elements/overlays/arrow-bottom.png");
   }
   .Overlay.bottom.inverted & {
-    background-image: url("../../../../assets/ui-elements/overlays/arrow-bottom-inverted.png");
+    background-image: url("../../../assets/ui-elements/overlays/arrow-bottom-inverted.png");
   }
 }

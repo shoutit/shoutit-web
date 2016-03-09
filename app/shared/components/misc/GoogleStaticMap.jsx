@@ -1,15 +1,27 @@
 import React from "react";
 import { googleMapsKey } from "../../../../config";
+import { createLinkToGoogleMaps } from "../../../utils/GoogleMapsUtils";
 
 export default function GoogleStaticMap({
+  // pass location
+  location,
+
+  // or the center and a set of markers to add
   center={ latitude: 40.714728, longitude: -73.998672 },
+  markers,
+
   zoom=13,
   width=300,
   height=200,
   language="en-us",
-  mapType="roadmap",
-  markers=[]
+  mapType="roadmap"
+
 }) {
+
+  if (location) {
+    center = location;
+    markers = [location];
+  }
 
   const src = ["https://maps.googleapis.com/maps/api/staticmap?"];
 
@@ -33,6 +45,11 @@ export default function GoogleStaticMap({
     src.push(`markers=size:${size}%7Ccolor:${color}%7Clabel:A%7C${latitude},${longitude}`);
   });
 
+  const href = createLinkToGoogleMaps(location || center);
 
-  return <img src={ src.join("&") } width={width} height={height} />;
+  return (
+    <a href={ href } target="_blank">
+      <img src={ src.join("&") } width={ width } height={ height } />
+    </a>
+  );
 }

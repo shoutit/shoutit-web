@@ -26,7 +26,7 @@ $border-radius: 5px;
   border-top-right-radius: $border-radius;
   position: relative;
   background-color: $background-color;
-  background-image: url("../../../../assets/icons/camera-fill.svg");
+  background-image: url("../../../assets/icons/camera-fill.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 64px;
@@ -43,7 +43,7 @@ $border-radius: 5px;
   }
 
   .ShoutItem.no-thumbnail & {
-    background-image: url("../../../../assets/icons/no-camera-fill.svg");
+    background-image: url("../../../assets/icons/no-camera-fill.svg");
   }
 }
 

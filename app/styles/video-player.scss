@@ -24,7 +24,7 @@
     border-radius: 5px;
     font-weight: bold;
     color: #fff;
-    background: #000 url("../img/logo.png") no-repeat 5px;
+    background: #000 url("../res/img/logo.png") no-repeat 5px;
     background-size: 90px;
     text-shadow: 1px 1px 2px #000;
     opacity: 0.4;
@@ -195,7 +195,7 @@
           background-color:$si-green;
       }
       }
-      
+
       .buffer_percent{
         top: 0; bottom: 0;
         position: absolute;
