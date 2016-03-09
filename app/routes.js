@@ -14,12 +14,10 @@ import NotFound from "./shared/components/misc/notfound.jsx";
 import Page from "./shared/components/profile/page/pageProfile.jsx";
 import Profile from "./shared/components/profile/profile.jsx";
 import ProfileContainer from "./shared/components/profile/profileContainer.jsx";
-import Reduced from "./shared/components/reduced/reduced.jsx";
 import SearchContainer from "./shared/components/search/searchContainer.jsx";
 import Search from "./shared/components/search/search.jsx";
 import ShoutContainer from "./shared/components/shout/shoutContainer.jsx";
 import Shout from "./shared/components/shout/shoutDetail.jsx";
-import Static from "./shared/components/helper/static.jsx";
 import TagProfileContainer from "./shared/components/tag/tagProfileContainer.jsx";
 import TagProfile from "./shared/components/tag/tagProfile.jsx";
 import TagProfileListeners from "./shared/components/tag/tagProfileListeners.jsx";
@@ -72,11 +70,6 @@ const routes = (
         </Route>
         <Route path="/messages" component={ Chat  }>
           <Route path="/messages/:id" component={ Conversation } />
-        </Route>
-        <Route path="static" component={ Reduced }>
-          <Route path="/tos" component={ Static }/>
-          <Route path="/rules" component={ Static }/>
-          <Route path="/policy" component={ Static }/>
         </Route>
         <Route path="/auth/verify_email" component={ VerifyEmail }/>
         <Route path="*" component={ NotFound }/>
