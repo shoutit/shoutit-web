@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, IndexRoute } from "react-router";
 
-import App from "./shared/components/App";
+import Application from "./Application";
 import Chat from "./chat/Chat";
 import Conversation from "./chat/Conversation";
 import Discover from "./shared/components/discover/discover.jsx";
@@ -31,7 +31,7 @@ import LoginRedirect from "./shared/components/helper/LoginRedirect";
 import ModalHost from "./shared/components/helper/ModalHost";
 
 const routes = (
-  <Route component={ App }>
+  <Route component={ Application }>
     <Route component={ LoginRedirect }>
       <Route component={ ModalHost }>
 

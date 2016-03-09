@@ -1,20 +1,20 @@
 import React, { PropTypes } from "react";
 import { FluxMixin, StoreWatchMixin } from "fluxxor";
-import {createSlug} from "./helper";
-import Header from "./header";
-import MainPage from "./main/mainPage.jsx";
-import NotificationHost from "./notifications/NotificationHost.jsx";
-import VideoCallHost from "../../videoCalls/VideoCallHost";
+import {createSlug} from "./shared/components/helper";
+import Header from "./shared/components/header";
+import MainPage from "./shared/components/main/mainPage.jsx";
+import NotificationHost from "./shared/components/notifications/NotificationHost.jsx";
+import VideoCallHost from "./videoCalls/VideoCallHost";
 
 const pagesWithoutHeader = [ MainPage ];
 
 if (process.env.BROWSER) {
-  require("styles/components/App.scss");
+  require("./Application.scss");
 }
 
 export default React.createClass({
 
-  displayName: "App",
+  displayName: "Application",
 
   propTypes: {
     flux: PropTypes.object.isRequired
