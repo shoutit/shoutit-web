@@ -4,7 +4,7 @@ import sinonChai from "sinon-chai";
 import { Request } from "superagent";
 
 import MessagesActions from "./MessagesActions";
-import * as actions from "../actions/actionTypes";
+import * as actions from "./actionTypes";
 
 chai.use(sinonChai);
 

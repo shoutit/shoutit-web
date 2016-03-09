@@ -1,6 +1,6 @@
-@import "../constants/dimensions.scss";
+@import "../styles/constants/dimensions.scss";
 
-.NotificationHost {
+.UINotificationsHost {
   position: fixed;
   top: $header-height + 10px;
   height: 0;

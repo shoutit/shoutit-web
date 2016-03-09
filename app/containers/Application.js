@@ -3,7 +3,7 @@ import { FluxMixin, StoreWatchMixin } from "fluxxor";
 import {createSlug} from "../shared/components/helper";
 import Header from "../shared/components/header";
 import MainPage from "../shared/components/main/mainPage.jsx";
-import NotificationHost from "../shared/components/notifications/NotificationHost.jsx";
+import UINotificationsHost from "../ui/UINotificationsHost";
 import VideoCallHost from "../videoCalls/VideoCallHost";
 
 const pagesWithoutHeader = [ MainPage ];
@@ -114,7 +114,7 @@ export default React.createClass({
         <div className="App-content">
           { React.cloneElement(children, props) }
         </div>
-        <NotificationHost
+        <UINotificationsHost
           notifications={ this.state.uiNotifications }
           flux={ flux }
         />

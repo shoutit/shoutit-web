@@ -1,6 +1,6 @@
 
 /* global Twilio */
-import * as actionTypes from "../actions/actionTypes";
+import * as actionTypes from "./actionTypes";
 
 function subscribeConversationEvents(conversation, self) {
   conversation.on("disconnected", () => {

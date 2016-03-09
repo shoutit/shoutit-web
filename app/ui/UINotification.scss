@@ -1,9 +1,9 @@
-@import "../constants/colors.scss";
-@import "../constants/dimensions.scss";
-@import "../constants/shadows.scss";
-@import "../_flexbox.scss";
+@import "../styles/constants/colors.scss";
+@import "../styles/constants/dimensions.scss";
+@import "../styles/constants/shadows.scss";
+@import "../styles/_flexbox.scss";
 
-.Notification {
+.UINotification {
   height: 0;
   width: 500px;
   border-radius: $border-radius;
@@ -38,34 +38,34 @@
     margin-top: 0 !important;
   }
 
-  .Notification + & {
+  .UINotification + & {
     margin-top: 10px;
   }
 
 }
 
-.Notification-content {
+.UINotification-content {
   position: relative;
   padding: 15px 20px;
   @include flexbox();
 }
 
-.Notification-icon {
+.UINotification-icon {
   @include align-self(center);
 }
 
-.Notification-message {
+.UINotification-message {
   @include flex(1);
   padding: 0 10px;
 }
 
-.Notification-dismiss {
+.UINotification-dismiss {
   position: absolute;
   top: 0;
   right: 5px;
 }
 
-.Notification-buttons {
+.UINotification-buttons {
   background-color: white;
   text-align: center;
   padding: 10px;

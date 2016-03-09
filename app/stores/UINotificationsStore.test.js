@@ -1,7 +1,7 @@
 import chai, { expect } from "chai";
 import sinonChai from "sinon-chai";
 
-import { UINotificationsStore } from "../../app/shared/stores/ui_notifications/UINotificationsStore";
+import UINotificationsStore from "./UINotificationsStore";
 
 import { Flux } from "fluxxor";
 
