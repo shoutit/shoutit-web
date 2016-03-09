@@ -1,16 +1,16 @@
-@import "../styles/_flexbox.scss";
+
 
 .MessageGroup {
-  @include flexbox();
+  display: flex;
 }
 
 .MessageGroup-userImage {
-  @include flexbox();
-  @include flex-direction(column);
-  @include justify-content(flex-end);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   padding-left: 10px;
 }
 
 .MessageGroup-messages {
-  @include flex(1);
+  flex: 1;
 }

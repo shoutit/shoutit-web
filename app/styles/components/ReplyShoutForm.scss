@@ -1,7 +1,7 @@
 @import "../constants/colors.scss";
 @import "../flexbox.scss";
 .ReplyShoutForm {
-  @include flexbox();
+  display: flex;
   background: #F6F7F8;
   padding: 10px 20px;
 }
