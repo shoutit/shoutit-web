@@ -2,13 +2,13 @@
   "name": "shoutit-web",
   "version": "0.0.1",
   "description": "Shoutit web app",
-  "main": "app.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://bitbucket.org/shoutitcom/shoutit_webapp.git"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "node index.js",
     "build": "NODE_ENV=production webpack -p --bail",
     "lint": "eslint app test",
     "test": "mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel/register --recursive test app/**/*.test.js",
