@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, IndexRoute } from "react-router";
 
-import Application from "./Application";
-import Chat from "./chat/Chat";
-import Conversation from "./chat/Conversation";
+import Application from "./containers/Application";
+import Chat from "./containers/Chat";
+import Conversation from "./containers/Conversation";
 import Discover from "./shared/components/discover/discover.jsx";
 import DiscoverHome from "./shared/components/discover/discoverHome.jsx";
 import DiscoverPage from "./shared/components/discover/discoverPage.jsx";

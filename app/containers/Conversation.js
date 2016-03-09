@@ -2,11 +2,11 @@ import React from "react";
 import { FluxMixin, StoreWatchMixin } from "fluxxor";
 import { History } from "react-router";
 
-import ConversationTitle from "./ConversationTitle";
-import ConversationDeleteDialog from "./ConversationDeleteDialog";
+import ConversationTitle from "../chat/ConversationTitle";
+import ConversationDeleteDialog from "../chat/ConversationDeleteDialog";
 import UserShoutsSelectDialog from "../shared/components/user/UserShoutsSelectDialog.jsx";
-import MessagesList from "./MessagesList";
-import MessageReplyForm from "./MessageReplyForm";
+import MessagesList from "../chat/MessagesList";
+import MessageReplyForm from "../chat/MessageReplyForm";
 import Progress from "../shared/components/helper/Progress.jsx";
 
 let subscribe;

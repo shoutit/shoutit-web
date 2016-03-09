@@ -3,8 +3,8 @@ import DocumentTitle from "react-document-title";
 
 import FixedHeightPage from "../shared/components/helper/FixedHeightPage.jsx";
 
-import ConversationsTitle from "./ConversationsTitle";
-import ConversationsList from "./ConversationsList";
+import ConversationsTitle from "../chat/ConversationsTitle";
+import ConversationsList from "../chat/ConversationsList";
 
 if (process.env.BROWSER) {
   require("./Chat.scss");

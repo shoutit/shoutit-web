@@ -1,10 +1,10 @@
 import React, { PropTypes } from "react";
 import { FluxMixin, StoreWatchMixin } from "fluxxor";
-import {createSlug} from "./shared/components/helper";
-import Header from "./shared/components/header";
-import MainPage from "./shared/components/main/mainPage.jsx";
-import NotificationHost from "./shared/components/notifications/NotificationHost.jsx";
-import VideoCallHost from "./videoCalls/VideoCallHost";
+import {createSlug} from "../shared/components/helper";
+import Header from "../shared/components/header";
+import MainPage from "../shared/components/main/mainPage.jsx";
+import NotificationHost from "../shared/components/notifications/NotificationHost.jsx";
+import VideoCallHost from "../videoCalls/VideoCallHost";
 
 const pagesWithoutHeader = [ MainPage ];
 
