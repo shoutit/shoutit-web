@@ -16,4 +16,4 @@ ratings:
 exclude_paths:
 - test/
 - public/
-- **/*.test.js
+- "**.test.js"
