@@ -10,8 +10,8 @@ import createHistory from "history/lib/createBrowserHistory";
 import debug from "debug";
 import Fetchr from "fetchr";
 
-import routes from "../shared/routes";
-import Flux from "../shared/flux";
+import routes from "../routes";
+import Flux from "../Flux";
 import "../client/initializeFacebook";
 import gAnalytics from "../client/ga";
 import { setup as setupPusher } from "../client/pusher";

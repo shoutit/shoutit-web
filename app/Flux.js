@@ -2,36 +2,36 @@ import Fluxxor from "fluxxor";
 import debug from "debug";
 
 // import stores
-import AuthStore from "../stores/AuthStore";
-import ChatStore from "../stores/ChatStore";
-import ConversationsStore from "../stores/ConversationsStore";
-import MessagesStore from "../stores/MessagesStore";
-import VideoCallsStore from "../stores/VideoCallsStore";
-import SuggestionsStore from "./stores/suggestions/SuggestionsStore";
-import { UINotificationsStore } from "./stores/ui_notifications/UINotificationsStore";
-import UsersStore from "./stores/users/store";
-import ShoutStore from "./stores/shouts/store";
-import TagStore from "./stores/tags/store";
-import SearchStore from "./stores/search/store";
-import LocationsStore from "./stores/locations/store";
-import NotificationsStore from "./stores/notifications/store";
-import DiscoversStore from "./stores/discovers/store";
+import AuthStore from "./stores/AuthStore";
+import ChatStore from "./stores/ChatStore";
+import ConversationsStore from "./stores/ConversationsStore";
+import MessagesStore from "./stores/MessagesStore";
+import VideoCallsStore from "./stores/VideoCallsStore";
+import SuggestionsStore from "./shared/stores/suggestions/SuggestionsStore";
+import { UINotificationsStore } from "./shared/stores/ui_notifications/UINotificationsStore";
+import UsersStore from "./shared/stores/users/store";
+import ShoutStore from "./shared/stores/shouts/store";
+import TagStore from "./shared/stores/tags/store";
+import SearchStore from "./shared/stores/search/store";
+import LocationsStore from "./shared/stores/locations/store";
+import NotificationsStore from "./shared/stores/notifications/store";
+import DiscoversStore from "./shared/stores/discovers/store";
 
 // import actions
-import AuthActions from "../actions/AuthActions";
-import ChatActions from "../actions/ChatActions";
-import ConversationsActions from "../actions/ConversationsActions";
-import MessagesActions from "../actions/MessagesActions";
-import VideoCallsActions from "../actions/VideoCallsActions";
-import UserActions from "./stores/users/actions";
-import ShoutActions from "./stores/shouts/actions";
-import TagActions from "./stores/tags/actions";
-import SearchActions from "./stores/search/actions";
-import LocationsActions from "./stores/locations/actions";
-import NotificationsActions from "./stores/notifications/actions";
-import DiscoversActions from "./stores/discovers/actions";
-import SuggestionsActions from "./stores/suggestions/actions";
-import UINotificationsActions from "./stores/ui_notifications/actions";
+import AuthActions from "./actions/AuthActions";
+import ChatActions from "./actions/ChatActions";
+import ConversationsActions from "./actions/ConversationsActions";
+import MessagesActions from "./actions/MessagesActions";
+import VideoCallsActions from "./actions/VideoCallsActions";
+import UserActions from "./shared/stores/users/actions";
+import ShoutActions from "./shared/stores/shouts/actions";
+import TagActions from "./shared/stores/tags/actions";
+import SearchActions from "./shared/stores/search/actions";
+import LocationsActions from "./shared/stores/locations/actions";
+import NotificationsActions from "./shared/stores/notifications/actions";
+import DiscoversActions from "./shared/stores/discovers/actions";
+import SuggestionsActions from "./shared/stores/suggestions/actions";
+import UINotificationsActions from "./shared/stores/ui_notifications/actions";
 
 export default function Flux(initialState={}, fetchr) {
 

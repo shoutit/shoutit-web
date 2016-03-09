@@ -32,8 +32,8 @@ var React = require("react"),
   ReactRouter = require("react-router"),
   ReactDOMServer = require("react-dom/server");
 
-var Flux = require("../shared/flux"),
-  routes = require("../shared/routes"),
+var Flux = require("../Flux"),
+  routes = require("../routes"),
   DocumentTitle = require("react-document-title");
 
 // middleware
