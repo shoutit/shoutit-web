@@ -165,7 +165,7 @@ export default React.createClass({
   },
 
   render() {
-    const shout = this.props.shout;
+    const { shout, currentLocation } = this.props;
 
     return (
       <div>
@@ -185,7 +185,11 @@ export default React.createClass({
               {this.renderText(shout)}
             </Grid>
             <Grid fluid>
-              <TagButtons tags={shout.filters} showWithType/>
+              <TagButtons
+                tags={shout.filters}
+                showWithType
+                currentLocation={ currentLocation }
+              />
             </Grid>
           </div>
         </ItemScope>
