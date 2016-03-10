@@ -91,7 +91,7 @@ export default React.createClass({
       <div className="profile-holder">
         <Grid >
           <Column size="12" clear={true}>
-            { React.cloneElement(this.props.children, { ...this.state.users }) }
+            { React.cloneElement(this.props.children, { ...this.state.users, currentLocation }) }
           </Column>
           <Column size="3">
             <TagsCard

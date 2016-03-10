@@ -70,7 +70,7 @@ export default class ProfileShouts extends React.Component {
   }
 
   render() {
-    const { username, shouts } = this.props;
+    const { username, shouts, currentLocation } = this.props;
     const userShouts = shouts[username] && shouts[username].list;
     const loading = shouts[username] && shouts[username].loading;
 
@@ -85,6 +85,7 @@ export default class ProfileShouts extends React.Component {
                 key={"shout-" + i}
                 shout={ shout }
                 index={ i }
+                currentLocation={ currentLocation }
               />
             </Grid>
           )
