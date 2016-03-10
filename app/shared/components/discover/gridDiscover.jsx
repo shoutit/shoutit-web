@@ -1,9 +1,11 @@
 import React from "react";
 import {Link} from "react-router";
 import {History} from "react-router";
-import {Image, Column} from "../helper";
+import { Column } from "../helper";
 import {ItemProp} from "../helper/microdata";
-import currency from "../../consts/currencies";
+
+import { getVariation } from "../../../utils/APIUtils";
+
 export default React.createClass({
   displayName: "GridDicsover",
   mixins: [History],
@@ -20,7 +22,7 @@ export default React.createClass({
     thumbnail = thumbnail;
     return thumbnail ?
             <div className="img"
-                 style={{backgroundImage:`url(${thumbnail.replace(/\.jpg$/i, "_medium.jpg")})`}}></div>
+                 style={{backgroundImage:`url(${getVariation(thumbnail)})`}}></div>
             : <div className="img"></div>;
   },
 

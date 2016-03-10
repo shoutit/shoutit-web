@@ -16,6 +16,8 @@ import VideoPlayer from "./videoPlayer.jsx";
 import {Column, Grid, ReactVisible} from "../helper";
 import currency from "../../consts/currencies";
 
+import { getVariation } from "../../../utils/APIUtils";
+
 const types = {
   offer: "Offer",
   request: "Request"
@@ -73,8 +75,8 @@ export default React.createClass({
     // adding images
     const images = shout.images.map(function (imageSrc) {
       const img = {};
-      img.original = imageSrc.replace(/\..{3}$/i, "_large." + imageSrc.split(".").pop());
-      img.thumbnail = imageSrc.replace(/\..{3}$/i, "_small." + imageSrc.split(".").pop());
+      img.original = getVariation(imageSrc, "large");
+      img.thumbnail = getVariation(imageSrc, "small");
       return img;
     });
 

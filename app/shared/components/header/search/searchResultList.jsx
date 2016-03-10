@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
 
+import { getVariation } from "../../../../utils/APIUtils";
+
 export default React.createClass({
   displayName: "SearchResultList",
 
@@ -21,7 +23,7 @@ export default React.createClass({
               onClick={onBlurSearch}>
              <div  className="list-search-item" key={"search-header-shout-" + i}>
                <div className="img-search-holder">
-                 <img src={shout.thumbnail} size="small" className="img-search-thumb"/>
+                 <img src={getVariation(shout.thumbnail, "small")} size="small" className="img-search-thumb"/>
                </div>
                <div className="text-search-holder">
                 {shout.title}
@@ -61,7 +63,7 @@ export default React.createClass({
               onClick={onBlurSearch}>
             <div className="list-search-item" key={"search-header-user-" + i}>
               <div className="img-search-holder">
-                 <img src={user.image} className="img-search-thumb"/>
+                 { user.image && <img src={getVariation(user.image, "small")} className="img-search-thumb"/> }
                </div>
                <div style={{verticalAlign:'10px',display:'inline-block'}}>
                 {user.name}

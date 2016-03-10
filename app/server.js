@@ -20,6 +20,7 @@ import HtmlDocument from "./server/HtmlDocument";
 import * as services from "./services";
 
 import config from "../config";
+import { getVariation } from "./utils/APIUtils";
 
 import { uploadImageMiddleware, deleteImageMiddleware } from "./server/services/images";
 
@@ -138,7 +139,7 @@ function getMetaFromData(relUrl, data) {
         shoutTypePrefix: capitalize(shout.type),
         ogType: "shoutitcom:" + shout.type,
         title: shout.title + " - Shoutit",
-        image: shout.thumbnail,
+        image: shout.thumbnail ? getVariation(shout.thumbnail) : null,
         user: shout.user.name,
         description: capitalize(shout.type) + " by " + shout.user.name + ": " + shout.text,
         price: shout.price ? shout.price + " " + shout.currency : "",
@@ -153,7 +154,7 @@ function getMetaFromData(relUrl, data) {
         type: "user",
         ogType: "shoutitcom:user",
         title: user.name,
-        image: user.image
+        image: getVariation(user.image)
       };
     }
     break;
