@@ -1,7 +1,8 @@
 import React from "react";
 import {Link} from "react-router";
-import {Column, Grid, Progress} from "../helper";
 import currencyFormatter from "currency-formatter";
+import {Column, Grid, Progress} from "../helper";
+import { getVariation } from "../../../utils/APIUtils";
 
 export default function SuggestShoutCard({ loading, shout }) {
   return (
@@ -13,9 +14,11 @@ export default function SuggestShoutCard({ loading, shout }) {
         <Progress />
       : shout &&
         <Grid fluid={true}>
+          { shout.thumbnail &&
           <Link to={`/shout/${shout.id}`}>
-            <div style={{backgroundImage:`url(${shout.thumbnail})`}} className="suggest-image" ></div>
+            <div style={{backgroundImage:`url(${getVariation(shout.thumbnail, "small")})`}} className="suggest-image" ></div>
           </Link>
+          }
           <Grid fluid={true}>
               <Grid fluid={true} className="suggest-title">
                 <Link to={`/shout/${shout.id}`}>

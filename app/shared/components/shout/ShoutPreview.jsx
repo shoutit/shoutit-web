@@ -17,6 +17,7 @@ import { kebabCase, trunc } from "lodash/string";
 import { ItemScope, ItemProp } from "../helper/microdata";
 
 import { imagesPath } from "../../../../config";
+import { getVariation } from "../../../utils/APIUtils";
 
 if (process.env.BROWSER) {
   require("styles/components/ShoutPreview.scss");
@@ -39,7 +40,8 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
   const title = encodeURIComponent(kebabCase(shout.title));
   const currency = shout.origCurrency || shout.currency;
 
-  const thumbnail = shout.thumbnail && shout.thumbnail.replace(/\.jpg$/i, "_medium.jpg") ||
+  const thumbnail = shout.thumbnail ?
+    getVariation(shout.thumbnail) :
     `${imagesPath}/pattern@2x.png`;
 
   let content;
@@ -145,4 +147,3 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
     </div>
   );
 }
-

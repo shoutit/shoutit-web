@@ -5,12 +5,10 @@ import moment from "moment";
 import currencyFormatter from "currency-formatter";
 
 //import Rating from './rating.jsx';
-import ShoutDetailActions from "./shoutDetailActions.jsx";
 import TagButtons from "../general/TagButtons.jsx";
 import Separator from "../general/separator.jsx";
 import ReplyShoutForm from "../shout/ReplyShoutForm.jsx";
 
-import {Image} from "../helper";
 import {ItemProp, ItemScope} from "../helper/microdata";
 
 import ImageGallery from "./ImageGallery.react.jsx";
@@ -18,8 +16,9 @@ import VideoPlayer from "./videoPlayer.jsx";
 import {Column, Grid, ReactVisible} from "../helper";
 import currency from "../../consts/currencies";
 
+import { getVariation } from "../../../utils/APIUtils";
 
-let types = {
+const types = {
   offer: "Offer",
   request: "Request"
 };
@@ -27,8 +26,12 @@ let types = {
 export default React.createClass({
   displayName: "ShoutDetailBody",
 
+  shouldComponentUpdate(nextProps) {
+    return nextProps.shout.id && nextProps.shout.id !== this.props.shout.id;
+  },
+
   renderSubtitle(shout) {
-    let link = shout.user.is_activated ?
+    const link = shout.user.is_activated ?
       <Link to={`/user/${encodeURIComponent(shout.user.username)}`}>
         {shout.user.name}
       </Link> : shout.user.name;
@@ -46,7 +49,7 @@ export default React.createClass({
 
   renderVideos(shout) {
     if (shout.videos.length) {
-      let videoOptions = {
+      const videoOptions = {
         url: shout.videos[0].url,
         poster: shout.videos[0].thumbnail_url
       };
@@ -57,38 +60,34 @@ export default React.createClass({
   },
 
   renderImages(shout) {
-    if (shout.images.length) {
-      let videos = [];
-      // add video first
-      if (shout.videos.length) {
-        videos.push({
-          original: shout.videos[0].url,
-          thumbnail: shout.videos[0].thumbnail_url,
-          isVideo: true
-        });
-      }
-      // adding images
-      let images = shout.images.map(function (imageSrc) {
-        let img = {};
-        img.original = imageSrc.replace(/\..{3}$/i, "_large." + imageSrc.split(".").pop());
-        img.thumbnail = imageSrc.replace(/\..{3}$/i, "_small." + imageSrc.split(".").pop());
-        return img;
-      });
-
-      let items = [...videos, ...images];
-      let singleImage = images.length === 1;
-
-      return <ImageGallery
-        items={items}
-        autoPlay={false}
-        showThumbnails={!singleImage}
-        onSlide={this.handleSlide}/>;
-    } else {
+    if (!shout.images.length) {
       return [];
     }
-  },
+    const videos = [];
+    // add video first
+    if (shout.videos.length) {
+      videos.push({
+        original: shout.videos[0].url,
+        thumbnail: shout.videos[0].thumbnail_url,
+        isVideo: true
+      });
+    }
+    // adding images
+    const images = shout.images.map(function (imageSrc) {
+      const img = {};
+      img.original = getVariation(imageSrc, "large");
+      img.thumbnail = getVariation(imageSrc, "small");
+      return img;
+    });
 
-  handleSlide(index) {
+    const items = [...videos, ...images];
+    const singleImage = images.length === 1;
+
+    return <ImageGallery
+      items={items}
+      autoPlay={false}
+      showThumbnails={!singleImage}
+    />;
   },
 
   renderText(shout) {
@@ -102,9 +101,9 @@ export default React.createClass({
   },
 
   renderTitle(shout) {
-    let city = encodeURIComponent(this.props.current.city),
-      country = encodeURIComponent(this.props.current.country),
-      state = encodeURIComponent(this.props.current.state);
+    const city = encodeURIComponent(this.props.current.city);
+    const country = encodeURIComponent(this.props.current.country);
+    const state = encodeURIComponent(this.props.current.state);
 
     return (
       <Column fluid={true} clear={true} size="11">
@@ -157,13 +156,6 @@ export default React.createClass({
         </ItemProp>
       </Column>
     );
-  },
-
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.shout.id && nextProps.shout.id !== this.props.shout.id) {
-      return true;
-    }
-    return false;
   },
 
   render() {
