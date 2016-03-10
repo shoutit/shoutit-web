@@ -166,7 +166,7 @@ export default class Header extends Component {
             target={ () => overlayTarget }>
               <HeaderProfileOverlay
                 loggedUser={ loggedUser }
-                onLogoutClick={ () => flux.actions.logout() }
+                onLogoutClick={ () => flux.actions.logout(history) }
               />
           </Overlay>,
 

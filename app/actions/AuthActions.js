@@ -54,16 +54,12 @@ export default {
     this.dispatch(actionTypes.RESET_AUTH_ERRORS);
   },
 
-  logout() {
-    this.flux.service
-      .delete("session")
-      .end((error) => {
-        if (error) {
-          console.error(error) // eslint-disable-line
-          return;
-        }
-        this.dispatch(actionTypes.LOGOUT);
-      });
+  logout(history) {
+    this.dispatch(actionTypes.LOGOUT);
+    this.flux.service.delete("session");
+    if (history) {
+      history.pushState(null, "/");
+    }
   },
 
   requestPasswordReset(email, done) {
