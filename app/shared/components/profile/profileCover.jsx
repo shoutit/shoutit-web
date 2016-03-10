@@ -1,11 +1,13 @@
 import React from 'react';
 import {Grid, Icon} from '../helper';
-import Button from '../general/button.jsx';
 import AvatarEditor from 'react-avatar-editor';
 
 import { imagesPath } from "../../../../config";
-
 var defaultCoverImage = `${imagesPath}/pattern@2x.png`;
+
+if (process.env.BROWSER) {
+  require("./ProfileCover.scss");
+}
 
 export default React.createClass({
     displayName: "ProfileCover",
@@ -47,7 +49,7 @@ export default React.createClass({
                 );
         } else {
             return (
-                <Grid fluid={true} className="profile-cover" style={imgStyle}>
+                <Grid fluid={true} className="ProfileCover" style={imgStyle}>
                     {this.renderEditControls()}
                 </Grid>
                 );
@@ -59,7 +61,7 @@ export default React.createClass({
         if(editMode) {
 
             return (
-                <Grid fluid={true} className="profile-cover-editmode">
+                <Grid fluid={true} className="ProfileCover-editMode">
                     {/* Could be refactored as a separate image edit layer component to handle uploads*/}
                     <label>
                         <input type="file" accept=".jpg,.png" onChange={this.handleImageFile} style={{position: "fixed", top: "-100em"}} />
@@ -97,14 +99,14 @@ export default React.createClass({
     },
 
     renderEditButton() {
-        const isOwner = this.props.user.is_owner;
-        const editMode = this.props.editMode;
+        const { user, editMode } = this.props;
+        const buttonClass = user.cover? "ProfileCover-editButton": "ProfileCover-editButton default";
 
-        if(isOwner && !editMode) {
+        if(user.is_owner && !editMode) {
             return (
-                <div className="profile-cover-edit-button" onClick={this.onEditClicked}>
-                    <Icon name="edit-white" />
-                    <span>Edit Profile</span>
+                <div className="ProfileCover-editHolder" onClick={this.onEditClicked}>
+                  <Icon name="edit-white" />
+                  <span className={ buttonClass }>Edit Profile</span>
                 </div>
                 );
         } else {
