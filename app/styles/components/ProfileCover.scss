@@ -1,0 +1,58 @@
+@import "../pages/_mixins.scss";
+@import "../constants/defaults.scss";
+@import "../constants/colors.scss";
+
+.ProfileCover {
+  @include paper();
+  position: relative;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 300px;
+}
+
+.ProfileCover-editHolder {
+  position: absolute;
+  left: 200px;
+  z-index: 1;
+  top: 265px;
+  float: left;
+  cursor: pointer;
+  .icon {
+    display: inline-block;
+    vertical-align: bottom;
+  }
+}
+
+.ProfileCover-editButton {
+  font-size: $default-font-size;
+  font-weight: 500;
+  margin-left: 5px;
+  text-shadow: 0px 1px 1px rgba(0,0,0,0.3);
+  color: $si-white;
+  &.default {
+    color: $si-green;
+    text-shadow: none;
+  }
+}
+
+.ProfileCover-editMode {
+  position: relative;
+  background: rgba(0,0,0,0.6);
+  height: inherit;
+  label {
+    width: inherit;
+    height: inherit;
+    float: left;
+    cursor: pointer;
+  }
+  .img-holder {
+    margin: 116px auto 50px;
+  }
+  .icon {
+    margin: 15px auto;
+  }
+  h3 {
+    text-align: center;
+    color: $si-white;
+  }
+}

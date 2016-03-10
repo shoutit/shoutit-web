@@ -2,7 +2,6 @@ import React from "react";
 import SearchCardFilters from "./searchCardFilters.jsx";
 import { StoreWatchMixin } from "fluxxor";
 import { Link, History } from "react-router";
-import { assign } from "lodash/object";
 
 export default React.createClass({
   displayName: "SearchCard",
@@ -34,10 +33,10 @@ export default React.createClass({
     }
   },
 
-  onSubmit(filters){
+  onSubmit(filters) {
     const searchParams = {};
     const searchQueries = {};
-    const { searchKeyword } = this.props;
+    const { searchKeyword, flux, currentLocation } = this.props;
 
     // Departing URL params from queries
     searchParams.category = filters.category;
@@ -52,12 +51,11 @@ export default React.createClass({
       searchQueries.tags = filters.tags : undefined;
 
     // setting location if available
-    const {currentLocation} = this.props;
     if (currentLocation) {
       currentLocation.city ?
-        searchQueries.city = encodeURIComponent(currentLocation.city) : undefined;
+        searchQueries.city = currentLocation.city : undefined;
       currentLocation.country ?
-        searchQueries.country = encodeURIComponent(currentLocation.country) : undefined;
+        searchQueries.country = currentLocation.country : undefined;
     }
 
     // create url path (new react router path style)
@@ -66,12 +64,10 @@ export default React.createClass({
       urlPath = `${urlPath}/${searchParams.term}`;
     }
 
-    this.updateSearch(searchParams, searchQueries, urlPath);
-  },
+    const { history } = this;
 
-  updateSearch(params, queries, path) {
-    this.history.replaceState(null, path, queries);
-    this.props.flux.actions.searchShouts(assign(params, queries));
+    history.replaceState(null, urlPath, searchQueries);
+    flux.actions.searchShouts({ ...searchParams, ...searchQueries });
   },
 
   render() {
