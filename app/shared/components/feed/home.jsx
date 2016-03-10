@@ -1,7 +1,7 @@
 import React from "react";
 import {Grid, Column} from "../helper";
 import {StoreWatchMixin} from "fluxxor";
-import {ListeningCard, ListenToCard, ProfileCard, TagsCard, SuggestShoutCard} from "../cards";
+import { SideFooterCard, ListeningCard, ListenToCard, ProfileCard, TagsCard, SuggestShoutCard } from "../cards";
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users")],
@@ -136,6 +136,7 @@ export default React.createClass({
               shout={ shoutsData }
               loading={ suggestions.data && suggestions.data.shouts.loading }
             />
+            <SideFooterCard />
           </Column>
       </Grid>
     );

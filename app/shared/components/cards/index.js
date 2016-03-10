@@ -10,6 +10,7 @@ import ShoutOwnerCard from "./shoutOwnerCard.jsx";
 import SuggestShoutCard from "./suggestShoutCard.jsx";
 import TagProfileCard from "./tagProfileCard.jsx";
 import TagsCard from "./tagsCard.jsx";
+import SideFooterCard from "./SideFooterCard.jsx";
 
 export default {
   ListeningCard,
@@ -23,5 +24,6 @@ export default {
   ShoutOwnerCard,
   SuggestShoutCard,
   TagProfileCard,
-  TagsCard
+  TagsCard,
+  SideFooterCard
 };
