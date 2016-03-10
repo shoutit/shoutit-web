@@ -61,6 +61,7 @@ export default React.createClass({
           key={ "shout-" + (i + 1) }
           shout={ shout }
           index={ i }
+          currentLocation={ currentLocation }
         />
       ))
     :
