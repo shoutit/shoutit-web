@@ -29,13 +29,15 @@ export default React.createClass({
   },
 
   renderTagProfileShouts(shouts) {
+    const { currentLocation } = this.props;
+
     return shouts.length ? shouts.map(function (shout, i) {
       return (
         <ShoutPreview
-          listType="small"
           key={"shout-" + i}
           shout={shout}
           index={i}
+          currentLocation={ currentLocation }
         />
       );
     }) : <h4>No shouts found to show!</h4>;
