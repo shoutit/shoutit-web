@@ -1,12 +1,13 @@
 import React from "react";
 import { Grid, Icon } from "../helper";
+import SVGIcon from "../helper/SVGIcon";
 import AvatarEditor from "react-avatar-editor";
 
 import { imagesPath } from "../../../../config";
 var defaultCoverImage = `${imagesPath}/pattern@2x.png`;
 
 if (process.env.BROWSER) {
-  require("./ProfileCover.scss");
+  require("styles/components/ProfileCover.scss");
 }
 
 export default React.createClass({
@@ -101,12 +102,14 @@ export default React.createClass({
 
   renderEditButton() {
     const { user, editMode } = this.props;
-    const buttonClass = user.cover ? "ProfileCover-editButton" : "ProfileCover-editButton default";
+    const profileIsNotSet = !Boolean(user.cover);
+
+    const buttonClass = profileIsNotSet? "ProfileCover-editButton default" : "ProfileCover-editButton";
 
     if (user.is_owner && !editMode) {
       return (
         <div className="ProfileCover-editHolder" onClick={this.onEditClicked}>
-          <Icon name="edit-white"/>
+          <SVGIcon name="pencil" active={ profileIsNotSet }/>
           <span className={ buttonClass }>Edit Profile</span>
         </div>
       );
