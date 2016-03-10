@@ -1,6 +1,6 @@
-@include "../pages/_mixins.scss";
-@include "../constants/defauls.scss";
-@include "../constants/colors.scss";
+@import "../pages/_mixins.scss";
+@import "../constants/defaults.scss";
+@import "../constants/colors.scss";
 
 .ProfileCover {
   @include paper();
@@ -15,7 +15,6 @@
   left: 200px;
   z-index: 1;
   top: 265px;
-  color: $si-white;
   float: left;
   cursor: pointer;
   .icon {
@@ -26,9 +25,14 @@
 
 .ProfileCover-editButton {
   font-size: $default-font-size;
-  font-weight: 600;
+  font-weight: 500;
   margin-left: 5px;
   text-shadow: 0px 1px 1px rgba(0,0,0,0.3);
+  color: $si-white;
+  &.default {
+    color: $si-green;
+    text-shadow: none;
+  }
 }
 
 .ProfileCover-editMode {
