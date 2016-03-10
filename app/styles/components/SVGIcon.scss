@@ -311,6 +311,9 @@ $size-large: 36px;
   .SVGIcon.active .SVGIcon-icon.pencil {
     background-image: url("../../../assets/icons/pencil-active.svg");
   }
+  .SVGIcon.fill .SVGIcon-icon.pencil {
+    background-image: url("../../../assets/icons/pencil-fill.svg");
+  }
 
 .SVGIcon-icon.pin {
   background-image: url("../../../assets/icons/pin.svg");
