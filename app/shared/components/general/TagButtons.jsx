@@ -9,7 +9,7 @@ export default function TagButtons({ tags = [], showWithType = false, linear = f
   const { city, state, country } = currentLocation;
 
   const tagsList = tags.map((tag, i) =>
-    <Link to={`/tag/${tag.value.slug}/${country}/${state}/${city}`} key={tag + i}>
+    <Link to={`/interest/${tag.value.slug}/${country.toLowerCase()}`} key={tag + i}>
       <span className="TagButtons-button">
         {showWithType?
           `${tag.name}: ${tag.value.name}`
