@@ -118,7 +118,7 @@ export default React.createClass({
             }
           </Column>
           <Column size="9">
-              { React.cloneElement(this.props.children, {flux: this.props.flux}) }
+              { React.cloneElement(this.props.children, { ...this.props }) }
           </Column>
           <Column size="3">
             <TagsCard

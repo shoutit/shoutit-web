@@ -25,18 +25,18 @@ export default React.createClass({
   },
 
   renderShouts() {
-    let storeState = this.props.shouts,
-      collection = storeState[this.props.type],
-      shouts = collection.shouts,
-      next = collection.next,
-      prev = collection.prev,
-      isLoading = storeState.loading;
+    const collection = this.props.shouts[this.props.type];
 
-    let loc = this.props.locations,
-      city = loc.current.city? encodeURIComponent(loc.current.city): 'all',
-      country = loc.current.country? encodeURIComponent(loc.current.country): 'all',
-      state = loc.current.state? encodeURIComponent(loc.current.state): 'all',
-      path = typeToRoute[this.props.type];
+    const { next, prev, shouts } = collection;
+    const isLoading = this.props.shouts.loading;
+
+    const { currentLocation } = this.props;
+
+    const city = currentLocation.city || "all";
+    const state = currentLocation.state || "all";
+    const country = currentLocation.country || "all";
+
+    const path = typeToRoute[this.props.type];
 
     let shoutEls = [];
 
