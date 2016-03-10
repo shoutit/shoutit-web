@@ -109,7 +109,7 @@ export default React.createClass({
     if (user.is_owner && !editMode) {
       return (
         <div className="ProfileCover-editHolder" onClick={this.onEditClicked}>
-          <SVGIcon name="pencil" active={ profileIsNotSet }/>
+          <SVGIcon name="pencil" active={ profileIsNotSet } fill={ !profileIsNotSet }/>
           <span className={ buttonClass }>Edit Profile</span>
         </div>
       );
