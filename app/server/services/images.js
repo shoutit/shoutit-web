@@ -5,7 +5,7 @@ import fs from "fs";
 
 import createMulter from "./createMulter";
 import * as AWS from "../../utils/AWS";
-import { convertImageToJPEG, compressImage } from "../../utils/ImageUtils";
+import { convertImageToJPEG } from "../../utils/ImageUtils";
 import { uploadResources } from "../../../config";
 
 const tmpDir = os.tmpdir();
@@ -73,7 +73,7 @@ export function uploadImageMiddleware(req, res) {
 
     if (err) {
       console.log(err);
-      res.status(500).send("Cannot upload this file.");
+      res.status(400).send("Cannot upload this file.");
       return;
     }
     if (!req.file) {
@@ -84,20 +84,10 @@ export function uploadImageMiddleware(req, res) {
     convertImageToJPEG(req.file.path, (err, filePath) => {
       if (err) {
         console.error("Cannot convert image %s", filePath, err);
-        res.status(500).send("Cannot convert this image.");
+        res.status(400).send("Cannot convert this image.");
         return;
       }
-
-      compressImage(filePath, (err, filePath) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send("Cannot compress this image.");
-          return;
-        }
-        console.log(filePath);
-        uploadToS3(filePath);
-
-      });
+      uploadToS3(filePath);
     });
   });
 
@@ -110,7 +100,7 @@ export function deleteImageMiddleware(req, res) {
     return;
   }
   if (!fileName) {
-    res.status(500).send("A filename is required.");
+    res.status(400).send("A filename is required.");
     return;
   }
   // TODO: check user can delete image

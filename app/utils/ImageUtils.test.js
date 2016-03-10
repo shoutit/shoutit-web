@@ -7,33 +7,13 @@ import path from "path";
 
 const tmp = os.tmpdir();
 
-import { convertImageToJPEG, compressImage } from "./ImageUtils";
+import { convertImageToJPEG } from "./ImageUtils";
 
 describe("ImageUtils", () => {
 
-  describe("compressImage", () => {
-    let tempJPGFile;
-
-    beforeEach(() => {
-      tempJPGFile = `${tmp}/shoutit-test-image_${Date.now()}.jpg`;
-      fs.writeFileSync(tempJPGFile, fs.readFileSync(`${__dirname}/../../assets/fixtures/sample.jpg`));
-    });
-
-    afterEach(() => {
-      fs.unlinkSync(tempJPGFile);
-    });
-
-    it("should return the same path after compression", done => {
-      compressImage(tempJPGFile, (err, filePath) => {
-        expect(filePath).to.equal(tempJPGFile);
-        done();
-      });
-    });
-
-  });
-
   describe("convertImageToJPEG", () => {
-    let tempJPGFile, tempPNGFile;
+    let tempJPGFile;
+    let tempPNGFile;
 
     beforeEach(() => {
       tempPNGFile = `${tmp}/shoutit-test-image_${Date.now()}.png`;

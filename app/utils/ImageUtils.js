@@ -4,11 +4,9 @@
 /* WARNING: ONLY FOR SERVER SIDE */
 
 import path from "path";
-import os from "os";
 import fs from "fs";
 import debug from "debug";
 import gm from "gm";
-import Imagemin from "imagemin";
 
 const log = debug("shoutit:ImageUtils");
 
@@ -47,23 +45,6 @@ export function convertImageToJPEG(filePath, callback) {
       log("%s deleted.", filePath);
 
       callback(null, newFilePath);
-    });
-
-}
-
-export function compressImage(filePath, callback) {
-  const imagemin = new Imagemin();
-  log("Compressing %s...", filePath);
-  imagemin.src(filePath)
-    .dest(os.tmpdir())
-    .use(Imagemin.jpegtran({ progressive: true }))
-    .run((err, files) => {
-      if (err) {
-        callback(err);
-        return;
-      }
-      log("Success: compressed %s.", filePath);
-      callback(null, files[0].path);
     });
 
 }
