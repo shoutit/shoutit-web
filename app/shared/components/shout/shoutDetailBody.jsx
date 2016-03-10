@@ -102,9 +102,7 @@ export default React.createClass({
   },
 
   renderTitle(shout) {
-    let city = encodeURIComponent(this.props.current.city),
-      country = encodeURIComponent(this.props.current.country),
-      state = encodeURIComponent(this.props.current.state);
+    const { city, country, state } = this.props.currentLocation;
 
     return (
       <Column fluid={true} clear={true} size="11">
