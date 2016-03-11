@@ -13,8 +13,15 @@ export default React.createClass({
 
   componentDidMount() {
     const { tagName, flux, countryCode } = this.props;
+    const tagEntry = this.props.tags[tagName];
 
-    if (!this.props.tags[tagName] || !this.props.tags[tagName]['shouts']) {
+    if (!tagEntry || !tagEntry.shouts) {
+      flux.actions.loadTagShouts(tagName, countryCode);
+      return;
+    }
+
+    // User loaded tag shouts with a different country
+    if (tagEntry.shouts.shoutsCountryCode !== countryCode) {
       flux.actions.loadTagShouts(tagName, countryCode);
     }
   },
@@ -23,7 +30,13 @@ export default React.createClass({
     const { tagName, loading, countryCode, flux } = this.props;
     const tagEntry = this.props.tags[tagName];
 
-    if (!tagEntry || !tagEntry.shouts && !loading ) {
+    if ((!tagEntry || !tagEntry.shouts) && !loading ) {
+      flux.actions.loadTagShouts(tagName, countryCode);
+      return;
+    }
+
+    // User loaded tag shouts with a different country
+    if (!loading && tagEntry.shouts.shoutsCountryCode !== countryCode) {
       flux.actions.loadTagShouts(tagName, countryCode);
     }
   },

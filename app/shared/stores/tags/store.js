@@ -213,7 +213,8 @@ var TagStore = Fluxxor.createStore({
         console.log(err);
       } else {
         this.onLoadTagShoutsSuccess({
-          tagName: tagName,
+          tagName,
+          countryCode,
           res: res.body
         });
       }
@@ -222,13 +223,16 @@ var TagStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onLoadTagShoutsSuccess(payload) {
-    let next = this.parseNextPage(payload.res.next);
-    let tagShouts = this.state.tags[payload.tagName];
+  onLoadTagShoutsSuccess({ tagName, countryCode, res }) {
+    const next = this.parseNextPage(res.next);
+    const tagShouts = this.state.tags[tagName];
 
-    this.addTagEntry(payload.tagName);
-    tagShouts["shouts"] = payload.res.results;
+    this.addTagEntry(tagName);
+
+    tagShouts["shoutsCountryCode"] = countryCode;
+    tagShouts["shouts"] = res.results;
     tagShouts["shoutsNext"] = next;
+
     this.state.loading = false;
     this.emit("change");
   },
