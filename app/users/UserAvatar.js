@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router";
 
-import { getVariation } from "../../../utils/APIUtils";
+import { getVariation } from "../utils/APIUtils";
 
 if (process.env.BROWSER) {
-  require("styles/components/UserAvatar.scss");
+  require("./UserAvatar.scss");
 }
 
 export default function UserAvatar({

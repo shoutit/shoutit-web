@@ -1,7 +1,7 @@
 import React from "react";
 
 import MessageItem from "./MessageItem";
-import UserAvatar from "../shared/components/user/UserAvatar.jsx";
+import UserAvatar from "../users/UserAvatar";
 
 if (process.env.BROWSER) {
   require("./MessageGroup.scss");

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Grid, Icon} from '../../helper';
-import UserAvatar from '../../user/UserAvatar.jsx';
+import UserAvatar from "../../../../users/UserAvatar";
 import AvatarEditor from 'react-avatar-editor';
 import Dialog from 'material-ui/lib/dialog';
 

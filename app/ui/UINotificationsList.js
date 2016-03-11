@@ -25,7 +25,7 @@ Options(Object):
 import React from "react";
 import SVGIcon from "../shared/components/helper/SVGIcon";
 import Button from "../shared/components/helper/Button.jsx";
-import UserAvatar from "../shared/components/user/UserAvatar.jsx";
+import UserAvatar from "../users/UserAvatar";
 
 import UINotification from "./UINotification";
 import VideoCallLocalMedia from "../videoCalls/VideoCallLocalMedia";

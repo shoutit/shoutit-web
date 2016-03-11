@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import SVGIcon from "../helper/SVGIcon";
 import Button from "../helper/Button.jsx";
-import UserAvatar from "../user/UserAvatar";
+import UserAvatar from '../../../users/UserAvatar';
 
 if (process.env.BROWSER) {
   require("styles/components/HeaderProfile.scss");

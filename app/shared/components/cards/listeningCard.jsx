@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router";
 import {Icon, Column, Grid} from '../helper';
-import UserAvatar from '../user/UserAvatar.jsx';
+import UserAvatar from '../../../users/UserAvatar';
 import ProfileInfoTooltip from '../general/profileInfoTooltip.jsx';
 
 var HOVER_EFFECT_DURATION = 500;

@@ -2,7 +2,7 @@ import React from "react";
 import { Input } from "react-bootstrap";
 
 import SVGIcon from "../../components/helper/SVGIcon";
-import UserAvatar from "../../components/user/UserAvatar";
+import UserAvatar from "../../../users/UserAvatar";
 
 import { StoreWatchMixin } from "fluxxor";
 import { History } from "react-router";
