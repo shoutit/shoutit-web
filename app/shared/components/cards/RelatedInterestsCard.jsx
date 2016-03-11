@@ -4,7 +4,7 @@ import {Icon, Grid, Column, Progress} from "../helper";
 import TagListenButton from "../general/tagListenButton.jsx";
 
 export default function RelatedTags(props) {
-  const { flux } = props;
+  const { flux, countryCode = "" } = props;
   return (
     <section className="si-card">
       <div className="card-header">
@@ -20,7 +20,7 @@ export default function RelatedTags(props) {
                   <Icon name="tag" className="tag-card-icon"/>
                 </Column>
                 <Column fluid={true} size="9" className="card-list-item">
-                  <Link to={`/tag/${item.name}`}>{ item.name }</Link>
+                  <Link to={`/interest/${item.name}/${countryCode}`}>{ item.name }</Link>
                 </Column>
                 <Column fluid={true} size="3">
                   <TagListenButton

@@ -108,6 +108,7 @@ export default React.createClass({
               tags={ relatedTagsData }
               loading={ tag && tag.related.loading }
               flux={ flux }
+              countryCode={ currentLocation.country }
             />
           }
         </Column>
