@@ -91,7 +91,7 @@ export default React.createClass({
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
 
-    const { tagName } = params;
+    const { tagName, countryCode } = params;
     // Avoiding mutation problems in store
     const clonedTags = JSON.parse(JSON.stringify(this.state.tags.tags));
 
@@ -112,7 +112,7 @@ export default React.createClass({
           }
         </Column>
         <Column size="9">
-          { React.cloneElement(this.props.children, { ...this.state.tags, tagName, currentLocation }) }
+          { React.cloneElement(this.props.children, { ...this.state.tags, tagName, currentLocation, countryCode }) }
         </Column>
         <Column size="3">
           <TagsCard

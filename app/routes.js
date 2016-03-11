@@ -54,7 +54,7 @@ const routes = (
           <Route path="/shout/:shoutId(/:location)(/:title)" component={ Shout }/>
         </Route>
         <Route component={ TagProfileContainer }>
-          <Route path="/interest/:tagName" component={ TagProfile }>
+          <Route path="/interest/:tagName(/:countryCode)" component={ TagProfile }>
             <Route path="tagrequests" component={ TagProfileRequest }/>
             <Route path="taglisteners" component={ TagProfileListeners }/>
             <IndexRoute component={ TagProfileShouts }/>

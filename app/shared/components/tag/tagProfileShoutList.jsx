@@ -12,19 +12,19 @@ export default React.createClass({
   displayName: "TagProfileShoutList",
 
   componentDidMount() {
-    let tagName = this.props.tagName;
+    const { tagName, flux, countryCode } = this.props;
 
     if (!this.props.tags[tagName] || !this.props.tags[tagName]['shouts']) {
-      this.props.flux.actions.loadTagShouts(this.props.tagName, 'all');
+      flux.actions.loadTagShouts(tagName, countryCode);
     }
   },
 
   componentDidUpdate() {
-    const {tagName, loading} = this.props;
+    const { tagName, loading, countryCode, flux } = this.props;
     const tagEntry = this.props.tags[tagName];
 
     if (!tagEntry || !tagEntry.shouts && !loading ) {
-      this.props.flux.actions.loadTagShouts(this.props.tagName, 'all');
+      flux.actions.loadTagShouts(tagName, countryCode);
     }
   },
 
