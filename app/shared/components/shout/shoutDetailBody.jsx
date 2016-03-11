@@ -101,9 +101,8 @@ export default React.createClass({
   },
 
   renderTitle(shout) {
-    const city = encodeURIComponent(this.props.current.city);
-    const country = encodeURIComponent(this.props.current.country);
-    const state = encodeURIComponent(this.props.current.state);
+
+    const { city, country, state } = this.props.currentLocation;
 
     return (
       <Column fluid={true} clear={true} size="11">
@@ -159,7 +158,7 @@ export default React.createClass({
   },
 
   render() {
-    const shout = this.props.shout;
+    const { shout, currentLocation } = this.props;
 
     return (
       <div>
@@ -179,7 +178,11 @@ export default React.createClass({
               {this.renderText(shout)}
             </Grid>
             <Grid fluid>
-              <TagButtons tags={shout.filters} showWithType/>
+              <TagButtons
+                tags={shout.filters}
+                showWithType
+                currentLocation={ currentLocation }
+              />
             </Grid>
           </div>
         </ItemScope>

@@ -2,7 +2,7 @@ import React from 'react';
 import {StoreWatchMixin} from "fluxxor";
 import {Grid, Column} from '../helper';
 import Profile from './profile.jsx';
-import {ListenToCard, TagsCard, SuggestShoutCard} from "../cards";
+import {ListenToCard, InterestsCard, SuggestShoutCard} from "../cards";
 import { assign } from "lodash";
 
 export default React.createClass({
@@ -91,13 +91,14 @@ export default React.createClass({
       <div className="profile-holder">
         <Grid >
           <Column size="12" clear={true}>
-            { React.cloneElement(this.props.children, { ...this.state.users }) }
+            { React.cloneElement(this.props.children, { ...this.state.users, currentLocation }) }
           </Column>
           <Column size="3">
-            <TagsCard
+            <InterestsCard
               flux={flux}
               tags={ JSON.parse(JSON.stringify(tagsData)) }
               loading={ suggestions.data && suggestions.data.tags.loading }
+              countryCode={ currentLocation.country }
             />
             <ListenToCard
               flux={flux}
