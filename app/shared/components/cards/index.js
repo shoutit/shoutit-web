@@ -9,7 +9,7 @@ import ShareShoutCard from "./shareShoutCard.jsx";
 import ShoutOwnerCard from "./shoutOwnerCard.jsx";
 import SuggestShoutCard from "./suggestShoutCard.jsx";
 import TagProfileCard from "./tagProfileCard.jsx";
-import TagsCard from "./tagsCard.jsx";
+import InterestsCard from "./InterestsCard.jsx";
 import SideFooterCard from "./SideFooterCard.jsx";
 
 export default {
@@ -24,6 +24,6 @@ export default {
   ShoutOwnerCard,
   SuggestShoutCard,
   TagProfileCard,
-  TagsCard,
+  InterestsCard,
   SideFooterCard
 };

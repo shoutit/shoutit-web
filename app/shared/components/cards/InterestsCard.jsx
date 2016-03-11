@@ -9,7 +9,7 @@ export default function TagsCard(props){
   return (
     <section className="si-card">
       <div className="card-header">
-        <h3>suggested tags</h3>
+        <h3>interests</h3>
       </div>
       {loading ?
         <Progress />
@@ -21,7 +21,7 @@ export default function TagsCard(props){
                 <Icon name="tag" className="tag-card-icon"/>
               </Column>
               <Column fluid={true} size="9" className="card-list-item">
-                <Link to={`/tag/${tag.name}`}>{ tag.name }</Link>
+                <Link to={`/interest/${tag.name}`}>{ tag.name }</Link>
               </Column>
               <Column fluid={true} size="3">
                 <TagListenButton

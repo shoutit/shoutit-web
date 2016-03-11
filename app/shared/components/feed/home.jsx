@@ -1,7 +1,7 @@
 import React from "react";
 import {Grid, Column} from "../helper";
 import {StoreWatchMixin} from "fluxxor";
-import { SideFooterCard, ListeningCard, ListenToCard, ProfileCard, TagsCard, SuggestShoutCard } from "../cards";
+import { SideFooterCard, ListeningCard, ListenToCard, ProfileCard, InterestsCard, SuggestShoutCard } from "../cards";
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users")],

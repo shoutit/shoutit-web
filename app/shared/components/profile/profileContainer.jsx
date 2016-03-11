@@ -2,7 +2,7 @@ import React from 'react';
 import {StoreWatchMixin} from "fluxxor";
 import {Grid, Column} from '../helper';
 import Profile from './profile.jsx';
-import {ListenToCard, TagsCard, SuggestShoutCard} from "../cards";
+import {ListenToCard, InterestsCard, SuggestShoutCard} from "../cards";
 import { assign } from "lodash";
 
 export default React.createClass({
