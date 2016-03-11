@@ -26,7 +26,7 @@ export default function MessageGroup({ messages, showUserImage, justify="start",
         { messages.map((message, i) =>
           <div key={ message.id }>
             <MessageItem
-              { ...message }
+              message={ message }
               onRetryClick={ () => onRetryClick(message) }
               justify={ justify }
               showDay={ dayIndexes.indexOf(i) > -1 }

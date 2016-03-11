@@ -9,7 +9,8 @@ if (process.env.BROWSER) {
   require("./MessageItem.scss");
 }
 
-export default function MessageItem({ created_at, sending, text, justify="start", showDay, sendError, attachments=[] }) {
+export default function MessageItem({ message, justify="start", showDay }) {
+  const { created_at, sending, text, sendError, attachments=[] } = message;
   const createdAt = moment.unix(created_at);
 
   const attachmentsContent = attachments.map((attachment, i) => {
@@ -43,7 +44,7 @@ export default function MessageItem({ created_at, sending, text, justify="start"
   );
 
   const className = `MessageItem ${justify}${sendError ? " didError" : ""}`;
-
+  console.log()
   return (
     <div className={ className }>
       { showDay && <div className="MessageItem-day">
