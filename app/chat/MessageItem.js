@@ -2,6 +2,7 @@ import React from "react";
 import moment from "moment";
 import { Link } from "react-router";
 
+import MessageReadByFlag from "./MessageReadByFlag";
 import ShoutItem from "../shared/components/shout/ShoutItem";
 import GoogleStaticMap from "../shared/components/misc/GoogleStaticMap";
 
@@ -9,7 +10,7 @@ if (process.env.BROWSER) {
   require("./MessageItem.scss");
 }
 
-export default function MessageItem({ message, justify="start", showDay }) {
+export default function MessageItem({ message, justify="start", showDay, readBy=[] }) {
   const { created_at, sending, text, sendError, attachments=[] } = message;
   const createdAt = moment.unix(created_at);
 
@@ -31,11 +32,14 @@ export default function MessageItem({ message, justify="start", showDay }) {
     }
     return <div key={ i } className="MessageItem-attachment">{ content }</div>;
   });
-
   const footer = (
     <div className="MessageItem-footer">
       {!sending && !sendError &&
-        <span title={createdAt.format("LLLL")}>
+        <span>
+          { readBy.length > 0 && <MessageReadByFlag profiles={ readBy } /> }
+        </span>
+      }
+      {!sending && !sendError && <span title={createdAt.format("LLLL")}>
           { createdAt.format("LT") }
         </span>
       }
@@ -44,12 +48,12 @@ export default function MessageItem({ message, justify="start", showDay }) {
   );
 
   const className = `MessageItem ${justify}${sendError ? " didError" : ""}`;
-  console.log()
   return (
     <div className={ className }>
       { showDay && <div className="MessageItem-day">
         { moment.unix(created_at).format("ll") }
-      </div> }
+      </div>
+      }
 
       <div className="MessageItem-wrapper">
         { attachmentsContent.length > 0 &&

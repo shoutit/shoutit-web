@@ -254,6 +254,7 @@ export default React.createClass({
             <Progress />
           </div>
           <MessagesList
+            partecipants={ users }
             typingUsers={ typingUsers }
             messages={ messages }
             me={ loggedUser && loggedUser.username }
