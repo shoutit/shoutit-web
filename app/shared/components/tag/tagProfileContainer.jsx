@@ -119,6 +119,7 @@ export default React.createClass({
             flux={flux}
             tags={ JSON.parse(JSON.stringify(tagsData)) }
             loading={ suggestions.data && suggestions.data.tags.loading }
+            countryCode={ currentLocation.country }
           />
           <ListenToCard
             flux={flux}
