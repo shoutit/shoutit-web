@@ -1,5 +1,6 @@
 import React from "react";
 import currencyFormatter from "currency-formatter";
+import { getVariation } from "../../../utils/APIUtils";
 
 if (process.env.BROWSER) {
   require("styles/components/ShoutItem.scss");
@@ -30,10 +31,11 @@ export default function ShoutItem({
     className += " no-thumbnail";
   }
 
-  let thumbnailStyle, thumbWrapperStyle;
+  let thumbnailStyle;
+  let thumbWrapperStyle;
   if (alwaysShowThumbnail || thumbnail) {
     thumbnailStyle = {
-      backgroundImage: `url("${thumbnail}")`
+      backgroundImage: `url("${getVariation(thumbnail)}")`
     };
     thumbWrapperStyle = !horizontal ? {
       paddingBottom: `${100/thumbnailRatio}%`

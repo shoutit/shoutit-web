@@ -46,8 +46,24 @@ function groupMessages(messages) {
  * @param {Array}  props.messages
  * @param {String}  props.me
  */
-export default function MessageList({ messages, me, onRetryClick, typingUsers=[] }) {
+export default function MessageList({ messages, me, partecipants, onRetryClick, typingUsers=[] }) {
   const groups = groupMessages(messages);
+
+  const readByMessages = {};
+
+  if (partecipants) {
+    messages.forEach(message => {
+      if (!message.read_by) {
+        return;
+      }
+      readByMessages[message.id] = message.read_by.map(readBy =>
+        partecipants.find(partecipant => partecipant.id === readBy.profile_id)
+      )
+      .filter(profile => profile.username !== me)
+      .filter(profile => profile.id !== message.user.id);
+    });
+  }
+
   return (
     <div>
 
@@ -61,6 +77,7 @@ export default function MessageList({ messages, me, onRetryClick, typingUsers=[]
               onRetryClick={ onRetryClick }
               dayIndexes={ dayIndexes }
               messages={ messages }
+              readByMessages={ readByMessages }
               showUserImage={ messages[0].user && !isMe }
               justify={ isMe ? "end" : "start" }
             />

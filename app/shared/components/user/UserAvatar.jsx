@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router";
 
+import { getVariation } from "../../../utils/APIUtils";
+
 if (process.env.BROWSER) {
   require("styles/components/UserAvatar.scss");
 }
@@ -27,14 +29,16 @@ export default function UserAvatar({
     className += ` placeholder`;
   }
 
-  const style = {};
-
+  let src;
   if (image) {
-    style.backgroundImage = `url(${ image })`;
+    const variation = (size === "small") ? "small" : "medium";
+    src = getVariation(image, variation);
   }
 
   const avatar = (
-    <span className={ className } style={ style } />
+    <span className={ className }>
+      { src && <img alt={ username ? username  : "" } src={ src } /> }
+    </span>
   );
 
   if (linkToUserPage) {

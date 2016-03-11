@@ -3,6 +3,7 @@
 import React from 'react';
 import Swipeable from 'react-swipeable';
 import VideoPlayer from './videoPlayer.jsx';
+import { getVariation } from "../../../utils/APIUtils";
 
 const ImageGallery = React.createClass({
 
@@ -227,7 +228,7 @@ const ImageGallery = React.createClass({
       let originalClass = item.originalClass ? ' ' + item.originalClass : '';
       let thumbnailClass = item.thumbnailClass ? ' ' + item.thumbnailClass : '';
 
-      let slideItem = item.isVideo? 
+      let slideItem = item.isVideo?
           <VideoPlayer options={{url: item.original, poster: item.thumbnail}} />:
           <img src={item.original}/>;
 
@@ -258,7 +259,7 @@ const ImageGallery = React.createClass({
               thumbnailClass
             }
 
-            style={{backgroundImage: `url(${item.thumbnail})`}}
+            style={{backgroundImage: `url(${getVariation(item.thumbnail, "small")})`}}
             onTouchStart={this.slideToIndex.bind(this, index)}
             onClick={this.slideToIndex.bind(this, index)}>
 

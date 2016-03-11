@@ -73,9 +73,12 @@ $border-radius: 5px;
 
 
 .MessageItem-footer {
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   font-size: 0.65em;
   color: #999;
-  text-align: right;
 }
 
 .MessageItem-retry {
