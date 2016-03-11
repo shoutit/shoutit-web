@@ -36,7 +36,7 @@ export default React.createClass({
     }
 
     // User loaded tag shouts with a different country
-    if (!loading && tagEntry.shouts.shoutsCountryCode !== countryCode) {
+    if (!loading && tagEntry.shoutsCountryCode !== countryCode) {
       flux.actions.loadTagShouts(tagName, countryCode);
     }
   },
