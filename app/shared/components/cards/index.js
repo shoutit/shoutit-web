@@ -3,7 +3,7 @@ import ListenToCard from "./listenToCard.jsx";
 import PagesCard from "./pagesCard.jsx";
 import ProfileCard from "./profileCard.jsx";
 import PromotionCard from "./promotionCard.jsx";
-import RelatedTagsCard from "./relatedTagsCard.jsx";
+import RelatedInterestsCard from "./RelatedInterestsCard.jsx";
 import SearchCard from "./searchCard.jsx";
 import ShareShoutCard from "./shareShoutCard.jsx";
 import ShoutOwnerCard from "./shoutOwnerCard.jsx";
@@ -18,7 +18,7 @@ export default {
   PagesCard,
   ProfileCard,
   PromotionCard,
-  RelatedTagsCard,
+  RelatedInterestsCard,
   SearchCard,
   ShareShoutCard,
   ShoutOwnerCard,

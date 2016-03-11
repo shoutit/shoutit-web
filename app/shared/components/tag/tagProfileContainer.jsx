@@ -1,7 +1,7 @@
 import React from 'react';
 import {StoreWatchMixin} from "fluxxor";
 import {Grid, Column} from "../helper";
-import {ListenToCard, InterestsCard, SuggestShoutCard, TagProfileCard, RelatedTagsCard} from "../cards";
+import {ListenToCard, InterestsCard, SuggestShoutCard, TagProfileCard, RelatedInterestsCard} from "../cards";
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users")],
@@ -104,7 +104,7 @@ export default React.createClass({
         <Column size="3" clear={true}>
           <TagProfileCard params={params} flux={flux} {...this.state.tags}/>
           {tag && !tag.related.err &&
-            <RelatedTagsCard
+            <RelatedInterestsCard
               tags={ relatedTagsData }
               loading={ tag && tag.related.loading }
               flux={ flux }
