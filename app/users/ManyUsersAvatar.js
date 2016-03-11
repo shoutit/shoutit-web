@@ -1,4 +1,5 @@
 import React from "react";
+import UserAvatar from "./UserAvatar";
 
 export default function ManyUsersAvatar({ users, size=40, max=4, columns=2 }) {
   const containerStyle = {
@@ -22,7 +23,7 @@ export default function ManyUsersAvatar({ users, size=40, max=4, columns=2 }) {
   return (
     <div style={ containerStyle }>
       { users.slice(0, max).map(user =>
-        <img style={ imgStyle} title={ user.name } key={user.username} src={ user.image } />
+        <UserAvatar user={ user } size={ users.length === 1 ? "medium" : "small" }/>
       )}
     </div>
   );
