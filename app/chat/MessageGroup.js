@@ -13,7 +13,7 @@ if (process.env.BROWSER) {
  * @param {Boolean} props.showUserImage
  * @param {String} props.justify "start" or "end"
  */
-export default function MessageGroup({ messages, showUserImage, justify="start", dayIndexes=[], onRetryClick }) {
+export default function MessageGroup({ messages, showUserImage, justify="start", dayIndexes=[], readByMessages, onRetryClick }) {
 
   return (
     <div className={ `MessageGroup ${justify}` }>
@@ -24,9 +24,10 @@ export default function MessageGroup({ messages, showUserImage, justify="start",
       }
       <div className="MessageGroup-messages">
         { messages.map((message, i) =>
-          <div key={ message.id }>
+          <div key={ `${message.id}.${i}` }>
             <MessageItem
-              { ...message }
+              readBy={ readByMessages[message.id] }
+              message={ message }
               onRetryClick={ () => onRetryClick(message) }
               justify={ justify }
               showDay={ dayIndexes.indexOf(i) > -1 }
