@@ -24,7 +24,7 @@ export default function MessageGroup({ messages, showUserImage, justify="start",
       }
       <div className="MessageGroup-messages">
         { messages.map((message, i) =>
-          <div key={ message.id }>
+          <div key={ `${message.id}.${i}` }>
             <MessageItem
               message={ message }
               onRetryClick={ () => onRetryClick(message) }
