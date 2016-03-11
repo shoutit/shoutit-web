@@ -12,30 +12,45 @@ export default React.createClass({
   displayName: "TagProfileShoutList",
 
   componentDidMount() {
-    let tagName = this.props.tagName;
+    const { tagName, flux, countryCode } = this.props;
+    const tagEntry = this.props.tags[tagName];
 
-    if (!this.props.tags[tagName] || !this.props.tags[tagName]['shouts']) {
-      this.props.flux.actions.loadTagShouts(this.props.tagName, 'all');
+    if (!tagEntry || !tagEntry.shouts) {
+      flux.actions.loadTagShouts(tagName, countryCode);
+      return;
+    }
+
+    // User loaded tag shouts with a different country
+    if (tagEntry.shouts.shoutsCountryCode !== countryCode) {
+      flux.actions.loadTagShouts(tagName, countryCode);
     }
   },
 
   componentDidUpdate() {
-    const {tagName, loading} = this.props;
+    const { tagName, loading, countryCode, flux } = this.props;
     const tagEntry = this.props.tags[tagName];
 
-    if (!tagEntry || !tagEntry.shouts && !loading ) {
-      this.props.flux.actions.loadTagShouts(this.props.tagName, 'all');
+    if ((!tagEntry || !tagEntry.shouts) && !loading ) {
+      flux.actions.loadTagShouts(tagName, countryCode);
+      return;
+    }
+
+    // User loaded tag shouts with a different country
+    if (!loading && tagEntry.shoutsCountryCode && tagEntry.shoutsCountryCode !== countryCode) {
+      flux.actions.loadTagShouts(tagName, countryCode);
     }
   },
 
   renderTagProfileShouts(shouts) {
+    const { currentLocation } = this.props;
+
     return shouts.length ? shouts.map(function (shout, i) {
       return (
         <ShoutPreview
-          listType="small"
           key={"shout-" + i}
           shout={shout}
           index={i}
+          currentLocation={ currentLocation }
         />
       );
     }) : <h4>No shouts found to show!</h4>;
