@@ -114,7 +114,7 @@ export default React.createClass({
             users={ users }
             flux={ flux }
             />
-          <TagsCard
+          <InterestsCard
             flux={flux}
             tags={ JSON.parse(JSON.stringify(tagsData)) }
             loading={ suggestions.data && suggestions.data.tags.loading }

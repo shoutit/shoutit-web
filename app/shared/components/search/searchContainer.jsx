@@ -92,7 +92,7 @@ export default React.createClass({
           { React.cloneElement(this.props.children, { ...this.state, currentLocation}) }
         </Column>
         <Column size="3">
-          <TagsCard
+          <InterestsCard
             flux={flux}
             tags={ JSON.parse(JSON.stringify(tagsData)) }
             loading={ suggestions.data && suggestions.data.tags.loading }
