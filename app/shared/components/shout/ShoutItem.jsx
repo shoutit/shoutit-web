@@ -52,10 +52,10 @@ export default function ShoutItem({
         </div>
       }
 
+      <div className="ShoutItem-title">
+        { title }
+      </div>
       <div className="ShoutItem-detail">
-        <span className="ShoutItem-title">
-          { title }
-        </span>
         <span className="ShoutItem-name">
           { user.name }
         </span>

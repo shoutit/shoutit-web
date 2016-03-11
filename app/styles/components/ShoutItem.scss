@@ -62,25 +62,25 @@ $border-radius: 5px;
   }
 }
 
+.ShoutItem-title {
+  padding: 5px 10px;
+  font-weight: 300;
+  font-size: 1em;
+  width: 100%;
+}
 
 .ShoutItem-detail {
+  padding: 0px 10px 5px 10px;
+  display: flex;
   .ShoutItem.horizontal & {
     width: 100%;
   }
-  padding: 5px 10px;
-  display: flex;
-  flex-flow: row wrap;
-}
-
-  .ShoutItem-title {
-    font-weight: 300;
-    font-size: 1em;
-    width: 100%;
-    margin-bottom: 5px;
-  }
-
   .ShoutItem-name {
     flex: 1;
+  }
+}
+
+  .ShoutItem-name {
     color: $color-light;
     font-size: 0.75em;
     display: inline-block;
