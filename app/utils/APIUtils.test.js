@@ -17,6 +17,11 @@ describe("APIUtils", () => {
       expect(getVariation(url, "foo")).to.equal("https://user-image.static.shoutit.com/1457599968825_30885ef7-d96a48e0-a75d-513678ffbbc3_foo.png");
     });
 
+    it("should work for files without extension", () => {
+      const url = "http://example.com/test_image";
+      expect(getVariation(url)).to.equal("http://example.com/test_image_medium");
+    });
+
   });
 
 });
