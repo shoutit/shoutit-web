@@ -28,7 +28,10 @@ var TagStore = Fluxxor.createStore({
 
       if (props.tagshouts) {
         this.state.tags[props.tag.name].shouts = props.tagshouts.results;
-        this.state.tags[props.tag.name].shoutsCountryCode = props.tagshouts.results.location.country;
+
+        const countryCode = props.tagshouts.results[0] && props.tagshouts.results[0].location.country;
+        this.state.tags[props.tag.name].shoutsCountryCode = countryCode;
+
         this.state.tags[props.tag.name].shoutsNext = this.parseNextPage(props.tagshouts.next);
       }
 
@@ -206,7 +209,7 @@ var TagStore = Fluxxor.createStore({
 
     const query = {
       tags: tagName,
-      country: countryCode.toUpperCase(),
+      country: countryCode,
       page_size: 10
     };
 

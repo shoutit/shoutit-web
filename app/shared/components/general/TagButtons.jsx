@@ -7,7 +7,7 @@ if(process.env.BROWSER) {
 
 export default function TagButtons({ tags = [], showWithType = false, linear = false, currentLocation }) {
   const { country } = currentLocation;
-  const countryCode = country? country.toLowerCase(): "";
+  const countryCode = country || "";
 
   const tagsList = tags.map((tag, i) =>
     <Link to={`/interest/${tag.value.slug}/${countryCode}`} key={tag + i}>
