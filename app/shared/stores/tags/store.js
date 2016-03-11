@@ -116,6 +116,7 @@ var TagStore = Fluxxor.createStore({
         tag: {},
         shouts: null,
         shoutsNext: null,
+        shoutsCountryCode: null,
         listeners: null,
         related: {
           loading: false,
@@ -200,11 +201,11 @@ var TagStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onLoadTagShouts({ tagName, countryCode }) {
+  onLoadTagShouts({ tagName, countryCode = "" }) {
 
     const query = {
       tags: tagName,
-      country: countryCode,
+      country: countryCode.toUpperCase(),
       page_size: 10
     };
 
