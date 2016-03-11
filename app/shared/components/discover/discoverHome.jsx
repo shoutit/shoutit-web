@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Column } from "../helper";
-import { SuggestShoutCard } from "../cards";
+import { SideFooterCard, SuggestShoutCard } from "../cards";
 
 export default React.createClass({
   displayName: "DiscoverHome",
@@ -52,6 +52,7 @@ export default React.createClass({
               shout={ shoutsData }
               loading={ suggestions.data && suggestions.data.shouts.loading }
             />
+            <SideFooterCard />
           </Column>
         </Grid>
       </div>
