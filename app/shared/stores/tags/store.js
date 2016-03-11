@@ -200,14 +200,15 @@ var TagStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onLoadTagShouts(payload) {
-    var tagName = payload.tagName,
-      type = payload.type;
+  onLoadTagShouts({ tagName, countryCode }) {
 
-    let query = {page_size: 10};
-    type !== "all"? query.shout_type = type: undefined;
+    const query = {
+      tags: tagName,
+      country: countryCode,
+      page_size: 10
+    };
 
-    client.getShouts(tagName, query).end(function (err, res) {
+    client.getShouts(query).end(function (err, res) {
       if (err) {
         console.log(err);
       } else {
