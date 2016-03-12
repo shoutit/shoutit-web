@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from "react";
-import {Input, Button} from "react-bootstrap";
+import {Input} from "react-bootstrap";
+import Button from "../shared/components/helper/Button";
 
 if (process.env.BROWSER) {
   require("./MessageReplyForm.scss");
@@ -93,7 +94,7 @@ export default class MessageReplyForm extends Component {
           <Button type="submit" disabled={ disabled  || !draft } className="reply">
             Send
           </Button>
-          <Button type="button" disabled={ disabled } onClick={ onAttachShoutClick }>
+          <Button type="button" size="small" disabled={ disabled } onClick={ onAttachShoutClick }>
             Attach shout
           </Button>
         </div>

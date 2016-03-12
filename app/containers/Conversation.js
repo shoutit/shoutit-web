@@ -7,6 +7,8 @@ import ConversationDeleteDialog from "../chat/ConversationDeleteDialog";
 import UserShoutsSelectDialog from "../shared/components/user/UserShoutsSelectDialog.jsx";
 import MessagesList from "../chat/MessagesList";
 import MessageReplyForm from "../chat/MessageReplyForm";
+import MessagesTypingUsers from "../chat/MessagesTypingUsers";
+
 import Progress from "../shared/components/helper/Progress.jsx";
 
 let subscribe;
@@ -215,7 +217,7 @@ export default React.createClass({
     const { id } = this.props.params;
     const { messages, draft, didLoad, loading, loadingPrevious, users,
       about, type, error, showDelete, isDeleting, typingUsers, showAttachShout } = this.state;
-
+    const me = loggedUser ? loggedUser.username : undefined;
     const { replyToConversation, deleteConversation, conversationDraftChange, previewVideoCall }
       = this.getFlux().actions;
 
@@ -227,7 +229,7 @@ export default React.createClass({
           users={ users }
           about={ about }
           type={ type }
-          me={ loggedUser && loggedUser.username }
+          me={ me }
           showVideoCallButton={ videoCallState.initialized }
           onDeleteConversationClick={ () => this.setState({ showDelete: true }) }
           onDeleteMessagesTouchTap={ () => {} }
@@ -243,7 +245,7 @@ export default React.createClass({
 
       { didLoad && !messages.length > 0 && loading && <Progress centerVertical /> }
 
-      { messages.length > 0 &&
+      { didLoad && messages.length > 0 &&
         <div className="Conversation-listContainer"
           ref={ ref => this.list = ref }
           onScroll={ this.handleListScroll }>
@@ -253,12 +255,8 @@ export default React.createClass({
             style={ loadingPrevious ? null : { visibility: "hidden" }}>
             <Progress />
           </div>
-          <MessagesList
-            partecipants={ users }
-            typingUsers={ typingUsers }
-            messages={ messages }
-            me={ loggedUser && loggedUser.username }
-          />
+          <MessagesList loggedUser={ loggedUser } messages={ messages } partecipants={ users } />
+          <MessagesTypingUsers users={ typingUsers } />
         </div>
       }
 

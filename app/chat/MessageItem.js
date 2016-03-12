@@ -10,7 +10,7 @@ if (process.env.BROWSER) {
   require("./MessageItem.scss");
 }
 
-export default function MessageItem({ message, justify="start", showDay, readBy=[] }) {
+export default function MessageItem({ message, isMe, readByUsers=[] }) {
   const { created_at, sending, text, sendError, attachments=[] } = message;
   const createdAt = moment.unix(created_at);
 
@@ -36,7 +36,7 @@ export default function MessageItem({ message, justify="start", showDay, readBy=
     <div className="MessageItem-footer">
       {!sending && !sendError &&
         <span>
-          { readBy.length > 0 && <MessageReadByFlag profiles={ readBy } /> }
+          { readByUsers.length > 0 && <MessageReadByFlag profiles={ readByUsers } /> }
         </span>
       }
       {!sending && !sendError && <span title={createdAt.format("LLLL")}>
@@ -47,14 +47,9 @@ export default function MessageItem({ message, justify="start", showDay, readBy=
     </div>
   );
 
-  const className = `MessageItem ${justify}${sendError ? " didError" : ""}`;
+  const className = `MessageItem ${isMe ? "isMe" : ""}${sendError ? " didError" : ""}`;
   return (
     <div className={ className }>
-      { showDay && <div className="MessageItem-day">
-        { moment.unix(created_at).format("ll") }
-      </div>
-      }
-
       <div className="MessageItem-wrapper">
         { attachmentsContent.length > 0 &&
             <div className="MessageItem-attachments">
