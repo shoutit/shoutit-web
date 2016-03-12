@@ -80,7 +80,7 @@ export default class MessageReplyForm extends Component {
     return (
       <form className="MessageReplyForm" onSubmit={ e => this.handleFormSubmit(e) }>
         <TextareaAutosize
-          className="Textarea"
+          className="htmlTextarea"
           maxRows={5}
           name="draft"
           value={ draft }
@@ -90,19 +90,8 @@ export default class MessageReplyForm extends Component {
           placeholder={ placeholder }
           onChange={ e => this.handleTextChange(e) }
         />
-        {/*
-          <Input
-            autoComplete="off"
-            autoFocus={ autoFocus }
-            placeholder={ placeholder }
-            disabled={ disabled }
-            name="input"
-            type="text"
-            onChange={ e => this.handleTextChange(e) }
-            value={ draft }
-          />*/}
-          <Button leftIcon={ <SVGIcon name="send" fill /> } label="Send" primary type="submit" size="small" disabled={ disabled  || !draft } className="reply" />
-          <Button label="Attach shout" type="button" size="small" disabled={ disabled } onClick={ onAttachShoutClick } />
+        <Button leftIcon={ <SVGIcon name="send" fill /> } label="Send" primary type="submit" size="small" disabled={ disabled  || !draft } className="reply" />
+        <Button label="Attach shout" type="button" size="small" disabled={ disabled } onClick={ onAttachShoutClick } />
       </form>
     );
   }
