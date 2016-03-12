@@ -37,14 +37,14 @@ export default function UserAvatar({
     src = getVariation(image, variation);
   }
 
-  let avatar = (
-    <span className={ className }>
-      { src && <img alt={ username ? username  : "" } src={ src } /> }
-    </span>
-  );
-
+  let avatar;
+  if (src) {
+    avatar = <img alt={ username ? username  : "" } src={ src } />;
+  }
   if (linkToUserPage) {
-    avatar = <Link to={ `/user/${username}` }>{ avatar }</Link>;
+    avatar = <Link className={ className } to={ `/user/${username}` }>{ avatar }</Link>;
+  } else {
+    avatar = <span className={ className }>{ avatar }</span>;
   }
 
   if (tooltip) {
