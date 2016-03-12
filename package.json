@@ -13,6 +13,7 @@
     "lint": "eslint app test",
     "test": "mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel/register --recursive test app/**/*.test.js",
     "test:watch": "npm test -- --watch --watch-extensions jsx",
+    "test:single": "mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel/register --recursive --watch",
     "test:cover": "istanbul cover -- _mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel/register --recursive test app/**/*.test.js",
     "dev": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=development npm start",
     "dev:built": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=production npm start",

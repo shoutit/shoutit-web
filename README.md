@@ -160,6 +160,7 @@ Unit tests run with [mocha](http://mochajs.org) and [chai](http://chaijs.com):
 ```bash
 $ npm test
 $ npm run test:watch    # Watch mode
+$ npm run test:single <file1>[, <file2>] # Test a watch single files
 ```
 
 Test coverage with [istanbul](https://github.com/gotwarlost/istanbul):
