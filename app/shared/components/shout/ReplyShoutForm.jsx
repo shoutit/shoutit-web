@@ -31,6 +31,12 @@ export default React.createClass({
     };
   },
 
+  getDefaultProps() {
+    return {
+      placeholder: "Reply to this shout…"
+    }
+  },
+
   getStateFromFlux() {
     const usersStore = this.context.flux.store("users");
     const loggedUser = usersStore.getLoggedUser();
@@ -88,7 +94,7 @@ export default React.createClass({
   },
 
   render() {
-    const { shout } = this.props;
+    const { shout, placeholder } = this.props;
     const { loggedUser } = this.state;
 
     if (loggedUser && (shout.user.username === loggedUser.username)) {
@@ -106,7 +112,7 @@ export default React.createClass({
             autoComplete="off"
             onFocus={ this.handleFocus }
             type="text"
-            placeholder="Reply to this shout…"
+            placeholder={ placeholder }
           />
           <SVGIcon className="ReplyShoutForm-btn" name="send" hover onClick={ e => this.handleFormSubmit(e) } />
         </form>
