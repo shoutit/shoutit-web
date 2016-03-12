@@ -117,6 +117,7 @@ export default React.createClass({
             />
           <ContactOwnerCard
             shout={ shout }
+            getMobileNumber={ flux.actions.getMobileNumber }
             />
           <InterestsCard
             flux={flux}
