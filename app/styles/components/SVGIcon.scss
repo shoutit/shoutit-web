@@ -428,6 +428,9 @@ $size-huge: 52px;
   .SVGIcon.active .SVGIcon-icon.video {
     background-image: url("../../../assets/icons/video-active.svg");
   }
+  .SVGIcon.fill .SVGIcon-icon.video {
+    background-image: url("../../../assets/icons/video-fill.svg");
+  }
 
 .SVGIcon-icon.world-west {
   background-image: url("../../../assets/icons/world-west.svg");

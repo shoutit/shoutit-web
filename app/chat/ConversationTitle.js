@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 
 import SVGIcon from "../shared/components/helper/SVGIcon";
+import Button from "../shared/components/helper/Button";
 
 if (process.env.BROWSER) {
   require("./ConversationTitle.scss");
@@ -33,7 +34,9 @@ export default function ConversationTitle({ users, about, type, me, showVideoCal
         </div>
       </div>
       <div className="ConversationTitle-toolbar">
-        { showVideoCallButton && <SVGIcon name="video" hover onClick={ onVideoCallClick } /> }
+        { showVideoCallButton &&
+            <Button primary size="small"  label="Video call" onClick={ onVideoCallClick } leftIcon={ <SVGIcon fill name="video" /> } />
+        }
         <SVGIcon name="trash" hover onClick={ onDeleteConversationClick } />
       </div>
     </div>
