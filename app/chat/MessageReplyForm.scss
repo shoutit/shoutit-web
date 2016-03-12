@@ -2,11 +2,12 @@
 
 .MessageReplyForm {
   display: flex;
-  padding: 15px;
-  padding-bottom: 0;
-}
+  justify-content: center;
+  align-items: flex-end;
+  padding: 10px 5px 10px 10px;
 
-.MessageReplyForm-inputContainer {
-  flex: 1;
-  padding-right: 5px;
+  textarea {
+    flex: 1;
+    margin-right: 10px;
+  }
 }
