@@ -9,6 +9,7 @@ module.exports = function () {
     list: require("./list")(this, SUBROUTE),
     create: require("./create")(this, SUBROUTE),
     get: require("./get")(this, SUBROUTE),
+    getCall: require("./getCall")(this, SUBROUTE),
     getRelated: require("./get_related")(this, SUBROUTE),
     del: require("./delete")(this, SUBROUTE),
     reply: require("./reply")(this, SUBROUTE)

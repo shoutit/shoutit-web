@@ -51,7 +51,7 @@ export default React.createClass({
   },
 
   render() {
-    const {flux, current, shout, loading, userShouts, relatedShouts} = this.props,
+    const {flux, currentLocation, shout, loading, userShouts, relatedShouts} = this.props,
       username = shout.id? shout.user.username: null;
     let content, extraShouts = {};
 
@@ -62,14 +62,16 @@ export default React.createClass({
       content =
         <DocumentTitle title={shout.title + " - Shoutit"}>
           <div>
-            <ShoutDetailBody shout={shout}
-                     current={current}
-                     flux={flux}
-                     />
-            <ShoutExtra extra={extraShouts}
-                  creator={shout.user}
-                  flux={flux}
-                />
+            <ShoutDetailBody
+              shout={shout}
+              currentLocation={ currentLocation }
+              flux={flux}
+            />
+            <ShoutExtra
+              extra={extraShouts}
+              creator={shout.user}
+              flux={flux}
+            />
           </div>
         </DocumentTitle>;
     } else if (!loading && shout === null) {

@@ -3,6 +3,10 @@ import consts from "./consts";
 import client from "./client";
 
 export default {
+  getMobileNumber(shoutId) {
+    this.dispatch(consts.GET_MOBILE_NUMBER, { shoutId });
+  },
+
   update(city) {
     this.dispatch(consts.UPDATE, {
       city

@@ -11,15 +11,17 @@ export default React.createClass({
   },
 
   renderShouts(shouts) {
+    const { currentLocation } = this.props;
+
     if (!shouts.length) {
       return <h4>No shouts found to display!</h4>;
     }
     return shouts.map((shout, i) =>
       <ShoutPreview
-        listType="small"
-        key={"shout-" + i}
-        shout={shout}
-        index={i}
+        key={ "shout-" + i }
+        shout={ shout }
+        index={ i }
+        currentLocation={ currentLocation }
       />
     );
   },

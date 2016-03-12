@@ -46,14 +46,20 @@ export default function (type = "all") {
     },
 
     render() {
+      const { currentLocation } = this.props;
       return (
         <DocumentTitle title={titles[type] + " - Shoutit"}>
           <div>
-            <EmbeddedShout collapsed={true}/>
-            <FeedList {...this.state} type={type} loadMore={this.loadMore}/>
+            <EmbeddedShout collapsed/>
+            <FeedList
+              { ...this.state }
+              type={ type }
+              loadMore={ this.loadMore }
+              currentLocation={ currentLocation }
+            />
           </div>
         </DocumentTitle>
-      ); 
+      );
     },
 
     componentDidMount() {
@@ -75,13 +81,13 @@ export default function (type = "all") {
         currentState = locStoreState.current.state,
         currentPage = this.props.params.page || '';
       if (currentCity) {
-        this.history.pushState(null, 
+        this.history.pushState(null,
             `/${typeToRoute[type]}/${currentCountry}/${currentState}/${currentCity}/${currentPage}`);
       }
     },
 
     componentDidUpdate(prevProps, prevState) {
-      
+
     },
 
     loadMore() {

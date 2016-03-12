@@ -12,6 +12,7 @@ $size-huge: 128px;
   width: $size-medium;
   height: $size-medium;
   border-radius: 10%;
+  overflow: hidden;
 
   &.size-small {
     width: $size-small;

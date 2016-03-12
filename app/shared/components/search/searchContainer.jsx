@@ -1,7 +1,7 @@
 import React from 'react';
 import {StoreWatchMixin} from "fluxxor";
 import {Grid, Column} from "../helper";
-import { SideFooterCard, ListenToCard, TagsCard, SuggestShoutCard, TagProfileCard, RelatedTagsCard, SearchCard} from "../cards";
+import { SideFooterCard, ListenToCard, InterestsCard, SuggestShoutCard, TagProfileCard, SearchCard} from "../cards";
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users", "search")],
@@ -92,10 +92,11 @@ export default React.createClass({
           { React.cloneElement(this.props.children, { ...this.state, currentLocation}) }
         </Column>
         <Column size="3">
-          <TagsCard
+          <InterestsCard
             flux={flux}
             tags={ JSON.parse(JSON.stringify(tagsData)) }
             loading={ suggestions.data && suggestions.data.tags.loading }
+            countryCode={ currentLocation.country }
           />
           <ListenToCard
             flux={flux}

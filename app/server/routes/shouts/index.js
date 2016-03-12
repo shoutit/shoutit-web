@@ -18,6 +18,9 @@ router.route("/:id")
 router.route("/:id/related")
     .get(require("./get_related")(ShoutClient));
 
+router.route("/:id/call")
+  .get(require("./getCall")(ShoutClient));
+
 router.route("/:id/reply")
   .post(require("./reply")(ShoutClient));
 

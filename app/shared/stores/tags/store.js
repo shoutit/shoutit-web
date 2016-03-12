@@ -28,6 +28,10 @@ var TagStore = Fluxxor.createStore({
 
       if (props.tagshouts) {
         this.state.tags[props.tag.name].shouts = props.tagshouts.results;
+
+        const countryCode = props.tagshouts.results[0] && props.tagshouts.results[0].location.country;
+        this.state.tags[props.tag.name].shoutsCountryCode = countryCode;
+
         this.state.tags[props.tag.name].shoutsNext = this.parseNextPage(props.tagshouts.next);
       }
 
@@ -116,6 +120,7 @@ var TagStore = Fluxxor.createStore({
         tag: {},
         shouts: null,
         shoutsNext: null,
+        shoutsCountryCode: null,
         listeners: null,
         related: {
           loading: false,
@@ -200,19 +205,21 @@ var TagStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onLoadTagShouts(payload) {
-    var tagName = payload.tagName,
-      type = payload.type;
+  onLoadTagShouts({ tagName, countryCode = "" }) {
 
-    let query = {page_size: 10};
-    type !== "all"? query.shout_type = type: undefined;
+    const query = {
+      tags: tagName,
+      country: countryCode,
+      page_size: 10
+    };
 
-    client.getShouts(tagName, query).end(function (err, res) {
+    client.getShouts(query).end(function (err, res) {
       if (err) {
         console.log(err);
       } else {
         this.onLoadTagShoutsSuccess({
-          tagName: tagName,
+          tagName,
+          countryCode,
           res: res.body
         });
       }
@@ -221,13 +228,16 @@ var TagStore = Fluxxor.createStore({
     this.emit("change");
   },
 
-  onLoadTagShoutsSuccess(payload) {
-    let next = this.parseNextPage(payload.res.next);
-    let tagShouts = this.state.tags[payload.tagName];
+  onLoadTagShoutsSuccess({ tagName, countryCode, res }) {
+    const next = this.parseNextPage(res.next);
+    const tagShouts = this.state.tags[tagName];
 
-    this.addTagEntry(payload.tagName);
-    tagShouts["shouts"] = payload.res.results;
+    this.addTagEntry(tagName);
+
+    tagShouts["shoutsCountryCode"] = countryCode;
+    tagShouts["shouts"] = res.results;
     tagShouts["shoutsNext"] = next;
+
     this.state.loading = false;
     this.emit("change");
   },

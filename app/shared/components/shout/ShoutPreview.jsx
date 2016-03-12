@@ -33,7 +33,7 @@ if (process.env.BROWSER) {
  * @param columnsPerRow - only used for grid view items
  * @returns {component}
  */
-export default function ShoutPreview({ gridView = false, shout, index, columnsPerRow = 3}) {
+export default function ShoutPreview({ gridView = false, shout, index, columnsPerRow = 3, currentLocation }) {
   const publishedDate = moment.unix(shout.date_published).fromNow();
 
   const city = encodeURIComponent(shout.location.city);
@@ -110,7 +110,8 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
             <ItemProp property="description">
               <p className="ShoutPreview-text">{ trunc(shout.text, 200) }</p>
             </ItemProp>
-            <TagButtons tags={shout.filters} linear/>
+
+            <TagButtons tags={shout.filters} linear currentLocation={ currentLocation }/>
 
             <Separator />
 
