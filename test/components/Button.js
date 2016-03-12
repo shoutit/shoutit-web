@@ -101,13 +101,4 @@ describe("Button", () => {
     expect(output.props.tabIndex).to.equal(10);
   });
 
-  it("should render a span element when disabled", () => {
-    const shallowRenderer = TestUtils.createRenderer();
-    shallowRenderer.render(<Button disabled to="/" />);
-
-    const output = shallowRenderer.getRenderOutput();
-    expect(output.type).to.equal("span");
-    expect(output.props.className).to.equal("Button disabled");
-  });
-
 });
