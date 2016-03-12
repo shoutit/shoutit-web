@@ -1,6 +1,7 @@
 import React from "react";
 import currencyFormatter from "currency-formatter";
 import { getVariation } from "../../../utils/APIUtils";
+import SVGIcon from "../../../shared/components/helper/SVGIcon";
 
 if (process.env.BROWSER) {
   require("styles/components/ShoutItem.scss");
@@ -11,6 +12,8 @@ export default function ShoutItem({
   horizontal=false,         // show item horizontally
   shadow=false,             // add a shadow
   outline=false,            // outline with a border
+  checked=false,            // display this item as "checked" (useful for multiple selections)
+  showUser=true,            // display the user's name
   thumbnailRatio=4/3,       // 4/3, 16/9 etc.
   alwaysShowThumbnail=false // show thumbnail also when not available (only when horizontal is false)
 }) {
@@ -20,12 +23,17 @@ export default function ShoutItem({
   if (horizontal) {
     alwaysShowThumbnail = true;
     className += " horizontal";
+  } else {
+    className += " vertical";
   }
   if (outline) {
     className += " outline";
   }
   if (shadow) {
     className += " shadow";
+  }
+  if (checked) {
+    className += " checked";
   }
   if (!thumbnail) {
     className += " no-thumbnail";
@@ -47,21 +55,27 @@ export default function ShoutItem({
 
       { (alwaysShowThumbnail || thumbnail) &&
         <div className="ShoutItem-thumbwrapper" style={ thumbWrapperStyle }>
-          <div className="ShoutItem-thumb"
-            style={ thumbnailStyle } />
+          <div className="ShoutItem-thumb" style={ thumbnailStyle } />
+          { checked &&
+              <div className="ShoutItem-checked">
+                <SVGIcon name="ok" size="huge" fill />
+              </div>
+           }
         </div>
       }
-
-      <div className="ShoutItem-title">
-        { title }
-      </div>
-      <div className="ShoutItem-detail">
-        <span className="ShoutItem-name">
-          { user.name }
-        </span>
-        <span className="ShoutItem-price">
-          { currencyFormatter.format(price, { code } )}
-        </span>
+      <div>
+        <div className="ShoutItem-title">
+          { title }
+        </div>
+        <div className="ShoutItem-detail">
+          { showUser && <span className="ShoutItem-name">
+            { user.name }
+          </span>
+          }
+          <span className="ShoutItem-price">
+            { currencyFormatter.format(price, { code } )}
+          </span>
+        </div>
       </div>
     </div>
   );
