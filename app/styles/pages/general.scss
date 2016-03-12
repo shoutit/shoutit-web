@@ -68,9 +68,7 @@ p.small {
 p.large {
   font-size: $default-font-size-large;
 }
-textarea {
-  resize: none;
-}
+
 input[type=text], [type=email], input[type=password], input[type=number] {
   height: 35px;
   border-radius: 5px;
@@ -91,22 +89,9 @@ input[type=text], [type=email], input[type=password], input[type=number] {
     }
   }
 }
-textarea {
-  border-radius: 5px;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  &:focus, &:active {
-    -webkit-box-shadow: none!important;
-    box-shadow: none!important;
-    border: 2px solid $si-green!important;
-    &.form-control {
-      padding: 5px 11px;
-    }
-  }
-}
+
 button {
   &:focus {
-    outline: 0!important;
     box-shadow: none!important;
   }
 }
@@ -475,17 +460,6 @@ button {
   }
 }
 
-
 .tooltip {
   opacity: 1;
 }
-//
-// .tooltip-inner {
-//   background-color: lighten($si-light-gray2, 15%);
-//   color: $si-gray;
-//   border-radius: 20px;
-//   font-size: 1.5rem;
-// }
-// .tooltip.bottom .tooltip-arrow {
-//   border-bottom-color: lighten($si-light-gray2, 15%);
-// }
