@@ -115,10 +115,12 @@ export default React.createClass({
             users={ users }
             flux={ flux }
             />
-          <ContactOwnerCard
-            shout={ shout }
-            getMobileNumber={ flux.actions.getMobileNumber }
-            />
+          {shout.id && shout.user.username !== loggedUser.username &&
+            <ContactOwnerCard
+              shout={ shout }
+              getMobileNumber={ flux.actions.getMobileNumber }
+              />
+          }
           <InterestsCard
             flux={flux}
             tags={ JSON.parse(JSON.stringify(tagsData)) }
