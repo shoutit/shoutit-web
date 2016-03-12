@@ -1,0 +1,12 @@
+@import "./constants/colors.scss";
+@import "./constants/dimensions.scss";
+
+.htmlTextarea {
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 0;
+  border: 1px solid $border-color-dark;
+  &:focus {
+    border: 1px solid $border-color-dark;
+  }
+}
