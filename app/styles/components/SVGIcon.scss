@@ -276,6 +276,9 @@ $size-large: 36px;
   .SVGIcon.active .SVGIcon-icon.mobile {
     background-image: url("../../../assets/icons/mobile-active.svg");
   }
+  .SVGIcon.fill .SVGIcon-icon.mobile {
+    background-image: url("../../../assets/icons/mobile-fill.svg");
+  }
 
 .SVGIcon-icon.more {
   background-image: url("../../../assets/icons/more.svg");
@@ -356,6 +359,9 @@ $size-large: 36px;
   .SVGIcon.hover:hover .SVGIcon-icon.send,
   .SVGIcon.active .SVGIcon-icon.send {
     background-image: url("../../../assets/icons/send-active.svg");
+  }
+  .SVGIcon.fill .SVGIcon-icon.send {
+    background-image: url("../../../assets/icons/send-fill.svg");
   }
 
 .SVGIcon-icon.share {
