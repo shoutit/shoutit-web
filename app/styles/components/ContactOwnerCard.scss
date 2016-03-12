@@ -1,5 +1,6 @@
 @import "../pages/_mixins";
 @import "../constants/colors";
+@import "../constants/defaults";
 
 .ContactOwnerCard {
   @include paper();
@@ -24,7 +25,14 @@
   color: $si-light-gray2;
 }
 
-.ContactOwnerCard-phoneButton {
+.ContactOwnerCard-mobileButton {
   display: block;
   margin: 15px auto;
+}
+
+.ContactOwnerCard-mobileNumber {
+  @extend .ContactOwnerCard-mobileButton;
+  text-align: center;
+  color: $si-green;
+  font-size: $default-font-size;
 }
