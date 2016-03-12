@@ -15,7 +15,9 @@ export default function ContactOwnerCard({ shout }) {
         <h3 className="ContactOwnerCard-headerText">contact owner</h3>
       </div>
       <Grid fluid>
-        <ReplyShoutForm shout={ shout } placeholder="Send..."/>
+        {shout.id &&
+          <ReplyShoutForm shout={ shout } placeholder="Send..."/>
+        }
       </Grid>
     </section>
   );
