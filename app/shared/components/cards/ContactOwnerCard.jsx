@@ -10,7 +10,7 @@ if (process.env.BROWSER) {
 }
 
 export default function ContactOwnerCard({ shout, getMobileNumber}) {
-  const { is_mobile_set, mobile_hint } = {is_mobile_set: true, mobile_hint: "098911..."};
+  const { is_mobile_set, mobile_hint } = shout;
 
   return (
     <div>

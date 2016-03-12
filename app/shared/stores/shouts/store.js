@@ -194,7 +194,7 @@ let ShoutStore = Fluxxor.createStore({
       if(err) {
         log(err);
       } else if( this.state.fullShouts[shoutId]) {
-        this.state.fullShouts[shoutId].mobile_number = res.body.mobile || "09118319166";
+        this.state.fullShouts[shoutId].mobile_number = res.body.mobile;
         this.emit("change");
       }
     });
