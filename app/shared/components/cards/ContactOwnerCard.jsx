@@ -20,7 +20,7 @@ export default function ContactOwnerCard({ shout, getMobileNumber}) {
             <h3 className="ContactOwnerCard-headerText">contact owner</h3>
           </div>
           <Grid fluid>
-            {is_mobile_set &&
+            {is_mobile_set?
               shout.mobile_number ?
                <span className="ContactOwnerCard-mobileNumber">
                  { shout.mobile_number }
@@ -35,7 +35,7 @@ export default function ContactOwnerCard({ shout, getMobileNumber}) {
                   label={ `${ mobile_hint } Show` }
                   leftIcon={ <SVGIcon name="mobile" fill /> }
                 />
-            }
+            : null}
           </Grid>
           <ReplyShoutForm shout={ shout } placeholder="Send..."/>
         </section>
