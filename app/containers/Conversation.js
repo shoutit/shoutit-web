@@ -4,7 +4,7 @@ import { History } from "react-router";
 
 import ConversationTitle from "../chat/ConversationTitle";
 import ConversationDeleteDialog from "../chat/ConversationDeleteDialog";
-import UserShoutsSelectDialog from "../shared/components/user/UserShoutsSelectDialog.jsx";
+import UserShoutsSelectDialog from "../users/UserShoutsSelectDialog";
 import MessagesList from "../chat/MessagesList";
 import MessageReplyForm from "../chat/MessageReplyForm";
 import MessagesTypingUsers from "../chat/MessagesTypingUsers";
@@ -260,7 +260,7 @@ export default React.createClass({
         </div>
       }
 
-      { messages.length > 0 &&
+      { didLoad && messages.length > 0 &&
         <div className="Conversation-replyFormContainer">
           <MessageReplyForm
             autoFocus
