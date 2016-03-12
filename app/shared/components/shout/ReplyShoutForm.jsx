@@ -31,6 +31,12 @@ export default React.createClass({
     };
   },
 
+  getDefaultProps() {
+    return {
+      placeholder: "Reply to this shout…"
+    };
+  },
+
   getStateFromFlux() {
     const usersStore = this.context.flux.store("users");
     const loggedUser = usersStore.getLoggedUser();
@@ -47,7 +53,10 @@ export default React.createClass({
 
     if (!loggedUser) {
       const { pathname } = this.context.location;
+      console.log(pathname);
+      console.log(e);
       this.history.pushState({ modal: "login" }, pathname);
+      return;
     }
 
     const text = form.text.value.trim();
@@ -83,12 +92,17 @@ export default React.createClass({
 
     if (!loggedUser) {
       const { pathname } = this.context.location;
-      this.history.pushState({ modal: "login" }, pathname);
+      // TODO: (p0o) Should find a better solution for here
+      // This hack is used because when the page scroll is on top the login dialog will fade away-
+      // instantly after it is appeared.
+      setTimeout(() => {
+        this.history.pushState({ modal: "login" }, pathname);
+      }, 0);
     }
   },
 
   render() {
-    const { shout } = this.props;
+    const { shout, placeholder } = this.props;
     const { loggedUser } = this.state;
 
     if (loggedUser && (shout.user.username === loggedUser.username)) {
@@ -106,7 +120,7 @@ export default React.createClass({
             autoComplete="off"
             onFocus={ this.handleFocus }
             type="text"
-            placeholder="Reply to this shout…"
+            placeholder={ placeholder }
           />
           <SVGIcon className="ReplyShoutForm-btn" name="send" hover onClick={ e => this.handleFormSubmit(e) } />
         </form>

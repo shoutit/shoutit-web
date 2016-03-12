@@ -19,6 +19,11 @@ export default {
       .get(PREFIX + "/" + shoutId);
   },
 
+  getCall(shoutId) {
+    return request
+      .get(PREFIX + "/" + shoutId + "/call");
+  },
+
   create(shout) {
     return request
       .post(PREFIX + "/")

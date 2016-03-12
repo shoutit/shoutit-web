@@ -8,6 +8,10 @@ import client from "./client";
 
 import defaults from "../../consts/defaults";
 
+import debug from "debug";
+
+const log = debug("shoutit:flux:shouts");
+
 function shoutCollectionInit() {
   return {
     shouts: [],
@@ -99,6 +103,7 @@ let ShoutStore = Fluxxor.createStore({
 
 
     this.bindActions(
+      consts.GET_MOBILE_NUMBER, this.onGetMobileNumber,
       consts.UPDATE, this.onUpdate,
       consts.UPDATE_SUCCESS, this.onUpdateSuccess,
       consts.LOAD_MORE, this.onLoadMore,
@@ -181,6 +186,18 @@ let ShoutStore = Fluxxor.createStore({
     if (this.state[defaults.REQUEST_TYPE].page) {
       this.onUpdate(defaults.REQUEST_TYPE);
     }
+  },
+
+  onGetMobileNumber({ shoutId }) {
+    client.getCall(shoutId).end((err, res) => {
+      console.log(res);
+      if(err) {
+        log(err);
+      } else if( this.state.fullShouts[shoutId]) {
+        this.state.fullShouts[shoutId].mobile_number = res.body.mobile;
+        this.emit("change");
+      }
+    });
   },
 
   onUpdateSuccess({res, type}) {
