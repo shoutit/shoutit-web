@@ -7,7 +7,7 @@ export default function ConversationDeleteDialog({ open, onRequestClose, onConfi
   const actions = [
     <FlatButton key="cancel" secondary label="Cancel" onTouchTap={ onRequestClose } />,
     <FlatButton key="submit" primary disabled={ isDeleting }
-        label={ isDeleting ? "Deleting..." : "Delete" }
+        label={ isDeleting ? "Leaving..." : "Leave" }
         onTouchTap={ onConfirm }
     />
   ];

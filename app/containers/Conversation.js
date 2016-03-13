@@ -233,11 +233,11 @@ export default React.createClass({
         <Scrollable
           uniqueId={ messages[messages.length-1].id }
           initialScroll="bottom"
-          className="Conversation-listContainer"
+          className="Conversation-scrollable"
           ref="scrollable"
           onScrollTop={ e => this.loadPreviousMessages(e) }
         >
-          <div>
+          <div className="Conversation-messagesList">
             <div className="Conversation-listTopSeparator" />
             <div
               className="Conversation-progress"

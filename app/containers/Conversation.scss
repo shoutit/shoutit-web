@@ -16,12 +16,18 @@
   color: $si-error-color;
 }
 
-.Conversation-listContainer {
-  flex: 1 1 0;
+.Conversation-scrollable {
   display: flex;
   flex-direction: column;
+  flex: 1 1 0;
   overflow: auto;
   padding: 10px 0;
+}
+
+.Conversation-messagesList {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .Conversation-listTopSeparator {
