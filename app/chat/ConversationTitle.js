@@ -14,18 +14,19 @@ if (process.env.BROWSER) {
  * @param {Object} props.conversation
  * @param {String} props.me
  */
-export default function ConversationTitle({ users, about, type, me, showVideoCallButton=false, onDeleteConversationClick, onVideoCallClick }) {
-  const partecipants = users.filter(user => user.username !== me)
+export default function ConversationTitle({ conversation, me, showVideoCallButton=false, onDeleteConversationClick, onVideoCallClick }) {
+
+  const partecipants = conversation.users.filter(user => user.username !== me)
     .map(user => user.name)
     .join(", ");
 
   return (
     <div className="ConversationTitle">
       <div className="ConversationTitle-content">
-      { type === "about_shout" &&
+      { conversation.type === "about_shout" &&
         <div className="ConversationTitle-aboutShout">
-          <Link to={ `/shout/${about.id}/${about.location.city}/${about.title}` }>
-          {about.title}
+          <Link to={ `/shout/${conversation.about.id}/${conversation.about.location.city}/${conversation.about.title}` }>
+          {conversation.about.title}
           </Link>
         </div>
         }
@@ -35,9 +36,9 @@ export default function ConversationTitle({ users, about, type, me, showVideoCal
       </div>
       <div className="ConversationTitle-toolbar">
         { showVideoCallButton &&
-            <Button primary size="small"  label="Video call" onClick={ onVideoCallClick } leftIcon={ <SVGIcon fill name="video" /> } />
+          <Button primary size="small"  label="Video call" onClick={ onVideoCallClick } leftIcon={ <SVGIcon fill name="video" /> } />
         }
-        <SVGIcon name="trash" hover onClick={ onDeleteConversationClick } />
+        <Button label="Leave" size="small" abel="Video call" onClick={ onDeleteConversationClick }  />
       </div>
     </div>
   );
