@@ -51,7 +51,7 @@ export default class Scrollable extends Component {
   }
 
   getContentHeight() {
-    return this.refs.node.children[0].offsetHeight;
+    return this.refs.node.scrollHeight;
   }
 
   scrollToInitialPosition() {
