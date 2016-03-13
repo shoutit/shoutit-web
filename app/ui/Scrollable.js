@@ -1,5 +1,9 @@
 import React, { Component, PropTypes } from "react";
 
+import debug from "debug";
+
+const log = debug("shoutit:ui:Scrollable");
+
 // Use this component to detect when the user scrolls top/bottom of a container element
 
 export default class Scrollable extends Component {
@@ -8,7 +12,6 @@ export default class Scrollable extends Component {
     uniqueId: PropTypes.oneOfType([
       PropTypes.string, PropTypes.number
     ]),
-    children: PropTypes.element.isRequired,
     onScroll: PropTypes.func,
     onScrollTop: PropTypes.func,
     onScrollBottom: PropTypes.func,
@@ -25,47 +28,52 @@ export default class Scrollable extends Component {
   }
 
   state = {
-    contentHeight: null,
+    scrollHeight: null,
     scrollTop: 0
   };
 
   componentDidMount() {
-    this.scrollToInitialPosition();
-    const contentHeight = this.getContentHeight();
-    this.setState({ contentHeight });
+    const scrollHeight = this.getScrollHeight();
+    log("Component did mount: setting state.scrollHeight to %s", scrollHeight);
+    this.setState({ scrollHeight }, this.scrollToInitialPosition);
   }
 
 
   componentDidUpdate(prevProps) {
     if (prevProps.uniqueId !== this.props.uniqueId) {
-      this.scrollToInitialPosition();
+      const scrollHeight = this.getScrollHeight();
+      log("Component unique id did change: setting state.scrollHeight to %s", scrollHeight);
+      this.setState({ scrollHeight }, this.scrollToInitialPosition);
       return;
     }
 
-    const contentHeight = this.getContentHeight();
-    if (contentHeight !== this.state.contentHeight) {
-      this.refs.node.scrollTop = contentHeight - this.state.contentHeight + this.state.scrollTop;
-      this.setState({ contentHeight });
+    const scrollHeight = this.getScrollHeight();
+    if (scrollHeight !== this.state.scrollHeight) {
+      log("Component has a different scrollHeight %s (was %s)", this.state.scrollHeight, scrollHeight);
+      this.refs.node.scrollTop = scrollHeight - this.state.scrollHeight + this.state.scrollTop;
+      log("Set scrollTop to %s", this.refs.node.scrollTop);
+      this.setState({ scrollHeight });
       return;
     }
   }
 
-  getContentHeight() {
+  getScrollHeight() {
     return this.refs.node.scrollHeight;
   }
 
   scrollToInitialPosition() {
-    const node = this.refs.node;
+    log("Scrolling to initial '%s' position", this.props.initialScroll);
     switch (this.props.initialScroll) {
     case "top":
-      node.scrollTop = 0;
+      this.refs.node.scrollTop = 0;
       break;
     case "bottom":
-      node.scrollTop = node.scrollHeight;
+      this.refs.node.scrollTop = this.state.scrollHeight;
       break;
     default:
       break;
     }
+    log("Set scrollTop to %s", this.refs.node.scrollTop);
   }
 
   handleScroll(e) {
@@ -77,7 +85,7 @@ export default class Scrollable extends Component {
     }
     if (onScrollTop && scrollTop === 0) {
       onScrollTop(e);
-    } else if (onScrollBottom && scrollTop + offsetHeight >= this.state.contentHeight) {
+    } else if (onScrollBottom && scrollTop + offsetHeight >= this.state.scrollHeight) {
       onScrollBottom(e);
     }
     this.setState({ scrollTop });
