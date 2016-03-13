@@ -155,26 +155,35 @@ if (process.env.BROWSER) {
 
 ### Tests
 
-Unit tests run with [mocha](http://mochajs.org) and [chai](http://chaijs.com):
+Most of the unit tests run with [mocha](http://mochajs.org) and [chai](http://chaijs.com).
+Some specs that need a browser instance run with [karma](https://karma-runner.github.io).
 
 ```bash
-$ npm test
-$ npm run test:watch    # Watch mode
-$ npm run test:single <file1>[, <file2>] # Test a watch single files
+$ npm test            # run all the tests
+
+$ npm test:mocha      # run all the mocha tests
+$ npm run test:watch  # watch mode for mocha tests
+$ npm run test:single <file1>[, <file2>] # Test and watch single files with mocha
+
+$ npm test:karma           # run all the karma specs
+$ npm run test:karma:watch # watch mode for karma specs
+
 ```
 
 Test coverage with [istanbul](https://github.com/gotwarlost/istanbul):
 
 ```bash
-$ npm run test:cover
+$ npm run test:cover        # coverage for the mocha tests
+$ npm run test:mocha:cover  # coverage for the karma specs
 ```
 
-then open [coverage/lcov-report/index.html](coverage/lcov-report/index.html).
+Test coverage output is in the _coverage_ directory.
 
 #### Writing unit tests
 
 * Fixtures and mocks goes into _assets/fixtures_
-* Instead of putting test specs into _/test_, each file must have a relative _*.test.js_ file. If test is not ready yet, just import the file, so that our test coverage script will detect it. Example:
+* Each file must have a relative _*.test.js_  (for mocha tests) or _*.spec.js_ (for karma) file
+* If test is not ready yet, just import the file, so that our test coverage script will detect it. Example:
 
 ```js
 import myScript from "./myScript"; // eslint-disable-line
