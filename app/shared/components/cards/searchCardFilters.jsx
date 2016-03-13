@@ -1,6 +1,6 @@
 import React from 'react';
 import {Icon} from '../helper';
-import Sticky from 'react-sticky';
+// import Sticky from 'react-sticky';
 
 const DropDownMenu = require('material-ui/lib/drop-down-menu');
 
