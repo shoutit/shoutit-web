@@ -2,6 +2,7 @@ import React from "react";
 import SearchCardFilters from "./searchCardFilters.jsx";
 import { StoreWatchMixin } from "fluxxor";
 import { Link, History } from "react-router";
+import Sticky from "../helper/Sticky.jsx";
 
 export default React.createClass({
   displayName: "SearchCard",
@@ -19,7 +20,8 @@ export default React.createClass({
       max: query.max || null,
       tags: query.tags || "",
       city: query.city || undefined,
-      country: query.country || undefined
+      country: query.country || undefined,
+      cardStyle: {}
     };
   },
 
@@ -70,11 +72,24 @@ export default React.createClass({
     flux.actions.searchShouts({ ...searchParams, ...searchQueries });
   },
 
+  componentDidMount() {
+    // Add margin top to the Sticky object to avoid overlapping with header
+    window.addEventListener("scroll", () => {
+      if (document.body.scrollTop > 100) {
+        this.setState({ cardStyle: { marginTop: "100px" } });
+      } else {
+        this.setState({ cardStyle: { marginTop: "0" } });
+      }
+    });
+  },
+
   render() {
     return (
-      <section className="si-card gray-card search-card">
-        <SearchCardFilters {...this.state} onSubmit={this.onSubmit}/>
-      </section>
+      <Sticky stickyStyle={ this.state.cardStyle }>
+        <section className="si-card gray-card search-card">
+          <SearchCardFilters {...this.state} onSubmit={this.onSubmit}/>
+        </section>
+      </Sticky>
     );
   }
 });
