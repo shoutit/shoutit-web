@@ -25,6 +25,7 @@ function MessagesByDay({ day, messages, loggedUser, partecipants }) {
           <div  className="MessagesList-messages">
             { messages.map(message =>
               <MessageItem
+                key={ message.id }
                 message={ message }
                 isMe={ isMe }
                 readByUsers={ getReadyBy(message, partecipants, loggedUser.username) }
