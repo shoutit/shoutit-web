@@ -21,9 +21,9 @@ module.exports = React.createClass({
     this.sticky.destroy();
   },
   render: function() {
-    const { tag, children } = this.props;
+    const { tag, children, stickyStyle } = this.props;
     return React.createElement(tag, {ref: 'wrapper', ...this.props}, [
-      React.createElement(tag, {ref: 'primary', key: 0}, children),
+      React.createElement(tag, {ref: 'primary', key: 0, style: stickyStyle}, children),
       React.createElement(tag, {ref: 'placeholder', key: 1})
     ]);
   }
