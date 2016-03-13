@@ -65,6 +65,14 @@ export default Fluxxor.createStore({
     return this.state.conversations[id].previous;
   },
 
+  didLoadMessages(id) {
+    const conversation = this.get(id);
+    if (!conversation) {
+      return false;
+    }
+    return !!conversation.didLoadMessages;
+  },
+
   handleLoadConversations({ results: conversations }) {
     conversations.map((conversation) => {
       this.state.conversations[conversation.id] = {
