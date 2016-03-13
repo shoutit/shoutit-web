@@ -67,7 +67,6 @@
     "react-router": "1.0.3",
     "react-scroll": "0.35.0",
     "react-share": "1.4.1",
-    "react-sticky": "3.0.0",
     "react-swipeable": "3.1.0",
     "react-tagsinput": "3.1.0",
     "react-tap-event-plugin": "0.2.2",
@@ -75,6 +74,7 @@
     "scroll-behavior": "0.3.2",
     "serve-favicon": "2.3.0",
     "serve-static": "1.10.2",
+    "sticky-position": "1.0.0",
     "superagent": "1.7.2",
     "webrtcsupport": "2.2.0"
   },

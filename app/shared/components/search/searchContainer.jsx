@@ -78,7 +78,7 @@ export default React.createClass({
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
 
     return (
-      <Grid >
+      <Grid style={{ display: "flex" }}>
         <Column size="3" clear={true}>
           <SearchCard
             params={ params }

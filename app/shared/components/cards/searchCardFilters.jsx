@@ -4,8 +4,6 @@ import Sticky from 'react-sticky';
 
 const DropDownMenu = require('material-ui/lib/drop-down-menu');
 
-let WINDOW_LEFT;
-
 export default React.createClass({
     displayName: "SearchFilters",
 
@@ -143,26 +141,11 @@ export default React.createClass({
         this.props.onSubmit({shouttype, category, tags, min, max});
     },
 
-    componentDidMount() {
-        WINDOW_LEFT = ((window.innerWidth - 1200) / 2) + 'px';
-    },
-
     render() {
-        let stickyStyle = {
-            position: 'fixed',
-            left: WINDOW_LEFT,
-            top: '100px',
-            width: '220px'
-        };
-
         return (
-            <div>
-                <Sticky topOffset={20} stickyStyle={stickyStyle}>
-                    <div className="search-filters">
-                        <p>What kind of information you need?</p>
-                        {this.renderFilters()}
-                    </div>
-                </Sticky>
+            <div className="search-filters">
+                <p>What kind of information you need?</p>
+                {this.renderFilters()}
             </div>
         );
     }
