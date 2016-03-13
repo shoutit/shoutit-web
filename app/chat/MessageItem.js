@@ -3,8 +3,8 @@ import moment from "moment";
 import { Link } from "react-router";
 
 import MessageReadByFlag from "./MessageReadByFlag";
-import ShoutItem from "../shared/components/shout/ShoutItem";
-import GoogleStaticMap from "../shared/components/misc/GoogleStaticMap";
+import ShoutItem from "../shared/components/shout/ShoutItem.jsx";
+import GoogleStaticMap from "../shared/components/misc/GoogleStaticMap.jsx";
 
 if (process.env.BROWSER) {
   require("./MessageItem.scss");

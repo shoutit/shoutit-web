@@ -5,7 +5,7 @@ import { Input } from "react-bootstrap";
 import { StoreWatchMixin } from "fluxxor";
 
 import Dialog from "../shared/components/helper/Dialog.jsx";
-import Button from "../shared/components/helper/Button";
+import Button from "../shared/components/helper/Button.jsx";
 
 export default React.createClass({
 

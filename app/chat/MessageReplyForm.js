@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import Button from "../shared/components/helper/Button";
+import Button from "../shared/components/helper/Button.jsx";
 import SVGIcon from "../shared/components/helper/SVGIcon";
 
 if (process.env.BROWSER) {

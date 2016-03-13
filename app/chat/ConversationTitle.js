@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 
 import SVGIcon from "../shared/components/helper/SVGIcon";
-import Button from "../shared/components/helper/Button";
+import Button from "../shared/components/helper/Button.jsx";
 
 if (process.env.BROWSER) {
   require("./ConversationTitle.scss");

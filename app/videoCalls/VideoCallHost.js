@@ -1,7 +1,7 @@
 import React from "react";
 import Draggable from "react-draggable";
 
-import Button from "../shared/components/helper/Button";
+import Button from "../shared/components/helper/Button.jsx";
 
 if (process.env.BROWSER) {
   require("./VideoCallHost.scss");
