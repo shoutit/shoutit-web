@@ -17,3 +17,4 @@ exclude_paths:
 - test/
 - public/
 - "**.test.js"
+- "**.spec.js"
