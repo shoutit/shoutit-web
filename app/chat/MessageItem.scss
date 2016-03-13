@@ -23,6 +23,10 @@ $border-radius: 5px;
     opacity: 0.4;
   }
 
+  &.sending .MessageItem-wrapper {
+    opacity: 0.6;
+  }
+
 }
 
 .MessageItem-wrapper {

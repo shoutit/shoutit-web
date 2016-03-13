@@ -47,7 +47,17 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
     </div>
   );
 
-  const className = `MessageItem ${isMe ? "isMe" : ""}${sendError ? " didError" : ""}`;
+  let className = "MessageItem";
+  if (isMe) {
+    className += " isMe";
+  }
+  if (sendError) {
+    className += " didError";
+  }
+  if (sending) {
+    className += " sending";
+  }
+  
   return (
     <div className={ className }>
       <div className="MessageItem-wrapper">
