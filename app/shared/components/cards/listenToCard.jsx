@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router";
 import {Icon, Column, Grid, Progress} from '../helper';
 import ListenButton from "../general/listenButton.jsx";
-import UserAvatar from '../user/UserAvatar.jsx';
+import UserAvatar from '../../../users/UserAvatar';
 
 export default React.createClass({
   displayName: "listenToCard",

@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router";
 import {Grid, Column} from "../../helper";
 import ListenButton from "../../general/listenButton.jsx";
-import UserAvatar from "../../user/UserAvatar.jsx";
+import UserAvatar from "../../../../users/UserAvatar";
 
 export default function ListenerRow(props) {
   const { user, onListen, onStopListen } = props;

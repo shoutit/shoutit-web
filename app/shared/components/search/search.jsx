@@ -75,7 +75,7 @@ export default React.createClass({
     this.props.flux.actions.searchShouts(assign(params, queries));
   },
 
-  render(){
+  render() {
     return (
       <DocumentTitle title={"Shoutit Search - " + this.state.term}>
         <div>

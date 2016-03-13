@@ -1,0 +1,11 @@
+.Progress {
+    display: flex;
+    &.isCenteredVertically {
+      align-items: center;
+      height: 100%;
+    }
+    &.isCenteredHorizontally {
+      width: 100%;
+      justify-content: center;
+    }
+}

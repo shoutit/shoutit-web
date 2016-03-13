@@ -35,9 +35,7 @@ export default {
       .get(PREFIX + "/" + tagName + "/related");
   },
 
-  getShouts(tagName, query = {}) {
-    query.tags = tagName;
-
+  getShouts(query = {}) {
     return request
       .get(SHOUTS_PREFIX)
       .query(query);

@@ -5,6 +5,7 @@ require("babel/register");
 
 var path = require("path");
 var webpack = require("webpack");
+var autoprefixer = require("autoprefixer");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var WebpackErrorNotificationPlugin = require("webpack-error-notification");
 var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin;
@@ -13,7 +14,7 @@ var CopyPlugin = require("copy-webpack-plugin");
 var isDevelopment = process.env.NODE_ENV === "development";
 
 var context = path.join(__dirname, "./app");
-var entries = ["./client/index.js"];
+var entries = ["./client.js"];
 var config = require("./config");
 
 function noop() {}
@@ -40,7 +41,7 @@ module.exports = {
   resolve: {
     extensions: ["", ".js", ".jsx", ".scss"],
     alias: {
-      "styles": path.join(__dirname, "app/res/sass")
+      "styles": path.join(__dirname, "app/styles")
     }
   },
   module: {
@@ -48,8 +49,8 @@ module.exports = {
       {
         test: /\.scss$/,
         loader: isDevelopment ?
-          "style!css?sourceMap!sass?sourceMap&sourceMapContents" :
-           ExtractTextPlugin.extract("style", "css?sourceMap!sass?sourceMap")
+          "style!css?sourceMap!postcss!sass?sourceMap&sourceMapContents" :
+           ExtractTextPlugin.extract("style", "css?sourceMap!postcss!sass?sourceMap")
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/,
@@ -89,6 +90,11 @@ module.exports = {
       }
     ]
   },
+
+  postcss: function () {
+    return [autoprefixer];
+  },
+
   plugins: [
 
     !isDevelopment ? new NotifyConfigPlugin() : noop,

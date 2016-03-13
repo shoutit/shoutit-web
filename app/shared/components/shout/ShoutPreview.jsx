@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 
 import ReplyShoutForm from "./ReplyShoutForm.jsx";
-import UserAvatar from "../user/UserAvatar.jsx";
+import UserAvatar from '../../../users/UserAvatar';
 import {Image, Column, Grid, Icon} from "../helper";
 import Separator from "../general/separator.jsx";
 import TagButtons from "../general/TagButtons.jsx";
@@ -17,6 +17,7 @@ import { kebabCase, trunc } from "lodash/string";
 import { ItemScope, ItemProp } from "../helper/microdata";
 
 import { imagesPath } from "../../../../config";
+import { getVariation } from "../../../utils/APIUtils";
 
 if (process.env.BROWSER) {
   require("styles/components/ShoutPreview.scss");
@@ -32,14 +33,15 @@ if (process.env.BROWSER) {
  * @param columnsPerRow - only used for grid view items
  * @returns {component}
  */
-export default function ShoutPreview({ gridView = false, shout, index, columnsPerRow = 3}) {
+export default function ShoutPreview({ gridView = false, shout, index, columnsPerRow = 3, currentLocation }) {
   const publishedDate = moment.unix(shout.date_published).fromNow();
 
   const city = encodeURIComponent(shout.location.city);
   const title = encodeURIComponent(kebabCase(shout.title));
   const currency = shout.origCurrency || shout.currency;
 
-  const thumbnail = shout.thumbnail && shout.thumbnail.replace(/\.jpg$/i, "_medium.jpg") ||
+  const thumbnail = shout.thumbnail ?
+    getVariation(shout.thumbnail) :
     `${imagesPath}/pattern@2x.png`;
 
   let content;
@@ -108,7 +110,8 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
             <ItemProp property="description">
               <p className="ShoutPreview-text">{ trunc(shout.text, 200) }</p>
             </ItemProp>
-            <TagButtons tags={shout.filters} linear/>
+
+            <TagButtons tags={shout.filters} linear currentLocation={ currentLocation }/>
 
             <Separator />
 
@@ -145,4 +148,3 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
     </div>
   );
 }
-

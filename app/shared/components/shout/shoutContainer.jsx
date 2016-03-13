@@ -1,7 +1,8 @@
 import React from 'react';
 import {StoreWatchMixin} from "fluxxor";
 import {Grid, Column} from '../helper';
-import {ListenToCard, TagsCard, SuggestShoutCard, ShareShoutCard, ShoutOwnerCard} from "../cards";
+import { SideFooterCard, ListenToCard, InterestsCard, SuggestShoutCard, ShareShoutCard, ShoutOwnerCard } from "../cards";
+import ContactOwnerCard from "../cards/ContactOwnerCard.jsx";
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("shouts", "locations", "users", "tags")],
@@ -33,7 +34,6 @@ export default React.createClass({
     const shoutStore = flux.store("shouts"),
       userStoreState = flux.store("users").getState(),
       shoutStoreState = JSON.parse(JSON.stringify(shoutStore.getState())),
-      current = flux.store("locations").getState().current,
       findRes = shoutStore.findShout(params.shoutId);
 
     return {
@@ -46,7 +46,6 @@ export default React.createClass({
       userShouts: userStoreState.shouts,
       relatedShouts: shoutStoreState.relatedShouts,
       replyDrafts: shoutStoreState.replyDrafts,
-      current,
       tags
     };
   },
@@ -107,7 +106,7 @@ export default React.createClass({
           }
         </Column>
         <Column size="9">
-          { React.cloneElement(this.props.children, {...this.state}) }
+          { React.cloneElement(this.props.children, {...this.state, currentLocation}) }
         </Column>
         <Column size="3">
           <ShoutOwnerCard
@@ -116,10 +115,17 @@ export default React.createClass({
             users={ users }
             flux={ flux }
             />
-          <TagsCard
+          {shout.id && shout.user.username !== loggedUser.username &&
+            <ContactOwnerCard
+              shout={ shout }
+              getMobileNumber={ flux.actions.getMobileNumber }
+              />
+          }
+          <InterestsCard
             flux={flux}
             tags={ JSON.parse(JSON.stringify(tagsData)) }
             loading={ suggestions.data && suggestions.data.tags.loading }
+            countryCode={ currentLocation.country }
           />
           <ListenToCard
             flux={flux}
@@ -131,6 +137,7 @@ export default React.createClass({
             shout={ shoutsData }
             loading={ suggestions.data && suggestions.data.shouts.loading }
           />
+          <SideFooterCard />
         </Column>
       </Grid>
     );

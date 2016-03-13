@@ -8,7 +8,7 @@ import Overlay from "react-overlays/lib/Overlay";
 import TagsInput from "react-tagsinput";
 import DropzoneComponent from "react-dropzone-component";
 import {ReactVisible, Column, Grid, Icon} from "../../helper";
-import UserAvatar from "../../user/UserAvatar.jsx";
+import UserAvatar from '../../../../users/UserAvatar';
 import LocationSearch from "../../general/locationSearch.jsx";
 import map from "lodash/collection/map";
 import Clearfix from "../../helper/clearFix.jsx";

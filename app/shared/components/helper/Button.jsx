@@ -21,7 +21,7 @@ export default function Button({
 }) {
   let Element;
   if (attributes.disabled) {
-    Element = "span";
+    Element = "button";
   } else if (attributes.to) {
     Element = Link;
   } else if (attributes.href) {

@@ -1,0 +1,32 @@
+@import "../styles/constants/colors.scss";
+
+.ConversationTitle {
+  background-color: $background-color;
+  border-bottom: 1px solid $border-color-dark;
+  min-height: 5rem;
+  padding: 0 10px;
+  display: flex;
+}
+
+  .ConversationTitle-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .ConversationTitle-toolbar {
+    display: flex;
+    align-items: center;
+  }
+
+  .ConversationTitle-partecipants {
+    font-weight: bold;
+  }
+
+  .ConversationTitle-aboutShout {
+    a {
+      font-size: 1.1em;
+      color: $si-blue;
+    }
+  }

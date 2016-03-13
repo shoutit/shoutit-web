@@ -72,10 +72,10 @@ export default {
     });
   },
 
-  loadTagShouts(tagName, type) {
+  loadTagShouts(tagName, countryCode) {
     this.dispatch(consts.LOAD_TAG_SHOUTS, {
-      tagName: tagName,
-      type: type
+      tagName,
+      countryCode
     });
   },
 

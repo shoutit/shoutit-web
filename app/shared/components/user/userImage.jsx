@@ -2,10 +2,12 @@ import React from 'react';
 import {Link} from 'react-router';
 import assign from 'lodash/object/assign';
 
+import { getVariation } from "../../../utils/APIUtils";
+
 export default React.createClass({
   displayName: "UserImage",
 
-  proprTypes: {
+  propTypes: {
     height: React.PropTypes.string,
     width: React.PropTypes.string,
     size: React.PropTypes.string,
@@ -31,9 +33,7 @@ export default React.createClass({
     sizedUrl = sizedUrl.replace("http://", "https://");
 
     if (sizedUrl.indexOf("user-image.static.shoutit") > -1) {
-      sizedUrl = sizedUrl
-        .replace(".jpg", "_small.jpg")
-        .replace(".jpeg", "_small.jpeg");
+      sizedUrl = getVariation(sizedUrl, "small");
     } else if (sizedUrl.indexOf("hqdefault") > -1) {
       sizedUrl = sizedUrl.replace("hqdefault", this.props.ytSize + "default");
     }
@@ -86,6 +86,6 @@ export default React.createClass({
         <div className={className + " user-image"} style={style}/>
       );
     }
-    
+
   }
 });

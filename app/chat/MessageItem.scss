@@ -1,0 +1,88 @@
+
+@import "../styles/constants/colors.scss";
+$border-radius: 5px;
+
+.MessageItem {
+  font-size: 0.875em;
+  margin: 1px 5px;
+
+  .MessageItem-text {
+    background-color: white;
+    border: 1px solid $border-color;
+  }
+
+  &.isMe {
+    text-align: right;
+    .MessageItem-text {
+     background-color: $background-color-alt;
+     border: 1px solid $border-color-alt;
+   }
+  }
+
+  &.didError .MessageItem-wrapper {
+    opacity: 0.4;
+  }
+
+  &.sending .MessageItem-wrapper {
+    opacity: 0.6;
+  }
+
+}
+
+.MessageItem-wrapper {
+  text-align: left;
+  display: inline-block;
+  min-width: 25%;
+  max-width: 75%;
+}
+
+.MessageItem-attachment {
+  margin-top: 5px;
+}
+
+.MessageItem-text {
+  padding: 5px 10px;
+  border-radius: $border-radius;
+  p {
+    font-size: 1em;
+    margin: 0;
+  }
+}
+
+.MessageItem-attachments {
+  > .MessageItem-footer {
+    margin: 5px 10px;
+  }
+  + .MessageItem-text {
+    margin-top: 5px;
+  }
+  .ShoutItem {
+    border: 1px solid $border-color;
+    box-shadow: none;
+  }
+}
+
+.MessageItem-day {
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.875em;
+  color: #999;
+  margin: 1em;
+}
+
+
+.MessageItem-footer {
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 0.65em;
+  color: #999;
+}
+
+.MessageItem-retry {
+  font-size: 0.65em;
+  margin-bottom: 1em;
+  padding: 0.25em;
+  color: $si-error-color;
+}

@@ -18,7 +18,7 @@ export function unsubscribe(channel) {
   client.unsubscribe(channel.name);
 }
 
-export function setup(authStore, {
+export function setupPusher(authStore, {
   onNewMessage,
   onNewListener,
   onProfileChange

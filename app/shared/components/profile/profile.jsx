@@ -1,6 +1,6 @@
 import React from "react";
 import {Grid, Column, Progress} from "../helper";
-import ProfileOffers from "./profileOffers.jsx";
+import ProfileShouts from "./ProfileShouts.jsx";
 import DocumentTitle from "react-document-title";
 import ProfileCover from "./profileCover.jsx";
 import assign from "lodash/object/assign";
@@ -19,9 +19,9 @@ export default React.createClass({
 
   // Need to move it later to profileOffers after moving this path to home route path
   statics: {
-    fetchId: 'useroffers',
+    fetchId: 'userShouts',
     fetchData(client, session, params) {
-      return client.shouts().list(session, {profile: params.username});
+      return client.shouts().list(session, {profile: params.username, ...params});
     }
   },
 
@@ -120,7 +120,7 @@ export default React.createClass({
               {user.is_owner ? (
                 <EmbeddedShout collapsed={true}/>
               ) : null}
-              <ProfileOffers {...this.props} username={username}/>
+              <ProfileShouts {...this.props} username={ username }/>
 
             </Column>
           </Grid>

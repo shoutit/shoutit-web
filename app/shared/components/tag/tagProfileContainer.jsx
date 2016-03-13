@@ -1,7 +1,8 @@
 import React from 'react';
 import {StoreWatchMixin} from "fluxxor";
 import {Grid, Column} from "../helper";
-import {ListenToCard, TagsCard, SuggestShoutCard, TagProfileCard, RelatedTagsCard} from "../cards";
+import { SideFooterCard, ListenToCard, InterestsCard, SuggestShoutCard, TagProfileCard, RelatedInterestsCard} from "../cards";
+
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users")],
@@ -91,7 +92,7 @@ export default React.createClass({
     const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
 
-    const { tagName } = params;
+    const { tagName, countryCode } = params;
     // Avoiding mutation problems in store
     const clonedTags = JSON.parse(JSON.stringify(this.state.tags.tags));
 
@@ -104,21 +105,23 @@ export default React.createClass({
         <Column size="3" clear={true}>
           <TagProfileCard params={params} flux={flux} {...this.state.tags}/>
           {tag && !tag.related.err &&
-            <RelatedTagsCard
+            <RelatedInterestsCard
               tags={ relatedTagsData }
               loading={ tag && tag.related.loading }
               flux={ flux }
+              countryCode={ currentLocation.country }
             />
           }
         </Column>
         <Column size="9">
-          { React.cloneElement(this.props.children, { ...this.state.tags, tagName }) }
+          { React.cloneElement(this.props.children, { ...this.state.tags, tagName, currentLocation, countryCode }) }
         </Column>
         <Column size="3">
-          <TagsCard
+          <InterestsCard
             flux={flux}
             tags={ JSON.parse(JSON.stringify(tagsData)) }
             loading={ suggestions.data && suggestions.data.tags.loading }
+            countryCode={ currentLocation.country }
           />
           <ListenToCard
             flux={flux}
@@ -130,6 +133,7 @@ export default React.createClass({
             shout={ shoutsData }
             loading={ suggestions.data && suggestions.data.shouts.loading }
           />
+          <SideFooterCard />
         </Column>
       </Grid>
     );

@@ -1,0 +1,13 @@
+
+
+.MessageReplyForm {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 10px 5px 10px 10px;
+
+  textarea {
+    flex: 1;
+    margin-right: 10px;
+  }
+}

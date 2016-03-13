@@ -2,7 +2,7 @@ import React from "react";
 import {StoreWatchMixin} from "fluxxor";
 import {Link, History} from "react-router";
 import {Icon, Grid, Column} from "../helper";
-import UserAvatar from "../user/UserAvatar.jsx";
+import UserAvatar from '../../../users/UserAvatar';
 import SVGIcon from "../helper/SVGIcon";
 
 export default React.createClass({
@@ -27,9 +27,8 @@ export default React.createClass({
     let isLoggedIn = this.state.user;
 
     if ( isLoggedIn ) {
-      let img = this.state.users[this.state.user].image,
-        name = this.state.users[this.state.user].name,
-        userImage = <UserAvatar user={ this.state.users[this.state.user] } size="small" linkToUserPage />;
+      const name = this.state.users[this.state.user].name;
+      const userImage = <UserAvatar user={ this.state.users[this.state.user] } size="small" linkToUserPage />;
       return (
                 <section className="si-card gray-card">
                     <Grid fluid={true}>

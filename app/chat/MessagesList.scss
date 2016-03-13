@@ -1,0 +1,34 @@
+@import "../styles/constants/colors.scss";
+
+.MessagesList {
+  display: flex;
+  align-items: flex-end;
+  padding: 0 5px 10px 10px;
+}
+
+.MessagesList.isMe {
+  flex-direction: row-reverse;
+  .MessagesList-user {
+    display: none;
+  }
+}
+
+  .MessagesList-day {
+    margin: 10px 0;
+    text-align: center;
+    color: $color-lighter;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    span:first-child,
+    span:last-child {
+      flex: 1;
+      height: 1px;
+      background-color: $border-color;
+      margin: 0 10px;
+    }
+  }
+
+  .MessagesList-messages {
+    flex: 1;
+  }

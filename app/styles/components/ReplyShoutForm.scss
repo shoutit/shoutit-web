@@ -1,0 +1,33 @@
+@import "../constants/colors.scss";
+.ReplyShoutForm {
+  display: flex;
+  background: #F6F7F8;
+  padding: 10px 20px;
+}
+
+  .ReplyShoutForm-form {
+    padding-left: 10px;
+    display: inline-block;
+    width: 100%;
+    position: relative;
+
+    /* override react-bootstrap things :( */
+    .form-group {
+      display: inline-block;
+      margin: 0;
+      width: 100%;
+    }
+    input[type=text] {
+      padding-right: 30px !important;
+      display: inline-block;
+      border: 1px solid $si-light-gray2;
+    }
+
+    > .SVGIcon {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      margin-top: -12px;
+    }
+
+  }

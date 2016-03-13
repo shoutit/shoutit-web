@@ -1,0 +1,57 @@
+@import "../styles/constants/colors.scss";
+@import "../styles/mixins/cropped-thumbnail.scss";
+
+$size-small: 28px;
+$size-medium: 36px;
+$size-large: 48px;
+$size-huge: 128px;
+
+.UserAvatar {
+  display: inline-block;
+  position: relative;
+  width: $size-medium;
+  height: $size-medium;
+  border-radius: 10%;
+  overflow: hidden;
+
+  &.size-small {
+    width: $size-small;
+    height: $size-small;
+  }
+
+  &.size-large {
+    width: $size-large;
+    height: $size-large;
+  }
+
+  &.size-huge {
+    width: $size-huge;
+    height: $size-huge;
+  }
+
+  &.mask:after {
+    position: absolute;
+    z-index: 1;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../../assets/ui-elements/user-mask.png");
+    background-size: contain;
+  }
+
+  &.placeholder {
+    background-color: $background-color-dark;
+    background-image: url("../../assets/icons/profile-fill.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+  }
+
+  img {
+    border-radius: 10%;
+    @include cropped-thumbnail();
+  }
+
+}
