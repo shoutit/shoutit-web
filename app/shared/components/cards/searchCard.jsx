@@ -73,14 +73,20 @@ export default React.createClass({
   },
 
   componentDidMount() {
+    window.addEventListener("scroll", this.handleCardStyle);
+  },
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleCardStyle);
+  },
+
+  handleCardStyle() {
     // Add margin top to the Sticky object to avoid overlapping with header
-    window.addEventListener("scroll", () => {
-      if (document.body.scrollTop > 100) {
-        this.setState({ cardStyle: { marginTop: "100px" } });
-      } else {
-        this.setState({ cardStyle: { marginTop: "0" } });
-      }
-    });
+    if (document.body.scrollTop > 100) {
+      this.setState({ cardStyle: { marginTop: "100px" } });
+    } else {
+      this.setState({ cardStyle: { marginTop: "0" } });
+    }
   },
 
   render() {
