@@ -1,9 +1,9 @@
 import React, { PropTypes, Component } from "react";
 import { Modal } from "react-bootstrap";
 
-import Progress from "../shared/components/helper/Progress";
-import Button from "../shared/components/helper/Button";
-import ShoutItem from "../shared/components/shout/ShoutItem";
+import Progress from "../shared/components/helper/Progress.jsx";
+import Button from "../shared/components/helper/Button.jsx";
+import ShoutItem from "../shared/components/shout/ShoutItem.jsx";
 
 if (process.env.BROWSER) {
   require("./UserShoutsSelectDialog.scss");
