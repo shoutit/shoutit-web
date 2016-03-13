@@ -1,3 +1,7 @@
+/**
+ * This package is first created by https://github.com/jackmoore/react-sticky-position
+ * Changed to add more features like styling inner div
+ */
 var React = require('react');
 var stickyPosition = require('sticky-position');
 
