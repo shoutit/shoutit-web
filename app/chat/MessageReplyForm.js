@@ -51,11 +51,13 @@ export default class MessageReplyForm extends Component {
   handleFormSubmit(e) {
     e.preventDefault();
     const { disabled, onSubmit } = this.props;
-    if (disabled || !e.target.draft.value.trim()) {
+    const text = e.target.draft.value.trim();
+    if (disabled || !text) {
       return;
     }
-    onSubmit(e);
-    e.target.input.focus();
+    onSubmit(text);
+    e.target.draft.value = "";
+    e.target.draft.focus();
   }
 
   handleTextChange(e) {
@@ -76,21 +78,21 @@ export default class MessageReplyForm extends Component {
   }
 
   render() {
-    const  { draft, autoFocus, disabled, onAttachShoutClick, placeholder } = this.props;
+    const  { initialValue, autoFocus, disabled, onAttachShoutClick, placeholder } = this.props;
     return (
       <form className="MessageReplyForm" onSubmit={ e => this.handleFormSubmit(e) }>
         <TextareaAutosize
           className="htmlTextarea"
           maxRows={5}
           name="draft"
-          value={ draft }
+          initialValue={ initialValue }
           disabled={ disabled }
           autoComplete="off"
           autoFocus={ autoFocus }
           placeholder={ placeholder }
           onChange={ e => this.handleTextChange(e) }
         />
-        <Button leftIcon={ <SVGIcon name="send" fill /> } label="Send" primary type="submit" size="small" disabled={ disabled  || !draft } className="reply" />
+        <Button leftIcon={ <SVGIcon name="send" fill /> } label="Send" primary type="submit" size="small" disabled={ disabled || !initialValue } className="reply" />
         <Button label="Attach shout" type="button" size="small" disabled={ disabled } onClick={ onAttachShoutClick } />
       </form>
     );
