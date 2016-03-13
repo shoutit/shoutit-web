@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 
-import ManyUsersImage from "../shared/components/user/ManyUsersImage.jsx";
+import ManyUsersAvatar from "../users/ManyUsersAvatar.js";
 import { formatCreatedAt } from "../utils/DateUtils";
 
 if (process.env.BROWSER) {
@@ -28,7 +28,7 @@ export default function ConversationItem({ id, type, users, last_message, about,
   return (
     <Link onClick={ onClick } to={ `/messages/${id}` } className={ className }>
       <div className="ConversationItem-usersImage">
-        <ManyUsersImage users={ users.filter(user => user.username !== me) } />
+        <ManyUsersAvatar users={ users.filter(user => user.username !== me) } />
       </div>
 
       <div className="ConversationItem-body">

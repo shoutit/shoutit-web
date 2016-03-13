@@ -4,9 +4,12 @@ import { History } from "react-router";
 
 import ConversationTitle from "../chat/ConversationTitle";
 import ConversationDeleteDialog from "../chat/ConversationDeleteDialog";
-import UserShoutsSelectDialog from "../shared/components/user/UserShoutsSelectDialog.jsx";
+import UserShoutsSelectDialog from "../users/UserShoutsSelectDialog";
 import MessagesList from "../chat/MessagesList";
 import MessageReplyForm from "../chat/MessageReplyForm";
+import MessagesTypingUsers from "../chat/MessagesTypingUsers";
+import Scrollable from "../ui/Scrollable";
+
 import Progress from "../shared/components/helper/Progress.jsx";
 
 let subscribe;
@@ -41,50 +44,30 @@ export default React.createClass({
   componentDidMount() {
     this.loadData();
     this.subscribePresenceChannel();
-    if (this.list) {
-      this.list.scrollTop = this.list.scrollHeight;
-      this.setState({
-        scrollTop: this.list.scrollHeight,
-        scrollHeight: this.list.scrollHeight
-      });
-    }
   },
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.params.id !== nextProps.params.id) {
-      // Reset scroll state as the conversation change
-      this.setState({
-        scrollTop: undefined,
-        scrollHeight: undefined
-      });
+  shouldComponentUpdate(nextProps, nextState) {
+    // Do not render all again if just draft changed
+    if (nextState.draft !== this.state.draft) {
+      return false;
     }
+    return true;
   },
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.params.id !== this.props.params.id) {
+  componentDidUpdate(prevProps) {
+    const { id } = this.props.params;
+    const conversationChanged = prevProps.params.id !== id;
+
+    if (conversationChanged) {
+      if (this.props.flux.stores.conversations.didLoadMessages(id)) {
+        // Reuse existing data
+        this.setState(this.getStateFromFlux());
+        return;
+      }
+      // Load data
       this.loadData();
       this.unsubscribePresenceChannel();
       this.subscribePresenceChannel();
-    }
-    const { messages } = this.state;
-    if (prevState.messages.length !== messages.length && this.list) {
-      const addedBefore = prevState.messages.length > 0 && messages.length > 0
-        && prevState.messages[0].id !== messages[0].id;
-
-      const previousHeight = prevState.scrollHeight;
-      const scrollHeight = this.list.scrollHeight;
-
-      let scrollTop;
-      if (!previousHeight || !addedBefore) {
-        // Scroll to bottom of the list
-        scrollTop = scrollHeight;
-      }
-      else {
-        // keep scrollTop the same as before, even if new messages have been added
-        scrollTop = scrollHeight - previousHeight + prevState.scrollTop;
-      }
-      this.list.scrollTop = scrollTop;
-      this.setState({ scrollHeight, scrollTop });
     }
 
   },
@@ -93,46 +76,39 @@ export default React.createClass({
     this.unsubscribePresenceChannel();
   },
 
-  list: null,
   presenceChannel: null,
   typingTimeouts: {},
 
   getStateFromFlux() {
+
     const { id } = this.props.params;
-    const conversationsStore = this.getFlux().store("conversations");
-    const messagesStore = this.getFlux().store("messages");
-    const conversation = conversationsStore.get(id);
+    const { flux } = this.props;
+    const conversation = flux.store("conversations").get(id);
 
-    const state = { messages: [], loading: true, typingUsers: [] };
-
-    if (conversation) {
-      const { messageIds } = conversation;
-      const draft = conversationsStore.getDraft(id);
-      const messages = messageIds ? messagesStore.getMessages(messageIds) : [];
-
-      // Remove typing user if last message is the same
-      const typingUsers = this.state ? [ ...this.state.typingUsers] : [];
-      const typingUserIndex = typingUsers.findIndex(
-        user => user.id === conversation.last_message.user.id
-      );
-      if (typingUserIndex > -1) {
-        typingUsers.splice(typingUserIndex, 1);
-      }
-      return { ...state, ...conversation, typingUsers, messages, draft };
+    if (!conversation || !conversation.didLoad || !conversation.didLoadMessages) {
+      return {
+        loading: conversation && conversation.loading
+      };
     }
 
-    return state;
+    const messages = flux.store("messages").getMessages(conversation.messageIds);
+
+    // Remove typing user if last message is the same
+    const typingUsers = this.state.typingUsers || [];
+    const typingUserIndex = typingUsers.findIndex(
+      user => user.id === conversation.last_message.user.id
+    );
+    if (typingUserIndex > -1) {
+      typingUsers.splice(typingUserIndex, 1);
+    }
+
+    return { conversation, messages, typingUsers, loading: false };
+
   },
 
   loadData() {
     const { id } = this.props.params;
-    const flux = this.getFlux();
-    const conversation = flux.store("conversations").get(id);
-    if (conversation && conversation.didLoad && conversation.didLoadMessages) {
-      const messages = flux.store("messages").getMessages(conversation.messageIds);
-      this.setState({...conversation, messages});
-    }
-    this.getFlux().actions.loadMessages(id);
+    this.props.flux.actions.loadMessages(id);
   },
 
   subscribePresenceChannel() {
@@ -155,21 +131,13 @@ export default React.createClass({
     }
   },
 
-  handleListScroll(e) {
-    const scrollTop = e.target.scrollTop;
-    const { didLoad, previous, loadingPrevious, messages } = this.state;
-
-    const shouldLoadPreviousMessages = scrollTop < 10 && messages.length > 0 &&
-      didLoad && previous && !loadingPrevious;
-
-    if (shouldLoadPreviousMessages) {
-      const { id } = this.props.params;
-      this.getFlux().actions.loadPreviousMessages(
-        id,
-        messages[0].created_at
-      );
+  loadPreviousMessages() {
+    const { conversation, messages } = this.state;
+    if (!conversation.previous || conversation.loadingPrevious || messages.length === 0) {
+      return;
     }
-    this.setState({ scrollTop });
+    const { id } = this.props.params;
+    this.props.flux.actions.loadPreviousMessages(id, messages[0].created_at);
   },
 
   clearTypingTimeout(user) {
@@ -201,8 +169,7 @@ export default React.createClass({
     if (isAlreadyTyping) {
       this.clearTypingTimeout(user);
       this.setTypingTimeout(user);
-    }
-    else {
+    } else {
       this.setState({
         typingUsers: [...this.state.typingUsers, user]
       }, () => this.setTypingTimeout(user));
@@ -211,69 +178,95 @@ export default React.createClass({
   },
 
   render() {
-    const { loggedUser, videoCallState } = this.props;
-    const { id } = this.props.params;
-    const { messages, draft, didLoad, loading, loadingPrevious, users,
-      about, type, error, showDelete, isDeleting, typingUsers, showAttachShout } = this.state;
+    const { loggedUser, videoCallState, flux } = this.props;
+    const { conversation, messages, draft, loading } = this.state;
 
-    const { replyToConversation, deleteConversation, conversationDraftChange, previewVideoCall }
-      = this.getFlux().actions;
+    if (!conversation || loading) {
+      return <div className="Conversation">
+        { loading && <Progress centerVertical /> }
+      </div>;
+    }
+
+    const me = loggedUser ? loggedUser.username : undefined;
+
+    const {
+      replyToConversation,
+      deleteConversation,
+      conversationDraftChange,
+      previewVideoCall
+    } = flux.actions;
+
+
+    const { typingUsers, showAttachShout, showDelete } = this.state;
 
     return (
       <div className="Conversation">
 
-      { didLoad &&
+      { conversation.didLoad &&
         <ConversationTitle
-          users={ users }
-          about={ about }
-          type={ type }
-          me={ loggedUser && loggedUser.username }
+          conversation={ conversation }
+          me={ me }
           showVideoCallButton={ videoCallState.initialized }
           onDeleteConversationClick={ () => this.setState({ showDelete: true }) }
           onDeleteMessagesTouchTap={ () => {} }
-          onVideoCallClick={ () => previewVideoCall(users.find(user => user.username !== loggedUser.username)) }
+          onVideoCallClick={ () =>
+            previewVideoCall(conversation.users.find(user => user.username !== me))
+          }
         />
       }
 
-      { error && !loading &&
+      { conversation.error && !conversation.loading &&
         <div className="Conversation-error">
-          { error.status && error.status === 404 ? "Page not found" : "Error loading this chat." }
+          { conversation.error.status && conversation.error.status === 404 ?
+              "Page not found" :
+              "Error loading this chat."
+          }
         </div>
       }
 
-      { didLoad && !messages.length > 0 && loading && <Progress centerVertical /> }
+      { conversation.loading &&
+        <Progress centerVertical />
+      }
 
-      { messages.length > 0 &&
-        <div className="Conversation-listContainer"
-          ref={ ref => this.list = ref }
-          onScroll={ this.handleListScroll }>
-          <div className="Conversation-listTopSeparator" />
-          <div
-            className="Conversation-progress"
-            style={ loadingPrevious ? null : { visibility: "hidden" }}>
-            <Progress />
+      { conversation.didLoadMessages &&
+
+        <Scrollable
+          uniqueId={ messages[messages.length-1].id }
+          initialScroll="bottom"
+          className="Conversation-listContainer"
+          ref="scrollable"
+          onScrollTop={ e => this.loadPreviousMessages(e) }
+        >
+          <div>
+            <div className="Conversation-listTopSeparator" />
+            <div
+              className="Conversation-progress"
+              style={ conversation.loadingPrevious ? null : { visibility: "hidden" }}>
+              <Progress />
+            </div>
+
+            <MessagesList
+              loggedUser={ loggedUser }
+              messages={ messages }
+              partecipants={ conversation.users }
+            />
+
+            <MessagesTypingUsers users={ typingUsers } />
+
           </div>
-          <MessagesList
-            partecipants={ users }
-            typingUsers={ typingUsers }
-            messages={ messages }
-            me={ loggedUser && loggedUser.username }
-          />
-        </div>
+
+        </Scrollable>
       }
 
-      { messages.length > 0 &&
+      { conversation.didLoadMessages &&
         <div className="Conversation-replyFormContainer">
           <MessageReplyForm
             autoFocus
-            placeholder="Add a reply"
-            draft={ draft }
-            onTextChange={ text => conversationDraftChange(id, text) }
-            onTyping={ () =>
-              this.presenceChannel.trigger("client-user_is_typing", loggedUser)
-            }
-            onAttachShoutClick={ () => this.setState({showAttachShout: true}) }
-            onSubmit={ () => replyToConversation(loggedUser, id, draft) }
+            initialValue={ conversation.draft }
+            onTextChange={ text => conversationDraftChange(conversation.id, text) }
+            onTyping={ () => this.presenceChannel.trigger("client-user_is_typing", loggedUser) }
+            onAttachShoutClick={ () => this.setState({ showAttachShout: true }) }
+            onSubmit={ text => replyToConversation(loggedUser, conversation.id, text) }
           />
         </div>
       }
@@ -281,10 +274,10 @@ export default React.createClass({
       <ConversationDeleteDialog
         open={ showDelete }
         onRequestClose={ () => this.setState({ showDelete: false }) }
-        onConfirm={() => deleteConversation(id,
+        onConfirm={() => deleteConversation(conversation.id,
           () => this.history.replaceState(null, "/messages") )
         }
-        isDeleting={ isDeleting }
+        isDeleting={ conversation.isDeleting }
       />
 
       <UserShoutsSelectDialog
@@ -295,7 +288,7 @@ export default React.createClass({
         onRequestClose={ () => this.setState({ showAttachShout: false }) }
         onSelectionConfirm={ shouts => {
           const attachments = shouts.map(shout => ({ shout }));
-          replyToConversation(loggedUser, id, draft, attachments);
+          replyToConversation(loggedUser, conversation.id, draft, attachments);
           this.setState({ showAttachShout: false });
         }}
       />

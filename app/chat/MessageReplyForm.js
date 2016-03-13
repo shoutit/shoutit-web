@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from "react";
-import {Input, Button} from "react-bootstrap";
+import TextareaAutosize from "react-textarea-autosize";
+import Button from "../shared/components/helper/Button.jsx";
+import SVGIcon from "../shared/components/helper/SVGIcon";
 
 if (process.env.BROWSER) {
   require("./MessageReplyForm.scss");
@@ -32,7 +34,7 @@ export default class MessageReplyForm extends Component {
     draft: "",
     autoFocus: false,
     disabled: false,
-    placeholder: "Send a message",
+    placeholder: "Type a message…",
     typingTimeout: 3000
   }
 
@@ -49,11 +51,13 @@ export default class MessageReplyForm extends Component {
   handleFormSubmit(e) {
     e.preventDefault();
     const { disabled, onSubmit } = this.props;
-    if (disabled || !e.target.input.value.trim()) {
+    const text = e.target.draft.value.trim();
+    if (disabled || !text) {
       return;
     }
-    onSubmit(e);
-    e.target.input.focus();
+    onSubmit(text);
+    e.target.draft.value = "";
+    e.target.draft.focus();
   }
 
   handleTextChange(e) {
@@ -74,29 +78,22 @@ export default class MessageReplyForm extends Component {
   }
 
   render() {
-    const  { draft, autoFocus, disabled, onAttachShoutClick, placeholder } = this.props;
+    const  { initialValue, autoFocus, disabled, onAttachShoutClick, placeholder } = this.props;
     return (
       <form className="MessageReplyForm" onSubmit={ e => this.handleFormSubmit(e) }>
-        <div className="MessageReplyForm-inputContainer">
-          <Input
-            autoComplete="off"
-            autoFocus={ autoFocus }
-            placeholder={ placeholder }
-            disabled={ disabled }
-            name="input"
-            type="text"
-            onChange={ e => this.handleTextChange(e) }
-            value={ draft }
-          />
-        </div>
-        <div>
-          <Button type="submit" disabled={ disabled  || !draft } className="reply">
-            Send
-          </Button>
-          <Button type="button" disabled={ disabled } onClick={ onAttachShoutClick }>
-            Attach shout
-          </Button>
-        </div>
+        <TextareaAutosize
+          className="htmlTextarea"
+          maxRows={5}
+          name="draft"
+          initialValue={ initialValue }
+          disabled={ disabled }
+          autoComplete="off"
+          autoFocus={ autoFocus }
+          placeholder={ placeholder }
+          onChange={ e => this.handleTextChange(e) }
+        />
+        <Button leftIcon={ <SVGIcon name="send" fill /> } label="Send" primary type="submit" size="small" disabled={ disabled || !initialValue } className="reply" />
+        <Button label="Attach shout" type="button" size="small" disabled={ disabled } onClick={ onAttachShoutClick } />
       </form>
     );
   }

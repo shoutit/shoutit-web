@@ -16,9 +16,9 @@ export default function ConversationDeleteDialog({ open, onRequestClose, onConfi
     <Dialog actions={ actions }
       modal={ false }
       onRequestClose={ onRequestClose }
-      title="Delete this entire conversation?"
+      title="Leave this conversation?"
       open={ open }>
-      Once you delete your copy of this conversation, it cannot be undone.
+      When you leave this conversation, you won't see it anymore.
     </Dialog>
   );
 

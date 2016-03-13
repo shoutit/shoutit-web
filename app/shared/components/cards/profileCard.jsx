@@ -2,7 +2,7 @@ import React from "react";
 import {StoreWatchMixin} from "fluxxor";
 import {Link, History} from "react-router";
 import {Icon, Grid, Column} from "../helper";
-import UserAvatar from "../user/UserAvatar.jsx";
+import UserAvatar from '../../../users/UserAvatar';
 import SVGIcon from "../helper/SVGIcon";
 
 export default React.createClass({

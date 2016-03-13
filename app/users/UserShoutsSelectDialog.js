@@ -1,9 +1,13 @@
 import React, { PropTypes, Component } from "react";
 import { Modal } from "react-bootstrap";
 
-import Progress from "../helper/Progress";
-import Button from "../helper/Button";
-import ShoutItem from "../shout/ShoutItem";
+import Progress from "../shared/components/helper/Progress.jsx";
+import Button from "../shared/components/helper/Button.jsx";
+import ShoutItem from "../shared/components/shout/ShoutItem.jsx";
+
+if (process.env.BROWSER) {
+  require("./UserShoutsSelectDialog.scss");
+}
 
 export default class UserShoutsSelectDialog extends Component {
 
@@ -61,8 +65,8 @@ export default class UserShoutsSelectDialog extends Component {
     const { flux, user } = this.props;
     const state = flux.store("users").getState();
     this.setState({
-      loading: state.loading,
-      shouts: state.shouts[user.username] ? state.shouts[user.username].offers : []
+      loading: state.shouts[user.username] && state.shouts[user.username].loading,
+      shouts: state.shouts[user.username] ? state.shouts[user.username].list : []
     });
   }
 
@@ -90,19 +94,24 @@ export default class UserShoutsSelectDialog extends Component {
         <Modal.Body>
           <form>
 
-          { shouts.map(shout =>
-            <div key={shout.id}>
-              <input
-                onChange={ e => this.handleSelectionChange(e.target.checked, shout) }
-                type="checkbox"
-                id={`UserShoutsSelectDialog${shout.id}`}
-                value={ shout.id }
-                name="shoutIds"
-              />
-              <label htmlFor={`UserShoutsSelectDialog${shout.id}`}>
-                <ShoutItem horizontal shout={ shout } />
-              </label>
-            </div>
+          { shouts.map(shout => {
+            const isChecked = !!selected.find(selectedShout => selectedShout.id === shout.id);
+            return (
+              <div key={shout.id} className={ `UserShoutsSelectDialog-item${isChecked? " checked" : ""}`}>
+                <input
+                  onChange={ e => this.handleSelectionChange(e.target.checked, shout) }
+                  type="checkbox"
+                  id={`UserShoutsSelectDialog.${shout.id}`}
+                  value={ shout.id }
+                  name="shoutIds"
+                />
+                <label style={{ display: "block", marginBottom: 0, width: "100%", cursor: "pointer" }} htmlFor={`UserShoutsSelectDialog.${shout.id}`}>
+                  <ShoutItem checked={ isChecked } horizontal shout={ shout } showUser={ false } />
+                </label>
+              </div>
+            );
+          }
+
           )}
           </form>
 

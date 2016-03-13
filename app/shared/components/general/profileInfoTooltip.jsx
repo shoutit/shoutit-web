@@ -1,7 +1,7 @@
 import React from 'react';
 import {Icon, Column, Grid, Progress} from '../helper';
 import Separator from './separator.jsx';
-import UserAvatar from '../user/UserAvatar.jsx';
+import UserAvatar from '../../../users/UserAvatar';
 import ListenButton from "./listenButton.jsx";
 import ListenersButton from "./listenersButton.jsx";
 import CountryShelfButton from './CountryShelfButton.jsx';

@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router";
 import {Icon, Grid, Column, Progress} from "../helper";
 import Separator from "../general/separator.jsx";
-import UserAvatar from "../user/UserAvatar.jsx";
+import UserAvatar from '../../../users/UserAvatar';
 import ListenButton from "../general/listenButton.jsx";
 import ListenersButton from "../general/listenersButton.jsx";
 import CountryFlag from "../helper/CountryFlag";

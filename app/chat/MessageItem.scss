@@ -6,26 +6,25 @@ $border-radius: 5px;
   font-size: 0.875em;
   margin: 1px 5px;
 
-  &.start {
-
-  }
-  &.end {
-    text-align: right;
-    margin-right: 10px;
-  }
-
-  &.end .MessageItem-text {
-    background-color: $background-color-alt;
-    border: 1px solid $border-color-alt;
-  }
-
-  &.start .MessageItem-text {
+  .MessageItem-text {
     background-color: white;
     border: 1px solid $border-color;
   }
 
+  &.isMe {
+    text-align: right;
+    .MessageItem-text {
+     background-color: $background-color-alt;
+     border: 1px solid $border-color-alt;
+   }
+  }
+
   &.didError .MessageItem-wrapper {
     opacity: 0.4;
+  }
+
+  &.sending .MessageItem-wrapper {
+    opacity: 0.6;
   }
 
 }

@@ -1,5 +1,5 @@
-@import "../constants/colors.scss";
-@import "../mixins/cropped-thumbnail.scss";
+@import "../styles/constants/colors.scss";
+@import "../styles/mixins/cropped-thumbnail.scss";
 
 $size-small: 28px;
 $size-medium: 36px;
@@ -37,13 +37,13 @@ $size-huge: 128px;
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url("../../../assets/ui-elements/user-mask.png");
+    background-image: url("../../assets/ui-elements/user-mask.png");
     background-size: contain;
   }
 
   &.placeholder {
     background-color: $background-color-dark;
-    background-image: url("../../../assets/icons/profile-fill.svg");
+    background-image: url("../../assets/icons/profile-fill.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100%;

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 
 import ReplyShoutForm from "./ReplyShoutForm.jsx";
-import UserAvatar from "../user/UserAvatar.jsx";
+import UserAvatar from '../../../users/UserAvatar';
 import {Image, Column, Grid, Icon} from "../helper";
 import Separator from "../general/separator.jsx";
 import TagButtons from "../general/TagButtons.jsx";

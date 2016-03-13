@@ -3,6 +3,7 @@
 $size-small: 18px;
 $size-medium: 24px;
 $size-large: 36px;
+$size-huge: 52px;
 
 .SVGIcon {
   display: inline-block;
@@ -13,6 +14,10 @@ $size-large: 36px;
   &.small {
     min-width: $size-small;
     height: $size-small;
+  }
+  &.huge {
+    min-width: $size-huge;
+    height: $size-huge;
   }
   &.disabled {
     opacity: 0.5;
@@ -33,7 +38,10 @@ $size-large: 36px;
     width: $size-large;
     height: $size-large;
   }
-
+  .SVGIcon.huge & {
+    width: $size-huge;
+    height: $size-huge;
+  }
 }
 
 .SVGIcon-badge {
@@ -306,6 +314,9 @@ $size-large: 36px;
   .SVGIcon.active .SVGIcon-icon.ok {
     background-image: url("../../../assets/icons/ok-active.svg");
   }
+  .SVGIcon.fill .SVGIcon-icon.ok {
+    background-image: url("../../../assets/icons/ok-fill.svg");
+  }
 
 .SVGIcon-icon.pencil {
   background-image: url("../../../assets/icons/pencil.svg");
@@ -416,6 +427,9 @@ $size-large: 36px;
   .SVGIcon.hover:hover .SVGIcon-icon.video,
   .SVGIcon.active .SVGIcon-icon.video {
     background-image: url("../../../assets/icons/video-active.svg");
+  }
+  .SVGIcon.fill .SVGIcon-icon.video {
+    background-image: url("../../../assets/icons/video-fill.svg");
   }
 
 .SVGIcon-icon.world-west {
