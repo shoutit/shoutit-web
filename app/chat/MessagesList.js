@@ -28,7 +28,7 @@ function MessagesByDay({ day, messages, loggedUser, partecipants }) {
                 key={ message.id }
                 message={ message }
                 isMe={ isMe }
-                readByUsers={ getReadyBy(message, partecipants, loggedUser.username) }
+                readByUsers={ message.user ? getReadyBy(message, partecipants, loggedUser.username) : undefined }
               />
             )}
           </div>
