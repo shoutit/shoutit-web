@@ -14,32 +14,30 @@ export default function ContactOwnerCard({ shout, getMobileNumber}) {
 
   return (
     <div>
-      { shout.id &&
-        <section className="ContactOwnerCard">
-          <div className="ContactOwnerCard-header">
-            <h3 className="ContactOwnerCard-headerText">contact owner</h3>
-          </div>
-          <Grid fluid>
-            {is_mobile_set?
-              shout.mobile_number ?
-               <span className="ContactOwnerCard-mobileNumber">
-                 { shout.mobile_number }
-               </span>
-              :
-                <Button
-                  size="small"
-                  primary={ Boolean(shout.mobile_number) }
-                  secondary
-                  className="ContactOwnerCard-mobileButton"
-                  onClick={ () => { getMobileNumber(shout.id); } }
-                  label={ `${ mobile_hint } Show` }
-                  leftIcon={ <SVGIcon name="mobile" fill /> }
-                />
-            : null}
-          </Grid>
-          <ReplyShoutForm shout={ shout } placeholder="Send..."/>
-        </section>
-      }
+      <section className="ContactOwnerCard">
+        <div className="ContactOwnerCard-header">
+          <h3 className="ContactOwnerCard-headerText">contact owner</h3>
+        </div>
+        <Grid fluid>
+          {is_mobile_set?
+            shout.mobile_number ?
+             <span className="ContactOwnerCard-mobileNumber">
+               { shout.mobile_number }
+             </span>
+            :
+              <Button
+                size="small"
+                primary={ Boolean(shout.mobile_number) }
+                secondary
+                className="ContactOwnerCard-mobileButton"
+                onClick={ () => { getMobileNumber(shout.id); } }
+                label={ `${ mobile_hint } Show` }
+                leftIcon={ <SVGIcon name="mobile" fill /> }
+              />
+          : null}
+        </Grid>
+        <ReplyShoutForm shout={ shout } placeholder="Send..."/>
+      </section>
     </div>
   );
 }
