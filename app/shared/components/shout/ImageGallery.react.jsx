@@ -3,7 +3,6 @@
 import React from 'react';
 import Swipeable from 'react-swipeable';
 import VideoPlayer from './videoPlayer.jsx';
-import { getVariation } from "../../../utils/APIUtils";
 
 const ImageGallery = React.createClass({
 
@@ -259,7 +258,7 @@ const ImageGallery = React.createClass({
               thumbnailClass
             }
 
-            style={{backgroundImage: `url(${getVariation(item.thumbnail, "small")})`}}
+            style={{backgroundImage: `url(${item.thumbnail})`}}
             onTouchStart={this.slideToIndex.bind(this, index)}
             onClick={this.slideToIndex.bind(this, index)}>
 
