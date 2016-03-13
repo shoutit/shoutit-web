@@ -19,7 +19,7 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
     let content;
     if (shout) {
       content = (
-        <Link to={ `shout/${shout.id}` }>
+        <Link to={ `/shout/${shout.id}` }>
           <ShoutItem outline shout={ shout } thumbnailRatio={ 16/9 } />
         </Link>
       );
@@ -57,7 +57,7 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
   if (sending) {
     className += " sending";
   }
-  
+
   return (
     <div className={ className }>
       <div className="MessageItem-wrapper">
