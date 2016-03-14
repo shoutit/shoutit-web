@@ -109,7 +109,7 @@ export default React.createClass({
   },
 
   render() {
-    const { flux } = this.props;
+    const { flux, countryCode } = this.props;
     const title = this.helper.getTitle();
     const list = this.helper.getList(this.state);
 
@@ -134,6 +134,7 @@ export default React.createClass({
                       flux={ flux }
                       onListenTag={ flux.actions.listenTag }
                       onStopListenTag={ flux.actions.stopListenTag }
+                      countryCode={ countryCode }
                     />
                   );
                 })

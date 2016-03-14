@@ -8,7 +8,7 @@ export default function RelatedTags(props) {
   return (
     <section className="si-card">
       <div className="card-header">
-        <h3>related tags</h3>
+        <h3>related interests</h3>
       </div>
       { props.loading?
           <Progress />

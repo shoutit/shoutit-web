@@ -78,7 +78,7 @@ export default React.createClass({
   },
 
   renderProfilePage() {
-    const { flux } = this.props;
+    const { flux, currentLocation } = this.props;
     const username = this.props.params.username,
       user = this.props.users[username],
       mode = this.state.editMode;
@@ -108,6 +108,7 @@ export default React.createClass({
                     <ProfileButtonsCard
                       user={user}
                       flux={ flux }
+                      countryCode={ currentLocation.country }
                     />
                     <ProfileBioCard user={user} />
                     {/*<ProfilePagesCard user={user} />*/}
