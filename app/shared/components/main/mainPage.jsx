@@ -31,7 +31,6 @@ export default React.createClass({
 
     return {
       users: flux.store("users").getState(),
-      locations: flux.store("locations").getState(),
       shuffleCategories: flux.store('shouts').getState().shuffleCategories
     };
   },
