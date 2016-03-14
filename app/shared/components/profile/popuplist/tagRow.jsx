@@ -16,7 +16,7 @@ export default function TagRow(props) {
         </Link>
       </Column>
       <Column fluid={true} size="10" className="popuplist-text-row">
-        <Link to={`/interest/${tag.slug}`}>
+        <Link to={`/interest/${tag.slug}/${ countryCode }`}>
           {tag.name}
         </Link>
       </Column>

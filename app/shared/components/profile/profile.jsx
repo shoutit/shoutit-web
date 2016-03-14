@@ -108,7 +108,7 @@ export default React.createClass({
                     <ProfileButtonsCard
                       user={user}
                       flux={ flux }
-                      countryCode={ currentLocation.countryCode }
+                      countryCode={ currentLocation.country }
                     />
                     <ProfileBioCard user={user} />
                     {/*<ProfilePagesCard user={user} />*/}
