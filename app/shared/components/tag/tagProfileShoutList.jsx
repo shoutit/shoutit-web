@@ -98,6 +98,7 @@ export default React.createClass({
   },
 
   loadMore() {
-    this.props.flux.actions.loadMoreTagShouts(this.props.tagName, 'all');
+    const { tagName, flux } = this.props;
+    flux.actions.loadMoreTagShouts(tagName);
   }
 });
