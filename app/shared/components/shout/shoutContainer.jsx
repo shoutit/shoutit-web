@@ -115,7 +115,7 @@ export default React.createClass({
             users={ users }
             flux={ flux }
             />
-          {shout.id && shout.user.username !== loggedUser.username &&
+          {shout.id && loggedUser && shout.user.username !== loggedUser.username &&
             <ContactOwnerCard
               shout={ shout }
               getMobileNumber={ flux.actions.getMobileNumber }
