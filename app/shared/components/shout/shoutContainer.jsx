@@ -98,6 +98,14 @@ export default React.createClass({
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
 
     const { shout, users } = this.state;
+
+    let isConactOwnerCardViewable = false;
+    if (shout.id && !loggedUser) {
+      isConactOwnerCardViewable = true;
+    } else if (shout.id && loggedUser && loggedUser.username !== shout.user.username) {
+      isConactOwnerCardViewable = true;
+    }
+
     return (
       <Grid className="profile-holder">
         <Column size="3" clear={true}>
@@ -115,7 +123,7 @@ export default React.createClass({
             users={ users }
             flux={ flux }
             />
-          {shout.id && shout.user.username !== loggedUser.username &&
+          {isConactOwnerCardViewable &&
             <ContactOwnerCard
               shout={ shout }
               getMobileNumber={ flux.actions.getMobileNumber }
