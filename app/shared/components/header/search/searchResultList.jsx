@@ -41,7 +41,7 @@ export default React.createClass({
     let tagResultList = tagSearchResults && tagSearchResults.length ?
       tagSearchResults.map(function (tag, i) {
         return (
-          <Link to={ `/interest/${ tag.slug }/${ countryCode }` }
+          <Link to={ `/interest/${ tag.name }/${ countryCode }` }
                 onClick={onBlurSearch}>
             <div  className="list-search-item" key={"search-header-tag-" + i}>
               <div className="img-search-holder">
