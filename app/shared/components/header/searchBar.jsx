@@ -31,7 +31,7 @@ export default React.createClass({
   },
 
   renderSearchList() {
-    const { term, search } = this.state;
+    const { term, search, locations } = this.state;
 
     if (term) {
       return (<SearchResultList
@@ -41,6 +41,7 @@ export default React.createClass({
           tags: search.tags
         }}
         params={ {term, category: "all", shouttype: "all"} }
+        countryCode={ locations.current.country }
         onBlur={ this.onBlurSearch }
         />);
     }
