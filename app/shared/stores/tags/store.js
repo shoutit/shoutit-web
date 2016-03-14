@@ -247,7 +247,7 @@ var TagStore = Fluxxor.createStore({
     const next = tagShouts.shoutsNext;
     const countryCode = tagShouts.shoutsCountryCode;
 
-    if (next !== null) {
+    if (next === null) {
       return;
     }
 
