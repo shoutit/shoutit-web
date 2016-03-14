@@ -56,7 +56,7 @@ export default {
 
   logout(history) {
     this.dispatch(actionTypes.LOGOUT);
-    this.flux.service.delete("session");
+    this.flux.service.delete("session").end();
     if (history) {
       history.pushState(null, "/");
     }
