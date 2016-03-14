@@ -6,12 +6,12 @@ import UserImage from '../../user/userImage.jsx';
 
 export default function TagRow(props) {
   const tag = JSON.parse(JSON.stringify(props.tag));
-  const { onListenTag, onStopListenTag, flux } = props;
+  const { onListenTag, onStopListenTag, flux, countryCode } = props;
 
   return (
     <Grid fluid={true} className="popuplist-row">
       <Column fluid={true} clear={true} size="2">
-        <Link to={`/interest/${tag.slug}`}>
+        <Link to={`/interest/${ tag.slug }/${ countryCode }`}>
           <UserImage size="32" image={tag.image} type="circle"/>
         </Link>
       </Column>
