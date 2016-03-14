@@ -84,7 +84,7 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
             <Icon name="drop_down" style={{
               transform: "rotate(270deg)", margin:"2px 10px",display:"inline-block"
             }} />
-            <Link to={ `/tag/${encodeURIComponent(shout.category.slug)}` } className="ShoutPreview-cat">
+            <Link to={ `/interest/${shout.category.slug}/${ currentLocation.country}` } className="ShoutPreview-cat">
               { shout.category.name }
             </Link>
           </Column>
@@ -127,6 +127,7 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
                   slug={ shout.category.slug }
                   tooltip={ shout.category.name }
                   icon={ shout.category.icon }
+                  countryCode={ currentLocation.country }
                 />
               </Column>
             </Grid>

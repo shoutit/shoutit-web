@@ -215,7 +215,7 @@ var TagStore = Fluxxor.createStore({
 
     client.getShouts(query).end(function (err, res) {
       if (err) {
-        console.log(err);
+        log(err);
       } else {
         this.onLoadTagShoutsSuccess({
           tagName,
@@ -234,51 +234,53 @@ var TagStore = Fluxxor.createStore({
 
     this.addTagEntry(tagName);
 
-    tagShouts["shoutsCountryCode"] = countryCode;
-    tagShouts["shouts"] = res.results;
-    tagShouts["shoutsNext"] = next;
+    tagShouts.shoutsCountryCode = countryCode;
+    tagShouts.shouts = res.results;
+    tagShouts.shoutsNext = next;
 
     this.state.loading = false;
     this.emit("change");
   },
 
-  onLoadMoreTagShouts(payload) {
-    let tagName = payload.tagName,
-      type = payload.type,
-      tagShouts = this.state.tags[tagName],
-      next = tagShouts["shoutsNext"];
+  onLoadMoreTagShouts({ tagName }) {
+    const tagShouts = this.state.tags[tagName];
+    const next = tagShouts.shoutsNext;
+    const countryCode = tagShouts.shoutsCountryCode;
 
-    let query = {
-      page: next,
-    };
-    type !== "all"? query.shout_type = type: undefined;
-
-    if(next !== null) {
-      client.getShouts(tagName, query).end(function(err,res) {
-        if (err) {
-          console.log(err);
-        } else {
-          this.onLoadMoreTagShoutsSuccess({
-                  tagName: tagName,
-                  res: res.body
-                });
-        }
-      }.bind(this));
-      this.state.loading = true;
-      this.emit("change");
+    if (next === null) {
+      return;
     }
+
+    client.getShouts({
+      tags: tagName,
+      country: countryCode,
+      page: next
+    }).end((err,res) => {
+      if (err) {
+        log(err);
+      } else {
+        this.onLoadMoreTagShoutsSuccess({
+          tagName,
+          res: res.body
+        });
+      }
+    });
+
+    this.state.loading = true;
+    this.emit("change");
   },
 
-  onLoadMoreTagShoutsSuccess(payload) {
-    let tagName = payload.tagName,
-      tagShouts = this.state.tags[tagName],
-      next = this.parseNextPage(payload.res.next),
-      data = payload.res.results;
+  onLoadMoreTagShoutsSuccess({ tagName, res }) {
+    const tagShouts = this.state.tags[tagName];
+    const next = this.parseNextPage(res.next);
 
-    data.forEach(function(val) {
-      tagShouts["shouts"].push(val);
-    }.bind(this));
-    tagShouts["shoutsNext"] = next;
+    if (!res.results) {
+      return;
+    }
+
+    tagShouts.shouts = [ ...tagShouts.shouts, ...res.results];
+    tagShouts.shoutsNext = next;
+
     this.state.loading = false;
     this.emit("change");
   },

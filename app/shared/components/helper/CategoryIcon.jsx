@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-export default function CategoryIcon({ icon, slug, tooltip, className, size = "30px"}) {
+export default function CategoryIcon({ icon, slug, tooltip, className, size = "30px", countryCode}) {
 
   const categoryTooltip = (
     <Tooltip>{ tooltip }</Tooltip>
@@ -11,7 +11,7 @@ export default function CategoryIcon({ icon, slug, tooltip, className, size = "3
   return (
     <OverlayTrigger placement="top" overlay={ categoryTooltip }>
       <span className={ className } >
-          <Link to={ `/tag/${slug}` }>
+          <Link to={ `/interest/${slug}/${ countryCode }` }>
             <img src={ icon } style={{ height: size, width: size }}/>
           </Link>
       </span>

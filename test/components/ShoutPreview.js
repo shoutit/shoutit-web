@@ -50,11 +50,17 @@ const shoutMockData = {
   ]
 };
 
+const currentLocation = {
+  country: "AE",
+  city: "Dubai",
+  state: "Dubai"
+};
+
 describe("ShoutPreview ", function() {
 
   it("should render a div", function() {
     const shallowRenderer = TestUtils.createRenderer();
-    shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0"  />);
+    shallowRenderer.render(<ShoutPreview shout={ shoutMockData } currentLocation={ currentLocation } index="0"  />);
 
     const result = shallowRenderer.getRenderOutput();
     expect(result.type).to.equal("div");
@@ -65,7 +71,7 @@ describe("ShoutPreview ", function() {
 
     before(function(done) {
       const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" gridView />);
+      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } currentLocation={ currentLocation } index="0" gridView />);
       result = shallowRenderer.getRenderOutput();
       done();
     });
@@ -99,7 +105,7 @@ describe("ShoutPreview ", function() {
     let result;
     before(function(done) {
       const shallowRenderer = TestUtils.createRenderer();
-      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } index="0" />);
+      shallowRenderer.render(<ShoutPreview shout={ shoutMockData } currentLocation={ currentLocation } index="0" />);
       result = shallowRenderer.getRenderOutput();
       done();
     });

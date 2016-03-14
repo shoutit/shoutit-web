@@ -26,7 +26,7 @@ export default React.createClass({
 
   renderPopuplists() {
     const {username} = this.props.user;
-    const { flux } = this.props;
+    const { flux, countryCode } = this.props;
     return (
       <Popuplist
         open={Boolean(this.state.activePopuplist)}
@@ -34,6 +34,7 @@ export default React.createClass({
         username={ username }
         type={ this.state.activePopuplist }
         flux={ flux }
+        countryCode={ countryCode }
       />
     );
   },
