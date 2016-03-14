@@ -11,12 +11,12 @@ export default function TagRow(props) {
   return (
     <Grid fluid={true} className="popuplist-row">
       <Column fluid={true} clear={true} size="2">
-        <Link to={`/tag/${encodeURIComponent(tag.name)}`}>
+        <Link to={`/interest/${tag.slug}`}>
           <UserImage size="32" image={tag.image} type="circle"/>
         </Link>
       </Column>
       <Column fluid={true} size="10" className="popuplist-text-row">
-        <Link to={`/tag/${encodeURIComponent(tag.name)}`}>
+        <Link to={`/interest/${tag.slug}`}>
           {tag.name}
         </Link>
       </Column>
