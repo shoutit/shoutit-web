@@ -11,7 +11,7 @@ export default function CategoryIcon({ icon, slug, tooltip, className, size = "3
   return (
     <OverlayTrigger placement="top" overlay={ categoryTooltip }>
       <span className={ className } >
-          <Link to={ `/tag/${slug}` }>
+          <Link to={ `/interest/${slug}` }>
             <img src={ icon } style={{ height: size, width: size }}/>
           </Link>
       </span>
