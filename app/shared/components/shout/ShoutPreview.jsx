@@ -127,6 +127,7 @@ export default function ShoutPreview({ gridView = false, shout, index, columnsPe
                   slug={ shout.category.slug }
                   tooltip={ shout.category.name }
                   icon={ shout.category.icon }
+                  countryCode={ currentLocation.countryCode }
                 />
               </Column>
             </Grid>
