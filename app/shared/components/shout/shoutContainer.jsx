@@ -123,6 +123,7 @@ export default React.createClass({
             users={ users }
             flux={ flux }
             />
+
           {isConactOwnerCardViewable &&
             <ContactOwnerCard
               shout={ shout }
