@@ -42,7 +42,7 @@ export default React.createClass({
   },
 
   render() {
-    const { history } = this.props;
+    const { history, currentLocation } = this.props;
     return (
       <DocumentTitle title="Buy and Sell while Chatting on Shoutit!">
         <Column className="mainpage">
@@ -93,7 +93,10 @@ export default React.createClass({
 
           <Grid className="mainpage-explore">
             <Element name="explore" >
-              <Explore categories={this.state.shuffleCategories}/>
+              <Explore
+                categories={ this.state.shuffleCategories }
+                countryCode={ currentLocation.country }
+              />
             </Element>
           </Grid>
 
