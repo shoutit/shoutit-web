@@ -13,11 +13,11 @@ export default function Explore({ categories = [] }) {
           return (
             <Column size="3" clear={ i % 3 === 0 } key={`main-explore-${i}`}>
               <div className="si-item-box">
-                { cat.image && <Link to={`/tag/${cat.slug}`}>
+                { cat.image && <Link to={`/interest/${cat.slug}`}>
                   <div className="img" style={{backgroundImage:`url(${getVariation(cat.image, "small")})`}}></div>
                 </Link>
                 }
-                <Link className="subtitle" to={`/tag/${cat.slug}`}>{cat.name}</Link>
+                <Link className="subtitle" to={`/interest/${cat.slug}`}>{cat.name}</Link>
               </div>
             </Column>
           );
