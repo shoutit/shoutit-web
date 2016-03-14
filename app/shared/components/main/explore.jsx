@@ -3,9 +3,9 @@ import { Link } from "react-router";
 import { Grid, Column } from "../helper";
 import { getVariation } from "../../../utils/APIUtils";
 
-export default function Explore({ categories = [] }) {
+export default function Explore({ categories = [], countryCode = "" }) {
   const selectedCategories = categories.slice(0, 6);
-  const { countryCode } = this.props;
+
   return (
     <Grid>
       <Column offset="3" size="9">
