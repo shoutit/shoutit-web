@@ -17,6 +17,9 @@ import { Column, Grid } from "../helper";
 
 import { getVariation } from "../../../utils/APIUtils";
 
+if (process.env.BROWSER) {
+  require("styles/components/ShoutDetail.scss");
+}
 
 export default React.createClass({
   displayName: "ShoutDetailBody",
