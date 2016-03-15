@@ -1,19 +1,20 @@
-/**
- * Created by Philip on 27.02.2015.
- */
+import list from "./list";
+import create from "./create";
+import get from "./get";
+import getCall from "./getCall";
+import getRelated from "./get_related";
 
-var SUBROUTE = "shouts";
+import del from "./delete";
+import reply from "./reply";
 
-module.exports = function () {
+export default function () {
   return {
-    list: require("./list")(this, SUBROUTE),
-    create: require("./create")(this, SUBROUTE),
-    get: require("./get")(this, SUBROUTE),
-    getCall: require("./getCall")(this, SUBROUTE),
-    getRelated: require("./get_related")(this, SUBROUTE),
-    del: require("./delete")(this, SUBROUTE),
-    reply: require("./reply")(this, SUBROUTE)
+    list: list(this, "shouts"),
+    create: create(this, "shouts"),
+    get: get(this, "shouts"),
+    getCall: getCall(this, "shouts"),
+    getRelated: getRelated(this, "shouts"),
+    del: del(this, "shouts"),
+    reply: reply(this, "shouts")
   };
-};
-
-
+}

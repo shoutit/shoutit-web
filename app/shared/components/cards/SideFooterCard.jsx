@@ -2,7 +2,7 @@ import React from "react";
 import { Icon, Column, Grid } from "../helper";
 import { ANDROID_LINK, IOS_LINK, FACEBOOK, TWITTER, INSTAGRAM } from "../../consts/defaults";
 
-import { imagesPath } from "../../../../config";
+import { imagesPath } from "../../../config";
 
 if (process.env.BROWSER) {
   require("styles/components/SideFooter.scss");

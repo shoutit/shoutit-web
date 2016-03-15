@@ -12,7 +12,7 @@ import HeaderProfileOverlay from "../header/HeaderProfileOverlay.jsx";
 import HeaderProfile from "../header/HeaderProfile.jsx";
 import HeaderNewShout from "../header/HeaderNewShout.jsx";
 
-import { imagesPath } from "../../../../config";
+import { imagesPath } from "../../../config";
 
 if (process.env.BROWSER) {
   require("styles/components/header.scss");

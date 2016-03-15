@@ -1,25 +1,23 @@
+import express from "express";
+import resources from "../../resources";
 
-var ShoutClient = require("../../resources").tags();
-
-var express = require("express"),
-  router = express.Router();
+const router = express.Router();
+const ShoutClient = resources.tags();
 
 router.route("/")
-  .get(require("./list")(ShoutClient));
+  .get(require("./list").default(ShoutClient));
 
 router.route("/:id")
-  .get(require("./get")(ShoutClient));
+  .get(require("./get").default(ShoutClient));
 
 router.route("/:id/listen")
-  .post(require("./listen")(ShoutClient))
-  .delete(require("./unlisten")(ShoutClient));
+  .post(require("./listen").default(ShoutClient))
+  .delete(require("./unlisten").default(ShoutClient));
 
 router.route("/:id/listeners")
-  .get(require("./getListeners")(ShoutClient));
+  .get(require("./getListeners").default(ShoutClient));
 
 router.route("/:id/related")
-  .get(require("./getRelated")(ShoutClient));
+  .get(require("./getRelated").default(ShoutClient));
 
-module.exports = router;
-
-
+export default router;

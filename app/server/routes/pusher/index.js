@@ -1,13 +1,10 @@
-/**
- * Created by Philip on 22.06.2015.
- */
+import express from "express";
+import resources from "../../resources";
 
-var ShoutClient = require("../../resources").pusher();
-
-var express = require("express"),
-  router = new express.Router();
+const router = express.Router();
+const ShoutClient = resources.pusher();
 
 router.route("/auth")
-  .post(require("./auth")(ShoutClient));
+  .post(require("./auth").default(ShoutClient));
 
-module.exports = router;
+export default router;

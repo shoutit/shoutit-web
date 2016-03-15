@@ -71,10 +71,10 @@ export default React.createClass({
               position: new gMaps.LatLng(shout.location.latitude, shout.location.longitude)
             });
 
-            gMaps.event.addListener(marker, 'click', function () {
+            gMaps.event.addListener(marker, 'click', () => {
               this.transitionTo('shout',
                 {shoutId: shout.id});
-            }.bind(this));
+            });
           } else {
             markers[shout.id].setMap(map);
           }

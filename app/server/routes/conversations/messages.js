@@ -1,10 +1,7 @@
-/**
- * Created by Philip on 22.06.2015.
- */
-
-module.exports = function (client) {
+/* eslint no-console: 0 */
+export default function (client) {
   return function (req, res) {
-    var request = client.messages(req.session, req.params.id, req.query)
+    const request = client.messages(req.session, req.params.id, req.query)
       .on("success", function (data) {
         res.json(data);
       })
@@ -20,4 +17,4 @@ module.exports = function (client) {
       request.abort();
     });
   };
-};
+}

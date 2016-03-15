@@ -1,7 +1,7 @@
 /* eslint no-var: 0 */
 /* eslint-env node */
 
-require("babel/register");
+require("babel-register");
 
 var path = require("path");
 var webpack = require("webpack");
@@ -15,7 +15,7 @@ var isDevelopment = process.env.NODE_ENV === "development";
 
 var context = path.join(__dirname, "./app");
 var entries = ["./client.js"];
-var config = require("./config");
+var config = require("./app/config");
 
 function noop() {}
 
@@ -47,6 +47,26 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: "babel",
+        query: isDevelopment ? {
+          "presets": [
+            "es2015",
+            "stage-1",
+            "react",
+            "react-hmre"
+          ]
+        } : {
+          "presets": [
+            "es2015",
+            "stage-1",
+            "react",
+            "react-hmre"
+          ]
+        }
+      },
+      {
         test: /\.scss$/,
         loader: isDevelopment ?
           "style!css?sourceMap!postcss!sass?sourceMap&sourceMapContents" :
@@ -62,31 +82,6 @@ module.exports = {
       {
         test: /\.json$/,
         loader: "json"
-      },
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: "babel",
-        query: {
-          env: {
-            "development": {
-              "plugins": ["react-transform"],
-              "extra": {
-                "react-transform": {
-                  "transforms": [{
-                    "transform": "react-transform-hmr",
-                    "imports": ["react"],
-                    "locals": ["module"]
-                  }, {
-                    "transform": "react-transform-catch-errors",
-                    "imports": ["react", "redbox-react"]
-                  }]
-                }
-              }
-            }
-          }
-        }
-
       }
     ]
   },

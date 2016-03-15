@@ -13,8 +13,7 @@
 
 import request from "superagent";
 import debug from "debug";
-import config from "../../config";
-
+import * as config from "../config";
 const apiUrl = config.apiUrl.replace(/\/$/, ""); // remove trailing / at the end of the url
 const log = debug("shoutit:request");
 

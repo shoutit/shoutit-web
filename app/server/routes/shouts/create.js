@@ -1,5 +1,5 @@
-
-module.exports = function (client) {
+/* eslint no-console: 0 */
+export default function  (client) {
   return function (req, res) {
     client.create(req.session, req.body)
       .on("success", function (data) {
@@ -13,4 +13,4 @@ module.exports = function (client) {
         res.status(500).send(err);
       });
   };
-};
+}

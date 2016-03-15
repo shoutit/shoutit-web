@@ -1,17 +1,17 @@
-/**
- * Created by Philip on 22.06.2015.
- */
+import list from "./list";
+import messages from "./messages";
+import read from "./read";
+import unread from "./unread";
+import del from "./delete";
+import reply from "./reply";
 
-var SUBROUTE = "conversations";
-
-module.exports = function () {
+export default function () {
   return {
-    load: require("./list")(this, SUBROUTE),
-    messages: require("./messages")(this, SUBROUTE),
-    read: require("./read")(this, SUBROUTE),
-    unread: require("./unread")(this, SUBROUTE),
-    del: require("./delete")(this, SUBROUTE),
-    reply: require("./reply")(this, SUBROUTE)
+    load: list(this, "conversations"),
+    messages: messages(this, "conversations"),
+    read: read(this, "conversations"),
+    unread: unread(this, "conversations"),
+    del: del(this, "conversations"),
+    reply: reply(this, "conversations")
   };
-};
-
+}

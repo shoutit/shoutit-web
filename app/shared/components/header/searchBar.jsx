@@ -108,9 +108,7 @@ export default React.createClass({
   },
 
   onFocusSearch(type) {
-    return function () {
-      this.setState({showSearch: type});
-    }.bind(this);
+    return () => this.setState({showSearch: type});
   },
 
   onBlurSearch() {
@@ -168,9 +166,9 @@ export default React.createClass({
   },
 
   onLocationSelect(prediction) {
-    return function () {
+    return () => {
       this.setState({showSearch: false});
       this.props.flux.actions.selectLocation(prediction);
-    }.bind(this);
+    };
   }
 });

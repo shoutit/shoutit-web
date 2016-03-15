@@ -80,7 +80,7 @@ export default {
     this.dispatch(consts.SEND_SHOUT_REPLY, {shoutId, message});
 
     client.reply(shoutId, message)
-      .end(function (error, res) {
+      .end((error, res) => {
         if (error || !res.ok) {
           this.dispatch(consts.SEND_SHOUT_REPLY_FAILED, {
             error
@@ -90,7 +90,7 @@ export default {
           //  message: res.body
           // });
         }
-      }.bind(this));
+      });
   },
 
   changeReplyDraft(shoutId, text) {

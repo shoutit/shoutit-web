@@ -3,7 +3,7 @@ import { Grid, Icon } from "../helper";
 import SVGIcon from "../helper/SVGIcon";
 import AvatarEditor from "react-avatar-editor";
 
-import { imagesPath } from "../../../../config";
+import { imagesPath } from "../../../config";
 var defaultCoverImage = `${imagesPath}/pattern@2x.png`;
 
 if (process.env.BROWSER) {

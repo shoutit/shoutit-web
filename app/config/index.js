@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === "development" || !process.env.SHOUTIT_ENV) {
   throw "SHOUTIT_ENV is not valid.";
 }
 
-const uploadResources = {
+export const uploadResources = {
   shout: {
     fieldname: "shout_image",
     bucket: "shoutit-shout-image-original",
@@ -31,7 +31,16 @@ const uploadResources = {
   }
 };
 
-function getSummary() {
+export const shoutitEnv = process.env.SHOUTIT_ENV;
+export const googleMapsKey = "AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc";
+export const imagesPath = envConfig.publicUrl + "/images";
+export const facebookId = envConfig.facebookId;
+export const ga = envConfig.ga;
+export const apiUrl = envConfig.apiUrl;
+export const publicUrl = envConfig.publicUrl;
+export const siteUrl = envConfig.siteUrl;
+
+export function getSummary() {
   const summary = [];
   summary.push("");
   summary.push("shoutit-web-app");
@@ -42,23 +51,12 @@ function getSummary() {
   summary.push("  Redis host:           " + process.env.REDIS_HOST);
   summary.push("  New Relic Key:        " + process.env.NEW_RELIC_LICENSE_KEY);
   summary.push("");
-  summary.push("  Site URL:             " + config.siteUrl);
-  summary.push("  Public assets URL:    " + config.publicUrl);
-  summary.push("  API URL:              " + config.apiUrl);
-  summary.push("  Google Analytics:     " + config.ga);
-  summary.push("  Images path:          " + config.imagesPath);
-  summary.push("  Facebook ID:          " + config.facebookId);
+  summary.push("  Site URL:             " + siteUrl);
+  summary.push("  Public assets URL:    " + publicUrl);
+  summary.push("  API URL:              " + apiUrl);
+  summary.push("  Google Analytics:     " + ga);
+  summary.push("  Images path:          " + imagesPath);
+  summary.push("  Facebook ID:          " + facebookId);
   summary.push("");
   return summary.join("\n");
 }
-
-const config = {
-  shoutitEnv: process.env.SHOUTIT_ENV,
-  googleMapsKey: "AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc",
-  imagesPath: envConfig.publicUrl + "/images",
-  uploadResources,
-  getSummary,
-  ...envConfig
-};
-
-export default config;

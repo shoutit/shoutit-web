@@ -1,14 +1,17 @@
+import get from "./get";
+import list from "./list";
+import listen from "./listen";
+import unlisten from "./unlisten";
+import getListeners from "./getListeners";
+import getRelated from "./getRelated";
 
-var SUBROUTE = "tags";
-
-module.exports = function () {
+export default function () {
   return {
-    get: require("./get")(this, SUBROUTE),
-    list: require("./list")(this, SUBROUTE),
-    listen: require("./listen")(this, SUBROUTE),
-    unlisten: require("./unlisten")(this, SUBROUTE),
-    getListeners: require("./getListeners")(this, SUBROUTE),
-    getRelated: require("./getRelated")(this, SUBROUTE)
+    get: get(this, "tags"),
+    list: list(this, "tags"),
+    listen: listen(this, "tags"),
+    unlisten: unlisten(this, "tags"),
+    getListeners: getListeners(this, "tags"),
+    getRelated: getRelated(this, "tags")
   };
-};
-
+}

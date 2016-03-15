@@ -1,10 +1,11 @@
+import express from "express";
+import resources from "../../resources";
+import changePassword from "./changePassword";
 
-var ShoutClient = require("../../resources").auth();
-
-var express = require("express"),
-  router = express.Router();
+const router = express.Router();
+const ShoutClient = resources.auth();
 
 router.route("/change_password")
-  .post(require("./changePassword")(ShoutClient));
+  .post(changePassword(ShoutClient));
 
-module.exports = router;
+export default router;

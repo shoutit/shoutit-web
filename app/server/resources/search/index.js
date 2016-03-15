@@ -1,11 +1,5 @@
-/**
- * Created by Philip on 15.04.2015.
- */
+import FakeClient from "./searchAll";
 
-var FakeClient = require("./searchAll");
-
-module.exports = function() {
+export default function() {
   return new FakeClient();
-};
-
-
+}

@@ -1,16 +1,14 @@
+import express from "express";
+import resources from "../../resources";
 
-var ShoutClient = require("../../resources").discover();
-
-var express = require("express"),
-  router = express.Router();
+const router = express.Router();
+const ShoutClient = resources.discover();
 
 router.route("/")
-    .get(require("./list")(ShoutClient));
+    .get(require("./list").default(ShoutClient));
 
 router.route("/:pk")
-    .get(require("./get")(ShoutClient));
+    .get(require("./get").default(ShoutClient));
 
 
 module.exports = router;
-
-

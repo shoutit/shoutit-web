@@ -16,7 +16,7 @@ import { kebabCase, trunc } from "lodash/string";
 
 import { ItemScope, ItemProp } from "../helper/microdata";
 
-import { imagesPath } from "../../../../config";
+import { imagesPath } from "../../../config";
 import { getVariation } from "../../../utils/APIUtils";
 
 if (process.env.BROWSER) {

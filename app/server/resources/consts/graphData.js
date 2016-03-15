@@ -1,4 +1,4 @@
-import config from "../../../../config";
+import * as config from "../../../config";
 
 module.exports = {
   description: "Shoutit is the fastest way to share and offer what you want to sell or buy. Take a photo or video of the item you want to sell or buy and connect to potential buyers or sellers directly.",

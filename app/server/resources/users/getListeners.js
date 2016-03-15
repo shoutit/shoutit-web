@@ -1,13 +1,6 @@
-/**
- * Created by Philip on 27.02.2015.
- */
-/**
- * Created by Philip on 27.02.2015.
- */
-
-module.exports = function (client, path) {
+export default function (client, path) {
   return function (session, username, page) {
-    var query = {};
+    const query = {};
 
     if (page && !isNaN(page)) {
       query.page = page;
@@ -18,4 +11,4 @@ module.exports = function (client, path) {
       query: query
     });
   };
-};
+}

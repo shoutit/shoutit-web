@@ -167,13 +167,13 @@ let ShoutStore = Fluxxor.createStore({
       country: locationsStore.getCurrentCountry(),
       state: locationsStore.getCurrentState(),
       shout_type: type
-    }).end(function (err, res) {
+    }).end((err, res) => {
       if (err || !res.body) {
         this.flux.actions.requestFailed(err);
       } else {
         this.flux.actions.updateSuccess(res.body, type);
       }
-    }.bind(this));
+    });
   },
 
   onLocUpdate() {
@@ -244,13 +244,13 @@ let ShoutStore = Fluxxor.createStore({
 
   onLoadShout({shoutId}) {
     client.get(shoutId)
-      .end(function (err, res) {
+      .end((err, res) => {
         if (err || res.status !== 200) {
           this.flux.actions.loadShoutFailed(shoutId, res);
         } else {
           this.flux.actions.loadShoutSuccess(res.body);
         }
-      }.bind(this));
+      });
     this.state.loading = true;
     this.emit("change");
   },
@@ -285,13 +285,13 @@ let ShoutStore = Fluxxor.createStore({
           country: locationsStore.getCurrentCountry(),
           state: locationsStore.getCurrentState()
         })
-        .end(function (err, res) {
+        .end((err, res) => {
           if (err || res.status !== 200) {
             this.flux.actions.requestFailed(err);
           } else {
             this.flux.actions.loadMoreSuccess(res.body, type);
           }
-        }.bind(this));
+        });
 
       this.state.loading = true;
       this.emit("change");
@@ -327,14 +327,14 @@ let ShoutStore = Fluxxor.createStore({
 
   onLoadMoreSuccess({res, type=defaults.ALL_TYPE}) {
     let collection = this.state[type];
-    res.results.forEach(function (shout) {
+    res.results.forEach(shout => {
       var index = this.getIndex(collection, shout.id);
       if (index >= 0) {
         collection.shouts[index] = this.augmentShout(shout);
       } else {
         collection.shouts.push(this.augmentShout(shout));
       }
-    }.bind(this));
+    });
 
     collection.maxCount = Number(res.count);
     collection.next = this.parsePage(res.next);
@@ -354,17 +354,17 @@ let ShoutStore = Fluxxor.createStore({
     this.validateDraft(this.state.draft)
       .then(this.transformDraft.bind(this))
       .then(this.sendShout)
-      .then(function (result) {
+      .then((result) => {
         this.state.status = result;
         this.state.waiting = false;
         this.emit("change");
-      }.bind(this),
-      function (err) {
+      },
+      (err) => {
         console.log(err);
         this.state.status = err;
         this.state.waiting = false;
         this.emit("change");
-      }.bind(this));
+      });
   },
 
   sendShout(shoutDraft) {

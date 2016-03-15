@@ -1,14 +1,13 @@
+import express from "express";
+import resources from "../../resources";
 
-var ShoutClient = require("../../resources").misc();
-
-var express = require("express"),
-  router = new express.Router();
+const router = express.Router();
+const ShoutClient = resources.misc();
 
 router.route("/geocode")
-    .get(require("./geocode")(ShoutClient));
+    .get(require("./geocode").default(ShoutClient));
 
 router.route("/suggestions")
-    .get(require("./suggestions")(ShoutClient));
+    .get(require("./suggestions").default(ShoutClient));
 
-
-module.exports = router;
+export default router;

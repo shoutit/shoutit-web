@@ -97,7 +97,7 @@ var TagStore = Fluxxor.createStore({
     }
 
     client.get(tagName)
-      .end(function (err, res) {
+      .end((err, res) => {
         if (err || res.status !== 200) {
           this.onLoadTagFailed({
             res: res.body,
@@ -109,7 +109,7 @@ var TagStore = Fluxxor.createStore({
             tagName: tagName
           });
         }
-      }.bind(this));
+      });
     this.state.loading = true;
     this.emit("change");
   },
@@ -213,7 +213,7 @@ var TagStore = Fluxxor.createStore({
       page_size: 10
     };
 
-    client.getShouts(query).end(function (err, res) {
+    client.getShouts(query).end((err, res) => {
       if (err) {
         log(err);
       } else {
@@ -223,7 +223,7 @@ var TagStore = Fluxxor.createStore({
           res: res.body
         });
       }
-    }.bind(this));
+    });
     this.state.loading = true;
     this.emit("change");
   },
@@ -288,7 +288,7 @@ var TagStore = Fluxxor.createStore({
   onLoadTagListeners(payload) {
     var tagName = payload.tagName;
 
-    client.getListeners(tagName).end(function (err, res) {
+    client.getListeners(tagName).end((err, res) => {
       if (err) {
         console.log(err);
       } else {
@@ -297,7 +297,7 @@ var TagStore = Fluxxor.createStore({
           res: res.body
         });
       }
-    }.bind(this));
+    });
     this.state.loading = true;
     this.emit("change");
   },

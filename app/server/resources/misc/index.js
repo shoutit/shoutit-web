@@ -1,15 +1,18 @@
 
-var SUBROUTE = "misc";
+import currencies from "./currencies";
+import categories from "./categories";
+import shoutSortTypes from "./shoutSortTypes";
+import geocode from "./geocode";
+import suggestions from "./suggestions";
+import ShuffleCategories from "./ShuffleCategories";
 
-module.exports = function () {
+export default function() {
   return {
-    currencies: require("./currencies")(this, SUBROUTE),
-    sortTypes: require("./shoutSortTypes")(this, SUBROUTE),
-    categories: require("./categories")(this, SUBROUTE),
-    geocode: require("./geocode")(this, SUBROUTE),
-    suggestions: require("./suggestions")(this, SUBROUTE),
-    shuffleCategories: require("./ShuffleCategories")(this, SUBROUTE)
+    currencies: currencies(this, "misc"),
+    sortTypes: shoutSortTypes(this, "misc"),
+    categories: categories(this, "misc"),
+    geocode: geocode(this, "misc"),
+    suggestions: suggestions(this, "misc"),
+    shuffleCategories: ShuffleCategories(this, "misc")
   };
-};
-
-
+}
