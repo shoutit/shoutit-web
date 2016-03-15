@@ -18,9 +18,7 @@ export default React.createClass({
       this.setState({
         src: this.getSizedUrl(),
         loaded: false
-      }, function () {
-        this.hookImageLoad();
-      }.bind(this));
+      }, () => this.hookImageLoad());
     }
   },
 

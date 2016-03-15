@@ -62,7 +62,7 @@ var SearchStore = Fluxxor.createStore({
     var onCancel = this.onSearchCancel(type),
       onSuccess = this.onSearchSuccess(type);
 
-    return function (payload) {
+    return (payload) => {
       let searchQuery = {};
       onCancel();
       // sync-ing app's internal data with API acceptable properties
@@ -89,7 +89,7 @@ var SearchStore = Fluxxor.createStore({
       this.state.settings = searchQuery;
 
       let searchReq = clients[type].list(searchQuery);
-      searchReq.end(function (err, res) {
+      searchReq.end((err, res) => {
         this.state.reqs[type] = null;
         this.state.searching[type] = false;
         this.emit("change");
@@ -98,32 +98,32 @@ var SearchStore = Fluxxor.createStore({
         } else {
           onSuccess(res.body);
         }
-      }.bind(this));
+      });
 
       this.state.reqs[type] = searchReq;
       this.state.searching[type] = true;
       this.emit("change");
-    }.bind(this);
+    };
   },
 
   onSearchCancel(type) {
-    return function () {
+    return () => {
       if (this.state.reqs[type] && this.state.reqs[type].abort) {
         this.state.reqs[type].abort();
         this.state.reqs[type] = null;
         this.state.searching[type] = false;
         this.emit("change");
       }
-    }.bind(this);
+    };
   },
 
   onSearchSuccess(type) {
-    return function (data) {
+    return (data) => {
       this.state[type] = data.results;
       // keeping next page number in settings
       this.state.settings.page = data.next ? this.parseNextPage(data.next) : undefined;
       this.emit("change");
-    }.bind(this);
+    };
   },
 
   onLoadMore() {

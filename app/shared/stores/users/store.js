@@ -361,7 +361,7 @@ const UserStore = Fluxxor.createStore({
     this.state.editors["password"].loading = true;
     this.emit("change");
 
-    client.changePass(dataPackage).end(function(err,res) {
+    client.changePass(dataPackage).end((err,res) => {
       if (err) {
         console.log(err);
         this.state.editors["password"].loading = false;
@@ -376,7 +376,7 @@ const UserStore = Fluxxor.createStore({
         }
       }
       this.emit("change");
-    }.bind(this));
+    });
   },
 
   augmentPatch(field, value) {
@@ -405,7 +405,7 @@ const UserStore = Fluxxor.createStore({
 
     if (this.state.users[user]) {
 
-      client.update(patch).end(function (err, res) {
+      client.update(patch).end((err, res) => {
         if (err) {
           console.log(err);
         } else {
@@ -427,7 +427,7 @@ const UserStore = Fluxxor.createStore({
           }
 
         }
-      }.bind(this));
+      });
     }
     this.state.loading = true;
     this.emit("change");
@@ -491,7 +491,7 @@ const UserStore = Fluxxor.createStore({
   onLoadUserListeners(payload) {
     var username = payload.username;
 
-    client.getListeners(username).end(function (err, res) {
+    client.getListeners(username).end((err, res) => {
       if (err) {
         console.log(err);
       } else {
@@ -513,7 +513,7 @@ const UserStore = Fluxxor.createStore({
       }
       this.state.loading = false;
       this.emit("change");
-    }.bind(this));
+    });
 
     this.state.loading = true;
     this.emit("change");
@@ -761,7 +761,7 @@ const UserStore = Fluxxor.createStore({
     // Checking to see if the user is already fully loaded
     if (!isUserFullyLoaded && !isLoading) {
       client.get(username)
-        .end(function (err, res) {
+        .end((err, res) => {
           if (err || res.status !== 200) {
             this.onLoadUserFailed({
               username: username
@@ -772,7 +772,7 @@ const UserStore = Fluxxor.createStore({
               res: res.body
             });
           }
-        }.bind(this));
+        });
 
       if (!users[username]) { users[username] = {}; }
       users[username].loading = true;

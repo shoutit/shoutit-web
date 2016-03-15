@@ -27,9 +27,9 @@ export default React.createClass({
   onSaveClicked(field) {
     let action = this.props.onSaveClicked;
 
-    return function (newValue) {
+    return (newValue) => {
       action(field, newValue);
-    }.bind(this);
+    };
   },
 
   onInfoChange(field) {

@@ -90,7 +90,7 @@ export default {
     this.dispatch(consts.LOAD_TAGS, {query});
 
     client.list(query)
-      .end(function (error, res) {
+      .end((error, res) => {
         if (error || !res.ok) {
           this.dispatch(consts.LOAD_TAGS_FAILED, {
             error
@@ -100,14 +100,14 @@ export default {
             res: res.body
           });
         }
-      }.bind(this));
+      });
   },
 
   loadSpriteInfo(hash) {
     this.dispatch(consts.LOAD_TAGS_SPRITE, {hash});
 
     client.loadSpriteInfo(hash)
-      .end(function (error, res) {
+      .end((error, res) => {
         if (error || !res.ok || !res.body) {
           this.dispatch(consts.LOAD_TAGS_SPRITE_FAILED, {
             hash,
@@ -119,7 +119,7 @@ export default {
             res: res.body
           });
         }
-      }.bind(this));
+      });
 
   },
 
@@ -127,7 +127,7 @@ export default {
     this.dispatch(consts.REQUEST_SPRITING, {images});
 
     client.requestSpriting(images)
-      .end(function (error, res) {
+      .end((error, res) => {
         if (error || !res.ok) {
           this.dispatch(consts.REQUEST_SPRITING_FAILED, {
             error
@@ -137,8 +137,7 @@ export default {
             res: res.body
           });
         }
-      }.bind(this));
+      });
   }
 
 };
-

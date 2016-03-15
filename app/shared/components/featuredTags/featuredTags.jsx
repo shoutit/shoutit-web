@@ -66,9 +66,9 @@ export default React.createClass({
 
   componentDidUpdate() {
     if(this.props.sprite === undefined) {
-      setTimeout(function() {
+      setTimeout(() => {
         this.props.flux.actions.requestSpriting(this.props.featuredTags.map((tag) => tag.image));
-      }.bind(this), 0);
+      }, 0);
     }
   },
 

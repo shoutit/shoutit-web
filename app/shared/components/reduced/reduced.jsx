@@ -40,9 +40,9 @@ export default React.createClass({
             this.resize();
         }
 
-        window.onresize = function () {
+        window.onresize = () => {
             this.resize();
-        }.bind(this);
+        };
     },
 
     resize() {

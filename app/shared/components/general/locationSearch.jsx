@@ -34,8 +34,8 @@ export default React.createClass({
     },
 
     onLocationSelect(prediction) {
-        return function () {
-            // get lat lng 
+        return () => {
+            // get lat lng
             if (window.google) {
                 let geocoder = new window.google.maps.Geocoder();
                 geocoder.geocode({placeId: prediction.id}, (res, status) => {
@@ -47,8 +47,8 @@ export default React.createClass({
                         console.log('Location is not supported for geocoding');
                     }
                 });
-            }    
-        }.bind(this);
+            }
+        };
     },
 
     renderAutoComplete() {

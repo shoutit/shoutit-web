@@ -93,8 +93,8 @@ let LocationsStore = Fluxxor.createStore({
       clearTimeout(this.state.runningAutocomplete);
     }
     if (!this.state.locations[term]) {
-      this.state.runningAutocomplete = setTimeout(function () {
-        this.loadPlacePredictions(term, function (err, loadedTerm, results) {
+      this.state.runningAutocomplete = setTimeout(() => {
+        this.loadPlacePredictions(term, (err, loadedTerm, results) => {
           if (err) {
                   console.warn(err);
                 } else {
@@ -102,33 +102,33 @@ let LocationsStore = Fluxxor.createStore({
                   this.state.runningAutocomplete = null;
                   this.emit("change");
                 }
-        }.bind(this));
-      }.bind(this), 500);
+        });
+      }, 500);
       this.emit("change");
     }
   },
 
   onSelectLocation({prediction}) {
     client.placeGeocode(prediction.id)
-      .end(function (err, res) {
+      .end((err, res) => {
         if (err) {
           console.error(err);
         } else {
           this.parseGeocoderResult(res.body.results);
         }
-      }.bind(this));
+      });
   },
 
   onLocationUpdateToFeed() {
     client.cityGeocode(
       this.state.current.country, this.state.current.state, this.state.current.city
-    ).end(function (err, res) {
+    ).end((err, res) => {
       if (err) {
         console.error(err);
       } else {
         this.parseGeocoderResult(res.body.results);
       }
-    }.bind(this));
+    });
   },
 
   loadPlacePredictions(term, cb) {
@@ -225,13 +225,13 @@ let LocationsStore = Fluxxor.createStore({
 
   resolvePosition(pos) {
     client.geocode(pos.lat(), pos.lng())
-      .end(function (err, res) {
+      .end((err, res) => {
         if (err) {
           console.error(err);
         } else {
           this.parseGeocoderResult(res.body.results);
         }
-      }.bind(this));
+      });
   },
 
   geocode(latLng, cb) {

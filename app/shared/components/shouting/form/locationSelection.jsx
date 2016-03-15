@@ -35,11 +35,11 @@ export default React.createClass({
 
   addMapEventListeners(gmap)
   {
-    window.google.maps.event.addListener(gmap, 'click', function (e) {
+    window.google.maps.event.addListener(gmap, 'click', e => {
       if (this.props.onChange) {
         this.props.onChange(e.latLng);
       }
-    }.bind(this));
+    });
   },
 
   componentDidUpdate()

@@ -72,14 +72,14 @@ const NotificationStore = Fluxxor.createStore({
   },
 
   onLoadMoreNotificationsSuccess({res}) {
-    res.results.forEach(function (not) {
+    res.results.forEach((not) => {
       const index = this.getIndex(not.id);
       if (index >= 0) {
         this.state.notifications[index] = not;
       } else {
         this.state.notifications.push(not);
       }
-    }.bind(this));
+    });
 
     this.state.loading = false;
     this.emit("change");
