@@ -8800,7 +8800,7 @@
     },
     "react-router": {
       "version": "1.0.3",
-      "from": "react-router@1.0.3",
+      "from": "react-router@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/react-router/-/react-router-1.0.3.tgz",
       "dependencies": {
         "invariant": {
