@@ -18,7 +18,7 @@
     "test:mocha": "mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel-register --recursive test app/**/*.test.js",
     "test:watch": "npm test -- --watch --watch-extensions jsx",
     "test:single": "mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel-register --recursive --watch",
-    "test:cover": "istanbul cover -- _mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel-register --recursive test app/**/*.test.js",
+    "test:cover": "babel-node ./node_modules/istanbul/lib/cli cover -- _mocha --reporter mocha-circleci-reporter --require ./test/setup.js --compilers js:babel-register --recursive test app/**/*.test.js",
     "dev": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=development npm start",
     "dev:built": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=production npm start",
     "sprite": "sprity create app/styles/ app/res/img/res1x/*.png -s sprites.scss --margin 0 -b && rm app/styles/sprite.png"
@@ -91,6 +91,7 @@
   },
   "devDependencies": {
     "autoprefixer": "6.3.3",
+    "babel-cli": "6.6.5",
     "babel-preset-react-hmre": "1.1.1",
     "chai": "3.5.0",
     "copy-webpack-plugin": "1.1.1",
