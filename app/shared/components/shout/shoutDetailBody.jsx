@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from "react-router";
 import moment from "moment";
+import { capitalize } from "lodash/string";
 
 import currencyFormatter from "currency-formatter";
 
@@ -16,10 +17,6 @@ import { Column, Grid } from "../helper";
 
 import { getVariation } from "../../../utils/APIUtils";
 
-const types = {
-  offer: "Offer",
-  request: "Request"
-};
 
 export default React.createClass({
   displayName: "ShoutDetailBody",
@@ -79,10 +76,10 @@ export default React.createClass({
     return (
       <Column fluid={true} clear={true} size="11">
         <ItemProp property="name">
-          <Link className="shout-title" to={`/shout/${shout.id}`}>{shout.title}</Link>
+          <Link className="shout-title" to={`/shout/${shout.id}`}>{ shout.title }</Link>
         </ItemProp>
         <Link to={`/${shout.type}s/${country}/${state}/${city}`}>
-          <span className="shout-type">{types[shout.type]}</span>
+          <span className="shout-type">{ capitalize(shout.type)}</span>
         </Link>
       </Column>
     );
@@ -112,7 +109,7 @@ export default React.createClass({
     return (
       <div>
         <ItemScope type="Product">
-          <div className="si-shout-detail">
+          <div className="ShoutDetail">
             <Grid fluid style={{ height: "45px" }}>
               { this.renderTitle(shout) }
               { this.renderOffer(shout) }
