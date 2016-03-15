@@ -1,13 +1,7 @@
-/**
- * Created by Philip on 22.06.2015.
- */
+import auth from "./auth";
 
-
-var SUBROUTE = "pusher";
-
-module.exports = function() {
+export default function() {
   return {
-    auth: require("./auth")(this, SUBROUTE)
+    auth: auth(this, "pusher")
   };
-};
-
+}

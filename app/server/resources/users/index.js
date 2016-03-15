@@ -1,22 +1,27 @@
-/**
- * Created by Philip on 27.02.2015.
- */
+import me from "./me";
+import get from "./get";
+import search from "./search";
+import del from "./delete";
+import update from "./update";
+import updateImage from "./updateImage";
+import listen from "./listen";
+import unlisten from "./unlisten";
+import getListeners from "./getListeners";
+import getListening from "./getListening";
+import sendMessage from "./sendMessage";
 
-var SUBROUTE = "users";
-
-module.exports = function () {
+export default function () {
   return {
-    me: require("./me")(this, SUBROUTE),
-    get: require("./get")(this, SUBROUTE),
-    search: require("./search")(this,SUBROUTE),
-    del: require("./delete")(this, SUBROUTE),
-    update: require("./update")(this, SUBROUTE),
-    updateImage: require("./updateImage")(this,SUBROUTE),
-    listen: require("./listen")(this,SUBROUTE),
-    unlisten: require("./unlisten")(this, SUBROUTE),
-    getListeners: require("./getListeners")(this,SUBROUTE),
-    getListening: require("./getListening")(this,SUBROUTE),
-    sendMessage: require("./sendMessage")(this,SUBROUTE)
+    me: me(this, "users"),
+    get: get(this, "users"),
+    search: search(this, "users"),
+    del: del(this, "users"),
+    update: update(this, "users"),
+    updateImage: updateImage(this, "users"),
+    listen: listen(this, "users"),
+    unlisten: unlisten(this, "users"),
+    getListeners: getListeners(this, "users"),
+    getListening: getListening(this, "users"),
+    sendMessage: sendMessage(this, "users")
   };
-};
-
+}

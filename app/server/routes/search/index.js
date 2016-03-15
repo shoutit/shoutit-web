@@ -1,16 +1,10 @@
-/**
- * Created by Philip on 15.04.2015.
- */
+import express from "express";
+import resources from "../../resources";
 
-var ShoutClient = require("../../resources");
-
-var express = require("express"),
-  router = express.Router();
+const router = express.Router();
+const ShoutClient = resources;
 
 router.route("/:term")
-  .get(require("./searchAll")(ShoutClient));
+  .get(require("./searchAll").default(ShoutClient));
 
-
-module.exports = router;
-
-
+export default router;

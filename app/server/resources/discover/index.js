@@ -1,10 +1,8 @@
-
-var SUBROUTE = "discover";
-
-module.exports = function () {
+import get from "./get";
+import list from "./list";
+export default function () {
   return {
-    get: require("./get")(this, SUBROUTE),
-    list: require("./list")(this, SUBROUTE)
+    get: get(this, "discover"),
+    list: list(this, "discover")
   };
-};
-
+}

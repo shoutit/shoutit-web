@@ -1,23 +1,23 @@
-/**
- * Created by Philip on 27.02.2015.
- */
+import express from "express";
 
+import shouts from "./shouts";
+import users from "./users";
+import discover from "./discover";
+import tags from "./tags";
+import pusher from "./pusher";
+import conversations from "./conversations";
+import auth from "./auth";
+import misc from "./misc";
 
-var express = require("express"),
-  apiRouter = new express.Router();
+const apiRouter = new express.Router();
 
-apiRouter.use("/shouts", require("./shouts"));
-apiRouter.use("/users", require("./users"));
-apiRouter.use("/discover", require("./discover"));
-apiRouter.use("/tags", require("./tags"));
-apiRouter.use("/pusher", require("./pusher"));
-apiRouter.use("/notifications", require("./notifications"));
-apiRouter.use("/conversations", require("./conversations"));
-apiRouter.use("/messages", require("./messages"));
-apiRouter.use("/auth", require("./auth"));
-apiRouter.use("/misc", require("./misc"));
+apiRouter.use("/shouts", shouts);
+apiRouter.use("/users", users);
+apiRouter.use("/discover", discover);
+apiRouter.use("/tags", tags);
+apiRouter.use("/pusher", pusher);
+apiRouter.use("/conversations", conversations);
+apiRouter.use("/auth", auth);
+apiRouter.use("/misc", misc);
 
-// TODO Fix SearchAll Client
-//apiRouter.use('/search', require('./search'));
-
-module.exports = apiRouter;
+export default apiRouter;

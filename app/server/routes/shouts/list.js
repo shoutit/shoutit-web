@@ -1,8 +1,5 @@
-/**
- * Created by Philip on 27.02.2015.
- */
-
-module.exports = function (client) {
+/* eslint no-console: 0 */
+export default function  (client) {
   return function (req, res) {
     var request = client.list(req.session, req.query)
       .on("success", function (data) {
@@ -20,4 +17,4 @@ module.exports = function (client) {
       request.abort();
     });
   };
-};
+}

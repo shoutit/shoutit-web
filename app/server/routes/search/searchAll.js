@@ -1,8 +1,5 @@
-/**
- * Created by Philip on 15.04.2015.
- */
-
-module.exports = function (client) {
+/* eslint no-console: 0 */
+export default function  (client) {
   return function (req, res) {
     client.search().search(client, req.session, req.params.term)
       .on("success", function (data) {
@@ -16,4 +13,4 @@ module.exports = function (client) {
         res.status(500).send(err);
       });
   };
-};
+}

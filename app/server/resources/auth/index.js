@@ -1,8 +1,7 @@
+import changePassword from "./changePassword";
 
-var SUBROUTE = "auth";
-
-module.exports = function () {
+export default function() {
   return {
-    change: require("./changePassword")(this, SUBROUTE)
+    change: changePassword(this, "auth")
   };
-};
+}

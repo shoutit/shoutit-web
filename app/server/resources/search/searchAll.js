@@ -7,9 +7,9 @@
  * Created by Philip on 15.04.2015.
  */
 
-var Promise = require("bluebird"),
-  util = require("util"),
-  EventEmitter = require("events").EventEmitter;
+const Promise = require("bluebird");
+const  util = require("util");
+const EventEmitter = require("events").EventEmitter;
 
 function makePromiseFromRequest(req) {
   return new Promise(function (resolve, reject) {
@@ -26,22 +26,22 @@ function makePromiseFromRequest(req) {
   });
 }
 
-function FakeClient() {
+export default function FakeClient() {
   EventEmitter.call(this);
 }
 
 util.inherits(FakeClient, EventEmitter);
 
 FakeClient.prototype.search = function (client, session, term) {
-  var shoutClient = client.shouts(),
-    tagClient = client.tags(),
-    userClient = client.users();
+  const shoutClient = client.shouts();
+  const tagClient = client.tags();
+  const userClient = client.users();
 
-  var searchQuery = {
+  const searchQuery = {
     search: term
   };
 
-  var emitter = this;
+  const emitter = this;
 
   Promise.all([
     makePromiseFromRequest(shoutClient.list(session, searchQuery)),
@@ -61,6 +61,3 @@ FakeClient.prototype.search = function (client, session, term) {
 
   return this;
 };
-
-
-module.exports = FakeClient;
