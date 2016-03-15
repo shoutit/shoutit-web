@@ -24,27 +24,28 @@ import { getVariation } from "./utils/APIUtils";
 
 import { uploadImageMiddleware, deleteImageMiddleware } from "./server/services/images";
 
-var oauth = require("./server/auth/oauth"),
-  ShoutitClient = require("./server/resources"),
-  apiRouter = require("./server/routes"),
-  resetPass = require("./server/services/resetPassword");
+import oauth from "./server/auth/oauth";
+import ShoutitClient from "./server/resources";
+import apiRouter from "./server/routes";
+import resetPass from "./server/services/resetPassword";
 
-var React = require("react"),
-  ReactRouter = require("react-router"),
-  ReactDOMServer = require("react-dom/server");
+import React from "react";
+import { Router, match, RoutingContext } from "react-router";
+import ReactDOMServer from "react-dom/server";
 
-var Flux = require("./Flux"),
-  routes = require("./routes"),
-  DocumentTitle = require("react-document-title");
+import Flux from "./Flux";
+import routes from "./routes";
+import DocumentTitle from "react-document-title";
 
 // middleware
-var morgan = require("morgan"),
-  methodOverride = require("method-override"),
-  session = require("express-session"),
-  RedisStore = require("connect-redis")(session),
-//csurf = require('csurf'),
-  compression = require("compression"),
-  cors = require("cors");
+import morgan from "morgan";
+import methodOverride from "method-override";
+import session from "express-session";
+import connectRedis from "connect-redis";
+import compression from "compression";
+import cors from "cors";
+
+const RedisStore = connectRedis(session);
 
 var graphData = require("./server/resources/consts/graphData");
 var currencies, categories, sortTypes;
@@ -176,7 +177,7 @@ function reactServerRender(req, res) {
   const fetchr = new Fetchr({ xhrPath: "/fetchr", req });
 
   // Run router to determine the desired state
-  ReactRouter.match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+  match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
 
     if (redirectLocation) {
       res.redirect(301, redirectLocation.pathname + redirectLocation.search);
@@ -206,9 +207,8 @@ function reactServerRender(req, res) {
 
         const flux = new Flux(initialStoreStates, fetchr);
         const state = flux.dehydrate();
-
         const content = ReactDOMServer.renderToString(
-          <ReactRouter.RoutingContext
+          <RoutingContext
             createElement={ (Component, props) => <Component {...props} flux={ flux } /> }
             {...renderProps}
           />
