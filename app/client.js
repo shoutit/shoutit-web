@@ -10,7 +10,7 @@ import createHistory from "history/lib/createBrowserHistory";
 import debug from "debug";
 import Fetchr from "fetchr";
 
-import config from "../config";
+import * as config from "./config";
 
 import routes from "./routes";
 import Flux from "./Flux";

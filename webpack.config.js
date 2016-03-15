@@ -15,7 +15,7 @@ var isDevelopment = process.env.NODE_ENV === "development";
 
 var context = path.join(__dirname, "./app");
 var entries = ["./client.js"];
-var config = require("./config");
+var config = require("./app/config");
 
 function noop() {}
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { googleMapsKey } from "../../../../config";
+import { googleMapsKey } from "../../../config";
 import { createLinkToGoogleMaps } from "../../../utils/GoogleMapsUtils";
 
 export default function GoogleStaticMap({

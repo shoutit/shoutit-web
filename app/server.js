@@ -19,7 +19,7 @@ import Promise from "bluebird";
 import HtmlDocument from "./server/HtmlDocument";
 import * as services from "./services";
 
-import config from "../config";
+import * as config from "./config";
 import { getVariation } from "./utils/APIUtils";
 
 import { uploadImageMiddleware, deleteImageMiddleware } from "./server/services/images";

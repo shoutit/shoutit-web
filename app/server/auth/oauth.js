@@ -1,7 +1,7 @@
 /**
  * Created by Philip on 12.01.2015.
  */
-import { apiUrl } from "../../../config";
+import { apiUrl } from "../../config";
 
 var url = require("url");
 

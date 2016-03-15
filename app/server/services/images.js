@@ -6,7 +6,7 @@ import fs from "fs";
 import createMulter from "./createMulter";
 import * as AWS from "../../utils/AWS";
 import { convertImageToJPEG } from "../../utils/ImageUtils";
-import { uploadResources } from "../../../config";
+import { uploadResources } from "../../config";
 
 const tmpDir = os.tmpdir();
 

@@ -6,7 +6,7 @@ import ListenButton from "./listenButton.jsx";
 import ListenersButton from "./listenersButton.jsx";
 import CountryShelfButton from './CountryShelfButton.jsx';
 
-import { imagesPath } from "../../../../config";
+import { imagesPath } from "../../../config";
 
 export default function ProfileInfoTooltip(props) {
   const { user, loading, flux } = props;

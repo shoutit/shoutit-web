@@ -1,4 +1,4 @@
-import { apiUrl } from "../../../config";
+import { apiUrl } from "../../config";
 /**
  * Created by Philip on 27.02.2015.
  */

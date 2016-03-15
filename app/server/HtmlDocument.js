@@ -1,7 +1,7 @@
 /* eslint react/no-danger: 0 */
 
 import React from "react";
-import config from "../../config";
+import * as config from "../config";
 
 let chunkNames = { main: "/assets/main.js", css: "/assets/main.css" };
 if (process.env.NODE_ENV === "production") {

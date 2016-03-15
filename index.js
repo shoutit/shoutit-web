@@ -10,7 +10,7 @@ require("babel-register");
 // Prevent issues with libraries using this var (see http://tinyurl.com/pcockwk)
 delete process.env.BROWSER;
 
-var config = require("./config");
+var config = require("./app/config");
 
 var express = require("express");
 var app = express();

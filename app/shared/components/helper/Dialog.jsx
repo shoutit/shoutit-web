@@ -1,7 +1,7 @@
 import React from "react";
 import { Dialog as MaterialUIDialog } from "material-ui";
 
-import { imagesPath } from "../../../../config";
+import { imagesPath } from "../../../config";
 
 if (process.env.BROWSER) {
   require("styles/components/Dialog.scss");

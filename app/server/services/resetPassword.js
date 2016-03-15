@@ -1,4 +1,4 @@
-import { apiUrl } from "../../../config";
+import { apiUrl } from "../../config";
 
 var request = require("superagent"),
   url = require("url");

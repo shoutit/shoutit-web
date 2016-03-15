@@ -9,7 +9,7 @@ import Explore from './explore.jsx';
 import Footer from './footer.jsx';
 import {ANDROID_LINK, IOS_LINK} from '../../consts/defaults';
 
-import { imagesPath } from "../../../../config";
+import { imagesPath } from "../../../config";
 
 if (process.env.BROWSER) {
   require("styles/pages/mainpage.scss");
