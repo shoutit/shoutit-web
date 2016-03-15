@@ -47,6 +47,26 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: "babel",
+        query: isDevelopment ? {
+          "presets": [
+            "es2015",
+            "stage-1",
+            "react",
+            "react-hmre"
+          ]
+        } : {
+          "presets": [
+            "es2015",
+            "stage-1",
+            "react",
+            "react-hmre"
+          ]
+        }
+      },
+      {
         test: /\.scss$/,
         loader: isDevelopment ?
           "style!css?sourceMap!postcss!sass?sourceMap&sourceMapContents" :
@@ -62,11 +82,6 @@ module.exports = {
       {
         test: /\.json$/,
         loader: "json"
-      },
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: "babel"
       }
     ]
   },
