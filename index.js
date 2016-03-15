@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === "production" && process.env.NEW_RELIC_APP_NAME && p
   require("newrelic");
 }
 
-require("babel/register");
+require("babel-register");
 
 // Prevent issues with libraries using this var (see http://tinyurl.com/pcockwk)
 delete process.env.BROWSER;

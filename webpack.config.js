@@ -1,7 +1,7 @@
 /* eslint no-var: 0 */
 /* eslint-env node */
 
-require("babel/register");
+require("babel-register");
 
 var path = require("path");
 var webpack = require("webpack");
