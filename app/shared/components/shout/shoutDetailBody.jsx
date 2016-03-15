@@ -4,7 +4,6 @@ import moment from "moment";
 
 import currencyFormatter from "currency-formatter";
 
-//import Rating from './rating.jsx';
 import TagButtons from "../general/TagButtons.jsx";
 import Separator from "../general/separator.jsx";
 import ReplyShoutForm from "../shout/ReplyShoutForm.jsx";
@@ -13,8 +12,7 @@ import {ItemProp, ItemScope} from "../helper/microdata";
 
 import ImageGallery from "./ImageGallery.react.jsx";
 import VideoPlayer from "./videoPlayer.jsx";
-import {Column, Grid, ReactVisible} from "../helper";
-import currency from "../../consts/currencies";
+import { Column, Grid } from "../helper";
 
 import { getVariation } from "../../../utils/APIUtils";
 
@@ -30,39 +28,24 @@ export default React.createClass({
     return nextProps.shout.id && nextProps.shout.id !== this.props.shout.id;
   },
 
-  renderSubtitle(shout) {
-    const link = shout.user.is_activated ?
-      <Link to={`/user/${encodeURIComponent(shout.user.username)}`}>
-        {shout.user.name}
-      </Link> : shout.user.name;
-
-    return (
-      <h5>{types[shout.type]} by&nbsp;
-        <span className="poster">
-                    {link}
-        </span>
-        &nbsp;-&nbsp;
-        {moment.unix(shout.date_published).fromNow()}
-      </h5>
-    );
-  },
-
   renderVideos(shout) {
-    if (shout.videos.length) {
-      const videoOptions = {
-        url: shout.videos[0].url,
-        poster: shout.videos[0].thumbnail_url
-      };
-      return <VideoPlayer options={videoOptions}/>;
-    } else {
-      return [];
+    if (!shout.videos.length) {
+      return null;
     }
+
+    const videoOptions = {
+      url: shout.videos[0].url,
+      poster: shout.videos[0].thumbnail_url
+    };
+
+    return <VideoPlayer options={videoOptions}/>;
   },
 
   renderImages(shout) {
     if (!shout.images.length) {
-      return [];
+      return null;
     }
+
     const videos = [];
     // add video first
     if (shout.videos.length) {
@@ -90,18 +73,7 @@ export default React.createClass({
     />;
   },
 
-  renderText(shout) {
-    return (
-      <Column fluid={true} clear={true} size="7">
-        <ItemProp property="description">
-          <p className="shout-text">{shout.text}</p>
-        </ItemProp>
-      </Column>
-    );
-  },
-
   renderTitle(shout) {
-
     const { city, country, state } = this.props.currentLocation;
 
     return (
@@ -116,40 +88,17 @@ export default React.createClass({
     );
   },
 
-  renderRating(shout) {
-    //return shout.rating ?
-    //  <Rating rating={shout.rating}/> : null;
-  },
-
-  renderActions() {
-    //return (<ShoutDetailActions/>);
-  },
-
-  renderBottom(shout) {
-    return (
-      <div className="btn-bottom single-shout">
-        {this.renderActions()}
-        {this.renderTags(shout)}
-      </div>
-    );
-  },
-
   renderOffer(shout) {
     if (shout.type !== "offer" || !shout.price || !shout.currency) {
       return;
     }
-    const currencySign = currency[shout.origCurrency] ?
-      currency[shout.origCurrency].sign :
-      shout.origCurrency ?
-        shout.origCurrency :
-        shout.currency;
 
     return (
       <Column fluid={true} size="4">
         <ItemProp property="offers">
           <div className="price-offer">
             <div className="price">
-              { currencyFormatter.format(shout.price/100, {code: currencySign})}
+              { currencyFormatter.format(shout.price/100, {code: shout.origCurrency || shout.currency})}
             </div>
           </div>
         </ItemProp>
@@ -164,18 +113,22 @@ export default React.createClass({
       <div>
         <ItemScope type="Product">
           <div className="si-shout-detail">
-            <Grid fluid style={{height: "45px"}}>
-              {this.renderTitle(shout)}
-              {this.renderOffer(shout)}
+            <Grid fluid style={{ height: "45px" }}>
+              { this.renderTitle(shout) }
+              { this.renderOffer(shout) }
             </Grid>
             <Grid fluid>
-              {this.renderImages(shout)}
+              { this.renderImages(shout) }
             </Grid>
-            <ReactVisible condition={shout.images.length > 1}>
-              <Separator size="640px" style={{marginTop: "25px"}}/>
-            </ReactVisible>
+            { shout.images.length > 1 &&
+              <Separator size="640px" style={{ marginTop: "25px" }}/>
+            }
             <Grid fluid>
-              {this.renderText(shout)}
+              <Column fluid clear size="7">
+                <ItemProp property="description">
+                  <p className="shout-text">{ shout.text }</p>
+                </ItemProp>
+              </Column>
             </Grid>
             <Grid fluid>
               <TagButtons

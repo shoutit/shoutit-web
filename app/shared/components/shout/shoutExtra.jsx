@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {ItemProp, ItemScope} from '../helper/microdata';
-import currency from '../../consts/currencies';
 import {Column, Grid, ReactVisible, Image, Progress} from '../helper';
 import ShoutPreview from "./ShoutPreview.jsx";
 
