@@ -9,6 +9,7 @@ import useScroll from "scroll-behavior/lib/useStandardScroll";
 import createHistory from "history/lib/createBrowserHistory";
 import debug from "debug";
 import Fetchr from "fetchr";
+import "babel-polyfill";
 
 import * as config from "./config";
 
@@ -18,9 +19,6 @@ import Flux from "./Flux";
 import "./client/initFacebook";
 import initGoogleAnalytics from "./client/initGoogleAnalytics";
 import { setupPusher } from "./client/pusher";
-
-
-import "babel-core/polyfill";
 
 import "styles/main.scss";
 
