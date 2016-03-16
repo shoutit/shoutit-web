@@ -1,30 +1,28 @@
 import MobileDetect from "mobile-detect";
 
-export default function(app) {
+const redirects = {
+  "/s/:shoutId": (req, res) => res.redirect(`/shout/${req.params.shoutId}`),
+  "/u/:username": (req, res) => res.redirect(`/user/${req.params.username}`),
+  "/t/:tagName":  (req, res) => res.redirect(`/tag/${req.params.tagName}`),
+  "/m/:msgId": (req, res) => res.redirect(`/tag/${req.params.tagName}`),
+  "/search/:term/shouts": (req, res) => res.redirect(`/messages/${req.params.msgId}`)
 
-  // Short url redirects
-  app.get("/s/:shoutId", (req, res) => res.redirect(`/shout/${req.params.shoutId}`));
-  app.get("/u/:username", (req, res) => res.redirect(`/user/${req.params.username}`));
-  app.get("/t/:tagName", (req, res) => res.redirect(`/tag/${req.params.tagName}`));
-  app.get("/m/:msgId", (req, res) => res.redirect(`/messages/${req.params.msgId}`));
-  app.get("/search/:term/shouts", (req, res) => res.redirect(`/search/${req.params.term}`));
-
-  app.get("/profile", (req, res) => {
+  "/profile": (req, res) => {
     const user = req.session ? req.session.user : null;
     if (!user) {
       return res.redirect("/login");
     }
     res.redirect(`/user/${user.username}`);
-  });
+  },
 
-  app.get("/messages/?*", (req, res, next) => {
+  "/messages/?*": (req, res, next) => {
     if (!req.session || !req.session.user) {
       return res.redirect("/login");
     }
     next();
-  });
+  })
 
-  app.get("/app", (req, res) => {
+  "/app": (req, res) => {
     const md = new MobileDetect(req.headers["user-agent"]);
     if (md.is("iOS")) {
       res.redirect("https://geo.itunes.apple.com/de/app/shoutit-app/id947017118?mt=8");
@@ -33,5 +31,8 @@ export default function(app) {
     } else {
       res.redirect("/");
     }
-  });
+  })
+
 }
+
+export default redirects;

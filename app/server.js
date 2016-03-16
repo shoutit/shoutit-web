@@ -16,7 +16,7 @@ import slashMiddleware from "./server/slashMiddleware";
 import smsMiddleware from "./server/smsMiddleware";
 import renderMiddleware from "./server/renderMiddleware";
 import useLegacyServices from "./server/legacyServices";
-import useRedirects from "./server/redirect";
+import redirects from "./server/redirects";
 
 import * as services from "./services";
 
@@ -76,7 +76,9 @@ export function start(app) {
   useLegacyServices(app);
 
   // Enable various redirects
-  useRedirects(app);
+  Object.keys(redirects).map(path => {
+    app.get(path, redirects[path]);
+  });
 
   app.get(":smscode", smsMiddleware);
   app.get("*", renderMiddleware);
