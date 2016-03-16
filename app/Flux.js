@@ -33,22 +33,22 @@ import DiscoversActions from "./shared/stores/discovers/actions";
 import SuggestionsActions from "./shared/stores/suggestions/actions";
 import UINotificationsActions from "./actions/UINotificationsActions";
 
-export default function Flux(initialState={}, fetchr) {
+export default function Flux(fetchr) {
 
   const stores = {
-    auth: new AuthStore(initialState.auth),
+    auth: new AuthStore(),
     chat: new ChatStore(),
     conversations: new ConversationsStore(),
-    discovers: new DiscoversStore(initialState.discovers),
-    locations: new LocationsStore(initialState.locations),
+    discovers: new DiscoversStore(),
+    locations: new LocationsStore(),
     messages: new MessagesStore(),
-    notifications: new NotificationsStore(initialState.notifications),
-    search: new SearchStore(initialState.search),
-    shouts: new ShoutStore(initialState.shouts),
-    suggestions: new SuggestionsStore(initialState.suggestions),
-    tags: new TagStore(initialState.tags),
+    notifications: new NotificationsStore(),
+    search: new SearchStore(),
+    shouts: new ShoutStore(),
+    suggestions: new SuggestionsStore(),
+    tags: new TagStore(),
     ui_notifications: new UINotificationsStore(),
-    users: new UsersStore(initialState.users),
+    users: new UsersStore(),
     videocall: new VideoCallsStore()
   };
 
