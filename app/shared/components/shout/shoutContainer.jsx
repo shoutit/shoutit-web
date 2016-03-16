@@ -3,6 +3,7 @@ import {StoreWatchMixin} from "fluxxor";
 import {Grid, Column} from '../helper';
 import { SideFooterCard, ListenToCard, InterestsCard, SuggestShoutCard, ShareShoutCard, ShoutOwnerCard } from "../cards";
 import ContactOwnerCard from "../cards/ContactOwnerCard.jsx";
+import LocationCard from "../cards/LocationCard.jsx";
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("shouts", "locations", "users", "tags")],
@@ -108,7 +109,10 @@ export default React.createClass({
       <Grid className="profile-holder">
         <Column size="3" clear={true}>
           { shout &&
-            <ShareShoutCard loggedUser={ loggedUser } shout={ shout }/>
+            <div>
+              <LocationCard location={ shout.location } />
+              <ShareShoutCard loggedUser={ loggedUser } shout={ shout }/>
+            </div>
           }
         </Column>
         <Column size="9">
