@@ -16,41 +16,41 @@ export default function HtmlDocument({
 }) {
 
   const metatags = [];
-  metatags.push({ property: "fb:app_id", content: config.facebookId });
-  metatags.push({ property: "og:url", content: meta.url });
-  metatags.push({ property: "og:title", content: meta.title });
-  metatags.push({ property: "og:description", content: meta.description });
-  metatags.push({ property: "og:site_name", content: meta.siteName });
-  metatags.push({ property: "og:image", content: meta.image });
-
-  if (meta.ogType) {
-    metatags.push({ property: "og:type", content: meta.ogType });
-  }
-
-  if (meta.price) {
-    metatags.push({ property: "shoutitcom:price", content: meta.price });
-  }
-
-  metatags.push({ name: "twitter:site", content: meta.twitter.site });
-  metatags.push({ name: "twitter:url", content: meta.url });
-  metatags.push({ name: "twitter:title", content: meta.title });
-  metatags.push({ name: "twitter:description", content: meta.description });
-  metatags.push({ name: "twitter:image", content: meta.image });
-
-  if (meta.type === "home") {
-    metatags.push({ name: "twitter:card", content: "app"} );
-    metatags.push({ name: "twitter:app:id:iphone", content: meta.twitter.iPhone} );
-    metatags.push({ name: "twitter:app:id:ipad", content: meta.twitter.iPad} );
-    metatags.push({ name: "twitter:app:id:googleplay", content: meta.twitter.android} );
-  } else if (meta.type === "shout" && meta.shoutType) {
-    metatags.push({ name: "twitter:card", content: "product"} );
-    metatags.push({ name: "twitter:label1", content: meta.shoutTypePrefix} );
-    metatags.push({ name: "twitter:data1", content: meta.price} );
-    metatags.push({ name: "twitter:label2", content: "Location"} );
-    metatags.push({ name: "twitter:data2", content: meta.location} );
-  } else {
-    metatags.push({ name: "twitter:card", content: "summary" } );
-  }
+  // metatags.push({ property: "fb:app_id", content: config.facebookId });
+  // metatags.push({ property: "og:url", content: meta.url });
+  // metatags.push({ property: "og:title", content: meta.title });
+  // metatags.push({ property: "og:description", content: meta.description });
+  // metatags.push({ property: "og:site_name", content: meta.siteName });
+  // metatags.push({ property: "og:image", content: meta.image });
+  //
+  // if (meta.ogType) {
+  //   metatags.push({ property: "og:type", content: meta.ogType });
+  // }
+  //
+  // if (meta.price) {
+  //   metatags.push({ property: "shoutitcom:price", content: meta.price });
+  // }
+  //
+  // metatags.push({ name: "twitter:site", content: meta.twitter.site });
+  // metatags.push({ name: "twitter:url", content: meta.url });
+  // metatags.push({ name: "twitter:title", content: meta.title });
+  // metatags.push({ name: "twitter:description", content: meta.description });
+  // metatags.push({ name: "twitter:image", content: meta.image });
+  //
+  // if (meta.type === "home") {
+  //   metatags.push({ name: "twitter:card", content: "app"} );
+  //   metatags.push({ name: "twitter:app:id:iphone", content: meta.twitter.iPhone} );
+  //   metatags.push({ name: "twitter:app:id:ipad", content: meta.twitter.iPad} );
+  //   metatags.push({ name: "twitter:app:id:googleplay", content: meta.twitter.android} );
+  // } else if (meta.type === "shout" && meta.shoutType) {
+  //   metatags.push({ name: "twitter:card", content: "product"} );
+  //   metatags.push({ name: "twitter:label1", content: meta.shoutTypePrefix} );
+  //   metatags.push({ name: "twitter:data1", content: meta.price} );
+  //   metatags.push({ name: "twitter:label2", content: "Location"} );
+  //   metatags.push({ name: "twitter:data2", content: meta.location} );
+  // } else {
+  //   metatags.push({ name: "twitter:card", content: "summary" } );
+  // }
 
   return (
     <html>
