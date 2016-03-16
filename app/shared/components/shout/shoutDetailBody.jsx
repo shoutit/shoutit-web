@@ -5,7 +5,6 @@ import { capitalize } from "lodash/string";
 
 import currencyFormatter from "currency-formatter";
 
-import TagButtons from "../general/TagButtons.jsx";
 import Separator from "../general/separator.jsx";
 import ReplyShoutForm from "../shout/ReplyShoutForm.jsx";
 
