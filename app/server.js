@@ -1,5 +1,5 @@
 /* eslint no-var: 0, no-console: 0 */
-
+import path from "path";
 import consolidate from "consolidate";
 import bodyParser from "body-parser";
 import compression from "compression";
@@ -21,7 +21,9 @@ import redirects from "./server/redirects";
 
 import * as services from "./services";
 
-const publicDir = `${__dirname}${process.env.NODE_ENV === "production" ? "./public" : "./assets"}`;
+const publicDir = path.resolve(__dirname,
+  process.env.NODE_ENV === "production" ? "../public" : "../assets"
+);
 
 export function start(app) {
 
