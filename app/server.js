@@ -35,7 +35,7 @@ export function start(app) {
   app.use(morgan(process.env.NODE_ENV === "development" ? "dev" : "combined"));
   app.use(bodyParser.json());
   app.use(compression());
-  app.use(csurf({ cookie: true }));
+  // app.use(csurf({ cookie: true }));
 
   // Basic authentication
   if (process.env.BASIC_AUTH_USERNAME && process.env.BASIC_AUTH_PASSWORD) {
