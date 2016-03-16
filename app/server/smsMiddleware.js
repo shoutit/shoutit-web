@@ -1,5 +1,5 @@
-import oauth from "../auth/oauth";
-import ShoutitClient from "./server/resources";
+import oauth from "./auth/oauth";
+import ShoutitClient from "./resources";
 
 const smsRE = /^(z|Z)[a-zA-Z0-9]{5,9}/;
 
