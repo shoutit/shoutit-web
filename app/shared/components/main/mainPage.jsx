@@ -19,12 +19,12 @@ export default React.createClass({
   displayName: "MainPage",
   mixins: [new StoreWatchMixin("users"), History],
 
-  statics: {
-    fetchId: "shuffleCategories",
-    fetchData(client, session, params) {
-      return client.misc().shuffleCategories(session, params);
-    }
-  },
+  // statics: {
+  //   fetchId: "shuffleCategories",
+  //   fetchData(client, session, params) {
+  //     return client.misc().shuffleCategories(session, params);
+  //   }
+  // },
 
   getStateFromFlux() {
     let flux = this.props.flux;

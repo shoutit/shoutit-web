@@ -5,13 +5,13 @@ import { SideFooterCard, ListeningCard, ListenToCard, ProfileCard, InterestsCard
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users")],
-
-  statics: {
-    fetchId: 'suggestions',
-    fetchData(client, session, params) {
-      return client.misc().suggestions(session, params);
-    }
-  },
+  // 
+  // statics: {
+  //   fetchId: 'suggestions',
+  //   fetchData(client, session, params) {
+  //     return client.misc().suggestions(session, params);
+  //   }
+  // },
 
   childContextTypes: {
     flux: React.PropTypes.object,

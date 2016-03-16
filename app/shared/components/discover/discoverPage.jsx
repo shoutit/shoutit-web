@@ -11,14 +11,14 @@ import ViewportSensor from '../misc/ViewportSensor.jsx';
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("discovers", "shouts")],
-
-  statics: {
-    // TODO: change it to proper values for server rendering
-    fetchId: 'discoverid',
-    fetchData(client, session, params) {
-      return client.discover().get(session, params.pk);
-    }
-  },
+  // 
+  // statics: {
+  //   // TODO: change it to proper values for server rendering
+  //   fetchId: 'discoverid',
+  //   fetchData(client, session, params) {
+  //     return client.discover().get(session, params.pk);
+  //   }
+  // },
 
   getStateFromFlux() {
     const disStore = this.props.flux.store("discovers").getState();

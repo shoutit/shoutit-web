@@ -18,12 +18,12 @@ export default React.createClass({
   lastLoadedUser: null,
 
   // Need to move it later to profileOffers after moving this path to home route path
-  statics: {
-    fetchId: 'userShouts',
-    fetchData(client, session, params) {
-      return client.shouts().list(session, {profile: params.username, ...params});
-    }
-  },
+  // statics: {
+  //   fetchId: 'userShouts',
+  //   fetchData(client, session, params) {
+  //     return client.shouts().list(session, {profile: params.username, ...params});
+  //   }
+  // },
 
   getInitialState() {
     return {

@@ -5,19 +5,19 @@ import { SideFooterCard, ListenToCard, InterestsCard, SuggestShoutCard, TagProfi
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users", "search")],
-
-  statics: {
-    fetchId: "searchShouts",
-    fetchData(client, session, params, name, queries) {
-      return client.shouts().list(session, {
-        search: params.term,
-        category: params.category,
-        shout_type: params.shouttype,
-        city: queries.city,
-        country: queries.country
-      });
-    }
-  },
+  // 
+  // statics: {
+  //   fetchId: "searchShouts",
+  //   fetchData(client, session, params, name, queries) {
+  //     return client.shouts().list(session, {
+  //       search: params.term,
+  //       category: params.category,
+  //       shout_type: params.shouttype,
+  //       city: queries.city,
+  //       country: queries.country
+  //     });
+  //   }
+  // },
 
   getStateFromFlux() {
     const {flux} = this.props;

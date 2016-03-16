@@ -22,20 +22,20 @@ export default function (type = "all") {
   return React.createClass({
     displayName: type,
     mixins: [new StoreWatchMixin("shouts", "locations"), History],
-
-    statics: {
-      fetchId: 'all',
-      fetchData(client, session, params) {
-        return client.shouts().list(session, {
-          shout_type: type,
-          page_size: defaults.PAGE_SIZE,
-          city: params.city === "all" ? null : params.city,
-          country: params.country === "all" ? null : params.country,
-          state: params.state === "all" ? null : params.state,
-          page: params.page
-        });
-      }
-    },
+    //
+    // statics: {
+    //   fetchId: 'all',
+    //   fetchData(client, session, params) {
+    //     return client.shouts().list(session, {
+    //       shout_type: type,
+    //       page_size: defaults.PAGE_SIZE,
+    //       city: params.city === "all" ? null : params.city,
+    //       country: params.country === "all" ? null : params.country,
+    //       state: params.state === "all" ? null : params.state,
+    //       page: params.page
+    //     });
+    //   }
+    // },
 
     getStateFromFlux() {
       let flux = this.props.flux;

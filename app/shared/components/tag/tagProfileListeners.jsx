@@ -7,13 +7,13 @@ import ListenerRow from '../profile/popuplist/listenerRow.jsx';
 
 export default React.createClass({
   displayName: "ProfileListeners",
-
-  statics: {
-    fetchId: 'taglisteners',
-    fetchData(client, session, params) {
-      return client.tags().getListeners(session, params.tagName);
-    }
-  },
+  // 
+  // statics: {
+  //   fetchId: 'taglisteners',
+  //   fetchData(client, session, params) {
+  //     return client.tags().getListeners(session, params.tagName);
+  //   }
+  // },
 
   componentDidMount() {
     let tagName = this.props.tagName;

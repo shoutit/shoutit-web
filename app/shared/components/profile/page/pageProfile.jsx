@@ -11,13 +11,13 @@ export default React.createClass({
     displayName: "PageProfile",
     mixins: [new StoreWatchMixin("users")],
 
-    // Need to move it later to profileOffers after moving this path to home route path
-    statics: {
-        fetchId:'pageshouts',
-        fetchData(client, session, params) {
-            return client.users().getShouts(session, params.username, 'page');
-        }
-    },
+    // // Need to move it later to profileOffers after moving this path to home route path
+    // statics: {
+    //     fetchId:'pageshouts',
+    //     fetchData(client, session, params) {
+    //         return client.users().getShouts(session, params.username, 'page');
+    //     }
+    // },
 
     contextTypes: {
         params: React.PropTypes.object,

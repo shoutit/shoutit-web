@@ -11,15 +11,15 @@ export default React.createClass({
     return this.getFlux().store("users").getState();
   },
 
-  statics: {
-    fetchData(client, session, params) {
-      return client.users().search(session, {
-        search: params.term,
-        category: params.category,
-        shout_type: params.shouttype
-      });
-    }
-  },
+  // statics: {
+  //   fetchData(client, session, params) {
+  //     return client.users().search(session, {
+  //       search: params.term,
+  //       category: params.category,
+  //       shout_type: params.shouttype
+  //     });
+  //   }
+  // },
 
   render() {
     let logged = this.state.user,

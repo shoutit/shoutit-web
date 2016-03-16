@@ -11,14 +11,14 @@ import DiscoverPage from './discoverPage.jsx';
 
 export default React.createClass({
     mixins: [new StoreWatchMixin("discovers")],
-
-    statics: {
-        // TODO: change it to proper values for server rendering
-        fetchId: 'discoverlist',
-        fetchData(client, session, params) {
-            return client.discover().list(session, params.country);
-        }
-    },
+    // 
+    // statics: {
+    //     // TODO: change it to proper values for server rendering
+    //     fetchId: 'discoverlist',
+    //     fetchData(client, session, params) {
+    //         return client.discover().list(session, params.country);
+    //     }
+    // },
 
     getStateFromFlux() {
         const disStore = this.props.flux.store("discovers").getState();
