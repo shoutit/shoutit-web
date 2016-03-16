@@ -110,6 +110,7 @@ export default React.createClass({
 
   render() {
     const { shout, currentLocation } = this.props;
+    const countryCode = currentLocation.country;
 
     return (
       <div>
@@ -134,10 +135,13 @@ export default React.createClass({
               <Column fluid size="8">
                 <ul className="ShoutDetail-featuresList">
                   <li className="ShoutDetail-feature">
-                    Posted: { moment.unix(shout.date_published).fromNow() }
+                    <span className="ShoutDetail-featureName">Date</span>
+                    <span className="ShoutDetail-featureValue">
+                      { moment.unix(shout.date_published).format("DD - MM - YYYY") }
+                    </span>
                   </li>
                   <li className="ShoutDetail-feature">
-                    Category:
+                    <span className="ShoutDetail-featureName">Category</span>
                     <CategoryIcon
                       slug={ shout.category.slug }
                       icon={ shout.category.icon }
@@ -146,19 +150,28 @@ export default React.createClass({
                       countryCode={ shout.location.country }
                       />
                   </li>
+
+                  {
+                    shout.filters.map(tag =>
+                      <li className="ShoutDetail-feature" key={ tag.value.slug }>
+                        <span className="ShoutDetail-featureName">{ tag.name }</span>
+                        <Link className="ShoutDetail-featureValue" to={`/interest/${tag.value.slug}/${countryCode}`}>
+                          { tag.value.name }
+                        </Link>
+                      </li>
+                    )
+                  }
+
                   <li className="ShoutDetail-feature">
-                    <CountryFlag code={ shout.location.country} size="small" />
-                    { `: ${ shout.location.city }` }
+                    <span style={{ marginRight: "10px" }}>
+                      <CountryFlag code={ shout.location.country} size="small" />
+                    </span>
+                    <span className="ShoutDetail-featureValue">
+                      { shout.location.city }
+                    </span>
                   </li>
                 </ul>
               </Column>
-            </Grid>
-            <Grid fluid>
-              <TagButtons
-                tags={shout.filters}
-                showWithType
-                currentLocation={ currentLocation }
-              />
             </Grid>
           </div>
         </ItemScope>
