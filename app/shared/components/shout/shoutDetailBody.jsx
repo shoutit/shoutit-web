@@ -14,6 +14,8 @@ import {ItemProp, ItemScope} from "../helper/microdata";
 import ImageGallery from "./ImageGallery.react.jsx";
 import VideoPlayer from "./videoPlayer.jsx";
 import { Column, Grid } from "../helper";
+import CategoryIcon from "../helper/CategoryIcon.jsx";
+import CountryFlag from "../helper/CountryFlag.jsx";
 
 import { getVariation } from "../../../utils/APIUtils";
 
@@ -82,7 +84,7 @@ export default React.createClass({
           <Link className="shout-title" to={`/shout/${shout.id}`}>{ shout.title }</Link>
         </ItemProp>
         <Link to={`/${shout.type}s/${country}/${state}/${city}`}>
-          <span className="shout-type">{ capitalize(shout.type)}</span>
+          <span className="shout-type">{ capitalize(shout.type) }</span>
         </Link>
       </Column>
     );
@@ -90,7 +92,7 @@ export default React.createClass({
 
   renderOffer(shout) {
     if (shout.type !== "offer" || !shout.price || !shout.currency) {
-      return;
+      return null;
     }
 
     return (
@@ -98,7 +100,7 @@ export default React.createClass({
         <ItemProp property="offers">
           <div className="price-offer">
             <div className="price">
-              { currencyFormatter.format(shout.price/100, {code: shout.origCurrency || shout.currency})}
+              { currencyFormatter.format(shout.price/100, { code: shout.currency }) }
             </div>
           </div>
         </ItemProp>
@@ -128,6 +130,27 @@ export default React.createClass({
                 <ItemProp property="description">
                   <p className="shout-text">{ shout.text }</p>
                 </ItemProp>
+              </Column>
+              <Column fluid size="8">
+                <ul className="ShoutDetail-featuresList">
+                  <li className="ShoutDetail-feature">
+                    Posted: { moment.unix(shout.date_published).fromNow() }
+                  </li>
+                  <li className="ShoutDetail-feature">
+                    Category:
+                    <CategoryIcon
+                      slug={ shout.category.slug }
+                      icon={ shout.category.icon }
+                      tooltip={ shout.category.name }
+                      size="24px"
+                      countryCode={ shout.location.country }
+                      />
+                  </li>
+                  <li className="ShoutDetail-feature">
+                    <CountryFlag code={ shout.location.country} size="small" />
+                    { `: ${ shout.location.city }` }
+                  </li>
+                </ul>
               </Column>
             </Grid>
             <Grid fluid>
