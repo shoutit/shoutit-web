@@ -15,6 +15,7 @@ import basicAuthMiddleware from "./server/basicAuthMiddleware";
 import slashMiddleware from "./server/slashMiddleware";
 import smsMiddleware from "./server/smsMiddleware";
 import renderMiddleware from "./server/renderMiddleware";
+import errorMiddleware from "./server/errorMiddleware";
 import useLegacyServices from "./server/legacyServices";
 import redirects from "./server/redirects";
 
@@ -82,5 +83,7 @@ export function start(app) {
 
   app.get(":smscode", smsMiddleware);
   app.get("*", renderMiddleware);
+
+  app.use(errorMiddleware);
 
 }
