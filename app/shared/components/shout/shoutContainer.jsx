@@ -93,8 +93,6 @@ export default React.createClass({
 
   render() {
     const {suggestions, flux, loggedUser, currentLocation } = this.props;
-    const tagsData = this.getTagsFromStore();
-    const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
 
     const { shout, users } = this.state;
@@ -130,18 +128,7 @@ export default React.createClass({
               getMobileNumber={ flux.actions.getMobileNumber }
               />
           }
-          <InterestsCard
-            flux={flux}
-            tags={ JSON.parse(JSON.stringify(tagsData)) }
-            loading={ suggestions.data && suggestions.data.tags.loading }
-            countryCode={ currentLocation.country }
-          />
-          <ListenToCard
-            flux={flux}
-            users={ usersData }
-            loading={ suggestions.data && suggestions.data.users.loading }
-            currentLocation={ currentLocation }
-          />
+
           <SuggestShoutCard
             shout={ shoutsData }
             loading={ suggestions.data && suggestions.data.shouts.loading }
