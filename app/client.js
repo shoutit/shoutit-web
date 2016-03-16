@@ -28,7 +28,7 @@ window.debug = debug;
 const log = debug("shoutit");
 
 const fetchr = new Fetchr({ xhrPath: "/fetchr", xhrTimeout: 20000 });
-const flux = new Flux(undefined, fetchr);
+const flux = new Flux(fetchr);
 
 flux.setDispatchInterceptor((action, dispatch) =>  {
   ReactDOM.unstable_batchedUpdates(() => dispatch(action));
