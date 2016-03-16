@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import { Icon, Grid, Column } from "../helper";
+import { Icon, Column } from "../helper";
 import GoogleStaticMap from "../misc/GoogleStaticMap.jsx";
 import CountryFlag from "../helper/CountryFlag.jsx";
 
