@@ -32,6 +32,17 @@ export default {
       });
   },
 
+  getCurrentSession(done) {
+    this.flux.service
+      .read("session")
+      .end((err, user) => {
+        if (user) {
+          this.dispatch(actionTypes.LOGIN_SUCCESS, { user });
+        }
+        done && done(null, user);
+      });
+  },
+
   signup({ name, email, password, user }) {
     const data = { name, email, password, user };
     this.dispatch(actionTypes.SIGNUP_START, { name, email, user });
