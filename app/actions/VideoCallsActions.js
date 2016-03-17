@@ -14,6 +14,9 @@ function subscribeConversationEvents(conversation, self) {
 export default {
 
   initTwilio() {
+    if (!require("webrtcsupport").support) {
+      return;
+    }
     this.dispatch(actionTypes.TWILIO_INIT);
     const { service } = this.flux;
 
