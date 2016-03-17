@@ -36,7 +36,6 @@ export function ConnectToStores(Component, { fetchData, listenToStores=[], mapSt
   };
 
   const displayName = Component.displayName || Component.name;
-  let firstRender = true;
 
   return React.createClass({
 
@@ -52,16 +51,12 @@ export function ConnectToStores(Component, { fetchData, listenToStores=[], mapSt
     },
 
     componentDidMount() {
-      if (firstRender) {
+      if (this.props.firstRender) {
         debug("shoutit:ConnectToStores")("%s component rendering for the first time, skip data fetching", displayName);
         return false;
       }
       debug("shoutit:ConnectToStores")("%s component did mount, fetching data...", displayName);
       fetchData(this.props.flux, this.props.params, this.props.location.query, logError);
-    },
-
-    componentWillUnmount() {
-      firstRender = false;
     },
 
     getInstance() {

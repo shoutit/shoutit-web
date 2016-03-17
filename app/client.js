@@ -3,10 +3,11 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { Router } from "react-router";
+import { Router, browserHistory, RouterContext } from "react-router";
 import injectTapEventPlugin from "react-tap-event-plugin";
 import useScroll from "scroll-behavior/lib/useStandardScroll";
-import createHistory from "history/lib/createBrowserHistory";
+// import createHistory from "history/lib/createBrowserHistory";
+// import createLocation from "history/lib/createLocation";
 import debug from "debug";
 import Fetchr from "fetchr";
 import "babel-polyfill";
@@ -65,15 +66,39 @@ setupPusher(flux.store("auth"), {
 
 log("Starting client web app", `\n${config.getSummary()}\n`);
 
+let firstRender = true;
+
 ReactDOM.render(
+
   <Router
-    history={useScroll(createHistory)()}
-    createElement={ (Component, props) =>
-      <Component {...props} flux={flux} />
-    }>
+    history={ browserHistory }
+    render={ props => {
+      if (firstRender) {
+        debug("shoutit:router")("First time rendering %s...", props.location.pathname);
+      } else {
+        debug("shoutit:router")("Rendering %s...", props.location.pathname);
+      }
+      const _firstRender = firstRender;
+      const routerContext = (
+        <RouterContext {...props}
+          createElement={ (Component, props) => {
+            debug("shoutit:router")("Creating element for %s %s, first render? %s",
+              Component.displayName || Component.name, props.location.pathname, _firstRender
+            );
+            return <Component {...props} flux={flux}  firstRender={ _firstRender }/>;
+          }}
+        />
+      );
+      firstRender = false;
+      return routerContext;
+    }}>
+
     { routes }
+
   </Router>,
+
   document.getElementById("content"),
+
   () => {
     log("App has been mounted");
     if (ga) {
