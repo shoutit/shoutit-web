@@ -5,7 +5,9 @@ import debug from "debug";
 import AuthStore from "./stores/AuthStore";
 import ChatStore from "./stores/ChatStore";
 import UINotificationsStore from "./stores/UINotificationsStore";
+import CategoriesStore from "./stores/CategoriesStore";
 import ConversationsStore from "./stores/ConversationsStore";
+import CurrenciesStore from "./stores/CurrenciesStore";
 import MessagesStore from "./stores/MessagesStore";
 import VideoCallsStore from "./stores/VideoCallsStore";
 import SuggestionsStore from "./shared/stores/suggestions/SuggestionsStore";
@@ -22,6 +24,8 @@ import DiscoversStore from "./shared/stores/discovers/store";
 import AuthActions from "./actions/AuthActions";
 import ChatActions from "./actions/ChatActions";
 import LocationActions from "./actions/LocationActions";
+import CurrenciesActions from "./actions/CurrenciesActions";
+import CategoriesActions from "./actions/CategoriesActions";
 import ConversationsActions from "./actions/ConversationsActions";
 import MessagesActions from "./actions/MessagesActions";
 import VideoCallsActions from "./actions/VideoCallsActions";
@@ -40,7 +44,9 @@ export default function Flux(fetchr) {
   const stores = {
     auth: new AuthStore(),
     chat: new ChatStore(),
+    categories: new CategoriesStore(),
     conversations: new ConversationsStore(),
+    currencies: new CurrenciesStore(),
     discovers: new DiscoversStore(),
     locations: new LocationsStore(),
     messages: new MessagesStore(),
@@ -64,7 +70,9 @@ export default function Flux(fetchr) {
   const actions = {
     ...AuthActions,
     ...ChatActions,
+    ...CategoriesActions,
     ...ConversationsActions,
+    ...CurrenciesActions,
     ...DiscoversActions,
     ...LocationsActions,
     ...MessagesActions,

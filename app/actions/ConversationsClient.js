@@ -1,7 +1,7 @@
 import request from "superagent";
 
 export function loadMessages(id) {
-  return request.get(`/api/conversations/${id}/messages`);
+  return request.get(`/api/conversations/${id}/messagesxx`);
 }
 
 export function loadPreviousMessages(id, before) {
