@@ -1,4 +1,7 @@
-.si-shout-detail {
+@import "../constants/defaults";
+@import "../constants/colors";
+
+.ShoutDetail {
   position:relative;
   width: 700px;
   min-height: 150px;
@@ -56,5 +59,31 @@
       border-bottom: 8px solid #62AD22;
     }
   }
+}
 
+.ShoutDetail-featuresList {
+  list-style: none;
+  width: 100%;
+}
+
+.ShoutDetail-feature {
+  vertical-align: middle;
+  padding: 7px 15px;
+  &:nth-child(odd) {
+    background: $si-bg;
+  }
+  &:nth-child(1) {
+    background: $si-white;
+  }
+}
+
+.ShoutDetail-featureName {
+  margin-right: 10px;
+  &:after {
+    content: ":";
+  }
+}
+
+.ShoutDetail-featureValue {
+  color: $si-light-gray;
 }
