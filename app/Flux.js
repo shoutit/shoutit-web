@@ -14,12 +14,14 @@ import ShoutStore from "./shared/stores/shouts/store";
 import TagStore from "./shared/stores/tags/store";
 import SearchStore from "./shared/stores/search/store";
 import LocationsStore from "./shared/stores/locations/store";
+import LocationStore from "./stores/LocationStore";
 import NotificationsStore from "./shared/stores/notifications/store";
 import DiscoversStore from "./shared/stores/discovers/store";
 
 // import actions
 import AuthActions from "./actions/AuthActions";
 import ChatActions from "./actions/ChatActions";
+import LocationActions from "./actions/LocationActions";
 import ConversationsActions from "./actions/ConversationsActions";
 import MessagesActions from "./actions/MessagesActions";
 import VideoCallsActions from "./actions/VideoCallsActions";
@@ -49,7 +51,8 @@ export default function Flux(fetchr) {
     tags: new TagStore(),
     ui_notifications: new UINotificationsStore(),
     users: new UsersStore(),
-    videocall: new VideoCallsStore()
+    videocall: new VideoCallsStore(),
+    location: new LocationStore()
   };
 
   for (const store in stores) {
@@ -72,7 +75,8 @@ export default function Flux(fetchr) {
     ...TagActions,
     ...UINotificationsActions,
     ...UserActions,
-    ...VideoCallsActions
+    ...VideoCallsActions,
+    ...LocationActions
   };
 
   const flux = new Fluxxor.Flux(stores, actions);
@@ -99,6 +103,10 @@ export default function Flux(fetchr) {
       debug("shoutit:flux")("Rehydrated %s store", storeName, stores[storeName].getState());
     });
   };
+
+  flux.on("dispatch", (type, payload) =>
+    debug("shoutit:flux")("Dispatching %s", type, payload)
+  );
 
   return flux;
 }

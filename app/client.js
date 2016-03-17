@@ -42,10 +42,6 @@ else {
   console.warn("No data to rehydrate in the flux stores");
 }
 
-flux.on("dispatch", (type, payload) =>
-  debug("shoutit:flux")("Dispatching %s", type, payload)
-);
-
 let ga;
 if (config.ga) {
   ga = initGoogleAnalytics(config.ga);
