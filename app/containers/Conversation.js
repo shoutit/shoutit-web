@@ -1,6 +1,6 @@
 import React from "react";
-import { FluxMixin, StoreWatchMixin } from "fluxxor";
-import { History } from "react-router";
+
+import { ConnectToStores } from "../utils/FluxUtils";
 
 import ConversationTitle from "../chat/ConversationTitle";
 import ConversationDeleteDialog from "../chat/ConversationDeleteDialog";
@@ -21,95 +21,66 @@ if (process.env.BROWSER) {
   require("./Conversation.scss");
 }
 
-/**
- * Container component to display a conversation.
- */
-export default React.createClass({
+const fetchData = (flux, params, query, done) => {
+  flux.actions.loadMessages(params.id, done);
+};
 
-  displayName: "Conversation",
+const mapStoresProps = (stores, params) => {
+  const conversation = stores.conversations.get(params.id);
 
-  mixins: [
-    new FluxMixin(React),
-    new StoreWatchMixin("conversations"),
-    History
-  ],
-
-  getInitialState() {
+  if (!conversation || !conversation.didLoad || !conversation.didLoadMessages) {
     return {
-      showDelete: false,
-      showAttachShout: false
+      loading: conversation && conversation.loading
     };
-  },
+  }
+
+  const messages = stores.messages.getMessages(conversation.messageIds);
+  return {
+    conversation,
+    messages,
+    loading: false
+  };
+};
+
+const listenToStores = ["conversations"];
+
+export class Conversation extends React.Component {
+
+  state = {
+    showDelete: false,
+    showAttachShout: false,
+    typingUsers: []
+  };
 
   componentDidMount() {
-    this.loadData();
     this.subscribePresenceChannel();
-  },
+  }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     // Do not render all again if just draft changed
-    if (nextState.draft !== this.state.draft) {
+    if (nextProps.draft !== this.props.draft) {
       return false;
     }
     return true;
-  },
+  }
 
   componentDidUpdate(prevProps) {
     const { id } = this.props.params;
     const conversationChanged = prevProps.params.id !== id;
 
     if (conversationChanged) {
-      if (this.props.flux.stores.conversations.didLoadMessages(id)) {
-        // Reuse existing data
-        this.setState(this.getStateFromFlux());
-        return;
-      }
-      // Load data
-      this.loadData();
+      fetchData(this.props.flux, this.props.params);
       this.unsubscribePresenceChannel();
       this.subscribePresenceChannel();
     }
-
-  },
+  }
 
   componentWillUnmount() {
     this.unsubscribePresenceChannel();
-  },
+  }
 
-  presenceChannel: null,
-  typingTimeouts: {},
-
-  getStateFromFlux() {
-
-    const { id } = this.props.params;
-    const { flux } = this.props;
-    const conversation = flux.store("conversations").get(id);
-
-    if (!conversation || !conversation.didLoad || !conversation.didLoadMessages) {
-      return {
-        loading: conversation && conversation.loading
-      };
-    }
-
-    const messages = flux.store("messages").getMessages(conversation.messageIds);
-
-    // Remove typing user if last message is the same
-    const typingUsers = this.state.typingUsers || [];
-    const typingUserIndex = typingUsers.findIndex(
-      user => user.id === conversation.last_message.user.id
-    );
-    if (typingUserIndex > -1) {
-      typingUsers.splice(typingUserIndex, 1);
-    }
-
-    return { conversation, messages, typingUsers, loading: false };
-
-  },
-
-  loadData() {
-    const { id } = this.props.params;
-    this.props.flux.actions.loadMessages(id);
-  },
+  presenceChannel: null;
+  typingTimeouts: {};
 
   subscribePresenceChannel() {
     const { params, loggedUser } = this.props;
@@ -122,28 +93,28 @@ export default React.createClass({
         channel.bind("client-user_is_typing", user => this.handleUserIsTyping(user));
       }
     );
-  },
+  }
 
   unsubscribePresenceChannel() {
     if (this.presenceChannel) {
       unsubscribe(this.presenceChannel);
       this.presenceChannel = null;
     }
-  },
+  }
 
   loadPreviousMessages() {
-    const { conversation, messages } = this.state;
+    const { conversation, messages } = this.props;
     if (!conversation.previous || conversation.loadingPrevious || messages.length === 0) {
       return;
     }
     const { id } = this.props.params;
     this.props.flux.actions.loadPreviousMessages(id, messages[0].created_at);
-  },
+  }
 
   clearTypingTimeout(user) {
     clearTimeout(this.typingTimeouts[user.id]);
     delete this.typingTimeouts[user.id];
-  },
+  }
 
   setTypingTimeout(user) {
     this.typingTimeouts[user.id] = setTimeout(() => {
@@ -154,7 +125,7 @@ export default React.createClass({
       typingUsers.splice(index, 1);
       this.setState({ typingUsers });
     }, 3000);
-  },
+  }
 
   handleUserIsTyping(user) {
     const { typingUsers } = this.state;
@@ -175,11 +146,11 @@ export default React.createClass({
       }, () => this.setTypingTimeout(user));
     }
 
-  },
+  }
 
   render() {
     const { loggedUser, videoCallState, flux } = this.props;
-    const { conversation, messages, draft, loading } = this.state;
+    const { conversation, messages, draft, loading } = this.props;
 
     if (!conversation || loading) {
       return <div className="Conversation">
@@ -195,7 +166,6 @@ export default React.createClass({
       conversationDraftChange,
       previewVideoCall
     } = flux.actions;
-
 
     const { typingUsers, showAttachShout, showDelete } = this.state;
 
@@ -275,7 +245,7 @@ export default React.createClass({
         open={ showDelete }
         onRequestClose={ () => this.setState({ showDelete: false }) }
         onConfirm={() => deleteConversation(conversation.id,
-          () => this.history.replaceState(null, "/messages") )
+          () => this.props.history.replaceState(null, "/messages") )
         }
         isDeleting={ conversation.isDeleting }
       />
@@ -283,7 +253,7 @@ export default React.createClass({
       <UserShoutsSelectDialog
         buttonLabel="Send"
         user={ loggedUser }
-        flux={ this.getFlux() }
+        flux={ flux }
         open={ showAttachShout }
         onRequestClose={ () => this.setState({ showAttachShout: false }) }
         onSelectionConfirm={ shouts => {
@@ -297,4 +267,8 @@ export default React.createClass({
     );
   }
 
-});
+}
+
+Conversation = ConnectToStores(Conversation, { fetchData, listenToStores, mapStoresProps });
+
+export default Conversation;
