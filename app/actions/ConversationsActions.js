@@ -20,16 +20,18 @@ export default {
 
   loadMessages(id, done) {
     this.dispatch(LOAD_MESSAGES, { id });
-    client.loadMessages(id).end((error, res) => {
-      if (error || !res.ok) {
-        error = error ? { status: 500, ...error } : res;
-        this.dispatch(LOAD_MESSAGES_FAILURE, { id, error });
-        done && done(error);
-        return;
-      }
-      this.dispatch(LOAD_MESSAGES_SUCCESS, {...res.body, id } );
-      done && done(null, {...res.body, id });
-    });
+    this.flux.service
+      .read("messages")
+      .params({ id })
+      .end((error, data) => {
+        if (error) {
+          this.dispatch(LOAD_MESSAGES_FAILURE, { id, error });
+          done && done(error);
+          return;
+        }
+        this.dispatch(LOAD_MESSAGES_SUCCESS, { ...data, id} );
+        done && done(null, { ...data, id});
+      });
   },
 
   loadPreviousMessages(id, before) {
