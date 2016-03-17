@@ -30,6 +30,9 @@ export default {
         return callback(null, res.body);
       });
   },
+  read: (req, resource, params, config, callback) => {
+    callback(null, req.session && req.session.user ? req.session.user : null);
+  },
   delete: (req, resource, params, config, callback) => {
     req.session.destroy(callback);
   }
