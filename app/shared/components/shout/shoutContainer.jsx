@@ -3,6 +3,7 @@ import {StoreWatchMixin} from "fluxxor";
 import {Grid, Column} from '../helper';
 import { SideFooterCard, ListenToCard, InterestsCard, SuggestShoutCard, ShareShoutCard, ShoutOwnerCard } from "../cards";
 import ContactOwnerCard from "../cards/ContactOwnerCard.jsx";
+import LocationCard from "../cards/LocationCard.jsx";
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("shouts", "locations", "users", "tags")],
@@ -93,8 +94,6 @@ export default React.createClass({
 
   render() {
     const {suggestions, flux, loggedUser, currentLocation } = this.props;
-    const tagsData = this.getTagsFromStore();
-    const usersData = this.getUsersFromStore();
     const shoutsData = suggestions.data? suggestions.data.shouts.list[0]: null;
 
     const { shout, users } = this.state;
@@ -110,7 +109,10 @@ export default React.createClass({
       <Grid className="profile-holder">
         <Column size="3" clear={true}>
           { shout &&
-            <ShareShoutCard loggedUser={ loggedUser } shout={ shout }/>
+            <div>
+              <LocationCard location={ shout.location } />
+              <ShareShoutCard loggedUser={ loggedUser } shout={ shout }/>
+            </div>
           }
         </Column>
         <Column size="9">
@@ -130,18 +132,7 @@ export default React.createClass({
               getMobileNumber={ flux.actions.getMobileNumber }
               />
           }
-          <InterestsCard
-            flux={flux}
-            tags={ JSON.parse(JSON.stringify(tagsData)) }
-            loading={ suggestions.data && suggestions.data.tags.loading }
-            countryCode={ currentLocation.country }
-          />
-          <ListenToCard
-            flux={flux}
-            users={ usersData }
-            loading={ suggestions.data && suggestions.data.users.loading }
-            currentLocation={ currentLocation }
-          />
+
           <SuggestShoutCard
             shout={ shoutsData }
             loading={ suggestions.data && suggestions.data.shouts.loading }
