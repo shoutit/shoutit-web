@@ -2,6 +2,10 @@ import React, { Component } from "react";
 
 export default class LoginRedirect extends Component {
 
+  static propTypes = {
+    children: React.PropTypes.element
+  };
+
   componentWillMount() {
     this.handleLoginRedirect(this.props);
   }

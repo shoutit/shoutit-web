@@ -6,7 +6,12 @@ import ResetPasswordDialog from "../../../auth/ResetPasswordDialog";
 
 export default class ModalHost extends React.Component {
 
+  static propTypes = {
+    children: React.PropTypes.element
+  };
+
   render() {
+
     const { children, ...props } = this.props;
     const { location, history } = props;
     const state = location.state || {};
@@ -32,7 +37,7 @@ export default class ModalHost extends React.Component {
           open={ showSignup }
           onRequestClose={ () => history.pushState(null, location.pathname === "/signup" ? "/" : location.pathname) }
         />
-        { React.cloneElement(children, props) }
+        { children }
       </div>
     );
   }
