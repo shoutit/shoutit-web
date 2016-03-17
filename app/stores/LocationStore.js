@@ -5,7 +5,8 @@ import * as actions from "../actions/actionTypes";
 const initialState = {
   currentLocation: null,
   isRetrievingLocation: false,
-  error: null
+  error: null,
+  locations: {} 
 };
 
 export default Fluxxor.createStore({
@@ -14,9 +15,9 @@ export default Fluxxor.createStore({
     this.state = {...initialState};
     this.bindActions(
       actions.LOGIN_SUCCESS, this.handleLoginSuccess,
-      actions.CURRENT_LOCATION_START, this.handleLocationStart,
-      actions.CURRENT_LOCATION_SUCCESS, this.handleLocationSuccess,
-      actions.CURRENT_LOCATION_FAILURE, this.handleLocationFailure
+      actions.CURRENT_LOCATION_START, this.handleCurrentLocationStart,
+      actions.CURRENT_LOCATION_SUCCESS, this.handleCurrentLocationSuccess,
+      actions.CURRENT_LOCATION_FAILURE, this.handleCurrentLocationFailure
     );
   },
 
@@ -35,18 +36,18 @@ export default Fluxxor.createStore({
     }
   },
 
-  handleLocationStart() {
+  handleCurrentLocationStart() {
     this.state.isRetrievingLocation = true;
     this.emit("change");
   },
 
-  handleLocationFailure({ error }) {
+  handleCurrentLocationFailure({ error }) {
     this.state.isRetrievingLocation = false;
     this.state.error = error;
     this.emit("change");
   },
 
-  handleLocationSuccess(location) {
+  handleCurrentLocationSuccess(location) {
     this.state.isRetrievingLocation = false;
     this.state.currentLocation = location;
     this.emit("change");
