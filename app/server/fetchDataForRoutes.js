@@ -2,9 +2,13 @@
 export default function fetchDataForRoutes(routes, params, query, flux, done) {
   const promises = [];
 
-  routes.map(route => {
+  const routesToFetch = routes.filter(route =>
+    route.component && route.component.fetchData
+  );
+
+  routesToFetch.map(route => {
     const promise = new Promise((resolve, reject) => {
-      route.component.fetchData(flux.actions, params, query, err => {
+      route.component.fetchData(flux, params, query, err => {
         if (err) {
           return reject(err);
         }
