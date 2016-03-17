@@ -8,7 +8,7 @@ import HtmlDocument from "./HtmlDocument";
 import Flux from "../Flux";
 import routes from "../routes";
 
-import fetchDataForRoutes from "./fetchDataForRoutes";
+import { fetchDataForRoutes } from "../utils/FluxUtils";
 
 export default function renderMiddleware(req, res, next) {
 
@@ -32,12 +32,7 @@ export default function renderMiddleware(req, res, next) {
       return;
     }
 
-    // Run static's fetchData for all the routes handlers
-    const routesToFetch = props.routes.filter(route =>
-      route.component && route.component.fetchData
-    );
-
-    fetchDataForRoutes(routesToFetch, props.params, req.query, flux, err => {
+    fetchDataForRoutes(props.routes, props.params, req.query, flux, err => {
       if (err) {
         return next(err);
       }
