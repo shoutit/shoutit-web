@@ -9,9 +9,9 @@ const TAG_SEARCH = "tags";
 const USER_SEARCH = "users";
 
 var clients = {};
-clients[SHOUT_SEARCH] = require("../shouts/client");
-clients[USER_SEARCH] = require("../users/client");
-clients[TAG_SEARCH] = require("../tags/client");
+clients[SHOUT_SEARCH] = require("../shouts/client").default;
+clients[USER_SEARCH] = require("../users/client").default;
+clients[TAG_SEARCH] = require("../tags/client").default;
 
 
 var SearchStore = Fluxxor.createStore({
