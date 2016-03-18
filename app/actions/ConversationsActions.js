@@ -34,30 +34,21 @@ export default {
       });
   },
 
-  loadPreviousMessages(id, before) {
+  loadPreviousMessages(id, before, done) {
     this.dispatch(LOAD_PREVIOUS_MESSAGES, { id });
-    client.loadPreviousMessages(id, before).end((error, res) => {
-      if (error || !res.ok) {
-        error = error ? { status: 500, ...error } : res;
-        this.dispatch(LOAD_MESSAGES_FAILURE, { id, error });
-        return;
-      }
-      const { results, previous } = res.body;
-      this.dispatch(LOAD_MESSAGES_SUCCESS, { results, previous, id });
-    });
-  },
-
-  loadNextMessages(id, after) {
-    this.dispatch(LOAD_NEXT_MESSAGES, { id });
-    client.loadNextMessages(id, after).end((error, res) => {
-      if (error || !res.ok) {
-        error = error ? { status: 500, ...error } : res;
-        this.dispatch(LOAD_MESSAGES_FAILURE, { id, error });
-        return;
-      }
-      const { results, next } = res.body;
-      this.dispatch(LOAD_MESSAGES_SUCCESS, { results, next, id });
-    });
+    this.flux.service
+      .read("messages")
+      .params({ id, before })
+      .end((error, data) => {
+        if (error) {
+          this.dispatch(LOAD_MESSAGES_FAILURE, { id, error });
+          done && done(error);
+          return;
+        }
+        const { results, previous } = data;
+        this.dispatch(LOAD_MESSAGES_SUCCESS, { results, previous, id } );
+        done && done(null, { results, previous, id  });
+      });
   },
 
   conversationDraftChange(id, draft) {
