@@ -44,14 +44,14 @@ export default React.createClass({
   },
 
   render() {
-    const { listening, flux } = this.props;
+    const { users, flux } = this.props;
 
     return (
       <section className="si-card gray-card" style={{overflow: "visible"}}>
         <div className="card-header">
-          <h3>listening to</h3>
+          <h3>Listening to</h3>
         </div>
-        {listening.map((item, idx) => {
+        {users.map((item, idx) => {
           return (
             <Grid
               fluid={true}
