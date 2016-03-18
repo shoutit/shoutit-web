@@ -1,13 +1,12 @@
-import React from 'react';
-import {Link, History} from 'react-router';
-import {StoreWatchMixin} from 'fluxxor';
-import DocumentTitle from 'react-document-title';
-import {Link as ScrollLink, Element, Button} from 'react-scroll';
-import SearchBar from '../header/searchBar.jsx';
-import {Icon, Grid, Column} from '../helper';
-import Explore from './explore.jsx';
-import Footer from './footer.jsx';
-import {ANDROID_LINK, IOS_LINK} from '../../consts/defaults';
+import React from "react";
+import { Link } from "react-router";
+import DocumentTitle from "react-document-title";
+import {Link as ScrollLink, Element } from "react-scroll";
+import SearchBar from "../header/searchBar.jsx";
+import {Icon, Grid, Column} from "../helper";
+import Explore from "./explore.jsx";
+import Footer from "./footer.jsx";
+import {ANDROID_LINK, IOS_LINK} from "../../consts/defaults";
 
 import { imagesPath } from "../../../config";
 
@@ -15,36 +14,18 @@ if (process.env.BROWSER) {
   require("styles/pages/mainpage.scss");
 }
 
-export default React.createClass({
-  displayName: "MainPage",
-  mixins: [new StoreWatchMixin("users"), History],
-
-  // statics: {
-  //   fetchId: "shuffleCategories",
-  //   fetchData(client, session, params) {
-  //     return client.misc().shuffleCategories(session, params);
-  //   }
-  // },
-
-  getStateFromFlux() {
-    let flux = this.props.flux;
-
-    return {
-      users: flux.store("users").getState(),
-      shuffleCategories: flux.store('shouts').getState().shuffleCategories
-    };
-  },
+export default class MainPage extends React.Component {
 
   componentWillMount() {
-    if (this.state.users.user) {
-      this.history.replace("/home");
+    if (this.props.loggedUser) {
+      this.props.history.replace("/home");
     }
-  },
+  }
 
   render() {
-    const { history, currentLocation } = this.props;
+    const { history, currentLocation, flux, shuffledCategories, children, loggedUser } = this.props;
     return (
-      <DocumentTitle title="Buy and Sell while Chatting on Shoutit!">
+      <DocumentTitle title="Buy and sell while chatting on Shoutit!">
         <Column className="mainpage">
           <Grid>
             <Element name="nav" className="mainpage-nav">
@@ -85,7 +66,7 @@ export default React.createClass({
             <Column size="9" offset="3">
               <SearchBar
                 height="45"
-                flux={this.props.flux}
+                flux={ flux }
                 history={ history }
               />
             </Column>
@@ -94,7 +75,7 @@ export default React.createClass({
           <Grid className="mainpage-explore">
             <Element name="explore" >
               <Explore
-                categories={ this.state.shuffleCategories }
+                categories={ shuffledCategories }
                 countryCode={ currentLocation.country }
               />
             </Element>
@@ -110,11 +91,11 @@ export default React.createClass({
           </Grid>
 
           <Footer />
-          { this.props.children &&
-          React.cloneElement(this.props.children, {loggedUser: this.props.loggedUser}) }
+
+          { children && React.cloneElement(children, { loggedUser }) }
 
         </Column>
       </DocumentTitle>
     );
   }
-});
+}
