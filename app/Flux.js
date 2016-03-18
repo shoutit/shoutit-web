@@ -3,6 +3,8 @@ import debug from "debug";
 
 // import stores
 
+import * as stores from "./stores";
+
 import AuthStore from "./stores/AuthStore";
 import ChatStore from "./stores/ChatStore";
 import UINotificationsStore from "./stores/UINotificationsStore";
@@ -11,7 +13,6 @@ import ConversationsStore from "./stores/ConversationsStore";
 import CurrenciesStore from "./stores/CurrenciesStore";
 import MessagesStore from "./stores/MessagesStore";
 import VideoCallsStore from "./stores/VideoCallsStore";
-import SuggestionsByLocationStore from "./stores/SuggestionsByLocationStore";
 
 import UsersStore from "./shared/stores/users/store";
 import ShoutStore from "./shared/stores/shouts/store";
@@ -35,14 +36,24 @@ import TagActions from "./shared/stores/tags/actions";
 import UINotificationsActions from "./actions/UINotificationsActions";
 import UserActions from "./shared/stores/users/actions";
 
+const fluxStores = Object.keys(stores).reduce(
+  (result, key) => ({
+    ...result,
+    [key]: new stores[key]()
+  }),
+  {}
+);
 let fluxActions = Object.keys(actions).reduce(
   (result, key) => ({ ...result, ...actions[key] }),
   {}
 );
 
+const log = debug("shoutit:flux");
+
 export default function Flux(fetchr) {
 
   const stores = {
+    ...fluxStores,
     auth: new AuthStore(),
     chat: new ChatStore(),
     categories: new CategoriesStore(),
@@ -54,7 +65,6 @@ export default function Flux(fetchr) {
     notifications: new NotificationsStore(),
     search: new SearchStore(),
     shouts: new ShoutStore(),
-    suggestions: new SuggestionsByLocationStore(),
     tags: new TagStore(),
     ui_notifications: new UINotificationsStore(),
     users: new UsersStore(),
@@ -63,6 +73,7 @@ export default function Flux(fetchr) {
   };
 
   for (const store in stores) {
+    log("Registered store %s", store);
     stores[store].on("change", () =>
       debug(`shoutit:flux:${store}`)("Emitted change", stores[store].getState())
     );
@@ -88,10 +99,10 @@ export default function Flux(fetchr) {
     const storesState = {};
     Object.keys(stores).forEach(storeName => {
       if (!stores[storeName].serialize) {
-        return debug("shoutit:flux")("Store %s has no serialize method", storeName);
+        return log("Store %s has no serialize method", storeName);
       }
       storesState[storeName] = stores[storeName].serialize();
-      debug("shoutit:flux")("Store %s has been dehydrated", storeName);
+      log("Store %s has been dehydrated", storeName);
     });
     return JSON.stringify(storesState);
   };
@@ -99,15 +110,15 @@ export default function Flux(fetchr) {
   flux.rehydrate = storesState => {
     Object.keys(storesState).forEach(storeName => {
       if (!stores[storeName].hydrate) {
-        return debug("shoutit:flux")("Store %s has no hydrate method", storeName);
+        return log("Store %s has no hydrate method", storeName);
       }
       stores[storeName].hydrate(storesState[storeName]);
-      debug("shoutit:flux")("Rehydrated %s store", storeName, stores[storeName].getState());
+      log("Rehydrated %s store", storeName, stores[storeName].getState());
     });
   };
 
   flux.on("dispatch", (type, payload) =>
-    debug("shoutit:flux")("Dispatching %s", type, payload)
+    log("Dispatching %s", type, payload)
   );
 
   return flux;
