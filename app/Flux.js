@@ -2,6 +2,7 @@ import Fluxxor from "fluxxor";
 import debug from "debug";
 
 // import stores
+
 import AuthStore from "./stores/AuthStore";
 import ChatStore from "./stores/ChatStore";
 import UINotificationsStore from "./stores/UINotificationsStore";
@@ -10,7 +11,8 @@ import ConversationsStore from "./stores/ConversationsStore";
 import CurrenciesStore from "./stores/CurrenciesStore";
 import MessagesStore from "./stores/MessagesStore";
 import VideoCallsStore from "./stores/VideoCallsStore";
-import SuggestionsStore from "./shared/stores/suggestions/SuggestionsStore";
+import SuggestionsByLocationStore from "./stores/SuggestionsByLocationStore";
+
 import UsersStore from "./shared/stores/users/store";
 import ShoutStore from "./shared/stores/shouts/store";
 import TagStore from "./shared/stores/tags/store";
@@ -21,23 +23,22 @@ import NotificationsStore from "./shared/stores/notifications/store";
 import DiscoversStore from "./shared/stores/discovers/store";
 
 // import actions
-import AuthActions from "./actions/AuthActions";
-import ChatActions from "./actions/ChatActions";
-import LocationActions from "./actions/LocationActions";
-import CurrenciesActions from "./actions/CurrenciesActions";
-import CategoriesActions from "./actions/CategoriesActions";
-import ConversationsActions from "./actions/ConversationsActions";
-import MessagesActions from "./actions/MessagesActions";
-import VideoCallsActions from "./actions/VideoCallsActions";
-import UserActions from "./shared/stores/users/actions";
-import ShoutActions from "./shared/stores/shouts/actions";
-import TagActions from "./shared/stores/tags/actions";
-import SearchActions from "./shared/stores/search/actions";
+
+import * as actions from "./actions";
+import DiscoversActions from "./shared/stores/discovers/actions";
 import LocationsActions from "./shared/stores/locations/actions";
 import NotificationsActions from "./shared/stores/notifications/actions";
-import DiscoversActions from "./shared/stores/discovers/actions";
+import SearchActions from "./shared/stores/search/actions";
+import ShoutActions from "./shared/stores/shouts/actions";
 import SuggestionsActions from "./shared/stores/suggestions/actions";
+import TagActions from "./shared/stores/tags/actions";
 import UINotificationsActions from "./actions/UINotificationsActions";
+import UserActions from "./shared/stores/users/actions";
+
+let fluxActions = Object.keys(actions).reduce(
+  (result, key) => ({ ...result, ...actions[key] }),
+  {}
+);
 
 export default function Flux(fetchr) {
 
@@ -53,7 +54,7 @@ export default function Flux(fetchr) {
     notifications: new NotificationsStore(),
     search: new SearchStore(),
     shouts: new ShoutStore(),
-    suggestions: new SuggestionsStore(),
+    suggestions: new SuggestionsByLocationStore(),
     tags: new TagStore(),
     ui_notifications: new UINotificationsStore(),
     users: new UsersStore(),
@@ -67,27 +68,20 @@ export default function Flux(fetchr) {
     );
   }
 
-  const actions = {
-    ...AuthActions,
-    ...ChatActions,
-    ...CategoriesActions,
-    ...ConversationsActions,
-    ...CurrenciesActions,
+  fluxActions = {
+    ...fluxActions,
     ...DiscoversActions,
     ...LocationsActions,
-    ...MessagesActions,
     ...NotificationsActions,
     ...SearchActions,
     ...ShoutActions,
     ...SuggestionsActions,
     ...TagActions,
     ...UINotificationsActions,
-    ...UserActions,
-    ...VideoCallsActions,
-    ...LocationActions
+    ...UserActions
   };
 
-  const flux = new Fluxxor.Flux(stores, actions);
+  const flux = new Fluxxor.Flux(stores, fluxActions);
 
   flux.service = fetchr;
   flux.dehydrate = () => {
