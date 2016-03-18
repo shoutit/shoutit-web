@@ -3,7 +3,10 @@ import Fluxxor from "fluxxor";
 import * as actions from "../actions/actionTypes";
 
 const initialState = {
-  currencies: {}
+  currencies: {},
+  isLoading: false,
+  isLoaded: false,
+  error: null
 };
 
 export default Fluxxor.createStore({
@@ -19,10 +22,6 @@ export default Fluxxor.createStore({
 
   getState() {
     return this.state;
-  },
-
-  getCurrentLocation() {
-    return this.state.currentLocation;
   },
 
   handleLoadStart() {
