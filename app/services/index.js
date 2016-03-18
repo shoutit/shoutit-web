@@ -7,4 +7,5 @@ export messages from "./messages";
 export passwordReset from "./passwordReset";
 export profile from "./profile";
 export session from "./session";
+export suggestions from "./suggestions";
 export twilioToken from "./twilioToken";
