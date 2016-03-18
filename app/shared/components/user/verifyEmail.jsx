@@ -21,7 +21,7 @@ export default React.createClass({
     if (this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser
       && nextProps.loggedUser.is_activated) {
       // User has been logged in and it is activated: redirect to home page
-      this.props.history.replaceState(null, "/home");
+      this.props.history.replace("/home");
     }
   },
 

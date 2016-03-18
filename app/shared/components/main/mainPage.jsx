@@ -37,7 +37,7 @@ export default React.createClass({
 
   componentWillMount() {
     if (this.state.users.user) {
-      this.history.replaceState(null, '/home');
+      this.history.replace("/home");
     }
   },
 

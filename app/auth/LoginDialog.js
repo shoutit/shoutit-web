@@ -14,7 +14,7 @@ export default React.createClass({
   componentWillReceiveProps(nextProps) {
     if (this.props.open && this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
       // User has been logged in, redirect to home page
-      this.props.history.replaceState(null, "/home");
+      this.props.history.replace("/home");
     }
     if (this.props.open && !nextProps.open) {
       // Dialog has been closed

@@ -245,7 +245,7 @@ export class Conversation extends React.Component {
         open={ showDelete }
         onRequestClose={ () => this.setState({ showDelete: false }) }
         onConfirm={() => deleteConversation(conversation.id,
-          () => this.props.history.replaceState(null, "/messages") )
+          () => this.props.history.replace("/messages") )
         }
         isDeleting={ conversation.isDeleting }
       />

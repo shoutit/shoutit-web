@@ -34,7 +34,7 @@ export default React.createClass({
     e.target.email.blur();
     this.props.flux.actions.requestPasswordReset(email, err => {
       if (!err) {
-        this.props.history.replaceState(null, "/login");
+        this.props.history.replace("/login");
       }
     });
   },
