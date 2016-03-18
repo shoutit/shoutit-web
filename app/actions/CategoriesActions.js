@@ -13,7 +13,7 @@ export default {
 
     this.dispatch(actionTypes.LOAD_CATEGORIES_START);
     this.flux.service
-      .read("currencies")
+      .read("categories")
       .end((error, data) => {
         if (error) {
           this.dispatch(actionTypes.LOAD_CATEGORIES_FAILURE, { error });
