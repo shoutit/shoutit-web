@@ -49,13 +49,40 @@ export default Fluxxor.createStore({
 
   handleLoadSuccess({ suggestions, location }) {
     const slug = createLocationSlug(location);
+
+    const suggestionsById = {};
+    const otherStores = [];
+
+    if (suggestions.shouts) {
+      suggestionsById.shouts = suggestions.shouts.map(shout => shout.id);
+    }
+    if (suggestions.shout) {
+      suggestionsById.shout = suggestions.shout.id;
+    }
+    if (suggestions.shout || suggestions.shouts) {
+      otherStores.push("ShoutsStore");
+    }
+
+    if (suggestions.tags) {
+      suggestionsById.tags = suggestions.tags.map(tag => tag.id);
+      otherStores.push("TagsStore");
+    }
+    if (suggestions.users) {
+      suggestionsById.users = suggestions.users.map(user => user.id);
+      otherStores.push("UsersStore");
+    }
+
     this.state.locations[slug] = {
       ...this.state.locations[slug],
       isLoading: false,
       error: null,
-      ...suggestions
+      ...suggestionsById
     };
-    this.emit("change");
+
+    this.waitFor(otherStores, () => {
+      this.emit("change");
+    });
+
   },
 
   serialize() {
