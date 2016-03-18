@@ -77,7 +77,7 @@ export default {
   },
 
   loadUserListening(username) {
-    this.dispatch(consts.LOAD_USER_LISTENING, {
+    this.dispatch(consts.LOAD_LISTENING, {
       username: username
     });
   },

@@ -11,7 +11,9 @@ export default Fluxxor.createStore({
     this.state = {...initialState};
     this.bindActions(
       actions.LOGIN_SUCCESS, this.handleLoginSuccess,
-      actions.LOAD_SUGGESTIONS_SUCCESS, this.handleLoadSuggestionsSuccess
+      actions.LOAD_LISTENING_SUCCESS, this.handleListening,
+      actions.LOAD_LISTENERS_SUCCESS, this.handleListeners,
+      actions.LOAD_SUGGESTIONS_SUCCESS, this.handleSuggestions
     );
   },
 
@@ -34,11 +36,21 @@ export default Fluxxor.createStore({
     this.add(user);
   },
 
-  handleLoadSuggestionsSuccess({ suggestions }) {
+  handleSuggestions({ suggestions }) {
     if (suggestions.users) {
       suggestions.users.forEach(this.add);
       this.emit("change");
     }
+  },
+
+  handleListening({ users }) {
+    users.forEach(this.add);
+    this.emit("change");
+  },
+
+  handleListeners({ results }) {
+    results.forEach(this.add);
+    this.emit("change");
   },
 
   serialize() {
