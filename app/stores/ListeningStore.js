@@ -11,6 +11,7 @@ export default Fluxxor.createStore({
   initialize() {
     this.state = {...initialState};
     this.bindActions(
+      actions.LOGIN_SUCCESS, this.handleLogin,
       actions.LOAD_LISTENING_START, this.handleLoadStart,
       actions.LOAD_LISTENING_SUCCESS, this.handleLoadSuccess,
       actions.LOAD_LISTENING_FAILURE, this.handleLoadFailure
@@ -27,11 +28,23 @@ export default Fluxxor.createStore({
 
   getListening(id) {
     const { UsersStore, TagsStore } = this.flux.stores;
+    if (!this.get(id)) {
+      return { users: [], tags: [] };
+    }
     const { users, tags } = this.get(id);
     return {
       users: users ? users.map(userId => UsersStore.get([userId])) : [],
       tags: tags ? tags.map(tagId => TagsStore.get([tagId])) : []
     };
+  },
+
+  handleLogin({ user }) {
+    this.state.users[user.id] = {
+      users: [],
+      tags: [],
+      ...this.state.users[user.id]
+    };
+    this.emit("change");
   },
 
   handleLoadStart({ user }) {

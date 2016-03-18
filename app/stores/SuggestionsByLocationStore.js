@@ -29,7 +29,7 @@ export default Fluxxor.createStore({
   getSuggestedShout(location) {
     const ShoutsStore = this.flux.stores.ShoutsStore;
     const suggestions = this.get(location);
-    if (!suggestions) {
+    if (!suggestions || !suggestions.shout) {
       return;
     }
     return ShoutsStore.get(suggestions.shout);
@@ -38,7 +38,7 @@ export default Fluxxor.createStore({
   getSuggestedShouts(location) {
     const ShoutsStore = this.flux.stores.ShoutsStore;
     const suggestions = this.get(location);
-    if (!suggestions) {
+    if (!suggestions || !suggestions.shouts) {
       return [];
     }
     return suggestions.shouts.map(id => ShoutsStore.get(id));
@@ -47,7 +47,7 @@ export default Fluxxor.createStore({
   getSuggestedTags(location) {
     const TagsStore = this.flux.stores.TagsStore;
     const suggestions = this.get(location);
-    if (!suggestions) {
+    if (!suggestions || !suggestions.tags) {
       return [];
     }
     return suggestions.tags.map(id => TagsStore.get(id));
@@ -56,7 +56,7 @@ export default Fluxxor.createStore({
   getSuggestedUsers(location) {
     const UsersStore = this.flux.stores.UsersStore;
     const suggestions = this.get(location);
-    if (!suggestions) {
+    if (!suggestions || !suggestions.users) {
       return [];
     }
     return suggestions.users.map(id => UsersStore.get(id));
