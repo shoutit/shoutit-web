@@ -14,6 +14,10 @@ export default Fluxxor.createStore({
     );
   },
 
+  get(id) {
+    return this.state.users[id];
+  },
+
   getState() {
     return this.state;
   },

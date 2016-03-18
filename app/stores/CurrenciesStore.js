@@ -20,6 +20,10 @@ export default Fluxxor.createStore({
     );
   },
 
+  get() {
+    return this.state.currencies;
+  },
+
   getState() {
     return this.state;
   },

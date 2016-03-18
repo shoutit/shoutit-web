@@ -18,6 +18,10 @@ export default Fluxxor.createStore({
     return this.state;
   },
 
+  get(id) {
+    return this.state[id];
+  },
+
   handleLoadSuggestionsSuccess({ suggestions }) {
     if (suggestions.shouts) {
       suggestions.shouts.forEach(shout => {

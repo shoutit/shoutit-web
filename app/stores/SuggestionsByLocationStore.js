@@ -21,14 +21,50 @@ export default Fluxxor.createStore({
     return this.state;
   },
 
-  getSuggestions(location) {
-    return this.state.currentLocation(location);
+  get(location) {
+    const slug = createLocationSlug(location);
+    return this.state.locations[slug];
+  },
+
+  getSuggestedShout(location) {
+    const ShoutsStore = this.flux.stores.ShoutsStore;
+    const suggestions = this.get(location);
+    if (!suggestions) {
+      return;
+    }
+    return ShoutsStore.get(suggestions.shout);
+  },
+
+  getSuggestedShouts(location) {
+    const ShoutsStore = this.flux.stores.ShoutsStore;
+    const suggestions = this.get(location);
+    if (!suggestions) {
+      return [];
+    }
+    return suggestions.shouts.map(id => ShoutsStore.get(id));
+  },
+
+  getSuggestedTags(location) {
+    const TagsStore = this.flux.stores.TagsStore;
+    const suggestions = this.get(location);
+    if (!suggestions) {
+      return [];
+    }
+    return suggestions.tags.map(id => TagsStore.get(id));
+  },
+
+  getSuggestedUsers(location) {
+    const UsersStore = this.flux.stores.UsersStore;
+    const suggestions = this.get(location);
+    if (!suggestions) {
+      return [];
+    }
+    return suggestions.users.map(id => UsersStore.get(id));
   },
 
   shuffle() {
-    return this.state.shuffled.map(slug =>
-      this.state.categories.find(category => category.slug === slug)
-    );
+    const { shuffled, categories } = this.state;
+    return shuffled.map(slug => categories.find(category => category.slug === slug));
   },
 
   handleLoadStart({ location }) {

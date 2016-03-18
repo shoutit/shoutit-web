@@ -19,6 +19,10 @@ export default Fluxxor.createStore({
     );
   },
 
+  get() {
+    return this.state.categories;
+  },
+
   getState() {
     return this.state;
   },
