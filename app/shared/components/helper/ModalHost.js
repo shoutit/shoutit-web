@@ -37,7 +37,7 @@ export default class ModalHost extends React.Component {
           open={ showSignup }
           onRequestClose={ () => history.pushState(null, location.pathname === "/signup" ? "/" : location.pathname) }
         />
-        { children }
+        { React.cloneElement(children, props) }
       </div>
     );
   }
