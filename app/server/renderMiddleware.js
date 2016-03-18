@@ -1,5 +1,5 @@
 import React from "react";
-import { match, RoutingContext } from "react-router";
+import { match, RouterContext } from "react-router";
 import ReactDOMServer from "react-dom/server";
 import DocumentTitle from "react-document-title";
 import Fetchr from "fetchr";
@@ -40,7 +40,7 @@ export default function renderMiddleware(req, res, next) {
 
       try {
         const content = ReactDOMServer.renderToString(
-          <RoutingContext
+          <RouterContext
             createElement={ (Component, props) => <Component {...props} flux={ flux } /> }
             {...props}
           />
