@@ -10,6 +10,7 @@ export default Fluxxor.createStore({
   initialize() {
     this.state = {...initialState};
     this.bindActions(
+      actions.LOGIN_SUCCESS, this.handleLoginSuccess,
       actions.LOAD_SUGGESTIONS_SUCCESS, this.handleLoadSuggestionsSuccess
     );
   },
@@ -22,14 +23,20 @@ export default Fluxxor.createStore({
     return this.state;
   },
 
+  add(user) {
+    this.state.users[user.id] = {
+      ...this.state.users[user.id],
+      ...user
+    };
+  },
+
+  handleLoginSuccess({ user }) {
+    this.add(user);
+  },
+
   handleLoadSuggestionsSuccess({ suggestions }) {
     if (suggestions.users) {
-      suggestions.users.forEach(user => {
-        this.state.users[user.id] = {
-          ...this.state.users[user.id],
-          ...user
-        };
-      });
+      suggestions.users.forEach(this.add);
       this.emit("change");
     }
   },

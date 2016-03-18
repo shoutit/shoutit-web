@@ -19,6 +19,7 @@ const defaultState = {
   emailVerificationError: null,
 
   loggedUsername: null,
+  loggedUserId: null,
   isNewSignup: false,
 
   isRequestingPasswordReset: false,
@@ -63,7 +64,7 @@ export default Fluxxor.createStore({
   },
 
   getLoggedProfile() {
-    return this.flux.stores.users.get(this.state.loggedUsername);
+    return this.flux.stores.UsersStore.get(this.state.loggedUserId);
   },
 
   handleLoginStart({ data }) {
@@ -87,8 +88,9 @@ export default Fluxxor.createStore({
   },
 
   handleLoginSuccess({ user, new_signup }) {
-    this.waitFor(["users"], () => {
+    this.waitFor(["users", "UsersStore"], () => {
       this.state.loggedUsername = user.username;
+      this.state.loggedUserId = user.id;
 
       this.state.isVerifyingEmail = false;
       this.state.isLoggingIn = false;
@@ -131,9 +133,10 @@ export default Fluxxor.createStore({
   },
 
   handleSignupSuccess({ user }) {
-    this.waitFor(["users"], () => {
+    this.waitFor(["users", "UsersStore"], () => {
       this.state.isSigningUp = false;
       this.state.loggedUsername = user.username;
+      this.state.loggedUserId = user.id;
       this.state.isNewSignup = true;
       this.emit("change");
       this.emit("login");
