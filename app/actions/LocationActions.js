@@ -6,14 +6,14 @@ export default {
     this.dispatch(actionTypes.CURRENT_LOCATION_START);
     this.flux.service
       .read("geocode")
-      .end((error, data) => {
+      .end((error, location) => {
         if (error) {
           this.dispatch(actionTypes.CURRENT_LOCATION_FAILURE, { error });
           done && done(error);
           return;
         }
-        this.dispatch(actionTypes.CURRENT_LOCATION_SUCCESS, data);
-        done && done(null, data);
+        this.dispatch(actionTypes.CURRENT_LOCATION_SUCCESS, location);
+        done && done(null, location);
       });
   }
 
