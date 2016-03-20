@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router";
 
 import Dialog from "../shared/components/helper/Dialog";
@@ -12,13 +13,15 @@ import HeaderProfileOverlay from "./HeaderProfileOverlay";
 import HeaderProfile from "./HeaderProfile";
 import HeaderNewShout from "./HeaderNewShout";
 
+import { logout } from "../actions/session";
+
 import { imagesPath } from "../config";
 
 if (process.env.BROWSER) {
   require("styles/components/header.scss");
 }
 
-export default class Header extends Component {
+export class Header extends Component {
 
   static propTypes = {
     flux: PropTypes.object.isRequired,
@@ -64,11 +67,11 @@ export default class Header extends Component {
   }
 
   render() {
-    const { flux, loggedUser, conversations, chat, currentLocation={}, location, history, onLogoutClick } = this.props;
+    const { flux, dispatch, loggedUser, conversations, chat, currentLocation={}, location, history } = this.props;
     const { country } = currentLocation;
     const { overlayName, overlayTarget, openNewShoutDialog } = this.state;
     const unreadConversations = conversations ?
-      conversations.filter(c => c.unread_messages_count > 0) : [];
+      conversations.filter(c => c.unreadMessagesCount > 0) : [];
     return (
       <header className="Header">
         <div className="Header-logo">
@@ -134,15 +137,7 @@ export default class Header extends Component {
             container={ this }
             onHide={ () => this.hideOverlay() }
             target={ () => overlayTarget }>
-              <HeaderMessagesOverlay
-                loggedUser={ loggedUser }
-                chat={ chat }
-                conversations={ conversations }
-                unreadCount={ unreadConversations.length }
-                onMarkAsReadClick={ () => {
-                  unreadConversations.forEach(c => flux.actions.markConversationAsRead(c.id));
-                }}
-              />
+              <HeaderMessagesOverlay  />
           </Overlay>,
 
           <Overlay key="notifications" arrow rootClose
@@ -167,7 +162,7 @@ export default class Header extends Component {
             target={ () => overlayTarget }>
               <HeaderProfileOverlay
                 loggedUser={ loggedUser }
-                onLogoutClick={ onLogoutClick }
+                onLogoutClick={ () => dispatch(logout()).then(() => history.push("/")) }
               />
           </Overlay>,
 
@@ -194,3 +189,12 @@ export default class Header extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    currentLocation: state.currentLocation,
+    loggedUser: state.session.user
+  };
+}
+
+export default connect(mapStateToProps)(Header);

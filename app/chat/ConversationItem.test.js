@@ -78,7 +78,7 @@ describe("ConversationItem", () => {
     const tree = sd.shallowRender(
       <ConversationItem
         id={100}
-        last_message={{ text: "Bar", created_at } }
+        lastMessage={{ text: "Bar", created_at } }
         users={ users }
       />
     );

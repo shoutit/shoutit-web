@@ -1,13 +1,17 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router";
 import ConversationsList from "../chat/ConversationsList.js";
+
+import { denormalize } from "../schemas";
 
 if (process.env.BROWSER) {
   require("styles/components/ListOverlay.scss");
 }
 
-export default function HeaderMessagesOverlay({ loggedUser, chat, conversations, unreadCount, onMarkAsReadClick, onItemClick }) {
+export function HeaderMessagesOverlay({ loggedUser, isFetching, conversations=[], onMarkAsReadClick }) {
   const enableMarkAllAsRead = false; // wait for https://github.com/shoutit/shoutit-web/issues/98
+  const unreadCount = conversations.filter(c => c.unreadMessagesCount > 0).length;
   return (
     <div className="ListOverlay">
       <div className="ListOverlay-header">
@@ -22,11 +26,10 @@ export default function HeaderMessagesOverlay({ loggedUser, chat, conversations,
         }
       </div>
       <div className="ListOverlay-body">
-      { (chat.loading || conversations.length > 0) ?
+      { (isFetching || conversations.length > 0) ?
         <ConversationsList
-          onItemClick={ onItemClick }
           conversations={ conversations }
-          loading={ chat.loading }
+          isFetching={ isFetching }
           loggedUser={ loggedUser }
         /> :
         <div className="ListOverlay-empty">
@@ -44,3 +47,18 @@ export default function HeaderMessagesOverlay({ loggedUser, chat, conversations,
 
   );
 }
+
+const mapStateToProps = state => {
+  const { entities } = state;
+  const { conversations } = state.pagination;
+  const props = {
+    loggedUser: state.session.user,
+    isFetching: conversations.isFetching,
+    conversations: conversations.ids ?
+      conversations.ids.map(id =>
+        denormalize(entities.conversations[id], entities, "CONVERSATION")
+      ) : []
+  };
+  return props;
+};
+export default connect(mapStateToProps)(HeaderMessagesOverlay);

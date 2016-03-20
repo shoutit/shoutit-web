@@ -1,8 +1,9 @@
 import React from "react";
+
 import ConversationItem from "./ConversationItem";
 import Progress from "../shared/components/helper/Progress.jsx";
 
-export default function ConversationList({ conversations, loading, loggedUser, selectedId, onItemClick } ) {
+export default function ConversationsList({ conversations, isFetching, loggedUser, selectedId } ) {
 
   return (
     <div className="ConversationsList">
@@ -11,18 +12,17 @@ export default function ConversationList({ conversations, loading, loggedUser, s
           { conversations.map(conversation =>
             <li key={ conversation.id } >
               <ConversationItem
-                { ...conversation }
+                conversation={ conversation }
                 me={ loggedUser && loggedUser.username }
-                unread = { conversation.unread_messages_count > 0 }
+                unread = { conversation.unreadMessagesCount > 0 }
                 selected={ conversation.id === selectedId }
-                onClick={ onItemClick }
               />
             </li>
           )}
         </ul>
       }
 
-      { loading && conversations.length === 0 && <Progress /> }
+      { isFetching && conversations.length === 0 && <Progress /> }
 
     </div>
 

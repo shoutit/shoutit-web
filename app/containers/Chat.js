@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import DocumentTitle from "react-document-title";
 
 import FixedHeightPage from "../ui/FixedHeightPage";
@@ -6,13 +7,15 @@ import FixedHeightPage from "../ui/FixedHeightPage";
 import ConversationsTitle from "../chat/ConversationsTitle";
 import ConversationsList from "../chat/ConversationsList";
 
+import { denormalize } from "../schemas";
+
 if (process.env.BROWSER) {
   require("./Chat.scss");
 }
 
-export default function Chat({ params, loggedUser, chat, conversations, videoCallState, children }) {
+export function Chat({ params, loggedUser, isFetching, conversations, videoCallState, children }) {
 
-  const unread = conversations.filter(c => c.unread_messages_count > 0);
+  const unread = conversations.filter(c => c.unreadMessagesCount > 0);
 
   return (
     <DocumentTitle title="Messages - Shoutit">
@@ -23,7 +26,7 @@ export default function Chat({ params, loggedUser, chat, conversations, videoCal
             <ConversationsList
               conversations={ conversations }
               selectedId={ params.id }
-              loading={ chat.loading }
+              isFetching={ isFetching }
               loggedUser={ loggedUser }
             />
           </div>
@@ -33,7 +36,7 @@ export default function Chat({ params, loggedUser, chat, conversations, videoCal
             { children ?
               React.cloneElement(children, { loggedUser, videoCallState }) :
               <div className="Chat-placeholder">
-                { !chat.loading &&
+                { !isFetching &&
                   conversations.length > 0 ?
                     "Please pick a conversation." :
                     "No messages, yet!"
@@ -47,3 +50,19 @@ export default function Chat({ params, loggedUser, chat, conversations, videoCal
     </DocumentTitle>
   );
 }
+
+
+const mapStateToProps = state => {
+  const { entities } = state;
+  const { conversations } = state.pagination;
+  const props = {
+    loggedUser: state.session.user,
+    isFetching: conversations.isFetching,
+    conversations: conversations.ids ?
+      conversations.ids.map(id =>
+        denormalize(entities.conversations[id], entities, "CONVERSATION")
+      ) : []
+  };
+  return props;
+};
+export default connect(mapStateToProps)(Chat);

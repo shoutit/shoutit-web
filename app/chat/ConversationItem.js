@@ -8,7 +8,9 @@ if (process.env.BROWSER) {
   require("./ConversationItem.scss");
 }
 
-export default function ConversationItem({ id, type, users, last_message, about, me, selected=false, unread=false, onClick }) {
+export default function ConversationItem({ conversation, me, selected=false, unread=false, onClick }) {
+
+  const { id, type, users, lastMessage, about } = conversation;
 
   const partecipants = users
     .filter(user => user.username !== me)
@@ -43,16 +45,16 @@ export default function ConversationItem({ id, type, users, last_message, about,
           { partecipants }
         </div>
 
-        { last_message &&
-          <div className="ConversationItem-lastMessage" title={ last_message.text }>
-            { last_message.text }
+        { lastMessage &&
+          <div className="ConversationItem-lastMessage" title={ lastMessage.text }>
+            { lastMessage.text }
           </div>
         }
       </div>
 
-      { last_message &&
+      { lastMessage &&
         <div className="ConversationItem-createdAt">
-          { formatCreatedAt(last_message.created_at) }
+          { formatCreatedAt(lastMessage.createdAt) }
         </div>
       }
     </Link>

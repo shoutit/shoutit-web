@@ -1,11 +1,15 @@
 import React from "react";
+import { connect } from "react-redux";
 
-import { ConnectToStores } from "../utils/FluxUtils";
-
-import Header from "../shared/components/header";
+import Header from "../layout/Header";
 import MainPage from "../shared/components/main/mainPage.jsx";
 import UINotificationsHost from "../ui/UINotificationsHost";
 import VideoCallHost from "../videoCalls/VideoCallHost";
+
+import { getCurrentSession, login } from "../actions/session";
+import { loadCategories, loadCurrencies } from "../actions/misc";
+import { getCurrentLocation, loadSuggestions } from "../actions/location";
+import { loadConversations } from "../actions/conversations";
 
 const pagesWithoutHeader = [ MainPage ];
 
@@ -13,116 +17,58 @@ if (process.env.BROWSER) {
   require("./Application.scss");
 }
 
-const listenToStores = [
-  "auth",
-  "ui_notifications",
-  "videocall",
-  "conversations",
-  "SuggestionsByLocationStore"
-];
+const fetchData = (store) => {
+  const promises = [];
 
-const fetchData = (flux, params, query, done) => {
+  promises.push(store.dispatch(loadCategories()));
+  promises.push(store.dispatch(loadCurrencies()));
 
-  flux.actions.getCurrentSession((err, user) => {
+  promises.push(
+    store.dispatch(getCurrentSession()).then(user => {
+      const promises = [];
+      if (user) {
+        promises.push(store.dispatch(login(user)));
+      }
+      if (!user || !user.location) {
+        promises.push(store.dispatch(getCurrentLocation()));
+      }
+      return Promise.all(promises);
+    })
+  );
 
-    const promises = [];
-
-    promises.push(new Promise(resolve => flux.actions.loadCurrencies(resolve)));
-    promises.push(new Promise(resolve => flux.actions.loadCategories(resolve)));
-
-    if (user) {
-      promises.push(new Promise(resolve => flux.actions.loadConversations(resolve)));
-      promises.push(new Promise(resolve => flux.actions.loadListeners(user, resolve)));
-      promises.push(new Promise(resolve => flux.actions.loadListening(user, "users", resolve)));
-    }
-
-    // Load current location and suggestions based on the current location
-    if (!user || !user.location) {
-      promises.push(new Promise(resolve => {
-        flux.actions.getCurrentLocation((err, location) => {
-          if (!location) {
-            return resolve();
-          }
-          flux.actions.loadSuggestions(location, undefined, resolve);
-        });
-      }));
-
-    } else {
-      promises.push(new Promise(resolve => flux.actions.loadSuggestions(user.location, undefined, resolve)));
-    }
-
-    Promise.all(promises).then(() => done(), err => done(err));
-  });
-
-};
-
-const mapStoresProps = stores => {
-  const categories = stores.categories.get();
-  const chat = stores.chat.getState();
-  const conversations = stores.conversations.getConversations(chat.conversationIds);
-  const currencies  = stores.currencies.get();
-  const currentLocation = stores.location.getCurrentLocation();
-  const loggedUser = stores.auth.getLoggedProfile();
-  const shuffledCategories = stores.categories.shuffle();
-  const suggestedShout = stores.SuggestionsByLocationStore.getSuggestedShout(currentLocation);
-  const suggestedShouts = stores.SuggestionsByLocationStore.getSuggestedShouts(currentLocation);
-  const suggestedTags = stores.SuggestionsByLocationStore.getSuggestedTags(currentLocation);
-  const suggestedUsers = stores.SuggestionsByLocationStore.getSuggestedUsers(currentLocation);
-  const uiNotifications = stores.ui_notifications.getNotifications();
-  const videoCallState = stores.videocall.getState();
-
-  let listening;
-  let loggedUserListeners;
-  if (loggedUser) {
-    listening = stores.ListeningStore.getListening(loggedUser.id);
-    loggedUserListeners = stores.ListenersStore.getListeners(loggedUser.id);
-  }
-
-  return {
-    categories,
-    chat,
-    conversations,
-    currencies,
-    currentLocation,
-    loggedUserListeners,
-    listening,
-    loggedUser,
-    shuffledCategories,
-    suggestedShout,
-    suggestedShouts,
-    suggestedTags,
-    suggestedUsers,
-    uiNotifications,
-    videoCallState
-  };
+  return Promise.all(promises);
 };
 
 export class Application extends React.Component {
 
   componentDidMount() {
-    const { flux } = this.props;
-    if (this.props.loggedUser) {
-      flux.actions.initTwilio();
+    const { dispatch, currentLocation, loggedUser } = this.props;
+    dispatch(loadSuggestions(currentLocation));
+
+    if (loggedUser) {
+      dispatch(loadConversations());
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { actions } = this.props.flux;
+    const { dispatch, currentLocation } = this.props;
     const { loggedUser } = this.props;
     const hasBeenLoggedIn = !prevProps.loggedUser && loggedUser;
 
+    if (currentLocation.slug !== prevProps.currentLocation.slug) {
+      dispatch(loadSuggestions(currentLocation));
+    }
+
     if (hasBeenLoggedIn) {
-      actions.initTwilio();
-      actions.loadSuggestions(loggedUser.location || {});
-      actions.loadConversations();
-      actions.loadListeners(loggedUser);
-      actions.loadListening(loggedUser, "users");
+      // actions.initTwilio();
     }
   }
 
+  static fetchData = fetchData;
+
   render() {
     const { children, ...props } = this.props;
-    //
+
     const hideHeader = this.props.routes.some(route =>
       pagesWithoutHeader.indexOf(route.component) > -1
     );
@@ -133,8 +79,6 @@ export class Application extends React.Component {
           <div className="App-header">
             <Header
               history={ props.history }
-              loggedUser={ props.loggedUser }
-              currentLocation={ props.currentLocation }
               flux={ props.flux }
               chat={ props.chat }
               conversations={ props.conversations }
@@ -156,6 +100,16 @@ export class Application extends React.Component {
   }
 }
 
-Application = ConnectToStores(Application, { fetchData, mapStoresProps, listenToStores });
+function mapStateToProps(state) {
+  const { entities } = state;
+  return {
+    categories: state.misc.categories.ids.map(id => entities.categories[id]),
+    shuffledCategories: state.shuffledCategories.map(id => entities.categories[id]),
+    currencies: state.misc.currencies.ids.map(id => entities.currencies[id]),
+    currentLocation: state.currentLocation,
+    uiNotifications: state.uiNotifications,
+    loggedUser: state.session.user
+  };
+}
 
-export default Application;
+export default connect(mapStateToProps)(Application);
