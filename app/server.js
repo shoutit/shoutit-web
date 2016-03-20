@@ -31,6 +31,7 @@ export function start(app) {
   // https://github.com/shoutit/shoutit-web/issues/222
   app.engine("jade", consolidate.jade);
   app.set("view engine", "jade");
+  app.set("views", __dirname + "/server/views");
 
   app.use(morgan(process.env.NODE_ENV === "development" ? "dev" : "combined"));
   app.use(bodyParser.json());
