@@ -5,12 +5,9 @@ import debug from "debug";
 
 import * as stores from "./stores";
 
-import AuthStore from "./stores/AuthStore";
 import ChatStore from "./stores/ChatStore";
 import UINotificationsStore from "./stores/UINotificationsStore";
-import CategoriesStore from "./stores/CategoriesStore";
 import ConversationsStore from "./stores/ConversationsStore";
-import CurrenciesStore from "./stores/CurrenciesStore";
 import MessagesStore from "./stores/MessagesStore";
 import VideoCallsStore from "./stores/VideoCallsStore";
 
@@ -54,11 +51,8 @@ export default function Flux(fetchr) {
 
   const stores = {
     ...fluxStores,
-    auth: new AuthStore(),
     chat: new ChatStore(),
-    categories: new CategoriesStore(),
     conversations: new ConversationsStore(),
-    currencies: new CurrenciesStore(),
     discovers: new DiscoversStore(),
     locations: new LocationsStore(),
     messages: new MessagesStore(),
@@ -75,7 +69,7 @@ export default function Flux(fetchr) {
   for (const store in stores) {
     log("Registered store %s", store);
     stores[store].on("change", () =>
-      debug(`shoutit:flux:${store}`)("Emitted change", stores[store].getState())
+      debug(`shoutit:flux:${store}`)("Emitted change")
     );
   }
 
@@ -118,7 +112,7 @@ export default function Flux(fetchr) {
   };
 
   flux.on("dispatch", (type, payload) =>
-    log("Dispatching %s", type, payload)
+    log("Dispatching %s", type)
   );
 
   return flux;
