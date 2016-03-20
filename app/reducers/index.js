@@ -5,6 +5,7 @@ import * as actionTypes from  "../actions/actionTypes";
 
 import session from "./session";
 import miscReducer from "./misc";
+import paginate from "./paginate";
 import currentLocation from "./currentLocation";
 import entities from "./entities";
 import shuffledCategories from "./shuffledCategories";
@@ -27,11 +28,23 @@ const misc = combineReducers({
   })
 });
 
+// Updates the pagination data for different actions.
+const pagination = combineReducers({
+  conversations: paginate({
+    types: [
+      actionTypes.LOAD_CONVERSATIONS_START,
+      actionTypes.LOAD_CONVERSATIONS_SUCCESS,
+      actionTypes.LOAD_CONVERSATIONS_FAILURE
+    ]
+  })
+});
+
 const rootReducer = combineReducers({
   session,
   currentLocation,
   misc,
   entities,
+  pagination,
   shuffledCategories,
   uiNotifications,
   routing

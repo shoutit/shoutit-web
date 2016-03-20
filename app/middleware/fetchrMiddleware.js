@@ -39,7 +39,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
     fetchr[method](name)
       .params(params)
       .body(body)
-      .end((err, payload) => {
+      .end((err, json) => {
         if (err) {
           return next(actionWith({
             error: true,
@@ -47,10 +47,19 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
             type: failureType
           }));
         }
-        payload = camelizeKeys(payload);
+        let payload = camelizeKeys(json);
+
         if (schema) {
-          payload = normalize(payload, schema);
+          payload = normalize(payload.results ? payload.results : payload, schema);
+          // Pagination
+          if (json.next) {
+            payload.next = json.next;
+          }
+          if (json.previous) {
+            payload.previous = json.previous;
+          }
         }
+
         resolve(payload);
         next(actionWith({
           payload,

@@ -1,6 +1,6 @@
 
 import * as actionTypes from "./actionTypes";
-import { categories, currencies } from "../schemas";
+import { Schemas } from "../schemas";
 
 export function loadCategories() {
   return {
@@ -11,7 +11,7 @@ export function loadCategories() {
         actionTypes.LOAD_CATEGORIES_SUCCESS,
         actionTypes.LOAD_CATEGORIES_FAILURE
       ],
-      schema: categories
+      schema: Schemas.CATEGORIES
     }
   };
 }
@@ -25,7 +25,7 @@ export function loadCurrencies() {
         actionTypes.LOAD_CURRENCIES_SUCCESS,
         actionTypes.LOAD_CURRENCIES_FAILURE
       ],
-      schema: currencies
+      schema: Schemas.CURRENCIES
     }
   };
 }
