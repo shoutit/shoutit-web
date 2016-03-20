@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Button} from 'react-bootstrap';
-import Icon from '../../helper/icon.jsx';
+import Icon from '../shared/components/helper/icon.jsx';
 
 export default React.createClass({
     displayName: "LocationMenu",

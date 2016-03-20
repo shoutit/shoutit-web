@@ -1,11 +1,11 @@
 import React from 'react';
 import {StoreWatchMixin} from "fluxxor";
-import {Grid, Column} from "../helper";
-import { SideFooterCard, ListenToCard, InterestsCard, SuggestShoutCard, TagProfileCard, SearchCard} from "../cards";
+import {Grid, Column} from "../shared/components/helper";
+import { SideFooterCard, ListenToCard, InterestsCard, SuggestShoutCard, TagProfileCard, SearchCard} from "../shared/components/cards";
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users", "search")],
-  // 
+  //
   // statics: {
   //   fetchId: "searchShouts",
   //   fetchData(client, session, params, name, queries) {

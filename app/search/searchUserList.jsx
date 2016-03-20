@@ -1,8 +1,8 @@
 import React from 'react';
 import findIndex from 'lodash/array/findIndex';
-import {Progress} from '../helper';
+import {Progress} from '../shared/components/helper';
 
-import ListenerRow from '../profile/listenerRow.jsx';
+import ListenerRow from '../shared/components/profile/listenerRow.jsx';
 
 export default React.createClass({
   displayName: "SearchUserList",

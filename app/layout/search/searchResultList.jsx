@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import { getVariation } from "../../../../utils/APIUtils";
+import { getVariation } from "../../utils/APIUtils";
 
 export default React.createClass({
   displayName: "SearchResultList",

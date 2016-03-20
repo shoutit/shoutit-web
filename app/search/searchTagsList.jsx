@@ -1,6 +1,6 @@
 import React from 'react';
 import {History, Link} from 'react-router';
-import {Column, Grid} from '../helper';
+import {Column, Grid} from '../shared/components/helper';
 
 export default React.createClass({
     mixins: [History],

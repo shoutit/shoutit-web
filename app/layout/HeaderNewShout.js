@@ -6,7 +6,7 @@
 import React from "react";
 import { StoreWatchMixin } from "fluxxor";
 
-import ShoutForm from "../shouting/form/shoutForm.jsx";
+import ShoutForm from "../shared/components/shouting/form/shoutForm.jsx";
 
 export default React.createClass({
 

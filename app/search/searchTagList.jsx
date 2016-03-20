@@ -1,7 +1,7 @@
 import React from 'react';
-import {Progress} from '../helper';
+import {Progress} from '../shared/components/helper';
 
-import Tag from '../general/tag.jsx';
+import Tag from '../shared/components/general/tag.jsx';
 
 export default React.createClass({
   displayName: "SearchTagList",

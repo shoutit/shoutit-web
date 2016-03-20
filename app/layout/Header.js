@@ -1,18 +1,18 @@
 import React, { Component, PropTypes } from "react";
 import { Link } from "react-router";
 
-import Dialog from "../helper/Dialog";
-import Overlay from "../helper/Overlay";
-import Button from "../helper/Button.jsx";
+import Dialog from "../shared/components/helper/Dialog";
+import Overlay from "../shared/components/helper/Overlay";
+import Button from "../shared/components/helper/Button.jsx";
 import SearchBar from "./searchBar.jsx";
 
-import HeaderMessagesOverlay from "../header/HeaderMessagesOverlay.jsx";
-import HeaderNotificationsOverlay from "../header/HeaderNotificationsOverlay.jsx";
-import HeaderProfileOverlay from "../header/HeaderProfileOverlay.jsx";
-import HeaderProfile from "../header/HeaderProfile.jsx";
-import HeaderNewShout from "../header/HeaderNewShout.jsx";
+import HeaderMessagesOverlay from "./HeaderMessagesOverlay";
+import HeaderNotificationsOverlay from "./HeaderNotificationsOverlay";
+import HeaderProfileOverlay from "./HeaderProfileOverlay";
+import HeaderProfile from "./HeaderProfile";
+import HeaderNewShout from "./HeaderNewShout";
 
-import { imagesPath } from "../../../config";
+import { imagesPath } from "../config";
 
 if (process.env.BROWSER) {
   require("styles/components/header.scss");

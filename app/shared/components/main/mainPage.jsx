@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import DocumentTitle from "react-document-title";
 import {Link as ScrollLink, Element } from "react-scroll";
-import SearchBar from "../header/searchBar.jsx";
+import SearchBar from "../../../layout/searchBar.jsx";
 import {Icon, Grid, Column} from "../helper";
 import Explore from "./explore.jsx";
 import Footer from "./footer.jsx";
@@ -23,7 +23,7 @@ export default class MainPage extends React.Component {
   }
 
   render() {
-    const { history, currentLocation, flux, shuffledCategories, children, loggedUser } = this.props;
+    const { history, currentLocation, flux, shuffledCategories } = this.props;
     return (
       <DocumentTitle title="Buy and sell while chatting on Shoutit!">
         <Column className="mainpage">

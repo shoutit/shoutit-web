@@ -1,7 +1,7 @@
 import React from 'react';
-import {Progress, Clear, Column, Grid} from '../helper';
-import ViewportSensor from '../misc/ViewportSensor.jsx';
-import ShoutPreview from "../shout/ShoutPreview.jsx";
+import {Progress, Clear, Column, Grid} from '../shared/components/helper';
+import ViewportSensor from '../shared/components/misc/ViewportSensor.jsx';
+import ShoutPreview from "../shared/components/shout/ShoutPreview.jsx";
 
 export default React.createClass({
   displayName: "SearchShoutList",
