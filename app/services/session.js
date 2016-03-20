@@ -1,5 +1,6 @@
 import request from "../utils/request";
 import { createRequestSession } from "../utils/SessionUtils";
+import { parseErrorResponse } from "../utils/APIUtils";
 
 import {
   AUTH_CLIENT_ID as client_id,
@@ -17,23 +18,19 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          if (err.status !== 400) {
-            console.error(err); // eslint-disable-line
-            return callback(err);
-          }
-          const error = new Error("Error getting access token");
-          error.statusCode = 400;
-          error.output = err.response.body;
-          return callback(error);
+          return callback(parseErrorResponse(err));
         }
         createRequestSession(req, res.body);
-        return callback(null, res.body);
+        return callback(null, res.body.user);
       });
   },
+
   read: (req, resource, params, config, callback) => {
-    callback(null, req.session && req.session.user ? req.session.user : null);
+    callback(null, req.session && req.session.user ? req.session.user : undefined);
   },
+
   delete: (req, resource, params, config, callback) => {
     req.session.destroy(callback);
   }
+
 };

@@ -2,7 +2,7 @@ export currencies from "./currencies";
 export categories from "./categories";
 export conversations from "./conversations";
 export emailVerification from "./emailVerification";
-export geocode from "./geocode";
+export location from "./location";
 export listeners from "./listeners";
 export listening from "./listening";
 export messages from "./messages";

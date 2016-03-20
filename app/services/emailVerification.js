@@ -1,5 +1,6 @@
 import request from "../utils/request";
 import { createRequestSession } from "../utils/SessionUtils";
+import { parseErrorResponse } from "../utils/APIUtils";
 
 export default {
   name: "emailVerification",
@@ -11,14 +12,7 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          if (err.status !== 400) {
-            console.error(err); // eslint-disable-line
-            return callback(err);
-          }
-          const error = new Error("Error sending a new e-mail verification");
-          error.statusCode = 400;
-          error.output = err.response.body.error;
-          return callback(error);
+          return callback(parseErrorResponse(err));
         }
         return callback(null, res.body);
       });
@@ -30,17 +24,10 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          if (err.status !== 400) {
-            console.error(err); // eslint-disable-line
-            return callback(err);
-          }
-          const error = new Error("Error verifying the token");
-          error.statusCode = 400;
-          error.output = err.response.body.error;
-          return callback(error);
+          return callback(parseErrorResponse(err));
         }
         createRequestSession(req, res.body);
-        return callback(null, res.body);
+        return callback(null, res.body.user);
       });
   }
 };

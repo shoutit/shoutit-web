@@ -1,4 +1,5 @@
 import request from "../utils/request";
+import { parseErrorResponse } from "../utils/APIUtils";
 
 export default {
   name: "twilioToken",
@@ -9,7 +10,7 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(err);
+          return callback(parseErrorResponse(err));
         }
         callback(null, res.body);
       });

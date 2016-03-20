@@ -1,5 +1,6 @@
 import request from "../utils/request";
 import { createRequestSession } from "../utils/SessionUtils";
+import { parseErrorResponse } from "../utils/APIUtils";
 
 import {
   AUTH_CLIENT_ID as client_id,
@@ -17,17 +18,10 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          if (err.status !== 400) {
-            console.error(err); // eslint-disable-line
-            return callback(err);
-          }
-          const error = new Error("Error creating a new account");
-          error.statusCode = 400;
-          error.output = err.response.body;
-          return callback(error);
+          return callback(parseErrorResponse(err));
         }
         createRequestSession(req, res.body);
-        return callback(null, res.body);
+        return callback(null, res.body.user);
       });
   },
   read: (req, resource, { username }, config, callback) => {
@@ -37,7 +31,7 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(err);
+          return callback(parseErrorResponse(err));
         }
         return callback(null, res.body);
       });
