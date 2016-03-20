@@ -34,12 +34,12 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    this.props.flux.actions.changeShoutDraft("latLng", this.props.current.location);
+    this.props.flux.actions.changeShoutDraft("latLng", this.props.currentLocation);
   },
 
   renderUserImage() {
     return (
-      <UserAvatar user={this.props.user} />
+      <UserAvatar user={this.props.loggedUser} />
       );
   },
 
@@ -421,7 +421,7 @@ export default React.createClass({
   onChange={this.onLocationSelectionChange}
   flux={this.props.flux}
   ref="location"
-  selected={this.props.draft.latLng || this.props.current.location}
-  startLocation={this.props.current.location}
+  selected={this.props.draft.latLng || this.props.currentLocation}
+  startLocation={this.props.currentLocation}
   />onBlurCapture={this.onUserFocus({focused: false})}
 */

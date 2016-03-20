@@ -30,8 +30,8 @@ export default React.createClass({
         draft={ draft }
         status={ status }
         waiting={ waiting }
-        user={ loggedUser }
-        current={ currentLocation }
+        loggedUser={ loggedUser }
+        currentLocation={ currentLocation }
         collapsed={ false }
         onShoutSent={ onShoutSent }
         flux={ flux }

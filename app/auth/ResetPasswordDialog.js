@@ -2,46 +2,31 @@ import React from "react";
 import DocumentTitle from "react-document-title";
 import { Link } from "react-router";
 import { Input } from "react-bootstrap";
-import { StoreWatchMixin } from "fluxxor";
-
+import { connect } from "react-redux";
 import Dialog from "../shared/components/helper/Dialog.jsx";
 import Button from "../shared/components/helper/Button.jsx";
 
-export default React.createClass({
+import { requestPasswordReset } from "../actions/session";
+
+export const ResetPasswordDialog =  React.createClass({
 
   displayName: "ResetPasswordDialog",
-
-  mixins: [new StoreWatchMixin("auth")],
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.open && !nextProps.open) {
-      // Dialog has been closed
-      this.props.flux.actions.resetAuthErrors();
-    }
-  },
-
-  getStateFromFlux() {
-    const flux = this.props.flux;
-    return flux.store("auth").getState();
-  },
 
   handleSubmit(e) {
     e.preventDefault();
     const email = e.target.email.value;
-    if (!email || this.state.isRequestingPasswordReset) {
+    if (!email || this.props.isRequestingPasswordReset) {
       return;
     }
     e.target.email.blur();
-    this.props.flux.actions.requestPasswordReset(email, err => {
-      if (!err) {
-        this.props.history.replace("/login");
-      }
+    this.props.onSubmit(email).then(() => {
+      this.props.history.replace("/login");
     });
   },
 
   render() {
     const { onRequestClose, open } = this.props;
-    const { isRequestingPasswordReset, passwordResetError: error } = this.state;
+    const { isRequestingPasswordReset, passwordResetError: error } = this.props;
     return (
       <DocumentTitle title="Reset your password - Shoutit">
         <Dialog
@@ -95,3 +80,19 @@ export default React.createClass({
   }
 
 });
+
+
+const mapStateToProps = state => {
+  return {
+    isRequestingPasswordReset: state.session.isRequestingPasswordReset,
+    passwordResetError: state.session.passwordResetError
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubmit: email => dispatch(requestPasswordReset(email))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordDialog);

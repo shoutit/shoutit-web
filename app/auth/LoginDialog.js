@@ -1,35 +1,28 @@
 import React from "react";
 import {Link} from "react-router";
-import {StoreWatchMixin} from "fluxxor";
+import { connect } from "react-redux";
+
 import DocumentTitle from "react-document-title";
 import Dialog from "../shared/components/helper/Dialog.jsx";
 
 import SocialLoginForm from "./SocialLoginForm";
 import NativeLoginForm from "./NativeLoginForm";
 
-export default React.createClass({
+import { createSession } from "../actions/session";
+
+export const LoginDialog = React.createClass({
   displayName: "LoginDialog",
-  mixins: [new StoreWatchMixin("auth")],
 
   componentWillReceiveProps(nextProps) {
     if (this.props.open && this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
       // User has been logged in, redirect to home page
       this.props.history.replace("/home");
     }
-    if (this.props.open && !nextProps.open) {
-      // Dialog has been closed
-      this.props.flux.actions.resetAuthErrors();
-    }
-  },
-
-  getStateFromFlux() {
-    const flux = this.props.flux;
-    return flux.store("auth").getState();
   },
 
   render() {
-    const { isLoggingIn, loginError } = this.state;
-    const { flux, open, onRequestClose } = this.props;
+    const { isLoggingIn, loginError } = this.props;
+    const { open, onRequestClose, onSubmit } = this.props;
     return (
       <DocumentTitle title="Log in - Shoutit">
         <Dialog
@@ -42,15 +35,13 @@ export default React.createClass({
           <div className="si-login">
             <div className="separator separator-with"></div>
 
-            <SocialLoginForm flux={flux} />
+            <SocialLoginForm />
 
             <div className="separator separator-or"></div>
 
               <NativeLoginForm
                 error={ loginError }
-                onSubmit={ ({ email, password}) =>
-                  flux.actions.login({ email, password})
-                }
+                onSubmit={ onSubmit }
                 loading={ isLoggingIn }
               />
 
@@ -75,3 +66,19 @@ export default React.createClass({
   }
 
 });
+
+const mapStateToProps = state => {
+  return {
+    loggedUser: state.session.user,
+    isLoggingIn: state.session.isLoggingIn,
+    loginError: state.session.loginError
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubmit: loginData => dispatch(createSession(loginData))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginDialog);

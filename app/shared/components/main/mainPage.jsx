@@ -65,6 +65,7 @@ export default class MainPage extends React.Component {
           <Grid className="mainpage-search">
             <Column size="9" offset="3">
               <SearchBar
+                currentLocation={ currentLocation }
                 height="45"
                 flux={ flux }
                 history={ history }
@@ -92,7 +93,7 @@ export default class MainPage extends React.Component {
 
           <Footer />
 
-          { children && React.cloneElement(children, { loggedUser }) }
+          {/*{ children && React.cloneElement(children, { loggedUser }) }*/}
 
         </Column>
       </DocumentTitle>

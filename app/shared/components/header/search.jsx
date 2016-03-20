@@ -38,7 +38,7 @@ export default React.createClass({
   },
 
   render() {
-    const currentCity = this.state.locations.current.city;
+    const currentCity = this.props.currentLocation.city;
     const btnStyle = currentCity ?
         {height: this.props.height + "px", padding: "0 20px"} : {height: this.props.height + "px"};
     const beforeButton =

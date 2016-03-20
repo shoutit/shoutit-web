@@ -1,40 +1,32 @@
 import React from "react";
-import { StoreWatchMixin } from "fluxxor";
 import { Link } from "react-router";
 import DocumentTitle from "react-document-title";
 import { Input } from "react-bootstrap";
+
+import { connect } from "react-redux";
 
 import Dialog from "../shared/components/helper/Dialog.jsx";
 import Button from "../shared/components/helper/Button.jsx";
 import SocialLoginForm from "./SocialLoginForm";
 
-export default React.createClass({
+import { createProfile } from "../actions/session";
+
+export const SignupDialog = React.createClass({
 
   displayName: "SignupDialog",
-
-  mixins: [new StoreWatchMixin("auth")],
-
 
   componentWillReceiveProps(nextProps) {
     if (this.props.open && this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
       if (nextProps.loggedUser.is_activated) {
-        this.props.history.replaceState(null, "/home");
+        this.props.history.replace("/home");
       }
     }
-    if (this.props.open && !nextProps.open) {
-      // Dialog has been closed
-      this.props.flux.actions.resetAuthErrors();
-    }
-  },
-
-  getStateFromFlux() {
-    return this.props.flux.store("auth").getState();
   },
 
   handleFormSubmit(e) {
     e.preventDefault();
 
-    if (this.state.isSigningUp) {
+    if (this.props.isSigningUp) {
       return;
     }
 
@@ -52,7 +44,7 @@ export default React.createClass({
     this.refs.email.getInputDOMNode().blur();
     this.refs.password.getInputDOMNode().blur();
 
-    this.props.flux.actions.signup({
+    this.props.onSubmit({
       email,
       name: `${firstName} ${lastName}`,
       password
@@ -61,13 +53,13 @@ export default React.createClass({
   },
 
   renderForm() {
-    const { isSigningUp, signupError } = this.state;
+    const { isSigningUp, signupError } = this.props;
     const error = signupError || {};
     return (
       <div className="si-signup">
         <div className="separator separator-with"></div>
 
-        <SocialLoginForm flux={ this.props.flux } />
+        <SocialLoginForm />
 
         <div className="separator separator-or"></div>
 
@@ -177,3 +169,20 @@ export default React.createClass({
   }
 
 });
+
+
+const mapStateToProps = state => {
+  return {
+    loggedUser: state.session.user,
+    isSigningUp: state.session.isSigningUp,
+    signupError: state.session.signupError
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubmit: loginData => dispatch(createProfile(loginData))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignupDialog);

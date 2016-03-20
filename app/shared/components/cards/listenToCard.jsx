@@ -53,13 +53,13 @@ export default React.createClass({
                   <Link to={`/user/${user.username}`}>{ user.name }</Link>
                 </Column>
                 <Column fluid={true} size="3">
-                  <ListenButton
+                  {/*<ListenButton
                     onListen={ flux.actions.listen }
                     onStopListen={ flux.actions.stopListen }
                     flux={ flux }
                     username={ user.username }
                     hasTitle={ false }
-                  />
+                  />*/}
                 </Column>
               </Grid>
             );

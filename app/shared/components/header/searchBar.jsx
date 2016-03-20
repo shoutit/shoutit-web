@@ -94,6 +94,7 @@ export default React.createClass({
     return (
       <div className="search-bar">
         <Search
+          currentLocation={ this.props.currentLocation }
           flux={ flux }
           onFocus={ this.onFocusSearch }
           onChangeSearch={ this.onChangeSearch }

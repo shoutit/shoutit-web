@@ -1,20 +1,19 @@
 import React from "react";
-import { StoreWatchMixin } from "fluxxor";
+import { connect } from "react-redux";
 
 import DocumentTitle from "react-document-title";
 import Progress from "../helper/Progress.jsx";
 import Button from "../helper/Button.jsx";
-export default React.createClass({
+
+import { verifyEmail } from "../../../actions/session";
+
+export const VerifyEmail = React.createClass({
 
   displayName: "VerifyEmail",
 
-  mixins: [new StoreWatchMixin("auth")],
-
   componentDidMount() {
-    const { flux, location, loggedUser } = this.props;
-    if (!loggedUser || !loggedUser.is_activated) {
-      flux.actions.verifyEmail(location.query.token);
-    }
+    const { location, dispatch } = this.props;
+    dispatch(verifyEmail(location.query.token));
   },
 
   componentWillReceiveProps(nextProps) {
@@ -25,12 +24,8 @@ export default React.createClass({
     }
   },
 
-  getStateFromFlux() {
-    return this.props.flux.stores.auth.getState();
-  },
-
   render() {
-    const { isVerifyingEmail, emailVerificationError } = this.state;
+    const { isVerifyingEmail, emailVerificationError } = this.props;
     return (
       <DocumentTitle title="E-mail verification - Shoutit">
         <div>
@@ -41,14 +36,14 @@ export default React.createClass({
             </div>
            }
           { emailVerificationError && (
-              emailVerificationError.message === `"Email address is already verified."` ?
+              emailVerificationError.error === `"Email address is already verified."` ?
               <div style={{ textAlign: "center" }}>
                 <p style={{ margin: 20 }}>This e-mail address is already verified.</p>
                 <Button primary to="/login" label="Login now" />
               </div> :
               <div style={{ textAlign: "center" }}>
                 <p style={{ marginTop: 20 }}>Error verifying this e-mail address.</p>
-                <p className="small" style={{ margin: 20}}>{ emailVerificationError.message }</p>
+                <p className="small" style={{ margin: 20}}>{ emailVerificationError.error }</p>
                 <Button primary to="/login" label="Login now" />
               </div>
               )
@@ -58,3 +53,12 @@ export default React.createClass({
     );
   }
 });
+
+function mapStateToProps(state) {
+  return {
+    isVerifyingEmail: state.session.isVerifyingEmail,
+    emailVerificationError: state.session.emailVerificationError
+  };
+}
+
+export default connect(mapStateToProps)(VerifyEmail);

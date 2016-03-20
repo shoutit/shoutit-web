@@ -64,7 +64,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { flux, loggedUser, conversations, chat, currentLocation, location, history } = this.props;
+    const { flux, loggedUser, conversations, chat, currentLocation={}, location, history, onLogoutClick } = this.props;
     const { country } = currentLocation;
     const { overlayName, overlayTarget, openNewShoutDialog } = this.state;
     const unreadConversations = conversations ?
@@ -79,6 +79,7 @@ export default class Header extends Component {
 
         <div className="Header-search">
           <SearchBar
+            currentLocation={ currentLocation }
             height="36"
             flux={ flux }
             history={ history }
@@ -166,7 +167,7 @@ export default class Header extends Component {
             target={ () => overlayTarget }>
               <HeaderProfileOverlay
                 loggedUser={ loggedUser }
-                onLogoutClick={ () => flux.actions.logout(history) }
+                onLogoutClick={ onLogoutClick }
               />
           </Overlay>,
 

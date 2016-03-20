@@ -1,17 +1,17 @@
 /* eslint-env browser */
 
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
 import debug from "debug";
 
 import { FacebookButton, GoogleButton } from "../shared/components/helper/SocialButtons.jsx";
 
+import { loginWithGoogle, loginWithFacebook } from "../actions/session";
+
 const logFacebook = debug("shoutit:facebook");
 
-export default class SocialLoginForm extends Component {
-
-  static propTypes = {
-    flux: React.PropTypes.object.isRequired
-  };
+export class SocialLoginForm extends Component {
 
   state = {
     error: null,
@@ -22,7 +22,6 @@ export default class SocialLoginForm extends Component {
   handleGoogleLoginClick(e) {
     e.preventDefault();
 
-    const flux = this.props.flux;
     this.setState({ error: null, waitingForGoogle: true });
 
     window.gapi.auth.signIn({
@@ -37,13 +36,12 @@ export default class SocialLoginForm extends Component {
           this.setState({ waitingForGoogle: false });
           return;
         }
-        flux.actions.loginWithGoogle({ gplus_code: authResult.code });
+        this.props.dispatch(loginWithGoogle({ gplus_code: authResult.code }));
       }
     });
   }
 
   handleFacebookLoginClick() {
-    const { flux } = this.props;
     const { error } = this.state;
 
     const options = { scope: "email", return_scopes: true };
@@ -65,7 +63,7 @@ export default class SocialLoginForm extends Component {
         return;
       }
 
-      flux.actions.loginWithFacebook({ facebook_access_token: authResponse.accessToken} );
+      this.props.dispatch(loginWithFacebook({ facebook_access_token: authResponse.accessToken}));
 
     }, options);
   }
@@ -95,3 +93,5 @@ export default class SocialLoginForm extends Component {
   }
 
 }
+
+export default connect()(SocialLoginForm);
