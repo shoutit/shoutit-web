@@ -1,6 +1,8 @@
 /* eslint react/no-danger: 0 */
 
 import React from "react";
+import serialize from "serialize-javascript";
+
 import * as config from "../config";
 
 let chunkNames = { main: "/assets/main.js", css: "/assets/main.css" };
@@ -12,6 +14,7 @@ export default function HtmlDocument({
   content,
   title,
   state,
+  initialState,
   meta
 }) {
 
@@ -52,6 +55,8 @@ export default function HtmlDocument({
   //   metatags.push({ name: "twitter:card", content: "summary" } );
   // }
 
+  console.log("initialState");
+  console.log(initialState);
   return (
     <html>
       <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# shoutitcom: http://ogp.me/ns/fb/shoutitcom#">
@@ -73,6 +78,7 @@ export default function HtmlDocument({
         <div id="content" dangerouslySetInnerHTML={ {__html: content} } />
 
         <script dangerouslySetInnerHTML={ {__html: `window.__state=${state}`} } />
+        <script dangerouslySetInnerHTML={ {__html: `window.__INITIAL_STATE__=${serialize(initialState)}`} } />
 
         <script async src="https://apis.google.com/js/client:platform.js" />
         { config.googleMapsKey &&

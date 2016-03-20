@@ -3,11 +3,12 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import { Router, browserHistory, RouterContext } from "react-router";
+import { syncHistoryWithStore } from "react-router-redux";
 import injectTapEventPlugin from "react-tap-event-plugin";
 import useScroll from "scroll-behavior/lib/useStandardScroll";
-// import createHistory from "history/lib/createBrowserHistory";
-// import createLocation from "history/lib/createLocation";
+
 import debug from "debug";
 import Fetchr from "fetchr";
 import "babel-polyfill";
@@ -16,6 +17,7 @@ import * as config from "./config";
 
 import routes from "./routes";
 import Flux from "./Flux";
+import configureStore from "./store/configureStore";
 
 import "./client/initFacebook";
 import initGoogleAnalytics from "./client/initGoogleAnalytics";
@@ -66,12 +68,19 @@ setupPusher(flux.store("auth"), {
 
 log("Starting client web app", `\n${config.getSummary()}\n`);
 
-let firstRender = true;
 
+const store = configureStore(window.__INITIAL_STATE__, fetchr, window.devToolsExtension);
+const history =  syncHistoryWithStore(browserHistory, store);
+if (ga) {
+  history.listen(location => ga("send", "pageview", location.pathname));
+}
+log("Rehydrating store with initial state", window.__INITIAL_STATE__);
+
+let firstRender = true;
 ReactDOM.render(
 
   <Router
-    history={ browserHistory }
+    history={ history }
     render={ props => {
       if (firstRender) {
         debug("shoutit:router")("First time rendering %s...", props.location.pathname);
@@ -80,14 +89,16 @@ ReactDOM.render(
       }
       const _firstRender = firstRender;
       const routerContext = (
-        <RouterContext {...props}
-          createElement={ (Component, props) => {
-            debug("shoutit:router")("Creating element for %s %s, first render? %s",
-              Component.displayName || Component.name, props.location.pathname, _firstRender
-            );
-            return <Component {...props} flux={flux}  firstRender={ _firstRender }/>;
-          }}
-        />
+        <Provider store={ store }>
+          <RouterContext {...props}
+            createElement={ (Component, props) => {
+              debug("shoutit:router")("Creating element for %s %s, first render? %s",
+                Component.displayName || Component.name, props.location.pathname, _firstRender
+              );
+              return <Component {...props} flux={flux}  firstRender={ _firstRender }/>;
+            }}
+          />
+        </Provider>
       );
       firstRender = false;
       return routerContext;
@@ -99,10 +110,5 @@ ReactDOM.render(
 
   document.getElementById("content"),
 
-  () => {
-    log("App has been mounted");
-    if (ga) {
-      ga("send", "pageview", window.location.href);
-    }
-  }
+  () => log("App has been mounted 🎉")
 );
