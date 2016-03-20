@@ -15,7 +15,7 @@ export default Fluxxor.createStore({
     this.state = {...initialState};
 
     this.bindActions(
-      actionTypes.LOAD_CONVERSATIONS, this.handleStart,
+      actionTypes.LOAD_CONVERSATIONS_START, this.handleStart,
       actionTypes.LOAD_CONVERSATIONS_SUCCESS, this.handleSuccess,
       actionTypes.LOAD_CONVERSATIONS_FAILURE, this.handleFailure,
       actionTypes.REPLY_CONVERSATION_SUCCESS, this.handleReplySuccess,
