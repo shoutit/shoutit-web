@@ -2,24 +2,11 @@ import React from "react";
 import { StoreWatchMixin } from "fluxxor";
 import debug from "debug";
 
-export function fetchDataForRoutes(routes, params, query, flux, done) {
-  const promises = [];
+export function fetchDataForRoutes(routes, params, query, store, done) {
 
-  const routesToFetch = routes.filter(route =>
-    route.component && route.component.fetchData
-  );
-
-  routesToFetch.map(route => {
-    const promise = new Promise((resolve, reject) => {
-      route.component.fetchData(flux, params, query, err => {
-        if (err) {
-          return reject(err);
-        }
-        resolve();
-      });
-    });
-    promises.push(promise);
-  });
+  const promises = routes
+    .filter(route => route.component && route.component.fetchData)
+    .map(route => route.component.fetchData(store, params, query));
 
   Promise.all(promises).then(
     () => done(),
@@ -41,22 +28,47 @@ export function ConnectToStores(Component, { fetchData, listenToStores=[], mapSt
 
     displayName: `FetchData:${displayName}`,
 
+    propTypes: {
+      flux: React.PropTypes.object,
+      params: React.PropTypes.object,
+      query: React.PropTypes.object,
+      firstRender: React.PropTypes.bool
+    },
+
+    contextTypes: {
+      query: React.PropTypes.object,
+      params: React.PropTypes.object
+    },
+
+    childContextTypes: {
+      query: React.PropTypes.object,
+      params: React.PropTypes.object
+    },
+
     mixins: [new StoreWatchMixin(...listenToStores)],
 
-    statics: {
-      fetchData: (flux, params, query, done) => {
-        debug("shoutit:ConnectToStores")("Start fetching data for %s...", displayName);
-        fetchData(flux, params, query, done);
-      }
+    // statics: { fetchData },
+
+    getChildContext() {
+      return { query: this.props.query, params: this.props.params };
     },
 
     componentDidMount() {
+      if (!fetchData) {
+        return;
+      }
+
       if (this.props.firstRender) {
         debug("shoutit:ConnectToStores")("%s component rendering for the first time, skip data fetching", displayName);
         return false;
       }
       debug("shoutit:ConnectToStores")("%s component did mount, fetching data...", displayName);
-      fetchData(this.props.flux, this.props.params, this.props.location.query, logError);
+
+      const flux = this.props.flux || this.context.flux;
+      const params = this.props.params || this.context.params;
+      const query = this.props.query || this.context.query;
+
+      fetchData(flux, params, query, logError);
     },
 
     getInstance() {
@@ -67,8 +79,11 @@ export function ConnectToStores(Component, { fetchData, listenToStores=[], mapSt
       if (!mapStoresProps) {
         return {};
       }
-      const { flux, params, location } = this.props;
-      return mapStoresProps(flux.stores, params, location.query);
+      const flux = this.props.flux || this.context.flux;
+      const params = this.props.params || this.context.params;
+      const query = this.props.query || this.context.query;
+
+      return mapStoresProps(flux.stores, params, query);
     },
 
     render() {
