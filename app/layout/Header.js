@@ -14,6 +14,7 @@ import HeaderProfile from "./HeaderProfile";
 import HeaderNewShout from "./HeaderNewShout";
 
 import { logout } from "../actions/session";
+import { loadConversations } from "../actions/chat";
 
 import { imagesPath } from "../config";
 
@@ -36,9 +37,18 @@ export class Header extends Component {
     overlayName: null
   }
 
+  componentDidMount() {
+    if (this.props.loggedUser) {
+      this.props.dispatch(loadConversations());
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.location && nextProps.location.key !== this.props.location.key) {
       this.hideOverlay();
+    }
+    if (nextProps.loggedUser && !this.props.loggedUser) {
+      this.props.dispatch(loadConversations());
     }
   }
 
