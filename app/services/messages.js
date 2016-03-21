@@ -3,9 +3,9 @@ import { parseErrorResponse } from "../utils/APIUtils";
 
 export default {
   name: "messages",
-  read: (req, resource, { id, after, before }, config, callback) => {
+  read: (req, resource, { conversationId, after, before }, config, callback) => {
     request
-      .get(`/conversations/${id}/messages`)
+      .get(`/conversations/${conversationId}/messages`)
       .query({ after, before })
       .setSession(req.session)
       .prefix()

@@ -38,6 +38,7 @@ Conversation.define({
 });
 
 export const Schemas = {
+  MESSAGE: Message,
   CONVERSATION: Conversation,
   CONVERSATIONS: arrayOf(Conversation),
   CATEGORIES: arrayOf(Category),
