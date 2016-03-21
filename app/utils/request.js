@@ -13,8 +13,8 @@
 
 import request from "superagent";
 import debug from "debug";
-import * as config from "../config";
-const apiUrl = config.apiUrl.replace(/\/$/, ""); // remove trailing / at the end of the url
+import { apiUrl } from "../config";
+
 const log = debug("shoutit:request");
 
 request.Request.prototype.setSession = function(session) {
