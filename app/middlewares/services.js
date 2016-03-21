@@ -51,13 +51,8 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
 
         if (schema) {
           payload = normalize(payload.results ? payload.results : payload, schema);
-          // Pagination
-          if (json.next) {
-            payload.next = json.next;
-          }
-          if (json.previous) {
-            payload.previous = json.previous;
-          }
+          payload.nextUrl = json.next;
+          payload.previousUrl = json.previous;
         }
 
         resolve(payload);

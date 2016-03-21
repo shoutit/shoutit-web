@@ -3,10 +3,12 @@ import { parseErrorResponse } from "../utils/APIUtils";
 
 export default {
   name: "messages",
-  read: (req, resource, { conversationId, after, before }, config, callback) => {
+  read: (req, resource, { conversationId, nextUrl, previousUrl }, config, callback) => {
+    const url = nextUrl ? nextUrl :
+                previousUrl ? previousUrl :
+                `/conversations/${conversationId}/messages`;
     request
-      .get(`/conversations/${conversationId}/messages`)
-      .query({ after, before })
+      .get(url)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {

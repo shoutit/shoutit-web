@@ -3,8 +3,9 @@ import union from "lodash/array/union";
 
 const initialState = {
   isFetching: false,
-  next: undefined,
-  previous: undefined,
+  nextUrl: undefined,
+  previousUrl: undefined,
+  page: "first",
   ids: []
 };
 // Creates a reducer managing pagination, given the action types to handle,
@@ -28,9 +29,11 @@ export default function paginate({ types, mapActionToKey }) {
     case successType:
       return merge({}, state, {
         isFetching: false,
-        ids: union(state.ids, action.payload.result),
-        next: action.payload.next,
-        previous: action.payload.previous
+        nextUrl: action.payload.nextUrl,
+        previousUrl: action.payload.previousUrl,
+        ids: action.page === "previous" ?
+          union(action.payload.result, state.ids) : // put previous results first
+          union(state.ids, action.payload.result)
       });
     case failureType:
       return merge({}, state, {
