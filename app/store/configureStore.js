@@ -1,14 +1,24 @@
 import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
 
 import rootReducer from "../reducers";
-import fetchrMiddleware from "../middleware/fetchrMiddleware";
+import services from "../middlewares/services";
+
+const noop = () => next => action => next(action);
+
+const pusher = process.env.BROWSER ?
+  require("../middlewares/pusher").default : noop;
 
 export default function configureStore(initialState, fetchr, devToolsExtension) {
   const store = createStore(
     rootReducer,
     initialState,
     compose(
-      applyMiddleware(fetchrMiddleware(fetchr)),
+      applyMiddleware(
+        services(fetchr),
+        pusher,
+        thunk
+      ),
       devToolsExtension ? devToolsExtension() : f => f
     )
   );
