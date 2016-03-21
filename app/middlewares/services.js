@@ -4,7 +4,7 @@ import { camelizeKeys } from "humps";
 import merge from "lodash/object/merge";
 
 export default fetchr => store => next => action => { // eslint-disable-line no-unused-vars
-  const { service } = action;
+  const { service, types } = action;
 
   if (!service) {
     return next(action);
@@ -15,7 +15,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
   }
 
   // Read is the default action
-  const { method="read", name, types, params, body, schema } = service;
+  const { method="read", name, params, body, schema } = service;
 
   if (typeof name !== "string") {
     throw new Error("fetchrMiddlware: must specify a fetchr service name");

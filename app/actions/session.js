@@ -2,13 +2,13 @@ import * as actionTypes from "./actionTypes";
 
 export function getCurrentSession() {
   return {
+    types: [
+      actionTypes.GET_SESSION_START,
+      actionTypes.GET_SESSION_SUCCESS,
+      actionTypes.GET_SESSION_FAILURE
+    ],
     service: {
-      name: "session",
-      types: [
-        actionTypes.GET_SESSION_START,
-        actionTypes.GET_SESSION_SUCCESS,
-        actionTypes.GET_SESSION_FAILURE
-      ]
+      name: "session"
     }
   };
 }
@@ -27,29 +27,29 @@ export function createSession({ grant_type="shoutit_login", ...loginData}) {
   const body = { ...loginData, grant_type };
   return {
     payload: { grant_type },
+    types: [
+      actionTypes.LOGIN_START,
+      actionTypes.LOGIN_SUCCESS,
+      actionTypes.LOGIN_FAILURE
+    ],
     service: {
       name: "session",
       method: "create",
-      body: body,
-      types: [
-        actionTypes.LOGIN_START,
-        actionTypes.LOGIN_SUCCESS,
-        actionTypes.LOGIN_FAILURE
-      ]
+      body: body
     }
   };
 }
 
 export function logout() {
   return {
+    types: [
+      actionTypes.LOGOUT,
+      actionTypes.LOGOUT_SUCCESS,
+      actionTypes.LOGOUT_FAILURE
+    ],
     service: {
       name: "session",
-      method: "delete",
-      types: [
-        actionTypes.LOGOUT_START,
-        actionTypes.LOGOUT_SUCCESS,
-        actionTypes.LOGOUT_FAILURE
-      ]
+      method: "delete"
     }
   };
 }
@@ -63,59 +63,59 @@ export function login(user) {
 
 export function createProfile(body) {
   return {
+    types: [
+      actionTypes.SIGNUP_START,
+      actionTypes.SIGNUP_SUCCESS,
+      actionTypes.SIGNUP_FAILURE
+    ],
     service: {
       name: "profile",
       method: "create",
-      body,
-      types: [
-        actionTypes.SIGNUP_START,
-        actionTypes.SIGNUP_SUCCESS,
-        actionTypes.SIGNUP_FAILURE
-      ]
+      body
     }
   };
 }
 
 export function requestPasswordReset(email) {
   return {
+    types: [
+      actionTypes.PASSWORD_RESET_START,
+      actionTypes.PASSWORD_RESET_SUCCESS,
+      actionTypes.PASSWORD_RESET_FAILURE
+    ],
     service: {
       name: "passwordReset",
       method: "create",
-      body: { email },
-      types: [
-        actionTypes.PASSWORD_RESET_START,
-        actionTypes.PASSWORD_RESET_SUCCESS,
-        actionTypes.PASSWORD_RESET_FAILURE
-      ]
+      body: { email }
     }
   };
 }
 
 export function sendEmailVerification(email) {
   return {
+    types: [
+      actionTypes.SEND_EMAIL_VERIFICATION_START,
+      actionTypes.SEND_EMAIL_VERIFICATION_SUCCESS,
+      actionTypes.SEND_EMAIL_VERIFICATION_FAILURE
+    ],
     service: {
       name: "emailVerification",
       method: "create",
-      params: { email },
-      types: [
-        actionTypes.SEND_EMAIL_VERIFICATION_START,
-        actionTypes.SEND_EMAIL_VERIFICATION_SUCCESS,
-        actionTypes.SEND_EMAIL_VERIFICATION_FAILURE
-      ]
+      params: { email }
     }
   };
 }
 
 export function verifyEmail(token) {
   return {
+    types: [
+      actionTypes.EMAIL_VERIFICATION_START,
+      actionTypes.EMAIL_VERIFICATION_SUCCESS,
+      actionTypes.EMAIL_VERIFICATION_FAILURE
+    ],
     service: {
       name: "emailVerification",
-      params: { token },
-      types: [
-        actionTypes.EMAIL_VERIFICATION_START,
-        actionTypes.EMAIL_VERIFICATION_SUCCESS,
-        actionTypes.EMAIL_VERIFICATION_FAILURE
-      ]
+      params: { token }
     }
   };
 }
