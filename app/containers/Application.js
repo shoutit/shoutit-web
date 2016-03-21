@@ -9,7 +9,6 @@ import VideoCallHost from "../videoCalls/VideoCallHost";
 import { getCurrentSession, login } from "../actions/session";
 import { loadCategories, loadCurrencies } from "../actions/misc";
 import { getCurrentLocation, loadSuggestions } from "../actions/location";
-import { loadConversations } from "../actions/conversations";
 
 const pagesWithoutHeader = [ MainPage ];
 
@@ -44,9 +43,8 @@ export class Application extends React.Component {
   componentDidMount() {
     const { dispatch, currentLocation, loggedUser } = this.props;
     dispatch(loadSuggestions(currentLocation));
-
     if (loggedUser) {
-      dispatch(loadConversations());
+      dispatch(login(loggedUser)); // trigger client-side login actions (e.g. pusher)
     }
   }
 
