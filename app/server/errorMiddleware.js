@@ -5,5 +5,5 @@ export default function errorMiddleware(err, req, res, next) {  // eslint-disabl
   console.log(err);
   console.log(err.stack);
   // TODO: render server error with react
-  res.status(500).send("Something bad happened");
+  res.status(500).send(`Something bad happened\n${err.message}\n<pre>${err.stack}</pre>`);
 }
