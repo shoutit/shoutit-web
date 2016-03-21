@@ -50,11 +50,11 @@ export class Chat extends React.Component {
               { children ?
                 React.cloneElement(children, { loggedUser, videoCallState }) :
                 <div className="Chat-placeholder">
-                  { !isFetching &&
-                    conversations.length > 0 ?
-                      "Please pick a conversation." :
-                      "No messages, yet!"
-                  }
+                  { conversations.length > 0 ?
+                      "Please pick a conversation" :
+                      isFetching ? "Loading..." :
+                      "No messages."
+                    }
                 </div>
               }
             </div>

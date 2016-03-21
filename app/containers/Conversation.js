@@ -1,6 +1,5 @@
 import React from "react";
-
-import { ConnectToStores } from "../utils/FluxUtils";
+import { connect } from "react-redux";
 
 import ConversationTitle from "../chat/ConversationTitle";
 import ConversationDeleteDialog from "../chat/ConversationDeleteDialog";
@@ -10,39 +9,38 @@ import MessageReplyForm from "../chat/MessageReplyForm";
 import MessagesTypingUsers from "../chat/MessagesTypingUsers";
 import Scrollable from "../ui/Scrollable";
 
+import { loadMessages } from "../actions/chat";
+import { denormalize } from "../schemas";
+
 import Progress from "../shared/components/helper/Progress.jsx";
-
-let subscribe;
-let unsubscribe;
-
+//
+// let subscribe;
+// let unsubscribe;
+//
 if (process.env.BROWSER) {
-  subscribe = require("../client/pusher").subscribe;
-  unsubscribe = require("../client/pusher").unsubscribe;
+//   subscribe = require("../client/pusher").subscribe;
+//   unsubscribe = require("../client/pusher").unsubscribe;
   require("./Conversation.scss");
 }
-
-const fetchData = (flux, params, query, done) => {
-  flux.actions.loadMessages(params.id, done);
-};
-
-const mapStoresProps = (stores, params) => {
-  const conversation = stores.conversations.get(params.id);
-
-  if (!conversation || !conversation.didLoad || !conversation.didLoadMessages) {
-    return {
-      loading: conversation && conversation.loading
-    };
-  }
-
-  const messages = stores.messages.getMessages(conversation.messageIds);
-  return {
-    conversation,
-    messages,
-    loading: false
-  };
-};
-
-const listenToStores = ["conversations"];
+//
+// const mapStoresProps = (stores, params) => {
+//   const conversation = stores.conversations.get(params.id);
+//
+//   if (!conversation || !conversation.didLoad || !conversation.didLoadMessages) {
+//     return {
+//       loading: conversation && conversation.loading
+//     };
+//   }
+//
+//   const messages = stores.messages.getMessages(conversation.messageIds);
+//   return {
+//     conversation,
+//     messages,
+//     loading: false
+//   };
+// };
+//
+// const listenToStores = ["conversations"];
 
 export class Conversation extends React.Component {
 
@@ -53,7 +51,9 @@ export class Conversation extends React.Component {
   };
 
   componentDidMount() {
-    this.subscribePresenceChannel();
+    const { dispatch } = this.props;
+    dispatch(loadMessages(this.props.conversationId));
+    // this.subscribePresenceChannel();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -65,13 +65,11 @@ export class Conversation extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { id } = this.props.params;
-    const conversationChanged = prevProps.params.id !== id;
-
-    if (conversationChanged) {
-      fetchData(this.props.flux, this.props.params);
-      this.unsubscribePresenceChannel();
-      this.subscribePresenceChannel();
+    const { conversationId, dispatch, messages } = this.props;
+    if (prevProps.conversationId !== conversationId && !messages) {
+      dispatch(loadMessages(conversationId));
+      // this.unsubscribePresenceChannel();
+      // this.subscribePresenceChannel();
     }
   }
 
@@ -83,32 +81,23 @@ export class Conversation extends React.Component {
   typingTimeouts: {};
 
   subscribePresenceChannel() {
-    const { params, loggedUser } = this.props;
-    this.presenceChannel = subscribe(
-      `presence-c-${params.id}`, loggedUser, (err, channel) => {
-        if (err) {
-          console.error(err); // eslint-disable-line no-console
-          return;
-        }
-        channel.bind("client-user_is_typing", user => this.handleUserIsTyping(user));
-      }
-    );
+    // const { conversationId, loggedUser } = this.props;
+    // this.presenceChannel = subscribe(
+    //   `presence-c-${conversationId}`, loggedUser, (err, channel) => {
+    //     if (err) {
+    //       console.error(err); // eslint-disable-line no-console
+    //       return;
+    //     }
+    //     channel.bind("client-user_is_typing", user => this.handleUserIsTyping(user));
+    //   }
+    // );
   }
 
   unsubscribePresenceChannel() {
-    if (this.presenceChannel) {
-      unsubscribe(this.presenceChannel);
-      this.presenceChannel = null;
-    }
-  }
-
-  loadPreviousMessages() {
-    const { conversation, messages } = this.props;
-    if (!conversation.previous || conversation.loadingPrevious || messages.length === 0) {
-      return;
-    }
-    const { id } = this.props.params;
-    this.props.flux.actions.loadPreviousMessages(id, messages[0].created_at);
+    // if (this.presenceChannel) {
+    //   unsubscribe(this.presenceChannel);
+    //   this.presenceChannel = null;
+    // }
   }
 
   clearTypingTimeout(user) {
@@ -149,42 +138,59 @@ export class Conversation extends React.Component {
   }
 
   render() {
-    const { loggedUser, videoCallState, flux } = this.props;
-    const { conversation, messages, draft, loading } = this.props;
-
-    if (!conversation || loading) {
-      return <div className="Conversation">
-        { loading && <Progress centerVertical /> }
-      </div>;
+    const { conversationError, messagesError } = this.props;
+    const { loggedUser, isFetchingMessages, isFetchingConversations, conversation, messages=[], videoCallState, draft } = this.props;
+    const { previousUrl, dispatch, conversationId } = this.props;
+    console.info("rendering", this.props);
+    if (conversationError) {
+      return (
+        <div className="Conversation-error">
+          { conversationError.message }
+        </div>
+      );
+    }
+    if (messagesError) {
+      return (
+        <div className="Conversation-error">
+          { messagesError.message }
+        </div>
+      );
+    }
+    if (isFetchingConversations || !conversation) {
+      return (
+        <div className="Conversation">
+          <Progress centerVertical />
+        </div>
+      );
     }
 
     const me = loggedUser ? loggedUser.username : undefined;
-
-    const {
-      replyToConversation,
-      deleteConversation,
-      conversationDraftChange,
-      previewVideoCall
-    } = flux.actions;
+    //
+    // const {
+    //   replyToConversation,
+    //   deleteConversation,
+    //   conversationDraftChange,
+    //   previewVideoCall
+    // } = flux.actions;
 
     const { typingUsers, showAttachShout, showDelete } = this.state;
 
     return (
       <div className="Conversation">
 
-      { conversation.didLoad &&
         <ConversationTitle
           conversation={ conversation }
           me={ me }
-          showVideoCallButton={ videoCallState.initialized }
           onDeleteConversationClick={ () => this.setState({ showDelete: true }) }
           onDeleteMessagesTouchTap={ () => {} }
-          onVideoCallClick={ () =>
-            previewVideoCall(conversation.users.find(user => user.username !== me))
-          }
-        />
-      }
 
+        />
+        {/*showVideoCallButton={ videoCallState.initialized }*/}
+
+        {/*onVideoCallClick={ () =>
+          previewVideoCall(conversation.users.find(user => user.username !== me))
+        }*/}
+{/*
       { conversation.error && !conversation.loading &&
         <div className="Conversation-error">
           { conversation.error.status && conversation.error.status === 404 ?
@@ -192,26 +198,23 @@ export class Conversation extends React.Component {
               "Error loading this chat."
           }
         </div>
-      }
+      }*/}
 
-      { conversation.loading &&
-        <Progress centerVertical />
-      }
+      { isFetchingMessages && messages.length === 0 && <Progress /> }
 
-      { conversation.didLoadMessages &&
-
+      { messages.length > 0 &&
         <Scrollable
           uniqueId={ messages[messages.length-1].id }
           initialScroll="bottom"
           className="Conversation-scrollable"
           ref="scrollable"
-          onScrollTop={ e => this.loadPreviousMessages(e) }
+          onScrollTop={ previousUrl ? () => { dispatch(loadMessages(conversationId, { previousUrl: previousUrl })); } : null }
         >
           <div className="Conversation-messagesList">
             <div className="Conversation-listTopSeparator" />
             <div
               className="Conversation-progress"
-              style={ conversation.loadingPrevious ? null : { visibility: "hidden" }}>
+              style={ isFetchingMessages ? null : { visibility: "hidden" }}>
               <Progress />
             </div>
 
@@ -228,7 +231,7 @@ export class Conversation extends React.Component {
         </Scrollable>
       }
 
-      { conversation.didLoadMessages &&
+{/*
         <div className="Conversation-replyFormContainer">
           <MessageReplyForm
             autoFocus
@@ -238,18 +241,18 @@ export class Conversation extends React.Component {
             onAttachShoutClick={ () => this.setState({ showAttachShout: true }) }
             onSubmit={ text => replyToConversation(loggedUser, conversation.id, text) }
           />
-        </div>
-      }
+        </div>*/}
 
-      <ConversationDeleteDialog
+
+      {/*<ConversationDeleteDialog
         open={ showDelete }
         onRequestClose={ () => this.setState({ showDelete: false }) }
         onConfirm={() => deleteConversation(conversation.id,
           () => this.props.history.replace("/messages") )
         }
         isDeleting={ conversation.isDeleting }
-      />
-
+      />*/}
+{/*
       <UserShoutsSelectDialog
         buttonLabel="Send"
         user={ loggedUser }
@@ -261,7 +264,7 @@ export class Conversation extends React.Component {
           replyToConversation(loggedUser, conversation.id, draft, attachments);
           this.setState({ showAttachShout: false });
         }}
-      />
+      />*/}
 
       </div>
     );
@@ -269,6 +272,40 @@ export class Conversation extends React.Component {
 
 }
 
-Conversation = ConnectToStores(Conversation, { fetchData, listenToStores, mapStoresProps });
+function mapStateToProps(state, ownProps) {
+  const { pagination, entities, session } = state;
+  const id = ownProps.params.id;
+  const isFetchingConversations = pagination.conversations.isFetching;
 
-export default Conversation;
+  let props = {
+    isFetchingConversations,
+    conversationId: id,
+    loggedUser: session.user,
+    isFetchingMessages: true,
+    conversationError: pagination.conversations.error
+  };
+
+  const conversation = entities.conversations[id];
+  if (!isFetchingConversations && conversation) {
+    props = {
+      ...props,
+      conversation: denormalize(conversation, entities, "CONVERSATION")
+    };
+  }
+
+  if (pagination.messages[id]) {
+    const ids = pagination.messages[id].ids;
+    props = {
+      ...props,
+      isFetchingMessages: pagination.messages[id].isFetching,
+      page: pagination.messages[id].page,
+      previousUrl: pagination.messages[id].previousUrl,
+      messages: ids.map(id => denormalize(entities.messages[id], entities, "MESSAGE")),
+      messagesError: pagination.messages[id].error
+    };
+  }
+
+  return props;
+}
+
+export default connect(mapStateToProps)(Conversation);
