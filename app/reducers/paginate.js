@@ -1,6 +1,12 @@
 import merge from "lodash/object/merge";
 import union from "lodash/array/union";
 
+const initialState = {
+  isFetching: false,
+  next: undefined,
+  previous: undefined,
+  ids: []
+};
 // Creates a reducer managing pagination, given the action types to handle,
 // and a function telling how to extract the key from an action.
 export default function paginate({ types, mapActionToKey }) {
@@ -13,12 +19,7 @@ export default function paginate({ types, mapActionToKey }) {
 
   const [ startType, successType, failureType ] = types;
 
-  function updatePagination(state = {
-    isFetching: false,
-    next: undefined,
-    previous: undefined,
-    ids: []
-  }, action) {
+  function updatePagination(state=initialState, action) {
     switch (action.type) {
     case startType:
       return merge({}, state, {
@@ -33,14 +34,15 @@ export default function paginate({ types, mapActionToKey }) {
       });
     case failureType:
       return merge({}, state, {
-        isFetching: false
+        isFetching: false,
+        error: action.payload
       });
     default:
       return state;
     }
   }
 
-  return function updatePaginationByKey(state={}, action) {
+  return function updatePaginationByKey(state=initialState, action) {
     switch (action.type) {
     case startType:
     case successType:
