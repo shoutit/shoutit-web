@@ -11,8 +11,8 @@ if (process.env.BROWSER) {
 }
 
 export default function MessageItem({ message, isMe, readByUsers=[] }) {
-  const { created_at, sending, text, sendError, attachments=[] } = message;
-  const createdAt = moment.unix(created_at);
+  const { createdAt, sending, text, sendError, attachments=[] } = message;
+  const created = moment.unix(createdAt);
 
   const attachmentsContent = attachments.map((attachment, i) => {
     const { shout, location } = attachment;
@@ -39,8 +39,8 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
           { readByUsers.length > 0 && <MessageReadByFlag profiles={ readByUsers } /> }
         </span>
       }
-      {!sending && !sendError && <span title={createdAt.format("LLLL")}>
-          { createdAt.format("LT") }
+      {!sending && !sendError && <span title={created.format("LLLL")}>
+          { created.format("LT") }
         </span>
       }
       { sending && <span>Sending…</span> }
