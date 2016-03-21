@@ -2,18 +2,6 @@ import React from "react";
 import { StoreWatchMixin } from "fluxxor";
 import debug from "debug";
 
-export function fetchDataForRoutes(routes, params, query, store, done) {
-
-  const promises = routes
-    .filter(route => route.component && route.component.fetchData)
-    .map(route => route.component.fetchData(store, params, query));
-
-  Promise.all(promises).then(
-    () => done(),
-    err => done(err) // fail-fast if one of the route's fetchData error'ed
-  );
-}
-
 export function ConnectToStores(Component, { fetchData, listenToStores=[], mapStoresProps }) {
 
   const logError = err => {

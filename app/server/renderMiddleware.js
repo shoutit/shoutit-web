@@ -12,7 +12,7 @@ import routes from "../routes";
 import { Provider } from "react-redux";
 import configureStore from "../store/configureStore";
 
-import { fetchDataForRoutes } from "../utils/FluxUtils";
+import fetchDataForRoutes from "../utils/fetchDataForRoutes";
 
 const log = debug("shoutit:server");
 
