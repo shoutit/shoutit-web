@@ -2,11 +2,13 @@ import merge from "lodash/object/merge";
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  currencies: {},
   categories: {},
-  users: {},
+  conversations: {},
+  currencies: {},
+  messages: {},
+  shouts: {},
   tags: {},
-  shouts: {}
+  users: {}
 };
 
 export default function(state=initialState, action) {
@@ -14,10 +16,20 @@ export default function(state=initialState, action) {
     return merge({}, state, action.payload.entities);
   }
 
-  switch (action.types) {
+  switch (action.type) {
   case actionTypes.LOGIN_SUCCESS:
     const loggedUser = action.payload;
     return merge({}, state, { users: { [loggedUser.id]: loggedUser }});
+
+  case actionTypes.LOGOUT:
+
+    // Cleanup state only for logged in user
+    return {
+      ...state,
+      conversations: {},
+      messages: {}
+    };
+
   default:
     return state;
   }
