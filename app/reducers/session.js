@@ -103,7 +103,7 @@ export default function(state=initialState, action) {
       passwordResetError: payload.details
     };
 
-  case actionTypes.LOGOUT_START:
+  case actionTypes.LOGOUT:
     return {
       ...state,
       user: null
