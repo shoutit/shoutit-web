@@ -10,7 +10,11 @@ export function getVariation(path, variation="medium") {
 
 export function parseErrorResponse(err) {
   const error = new Error(err.message);
-  error.statusCode = err.statusCode;
-  error.output = { message: err.message, details: err.response.body};
+  error.statusCode = err.response ? err.response.statusCode : 400;
+  error.output = {
+    message: error.message,
+    statusCode: error.statusCode,
+    details: err.response ? err.response.body : null
+  };
   return error;
 }
