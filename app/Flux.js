@@ -16,7 +16,6 @@ import ShoutStore from "./shared/stores/shouts/store";
 import TagStore from "./shared/stores/tags/store";
 import SearchStore from "./shared/stores/search/store";
 import LocationsStore from "./shared/stores/locations/store";
-import LocationStore from "./stores/LocationStore";
 import NotificationsStore from "./shared/stores/notifications/store";
 import DiscoversStore from "./shared/stores/discovers/store";
 
@@ -51,19 +50,15 @@ export default function Flux(fetchr) {
 
   const stores = {
     ...fluxStores,
-    chat: new ChatStore(),
-    conversations: new ConversationsStore(),
     discovers: new DiscoversStore(),
     locations: new LocationsStore(),
-    messages: new MessagesStore(),
     notifications: new NotificationsStore(),
     search: new SearchStore(),
     shouts: new ShoutStore(),
     tags: new TagStore(),
     ui_notifications: new UINotificationsStore(),
     users: new UsersStore(),
-    videocall: new VideoCallsStore(),
-    location: new LocationStore()
+    videocall: new VideoCallsStore()
   };
 
   for (const store in stores) {
