@@ -46,7 +46,9 @@ request.Request.prototype.end = function(oldCallback) {
  * @return {Request}
  */
 request.Request.prototype.prefix = function(prefix=apiUrl) {
-  this.url = `${prefix}${this.url}`;
+  if (this.url.indexOf(apiUrl) === -1) {
+    this.url = `${prefix}${this.url}`;
+  }
   return this;
 };
 
