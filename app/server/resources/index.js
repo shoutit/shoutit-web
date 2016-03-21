@@ -5,7 +5,6 @@ import discover from "./discover";
 import users from "./users";
 import tags from "./tags";
 import misc from "./misc";
-import pusher from "./pusher";
 import conversations from "./conversations";
 import auth from "./auth";
 
@@ -18,7 +17,7 @@ const ShoutitClient = rest.service(function (endpoint) {
   };
   this.baseURL = endpoint;
 }, {}, {
-  shouts, discover, users, tags, misc, pusher, conversations, auth
+  shouts, discover, users, tags, misc, conversations, auth
 });
 
 export default new ShoutitClient(apiUrl);

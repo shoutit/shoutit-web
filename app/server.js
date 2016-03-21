@@ -14,6 +14,7 @@ import csurf from "csurf";
 import basicAuthMiddleware from "./server/basicAuthMiddleware";
 import slashMiddleware from "./server/slashMiddleware";
 import smsMiddleware from "./server/smsMiddleware";
+import pusherMiddleware from "./server/pusherMiddleware";
 import renderMiddleware from "./server/renderMiddleware";
 import errorMiddleware from "./server/errorMiddleware";
 import useLegacyServices from "./server/legacyServices";
@@ -35,6 +36,7 @@ export function start(app) {
 
   app.use(morgan(process.env.NODE_ENV === "development" ? "dev" : "combined"));
   app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true })); // required proxying pusher/auth
   app.use(compression());
   // app.use(csurf({ cookie: true }));
 
@@ -78,6 +80,8 @@ export function start(app) {
 
   // Enable legacy services (api etc before fetchr)
   useLegacyServices(app);
+
+  app.post("/api/pusher/auth", pusherMiddleware);
 
   // Enable various redirects
   Object.keys(redirects).map(path => {
