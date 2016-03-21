@@ -21,7 +21,6 @@ import configureStore from "./store/configureStore";
 
 import "./client/initFacebook";
 import initGoogleAnalytics from "./client/initGoogleAnalytics";
-import { setupPusher } from "./client/pusher";
 
 import "styles/main.scss";
 
@@ -54,18 +53,6 @@ if (window.google) {
   const locationStore = flux.store("locations");
   locationStore.setGMaps(window.google.maps);
 }
-
-setupPusher(flux.store("auth"), {
-  onNewMessage: (message) => {
-    if (flux.store("conversations").get(message.conversation_id)) {
-      flux.actions.newPushedMessage(message);
-    }
-    else {
-      flux.actions.loadConversations();
-    }
-  }
-});
-
 log("Starting client web app", `\n${config.getSummary()}\n`);
 
 
