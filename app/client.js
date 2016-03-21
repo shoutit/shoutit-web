@@ -44,24 +44,17 @@ else {
   console.warn("No data to rehydrate in the flux stores");
 }
 
-let ga;
-if (config.ga) {
-  ga = initGoogleAnalytics(config.ga);
-}
-
-if (window.google) {
-  const locationStore = flux.store("locations");
-  locationStore.setGMaps(window.google.maps);
-}
 log("Starting client web app", `\n${config.getSummary()}\n`);
-
 
 const store = configureStore(window.__INITIAL_STATE__, fetchr, window.devToolsExtension);
 const history =  syncHistoryWithStore(browserHistory, store);
-if (ga) {
+if (config.ga) {
+  const ga = initGoogleAnalytics(config.ga);
   history.listen(location => ga("send", "pageview", location.pathname));
 }
 log("Rehydrating store with initial state", window.__INITIAL_STATE__);
+
+const logRouter = debug("shoutit:router");
 
 let firstRender = true;
 ReactDOM.render(
@@ -70,16 +63,16 @@ ReactDOM.render(
     history={ history }
     render={ props => {
       if (firstRender) {
-        debug("shoutit:router")("First time rendering %s...", props.location.pathname);
+        logRouter("First time rendering %s...", props.location.pathname, props);
       } else {
-        debug("shoutit:router")("Rendering %s...", props.location.pathname);
+        logRouter("Rendering %s...", props.location.pathname, props);
       }
       const _firstRender = firstRender;
       const routerContext = (
         <Provider store={ store }>
           <RouterContext {...props}
             createElement={ (Component, props) => {
-              debug("shoutit:router")("Creating element for %s %s, first render? %s",
+              logRouter("Creating element for %s %s, first render? %s",
                 Component.displayName || Component.name, props.location.pathname, _firstRender
               );
               return <Component {...props} flux={flux}  firstRender={ _firstRender }/>;
@@ -94,8 +87,6 @@ ReactDOM.render(
     { routes }
 
   </Router>,
-
   document.getElementById("content"),
-
   () => log("App has been mounted 🎉")
 );
