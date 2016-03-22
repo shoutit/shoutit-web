@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { replace } from "react-router-redux";
 
 import ConversationTitle from "../chat/ConversationTitle";
 import ConversationDeleteDialog from "../chat/ConversationDeleteDialog";
@@ -9,7 +10,7 @@ import MessageReplyForm from "../chat/MessageReplyForm";
 import MessagesTypingUsers from "../chat/MessagesTypingUsers";
 import Scrollable from "../ui/Scrollable";
 
-import { loadMessages } from "../actions/chat";
+import { loadMessages, deleteConversation } from "../actions/chat";
 import { denormalize } from "../schemas";
 
 import Progress from "../shared/components/helper/Progress.jsx";
@@ -65,11 +66,9 @@ export class Conversation extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { conversationId, dispatch, messages } = this.props;
-    if (prevProps.conversationId !== conversationId && !messages) {
+    const { conversationId, dispatch } = this.props;
+    if (prevProps.conversationId !== conversationId) {
       dispatch(loadMessages(conversationId));
-      // this.unsubscribePresenceChannel();
-      // this.subscribePresenceChannel();
     }
   }
 
@@ -138,13 +137,13 @@ export class Conversation extends React.Component {
   }
 
   render() {
-    const { conversationError, messagesError } = this.props;
-    const { loggedUser, isFetchingMessages, isFetchingConversations, conversation, messages=[], videoCallState, draft } = this.props;
-    const { hasPreviousPage, dispatch, conversationId } = this.props;
-    if (conversationError) {
+    const { error, messagesError } = this.props;
+    const { loggedUser, isFetchingMessages, isFetching, conversation, messages=[], videoCallState, draft } = this.props;
+    const { previousUrl, dispatch, conversationId } = this.props;
+    if (error) {
       return (
         <div className="Conversation-error">
-          { conversationError.message }
+          { error.message }
         </div>
       );
     }
@@ -155,7 +154,7 @@ export class Conversation extends React.Component {
         </div>
       );
     }
-    if (isFetchingConversations || !conversation) {
+    if (isFetching || !conversation) {
       return (
         <div className="Conversation">
           <Progress centerVertical />
@@ -164,13 +163,6 @@ export class Conversation extends React.Component {
     }
 
     const me = loggedUser ? loggedUser.username : undefined;
-    //
-    // const {
-    //   replyToConversation,
-    //   deleteConversation,
-    //   conversationDraftChange,
-    //   previewVideoCall
-    // } = flux.actions;
 
     const { typingUsers, showAttachShout, showDelete } = this.state;
 
@@ -189,15 +181,6 @@ export class Conversation extends React.Component {
         {/*onVideoCallClick={ () =>
           previewVideoCall(conversation.users.find(user => user.username !== me))
         }*/}
-{/*
-      { conversation.error && !conversation.loading &&
-        <div className="Conversation-error">
-          { conversation.error.status && conversation.error.status === 404 ?
-              "Page not found" :
-              "Error loading this chat."
-          }
-        </div>
-      }*/}
 
       { isFetchingMessages && messages.length === 0 && <Progress /> }
 
@@ -207,7 +190,7 @@ export class Conversation extends React.Component {
           initialScroll="bottom"
           className="Conversation-scrollable"
           ref="scrollable"
-          onScrollTop={ hasPreviousPage ? () => dispatch(loadMessages(conversationId, "previous")) : null }
+          onScrollTop={ previousUrl ? () => dispatch(loadMessages(conversationId, previousUrl)) : null }
         >
           <div className="Conversation-messagesList">
             <div className="Conversation-listTopSeparator" />
@@ -230,27 +213,30 @@ export class Conversation extends React.Component {
         </Scrollable>
       }
 
-{/*
+      { messages.length > 0 &&
         <div className="Conversation-replyFormContainer">
           <MessageReplyForm
             autoFocus
-            initialValue={ conversation.draft }
-            onTextChange={ text => conversationDraftChange(conversation.id, text) }
-            onTyping={ () => this.presenceChannel.trigger("client-user_is_typing", loggedUser) }
-            onAttachShoutClick={ () => this.setState({ showAttachShout: true }) }
-            onSubmit={ text => replyToConversation(loggedUser, conversation.id, text) }
           />
-        </div>*/}
+        </div>
+      }
+
+      {/*initialValue={ conversation.draft }
+      onTextChange={ text => conversationDraftChange(conversation.id, text) }
+      onTyping={ () => this.presenceChannel.trigger("client-user_is_typing", loggedUser) }
+      onAttachShoutClick={ () => this.setState({ showAttachShout: true }) }
+      onSubmit={ text => replyToConversation(loggedUser, conversation.id, text) }*/}
 
 
-      {/*<ConversationDeleteDialog
+      <ConversationDeleteDialog
         open={ showDelete }
         onRequestClose={ () => this.setState({ showDelete: false }) }
-        onConfirm={() => deleteConversation(conversation.id,
-          () => this.props.history.replace("/messages") )
+        onConfirm={ () =>
+          dispatch(deleteConversation(conversationId)).then(() =>
+            dispatch(replace("/messages")))
         }
         isDeleting={ conversation.isDeleting }
-      />*/}
+      />
 {/*
       <UserShoutsSelectDialog
         buttonLabel="Send"
@@ -272,35 +258,39 @@ export class Conversation extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { pagination, entities, session } = state;
-  const id = ownProps.params.id;
-  const isFetchingConversations = pagination.conversations.isFetching;
+  const { chat, entities, session, messagesByConversation } = state;
+  const conversationId = ownProps.params.id;
 
   let props = {
-    isFetchingConversations,
-    conversationId: id,
+    isFetching: chat.isFetching,
+    conversationId: conversationId,
     loggedUser: session.user,
     isFetchingMessages: true,
-    conversationError: pagination.conversations.error
+    error: chat.error
   };
 
-  const conversation = entities.conversations[id];
-  if (!isFetchingConversations && conversation) {
+  const conversation = entities.conversations[conversationId];
+
+  if (!chat.isFetching && conversation) {
     props = {
       ...props,
       conversation: denormalize(conversation, entities, "CONVERSATION")
     };
   }
 
-  if (pagination.messages[id]) {
-    const ids = pagination.messages[id].ids;
+  if (messagesByConversation[conversationId]) {
+    const {
+      ids,
+      isFetching: isFetchingMessages,
+      previousUrl,
+      error: messagesError
+    } = messagesByConversation[conversationId];
     props = {
       ...props,
-      isFetchingMessages: pagination.messages[id].isFetching,
-      page: pagination.messages[id].page,
-      hasPreviousPage: pagination.messages[id].hasPreviousPage,
-      messages: ids.map(id => denormalize(entities.messages[id], entities, "MESSAGE")),
-      messagesError: pagination.messages[id].error
+      isFetchingMessages,
+      previousUrl,
+      messagesError,
+      messages: ids.map(id => denormalize(entities.messages[id], entities, "MESSAGE"))
     };
   }
 

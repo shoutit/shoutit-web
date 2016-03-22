@@ -17,21 +17,38 @@ export function loadConversations() {
   };
 }
 
-export function loadMessages(conversationId, page="first") {
+export function loadMessages(conversationId, endpoint) {
   return {
     types: [
       actionTypes.LOAD_MESSAGES_START,
       actionTypes.LOAD_MESSAGES_SUCCESS,
       actionTypes.LOAD_MESSAGES_FAILURE
     ],
-    page: page,
-    paginationId: conversationId, // tell the pagination reducer we are loading this conversation
+    payload: { conversationId },
     service: {
       name: "messages",
       params: {
-        conversationId
+        conversationId, endpoint
       },
       schema: Schemas.MESSAGES
+    }
+  };
+}
+
+export function deleteConversation(id) {
+  return {
+    types: [
+      actionTypes.DELETE_CONVERSATION_START,
+      actionTypes.DELETE_CONVERSATION_SUCCESS,
+      actionTypes.DELETE_CONVERSATION_FAILURE
+    ],
+    payload: { id },
+    service: {
+      name: "conversations",
+      method: "delete",
+      params: {
+        id
+      }
     }
   };
 }

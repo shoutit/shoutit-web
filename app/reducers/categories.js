@@ -1,10 +1,20 @@
+import shuffle from "lodash/collection/shuffle";
+
 import * as actionTypes from "../actions/actionTypes";
 
-export default function(state=[], action) {
+const initialState = {
+  ids: [],
+  shuffled: []
+};
+
+export default function(state=initialState, action) {
   switch (action.type) {
 
   case actionTypes.LOAD_CATEGORIES_SUCCESS:
-    return action.payload;
+    return {
+      ids: action.payload.result,
+      shuffled: shuffle(action.payload.result)
+    };
 
   default: return state;
   }

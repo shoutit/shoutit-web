@@ -9,7 +9,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
     return next(action);
   }
 
-  const { service, types, page="first", paginationId } = action;
+  const { service, types } = action;
 
   if (typeof service !== "object") {
     throw new Error("fetchrMiddlware: service must be an object");
@@ -20,9 +20,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
   if (typeof name !== "string") {
     throw new Error("Must specify a fetchr service name");
   }
-  if (page !== "first" && page !== "previous" && page !== "next") {
-    throw new Error(`Expected page being one of 'first', 'previous' or 'next', was ${page}`);
-  }
+
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error("Expected an array of three action types.");
   }
@@ -42,32 +40,8 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
 
   return new Promise(resolve => {
 
-    const fetchrParams = {...params};
-
-    if (page && page !== "first") {
-      const state = store.getState();
-      const key = schema.getItemSchema().getKey();
-      let pagination = state.pagination[key];
-      if (paginationId) {
-        pagination = pagination[paginationId];
-      }
-      if (!pagination) {
-        throw new Error(`Pagination not available for ${key}`);
-      }
-      let endpoint;
-      if (page === "previous") {
-        endpoint = pagination.previousUrl;
-      } else if (page === "next") {
-        endpoint = pagination.nextUrl;
-      }
-      if (!endpoint) {
-        throw new Error(`Endpoint not available for ${page} page. Make sure previousUrl or nextUrl are set before fetching this page.`);
-      }
-      fetchrParams.endpoint = endpoint;
-    }
-
     fetchr[method](name)
-      .params(fetchrParams)
+      .params(params)
       .body(body)
       .end((err, json) => {
 
@@ -79,14 +53,18 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
           }));
         }
         let payload = camelizeKeys(json);
-
         if (schema) {
           payload = normalize(payload.results ? payload.results : payload, schema);
+        }
+        if (json.previous) {
           payload.previousUrl = json.previous;
+        }
+        if (json.next) {
           payload.nextUrl = json.next;
         }
-
+        
         resolve(payload);
+
         next(actionWith({
           payload,
           type: successType
