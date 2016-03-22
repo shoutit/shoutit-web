@@ -36,6 +36,17 @@ export default function(state={}, action) {
       }
     };
 
+  case actionTypes.ADD_NEW_MESSAGE:
+    const { conversationId } = payload;
+    const conversation = {
+      ...state[conversationId],
+      ids: payload.result
+    };
+    return {
+      ...state,
+      [conversationId]: conversation
+    };
+
   default:
     return state;
   }
