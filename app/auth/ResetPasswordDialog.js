@@ -3,6 +3,8 @@ import DocumentTitle from "react-document-title";
 import { Link } from "react-router";
 import { Input } from "react-bootstrap";
 import { connect } from "react-redux";
+import { replace } from "react-router-redux";
+
 import Dialog from "../shared/components/helper/Dialog.jsx";
 import Button from "../shared/components/helper/Button.jsx";
 
@@ -13,15 +15,14 @@ export const ResetPasswordDialog =  React.createClass({
   displayName: "ResetPasswordDialog",
 
   handleSubmit(e) {
+    const { onSubmit, onEmailSent, isRequestingPasswordReset } = this.props;
     e.preventDefault();
     const email = e.target.email.value;
-    if (!email || this.props.isRequestingPasswordReset) {
+    if (!email || isRequestingPasswordReset) {
       return;
     }
     e.target.email.blur();
-    this.props.onSubmit(email).then(() => {
-      this.props.history.replace("/login");
-    });
+    onSubmit(email).then(() => onEmailSent());
   },
 
   render() {
@@ -91,7 +92,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSubmit: email => dispatch(requestPasswordReset(email))
+    onSubmit: email => dispatch(requestPasswordReset(email)),
+    onEmailSent: () => dispatch(replace("/login?recover_sent=true"))
   };
 };
 

@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from "react-router";
 import { connect } from "react-redux";
+import { replace } from "react-router-redux";
 
 import DocumentTitle from "react-document-title";
 import Dialog from "../shared/components/helper/Dialog.jsx";
@@ -14,14 +15,14 @@ export const LoginDialog = React.createClass({
   displayName: "LoginDialog",
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.open && this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
-      // User has been logged in, redirect to home page
-      this.props.history.replace("/home");
+    const { open, loggedUser, onLoginSuccess } = this.props;
+    if (open && loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
+      onLoginSuccess();
     }
   },
 
   render() {
-    const { isLoggingIn, loginError } = this.props;
+    const { isLoggingIn, loginError, location } = this.props;
     const { open, onRequestClose, onSubmit } = this.props;
     return (
       <DocumentTitle title="Log in - Shoutit">
@@ -38,6 +39,12 @@ export const LoginDialog = React.createClass({
             <SocialLoginForm />
 
             <div className="separator separator-or"></div>
+
+              { location.query && location.query.recover_sent &&
+                <p>
+                  A link to reset your password has been sent. Please check your e-mail.
+                </p>
+              }
 
               <NativeLoginForm
                 error={ loginError }
@@ -75,9 +82,18 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const { location } = ownProps;
+
+  let afterUrl;
+  if (location.query.after) {
+    afterUrl = location.query.after;
+  } else {
+    afterUrl="/home";
+  }
   return {
-    onSubmit: loginData => dispatch(createSession(loginData))
+    onSubmit: loginData => dispatch(createSession(loginData)),
+    onLoginSuccess: () => dispatch(replace(afterUrl))
   };
 };
 
