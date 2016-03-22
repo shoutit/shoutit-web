@@ -1,13 +1,15 @@
 import { combineReducers } from "redux";
-import { routerReducer as routing } from "react-router-redux";
+import { routerReducer } from "react-router-redux";
 
 import * as actionTypes from  "../actions/actionTypes";
 
+import entities from "./entities"; // manage entities coming from normalizr
+import paginate from "./paginate"; // manage pagination
+
 import session from "./session";
 import miscReducer from "./misc";
-import paginate from "./paginate";
 import currentLocation from "./currentLocation";
-import entities from "./entities";
+import currentUrl from "./currentUrl";
 import shuffledCategories from "./shuffledCategories";
 import uiNotifications from "./uiNotifications";
 
@@ -45,6 +47,13 @@ const pagination = combineReducers({
     ]
   })
 });
+
+// Add `currentUrl` to the routing's state – useful for server-side rendering
+const routing = (state, action) => {
+  state = currentUrl(state, action);
+  state = routerReducer(state, action);
+  return state;
+};
 
 const rootReducer = combineReducers({
   session,
