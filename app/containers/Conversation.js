@@ -140,8 +140,7 @@ export class Conversation extends React.Component {
   render() {
     const { conversationError, messagesError } = this.props;
     const { loggedUser, isFetchingMessages, isFetchingConversations, conversation, messages=[], videoCallState, draft } = this.props;
-    const { previousUrl, dispatch, conversationId } = this.props;
-    console.info("rendering", this.props);
+    const { hasPreviousPage, dispatch, conversationId } = this.props;
     if (conversationError) {
       return (
         <div className="Conversation-error">
@@ -208,7 +207,7 @@ export class Conversation extends React.Component {
           initialScroll="bottom"
           className="Conversation-scrollable"
           ref="scrollable"
-          onScrollTop={ previousUrl ? () => { dispatch(loadMessages(conversationId, { previousUrl: previousUrl })); } : null }
+          onScrollTop={ hasPreviousPage ? () => dispatch(loadMessages(conversationId, "previous")) : null }
         >
           <div className="Conversation-messagesList">
             <div className="Conversation-listTopSeparator" />
@@ -299,7 +298,7 @@ function mapStateToProps(state, ownProps) {
       ...props,
       isFetchingMessages: pagination.messages[id].isFetching,
       page: pagination.messages[id].page,
-      previousUrl: pagination.messages[id].previousUrl,
+      hasPreviousPage: pagination.messages[id].hasPreviousPage,
       messages: ids.map(id => denormalize(entities.messages[id], entities, "MESSAGE")),
       messagesError: pagination.messages[id].error
     };

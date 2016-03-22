@@ -17,26 +17,20 @@ export function loadConversations() {
   };
 }
 
-export function loadMessages(conversationId, options={}) {
-  const params = {
-    conversationId,
-    previousUrl: null,
-    nextUrl: null,
-    ...options
-  };
+export function loadMessages(conversationId, page="first") {
   return {
     types: [
       actionTypes.LOAD_MESSAGES_START,
       actionTypes.LOAD_MESSAGES_SUCCESS,
       actionTypes.LOAD_MESSAGES_FAILURE
     ],
-    page: options.previousUrl ? "previous" : options.nextUrl ? "next" : "first",
-    payload: {
-      conversationId // tell the pagination reducer we are loading this conversation
-    },
+    page: page,
+    paginationId: conversationId, // tell the pagination reducer we are loading this conversation
     service: {
       name: "messages",
-      params,
+      params: {
+        conversationId
+      },
       schema: Schemas.MESSAGES
     }
   };
