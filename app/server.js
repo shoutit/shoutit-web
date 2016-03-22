@@ -9,6 +9,8 @@ import session from "express-session";
 import connectRedis from "connect-redis";
 import Fetchr from "fetchr";
 import serveStatic from "serve-static";
+import errorDomainMiddleware from "express-domain-middleware";
+
 import csurf from "csurf";
 
 import basicAuthMiddleware from "./server/basicAuthMiddleware";
@@ -55,6 +57,8 @@ export function start(app) {
     resave: false,
     saveUninitialized: true
   }));
+
+  app.use(errorDomainMiddleware);
 
   // Register fetchr services
   Object.keys(services).forEach(name => Fetchr.registerService(services[name]) );

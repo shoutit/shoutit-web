@@ -53,29 +53,25 @@ export default function renderMiddleware(req, res, next) {
       log("Routes data has been fetched");
       const state = flux.dehydrate();
       props.query = req.query;
-      try {
-        const content = ReactDOMServer.renderToString(
-          <Provider store={ store }>
-            <RouterContext createElement={ (Component, props) => <Component {...props} query={ req.query } flux={ flux } /> } {...props}  />
-          </Provider>
-        );
+      const content = ReactDOMServer.renderToString(
+        <Provider store={ store }>
+          <RouterContext createElement={ (Component, props) => <Component {...props} query={ req.query } flux={ flux } /> } {...props}  />
+        </Provider>
+      );
 
-        const meta = {}; // getMetaFromData(req.url, data);
-        const initialState = store.getState();
-        log("Initial store state", initialState);
-        const html = ReactDOMServer.renderToStaticMarkup(
-          <HtmlDocument
-            content={ content }
-            state={ state }
-            initialState={ initialState }
-            title={ DocumentTitle.rewind() }
-            meta={ meta }
-          />
-        );
-        res.send(`<!doctype html>${html}`);
-      } catch (e) {
-        next(e);
-      }
+      const meta = {}; // getMetaFromData(req.url, data);
+      const initialState = store.getState();
+      log("Initial store state", initialState);
+      const html = ReactDOMServer.renderToStaticMarkup(
+        <HtmlDocument
+          content={ content }
+          state={ state }
+          initialState={ initialState }
+          title={ DocumentTitle.rewind() }
+          meta={ meta }
+        />
+      );
+      res.send(`<!doctype html>${html}`);
     });
 
   });

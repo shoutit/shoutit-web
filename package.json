@@ -49,6 +49,7 @@
     "debug": "2.2.0",
     "denormalizr": "0.0.5",
     "express": "4.13.4",
+    "express-domain-middleware": "0.1.0",
     "express-session": "1.13.0",
     "fetchr": "0.5.25",
     "fluxxor": "1.7.3",
