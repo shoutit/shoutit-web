@@ -46,8 +46,11 @@ else {
 
 log("Starting client web app", `\n${config.getSummary()}\n`);
 
-const store = configureStore(window.__INITIAL_STATE__, fetchr, window.devToolsExtension);
-const history =  syncHistoryWithStore(browserHistory, store);
+const store = configureStore(window.__INITIAL_STATE__, {
+  fetchr, history: browserHistory,  devToolsExtension: window.devToolsExtension
+});
+const history = syncHistoryWithStore(browserHistory, store);
+
 if (config.ga) {
   const ga = initGoogleAnalytics(config.ga);
   history.listen(location => ga("send", "pageview", location.pathname));

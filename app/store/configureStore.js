@@ -4,12 +4,15 @@ import thunk from "redux-thunk";
 import rootReducer from "../reducers";
 import services from "../middlewares/services";
 
-const noop = () => next => action => next(action);
+const noop = store => next => action => next(action); // eslint-disable-line
 
 const pusher = process.env.BROWSER ?
   require("../middlewares/pusher").default : noop;
 
-export default function configureStore(initialState, fetchr, devToolsExtension) {
+const router = process.env.BROWSER ?
+  require("react-router-redux").routerMiddleware : () => noop;
+
+export default function configureStore(initialState, { fetchr, devToolsExtension, history }) {
   const store = createStore(
     rootReducer,
     initialState,
@@ -17,7 +20,8 @@ export default function configureStore(initialState, fetchr, devToolsExtension) 
       applyMiddleware(
         services(fetchr),
         pusher,
-        thunk
+        thunk,
+        router(history)
       ),
       devToolsExtension ? devToolsExtension() : f => f
     )
