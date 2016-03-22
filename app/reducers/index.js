@@ -38,7 +38,6 @@ const pagination = combineReducers({
     ]
   }),
   messages: paginate({
-    mapActionToKey: action => action.payload.conversationId,
     types: [
       actionTypes.LOAD_MESSAGES_START,
       actionTypes.LOAD_MESSAGES_SUCCESS,

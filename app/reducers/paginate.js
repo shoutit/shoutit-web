@@ -5,12 +5,15 @@ const initialState = {
   isFetching: false,
   nextUrl: undefined,
   previousUrl: undefined,
-  page: "first",
+  hasNextPage: false,
+  hasPreviousPage: false,
   ids: []
 };
+
 // Creates a reducer managing pagination, given the action types to handle,
 // and a function telling how to extract the key from an action.
-export default function paginate({ types, mapActionToKey }) {
+
+export default function paginate({ types }) {
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error("Expected types to be an array of three elements.");
   }
@@ -31,6 +34,8 @@ export default function paginate({ types, mapActionToKey }) {
         isFetching: false,
         nextUrl: action.payload.nextUrl,
         previousUrl: action.payload.previousUrl,
+        hasNextPage: !!action.payload.nextUrl,
+        hasPreviousPage: !!action.payload.previousUrl,
         ids: action.page === "previous" ?
           union(action.payload.result, state.ids) : // put previous results first
           union(state.ids, action.payload.result)
@@ -50,13 +55,9 @@ export default function paginate({ types, mapActionToKey }) {
     case startType:
     case successType:
     case failureType:
-      if (mapActionToKey) {
-        const key = mapActionToKey(action);
-        if (typeof key !== "string") {
-          throw new Error("Expected key to be a string.");
-        }
+      if (action.paginationId) {
         return merge({}, state, {
-          [key]: updatePagination(state[key], action)
+          [action.paginationId]: updatePagination(state[action.paginationId], action)
         });
       }
       return merge({}, state, updatePagination(state, action));
