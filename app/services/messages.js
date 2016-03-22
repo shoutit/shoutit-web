@@ -3,10 +3,8 @@ import { parseErrorResponse } from "../utils/APIUtils";
 
 export default {
   name: "messages",
-  read: (req, resource, { conversationId, nextUrl, previousUrl }, config, callback) => {
-    const url = nextUrl ? nextUrl :
-                previousUrl ? previousUrl :
-                `/conversations/${conversationId}/messages`;
+  read: (req, resource, { conversationId, endpoint }, config, callback) => {
+    const url = endpoint || `/conversations/${conversationId}/messages`;
     request
       .get(url)
       .setSession(req.session)
