@@ -1,0 +1,7 @@
+{
+  "watch": [
+    "app/services/",
+    "app/server",
+    "app/server.js"
+  ]
+}
