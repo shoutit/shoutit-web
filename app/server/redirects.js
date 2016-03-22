@@ -6,22 +6,6 @@ const redirects = {
   "/t/:tagName":  (req, res) => res.redirect(`/tag/${req.params.tagName}`),
   "/m/:msgId": (req, res) => res.redirect(`/tag/${req.params.tagName}`),
   "/search/:term/shouts": (req, res) => res.redirect(`/messages/${req.params.msgId}`),
-
-  "/profile": (req, res) => {
-    const user = req.session ? req.session.user : null;
-    if (!user) {
-      return res.redirect("/login");
-    }
-    res.redirect(`/user/${user.username}`);
-  },
-
-  "/messages/?*": (req, res, next) => {
-    if (!req.session || !req.session.user) {
-      return res.redirect("/login");
-    }
-    next();
-  },
-
   "/app": (req, res) => {
     const md = new MobileDetect(req.headers["user-agent"]);
     if (md.is("iOS")) {
@@ -32,7 +16,6 @@ const redirects = {
       res.redirect("/");
     }
   }
-
 };
 
 export default redirects;
