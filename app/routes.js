@@ -30,7 +30,6 @@ import ModalHost from "./shared/components/helper/ModalHost";
 
 const routes = (
   <Route component={ Application }>
-    <Route component={ LoginRedirect }>
       <Route component={ ModalHost }>
 
         <Route path="/" component={ MainPage } />
@@ -74,7 +73,6 @@ const routes = (
         <Route path="/auth/verify_email" component={ VerifyEmail }/>
         <Route path="*" component={ NotFound }/>
       </Route>
-    </Route>
   </Route>
 );
 
