@@ -53,16 +53,19 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
           }));
         }
         let payload = camelizeKeys(json);
-        if (schema) {
-          payload = normalize(payload.results ? payload.results : payload, schema);
+        if (payload) {
+          if (schema) {
+            // Parse the result according to the schema, eventually adding
+            // again the next, previous url
+            payload = normalize(payload.results ? payload.results : payload, schema);
+            if (json.previous) {
+              payload.previousUrl = json.previous;
+            }
+            if (json.next) {
+              payload.nextUrl = json.next;
+            }
+          }
         }
-        if (json.previous) {
-          payload.previousUrl = json.previous;
-        }
-        if (json.next) {
-          payload.nextUrl = json.next;
-        }
-        
         resolve(payload);
 
         next(actionWith({
