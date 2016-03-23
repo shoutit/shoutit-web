@@ -258,13 +258,18 @@ export class Conversation extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const { chat, entities, session, messagesByConversation } = state;
+  const {
+    paginated: { chat, messagesByConversation },
+    entities,
+    session: { user: loggedUser }
+  } = state;
+
   const conversationId = ownProps.params.id;
 
   let props = {
     isFetching: chat.isFetching,
     conversationId: conversationId,
-    loggedUser: session.user,
+    loggedUser,
     isFetchingMessages: true,
     error: chat.error
   };

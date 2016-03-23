@@ -25,12 +25,11 @@ if (process.env.BROWSER) {
 export class Header extends Component {
 
   static propTypes = {
-    flux: PropTypes.object.isRequired,
-    loggedUser: PropTypes.object,
-    location: PropTypes.object,
-    conversations: PropTypes.array,
-    chat: PropTypes.object,
-    currentLocation: PropTypes.object
+    // flux: PropTypes.object.isRequired,
+    // loggedUser: PropTypes.object,
+    // location: PropTypes.object,
+    // chat: PropTypes.object,
+    // currentLocation: PropTypes.object
   };
 
   state = {
@@ -77,11 +76,10 @@ export class Header extends Component {
   }
 
   render() {
-    const { flux, dispatch, loggedUser, conversations, chat, currentLocation={}, location, history } = this.props;
+    const { flux, dispatch, loggedUser, unreadConversations, chat, currentLocation={}, location, history } = this.props;
+
     const { country } = currentLocation;
     const { overlayName, overlayTarget, openNewShoutDialog } = this.state;
-    const unreadConversations = conversations ?
-      conversations.filter(c => c.unreadMessagesCount > 0) : [];
     return (
       <header className="Header">
         <div className="Header-logo">
@@ -91,12 +89,12 @@ export class Header extends Component {
         </div>
 
         <div className="Header-search">
-          <SearchBar
+          {/*<SearchBar
             currentLocation={ currentLocation }
             height="36"
             flux={ flux }
             history={ history }
-          />
+          />*/}
         </div>
 
         <div className="Header-links">
@@ -114,7 +112,7 @@ export class Header extends Component {
               onNotificationsClick={ e => this.showOverlay(e, "notifications") }
               onNewShoutClick={ () => this.setState({ openNewShoutDialog: true }) }
               loggedUser={ loggedUser }
-              unreadCount={ unreadConversations.length }
+              unreadCount={ unreadConversations }
             />
           </div> :
           <div className="Header-tools loggedOut">
@@ -185,12 +183,12 @@ export class Header extends Component {
             bodyStyle={{ borderRadius: "5px"}}
             contentClassName="new-shout-popup"
             onRequestClose={ () => this.setState({ openNewShoutDialog: false }) }>
-            <HeaderNewShout
+            {/*<HeaderNewShout
               flux={ flux }
               onShoutSent={ () => this.setState({ openNewShoutDialog: false }) }
               loggedUser={ loggedUser }
               currentLocation={ currentLocation }
-            />
+            />*/}
           </Dialog>
 
         ]}
@@ -201,9 +199,13 @@ export class Header extends Component {
 }
 
 function mapStateToProps(state) {
+  const { paginated, currentLocation, session, entities } = state;
+  const conversations = paginated.chat.ids.map(id => entities.conversations[id]);
+  const unreadConversations = conversations.filter(c => c.unreadMessagesCount > 0).length;
   return {
-    currentLocation: state.currentLocation,
-    loggedUser: state.session.user
+    currentLocation: currentLocation,
+    loggedUser: session.user,
+    unreadConversations
   };
 }
 

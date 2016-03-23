@@ -49,14 +49,11 @@ export function HeaderMessagesOverlay({ loggedUser, isFetching, conversations=[]
 }
 
 const mapStateToProps = state => {
-  const { entities, chat } = state;
+  const { entities: { conversations, ...entities }, paginated: { chat } } = state;
   const props = {
     loggedUser: state.session.user,
     isFetching: chat.isFetching,
-    conversations: chat.ids ?
-      chat.ids.map(id =>
-        denormalize(entities.conversations[id], entities, "CONVERSATION")
-      ) : []
+    conversations: chat.ids.map(id => denormalize(conversations[id], entities, "CONVERSATION"))
   };
   return props;
 };
