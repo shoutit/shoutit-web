@@ -21,6 +21,7 @@ export default function configureStore(initialState, { fetchr, devToolsExtension
         services(fetchr),
         pusher,
         thunk,
+        // store => next => action => { console.log("dispatching", action); next(action) },
         router(history)
       ),
       devToolsExtension ? devToolsExtension() : f => f
