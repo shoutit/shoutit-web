@@ -36,9 +36,9 @@ const paginated = combineReducers({
   }),
   chat: paginate({
     fetchTypes: [
-      actionTypes.LOAD_MESSAGES_START,
-      actionTypes.LOAD_MESSAGES_SUCCESS,
-      actionTypes.LOAD_MESSAGES_FAILURE
+      actionTypes.LOAD_CONVERSATIONS_START,
+      actionTypes.LOAD_CONVERSATIONS_SUCCESS,
+      actionTypes.LOAD_CONVERSATIONS_FAILURE
     ]
   })
 });
