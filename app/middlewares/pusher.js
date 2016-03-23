@@ -25,7 +25,7 @@ const onNewMessage = (message, store) => {
   const conversation = state.entities.conversations[conversationId];
 
   // Update conversation entity
-  payload.entities.conversations= {
+  payload.entities.conversations = {
     [conversationId]: {
       ...conversation,
       lastMessage: message.id,
