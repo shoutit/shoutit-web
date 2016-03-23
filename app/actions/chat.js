@@ -42,6 +42,26 @@ export function addMessage(payload) {  // normalized payload
   };
 }
 
+export function replyToConversation(id, replyMessage) {
+  return {
+    types: [
+      actionTypes.REPLY_CONVERSATION_START,
+      actionTypes.REPLY_CONVERSATION_SUCCESS,
+      actionTypes.REPLY_CONVERSATION_FAILURE
+    ],
+    payload: {
+      id, replyMessage
+    },
+    service: {
+      name: "conversationReply",
+      method: "create",
+      params: { id },
+      body: replyMessage,
+      schema: Schemas.MESSAGE
+    }
+  };
+}
+
 export function deleteConversation(id) {
   return {
     types: [

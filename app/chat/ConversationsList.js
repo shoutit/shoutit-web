@@ -9,7 +9,9 @@ export default function ConversationsList({ conversations, isFetching, loggedUse
     <div className="ConversationsList">
       { conversations.length > 0 &&
         <ul className="Chat-conversationsList">
-          { conversations.map(conversation =>
+          { conversations
+              .sort((a, b) => b.modifiedAt - a.modifiedAt)
+              .map(conversation =>
             <li key={ conversation.id } >
               <ConversationItem
                 conversation={ conversation }

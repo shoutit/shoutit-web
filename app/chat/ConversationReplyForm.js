@@ -1,22 +1,17 @@
 import React, { PropTypes, Component } from "react";
+import { connect } from "react-redux";
+
 import TextareaAutosize from "react-textarea-autosize";
 import Button from "../shared/components/helper/Button.jsx";
 import SVGIcon from "../shared/components/helper/SVGIcon";
+import { saveDraft } from "../actions/forms";
+import { replyToConversation } from "../actions/chat";
 
 if (process.env.BROWSER) {
-  require("./MessageReplyForm.scss");
+  require("./ConversationReplyForm.scss");
 }
 
-/**
- * A simple form to send a message. Accept draft objects.
- * @param {Object}    props.draft
- * @param {Boolean}   props.disabled
- * @param {Boolean}   props.autoFocus
- * @param {Function}  props.onSubmit
- * @param {Function}  props.onTextChange
- * @param {Function}  props.onTyping
- */
-export default class MessageReplyForm extends Component {
+export class ConversationReplyForm extends Component {
 
   static propTypes = {
     draft: PropTypes.string,
@@ -50,22 +45,21 @@ export default class MessageReplyForm extends Component {
 
   handleFormSubmit(e) {
     e.preventDefault();
-    const { disabled, onSubmit } = this.props;
+    const { disabled, conversation, dispatch } = this.props;
     const text = e.target.draft.value.trim();
     if (disabled || !text) {
       return;
     }
-    onSubmit(text);
-    e.target.draft.value = "";
-    e.target.draft.focus();
+    dispatch(replyToConversation(conversation.id, { text }));
+    // e.target.draft.value = "";
+    // e.target.draft.focus();
   }
 
   handleTextChange(e) {
     const text = e.target.value;
-    const { onTextChange, onTyping, typingTimeout } = this.props;
-    if (onTextChange) {
-      onTextChange(text);
-    }
+    const { onTyping, typingTimeout, dispatch, name } = this.props;
+    dispatch(saveDraft(name, {draft: text }));
+
     if (text && onTyping && !this.isTyping) {
       this.isTyping = true;
       onTyping();
@@ -78,23 +72,31 @@ export default class MessageReplyForm extends Component {
   }
 
   render() {
-    const  { initialValue, autoFocus, disabled, onAttachShoutClick, placeholder } = this.props;
+    const  { onAttachShoutClick, fields, name, ...attributes } = this.props;
     return (
-      <form className="MessageReplyForm" onSubmit={ e => this.handleFormSubmit(e) }>
+      <form name={ name } className="ConversationReplyForm" onSubmit={ e => this.handleFormSubmit(e) }>
         <TextareaAutosize
+          { ...attributes }
           className="htmlTextarea"
-          maxRows={5}
+          maxRows={ 5 }
           name="draft"
-          initialValue={ initialValue }
-          disabled={ disabled }
+          value={ fields.draft }
           autoComplete="off"
-          autoFocus={ autoFocus }
-          placeholder={ placeholder }
           onChange={ e => this.handleTextChange(e) }
         />
-        <Button leftIcon={ <SVGIcon name="send" fill /> } label="Send" primary type="submit" size="small" disabled={ disabled || !initialValue } className="reply" />
-        <Button label="Attach shout" type="button" size="small" disabled={ disabled } onClick={ onAttachShoutClick } />
+        <Button leftIcon={ <SVGIcon name="send" fill /> } label="Send" primary type="submit" size="small" disabled={ attributes.disabled } className="reply" />
+        <Button label="Attach shout" type="button" size="small" disabled={ attributes.disabled } onClick={ onAttachShoutClick } />
       </form>
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  const name = `conversationReply-${ownProps.conversation.id}`;
+  return {
+    name,
+    fields: state.forms[name] || { draft: "" }
+  };
+};
+
+export default connect(mapStateToProps)(ConversationReplyForm);

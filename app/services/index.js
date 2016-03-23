@@ -1,6 +1,7 @@
 export currencies from "./currencies";
 export categories from "./categories";
 export conversations from "./conversations";
+export conversationReply from "./conversationReply";
 export emailVerification from "./emailVerification";
 export location from "./location";
 export listeners from "./listeners";

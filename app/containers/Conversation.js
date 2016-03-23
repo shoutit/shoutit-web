@@ -6,7 +6,7 @@ import ConversationTitle from "../chat/ConversationTitle";
 import ConversationDeleteDialog from "../chat/ConversationDeleteDialog";
 import UserShoutsSelectDialog from "../users/UserShoutsSelectDialog";
 import MessagesList from "../chat/MessagesList";
-import MessageReplyForm from "../chat/MessageReplyForm";
+import ConversationReplyForm from "../chat/ConversationReplyForm";
 import MessagesTypingUsers from "../chat/MessagesTypingUsers";
 import Scrollable from "../ui/Scrollable";
 
@@ -137,8 +137,10 @@ export class Conversation extends React.Component {
   }
 
   render() {
+
     const { error, messagesError } = this.props;
     const { loggedUser, isFetchingMessages, isFetching, conversation, messages=[], videoCallState, draft } = this.props;
+
     const { previousUrl, dispatch, conversationId } = this.props;
     if (error) {
       return (
@@ -215,9 +217,7 @@ export class Conversation extends React.Component {
 
       { messages.length > 0 &&
         <div className="Conversation-replyFormContainer">
-          <MessageReplyForm
-            autoFocus
-          />
+          <ConversationReplyForm conversation={ conversation } autoFocus />
         </div>
       }
 
@@ -285,12 +285,17 @@ function mapStateToProps(state, ownProps) {
       previousUrl,
       error: messagesError
     } = messagesByConversation[conversationId];
+
+    const messages = ids.map(id =>
+        denormalize(entities.messages[id], entities, "MESSAGE")
+      ).sort((a, b) => a.createdAt - b.createdAt);
+
     props = {
       ...props,
       isFetchingMessages,
       previousUrl,
       messagesError,
-      messages: ids.map(id => denormalize(entities.messages[id], entities, "MESSAGE"))
+      messages
     };
   }
 

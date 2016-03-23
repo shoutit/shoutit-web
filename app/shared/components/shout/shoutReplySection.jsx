@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import {Col} from 'react-bootstrap';
 
-import ReplyInput from '../../../chat/MessageReplyForm';
+import ReplyInput from '../../../chat/ConversationReplyForm';
 import MessagesList from '../../../chat/MessagesList';
 
 export default React.createClass({
