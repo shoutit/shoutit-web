@@ -39,7 +39,6 @@ export default function({
       return tempEntity;
     }
   }
-
   return function(state={}, action) {
 
     // If the action is a create type, add a temporary entity to track its creation
@@ -54,8 +53,6 @@ export default function({
         });
       case createSuccessType:
         return omit(state, mapActionToTempId(action));
-      default:
-        return state;
       }
     }
 
