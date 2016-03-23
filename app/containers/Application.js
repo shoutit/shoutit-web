@@ -42,10 +42,10 @@ export class Application extends React.Component {
 
   componentDidMount() {
     const { dispatch, currentLocation, loggedUser } = this.props;
-    dispatch(loadSuggestions(currentLocation));
     if (loggedUser) {
       dispatch(login(loggedUser)); // trigger client-side login actions (e.g. pusher)
     }
+    dispatch(loadSuggestions(currentLocation));
   }
 
   componentDidUpdate(prevProps) {
@@ -65,6 +65,7 @@ export class Application extends React.Component {
   static fetchData = fetchData;
 
   render() {
+
     const { children, ...props } = this.props;
 
     const hideHeader = this.props.routes.some(route =>
@@ -99,14 +100,10 @@ export class Application extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { entities } = state;
   return {
-    categories: state.misc.categories.ids.map(id => entities.categories[id]),
-    shuffledCategories: state.shuffledCategories.map(id => entities.categories[id]),
-    currencies: state.misc.currencies.ids.map(id => entities.currencies[id]),
+    loggedUser: state.session.user,
     currentLocation: state.currentLocation,
-    uiNotifications: state.uiNotifications,
-    loggedUser: state.session.user
+    uiNotifications: state.uiNotifications
   };
 }
 
