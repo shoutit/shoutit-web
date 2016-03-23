@@ -11,7 +11,7 @@ if (process.env.BROWSER) {
 }
 
 export default function MessageItem({ message, isMe, readByUsers=[] }) {
-  const { createdAt, sending, text, sendError, attachments=[] } = message;
+  const { createdAt, isCreating, text, createError, attachments=[] } = message;
   const created = moment.unix(createdAt);
 
   const attachmentsContent = attachments.map((attachment, i) => {
@@ -34,16 +34,16 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
   });
   const footer = (
     <div className="MessageItem-footer">
-      {!sending && !sendError &&
+      {!isCreating && !createError &&
         <span>
           { readByUsers.length > 0 && <MessageReadByFlag profiles={ readByUsers } /> }
         </span>
       }
-      {!sending && !sendError && <span title={created.format("LLLL")}>
+      {!isCreating && !createError && <span title={created.format("LLLL")}>
           { created.format("LT") }
         </span>
       }
-      { sending && <span>Sending…</span> }
+      { isCreating && <span>Sending…</span> }
     </div>
   );
 
@@ -51,10 +51,10 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
   if (isMe) {
     className += " isMe";
   }
-  if (sendError) {
+  if (createError) {
     className += " didError";
   }
-  if (sending) {
+  if (isCreating) {
     className += " sending";
   }
 
@@ -76,8 +76,8 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
 
       </div>
 
-      { !sending && sendError &&
-        <div className="MessageItem-retry" title={sendError.message}>
+      { !isCreating && createError &&
+        <div className="MessageItem-retry" title={createError.message}>
           ⚠️ This message could not be sent
         </div>
       }

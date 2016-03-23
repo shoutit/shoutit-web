@@ -89,11 +89,12 @@ describe("reducer/entity", () => {
     }, {
       type: "CREATE_SUCCESS",
       tempId: "abc",
-      payload: { name: "Gandhi", "created": true }
+      payload: { entities: { people: { real_id: { name: "Gandhi" }}}}
     });
 
     expect(state).to.eql({
-      pqr: { name: "Mazinga" }
+      pqr: { name: "Mazinga" },
+      real_id: { name: "Gandhi" }
     });
 
   });

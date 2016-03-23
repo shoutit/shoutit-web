@@ -6,7 +6,7 @@ export default function paginate({
   fetchTypes,
   mapActionToKey,
 
-  createTypes=[],
+  createTypes,
   mapActionToTempId
 
 }) {
@@ -17,9 +17,23 @@ export default function paginate({
   if (!fetchTypes.every(t => typeof t === "string")) {
     throw new Error("Expected fetchTypes to be strings.");
   }
-
   const [ fetchStartType, fetchSuccessType, fetchFailureType ] = fetchTypes;
-  const [ createStartType, createSuccessType ] = createTypes;
+
+  let createStartType;
+  let createSuccessType;
+  if (createTypes) {
+    if (!Array.isArray(createTypes) || createTypes.length !== 2) {
+      throw new Error("Expected types to be an array of two elements (one for start action, one for success action).");
+    }
+    if (!createTypes.every(t => typeof t === "string")) {
+      throw new Error("Expected createTypes to be strings.");
+    }
+    if (typeof mapActionToTempId !== "function") {
+      throw new Error("When using createTypes, expected mapActionToTempId being a function.");
+    }
+    [ createStartType, createSuccessType ] = createTypes;
+  }
+
 
   function updateOnFetch(state={
     isFetching: false,
@@ -49,7 +63,7 @@ export default function paginate({
     }
   }
 
-  function updateOnCreation(state={
+  function updateOnCreate(state={
     ids: []
   }, action, tempId) {
     switch (action.type) {
@@ -59,15 +73,27 @@ export default function paginate({
         ids: [...state.ids, tempId]
       });
     case createSuccessType:
-      // remove temporary item from the list
-      return {...state, ids: without(state.ids, tempId) };
+      // remove temporary item from the list and add the new one
+      return {...state, ids: [...without(state.ids, tempId), action.payload.result] };
     }
   }
 
   const initialState = mapActionToKey ? {} : { ids: [] };
 
   return function updatePaginationByKey(state=initialState, action) {
+
+    if (fetchTypes || createTypes) {
+      if (typeof state !== "object") {
+        throw new Error("Expected initial state to be an object");
+      }
+      if (!mapActionToKey && !Array.isArray(state.ids)) {
+        throw new Error("Expected initial state to have an array of ids (even empty)");
+      }
+    }
+
     switch (action.type) {
+
+    // Detect fetch actions
     case fetchStartType:
     case fetchSuccessType:
     case fetchFailureType:
@@ -79,6 +105,7 @@ export default function paginate({
       }
       return merge({}, state, updateOnFetch(state, action));
 
+    // Detect create actions
     case createStartType:
     case createSuccessType:
       const tempId = mapActionToTempId(action);
@@ -87,10 +114,10 @@ export default function paginate({
         const key = mapActionToKey(action);
         return {
           ... state,
-          [key]: updateOnCreation(state[key], action, tempId)
+          [key]: updateOnCreate(state[key], action, tempId)
         };
       }
-      return updateOnCreation(state, action, tempId);
+      return updateOnCreate(state, action, tempId);
 
     default:
       return state;

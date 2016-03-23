@@ -3,25 +3,25 @@ import omit from "lodash/object/omit";
 
 export default function({
   name,
-  createTypes=[],
+  createTypes,
   mapActionToTempEntity,
   mapActionToTempId
 }) {
 
-  if (!Array.isArray(createTypes)) {
-    throw new Error("Expected createTypes to be an array of three elements.");
-  }
-
-  const [ createStartType, createSuccessType, createFailureType ] = createTypes;
-
-  if (createTypes.length > 0 && createTypes.length < 2) {
-    throw new Error("Expected createTypes to be an array of three elements.");
-  }
-  if (createTypes.length === 2 && typeof mapActionToTempEntity !== "function") {
-    throw new Error("Expected mapActionToTempEntity being a function.");
-  }
-  if (createTypes.length === 2 && typeof mapActionToTempId !== "function") {
-    throw new Error("Expected mapActionToTempId being a function.");
+  let createStartType;
+  let createSuccessType;
+  let createFailureType;
+  if (createTypes) {
+    [ createStartType, createSuccessType, createFailureType ] = createTypes;
+    if (!Array.isArray(createTypes) || createTypes.length > 0 && createTypes.length < 2) {
+      throw new Error("Expected createTypes to be an array of three elements.");
+    }
+    if (typeof mapActionToTempEntity !== "function") {
+      throw new Error("When using createTypes, expected mapActionToTempEntity being a function.");
+    }
+    if (typeof mapActionToTempId !== "function") {
+      throw new Error("When using createTypes, expected mapActionToTempId being a function.");
+    }
   }
 
   function updateTempEntity(tempEntity, action) {
@@ -39,9 +39,10 @@ export default function({
       return tempEntity;
     }
   }
+
   return function(state={}, action) {
 
-    // If the action is a create type, add a temporary entity to track its creation
+    // If the action type is a create type, add a temporary entity to track its creation
 
     if (action.hasOwnProperty("type")) {
       switch (action.type) {
@@ -52,11 +53,12 @@ export default function({
           [tempId]: updateTempEntity(state[tempId] || mapActionToTempEntity(action), action)
         });
       case createSuccessType:
-        return omit(state, mapActionToTempId(action));
+        // Remove the temp entity and add the new entities
+        return merge({}, omit(state, mapActionToTempId(action)), action.payload.entities[name]);
       }
     }
 
-    // If the action has the proper entity payload, merge its content
+    // If the action has an `entity` payload, merge its content
 
     if (action.hasOwnProperty("payload") &&
         action.payload.hasOwnProperty("entities") &&

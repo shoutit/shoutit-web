@@ -23,6 +23,7 @@ const routing = (state, action) => {
 const paginated = combineReducers({
   messagesByConversation: paginate({
     mapActionToKey: action => action.payload.conversationId,
+    mapActionToTempId: action => action.payload.message.id,
     fetchTypes: [
       actionTypes.LOAD_MESSAGES_START,
       actionTypes.LOAD_MESSAGES_SUCCESS,
@@ -30,8 +31,7 @@ const paginated = combineReducers({
     ],
     createTypes: [
       actionTypes.REPLY_CONVERSATION_START,
-      actionTypes.REPLY_CONVERSATION_SUCCESS,
-      actionTypes.REPLY_CONVERSATION_FAILURE
+      actionTypes.REPLY_CONVERSATION_SUCCESS
     ]
   }),
   chat: paginate({
@@ -51,6 +51,8 @@ const entities = combineReducers({
 
   messages: entity({
     name: "messages",
+    mapActionToTempId: action => action.payload.message.id,
+    mapActionToTempEntity: action => action.payload.message,
     createTypes: [
       actionTypes.REPLY_CONVERSATION_START,
       actionTypes.REPLY_CONVERSATION_SUCCESS,

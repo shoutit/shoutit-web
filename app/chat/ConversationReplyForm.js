@@ -45,12 +45,12 @@ export class ConversationReplyForm extends Component {
 
   handleFormSubmit(e) {
     e.preventDefault();
-    const { disabled, conversation, dispatch } = this.props;
+    const { disabled, conversation, dispatch, loggedUser } = this.props;
     const text = e.target.draft.value.trim();
     if (disabled || !text) {
       return;
     }
-    dispatch(replyToConversation(conversation.id, { text }));
+    dispatch(replyToConversation(conversation.id, loggedUser, { text }));
     // e.target.draft.value = "";
     // e.target.draft.focus();
   }
@@ -95,6 +95,7 @@ const mapStateToProps = (state, ownProps) => {
   const name = `conversationReply-${ownProps.conversation.id}`;
   return {
     name,
+    loggedUser: state.session.user,
     fields: state.forms[name] || { draft: "" }
   };
 };

@@ -1,5 +1,8 @@
 
 import * as actionTypes from "./actionTypes";
+import uuid from "uuid";
+
+import { getUnixTime } from "../utils/DateUtils";
 
 import { Schemas } from "../schemas";
 
@@ -42,7 +45,13 @@ export function addMessage(payload) {  // normalized payload
   };
 }
 
-export function replyToConversation(id, replyMessage) {
+export function replyToConversation(conversationId, sender, message) {
+  message = {
+    ...message,
+    user: sender,
+    id: "temp-" + uuid.v1(),
+    createdAt: getUnixTime()
+  };
   return {
     types: [
       actionTypes.REPLY_CONVERSATION_START,
@@ -50,13 +59,13 @@ export function replyToConversation(id, replyMessage) {
       actionTypes.REPLY_CONVERSATION_FAILURE
     ],
     payload: {
-      id, replyMessage
+      conversationId, message
     },
     service: {
       name: "conversationReply",
       method: "create",
-      params: { id },
-      body: replyMessage,
+      params: { conversationId },
+      body: message,
       schema: Schemas.MESSAGE
     }
   };
