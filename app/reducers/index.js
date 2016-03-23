@@ -1,39 +1,17 @@
 import { combineReducers } from "redux";
 import { routerReducer } from "react-router-redux";
 
-import * as actionTypes from  "../actions/actionTypes";
-
-// import entities from "./entities"; // manage entities coming from normalizr
-import paginate from "./paginate"; // manage pagination
-
-import session from "./session";
-import currentLocation from "./currentLocation";
-import chat from "./chat";
-import entities from "./entities";
-import messagesByConversation from "./messagesByConversation";
 import categories from "./categories";
 import currencies from "./currencies";
+import currentLocation from "./currentLocation";
 import currentUrl from "./currentUrl";
+import entity from "./entity";
+import forms from "./forms";
+import paginate from "./paginate";
+import session from "./session";
 import uiNotifications from "./uiNotifications";
 
-
-// Updates the pagination data for different actions.
-// const pagination = combineReducers({
-//   conversations: paginate({
-//     types: [
-//       actionTypes.LOAD_CONVERSATIONS_START,
-//       actionTypes.LOAD_CONVERSATIONS_SUCCESS,
-//       actionTypes.LOAD_CONVERSATIONS_FAILURE
-//     ]
-//   }),
-//   messages: paginate({
-//     types: [
-//       actionTypes.LOAD_MESSAGES_START,
-//       actionTypes.LOAD_MESSAGES_SUCCESS,
-//       actionTypes.LOAD_MESSAGES_FAILURE
-//     ]
-//   })
-// });
+import * as actionTypes from "../actions/actionTypes";
 
 // Add `currentUrl` to the routing's state – useful for server-side rendering
 const routing = (state, action) => {
@@ -42,13 +20,58 @@ const routing = (state, action) => {
   return state;
 };
 
+const paginated = combineReducers({
+  messagesByConversation: paginate({
+    mapActionToKey: action => action.payload.conversationId,
+    fetchTypes: [
+      actionTypes.LOAD_MESSAGES_START,
+      actionTypes.LOAD_MESSAGES_SUCCESS,
+      actionTypes.LOAD_MESSAGES_FAILURE
+    ],
+    createTypes: [
+      actionTypes.REPLY_CONVERSATION_START,
+      actionTypes.REPLY_CONVERSATION_SUCCESS,
+      actionTypes.REPLY_CONVERSATION_FAILURE
+    ]
+  }),
+  chat: paginate({
+    fetchTypes: [
+      actionTypes.LOAD_MESSAGES_START,
+      actionTypes.LOAD_MESSAGES_SUCCESS,
+      actionTypes.LOAD_MESSAGES_FAILURE
+    ]
+  })
+});
+
+const entities = combineReducers({
+
+  categories: entity({ name: "categories"}),
+  conversations: entity({ name: "conversations"}),
+  currencies: entity({ name: "currencies"}),
+
+  messages: entity({
+    name: "messages",
+    createTypes: [
+      actionTypes.REPLY_CONVERSATION_START,
+      actionTypes.REPLY_CONVERSATION_SUCCESS,
+      actionTypes.REPLY_CONVERSATION_FAILURE
+    ]
+  }),
+
+  shouts: entity({ name: "shouts"}),
+  tags: entity({ name: "tags"}),
+  users: entity({ name: "users"})
+
+});
+
+
 const rootReducer = combineReducers({
   categories,
-  chat,
-  messagesByConversation,
   currencies,
   currentLocation,
   entities,
+  forms,
+  paginated,
   routing,
   session,
   uiNotifications

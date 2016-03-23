@@ -1,46 +1,45 @@
 import merge from "lodash/object/merge";
 import union from "lodash/array/union";
+import without from "lodash/array/without";
 
-const initialState = {
-  isFetching: false,
-  nextUrl: undefined,
-  previousUrl: undefined,
-  hasNextPage: false,
-  hasPreviousPage: false,
-  ids: []
-};
+export default function paginate({
+  fetchTypes,
+  mapActionToKey,
 
-// Creates a reducer managing pagination, given the action types to handle,
-// and a function telling how to extract the key from an action.
+  createTypes=[],
+  mapActionToTempId
 
-export default function paginate({ types }) {
-  if (!Array.isArray(types) || types.length !== 3) {
+}) {
+
+  if (!Array.isArray(fetchTypes) || fetchTypes.length !== 3) {
     throw new Error("Expected types to be an array of three elements.");
   }
-  if (!types.every(t => typeof t === "string")) {
-    throw new Error("Expected types to be strings.");
+  if (!fetchTypes.every(t => typeof t === "string")) {
+    throw new Error("Expected fetchTypes to be strings.");
   }
 
-  const [ startType, successType, failureType ] = types;
+  const [ fetchStartType, fetchSuccessType, fetchFailureType ] = fetchTypes;
+  const [ createStartType, createSuccessType ] = createTypes;
 
-  function updatePagination(state=initialState, action) {
+  function updateOnFetch(state={
+    isFetching: false,
+    nextUrl: undefined,
+    previousUrl: undefined,
+    ids: []
+  }, action) {
     switch (action.type) {
-    case startType:
+    case fetchStartType:
       return merge({}, state, {
         isFetching: true
       });
-    case successType:
+    case fetchSuccessType:
       return merge({}, state, {
         isFetching: false,
         nextUrl: action.payload.nextUrl,
         previousUrl: action.payload.previousUrl,
-        hasNextPage: !!action.payload.nextUrl,
-        hasPreviousPage: !!action.payload.previousUrl,
-        ids: action.page === "previous" ?
-          union(action.payload.result, state.ids) : // put previous results first
-          union(state.ids, action.payload.result)
+        ids: union(state.ids, action.payload.result)
       });
-    case failureType:
+    case fetchFailureType:
       return merge({}, state, {
         isFetching: false,
         error: action.payload
@@ -50,17 +49,49 @@ export default function paginate({ types }) {
     }
   }
 
+  function updateOnCreation(state={
+    ids: []
+  }, action, tempId) {
+    switch (action.type) {
+    case createStartType:
+      // add temporary item to the list
+      return merge({}, state, {
+        ids: [...state.ids, tempId]
+      });
+    case createSuccessType:
+      // remove temporary item from the list
+      return {...state, ids: without(state.ids, tempId) };
+    }
+  }
+
+  const initialState = mapActionToKey ? {} : { ids: [] };
+
   return function updatePaginationByKey(state=initialState, action) {
     switch (action.type) {
-    case startType:
-    case successType:
-    case failureType:
-      if (action.paginationId) {
+    case fetchStartType:
+    case fetchSuccessType:
+    case fetchFailureType:
+      if (mapActionToKey) {
+        const key = mapActionToKey(action);
         return merge({}, state, {
-          [action.paginationId]: updatePagination(state[action.paginationId], action)
+          [key]: updateOnFetch(state[key], action)
         });
       }
-      return merge({}, state, updatePagination(state, action));
+      return merge({}, state, updateOnFetch(state, action));
+
+    case createStartType:
+    case createSuccessType:
+      const tempId = mapActionToTempId(action);
+
+      if (mapActionToKey) {
+        const key = mapActionToKey(action);
+        return {
+          ... state,
+          [key]: updateOnCreation(state[key], action, tempId)
+        };
+      }
+      return updateOnCreation(state, action, tempId);
+
     default:
       return state;
     }
