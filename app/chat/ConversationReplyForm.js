@@ -6,6 +6,8 @@ import Button from "../shared/components/helper/Button.jsx";
 import SVGIcon from "../shared/components/helper/SVGIcon";
 import { saveDraft } from "../actions/forms";
 import { replyToConversation } from "../actions/chat";
+import { ENTER } from "../utils/keycodes";
+import { trimWhitespaces } from "../utils/StringUtils";
 
 if (process.env.BROWSER) {
   require("./ConversationReplyForm.scss");
@@ -43,22 +45,21 @@ export class ConversationReplyForm extends Component {
   isTyping = false;
   typingTimeout = null;
 
-  handleFormSubmit(e) {
-    e.preventDefault();
-    const { disabled, conversation, dispatch, loggedUser } = this.props;
-    const text = e.target.draft.value.trim();
+  submit() {
+    const { disabled, conversation, dispatch, loggedUser, name } = this.props;
+    const text = trimWhitespaces(this.refs.draft.value);
     if (disabled || !text) {
       return;
     }
     dispatch(replyToConversation(conversation.id, loggedUser, { text }));
-    // e.target.draft.value = "";
-    // e.target.draft.focus();
+    dispatch(saveDraft(name, { draft: "" }));
+    this.refs.draft.focus();
   }
 
   handleTextChange(e) {
     const text = e.target.value;
     const { onTyping, typingTimeout, dispatch, name } = this.props;
-    dispatch(saveDraft(name, {draft: text }));
+    dispatch(saveDraft(name, { draft: text }));
 
     if (text && onTyping && !this.isTyping) {
       this.isTyping = true;
@@ -74,17 +75,27 @@ export class ConversationReplyForm extends Component {
   render() {
     const  { onAttachShoutClick, fields, name, ...attributes } = this.props;
     return (
-      <form name={ name } className="ConversationReplyForm" onSubmit={ e => this.handleFormSubmit(e) }>
+      <form name={ name }
+        className="ConversationReplyForm"
+        onSubmit={ e => { e.preventDefault(); this.submit(); } }
+      >
         <TextareaAutosize
           { ...attributes }
+          ref="draft"
           className="htmlTextarea"
           maxRows={ 5 }
           name="draft"
           value={ fields.draft }
           autoComplete="off"
+          onKeyDown={ e => {
+            if (e.keyCode === ENTER && !e.shiftKey) {
+              e.preventDefault();
+              this.submit();
+            }
+          }}
           onChange={ e => this.handleTextChange(e) }
         />
-        <Button leftIcon={ <SVGIcon name="send" fill /> } label="Send" primary type="submit" size="small" disabled={ attributes.disabled } className="reply" />
+        <Button leftIcon={ <SVGIcon name="send" fill /> } label="Send" primary type="submit" size="small" disabled={ attributes.disabled || !trimWhitespaces(fields.draft) } className="reply" />
         <Button label="Attach shout" type="button" size="small" disabled={ attributes.disabled } onClick={ onAttachShoutClick } />
       </form>
     );
