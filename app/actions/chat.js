@@ -7,6 +7,22 @@ import { getUnixTime } from "../utils/DateUtils";
 
 import { Schemas } from "../schemas";
 
+const parsePayloadForConversations = (payload, state) => {
+  if (!state.currentConversation) {
+    return payload;
+  }
+  payload = merge(payload, {
+    entities: {
+      conversations: {
+        [state.currentConversation]: {
+          unreadMessagesCount: 0
+        }
+      }
+    }
+  });
+  return payload;
+};
+
 export function loadConversations() {
   return {
     types: [
@@ -16,7 +32,8 @@ export function loadConversations() {
     ],
     service: {
       name: "conversations",
-      schema: Schemas.CONVERSATIONS
+      schema: Schemas.CONVERSATIONS,
+      parsePayload: parsePayloadForConversations
     }
   };
 }
@@ -31,7 +48,8 @@ export function loadConversation(id) {
     service: {
       name: "conversations",
       params: { id },
-      schema: Schemas.CONVERSATION
+      schema: Schemas.CONVERSATION,
+      parsePayload: parsePayloadForConversations
     }
   };
 }
