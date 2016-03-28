@@ -17,13 +17,8 @@ export class ConversationReplyForm extends Component {
 
   static propTypes = {
     draft: PropTypes.string,
-    autoFocus: PropTypes.bool,
-    disabled: PropTypes.bool,
-    placeholder: PropTypes.string,
     typingTimeout: PropTypes.number,
     onTyping: PropTypes.func,
-    onSubmit: PropTypes.func.isRequired,
-    onTextChange: PropTypes.func.isRequired,
     onAttachShoutClick: PropTypes.func.isRequired
   };
 
