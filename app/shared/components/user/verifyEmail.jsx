@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import DocumentTitle from "react-document-title";
+import DocumentTitle from "../../../ui/DocumentTitle";
 import Progress from "../helper/Progress.jsx";
 import Button from "../helper/Button.jsx";
 
@@ -27,7 +27,7 @@ export const VerifyEmail = React.createClass({
   render() {
     const { isVerifyingEmail, emailVerificationError } = this.props;
     return (
-      <DocumentTitle title="E-mail verification - Shoutit">
+      <DocumentTitle title="E-mail verification">
         <div>
           { isVerifyingEmail &&
             <div style={{ textAlign: "center" }}>

@@ -1,7 +1,7 @@
 import React from "react";
 import {Grid, Column, Progress} from "../helper";
 import ProfileShouts from "./ProfileShouts.jsx";
-import DocumentTitle from "react-document-title";
+import DocumentTitle from "../../../ui/DocumentTitle";
 import ProfileCover from "./profileCover.jsx";
 import assign from "lodash/object/assign";
 import EmbeddedShout from "../shouting/embeddedShout.jsx";
@@ -84,7 +84,7 @@ export default React.createClass({
       mode = this.state.editMode;
 
     return (
-      <DocumentTitle title={user.name + " - Shoutit"}>
+      <DocumentTitle title={user.name + ""}>
         <div>
           <Grid >
             <Column size="12" clear={true}>
@@ -132,7 +132,7 @@ export default React.createClass({
 
   renderNotFound() {
     return (
-      <DocumentTitle title={"User Not Found! - Shoutit"}>
+      <DocumentTitle title={"User Not Found!"}>
         <h3>User not found!</h3>
       </DocumentTitle>
     );
@@ -140,7 +140,7 @@ export default React.createClass({
 
   renderLoading() {
     return (
-      <DocumentTitle title={"[Loading...] - Shoutit"}>
+      <DocumentTitle title={"[Loading...]"}>
         <Progress />
       </DocumentTitle>
     );

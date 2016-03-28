@@ -2,7 +2,7 @@ import React from 'react';
 import {History} from 'react-router';
 import SearchShoutList from './searchShoutList.jsx';
 import SearchTagsList from './searchTagsList.jsx';
-import DocumentTitle from 'react-document-title';
+import DocumentTitle from "../ui/DocumentTitle";
 
 export default React.createClass({
   mixins: [History],

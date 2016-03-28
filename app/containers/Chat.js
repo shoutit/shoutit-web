@@ -1,9 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import DocumentTitle from "react-document-title";
-
 import FixedHeightPage from "../ui/FixedHeightPage";
 
+import DocumentTitle from "../ui/DocumentTitle";
 import ConversationsTitle from "../chat/ConversationsTitle";
 import ConversationsList from "../chat/ConversationsList";
 import { loadConversations } from "../actions/chat";
@@ -34,7 +33,7 @@ export class Chat extends React.Component {
     const unread = conversations.filter(c => c.unreadMessagesCount > 0);
     return (
       <RequiresLogin>
-        <DocumentTitle title="Messages - Shoutit">
+        <DocumentTitle title="Messages">
           <FixedHeightPage>
             <div className="Chat">
               <div className="Chat-conversations">

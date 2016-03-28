@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router";
-import DocumentTitle from "react-document-title";
 import { Input } from "react-bootstrap";
 
 import { connect } from "react-redux";
 
+import DocumentTitle from "../ui/DocumentTitle";
 import Dialog from "../shared/components/helper/Dialog.jsx";
 import Button from "../shared/components/helper/Button.jsx";
 import SocialLoginForm from "./SocialLoginForm";
@@ -150,7 +150,7 @@ export const SignupDialog = React.createClass({
     const { open, onRequestClose, loggedUser } = this.props;
     const waitingForVerification = loggedUser && !loggedUser.is_activated;
     return(
-      <DocumentTitle title="Sign up - Shoutit">
+      <DocumentTitle title="Sign up">
         <Dialog
           titleWithIcon={ waitingForVerification ? "You are done!" : "Sign up" }
           open={ open }

@@ -1,7 +1,7 @@
 import React from 'react';
 import Progress from '../helper/Progress.jsx';
 import {Icon, Grid} from '../helper';
-import DocumentTitle from 'react-document-title';
+import DocumentTitle from "../../../ui/DocumentTitle";
 import TagProfileImage from './tagProfileImage.jsx';
 import assign from 'lodash/object/assign';
 
@@ -14,7 +14,7 @@ export default React.createClass({
 
     if (tagEntry) {
       return (
-        <DocumentTitle title={tagName + " - Shoutit"}>
+        <DocumentTitle title={tagName + ""}>
           <Grid fluid={true}>
               {React.cloneElement(this.props.children, this.props)}
           </Grid>
@@ -22,7 +22,7 @@ export default React.createClass({
       );
     } else if (!this.props.loading && tagEntry === null) {
       return (
-        <DocumentTitle title="Not Found - Shoutit">
+        <DocumentTitle title="Not Found">
           <Grid fluid={true}>
             <h3>Tag not found!</h3>
           </Grid>
@@ -30,7 +30,7 @@ export default React.createClass({
       );
     } else {
       return (
-        <DocumentTitle title="Loading - Shoutit">
+        <DocumentTitle title="Loading">
           <Grid fluid={true}>
             <Progress/>
           </Grid>

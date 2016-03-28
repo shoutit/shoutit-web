@@ -1,11 +1,11 @@
 import React from "react";
-import DocumentTitle from "react-document-title";
 import Progress from "../helper/Progress.jsx";
+import DocumentTitle from "../../../ui/DocumentTitle";
 
 export default React.createClass({
   displayName: "Simple",
 
-  title: "Not implemented yet - Shoutit",
+  title: "Not implemented yet",
 
   render() {
     return (

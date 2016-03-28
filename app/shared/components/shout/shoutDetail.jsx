@@ -1,10 +1,11 @@
 import React from 'react';
-import DocumentTitle from 'react-document-title';
+
 import ShoutDetailBody from './shoutDetailBody.jsx';
 import Progress from '../helper/Progress.jsx';
 import ShoutReplySection from './shoutReplySection.jsx';
 import ShoutExtra from './shoutExtra.jsx';
 import {Column, Grid} from '../helper';
+import DocumentTitle from "../../../ui/DocumentTitle";
 
 var USER_EXTRA_SHOUTS_LIMIT = 3;
 
@@ -60,7 +61,7 @@ export default React.createClass({
 
     if (shout.id) {
       content =
-        <DocumentTitle title={shout.title + " - Shoutit"}>
+        <DocumentTitle title={shout.title + ""}>
           <div>
             <ShoutDetailBody
               shout={shout}
@@ -76,7 +77,7 @@ export default React.createClass({
         </DocumentTitle>;
     } else if (!loading && shout === null) {
       content = (
-        <DocumentTitle title={"Not found - Shoutit"}>
+        <DocumentTitle title={"Not found"}>
           <Grid fluid={true}>
             <h1>Shout not found!</h1>
           </Grid>

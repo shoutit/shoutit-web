@@ -6,12 +6,12 @@
 import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
 import {Grid, Column, Progress} from '../helper';
-import DocumentTitle from 'react-document-title';
 import DiscoverPage from './discoverPage.jsx';
+import DocumentTitle from "../../../ui/DocumentTitle";
 
 export default React.createClass({
     mixins: [new StoreWatchMixin("discovers")],
-    // 
+    //
     // statics: {
     //     // TODO: change it to proper values for server rendering
     //     fetchId: 'discoverlist',
@@ -41,7 +41,7 @@ export default React.createClass({
 
     renderLoading() {
         return(
-            <DocumentTitle title="[Loading...] - Shoutit">
+            <DocumentTitle title="[Loading...]">
                 <Progress />
             </DocumentTitle>
         );

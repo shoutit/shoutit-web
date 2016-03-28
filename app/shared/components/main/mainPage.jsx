@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import DocumentTitle from "react-document-title";
+import DocumentTitle from "../../../ui/DocumentTitle";
 import {Link as ScrollLink, Element } from "react-scroll";
 import SearchBar from "../../../layout/searchBar.jsx";
 import {Icon, Grid, Column} from "../helper";

@@ -1,10 +1,10 @@
 import React from "react";
-import DocumentTitle from "react-document-title";
 import { Link } from "react-router";
 import { Input } from "react-bootstrap";
 import { connect } from "react-redux";
 import { replace } from "react-router-redux";
 
+import DocumentTitle from "../ui/DocumentTitle";
 import Dialog from "../shared/components/helper/Dialog.jsx";
 import Button from "../shared/components/helper/Button.jsx";
 
@@ -29,7 +29,7 @@ export const ResetPasswordDialog =  React.createClass({
     const { onRequestClose, open } = this.props;
     const { isRequestingPasswordReset, passwordResetError: error } = this.props;
     return (
-      <DocumentTitle title="Reset your password - Shoutit">
+      <DocumentTitle title="Reset your password">
         <Dialog
           titleWithIcon="Reset your password"
           open={ open }

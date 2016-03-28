@@ -18,7 +18,7 @@ export default function Progress({ centerVertical=false, centerHorizontal=true, 
 
   return (
     <div className={ className }>
-      <CircularProgress {...otherProps} />
+      Loading...
     </div>
   );
 }

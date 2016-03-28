@@ -3,7 +3,7 @@ import {Link} from "react-router";
 import { connect } from "react-redux";
 import { replace } from "react-router-redux";
 
-import DocumentTitle from "react-document-title";
+import DocumentTitle from "../ui/DocumentTitle";
 import Dialog from "../shared/components/helper/Dialog.jsx";
 
 import SocialLoginForm from "./SocialLoginForm";
@@ -25,7 +25,7 @@ export const LoginDialog = React.createClass({
     const { isLoggingIn, loginError, location } = this.props;
     const { open, onRequestClose, onSubmit } = this.props;
     return (
-      <DocumentTitle title="Log in - Shoutit">
+      <DocumentTitle title="Log in">
         <Dialog
           titleWithIcon="Log in"
           open={ open }

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {StoreWatchMixin} from 'fluxxor';
-import DocumentTitle from 'react-document-title';
+import DocumentTitle from "../../../ui/DocumentTitle";
 import {Grid, Column, Progress} from '../helper';
 import {ItemScope, ItemProp} from './../helper/microdata';
 import CoverImage from './coverImage.jsx';
@@ -11,7 +11,7 @@ import ViewportSensor from '../misc/ViewportSensor.jsx';
 
 export default React.createClass({
   mixins: [new StoreWatchMixin("discovers", "shouts")],
-  // 
+  //
   // statics: {
   //   // TODO: change it to proper values for server rendering
   //   fetchId: 'discoverid',
@@ -58,7 +58,7 @@ export default React.createClass({
     const shouts = shoutsList.map((shoutId) => this.state.discoverShouts[shoutId]);
 
     return (
-      <DocumentTitle title={discover.title + ' - Shoutit'}>
+      <DocumentTitle title={discover.title + ''}>
         <Grid fluid={true}>
           <CoverImage title={discover.title} image={discover.image}/>
           <Grid fluid={true}>
@@ -101,7 +101,7 @@ export default React.createClass({
 
   renderLoading() {
     return (
-      <DocumentTitle title="[Loading...] - Shoutit">
+      <DocumentTitle title="[Loading...]">
         <Progress />
       </DocumentTitle>
     );
