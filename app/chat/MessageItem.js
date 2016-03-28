@@ -69,7 +69,7 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
         }
         { text &&
           <div className="MessageItem-text">
-            <p> { text } </p>
+            <p>{ text }</p>
             { footer }
           </div>
         }
