@@ -10,7 +10,7 @@ import ConversationReplyForm from "../chat/ConversationReplyForm";
 import MessagesTypingUsers from "../chat/MessagesTypingUsers";
 import Scrollable from "../ui/Scrollable";
 
-import { loadMessages, deleteConversation } from "../actions/chat";
+import { loadMessages, deleteConversation, setCurrentConversation } from "../actions/chat";
 import { denormalize } from "../schemas";
 
 import Progress from "../shared/components/helper/Progress.jsx";
@@ -52,8 +52,9 @@ export class Conversation extends React.Component {
   };
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(loadMessages(this.props.conversationId));
+    const { dispatch, conversationId } = this.props;
+    dispatch(loadMessages(conversationId));
+    dispatch(setCurrentConversation(conversationId));
     // this.subscribePresenceChannel();
   }
 
@@ -69,11 +70,13 @@ export class Conversation extends React.Component {
     const { conversationId, dispatch } = this.props;
     if (prevProps.conversationId !== conversationId) {
       dispatch(loadMessages(conversationId));
+      dispatch(setCurrentConversation(conversationId));
     }
   }
 
   componentWillUnmount() {
     this.unsubscribePresenceChannel();
+    this.props.dispatch(setCurrentConversation());
   }
 
   presenceChannel: null;

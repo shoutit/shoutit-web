@@ -3,6 +3,8 @@ import { routerReducer } from "react-router-redux";
 
 import categories from "./categories";
 import currencies from "./currencies";
+import currentConversation from "./currentConversation";
+import conversations from "./entities-conversations";
 import currentLocation from "./currentLocation";
 import currentUrl from "./currentUrl";
 import entity from "./entity";
@@ -47,7 +49,13 @@ const paginated = combineReducers({
 const entities = combineReducers({
 
   categories: entity({ name: "categories"}),
-  conversations: entity({ name: "conversations"}),
+
+  conversations: (state, action) => {
+    state = entity({ name: "conversations"})(state, action),
+    state = conversations(state, action);
+    return state;
+  },
+
   currencies: entity({ name: "currencies"}),
 
   messages: entity({
@@ -71,6 +79,7 @@ const entities = combineReducers({
 const rootReducer = combineReducers({
   categories,
   currencies,
+  currentConversation,
   currentLocation,
   entities,
   forms,

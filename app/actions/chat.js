@@ -59,6 +59,13 @@ export function addMessage(payload) {  // normalized payload
   };
 }
 
+export function setCurrentConversation(id=null) {
+  return {
+    type: actionTypes.SET_CURRENT_CONVERSATION,
+    payload: id
+  };
+}
+
 export function replyToConversation(conversationId, sender, message) {
   message = {
     ...message,

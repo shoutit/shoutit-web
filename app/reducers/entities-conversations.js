@@ -1,4 +1,5 @@
 import merge from "lodash/object/merge";
+import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   categories: {},
@@ -11,8 +12,13 @@ const initialState = {
 };
 
 export default function(state=initialState, action) {
-  if (action.payload && action.payload.entities) {
-    return merge({}, state, action.payload.entities);
+  switch (action.type) {
+  case actionTypes.SET_CURRENT_CONVERSATION:
+    return merge({}, state, {
+      [action.payload]: {
+        unreadMessagesCount: 0
+      }
+    });
   }
   return state;
 }
