@@ -14,6 +14,9 @@ const initialState = {
 export default function(state=initialState, action) {
   switch (action.type) {
   case actionTypes.SET_CURRENT_CONVERSATION:
+    if (!action.payload) {
+      return state;
+    }
     return merge({}, state, {
       [action.payload]: {
         unreadMessagesCount: 0

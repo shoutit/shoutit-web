@@ -59,10 +59,17 @@ export function addMessage(payload) {  // normalized payload
   };
 }
 
-export function setCurrentConversation(id=null) {
+export function setCurrentConversation(id) {
   return {
     type: actionTypes.SET_CURRENT_CONVERSATION,
     payload: id
+  };
+}
+
+export function unsetCurrentConversation() {
+  return {
+    type: actionTypes.SET_CURRENT_CONVERSATION,
+    payload: null
   };
 }
 
