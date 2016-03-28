@@ -4,7 +4,11 @@ import { parseErrorResponse } from "../utils/APIUtils";
 export default {
   name: "conversations",
 
-  read: (req, resource, params, config, callback) => {
+  read: (req, resource, { id }, config, callback) => {
+    let url = "/conversations";
+    if (id) {
+      url += `/${id}`;
+    }
     request
       .get("/conversations")
       .setSession(req.session)
