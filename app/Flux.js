@@ -5,10 +5,7 @@ import debug from "debug";
 
 import * as stores from "./stores";
 
-import ChatStore from "./stores/ChatStore";
 import UINotificationsStore from "./stores/UINotificationsStore";
-import ConversationsStore from "./stores/ConversationsStore";
-import MessagesStore from "./stores/MessagesStore";
 import VideoCallsStore from "./stores/VideoCallsStore";
 
 import UsersStore from "./shared/stores/users/store";
