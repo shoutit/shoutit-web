@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import MessageReadByFlag from "./MessageReadByFlag";
 import ShoutItem from "../shared/components/shout/ShoutItem.jsx";
 import GoogleStaticMap from "../shared/components/misc/GoogleStaticMap.jsx";
+import NewlineToBreak from "../ui/NewlineToBreak";
 
 if (process.env.BROWSER) {
   require("./MessageItem.scss");
@@ -69,7 +70,9 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
         }
         { text &&
           <div className="MessageItem-text">
-            <p>{ text }</p>
+            <p>
+              <NewlineToBreak>{ text }</NewlineToBreak>
+            </p>
             { footer }
           </div>
         }
