@@ -21,6 +21,21 @@ export function loadConversations() {
   };
 }
 
+export function loadConversation(id) {
+  return {
+    types: [
+      actionTypes.LOAD_CONVERSATION_START,
+      actionTypes.LOAD_CONVERSATION_SUCCESS,
+      actionTypes.LOAD_CONVERSATION_FAILURE
+    ],
+    service: {
+      name: "conversations",
+      params: { id },
+      schema: Schemas.CONVERSATION
+    }
+  };
+}
+
 export function loadMessages(conversationId, endpoint) {
   return {
     types: [
@@ -31,9 +46,7 @@ export function loadMessages(conversationId, endpoint) {
     payload: { conversationId },
     service: {
       name: "messages",
-      params: {
-        conversationId, endpoint
-      },
+      params: { conversationId, endpoint },
       schema: Schemas.MESSAGES
     }
   };
