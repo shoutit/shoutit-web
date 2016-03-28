@@ -1,6 +1,7 @@
 
 import * as actionTypes from "./actionTypes";
 import uuid from "uuid";
+import merge from "lodash/object/merge";
 
 import { getUnixTime } from "../utils/DateUtils";
 
@@ -66,7 +67,23 @@ export function replyToConversation(conversationId, sender, message) {
       method: "create",
       params: { conversationId },
       body: message,
-      schema: Schemas.MESSAGE
+      schema: Schemas.MESSAGE,
+      parsePayload: payload => {
+        // Add the last message to the conversation
+        const messageId = payload.result;
+        const message = payload.entities.messages[messageId];
+        payload = merge(payload, {
+          entities: {
+            conversations: {
+              [message.conversationId]: {
+                lastMessage: messageId,
+                modifiedAt: message.createdAt
+              }
+            }
+          }
+        });
+        return payload;
+      }
     }
   };
 }
