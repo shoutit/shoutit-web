@@ -59,10 +59,7 @@ export default function({
     }
 
     // If the action has an `entity` payload, merge its content
-
-    if (action.hasOwnProperty("payload") &&
-        action.payload.hasOwnProperty("entities") &&
-        action.payload.entities.hasOwnProperty(name)) {
+    if (action.payload && action.payload.entities && action.payload.entities[name]) {
       return merge({}, state, action.payload.entities[name]);
     }
 
