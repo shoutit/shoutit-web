@@ -10,7 +10,7 @@ export default {
       url += `/${id}`;
     }
     request
-      .get("/conversations")
+      .get(url)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {
