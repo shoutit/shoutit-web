@@ -136,9 +136,9 @@ export function replyToConversation(conversationId, sender, message) {
 export function deleteConversation(id) {
   return {
     types: [
-      actionTypes.DELETE_CONVERSATION_START,
-      actionTypes.DELETE_CONVERSATION_SUCCESS,
-      actionTypes.DELETE_CONVERSATION_FAILURE
+      actionTypes.LEAVE_CONVERSATION_START,
+      actionTypes.LEAVE_CONVERSATION_SUCCESS,
+      actionTypes.LEAVE_CONVERSATION_FAILURE
     ],
     payload: { id },
     service: {

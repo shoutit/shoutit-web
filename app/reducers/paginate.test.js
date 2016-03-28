@@ -309,8 +309,30 @@ describe("reducer/paginate", () => {
           ids: ["foo", "abc", "bar"]
         });
       });
-      
+
     });
 
   });
+
+  describe("updates pagination when delete action type is dispatched", () => {
+
+    describe("without mapping the action by key", () => {
+      const reduce = paginate({
+        deleteType: "DELETE"
+      });
+
+      it("should delete an existing item", () => {
+        const state = reduce({ ids: ["foo", "abc"] }, {
+          type: "DELETE",
+          payload: { id: "abc" }
+        });
+        expect(state).to.eql({
+          ids: ["foo"]
+        });
+      });
+
+    });
+
+  });
+
 });

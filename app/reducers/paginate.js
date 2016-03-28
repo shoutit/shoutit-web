@@ -9,7 +9,9 @@ export default function paginate({
   createTypes,
   mapActionToTempId,
 
-  addType
+  addType,
+
+  deleteType
 
 }) {
 
@@ -41,10 +43,12 @@ export default function paginate({
     [ createStartType, createSuccessType ] = createTypes;
   }
 
-  if (addType) {
-    if (typeof addType !== "string") {
-      throw new Error("Expected addType to be a string");
-    }
+  if (addType && typeof addType !== "string") {
+    throw new Error("Expected addType to be a string");
+  }
+
+  if (deleteType && typeof deleteType !== "string") {
+    throw new Error("Expected addType to be a string");
   }
 
   function updateOnFetch(state={
@@ -103,9 +107,14 @@ export default function paginate({
     if (!action.payload || !action.payload.result) {
       throw new Error("Expected a payload object with a result containing the entity's id");
     }
-    if (action.type === addType) {
-      return {...state, ids: [...state.ids, action.payload.result] };
+    return {...state, ids: [...state.ids, action.payload.result] };
+  }
+
+  function updateOnDelete(state={ids: []}, action) {
+    if (!action.payload || (typeof action.payload.id !== "string" && typeof action.payload.id !== "number")) {
+      throw new Error("Expected a payload object with the deleted entity's id");
     }
+    return {...state, ids: [...without(state.ids, action.payload.id)] };
   }
 
   const initialState = mapActionToKey ? {} : { ids: [] };
@@ -159,6 +168,17 @@ export default function paginate({
         };
       }
       return updateOnAdd(state, action);
+
+    // Detect delete action
+    case deleteType:
+      if (mapActionToKey) {
+        const key = mapActionToKey(action);
+        return {
+          ... state,
+          [key]: updateOnDelete(state[key], action)
+        };
+      }
+      return updateOnDelete(state, action);
 
     default:
       return state;
