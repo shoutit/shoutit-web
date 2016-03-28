@@ -42,7 +42,9 @@ const paginated = combineReducers({
       actionTypes.LOAD_CONVERSATIONS_START,
       actionTypes.LOAD_CONVERSATIONS_SUCCESS,
       actionTypes.LOAD_CONVERSATIONS_FAILURE
-    ]
+    ],
+    addType: actionTypes.LOAD_CONVERSATION_SUCCESS,
+    deleteType: actionTypes.LEAVE_CONVERSATION_SUCCESS
   })
 });
 
