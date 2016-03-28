@@ -36,7 +36,7 @@ export default function(state={}, action) {
       }
     };
 
-  case actionTypes.ADD_NEW_MESSAGE:
+  case actionTypes.ADD_MESSAGE:
     const { conversationId } = payload;
     const conversation = {
       ...state[conversationId],

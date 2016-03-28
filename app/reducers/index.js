@@ -32,7 +32,8 @@ const paginated = combineReducers({
     createTypes: [
       actionTypes.REPLY_CONVERSATION_START,
       actionTypes.REPLY_CONVERSATION_SUCCESS
-    ]
+    ],
+    addType: actionTypes.ADD_MESSAGE
   }),
   chat: paginate({
     fetchTypes: [

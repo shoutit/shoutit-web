@@ -54,7 +54,7 @@ export function loadMessages(conversationId, endpoint) {
 
 export function addMessage(payload) {  // normalized payload
   return {
-    type: actionTypes.ADD_NEW_MESSAGE,
+    type: actionTypes.ADD_MESSAGE,
     payload
   };
 }

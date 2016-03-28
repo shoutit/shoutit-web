@@ -8,7 +8,7 @@ import { pusherAppKey } from "../config";
 import * as actionTypes from "../actions/actionTypes";
 
 import { Schemas } from "../schemas";
-import { addMessage } from "../actions/chat";
+import { addMessage, loadConversation } from "../actions/chat";
 
 const log = debug("shoutit:pusherMiddleware");
 // Pusher.log = log;
@@ -19,24 +19,29 @@ const client = new Pusher(pusherAppKey, {
 });
 
 const onNewMessage = (message, store) => {
-  const state = store.getState();
-  const payload = normalize(message, Schemas.MESSAGE);
+  const { currentConversation, entities: { conversations } } = store.getState();
   const { conversationId } = message;
-  const conversation = state.entities.conversations[conversationId];
+  const conversation = conversations[conversationId];
+  const payload = normalize(message, Schemas.MESSAGE);
 
-  // Update conversation entity
-  payload.entities.conversations = {
-    [conversationId]: {
-      ...conversation,
-      lastMessage: message.id,
-      modifiedAt: message.createdAt,
-      messagesCount: conversation.messagesCount + 1,
-      unreadMessagesCount: conversation.messagesCount // TODO:
+  if (!conversation) {
+    store.dispatch(loadConversation(conversationId));
+  } else {
+    let unreadMessagesCount = conversation.unreadMessagesCount;
+    if (currentConversation !== conversationId) {
+      unreadMessagesCount += 1;
     }
-  };
-
-  const ids = state.messagesByConversation[conversationId] ? state.messagesByConversation[conversationId].ids : [];
-  payload.result = [...ids, message.id];
+    // Update existing conversation entity
+    payload.entities.conversations = {
+      [conversationId]: {
+        lastMessage: message.id,
+        modifiedAt: message.createdAt,
+        messagesCount: conversation.messagesCount + 1,
+        unreadMessagesCount
+      }
+    };
+  }
+  payload.result = message.id;
   payload.conversationId = conversationId;
   store.dispatch(addMessage(payload));
 };

@@ -291,4 +291,26 @@ describe("reducer/paginate", () => {
     });
   });
 
+  describe("updates pagination when add action type is dispatched", () => {
+
+    describe("without mapping the action by key", () => {
+      const reduce = paginate({
+        addType: "ADD"
+      });
+
+      it("should add the new item", () => {
+        const state = reduce({ ids: ["foo", "abc"] }, {
+          type: "ADD",
+          payload: {
+            result: "bar"
+          }
+        });
+        expect(state).to.eql({
+          ids: ["foo", "abc", "bar"]
+        });
+      });
+      
+    });
+
+  });
 });
