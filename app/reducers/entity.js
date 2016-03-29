@@ -1,5 +1,8 @@
 import merge from 'lodash/object/merge';
 import omit from 'lodash/object/omit';
+import debug from 'debug';
+
+const log = debug('shoutit:entity-reducer');
 
 export default function ({
   name,
@@ -60,6 +63,7 @@ export default function ({
 
     // If the action has an `entity` payload, merge its content
     if (action.payload && action.payload.entities && action.payload.entities[name]) {
+      log('Reducing new entity in %s', name, action.payload.entities[name]);
       return merge({}, state, action.payload.entities[name]);
     }
 
