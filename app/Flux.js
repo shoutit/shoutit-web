@@ -6,7 +6,6 @@ import debug from 'debug';
 import * as stores from './stores';
 
 import UINotificationsStore from './stores/UINotificationsStore';
-import VideoCallsStore from './stores/VideoCallsStore';
 
 import UsersStore from './shared/stores/users/store';
 import ShoutStore from './shared/stores/shouts/store';
@@ -55,7 +54,6 @@ export default function Flux(fetchr) {
     tags: new TagStore(),
     ui_notifications: new UINotificationsStore(),
     users: new UsersStore(),
-    videocall: new VideoCallsStore(),
   };
 
   for (const store in stores) {
