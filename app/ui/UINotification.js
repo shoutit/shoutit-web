@@ -8,7 +8,7 @@ if (process.env.BROWSER) {
 export default class UINotification extends React.Component {
 
   static propTypes = {
-    dismissUINotification: React.PropTypes.func,
+    onDismissClick: React.PropTypes.func,
     icon: React.PropTypes.element,
     showDismissButton: React.PropTypes.bool,
     buttons: React.PropTypes.array,
@@ -51,7 +51,7 @@ export default class UINotification extends React.Component {
   }
 
   render() {
-    const { icon, children, dismissUINotification, showDismissButton, buttons, type } = this.props;
+    const { icon, children, onDismissClick, showDismissButton, buttons, type } = this.props;
     const { style } = this.state;
     const className = `UINotification type-${type}`;
 
@@ -67,7 +67,7 @@ export default class UINotification extends React.Component {
 
             { showDismissButton &&
               <span className="UINotification-dismiss">
-                <SVGIcon size="small" name="close" onClick={ () => dismissUINotification() } />
+                <SVGIcon size="small" name="close" onClick={ () => onDismissClick() } />
               </span>
             }
 

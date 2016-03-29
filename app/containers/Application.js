@@ -87,10 +87,7 @@ export class Application extends React.Component {
         <div className="App-content">
           { React.cloneElement(children, props) }
         </div>
-        <UINotificationsHost
-          notifications={ this.props.uiNotifications }
-          flux={ props.flux }
-        />
+        <UINotificationsHost />
         { props.videoCallState && props.videoCallState.currentConversation &&
           <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }
       </div>
@@ -102,7 +99,6 @@ function mapStateToProps(state) {
   return {
     loggedUser: state.session.user,
     currentLocation: state.currentLocation,
-    uiNotifications: state.uiNotifications,
   };
 }
 
