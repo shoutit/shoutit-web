@@ -48,7 +48,6 @@ const handleNewMessageNotification = (message, store) => {
 
 const typingTimeouts = {};
 const handleUserIsTypingNotification = (conversationId, user, store) => {
-
   log('Dispatching typing user...');
 
   if (typingTimeouts[conversationId]) {
@@ -66,7 +65,6 @@ const handleUserIsTypingNotification = (conversationId, user, store) => {
 };
 
 export default store => next => action => { // eslint-disable-line no-unused-vars
-
   let channelId;
 
   switch (action.type) {
@@ -118,8 +116,8 @@ export default store => next => action => { // eslint-disable-line no-unused-var
       chatChannel.bind('pusher:subscription_succeeded', () => {
         log('Channel %s subscribed and listening for events', channelId);
 
-        chatChannel.bind('client-user_is_typing', user =>
-        handleUserIsTypingNotification(conversationId, camelizeKeys(user), store)
+        chatChannel.bind('client-user_is_typing', typingUser =>
+          handleUserIsTypingNotification(conversationId, camelizeKeys(typingUser), store)
       );
 
       // chatChannel.bind("left_chat", payload => store.dispatch(newListen(payload)));

@@ -17,9 +17,9 @@ import * as actionTypes from '../actions/actionTypes';
 
 // Add `currentUrl` to the routing's state – useful for server-side rendering
 const routing = (state, action) => {
-  state = currentUrl(state, action);
-  state = routerReducer(state, action);
-  return state;
+  let newState = currentUrl(state, action);
+  newState = routerReducer(newState, action);
+  return newState;
 };
 
 const paginated = combineReducers({
@@ -53,9 +53,9 @@ const entities = combineReducers({
   categories: entity({ name: 'categories' }),
 
   conversations: (state, action) => {
-    state = entity({ name: 'conversations' })(state, action),
-    state = conversations(state, action);
-    return state;
+    let newState = entity({ name: 'conversations' })(state, action);
+    newState = conversations(newState, action);
+    return newState;
   },
 
   currencies: entity({ name: 'currencies' }),

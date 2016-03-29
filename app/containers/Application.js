@@ -24,14 +24,14 @@ const fetchData = (store) => {
 
   promises.push(
     store.dispatch(getCurrentSession()).then(user => {
-      const promises = [];
+      const sessionPromises = [];
       if (user) {
-        promises.push(store.dispatch(login(user)));
+        sessionPromises.push(store.dispatch(login(user)));
       }
       if (!user || !user.location) {
-        promises.push(store.dispatch(getCurrentLocation()));
+        sessionPromises.push(store.dispatch(getCurrentLocation()));
       }
-      return Promise.all(promises);
+      return Promise.all(sessionPromises);
     })
   );
 
@@ -39,6 +39,8 @@ const fetchData = (store) => {
 };
 
 export class Application extends React.Component {
+
+  static fetchData = fetchData;
 
   componentDidMount() {
     const { dispatch, currentLocation, loggedUser } = this.props;
@@ -62,10 +64,7 @@ export class Application extends React.Component {
     }
   }
 
-  static fetchData = fetchData;
-
   render() {
-
     const { children, ...props } = this.props;
 
     const hideHeader = this.props.routes.some(route =>

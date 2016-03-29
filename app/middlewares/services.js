@@ -4,7 +4,6 @@ import { camelizeKeys } from 'humps';
 import merge from 'lodash/object/merge';
 
 export default fetchr => store => next => action => { // eslint-disable-line no-unused-vars
-
   if (!action.service) {
     return next(action);
   }
@@ -20,7 +19,6 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
   if (typeof name !== 'string') {
     throw new Error('Must specify a fetchr service name');
   }
-
   if (!Array.isArray(types) || types.length !== 3) {
     throw new Error('Expected an array of three action types');
   }
@@ -42,18 +40,17 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
   next(actionWith({ type: startType }));
 
   return new Promise(resolve => {
-
     fetchr[method](name)
       .params(params)
       .body(body)
       .end((err, json) => {
-
         if (err) {
-          return next(actionWith({
+          next(actionWith({
             error: true,
             payload: err.body,
             type: failureType,
           }));
+          return;
         }
         let payload = camelizeKeys(json);
         if (payload) {

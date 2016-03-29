@@ -12,7 +12,7 @@ export default {
         if (err) {
           return callback(parseErrorResponse(err));
         }
-        callback(null, res.body);
+        return callback(null, res.body);
       });
   },
 };

@@ -39,8 +39,7 @@ flux.setDispatchInterceptor((action, dispatch) => {
 if (window.__state) {
   flux.rehydrate(window.__state);
   log('Flux stores has been rehydrated');
-}
-else {
+} else {
   console.warn('No data to rehydrate in the flux stores');
 }
 
@@ -64,16 +63,16 @@ ReactDOM.render(
 
   <Router
     history={ history }
-    render={ props => {
+    render={ renderProps => {
       if (firstRender) {
-        logRouter('First time rendering %s...', props.location.pathname, props);
+        logRouter('First time rendering %s...', renderProps.location.pathname, renderProps);
       } else {
-        logRouter('Rendering %s...', props.location.pathname, props);
+        logRouter('Rendering %s...', renderProps.location.pathname, renderProps);
       }
       const _firstRender = firstRender;
       const routerContext = (
         <Provider store={ store }>
-          <RouterContext {...props}
+          <RouterContext {...renderProps}
             createElement={ (Component, props) => {
               logRouter('Creating element for %s %s, first render? %s',
                 Component.displayName || Component.name, props.location.pathname, _firstRender
