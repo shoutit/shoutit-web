@@ -99,7 +99,7 @@
     "webrtcsupport": "2.2.0"
   },
   "devDependencies": {
-    "autoprefixer": "6.3.3",
+    "autoprefixer": "6.3.5",
     "babel-cli": "6.6.5",
     "babel-preset-react-hmre": "1.1.1",
     "chai": "3.5.0",
@@ -128,20 +128,20 @@
     "react-addons-test-utils": "0.14.7",
     "react-shallow-renderer-helpers": "2.0.2",
     "react-transform-catch-errors": "1.0.2",
-    "react-transform-hmr": "1.0.1",
+    "react-transform-hmr": "1.0.4",
     "redbox-react": "1.2.2",
     "rimraf": "2.5.2",
-    "sass-loader": "3.1.2",
+    "sass-loader": "3.2.0",
     "sinon": "1.17.3",
     "sinon-chai": "2.8.0",
     "skin-deep": "0.14.0",
     "sprity-cli": "1.0.1",
-    "style-loader": "0.13.0",
+    "style-loader": "0.13.1",
     "webpack": "1.12.14",
     "webpack-bundle-size-analyzer": "2.0.1",
-    "webpack-dev-middleware": "1.5.1",
+    "webpack-dev-middleware": "1.6.1",
     "webpack-error-notification": "0.1.6",
-    "webpack-hot-middleware": "2.7.1",
+    "webpack-hot-middleware": "2.10.0",
     "webpack-stats-plugin": "0.1.1"
   }
 }
