@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import DocumentTitle from "../../../ui/DocumentTitle";
 import Progress from "../helper/Progress.jsx";
-import Button from "../helper/Button.jsx";
+import Button from "../../../ui/Button";
 
 import { verifyEmail } from "../../../actions/session";
 

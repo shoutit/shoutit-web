@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import SVGIcon from '../shared/components/helper/SVGIcon';
-import Button from '../shared/components/helper/Button.jsx';
+import Button from '../ui/Button';
 import UserAvatar from '../users/UserAvatar';
 
 if (process.env.BROWSER) {

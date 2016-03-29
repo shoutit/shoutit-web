@@ -6,7 +6,7 @@ import { replace } from 'react-router-redux';
 
 import DocumentTitle from '../ui/DocumentTitle';
 import Dialog from '../shared/components/helper/Dialog.jsx';
-import Button from '../shared/components/helper/Button.jsx';
+import Button from '../ui/Button';
 
 import { requestPasswordReset } from '../actions/session';
 

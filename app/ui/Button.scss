@@ -1,4 +1,4 @@
-@import "../constants/colors.scss";
+@import "../styles/constants/colors.scss";
 
 $border-radius: 5px;
 
@@ -9,7 +9,7 @@ $border-radius: 5px;
   vertical-align: middle;
   border-radius: $border-radius;
   height: 36px;
-  line-height: 32px;
+  line-height: 36px;
   background-color: transparent;
 
   white-space: nowrap;
@@ -27,7 +27,7 @@ $border-radius: 5px;
   &.size-small {
 
     height: 32px;
-    line-height: 28px;
+    line-height: 32px;
 
     > .Button-label {
       padding-left: 10px;

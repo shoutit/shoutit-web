@@ -1,6 +1,6 @@
-import React from "react";
-import Button from "../helper/Button.jsx";
-import SVGIcon from "../helper/SVGIcon";
+import React from 'react';
+import Button from '../../../ui/Button';
+import SVGIcon from '../helper/SVGIcon';
 
 export function FacebookButton(props) {
   return (

@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import TextareaAutosize from 'react-textarea-autosize';
-import Button from '../shared/components/helper/Button.jsx';
+import Button from '../ui/Button';
 import SVGIcon from '../shared/components/helper/SVGIcon';
 import { saveDraft } from '../actions/forms';
 import { replyToConversation, notifyTypingUser } from '../actions/chat';

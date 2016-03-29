@@ -3,7 +3,7 @@ import {Link} from "react-router";
 import {Icon, Grid, Column, Progress} from "../helper";
 import SVGIcon from "../helper/SVGIcon";
 import ReplyShoutForm from "../shout/ReplyShoutForm.jsx";
-import Button from "../helper/Button.jsx";
+import Button from "../../../ui/Button";
 
 if (process.env.BROWSER) {
   require("styles/components/ContactOwnerCard.scss");

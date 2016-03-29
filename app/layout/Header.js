@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 import Dialog from '../shared/components/helper/Dialog';
 import Overlay from '../shared/components/helper/Overlay';
-import Button from '../shared/components/helper/Button.jsx';
+import Button from '../ui/Button';
 import SearchBar from './searchBar.jsx';
 
 import HeaderMessagesOverlay from './HeaderMessagesOverlay';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input } from 'react-bootstrap';
 
-import Button from '../shared/components/helper/Button.jsx';
+import Button from '../ui/Button';
 
 export default function NativeLoginForm({ loading, onSubmit, error }) {
 

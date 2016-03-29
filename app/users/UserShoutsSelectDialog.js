@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { Modal } from 'react-bootstrap';
 
 import Progress from '../shared/components/helper/Progress.jsx';
-import Button from '../shared/components/helper/Button.jsx';
+import Button from '../ui/Button';
 import ShoutItem from '../shared/components/shout/ShoutItem.jsx';
 
 if (process.env.BROWSER) {

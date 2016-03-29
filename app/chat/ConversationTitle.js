@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import Button from '../shared/components/helper/Button.jsx';
+import Button from '../ui/Button';
 import VideocallButton from "../videoCalls/VideocallButton"
 
 if (process.env.BROWSER) {

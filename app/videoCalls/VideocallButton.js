@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import SVGIcon from '../shared/components/helper/SVGIcon';
-import Button from '../shared/components/helper/Button.jsx';
+import Button from '../ui/Button';
 
 import { startVideocall } from '../actions/videocalls';
 
