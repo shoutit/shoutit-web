@@ -2,15 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Header from '../layout/Header';
-import MainPage from '../shared/components/main/mainPage.jsx';
 import UINotificationsHost from '../ui/UINotificationsHost';
 import VideoCallHost from '../videoCalls/VideoCallHost';
 
 import { getCurrentSession, login } from '../actions/session';
 import { loadCategories, loadCurrencies } from '../actions/misc';
 import { getCurrentLocation, loadSuggestions } from '../actions/location';
-
-const pagesWithoutHeader = [MainPage];
 
 if (process.env.BROWSER) {
   require('normalize.css/normalize.css');
@@ -67,14 +64,12 @@ export class Application extends React.Component {
 
   render() {
     const { children, ...props } = this.props;
-
-    const hideHeader = this.props.routes.some(route =>
-      pagesWithoutHeader.indexOf(route.component) > -1
-    );
-
+    let className = 'App';
+    if (!(!props.loggedUser && props.currentUrl === '/')) {
+      className += ' stickyHeader';
+    }
     return (
-      <div className={`App${hideHeader ? '' : ' stickyHeader'}` }>
-        { !hideHeader &&
+      <div className={ className }>
           <div className="App-header">
             <Header
               history={ props.history }
@@ -84,7 +79,6 @@ export class Application extends React.Component {
               location={ props.location }
             />
           </div>
-        }
         <div className="App-content">
           { React.cloneElement(children, props) }
         </div>
@@ -100,6 +94,7 @@ function mapStateToProps(state) {
   return {
     loggedUser: state.session.user,
     currentLocation: state.currentLocation,
+    currentUrl: state.routing.currentUrl,
   };
 }
 

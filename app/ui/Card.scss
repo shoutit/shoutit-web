@@ -1,0 +1,56 @@
+@import "../styles/constants.scss";
+
+.Card {
+  border-radius: $border-radius;
+  background-color: white;
+  position: relative;
+  box-shadow: $box-shadow-depth-1;
+  &.size-small {
+    display: inline-block;
+    width: 240px;
+  }
+}
+
+.Card-image-wrapper {
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+  position: relative;
+  background-color: $background-color;
+  background-image: url("../../assets/icons/camera-fill.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64px;
+
+  width: 100%;
+  padding-bottom: 75%;
+
+  .Card.no-image & {
+    background-image: url("../../assets/icons/no-camera-fill.svg");
+  }
+
+}
+
+.Card-image {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+}
+
+.Card-title {
+  padding: 1rem;
+}
+
+a > .Card {
+  color: $color;
+}
+
+a:hover > .Card .Card-image {
+    opacity: 0.9;
+  }
