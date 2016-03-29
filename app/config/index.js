@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'development' || !process.env.SHOUTIT_ENV) {
 } else if (process.env.SHOUTIT_ENV === 'live') {
   envConfig = require('./live');
 } else {
-  throw 'SHOUTIT_ENV is not valid.';
+  throw new Error('SHOUTIT_ENV is not valid.');
 }
 
 export const uploadResources = {
@@ -34,7 +34,7 @@ export const uploadResources = {
 export const shoutitEnv = process.env.SHOUTIT_ENV;
 export const googleMapsKey = 'AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc';
 export const pusherAppKey = '86d676926d4afda44089';
-export const imagesPath = envConfig.publicUrl + '/images';
+export const imagesPath = `${envConfig.publicUrl}/images`;
 export const facebookId = envConfig.facebookId;
 export const ga = envConfig.ga;
 export const apiUrl = envConfig.apiUrl;
@@ -47,18 +47,18 @@ export function getSummary() {
   summary.push('shoutit-web-app');
   summary.push('------------------------------------------------------------');
   summary.push('');
-  summary.push('  Shoutit environment:  ' + process.env.SHOUTIT_ENV);
-  summary.push('  Node environment:     ' + process.env.NODE_ENV);
-  summary.push('  Redis host:           ' + process.env.REDIS_HOST);
-  summary.push('  New Relic Key:        ' + process.env.NEW_RELIC_LICENSE_KEY);
+  summary.push(`  Shoutit environment:  ${process.env.SHOUTIT_ENV}`);
+  summary.push(`  Node environment:     ${process.env.NODE_ENV}`);
+  summary.push(`  Redis host:           ${process.env.REDIS_HOST}`);
+  summary.push(`  New Relic Key:        ${process.env.NEW_RELIC_LICENSE_KEY}`);
   summary.push('');
-  summary.push('  Site URL:             ' + siteUrl);
-  summary.push('  Public assets URL:    ' + publicUrl);
-  summary.push('  API URL:              ' + apiUrl);
-  summary.push('  Google Analytics:     ' + ga);
-  summary.push('  Images path:          ' + imagesPath);
-  summary.push('  Facebook ID:          ' + facebookId);
-  summary.push('  Pusher App Key:       ' + pusherAppKey);
+  summary.push(`  Site URL:             ${siteUrl}`);
+  summary.push(`  Public assets URL:    ${publicUrl}`);
+  summary.push(`  API URL:              ${apiUrl}`);
+  summary.push(`  Google Analytics:     ${ga}`);
+  summary.push(`  Images path:          ${imagesPath}`);
+  summary.push(`  Facebook ID:          ${facebookId}`);
+  summary.push(`  Pusher App Key:       ${pusherAppKey}`);
   summary.push('');
   return summary.join('\n');
 }

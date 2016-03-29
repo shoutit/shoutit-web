@@ -76,7 +76,7 @@ export class Header extends Component {
   }
 
   render() {
-    const { flux, dispatch, loggedUser, unreadConversations, chat, currentLocation = {}, location, history } = this.props;
+    const { dispatch, loggedUser, unreadConversations, chat, currentLocation = {}, location, history } = this.props;
 
     const { country } = currentLocation;
     const { overlayName, overlayTarget, openNewShoutDialog } = this.state;
