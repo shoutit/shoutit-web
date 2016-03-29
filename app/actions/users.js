@@ -1,18 +1,22 @@
 
 import * as actionTypes from './actionTypes';
+import { Schemas } from '../schemas';
 
-export function loadConversations() {
+export function loadUser(username) {
   return {
     types: [
-      actionTypes.LOAD_CONVERSATIONS_START,
-      actionTypes.LOAD_CONVERSATIONS_SUCCESS,
-      actionTypes.LOAD_CONVERSATIONS_FAILURE,
+      actionTypes.LOAD_USER_START,
+      actionTypes.LOAD_USER_SUCCESS,
+      actionTypes.LOAD_USER_FAILURE,
     ],
     service: {
-      name: 'conversations',
+      name: 'profile',
+      params: { username },
+      schema: Schemas.USER,
     },
   };
 }
+
 
 export function loadListeners(user) {
   return {
