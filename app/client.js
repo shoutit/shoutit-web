@@ -15,7 +15,7 @@ import 'babel-polyfill';
 
 import * as config from './config';
 
-import routes from './routes';
+import configureRoutes from './routes';
 import Flux from './Flux';
 import configureStore from './store/configureStore';
 
@@ -49,7 +49,7 @@ const store = configureStore(window.__INITIAL_STATE__, {
   fetchr, history: browserHistory, devToolsExtension: window.devToolsExtension,
 });
 const history = syncHistoryWithStore(browserHistory, store);
-
+const routes = configureRoutes(store);
 if (config.ga) {
   const ga = initGoogleAnalytics(config.ga);
   history.listen(location => ga('send', 'pageview', location.pathname));

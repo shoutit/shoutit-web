@@ -8,7 +8,8 @@ import Discover from './shared/components/discover/discover.jsx';
 import DiscoverHome from './shared/components/discover/discoverHome.jsx';
 import DiscoverPage from './shared/components/discover/discoverPage.jsx';
 import FeedListContainer from './shared/components/feed/feedListContainer.jsx';
-import HomePage from './shared/components/feed/home.jsx';
+import Homepage from './containers/Homepage';
+import Dashboard from './containers/Dashboard';
 import MainPage from './shared/components/main/mainPage.jsx';
 import NotFound from './shared/components/misc/notfound.jsx';
 import Page from './shared/components/profile/page/pageProfile.jsx';
@@ -25,19 +26,21 @@ import TagProfileRequest from './shared/components/tag/tagProfileRequests.jsx';
 import TagProfileShouts from './shared/components/tag/tagProfileShouts.jsx';
 import VerifyEmail from './shared/components/user/verifyEmail.jsx';
 
-import LoginRedirect from './shared/components/helper/LoginRedirect';
 import ModalHost from './shared/components/helper/ModalHost';
 
-const routes = (
+const routes = (store) =>
   <Route component={ Application }>
       <Route component={ ModalHost }>
 
-        <Route path="/" component={ MainPage } />
+        <Route path="/"
+          getComponent={ (location, callback) =>
+            callback(null, store.getState().session.user ? Dashboard : Homepage) }
+        />
         <Route path="/login" component={ MainPage } />
         <Route path="/login/password" component={ MainPage } />
         <Route path="/signup" component={ MainPage } />
 
-        <Route path="/home" component={ HomePage }>
+        {/* <Route path="/home" component={ HomePage }>
           <Route path="/all/:country/:state/:city(/:page)"
             component={ new FeedListContainer('all') } />
           <Route path="/offers/:country/:state/:city(/:page)"
@@ -45,7 +48,7 @@ const routes = (
           <Route path="/requests/:country/:state/:city(/:page)"
             component={ new FeedListContainer('request')} />
           <IndexRoute component={ new FeedListContainer('all') } />
-        </Route>
+        </Route>*/}
         <Route path="/search" component={ SearchContainer} >
           <Route path="/search/:shouttype/:category(/:term)" component={ Search } />
         </Route>
@@ -73,7 +76,6 @@ const routes = (
         <Route path="/auth/verify_email" component={ VerifyEmail } />
         <Route path="*" component={ NotFound } />
       </Route>
-  </Route>
-);
+  </Route>;
 
 export default routes;

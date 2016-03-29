@@ -7,7 +7,7 @@ import debug from 'debug';
 
 import HtmlDocument from './HtmlDocument';
 import Flux from '../Flux';
-import routes from '../routes';
+import configureRoutes from '../routes';
 
 import { Provider } from 'react-redux';
 import configureStore from '../store/configureStore';
@@ -17,17 +17,15 @@ import fetchDataForRoutes from '../utils/fetchDataForRoutes';
 const log = debug('shoutit:server');
 
 export default function renderMiddleware(req, res, next) {
-
   const fetchr = new Fetchr({ xhrPath: '/fetchr', req });
-  const flux = new Flux(fetchr);
+  // const flux = new Flux(fetchr);
 
   const store = configureStore({
     routing: { currentUrl: req.url },
   }, { fetchr });
-
+  const routes = configureRoutes(store);
   // Run router to determine the desired state
   match({ routes, location: req.url }, (error, redirectLocation, props) => {
-
     log('Matched request for %s', req.url);
 
     if (redirectLocation) {
@@ -48,7 +46,8 @@ export default function renderMiddleware(req, res, next) {
 
     fetchDataForRoutes(props.routes, props.params, req.query, store, err => {
       if (err) {
-        return next(err);
+        next(err);
+        return;
       }
       log('Routes data has been fetched');
 
