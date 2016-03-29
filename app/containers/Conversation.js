@@ -140,10 +140,10 @@ export class Conversation extends React.Component {
       <ConversationDeleteDialog
         open={ showDelete }
         onRequestClose={ () => this.setState({ showDelete: false }) }
-        onConfirm={ () =>
-          dispatch(deleteConversation(conversationId)).then(() =>
-            dispatch(replace('/messages')))
-        }
+        onConfirm={ () => {
+          dispatch(deleteConversation(conversationId));
+          dispatch(replace('/messages'));
+        }}
         isDeleting={ conversation.isDeleting }
       />
 {/*
