@@ -1,5 +1,6 @@
 @import "./constants/colors.scss";
 @import "./constants/dimensions.scss";
+@import "./constants/typography.scss";
 
 .htmlTextarea {
   padding: 5px 10px;
@@ -9,4 +10,9 @@
   &:focus {
     border: 1px solid $border-color-dark;
   }
+}
+
+.htmlContentWidth {
+  width: $content-width;
+  margin: 0 auto;
 }

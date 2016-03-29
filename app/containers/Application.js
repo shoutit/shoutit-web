@@ -13,6 +13,7 @@ import { getCurrentLocation, loadSuggestions } from '../actions/location';
 const pagesWithoutHeader = [MainPage];
 
 if (process.env.BROWSER) {
+  require('normalize.css/normalize.css');
   require('./Application.scss');
 }
 
