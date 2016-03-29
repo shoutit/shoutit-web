@@ -14,34 +14,10 @@ import { loadMessages, deleteConversation, setCurrentConversation, unsetCurrentC
 import { denormalize } from "../schemas";
 
 import Progress from "../shared/components/helper/Progress.jsx";
-//
-// let subscribe;
-// let unsubscribe;
-//
+
 if (process.env.BROWSER) {
-//   subscribe = require("../client/pusher").subscribe;
-//   unsubscribe = require("../client/pusher").unsubscribe;
   require("./Conversation.scss");
 }
-//
-// const mapStoresProps = (stores, params) => {
-//   const conversation = stores.conversations.get(params.id);
-//
-//   if (!conversation || !conversation.didLoad || !conversation.didLoadMessages) {
-//     return {
-//       loading: conversation && conversation.loading
-//     };
-//   }
-//
-//   const messages = stores.messages.getMessages(conversation.messageIds);
-//   return {
-//     conversation,
-//     messages,
-//     loading: false
-//   };
-// };
-//
-// const listenToStores = ["conversations"];
 
 export class Conversation extends React.Component {
 
@@ -55,7 +31,6 @@ export class Conversation extends React.Component {
     const { dispatch, conversationId } = this.props;
     dispatch(loadMessages(conversationId));
     dispatch(setCurrentConversation(conversationId));
-    // this.subscribePresenceChannel();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -75,74 +50,13 @@ export class Conversation extends React.Component {
   }
 
   componentWillUnmount() {
-    this.unsubscribePresenceChannel();
     this.props.dispatch(unsetCurrentConversation());
-  }
-
-  presenceChannel: null;
-  typingTimeouts: {};
-
-  subscribePresenceChannel() {
-    // const { conversationId, loggedUser } = this.props;
-    // this.presenceChannel = subscribe(
-    //   `presence-c-${conversationId}`, loggedUser, (err, channel) => {
-    //     if (err) {
-    //       console.error(err); // eslint-disable-line no-console
-    //       return;
-    //     }
-    //     channel.bind("client-user_is_typing", user => this.handleUserIsTyping(user));
-    //   }
-    // );
-  }
-
-  unsubscribePresenceChannel() {
-    // if (this.presenceChannel) {
-    //   unsubscribe(this.presenceChannel);
-    //   this.presenceChannel = null;
-    // }
-  }
-
-  clearTypingTimeout(user) {
-    clearTimeout(this.typingTimeouts[user.id]);
-    delete this.typingTimeouts[user.id];
-  }
-
-  setTypingTimeout(user) {
-    this.typingTimeouts[user.id] = setTimeout(() => {
-      const index = this.state.typingUsers.findIndex(
-        typingUser => typingUser.id === user.id
-      );
-      const typingUsers = [ ...this.state.typingUsers];
-      typingUsers.splice(index, 1);
-      this.setState({ typingUsers });
-    }, 3000);
-  }
-
-  handleUserIsTyping(user) {
-    const { typingUsers } = this.state;
-    const { loggedUser } = this.props;
-
-    const isAlreadyTyping = typingUsers.find(typingUser => typingUser.id === user.id);
-
-    if (loggedUser.id === user.id) {
-      return;
-    }
-
-    if (isAlreadyTyping) {
-      this.clearTypingTimeout(user);
-      this.setTypingTimeout(user);
-    } else {
-      this.setState({
-        typingUsers: [...this.state.typingUsers, user]
-      }, () => this.setTypingTimeout(user));
-    }
-
   }
 
   render() {
 
     const { error, messagesError } = this.props;
-    const { loggedUser, isFetchingMessages, isFetching, conversation, messages=[], videoCallState, draft } = this.props;
+    const { loggedUser, isFetchingMessages, isFetching, conversation, messages=[], typingUsers, videoCallState, draft } = this.props;
 
     const { previousUrl, dispatch, conversationId } = this.props;
     if (error) {
@@ -169,8 +83,7 @@ export class Conversation extends React.Component {
 
     const me = loggedUser ? loggedUser.username : undefined;
 
-    const { typingUsers, showAttachShout, showDelete } = this.state;
-
+    const { showAttachShout, showDelete } = this.state;
     return (
       <div className="Conversation">
 
@@ -223,13 +136,6 @@ export class Conversation extends React.Component {
           <ConversationReplyForm conversation={ conversation } autoFocus />
         </div>
       }
-
-      {/*initialValue={ conversation.draft }
-      onTextChange={ text => conversationDraftChange(conversation.id, text) }
-      onTyping={ () => this.presenceChannel.trigger("client-user_is_typing", loggedUser) }
-      onAttachShoutClick={ () => this.setState({ showAttachShout: true }) }
-      onSubmit={ text => replyToConversation(loggedUser, conversation.id, text) }*/}
-
 
       <ConversationDeleteDialog
         open={ showDelete }
@@ -298,12 +204,18 @@ function mapStateToProps(state, ownProps) {
         denormalize(entities.messages[id], entities, "MESSAGE")
       ).sort((a, b) => a.createdAt - b.createdAt);
 
+    let typingUsers;
+    if (state.chat.typingUsers[conversationId]) {
+      typingUsers = state.chat.typingUsers[conversationId].map(id => entities.users[id]);
+    }
+
     props = {
       ...props,
       isFetchingMessages,
       previousUrl,
       messagesError,
-      messages
+      messages,
+      typingUsers
     };
   }
 

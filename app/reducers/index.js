@@ -3,7 +3,7 @@ import { routerReducer } from "react-router-redux";
 
 import categories from "./categories";
 import currencies from "./currencies";
-import currentConversation from "./currentConversation";
+import chat from "./chat";
 import conversations from "./entities-conversations";
 import currentLocation from "./currentLocation";
 import currentUrl from "./currentUrl";
@@ -80,8 +80,8 @@ const entities = combineReducers({
 
 const rootReducer = combineReducers({
   categories,
+  chat,
   currencies,
-  currentConversation,
   currentLocation,
   entities,
   forms,

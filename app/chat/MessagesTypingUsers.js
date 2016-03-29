@@ -4,7 +4,7 @@ if (process.env.BROWSER) {
   require("./MessagesTypingUsers.scss");
 }
 
-export default function MessagesTypingUsers({ users }) {
+export default function MessagesTypingUsers({ users=[] }) {
 
   let content = "";
   if (users.length > 0) {

@@ -5,7 +5,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import Button from "../shared/components/helper/Button.jsx";
 import SVGIcon from "../shared/components/helper/SVGIcon";
 import { saveDraft } from "../actions/forms";
-import { replyToConversation } from "../actions/chat";
+import { replyToConversation, notifyTypingUser } from "../actions/chat";
 import { ENTER } from "../utils/keycodes";
 import { trimWhitespaces } from "../utils/StringUtils";
 
@@ -18,7 +18,6 @@ export class ConversationReplyForm extends Component {
   static propTypes = {
     draft: PropTypes.string,
     typingTimeout: PropTypes.number,
-    onTyping: PropTypes.func,
     onAttachShoutClick: PropTypes.func.isRequired
   };
 
@@ -53,14 +52,14 @@ export class ConversationReplyForm extends Component {
 
   handleTextChange(e) {
     const text = e.target.value;
-    const { onTyping, typingTimeout, dispatch, name } = this.props;
+    const { typingTimeout, dispatch, name, loggedUser } = this.props;
     dispatch(saveDraft(name, { draft: text }));
 
-    if (text && onTyping && !this.isTyping) {
+    if (text && !this.isTyping) {
       this.isTyping = true;
-      onTyping();
+      dispatch(notifyTypingUser(loggedUser));
       this.typingTimeout = setTimeout(() => {
-        onTyping();
+        dispatch(notifyTypingUser(loggedUser));
         this.isTyping = false;
         clearTimeout(this.typingTimeout);
       }, typingTimeout);

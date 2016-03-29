@@ -8,13 +8,13 @@ import { getUnixTime } from "../utils/DateUtils";
 import { Schemas } from "../schemas";
 
 const parsePayloadForConversations = (payload, state) => {
-  if (!state.currentConversation) {
+  if (!state.chat.currentConversation) {
     return payload;
   }
   payload = merge(payload, {
     entities: {
       conversations: {
-        [state.currentConversation]: {
+        [state.chat.currentConversation]: {
           unreadMessagesCount: 0
         }
       }
@@ -148,5 +148,35 @@ export function deleteConversation(id) {
         id
       }
     }
+  };
+}
+
+export function typingUserNotification(conversationId, user) {
+  const payload = {
+    entities: {
+      users: {
+        [user.id]: user
+      }
+    },
+    userId: user.id,
+    conversationId
+  };
+  return {
+    type: actionTypes.TYPING_USER_NOTIFICATION,
+    payload
+  };
+}
+
+export function removeTypingUser(conversationId, userId) {
+  return {
+    type: actionTypes.REMOVE_TYPING_USER,
+    payload: { conversationId, userId }
+  };
+}
+
+export function notifyTypingUser(user) {
+  return {
+    type: actionTypes.NOTIFY_TYPING_USER,
+    payload: user
   };
 }
