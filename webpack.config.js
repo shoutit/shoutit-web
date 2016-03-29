@@ -66,7 +66,7 @@ module.exports = {
         }
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         loader: isDevelopment ?
           "style!css?sourceMap!postcss!sass?sourceMap&sourceMapContents" :
            ExtractTextPlugin.extract("style", "css?sourceMap!postcss!sass?sourceMap")
