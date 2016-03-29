@@ -11,6 +11,7 @@ import entity from './entity';
 import forms from './forms';
 import paginate from './paginate';
 import session from './session';
+import videocalls from './videocalls';
 import uiNotifications from './uiNotifications';
 
 import * as actionTypes from '../actions/actionTypes';
@@ -88,6 +89,7 @@ const rootReducer = combineReducers({
   paginated,
   routing,
   session,
+  videocalls,
   uiNotifications,
 });
 

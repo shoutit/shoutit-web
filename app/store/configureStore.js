@@ -9,6 +9,9 @@ const noop = store => next => action => next(action); // eslint-disable-line
 const pusher = process.env.BROWSER ?
   require('../middlewares/pusher').default : noop;
 
+const twilio = process.env.BROWSER ?
+  require('../middlewares/twilio').default : noop;
+
 const router = process.env.BROWSER ?
   require('react-router-redux').routerMiddleware : () => noop;
 
@@ -20,8 +23,8 @@ export default function configureStore(initialState, { fetchr, devToolsExtension
       applyMiddleware(
         services(fetchr),
         pusher,
+        twilio,
         thunk,
-        // store => next => action => { console.log("dispatching", action); next(action) },
         router(history)
       ),
       devToolsExtension ? devToolsExtension() : f => f
