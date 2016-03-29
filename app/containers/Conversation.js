@@ -56,7 +56,7 @@ export class Conversation extends React.Component {
   render() {
 
     const { error, messagesError } = this.props;
-    const { loggedUser, isFetchingMessages, isFetching, conversation, messages = [], typingUsers, videoCallState, draft } = this.props;
+    const { loggedUser, isFetchingMessages, isFetching, conversation, messages = [], typingUsers } = this.props;
     const { previousUrl, dispatch, conversationId } = this.props;
     if (error) {
       return (
@@ -176,7 +176,7 @@ function mapStateToProps(state, ownProps) {
 
   let props = {
     isFetching: chat.isFetching,
-    conversationId: conversationId,
+    conversationId,
     loggedUser,
     isFetchingMessages: true,
     error: chat.error,
