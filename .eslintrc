@@ -2,6 +2,13 @@
   "parser": "babel-eslint",
   "plugins": ["react"],
   "extends": "airbnb",
+  "rules": {
+    "max-len": 0,
+    "default-case": 0,
+    "no-case-declarations": 0,
+    "react/prop-types": 0,
+    "react/no-did-mount-set-state": 0
+  },
   "env": {
     "node": true,
     "es6": true,
