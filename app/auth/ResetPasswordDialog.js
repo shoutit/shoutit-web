@@ -1,18 +1,18 @@
-import React from "react";
-import { Link } from "react-router";
-import { Input } from "react-bootstrap";
-import { connect } from "react-redux";
-import { replace } from "react-router-redux";
+import React from 'react';
+import { Link } from 'react-router';
+import { Input } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { replace } from 'react-router-redux';
 
-import DocumentTitle from "../ui/DocumentTitle";
-import Dialog from "../shared/components/helper/Dialog.jsx";
-import Button from "../shared/components/helper/Button.jsx";
+import DocumentTitle from '../ui/DocumentTitle';
+import Dialog from '../shared/components/helper/Dialog.jsx';
+import Button from '../shared/components/helper/Button.jsx';
 
-import { requestPasswordReset } from "../actions/session";
+import { requestPasswordReset } from '../actions/session';
 
-export const ResetPasswordDialog =  React.createClass({
+export const ResetPasswordDialog = React.createClass({
 
-  displayName: "ResetPasswordDialog",
+  displayName: 'ResetPasswordDialog',
 
   handleSubmit(e) {
     const { onSubmit, onEmailSent, isRequestingPasswordReset } = this.props;
@@ -45,7 +45,7 @@ export const ResetPasswordDialog =  React.createClass({
             <form onSubmit={this.handleSubmit}>
 
               { error &&
-                <ul style={ { color: "red", padding: 0 }}>
+                <ul style={ { color: 'red', padding: 0 }}>
                   { Object.keys(error).map(field =>
                       error[field].map((error, i) =>
                         <li key={`${field}-${i}`}>{ error }</li>
@@ -64,13 +64,13 @@ export const ResetPasswordDialog =  React.createClass({
 
               <Button
                 type="submit" primary block disabled={ isRequestingPasswordReset }
-                label={ isRequestingPasswordReset ? "Sending…": "Reset password"}
+                label={ isRequestingPasswordReset ? 'Sending…' : 'Reset password'}
                 />
 
             </form>
 
             <div className="separator"></div>
-            <div style={{marginBottom: "15px", textAlign: "center"}}>
+            <div style={{ marginBottom: '15px', textAlign: 'center' }}>
               <Link to="/login"><strong>Back to Log in</strong></Link>
             </div>
           </div>
@@ -93,7 +93,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onSubmit: email => dispatch(requestPasswordReset(email)),
-    onEmailSent: () => dispatch(replace("/login?recover_sent=true"))
+    onEmailSent: () => dispatch(replace('/login?recover_sent=true'))
   };
 };
 

@@ -1,17 +1,17 @@
 /* eslint-env mocha */
 
-import { expect } from "chai";
-import os from "os";
-import fs from "fs";
-import path from "path";
+import { expect } from 'chai';
+import os from 'os';
+import fs from 'fs';
+import path from 'path';
 
 const tmp = os.tmpdir();
 
-import { convertImageToJPEG } from "./ImageUtils";
+import { convertImageToJPEG } from './ImageUtils';
 
-describe("ImageUtils", () => {
+describe('ImageUtils', () => {
 
-  describe("convertImageToJPEG", () => {
+  describe('convertImageToJPEG', () => {
     let tempJPGFile;
     let tempPNGFile;
 
@@ -29,26 +29,26 @@ describe("ImageUtils", () => {
       } catch (e) { } // eslint-disable-line
     });
 
-    it("should return the same image path if already a JPG", done => {
+    it('should return the same image path if already a JPG', done => {
       convertImageToJPEG(tempJPGFile, (err, filePath) => {
         expect(filePath).to.equal(tempJPGFile);
         done();
       });
     });
 
-    it("should return the a JPG image from a PNG image", done => {
+    it('should return the a JPG image from a PNG image', done => {
       convertImageToJPEG(tempPNGFile, (err, filePath) => {
-        expect(path.extname(filePath)).to.equal(".jpg");
+        expect(path.extname(filePath)).to.equal('.jpg');
         expect(
-          filePath.substr(0, filePath.lastIndexOf("."))
+          filePath.substr(0, filePath.lastIndexOf('.'))
         ).to.equal(
-          filePath.substr(0, tempPNGFile.lastIndexOf("."))
+          filePath.substr(0, tempPNGFile.lastIndexOf('.'))
         );
         done();
       });
     });
 
-    it("should delete the old PNG image after converting", done => {
+    it('should delete the old PNG image after converting', done => {
       convertImageToJPEG(tempPNGFile, () => {
         let exception;
         try {

@@ -1,8 +1,8 @@
-import React from "react";
-import SVGIcon from "../shared/components/helper/SVGIcon";
+import React from 'react';
+import SVGIcon from '../shared/components/helper/SVGIcon';
 
 if (process.env.BROWSER) {
-  require("./UINotification.scss");
+  require('./UINotification.scss');
 }
 
 export default class UINotification extends React.Component {
@@ -12,19 +12,19 @@ export default class UINotification extends React.Component {
     icon: React.PropTypes.element,
     showDismissButton: React.PropTypes.bool,
     buttons: React.PropTypes.array,
-    type: React.PropTypes.oneOf(["message"])
+    type: React.PropTypes.oneOf(['message'])
   };
 
   static defaultProps = {
     showDismissButton: true,
     buttons: [],
-    type: "message"
+    type: 'message'
   };
 
   state = {
     style: {
       opacity: 0,
-      visibility: "hidden"
+      visibility: 'hidden'
     }
   };
 
@@ -43,8 +43,8 @@ export default class UINotification extends React.Component {
 
   getStyle() {
     const style = {
-      visibility: "visible",
-      overflow: "hidden",
+      visibility: 'visible',
+      overflow: 'hidden',
       opacity: 1,
       height: this.refs.body.offsetHeight
     };

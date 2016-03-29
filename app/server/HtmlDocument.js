@@ -1,13 +1,13 @@
 /* eslint react/no-danger: 0 */
 
-import React from "react";
-import serialize from "serialize-javascript";
+import React from 'react';
+import serialize from 'serialize-javascript';
 
-import * as config from "../config";
+import * as config from '../config';
 
-let chunkNames = { main: "/assets/main.js", css: "/assets/main.css" };
-if (process.env.NODE_ENV === "production") {
-  chunkNames = require("../../public/stats.json");
+let chunkNames = { main: '/assets/main.js', css: '/assets/main.css' };
+if (process.env.NODE_ENV === 'production') {
+  chunkNames = require('../../public/stats.json');
 }
 
 export default function HtmlDocument({
@@ -55,7 +55,7 @@ export default function HtmlDocument({
   //   metatags.push({ name: "twitter:card", content: "summary" } );
   // }
 
-  console.log("initialState");
+  console.log('initialState');
   console.log(initialState);
   return (
     <html>
@@ -69,16 +69,16 @@ export default function HtmlDocument({
         <link rel="shortcut icon" type="image/png" href={ `${config.publicUrl}/images/favicons/favicon.ico` } />
         <link rel="apple-touch-icon" type="image/png" size="256x256" href={ `${config.publicUrl}/images/favicons/apple-touch-icon.png` } />
 
-        { process.env.NODE_ENV === "production" &&
+        { process.env.NODE_ENV === 'production' &&
           <link rel="stylesheet" type="text/css" href={ `${config.publicUrl}${chunkNames.css}` } /> }
 
       </head>
 
       <body>
-        <div id="content" dangerouslySetInnerHTML={ {__html: content} } />
+        <div id="content" dangerouslySetInnerHTML={ { __html: content } } />
 
-        <script dangerouslySetInnerHTML={ {__html: `window.__state=${state}`} } />
-        <script dangerouslySetInnerHTML={ {__html: `window.__INITIAL_STATE__=${serialize(initialState)}`} } />
+        <script dangerouslySetInnerHTML={ { __html: `window.__state=${state}` } } />
+        <script dangerouslySetInnerHTML={ { __html: `window.__INITIAL_STATE__=${serialize(initialState)}` } } />
 
         <script async src="https://apis.google.com/js/client:platform.js" />
         { config.googleMapsKey &&

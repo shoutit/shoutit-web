@@ -1,6 +1,6 @@
-import consts from "./consts";
+import consts from './consts';
 // import messageConsts from '../messages/actionTypes';
-import client from "./client";
+import client from './client';
 
 export default {
   getMobileNumber(shoutId) {
@@ -73,11 +73,11 @@ export default {
   },
 
   removeShoutImage(fileName) {
-    this.dispatch(consts.REMOVE_SHOUT_IMAGE, {fileName});
+    this.dispatch(consts.REMOVE_SHOUT_IMAGE, { fileName });
   },
 
   sendShoutReply(shoutId, message) {
-    this.dispatch(consts.SEND_SHOUT_REPLY, {shoutId, message});
+    this.dispatch(consts.SEND_SHOUT_REPLY, { shoutId, message });
 
     client.reply(shoutId, message)
       .end((error, res) => {
@@ -94,6 +94,6 @@ export default {
   },
 
   changeReplyDraft(shoutId, text) {
-    this.dispatch(consts.CHANGE_SHOUT_REPLY_DRAFT, {shoutId, text});
+    this.dispatch(consts.CHANGE_SHOUT_REPLY_DRAFT, { shoutId, text });
   }
 };

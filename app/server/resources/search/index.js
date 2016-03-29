@@ -1,5 +1,5 @@
-import FakeClient from "./searchAll";
+import FakeClient from './searchAll';
 
-export default function() {
+export default function () {
   return new FakeClient();
 }

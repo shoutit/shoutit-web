@@ -1,6 +1,6 @@
-export default function(client, path) {
-  return function() {
+export default function (client, path) {
+  return function () {
     return client
-      .get(path + "/me");
+      .get(path + '/me');
   };
 }

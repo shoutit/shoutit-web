@@ -1,6 +1,6 @@
-import Fluxxor from "fluxxor";
-import * as actions from "../actions/actionTypes";
-import { createLocationSlug } from "../utils/LocationUtils";
+import Fluxxor from 'fluxxor';
+import * as actions from '../actions/actionTypes';
+import { createLocationSlug } from '../utils/LocationUtils';
 
 const initialState = {
   locations: {}
@@ -9,7 +9,7 @@ const initialState = {
 export default Fluxxor.createStore({
 
   initialize() {
-    this.state = {...initialState};
+    this.state = { ...initialState };
     this.bindActions(
       actions.LOAD_SUGGESTIONS_START, this.handleLoadStart,
       actions.LOAD_SUGGESTIONS_SUCCESS, this.handleLoadSuccess,
@@ -73,14 +73,14 @@ export default Fluxxor.createStore({
       ...this.state.locations[slug],
       isLoading: true
     };
-    this.emit("change");
+    this.emit('change');
   },
 
   handleLoadFailure({ error, location }) {
     const slug = createLocationSlug(location);
     this.state.locations[slug].isLoading = false;
     this.state.locations[slug].error = error;
-    this.emit("change");
+    this.emit('change');
   },
 
   handleLoadSuccess({ suggestions, location }) {
@@ -96,16 +96,16 @@ export default Fluxxor.createStore({
       suggestionsById.shout = suggestions.shout.id;
     }
     if (suggestions.shout || suggestions.shouts) {
-      otherStores.push("ShoutsStore");
+      otherStores.push('ShoutsStore');
     }
 
     if (suggestions.tags) {
       suggestionsById.tags = suggestions.tags.map(tag => tag.id);
-      otherStores.push("TagsStore");
+      otherStores.push('TagsStore');
     }
     if (suggestions.users) {
       suggestionsById.users = suggestions.users.map(user => user.id);
-      otherStores.push("UsersStore");
+      otherStores.push('UsersStore');
     }
 
     this.state.locations[slug] = {
@@ -116,7 +116,7 @@ export default Fluxxor.createStore({
     };
 
     this.waitFor(otherStores, () => {
-      this.emit("change");
+      this.emit('change');
     });
 
   },

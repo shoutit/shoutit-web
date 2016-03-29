@@ -1,11 +1,11 @@
-import React from "react";
-import { Link } from "react-router";
-import SVGIcon from "../shared/components/helper/SVGIcon";
-import Button from "../shared/components/helper/Button.jsx";
-import UserAvatar from "../users/UserAvatar";
+import React from 'react';
+import { Link } from 'react-router';
+import SVGIcon from '../shared/components/helper/SVGIcon';
+import Button from '../shared/components/helper/Button.jsx';
+import UserAvatar from '../users/UserAvatar';
 
 if (process.env.BROWSER) {
-  require("styles/components/HeaderProfile.scss");
+  require('styles/components/HeaderProfile.scss');
 }
 
 export default function HeaderProfile({

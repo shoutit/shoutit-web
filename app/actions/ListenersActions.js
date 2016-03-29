@@ -1,11 +1,11 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
 export default {
 
   loadListeners(user, done) {
     this.dispatch(actionTypes.LOAD_LISTENERS_START, { user });
     this.flux.service
-      .read("listeners")
+      .read('listeners')
       .params({ user })
       .end((error, data) => {
         if (error) {

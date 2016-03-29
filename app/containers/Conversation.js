@@ -1,22 +1,22 @@
-import React from "react";
-import { connect } from "react-redux";
-import { replace } from "react-router-redux";
+import React from 'react';
+import { connect } from 'react-redux';
+import { replace } from 'react-router-redux';
 
-import ConversationTitle from "../chat/ConversationTitle";
-import ConversationDeleteDialog from "../chat/ConversationDeleteDialog";
-import UserShoutsSelectDialog from "../users/UserShoutsSelectDialog";
-import MessagesList from "../chat/MessagesList";
-import ConversationReplyForm from "../chat/ConversationReplyForm";
-import MessagesTypingUsers from "../chat/MessagesTypingUsers";
-import Scrollable from "../ui/Scrollable";
+import ConversationTitle from '../chat/ConversationTitle';
+import ConversationDeleteDialog from '../chat/ConversationDeleteDialog';
+import UserShoutsSelectDialog from '../users/UserShoutsSelectDialog';
+import MessagesList from '../chat/MessagesList';
+import ConversationReplyForm from '../chat/ConversationReplyForm';
+import MessagesTypingUsers from '../chat/MessagesTypingUsers';
+import Scrollable from '../ui/Scrollable';
 
-import { loadMessages, deleteConversation, setCurrentConversation, unsetCurrentConversation } from "../actions/chat";
-import { denormalize } from "../schemas";
+import { loadMessages, deleteConversation, setCurrentConversation, unsetCurrentConversation } from '../actions/chat';
+import { denormalize } from '../schemas';
 
-import Progress from "../shared/components/helper/Progress.jsx";
+import Progress from '../shared/components/helper/Progress.jsx';
 
 if (process.env.BROWSER) {
-  require("./Conversation.scss");
+  require('./Conversation.scss');
 }
 
 export class Conversation extends React.Component {
@@ -56,7 +56,7 @@ export class Conversation extends React.Component {
   render() {
 
     const { error, messagesError } = this.props;
-    const { loggedUser, isFetchingMessages, isFetching, conversation, messages=[], typingUsers, videoCallState, draft } = this.props;
+    const { loggedUser, isFetchingMessages, isFetching, conversation, messages = [], typingUsers, videoCallState, draft } = this.props;
 
     const { previousUrl, dispatch, conversationId } = this.props;
     if (error) {
@@ -94,9 +94,9 @@ export class Conversation extends React.Component {
           onDeleteMessagesTouchTap={ () => {} }
 
         />
-        {/*showVideoCallButton={ videoCallState.initialized }*/}
+        {/* showVideoCallButton={ videoCallState.initialized }*/}
 
-        {/*onVideoCallClick={ () =>
+        {/* onVideoCallClick={ () =>
           previewVideoCall(conversation.users.find(user => user.username !== me))
         }*/}
 
@@ -104,7 +104,7 @@ export class Conversation extends React.Component {
 
       { messages.length > 0 &&
         <Scrollable
-          uniqueId={ messages[messages.length-1].id }
+          uniqueId={ messages[messages.length - 1].id }
           initialScroll="bottom"
           className="Conversation-scrollable"
           ref="scrollable"
@@ -114,7 +114,7 @@ export class Conversation extends React.Component {
             <div className="Conversation-listTopSeparator" />
             <div
               className="Conversation-progress"
-              style={ isFetchingMessages ? null : { visibility: "hidden" }}>
+              style={ isFetchingMessages ? null : { visibility: 'hidden' }}>
               <Progress />
             </div>
 
@@ -142,7 +142,7 @@ export class Conversation extends React.Component {
         onRequestClose={ () => this.setState({ showDelete: false }) }
         onConfirm={ () =>
           dispatch(deleteConversation(conversationId)).then(() =>
-            dispatch(replace("/messages")))
+            dispatch(replace('/messages')))
         }
         isDeleting={ conversation.isDeleting }
       />
@@ -188,7 +188,7 @@ function mapStateToProps(state, ownProps) {
   if (!chat.isFetching && conversation) {
     props = {
       ...props,
-      conversation: denormalize(conversation, entities, "CONVERSATION")
+      conversation: denormalize(conversation, entities, 'CONVERSATION')
     };
   }
 
@@ -201,7 +201,7 @@ function mapStateToProps(state, ownProps) {
     } = messagesByConversation[conversationId];
 
     const messages = ids.map(id =>
-        denormalize(entities.messages[id], entities, "MESSAGE")
+        denormalize(entities.messages[id], entities, 'MESSAGE')
       ).sort((a, b) => a.createdAt - b.createdAt);
 
     let typingUsers;

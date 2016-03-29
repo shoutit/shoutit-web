@@ -1,15 +1,15 @@
 /**
  * Created by Philip on 08.05.2015.
  */
-import Fluxxor from "fluxxor";
-import where from "lodash/collection/where";
-import pluck from "lodash/collection/pluck";
-import flatten from "lodash/array/flatten";
-import uniq from "lodash/array/uniq";
-import {clone} from "lodash/lang";
+import Fluxxor from 'fluxxor';
+import where from 'lodash/collection/where';
+import pluck from 'lodash/collection/pluck';
+import flatten from 'lodash/array/flatten';
+import uniq from 'lodash/array/uniq';
+import { clone } from 'lodash/lang';
 
-import consts from "./consts";
-import client from "./client";
+import consts from './consts';
+import client from './client';
 
 let LocationsStore = Fluxxor.createStore({
   initialize(props) {
@@ -50,45 +50,45 @@ let LocationsStore = Fluxxor.createStore({
 
   isLocAvailable() {
     let loc = this.state.current;
-    return loc.country && loc.city && loc.state? true: false;
+    return loc.country && loc.city && loc.state ? true : false;
   },
 
   updateLocation(loc, patchUserStore = false) {
-    let {country, state, city} = loc;
+    let { country, state, city } = loc;
 
     this.state.current.country = country;
     this.state.current.city = city;
     this.state.current.state = state;
 
     // updating location for shouts
-    this.flux.store("shouts").onLocUpdate();
+    this.flux.store('shouts').onLocUpdate();
 
-    patchUserStore? this.flux.store("users").saveLocation(loc): undefined;
+    patchUserStore ? this.flux.store('users').saveLocation(loc) : undefined;
   },
 
   onAcquireLoc() {
-    let {isLocAvailable} = this;
+    let { isLocAvailable } = this;
     let lat = 0, lng = 0;
 
     // wait for user location to provide location if already saved
-    this.waitFor(["users"], () => {
+    this.waitFor(['users'], () => {
       if (isLocAvailable() === false) {
         // acquring user location from shoutit geocoding API
         client.geocode(lat, lng)
           .end((err, res) => {
-            if(err) {
+            if (err) {
               console.log(err);
             } else {
               let loc = res.body;
               this.updateLocation(loc, true);
-              this.emit("change");
+              this.emit('change');
             }
           });
       }
     });
   },
 
-  onLoadPredicitions({term}) {
+  onLoadPredicitions({ term }) {
     if (this.state.runningAutocomplete) {
       clearTimeout(this.state.runningAutocomplete);
     }
@@ -96,19 +96,19 @@ let LocationsStore = Fluxxor.createStore({
       this.state.runningAutocomplete = setTimeout(() => {
         this.loadPlacePredictions(term, (err, loadedTerm, results) => {
           if (err) {
-                  console.warn(err);
-                } else {
-                  this.state.locations[loadedTerm] = results;
-                  this.state.runningAutocomplete = null;
-                  this.emit("change");
-                }
+            console.warn(err);
+          } else {
+            this.state.locations[loadedTerm] = results;
+            this.state.runningAutocomplete = null;
+            this.emit('change');
+          }
         });
       }, 500);
-      this.emit("change");
+      this.emit('change');
     }
   },
 
-  onSelectLocation({prediction}) {
+  onSelectLocation({ prediction }) {
     client.placeGeocode(prediction.id)
       .end((err, res) => {
         if (err) {
@@ -136,7 +136,7 @@ let LocationsStore = Fluxxor.createStore({
       let places = this.gmaps.places;
       this.autocomplete.getPlacePredictions({
         input: term,
-        types: ["(cities)"]
+        types: ['(cities)']
       },
         (predictions, status) => {
           if (status === places.PlacesServiceStatus.OK) {
@@ -161,7 +161,7 @@ let LocationsStore = Fluxxor.createStore({
       if (!this.state.current.city) {
         this.resolvePosition(latLng);
       }
-      this.emit("change");
+      this.emit('change');
     }
   },
 
@@ -176,15 +176,15 @@ let LocationsStore = Fluxxor.createStore({
     let location = results[0].geometry.location;
 
     if (results.length) {
-      let localityResultsForCity = uniq(where(flatten(pluck(results, "address_components")), {
-          types: ["locality"]
-        }), "short_name"),
-        localityResultsForCountry = uniq(where(flatten(pluck(results, "address_components")), {
-          types: ["country"]
-        }), "short_name"),
-        localityResultsForState = uniq(where(flatten(pluck(results, "address_components")), {
-          types: ["administrative_area_level_1"]
-        }), "short_name");
+      let localityResultsForCity = uniq(where(flatten(pluck(results, 'address_components')), {
+          types: ['locality']
+        }), 'short_name'),
+        localityResultsForCountry = uniq(where(flatten(pluck(results, 'address_components')), {
+          types: ['country']
+        }), 'short_name'),
+        localityResultsForState = uniq(where(flatten(pluck(results, 'address_components')), {
+          types: ['administrative_area_level_1']
+        }), 'short_name');
       if (localityResultsForCity.length) {
         newCity = localityResultsForCity[0];
       }
@@ -217,10 +217,10 @@ let LocationsStore = Fluxxor.createStore({
         this.state.current.location = newLocation;
       }
     } else {
-      console.warn("No results found");
+      console.warn('No results found');
     }
 
-    this.emit("change");
+    this.emit('change');
   },
 
   resolvePosition(pos) {

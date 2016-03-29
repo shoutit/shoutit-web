@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import ConversationItem from "./ConversationItem";
-import Progress from "../shared/components/helper/Progress.jsx";
+import ConversationItem from './ConversationItem';
+import Progress from '../shared/components/helper/Progress.jsx';
 
-export default function ConversationsList({ conversations, isFetching, loggedUser, selectedId } ) {
+export default function ConversationsList({ conversations, isFetching, loggedUser, selectedId }) {
 
   return (
     <div className="ConversationsList">

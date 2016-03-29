@@ -1,10 +1,10 @@
-import { GET_SUGGESTIONS, GET_SUGGESTIONS_SUCCESS, GET_SUGGESTIONS_FAIL } from "./actionTypes";
-import client from "./client";
-const debug = require("debug")("shoutit:flux");
+import { GET_SUGGESTIONS, GET_SUGGESTIONS_SUCCESS, GET_SUGGESTIONS_FAIL } from './actionTypes';
+import client from './client';
+const debug = require('debug')('shoutit:flux');
 
 export default {
-  getSuggestions(currentLocation, dataTypes = ["users", "shouts", "tags", "pages"]) {
-    const {country, state, city} = currentLocation;
+  getSuggestions(currentLocation, dataTypes = ['users', 'shouts', 'tags', 'pages']) {
+    const { country, state, city } = currentLocation;
     const pageSize = 8;
 
     client.getSuggestions({
@@ -12,10 +12,10 @@ export default {
       state,
       city,
       page_size: pageSize,
-      type: dataTypes.join(",")
+      type: dataTypes.join(',')
     }).end((err, res) => {
-      if(err) {
-        this.dispatch(GET_SUGGESTIONS_FAIL, {currentLocation});
+      if (err) {
+        this.dispatch(GET_SUGGESTIONS_FAIL, { currentLocation });
         debug(err);
       } else {
         this.dispatch(GET_SUGGESTIONS_SUCCESS, {
@@ -26,6 +26,6 @@ export default {
       }
     });
 
-    this.dispatch(GET_SUGGESTIONS, {currentLocation, dataTypes});
+    this.dispatch(GET_SUGGESTIONS, { currentLocation, dataTypes });
   }
 };

@@ -1,24 +1,24 @@
-import React from "react";
-import { Link } from "react-router";
-import { Input } from "react-bootstrap";
+import React from 'react';
+import { Link } from 'react-router';
+import { Input } from 'react-bootstrap';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import DocumentTitle from "../ui/DocumentTitle";
-import Dialog from "../shared/components/helper/Dialog.jsx";
-import Button from "../shared/components/helper/Button.jsx";
-import SocialLoginForm from "./SocialLoginForm";
+import DocumentTitle from '../ui/DocumentTitle';
+import Dialog from '../shared/components/helper/Dialog.jsx';
+import Button from '../shared/components/helper/Button.jsx';
+import SocialLoginForm from './SocialLoginForm';
 
-import { createProfile } from "../actions/session";
+import { createProfile } from '../actions/session';
 
 export const SignupDialog = React.createClass({
 
-  displayName: "SignupDialog",
+  displayName: 'SignupDialog',
 
   componentWillReceiveProps(nextProps) {
     if (this.props.open && this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
       if (nextProps.loggedUser.is_activated) {
-        this.props.history.replace("/home");
+        this.props.history.replace('/home');
       }
     }
   },
@@ -71,7 +71,7 @@ export const SignupDialog = React.createClass({
             ref="firstName"
             type="text"
             placeholder="First Name"
-            className={ `input-name ${error.first_name ? "input-alert" : ""}` }
+            className={ `input-name ${error.first_name ? 'input-alert' : ''}` }
           />
 
           { error.last_name && <p className="small">{ error.last_name }</p> }
@@ -80,7 +80,7 @@ export const SignupDialog = React.createClass({
             ref="lastName"
             type="text"
             placeholder="Last Name"
-            className={ `input-name input-last-name ${error.last_name ? "input-alert" : ""}` }
+            className={ `input-name input-last-name ${error.last_name ? 'input-alert' : ''}` }
           />
 
           { error.email && <p className="small">{ error.email }</p> }
@@ -89,7 +89,7 @@ export const SignupDialog = React.createClass({
             ref="email"
             type="email"
             placeholder="E-mail"
-            className={`input-email ${error.email ? "input-alert" : ""}`}
+            className={`input-email ${error.email ? 'input-alert' : ''}`}
           />
 
           { error.password && <p className="small">{ error.password }</p> }
@@ -98,7 +98,7 @@ export const SignupDialog = React.createClass({
             ref="password"
             type="password"
             placeholder="Password"
-            className={`input-password ${error.password ? "input-alert" : ""}`}
+            className={`input-password ${error.password ? 'input-alert' : ''}`}
           />
 
           <Button
@@ -106,14 +106,14 @@ export const SignupDialog = React.createClass({
             primary
             block
             disabled={ isSigningUp }
-            label={ isSigningUp ? "Signing up…": "Sign up" } />
+            label={ isSigningUp ? 'Signing up…' : 'Sign up' } />
 
           <p className="signup-note">
-            By signing up, you agree to the<br/>Terms of Service and the Privacy Policy
+            By signing up, you agree to the<br />Terms of Service and the Privacy Policy
           </p>
         </form>
         <div className="separator"></div>
-        <div style={{marginBottom: "15px", textAlign: "center"}}>
+        <div style={{ marginBottom: '15px', textAlign: 'center' }}>
           Have an account? <Link to="/login"><strong>Log in</strong></Link>
         </div>
       </div>
@@ -125,7 +125,7 @@ export const SignupDialog = React.createClass({
     return (
       <div className="si-signup">
         <div className="separator"></div>
-        <p style={{ marginTop:"25px" }}>
+        <p style={{ marginTop:'25px' }}>
           Dear { loggedUser.first_name }, welcome to Shoutit.
           We are happy to have you here!
         </p>
@@ -134,7 +134,7 @@ export const SignupDialog = React.createClass({
           by clicking on the link we have sent to your email <span>{ loggedUser.email }</span>.
         </p>
         <center>
-          <div style={{margin: "30px"}}>
+          <div style={{ margin: '30px' }}>
             <Button
               primary
               block
@@ -149,10 +149,10 @@ export const SignupDialog = React.createClass({
   render() {
     const { open, onRequestClose, loggedUser } = this.props;
     const waitingForVerification = loggedUser && !loggedUser.is_activated;
-    return(
+    return (
       <DocumentTitle title="Sign up">
         <Dialog
-          titleWithIcon={ waitingForVerification ? "You are done!" : "Sign up" }
+          titleWithIcon={ waitingForVerification ? 'You are done!' : 'Sign up' }
           open={ open }
           onRequestClose={ onRequestClose }
           contentStyle={{ marginTop: -50 }}

@@ -1,18 +1,18 @@
-import React from "react";
-import moment from "moment";
-import { Link } from "react-router";
+import React from 'react';
+import moment from 'moment';
+import { Link } from 'react-router';
 
-import MessageReadByFlag from "./MessageReadByFlag";
-import ShoutItem from "../shared/components/shout/ShoutItem.jsx";
-import GoogleStaticMap from "../shared/components/misc/GoogleStaticMap.jsx";
-import NewlineToBreak from "../ui/NewlineToBreak";
+import MessageReadByFlag from './MessageReadByFlag';
+import ShoutItem from '../shared/components/shout/ShoutItem.jsx';
+import GoogleStaticMap from '../shared/components/misc/GoogleStaticMap.jsx';
+import NewlineToBreak from '../ui/NewlineToBreak';
 
 if (process.env.BROWSER) {
-  require("./MessageItem.scss");
+  require('./MessageItem.scss');
 }
 
-export default function MessageItem({ message, isMe, readByUsers=[] }) {
-  const { createdAt, isCreating, text, createError, attachments=[] } = message;
+export default function MessageItem({ message, isMe, readByUsers = [] }) {
+  const { createdAt, isCreating, text, createError, attachments = [] } = message;
   const created = moment.unix(createdAt);
 
   const attachmentsContent = attachments.map((attachment, i) => {
@@ -21,7 +21,7 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
     if (shout) {
       content = (
         <Link to={ `/shout/${shout.id}` }>
-          <ShoutItem outline shout={ shout } thumbnailRatio={ 16/9 } />
+          <ShoutItem outline shout={ shout } thumbnailRatio={ 16 / 9 } />
         </Link>
       );
     }
@@ -40,23 +40,23 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
           { readByUsers.length > 0 && <MessageReadByFlag profiles={ readByUsers } /> }
         </span>
       }
-      {!isCreating && !createError && <span title={created.format("LLLL")}>
-          { created.format("LT") }
+      {!isCreating && !createError && <span title={created.format('LLLL')}>
+          { created.format('LT') }
         </span>
       }
       { isCreating && <span>Sending…</span> }
     </div>
   );
 
-  let className = "MessageItem";
+  let className = 'MessageItem';
   if (isMe) {
-    className += " isMe";
+    className += ' isMe';
   }
   if (createError) {
-    className += " didError";
+    className += ' didError';
   }
   if (isCreating) {
-    className += " sending";
+    className += ' sending';
   }
 
   return (

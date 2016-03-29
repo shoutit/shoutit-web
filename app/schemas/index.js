@@ -1,14 +1,14 @@
-import { Schema, arrayOf } from "normalizr";
-import { denormalize as denormalizer } from "denormalizr";
+import { Schema, arrayOf } from 'normalizr';
+import { denormalize as denormalizer } from 'denormalizr';
 
-const Category = new Schema("categories", { idAttribute: "slug" });
-const Conversation = new Schema("conversations");
-const Currency = new Schema("currencies", { idAttribute: "code" });
-const Message = new Schema("messages");
-const Shout = new Schema("shouts");
-const Suggestion = new Schema("suggestions", { idAttribute: "slug" });
-const Tag = new Schema("tags");
-const User = new Schema("users");
+const Category = new Schema('categories', { idAttribute: 'slug' });
+const Conversation = new Schema('conversations');
+const Currency = new Schema('currencies', { idAttribute: 'code' });
+const Message = new Schema('messages');
+const Shout = new Schema('shouts');
+const Suggestion = new Schema('suggestions', { idAttribute: 'slug' });
+const Tag = new Schema('tags');
+const User = new Schema('users');
 
 Category.define({ mainTag: Tag });
 

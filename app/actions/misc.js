@@ -1,6 +1,6 @@
 
-import * as actionTypes from "./actionTypes";
-import { Schemas } from "../schemas";
+import * as actionTypes from './actionTypes';
+import { Schemas } from '../schemas';
 
 export function loadCategories() {
   return {
@@ -10,7 +10,7 @@ export function loadCategories() {
       actionTypes.LOAD_CATEGORIES_FAILURE
     ],
     service: {
-      name: "categories",
+      name: 'categories',
       schema: Schemas.CATEGORIES
     }
   };
@@ -24,7 +24,7 @@ export function loadCurrencies() {
       actionTypes.LOAD_CURRENCIES_FAILURE
     ],
     service: {
-      name: "currencies",
+      name: 'currencies',
       schema: Schemas.CURRENCIES
     }
   };

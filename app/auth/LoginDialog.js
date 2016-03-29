@@ -1,18 +1,18 @@
-import React from "react";
-import {Link} from "react-router";
-import { connect } from "react-redux";
-import { replace } from "react-router-redux";
+import React from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { replace } from 'react-router-redux';
 
-import DocumentTitle from "../ui/DocumentTitle";
-import Dialog from "../shared/components/helper/Dialog.jsx";
+import DocumentTitle from '../ui/DocumentTitle';
+import Dialog from '../shared/components/helper/Dialog.jsx';
 
-import SocialLoginForm from "./SocialLoginForm";
-import NativeLoginForm from "./NativeLoginForm";
+import SocialLoginForm from './SocialLoginForm';
+import NativeLoginForm from './NativeLoginForm';
 
-import { createSession } from "../actions/session";
+import { createSession } from '../actions/session';
 
 export const LoginDialog = React.createClass({
-  displayName: "LoginDialog",
+  displayName: 'LoginDialog',
 
   componentWillReceiveProps(nextProps) {
     const { open, loggedUser, onLoginSuccess } = this.props;
@@ -54,7 +54,7 @@ export const LoginDialog = React.createClass({
 
             <div className="separator"></div>
             <center>
-            <span style={{marginBottom: "5px"}}>
+            <span style={{ marginBottom: '5px' }}>
               New to Shoutit&#63;&nbsp;
               <Link to="/signup">
                 <strong>Sign up</strong>
@@ -89,7 +89,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   if (location.query.after) {
     afterUrl = location.query.after;
   } else {
-    afterUrl="/home";
+    afterUrl = '/home';
   }
   return {
     onSubmit: loginData => dispatch(createSession(loginData)),

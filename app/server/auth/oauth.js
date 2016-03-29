@@ -1,25 +1,25 @@
 /**
  * Created by Philip on 12.01.2015.
  */
-import { apiUrl } from "../../config";
+import { apiUrl } from '../../config';
 
-var url = require("url");
+var url = require('url');
 
-var Promise = require("bluebird"),
-  request = require("superagent");
+var Promise = require('bluebird'),
+  request = require('superagent');
 
 var ENDPOINT_SERVER = apiUrl,
-  ACCESSTOKEN_ENDPOINT = "oauth2/access_token",
-  USER_ENDPOINT = "users/me",
-  CLIENT_ID = "shoutit-web",
-  CLIENT_SECRET = "0db3faf807534d1eb944a1a004f9cee3",
+  ACCESSTOKEN_ENDPOINT = 'oauth2/access_token',
+  USER_ENDPOINT = 'users/me',
+  CLIENT_ID = 'shoutit-web',
+  CLIENT_SECRET = '0db3faf807534d1eb944a1a004f9cee3',
   GRANT_TYPES = {
-    gplus: "gplus_code",
-    fb: "facebook_access_token",
-    shoutit:"shoutit_login",
-    signup: "shoutit_signup",
-    refresh: "refresh_token",
-    sms: "sms_code"
+    gplus: 'gplus_code',
+    fb: 'facebook_access_token',
+    shoutit:'shoutit_login',
+    signup: 'shoutit_signup',
+    refresh: 'refresh_token',
+    sms: 'sms_code'
   };
 
 function requestAccessToken(type, grantToken) {
@@ -29,7 +29,7 @@ function requestAccessToken(type, grantToken) {
     grant_type: GRANT_TYPES[type]
   };
 
-  if(GRANT_TYPES[type] === "shoutit_login") {
+  if (GRANT_TYPES[type] === 'shoutit_login') {
     requestData.email = grantToken.email;
     requestData.password = grantToken.pass;
   }
@@ -37,14 +37,14 @@ function requestAccessToken(type, grantToken) {
     requestData[GRANT_TYPES[type]] = grantToken;
   }
 
-  //console.log(requestData);
-  //console.log(url.resolve(ENDPOINT_SERVER,  ACCESSTOKEN_ENDPOINT));
+  // console.log(requestData);
+  // console.log(url.resolve(ENDPOINT_SERVER,  ACCESSTOKEN_ENDPOINT));
 
   return new Promise(function (resolve, reject) {
     request
       .post(url.resolve(ENDPOINT_SERVER, ACCESSTOKEN_ENDPOINT))
-      .type("json")
-      .accept("json")
+      .type('json')
+      .accept('json')
       .send(requestData)
       .end(function (err, res) {
         if (err) {
@@ -61,7 +61,7 @@ function updateSession(req) {
     var accessToken = req.session.accessToken = resp.access_token;
     req.session.refreshToken = resp.refresh_token;
     req.session.cookie.expires = new Date(Date.now() + parseInt(resp.expires_in));
-    req.session.scope = resp.scope ? resp.scope.split[" "] : [];
+    req.session.scope = resp.scope ? resp.scope.split[' '] : [];
     return accessToken;
   };
 }
@@ -70,8 +70,8 @@ function fetchUser(accessToken) {
   return new Promise(function (resolve, reject) {
     request
       .get(ENDPOINT_SERVER + USER_ENDPOINT)
-      .set("Authorization", "Bearer " + accessToken)
-      .accept("json")
+      .set('Authorization', 'Bearer ' + accessToken)
+      .accept('json')
       .end(function (err, resp) {
         if (err) {
           reject(err);
@@ -88,7 +88,7 @@ function fetchUser(accessToken) {
 
 function auth(type) {
   return function (req, res) {
-    var code = req.body.token || {email:req.body.email,pass:req.body.pass};
+    var code = req.body.token || { email:req.body.email, pass:req.body.pass };
     if (code) {
       requestAccessToken(type, code)
         .then(updateSession(req))
@@ -101,18 +101,18 @@ function auth(type) {
           res.status(400).send(err);
         });
     } else {
-      res.status(400).send("Bad Request");
+      res.status(400).send('Bad Request');
     }
   };
 }
 
 module.exports = {
-  gplusAuth: auth("gplus"),
-  fbAuth: auth("fb"),
-  siAuth: auth("shoutit"),
+  gplusAuth: auth('gplus'),
+  fbAuth: auth('fb'),
+  siAuth: auth('shoutit'),
 
   sms: function (req, smsCode) {
-    return requestAccessToken("sms", smsCode)
+    return requestAccessToken('sms', smsCode)
       .then(updateSession(req))
       .then(fetchUser)
       .then(function (user) {

@@ -1,8 +1,8 @@
-import request from "../utils/request";
-import { parseErrorResponse } from "../utils/APIUtils";
+import request from '../utils/request';
+import { parseErrorResponse } from '../utils/APIUtils';
 
 export default {
-  name: "listeners",
+  name: 'listeners',
   read: (req, resource, { user }, config, callback) => {
     request
       .get(`/users/${user.username}/listeners`)

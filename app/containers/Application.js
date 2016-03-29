@@ -1,19 +1,19 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
-import Header from "../layout/Header";
-import MainPage from "../shared/components/main/mainPage.jsx";
-import UINotificationsHost from "../ui/UINotificationsHost";
-import VideoCallHost from "../videoCalls/VideoCallHost";
+import Header from '../layout/Header';
+import MainPage from '../shared/components/main/mainPage.jsx';
+import UINotificationsHost from '../ui/UINotificationsHost';
+import VideoCallHost from '../videoCalls/VideoCallHost';
 
-import { getCurrentSession, login } from "../actions/session";
-import { loadCategories, loadCurrencies } from "../actions/misc";
-import { getCurrentLocation, loadSuggestions } from "../actions/location";
+import { getCurrentSession, login } from '../actions/session';
+import { loadCategories, loadCurrencies } from '../actions/misc';
+import { getCurrentLocation, loadSuggestions } from '../actions/location';
 
-const pagesWithoutHeader = [ MainPage ];
+const pagesWithoutHeader = [MainPage];
 
 if (process.env.BROWSER) {
-  require("./Application.scss");
+  require('./Application.scss');
 }
 
 const fetchData = (store) => {
@@ -73,7 +73,7 @@ export class Application extends React.Component {
     );
 
     return (
-      <div className={`App${hideHeader ? "" : " stickyHeader"}` }>
+      <div className={`App${hideHeader ? '' : ' stickyHeader'}` }>
         { !hideHeader &&
           <div className="App-header">
             <Header

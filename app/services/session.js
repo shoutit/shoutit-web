@@ -1,19 +1,19 @@
-import request from "../utils/request";
-import { createRequestSession } from "../utils/SessionUtils";
-import { parseErrorResponse } from "../utils/APIUtils";
+import request from '../utils/request';
+import { createRequestSession } from '../utils/SessionUtils';
+import { parseErrorResponse } from '../utils/APIUtils';
 
 import {
   AUTH_CLIENT_ID as client_id,
   AUTH_CLIENT_SECRET as client_secret
-} from "./constants";
+} from './constants';
 
 
 export default {
-  name: "session",
+  name: 'session',
   create: (req, resource, params, body, config, callback) => {
     const data = { ...body, client_id, client_secret };
     request
-      .post("/oauth2/access_token")
+      .post('/oauth2/access_token')
       .send(data)
       .prefix()
       .end((err, res) => {

@@ -1,12 +1,12 @@
-import request from "../utils/request";
-import { createLocationSlug } from "../utils/LocationUtils";
-import { parseErrorResponse } from "../utils/APIUtils";
+import request from '../utils/request';
+import { createLocationSlug } from '../utils/LocationUtils';
+import { parseErrorResponse } from '../utils/APIUtils';
 
 export default {
-  name: "location",
-  read: (req, resource, { latlng="0,0" }, config, callback) => {
+  name: 'location',
+  read: (req, resource, { latlng = '0,0' }, config, callback) => {
     request
-      .get("/misc/geocode")
+      .get('/misc/geocode')
       .query({ latlng })
       .setSession(req.session)
       .prefix()

@@ -1,11 +1,11 @@
-import request from "../utils/request";
-import { parseErrorResponse } from "../utils/APIUtils";
+import request from '../utils/request';
+import { parseErrorResponse } from '../utils/APIUtils';
 
 export default {
-  name: "passwordReset",
+  name: 'passwordReset',
   create: (req, resource, params, { email }, config, callback) => {
     request
-      .post("/auth/reset_password")
+      .post('/auth/reset_password')
       .send({ email })
       .prefix()
       .end((err, res) => {

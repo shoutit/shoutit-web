@@ -1,23 +1,23 @@
-import React from "react";
-import { Link } from "react-router";
+import React from 'react';
+import { Link } from 'react-router';
 
-import ManyUsersAvatar from "../users/ManyUsersAvatar.js";
-import { formatCreatedAt } from "../utils/DateUtils";
+import ManyUsersAvatar from '../users/ManyUsersAvatar.js';
+import { formatCreatedAt } from '../utils/DateUtils';
 
 if (process.env.BROWSER) {
-  require("./ConversationItem.scss");
+  require('./ConversationItem.scss');
 }
 
-export default function ConversationItem({ conversation, me, selected=false, unread=false, onClick }) {
+export default function ConversationItem({ conversation, me, selected = false, unread = false, onClick }) {
 
   const { id, type, users, lastMessage, about } = conversation;
 
   const partecipants = users
     .filter(user => user.username !== me)
     .map(user => user.name)
-    .join(", ");
+    .join(', ');
 
-  let className = "ConversationItem";
+  let className = 'ConversationItem';
 
   if (selected) {
     className = `${className} isSelected`;
@@ -35,7 +35,7 @@ export default function ConversationItem({ conversation, me, selected=false, unr
 
       <div className="ConversationItem-body">
 
-        { type === "about_shout" &&
+        { type === 'about_shout' &&
           <div className="ConversationItem-aboutShout">
             {about.title}
           </div>

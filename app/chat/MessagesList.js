@@ -1,10 +1,10 @@
-import React from "react";
-import moment from "moment";
-import { groupByDay, groupByUser, getReadyBy } from "../chat/MessagesUtils";
-import MessageItem from "./MessageItem";
-import UserAvatar from "../users/UserAvatar";
+import React from 'react';
+import moment from 'moment';
+import { groupByDay, groupByUser, getReadyBy } from '../chat/MessagesUtils';
+import MessageItem from './MessageItem';
+import UserAvatar from '../users/UserAvatar';
 if (process.env.BROWSER) {
-  require("./MessagesList.scss");
+  require('./MessagesList.scss');
 }
 
 function MessagesByDay({ day, messages, loggedUser, partecipants }) {
@@ -13,16 +13,16 @@ function MessagesByDay({ day, messages, loggedUser, partecipants }) {
 
       const { user, messages } = byUser;
       const isMe = user && user.username === loggedUser.username;
-      let className = "MessagesList";
+      let className = 'MessagesList';
       if (isMe) {
-        className += " isMe";
+        className += ' isMe';
       }
       return (
         <div key={ i } className={ className }>
           <div className="MessagesList-user">
               { user && <UserAvatar user={ user } linkToUserPage tooltip /> }
           </div>
-          <div  className="MessagesList-messages">
+          <div className="MessagesList-messages">
             { messages.map(message =>
               <MessageItem
                 key={ message.id }
@@ -40,7 +40,7 @@ function MessagesByDay({ day, messages, loggedUser, partecipants }) {
   return (
     <div>
       <div className="MessagesList-day">
-        <span /><span>{ moment(day).format("ll") }</span><span/>
+        <span /><span>{ moment(day).format('ll') }</span><span />
       </div>
       { messagesByUser }
     </div>
@@ -50,7 +50,7 @@ function MessagesByDay({ day, messages, loggedUser, partecipants }) {
 export default function MessagesList({ messages, loggedUser, partecipants }) {
   return (
     <div>
-        { groupByDay(messages).map(({day, messages}, i) =>
+        { groupByDay(messages).map(({ day, messages }, i) =>
           <MessagesByDay key={i} day={ day } loggedUser={ loggedUser } messages={ messages } partecipants={ partecipants } />
         )}
     </div>

@@ -1,7 +1,7 @@
-import { normalize } from "normalizr";
-import { camelizeKeys } from "humps";
+import { normalize } from 'normalizr';
+import { camelizeKeys } from 'humps';
 
-import merge from "lodash/object/merge";
+import merge from 'lodash/object/merge';
 
 export default fetchr => store => next => action => { // eslint-disable-line no-unused-vars
 
@@ -11,24 +11,24 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
 
   const { service, types } = action;
 
-  if (typeof service !== "object") {
-    throw new Error("fetchrMiddlware: service must be an object");
+  if (typeof service !== 'object') {
+    throw new Error('fetchrMiddlware: service must be an object');
   }
 
-  const { method="read", name, params, body, schema, parsePayload } = service;
+  const { method = 'read', name, params, body, schema, parsePayload } = service;
 
-  if (typeof name !== "string") {
-    throw new Error("Must specify a fetchr service name");
+  if (typeof name !== 'string') {
+    throw new Error('Must specify a fetchr service name');
   }
 
   if (!Array.isArray(types) || types.length !== 3) {
-    throw new Error("Expected an array of three action types");
+    throw new Error('Expected an array of three action types');
   }
-  if (!types.every(type => typeof type === "string")) {
-    throw new Error("Expected action types to be strings");
+  if (!types.every(type => typeof type === 'string')) {
+    throw new Error('Expected action types to be strings');
   }
-  if (parsePayload && typeof parsePayload !== "function") {
-    throw new Error("parsePayload must be a function");
+  if (parsePayload && typeof parsePayload !== 'function') {
+    throw new Error('parsePayload must be a function');
   }
 
   function actionWith(data) {
@@ -37,7 +37,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
     return finalAction;
   }
 
-  const [ startType, successType, failureType ] = types;
+  const [startType, successType, failureType] = types;
 
   next(actionWith({ type: startType }));
 

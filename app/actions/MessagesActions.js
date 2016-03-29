@@ -9,10 +9,10 @@ import {
   REPLY_SHOUT_SUCCESS,
   REPLY_SHOUT_FAILURE,
   NEW_PUSHED_MESSAGE
-} from "./actionTypes";
+} from './actionTypes';
 
-import * as client from "./MessagesClient";
-import { getUnixTime } from "../utils/DateUtils";
+import * as client from './MessagesClient';
+import { getUnixTime } from '../utils/DateUtils';
 
 function createTempMessage(data) {
   const tempMessageId = new Date().getUTCMilliseconds();
@@ -67,7 +67,7 @@ export default {
    * @return {Object}   The temporary message that is going to be sent.
    */
   replyToShout(loggedUser, shoutId, text, done) {
-    const message = createTempMessage({ text,  user: loggedUser });
+    const message = createTempMessage({ text, user: loggedUser });
     this.dispatch(REPLY_SHOUT, { shoutId, message });
     client.replyToShout(shoutId, message).end((error, res) => {
       if (error || !res.ok) {

@@ -1,5 +1,5 @@
-import Fluxxor from "fluxxor";
-import * as actions from "../actions/actionTypes";
+import Fluxxor from 'fluxxor';
+import * as actions from '../actions/actionTypes';
 
 const initialState = {
   users: {}
@@ -8,7 +8,7 @@ const initialState = {
 export default Fluxxor.createStore({
 
   initialize() {
-    this.state = {...initialState};
+    this.state = { ...initialState };
     this.bindActions(
       actions.LOGIN_SUCCESS, this.handleLoginSuccess,
       actions.LOAD_LISTENING_SUCCESS, this.handleListening,
@@ -39,18 +39,18 @@ export default Fluxxor.createStore({
   handleSuggestions({ suggestions }) {
     if (suggestions.users) {
       suggestions.users.forEach(this.add);
-      this.emit("change");
+      this.emit('change');
     }
   },
 
   handleListening({ users }) {
     users.forEach(this.add);
-    this.emit("change");
+    this.emit('change');
   },
 
   handleListeners({ results }) {
     results.forEach(this.add);
-    this.emit("change");
+    this.emit('change');
   },
 
   serialize() {

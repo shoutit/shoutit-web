@@ -1,13 +1,13 @@
-import request from "superagent";
-import {assign} from "lodash/object";
+import request from 'superagent';
+import { assign } from 'lodash/object';
 
 const page_size = 8;
-const SHOUTS_PREFIX = "/api/shouts";
+const SHOUTS_PREFIX = '/api/shouts';
 
 export default {
 
   getDiscover(countryCode) {
-    return request.get("/api/discover/").query({
+    return request.get('/api/discover/').query({
       country: countryCode.toUpperCase(),
       page_size
     });

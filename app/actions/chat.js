@@ -1,26 +1,26 @@
 
-import * as actionTypes from "./actionTypes";
-import uuid from "uuid";
-import merge from "lodash/object/merge";
+import * as actionTypes from './actionTypes';
+import uuid from 'uuid';
+import merge from 'lodash/object/merge';
 
-import { getUnixTime } from "../utils/DateUtils";
+import { getUnixTime } from '../utils/DateUtils';
 
-import { Schemas } from "../schemas";
+import { Schemas } from '../schemas';
 
 const parsePayloadForConversations = (payload, state) => {
   if (!state.chat.currentConversation) {
     return payload;
   }
-  payload = merge(payload, {
+  const newPayload = merge(payload, {
     entities: {
       conversations: {
         [state.chat.currentConversation]: {
-          unreadMessagesCount: 0
-        }
-      }
-    }
+          unreadMessagesCount: 0,
+        },
+      },
+    },
   });
-  return payload;
+  return newPayload;
 };
 
 export function loadConversations() {
@@ -28,13 +28,13 @@ export function loadConversations() {
     types: [
       actionTypes.LOAD_CONVERSATIONS_START,
       actionTypes.LOAD_CONVERSATIONS_SUCCESS,
-      actionTypes.LOAD_CONVERSATIONS_FAILURE
+      actionTypes.LOAD_CONVERSATIONS_FAILURE,
     ],
     service: {
-      name: "conversations",
+      name: 'conversations',
       schema: Schemas.CONVERSATIONS,
-      parsePayload: parsePayloadForConversations
-    }
+      parsePayload: parsePayloadForConversations,
+    },
   };
 }
 
@@ -43,14 +43,14 @@ export function loadConversation(id) {
     types: [
       actionTypes.LOAD_CONVERSATION_START,
       actionTypes.LOAD_CONVERSATION_SUCCESS,
-      actionTypes.LOAD_CONVERSATION_FAILURE
+      actionTypes.LOAD_CONVERSATION_FAILURE,
     ],
     service: {
-      name: "conversations",
+      name: 'conversations',
       params: { id },
       schema: Schemas.CONVERSATION,
-      parsePayload: parsePayloadForConversations
-    }
+      parsePayload: parsePayloadForConversations,
+    },
   };
 }
 
@@ -59,77 +59,77 @@ export function loadMessages(conversationId, endpoint) {
     types: [
       actionTypes.LOAD_MESSAGES_START,
       actionTypes.LOAD_MESSAGES_SUCCESS,
-      actionTypes.LOAD_MESSAGES_FAILURE
+      actionTypes.LOAD_MESSAGES_FAILURE,
     ],
     payload: { conversationId },
     service: {
-      name: "messages",
+      name: 'messages',
       params: { conversationId, endpoint },
-      schema: Schemas.MESSAGES
-    }
+      schema: Schemas.MESSAGES,
+    },
   };
 }
 
 export function addMessage(payload) {  // normalized payload
   return {
     type: actionTypes.ADD_MESSAGE,
-    payload
+    payload,
   };
 }
 
 export function setCurrentConversation(id) {
   return {
     type: actionTypes.SET_CURRENT_CONVERSATION,
-    payload: id
+    payload: id,
   };
 }
 
 export function unsetCurrentConversation() {
   return {
     type: actionTypes.SET_CURRENT_CONVERSATION,
-    payload: null
+    payload: null,
   };
 }
 
 export function replyToConversation(conversationId, sender, message) {
-  message = {
+  const newMessage = {
     ...message,
     user: sender,
-    id: "temp-" + uuid.v1(),
-    createdAt: getUnixTime()
+    id: `temp-${uuid.v1()}`,
+    createdAt: getUnixTime(),
   };
   return {
     types: [
       actionTypes.REPLY_CONVERSATION_START,
       actionTypes.REPLY_CONVERSATION_SUCCESS,
-      actionTypes.REPLY_CONVERSATION_FAILURE
+      actionTypes.REPLY_CONVERSATION_FAILURE,
     ],
     payload: {
-      conversationId, message
+      conversationId, message: newMessage,
     },
     service: {
-      name: "conversationReply",
-      method: "create",
+      name: 'conversationReply',
+      method: 'create',
       params: { conversationId },
       body: message,
       schema: Schemas.MESSAGE,
       parsePayload: payload => {
         // Add the last message to the conversation
         const messageId = payload.result;
-        const message = payload.entities.messages[messageId];
-        payload = merge(payload, {
+        const lastMessage = payload.entities.messages[messageId];
+        const newPayload = merge(payload, {
           entities: {
             conversations: {
-              [message.conversationId]: {
+              [lastMessage.conversationId]: {
                 lastMessage: messageId,
-                modifiedAt: message.createdAt
-              }
-            }
-          }
+                modifiedAt: message.createdAt,
+              },
+            },
+          },
         });
-        return payload;
-      }
-    }
+        return newPayload;
+      },
+    },
   };
 }
 
@@ -138,16 +138,16 @@ export function deleteConversation(id) {
     types: [
       actionTypes.LEAVE_CONVERSATION_START,
       actionTypes.LEAVE_CONVERSATION_SUCCESS,
-      actionTypes.LEAVE_CONVERSATION_FAILURE
+      actionTypes.LEAVE_CONVERSATION_FAILURE,
     ],
     payload: { id },
     service: {
-      name: "conversations",
-      method: "delete",
+      name: 'conversations',
+      method: 'delete',
       params: {
-        id
-      }
-    }
+        id,
+      },
+    },
   };
 }
 
@@ -155,28 +155,28 @@ export function typingUserNotification(conversationId, user) {
   const payload = {
     entities: {
       users: {
-        [user.id]: user
-      }
+        [user.id]: user,
+      },
     },
     userId: user.id,
-    conversationId
+    conversationId,
   };
   return {
     type: actionTypes.TYPING_USER_NOTIFICATION,
-    payload
+    payload,
   };
 }
 
 export function removeTypingUser(conversationId, userId) {
   return {
     type: actionTypes.REMOVE_TYPING_USER,
-    payload: { conversationId, userId }
+    payload: { conversationId, userId },
   };
 }
 
 export function notifyTypingUser(user) {
   return {
     type: actionTypes.NOTIFY_TYPING_USER,
-    payload: user
+    payload: user,
   };
 }

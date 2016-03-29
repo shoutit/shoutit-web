@@ -1,8 +1,8 @@
-import Fluxxor from "fluxxor";
-import consts from "./consts";
-import defaults from "../../consts/defaults";
-import assign from "lodash/object/assign";
-import url from "url";
+import Fluxxor from 'fluxxor';
+import consts from './consts';
+import defaults from '../../consts/defaults';
+import assign from 'lodash/object/assign';
+import url from 'url';
 
 var DiscoverStore = Fluxxor.createStore({
   initialize(props) {
@@ -16,15 +16,15 @@ var DiscoverStore = Fluxxor.createStore({
     // Checking server rendering conditions
 
     if (props.discoverlist) {
-      const {country, results: {id}} = props.discoverlist;
-      this.onLoadDiscoverWithCodeSuccess({country, id});
+      const { country, results: { id } } = props.discoverlist;
+      this.onLoadDiscoverWithCodeSuccess({ country, id });
     }
 
     if (props.discoverid) {
       const res = props.discoverid;
       // TODO: Bring it back after dicoverShouts were also supported by server rendering
-      //this.addDiscoverEntry(res.id);
-      //this.onLoadDiscoverWithIdSuccess({res , id: res.id});
+      // this.addDiscoverEntry(res.id);
+      // this.onLoadDiscoverWithIdSuccess({res , id: res.id});
     }
 
     // TODO: should be implemented to be fetched in components and routes
@@ -83,31 +83,31 @@ var DiscoverStore = Fluxxor.createStore({
 
   onLoadDiscoverWithCode() {
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadDiscoverWithCodeSuccess(payload) {
-    const {country, id} = payload;
+    const { country, id } = payload;
 
     this.state.countries[country] = id;
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadDiscoverFail() {
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadDiscoverWithId({id}) {
+  onLoadDiscoverWithId({ id }) {
     this.addDiscoverEntry(id);
     this.state.discovers[id].loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadDiscoverWithIdSuccess(payload) {
     const result = payload.res;
-    const {id} = result;
+    const { id } = result;
 
     this.state.discovers[id].id = id;
     this.state.discovers[id].title = result.title;
@@ -119,59 +119,59 @@ var DiscoverStore = Fluxxor.createStore({
     }
     // Pause loading
     this.state.discovers[id].loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadDiscoverWithIdFail({id}) {
+  onLoadDiscoverWithIdFail({ id }) {
     delete this.state.discovers[id];
     this.state.discovers[id].loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadDiscoverShouts({id}) {
+  onLoadDiscoverShouts({ id }) {
     this.addDiscoverShoutsEntry(id);
     this.state.shouts[id].loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadDiscoverShoutsSuccess({id, res}) {
+  onLoadDiscoverShoutsSuccess({ id, res }) {
     // Waiting for the shouts store to handle and store the shouts data
-    this.waitFor(["shouts"], () => {
+    this.waitFor(['shouts'], () => {
       this.state.shouts[id].loading = false;
       this.state.shouts[id].next = this.parseNextPage(res.next);
 
       // save the list of shouts id in this store
       this.state.shouts[id].list = res.results.map((item) => item.id);
-      this.emit("change");
+      this.emit('change');
     });
   },
 
-  onLoadDiscoverShoutsFail({id}) {
+  onLoadDiscoverShoutsFail({ id }) {
     this.state.shouts[id].loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadMoreDiscoverShouts({ id }) {
     this.state.shouts[id].loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadMoreDiscoverShoutsSuccess({ id, res }) {
     // Waiting for the shouts store to handle and store the shouts data
-    this.waitFor(["shouts"], () => {
+    this.waitFor(['shouts'], () => {
       this.state.shouts[id].loading = false;
       this.state.shouts[id].next = this.parseNextPage(res.next);
 
       // save the list of shouts id in this store
       const stock = this.state.shouts[id].list;
       this.state.shouts[id].list = [...stock, ...res.results.map((item) => item.id)];
-      this.emit("change");
+      this.emit('change');
     });
   },
 
   onLoadMoreDiscoverShoutsFail({ id }) {
     this.state.shouts[id].loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   parseNextPage(nextUrl) {

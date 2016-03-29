@@ -1,9 +1,9 @@
-import request from "../utils/request";
-import { createLocationSlug } from "../utils/LocationUtils";
-import { parseErrorResponse } from "../utils/APIUtils";
+import request from '../utils/request';
+import { createLocationSlug } from '../utils/LocationUtils';
+import { parseErrorResponse } from '../utils/APIUtils';
 
 export default {
-  name: "suggestions",
+  name: 'suggestions',
   read: (req, resource, { type, location }, config, callback) => {
 
     location = {
@@ -16,7 +16,7 @@ export default {
     const { country, state, city } = location;
 
     request
-      .get("/misc/suggestions")
+      .get('/misc/suggestions')
       .query({ type })
       .query({ country })
       .query({ state })

@@ -1,33 +1,33 @@
-import Fluxxor from "fluxxor";
-import debug from "debug";
+import Fluxxor from 'fluxxor';
+import debug from 'debug';
 
 // import stores
 
-import * as stores from "./stores";
+import * as stores from './stores';
 
-import UINotificationsStore from "./stores/UINotificationsStore";
-import VideoCallsStore from "./stores/VideoCallsStore";
+import UINotificationsStore from './stores/UINotificationsStore';
+import VideoCallsStore from './stores/VideoCallsStore';
 
-import UsersStore from "./shared/stores/users/store";
-import ShoutStore from "./shared/stores/shouts/store";
-import TagStore from "./shared/stores/tags/store";
-import SearchStore from "./shared/stores/search/store";
-import LocationsStore from "./shared/stores/locations/store";
-import NotificationsStore from "./shared/stores/notifications/store";
-import DiscoversStore from "./shared/stores/discovers/store";
+import UsersStore from './shared/stores/users/store';
+import ShoutStore from './shared/stores/shouts/store';
+import TagStore from './shared/stores/tags/store';
+import SearchStore from './shared/stores/search/store';
+import LocationsStore from './shared/stores/locations/store';
+import NotificationsStore from './shared/stores/notifications/store';
+import DiscoversStore from './shared/stores/discovers/store';
 
 // import actions
 
-import * as actions from "./actions";
-import DiscoversActions from "./shared/stores/discovers/actions";
-import LocationsActions from "./shared/stores/locations/actions";
-import NotificationsActions from "./shared/stores/notifications/actions";
-import SearchActions from "./shared/stores/search/actions";
-import ShoutActions from "./shared/stores/shouts/actions";
-import SuggestionsActions from "./shared/stores/suggestions/actions";
-import TagActions from "./shared/stores/tags/actions";
-import UINotificationsActions from "./actions/UINotificationsActions";
-import UserActions from "./shared/stores/users/actions";
+import * as actions from './actions';
+import DiscoversActions from './shared/stores/discovers/actions';
+import LocationsActions from './shared/stores/locations/actions';
+import NotificationsActions from './shared/stores/notifications/actions';
+import SearchActions from './shared/stores/search/actions';
+import ShoutActions from './shared/stores/shouts/actions';
+import SuggestionsActions from './shared/stores/suggestions/actions';
+import TagActions from './shared/stores/tags/actions';
+import UINotificationsActions from './actions/UINotificationsActions';
+import UserActions from './shared/stores/users/actions';
 
 const fluxStores = Object.keys(stores).reduce(
   (result, key) => ({
@@ -41,7 +41,7 @@ let fluxActions = Object.keys(actions).reduce(
   {}
 );
 
-const log = debug("shoutit:flux");
+const log = debug('shoutit:flux');
 
 export default function Flux(fetchr) {
 
@@ -59,9 +59,9 @@ export default function Flux(fetchr) {
   };
 
   for (const store in stores) {
-    log("Registered store %s", store);
-    stores[store].on("change", () =>
-      debug(`shoutit:flux:${store}`)("Emitted change")
+    log('Registered store %s', store);
+    stores[store].on('change', () =>
+      debug(`shoutit:flux:${store}`)('Emitted change')
     );
   }
 
@@ -85,10 +85,10 @@ export default function Flux(fetchr) {
     const storesState = {};
     Object.keys(stores).forEach(storeName => {
       if (!stores[storeName].serialize) {
-        return log("Store %s has no serialize method", storeName);
+        return log('Store %s has no serialize method', storeName);
       }
       storesState[storeName] = stores[storeName].serialize();
-      log("Store %s has been dehydrated", storeName);
+      log('Store %s has been dehydrated', storeName);
     });
     return JSON.stringify(storesState);
   };
@@ -96,15 +96,15 @@ export default function Flux(fetchr) {
   flux.rehydrate = storesState => {
     Object.keys(storesState).forEach(storeName => {
       if (!stores[storeName].hydrate) {
-        return log("Store %s has no hydrate method", storeName);
+        return log('Store %s has no hydrate method', storeName);
       }
       stores[storeName].hydrate(storesState[storeName]);
-      log("Rehydrated %s store", storeName, stores[storeName].getState());
+      log('Rehydrated %s store', storeName, stores[storeName].getState());
     });
   };
 
-  flux.on("dispatch", (type, payload) =>
-    log("Dispatching %s", type)
+  flux.on('dispatch', (type, payload) =>
+    log('Dispatching %s', type)
   );
 
   return flux;

@@ -1,6 +1,6 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
-import { suggestion } from "../schemas";
+import { suggestion } from '../schemas';
 
 export function getCurrentLocation() {
   return {
@@ -10,8 +10,8 @@ export function getCurrentLocation() {
       actionTypes.GET_CURRENT_LOCATION_FAILURE
     ],
     service: {
-      name: "location",
-      params: { latlng: "0,0" }
+      name: 'location',
+      params: { latlng: '0,0' }
     }
   };
 }
@@ -24,7 +24,7 @@ export function getLocation(latlng) {
       actionTypes.GET_LOCATION_FAILURE
     ],
     service: {
-      name: "location",
+      name: 'location',
       params: { latlng }
     }
   };
@@ -38,7 +38,7 @@ export function loadSuggestions(location) {
       actionTypes.LOAD_SUGGESTIONS_FAILURE
     ],
     service:{
-      name: "suggestions",
+      name: 'suggestions',
       params: { location },
       schema: suggestion
     }

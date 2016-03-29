@@ -1,4 +1,4 @@
-import consts from "./consts";
+import consts from './consts';
 
 export default {
   loadPredictions(term) {

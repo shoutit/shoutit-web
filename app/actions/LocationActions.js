@@ -1,11 +1,11 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
 export default {
 
   getCurrentLocation(done) {
     this.dispatch(actionTypes.CURRENT_LOCATION_START);
     this.flux.service
-      .read("geocode")
+      .read('geocode')
       .end((error, location) => {
         if (error) {
           this.dispatch(actionTypes.CURRENT_LOCATION_FAILURE, { error });

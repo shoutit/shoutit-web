@@ -1,5 +1,5 @@
-import consts from "./consts";
-import client from "./client";
+import consts from './consts';
+import client from './client';
 
 export default {
   loadTag(tagName) {
@@ -21,9 +21,9 @@ export default {
 
   listenTag(tagName) {
     client.listen(tagName).end((err, res) => {
-      if(err) {
+      if (err) {
         this.dispatch(consts.LISTEN_TAG_FAIL, { tagName });
-      } else if(res.body.success) {
+      } else if (res.body.success) {
         this.dispatch(consts.LISTEN_TAG_SUCCESS, { tagName });
       } else {
         this.dispatch(consts.LISTEN_TAG_FAIL, { tagName });
@@ -35,9 +35,9 @@ export default {
 
   stopListenTag(tagName) {
     client.unlisten(tagName).end((err, res) => {
-      if(err) {
+      if (err) {
         this.dispatch(consts.STOP_LISTEN_TAG_FAIL, { tagName });
-      } else if(res.body.success) {
+      } else if (res.body.success) {
         this.dispatch(consts.STOP_LISTEN_TAG_SUCCESS, { tagName });
       } else {
         this.dispatch(consts.STOP_LISTEN_TAG_FAIL, { tagName });
@@ -87,7 +87,7 @@ export default {
   },
 
   loadTags(query) {
-    this.dispatch(consts.LOAD_TAGS, {query});
+    this.dispatch(consts.LOAD_TAGS, { query });
 
     client.list(query)
       .end((error, res) => {
@@ -104,7 +104,7 @@ export default {
   },
 
   loadSpriteInfo(hash) {
-    this.dispatch(consts.LOAD_TAGS_SPRITE, {hash});
+    this.dispatch(consts.LOAD_TAGS_SPRITE, { hash });
 
     client.loadSpriteInfo(hash)
       .end((error, res) => {
@@ -124,7 +124,7 @@ export default {
   },
 
   requestSpriting(images) {
-    this.dispatch(consts.REQUEST_SPRITING, {images});
+    this.dispatch(consts.REQUEST_SPRITING, { images });
 
     client.requestSpriting(images)
       .end((error, res) => {

@@ -1,16 +1,16 @@
-import findIndex from "lodash/array/findIndex";
-import keys from "lodash/object/keys";
-import Fluxxor from "fluxxor";
-import url from "url";
-import consts from "./consts";
-import discoverConsts from "../discovers/consts";
-import client from "./client";
+import findIndex from 'lodash/array/findIndex';
+import keys from 'lodash/object/keys';
+import Fluxxor from 'fluxxor';
+import url from 'url';
+import consts from './consts';
+import discoverConsts from '../discovers/consts';
+import client from './client';
 
-import defaults from "../../consts/defaults";
+import defaults from '../../consts/defaults';
 
-import debug from "debug";
+import debug from 'debug';
 
-const log = debug("shoutit:flux:shouts");
+const log = debug('shoutit:flux:shouts');
 
 function shoutCollectionInit() {
   return {
@@ -30,7 +30,7 @@ function shoutDraftInit() {
     currency: null,
     tags: [],
     latLng: null,
-    type: "offer",
+    type: 'offer',
     category: null,
     images:[]
   };
@@ -38,7 +38,7 @@ function shoutDraftInit() {
 
 function replyDraftInit(text) {
   return {
-    text: text || ""
+    text: text || ''
   };
 }
 
@@ -95,10 +95,10 @@ let ShoutStore = Fluxxor.createStore({
       this.state.fullShouts[props.shout.id] = this.augmentShout(props.shout);
     }
 
-    if(props.discoverShouts) {
+    if (props.discoverShouts) {
       const res = props.discoverid;
 
-      this.onDiscoverShoutsSuccess({res});
+      this.onDiscoverShoutsSuccess({ res });
     }
 
 
@@ -160,7 +160,7 @@ let ShoutStore = Fluxxor.createStore({
   },
 
   onUpdate(type = defaults.ALL_TYPE) {
-    let locationsStore = this.flux.store("locations");
+    let locationsStore = this.flux.store('locations');
     client.list({
       page_size: defaults.PAGE_SIZE,
       city: locationsStore.getCurrentCity(),
@@ -191,18 +191,18 @@ let ShoutStore = Fluxxor.createStore({
   onGetMobileNumber({ shoutId }) {
     client.getCall(shoutId).end((err, res) => {
       console.log(res);
-      if(err) {
+      if (err) {
         log(err);
-      } else if( this.state.fullShouts[shoutId]) {
+      } else if (this.state.fullShouts[shoutId]) {
         this.state.fullShouts[shoutId].mobile_number = res.body.mobile;
-        this.emit("change");
+        this.emit('change');
       }
     });
   },
 
-  onUpdateSuccess({res, type}) {
+  onUpdateSuccess({ res, type }) {
     this.saveUpdate(res, type);
-    this.emit("change");
+    this.emit('change');
   },
 
   onDiscoverShoutsSuccess(payload) {
@@ -223,12 +223,12 @@ let ShoutStore = Fluxxor.createStore({
     });
   },
 
-  onLoadRelatedShouts({shoutId}) {
-    this.state.relatedShouts[shoutId] = {loading: false, res: []};
+  onLoadRelatedShouts({ shoutId }) {
+    this.state.relatedShouts[shoutId] = { loading: false, res: [] };
 
     client.getRelatedShouts(shoutId)
       .end((err, res) => {
-        if(err || res.status !== 200) {
+        if (err || res.status !== 200) {
           this.state.relatedShouts[shoutId].res = [];
           console.log(err);
         } else {
@@ -236,13 +236,13 @@ let ShoutStore = Fluxxor.createStore({
         }
 
         this.state.relatedShouts[shoutId].loading = false;
-        this.emit("change");
+        this.emit('change');
       });
     this.state.relatedShouts[shoutId].loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadShout({shoutId}) {
+  onLoadShout({ shoutId }) {
     client.get(shoutId)
       .end((err, res) => {
         if (err || res.status !== 200) {
@@ -252,27 +252,27 @@ let ShoutStore = Fluxxor.createStore({
         }
       });
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadShoutSuccess({res}) {
+  onLoadShoutSuccess({ res }) {
     this.state.fullShouts[res.id] = res;
     this.state.loading = false;
-    this.flux.store("users").onLoadUser({username: res.user.username});
-    this.emit("change");
+    this.flux.store('users').onLoadUser({ username: res.user.username });
+    this.emit('change');
   },
 
-  onLoadShoutFailed({shoutId, res}) {
+  onLoadShoutFailed({ shoutId, res }) {
     if (res.status !== 404) {
       console.error(res.body);
     }
     this.state.fullShouts[shoutId] = null;
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadMore({type = defaults.ALL_TYPE}) {
-    let locationsStore = this.flux.store("locations"),
+  onLoadMore({ type = defaults.ALL_TYPE }) {
+    let locationsStore = this.flux.store('locations'),
       collection = this.state[type];
 
     if (collection.next || collection.shouts.length === 0) {
@@ -294,12 +294,12 @@ let ShoutStore = Fluxxor.createStore({
         });
 
       this.state.loading = true;
-      this.emit("change");
+      this.emit('change');
     }
   },
 
   findShout(shoutId) {
-    if(!shoutId) {return;}
+    if (!shoutId) {return;}
 
     var state = this.state,
       index = this.getIndex(shoutId);
@@ -322,10 +322,10 @@ let ShoutStore = Fluxxor.createStore({
   },
 
   getIndex(collection, shoutId) {
-    return findIndex(collection.shouts, "id", shoutId);
+    return findIndex(collection.shouts, 'id', shoutId);
   },
 
-  onLoadMoreSuccess({res, type=defaults.ALL_TYPE}) {
+  onLoadMoreSuccess({ res, type = defaults.ALL_TYPE }) {
     let collection = this.state[type];
     res.results.forEach(shout => {
       var index = this.getIndex(collection, shout.id);
@@ -340,30 +340,30 @@ let ShoutStore = Fluxxor.createStore({
     collection.next = this.parsePage(res.next);
     collection.page = collection.next - 1 || collection.prev + 1 || 1;
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onChangeShoutDraft({key, value}) {
+  onChangeShoutDraft({ key, value }) {
     this.state.draft[key] = value;
-    this.emit("change");
+    this.emit('change');
   },
 
   onSendShout() {
     this.state.waiting = true;
-    this.emit("change");
+    this.emit('change');
     this.validateDraft(this.state.draft)
       .then(this.transformDraft.bind(this))
       .then(this.sendShout)
       .then((result) => {
         this.state.status = result;
         this.state.waiting = false;
-        this.emit("change");
+        this.emit('change');
       },
       (err) => {
         console.log(err);
         this.state.status = err;
         this.state.waiting = false;
-        this.emit("change");
+        this.emit('change');
       });
   },
 
@@ -382,7 +382,7 @@ let ShoutStore = Fluxxor.createStore({
   },
 
   transformDraft(shoutDraft) {
-    let locationStore = this.flux.store("locations");
+    let locationStore = this.flux.store('locations');
 
     return new Promise(function (resolve, reject) {
       let shoutToSend = {};
@@ -424,22 +424,22 @@ let ShoutStore = Fluxxor.createStore({
 
     return new Promise(function (resolve, reject) {
       if (!shoutDraft.title || shoutDraft.title.length < 10) {
-        errors.title = "Enter a title with 10 to 200 characters";
+        errors.title = 'Enter a title with 10 to 200 characters';
       }
       if (!shoutDraft.text || shoutDraft.text.length < 10 || shoutDraft.text.length > 1000) {
-        errors.text = "Enter a description with 10 to 1000 characters";
+        errors.text = 'Enter a description with 10 to 1000 characters';
       }
       if (!shoutDraft.currency) {
-        errors.currency = "Select a currency";
+        errors.currency = 'Select a currency';
       }
       if (!shoutDraft.price) {
-        errors.price = "Select a price";
+        errors.price = 'Select a price';
       }
       if (!shoutDraft.latLng) {
-        errors.location = "Select a location";
+        errors.location = 'Select a location';
       }
       if (!shoutDraft.category) {
-        errors.category = "Select a category";
+        errors.category = 'Select a category';
       }
       // if (!shoutDraft.images.length) {
       //  errors.images = "Upload at least one image";
@@ -453,16 +453,16 @@ let ShoutStore = Fluxxor.createStore({
     });
   },
 
-  onRemoveShoutImage({fileName}) {
+  onRemoveShoutImage({ fileName }) {
     client.remove(fileName)
-      .end(function(err, res) {
-        if(err) {
+      .end(function (err, res) {
+        if (err) {
           console.log(err);
         }
       });
   },
 
-  onChangeShoutReplyDraft({shoutId, text}) {
+  onChangeShoutReplyDraft({ shoutId, text }) {
     let draft = this.state.replyDrafts[shoutId];
 
     if (draft) {
@@ -471,12 +471,12 @@ let ShoutStore = Fluxxor.createStore({
       this.state.replyDrafts[shoutId] = replyDraftInit(text);
     }
 
-    this.emit("change");
+    this.emit('change');
   },
 
-  onSendShoutReply({shoutId}) {
+  onSendShoutReply({ shoutId }) {
     this.state.replyDrafts[shoutId] = replyDraftInit();
-    this.emit("change");
+    this.emit('change');
   },
 
   serialize() {

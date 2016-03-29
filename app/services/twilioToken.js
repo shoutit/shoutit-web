@@ -1,11 +1,11 @@
-import request from "../utils/request";
-import { parseErrorResponse } from "../utils/APIUtils";
+import request from '../utils/request';
+import { parseErrorResponse } from '../utils/APIUtils';
 
 export default {
-  name: "twilioToken",
+  name: 'twilioToken',
   create: (req, resource, params, body, config, callback) => {
     request
-      .post(`/twilio/video_auth`)
+      .post('/twilio/video_auth')
       .setSession(req.session)
       .prefix()
       .end((err, res) => {

@@ -1,11 +1,11 @@
-import request from "../utils/request";
-import { parseErrorResponse } from "../utils/APIUtils";
+import request from '../utils/request';
+import { parseErrorResponse } from '../utils/APIUtils';
 
 export default {
-  name: "conversations",
+  name: 'conversations',
 
   read: (req, resource, { id }, config, callback) => {
-    let url = "/conversations";
+    let url = '/conversations';
     if (id) {
       url += `/${id}`;
     }

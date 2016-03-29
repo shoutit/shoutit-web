@@ -1,6 +1,6 @@
 export default function (client, path) {
   return function (session, tagName, query) {
-    return client.get(path + "/" + tagName + "/listeners", {
+    return client.get(path + '/' + tagName + '/listeners', {
       accessToken: session && session.accessToken ? session.accessToken : null,
       query: query
     });

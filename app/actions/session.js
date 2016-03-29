@@ -1,4 +1,4 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
 export function getCurrentSession() {
   return {
@@ -8,22 +8,22 @@ export function getCurrentSession() {
       actionTypes.GET_SESSION_FAILURE
     ],
     service: {
-      name: "session"
+      name: 'session'
     }
   };
 }
 
 export function loginWithGoogle({ gplus_code, user }) {
-  const loginData = { gplus_code, user, grant_type: "gplus_code" };
+  const loginData = { gplus_code, user, grant_type: 'gplus_code' };
   return createSession(loginData);
 }
 
 export function loginWithFacebook({ facebook_access_token, user }) {
-  const loginData = { facebook_access_token, user, grant_type: "facebook_access_token" };
+  const loginData = { facebook_access_token, user, grant_type: 'facebook_access_token' };
   return createSession(loginData);
 }
 
-export function createSession({ grant_type="shoutit_login", ...loginData}) {
+export function createSession({ grant_type = 'shoutit_login', ...loginData }) {
   const body = { ...loginData, grant_type };
   return {
     payload: { grant_type },
@@ -33,8 +33,8 @@ export function createSession({ grant_type="shoutit_login", ...loginData}) {
       actionTypes.LOGIN_FAILURE
     ],
     service: {
-      name: "session",
-      method: "create",
+      name: 'session',
+      method: 'create',
       body: body
     }
   };
@@ -48,8 +48,8 @@ export function logout() {
       actionTypes.LOGOUT_FAILURE
     ],
     service: {
-      name: "session",
-      method: "delete"
+      name: 'session',
+      method: 'delete'
     }
   };
 }
@@ -69,8 +69,8 @@ export function createProfile(body) {
       actionTypes.SIGNUP_FAILURE
     ],
     service: {
-      name: "profile",
-      method: "create",
+      name: 'profile',
+      method: 'create',
       body
     }
   };
@@ -84,8 +84,8 @@ export function requestPasswordReset(email) {
       actionTypes.PASSWORD_RESET_FAILURE
     ],
     service: {
-      name: "passwordReset",
-      method: "create",
+      name: 'passwordReset',
+      method: 'create',
       body: { email }
     }
   };
@@ -99,8 +99,8 @@ export function sendEmailVerification(email) {
       actionTypes.SEND_EMAIL_VERIFICATION_FAILURE
     ],
     service: {
-      name: "emailVerification",
-      method: "create",
+      name: 'emailVerification',
+      method: 'create',
       params: { email }
     }
   };
@@ -114,7 +114,7 @@ export function verifyEmail(token) {
       actionTypes.EMAIL_VERIFICATION_FAILURE
     ],
     service: {
-      name: "emailVerification",
+      name: 'emailVerification',
       params: { token }
     }
   };

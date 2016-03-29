@@ -1,14 +1,14 @@
-import React from "react";
-import Dialog from "material-ui/lib/dialog";
-import FlatButton from "material-ui/lib/flat-button";
+import React from 'react';
+import Dialog from 'material-ui/lib/dialog';
+import FlatButton from 'material-ui/lib/flat-button';
 
-export default function ConversationDeleteDialog({ open, onRequestClose, onConfirm, isDeleting}) {
+export default function ConversationDeleteDialog({ open, onRequestClose, onConfirm, isDeleting }) {
 
   const actions = [
     <FlatButton key="cancel" secondary label="Cancel" onTouchTap={ onRequestClose } />,
     <FlatButton key="submit" primary disabled={ isDeleting }
-        label={ isDeleting ? "Leaving..." : "Leave" }
-        onTouchTap={ onConfirm }
+      label={ isDeleting ? 'Leaving...' : 'Leave' }
+      onTouchTap={ onConfirm }
     />
   ];
 

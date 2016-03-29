@@ -1,15 +1,15 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router";
-import ConversationsList from "../chat/ConversationsList.js";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
+import ConversationsList from '../chat/ConversationsList.js';
 
-import { denormalize } from "../schemas";
+import { denormalize } from '../schemas';
 
 if (process.env.BROWSER) {
-  require("styles/components/ListOverlay.scss");
+  require('styles/components/ListOverlay.scss');
 }
 
-export function HeaderMessagesOverlay({ loggedUser, isFetching, conversations=[], onMarkAsReadClick }) {
+export function HeaderMessagesOverlay({ loggedUser, isFetching, conversations = [], onMarkAsReadClick }) {
   const enableMarkAllAsRead = false; // wait for https://github.com/shoutit/shoutit-web/issues/98
   const unreadCount = conversations.filter(c => c.unreadMessagesCount > 0).length;
   return (
@@ -53,7 +53,7 @@ const mapStateToProps = state => {
   const props = {
     loggedUser: state.session.user,
     isFetching: chat.isFetching,
-    conversations: chat.ids.map(id => denormalize(conversations[id], entities, "CONVERSATION"))
+    conversations: chat.ids.map(id => denormalize(conversations[id], entities, 'CONVERSATION'))
   };
   return props;
 };

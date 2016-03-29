@@ -1,17 +1,17 @@
-import React from "react";
-import { connect } from "react-redux";
-import FixedHeightPage from "../ui/FixedHeightPage";
+import React from 'react';
+import { connect } from 'react-redux';
+import FixedHeightPage from '../ui/FixedHeightPage';
 
-import DocumentTitle from "../ui/DocumentTitle";
-import ConversationsTitle from "../chat/ConversationsTitle";
-import ConversationsList from "../chat/ConversationsList";
-import { loadConversations } from "../actions/chat";
-import RequiresLogin from "../auth/RequiresLogin";
+import DocumentTitle from '../ui/DocumentTitle';
+import ConversationsTitle from '../chat/ConversationsTitle';
+import ConversationsList from '../chat/ConversationsList';
+import { loadConversations } from '../actions/chat';
+import RequiresLogin from '../auth/RequiresLogin';
 
-import { denormalize } from "../schemas";
+import { denormalize } from '../schemas';
 
 if (process.env.BROWSER) {
-  require("./Chat.scss");
+  require('./Chat.scss');
 }
 
 export class Chat extends React.Component {
@@ -52,9 +52,9 @@ export class Chat extends React.Component {
                   React.cloneElement(children, { loggedUser, videoCallState }) :
                   <div className="Chat-placeholder">
                     { conversations.length > 0 ?
-                        "Please pick a conversation" :
-                        isFetching ? "Loading..." :
-                        "No messages."
+                        'Please pick a conversation' :
+                        isFetching ? 'Loading...' :
+                        'No messages.'
                       }
                   </div>
                 }
@@ -69,11 +69,11 @@ export class Chat extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const { entities: { conversations, ...entities } , paginated: { chat } } = state;
+  const { entities: { conversations, ...entities }, paginated: { chat } } = state;
   const props = {
     loggedUser: state.session.user,
     isFetching: chat.isFetching,
-    conversations: chat.ids.map(id => denormalize(conversations[id], entities, "CONVERSATION"))
+    conversations: chat.ids.map(id => denormalize(conversations[id], entities, 'CONVERSATION'))
   };
   return props;
 };

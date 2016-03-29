@@ -1,5 +1,5 @@
 export default function (client, path) {
   return function () {
-    return client.get(path + "/categories");
+    return client.get(path + '/categories');
   };
 }

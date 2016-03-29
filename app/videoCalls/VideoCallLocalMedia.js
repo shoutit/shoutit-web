@@ -1,11 +1,11 @@
 /* globals Twilio */
 
-import React from "react";
+import React from 'react';
 
-const TWILIO_NOT_LOADED = "TWILIO_NOT_LOADED";
+const TWILIO_NOT_LOADED = 'TWILIO_NOT_LOADED';
 
 if (process.env.BROWSER) {
-  require("./VideoCallLocalMedia.scss");
+  require('./VideoCallLocalMedia.scss');
 }
 
 export default class VideoCallLocalMedia extends React.Component {

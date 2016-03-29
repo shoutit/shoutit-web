@@ -1,16 +1,16 @@
-import React, { PropTypes, Component } from "react";
-import { connect } from "react-redux";
+import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
 
-import TextareaAutosize from "react-textarea-autosize";
-import Button from "../shared/components/helper/Button.jsx";
-import SVGIcon from "../shared/components/helper/SVGIcon";
-import { saveDraft } from "../actions/forms";
-import { replyToConversation, notifyTypingUser } from "../actions/chat";
-import { ENTER } from "../utils/keycodes";
-import { trimWhitespaces } from "../utils/StringUtils";
+import TextareaAutosize from 'react-textarea-autosize';
+import Button from '../shared/components/helper/Button.jsx';
+import SVGIcon from '../shared/components/helper/SVGIcon';
+import { saveDraft } from '../actions/forms';
+import { replyToConversation, notifyTypingUser } from '../actions/chat';
+import { ENTER } from '../utils/keycodes';
+import { trimWhitespaces } from '../utils/StringUtils';
 
 if (process.env.BROWSER) {
-  require("./ConversationReplyForm.scss");
+  require('./ConversationReplyForm.scss');
 }
 
 export class ConversationReplyForm extends Component {
@@ -22,10 +22,10 @@ export class ConversationReplyForm extends Component {
   };
 
   static defaultProps = {
-    draft: "",
+    draft: '',
     autoFocus: false,
     disabled: false,
-    placeholder: "Type a message…",
+    placeholder: 'Type a message…',
     typingTimeout: 3000
   }
 
@@ -46,7 +46,7 @@ export class ConversationReplyForm extends Component {
       return;
     }
     dispatch(replyToConversation(conversation.id, loggedUser, { text }));
-    dispatch(saveDraft(name, { draft: "" }));
+    dispatch(saveDraft(name, { draft: '' }));
     this.refs.draft.focus();
   }
 
@@ -67,7 +67,7 @@ export class ConversationReplyForm extends Component {
   }
 
   render() {
-    const  { onAttachShoutClick, fields, name, ...attributes } = this.props;
+    const { onAttachShoutClick, fields, name, ...attributes } = this.props;
     return (
       <form name={ name }
         className="ConversationReplyForm"
@@ -101,7 +101,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     name,
     loggedUser: state.session.user,
-    fields: state.forms[name] || { draft: "" }
+    fields: state.forms[name] || { draft: '' }
   };
 };
 

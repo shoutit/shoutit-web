@@ -1,13 +1,13 @@
-import React from "react";
-import { Link } from "react-router";
+import React from 'react';
+import { Link } from 'react-router';
 
-import SVGIcon from "../shared/components/helper/SVGIcon";
+import SVGIcon from '../shared/components/helper/SVGIcon';
 
 if (process.env.BROWSER) {
-  require("styles/components/HeaderProfileOverlay.scss");
+  require('styles/components/HeaderProfileOverlay.scss');
 }
 
-export default function HeaderProfileOverlay( { loggedUser, onLogoutClick }) {
+export default function HeaderProfileOverlay({ loggedUser, onLogoutClick }) {
   return (
     <ul className="HeaderProfileOverlay">
       <li>
@@ -16,11 +16,11 @@ export default function HeaderProfileOverlay( { loggedUser, onLogoutClick }) {
         </Link>
       </li>
       <li>
-        <Link to={`/user/${loggedUser.username}`}  query={ {_edit: 1} }>
+        <Link to={`/user/${loggedUser.username}`} query={ { _edit: 1 } }>
           <SVGIcon name="pencil" active />Edit Profile
         </Link>
       </li>
-      {/*<li>
+      {/* <li>
         <Link to="/settings">
           <SVGIcon name="cog" active />Settings
         </Link>

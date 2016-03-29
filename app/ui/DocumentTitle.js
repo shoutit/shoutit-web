@@ -1,15 +1,15 @@
-import React from "react";
-import ReactDocumentTitle from "react-document-title";
-import { connect } from "react-redux";
+import React from 'react';
+import ReactDocumentTitle from 'react-document-title';
+import { connect } from 'react-redux';
 
-export function DocumentTitle({ title, unreadConversations=0, children }) {
+export function DocumentTitle({ title, unreadConversations = 0, children }) {
 
   if (!title) {
-    title = "shoutit";
+    title = 'shoutit';
   } else {
     title = `${title} – shoutit`;
   }
-  
+
   if (unreadConversations) {
     title = `(${unreadConversations}) ${title}`;
   }

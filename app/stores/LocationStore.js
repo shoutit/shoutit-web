@@ -1,18 +1,18 @@
-import Fluxxor from "fluxxor";
+import Fluxxor from 'fluxxor';
 
-import * as actions from "../actions/actionTypes";
+import * as actions from '../actions/actionTypes';
 
 const initialState = {
   currentLocation: null,
   isRetrievingLocation: false,
   error: null,
-  locations: {} 
+  locations: {}
 };
 
 export default Fluxxor.createStore({
 
   initialize() {
-    this.state = {...initialState};
+    this.state = { ...initialState };
     this.bindActions(
       actions.LOGIN_SUCCESS, this.handleLoginSuccess,
       actions.CURRENT_LOCATION_START, this.handleCurrentLocationStart,
@@ -32,25 +32,25 @@ export default Fluxxor.createStore({
   handleLoginSuccess({ user }) {
     if (user.location) {
       this.state.currentLocation = user.location;
-      this.emit("change");
+      this.emit('change');
     }
   },
 
   handleCurrentLocationStart() {
     this.state.isRetrievingLocation = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   handleCurrentLocationFailure({ error }) {
     this.state.isRetrievingLocation = false;
     this.state.error = error;
-    this.emit("change");
+    this.emit('change');
   },
 
   handleCurrentLocationSuccess(location) {
     this.state.isRetrievingLocation = false;
     this.state.currentLocation = location;
-    this.emit("change");
+    this.emit('change');
   },
 
   serialize() {

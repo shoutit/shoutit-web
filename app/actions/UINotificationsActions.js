@@ -1,4 +1,4 @@
-import { DISMISS_UI_NOTIFICATION, NOTIFY } from "./actionTypes";
+import { DISMISS_UI_NOTIFICATION, NOTIFY } from './actionTypes';
 
 export default {
 

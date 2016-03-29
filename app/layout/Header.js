@@ -1,25 +1,25 @@
-import React, { Component, PropTypes } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router";
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
-import Dialog from "../shared/components/helper/Dialog";
-import Overlay from "../shared/components/helper/Overlay";
-import Button from "../shared/components/helper/Button.jsx";
-import SearchBar from "./searchBar.jsx";
+import Dialog from '../shared/components/helper/Dialog';
+import Overlay from '../shared/components/helper/Overlay';
+import Button from '../shared/components/helper/Button.jsx';
+import SearchBar from './searchBar.jsx';
 
-import HeaderMessagesOverlay from "./HeaderMessagesOverlay";
-import HeaderNotificationsOverlay from "./HeaderNotificationsOverlay";
-import HeaderProfileOverlay from "./HeaderProfileOverlay";
-import HeaderProfile from "./HeaderProfile";
-import HeaderNewShout from "./HeaderNewShout";
+import HeaderMessagesOverlay from './HeaderMessagesOverlay';
+import HeaderNotificationsOverlay from './HeaderNotificationsOverlay';
+import HeaderProfileOverlay from './HeaderProfileOverlay';
+import HeaderProfile from './HeaderProfile';
+import HeaderNewShout from './HeaderNewShout';
 
-import { logout } from "../actions/session";
-import { loadConversations } from "../actions/chat";
+import { logout } from '../actions/session';
+import { loadConversations } from '../actions/chat';
 
-import { imagesPath } from "../config";
+import { imagesPath } from '../config';
 
 if (process.env.BROWSER) {
-  require("styles/components/header.scss");
+  require('styles/components/header.scss');
 }
 
 export class Header extends Component {
@@ -69,14 +69,14 @@ export class Header extends Component {
       country: currentLocation && currentLocation.country ?
         encodeURIComponent(currentLocation.country) : undefined
     };
-    history.pushState(null, "/search/all/all", query);
+    history.pushState(null, '/search/all/all', query);
     flux.actions.searchShouts({
-      category: "all", shouttype: "all", ...query
+      category: 'all', shouttype: 'all', ...query
     });
   }
 
   render() {
-    const { flux, dispatch, loggedUser, unreadConversations, chat, currentLocation={}, location, history } = this.props;
+    const { flux, dispatch, loggedUser, unreadConversations, chat, currentLocation = {}, location, history } = this.props;
 
     const { country } = currentLocation;
     const { overlayName, overlayTarget, openNewShoutDialog } = this.state;
@@ -89,7 +89,7 @@ export class Header extends Component {
         </div>
 
         <div className="Header-search">
-          {/*<SearchBar
+          {/* <SearchBar
             currentLocation={ currentLocation }
             height="36"
             flux={ flux }
@@ -100,16 +100,16 @@ export class Header extends Component {
         <div className="Header-links">
           <span className="Header-separator" />
           <Button onClick={ e => this.handleBrowseClick(e) } label="Browse" />
-          <Button to={ "/discover" + (country ? ("/" + country.toLowerCase()) : "") } label="Discover" />
+          <Button to={ '/discover' + (country ? ('/' + country.toLowerCase()) : '') } label="Discover" />
           { loggedUser && <span className="Header-separator" /> }
         </div>
 
         { loggedUser ?
           <div className="Header-tools loggedIn">
             <HeaderProfile
-              onMessagesClick={  e => this.showOverlay(e, "messages")  }
-              onProfileClick={ e => this.showOverlay(e, "profile") }
-              onNotificationsClick={ e => this.showOverlay(e, "notifications") }
+              onMessagesClick={ e => this.showOverlay(e, 'messages') }
+              onProfileClick={ e => this.showOverlay(e, 'profile') }
+              onNotificationsClick={ e => this.showOverlay(e, 'notifications') }
               onNewShoutClick={ () => this.setState({ openNewShoutDialog: true }) }
               loggedUser={ loggedUser }
               unreadCount={ unreadConversations }
@@ -121,7 +121,7 @@ export class Header extends Component {
               to="/login"
               onClick={ e => {
                 e.preventDefault();
-                history.pushState({ modal: "login" }, location.pathname);
+                history.pushState({ modal: 'login' }, location.pathname);
               }}
             />
             <Button
@@ -130,7 +130,7 @@ export class Header extends Component {
               to="/signup"
               onClick={ e => {
                 e.preventDefault();
-                history.pushState({ modal: "signup" }, location.pathname);
+                history.pushState({ modal: 'signup' }, location.pathname);
               }}
             />
           </div>
@@ -139,18 +139,18 @@ export class Header extends Component {
         { process.env.BROWSER && loggedUser && [
 
           <Overlay key="messages" arrow rootClose
-            style={ { width: 400, marginLeft: 4  }}
-            show={ overlayName === "messages" }
+            style={ { width: 400, marginLeft: 4 }}
+            show={ overlayName === 'messages' }
             placement="bottom"
             container={ this }
             onHide={ () => this.hideOverlay() }
             target={ () => overlayTarget }>
-              <HeaderMessagesOverlay  />
+              <HeaderMessagesOverlay />
           </Overlay>,
 
           <Overlay key="notifications" arrow rootClose
-            style={ { width: 400, marginLeft: 4  }}
-            show={ overlayName === "notifications" }
+            style={ { width: 400, marginLeft: 4 }}
+            show={ overlayName === 'notifications' }
             placement="bottom"
             container={ this }
             onHide={ () => this.hideOverlay() }
@@ -165,12 +165,12 @@ export class Header extends Component {
             placement="bottom"
             container={ this }
             style={ { width: 200, marginLeft: 3 }}
-            show={ overlayName === "profile" }
+            show={ overlayName === 'profile' }
             onHide={ () => this.hideOverlay() }
             target={ () => overlayTarget }>
               <HeaderProfileOverlay
                 loggedUser={ loggedUser }
-                onLogoutClick={ () => dispatch(logout()).then(() => history.push("/")) }
+                onLogoutClick={ () => dispatch(logout()).then(() => history.push('/')) }
               />
           </Overlay>,
 
@@ -178,12 +178,12 @@ export class Header extends Component {
             titleWithIcon="Create a new shout"
             key="newShout"
             open={ openNewShoutDialog }
-            autoDetectWindowHeight={true}
-            autoScrollBodyContent={true}
-            bodyStyle={{ borderRadius: "5px"}}
+            autoDetectWindowHeight
+            autoScrollBodyContent
+            bodyStyle={{ borderRadius: '5px' }}
             contentClassName="new-shout-popup"
             onRequestClose={ () => this.setState({ openNewShoutDialog: false }) }>
-            {/*<HeaderNewShout
+            {/* <HeaderNewShout
               flux={ flux }
               onShoutSent={ () => this.setState({ openNewShoutDialog: false }) }
               loggedUser={ loggedUser }

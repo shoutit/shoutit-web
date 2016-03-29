@@ -1,19 +1,19 @@
-import { combineReducers } from "redux";
-import { routerReducer } from "react-router-redux";
+import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 
-import categories from "./categories";
-import currencies from "./currencies";
-import chat from "./chat";
-import conversations from "./entities-conversations";
-import currentLocation from "./currentLocation";
-import currentUrl from "./currentUrl";
-import entity from "./entity";
-import forms from "./forms";
-import paginate from "./paginate";
-import session from "./session";
-import uiNotifications from "./uiNotifications";
+import categories from './categories';
+import currencies from './currencies';
+import chat from './chat';
+import conversations from './entities-conversations';
+import currentLocation from './currentLocation';
+import currentUrl from './currentUrl';
+import entity from './entity';
+import forms from './forms';
+import paginate from './paginate';
+import session from './session';
+import uiNotifications from './uiNotifications';
 
-import * as actionTypes from "../actions/actionTypes";
+import * as actionTypes from '../actions/actionTypes';
 
 // Add `currentUrl` to the routing's state – useful for server-side rendering
 const routing = (state, action) => {
@@ -44,24 +44,24 @@ const paginated = combineReducers({
       actionTypes.LOAD_CONVERSATIONS_FAILURE
     ],
     addType: actionTypes.LOAD_CONVERSATION_SUCCESS,
-    deleteType: actionTypes.LEAVE_CONVERSATION_SUCCESS
+    deleteType: actionTypes.LEAVE_CONVERSATION_START
   })
 });
 
 const entities = combineReducers({
 
-  categories: entity({ name: "categories"}),
+  categories: entity({ name: 'categories' }),
 
   conversations: (state, action) => {
-    state = entity({ name: "conversations"})(state, action),
+    state = entity({ name: 'conversations' })(state, action),
     state = conversations(state, action);
     return state;
   },
 
-  currencies: entity({ name: "currencies"}),
+  currencies: entity({ name: 'currencies' }),
 
   messages: entity({
-    name: "messages",
+    name: 'messages',
     mapActionToTempId: action => action.payload.message.id,
     mapActionToTempEntity: action => action.payload.message,
     createTypes: [
@@ -71,9 +71,9 @@ const entities = combineReducers({
     ]
   }),
 
-  shouts: entity({ name: "shouts"}),
-  tags: entity({ name: "tags"}),
-  users: entity({ name: "users"})
+  shouts: entity({ name: 'shouts' }),
+  tags: entity({ name: 'tags' }),
+  users: entity({ name: 'users' })
 
 });
 

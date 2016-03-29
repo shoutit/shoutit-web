@@ -1,6 +1,6 @@
-import Fluxxor from "fluxxor";
+import Fluxxor from 'fluxxor';
 
-import * as actions from "../actions/actionTypes";
+import * as actions from '../actions/actionTypes';
 
 const initialState = {
   users: {}
@@ -9,7 +9,7 @@ const initialState = {
 export default Fluxxor.createStore({
 
   initialize() {
-    this.state = {...initialState};
+    this.state = { ...initialState };
     this.bindActions(
       actions.LOGIN_SUCCESS, this.handleLogin,
       actions.LOAD_LISTENING_START, this.handleLoadStart,
@@ -44,7 +44,7 @@ export default Fluxxor.createStore({
       tags: [],
       ...this.state.users[user.id]
     };
-    this.emit("change");
+    this.emit('change');
   },
 
   handleLoadStart({ user }) {
@@ -52,7 +52,7 @@ export default Fluxxor.createStore({
       ...this.state.users[user.id],
       isLoading: true
     };
-    this.emit("change");
+    this.emit('change');
   },
 
   handleLoadFailure({ error, user }) {
@@ -61,7 +61,7 @@ export default Fluxxor.createStore({
       isLoading: false,
       error
     };
-    this.emit("change");
+    this.emit('change');
   },
 
   handleLoadSuccess({ users, tags, user }) {
@@ -72,10 +72,10 @@ export default Fluxxor.createStore({
     };
     if (users) {
       this.state.users[user.id].users = users.map(user => user.id);
-      this.waitFor(["UsersStore"], () => this.emit("change"));
+      this.waitFor(['UsersStore'], () => this.emit('change'));
     } else if (tags) {
       this.state.users[user.id].tags = tags.map(tag => tag.id);
-      this.waitFor(["TagsStore"], () => this.emit("change"));
+      this.waitFor(['TagsStore'], () => this.emit('change'));
     }
   },
 

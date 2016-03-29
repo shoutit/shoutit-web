@@ -1,5 +1,5 @@
-import consts from "./consts";
-import client from "./client";
+import consts from './consts';
+import client from './client';
 
 export default {
 
@@ -61,7 +61,7 @@ export default {
       this.dispatch(consts.LISTEN_SUCCESS, { username });
     });
 
-    this.dispatch(consts.LISTEN, {username});
+    this.dispatch(consts.LISTEN, { username });
   },
 
   stopListen(username) {
@@ -93,8 +93,8 @@ export default {
       if (err) {
         this.dispatch(consts.LOAD_USER_TAGS_FAIL);
       } else {
-        if(res.body.tags) {
-          this.dispatch(consts.LOAD_USER_TAGS_SUCCESS, {res: res.body, username: username});
+        if (res.body.tags) {
+          this.dispatch(consts.LOAD_USER_TAGS_SUCCESS, { res: res.body, username: username });
         }
       }
     });
@@ -119,11 +119,11 @@ export default {
     });
   },
 
-  loadUserShouts(username, type, limit=0) {
+  loadUserShouts(username, type, limit = 0) {
     let query = {};
     query.username = username;
     query.type = type;
-    if(limit) {query.limit = limit;}
+    if (limit) {query.limit = limit;}
 
     this.dispatch(consts.LOAD_USER_SHOUTS, query);
   },

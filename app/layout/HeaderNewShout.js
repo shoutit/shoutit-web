@@ -3,21 +3,21 @@
 * For embedded shout use embeddedShout.jsx
 * github/p0o
 */
-import React from "react";
-import { StoreWatchMixin } from "fluxxor";
+import React from 'react';
+import { StoreWatchMixin } from 'fluxxor';
 
-import ShoutForm from "../shared/components/shouting/form/shoutForm.jsx";
+import ShoutForm from '../shared/components/shouting/form/shoutForm.jsx';
 
 export default React.createClass({
 
-  displayName: "HeaderNewShout",
+  displayName: 'HeaderNewShout',
 
-  mixins: [new StoreWatchMixin("shouts")],
+  mixins: [new StoreWatchMixin('shouts')],
 
   getStateFromFlux() {
     const { currencies, categories, draft, status, waiting }
-      = this.props.flux.store("shouts").getState();
-    return {  currencies, categories, draft, status, waiting };
+      = this.props.flux.store('shouts').getState();
+    return { currencies, categories, draft, status, waiting };
   },
 
   render() {

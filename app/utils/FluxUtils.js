@@ -1,8 +1,8 @@
-import React from "react";
-import { StoreWatchMixin } from "fluxxor";
-import debug from "debug";
+import React from 'react';
+import { StoreWatchMixin } from 'fluxxor';
+import debug from 'debug';
 
-export function ConnectToStores(Component, { fetchData, listenToStores=[], mapStoresProps }) {
+export function ConnectToStores(Component, { fetchData, listenToStores = [], mapStoresProps }) {
 
   const logError = err => {
     if (err) {
@@ -47,10 +47,10 @@ export function ConnectToStores(Component, { fetchData, listenToStores=[], mapSt
       }
 
       if (this.props.firstRender) {
-        debug("shoutit:ConnectToStores")("%s component rendering for the first time, skip data fetching", displayName);
+        debug('shoutit:ConnectToStores')('%s component rendering for the first time, skip data fetching', displayName);
         return false;
       }
-      debug("shoutit:ConnectToStores")("%s component did mount, fetching data...", displayName);
+      debug('shoutit:ConnectToStores')('%s component did mount, fetching data...', displayName);
 
       const flux = this.props.flux || this.context.flux;
       const params = this.props.params || this.context.params;

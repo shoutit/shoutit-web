@@ -1,19 +1,19 @@
-import rest from "restler";
+import rest from 'restler';
 
-import shouts from "./shouts";
-import discover from "./discover";
-import users from "./users";
-import tags from "./tags";
-import misc from "./misc";
-import conversations from "./conversations";
-import auth from "./auth";
+import shouts from './shouts';
+import discover from './discover';
+import users from './users';
+import tags from './tags';
+import misc from './misc';
+import conversations from './conversations';
+import auth from './auth';
 
-import { apiUrl } from "../../config";
+import { apiUrl } from '../../config';
 
 const ShoutitClient = rest.service(function (endpoint) {
   this.defaults.headers = {
-    "Accept": "application/json",
-    "Content-Type": "application/json"
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
   };
   this.baseURL = endpoint;
 }, {}, {

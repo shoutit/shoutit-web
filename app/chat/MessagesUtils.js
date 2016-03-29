@@ -1,10 +1,10 @@
-import moment from "moment";
-import groupBy from "lodash/collection/groupBy";
-import reduce from "lodash/collection/reduce";
-import last from "lodash/array/last";
+import moment from 'moment';
+import groupBy from 'lodash/collection/groupBy';
+import reduce from 'lodash/collection/reduce';
+import last from 'lodash/array/last';
 
 export function groupByDay(messages) {
-  const groupedByDay = groupBy(messages, message =>  moment.unix(message.createdAt).format("YYYY-MM-DD"));
+  const groupedByDay = groupBy(messages, message => moment.unix(message.createdAt).format('YYYY-MM-DD'));
   const asArray = reduce(groupedByDay, (result, messages, day) => {
     result.push({ day, messages });
     return result;

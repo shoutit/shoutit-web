@@ -1,15 +1,15 @@
-import request from "../utils/request";
-import { parseErrorResponse } from "../utils/APIUtils";
+import request from '../utils/request';
+import { parseErrorResponse } from '../utils/APIUtils';
 
 let cache;
 export default {
-  name: "currencies",
+  name: 'currencies',
   read: (req, resource, params, config, callback) => {
     if (cache) {
       return callback(null, cache);
     }
     request
-      .get("/misc/currencies")
+      .get('/misc/currencies')
       .prefix()
       .end((err, res) => {
         if (err) {

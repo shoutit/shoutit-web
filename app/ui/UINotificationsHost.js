@@ -1,8 +1,8 @@
-import React from "react";
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 if (process.env.BROWSER) {
-  require("./UINotificationsHost.scss");
+  require('./UINotificationsHost.scss');
 }
 
 export default function UINotificationsHost({ notifications, flux }) {

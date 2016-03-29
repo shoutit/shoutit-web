@@ -4,15 +4,15 @@
 
 // TODO Do proactive update on reset and read/unread
 
-import Fluxxor from "fluxxor";
-import findIndex from "lodash/array/findIndex";
+import Fluxxor from 'fluxxor';
+import findIndex from 'lodash/array/findIndex';
 
-import consts from "./consts";
+import consts from './consts';
 
-const LOG_TAG = "[Notifications-Store]";
+const LOG_TAG = '[Notifications-Store]';
 
 const NotificationStore = Fluxxor.createStore({
-  initialize({notifications}) {
+  initialize({ notifications }) {
     this.state = {
       notifications: notifications || [],
       loading: false
@@ -21,29 +21,29 @@ const NotificationStore = Fluxxor.createStore({
     this.bindActions(
       consts.LOAD_NOTIFICATIONS, this.onLoadNotifications,
       consts.LOAD_NOTIFICATIONS_SUCCESS, this.onLoadNotificationsSuccess,
-      consts.LOAD_NOTIFICATIONS_FAILED, this.onRequestFailed("load notifications failed"),
+      consts.LOAD_NOTIFICATIONS_FAILED, this.onRequestFailed('load notifications failed'),
 
       consts.LOAD_MORE_NOTIFICATIONS, this.onLoadMoreNotifications,
       consts.LOAD_MORE_NOTIFICATIONS_SUCCESS, this.onLoadMoreNotificationsSuccess,
-      consts.LOAD_MORE_NOTIFICATIONS_FAILED, this.onRequestFailed("load more notifications failed"),
+      consts.LOAD_MORE_NOTIFICATIONS_FAILED, this.onRequestFailed('load more notifications failed'),
 
       consts.RESET_NOTIFICATIONS, this.onResetNotifications,
       consts.RESET_NOTIFICATIONS_SUCCESS, this.onResetNotificationsSuccess,
-      consts.RESET_NOTIFICATIONS_FAILED, this.onRequestFailed("reset notifications failed"),
+      consts.RESET_NOTIFICATIONS_FAILED, this.onRequestFailed('reset notifications failed'),
 
       consts.READ_NOTIFICATION, this.onReadNotification,
       consts.READ_NOTIFICATION_SUCCESS, this.onReadNotificationSuccess,
-      consts.READ_NOTIFICATION_FAILED, this.onRequestFailed("read notification failed"),
+      consts.READ_NOTIFICATION_FAILED, this.onRequestFailed('read notification failed'),
 
       consts.UNREAD_NOTIFICATION, this.onUnreadNotification,
       consts.UNREAD_NOTIFICATION_SUCCESS, this.onUnreadNotificationSuccess,
-      consts.UNREAD_NOTIFICATION_FAILED, this.onRequestFailed("unread notification failed")
+      consts.UNREAD_NOTIFICATION_FAILED, this.onRequestFailed('unread notification failed')
     );
   },
 
   onLoadNotifications() {
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   saveNotifications(res) {
@@ -52,26 +52,26 @@ const NotificationStore = Fluxxor.createStore({
     }
   },
 
-  onLoadNotificationsSuccess({res}) {
+  onLoadNotificationsSuccess({ res }) {
     this.saveNotifications(res);
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   onRequestFailed(tag) {
-    return function ({error}) {
+    return function ({ error }) {
       console.error(LOG_TAG, tag, error);
       this.state.loading = false;
-      this.emit("change");
+      this.emit('change');
     };
   },
 
   onLoadMoreNotifications() {
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadMoreNotificationsSuccess({res}) {
+  onLoadMoreNotificationsSuccess({ res }) {
     res.results.forEach((not) => {
       const index = this.getIndex(not.id);
       if (index >= 0) {
@@ -82,12 +82,12 @@ const NotificationStore = Fluxxor.createStore({
     });
 
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   onResetNotifications() {
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   onResetNotificationsSuccess() {
@@ -95,39 +95,39 @@ const NotificationStore = Fluxxor.createStore({
       not.is_read = true;
     });
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   onReadNotification() {
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onReadNotificationSuccess({id}) {
+  onReadNotificationSuccess({ id }) {
     const index = this.getIndex(id);
     if (index) {
       this.state.notifications[index].is_read = true;
     }
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   onUnreadNotification() {
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onUnreadNotificationSuccess({id}) {
+  onUnreadNotificationSuccess({ id }) {
     const index = this.getIndex(id);
     if (index) {
       this.state.notifications[index].is_read = false;
     }
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   getIndex(notId) {
-    return findIndex(this.state.notifications, "id", notId);
+    return findIndex(this.state.notifications, 'id', notId);
   },
 
   serialize() {

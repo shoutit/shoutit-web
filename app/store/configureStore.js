@@ -1,16 +1,16 @@
-import { createStore, applyMiddleware, compose } from "redux";
-import thunk from "redux-thunk";
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 
-import rootReducer from "../reducers";
-import services from "../middlewares/services";
+import rootReducer from '../reducers';
+import services from '../middlewares/services';
 
 const noop = store => next => action => next(action); // eslint-disable-line
 
 const pusher = process.env.BROWSER ?
-  require("../middlewares/pusher").default : noop;
+  require('../middlewares/pusher').default : noop;
 
 const router = process.env.BROWSER ?
-  require("react-router-redux").routerMiddleware : () => noop;
+  require('react-router-redux').routerMiddleware : () => noop;
 
 export default function configureStore(initialState, { fetchr, devToolsExtension, history }) {
   const store = createStore(
@@ -30,8 +30,8 @@ export default function configureStore(initialState, { fetchr, devToolsExtension
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept("../reducers", () => {
-      const nextRootReducer = require("../reducers").default;
+    module.hot.accept('../reducers', () => {
+      const nextRootReducer = require('../reducers').default;
       store.replaceReducer(nextRootReducer);
     });
   }

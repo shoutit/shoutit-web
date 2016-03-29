@@ -1,7 +1,7 @@
-import React from "react";
-import { Input } from "react-bootstrap";
+import React from 'react';
+import { Input } from 'react-bootstrap';
 
-import Button from "../shared/components/helper/Button.jsx";
+import Button from '../shared/components/helper/Button.jsx';
 
 export default function NativeLoginForm({ loading, onSubmit, error }) {
 
@@ -19,14 +19,14 @@ export default function NativeLoginForm({ loading, onSubmit, error }) {
     if (email && password) {
       form.email.blur();
       form.password.blur();
-      onSubmit && onSubmit({ email, password});
+      onSubmit && onSubmit({ email, password });
     }
   };
 
-  return(
+  return (
     <div>
       { error &&
-        <ul style={ { color: "red", padding: 0 }}>
+        <ul style={ { color: 'red', padding: 0 }}>
           { Object.keys(error).map(field =>
               error[field].map((error, i) =>
                 <li key={`${field}-${i}`}>{ error }</li>
@@ -54,7 +54,7 @@ export default function NativeLoginForm({ loading, onSubmit, error }) {
           primary
           block
           disabled={ loading }
-          label={loading ? "Logging in…": "Log in" } />
+          label={loading ? 'Logging in…' : 'Log in' } />
 
         <Input type="checkbox" defaultChecked label="Keep me logged in" />
 

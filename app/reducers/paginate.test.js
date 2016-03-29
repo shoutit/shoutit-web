@@ -1,118 +1,118 @@
-import { expect } from "chai";
-import paginate from "./paginate";
+import { expect } from 'chai';
+import paginate from './paginate';
 
-describe("reducer/paginate", () => {
+describe('reducer/paginate', () => {
 
-  describe("update pagination when fetching", () => {
-    describe("without mapping the action by key", () => {
+  describe('update pagination when fetching', () => {
+    describe('without mapping the action by key', () => {
 
       const reduce = paginate({
-        fetchTypes: [ "FETCH_START", "FETCH_SUCCESS", "FETCH_FAILURE" ]
+        fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE']
       });
 
-      it("should set the state as isFetching when starting", () => {
-        const state = reduce({ ids: []}, {
-          type: "FETCH_START",
+      it('should set the state as isFetching when starting', () => {
+        const state = reduce({ ids: [] }, {
+          type: 'FETCH_START',
           payload: {
-            foo: "bar"
+            foo: 'bar'
           }
         });
         expect(state).to.eql({ isFetching: true, ids: [] });
       });
 
-      it("should set the state as isFetching when starting and state undefined", () => {
+      it('should set the state as isFetching when starting and state undefined', () => {
         const state = reduce(undefined, {
-          type: "FETCH_START",
+          type: 'FETCH_START',
           payload: {
-            foo: "bar"
+            foo: 'bar'
           }
         });
         expect(state).to.eql({ isFetching: true, ids: [] });
       });
 
-      it("should set the state when starting not changing the old state", () => {
+      it('should set the state when starting not changing the old state', () => {
         const state = reduce({
-          ids: ["foo", "bar"],
+          ids: ['foo', 'bar'],
           isFetching: false
         }, {
-          type: "FETCH_START",
+          type: 'FETCH_START',
           payload: {
-            foo: "bar"
+            foo: 'bar'
           }
         });
         expect(state).to.eql({
-          ids: ["foo", "bar"],
+          ids: ['foo', 'bar'],
           isFetching: true
         });
       });
 
-      it("should append the results when successfully fetched", () => {
+      it('should append the results when successfully fetched', () => {
         const state = reduce({
-          ids: ["foo", "bar"],
+          ids: ['foo', 'bar'],
           isFetching: true
         }, {
-          type: "FETCH_SUCCESS",
+          type: 'FETCH_SUCCESS',
           payload: {
-            result: ["gin"]
+            result: ['gin']
           }
         });
         expect(state).to.eql({
-          ids: ["foo", "bar", "gin"],
+          ids: ['foo', 'bar', 'gin'],
           isFetching: false
         });
 
       });
 
-      it("should append the next/previous urls", () => {
+      it('should append the next/previous urls', () => {
         const state = reduce({
-          ids: ["foo", "bar"],
+          ids: ['foo', 'bar'],
           isFetching: true
         }, {
-          type: "FETCH_SUCCESS",
+          type: 'FETCH_SUCCESS',
           payload: {
-            result: ["gin"],
-            nextUrl: "next",
-            previousUrl: "prev"
+            result: ['gin'],
+            nextUrl: 'next',
+            previousUrl: 'prev'
           }
         });
         expect(state).to.eql({
-          ids: ["foo", "bar", "gin"],
+          ids: ['foo', 'bar', 'gin'],
           isFetching: false,
-          nextUrl: "next",
-          previousUrl: "prev"
+          nextUrl: 'next',
+          previousUrl: 'prev'
         });
 
       });
 
-      it("should append the error when failed fetching", () => {
+      it('should append the error when failed fetching', () => {
         const state = reduce({
-          ids: ["foo", "bar"],
+          ids: ['foo', 'bar'],
           isFetching: true
         }, {
-          type: "FETCH_FAILURE",
-          payload: "A bad error"
+          type: 'FETCH_FAILURE',
+          payload: 'A bad error'
         });
 
         expect(state).to.eql({
-          ids: ["foo", "bar"],
+          ids: ['foo', 'bar'],
           isFetching: false,
-          error: "A bad error"
+          error: 'A bad error'
         });
 
       });
     });
-    describe("mapping an action by key", () => {
+    describe('mapping an action by key', () => {
 
       const reduce = paginate({
         mapActionToKey: action => action.payload.fooId,
-        fetchTypes: [ "FETCH_START", "FETCH_SUCCESS", "FETCH_FAILURE" ]
+        fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE']
       });
 
-      it("should set the state as isFetching when starting, returning empty ids", () => {
+      it('should set the state as isFetching when starting, returning empty ids', () => {
         const state = reduce({}, {
-          type: "FETCH_START",
+          type: 'FETCH_START',
           payload: {
-            fooId: "A"
+            fooId: 'A'
           }
         });
         expect(state).to.eql({
@@ -123,75 +123,75 @@ describe("reducer/paginate", () => {
         });
       });
 
-      it("should append the results when successfully fetched", () => {
+      it('should append the results when successfully fetched', () => {
         const state = reduce({
           B: {
             isFetching: true,
             ids: []
           }
         }, {
-          type: "FETCH_SUCCESS",
+          type: 'FETCH_SUCCESS',
           payload: {
-            fooId: "B",
-            result: ["gin", "bar"]
+            fooId: 'B',
+            result: ['gin', 'bar']
           }
         });
 
         expect(state).to.eql({
           B: {
             isFetching: false,
-            ids: ["gin", "bar"]
+            ids: ['gin', 'bar']
           }
         });
 
       });
 
-      it("should append the next/previous urls", () => {
+      it('should append the next/previous urls', () => {
         const state = reduce({
           C: {
             isFetching: true,
             ids: []
           }
         }, {
-          type: "FETCH_SUCCESS",
+          type: 'FETCH_SUCCESS',
           payload: {
-            fooId: "C",
-            result: ["gin", "bar"],
-            nextUrl: "next",
-            previousUrl: "prev"
+            fooId: 'C',
+            result: ['gin', 'bar'],
+            nextUrl: 'next',
+            previousUrl: 'prev'
           }
         });
         expect(state).to.eql({
           C: {
-            ids: ["gin", "bar"],
+            ids: ['gin', 'bar'],
             isFetching: false,
-            nextUrl: "next",
-            previousUrl: "prev"
+            nextUrl: 'next',
+            previousUrl: 'prev'
           }
         });
 
       });
 
-      it("should append the error when failed fetchin", () => {
+      it('should append the error when failed fetchin', () => {
         const state = reduce({
           C: {
             isFetching: true,
-            ids: ["gin", "bar"]
+            ids: ['gin', 'bar']
           }
         }, {
-          type: "FETCH_FAILURE",
+          type: 'FETCH_FAILURE',
           payload: {
-            message: "Bad bad things",
-            fooId: "C"
+            message: 'Bad bad things',
+            fooId: 'C'
           }
         });
         expect(state).to.eql({
           C: {
-            ids: ["gin", "bar"],
+            ids: ['gin', 'bar'],
             isFetching: false,
             error:  {
-              message: "Bad bad things",
-              fooId: "C"
+              message: 'Bad bad things',
+              fooId: 'C'
             }
           }
         });
@@ -201,89 +201,89 @@ describe("reducer/paginate", () => {
     });
   });
 
-  describe("updates pagination when create action types are dispatched", () => {
-    describe("without mapping the action by key", () => {
+  describe('updates pagination when create action types are dispatched', () => {
+    describe('without mapping the action by key', () => {
       const reduce = paginate({
         mapActionToTempId: action => action.tempId,
 
-        fetchTypes: [ "FETCH_START", "FETCH_SUCCESS", "FETCH_FAILURE" ],
-        createTypes: [ "CREATE_START", "CREATE_SUCCESS" ]
+        fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE'],
+        createTypes: ['CREATE_START', 'CREATE_SUCCESS']
 
       });
 
-      it("should add the temporary item id when no state is defined", () => {
+      it('should add the temporary item id when no state is defined', () => {
         const state = reduce(undefined, {
-          type: "CREATE_START",
-          tempId: "abc"
+          type: 'CREATE_START',
+          tempId: 'abc'
         });
         expect(state).to.eql({
-          ids: ["abc"]
+          ids: ['abc']
         });
       });
 
-      it("should add the temporary item id when to the existing ones", () => {
-        const state = reduce({ids: ["foo"]}, {
-          type: "CREATE_START",
-          tempId: "abc"
+      it('should add the temporary item id when to the existing ones', () => {
+        const state = reduce({ ids: ['foo'] }, {
+          type: 'CREATE_START',
+          tempId: 'abc'
         });
         expect(state).to.eql({
-          ids: ["foo","abc"]
+          ids: ['foo', 'abc']
         });
       });
 
-      it("should remove the temporary item id when success and adding the new result", () => {
-        const state = reduce({ids: ["foo", "abc"]}, {
-          type: "CREATE_SUCCESS",
+      it('should remove the temporary item id when success and adding the new result', () => {
+        const state = reduce({ ids: ['foo', 'abc'] }, {
+          type: 'CREATE_SUCCESS',
           payload: {
-            result: "real_id"
+            result: 'real_id'
           },
-          tempId: "abc"
+          tempId: 'abc'
         });
         expect(state).to.eql({
-          ids: ["foo", "real_id"]
+          ids: ['foo', 'real_id']
         });
       });
     });
-    describe("mapping an action by key", () => {
+    describe('mapping an action by key', () => {
 
       const reduce = paginate({
         mapActionToTempId: action => action.tempId,
         mapActionToKey: action => action.payload.id,
-        fetchTypes: [ "FETCH_START", "FETCH_SUCCESS", "FETCH_FAILURE" ],
-        createTypes: [ "CREATE_START", "CREATE_SUCCESS"]
+        fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE'],
+        createTypes: ['CREATE_START', 'CREATE_SUCCESS']
       });
 
-      it("should add the temporary item id when no state is defined", () => {
+      it('should add the temporary item id when no state is defined', () => {
         const state = reduce({}, {
-          type: "CREATE_START",
-          tempId: "temp",
+          type: 'CREATE_START',
+          tempId: 'temp',
           payload: {
-            id: "foo"
+            id: 'foo'
           }
         });
         expect(state).to.eql({
           foo: {
-            ids: ["temp"]
+            ids: ['temp']
           }
         });
       });
 
-      it("should remove the temporary item id when success", () => {
+      it('should remove the temporary item id when success', () => {
         const state = reduce({
           foo: {
-            ids: ["temp"]
+            ids: ['temp']
           }
         }, {
-          type: "CREATE_SUCCESS",
-          tempId: "temp",
+          type: 'CREATE_SUCCESS',
+          tempId: 'temp',
           payload: {
-            id: "foo",
-            result: "real_id"
+            id: 'foo',
+            result: 'real_id'
           }
         });
         expect(state).to.eql({
           foo: {
-            ids: ["real_id"]
+            ids: ['real_id']
           }
         });
       });
@@ -291,22 +291,22 @@ describe("reducer/paginate", () => {
     });
   });
 
-  describe("updates pagination when add action type is dispatched", () => {
+  describe('updates pagination when add action type is dispatched', () => {
 
-    describe("without mapping the action by key", () => {
+    describe('without mapping the action by key', () => {
       const reduce = paginate({
-        addType: "ADD"
+        addType: 'ADD'
       });
 
-      it("should add the new item", () => {
-        const state = reduce({ ids: ["foo", "abc"] }, {
-          type: "ADD",
+      it('should add the new item', () => {
+        const state = reduce({ ids: ['foo', 'abc'] }, {
+          type: 'ADD',
           payload: {
-            result: "bar"
+            result: 'bar'
           }
         });
         expect(state).to.eql({
-          ids: ["foo", "abc", "bar"]
+          ids: ['foo', 'abc', 'bar']
         });
       });
 
@@ -314,20 +314,20 @@ describe("reducer/paginate", () => {
 
   });
 
-  describe("updates pagination when delete action type is dispatched", () => {
+  describe('updates pagination when delete action type is dispatched', () => {
 
-    describe("without mapping the action by key", () => {
+    describe('without mapping the action by key', () => {
       const reduce = paginate({
-        deleteType: "DELETE"
+        deleteType: 'DELETE'
       });
 
-      it("should delete an existing item", () => {
-        const state = reduce({ ids: ["foo", "abc"] }, {
-          type: "DELETE",
-          payload: { id: "abc" }
+      it('should delete an existing item', () => {
+        const state = reduce({ ids: ['foo', 'abc'] }, {
+          type: 'DELETE',
+          payload: { id: 'abc' }
         });
         expect(state).to.eql({
-          ids: ["foo"]
+          ids: ['foo']
         });
       });
 

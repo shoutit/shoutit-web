@@ -1,8 +1,8 @@
-import request from "../utils/request";
-import { parseErrorResponse } from "../utils/APIUtils";
+import request from '../utils/request';
+import { parseErrorResponse } from '../utils/APIUtils';
 
 export default {
-  name: "conversationReply",
+  name: 'conversationReply',
   create: (req, resource, { conversationId }, body, config, callback) => {
     request
       .post(`/conversations/${conversationId}/reply`)

@@ -1,5 +1,5 @@
-import Fluxxor from "fluxxor";
-import * as actions from "../actions/actionTypes";
+import Fluxxor from 'fluxxor';
+import * as actions from '../actions/actionTypes';
 
 const initialState = {
   tags: {}
@@ -8,7 +8,7 @@ const initialState = {
 export default Fluxxor.createStore({
 
   initialize() {
-    this.state = {...initialState};
+    this.state = { ...initialState };
     this.bindActions(
       actions.LOAD_SUGGESTIONS_SUCCESS, this.handleLoadSuggestionsSuccess
     );
@@ -30,7 +30,7 @@ export default Fluxxor.createStore({
           ...tag
         };
       });
-      this.emit("change");
+      this.emit('change');
     }
   },
 

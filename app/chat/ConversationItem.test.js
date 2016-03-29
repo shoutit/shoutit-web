@@ -1,16 +1,16 @@
-import React from "react";
-import TestUtils from "react-addons-test-utils";
-import { expect } from "chai";
-import { Link } from "react-router";
-import sd from "skin-deep";
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import { expect } from 'chai';
+import { Link } from 'react-router';
+import sd from 'skin-deep';
 
-import ConversationItem from "./ConversationItem";
-import { getUnixTime, formatCreatedAt } from "../../app/utils/DateUtils";
+import ConversationItem from './ConversationItem';
+import { getUnixTime, formatCreatedAt } from '../../app/utils/DateUtils';
 
-describe("ConversationItem", () => {
-  const users =  [{ username: "a", name: "A" }, { username: "b", name: "B" }];
+describe('ConversationItem', () => {
+  const users = [{ username: 'a', name: 'A' }, { username: 'b', name: 'B' }];
 
-  it("should render correctly", () => {
+  it('should render correctly', () => {
     const tree = sd.shallowRender(
       <ConversationItem
         id={100}
@@ -21,18 +21,18 @@ describe("ConversationItem", () => {
     const output = tree.getRenderOutput();
 
     expect(output.type).to.equal(Link);
-    expect(output.props.to).to.equal("/messages/100");
-    expect(output.props.className).to.contain("ConversationItem");
+    expect(output.props.to).to.equal('/messages/100');
+    expect(output.props.className).to.contain('ConversationItem');
 
-    expect(tree.findNode(".ConversationItem-usersImage")).to.be.defined;
-    expect(tree.findNode(".ConversationItem-body")).to.be.defined;
-    expect(tree.findNode(".ConversationItem-partecipants").props).to.have
-      .property("children", "A, B");
+    expect(tree.findNode('.ConversationItem-usersImage')).to.be.defined;
+    expect(tree.findNode('.ConversationItem-body')).to.be.defined;
+    expect(tree.findNode('.ConversationItem-partecipants').props).to.have
+      .property('children', 'A, B');
 
 
   });
 
-  it("should use isSelected class", () => {
+  it('should use isSelected class', () => {
     const shallowRenderer = TestUtils.createRenderer();
     shallowRenderer.render(
       <ConversationItem
@@ -43,10 +43,10 @@ describe("ConversationItem", () => {
     );
 
     const output = shallowRenderer.getRenderOutput();
-    expect(output.props.className).to.contain("isSelected");
+    expect(output.props.className).to.contain('isSelected');
   });
 
-  it("should use isUnread class", () => {
+  it('should use isUnread class', () => {
     const shallowRenderer = TestUtils.createRenderer();
     shallowRenderer.render(
       <ConversationItem
@@ -57,35 +57,35 @@ describe("ConversationItem", () => {
     );
 
     const output = shallowRenderer.getRenderOutput();
-    expect(output.props.className).to.contain("isUnread");
+    expect(output.props.className).to.contain('isUnread');
   });
 
-  it("should show the title of the shout it is about", () => {
+  it('should show the title of the shout it is about', () => {
     const tree = sd.shallowRender(
       <ConversationItem
         id={100}
         type="about_shout"
-        about={{ title: "Foo"} }
+        about={{ title: 'Foo' } }
         users={ users }
       />
     );
-    expect(tree.findNode(".ConversationItem-aboutShout").props).to.have
-      .property("children", "Foo");
+    expect(tree.findNode('.ConversationItem-aboutShout').props).to.have
+      .property('children', 'Foo');
   });
 
-  it("should show the last message", () => {
+  it('should show the last message', () => {
     const created_at = getUnixTime();
     const tree = sd.shallowRender(
       <ConversationItem
         id={100}
-        lastMessage={{ text: "Bar", created_at } }
+        lastMessage={{ text: 'Bar', created_at } }
         users={ users }
       />
     );
-    expect(tree.findNode(".ConversationItem-lastMessage").props).to.have
-      .property("children", "Bar");
-    expect(tree.findNode(".ConversationItem-createdAt").props).to.have
-      .property("children", formatCreatedAt(created_at));
+    expect(tree.findNode('.ConversationItem-lastMessage').props).to.have
+      .property('children', 'Bar');
+    expect(tree.findNode('.ConversationItem-createdAt').props).to.have
+      .property('children', formatCreatedAt(created_at));
 
 
   });

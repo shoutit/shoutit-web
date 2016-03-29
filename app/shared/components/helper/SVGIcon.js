@@ -1,44 +1,44 @@
-import React from "react";
+import React from 'react';
 
 if (process.env.BROWSER) {
-  require("styles/components/SVGIcon.scss");
+  require('styles/components/SVGIcon.scss');
 }
 
 export default function SVGIcon({
   name,
-  active=false,
-  disabled=false,
-  on=false,
-  fill=false,
-  size="medium",
+  active = false,
+  disabled = false,
+  on = false,
+  fill = false,
+  size = 'medium',
   badge,
-  hover=false,
+  hover = false,
   ...props
 }) {
 
   let className = `SVGIcon ${size}`;
 
   if (active) {
-    className += ` active`;
+    className += ' active';
   }
   if (on) {
-    className += ` on`;
+    className += ' on';
   }
   if (fill) {
-    className += ` fill`;
+    className += ' fill';
   }
   if (hover) {
-    className += ` hover`;
+    className += ' hover';
   }
   if (disabled) {
-    className += ` disabled`;
+    className += ' disabled';
   }
-  
+
   let badgeEl;
-  if (typeof badge !== "undefined") {
+  if (typeof badge !== 'undefined') {
     // Set visibility hidden to leave the space once the badge get a value
     badgeEl = (
-      <span className={ `SVGIcon-badge ${ badge === 0 ? " isHidden": "" }` }>
+      <span className={ `SVGIcon-badge ${badge === 0 ? ' isHidden' : ''}` }>
         { badge }
       </span>
     );
@@ -46,7 +46,7 @@ export default function SVGIcon({
 
   const style = { ...props.style };
   if (props.onClick) {
-    style.cursor = "pointer";
+    style.cursor = 'pointer';
   }
 
   return (

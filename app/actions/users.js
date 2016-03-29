@@ -1,5 +1,5 @@
 
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
 export function loadConversations() {
   return {
@@ -9,7 +9,7 @@ export function loadConversations() {
       actionTypes.LOAD_CONVERSATIONS_FAILURE
     ],
     service: {
-      name: "conversations"
+      name: 'conversations'
     }
   };
 }
@@ -22,7 +22,7 @@ export function loadListeners(user) {
       actionTypes.LOAD_LISTENERS_FAILURE
     ],
     service: {
-      name: "listeners",
+      name: 'listeners',
       params: { user }
     }
   };
@@ -36,7 +36,7 @@ export function loadListening(user) {
       actionTypes.LOAD_LISTENING_FAILURE
     ],
     service: {
-      name: "listeners",
+      name: 'listeners',
       params: { user }
     }
   };

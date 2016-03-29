@@ -7,20 +7,20 @@
  * Created by Philip on 15.04.2015.
  */
 
-const Promise = require("bluebird");
-const  util = require("util");
-const EventEmitter = require("events").EventEmitter;
+const Promise = require('bluebird');
+const util = require('util');
+const EventEmitter = require('events').EventEmitter;
 
 function makePromiseFromRequest(req) {
   return new Promise(function (resolve, reject) {
     req
-      .on("success", function (data) {
+      .on('success', function (data) {
         resolve(data);
       })
-      .on("fail", function (data, resp) {
+      .on('fail', function (data, resp) {
         reject(data, resp);
       })
-      .on("error", function (err) {
+      .on('error', function (err) {
         reject(err);
       });
   });
@@ -48,7 +48,7 @@ FakeClient.prototype.search = function (client, session, term) {
     makePromiseFromRequest(tagClient.search(session, searchQuery)),
     makePromiseFromRequest(userClient.search(session, term))
   ]).spread(function (shouts, tags, users) {
-    emitter.emit("complete", {
+    emitter.emit('complete', {
       shouts: shouts.results,
       tags: tags.results,
       users: users.results
@@ -56,7 +56,7 @@ FakeClient.prototype.search = function (client, session, term) {
       statusCode: 200
     });
   }, function (err) {
-    emitter.emit("error", err);
+    emitter.emit('error', err);
   });
 
   return this;

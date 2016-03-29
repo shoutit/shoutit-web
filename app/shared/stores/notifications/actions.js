@@ -2,8 +2,8 @@
  * Created by Philip on 22.06.2015.
  */
 
-import consts from "./consts";
-import client from "./client";
+import consts from './consts';
+import client from './client';
 
 
 export default {
@@ -27,7 +27,7 @@ export default {
   loadMoreNotifications(before) {
     this.dispatch(consts.LOAD_MORE_NOTIFICATIONS);
 
-    client.loadMoreNotifications({before})
+    client.loadMoreNotifications({ before })
       .end(function (error, res) {
         if (error) {
           this.dispatch(consts.LOAD_MORE_NOTIFICATIONS_FAILED, {

@@ -1,6 +1,6 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
 export class RequiresLogin extends React.Component {
 
   static propTypes = {
@@ -9,9 +9,9 @@ export class RequiresLogin extends React.Component {
   };
 
   render() {
-    const { children, ...props} = this.props;
+    const { children, ...props } = this.props;
     if (!props.loggedUser) {
-      let loginUrl = "/login";
+      let loginUrl = '/login';
       if (props.currentUrl) {
         loginUrl = `${loginUrl}?after=${props.currentUrl}`;
       }
