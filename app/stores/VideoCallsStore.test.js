@@ -11,7 +11,7 @@ chai.use(sinonChai);
 
 function initFlux(storeParams) {
   const flux = new Flux({
-    VideoCallsStore: new VideoCallsStore(storeParams)
+    VideoCallsStore: new VideoCallsStore(storeParams),
   });
   return flux;
 }
@@ -36,7 +36,7 @@ describe('VideoCallsStore', () => {
 
       flux.dispatcher.dispatch({
         type: actions.TWILIO_INIT_SUCCESS,
-        payload: { token: 'foo', identity: 'bar' }
+        payload: { token: 'foo', identity: 'bar' },
       });
       const state = store.getState();
       expect(state.token).to.eql('foo');
@@ -52,8 +52,8 @@ describe('VideoCallsStore', () => {
       flux.dispatcher.dispatch({
         type: actions.TWILIO_INIT_FAILURE,
         payload: {
-          error: 'bar'
-        }
+          error: 'bar',
+        },
       });
       const state = store.getState();
       expect(state.initError).to.eql('bar');

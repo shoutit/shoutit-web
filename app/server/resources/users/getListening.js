@@ -3,7 +3,7 @@ export default function (client, path) {
 
     return client.get(path + '/' + username + '/listening', {
       accessToken: session && session.accessToken ? session.accessToken : null,
-      query: query
+      query: query,
     });
   };
 }

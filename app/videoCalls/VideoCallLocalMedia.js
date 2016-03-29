@@ -11,14 +11,14 @@ if (process.env.BROWSER) {
 export default class VideoCallLocalMedia extends React.Component {
 
   state = {
-    error: null
+    error: null,
   }
 
   componentDidMount() {
 
     if (!Twilio) {
       this.setState({
-        error: new Error(TWILIO_NOT_LOADED)
+        error: new Error(TWILIO_NOT_LOADED),
       });
       return;
     }

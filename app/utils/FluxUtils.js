@@ -20,17 +20,17 @@ export function ConnectToStores(Component, { fetchData, listenToStores = [], map
       flux: React.PropTypes.object,
       params: React.PropTypes.object,
       query: React.PropTypes.object,
-      firstRender: React.PropTypes.bool
+      firstRender: React.PropTypes.bool,
     },
 
     contextTypes: {
       query: React.PropTypes.object,
-      params: React.PropTypes.object
+      params: React.PropTypes.object,
     },
 
     childContextTypes: {
       query: React.PropTypes.object,
-      params: React.PropTypes.object
+      params: React.PropTypes.object,
     },
 
     mixins: [new StoreWatchMixin(...listenToStores)],
@@ -76,7 +76,7 @@ export function ConnectToStores(Component, { fetchData, listenToStores = [], map
 
     render() {
       return <Component {...this.props} { ...this.state } ref="instance" />;
-    }
+    },
 
   });
 

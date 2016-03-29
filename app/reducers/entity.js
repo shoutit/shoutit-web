@@ -5,7 +5,7 @@ export default function ({
   name,
   createTypes,
   mapActionToTempEntity,
-  mapActionToTempId
+  mapActionToTempId,
 }) {
 
   let createStartType;
@@ -28,12 +28,12 @@ export default function ({
     switch (action.type) {
       case createStartType:
         return merge({}, tempEntity, {
-          isCreating: true
+          isCreating: true,
         });
       case createFailureType:
         return merge({}, tempEntity, {
           isCreating: false,
-          createError: action.payload
+          createError: action.payload,
         });
       default:
         return tempEntity;
@@ -50,7 +50,7 @@ export default function ({
         case createFailureType:
           const tempId = mapActionToTempId(action);
           return merge({}, state, {
-            [tempId]: updateTempEntity(state[tempId] || mapActionToTempEntity(action), action)
+            [tempId]: updateTempEntity(state[tempId] || mapActionToTempEntity(action), action),
           });
         case createSuccessType:
         // Remove the temp entity and add the new entities

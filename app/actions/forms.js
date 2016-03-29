@@ -4,7 +4,7 @@ export function saveDraft(name, fields) {
   return {
     type: actionTypes.FORM_SAVE_DRAFT,
     payload: {
-      name, fields
-    }
+      name, fields,
+    },
   };
 }

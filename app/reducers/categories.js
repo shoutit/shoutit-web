@@ -4,7 +4,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
   ids: [],
-  shuffled: []
+  shuffled: [],
 };
 
 export default function (state = initialState, action) {
@@ -13,7 +13,7 @@ export default function (state = initialState, action) {
     case actionTypes.LOAD_CATEGORIES_SUCCESS:
       return {
         ids: action.payload.result,
-        shuffled: shuffle(action.payload.result)
+        shuffled: shuffle(action.payload.result),
       };
 
     default: return state;

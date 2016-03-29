@@ -15,7 +15,7 @@ const log = debug('shoutit:pusherMiddleware');
 
 const client = new Pusher(pusherAppKey, {
   encrypted: true,
-  authEndpoint: '/api/pusher/auth'
+  authEndpoint: '/api/pusher/auth',
 });
 
 const handleNewMessageNotification = (message, store) => {
@@ -37,8 +37,8 @@ const handleNewMessageNotification = (message, store) => {
         lastMessage: message.id,
         modifiedAt: message.createdAt,
         messagesCount: conversation.messagesCount + 1,
-        unreadMessagesCount
-      }
+        unreadMessagesCount,
+      },
     };
   }
   payload.result = message.id;

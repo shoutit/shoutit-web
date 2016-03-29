@@ -12,20 +12,20 @@ export default class UINotification extends React.Component {
     icon: React.PropTypes.element,
     showDismissButton: React.PropTypes.bool,
     buttons: React.PropTypes.array,
-    type: React.PropTypes.oneOf(['message'])
+    type: React.PropTypes.oneOf(['message']),
   };
 
   static defaultProps = {
     showDismissButton: true,
     buttons: [],
-    type: 'message'
+    type: 'message',
   };
 
   state = {
     style: {
       opacity: 0,
-      visibility: 'hidden'
-    }
+      visibility: 'hidden',
+    },
   };
 
   componentDidMount() {
@@ -46,7 +46,7 @@ export default class UINotification extends React.Component {
       visibility: 'visible',
       overflow: 'hidden',
       opacity: 1,
-      height: this.refs.body.offsetHeight
+      height: this.refs.body.offsetHeight,
     };
     return style;
   }

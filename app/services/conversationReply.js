@@ -15,5 +15,5 @@ export default {
         }
         return callback(null, res.body);
       });
-  }
+  },
 };

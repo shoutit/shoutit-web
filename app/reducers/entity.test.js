@@ -11,9 +11,9 @@ describe('reducer/entity', () => {
       payload: {
         entities: {
           foo: { name: 'gp' },
-          bar: { name: 'db' }
-        }
-      }
+          bar: { name: 'db' },
+        },
+      },
     });
 
     expect(state).to.eql({ name: 'gp' });
@@ -25,7 +25,7 @@ describe('reducer/entity', () => {
       name: 'people',
       createTypes: ['CREATE_START', 'CREATE_SUCCESS', 'CREATE_FAILURE'],
       mapActionToTempEntity: action => action.payload,
-      mapActionToTempId: action => action.tempId
+      mapActionToTempId: action => action.tempId,
     });
 
     const state = reduce({}, {
@@ -33,16 +33,16 @@ describe('reducer/entity', () => {
       tempId: 'abc',
       payload: {
         name: 'Gandhi',
-        country: 'India'
-      }
+        country: 'India',
+      },
     });
 
     expect(state).to.eql({
       abc: {
         name: 'Gandhi',
         country: 'India',
-        isCreating: true
-      }
+        isCreating: true,
+      },
     });
   });
 
@@ -52,13 +52,13 @@ describe('reducer/entity', () => {
       name: 'people',
       createTypes: ['CREATE_START', 'CREATE_SUCCESS', 'CREATE_FAILURE'],
       mapActionToTempEntity: action => action.payload,
-      mapActionToTempId: action => action.tempId
+      mapActionToTempId: action => action.tempId,
     });
 
     const state = reduce({ abc: { name: 'Gandhi', country: 'India', isCreating: true } }, {
       type: 'CREATE_FAILURE',
       tempId: 'abc',
-      payload: 'bad error'
+      payload: 'bad error',
     });
 
     expect(state).to.eql({
@@ -66,8 +66,8 @@ describe('reducer/entity', () => {
         name: 'Gandhi',
         country: 'India',
         isCreating: false,
-        createError: 'bad error'
-      }
+        createError: 'bad error',
+      },
     });
 
   });
@@ -78,23 +78,23 @@ describe('reducer/entity', () => {
       name: 'people',
       createTypes: ['CREATE_START', 'CREATE_SUCCESS', 'CREATE_FAILURE'],
       mapActionToTempEntity: action => action.payload,
-      mapActionToTempId: action => action.tempId
+      mapActionToTempId: action => action.tempId,
     });
 
     const state = reduce({
       abc: {
-        name: 'Gandhi', country: 'India', isCreating: true
+        name: 'Gandhi', country: 'India', isCreating: true,
       },
-      pqr: { name: 'Mazinga' }
+      pqr: { name: 'Mazinga' },
     }, {
       type: 'CREATE_SUCCESS',
       tempId: 'abc',
-      payload: { entities: { people: { real_id: { name: 'Gandhi' } } } }
+      payload: { entities: { people: { real_id: { name: 'Gandhi' } } } },
     });
 
     expect(state).to.eql({
       pqr: { name: 'Mazinga' },
-      real_id: { name: 'Gandhi' }
+      real_id: { name: 'Gandhi' },
     });
 
   });

@@ -17,18 +17,18 @@ export const uploadResources = {
   shout: {
     fieldname: 'shout_image',
     bucket: 'shoutit-shout-image-original',
-    cdn: 'https://shout-image.static.shoutit.com'
+    cdn: 'https://shout-image.static.shoutit.com',
   },
   user: {
     fieldname: 'user_image',
     bucket: 'shoutit-user-image-original',
-    cdn: 'https://user-image.static.shoutit.com'
+    cdn: 'https://user-image.static.shoutit.com',
   },
   tag: {
     fieldname: 'tag_image',
     bucket: 'shoutit-tag-image-original',
-    cdn: 'https://tag-image.static.shoutit.com'
-  }
+    cdn: 'https://tag-image.static.shoutit.com',
+  },
 };
 
 export const shoutitEnv = process.env.SHOUTIT_ENV;

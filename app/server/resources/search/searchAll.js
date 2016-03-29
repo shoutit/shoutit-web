@@ -38,7 +38,7 @@ FakeClient.prototype.search = function (client, session, term) {
   const userClient = client.users();
 
   const searchQuery = {
-    search: term
+    search: term,
   };
 
   const emitter = this;
@@ -46,14 +46,14 @@ FakeClient.prototype.search = function (client, session, term) {
   Promise.all([
     makePromiseFromRequest(shoutClient.list(session, searchQuery)),
     makePromiseFromRequest(tagClient.search(session, searchQuery)),
-    makePromiseFromRequest(userClient.search(session, term))
+    makePromiseFromRequest(userClient.search(session, term)),
   ]).spread(function (shouts, tags, users) {
     emitter.emit('complete', {
       shouts: shouts.results,
       tags: tags.results,
-      users: users.results
+      users: users.results,
     }, {
-      statusCode: 200
+      statusCode: 200,
     });
   }, function (err) {
     emitter.emit('error', err);

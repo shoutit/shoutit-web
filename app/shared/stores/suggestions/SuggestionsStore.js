@@ -7,7 +7,7 @@ import { kebabCase } from 'lodash/string';
 var SuggestionsStore = Fluxxor.createStore({
   initialize(props) {
     this.state = {
-      data: {}
+      data: {},
     };
 
     if (props.suggestions) {
@@ -24,7 +24,7 @@ var SuggestionsStore = Fluxxor.createStore({
   emptyList() {
     return {
       loading: true,
-      list: []
+      list: [],
     };
   },
 
@@ -95,7 +95,7 @@ var SuggestionsStore = Fluxxor.createStore({
 
   getState() {
     return this.state;
-  }
+  },
 });
 
 export default SuggestionsStore;

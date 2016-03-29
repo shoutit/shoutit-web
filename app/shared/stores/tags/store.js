@@ -18,7 +18,7 @@ var TagStore = Fluxxor.createStore({
       featuredTags: null,
       loading: false,
       sprite: null,
-      status: null
+      status: null,
     };
 
     if (props.tag) {
@@ -101,12 +101,12 @@ var TagStore = Fluxxor.createStore({
         if (err || res.status !== 200) {
           this.onLoadTagFailed({
             res: res.body,
-            tagName: tagName
+            tagName: tagName,
           });
         } else {
           this.onLoadTagSuccess({
             res: res.body,
-            tagName: tagName
+            tagName: tagName,
           });
         }
       });
@@ -124,8 +124,8 @@ var TagStore = Fluxxor.createStore({
         listeners: null,
         related: {
           loading: false,
-          list: []
-        }
+          list: [],
+        },
       };
     }
   },
@@ -210,7 +210,7 @@ var TagStore = Fluxxor.createStore({
     const query = {
       tags: tagName,
       country: countryCode,
-      page_size: 10
+      page_size: 10,
     };
 
     client.getShouts(query).end((err, res) => {
@@ -220,7 +220,7 @@ var TagStore = Fluxxor.createStore({
         this.onLoadTagShoutsSuccess({
           tagName,
           countryCode,
-          res: res.body
+          res: res.body,
         });
       }
     });
@@ -254,14 +254,14 @@ var TagStore = Fluxxor.createStore({
     client.getShouts({
       tags: tagName,
       country: countryCode,
-      page: next
+      page: next,
     }).end((err, res) => {
       if (err) {
         log(err);
       } else {
         this.onLoadMoreTagShoutsSuccess({
           tagName,
-          res: res.body
+          res: res.body,
         });
       }
     });
@@ -294,7 +294,7 @@ var TagStore = Fluxxor.createStore({
       } else {
         this.onLoadTagListenersSuccess({
           tagName: tagName,
-          res: res.body
+          res: res.body,
         });
       }
     });
@@ -322,7 +322,7 @@ var TagStore = Fluxxor.createStore({
       } else {
         this.onLoadTagRelatedSuccess({
           tagName: tagName,
-          res: res.body
+          res: res.body,
         });
       }
     });
@@ -387,7 +387,7 @@ var TagStore = Fluxxor.createStore({
 
   getState() {
     return this.state;
-  }
+  },
 });
 
 export default TagStore;

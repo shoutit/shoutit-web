@@ -55,7 +55,7 @@ export function start(app) {
     store: new RedisStore({ db: 11, host: process.env.REDIS_HOST }),
     secret: 'ShoutItOutLoudIntoTheCrowd',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
   }));
 
   app.use(errorDomainMiddleware);

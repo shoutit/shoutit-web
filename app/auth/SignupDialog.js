@@ -47,7 +47,7 @@ export const SignupDialog = React.createClass({
     this.props.onSubmit({
       email,
       name: `${firstName} ${lastName}`,
-      password
+      password,
     });
 
   },
@@ -166,7 +166,7 @@ export const SignupDialog = React.createClass({
         </Dialog>
       </DocumentTitle>
     );
-  }
+  },
 
 });
 
@@ -175,13 +175,13 @@ const mapStateToProps = state => {
   return {
     loggedUser: state.session.user,
     isSigningUp: state.session.isSigningUp,
-    signupError: state.session.signupError
+    signupError: state.session.signupError,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSubmit: loginData => dispatch(createProfile(loginData))
+    onSubmit: loginData => dispatch(createProfile(loginData)),
   };
 };
 

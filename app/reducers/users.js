@@ -8,7 +8,7 @@ export default function (state = {}, action) {
       user = action.payload;
       return {
         ...state,
-        [user.id]: user
+        [user.id]: user,
       };
     default: return state;
 

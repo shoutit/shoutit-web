@@ -39,5 +39,5 @@ export default {
   reply(shoutId, message) {
     return request.post(PREFIX + '/' + shoutId + '/reply')
       .send(message);
-  }
+  },
 };

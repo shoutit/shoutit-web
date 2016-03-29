@@ -6,7 +6,7 @@ const initialState = {
   currentLocation: null,
   isRetrievingLocation: false,
   error: null,
-  locations: {}
+  locations: {},
 };
 
 export default Fluxxor.createStore({
@@ -59,6 +59,6 @@ export default Fluxxor.createStore({
 
   hydrate(json) {
     this.state = JSON.parse(json);
-  }
+  },
 
 });

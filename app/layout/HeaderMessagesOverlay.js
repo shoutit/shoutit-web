@@ -53,7 +53,7 @@ const mapStateToProps = state => {
   const props = {
     loggedUser: state.session.user,
     isFetching: chat.isFetching,
-    conversations: chat.ids.map(id => denormalize(conversations[id], entities, 'CONVERSATION'))
+    conversations: chat.ids.map(id => denormalize(conversations[id], entities, 'CONVERSATION')),
   };
   return props;
 };

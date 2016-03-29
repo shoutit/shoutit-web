@@ -10,7 +10,7 @@ export default {
       country: null,
       state: null,
       city: null,
-      ...location
+      ...location,
     };
 
     const { country, state, city } = location;
@@ -30,5 +30,5 @@ export default {
         suggestion.slug = createLocationSlug(location);
         return callback(null, suggestion);
       });
-  }
+  },
 };

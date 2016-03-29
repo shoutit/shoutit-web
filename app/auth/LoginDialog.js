@@ -70,7 +70,7 @@ export const LoginDialog = React.createClass({
 
       </DocumentTitle>
     );
-  }
+  },
 
 });
 
@@ -78,7 +78,7 @@ const mapStateToProps = state => {
   return {
     loggedUser: state.session.user,
     isLoggingIn: state.session.isLoggingIn,
-    loginError: state.session.loginError
+    loginError: state.session.loginError,
   };
 };
 
@@ -93,7 +93,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
   return {
     onSubmit: loginData => dispatch(createSession(loginData)),
-    onLoginSuccess: () => dispatch(replace(afterUrl))
+    onLoginSuccess: () => dispatch(replace(afterUrl)),
   };
 };
 

@@ -2,7 +2,7 @@ import Fluxxor from 'fluxxor';
 import * as actions from '../actions/actionTypes';
 
 const initialState = {
-  users: {}
+  users: {},
 };
 
 export default Fluxxor.createStore({
@@ -28,7 +28,7 @@ export default Fluxxor.createStore({
   add(user) {
     this.state.users[user.id] = {
       ...this.state.users[user.id],
-      ...user
+      ...user,
     };
   },
 
@@ -59,6 +59,6 @@ export default Fluxxor.createStore({
 
   hydrate(json) {
     this.state = JSON.parse(json);
-  }
+  },
 
 });

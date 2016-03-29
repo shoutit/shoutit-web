@@ -11,8 +11,8 @@ export default function (state = {}, action) {
         ...state,
         [payload.conversationId]: {
           isFetching: true,
-          ids: state[payload.conversationId] ? state[payload.conversationId].ids : []
-        }
+          ids: state[payload.conversationId] ? state[payload.conversationId].ids : [],
+        },
       };
 
     case actionTypes.LOAD_MESSAGES_SUCCESS:
@@ -22,8 +22,8 @@ export default function (state = {}, action) {
         [payload.conversationId]: {
           ids: union(result, state[payload.conversationId].ids),
           nextUrl,
-          previousUrl
-        }
+          previousUrl,
+        },
       };
 
     case actionTypes.LOAD_MESSAGES_FAILURE:
@@ -32,19 +32,19 @@ export default function (state = {}, action) {
         [payload.conversationId]: {
           isFetching: false,
           error: payload,
-          ids: state[payload.conversationId] ? state[payload.conversationId].ids : []
-        }
+          ids: state[payload.conversationId] ? state[payload.conversationId].ids : [],
+        },
       };
 
     case actionTypes.ADD_MESSAGE:
       const { conversationId } = payload;
       const conversation = {
         ...state[conversationId],
-        ids: payload.result
+        ids: payload.result,
       };
       return {
         ...state,
-        [conversationId]: conversation
+        [conversationId]: conversation,
       };
 
     default:

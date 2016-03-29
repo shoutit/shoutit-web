@@ -18,7 +18,7 @@ describe('AWS', () => {
       upload({
         body: 'Hello!',
         bucket: 'shoutit-tests',
-        key
+        key,
       }, (err, data) => {
         expect(err).to.be.null;
         expect(data.key).to.equal(key);

@@ -8,7 +8,7 @@ export default function (client, path) {
 
     return client.get(path + '/' + username + '/listeners', {
       accessToken: session && session.accessToken ? session.accessToken : null,
-      query: query
+      query: query,
     });
   };
 }

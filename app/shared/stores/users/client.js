@@ -79,6 +79,6 @@ export default {
     return request
                 .post(`/services/images/${bucket}`)
                 .send({ dataImage });
-  }
+  },
 
 };

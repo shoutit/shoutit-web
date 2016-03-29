@@ -9,7 +9,7 @@ chai.use(sinonChai);
 
 function initFlux() {
   const flux = new Flux({
-    UINotificationsStore: new UINotificationsStore()
+    UINotificationsStore: new UINotificationsStore(),
   });
   return flux;
 }

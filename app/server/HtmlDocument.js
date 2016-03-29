@@ -15,7 +15,7 @@ export default function HtmlDocument({
   title,
   state,
   initialState,
-  meta
+  meta,
 }) {
 
   const metatags = [];

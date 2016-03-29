@@ -12,6 +12,6 @@ export default function () {
     read: read(this, 'conversations'),
     unread: unread(this, 'conversations'),
     del: del(this, 'conversations'),
-    reply: reply(this, 'conversations')
+    reply: reply(this, 'conversations'),
   };
 }

@@ -13,7 +13,7 @@ export default function SVGIcon({
   size = 'medium',
   badge,
   hover = false,
-  ...props
+  ...props,
 }) {
 
   let className = `SVGIcon ${size}`;

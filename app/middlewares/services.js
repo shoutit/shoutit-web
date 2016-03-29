@@ -52,7 +52,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
           return next(actionWith({
             error: true,
             payload: err.body,
-            type: failureType
+            type: failureType,
           }));
         }
         let payload = camelizeKeys(json);
@@ -77,7 +77,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
 
         next(actionWith({
           payload,
-          type: successType
+          type: successType,
         }));
 
       });

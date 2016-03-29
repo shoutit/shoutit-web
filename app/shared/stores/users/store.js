@@ -22,7 +22,7 @@ function initUserShoutEntry() {
   return {
     list: [],
     next: null,
-    loading: false
+    loading: false,
   };
 }
 
@@ -32,18 +32,18 @@ function initUserListenEntry() {
     listeners: {
       loaded: false,
       next: null,
-      list: []
+      list: [],
     },
     listening: {
       loaded: false,
       next: null,
-      list: []
+      list: [],
     },
     tags: {
       loaded: false,
       next: null,
-      list: []
-    }
+      list: [],
+    },
   };
 }
 
@@ -63,8 +63,8 @@ const UserStore = Fluxxor.createStore({
         status: null,
         profilePictureUploading: false,
         coverUploading: false,
-        changes: {}
-      }
+        changes: {},
+      },
     };
 
     if (props.loggedUser) {
@@ -187,8 +187,8 @@ const UserStore = Fluxxor.createStore({
     let patch = {
       location: {
         longitude: loc.longitude,
-        latitude: loc.latitude
-      }
+        latitude: loc.latitude,
+      },
     };
 
     if (this.state.user) {
@@ -314,7 +314,7 @@ const UserStore = Fluxxor.createStore({
                 if (res.status === 200) {
                   const s3Link = res.text;
                   this.onProfileChange({
-                    changes: { image: s3Link }
+                    changes: { image: s3Link },
                   });
                 } else {
                   console.log('Error on saving file.');
@@ -337,7 +337,7 @@ const UserStore = Fluxxor.createStore({
                 if (res.status === 200) {
                   const s3Link = res.text;
                   this.onProfileChange({
-                    changes: { cover: s3Link }
+                    changes: { cover: s3Link },
                   });
                         // now save changes
                   this.onProfileChangesSave();
@@ -387,9 +387,9 @@ const UserStore = Fluxxor.createStore({
       username: { username: value },
       address: {
         location: {
-          address:value
-        }
-      }
+          address:value,
+        },
+      },
     };
 
     return apiMap[field];
@@ -689,7 +689,7 @@ const UserStore = Fluxxor.createStore({
 
   onLoadUserShouts({ username, limit }) {
     client.loadShouts(username, {
-      page_size: limit || PAGE_SIZE
+      page_size: limit || PAGE_SIZE,
     }).end((err, res) => {
       if (err) {
         log(err);
@@ -697,7 +697,7 @@ const UserStore = Fluxxor.createStore({
         this.onLoadUserShoutsSuccess({
           username,
           results: res.body.results,
-          next: res.body.next
+          next: res.body.next,
         });
       }
     });
@@ -726,7 +726,7 @@ const UserStore = Fluxxor.createStore({
 
     client.loadShouts(username, {
       page_size: PAGE_SIZE,
-      page: shouts.next
+      page: shouts.next,
     })
     .end((err, res) => {
       if (err) {
@@ -735,7 +735,7 @@ const UserStore = Fluxxor.createStore({
         this.onLoadMoreUserShoutsSuccess({
           username,
           results: res.body.results,
-          next: res.body.next
+          next: res.body.next,
         });
       }
     });
@@ -766,12 +766,12 @@ const UserStore = Fluxxor.createStore({
         .end((err, res) => {
           if (err || res.status !== 200) {
             this.onLoadUserFailed({
-              username: username
+              username: username,
             });
           } else {
             this.onLoadUserSuccess({
               username: username,
-              res: res.body
+              res: res.body,
             });
           }
         });
@@ -833,7 +833,7 @@ const UserStore = Fluxxor.createStore({
 
   hydrate(json) {
     this.state = JSON.parse(json);
-  }
+  },
 
 });
 

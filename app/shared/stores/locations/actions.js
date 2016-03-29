@@ -3,13 +3,13 @@ import consts from './consts';
 export default {
   loadPredictions(term) {
     this.dispatch(consts.LOAD_PREDICTIONS, {
-      term
+      term,
     });
   },
 
   selectLocation(prediction) {
     this.dispatch(consts.SELECT_LOCATION, {
-      prediction
+      prediction,
     });
   },
 
@@ -19,5 +19,5 @@ export default {
 
   acquireLocation() {
     this.dispatch(consts.ACQUIRE_LOCATION);
-  }
+  },
 };

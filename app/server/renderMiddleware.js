@@ -22,7 +22,7 @@ export default function renderMiddleware(req, res, next) {
   const flux = new Flux(fetchr);
 
   const store = configureStore({
-    routing: { currentUrl: req.url }
+    routing: { currentUrl: req.url },
   }, { fetchr });
 
   // Run router to determine the desired state

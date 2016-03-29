@@ -78,7 +78,7 @@ export const ResetPasswordDialog = React.createClass({
 
       </DocumentTitle>
     );
-  }
+  },
 
 });
 
@@ -86,14 +86,14 @@ export const ResetPasswordDialog = React.createClass({
 const mapStateToProps = state => {
   return {
     isRequestingPasswordReset: state.session.isRequestingPasswordReset,
-    passwordResetError: state.session.passwordResetError
+    passwordResetError: state.session.passwordResetError,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onSubmit: email => dispatch(requestPasswordReset(email)),
-    onEmailSent: () => dispatch(replace('/login?recover_sent=true'))
+    onEmailSent: () => dispatch(replace('/login?recover_sent=true')),
   };
 };
 

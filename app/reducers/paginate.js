@@ -11,7 +11,7 @@ export default function paginate({
 
   addType,
 
-  deleteType
+  deleteType,
 
 }) {
 
@@ -55,12 +55,12 @@ export default function paginate({
     isFetching: false,
     nextUrl: undefined,
     previousUrl: undefined,
-    ids: []
+    ids: [],
   }, action) {
     switch (action.type) {
       case fetchStartType:
         return merge({}, state, {
-          isFetching: true
+          isFetching: true,
         });
       case fetchSuccessType:
         if (!action.payload || !action.payload.result) {
@@ -70,7 +70,7 @@ export default function paginate({
           isFetching: false,
           nextUrl: action.payload.nextUrl,
           previousUrl: action.payload.previousUrl,
-          ids: union(state.ids, action.payload.result)
+          ids: union(state.ids, action.payload.result),
         });
       case fetchFailureType:
         if (!action.payload || !action.payload) {
@@ -78,7 +78,7 @@ export default function paginate({
         }
         return merge({}, state, {
           isFetching: false,
-          error: action.payload
+          error: action.payload,
         });
       default:
         return state;
@@ -86,13 +86,13 @@ export default function paginate({
   }
 
   function updateOnCreate(state = {
-    ids: []
+    ids: [],
   }, action, tempId) {
     switch (action.type) {
       case createStartType:
       // add temporary item to the list
         return merge({}, state, {
-          ids: [...state.ids, tempId]
+          ids: [...state.ids, tempId],
         });
       case createSuccessType:
         if (!action.payload || !action.payload.result) {
@@ -139,7 +139,7 @@ export default function paginate({
         if (mapActionToKey) {
           const key = mapActionToKey(action);
           return merge({}, state, {
-            [key]: updateOnFetch(state[key], action)
+            [key]: updateOnFetch(state[key], action),
           });
         }
         return merge({}, state, updateOnFetch(state, action));
@@ -153,7 +153,7 @@ export default function paginate({
           const key = mapActionToKey(action);
           return {
             ... state,
-            [key]: updateOnCreate(state[key], action, tempId)
+            [key]: updateOnCreate(state[key], action, tempId),
           };
         }
         return updateOnCreate(state, action, tempId);
@@ -164,7 +164,7 @@ export default function paginate({
           const key = mapActionToKey(action);
           return {
             ... state,
-            [key]: updateOnAdd(state[key], action)
+            [key]: updateOnAdd(state[key], action),
           };
         }
         return updateOnAdd(state, action);
@@ -175,7 +175,7 @@ export default function paginate({
           const key = mapActionToKey(action);
           return {
             ... state,
-            [key]: updateOnDelete(state[key], action)
+            [key]: updateOnDelete(state[key], action),
           };
         }
         return updateOnDelete(state, action);

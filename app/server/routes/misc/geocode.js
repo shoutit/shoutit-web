@@ -9,7 +9,7 @@ export default function (client) {
     const ip = getValidIPv4Address(remoteAddress);
     if (ip) {
       options.headers = {
-        'X-Forwarded-For': ip
+        'X-Forwarded-For': ip,
       };
       console.log('Forwarding ip %s', ip);
     }

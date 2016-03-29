@@ -65,7 +65,7 @@ export function VIDEOCALL_PREVIEW({ user }, dismiss, flux) {
       primary
       size="small"
       label="Call"
-      onClick={ () => flux.actions.inviteToVideoCall(user) } />
+      onClick={ () => flux.actions.inviteToVideoCall(user) } />,
   ];
 
   const content = (
@@ -86,7 +86,7 @@ export function VIDEOCALL_OUTGOING({ user, outgoingInvite }) {
     <Button
       size="small"
       label="Cancel"
-      onClick={ () => outgoingInvite.cancel() } />
+      onClick={ () => outgoingInvite.cancel() } />,
   ];
 
   const content = (
@@ -126,7 +126,7 @@ export function VIDEOCALL_OUTGOING_FAILURE({ user, error }, dismiss, flux) {
     <Button key="retry" primary autoFocus size="small" label="Retry" onClick={ () => {
       dismiss(options.notificationId);
       flux.actions.inviteToVideoCall(user);
-    }} />
+    }} />,
   ];
   const content = (
     <UINotification showDismissButton={ false } icon= { <SVGIcon name="video" active /> } buttons={buttons}>
@@ -141,7 +141,7 @@ export function VIDEOCALL_INCOMING({ incomingInvite, user }, dismiss, flux) {
   const options = { autoHide: false, notificationId: incomingInvite.conversationSid };
   const buttons = [
     <Button key="reject" size="small" label="Reject" onClick={ () => incomingInvite.reject() } />,
-    <Button key="accept" size="small" primary label="Accept" onClick={ () => flux.actions.acceptVideoCall(incomingInvite) } />
+    <Button key="accept" size="small" primary label="Accept" onClick={ () => flux.actions.acceptVideoCall(incomingInvite) } />,
   ];
 
   const content = (
@@ -165,7 +165,7 @@ export function VIDEOCALL_INCOMING_CANCELED({ incomingInvite, user, error }, dis
   const notificationId = incomingInvite.conversationSid;
   const options = { autoHide: false, notificationId };
   const buttons = [
-    <Button size="small" primary label="Close" onClick={ () => dismiss(notificationId) } />
+    <Button size="small" primary label="Close" onClick={ () => dismiss(notificationId) } />,
   ];
   const content = (
     <UINotification icon= { <SVGIcon name="video" active /> } buttons={ buttons }>
@@ -179,7 +179,7 @@ export function VIDEOCALL_INCOMING_FAILURE({ incomingInvite, error }, dismiss) {
   const notificationId = incomingInvite.conversationSid;
   const options = { autoHide: false, notificationId };
   const buttons = [
-    <Button size="small" primary label="Close" onClick={ () => dismiss(notificationId) } />
+    <Button size="small" primary label="Close" onClick={ () => dismiss(notificationId) } />,
   ];
   const content = (
     <UINotification icon= { <SVGIcon name="video" active /> } buttons={ buttons }>
@@ -193,7 +193,7 @@ export function VIDEOCALL_INCOMING_FAILURE({ incomingInvite, error }, dismiss) {
 export function EMAIL_VERIFICATION_SUCCESS({ user }, dismiss) {
   const options = { autoHide: false, notificationId: 'emailVerificationSuccess' };
   const buttons = [
-    <Button size="small" primary label="Got it" onClick={ () => dismiss(options.notificationId) } />
+    <Button size="small" primary label="Got it" onClick={ () => dismiss(options.notificationId) } />,
   ];
   const content = (
     <UINotification icon= { <SVGIcon name="ok" active /> } buttons={ buttons }>
@@ -201,7 +201,7 @@ export function EMAIL_VERIFICATION_SUCCESS({ user }, dismiss) {
     </UINotification>
   );
   return {
-    options, content
+    options, content,
   };
 }
 

@@ -3,7 +3,7 @@ export default function (client, path) {
     const requestURL = path + '/' + pk;
     return client.get(requestURL, {
       query: query,
-      accessToken: session && session.accessToken ? session.accessToken : null
+      accessToken: session && session.accessToken ? session.accessToken : null,
     });
   };
 }

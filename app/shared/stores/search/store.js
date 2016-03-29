@@ -75,13 +75,13 @@ var SearchStore = Fluxxor.createStore({
           min_price: payload.min || undefined,
           max_price: payload.max || undefined,
           country: payload.country || undefined,
-          city: payload.city || undefined
+          city: payload.city || undefined,
         };
       } else {
         // only term for tags and user search
         searchQuery = {
           page_size: defaults.PAGE_SIZE,
-          search: payload.term
+          search: payload.term,
         };
       }
 
@@ -180,7 +180,7 @@ var SearchStore = Fluxxor.createStore({
 
   getSearchKeyword() {
     return this.state.settings.search;
-  }
+  },
 });
 
 export default SearchStore;

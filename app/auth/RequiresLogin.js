@@ -5,7 +5,7 @@ export class RequiresLogin extends React.Component {
 
   static propTypes = {
     children: React.PropTypes.element,
-    loggedUser: React.PropTypes.object
+    loggedUser: React.PropTypes.object,
   };
 
   render() {
@@ -28,7 +28,7 @@ export class RequiresLogin extends React.Component {
 const mapStateToProps = state => {
   return {
     loggedUser: state.session.user,
-    currentUrl: state.routing.currentUrl
+    currentUrl: state.routing.currentUrl,
   };
 };
 

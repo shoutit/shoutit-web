@@ -7,12 +7,12 @@ export function getCurrentLocation() {
     types: [
       actionTypes.GET_CURRENT_LOCATION_START,
       actionTypes.GET_CURRENT_LOCATION_SUCCESS,
-      actionTypes.GET_CURRENT_LOCATION_FAILURE
+      actionTypes.GET_CURRENT_LOCATION_FAILURE,
     ],
     service: {
       name: 'location',
-      params: { latlng: '0,0' }
-    }
+      params: { latlng: '0,0' },
+    },
   };
 }
 
@@ -21,12 +21,12 @@ export function getLocation(latlng) {
     types: [
       actionTypes.GET_LOCATION_START,
       actionTypes.GET_LOCATION_SUCCESS,
-      actionTypes.GET_LOCATION_FAILURE
+      actionTypes.GET_LOCATION_FAILURE,
     ],
     service: {
       name: 'location',
-      params: { latlng }
-    }
+      params: { latlng },
+    },
   };
 }
 
@@ -35,12 +35,12 @@ export function loadSuggestions(location) {
     types: [
       actionTypes.LOAD_SUGGESTIONS_START,
       actionTypes.LOAD_SUGGESTIONS_SUCCESS,
-      actionTypes.LOAD_SUGGESTIONS_FAILURE
+      actionTypes.LOAD_SUGGESTIONS_FAILURE,
     ],
     service:{
       name: 'suggestions',
       params: { location },
-      schema: suggestion
-    }
+      schema: suggestion,
+    },
   };
 }

@@ -16,7 +16,7 @@ export class SocialLoginForm extends Component {
   state = {
     error: null,
     waitingForFacebook: false,
-    waitingForGoogle: false
+    waitingForGoogle: false,
   };
 
   handleGoogleLoginClick(e) {
@@ -37,7 +37,7 @@ export class SocialLoginForm extends Component {
           return;
         }
         this.props.dispatch(loginWithGoogle({ gplus_code: authResult.code }));
-      }
+      },
     });
   }
 

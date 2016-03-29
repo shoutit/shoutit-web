@@ -26,7 +26,7 @@ export default {
     return request.get(GEOCODE_URL)
       .query({
         address: city,
-        components: 'country:' + country + '|administrative_area:' + state
+        components: 'country:' + country + '|administrative_area:' + state,
       });
   },
 
@@ -35,7 +35,7 @@ export default {
       .query({
         place_id: placeId,
         language: DEFAULT_LANGUAGE,
-        key: API_KEY
+        key: API_KEY,
       });
-  }
+  },
 };

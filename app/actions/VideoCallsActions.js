@@ -47,7 +47,7 @@ export default {
           token: data.token,
           identity: data.identity,
           conversationsClient,
-          accessManager
+          accessManager,
         });
       }, error => {
         error.status = 500;
@@ -125,6 +125,6 @@ export default {
         this.dispatch(actionType, { user, outgoingInvite, error, videoCallId });
       });
 
-  }
+  },
 
 };

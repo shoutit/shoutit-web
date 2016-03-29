@@ -7,15 +7,15 @@ describe('reducer/paginate', () => {
     describe('without mapping the action by key', () => {
 
       const reduce = paginate({
-        fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE']
+        fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE'],
       });
 
       it('should set the state as isFetching when starting', () => {
         const state = reduce({ ids: [] }, {
           type: 'FETCH_START',
           payload: {
-            foo: 'bar'
-          }
+            foo: 'bar',
+          },
         });
         expect(state).to.eql({ isFetching: true, ids: [] });
       });
@@ -24,8 +24,8 @@ describe('reducer/paginate', () => {
         const state = reduce(undefined, {
           type: 'FETCH_START',
           payload: {
-            foo: 'bar'
-          }
+            foo: 'bar',
+          },
         });
         expect(state).to.eql({ isFetching: true, ids: [] });
       });
@@ -33,32 +33,32 @@ describe('reducer/paginate', () => {
       it('should set the state when starting not changing the old state', () => {
         const state = reduce({
           ids: ['foo', 'bar'],
-          isFetching: false
+          isFetching: false,
         }, {
           type: 'FETCH_START',
           payload: {
-            foo: 'bar'
-          }
+            foo: 'bar',
+          },
         });
         expect(state).to.eql({
           ids: ['foo', 'bar'],
-          isFetching: true
+          isFetching: true,
         });
       });
 
       it('should append the results when successfully fetched', () => {
         const state = reduce({
           ids: ['foo', 'bar'],
-          isFetching: true
+          isFetching: true,
         }, {
           type: 'FETCH_SUCCESS',
           payload: {
-            result: ['gin']
-          }
+            result: ['gin'],
+          },
         });
         expect(state).to.eql({
           ids: ['foo', 'bar', 'gin'],
-          isFetching: false
+          isFetching: false,
         });
 
       });
@@ -66,20 +66,20 @@ describe('reducer/paginate', () => {
       it('should append the next/previous urls', () => {
         const state = reduce({
           ids: ['foo', 'bar'],
-          isFetching: true
+          isFetching: true,
         }, {
           type: 'FETCH_SUCCESS',
           payload: {
             result: ['gin'],
             nextUrl: 'next',
-            previousUrl: 'prev'
-          }
+            previousUrl: 'prev',
+          },
         });
         expect(state).to.eql({
           ids: ['foo', 'bar', 'gin'],
           isFetching: false,
           nextUrl: 'next',
-          previousUrl: 'prev'
+          previousUrl: 'prev',
         });
 
       });
@@ -87,16 +87,16 @@ describe('reducer/paginate', () => {
       it('should append the error when failed fetching', () => {
         const state = reduce({
           ids: ['foo', 'bar'],
-          isFetching: true
+          isFetching: true,
         }, {
           type: 'FETCH_FAILURE',
-          payload: 'A bad error'
+          payload: 'A bad error',
         });
 
         expect(state).to.eql({
           ids: ['foo', 'bar'],
           isFetching: false,
-          error: 'A bad error'
+          error: 'A bad error',
         });
 
       });
@@ -105,21 +105,21 @@ describe('reducer/paginate', () => {
 
       const reduce = paginate({
         mapActionToKey: action => action.payload.fooId,
-        fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE']
+        fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE'],
       });
 
       it('should set the state as isFetching when starting, returning empty ids', () => {
         const state = reduce({}, {
           type: 'FETCH_START',
           payload: {
-            fooId: 'A'
-          }
+            fooId: 'A',
+          },
         });
         expect(state).to.eql({
           A: {
             isFetching: true,
-            ids: []
-          }
+            ids: [],
+          },
         });
       });
 
@@ -127,21 +127,21 @@ describe('reducer/paginate', () => {
         const state = reduce({
           B: {
             isFetching: true,
-            ids: []
-          }
+            ids: [],
+          },
         }, {
           type: 'FETCH_SUCCESS',
           payload: {
             fooId: 'B',
-            result: ['gin', 'bar']
-          }
+            result: ['gin', 'bar'],
+          },
         });
 
         expect(state).to.eql({
           B: {
             isFetching: false,
-            ids: ['gin', 'bar']
-          }
+            ids: ['gin', 'bar'],
+          },
         });
 
       });
@@ -150,24 +150,24 @@ describe('reducer/paginate', () => {
         const state = reduce({
           C: {
             isFetching: true,
-            ids: []
-          }
+            ids: [],
+          },
         }, {
           type: 'FETCH_SUCCESS',
           payload: {
             fooId: 'C',
             result: ['gin', 'bar'],
             nextUrl: 'next',
-            previousUrl: 'prev'
-          }
+            previousUrl: 'prev',
+          },
         });
         expect(state).to.eql({
           C: {
             ids: ['gin', 'bar'],
             isFetching: false,
             nextUrl: 'next',
-            previousUrl: 'prev'
-          }
+            previousUrl: 'prev',
+          },
         });
 
       });
@@ -176,14 +176,14 @@ describe('reducer/paginate', () => {
         const state = reduce({
           C: {
             isFetching: true,
-            ids: ['gin', 'bar']
-          }
+            ids: ['gin', 'bar'],
+          },
         }, {
           type: 'FETCH_FAILURE',
           payload: {
             message: 'Bad bad things',
-            fooId: 'C'
-          }
+            fooId: 'C',
+          },
         });
         expect(state).to.eql({
           C: {
@@ -191,9 +191,9 @@ describe('reducer/paginate', () => {
             isFetching: false,
             error:  {
               message: 'Bad bad things',
-              fooId: 'C'
-            }
-          }
+              fooId: 'C',
+            },
+          },
         });
 
       });
@@ -207,27 +207,27 @@ describe('reducer/paginate', () => {
         mapActionToTempId: action => action.tempId,
 
         fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE'],
-        createTypes: ['CREATE_START', 'CREATE_SUCCESS']
+        createTypes: ['CREATE_START', 'CREATE_SUCCESS'],
 
       });
 
       it('should add the temporary item id when no state is defined', () => {
         const state = reduce(undefined, {
           type: 'CREATE_START',
-          tempId: 'abc'
+          tempId: 'abc',
         });
         expect(state).to.eql({
-          ids: ['abc']
+          ids: ['abc'],
         });
       });
 
       it('should add the temporary item id when to the existing ones', () => {
         const state = reduce({ ids: ['foo'] }, {
           type: 'CREATE_START',
-          tempId: 'abc'
+          tempId: 'abc',
         });
         expect(state).to.eql({
-          ids: ['foo', 'abc']
+          ids: ['foo', 'abc'],
         });
       });
 
@@ -235,12 +235,12 @@ describe('reducer/paginate', () => {
         const state = reduce({ ids: ['foo', 'abc'] }, {
           type: 'CREATE_SUCCESS',
           payload: {
-            result: 'real_id'
+            result: 'real_id',
           },
-          tempId: 'abc'
+          tempId: 'abc',
         });
         expect(state).to.eql({
-          ids: ['foo', 'real_id']
+          ids: ['foo', 'real_id'],
         });
       });
     });
@@ -250,7 +250,7 @@ describe('reducer/paginate', () => {
         mapActionToTempId: action => action.tempId,
         mapActionToKey: action => action.payload.id,
         fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE'],
-        createTypes: ['CREATE_START', 'CREATE_SUCCESS']
+        createTypes: ['CREATE_START', 'CREATE_SUCCESS'],
       });
 
       it('should add the temporary item id when no state is defined', () => {
@@ -258,33 +258,33 @@ describe('reducer/paginate', () => {
           type: 'CREATE_START',
           tempId: 'temp',
           payload: {
-            id: 'foo'
-          }
+            id: 'foo',
+          },
         });
         expect(state).to.eql({
           foo: {
-            ids: ['temp']
-          }
+            ids: ['temp'],
+          },
         });
       });
 
       it('should remove the temporary item id when success', () => {
         const state = reduce({
           foo: {
-            ids: ['temp']
-          }
+            ids: ['temp'],
+          },
         }, {
           type: 'CREATE_SUCCESS',
           tempId: 'temp',
           payload: {
             id: 'foo',
-            result: 'real_id'
-          }
+            result: 'real_id',
+          },
         });
         expect(state).to.eql({
           foo: {
-            ids: ['real_id']
-          }
+            ids: ['real_id'],
+          },
         });
       });
 
@@ -295,18 +295,18 @@ describe('reducer/paginate', () => {
 
     describe('without mapping the action by key', () => {
       const reduce = paginate({
-        addType: 'ADD'
+        addType: 'ADD',
       });
 
       it('should add the new item', () => {
         const state = reduce({ ids: ['foo', 'abc'] }, {
           type: 'ADD',
           payload: {
-            result: 'bar'
-          }
+            result: 'bar',
+          },
         });
         expect(state).to.eql({
-          ids: ['foo', 'abc', 'bar']
+          ids: ['foo', 'abc', 'bar'],
         });
       });
 
@@ -318,16 +318,16 @@ describe('reducer/paginate', () => {
 
     describe('without mapping the action by key', () => {
       const reduce = paginate({
-        deleteType: 'DELETE'
+        deleteType: 'DELETE',
       });
 
       it('should delete an existing item', () => {
         const state = reduce({ ids: ['foo', 'abc'] }, {
           type: 'DELETE',
-          payload: { id: 'abc' }
+          payload: { id: 'abc' },
         });
         expect(state).to.eql({
-          ids: ['foo']
+          ids: ['foo'],
         });
       });
 

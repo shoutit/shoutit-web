@@ -7,5 +7,5 @@ export default {
     return request
             .get(PREFIX + '/')
             .query(query);
-  }
+  },
 };

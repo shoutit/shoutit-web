@@ -7,7 +7,7 @@ export default function (state = {}, action) {
       const fields = action.payload.fields;
       return {
         ...state,
-        [name]: fields
+        [name]: fields,
       };
   }
 

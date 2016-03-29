@@ -14,7 +14,7 @@ export default function UINotificationsHost({ notifications, flux }) {
             React.cloneElement(notification.content, {
               notificationId: notification.id,
               key: notification.id,
-              dismissUINotification: () => flux.actions.dismissUINotification(notification.id)
+              dismissUINotification: () => flux.actions.dismissUINotification(notification.id),
             })
 
           )

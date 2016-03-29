@@ -3,7 +3,7 @@ import * as actions from '../actions/actionTypes';
 import { createLocationSlug } from '../utils/LocationUtils';
 
 const initialState = {
-  locations: {}
+  locations: {},
 };
 
 export default Fluxxor.createStore({
@@ -71,7 +71,7 @@ export default Fluxxor.createStore({
     const slug = createLocationSlug(location);
     this.state.locations[slug] = {
       ...this.state.locations[slug],
-      isLoading: true
+      isLoading: true,
     };
     this.emit('change');
   },
@@ -112,7 +112,7 @@ export default Fluxxor.createStore({
       ...this.state.locations[slug],
       isLoading: false,
       error: null,
-      ...suggestionsById
+      ...suggestionsById,
     };
 
     this.waitFor(otherStores, () => {
@@ -127,6 +127,6 @@ export default Fluxxor.createStore({
 
   hydrate(json) {
     this.state = JSON.parse(json);
-  }
+  },
 
 });

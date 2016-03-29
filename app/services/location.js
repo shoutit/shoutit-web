@@ -18,5 +18,5 @@ export default {
         location.slug = createLocationSlug(location);
         return callback(null, location);
       });
-  }
+  },
 };

@@ -10,6 +10,6 @@ module.exports = {
     site: '@Shoutitcom',
     iPhone: '947017118',
     iPad: '947017118',
-    android: 'com.shoutit.app.android'
-  }
+    android: 'com.shoutit.app.android',
+  },
 };

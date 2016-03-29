@@ -22,7 +22,7 @@ function mapStateToProps(state) {
   const conversations = paginated.chat.ids.map(id => entities.conversations[id]);
   const unreadConversations = conversations.filter(c => c.unreadMessagesCount > 0).length;
   return {
-    unreadConversations
+    unreadConversations,
   };
 }
 

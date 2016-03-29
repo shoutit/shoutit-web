@@ -29,7 +29,7 @@ describe('MessagesActions', () => {
     it('should dispatch on success', () => {
       sinon.stub(Request.prototype, 'end', done => done(null, {
         ok: true,
-        body: { text: 'a message' }
+        body: { text: 'a message' },
       }));
       const tempMessage = MessagesActions.replyToConversation(loggedUser, 'abc', 'a message');
       expect(dispatch).to.have.been.calledWith(
@@ -40,21 +40,21 @@ describe('MessagesActions', () => {
         actions.REPLY_CONVERSATION_SUCCESS, {
           conversationId: 'abc',
           message: { text: 'a message' },
-          tempMessageId: tempMessage.id
+          tempMessageId: tempMessage.id,
         }
       );
     });
 
     it('should dispatch response on failure', () => {
       sinon.stub(Request.prototype, 'end', done => done(null, {
-        ok: false
+        ok: false,
       }));
       const tempMessage = MessagesActions.replyToConversation(loggedUser, 'abc', 'a message');
       expect(dispatch).to.have.been.calledWith(
         actions.REPLY_CONVERSATION_FAILURE, {
           conversationId: 'abc',
           message: tempMessage,
-          error: { ok: false }
+          error: { ok: false },
         }
       );
     });
@@ -66,7 +66,7 @@ describe('MessagesActions', () => {
         actions.REPLY_CONVERSATION_FAILURE, {
           conversationId: 'abc',
           message: tempMessage,
-          error: { status: 404 }
+          error: { status: 404 },
         }
       );
     });
@@ -94,7 +94,7 @@ describe('MessagesActions', () => {
       const done = sinon.spy();
       sinon.stub(Request.prototype, 'end', done => done(null, {
         ok: true,
-        body: { text: 'a message' }
+        body: { text: 'a message' },
       }));
       const tempMessage = MessagesActions.sendMessage(loggedUser, 'recipient', 'a message', done);
       expect(dispatch).to.have.been.calledWith(
@@ -105,7 +105,7 @@ describe('MessagesActions', () => {
         actions.SEND_MESSAGE_SUCCESS, {
           to: 'recipient',
           tempMessageId: tempMessage.id,
-          message: { text: 'a message' }
+          message: { text: 'a message' },
         }
       );
       expect(done).to.have.been.calledWith(
@@ -117,14 +117,14 @@ describe('MessagesActions', () => {
     it('should dispatch response on failure and call the callback', () => {
       const done = sinon.spy();
       sinon.stub(Request.prototype, 'end', done => done(null, {
-        ok: false
+        ok: false,
       }));
       const tempMessage = MessagesActions.sendMessage(loggedUser, 'recipient', 'a message', done);
       expect(dispatch).to.have.been.calledWith(
         actions.SEND_MESSAGE_FAILURE, {
           to: 'recipient',
           message: tempMessage,
-          error: { ok: false }
+          error: { ok: false },
         }
       );
       expect(done).to.have.been.calledWith({ ok: false });
@@ -138,7 +138,7 @@ describe('MessagesActions', () => {
         actions.SEND_MESSAGE_FAILURE, {
           to: 'recipient',
           message: tempMessage,
-          error: { status: 404 }
+          error: { status: 404 },
         }
       );
       expect(done).to.have.been.calledWith({ status: 404 });

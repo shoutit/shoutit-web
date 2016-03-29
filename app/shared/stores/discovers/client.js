@@ -9,7 +9,7 @@ export default {
   getDiscover(countryCode) {
     return request.get('/api/discover/').query({
       country: countryCode.toUpperCase(),
-      page_size
+      page_size,
     });
   },
 
@@ -22,5 +22,5 @@ export default {
 
     return request.get(SHOUTS_PREFIX)
       .query({ ...query, page_size });
-  }
+  },
 };

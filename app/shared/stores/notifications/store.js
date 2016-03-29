@@ -15,7 +15,7 @@ const NotificationStore = Fluxxor.createStore({
   initialize({ notifications }) {
     this.state = {
       notifications: notifications || [],
-      loading: false
+      loading: false,
     };
 
     this.bindActions(
@@ -140,7 +140,7 @@ const NotificationStore = Fluxxor.createStore({
 
   getState() {
     return this.state;
-  }
+  },
 });
 
 export default NotificationStore;

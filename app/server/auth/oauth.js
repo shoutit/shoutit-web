@@ -19,14 +19,14 @@ var ENDPOINT_SERVER = apiUrl,
     shoutit:'shoutit_login',
     signup: 'shoutit_signup',
     refresh: 'refresh_token',
-    sms: 'sms_code'
+    sms: 'sms_code',
   };
 
 function requestAccessToken(type, grantToken) {
   var requestData = {
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
-    grant_type: GRANT_TYPES[type]
+    grant_type: GRANT_TYPES[type],
   };
 
   if (GRANT_TYPES[type] === 'shoutit_login') {
@@ -119,7 +119,7 @@ module.exports = {
         req.session.user = user;
         return Promise.resolve(user);
       });
-  }
+  },
 
 
 };

@@ -37,5 +37,5 @@ export default React.createClass({
         flux={ flux }
       />
     );
-  }
+  },
 });

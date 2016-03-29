@@ -103,7 +103,7 @@ function mapStateToProps(state) {
   return {
     loggedUser: state.session.user,
     currentLocation: state.currentLocation,
-    uiNotifications: state.uiNotifications
+    uiNotifications: state.uiNotifications,
   };
 }
 

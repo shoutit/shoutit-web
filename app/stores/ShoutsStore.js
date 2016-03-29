@@ -2,7 +2,7 @@ import Fluxxor from 'fluxxor';
 import * as actions from '../actions/actionTypes';
 
 const initialState = {
-  shouts: {}
+  shouts: {},
 };
 
 export default Fluxxor.createStore({
@@ -27,14 +27,14 @@ export default Fluxxor.createStore({
       suggestions.shouts.forEach(shout => {
         this.state.shouts[shout.id] = {
           ...this.state.shouts[shout.id],
-          ...shout
+          ...shout,
         };
       });
     }
     if (suggestions.shout) {
       this.state.shouts[suggestions.shout.id] = {
         ...this.state.shouts[suggestions.shout.id],
-        ...suggestions.shout
+        ...suggestions.shout,
       };
     }
     if (suggestions.shout || suggestions.shouts) {
@@ -48,6 +48,6 @@ export default Fluxxor.createStore({
 
   hydrate(json) {
     this.state = JSON.parse(json);
-  }
+  },
 
 });

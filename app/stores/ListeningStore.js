@@ -3,7 +3,7 @@ import Fluxxor from 'fluxxor';
 import * as actions from '../actions/actionTypes';
 
 const initialState = {
-  users: {}
+  users: {},
 };
 
 export default Fluxxor.createStore({
@@ -34,7 +34,7 @@ export default Fluxxor.createStore({
     const { users, tags } = this.get(id);
     return {
       users: users ? users.map(userId => UsersStore.get([userId])) : [],
-      tags: tags ? tags.map(tagId => TagsStore.get([tagId])) : []
+      tags: tags ? tags.map(tagId => TagsStore.get([tagId])) : [],
     };
   },
 
@@ -42,7 +42,7 @@ export default Fluxxor.createStore({
     this.state.users[user.id] = {
       users: [],
       tags: [],
-      ...this.state.users[user.id]
+      ...this.state.users[user.id],
     };
     this.emit('change');
   },
@@ -50,7 +50,7 @@ export default Fluxxor.createStore({
   handleLoadStart({ user }) {
     this.state.users[user.id] = {
       ...this.state.users[user.id],
-      isLoading: true
+      isLoading: true,
     };
     this.emit('change');
   },
@@ -59,7 +59,7 @@ export default Fluxxor.createStore({
     this.state.users[user.id] = {
       ...this.state.users[user.id],
       isLoading: false,
-      error
+      error,
     };
     this.emit('change');
   },
@@ -68,7 +68,7 @@ export default Fluxxor.createStore({
     this.state.users[user.id] = {
       ...this.state.users[user.id],
       isLoading: false,
-      error: null
+      error: null,
     };
     if (users) {
       this.state.users[user.id].users = users.map(user => user.id);
@@ -85,6 +85,6 @@ export default Fluxxor.createStore({
 
   hydrate(json) {
     this.state = JSON.parse(json);
-  }
+  },
 
 });

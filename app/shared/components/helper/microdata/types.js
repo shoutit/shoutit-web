@@ -8,5 +8,5 @@
 module.exports = {
   Product: 'http://schema.org/Product',
   Offer: 'http://schema.org/Offer',
-  Review: 'http://schema.org/Review'
+  Review: 'http://schema.org/Review',
 };

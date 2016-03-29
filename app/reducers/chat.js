@@ -5,7 +5,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
   currentConversation: null,
-  typingUsers: {}
+  typingUsers: {},
 };
 
 export default function (state = initialState, action) {
@@ -18,8 +18,8 @@ export default function (state = initialState, action) {
         ... state,
         currentConversation: payload,
         typingUsers: {
-          [payload]: []
-        }
+          [payload]: [],
+        },
       };
 
     case actionTypes.TYPING_USER_NOTIFICATION:
@@ -28,8 +28,8 @@ export default function (state = initialState, action) {
       }
       return merge({}, state, {
         typingUsers: {
-          [payload.conversationId]: [...state.typingUsers[payload.conversationId], payload.userId]
-        }
+          [payload.conversationId]: [...state.typingUsers[payload.conversationId], payload.userId],
+        },
       });
 
     case actionTypes.REMOVE_TYPING_USER:
@@ -37,8 +37,8 @@ export default function (state = initialState, action) {
         ...state,
         typingUsers: {
           ...state.typingUsers,
-          [payload.conversationId]: without(state.typingUsers[payload.conversationId], payload.userId)
-        }
+          [payload.conversationId]: without(state.typingUsers[payload.conversationId], payload.userId),
+        },
       };
       return newState;
 

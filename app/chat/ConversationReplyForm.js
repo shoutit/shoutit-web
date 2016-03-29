@@ -18,7 +18,7 @@ export class ConversationReplyForm extends Component {
   static propTypes = {
     draft: PropTypes.string,
     typingTimeout: PropTypes.number,
-    onAttachShoutClick: PropTypes.func.isRequired
+    onAttachShoutClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -26,7 +26,7 @@ export class ConversationReplyForm extends Component {
     autoFocus: false,
     disabled: false,
     placeholder: 'Type a message…',
-    typingTimeout: 3000
+    typingTimeout: 3000,
   }
 
   componentWillUnmount() {
@@ -101,7 +101,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     name,
     loggedUser: state.session.user,
-    fields: state.forms[name] || { draft: '' }
+    fields: state.forms[name] || { draft: '' },
   };
 };
 

@@ -10,16 +10,16 @@ export default class Scrollable extends Component {
 
   static propTypes = {
     uniqueId: PropTypes.oneOfType([
-      PropTypes.string, PropTypes.number
+      PropTypes.string, PropTypes.number,
     ]),
     onScroll: PropTypes.func,
     onScrollTop: PropTypes.func,
     onScrollBottom: PropTypes.func,
-    initialScroll: PropTypes.oneOf(['top', 'bottom'])
+    initialScroll: PropTypes.oneOf(['top', 'bottom']),
   };
 
   static defaultProps = {
-    initialScroll: 'top'
+    initialScroll: 'top',
   };
 
   constructor(props) {
@@ -29,7 +29,7 @@ export default class Scrollable extends Component {
 
   state = {
     scrollHeight: null,
-    scrollTop: 0
+    scrollTop: 0,
   };
 
   componentDidMount() {

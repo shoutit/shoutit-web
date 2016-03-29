@@ -13,11 +13,11 @@ import { apiUrl } from '../../config';
 const ShoutitClient = rest.service(function (endpoint) {
   this.defaults.headers = {
     'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   };
   this.baseURL = endpoint;
 }, {}, {
-  shouts, discover, users, tags, misc, conversations, auth
+  shouts, discover, users, tags, misc, conversations, auth,
 });
 
 export default new ShoutitClient(apiUrl);

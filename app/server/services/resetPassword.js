@@ -31,5 +31,5 @@ function handlePost(req, res) {
 
 module.exports = {
   get: handleGet,
-  post: handlePost
+  post: handlePost,
 };

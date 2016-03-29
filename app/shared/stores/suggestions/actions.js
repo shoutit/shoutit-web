@@ -12,7 +12,7 @@ export default {
       state,
       city,
       page_size: pageSize,
-      type: dataTypes.join(',')
+      type: dataTypes.join(','),
     }).end((err, res) => {
       if (err) {
         this.dispatch(GET_SUGGESTIONS_FAIL, { currentLocation });
@@ -21,11 +21,11 @@ export default {
         this.dispatch(GET_SUGGESTIONS_SUCCESS, {
           res: res.body,
           currentLocation,
-          dataTypes
+          dataTypes,
         });
       }
     });
 
     this.dispatch(GET_SUGGESTIONS, { currentLocation, dataTypes });
-  }
+  },
 };

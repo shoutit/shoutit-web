@@ -5,11 +5,11 @@ export function getCurrentSession() {
     types: [
       actionTypes.GET_SESSION_START,
       actionTypes.GET_SESSION_SUCCESS,
-      actionTypes.GET_SESSION_FAILURE
+      actionTypes.GET_SESSION_FAILURE,
     ],
     service: {
-      name: 'session'
-    }
+      name: 'session',
+    },
   };
 }
 
@@ -30,13 +30,13 @@ export function createSession({ grant_type = 'shoutit_login', ...loginData }) {
     types: [
       actionTypes.LOGIN_START,
       actionTypes.LOGIN_SUCCESS,
-      actionTypes.LOGIN_FAILURE
+      actionTypes.LOGIN_FAILURE,
     ],
     service: {
       name: 'session',
       method: 'create',
-      body: body
-    }
+      body: body,
+    },
   };
 }
 
@@ -45,19 +45,19 @@ export function logout() {
     types: [
       actionTypes.LOGOUT,
       actionTypes.LOGOUT_SUCCESS,
-      actionTypes.LOGOUT_FAILURE
+      actionTypes.LOGOUT_FAILURE,
     ],
     service: {
       name: 'session',
-      method: 'delete'
-    }
+      method: 'delete',
+    },
   };
 }
 
 export function login(user) {
   return {
     type: actionTypes.LOGIN_SUCCESS,
-    payload: user
+    payload: user,
   };
 }
 
@@ -66,13 +66,13 @@ export function createProfile(body) {
     types: [
       actionTypes.SIGNUP_START,
       actionTypes.SIGNUP_SUCCESS,
-      actionTypes.SIGNUP_FAILURE
+      actionTypes.SIGNUP_FAILURE,
     ],
     service: {
       name: 'profile',
       method: 'create',
-      body
-    }
+      body,
+    },
   };
 }
 
@@ -81,13 +81,13 @@ export function requestPasswordReset(email) {
     types: [
       actionTypes.PASSWORD_RESET_START,
       actionTypes.PASSWORD_RESET_SUCCESS,
-      actionTypes.PASSWORD_RESET_FAILURE
+      actionTypes.PASSWORD_RESET_FAILURE,
     ],
     service: {
       name: 'passwordReset',
       method: 'create',
-      body: { email }
-    }
+      body: { email },
+    },
   };
 }
 
@@ -96,13 +96,13 @@ export function sendEmailVerification(email) {
     types: [
       actionTypes.SEND_EMAIL_VERIFICATION_START,
       actionTypes.SEND_EMAIL_VERIFICATION_SUCCESS,
-      actionTypes.SEND_EMAIL_VERIFICATION_FAILURE
+      actionTypes.SEND_EMAIL_VERIFICATION_FAILURE,
     ],
     service: {
       name: 'emailVerification',
       method: 'create',
-      params: { email }
-    }
+      params: { email },
+    },
   };
 }
 
@@ -111,11 +111,11 @@ export function verifyEmail(token) {
     types: [
       actionTypes.EMAIL_VERIFICATION_START,
       actionTypes.EMAIL_VERIFICATION_SUCCESS,
-      actionTypes.EMAIL_VERIFICATION_FAILURE
+      actionTypes.EMAIL_VERIFICATION_FAILURE,
     ],
     service: {
       name: 'emailVerification',
-      params: { token }
-    }
+      params: { token },
+    },
   };
 }

@@ -17,5 +17,5 @@ export default {
         cache = res.body;
         return callback(null, res.body);
       });
-  }
+  },
 };

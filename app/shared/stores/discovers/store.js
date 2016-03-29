@@ -10,7 +10,7 @@ var DiscoverStore = Fluxxor.createStore({
       loading: false,
       countries: {},
       discovers: {},
-      shouts: {}
+      shouts: {},
     };
 
     // Checking server rendering conditions
@@ -65,7 +65,7 @@ var DiscoverStore = Fluxxor.createStore({
         description: null,
         cover: null,
         // An array of objects with discover items
-        children: []
+        children: [],
       };
     }
   },
@@ -76,7 +76,7 @@ var DiscoverStore = Fluxxor.createStore({
         loading: false,
         next: null,
         // An array of shouts id (find the shout objects in shout store)
-        list: []
+        list: [],
       };
     }
   },
@@ -196,7 +196,7 @@ var DiscoverStore = Fluxxor.createStore({
 
   getShoutsState(id) {
     return this.state.shouts[id];
-  }
+  },
 });
 
 export default DiscoverStore;

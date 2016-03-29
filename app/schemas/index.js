@@ -15,26 +15,26 @@ Category.define({ mainTag: Tag });
 Shout.define({
   category: Category,
   user: User,
-  profile: User
+  profile: User,
 });
 
 Suggestion.define({
   users: arrayOf(User),
   shouts: arrayOf(Shout),
   tags: arrayOf(Tag),
-  shout: Shout
+  shout: Shout,
 });
 
 Message.define({
   user: User,
-  profile: User
+  profile: User,
 });
 
 Conversation.define({
   users: arrayOf(User),
   profiles: arrayOf(User),
   about: Shout,
-  lastMessage: Message
+  lastMessage: Message,
 });
 
 export const Schemas = {
@@ -43,7 +43,7 @@ export const Schemas = {
   CONVERSATIONS: arrayOf(Conversation),
   CATEGORIES: arrayOf(Category),
   CURRENCIES: arrayOf(Currency),
-  MESSAGES: arrayOf(Message)
+  MESSAGES: arrayOf(Message),
 };
 
 export const denormalize = (entity, entities, name) => denormalizer(entity, entities, Schemas[name]);

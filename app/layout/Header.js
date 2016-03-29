@@ -33,7 +33,7 @@ export class Header extends Component {
   };
 
   state = {
-    overlayName: null
+    overlayName: null,
   }
 
   componentDidMount() {
@@ -67,11 +67,11 @@ export class Header extends Component {
       city: currentLocation && currentLocation.city ?
         encodeURIComponent(currentLocation.city) : undefined,
       country: currentLocation && currentLocation.country ?
-        encodeURIComponent(currentLocation.country) : undefined
+        encodeURIComponent(currentLocation.country) : undefined,
     };
     history.pushState(null, '/search/all/all', query);
     flux.actions.searchShouts({
-      category: 'all', shouttype: 'all', ...query
+      category: 'all', shouttype: 'all', ...query,
     });
   }
 
@@ -189,7 +189,7 @@ export class Header extends Component {
               loggedUser={ loggedUser }
               currentLocation={ currentLocation }
             />*/}
-          </Dialog>
+          </Dialog>,
 
         ]}
 
@@ -205,7 +205,7 @@ function mapStateToProps(state) {
   return {
     currentLocation: currentLocation,
     loggedUser: session.user,
-    unreadConversations
+    unreadConversations,
   };
 }
 

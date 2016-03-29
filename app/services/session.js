@@ -31,6 +31,6 @@ export default {
 
   delete: (req, resource, params, config, callback) => {
     req.session.destroy(callback);
-  }
+  },
 
 };

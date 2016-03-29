@@ -17,12 +17,12 @@ export default class UserShoutsSelectDialog extends Component {
     open: PropTypes.bool,
     onRequestClose: PropTypes.func,
     flux: PropTypes.object.isRequired,
-    onSelectionConfirm: PropTypes.func.isRequired
+    onSelectionConfirm: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     open: false,
-    attachments: 'Select'
+    attachments: 'Select',
   };
 
   constructor(props) {
@@ -32,7 +32,7 @@ export default class UserShoutsSelectDialog extends Component {
 
   state = {
     selected: [],
-    shouts: []
+    shouts: [],
   }
 
   componentDidMount() {
@@ -51,7 +51,7 @@ export default class UserShoutsSelectDialog extends Component {
     else if (!open && prevProps.open) {
       this.setState({
         selected: [],
-        shouts: user.username !== prevProps.user.username ? [] : this.state.shouts
+        shouts: user.username !== prevProps.user.username ? [] : this.state.shouts,
       });
     }
   }
@@ -66,7 +66,7 @@ export default class UserShoutsSelectDialog extends Component {
     const state = flux.store('users').getState();
     this.setState({
       loading: state.shouts[user.username] && state.shouts[user.username].loading,
-      shouts: state.shouts[user.username] ? state.shouts[user.username].list : []
+      shouts: state.shouts[user.username] ? state.shouts[user.username].list : [],
     });
   }
 
@@ -78,7 +78,7 @@ export default class UserShoutsSelectDialog extends Component {
     else {
       const index = selected.indexOf(shout);
       this.setState({
-        selected: [...selected.slice(0, index), ...selected.slice(index + 1)]
+        selected: [...selected.slice(0, index), ...selected.slice(index + 1)],
       });
     }
   }

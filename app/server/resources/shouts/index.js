@@ -15,6 +15,6 @@ export default function () {
     getCall: getCall(this, 'shouts'),
     getRelated: getRelated(this, 'shouts'),
     del: del(this, 'shouts'),
-    reply: reply(this, 'shouts')
+    reply: reply(this, 'shouts'),
   };
 }

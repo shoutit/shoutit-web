@@ -8,7 +8,7 @@ export default function (name, fieldname) {
       filename(req, file, callback) {
         const ext = path.extname(file.originalname);
         callback(null, `${name}${ext}`);
-      }
+      },
     }),
     fileFilter(req, file, callback) {
       const mimetypes = ['image/jpeg', 'image/png'];
@@ -17,8 +17,8 @@ export default function (name, fieldname) {
     limits: {
       fileSize: 10485760, // max 10MB
       files: 7,
-      fields: 20
-    }
+      fields: 20,
+    },
   });
   return upload.single(fieldname);
 }

@@ -17,7 +17,7 @@ const initialState = {
 
   incomingInvites: [],           // Invites waiting to be accepted or rejected
 
-  outgoingInvites: []
+  outgoingInvites: [],
 };
 
 export default Fluxxor.createStore({
@@ -132,6 +132,6 @@ export default Fluxxor.createStore({
 
   hydrate(json) {
     this.state = JSON.parse(json);
-  }
+  },
 
 });

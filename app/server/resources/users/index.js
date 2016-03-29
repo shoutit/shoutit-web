@@ -22,6 +22,6 @@ export default function () {
     unlisten: unlisten(this, 'users'),
     getListeners: getListeners(this, 'users'),
     getListening: getListening(this, 'users'),
-    sendMessage: sendMessage(this, 'users')
+    sendMessage: sendMessage(this, 'users'),
   };
 }

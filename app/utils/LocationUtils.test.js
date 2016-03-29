@@ -10,7 +10,7 @@ describe('LocationUtils', () => {
       const slug = LocationUtils.createLocationSlug({
         country: 'IT',
         state: 'Sardegna',
-        city: 'Bortigiadas (OT)'
+        city: 'Bortigiadas (OT)',
       });
       expect(slug).to.equal('it_sardegna_bortigiadas-ot');
     });
@@ -18,7 +18,7 @@ describe('LocationUtils', () => {
     it('creates a location slug from a location missing data', () => {
       const slug = LocationUtils.createLocationSlug({
         country: 'IT',
-        city: 'Bortigiadas (OT)'
+        city: 'Bortigiadas (OT)',
       });
       expect(slug).to.equal('it_no-state_bortigiadas-ot');
     });

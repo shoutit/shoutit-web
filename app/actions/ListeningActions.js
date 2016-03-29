@@ -16,6 +16,6 @@ export default {
         this.dispatch(actionTypes.LOAD_LISTENING_SUCCESS, { ...data, user });
         done && done(null, data);
       });
-  }
+  },
 
 };

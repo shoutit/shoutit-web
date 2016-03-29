@@ -5,7 +5,7 @@ export default {
 
   profileChange(changes) {
     this.dispatch(consts.PROFILE_CHANGE, {
-      changes
+      changes,
     });
   },
 
@@ -15,27 +15,27 @@ export default {
 
   uploadProfilePicture(editedImage) {
     this.dispatch(consts.PROFILE_PICTURE_UPLOAD, {
-      editedImage
+      editedImage,
     });
   },
 
   uploadCoverImage(editedImage) {
     this.dispatch(consts.COVER_IMAGE_UPLOAD, {
-      editedImage
+      editedImage,
     });
   },
 
   changeInfo(field, value) {
     this.dispatch(consts.INFO_CHANGE, {
       field: field,
-      value: value
+      value: value,
     });
   },
 
   saveInfo(field, value) {
     this.dispatch(consts.INFO_SAVE, {
       field: field,
-      value: value
+      value: value,
     });
   },
 
@@ -78,13 +78,13 @@ export default {
 
   loadUserListening(username) {
     this.dispatch(consts.LOAD_LISTENING, {
-      username: username
+      username: username,
     });
   },
 
   loadMoreUserListening(username) {
     this.dispatch(consts.LOAD_MORE_USER_LISTENING, {
-      username: username
+      username: username,
     });
   },
 
@@ -103,19 +103,19 @@ export default {
 
   loadMoreUserListeningTags(username) {
     this.dispatch(consts.LOAD_MORE_USER_TAGS, {
-      username: username
+      username: username,
     });
   },
 
   loadUserListeners(username) {
     this.dispatch(consts.LOAD_USER_LISTENERS, {
-      username: username
+      username: username,
     });
   },
 
   loadMoreUserListeners(username) {
     this.dispatch(consts.LOAD_MORE_USER_LISTENERS, {
-      username: username
+      username: username,
     });
   },
 
@@ -131,13 +131,13 @@ export default {
   loadMoreUserShouts(username, type) {
     this.dispatch(consts.LOAD_MORE_USER_SHOUTS, {
       username: username,
-      type: type
+      type: type,
     });
   },
 
   loadUser(username) {
     this.dispatch(consts.LOAD_USER, {
-      username: username
+      username: username,
     });
   },
 
@@ -147,5 +147,5 @@ export default {
 
   hideDownloadPopup() {
     this.dispatch(consts.HIDE_DOWNLOAD_POPUP);
-  }
+  },
 };

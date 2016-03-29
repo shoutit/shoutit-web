@@ -29,5 +29,5 @@ export default {
         createRequestSession(req, res.body);
         return callback(null, res.body.user);
       });
-  }
+  },
 };

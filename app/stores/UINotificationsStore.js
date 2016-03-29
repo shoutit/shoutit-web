@@ -6,7 +6,7 @@ import * as notifications from '../ui/UINotificationsList';
 import UINotification from '../ui/UINotification';
 
 const initialState = {
-  notifications: []
+  notifications: [],
 };
 
 export default Fluxxor.createStore({
@@ -87,6 +87,6 @@ export default Fluxxor.createStore({
     clearTimeout(this.state.notifications[i].hideTimeout);
     this.state.notifications.splice(i, 1);
     this.emit('change');
-  }
+  },
 
 });

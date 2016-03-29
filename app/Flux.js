@@ -32,7 +32,7 @@ import UserActions from './shared/stores/users/actions';
 const fluxStores = Object.keys(stores).reduce(
   (result, key) => ({
     ...result,
-    [key]: new stores[key]()
+    [key]: new stores[key](),
   }),
   {}
 );
@@ -55,7 +55,7 @@ export default function Flux(fetchr) {
     tags: new TagStore(),
     ui_notifications: new UINotificationsStore(),
     users: new UsersStore(),
-    videocall: new VideoCallsStore()
+    videocall: new VideoCallsStore(),
   };
 
   for (const store in stores) {
@@ -75,7 +75,7 @@ export default function Flux(fetchr) {
     ...SuggestionsActions,
     ...TagActions,
     ...UINotificationsActions,
-    ...UserActions
+    ...UserActions,
   };
 
   const flux = new Fluxxor.Flux(stores, fluxActions);

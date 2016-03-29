@@ -13,6 +13,6 @@ export default function () {
     categories: categories(this, 'misc'),
     geocode: geocode(this, 'misc'),
     suggestions: suggestions(this, 'misc'),
-    shuffleCategories: ShuffleCategories(this, 'misc')
+    shuffleCategories: ShuffleCategories(this, 'misc'),
   };
 }

@@ -14,7 +14,7 @@ export default function HeaderProfile({
   onMessagesClick,
   onProfileClick,
   onNotificationsClick,
-  onNewShoutClick
+  onNewShoutClick,
 }) {
   return (
     <div className="HeaderProfile">

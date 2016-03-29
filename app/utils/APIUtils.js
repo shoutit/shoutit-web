@@ -14,7 +14,7 @@ export function parseErrorResponse(err) {
   error.output = {
     message: error.message,
     statusCode: error.statusCode,
-    details: err.response ? err.response.body : null
+    details: err.response ? err.response.body : null,
   };
   return error;
 }

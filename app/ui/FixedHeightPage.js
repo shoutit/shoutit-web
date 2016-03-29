@@ -19,7 +19,7 @@ export default class FixedHeightPage extends React.Component {
   }
 
   state = {
-    height: 0
+    height: 0,
   }
 
   componentDidMount() {

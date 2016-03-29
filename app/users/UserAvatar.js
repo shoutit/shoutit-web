@@ -14,7 +14,7 @@ export default function UserAvatar({
   linkToUserPage = false,
   placeholder = false,  // show placeholder behind the image (default true when user has no image)
   size = 'medium',     // small, medium, large or huge
-  mask               // apply the shoutit logo mask, works only on white backgrounds
+  mask,               // apply the shoutit logo mask, works only on white backgrounds
 }) {
 
   const { image, username, name } = user;

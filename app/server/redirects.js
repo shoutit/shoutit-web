@@ -15,7 +15,7 @@ const redirects = {
     } else {
       res.redirect('/');
     }
-  }
+  },
 };
 
 export default redirects;

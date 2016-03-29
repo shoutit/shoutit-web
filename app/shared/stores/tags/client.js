@@ -48,5 +48,5 @@ export default {
   requestSpriting(images) {
     return request.post('/sprites')
       .send({ images });
-  }
+  },
 };

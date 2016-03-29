@@ -29,23 +29,23 @@ const paginated = combineReducers({
     fetchTypes: [
       actionTypes.LOAD_MESSAGES_START,
       actionTypes.LOAD_MESSAGES_SUCCESS,
-      actionTypes.LOAD_MESSAGES_FAILURE
+      actionTypes.LOAD_MESSAGES_FAILURE,
     ],
     createTypes: [
       actionTypes.REPLY_CONVERSATION_START,
-      actionTypes.REPLY_CONVERSATION_SUCCESS
+      actionTypes.REPLY_CONVERSATION_SUCCESS,
     ],
-    addType: actionTypes.ADD_MESSAGE
+    addType: actionTypes.ADD_MESSAGE,
   }),
   chat: paginate({
     fetchTypes: [
       actionTypes.LOAD_CONVERSATIONS_START,
       actionTypes.LOAD_CONVERSATIONS_SUCCESS,
-      actionTypes.LOAD_CONVERSATIONS_FAILURE
+      actionTypes.LOAD_CONVERSATIONS_FAILURE,
     ],
     addType: actionTypes.LOAD_CONVERSATION_SUCCESS,
-    deleteType: actionTypes.LEAVE_CONVERSATION_START
-  })
+    deleteType: actionTypes.LEAVE_CONVERSATION_START,
+  }),
 });
 
 const entities = combineReducers({
@@ -67,13 +67,13 @@ const entities = combineReducers({
     createTypes: [
       actionTypes.REPLY_CONVERSATION_START,
       actionTypes.REPLY_CONVERSATION_SUCCESS,
-      actionTypes.REPLY_CONVERSATION_FAILURE
-    ]
+      actionTypes.REPLY_CONVERSATION_FAILURE,
+    ],
   }),
 
   shouts: entity({ name: 'shouts' }),
   tags: entity({ name: 'tags' }),
-  users: entity({ name: 'users' })
+  users: entity({ name: 'users' }),
 
 });
 
@@ -88,7 +88,7 @@ const rootReducer = combineReducers({
   paginated,
   routing,
   session,
-  uiNotifications
+  uiNotifications,
 });
 
 export default rootReducer;

@@ -24,7 +24,7 @@ export class Conversation extends React.Component {
   state = {
     showDelete: false,
     showAttachShout: false,
-    typingUsers: []
+    typingUsers: [],
   };
 
   componentDidMount() {
@@ -170,7 +170,7 @@ function mapStateToProps(state, ownProps) {
   const {
     paginated: { chat, messagesByConversation },
     entities,
-    session: { user: loggedUser }
+    session: { user: loggedUser },
   } = state;
 
   const conversationId = ownProps.params.id;
@@ -180,7 +180,7 @@ function mapStateToProps(state, ownProps) {
     conversationId: conversationId,
     loggedUser,
     isFetchingMessages: true,
-    error: chat.error
+    error: chat.error,
   };
 
   const conversation = entities.conversations[conversationId];
@@ -188,7 +188,7 @@ function mapStateToProps(state, ownProps) {
   if (!chat.isFetching && conversation) {
     props = {
       ...props,
-      conversation: denormalize(conversation, entities, 'CONVERSATION')
+      conversation: denormalize(conversation, entities, 'CONVERSATION'),
     };
   }
 
@@ -197,7 +197,7 @@ function mapStateToProps(state, ownProps) {
       ids,
       isFetching: isFetchingMessages,
       previousUrl,
-      error: messagesError
+      error: messagesError,
     } = messagesByConversation[conversationId];
 
     const messages = ids.map(id =>
@@ -215,7 +215,7 @@ function mapStateToProps(state, ownProps) {
       previousUrl,
       messagesError,
       messages,
-      typingUsers
+      typingUsers,
     };
   }
 

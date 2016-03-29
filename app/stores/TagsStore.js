@@ -2,7 +2,7 @@ import Fluxxor from 'fluxxor';
 import * as actions from '../actions/actionTypes';
 
 const initialState = {
-  tags: {}
+  tags: {},
 };
 
 export default Fluxxor.createStore({
@@ -27,7 +27,7 @@ export default Fluxxor.createStore({
       suggestions.tags.forEach(tag => {
         this.state.tags[tag.id] = {
           ...this.state.tags[tag.id],
-          ...tag
+          ...tag,
         };
       });
       this.emit('change');
@@ -40,6 +40,6 @@ export default Fluxxor.createStore({
 
   hydrate(json) {
     this.state = JSON.parse(json);
-  }
+  },
 
 });

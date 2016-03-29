@@ -18,7 +18,7 @@ function shoutCollectionInit() {
     page: null,
     prev: null,
     next: null,
-    maxCount: null
+    maxCount: null,
   };
 }
 
@@ -32,13 +32,13 @@ function shoutDraftInit() {
     latLng: null,
     type: 'offer',
     category: null,
-    images:[]
+    images:[],
   };
 }
 
 function replyDraftInit(text) {
   return {
-    text: text || ''
+    text: text || '',
   };
 }
 
@@ -59,7 +59,7 @@ let ShoutStore = Fluxxor.createStore({
       draft: shoutDraftInit(),
       replyDrafts: {},
       status: {},
-      waiting:false
+      waiting:false,
     };
 
     if (props.currencies) {
@@ -166,7 +166,7 @@ let ShoutStore = Fluxxor.createStore({
       city: locationsStore.getCurrentCity(),
       country: locationsStore.getCurrentCountry(),
       state: locationsStore.getCurrentState(),
-      shout_type: type
+      shout_type: type,
     }).end((err, res) => {
       if (err || !res.body) {
         this.flux.actions.requestFailed(err);
@@ -283,7 +283,7 @@ let ShoutStore = Fluxxor.createStore({
           page_size: defaults.PAGE_SIZE,
           city: locationsStore.getCurrentCity(),
           country: locationsStore.getCurrentCountry(),
-          state: locationsStore.getCurrentState()
+          state: locationsStore.getCurrentState(),
         })
         .end((err, res) => {
           if (err || res.status !== 200) {
@@ -306,17 +306,17 @@ let ShoutStore = Fluxxor.createStore({
     if (state.fullShouts[shoutId]) {
       return {
         full: true,
-        shout: state.fullShouts[shoutId]
+        shout: state.fullShouts[shoutId],
       };
     } else if (index >= 0) {
       return {
         full: false,
-        shout: state.shouts[index]
+        shout: state.shouts[index],
       };
     } else {
       return {
         full: false,
-        shout: null
+        shout: null,
       };
     }
   },
@@ -396,11 +396,11 @@ let ShoutStore = Fluxxor.createStore({
       shoutToSend.currency = shoutDraft.currency.code;
       shoutToSend.location = {
         latitude: shoutDraft.latLng.lat(),
-        longitude: shoutDraft.latLng.lng()
+        longitude: shoutDraft.latLng.lng(),
       };
       shoutToSend.tags = shoutDraft.tags.map(function (tag) {
         return {
-          name: tag
+          name: tag,
         };
       });
       shoutToSend.category = shoutDraft.category.slug;
@@ -411,7 +411,7 @@ let ShoutStore = Fluxxor.createStore({
         } else {
           shoutToSend.location = {
             latitude: response.latitude,
-            longitude: response.longitude
+            longitude: response.longitude,
           };
           resolve(shoutToSend);
         }
@@ -489,7 +489,7 @@ let ShoutStore = Fluxxor.createStore({
 
   getState() {
     return this.state;
-  }
+  },
 });
 
 export default ShoutStore;

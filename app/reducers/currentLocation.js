@@ -9,7 +9,7 @@ export default function (state = {}, action) {
       const { location } = action.payload;
       return {
         ...location,
-        slug: createLocationSlug(location)
+        slug: createLocationSlug(location),
       };
     default: return state;
   }

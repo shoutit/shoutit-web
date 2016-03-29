@@ -21,5 +21,5 @@ export default {
   IOS_LINK,
   FACEBOOK,
   TWITTER,
-  INSTAGRAM
+  INSTAGRAM,
 };

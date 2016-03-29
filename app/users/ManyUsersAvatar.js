@@ -3,11 +3,11 @@ import UserAvatar from './UserAvatar';
 
 export default function ManyUsersAvatar({ users, size = 40, max = 4, columns = 2 }) {
   const containerStyle = {
-    width: `${size}px`
+    width: `${size}px`,
   };
   const imgStyle = {
     borderRadius: '100%',
-    display: 'inline-block'
+    display: 'inline-block',
   };
   switch (users.length) {
     case 1:

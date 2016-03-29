@@ -8,6 +8,6 @@ export default {
 
   notify(message) {
     this.dispatch(NOTIFY, message);
-  }
+  },
 
 };

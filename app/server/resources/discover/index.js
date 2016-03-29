@@ -3,6 +3,6 @@ import list from './list';
 export default function () {
   return {
     get: get(this, 'discover'),
-    list: list(this, 'discover')
+    list: list(this, 'discover'),
   };
 }

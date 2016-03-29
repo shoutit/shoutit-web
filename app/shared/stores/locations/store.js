@@ -19,10 +19,10 @@ let LocationsStore = Fluxxor.createStore({
         location: null,
         country: null,
         city: null,
-        state: null
+        state: null,
       },
       locations: {},
-      search: {}
+      search: {},
     };
 
     // How is the router used here? i removed it since it doesn't seem used anywhere
@@ -136,7 +136,7 @@ let LocationsStore = Fluxxor.createStore({
       let places = this.gmaps.places;
       this.autocomplete.getPlacePredictions({
         input: term,
-        types: ['(cities)']
+        types: ['(cities)'],
       },
         (predictions, status) => {
           if (status === places.PlacesServiceStatus.OK) {
@@ -144,7 +144,7 @@ let LocationsStore = Fluxxor.createStore({
               id: prediction.place_id,
               description: prediction.description,
               city: prediction.terms[0].value,
-              country: prediction.terms[prediction.terms.length - 1].value
+              country: prediction.terms[prediction.terms.length - 1].value,
             }));
             cb(null, term, results);
           } else {
@@ -177,13 +177,13 @@ let LocationsStore = Fluxxor.createStore({
 
     if (results.length) {
       let localityResultsForCity = uniq(where(flatten(pluck(results, 'address_components')), {
-          types: ['locality']
+          types: ['locality'],
         }), 'short_name'),
         localityResultsForCountry = uniq(where(flatten(pluck(results, 'address_components')), {
-          types: ['country']
+          types: ['country'],
         }), 'short_name'),
         localityResultsForState = uniq(where(flatten(pluck(results, 'address_components')), {
-          types: ['administrative_area_level_1']
+          types: ['administrative_area_level_1'],
         }), 'short_name');
       if (localityResultsForCity.length) {
         newCity = localityResultsForCity[0];
@@ -275,7 +275,7 @@ let LocationsStore = Fluxxor.createStore({
 
   getGMapsInstance() {
     return this.gmaps;
-  }
+  },
 });
 
 export default LocationsStore;

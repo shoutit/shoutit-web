@@ -8,7 +8,7 @@ const initialState = {
   messages: {},
   shouts: {},
   tags: {},
-  users: {}
+  users: {},
 };
 
 export default function (state = initialState, action) {
@@ -19,8 +19,8 @@ export default function (state = initialState, action) {
       }
       return merge({}, state, {
         [action.payload]: {
-          unreadMessagesCount: 0
-        }
+          unreadMessagesCount: 0,
+        },
       });
   }
   return state;

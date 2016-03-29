@@ -12,6 +12,6 @@ export default function () {
     listen: listen(this, 'tags'),
     unlisten: unlisten(this, 'tags'),
     getListeners: getListeners(this, 'tags'),
-    getRelated: getRelated(this, 'tags')
+    getRelated: getRelated(this, 'tags'),
   };
 }

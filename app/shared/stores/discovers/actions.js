@@ -11,7 +11,7 @@ export default {
         const id = res.body.results[0].id;
         this.dispatch(consts.LOAD_DISCOVER_WITH_CODE_SUCCESS, {
           id,
-          country
+          country,
         });
         this.flux.actions.loadDiscoverWithId(id);
       }
@@ -46,7 +46,7 @@ export default {
       } else {
         this.dispatch(consts.LOAD_DISCOVER_SHOUTS_SUCCESS, {
           res: res.body,
-          id
+          id,
         });
       }
     });
@@ -59,19 +59,19 @@ export default {
 
     if (next) {
       client.getDiscoverShouts(id, {
-        page: next
+        page: next,
       }).end((err, res) => {
         if (err) {
           this.dispatch(consts.LOAD_MORE_DISCOVER_SHOUTS_FAIL, { id });
         } else {
           this.dispatch(consts.LOAD_MORE_DISCOVER_SHOUTS_SUCCESS, {
             id,
-            res: res.body
+            res: res.body,
           });
         }
       });
 
       this.dispatch(consts.LOAD_MORE_DISCOVER_SHOUTS, { id });
     }
-  }
+  },
 };

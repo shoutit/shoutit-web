@@ -4,14 +4,14 @@ import client from './client';
 export default {
   loadTag(tagName) {
     this.dispatch(consts.LOAD_TAG, {
-      tagName: tagName
+      tagName: tagName,
     });
   },
 
   loadTagSuccess(tagName, res) {
     this.dispatch(consts.LOAD_TAG_SUCCESS, {
       tagName: tagName,
-      res: res
+      res: res,
     });
   },
 
@@ -49,40 +49,40 @@ export default {
 
   stopListenTagSuccess(tagName) {
     this.dispatch(consts.STOP_LISTEN_TAG_SUCCESS, {
-      tagName: tagName
+      tagName: tagName,
     });
   },
 
   loadTagListeners(tagName) {
     this.dispatch(consts.LOAD_TAG_LISTENERS, {
-      tagName: tagName
+      tagName: tagName,
     });
   },
 
   loadTagRelated(tagName) {
     this.dispatch(consts.LOAD_TAG_RELATED, {
-      tagName: tagName
+      tagName: tagName,
     });
   },
 
   loadTagListenersSuccess(tagName, res) {
     this.dispatch(consts.LOAD_TAG_LISTENERS, {
       tagName: tagName,
-      res: res
+      res: res,
     });
   },
 
   loadTagShouts(tagName, countryCode) {
     this.dispatch(consts.LOAD_TAG_SHOUTS, {
       tagName,
-      countryCode
+      countryCode,
     });
   },
 
   loadMoreTagShouts(tagName, type) {
     this.dispatch(consts.LOAD_MORE_TAG_SHOUTS, {
       tagName: tagName,
-      type: type
+      type: type,
     });
   },
 
@@ -93,11 +93,11 @@ export default {
       .end((error, res) => {
         if (error || !res.ok) {
           this.dispatch(consts.LOAD_TAGS_FAILED, {
-            error
+            error,
           });
         } else {
           this.dispatch(consts.LOAD_TAGS_SUCCESS, {
-            res: res.body
+            res: res.body,
           });
         }
       });
@@ -111,12 +111,12 @@ export default {
         if (error || !res.ok || !res.body) {
           this.dispatch(consts.LOAD_TAGS_SPRITE_FAILED, {
             hash,
-            error
+            error,
           });
         } else {
           this.dispatch(consts.LOAD_TAGS_SPRITE_SUCCESS, {
             hash,
-            res: res.body
+            res: res.body,
           });
         }
       });
@@ -130,14 +130,14 @@ export default {
       .end((error, res) => {
         if (error || !res.ok) {
           this.dispatch(consts.REQUEST_SPRITING_FAILED, {
-            error
+            error,
           });
         } else {
           this.dispatch(consts.REQUEST_SPRITING_SUCCESS, {
-            res: res.body
+            res: res.body,
           });
         }
       });
-  }
+  },
 
 };

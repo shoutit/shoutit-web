@@ -14,5 +14,5 @@ export default {
         }
         callback(null, res.body);
       });
-  }
+  },
 };

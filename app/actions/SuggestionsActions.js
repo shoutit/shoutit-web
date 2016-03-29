@@ -16,6 +16,6 @@ export default {
         this.dispatch(actionTypes.LOAD_SUGGESTIONS_SUCCESS, { suggestions, location });
         done && done(null, suggestions);
       });
-  }
+  },
 
 };

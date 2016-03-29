@@ -15,6 +15,6 @@ export default {
         this.dispatch(actionTypes.CURRENT_LOCATION_SUCCESS, location);
         done && done(null, location);
       });
-  }
+  },
 
 };

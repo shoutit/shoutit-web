@@ -29,5 +29,5 @@ export default {
   unreadNotification(id) {
     return request
       .del(PREFIX + '/' + id + '/read');
-  }
+  },
 };

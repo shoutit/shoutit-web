@@ -9,7 +9,7 @@ export default function ConversationDeleteDialog({ open, onRequestClose, onConfi
     <FlatButton key="submit" primary disabled={ isDeleting }
       label={ isDeleting ? 'Leaving...' : 'Leave' }
       onTouchTap={ onConfirm }
-    />
+    />,
   ];
 
   return (
