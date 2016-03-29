@@ -35,6 +35,5 @@ describe('GoogleMapsUtils', () => {
       const url = createLinkToGoogleMaps({ address: 'foo', city: 'foo', state: 'foo', postal_code: 2000, country: 'IT' });
       expect(url).to.equal('https://www.google.com/maps?&q=foo,%20foo,%20foo,%202000,%20IT');
     });
-
   });
 });

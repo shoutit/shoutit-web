@@ -79,5 +79,4 @@ export function ConnectToStores(Component, { fetchData, listenToStores = [], map
     },
 
   });
-
 }

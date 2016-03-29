@@ -38,7 +38,6 @@ export default class UINotification extends React.Component {
       this.refs.wrapper.scrollTop = 0;
       this.setState({ style });
     }
-
   }
 
   getStyle() {

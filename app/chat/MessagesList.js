@@ -10,8 +10,7 @@ if (process.env.BROWSER) {
 function MessagesByDay({ day, messages, loggedUser, partecipants }) {
   const messagesByUser = groupByUser(messages)
     .map((byUser, i) => {
-
-      const { user, messages } = byUser;
+      const { user, messages: userMessages } = byUser;
       const isMe = user && user.username === loggedUser.username;
       let className = 'MessagesList';
       if (isMe) {
@@ -20,21 +19,23 @@ function MessagesByDay({ day, messages, loggedUser, partecipants }) {
       return (
         <div key={ i } className={ className }>
           <div className="MessagesList-user">
-              { user && <UserAvatar user={ user } linkToUserPage tooltip /> }
+            { user && <UserAvatar user={ user } linkToUserPage tooltip /> }
           </div>
           <div className="MessagesList-messages">
-            { messages.map(message =>
+            { userMessages.map(message =>
               <MessageItem
                 key={ message.id }
                 message={ message }
                 isMe={ isMe }
-                readByUsers={ message.user ? getReadyBy(message, partecipants, loggedUser.username) : undefined }
+                readByUsers={ message.user ?
+                  getReadyBy(message, partecipants, loggedUser.username) :
+                  undefined
+                }
               />
             )}
           </div>
         </div>
       );
-
     });
 
   return (
@@ -50,9 +51,20 @@ function MessagesByDay({ day, messages, loggedUser, partecipants }) {
 export default function MessagesList({ messages, loggedUser, partecipants }) {
   return (
     <div>
-        { groupByDay(messages).map(({ day, messages }, i) =>
-          <MessagesByDay key={i} day={ day } loggedUser={ loggedUser } messages={ messages } partecipants={ partecipants } />
+        { groupByDay(messages).map((group, i) =>
+          <MessagesByDay
+            key={i}
+            day={ group.day }
+            loggedUser={ loggedUser }
+            messages={ group.messages }
+            partecipants={ partecipants }
+          />
         )}
     </div>
   );
 }
+MessagesList.propTypes = {
+  messages: React.PropTypes.array,
+  loggedUser: React.PropTypes.object,
+  partecipants: React.PropTypes.array,
+};

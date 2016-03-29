@@ -49,7 +49,6 @@ export const SignupDialog = React.createClass({
       name: `${firstName} ${lastName}`,
       password,
     });
-
   },
 
   renderForm() {

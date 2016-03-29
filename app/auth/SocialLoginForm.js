@@ -64,7 +64,6 @@ export class SocialLoginForm extends Component {
       }
 
       this.props.dispatch(loginWithFacebook({ facebook_access_token: authResponse.accessToken }));
-
     }, options);
   }
 

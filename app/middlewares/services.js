@@ -79,9 +79,6 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
           payload,
           type: successType,
         }));
-
       });
-
   });
-
 };

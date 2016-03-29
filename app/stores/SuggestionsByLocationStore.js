@@ -118,7 +118,6 @@ export default Fluxxor.createStore({
     this.waitFor(otherStores, () => {
       this.emit('change');
     });
-
   },
 
   serialize() {

@@ -38,7 +38,6 @@ var TagStore = Fluxxor.createStore({
       if (props.taglisteners) {
         this.state.tags[props.tag.name].listeners = props.taglisteners.results;
       }
-
     }
 
     let tagsData = props.tags || props.feed;

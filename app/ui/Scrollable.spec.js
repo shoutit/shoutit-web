@@ -117,6 +117,4 @@ describe('Scrollable', () => {
     TestUtils.Simulate.scroll(node, { target: node });
     expect(spy).to.have.been.called;
   });
-
-
 });

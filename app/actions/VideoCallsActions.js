@@ -75,15 +75,9 @@ export default {
             incomingInvite.on('canceled', error =>
               this.dispatch(actionTypes.VIDEOCALL_INCOMING_CANCELED, { ...payload, error })
             );
-
           });
-
-
-
       });
-
     });
-
   },
 
   previewVideoCall(user) {
@@ -124,7 +118,6 @@ export default {
         console.error('Could not create conversation', error); // eslint-disable-line no-console
         this.dispatch(actionType, { user, outgoingInvite, error, videoCallId });
       });
-
   },
 
 };

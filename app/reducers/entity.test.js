@@ -69,7 +69,6 @@ describe('reducer/entity', () => {
         createError: 'bad error',
       },
     });
-
   });
 
   it('should remove the temporary entity on create success', () => {
@@ -96,7 +95,5 @@ describe('reducer/entity', () => {
       pqr: { name: 'Mazinga' },
       real_id: { name: 'Gandhi' },
     });
-
   });
-
 });

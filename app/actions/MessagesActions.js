@@ -89,7 +89,6 @@ export default {
             message: res.body,
           });
           done && done(null, res.body);
-
         });
       });
     });

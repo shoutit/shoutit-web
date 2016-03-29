@@ -27,7 +27,5 @@ describe('LocationUtils', () => {
       const slug = LocationUtils.createLocationSlug({});
       expect(slug).to.equal('no-country_no-state_no-city');
     });
-
-
   });
 });

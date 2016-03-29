@@ -59,7 +59,5 @@ describe('VideoCallsStore', () => {
       expect(state.initError).to.eql('bar');
       expect(spy).to.have.been.calledWith('change');
     });
-
   });
-
 });

@@ -35,9 +35,7 @@ export default class VideoCallLocalMedia extends React.Component {
         .catch(error => {
           this.setState({ error });
         });
-
     });
-
   }
 
   componentWillUnmount() {

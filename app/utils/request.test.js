@@ -15,5 +15,4 @@ describe('request', () => {
     const req = request.get('/foo').prefix('http://example.com');
     expect(req.url).to.equal('http://example.com/foo');
   });
-
 });

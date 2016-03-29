@@ -70,7 +70,6 @@ describe('MessagesActions', () => {
         }
       );
     });
-
   });
 
   describe('newPushedMessage', () => {
@@ -83,7 +82,6 @@ describe('MessagesActions', () => {
         message
       );
     });
-
   });
 
   describe('sendMessage', () => {
@@ -143,8 +141,5 @@ describe('MessagesActions', () => {
       );
       expect(done).to.have.been.calledWith({ status: 404 });
     });
-
   });
-
-
 });

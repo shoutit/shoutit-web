@@ -46,5 +46,4 @@ export function convertImageToJPEG(filePath, callback) {
 
       callback(null, newFilePath);
     });
-
 }

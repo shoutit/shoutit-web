@@ -34,5 +34,4 @@ export function createLinkToGoogleMaps(location) {
   }
 
   return `https://www.google.com/maps?${search}`;
-
 }

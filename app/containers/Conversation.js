@@ -57,7 +57,6 @@ export class Conversation extends React.Component {
 
     const { error, messagesError } = this.props;
     const { loggedUser, isFetchingMessages, isFetching, conversation, messages = [], typingUsers, videoCallState, draft } = this.props;
-
     const { previousUrl, dispatch, conversationId } = this.props;
     if (error) {
       return (

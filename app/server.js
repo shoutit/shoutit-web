@@ -96,5 +96,4 @@ export function start(app) {
   app.get('*', renderMiddleware);
 
   app.use(errorMiddleware);
-
 }

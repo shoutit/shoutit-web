@@ -21,5 +21,4 @@ export default function ConversationDeleteDialog({ open, onRequestClose, onConfi
       When you leave this conversation, you won't see it anymore.
     </Dialog>
   );
-
 }

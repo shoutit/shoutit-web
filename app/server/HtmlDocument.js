@@ -94,5 +94,4 @@ export default function HtmlDocument({
       </body>
     </html>
   );
-
 }

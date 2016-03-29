@@ -427,7 +427,6 @@ const UserStore = Fluxxor.createStore({
             this.state.loading = false;
             this.emit('change');
           }
-
         }
       });
     }
@@ -511,7 +510,6 @@ const UserStore = Fluxxor.createStore({
         this.state.listens[username].listeners.list = list;
         this.state.listens[username].listeners.next = next;
         this.state.listens[username].listeners.loaded = true;
-
       }
       this.state.loading = false;
       this.emit('change');
@@ -555,7 +553,6 @@ const UserStore = Fluxxor.createStore({
       this.state.loading = true;
       this.emit('change');
     }
-
   },
 
   onLoadUserListening(payload) {
@@ -647,7 +644,6 @@ const UserStore = Fluxxor.createStore({
       this.state.loading = false;
       this.emit('change');
     });
-
   },
 
   onLoadUserTagsFail() {

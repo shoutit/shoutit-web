@@ -90,7 +90,6 @@ export function uploadImageMiddleware(req, res) {
       uploadToS3(filePath);
     });
   });
-
 }
 
 export function deleteImageMiddleware(req, res) {

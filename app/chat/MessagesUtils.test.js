@@ -71,9 +71,7 @@ describe('MessagesUtils', () => {
       expect(groupedMessages[2].messages).to.have.length(2);
       expect(groupedMessages[3].day).to.equal('2016-03-11');
       expect(groupedMessages[3].messages).to.have.length(6);
-
     });
-
   });
 
   describe('groupByUser', () => {
@@ -93,9 +91,7 @@ describe('MessagesUtils', () => {
       expect(groupedMessages[4].messages).to.have.length(1);
       expect(groupedMessages[5].user).to.eql({ id: 'bar' });
       expect(groupedMessages[5].messages).to.have.length(1);
-
     });
-
   });
 
   describe('getReadyBy', () => {
@@ -138,7 +134,5 @@ describe('MessagesUtils', () => {
       expect(readBy.some(user => user.id === 'bar')).to.be.false;
       expect(readBy.some(user => user.id === 'sender')).to.be.false;
     });
-
   });
-
 });

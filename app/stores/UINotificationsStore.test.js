@@ -22,5 +22,4 @@ describe('UINotificationStore', function () {
     expect(store.state).to.have.property('notifications');
     expect(store.state.notifications).to.deep.equal([]);
   });
-
 });

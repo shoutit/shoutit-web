@@ -28,8 +28,6 @@ describe('ConversationItem', () => {
     expect(tree.findNode('.ConversationItem-body')).to.be.defined;
     expect(tree.findNode('.ConversationItem-partecipants').props).to.have
       .property('children', 'A, B');
-
-
   });
 
   it('should use isSelected class', () => {
@@ -86,8 +84,5 @@ describe('ConversationItem', () => {
       .property('children', 'Bar');
     expect(tree.findNode('.ConversationItem-createdAt').props).to.have
       .property('children', formatCreatedAt(created_at));
-
-
   });
-
 });

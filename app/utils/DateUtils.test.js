@@ -46,7 +46,5 @@ describe('DateUtils', () => {
       const formatted = DateUtils.formatCreatedAt(date, now);
       expect(formatted).to.equal('12/17/2013');
     });
-
-
   });
 });

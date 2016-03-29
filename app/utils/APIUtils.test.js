@@ -21,7 +21,5 @@ describe('APIUtils', () => {
       const url = 'http://example.com/test_image';
       expect(getVariation(url)).to.equal('http://example.com/test_image_medium');
     });
-
   });
-
 });

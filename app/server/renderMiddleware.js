@@ -78,7 +78,5 @@ export default function renderMiddleware(req, res, next) {
       );
       res.send(`<!doctype html>${html}`);
     });
-
   });
-
 }
