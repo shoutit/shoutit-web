@@ -44,6 +44,7 @@ export const Schemas = {
   CATEGORIES: arrayOf(Category),
   CURRENCIES: arrayOf(Currency),
   MESSAGES: arrayOf(Message),
+  USER: User,
 };
 
 export const denormalize = (entity, entities, name) => denormalizer(entity, entities, Schemas[name]);
