@@ -3,15 +3,20 @@ import { createRequestSession } from '../utils/SessionUtils';
 import { parseErrorResponse } from '../utils/APIUtils';
 
 import {
-  AUTH_CLIENT_ID as client_id,
-  AUTH_CLIENT_SECRET as client_secret
+  AUTH_CLIENT_ID as clientId,
+  AUTH_CLIENT_SECRET as clientSecret
 } from './constants';
 
 export default {
   name: 'profile',
   create: (req, resource, params, body, config, callback) => {
     const { name, email, password } = body;
-    const data = { name, email, password, client_id, client_secret, grant_type: 'shoutit_signup' };
+    const data = {
+      name, email, password,
+      client_id: clientId,
+      client_secret: clientSecret,
+      grant_type: 'shoutit_signup',
+    };
     request
       .post('/oauth2/access_token')
       .send(data)
@@ -27,6 +32,19 @@ export default {
   read: (req, resource, { username }, config, callback) => {
     request
       .get(`/profiles/${username}`)
+      .setSession(req.session)
+      .prefix()
+      .end((err, res) => {
+        if (err) {
+          return callback(parseErrorResponse(err));
+        }
+        return callback(null, res.body);
+      });
+  },
+  update: (req, resource, params, body, config, callback) => {
+    request
+      .patch(`/profiles/${req.session.user.username}`)
+      .send(body)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {
