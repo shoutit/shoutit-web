@@ -13,16 +13,6 @@ export function getCurrentSession() {
   };
 }
 
-export function loginWithGoogle({ gplus_code, user }) {
-  const loginData = { gplus_code, user, grant_type: 'gplus_code' };
-  return createSession(loginData);
-}
-
-export function loginWithFacebook({ facebook_access_token, user }) {
-  const loginData = { facebook_access_token, user, grant_type: 'facebook_access_token' };
-  return createSession(loginData);
-}
-
 export function createSession({ grant_type = 'shoutit_login', ...loginData }) {
   const body = { ...loginData, grant_type };
   return {
@@ -35,9 +25,19 @@ export function createSession({ grant_type = 'shoutit_login', ...loginData }) {
     service: {
       name: 'session',
       method: 'create',
-      body: body,
+      body,
     },
   };
+}
+
+export function loginWithGoogle({ gplus_code, user }) {
+  const loginData = { gplus_code, user, grant_type: 'gplus_code' };
+  return createSession(loginData);
+}
+
+export function loginWithFacebook({ facebook_access_token, user }) {
+  const loginData = { facebook_access_token, user, grant_type: 'facebook_access_token' };
+  return createSession(loginData);
 }
 
 export function logout() {

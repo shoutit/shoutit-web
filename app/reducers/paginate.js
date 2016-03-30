@@ -14,7 +14,6 @@ export default function paginate({
   deleteType,
 
 }) {
-
   let fetchStartType;
   let fetchSuccessType;
   let fetchFailureType;
@@ -85,6 +84,8 @@ export default function paginate({
     }
   }
 
+  const initialState = mapActionToKey ? {} : { ids: [] };
+
   function updateOnCreate(state = {
     ids: [],
   }, action, tempId) {
@@ -101,26 +102,25 @@ export default function paginate({
       // remove temporary item from the list and add the new one
         return { ...state, ids: [...without(state.ids, tempId), action.payload.result] };
     }
+    return state;
   }
 
-  function updateOnAdd(state = { ids: [] }, action) {
+  function updateOnAdd(state = initialState, action) {
     if (!action.payload || !action.payload.result) {
       throw new Error("Expected a payload object with a result containing the entity's id");
     }
     return { ...state, ids: [...state.ids, action.payload.result] };
   }
 
-  function updateOnDelete(state = { ids: [] }, action) {
+  function updateOnDelete(state = initialState, action) {
     if (!action.payload || (typeof action.payload.id !== 'string' && typeof action.payload.id !== 'number')) {
       throw new Error("Expected a payload object with the deleted entity's id");
     }
     return { ...state, ids: [...without(state.ids, action.payload.id)] };
   }
 
-  const initialState = mapActionToKey ? {} : { ids: [] };
 
   return function updatePaginationByKey(state = initialState, action) {
-
     if (fetchTypes || createTypes) {
       if (typeof state !== 'object') {
         throw new Error('Expected initial state to be an object');
