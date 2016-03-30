@@ -6,7 +6,7 @@ const log = debug('shoutit:search-action');
 import * as actionTypes from './actionTypes';
 import { Schemas } from '../schemas';
 
-const ignoreSearchPayload = (searchParams, entity) => (payload, state) => {
+const ignoreOldSearchPayload = (searchParams, entity) => (payload, state) => {
   const lastSearch = state.search[entity].searchParams;
   if (!isEqual(lastSearch, searchParams)) {
     log('Ignoring payload because the active search is for %o, while these results were for %o', lastSearch, searchParams);
@@ -26,7 +26,7 @@ export function searchTags(searchParams) {
       name: 'tags',
       schema: Schemas.TAGS,
       params: searchParams,
-      parsePayload: ignoreSearchPayload(searchParams, 'tags'),
+      parsePayload: ignoreOldSearchPayload(searchParams, 'tags'),
     },
     payload: { searchParams },
   };
@@ -43,7 +43,7 @@ export function searchProfiles(searchParams) {
       name: 'profiles',
       schema: Schemas.PROFILES,
       params: searchParams,
-      parsePayload: ignoreSearchPayload(searchParams, 'profiles'),
+      parsePayload: ignoreOldSearchPayload(searchParams, 'profiles'),
     },
     payload: { searchParams },
   };
@@ -60,7 +60,7 @@ export function searchShouts(searchParams) {
       name: 'shouts',
       schema: Schemas.SHOUTS,
       params: searchParams,
-      parsePayload: ignoreSearchPayload(searchParams, 'shouts'),
+      parsePayload: ignoreOldSearchPayload(searchParams, 'shouts'),
     },
     payload: { searchParams },
   };
