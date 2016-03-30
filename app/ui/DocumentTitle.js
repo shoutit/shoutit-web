@@ -7,7 +7,7 @@ export function DocumentTitle({ title, unreadConversations = 0, children }) {
   if (!title) {
     title = 'shoutit';
   } else {
-    title = `${title} – shoutit`;
+    title = `${title} – Shoutit`;
   }
 
   if (unreadConversations) {
