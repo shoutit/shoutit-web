@@ -137,7 +137,7 @@ export const SignupDialog = React.createClass({
             <Button
               primary
               block
-              to="/home"
+              to="/"
               label="Go to your home page" />
           </div>
         </center>

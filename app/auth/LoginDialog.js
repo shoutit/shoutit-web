@@ -89,7 +89,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   if (location.query.after) {
     afterUrl = location.query.after;
   } else {
-    afterUrl = '/home';
+    afterUrl = '/';
   }
   return {
     onSubmit: loginData => dispatch(createSession(loginData)),
