@@ -16,7 +16,7 @@ export default {
         }
         const location = res.body;
         location.slug = createLocationSlug(location);
-        return callback(null, location);
+        return callback(null, { location });
       });
   },
 };
