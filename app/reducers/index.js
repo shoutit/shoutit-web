@@ -14,6 +14,7 @@ import session from './session';
 import search from './search';
 import videocalls from './videocalls';
 import uiNotifications from './uiNotifications';
+import modals from './modals';
 
 import * as actionTypes from '../actions/actionTypes';
 
@@ -87,6 +88,7 @@ const rootReducer = combineReducers({
   currentLocation,
   entities,
   forms,
+  modals,
   paginated,
   routing,
   search,

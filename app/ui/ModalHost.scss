@@ -1,0 +1,52 @@
+@import "../styles/constants.scss";
+
+.ModalHost-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(black, 0.4);
+  z-index: 2001;
+  height: 100%;
+  overflow: scroll;
+  transition: opacity 250ms;
+
+  .Modal {
+    transition: transform 250ms;
+  }
+
+  .modal-leave {
+    transition-duration: 150ms;
+    .Modal {
+      transition-duration: 150ms;
+    }
+  }
+
+  &.modal-enter {
+    opacity: 0;
+    .Modal {
+      transform: translateX(-50%) translateY(-50%);
+    }
+  }
+
+  &.modal-enter-active {
+    opacity: 1;
+    .Modal {
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  &.modal-leave {
+    opacity: 1;
+    .Modal {
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  &.modal-leave-active {
+    opacity: 0;
+    .Modal {
+      transform: translateX(-50%) translateY(-50%);
+    }
+  }
+}
