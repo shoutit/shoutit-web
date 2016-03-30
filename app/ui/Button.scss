@@ -11,7 +11,7 @@ $border-radius: 5px;
   height: 36px;
   line-height: 36px;
   background-color: transparent;
-
+  cursor: pointer;
   white-space: nowrap;
 
   -webkit-appearance: none;
@@ -20,14 +20,14 @@ $border-radius: 5px;
 
   &:not(.disabled):hover {
     .Button-label {
-      color: $si-green;
+      color: $color-active
     }
   }
 
   &.size-small {
 
     height: 32px;
-    line-height: 32px;
+    line-height: 30px;
 
     > .Button-label {
       padding-left: 10px;
@@ -111,6 +111,43 @@ $border-radius: 5px;
       .Button-label {
         color: white;
       }
+    }
+  }
+
+  .Button.dropdown {
+    .Button-label {
+      color: $color-light;
+      overflow: hidden;
+    }
+    &:hover, &:focus {
+      .Button-label {
+        color: $color-active;
+      }
+      .Button-dropdown-caret:after {
+        background-image: url("../../assets/ui-elements/dropdown-caret-active.svg");
+      }
+    }
+  }
+
+  .Button-dropdown-caret {
+    position: absolute;
+    z-index: 2;
+    top: 3px;
+    right: 0;
+    bottom: 3px;
+    width: 20px;
+    display: block;
+    background: white;
+    &:after {
+      position: absolute;
+      content: "";
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0px;
+      background-image: url("../../assets/ui-elements/dropdown-caret.svg");
+      background-position: center;
+      background-repeat: no-repeat;
     }
   }
 

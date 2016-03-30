@@ -10,6 +10,7 @@ export default function Button({
   label,
   size, // Optional, `small` or `large`
   leftIcon, // Optional
+  dropdown = false,
   primary = false, // filled green
   secondary = false, // filled orange
   destructive = false, // danger thing
@@ -39,6 +40,9 @@ export default function Button({
     elClassName += ' block';
   }
 
+  if (dropdown) {
+    elClassName += ' dropdown';
+  }
 
   if (primary) {
     elClassName += ' primary';
@@ -69,6 +73,7 @@ export default function Button({
       [
         leftIcon ? <span key="button-icon" className="Button-icon">{ leftIcon }</span> : null,
         label ? <span key="button-label" className="Button-label">{ label }</span> : children,
+        dropdown ? <span key="button-dropdown" className="Button-dropdown-caret" /> : null,
       ]
     )
   );
