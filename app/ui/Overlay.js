@@ -1,8 +1,8 @@
-import React from "react";
-import { Overlay as ReactOverlay } from "react-overlays";
+import React from 'react';
+import { Overlay as ReactOverlay } from 'react-overlays';
 
 if (process.env.BROWSER) {
-  require("styles/components/Overlay.scss");
+  require('styles/components/Overlay.scss');
 }
 
 function OverlayWrapper({ arrow, arrowOffsetLeft, arrowOffsetTop, children, style, className }) {
@@ -26,24 +26,22 @@ function OverlayWrapper({ arrow, arrowOffsetLeft, arrowOffsetTop, children, styl
  *
  * Container element (i.e. that specified by the `container` prop) must have a
  * css relative position!
- * 
+ *
  */
-export default function Overlay({ arrow, inverted, placement="bottom", children, style, className, ...overlayProps }) {
-
+export default function Overlay({ arrow, inverted, placement = 'bottom', children, style, className, ...overlayProps }) {
   if (!process.env.BROWSER) {
-    return null;
+    return <span />;
   }
   let overlayClassName = `Overlay ${placement}`;
   if (arrow) {
-    overlayClassName += " arrow";
+    overlayClassName += ' arrow';
   }
   if (className) {
     overlayClassName += ` ${className}`;
   }
   if (inverted) {
-    overlayClassName += " inverted";
+    overlayClassName += ' inverted';
   }
-
   return (
     <ReactOverlay placement={ placement } {...overlayProps}>
       <OverlayWrapper arrow={ arrow } style={ style } className={ overlayClassName }>
