@@ -3,11 +3,15 @@ import { connect } from 'react-redux';
 
 import Header from '../layout/Header';
 import UINotificationsHost from '../ui/UINotificationsHost';
+import ModalHost from '../ui/ModalHost';
 import VideoCallHost from '../videoCalls/VideoCallHost';
 
 import { getCurrentSession, login } from '../actions/session';
 import { loadCategories, loadCurrencies } from '../actions/misc';
 import { getCurrentLocation, loadSuggestions } from '../actions/location';
+
+import { openModal } from '../actions/ui';
+import Modal from '../ui/Modal';
 
 if (process.env.BROWSER) {
   require('normalize.css/normalize.css');
@@ -56,10 +60,6 @@ export class Application extends React.Component {
     if (currentLocation.slug !== prevProps.currentLocation.slug) {
       dispatch(loadSuggestions(currentLocation));
     }
-
-    if (hasBeenLoggedIn) {
-      // actions.initTwilio();
-    }
   }
 
   render() {
@@ -70,6 +70,10 @@ export class Application extends React.Component {
     }
     return (
       <div className={ className }>
+        {/*<button onClick={ () => props.dispatch(openModal(
+          <Modal><p style={{ height: 100 }}>Test</p></Modal>
+        ))}>Open modal</button>*/}
+
           <div className="App-header">
             <Header
               history={ props.history }
@@ -82,6 +86,7 @@ export class Application extends React.Component {
         <div className="App-content">
           { React.cloneElement(children, props) }
         </div>
+        <ModalHost />
         <UINotificationsHost />
         { props.videoCallState && props.videoCallState.currentConversation &&
           <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }
