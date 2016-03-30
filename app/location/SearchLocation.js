@@ -31,12 +31,6 @@ export class SearchLocation extends Component {
     input: '',
   };
 
-  componentDidMount() {
-    // Use a timeout to not interfere with modal animation issues
-    // See https://github.com/facebook/react/issues/2104
-    setTimeout(() => this.refs.input.focus(), 0);
-  }
-
   handleChange() {
     const input = trimWhitespaces(this.refs.input.value).toLowerCase();
     this.setState({ input });

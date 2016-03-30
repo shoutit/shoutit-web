@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import Dialog from '../shared/components/helper/Dialog';
-import Overlay from '../shared/components/helper/Overlay';
+import Overlay from '../ui/Overlay';
 import Button from '../ui/Button';
-import SearchBar from './searchBar.jsx';
 
 import HeaderMessagesOverlay from './HeaderMessagesOverlay';
 import HeaderNotificationsOverlay from './HeaderNotificationsOverlay';
 import HeaderProfileOverlay from './HeaderProfileOverlay';
 import HeaderProfile from './HeaderProfile';
 import HeaderNewShout from './HeaderNewShout';
+import Searchbar from '../search/Searchbar';
 
 import { logout } from '../actions/session';
 import { loadConversations } from '../actions/chat';
@@ -88,20 +88,13 @@ export class Header extends Component {
           </Link>
         </div>
 
-        <div className="Header-search">
-          {/* <SearchBar
-            currentLocation={ currentLocation }
-            height="36"
-            flux={ flux }
-            history={ history }
-          />*/}
-        </div>
-
         <div className="Header-links">
-          <span className="Header-separator" />
           <Button onClick={ e => this.handleBrowseClick(e) } label="Browse" />
           <Button to={ '/discover' + (country ? ('/' + country.toLowerCase()) : '') } label="Discover" />
-          { loggedUser && <span className="Header-separator" /> }
+        </div>
+
+        <div className="Header-search">
+          <Searchbar />
         </div>
 
         { loggedUser ?

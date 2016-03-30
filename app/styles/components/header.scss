@@ -32,11 +32,14 @@
   }
 }
 
+.Header-links {
+  margin-left: 1rem;
+}
 .Header-search {
   display: flex;
   flex: 1;
   align-items: center;
-  margin-left: 20px;
+  margin: 0 2rem;
 }
 
 .Header-overlay {
