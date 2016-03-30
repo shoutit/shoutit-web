@@ -38,12 +38,15 @@ Conversation.define({
 });
 
 export const Schemas = {
-  MESSAGE: Message,
+  CATEGORIES: arrayOf(Category),
   CONVERSATION: Conversation,
   CONVERSATIONS: arrayOf(Conversation),
-  CATEGORIES: arrayOf(Category),
   CURRENCIES: arrayOf(Currency),
+  MESSAGE: Message,
   MESSAGES: arrayOf(Message),
+  PROFILES: arrayOf(User),
+  SHOUTS: arrayOf(Shout),
+  TAGS: arrayOf(Tag),
   USER: User,
 };
 
