@@ -2,7 +2,7 @@ import React from 'react';
 import { Overlay as ReactOverlay } from 'react-overlays';
 
 if (process.env.BROWSER) {
-  require('styles/components/Overlay.scss');
+  require('./Overlay.scss');
 }
 
 function OverlayWrapper({ arrow, arrowOffsetLeft, arrowOffsetTop, children, style, className }) {
