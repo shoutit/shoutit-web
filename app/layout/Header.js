@@ -19,7 +19,7 @@ import { loadConversations } from '../actions/chat';
 import { imagesPath } from '../config';
 
 if (process.env.BROWSER) {
-  require('styles/components/header.scss');
+  require('./Header.scss');
 }
 
 export class Header extends Component {
@@ -76,10 +76,26 @@ export class Header extends Component {
   }
 
   render() {
-    const { dispatch, loggedUser, unreadConversations, chat, currentLocation = {}, location, history } = this.props;
+    const { dispatch, loggedUser, unreadConversations, currentLocation, location, history } = this.props;
 
-    const { country } = currentLocation;
     const { overlayName, overlayTarget, openNewShoutDialog } = this.state;
+
+    let discoverLink = '/discover';
+    if (currentLocation.country) {
+      discoverLink += `?country=${encodeURIComponent(currentLocation.country.toLowerCase())}`;
+    }
+    let browseLink = '/search';
+    const browseLinkQuery = [];
+    if (currentLocation.country) {
+      browseLinkQuery.push(`country=${encodeURIComponent(currentLocation.country.toLowerCase())}`);
+    }
+    if (currentLocation.city) {
+      browseLinkQuery.push(`city=${encodeURIComponent(currentLocation.city.toLowerCase())}`);
+    }
+    if (browseLinkQuery.length > 0) {
+      browseLink += `?${browseLinkQuery.join('&')}`;
+    }
+
     return (
       <header className="Header">
         <div className="Header-logo">
@@ -89,8 +105,8 @@ export class Header extends Component {
         </div>
 
         <div className="Header-links">
-          <Button onClick={ e => this.handleBrowseClick(e) } label="Browse" />
-          <Button to={ '/discover' + (country ? ('/' + country.toLowerCase()) : '') } label="Discover" />
+          <Button to={ browseLink } label="Browse" />
+          <Button to={ discoverLink } label="Discover" />
         </div>
 
         <div className="Header-search">
@@ -137,7 +153,8 @@ export class Header extends Component {
             placement="bottom"
             container={ this }
             onHide={ () => this.hideOverlay() }
-            target={ () => overlayTarget }>
+            target={ () => overlayTarget }
+          >
               <HeaderMessagesOverlay />
           </Overlay>,
 
@@ -147,7 +164,8 @@ export class Header extends Component {
             placement="bottom"
             container={ this }
             onHide={ () => this.hideOverlay() }
-            target={ () => overlayTarget }>
+            target={ () => overlayTarget }
+          >
               <HeaderNotificationsOverlay
                 unreadCount={ 0 }
                 onMarkAsReadClick={ () => { }}
@@ -160,7 +178,8 @@ export class Header extends Component {
             style={ { width: 200, marginLeft: 3 }}
             show={ overlayName === 'profile' }
             onHide={ () => this.hideOverlay() }
-            target={ () => overlayTarget }>
+            target={ () => overlayTarget }
+          >
               <HeaderProfileOverlay
                 loggedUser={ loggedUser }
                 onLogoutClick={ () => dispatch(logout()).then(() => history.push('/')) }
@@ -175,7 +194,8 @@ export class Header extends Component {
             autoScrollBodyContent
             bodyStyle={{ borderRadius: '5px' }}
             contentClassName="new-shout-popup"
-            onRequestClose={ () => this.setState({ openNewShoutDialog: false }) }>
+            onRequestClose={ () => this.setState({ openNewShoutDialog: false }) }
+          >
             {/* <HeaderNewShout
               flux={ flux }
               onShoutSent={ () => this.setState({ openNewShoutDialog: false }) }
@@ -196,7 +216,7 @@ function mapStateToProps(state) {
   const conversations = paginated.chat.ids.map(id => entities.conversations[id]);
   const unreadConversations = conversations.filter(c => c.unreadMessagesCount > 0).length;
   return {
-    currentLocation: currentLocation,
+    currentLocation,
     loggedUser: session.user,
     unreadConversations,
   };
