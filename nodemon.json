@@ -1,6 +1,7 @@
 {
   "watch": [
-    "app/services/",
+    "app/routes",
+    "app/services",
     "app/server",
     "app/server.js",
     "app/middlewares/services.js"
