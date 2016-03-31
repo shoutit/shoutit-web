@@ -1,8 +1,5 @@
 import merge from 'lodash/object/merge';
 import omit from 'lodash/object/omit';
-import debug from 'debug';
-
-const log = debug('shoutit:entity-reducer');
 
 export default function ({
   name,
@@ -10,7 +7,6 @@ export default function ({
   mapActionToTempEntity,
   mapActionToTempId,
 }) {
-
   let createStartType;
   let createSuccessType;
   let createFailureType;
@@ -43,27 +39,24 @@ export default function ({
     }
   }
 
-  return function (state = {}, action) {
-
-    // If the action type is a create type, add a temporary entity to track its creation
-
+  return function entityReducer(state = {}, action) {
     if (action.hasOwnProperty('type')) {
       switch (action.type) {
         case createStartType:
         case createFailureType:
+          // If the action type is a create type, add a temporary entity to track its creation
           const tempId = mapActionToTempId(action);
           return merge({}, state, {
             [tempId]: updateTempEntity(state[tempId] || mapActionToTempEntity(action), action),
           });
         case createSuccessType:
-        // Remove the temp entity and add the new entities
+          // Remove the temp entity and add the new entities
           return merge({}, omit(state, mapActionToTempId(action)), action.payload.entities[name]);
       }
     }
 
     // If the action has an `entity` payload, merge its content
     if (action.payload && action.payload.entities && action.payload.entities[name]) {
-      log('Reducing new entity in %s', name, action.payload.entities[name]);
       return merge({}, state, action.payload.entities[name]);
     }
 

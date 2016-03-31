@@ -55,7 +55,7 @@ export default function renderMiddleware(req, res, next) {
 
       const meta = {}; // getMetaFromData(req.url, data);
       const initialState = store.getState();
-      log('Initial store state', initialState);
+      log('Initial store state', Object.keys(initialState));
 
       let content;
       try {

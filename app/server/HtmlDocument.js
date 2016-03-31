@@ -55,8 +55,6 @@ export default function HtmlDocument({
   //   metatags.push({ name: "twitter:card", content: "summary" } );
   // }
 
-  console.log('initialState');
-  console.log(initialState);
   return (
     <html>
       <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# shoutitcom: http://ogp.me/ns/fb/shoutitcom#">
