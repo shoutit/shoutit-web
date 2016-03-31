@@ -34,7 +34,7 @@ const routes = (store) =>
 
         <Route path="/"
           getComponent={ (location, callback) => {
-            const Component = store.getState().session.user ? Search : Homepage;
+            const Component = store.getState().session.user ? Dashboard : Homepage;
             callback(null, Component);
             return Component;
           }}
