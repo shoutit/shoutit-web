@@ -22,6 +22,7 @@ export default function renderMiddleware(req, res, next) {
   const store = configureStore({
     routing: { currentUrl: req.url },
     session: { user: req.session && req.session.user ? req.session.user : null },
+    currentLocation: req.session && req.session.user ? req.session.user.location : null,
   }, { fetchr });
   const routes = configureRoutes(store);
 
