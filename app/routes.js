@@ -33,8 +33,11 @@ const routes = (store) =>
       <Route component={ ModalHost }>
 
         <Route path="/"
-          getComponent={ (location, callback) =>
-            callback(null, store.getState().session.user ? Dashboard : Homepage) }
+          getComponent={ (location, callback) => {
+            const Component = store.getState().session.user ? Search : Homepage;
+            callback(null, Component);
+            return Component;
+          }}
         />
         <Route path="/login" component={ MainPage } />
         <Route path="/login/password" component={ MainPage } />
