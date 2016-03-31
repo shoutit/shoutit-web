@@ -26,7 +26,20 @@ export default {
   },
 
   read: (req, resource, params, config, callback) => {
-    callback(null, req.session && req.session.user ? req.session.user : undefined);
+    if (!req.session || !req.session.user) {
+      callback();
+      return;
+    }
+    request
+      .get(`/profiles/${req.session.user.username}`)
+      .setSession(req.session)
+      .prefix()
+      .end((err, res) => {
+        if (err) {
+          return callback(parseErrorResponse(err));
+        }
+        return callback(null, res.body);
+      });
   },
 
   delete: (req, resource, params, config, callback) => {
