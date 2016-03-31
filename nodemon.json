@@ -4,6 +4,7 @@
     "app/services",
     "app/server",
     "app/server.js",
-    "app/middlewares/services.js"
+    "app/middlewares/services.js",
+    "app/utils/fetchDataForRoutes.js"
   ]
 }
