@@ -3,7 +3,7 @@ import { parseErrorResponse } from '../utils/APIUtils';
 
 export default {
   name: 'home',
-  read: (req, resource, { username }, config, callback) => {
+  read: (req, resource, params, config, callback) => {
     request
       .get('/profiles/me/home')
       .setSession(req.session)
