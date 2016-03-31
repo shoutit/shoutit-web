@@ -136,7 +136,7 @@ export default function paginate({
       case fetchStartType:
       case fetchSuccessType:
       case fetchFailureType:
-        if (!action.payload) {
+        if (action.type === fetchSuccessType && !action.payload) {
           return state;
         }
         if (mapActionToKey) {
