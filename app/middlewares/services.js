@@ -39,7 +39,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
 
   next(actionWith({ type: startType }));
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     fetchr[method](name)
       .params(params)
       .body(body)
@@ -50,6 +50,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
             payload: err.body,
             type: failureType,
           }));
+          reject(err.body ? err.body : err);
           return;
         }
         let payload = camelizeKeys(json);

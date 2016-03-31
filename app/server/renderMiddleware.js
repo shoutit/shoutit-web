@@ -48,6 +48,7 @@ export default function renderMiddleware(req, res, next) {
 
     fetchDataForRoutes(props.routes, props.params, req.query, store, err => {
       if (err) {
+        log('Error fetching data for routes');
         next(err);
         return;
       }
