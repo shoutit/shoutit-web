@@ -1,10 +1,8 @@
-
 import * as actionTypes from './actionTypes';
 import uuid from 'uuid';
 import merge from 'lodash/object/merge';
 
 import { getUnixTime } from '../utils/DateUtils';
-
 import { Schemas } from '../schemas';
 
 const parsePayloadForConversations = (payload, state) => {
@@ -94,7 +92,7 @@ export function unsetCurrentConversation() {
 export function replyToConversation(conversationId, sender, message) {
   const newMessage = {
     ...message,
-    user: sender,
+    profile: sender,
     id: `temp-${uuid.v1()}`,
     createdAt: getUnixTime(),
   };
@@ -151,7 +149,7 @@ export function deleteConversation(id) {
   };
 }
 
-export function typingUserNotification(conversationId, user) {
+export function typingClientNotification(conversationId, user) {
   const payload = {
     entities: {
       users: {
@@ -162,21 +160,21 @@ export function typingUserNotification(conversationId, user) {
     conversationId,
   };
   return {
-    type: actionTypes.TYPING_USER_NOTIFICATION,
+    type: actionTypes.RECEIVE_CLIENT_IS_TYPING,
     payload,
   };
 }
 
-export function removeTypingUser(conversationId, userId) {
+export function removeTypingClient(conversationId, userId) {
   return {
-    type: actionTypes.REMOVE_TYPING_USER,
+    type: actionTypes.REMOVE_CLIENT_IS_TYPING,
     payload: { conversationId, userId },
   };
 }
 
 export function notifyTypingUser(user) {
   return {
-    type: actionTypes.NOTIFY_TYPING_USER,
+    type: actionTypes.NOTIFY_CLIENT_IS_TYPING,
     payload: user,
   };
 }

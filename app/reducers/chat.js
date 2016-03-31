@@ -22,7 +22,7 @@ export default function (state = initialState, action) {
         },
       };
 
-    case actionTypes.TYPING_USER_NOTIFICATION:
+    case actionTypes.RECEIVE_CLIENT_IS_TYPING:
       if (state.typingUsers[payload.conversationId].indexOf(payload.userId) > -1) {
         return state;
       }
@@ -32,7 +32,7 @@ export default function (state = initialState, action) {
         },
       });
 
-    case actionTypes.REMOVE_TYPING_USER:
+    case actionTypes.REMOVE_CLIENT_IS_TYPING:
       const newState = {
         ...state,
         typingUsers: {
