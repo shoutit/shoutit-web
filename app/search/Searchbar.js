@@ -48,13 +48,13 @@ export class Searchbar extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const search = trimWhitespaces(this.refs.q.value);
+    const search = trimWhitespaces(this.refs.q.value).toLowerCase();
     if (search) {
       this.setState({
         showOverlay: false,
       });
       this.refs.q.blur();
-      this.props.dispatch(push(`/shouts?q=${encodeURIComponent(search)}`));
+      this.props.dispatch(push(`/search?q=${encodeURIComponent(search)}`));
     }
   }
 
