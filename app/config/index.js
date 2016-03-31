@@ -33,7 +33,6 @@ export const uploadResources = {
 
 export const shoutitEnv = process.env.SHOUTIT_ENV;
 export const googleMapsKey = 'AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc';
-export const pusherAppKey = '86d676926d4afda44089';
 export const imagesPath = `${envConfig.publicUrl}/images`;
 export const facebookId = envConfig.facebookId;
 export const ga = envConfig.ga;
