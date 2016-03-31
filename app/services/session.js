@@ -3,15 +3,15 @@ import { createRequestSession } from '../utils/SessionUtils';
 import { parseErrorResponse } from '../utils/APIUtils';
 
 import {
-  AUTH_CLIENT_ID as client_id,
-  AUTH_CLIENT_SECRET as client_secret
+  AUTH_CLIENT_ID as clientId,
+  AUTH_CLIENT_SECRET as clientSecret
 } from './constants';
 
 
 export default {
   name: 'session',
   create: (req, resource, params, body, config, callback) => {
-    const data = { ...body, client_id, client_secret };
+    const data = { ...body, client_id: clientId, client_secret: clientSecret };
     request
       .post('/oauth2/access_token')
       .send(data)
