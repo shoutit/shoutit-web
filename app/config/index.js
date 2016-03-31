@@ -31,20 +31,21 @@ export const uploadResources = {
   },
 };
 
-export const shoutitEnv = process.env.SHOUTIT_ENV;
-export const googleMapsKey = 'AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc';
-export const imagesPath = `${envConfig.publicUrl}/images`;
+export const apiUrl = envConfig.apiUrl;
 export const facebookId = envConfig.facebookId;
 export const ga = envConfig.ga;
-export const apiUrl = envConfig.apiUrl;
+export const googleMapsKey = 'AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc';
+export const imagesPath = `${envConfig.publicUrl}/images`;
 export const publicUrl = envConfig.publicUrl;
+export const pusherAppKey = envConfig.pusherAppKey;
+export const shoutitEnv = process.env.SHOUTIT_ENV;
 export const siteUrl = envConfig.siteUrl;
 
 export const appStoreLink = 'https://itunes.apple.com/app/shoutit-app/id947017118';
-export const playStoreLink = 'https://play.google.com/store/apps/details?id=com.shoutit.app.android';
 export const facebookLink = 'https://web.facebook.com/shoutitcom';
-export const twitterLink = 'https://twitter.com/shoutitcom';
 export const instagramLink = 'https://www.instagram.com/shoutitcom';
+export const playStoreLink = 'https://play.google.com/store/apps/details?id=com.shoutit.app.android';
+export const twitterLink = 'https://twitter.com/shoutitcom';
 
 
 export function getSummary() {
