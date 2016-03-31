@@ -42,7 +42,7 @@ const routes = (store) =>
         <Route path="/login" component={ MainPage } />
         <Route path="/login/password" component={ MainPage } />
         <Route path="/signup" component={ MainPage } />
-
+        <Route path="/search(/:shoutType)(/:category)" component={ Search } />
         {/* <Route path="/home" component={ HomePage }>
           <Route path="/all/:country/:state/:city(/:page)"
             component={ new FeedListContainer('all') } />

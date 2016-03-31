@@ -60,21 +60,6 @@ export class Header extends Component {
     this.setState({ overlayName: null, overlayTarget: null });
   }
 
-  handleBrowseClick(e) {
-    e.preventDefault();
-    const { currentLocation, flux, history } = this.props;
-    const query = {
-      city: currentLocation && currentLocation.city ?
-        encodeURIComponent(currentLocation.city) : undefined,
-      country: currentLocation && currentLocation.country ?
-        encodeURIComponent(currentLocation.country) : undefined,
-    };
-    history.pushState(null, '/search/all/all', query);
-    flux.actions.searchShouts({
-      category: 'all', shouttype: 'all', ...query,
-    });
-  }
-
   render() {
     const { dispatch, loggedUser, unreadConversations, currentLocation, location, history } = this.props;
 
@@ -82,15 +67,15 @@ export class Header extends Component {
 
     let discoverLink = '/discover';
     if (currentLocation.country) {
-      discoverLink += `?country=${encodeURIComponent(currentLocation.country.toLowerCase())}`;
+      discoverLink += `?country=${currentLocation.country}`;
     }
     let browseLink = '/search';
     const browseLinkQuery = [];
     if (currentLocation.country) {
-      browseLinkQuery.push(`country=${encodeURIComponent(currentLocation.country.toLowerCase())}`);
+      browseLinkQuery.push(`country=${currentLocation.country}`);
     }
     if (currentLocation.city) {
-      browseLinkQuery.push(`city=${encodeURIComponent(currentLocation.city.toLowerCase())}`);
+      browseLinkQuery.push(`city=${encodeURIComponent(currentLocation.city)}`);
     }
     if (browseLinkQuery.length > 0) {
       browseLink += `?${browseLinkQuery.join('&')}`;
