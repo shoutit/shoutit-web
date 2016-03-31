@@ -43,7 +43,7 @@ export default {
   },
   update: (req, resource, params, body, config, callback) => {
     request
-      .patch(`/profiles/${req.session.user.username}`)
+      .patch('/profiles/me')
       .send(body)
       .setSession(req.session)
       .prefix()

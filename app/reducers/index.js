@@ -74,6 +74,13 @@ const paginated = combineReducers({
       actionTypes.SEARCH_PROFILES_FAILURE,
     ],
   }),
+  shoutsByHome: paginate({
+    fetchTypes: [
+      actionTypes.LOAD_HOME_SHOUTS_START,
+      actionTypes.LOAD_HOME_SHOUTS_SUCCESS,
+      actionTypes.LOAD_HOME_SHOUTS_FAILURE,
+    ],
+  }),
 });
 
 const entities = combineReducers({

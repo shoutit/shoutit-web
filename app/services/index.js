@@ -3,6 +3,7 @@ export categories from './categories';
 export conversations from './conversations';
 export conversationReply from './conversationReply';
 export emailVerification from './emailVerification';
+export home from './home';
 export location from './location';
 export listeners from './listeners';
 export listening from './listening';

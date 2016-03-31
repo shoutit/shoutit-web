@@ -61,3 +61,17 @@ export function setUserLocation(location) {
     },
   };
 }
+
+export function loadHomeShouts() {
+  return {
+    types: [
+      actionTypes.LOAD_HOME_SHOUTS_START,
+      actionTypes.LOAD_HOME_SHOUTS_SUCCESS,
+      actionTypes.LOAD_HOME_SHOUTS_FAILURE,
+    ],
+    service: {
+      name: 'home',
+      schema: Schemas.SHOUTS,
+    },
+  };
+}

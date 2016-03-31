@@ -45,6 +45,7 @@ export const Schemas = {
   MESSAGE: Message,
   MESSAGES: arrayOf(Message),
   PROFILES: arrayOf(User),
+  SHOUT: Shout,
   SHOUTS: arrayOf(Shout),
   TAGS: arrayOf(Tag),
   USER: User,
