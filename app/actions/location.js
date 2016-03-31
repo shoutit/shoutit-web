@@ -32,6 +32,13 @@ export function getLocation(latlng) {
   };
 }
 
+export function setCurrentLocation(location) {
+  return {
+    type: actionTypes.SET_CURRENT_LOCATION,
+    payload: { location },
+  };
+}
+
 export function loadSuggestions(location) {
   return {
     types: [

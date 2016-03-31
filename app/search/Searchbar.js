@@ -6,6 +6,7 @@ import throttle from 'lodash/function/throttle';
 import { searchShouts, searchTags, searchProfiles, clearSearches } from '../actions/search';
 import { openModal, closeModal } from '../actions/ui';
 import { setUserLocation } from '../actions/users';
+import { setCurrentLocation } from '../actions/location';
 
 import { trimWhitespaces } from '../utils/StringUtils';
 import SearchbarResults from './SearchbarResults';
@@ -79,14 +80,19 @@ export class Searchbar extends Component {
     dispatch(searchProfiles(searchParams));
   }
 
-  handleLocationClick() {
-    const { dispatch } = this.props;
+  handleLocationClick(e) {
+    e.preventDefault();
+    e.target.blur();
+    const { dispatch, loggedUser } = this.props;
     const modal = (
       <Modal title="Set your location" name="search-location">
         <SearchLocation
           onLocationSelect={ location => {
             dispatch(closeModal('search-location'));
-            dispatch(setUserLocation(location));
+            dispatch(setCurrentLocation(location));
+            if (loggedUser) {
+              dispatch(setUserLocation(location));
+            }
           }}
         />
       </Modal>
@@ -96,7 +102,7 @@ export class Searchbar extends Component {
 
   render() {
     const { showOverlay } = this.state;
-    const { foundTags, foundShouts, foundProfiles, currentLocation, dispatch } = this.props;
+    const { foundTags, foundShouts, foundProfiles, currentLocation } = this.props;
     const locationLabel = currentLocation ? currentLocation.city : 'Anywhere';
     return (
       <form ref="form" onSubmit={ this.handleSubmit } className="Searchbar">
@@ -139,6 +145,7 @@ export class Searchbar extends Component {
 
 const mapStateToProps = state => (
   {
+    loggedUser: state.session.user,
     currentLocation: state.currentLocation,
     foundTags: state.search.tags.ids.map(id => state.entities.tags[id]),
     foundProfiles: state.search.profiles.ids.map(id => state.entities.users[id]),
