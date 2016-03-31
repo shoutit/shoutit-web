@@ -38,6 +38,7 @@ export default {
         if (err) {
           return callback(parseErrorResponse(err));
         }
+        req.session.user = res.body;
         return callback(null, res.body);
       });
   },
