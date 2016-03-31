@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
+import stringify from 'json-stable-stringify';
 
 import categories from './categories';
 import currencies from './currencies';
@@ -49,6 +50,30 @@ const paginated = combineReducers({
     ],
     addType: actionTypes.LOAD_CONVERSATION_SUCCESS,
     deleteType: actionTypes.LEAVE_CONVERSATION_START,
+  }),
+  shoutsBySearch: paginate({
+    mapActionToKey: action => stringify(action.payload.searchParams),
+    fetchTypes: [
+      actionTypes.SEARCH_SHOUTS_START,
+      actionTypes.SEARCH_SHOUTS_SUCCESS,
+      actionTypes.SEARCH_SHOUTS_FAILURE,
+    ],
+  }),
+  tagsBySearch: paginate({
+    mapActionToKey: action => stringify(action.payload.searchParams),
+    fetchTypes: [
+      actionTypes.SEARCH_TAGS_START,
+      actionTypes.SEARCH_TAGS_SUCCESS,
+      actionTypes.SEARCH_TAGS_FAILURE,
+    ],
+  }),
+  profilesBySearch: paginate({
+    mapActionToKey: action => stringify(action.payload.searchParams),
+    fetchTypes: [
+      actionTypes.SEARCH_PROFILES_START,
+      actionTypes.SEARCH_PROFILES_SUCCESS,
+      actionTypes.SEARCH_PROFILES_FAILURE,
+    ],
   }),
 });
 
