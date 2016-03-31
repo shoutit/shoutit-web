@@ -6,7 +6,6 @@ import Fetchr from 'fetchr';
 import debug from 'debug';
 
 import HtmlDocument from './HtmlDocument';
-import Flux from '../Flux';
 import configureRoutes from '../routes';
 
 import { Provider } from 'react-redux';
@@ -22,8 +21,10 @@ export default function renderMiddleware(req, res, next) {
 
   const store = configureStore({
     routing: { currentUrl: req.url },
+    session: { user: req.session && req.session.user ? req.session.user : null },
   }, { fetchr });
   const routes = configureRoutes(store);
+
   // Run router to determine the desired state
   match({ routes, location: req.url }, (error, redirectLocation, props) => {
     log('Matched request for %s', req.url);
