@@ -31,7 +31,7 @@ export default {
       return;
     }
     request
-      .get(`/profiles/${req.session.user.username}`)
+      .get('/profiles/me')
       .setSession(req.session)
       .prefix()
       .end((err, res) => {
