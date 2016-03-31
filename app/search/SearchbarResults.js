@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import { getVariation } from '../utils/APIUtils';
 
 if (process.env.BROWSER) {
   require('./SearchbarResults.scss');
@@ -9,7 +10,7 @@ function SearchbarResult({ image, label }) {
   return (
     <div className="SearchbarResult">
       <span>
-        <span className="SearchbarResult-image" style={{ backgroundImage: `url("${image}")` }} />
+        <span className="SearchbarResult-image" style={{ backgroundImage: image ? `url("${image}")` : null }} />
       </span>
       <span className="SearchbarResult-label">
         { label }
@@ -29,7 +30,7 @@ export default function SearchbarResults({ tags = [], shouts = [], profiles = []
             { shouts.map(shout =>
               <li key={ shout.id }>
                 <Link to={`/shout/${shout.id}`}>
-                  <SearchbarResult label={ shout.title } image={ shout.thumbnail } />
+                  <SearchbarResult label={ shout.title } image={ shout.thumbnail ? getVariation(shout.thumbnail, 'small') : null } />
                 </Link>
               </li>
             )}
@@ -44,7 +45,7 @@ export default function SearchbarResults({ tags = [], shouts = [], profiles = []
               { tags.map(tag =>
                 <li key={ tag.name }>
                   <Link to={`/interests/${tag.name}`}>
-                    <SearchbarResult label={ tag.name } image={ tag.image } />
+                    <SearchbarResult label={ tag.name } image={ tag.image ? getVariation(tag.image, 'small') : null } />
                   </Link>
                 </li>
               )}
@@ -59,7 +60,7 @@ export default function SearchbarResults({ tags = [], shouts = [], profiles = []
             { profiles.map(profile =>
               <li key={profile.username}>
                 <Link to={`/${profile.type}/${profile.username}`}>
-                  <SearchbarResult label={ profile.name } image={ profile.image } />
+                  <SearchbarResult label={ profile.name } image={ profile.image ? getVariation(profile.image, 'small') : null } />
                 </Link>
               </li>
             )}
