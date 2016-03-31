@@ -12,7 +12,6 @@ import entity from './entity';
 import forms from './forms';
 import paginate from './paginate';
 import session from './session';
-import search from './search';
 import placePredictions from './placePredictions';
 import videocalls from './videocalls';
 import uiNotifications from './uiNotifications';
@@ -118,7 +117,6 @@ const rootReducer = combineReducers({
   paginated,
   placePredictions,
   routing,
-  search,
   session,
   uiNotifications,
   videocalls,

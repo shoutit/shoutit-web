@@ -2,8 +2,9 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import throttle from 'lodash/function/throttle';
+import stringify from 'json-stable-stringify';
 
-import { searchShouts, searchTags, searchProfiles, clearSearches } from '../actions/search';
+import { searchShouts, searchTags, searchProfiles } from '../actions/search';
 import { openModal, closeModal } from '../actions/ui';
 import { setUserLocation } from '../actions/users';
 import { setCurrentLocation } from '../actions/location';
@@ -42,8 +43,14 @@ export class Searchbar extends Component {
   }
 
   state = {
+
+    shoutsSearchString: null,
+    profilesSearchString: null,
+    tagsSearchString: null,
+
     showOverlay: false,
     isFocused: false,
+
   };
 
   handleSubmit(e) {
@@ -62,22 +69,37 @@ export class Searchbar extends Component {
     const { dispatch, currentLocation } = this.props;
     const search = trimWhitespaces(this.refs.q.value);
     if (search.length < 2) {
-      this.setState({ showOverlay: false });
-      dispatch(clearSearches());
+      this.setState({
+        showOverlay: false,
+        searchString: '',
+      });
       return;
     }
+
     const searchParams = {
       search,
       page_size: 5,
     };
-    this.setState({ showOverlay: true });
-    dispatch(searchShouts({
+
+    const shoutsSearchParams = {
       ...searchParams,
       country: currentLocation.country,
       city: currentLocation.city,
-    }));
-    dispatch(searchTags(searchParams));
-    dispatch(searchProfiles(searchParams));
+    };
+
+    const tagsSearchParams = searchParams;
+    const profilesSearchParams = searchParams;
+
+    this.setState({
+      showOverlay: true,
+      shoutsSearchString: stringify(shoutsSearchParams),
+      tagsSearchString: stringify(tagsSearchParams),
+      profilesSearchString: stringify(profilesSearchParams),
+    });
+
+    dispatch(searchShouts(shoutsSearchParams));
+    dispatch(searchTags(tagsSearchParams));
+    dispatch(searchProfiles(profilesSearchParams));
   }
 
   handleLocationClick(e) {
@@ -101,9 +123,24 @@ export class Searchbar extends Component {
   }
 
   render() {
-    const { showOverlay } = this.state;
-    const { foundTags, foundShouts, foundProfiles, currentLocation } = this.props;
+    const { showOverlay, shoutsSearchString, tagsSearchString, profilesSearchString } = this.state;
+    const { shouts, tags, profiles, shoutsBySearch, tagsBySearch, profilesBySearch, currentLocation } = this.props;
+
+    let foundShouts = [];
+    let foundTags = [];
+    let foundProfiles = [];
+    if (shoutsSearchString && shoutsBySearch[shoutsSearchString]) {
+      foundShouts = shoutsBySearch[shoutsSearchString].ids.map(id => shouts[id]);
+    }
+    if (tagsSearchString && tagsBySearch[tagsSearchString]) {
+      foundTags = tagsBySearch[tagsSearchString].ids.map(id => tags[id]);
+    }
+    if (profilesSearchString && profilesBySearch[profilesSearchString]) {
+      foundProfiles = profilesBySearch[profilesSearchString].ids.map(id => profiles[id]);
+    }
+
     const locationLabel = currentLocation ? currentLocation.city : 'Anywhere';
+
     return (
       <form ref="form" onSubmit={ this.handleSubmit } className="Searchbar">
         <Button
@@ -147,9 +184,15 @@ const mapStateToProps = state => (
   {
     loggedUser: state.session.user,
     currentLocation: state.currentLocation,
-    foundTags: state.search.tags.ids.map(id => state.entities.tags[id]),
-    foundProfiles: state.search.profiles.ids.map(id => state.entities.users[id]),
-    foundShouts: state.search.shouts.ids.map(id => state.entities.shouts[id]),
+
+    shoutsBySearch: state.paginated.shoutsBySearch,
+    shouts: state.entities.shouts,
+
+    tagsBySearch: state.paginated.tagsBySearch,
+    tags: state.entities.tags,
+
+    profilesBySearch: state.paginated.profilesBySearch,
+    profiles: state.entities.users,
   }
 );
 
