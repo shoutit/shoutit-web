@@ -9,6 +9,7 @@ const log = debug('shoutit:ui:Scrollable');
 export default class Scrollable extends Component {
 
   static propTypes = {
+    scrollElement: PropTypes.func,
     uniqueId: PropTypes.oneOfType([
       PropTypes.string, PropTypes.number,
     ]),
@@ -20,6 +21,7 @@ export default class Scrollable extends Component {
 
   static defaultProps = {
     initialScroll: 'top',
+    triggerOffset: 0,
   };
 
   constructor(props) {
@@ -35,9 +37,9 @@ export default class Scrollable extends Component {
   componentDidMount() {
     const scrollHeight = this.getScrollHeight();
     log('Component did mount: setting state.scrollHeight to %s', scrollHeight);
-    this.setState({ scrollHeight }, this.scrollToInitialPosition);
+    this.setState({ scrollHeight });
+    this.getScrollElement().addEventListener('scroll', this.handleScroll);
   }
-
 
   componentDidUpdate(prevProps) {
     if (prevProps.uniqueId !== this.props.uniqueId) {
@@ -50,42 +52,74 @@ export default class Scrollable extends Component {
     const scrollHeight = this.getScrollHeight();
     if (scrollHeight !== this.state.scrollHeight) {
       log('Component has a different scrollHeight %s (was %s)', this.state.scrollHeight, scrollHeight);
-      this.refs.node.scrollTop = scrollHeight - this.state.scrollHeight + this.state.scrollTop;
-      log('Set scrollTop to %s', this.refs.node.scrollTop);
+      if (this.props.initialScroll === 'bottom') {
+        this.getScrollable().scrollTop = scrollHeight - this.state.scrollHeight + this.state.scrollTop;
+        log('Set scrollTop to %s', this.getScrollable().scrollTop);
+      }
       this.setState({ scrollHeight });
       return;
     }
   }
 
+  componentWillUnmount() {
+    this.getScrollElement().removeEventListener('scroll', this.handleScroll);
+  }
+
+  getScrollable() {
+    const scrollElement = this.getScrollElement();
+    if (scrollElement === window) {
+      return document.body;
+    }
+    return scrollElement;
+  }
+
+  getScrollElement() {
+    if (this.props.scrollElement) {
+      return this.props.scrollElement();
+    }
+    return this.refs.node;
+  }
+
   getScrollHeight() {
-    return this.refs.node.scrollHeight;
+    return this.getScrollable().scrollHeight;
+  }
+
+  getOffsetHeight() {
+    const scrollElement = this.getScrollElement();
+    if (scrollElement === window) {
+      return document.documentElement.clientHeight;
+    }
+    return scrollElement.offsetHeight;
   }
 
   scrollToInitialPosition() {
     log("Scrolling to initial '%s' position", this.props.initialScroll);
     switch (this.props.initialScroll) {
       case 'top':
-        this.refs.node.scrollTop = 0;
+        this.getScrollable().scrollTop = 0;
         break;
       case 'bottom':
-        this.refs.node.scrollTop = this.state.scrollHeight;
+        this.getScrollable().scrollTop = this.state.scrollHeight;
         break;
       default:
         break;
     }
-    log('Set scrollTop to %s', this.refs.node.scrollTop);
+    log('Set scrollTop to %s', this.getScrollable().scrollTop);
   }
 
   handleScroll(e) {
-    e.persist();
-    const { scrollTop, offsetHeight } = e.target;
-    const { onScroll, onScrollTop, onScrollBottom } = this.props;
+    const { scrollTop } = this.getScrollable();
+    const offsetHeight = this.getOffsetHeight();
+    const { scrollHeight } = this.state;
+    const { onScroll, onScrollTop, onScrollBottom, triggerOffset } = this.props;
     if (onScroll) {
       onScroll(e);
     }
     if (onScrollTop && scrollTop === 0) {
+      log('Scrolled on top, call onScrollTop handler');
       onScrollTop(e);
-    } else if (onScrollBottom && scrollTop + offsetHeight >= this.state.scrollHeight) {
+    } else if (onScrollBottom && scrollTop + offsetHeight + triggerOffset === scrollHeight) {
+      log('Scrolled on bottom, call onScrollBottom handler');
       onScrollBottom(e);
     }
     this.setState({ scrollTop });
@@ -94,7 +128,7 @@ export default class Scrollable extends Component {
   render() {
     const { children, className, style } = this.props;
     return (
-      <div ref="node" style={ style } className={ className } onScroll={ this.handleScroll }>
+      <div ref="node" style={ style } className={ className }>
         { children }
       </div>
     );
