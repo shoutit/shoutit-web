@@ -5,6 +5,7 @@
   "rules": {
     "max-len": 0,
     "default-case": 0,
+    "camelcase": 0,
     "no-case-declarations": 0,
     "react/prop-types": 0,
     "react/prefer-stateless-function": 0,
