@@ -1,0 +1,36 @@
+@import "../styles/constants";
+
+.Page {
+  display: flex;
+}
+
+.Page-column {
+  width: 200px;
+}
+
+.Page-body {
+  flex: 1;
+}
+
+.Page-sticky-content {
+  position: sticky;
+  top: $header-height+10px;
+}
+
+.Page-sticky {
+  position: sticky;
+  top: $header-height+10px;
+}
+
+.Page-sticky-fixed  {
+  width: 200px;
+}
+
+.Page-sticky.Page-sticky-fixed.Page-is-sticky {
+  position: fixed;
+  backface-visibility: hidden;
+}
+
+.Page-sticky.Page-sticky-fixed.Page-is-absolute {
+  position: absolute;
+}
