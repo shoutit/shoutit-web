@@ -1,11 +1,13 @@
 @import "../styles/constants";
+$width-column: 220px;
 
 .Page {
   display: flex;
 }
 
 .Page-column {
-  width: 200px;
+  margin: 12px;
+  width: $width-column;
 }
 
 .Page-body {
@@ -14,16 +16,16 @@
 
 .Page-sticky-content {
   position: sticky;
-  top: $header-height+10px;
+  top: $header-height+24px;
 }
 
 .Page-sticky {
   position: sticky;
-  top: $header-height+10px;
+  top: $header-height+24px;
 }
 
 .Page-sticky-fixed  {
-  width: 200px;
+  width: $width-column;
 }
 
 .Page-sticky.Page-sticky-fixed.Page-is-sticky {
