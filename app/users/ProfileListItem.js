@@ -7,7 +7,7 @@ if (process.env.BROWSER) {
 }
 export default function ProfileListItem({ profile }) {
   return (
-    <Link className="ProfileListItem" to={ `/users/${profile.username}` }>
+    <Link className="ProfileListItem" to={ `/user/${profile.username}` }>
       <UserAvatar size="small" user={ profile } /> { profile.username }
     </Link>
   );
