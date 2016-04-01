@@ -3,6 +3,7 @@ import { getVariation } from '../utils/APIUtils';
 import ShoutPrice from './ShoutPrice';
 import ShoutLink from './ShoutLink';
 import TimeAgo from '../ui/TimeAgo';
+import SVGIcon from '../ui/SVGIcon';
 import UserAvatar from '../users/UserAvatar';
 
 if (process.env.BROWSER) {
@@ -13,19 +14,21 @@ if (process.env.BROWSER) {
 export default function ShoutPreview({ shout }) {
   return (
     <ShoutLink className="Card ShoutPreview" shout={ shout }>
-      <UserAvatar user={ shout.profile } />
       <ShoutPrice shout={ shout } />
       <div className="Card-image-wrapper">
         <div className="Card-image" style={{ backgroundImage: `url("${getVariation(shout.thumbnail, 'small')}")` }} />
       </div>
       <div className="Card-title">
-        <div className="Card-title-max-height" title={shout.title}>
+        { shout.title && <div className="Card-title-max-height ShoutPreview-title" title={shout.title}>
           { shout.title }
-        </div>
+        </div> }
         <div className="ShoutPreview-details">
+          <UserAvatar user={ shout.profile } size="smallest" />
           <TimeAgo date={ shout.datePublished } />
-          { ' ' } in { ' ' }
-          { shout.category.name || shout.category }
+          <span className="ShoutPreview-category">
+            <SVGIcon size="small" name="tag" />
+            { shout.category.name || shout.category }
+          </span>
         </div>
       </div>
     </ShoutLink>
