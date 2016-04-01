@@ -38,7 +38,7 @@ export default {
         if (err) {
           return callback(parseErrorResponse(err));
         }
-        req.session.user = res.body;
+        req.session.user = res.body; // eslint-disable-line
         return callback(null, res.body);
       });
   },
