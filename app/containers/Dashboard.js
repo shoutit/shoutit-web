@@ -1,53 +1,73 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import Page from '../layout/Page';
 
 import ShoutsList from '../shouts/ShoutsList';
 
-import { loadHomeShouts } from '../actions/users';
+import { loadHomeShouts, loadListening } from '../actions/users';
 import { denormalize } from '../schemas';
+
+import Page from '../layout/Page';
 import Scrollable from '../ui/Scrollable';
 import Button from '../ui/Button';
 import SVGIcon from '../ui/SVGIcon';
-
-const fetchData = store => store.dispatch(loadHomeShouts());
+import UIMessage from '../ui/UIMessage';
+import Listening from '../users/Listening';
+import SuggestedInterests from '../interests/SuggestedInterests';
+import SuggestedProfiles from '../users/SuggestedProfiles';
 
 if (process.env.BROWSER) {
   require('./Dashboard.scss');
 }
-function StartColumn({ user }) {
-  return (
-    <div className="Dashboard-start-column">
-      <h1>
-        Welcome back, { user.firstName }
-      </h1>
-      <Button to="/profile/edit" size="small" block label="Edit your profile" leftIcon={ <SVGIcon active name="pencil" /> } />
-      <Button to="/messages" size="small" block label="Your messages" leftIcon={ <SVGIcon active name="balloon-dots" /> } />
-      <Button to="/search" size="small" block label="Browse shouts" leftIcon={ <SVGIcon active name="world-west" /> } />
-    </div>
-  );
-}
+
+const fetchData = store => {
+  const loggedProfile = store.getState().session.user;
+  return Promise.all([
+    store.dispatch(loadHomeShouts()),
+    store.dispatch(loadListening(loggedProfile)),
+  ]);
+};
+
+const StartColumn = ({ profile }) =>
+  <div className="Dashboard-start-column">
+    <h1>
+      Welcome back, { profile.firstName }
+    </h1>
+    <Button to="/profile/edit" size="small" block label="Edit your profile" leftIcon={ <SVGIcon active name="pencil" /> } />
+    <Button to="/messages" size="small" block label="Your messages" leftIcon={ <SVGIcon active name="balloon-dots" /> } />
+    <Button to="/search" size="small" block label="Browse shouts" leftIcon={ <SVGIcon active name="world-west" /> } />
+    <Listening byProfile={ profile } />
+  </div>;
+
+const EndColumn = () =>
+  <div className="Dashboard-end-column">
+    <SuggestedInterests />
+    <SuggestedProfiles />
+  </div>;
 
 export class Dashboard extends Component {
 
   static propTypes = {
-    shouts: PropTypes.array,
+    shouts: PropTypes.array.isRequired,
     searchString: PropTypes.string,
     nextUrl: PropTypes.string,
     searchParams: PropTypes.array,
+    loggedProfile: PropTypes.object.isRequired,
   };
 
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { firstRender, dispatch } = this.props;
+    const { firstRender, dispatch, loggedProfile, nextUrl, shouts } = this.props;
     if (!firstRender) {
-      dispatch(loadHomeShouts());
+      if (shouts.length === 0) {
+        dispatch(loadHomeShouts(nextUrl));
+      }
+      dispatch(loadListening(loggedProfile));
     }
   }
 
   render() {
-    const { shouts, nextUrl, dispatch, isFetching, loggedUser } = this.props;
+    const { shouts, nextUrl, dispatch, isFetching, loggedProfile, error } = this.props;
     return (
       <Scrollable
         scrollElement={ () => window }
@@ -58,13 +78,20 @@ export class Dashboard extends Component {
         }}
       >
         <Page
-          startColumn={ <StartColumn user={ loggedUser } /> }
+          startColumn={ <StartColumn profile={ loggedProfile } /> }
           stickyStartColumn
-          endColumn={ <div style={{ backgroundColor: 'red', height: 400 }}>Content</div> }
-          stickyEndColumn
+          endColumn={ <EndColumn /> }
         >
           <ShoutsList shouts={ shouts } />
           { isFetching && <p>Loading...</p>}
+          { !isFetching && error &&
+            <UIMessage
+              title="There was an error"
+              details="Cannot load shouts right now."
+              type="error"
+              retryAction={ () => dispatch(loadHomeShouts(nextUrl)) }
+            />
+          }
         </Page>
       </Scrollable>
     );
@@ -72,15 +99,14 @@ export class Dashboard extends Component {
 
 }
 
-const mapStateToProps = state => {
-  return {
-    loggedUser: state.session.user,
-    shouts: state.paginated.shoutsByHome.ids.map(id =>
-      denormalize(state.entities.shouts[id], state.entities, 'SHOUT')
-    ),
-    nextUrl: state.paginated.shoutsByHome.nextUrl,
-    isFetching: state.paginated.shoutsByHome.isFetching,
-  };
-};
+const mapStateToProps = state => ({
+  loggedProfile: state.session.user,
+  shouts: state.paginated.shoutsByHome.ids.map(id =>
+    denormalize(state.entities.shouts[id], state.entities, 'SHOUT')
+  ),
+  nextUrl: state.paginated.shoutsByHome.nextUrl,
+  isFetching: state.paginated.shoutsByHome.isFetching,
+  error: state.paginated.shoutsByHome.error,
+});
 
 export default connect(mapStateToProps)(Dashboard);
