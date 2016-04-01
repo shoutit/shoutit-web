@@ -5,7 +5,8 @@ export default {
   name: 'categories',
   read: (req, resource, params, config, callback) => {
     if (cache) {
-      return callback(null, cache);
+      callback(null, cache);
+      return;
     }
     request
       .get('/misc/categories')
