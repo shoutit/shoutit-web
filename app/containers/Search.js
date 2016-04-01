@@ -187,7 +187,6 @@ export class Search extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log("ownProps", ownProps)
   const { currentLocation, paginated: { shoutsBySearch }, entities } = state;
   const { params, location: { query } } = ownProps;
   const searchParams = getSearchParams({ currentLocation, query, params });
