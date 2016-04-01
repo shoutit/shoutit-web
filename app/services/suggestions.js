@@ -26,9 +26,9 @@ export default {
         if (err) {
           return callback(parseErrorResponse(err));
         }
-        const suggestion = res.body;
-        suggestion.slug = createLocationSlug(location);
-        return callback(null, suggestion);
+        const suggestions = res.body;
+        suggestions.slug = createLocationSlug(location);
+        return callback(null, suggestions);
       });
   },
 };

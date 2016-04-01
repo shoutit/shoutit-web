@@ -2,7 +2,7 @@
 import { camelizeKeys } from 'humps';
 import * as actionTypes from './actionTypes';
 
-import { suggestion } from '../schemas';
+import { Schemas } from '../schemas';
 
 export function getCurrentLocation() {
   return {
@@ -49,7 +49,7 @@ export function loadSuggestions(location) {
     service: {
       name: 'suggestions',
       params: { location },
-      schema: suggestion,
+      schema: Schemas.SUGGESTIONS,
     },
   };
 }

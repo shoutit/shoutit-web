@@ -12,6 +12,7 @@ import entity from './entity';
 import forms from './forms';
 import paginate from './paginate';
 import session from './session';
+import suggestions from './suggestions';
 import placePredictions from './placePredictions';
 import videocalls from './videocalls';
 import uiNotifications from './uiNotifications';
@@ -97,6 +98,13 @@ const paginated = combineReducers({
       actionTypes.LOAD_LISTENING_FAILURE,
     ],
   }),
+  suggestions: paginate({
+    fetchTypes: [
+      actionTypes.LOAD_SUGGESTIONS_START,
+      actionTypes.LOAD_SUGGESTIONS_SUCCESS,
+      actionTypes.LOAD_SUGGESTIONS_FAILURE,
+    ],
+  }),
 });
 
 const entities = combineReducers({
@@ -141,6 +149,7 @@ const rootReducer = combineReducers({
   placePredictions,
   routing,
   session,
+  suggestions,
   uiNotifications,
   videocalls,
 });

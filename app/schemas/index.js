@@ -6,7 +6,7 @@ const Conversation = new Schema('conversations');
 const Currency = new Schema('currencies', { idAttribute: 'code' });
 const Message = new Schema('messages');
 const Shout = new Schema('shouts');
-const Suggestion = new Schema('suggestions', { idAttribute: 'slug' });
+const Suggestions = new Schema('suggestions', { idAttribute: 'slug' });
 const Tag = new Schema('tags');
 const User = new Schema('users');
 
@@ -18,7 +18,7 @@ Shout.define({
   profile: User,
 });
 
-Suggestion.define({
+Suggestions.define({
   users: arrayOf(User),
   shouts: arrayOf(Shout),
   tags: arrayOf(Tag),
@@ -47,6 +47,12 @@ export const Schemas = {
   PROFILES: arrayOf(User),
   SHOUT: Shout,
   SHOUTS: arrayOf(Shout),
+  SUGGESTIONS: {
+    users: arrayOf(User),
+    shouts: arrayOf(Shout),
+    tags: arrayOf(Tag),
+    shout: Shout,
+  },
   TAGS: arrayOf(Tag),
   USER: User,
 };
