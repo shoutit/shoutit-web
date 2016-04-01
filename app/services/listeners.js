@@ -5,7 +5,7 @@ export default {
   name: 'listeners',
   read: (req, resource, { user }, config, callback) => {
     request
-      .get(`/users/${user.username}/listeners`)
+      .get(`/profiles/${user.username}/listeners`)
       .prefix()
       .end((err, res) => {
         if (err) {

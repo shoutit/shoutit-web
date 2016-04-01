@@ -9,7 +9,7 @@ export default {
       return;
     }
     request
-      .get('/misc/categories')
+      .get('/shouts/categories')
       .prefix()
       .end((err, res) => {
         if (err) {
