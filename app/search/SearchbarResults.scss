@@ -1,4 +1,5 @@
 @import "../styles/constants.scss";
+@import "../styles/mixins/ellipsis.scss";
 
 .SearchbarResults {
   h3 {
@@ -37,8 +38,6 @@
 }
 
 .SearchbarResult-label {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  @include ellipsis();
   vertical-align: middle;
 }
