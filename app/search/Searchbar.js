@@ -44,9 +44,9 @@ export class Searchbar extends Component {
 
   state = {
 
-    shoutsSearchString: null,
-    profilesSearchString: null,
-    tagsSearchString: null,
+    shoutsSearchSlug: null,
+    profilesSearchSlug: null,
+    tagsSearchSlug: null,
 
     showOverlay: false,
     isFocused: false,
@@ -55,22 +55,22 @@ export class Searchbar extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const search = trimWhitespaces(this.refs.q.value).toLowerCase();
+    const search = trimWhitespaces(this.refs.search.value).toLowerCase();
     if (search) {
       this.setState({
         showOverlay: false,
       });
-      this.refs.q.blur();
-      this.props.dispatch(push(`/search?q=${encodeURIComponent(search)}`));
+      this.refs.search.blur();
+      this.props.dispatch(push(`/search?search=${encodeURIComponent(search)}`));
     }
   }
 
   handleChange() {
     const { dispatch, currentLocation } = this.props;
-    const search = trimWhitespaces(this.refs.q.value);
+    const search = trimWhitespaces(this.refs.search.value);
     if (search.length < 2) {
       this.setState({
-        showOverlay: false,
+        shoutsSearchSlug: false,
         searchString: '',
       });
       return;
@@ -92,9 +92,9 @@ export class Searchbar extends Component {
 
     this.setState({
       showOverlay: true,
-      shoutsSearchString: stringify(shoutsSearchParams),
-      tagsSearchString: stringify(tagsSearchParams),
-      profilesSearchString: stringify(profilesSearchParams),
+      shoutsSearchSlug: stringify(shoutsSearchParams),
+      tagsSearchSlug: stringify(tagsSearchParams),
+      profilesSearchSlug: stringify(profilesSearchParams),
     });
 
     dispatch(searchShouts(shoutsSearchParams));
@@ -123,20 +123,20 @@ export class Searchbar extends Component {
   }
 
   render() {
-    const { showOverlay, shoutsSearchString, tagsSearchString, profilesSearchString } = this.state;
+    const { showOverlay, shoutsSearchSlug, tagsSearchSlug, profilesSearchSlug } = this.state;
     const { shouts, tags, profiles, shoutsBySearch, tagsBySearch, profilesBySearch, currentLocation } = this.props;
 
     let foundShouts = [];
     let foundTags = [];
     let foundProfiles = [];
-    if (shoutsSearchString && shoutsBySearch[shoutsSearchString]) {
-      foundShouts = shoutsBySearch[shoutsSearchString].ids.map(id => shouts[id]);
+    if (shoutsSearchSlug && shoutsBySearch[shoutsSearchSlug]) {
+      foundShouts = shoutsBySearch[shoutsSearchSlug].ids.map(id => shouts[id]);
     }
-    if (tagsSearchString && tagsBySearch[tagsSearchString]) {
-      foundTags = tagsBySearch[tagsSearchString].ids.map(id => tags[id]);
+    if (tagsSearchSlug && tagsBySearch[tagsSearchSlug]) {
+      foundTags = tagsBySearch[tagsSearchSlug].ids.map(id => tags[id]);
     }
-    if (profilesSearchString && profilesBySearch[profilesSearchString]) {
-      foundProfiles = profilesBySearch[profilesSearchString].ids.map(id => profiles[id]);
+    if (profilesSearchSlug && profilesBySearch[profilesSearchSlug]) {
+      foundProfiles = profilesBySearch[profilesSearchSlug].ids.map(id => profiles[id]);
     }
 
     const locationLabel = currentLocation ? currentLocation.city : 'Anywhere';
@@ -152,7 +152,8 @@ export class Searchbar extends Component {
           onClick={ e => this.handleLocationClick(e) }
         />
         <input
-          ref="q"
+          ref="search"
+          name="search"
           placeholder="Search Shoutit"
           className="htmlInput"
           type="text"
@@ -171,7 +172,7 @@ export class Searchbar extends Component {
           show={ showOverlay && (foundTags.length > 0 || foundShouts.length > 0 || foundProfiles.length > 0) }
           placement="bottom"
           container={ this }
-          target={ () => this.refs.q }
+          target={ () => this.refs.search }
         >
           <SearchbarResults tags={ foundTags } shouts={ foundShouts } profiles={ foundProfiles } />
         </Overlay>
