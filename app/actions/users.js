@@ -24,9 +24,11 @@ export function loadListeners(user) {
       actionTypes.LOAD_LISTENERS_SUCCESS,
       actionTypes.LOAD_LISTENERS_FAILURE,
     ],
+    payload: { user },
     service: {
       name: 'listeners',
       params: { user },
+      schema: Schemas.PROFILES,
     },
   };
 }
@@ -38,9 +40,11 @@ export function loadListening(user) {
       actionTypes.LOAD_LISTENING_SUCCESS,
       actionTypes.LOAD_LISTENING_FAILURE,
     ],
+    payload: { user },
     service: {
       name: 'listeners',
       params: { user },
+      schema: Schemas.PROFILES,
     },
   };
 }

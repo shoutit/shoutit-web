@@ -81,6 +81,22 @@ const paginated = combineReducers({
       actionTypes.LOAD_HOME_SHOUTS_FAILURE,
     ],
   }),
+  listenersByUser: paginate({
+    mapActionToKey: action => action.payload.user.id,
+    fetchTypes: [
+      actionTypes.LOAD_LISTENERS_START,
+      actionTypes.LOAD_LISTENERS_SUCCESS,
+      actionTypes.LOAD_LISTENERS_FAILURE,
+    ],
+  }),
+  listeningByUser: paginate({
+    mapActionToKey: action => action.payload.user.id,
+    fetchTypes: [
+      actionTypes.LOAD_LISTENING_START,
+      actionTypes.LOAD_LISTENING_SUCCESS,
+      actionTypes.LOAD_LISTENING_FAILURE,
+    ],
+  }),
 });
 
 const entities = combineReducers({
