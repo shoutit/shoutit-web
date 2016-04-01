@@ -1,8 +1,3 @@
-import isEqual from 'lodash/lang/isEqual';
-import debug from 'debug';
-
-const log = debug('shoutit:search-action');
-
 import * as actionTypes from './actionTypes';
 import { Schemas } from '../schemas';
 
@@ -38,7 +33,7 @@ export function searchProfiles(searchParams) {
   };
 }
 
-export function searchShouts(searchParams) {
+export function searchShouts(searchParams, endpoint) {
   return {
     types: [
       actionTypes.SEARCH_SHOUTS_START,
@@ -48,8 +43,8 @@ export function searchShouts(searchParams) {
     service: {
       name: 'shouts',
       schema: Schemas.SHOUTS,
-      params: searchParams,
+      params: { searchParams, endpoint },
     },
-    payload: { searchParams },
+    payload: { searchParams, endpoint },
   };
 }

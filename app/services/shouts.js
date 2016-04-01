@@ -3,10 +3,11 @@ import { parseErrorResponse } from '../utils/APIUtils';
 
 export default {
   name: 'shouts',
-  read: (req, resource, params, config, callback) => {
+  read: (req, resource, params = {}, config, callback) => {
+    const url = params.endpoint || '/shouts';
     request
-      .get('/shouts')
-      .query(params)
+      .get(url)
+      .query(!params.endpoint ? params.searchParams : null)
       .prefix()
       .end((err, res) => {
         if (err) {
