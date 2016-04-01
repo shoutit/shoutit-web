@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import SVGIcon from '../shared/components/helper/SVGIcon';
+import SVGIcon from '../ui/SVGIcon';
 
 if (process.env.BROWSER) {
   require('styles/components/HeaderProfileOverlay.scss');

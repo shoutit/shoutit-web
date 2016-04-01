@@ -1,4 +1,4 @@
-@import "../constants/colors.scss";
+@import "../styles/constants.scss";
 
 $size-small: 18px;
 $size-medium: 24px;
@@ -74,370 +74,370 @@ $size-huge: 52px;
 /* PLEASE KEEP THIS LIST ALPHABETICALLY SORTED :) */
 
 .SVGIcon-icon.attach {
-  background-image: url("../../../assets/icons/attach.svg");
+  background-image: url("../../assets/icons/attach.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.attach,
   .SVGIcon.active .SVGIcon-icon.attach {
-    background-image: url("../../../assets/icons/attach-active.svg");
+    background-image: url("../../assets/icons/attach-active.svg");
   }
 
 .SVGIcon-icon.attach-image {
-  background-image: url("../../../assets/icons/attach-image.svg");
+  background-image: url("../../assets/icons/attach-image.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.attach-image,
   .SVGIcon.active .SVGIcon-icon.attach-image {
-    background-image: url("../../../assets/icons/attach-image-active.svg");
+    background-image: url("../../assets/icons/attach-image-active.svg");
   }
 
 .SVGIcon-icon.attach-location {
-  background-image: url("../../../assets/icons/attach-location.svg");
+  background-image: url("../../assets/icons/attach-location.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.attach-location,
   .SVGIcon.active .SVGIcon-icon.attach-location {
-    background-image: url("../../../assets/icons/attach-location-active.svg");
+    background-image: url("../../assets/icons/attach-location-active.svg");
   }
 
 .SVGIcon-icon.attach-video {
-  background-image: url("../../../assets/icons/attach-video.svg");
+  background-image: url("../../assets/icons/attach-video.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.attach-video,
   .SVGIcon.active .SVGIcon-icon.attach-video {
-    background-image: url("../../../assets/icons/attach-video-active.svg");
+    background-image: url("../../assets/icons/attach-video-active.svg");
   }
 
 .SVGIcon-icon.balloon-dots {
-  background-image: url("../../../assets/icons/balloon-dots.svg");
+  background-image: url("../../assets/icons/balloon-dots.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.balloon-dots,
   .SVGIcon.active .SVGIcon-icon.balloon-dots {
-    background-image: url("../../../assets/icons/balloon-dots-active.svg");
+    background-image: url("../../assets/icons/balloon-dots-active.svg");
   }
 
 .SVGIcon-icon.ban {
-  background-image: url("../../../assets/icons/ban.svg");
+  background-image: url("../../assets/icons/ban.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.ban,
   .SVGIcon.active .SVGIcon-icon.ban {
-    background-image: url("../../../assets/icons/ban-active.svg");
+    background-image: url("../../assets/icons/ban-active.svg");
   }
   .SVGIcon.on .SVGIcon-icon.ban {
-    background-image: url("../../../assets/icons/ban-on.svg");
+    background-image: url("../../assets/icons/ban-on.svg");
   }
 
 .SVGIcon-icon.bell {
-  background-image: url("../../../assets/icons/bell.svg");
+  background-image: url("../../assets/icons/bell.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.bell,
   .SVGIcon.active .SVGIcon-icon.bell {
-    background-image: url("../../../assets/icons/bell-active.svg");
+    background-image: url("../../assets/icons/bell-active.svg");
   }
 
 .SVGIcon-icon.camera {
-  background-image: url("../../../assets/icons/camera.svg");
+  background-image: url("../../assets/icons/camera.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.camera,
   .SVGIcon.active .SVGIcon-icon.camera {
-    background-image: url("../../../assets/icons/camera-active.svg");
+    background-image: url("../../assets/icons/camera-active.svg");
   }
   .SVGIcon.fill .SVGIcon-icon.camera {
-    background-image: url("../../../assets/icons/camera-fill.svg");
+    background-image: url("../../assets/icons/camera-fill.svg");
   }
 
 .SVGIcon-icon.clock {
-  background-image: url("../../../assets/icons/clock.svg");
+  background-image: url("../../assets/icons/clock.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.clock,
   .SVGIcon.active .SVGIcon-icon.clock {
-    background-image: url("../../../assets/icons/clock-active.svg");
+    background-image: url("../../assets/icons/clock-active.svg");
   }
 
 .SVGIcon-icon.close {
-  background-image: url("../../../assets/icons/close.svg");
+  background-image: url("../../assets/icons/close.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.close,
   .SVGIcon.active .SVGIcon-icon.close {
-    background-image: url("../../../assets/icons/close-active.svg");
+    background-image: url("../../assets/icons/close-active.svg");
   }
 
 .SVGIcon-icon.cog {
-  background-image: url("../../../assets/icons/cog.svg");
+  background-image: url("../../assets/icons/cog.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.cog,
   .SVGIcon.active .SVGIcon-icon.cog {
-    background-image: url("../../../assets/icons/cog-active.svg");
+    background-image: url("../../assets/icons/cog-active.svg");
   }
 
 .SVGIcon-icon.email {
-  background-image: url("../../../assets/icons/email.svg");
+  background-image: url("../../assets/icons/email.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.email,
   .SVGIcon.active .SVGIcon-icon.email {
-    background-image: url("../../../assets/icons/email-active.svg");
+    background-image: url("../../assets/icons/email-active.svg");
   }
 
 .SVGIcon-icon.emoji {
-  background-image: url("../../../assets/icons/emoji.svg");
+  background-image: url("../../assets/icons/emoji.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.emoji,
   .SVGIcon.active .SVGIcon-icon.emoji {
-    background-image: url("../../../assets/icons/emoji-active.svg");
+    background-image: url("../../assets/icons/emoji-active.svg");
   }
 
 .SVGIcon-icon.exit {
-  background-image: url("../../../assets/icons/exit.svg");
+  background-image: url("../../assets/icons/exit.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.exit,
   .SVGIcon.active .SVGIcon-icon.exit {
-    background-image: url("../../../assets/icons/exit-active.svg");
+    background-image: url("../../assets/icons/exit-active.svg");
   }
 
 .SVGIcon-icon.facebook {
-  background-image: url("../../../assets/icons/facebook.svg");
+  background-image: url("../../assets/icons/facebook.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.facebook,
   .SVGIcon.active .SVGIcon-icon.facebook {
-    background-image: url("../../../assets/icons/facebook-active.svg");
+    background-image: url("../../assets/icons/facebook-active.svg");
   }
   .SVGIcon.fill .SVGIcon-icon.facebook {
-    background-image: url("../../../assets/icons/facebook-fill.svg");
+    background-image: url("../../assets/icons/facebook-fill.svg");
   }
 
 .SVGIcon-icon.google-plus {
-  background-image: url("../../../assets/icons/google-plus.svg");
+  background-image: url("../../assets/icons/google-plus.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.google-plus,
   .SVGIcon.active .SVGIcon-icon.google-plus {
-    background-image: url("../../../assets/icons/google-plus-active.svg");
+    background-image: url("../../assets/icons/google-plus-active.svg");
   }
   .SVGIcon.fill .SVGIcon-icon.google-plus {
-    background-image: url("../../../assets/icons/google-plus-fill.svg");
+    background-image: url("../../assets/icons/google-plus-fill.svg");
   }
 
 .SVGIcon-icon.home {
-  background-image: url("../../../assets/icons/grid.svg");
+  background-image: url("../../assets/icons/grid.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.grid,
   .SVGIcon.active .SVGIcon-icon.grid {
-    background-image: url("../../../assets/icons/grid-active.svg");
+    background-image: url("../../assets/icons/grid-active.svg");
   }
 
 
 .SVGIcon-icon.home {
-  background-image: url("../../../assets/icons/home.svg");
+  background-image: url("../../assets/icons/home.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.home,
   .SVGIcon.active .SVGIcon-icon.home {
-    background-image: url("../../../assets/icons/home-active.svg");
+    background-image: url("../../assets/icons/home-active.svg");
   }
 
 
 .SVGIcon-icon.list {
-  background-image: url("../../../assets/icons/list.svg");
+  background-image: url("../../assets/icons/list.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.list,
   .SVGIcon.active .SVGIcon-icon.list {
-    background-image: url("../../../assets/icons/list-active.svg");
+    background-image: url("../../assets/icons/list-active.svg");
   }
 
 .SVGIcon-icon.listen {
-  background-image: url("../../../assets/icons/listen.svg");
+  background-image: url("../../assets/icons/listen.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.listen,
   .SVGIcon.active .SVGIcon-icon.listen {
-    background-image: url("../../../assets/icons/listen-active.svg");
+    background-image: url("../../assets/icons/listen-active.svg");
   }
   .SVGIcon.on .SVGIcon-icon.listen {
-    background-image: url("../../../assets/icons/listen-on.svg");
+    background-image: url("../../assets/icons/listen-on.svg");
   }
 
 .SVGIcon-icon.listened {
-  background-image: url("../../../assets/icons/listened.svg");
+  background-image: url("../../assets/icons/listened.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.listened,
   .SVGIcon.active .SVGIcon-icon.listened {
-    background-image: url("../../../assets/icons/listened-active.svg");
+    background-image: url("../../assets/icons/listened-active.svg");
   }
   .SVGIcon.on .SVGIcon-icon.listened {
-    background-image: url("../../../assets/icons/listened-on.svg");
+    background-image: url("../../assets/icons/listened-on.svg");
   }
 
 .SVGIcon-icon.listening {
-  background-image: url("../../../assets/icons/listening.svg");
+  background-image: url("../../assets/icons/listening.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.listening,
   .SVGIcon.active .SVGIcon-icon.listening {
-    background-image: url("../../../assets/icons/listening-active.svg");
+    background-image: url("../../assets/icons/listening-active.svg");
   }
 
 .SVGIcon-icon.location {
-  background-image: url("../../../assets/icons/location.svg");
+  background-image: url("../../assets/icons/location.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.location,
   .SVGIcon.active .SVGIcon-icon.location {
-    background-image: url("../../../assets/icons/location-active.svg");
+    background-image: url("../../assets/icons/location-active.svg");
   }
 
 .SVGIcon-icon.mobile {
-  background-image: url("../../../assets/icons/mobile.svg");
+  background-image: url("../../assets/icons/mobile.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.mobile,
   .SVGIcon.active .SVGIcon-icon.mobile {
-    background-image: url("../../../assets/icons/mobile-active.svg");
+    background-image: url("../../assets/icons/mobile-active.svg");
   }
   .SVGIcon.fill .SVGIcon-icon.mobile {
-    background-image: url("../../../assets/icons/mobile-fill.svg");
+    background-image: url("../../assets/icons/mobile-fill.svg");
   }
 
 .SVGIcon-icon.more {
-  background-image: url("../../../assets/icons/more.svg");
+  background-image: url("../../assets/icons/more.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.more,
   .SVGIcon.active .SVGIcon-icon.more {
-    background-image: url("../../../assets/icons/more-active.svg");
+    background-image: url("../../assets/icons/more-active.svg");
   }
 
 .SVGIcon-icon.no-camera {
-  background-image: url("../../../assets/icons/no-camera.svg");
+  background-image: url("../../assets/icons/no-camera.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.no-camera,
   .SVGIcon.active .SVGIcon-icon.no-camera {
-    background-image: url("../../../assets/icons/no-camera-active.svg");
+    background-image: url("../../assets/icons/no-camera-active.svg");
   }
   .SVGIcon.fill .SVGIcon-icon.no-camera {
-    background-image: url("../../../assets/icons/no-camera-fill.svg");
+    background-image: url("../../assets/icons/no-camera-fill.svg");
   }
 
 .SVGIcon-icon.ok {
-  background-image: url("../../../assets/icons/ok.svg");
+  background-image: url("../../assets/icons/ok.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.ok,
   .SVGIcon.active .SVGIcon-icon.ok {
-    background-image: url("../../../assets/icons/ok-active.svg");
+    background-image: url("../../assets/icons/ok-active.svg");
   }
   .SVGIcon.fill .SVGIcon-icon.ok {
-    background-image: url("../../../assets/icons/ok-fill.svg");
+    background-image: url("../../assets/icons/ok-fill.svg");
   }
 
 .SVGIcon-icon.pencil {
-  background-image: url("../../../assets/icons/pencil.svg");
+  background-image: url("../../assets/icons/pencil.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.pencil,
   .SVGIcon.active .SVGIcon-icon.pencil {
-    background-image: url("../../../assets/icons/pencil-active.svg");
+    background-image: url("../../assets/icons/pencil-active.svg");
   }
   .SVGIcon.fill .SVGIcon-icon.pencil {
-    background-image: url("../../../assets/icons/pencil-fill.svg");
+    background-image: url("../../assets/icons/pencil-fill.svg");
   }
 
 .SVGIcon-icon.pin {
-  background-image: url("../../../assets/icons/pin.svg");
+  background-image: url("../../assets/icons/pin.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.pin,
   .SVGIcon.active .SVGIcon-icon.pin {
-    background-image: url("../../../assets/icons/pin-active.svg");
+    background-image: url("../../assets/icons/pin-active.svg");
   }
 
 .SVGIcon-icon.profile {
-  background-image: url("../../../assets/icons/profile.svg");
+  background-image: url("../../assets/icons/profile.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.profile,
   .SVGIcon.active .SVGIcon-icon.profile {
-    background-image: url("../../../assets/icons/profile-active.svg");
+    background-image: url("../../assets/icons/profile-active.svg");
   }
   .SVGIcon.fill .SVGIcon-icon.profile {
-    background-image: url("../../../assets/icons/profile-fill.svg");
+    background-image: url("../../assets/icons/profile-fill.svg");
   }
 
 .SVGIcon-icon.question-circle {
-  background-image: url("../../../assets/icons/question-circle.svg");
+  background-image: url("../../assets/icons/question-circle.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.question-circle,
   .SVGIcon.active .SVGIcon-icon.question-circle {
-    background-image: url("../../../assets/icons/question-circle-active.svg");
+    background-image: url("../../assets/icons/question-circle-active.svg");
   }
 
 .SVGIcon-icon.seen {
-  background-image: url("../../../assets/icons/seen.svg");
+  background-image: url("../../assets/icons/seen.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.seen,
   .SVGIcon.active .SVGIcon-icon.seen {
-    background-image: url("../../../assets/icons/seen-active.svg");
+    background-image: url("../../assets/icons/seen-active.svg");
   }
 
 .SVGIcon-icon.send {
-  background-image: url("../../../assets/icons/send.svg");
+  background-image: url("../../assets/icons/send.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.send,
   .SVGIcon.active .SVGIcon-icon.send {
-    background-image: url("../../../assets/icons/send-active.svg");
+    background-image: url("../../assets/icons/send-active.svg");
   }
   .SVGIcon.fill .SVGIcon-icon.send {
-    background-image: url("../../../assets/icons/send-fill.svg");
+    background-image: url("../../assets/icons/send-fill.svg");
   }
 
 .SVGIcon-icon.share {
-  background-image: url("../../../assets/icons/share.svg");
+  background-image: url("../../assets/icons/share.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.share,
   .SVGIcon.active .SVGIcon-icon.share {
-    background-image: url("../../../assets/icons/share-active.svg");
+    background-image: url("../../assets/icons/share-active.svg");
   }
 
 .SVGIcon-icon.sparkle {
-  background-image: url("../../../assets/icons/sparkle.svg");
+  background-image: url("../../assets/icons/sparkle.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.sparkle,
   .SVGIcon.active .SVGIcon-icon.sparkle {
-    background-image: url("../../../assets/icons/sparkle-active.svg");
+    background-image: url("../../assets/icons/sparkle-active.svg");
   }
   .SVGIcon.fill .SVGIcon-icon.sparkle {
-    background-image: url("../../../assets/icons/sparkle-fill.svg");
+    background-image: url("../../assets/icons/sparkle-fill.svg");
   }
 
 .SVGIcon-icon.tag {
-  background-image: url("../../../assets/icons/tag.svg");
+  background-image: url("../../assets/icons/tag.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.tag,
   .SVGIcon.active .SVGIcon-icon.tag {
-    background-image: url("../../../assets/icons/tag-active.svg");
+    background-image: url("../../assets/icons/tag-active.svg");
   }
 
 .SVGIcon-icon.trash {
-  background-image: url("../../../assets/icons/trash.svg");
+  background-image: url("../../assets/icons/trash.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.trash,
   .SVGIcon.active .SVGIcon-icon.trash {
-    background-image: url("../../../assets/icons/trash-active.svg");
+    background-image: url("../../assets/icons/trash-active.svg");
   }
   .SVGIcon.on .SVGIcon-icon.trash {
-    background-image: url("../../../assets/icons/trash-on.svg");
+    background-image: url("../../assets/icons/trash-on.svg");
   }
 
 .SVGIcon-icon.twitter {
-  background-image: url("../../../assets/icons/twitter.svg");
+  background-image: url("../../assets/icons/twitter.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.twitter,
   .SVGIcon.active .SVGIcon-icon.twitter {
-    background-image: url("../../../assets/icons/twitter-active.svg");
+    background-image: url("../../assets/icons/twitter-active.svg");
   }
 
 .SVGIcon-icon.video {
-  background-image: url("../../../assets/icons/video.svg");
+  background-image: url("../../assets/icons/video.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.video,
   .SVGIcon.active .SVGIcon-icon.video {
-    background-image: url("../../../assets/icons/video-active.svg");
+    background-image: url("../../assets/icons/video-active.svg");
   }
   .SVGIcon.fill .SVGIcon-icon.video {
-    background-image: url("../../../assets/icons/video-fill.svg");
+    background-image: url("../../assets/icons/video-fill.svg");
   }
 
 .SVGIcon-icon.world-west {
-  background-image: url("../../../assets/icons/world-west.svg");
+  background-image: url("../../assets/icons/world-west.svg");
 }
   .SVGIcon.hover:hover .SVGIcon-icon.world-west,
   .SVGIcon.active .SVGIcon-icon.world-west {
-    background-image: url("../../../assets/icons/world-west-active.svg");
+    background-image: url("../../assets/icons/world-west-active.svg");
   }
 
 /* PLEASE KEEP THIS LIST ALPHABETICALLY SORTED :) */

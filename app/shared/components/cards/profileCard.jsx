@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import { Grid, Column } from "../helper";
 import UserAvatar from "../../../users/UserAvatar";
-import SVGIcon from "../helper/SVGIcon";
+import SVGIcon from "../../../ui/SVGIcon";
 
 export default React.createClass({
 

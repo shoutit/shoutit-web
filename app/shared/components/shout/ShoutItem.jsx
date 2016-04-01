@@ -1,7 +1,7 @@
 import React from "react";
 import currencyFormatter from "currency-formatter";
 import { getVariation } from "../../../utils/APIUtils";
-import SVGIcon from "../../../shared/components/helper/SVGIcon";
+import SVGIcon from "../../../ui/SVGIcon";
 
 if (process.env.BROWSER) {
   require("styles/components/ShoutItem.scss");

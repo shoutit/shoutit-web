@@ -1,5 +1,5 @@
 import React from 'react';
-import SVGIcon from '../shared/components/helper/SVGIcon';
+import SVGIcon from '../ui/SVGIcon';
 
 if (process.env.BROWSER) {
   require('./UINotification.scss');

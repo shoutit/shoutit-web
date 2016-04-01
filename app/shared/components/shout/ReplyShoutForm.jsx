@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "react-bootstrap";
 
-import SVGIcon from "../../components/helper/SVGIcon";
+import SVGIcon from "../../../ui/SVGIcon";
 import UserAvatar from "../../../users/UserAvatar";
 
 import { StoreWatchMixin } from "fluxxor";

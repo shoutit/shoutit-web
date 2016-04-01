@@ -6,7 +6,7 @@ import UserAvatar from '../../../users/UserAvatar';
 import ListenButton from "../general/listenButton.jsx";
 import ListenersButton from "../general/listenersButton.jsx";
 import CountryFlag from "../helper/CountryFlag";
-import SVGIcon from "../helper/SVGIcon";
+import SVGIcon from "../../../ui/SVGIcon";
 
 import moment from "moment";
 

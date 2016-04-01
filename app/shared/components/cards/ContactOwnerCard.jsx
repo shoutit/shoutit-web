@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router";
 import {Icon, Grid, Column, Progress} from "../helper";
-import SVGIcon from "../helper/SVGIcon";
+import SVGIcon from "../../../ui/SVGIcon";
 import ReplyShoutForm from "../shout/ReplyShoutForm.jsx";
 import Button from "../../../ui/Button";
 

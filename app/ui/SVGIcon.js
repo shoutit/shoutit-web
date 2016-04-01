@@ -1,7 +1,7 @@
 import React from 'react';
 
 if (process.env.BROWSER) {
-  require('styles/components/SVGIcon.scss');
+  require('./SVGIcon.scss');
 }
 
 export default function SVGIcon({

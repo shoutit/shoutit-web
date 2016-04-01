@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import TextareaAutosize from 'react-textarea-autosize';
 import Button from '../ui/Button';
-import SVGIcon from '../shared/components/helper/SVGIcon';
+import SVGIcon from '../ui/SVGIcon';
 import { saveDraft } from '../actions/forms';
 import { replyToConversation, notifyTypingUser } from '../actions/chat';
 import { ENTER } from '../utils/keycodes';

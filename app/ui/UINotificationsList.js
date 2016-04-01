@@ -23,7 +23,7 @@ Options(Object):
 */
 
 import React from 'react';
-import SVGIcon from '../shared/components/helper/SVGIcon';
+import SVGIcon from '../ui/SVGIcon';
 import Button from '../ui/Button';
 import UserAvatar from '../users/UserAvatar';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import SVGIcon from '../shared/components/helper/SVGIcon';
+import SVGIcon from '../ui/SVGIcon';
 
 export default function MessageReadByFlag({ profiles }) {
   const tooltip = (

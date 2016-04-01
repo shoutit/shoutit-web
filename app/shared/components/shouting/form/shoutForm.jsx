@@ -13,7 +13,7 @@ import LocationSearch from "../../general/locationSearch.jsx";
 import map from "lodash/collection/map";
 import Clearfix from "../../helper/clearFix.jsx";
 import Button from "../../../../ui/Button";
-import SVGIcon from "../../helper/SVGIcon";
+import SVGIcon from "../../../../ui/SVGIcon";
 
 const shoutTypes = {
   offer: "Offers",
