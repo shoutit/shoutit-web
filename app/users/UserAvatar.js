@@ -16,7 +16,6 @@ export default function UserAvatar({
   size = 'medium',     // small, medium, large or huge
   mask,               // apply the shoutit logo mask, works only on white backgrounds
 }) {
-
   const { image, username, name } = user;
 
   let className = 'UserAvatar';
@@ -39,7 +38,7 @@ export default function UserAvatar({
 
   let avatar;
   if (src) {
-    avatar = <img alt={ username ? username : '' } src={ src } />;
+    avatar = <img alt={ username } src={ src } />;
   }
   if (linkToUserPage) {
     avatar = <Link className={ className } to={ `/user/${username}` }>{ avatar }</Link>;
