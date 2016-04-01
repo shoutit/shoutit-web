@@ -49,7 +49,7 @@ const routes = (store) =>
         {/*<Route path="/login" component={ MainPage } />
         <Route path="/login/password" component={ MainPage } />
         <Route path="/signup" component={ MainPage } />*/}
-        <Route path="/search(/:shoutType)(/:category)" component={ Search } />
+        <Route path="/search(/:shout_type)(/:category)" component={ Search } />
         <Route path="/shout(/:shoutId)" component={ Shout } />
         <Route path="/interest(/:tagName)" component={ Interest } />
         <Route path="/user(/:username)" component={ User } />
