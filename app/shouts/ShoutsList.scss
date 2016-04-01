@@ -1,0 +1,9 @@
+.ShoutsList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  .ShoutsList-item {
+    width: 50%;
+    padding: .75rem;
+  }
+}

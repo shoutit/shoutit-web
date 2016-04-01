@@ -1,0 +1,33 @@
+@import "../styles/constants.scss";
+
+.ShoutPreview {
+  display: block;
+  width: 100%;
+  .ShoutPrice {
+    z-index: 1;
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    color: white;
+    background: $si-green;
+    padding: 0.35rem .7rem;
+    border-radius: $border-radius-small;
+    &.free {
+      text-transform: uppercase;
+      // background-color: $shoutit-blue;
+    }
+  }
+
+  .UserAvatar {
+    position: absolute;
+    top: .5rem;
+    left: .5rem;
+    z-index: 1;
+  }
+}
+
+.ShoutPreview-details {
+  margin-top: .25rem;
+  font-size: 0.75rem;
+  color: $color-light;
+}
