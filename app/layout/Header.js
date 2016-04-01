@@ -74,6 +74,9 @@ export class Header extends Component {
     if (currentLocation.country) {
       browseLinkQuery.push(`country=${currentLocation.country}`);
     }
+    if (currentLocation.state) {
+      browseLinkQuery.push(`state=${encodeURIComponent(currentLocation.state)}`);
+    }
     if (currentLocation.city) {
       browseLinkQuery.push(`city=${encodeURIComponent(currentLocation.city)}`);
     }
