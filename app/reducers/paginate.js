@@ -72,12 +72,12 @@ export default function paginate({
           ids: union(state.ids, action.payload.result),
         });
       case fetchFailureType:
-        if (!action.payload) {
+        if (!action.payload || !action.payload.error) {
           throw new Error('Expected a payload object with an error');
         }
         return merge({}, state, {
           isFetching: false,
-          error: action.payload,
+          error: action.payload.error,
         });
       default:
         return state;

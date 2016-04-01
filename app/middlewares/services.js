@@ -47,7 +47,9 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
         if (err) {
           next(actionWith({
             error: true,
-            payload: err.body || err,
+            payload: {
+              error: err.body || err,
+            },
             type: failureType,
           }));
           reject(err.body ? err.body : err);
