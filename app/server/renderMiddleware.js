@@ -57,12 +57,20 @@ export default function renderMiddleware(req, res, next) {
       const meta = {}; // getMetaFromData(req.url, data);
       const initialState = store.getState();
       log('Initial store state', Object.keys(initialState));
-
+      const location = {
+        query: req.query,
+        pathname: req.url,
+      };
       let content;
       try {
         content = ReactDOMServer.renderToString(
           <Provider store={ store }>
-            <RouterContext createElement={ (Component, props) => <Component {...props} /> } {...props} />
+            <RouterContext
+              createElement={ (Component, elProps) =>
+                <Component {...elProps} location={ location } />
+              }
+              {...props}
+            />
           </Provider>
         );
       } catch (e) {
