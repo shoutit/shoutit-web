@@ -3,7 +3,7 @@ import TestUtils from "react-addons-test-utils";
 import { Link } from "react-router";
 import { expect } from "chai";
 
-import Button from "../../app/shared/components/helper/Button.jsx";
+import Button from "../../app/shared/components/helper/Button.js";
 
 describe("Button", () => {
 
