@@ -1,0 +1,24 @@
+@import "../styles/constants.scss";
+@import "../styles/mixins/ellipsis.scss";
+
+.SearchFilters {
+  border-radius: $border-radius;
+  background-color: white;
+  position: relative;
+  box-shadow: $box-shadow-depth-0;
+  form {
+    padding: .25rem;
+  }
+  h3 {
+    margin: 0;
+    margin-bottom: .625rem;
+    font-size: .625rem;
+    text-transform: uppercase;
+    color: $color-light;
+    font-weight: normal;
+    padding: .5rem;
+    padding-bottom: .625rem;
+    border-bottom: 1px solid $border-color;
+  }
+
+}

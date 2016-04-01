@@ -1,30 +1,50 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import stringify from 'json-stable-stringify';
+import { push, replace } from 'react-router-redux';
 
 import { searchShouts } from '../actions/search';
 
+import Page from '../layout/Page';
+import Scrollable from '../ui/Scrollable';
+import UIMessage from '../ui/UIMessage';
 import ShoutsList from '../shouts/ShoutsList';
+import SuggestedInterests from '../interests/SuggestedInterests';
+import SuggestedProfiles from '../users/SuggestedProfiles';
+import SearchFilters from '../search/SearchFilters';
+
+if (process.env.BROWSER) {
+  require('./Search.scss');
+}
 
 const getSearchParams = ({ params, query, currentLocation }) => {
-  const searchParams = {};
+  let searchParams = {};
+  const { shout_type, category } = params;
+  const { min_price, max_price, country, state, city, search } = query;
 
-  if (query.city && query.country) {
-    searchParams.city = decodeURIComponent(query.city);
-    searchParams.country = decodeURIComponent(query.country);
+  // Set city, state, country
+  if (city && country && state) {
+    searchParams.city = decodeURIComponent(city);
+    searchParams.state = decodeURIComponent(state);
+    searchParams.country = decodeURIComponent(country);
   } else if (currentLocation.country) {
     searchParams.country = currentLocation.country;
+    if (currentLocation.state) {
+      searchParams.state = currentLocation.state;
+    }
     if (currentLocation.city) {
       searchParams.city = currentLocation.city;
     }
   }
+  searchParams = {
+    ...searchParams,
+    shout_type,
+    category,
+    search: search ? decodeURIComponent(search) : '',
+    min_price: min_price ? parseInt(min_price, 10) : undefined,
+    max_price: max_price ? parseInt(max_price, 10) : undefined,
+  };
 
-  if (params.shoutType) {
-    searchParams.shout_type = params.shoutType;
-  }
-  if (params.category) {
-    searchParams.category = params.category;
-  }
   return searchParams;
 };
 
@@ -33,6 +53,15 @@ const fetchData = (store, params, query) => {
   const searchParams = getSearchParams({ currentLocation, params, query });
   return store.dispatch(searchShouts(searchParams));
 };
+
+function EndColumn() {
+  return (
+    <div className="Search-end-column">
+      <SuggestedInterests />
+      <SuggestedProfiles />
+    </div>
+  );
+}
 
 export class Search extends Component {
 
@@ -46,55 +75,142 @@ export class Search extends Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { firstRender, dispatch } = this.props;
+    const { firstRender, dispatch, searchParams, shouts } = this.props;
     if (!firstRender) {
-      dispatch(searchShouts(this.props.searchParams));
+      if (shouts.length === 0) {
+        dispatch(searchShouts(searchParams));
+      }
     }
   }
 
   componentWillUpdate(nextProps) {
-    const { searchString, dispatch } = this.props;
+    const { searchString, dispatch, currentLocation, location: { query, pathname } } = this.props;
     if (nextProps.searchString !== searchString) {
       dispatch(searchShouts(nextProps.searchParams));
     }
+    const { country, state, city } = nextProps.currentLocation;
+    if (
+      country !== currentLocation.country ||
+      state !== currentLocation.state ||
+      city !== currentLocation.city
+    ) {
+      const qs = {
+        ...query,
+        country, state, city: encodeURIComponent(city),
+      };
+      const search = Object.keys(qs).map(k => `${k}=${qs[k]}`).join('&');
+      const url = `${pathname}?${search}`;
+      dispatch(replace(url));
+    }
+  }
+
+  handleFilterSubmit(searchParams) {
+    const { dispatch, searchParams: { city, state, country } } = this.props;
+    const { shout_type, category, min_price, max_price, search } = searchParams;
+    let url = '/search';
+    const query = [];
+
+    if (shout_type !== 'all' || (category && category !== 'all')) {
+      url += `/${shout_type}`;
+    }
+    if (category !== 'all') {
+      url += `/${category}`;
+    }
+
+    if (country) {
+      query.push(`country=${country}`);
+    }
+    if (state) {
+      query.push(`state=${state}`);
+    }
+    if (city) {
+      query.push(`city=${city}`);
+    }
+    if (search) {
+      query.push(`search=${encodeURIComponent(search)}`);
+    }
+    if (min_price) {
+      query.push(`min_price=${min_price}`);
+    }
+    if (max_price) {
+      query.push(`max_price=${max_price}`);
+    }
+    if (query.length > 0) {
+      url += `?${query.join('&')}`;
+    }
+
+    dispatch(push(url));
   }
 
   render() {
-    const { isFetching, shouts } = this.props;
-    return (
-      <div>
-        Search
-        { isFetching && <p>Loading...</p> }
-        <ShoutsList shouts={ shouts } />
-      </div>
+    const { shouts, nextUrl, isFetching, dispatch, error, searchParams } = this.props;
 
+    return (
+      <Scrollable
+        scrollElement={ () => window }
+        onScrollBottom={ () => {
+          if (nextUrl && !isFetching) {
+            dispatch(searchShouts(searchParams, nextUrl));
+          }
+        }}
+      >
+        <Page
+          startColumn={
+            <div className="Search-start-column">
+              <SearchFilters disabled={ isFetching } searchParams={ searchParams } onSubmit={ params => this.handleFilterSubmit(params) } />
+            </div>
+          }
+          stickyStartColumn
+          endColumn={ <EndColumn /> }
+        >
+          <ShoutsList shouts={ shouts } />
+          { isFetching && <p>Loading...</p>}
+          { !isFetching && error &&
+            <UIMessage
+              title="There was an error"
+              details="Cannot load shouts right now."
+              type="error"
+              retryAction={ () => dispatch(searchShouts(searchParams, nextUrl)) }
+            />
+          }
+          { !isFetching && !error && shouts.length === 0 &&
+            <UIMessage
+              title="Nothing found"
+              details="There are no shouts for this search. Try with other filters."
+            />
+          }
+        </Page>
+      </Scrollable>
     );
   }
 
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log("ownProps", ownProps)
   const { currentLocation, paginated: { shoutsBySearch }, entities } = state;
   const { params, location: { query } } = ownProps;
-
   const searchParams = getSearchParams({ currentLocation, query, params });
   const searchString = stringify(searchParams);
-
   let isFetching = false;
   let nextUrl;
+  let error;
   let shouts = [];
   if (shoutsBySearch[searchString]) {
     isFetching = shoutsBySearch[searchString].isFetching;
     nextUrl = shoutsBySearch[searchString].nextUrl;
+    error = shoutsBySearch[searchString].error;
     shouts = shoutsBySearch[searchString].ids.map(id => entities.shouts[id]);
   }
-
   return {
     searchString,
     searchParams,
     shouts,
     nextUrl,
     isFetching,
+    error,
+    currentLocation,
+    location: ownProps.location,
   };
 };
 
