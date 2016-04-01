@@ -3,9 +3,10 @@ import { parseErrorResponse } from '../utils/APIUtils';
 
 export default {
   name: 'home',
-  read: (req, resource, params, config, callback) => {
+  read: (req, resource, params = {}, config, callback) => {
+    const url = params.endpoint || '/profiles/me/home';
     request
-      .get('/profiles/me/home')
+      .get(url)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {

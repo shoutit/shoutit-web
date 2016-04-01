@@ -62,7 +62,7 @@ export function setUserLocation(location) {
   };
 }
 
-export function loadHomeShouts() {
+export function loadHomeShouts(endpoint) {
   return {
     types: [
       actionTypes.LOAD_HOME_SHOUTS_START,
@@ -71,6 +71,7 @@ export function loadHomeShouts() {
     ],
     service: {
       name: 'home',
+      params: { endpoint },
       schema: Schemas.SHOUTS,
     },
   };
