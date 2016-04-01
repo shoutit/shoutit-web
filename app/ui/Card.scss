@@ -1,25 +1,29 @@
 @import "../styles/constants.scss";
+@import "../styles/mixins/ellipsis.scss";
 
 .Card {
+  position: relative;
   border-radius: $border-radius;
   background-color: white;
   position: relative;
   box-shadow: $box-shadow-depth-0;
+  display: inline-block;
   &.size-small {
-    display: inline-block;
     width: 240px;
+  }
+  &.size-medium {
+    width: 320px;
   }
 }
 
 .Card-image-wrapper {
-  border-top-left-radius: $border-radius;
-  border-top-right-radius: $border-radius;
+  border-radius: $border-radius;
   position: relative;
   background-color: $background-color;
-  background-image: url("../../assets/icons/camera-fill.svg");
+  background-image: url("../../assets/images/pattern.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 64px;
+  background-size: cover;
 
   width: 100%;
   padding-bottom: 75%;
@@ -39,18 +43,32 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  border-top-left-radius: $border-radius;
-  border-top-right-radius: $border-radius;
+  border-radius: $border-radius;
 }
 
 .Card-title {
-  padding: 1rem;
+  padding: .75rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: $color;
+  background-color: rgba(white, 1);
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  .Card-title-max-height {
+    vertical-align: middle;
+    display: inline-block;
+    max-height: 36px;
+    overflow: hidden;
+  }
+
 }
 
 a > .Card {
   color: $color;
 }
-
-a:hover > .Card .Card-image {
-    opacity: 0.9;
-  }
+//
+// a:hover > .Card .Card-image {
+//     opacity: 0.9;
+//   }
