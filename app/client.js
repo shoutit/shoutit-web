@@ -45,10 +45,11 @@ if (window.__state) {
 
 log('Starting client web app', `\n${config.getSummary()}\n`);
 
+const scrollHistory = useScroll(() => browserHistory)();
 const store = configureStore(window.__INITIAL_STATE__, {
-  fetchr, history: browserHistory, devToolsExtension: window.devToolsExtension,
+  fetchr, history: scrollHistory, devToolsExtension: window.devToolsExtension,
 });
-const history = syncHistoryWithStore(browserHistory, store);
+const history = syncHistoryWithStore(scrollHistory, store);
 const routes = configureRoutes(store);
 if (config.ga) {
   const ga = initGoogleAnalytics(config.ga);
