@@ -53,7 +53,7 @@ export function Homepage({ categories }) {
           <div className="Homepage-cards">
           { categories.slice(0, 8).map(category =>
             <Link to={`/interests/${category.slug}`}>
-              <Card size="small" title={ category.name} image={ getVariation(category.image, 'small') } />
+              <Card size="small" title={ category.name} image={ category.image ? getVariation(category.image, 'small') : null } />
             </Link>
           )}
           </div>

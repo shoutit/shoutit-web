@@ -16,7 +16,7 @@ export default function ShoutPreview({ shout }) {
     <ShoutLink className="Card ShoutPreview" shout={ shout }>
       <ShoutPrice shout={ shout } />
       <div className="Card-image-wrapper">
-        <div className="Card-image" style={{ backgroundImage: `url("${getVariation(shout.thumbnail, 'small')}")` }} />
+        <div className="Card-image" style={{ backgroundImage: shout.thumbnail ? `url("${getVariation(shout.thumbnail, 'small')}")` : null }} />
       </div>
       <div className="Card-title">
         { shout.title && <div className="Card-title-max-height ShoutPreview-title" title={shout.title}>
