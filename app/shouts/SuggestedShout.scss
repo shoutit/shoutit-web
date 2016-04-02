@@ -1,4 +1,5 @@
 @import "../styles/mixins/card.scss";
+@import "../styles/constants.scss";
 
 .SuggestedShout {
   @include card();
@@ -10,7 +11,11 @@
     font-size: 75%;
   }
   .Card-title {
-    font-size: 0.625rem;
+    font-size: 0.875rem;
+    background-color: $background-color-alt-light;
+  }
+  .Card {
+    background-color: $background-color-alt-light;
   }
   .Card-image,
   .Card-image-wrapper {
@@ -18,6 +23,6 @@
     border-top-right-radius: 0;
   }
   .ShoutPreview .ShoutPreview-details {
-    font-size: 0.625rem;
+    font-size: 0.75rem;
   }
 }
