@@ -76,7 +76,7 @@ export class Search extends Component {
     shouts: PropTypes.array,
     searchString: PropTypes.string,
     nextUrl: PropTypes.string,
-    searchParams: PropTypes.array,
+    searchParams: PropTypes.object,
   };
 
   static fetchData = fetchData;
