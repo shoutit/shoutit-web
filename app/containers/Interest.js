@@ -1,7 +1,40 @@
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Page from '../layout/Page';
+import SuggestedInterests from '../interests/SuggestedInterests';
+import SuggestedProfiles from '../users/SuggestedProfiles';
+import SuggestedShout from '../shouts/SuggestedShout';
 
-export default function Interest() {
-  return (
-    <div>Interest</div>
-  );
+// if (process.env.BROWSER) {
+//   require('./Interest.scss');
+// }
+
+// const fetchData = () => {};
+
+export class Interest extends Component {
+
+  static propTypes = {
+  };
+
+  // static fetchData = fetchData;
+
+  componentDidMount() {
+  }
+
+  render() {
+    return (
+      <Page endColumn={ [
+        <SuggestedInterests />,
+        <SuggestedProfiles />,
+        <SuggestedShout />,
+      ]}>
+        Interest page
+      </Page>
+    );
+  }
+
 }
+
+const mapStateToProps = () => ({ });
+
+export default connect(mapStateToProps)(Interest);

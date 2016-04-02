@@ -1,7 +1,32 @@
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Page from '../layout/Page';
+import SuggestedShout from '../shouts/SuggestedShout';
 
-export default function Discover() {
-  return (
-    <div>Discover</div>
-  );
+// if (process.env.BROWSER) {
+//   require('./Discover.scss');
+// }
+
+// const fetchData = () => {};
+
+export class Discover extends Component {
+
+  static propTypes = {
+  };
+
+  // static fetchData = fetchData;
+
+  componentDidMount() {
+  }
+
+  render() {
+    return (
+      <Page endColumn={ <SuggestedShout /> } />
+    );
+  }
+
 }
+
+const mapStateToProps = () => ({ });
+
+export default connect(mapStateToProps)(Discover);
