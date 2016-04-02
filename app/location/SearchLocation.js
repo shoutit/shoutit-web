@@ -5,6 +5,8 @@ import { trimWhitespaces } from '../utils/StringUtils';
 import { geocodePlace } from '../utils/LocationUtils';
 import { loadPlacePredictions } from '../actions/location';
 
+import Progress from '../ui/Progress';
+
 export class SearchLocation extends Component {
 
   static propTypes = {
@@ -29,6 +31,7 @@ export class SearchLocation extends Component {
 
   state = {
     input: '',
+    isGeocoding: false,
   };
 
   handleChange() {
@@ -46,16 +49,18 @@ export class SearchLocation extends Component {
   handlePredictionClick(e, prediction) {
     e.preventDefault();
     const { onLocationSelect } = this.props;
+    this.setState({ isGeocoding: true });
     geocodePlace(prediction.placeId, (err, location) => {
       if (location && onLocationSelect) {
         onLocationSelect(location, prediction);
       }
+      // this.setState({ isGeocoding: false });
     });
   }
 
   render() {
     const { isFetching, predictions, lastInput } = this.props;
-    const { input } = this.state;
+    const { input, isGeocoding } = this.state;
     const lastPredictions = predictions[input] || predictions[lastInput] || [];
 
     return (
@@ -64,13 +69,16 @@ export class SearchLocation extends Component {
           className="htmlInput block"
           type="text"
           ref="input"
+          disabled={ isGeocoding }
           placeholder="Search for a location"
           onChange={ this.handleChange }
         />
 
-        { isFetching && <p>Loading...</p> }
+        { (isFetching || isGeocoding) &&
+          <Progress animate label={ isGeocoding ? 'Setting location…' : 'Searching location…' } />
+        }
 
-        { input && lastPredictions.length > 0 &&
+        { !isGeocoding && input && lastPredictions.length > 0 &&
           <ul className="htmlSelectableList">
             { lastPredictions.map(prediction =>
               <li key={ prediction.id }>
