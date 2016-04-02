@@ -18,7 +18,7 @@
 html {
   min-height: 100%;
   font-size: $base-font-size;
-  font-family: -apple-system, "Helvetica Neue", Arial;
+  font-family: -apple-system, sans-serif;
 }
 
 body {
@@ -31,6 +31,19 @@ body {
 a {
   text-decoration: none;
   color: $color-active;
+}
+
+::-webkit-input-placeholder {
+ color: $color-lighter;
+}
+:-moz-placeholder { /* Firefox 18- */
+   color: $color-lighter;
+}
+::-moz-placeholder {  /* Firefox 19+ */
+   color: $color-lighter;
+}
+:-ms-input-placeholder {
+   color: $color-lighter;
 }
 
 @import "html.scss";
