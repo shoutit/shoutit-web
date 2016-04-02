@@ -1,0 +1,26 @@
+@import "../styles/constants.scss";
+
+@mixin card() {
+
+  border-radius: $border-radius;
+  background-color: $background-color-alt-light;
+  position: relative;
+  box-shadow: $box-shadow-depth-0;
+
+  h3 {
+    margin: 0;
+    margin-bottom: .625rem;
+    padding: .5rem;
+    padding-bottom: .625rem;
+
+    text-transform: uppercase;
+
+    color: $color-light;
+    border-bottom: 1px solid $border-color;
+
+    font-size: .625rem;
+    font-weight: normal;
+  }
+
+
+}
