@@ -1,5 +1,4 @@
 import React from "react";
-import CircularProgress from "material-ui/lib/circular-progress";
 
 if (process.env.BROWSER) {
   require("styles/components/Progress.scss");

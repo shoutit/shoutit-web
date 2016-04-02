@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 
 import ConversationTitle from '../chat/ConversationTitle';
-import ConversationDeleteDialog from '../chat/ConversationDeleteDialog';
-import UserShoutsSelectDialog from '../users/UserShoutsSelectDialog';
+// import ConversationDeleteDialog from '../chat/ConversationDeleteDialog';
+// import UserShoutsSelectDialog from '../users/UserShoutsSelectDialog';
 import MessagesList from '../chat/MessagesList';
 import ConversationReplyForm from '../chat/ConversationReplyForm';
 import MessagesTypingUsers from '../chat/MessagesTypingUsers';
@@ -136,7 +136,7 @@ export class Conversation extends React.Component {
         </div>
       }
 
-      <ConversationDeleteDialog
+      {/*<ConversationDeleteDialog
         open={ showDelete }
         onRequestClose={ () => this.setState({ showDelete: false }) }
         onConfirm={ () => {
@@ -144,7 +144,7 @@ export class Conversation extends React.Component {
           dispatch(replace('/messages'));
         }}
         isDeleting={ conversation.isDeleting }
-      />
+      />*/}
 {/*
       <UserShoutsSelectDialog
         buttonLabel="Send"
