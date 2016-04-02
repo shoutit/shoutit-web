@@ -39,8 +39,8 @@ export class SearchFilters extends Component {
       shout_type: this.refs.shout_type.getValue(),
       category: this.refs.category.getValue(),
       filters: this.state.filters,
-      // min_price: parseInt(this.refs.min_price.value, 10) || undefined,
-      // max_price: parseInt(this.refs.max_price.value, 10) || undefined,
+      min_price: parseInt(this.refs.min_price.getValue(), 10) || undefined,
+      max_price: parseInt(this.refs.max_price.getValue(), 10) || undefined,
     };
     return searchParams;
   }
@@ -149,6 +149,42 @@ export class SearchFilters extends Component {
               }
             </div>
           }
+
+
+          <div className="SearchFilters-label">
+            Price range
+          </div>
+
+
+            <div className="SearchFilters-range">
+
+              <TextField
+                autoComplete="off"
+                className="SearchFilters-input"
+                placeholder="From"
+                block
+                disabled={ disabled }
+                name="min_price"
+                ref="min_price"
+                value={ min_price }
+                onChange={ min_price => this.setState({ min_price }) }
+              />
+              <span className="SearchFilters-range-separe">
+                ⟷
+              </span>
+              <TextField
+                autoComplete="off"
+                className="SearchFilters-input"
+                placeholder="To"
+                block
+                disabled={ disabled }
+                name="max_price"
+                ref="max_price"
+                value={ max_price }
+                onChange={ max_price => this.setState({ max_price }) }
+              />
+            </div>
+
 
 {/*
           <input

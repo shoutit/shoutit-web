@@ -19,6 +19,14 @@
     border-bottom: 1px solid $border-color;
   }
 
+
+}
+.SearchFilters-label {
+  padding-top: .5rem;
+  text-transform: uppercase;
+  color: $color-light;
+  font-size: 0.5rem;
+  text-align: center;
 }
 
 .SearchFilters-input {
@@ -33,6 +41,7 @@
   background-color: $background-color-light;
   box-shadow: inset $box-shadow-depth-0;
   padding-bottom: 0;
+  margin-bottom: .5rem;
   > span {
     flex: 1;
     flex-basis: 50%;
@@ -42,4 +51,21 @@
 
 .SearchFilters-buttons {
   margin-top: 1rem;
+}
+
+.SearchFilters-range {
+
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 0;
+  color: $color-light;
+  > .SearchFilters-range-separe {
+    padding: 0 1rem;
+  }
+  > .TextField {
+    flex: 1;
+    &:first-child input {
+      text-align: right;
+    }
+  }
 }
