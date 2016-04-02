@@ -5,7 +5,7 @@ import ShoutsList from '../shouts/ShoutsList';
 
 import { loadHomeShouts, loadListening } from '../actions/users';
 import { denormalize } from '../schemas';
-
+import Progress from '../ui/Progress';
 import Page from '../layout/Page';
 import Scrollable from '../ui/Scrollable';
 import Button from '../ui/Button';
@@ -83,7 +83,12 @@ export class Dashboard extends Component {
           endColumn={ <EndColumn /> }
         >
           <ShoutsList shouts={ shouts } />
-          { isFetching && <p>Loading...</p>}
+
+          <Progress
+            animate={ isFetching }
+            label={ shouts.length === 0 ? 'Loading shouts…' : 'Loading more shouts…' }
+          />
+
           { !isFetching && error &&
             <UIMessage
               title="There was an error"

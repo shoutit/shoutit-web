@@ -7,6 +7,7 @@ import { searchShouts } from '../actions/search';
 
 import Page from '../layout/Page';
 import Scrollable from '../ui/Scrollable';
+import Progress from '../ui/Progress';
 import UIMessage from '../ui/UIMessage';
 import ShoutsList from '../shouts/ShoutsList';
 import SuggestedInterests from '../interests/SuggestedInterests';
@@ -65,7 +66,8 @@ const getSearchParams = ({ params, query = {}, currentLocation = {} }) => {
 const fetchData = (store, params, query) => {
   const { currentLocation } = store.getState();
   const searchParams = getSearchParams({ currentLocation, params, query });
-  return store.dispatch(searchShouts(searchParams));
+  const promise =  store.dispatch(searchShouts(searchParams));
+  return promise;
 };
 
 function EndColumn() {
@@ -120,10 +122,11 @@ export class Search extends Component {
 
   handleFilterSubmit(searchParams) {
     const { dispatch, searchParams: { city, state, country } } = this.props;
-    const { shout_type, category, min_price, max_price, search } = searchParams;
+    const { shout_type, category, min_price, max_price, search, filters } = searchParams;
     let url = '/search';
     const query = [];
 
+    // TODO: this should go into an external module
     if (shout_type !== 'all' || (category && category !== 'all')) {
       url += `/${shout_type}`;
     }
@@ -149,6 +152,15 @@ export class Search extends Component {
     if (max_price) {
       query.push(`max_price=${max_price}`);
     }
+    const qsFilters = [];
+    Object.keys(filters).forEach(slug =>
+      qsFilters.push(`${slug}:${filters[slug]}`)
+    );
+
+    if (qsFilters.length > 0) {
+      query.push(`filters=${qsFilters.join(';')}`);
+    }
+
     if (query.length > 0) {
       url += `?${query.join('&')}`;
     }
@@ -169,16 +181,22 @@ export class Search extends Component {
         }}
       >
         <Page
+          className="Search"
           startColumn={
             <div className="Search-start-column">
-              <SearchFilters disabled={ isFetching } searchParams={ searchParams } onSubmit={ params => this.handleFilterSubmit(params) } />
+              <SearchFilters disabled={ false } searchParams={ searchParams } onSubmit={ params => this.handleFilterSubmit(params) } />
             </div>
           }
           stickyStartColumn
           endColumn={ <EndColumn /> }
         >
           <ShoutsList shouts={ shouts } />
-          { isFetching && <p>Loading...</p>}
+
+          <Progress
+            animate={ isFetching }
+            label={ shouts.length === 0 ? 'Loading shouts…' : 'Loading more shouts…' }
+          />
+
           { !isFetching && error &&
             <UIMessage
               title="There was an error"
@@ -187,12 +205,14 @@ export class Search extends Component {
               retryAction={ () => dispatch(searchShouts(searchParams, nextUrl)) }
             />
           }
+
           { !isFetching && !error && shouts.length === 0 &&
             <UIMessage
               title="Nothing found"
               details="There are no shouts for this search. Try with other filters."
             />
           }
+
         </Page>
       </Scrollable>
     );
