@@ -3,7 +3,7 @@ import Sticky from 'react-sticky-state';
 if (process.env.BROWSER) {
   require('./Page.scss');
 }
-export default function Page({ children, startColumn, stickyStartColumn = false, endColumn, stickyEndColumn = false }) {
+export default function Page({ children, className, startColumn, stickyStartColumn = false, endColumn, stickyEndColumn = false }) {
   const stickyProps = {
     stickyWrapperClass: 'Page-sticky-wrap',
     stickyClass: 'Page-sticky',
@@ -12,8 +12,14 @@ export default function Page({ children, startColumn, stickyStartColumn = false,
     disabledClass: 'Page-sticky-disabled',
     absoluteClass: 'Page-is-absolute',
   };
+
+  let cssClass = 'Page htmlContentWidth';
+  if (className) {
+    cssClass += ` ${className}`;
+  }
+
   return (
-    <div className="Page htmlContentWidth">
+    <div className={ cssClass }>
       { startColumn &&
         <div className="Page-column">
           { stickyStartColumn ?
