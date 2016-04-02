@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { groupByDay, groupByUser, getReadyBy } from '../chat/MessagesUtils';
+import { groupByDay, groupByProfile, getReadyBy } from '../chat/MessagesUtils';
 import MessageItem from './MessageItem';
 import UserAvatar from '../users/UserAvatar';
 if (process.env.BROWSER) {
@@ -8,10 +8,10 @@ if (process.env.BROWSER) {
 }
 
 function MessagesByDay({ day, messages, loggedUser, partecipants }) {
-  const messagesByUser = groupByUser(messages)
-    .map((byUser, i) => {
-      const { user, messages: userMessages } = byUser;
-      const isMe = user && user.username === loggedUser.username;
+  const messagesByUser = groupByProfile(messages)
+    .map((byProfile, i) => {
+      const { profile, messages: profileMessages } = byProfile;
+      const isMe = profile && profile.username === loggedUser.username;
       let className = 'MessagesList';
       if (isMe) {
         className += ' isMe';
@@ -19,15 +19,15 @@ function MessagesByDay({ day, messages, loggedUser, partecipants }) {
       return (
         <div key={ i } className={ className }>
           <div className="MessagesList-user">
-            { user && <UserAvatar user={ user } linkToUserPage tooltip /> }
+            { profile && <UserAvatar user={ profile } linkToUserPage tooltip /> }
           </div>
           <div className="MessagesList-messages">
-            { userMessages.map(message =>
+            { profileMessages.map(message =>
               <MessageItem
                 key={ message.id }
                 message={ message }
                 isMe={ isMe }
-                readByUsers={ message.user ?
+                readByProfiles={ message.profile ?
                   getReadyBy(message, partecipants, loggedUser.username) :
                   undefined
                 }

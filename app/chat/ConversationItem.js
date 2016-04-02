@@ -10,9 +10,9 @@ if (process.env.BROWSER) {
 
 export default function ConversationItem({ conversation, me, selected = false, unread = false, onClick }) {
 
-  const { id, type, users, lastMessage, about } = conversation;
+  const { id, type, profiles, lastMessage, about } = conversation;
 
-  const partecipants = users
+  const partecipants = profiles
     .filter(user => user.username !== me)
     .map(user => user.name)
     .join(', ');
@@ -30,7 +30,7 @@ export default function ConversationItem({ conversation, me, selected = false, u
   return (
     <Link onClick={ onClick } to={ `/messages/${id}` } className={ className }>
       <div className="ConversationItem-usersImage">
-        <ManyUsersAvatar users={ users.filter(user => user.username !== me) } />
+        <ManyUsersAvatar users={ profiles.filter(profile => profile.username !== me) } />
       </div>
 
       <div className="ConversationItem-body">

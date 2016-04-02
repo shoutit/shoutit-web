@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
 import { expect } from 'chai';
-import { groupByDay, groupByUser, getReadyBy } from './MessagesUtils';
+import { groupByDay, groupByProfile, getReadyBy } from './MessagesUtils';
 
 const messages = [
   {
@@ -74,10 +74,10 @@ describe('MessagesUtils', () => {
     });
   });
 
-  describe('groupByUser', () => {
+  describe('groupByProfile', () => {
 
     it('should group messages by user', () => {
-      const groupedMessages = groupByUser(messages);
+      const groupedMessages = groupByProfile(messages);
 
       expect(groupedMessages[0].user).to.eql({ id: 'foo' });
       expect(groupedMessages[0].messages).to.have.length(2);

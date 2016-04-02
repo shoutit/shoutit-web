@@ -96,7 +96,7 @@ export class Conversation extends React.Component {
         {/* showVideoCallButton={ videoCallState.initialized }*/}
 
         {/* onVideoCallClick={ () =>
-          previewVideoCall(conversation.users.find(user => user.username !== me))
+          previewVideoCall(conversation.profiles.find(user => user.username !== me))
         }*/}
 
       { isFetchingMessages && messages.length === 0 && <Progress /> }
@@ -120,7 +120,7 @@ export class Conversation extends React.Component {
             <MessagesList
               loggedUser={ loggedUser }
               messages={ messages }
-              partecipants={ conversation.users }
+              partecipants={ conversation.profiles }
             />
 
             <MessagesTypingUsers users={ typingUsers } />

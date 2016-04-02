@@ -15,9 +15,9 @@ if (process.env.BROWSER) {
  * @param {String} props.me
  */
 export default function ConversationTitle({ conversation, me, showVideoCallButton = false, onDeleteConversationClick }) {
-  const { about, users } = conversation;
+  const { about, profiles } = conversation;
 
-  const partecipants = users.filter(user => user.username !== me);
+  const partecipants = profiles.filter(user => user.username !== me);
 
   return (
     <div className="ConversationTitle">

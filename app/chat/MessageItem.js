@@ -11,7 +11,7 @@ if (process.env.BROWSER) {
   require('./MessageItem.scss');
 }
 
-export default function MessageItem({ message, isMe, readByUsers = [] }) {
+export default function MessageItem({ message, isMe, readByProfiles = [] }) {
   const { createdAt, isCreating, text, createError, attachments = [] } = message;
   const created = moment.unix(createdAt);
 
@@ -37,7 +37,7 @@ export default function MessageItem({ message, isMe, readByUsers = [] }) {
     <div className="MessageItem-footer">
       {!isCreating && !createError &&
         <span>
-          { readByUsers.length > 0 && <MessageReadByFlag profiles={ readByUsers } /> }
+          { readByProfiles.length > 0 && <MessageReadByFlag profiles={ readByProfiles } /> }
         </span>
       }
       {!isCreating && !createError && <span title={created.format('LLLL')}>
