@@ -25,7 +25,7 @@ export default Fluxxor.createStore({
     return this.state;
   },
 
-  getCurrentLocation() {
+  loadCurrentLocation() {
     return this.state.currentLocation;
   },
 

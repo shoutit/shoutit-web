@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 
 export default {
 
-  getCurrentLocation(done) {
+  loadCurrentLocation(done) {
     this.dispatch(actionTypes.CURRENT_LOCATION_START);
     this.flux.service
       .read('geocode')

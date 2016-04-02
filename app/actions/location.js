@@ -4,12 +4,12 @@ import * as actionTypes from './actionTypes';
 
 import { Schemas } from '../schemas';
 
-export function getCurrentLocation() {
+export function loadCurrentLocation() {
   return {
     types: [
-      actionTypes.GET_CURRENT_LOCATION_START,
-      actionTypes.GET_CURRENT_LOCATION_SUCCESS,
-      actionTypes.GET_CURRENT_LOCATION_FAILURE,
+      actionTypes.LOAD_CURRENT_LOCATION_START,
+      actionTypes.LOAD_CURRENT_LOCATION_SUCCESS,
+      actionTypes.LOAD_CURRENT_LOCATION_FAILURE,
     ],
     service: {
       name: 'location',
@@ -18,12 +18,12 @@ export function getCurrentLocation() {
   };
 }
 
-export function getLocation(latlng) {
+export function loadLocationByLatLng(latlng) {
   return {
     types: [
-      actionTypes.GET_LOCATION_START,
-      actionTypes.GET_LOCATION_SUCCESS,
-      actionTypes.GET_LOCATION_FAILURE,
+      actionTypes.LOAD_LOCATION_START,
+      actionTypes.LOAD_LOCATION_SUCCESS,
+      actionTypes.LOAD_LOCATION_FAILURE,
     ],
     service: {
       name: 'location',

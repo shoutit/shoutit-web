@@ -10,7 +10,7 @@ function mapStoresProps(stores) {
     currencies: stores.currencies.get(),
     categories: stores.categories.get(),
     loggedUser: stores.auth.getLoggedProfile(),
-    currentLocation: stores.location.getCurrentLocation(),
+    currentLocation: stores.location.loadCurrentLocation(),
     draft, status, waiting
   };
 }
