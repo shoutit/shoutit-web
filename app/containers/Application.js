@@ -34,9 +34,9 @@ const fetchData = store => {
       }
       if (!user || !user.location) {
         sessionPromises.push(
-          dispatch(loadCurrentLocation().then(location =>
+          dispatch(loadCurrentLocation()).then(location =>
             dispatch(loadSuggestions(location))
-          ))
+          )
         );
       }
       return Promise.all(sessionPromises);
