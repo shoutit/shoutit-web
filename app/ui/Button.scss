@@ -3,20 +3,25 @@
 $border-radius: 5px;
 
 .Button {
+  position: relative;
+
   display: inline-block;
   overflow: hidden;
-  position: relative;
-  vertical-align: middle;
-  border-radius: $border-radius;
+
   height: 36px;
-  line-height: 36px;
-  background-color: transparent;
+  padding: 0;
+
   cursor: pointer;
+  vertical-align: middle;
   white-space: nowrap;
 
-  -webkit-appearance: none;
   border: 1px solid transparent;
-  padding: 0;
+  border-radius: $border-radius;
+  background-color: transparent;
+
+  line-height: 36px;
+
+  -webkit-appearance: none;
 
 
   &:not(.disabled):hover {
@@ -26,26 +31,28 @@ $border-radius: 5px;
   }
 
   &.size-small {
-
     height: 32px;
+
     line-height: 30px;
 
     > .Button-label {
-      padding-left: 10px;
       padding-right: 10px;
+      padding-left: 10px;
+
       font-size: 14px;
     }
 
   }
 
   &.size-large {
-
     height: 42px;
+
     line-height: 38px;
 
     > .Button-label {
-      padding-left: 30px;
       padding-right: 30px;
+      padding-left: 30px;
+
       font-size: 18px;
       font-weight: 300;
     }
@@ -54,26 +61,30 @@ $border-radius: 5px;
 
   &.block {
     display: block;
+
     width: 100%;
     &.with-icon {
+      padding-left: 24px;
       text-align: left;
     }
-    padding-left: 24px;
     > .Button-icon {
       position: absolute;
-      left: 0;
       top: 0;
+      left: 0;
     }
   }
 
 }
 
   .Button-label {
-    color: $color;
-    padding-left: 20px;
-    padding-right: 20px;
     display: block;
+
+    padding-right: 20px;
+    padding-left: 20px;
+
     vertical-align: middle;
+
+    color: $color;
     .Button.with-icon > & {
       display: inline-block;
     }
@@ -81,10 +92,12 @@ $border-radius: 5px;
 
   .Button-icon {
     display: inline-block;
-    vertical-align: middle;
+
     height: inherit;
-    padding-left: 5px;
     padding-right: 5px;
+    padding-left: 5px;
+
+    vertical-align: middle;
   }
 
   .Button + .Button:not(.block) {
@@ -92,12 +105,12 @@ $border-radius: 5px;
   }
 
   .Button.outline {
-    border: 1px solid $si-green;
+    border: 1px solid $shoutit-green;
     .Button-label {
-      color: $si-green;
+      color: $shoutit-green;
     }
     &:not(.disabled):hover {
-      background-color: $si-green;
+      background-color: $shoutit-green;
       .Button-label {
         color: white;
       }
@@ -118,8 +131,9 @@ $border-radius: 5px;
 
   .Button.dropdown {
     .Button-label {
-      color: $color-light;
       overflow: hidden;
+
+      color: $color-light;
     }
     &:hover, &:focus {
       .Button-label {
@@ -137,32 +151,37 @@ $border-radius: 5px;
     top: 3px;
     right: 0;
     bottom: 3px;
-    width: 20px;
+
     display: block;
+
+    width: 20px;
+
     background: white;
     &:after {
       position: absolute;
-      content: "";
       top: 0;
+      right: 0px;
       bottom: 0;
       left: 0;
-      right: 0px;
+
+      content: "";
+
       background-image: url("../../assets/ui-elements/dropdown-caret.svg");
-      background-position: center;
       background-repeat: no-repeat;
+      background-position: center;
     }
   }
 
   .Button.primary {
     border: 0;
-    background-color: $si-green;
+    background-color: $shoutit-green;
     &:not(.disabled):hover {
-      background-color: darken($si-green, 10);
+      background-color: darken($shoutit-green, 10);
       .Button-label {
         color: white;
       }
       .Button-icon {
-        background-color: darken($si-green, 20);
+        background-color: darken($shoutit-green, 20);
       }
     }
     .Button-label {
@@ -171,7 +190,7 @@ $border-radius: 5px;
     .Button-icon {
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
-      background-color: darken($si-green, 10);
+      background-color: darken($shoutit-green, 10);
     }
   }
 
@@ -218,6 +237,7 @@ $border-radius: 5px;
 
   .Button.disabled {
     cursor: default;
+
     opacity: 0.5;
   }
 
@@ -226,9 +246,10 @@ $border-radius: 5px;
 
 $facebook-base-color: #395185;
 .Button.facebook {
-  background-color: lighten($facebook-base-color, 10);
-  color: white;
   text-align: center;
+
+  color: white;
+  background-color: lighten($facebook-base-color, 10);
   .Button-icon {
     background-color: $facebook-base-color;
   }
@@ -249,9 +270,10 @@ $facebook-base-color: #395185;
 
 $google-base-color: darken(#DC4E41, 10);
 .Button.google {
-  background-color: lighten($google-base-color, 10);
-  color: white;
   text-align: center;
+
+  color: white;
+  background-color: lighten($google-base-color, 10);
   .Button-icon {
     background-color: $google-base-color;
   }

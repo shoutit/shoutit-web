@@ -11,7 +11,7 @@
     top: .5rem;
     right: -.5rem;
     color: white;
-    background: $si-green;
+    background: lighten($shoutit-green, 20);
     padding: 0.35rem .7rem;
     box-shadow: -1px 1px 3px rgba(0,0,0,.4);
     &.free {
@@ -28,7 +28,7 @@
       bottom: -8px;
       border-left: 8px solid transparent;
       border-right: 0 solid transparent;
-      border-bottom: 8px solid #62ad22;
+      border-bottom: 8px solid $shoutit-green;
       z-index: 1;
     }
   }
