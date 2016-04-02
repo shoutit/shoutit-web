@@ -55,6 +55,15 @@ export class Dashboard extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (!nextProps.loggedUser) {
+      // When logging out, react-router getComponent() won't run before updating the page
+      // Returning false will prevent updating the container when not logged in
+      return false;
+    }
+    return true;
+  }
+
   render() {
     const { shouts, nextUrl, dispatch, isFetching, loggedProfile, error } = this.props;
     return (
