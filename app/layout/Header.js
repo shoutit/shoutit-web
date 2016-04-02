@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import Dialog from '../shared/components/helper/Dialog';
+// import Dialog from '../shared/components/helper/Dialog';
 import Overlay from '../ui/Overlay';
 import Button from '../ui/Button';
 
@@ -10,7 +10,7 @@ import HeaderMessagesOverlay from './HeaderMessagesOverlay';
 import HeaderNotificationsOverlay from './HeaderNotificationsOverlay';
 import HeaderProfileOverlay from './HeaderProfileOverlay';
 import HeaderProfile from './HeaderProfile';
-import HeaderNewShout from './HeaderNewShout';
+// import HeaderNewShout from './HeaderNewShout';
 import Searchbar from '../search/Searchbar';
 
 import { logout } from '../actions/session';
@@ -113,23 +113,8 @@ export class Header extends Component {
             />
           </div> :
           <div className="Header-tools loggedOut">
-            <Button
-              label="Log in"
-              to="/login"
-              onClick={ e => {
-                e.preventDefault();
-                history.pushState({ modal: 'login' }, location.pathname);
-              }}
-            />
-            <Button
-              label="Sign up"
-              primary
-              to="/signup"
-              onClick={ e => {
-                e.preventDefault();
-                history.pushState({ modal: 'signup' }, location.pathname);
-              }}
-            />
+            <Button label="Log in" to="/login" />
+            <Button label="Sign up" primary to="/signup" />
           </div>
         }
 
@@ -174,23 +159,23 @@ export class Header extends Component {
               />
           </Overlay>,
 
-          <Dialog
-            titleWithIcon="Create a new shout"
-            key="newShout"
-            open={ openNewShoutDialog }
-            autoDetectWindowHeight
-            autoScrollBodyContent
-            bodyStyle={{ borderRadius: '5px' }}
-            contentClassName="new-shout-popup"
-            onRequestClose={ () => this.setState({ openNewShoutDialog: false }) }
-          >
-            {/* <HeaderNewShout
-              flux={ flux }
-              onShoutSent={ () => this.setState({ openNewShoutDialog: false }) }
-              loggedUser={ loggedUser }
-              currentLocation={ currentLocation }
-            />*/}
-          </Dialog>,
+          // <Dialog
+          //   titleWithIcon="Create a new shout"
+          //   key="newShout"
+          //   open={ openNewShoutDialog }
+          //   autoDetectWindowHeight
+          //   autoScrollBodyContent
+          //   bodyStyle={{ borderRadius: '5px' }}
+          //   contentClassName="new-shout-popup"
+          //   onRequestClose={ () => this.setState({ openNewShoutDialog: false }) }
+          // >
+          //   {/* <HeaderNewShout
+          //     flux={ flux }
+          //     onShoutSent={ () => this.setState({ openNewShoutDialog: false }) }
+          //     loggedUser={ loggedUser }
+          //     currentLocation={ currentLocation }
+          //   />*/}
+          // </Dialog>,
 
         ]}
 
