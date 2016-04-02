@@ -9,6 +9,7 @@ import VideoCallHost from '../videoCalls/VideoCallHost';
 import { getCurrentSession, login } from '../actions/session';
 import { loadCategories, loadCurrencies } from '../actions/misc';
 import { getCurrentLocation, loadSuggestions } from '../actions/location';
+import { loadListening } from '../actions/users';
 
 import { openModal } from '../actions/ui';
 import Modal from '../ui/Modal';
@@ -18,7 +19,7 @@ if (process.env.BROWSER) {
   require('./Application.scss');
 }
 
-const fetchData = (store) => {
+const fetchData = store => {
   const promises = [];
 
   promises.push(store.dispatch(loadCategories()));
@@ -29,6 +30,7 @@ const fetchData = (store) => {
       const sessionPromises = [];
       if (user) {
         sessionPromises.push(store.dispatch(login(user)));
+        sessionPromises.push(store.dispatch(loadListening(user)));
       }
       if (!user || !user.location) {
         sessionPromises.push(store.dispatch(getCurrentLocation()));

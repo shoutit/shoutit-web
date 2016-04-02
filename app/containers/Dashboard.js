@@ -20,11 +20,7 @@ if (process.env.BROWSER) {
 }
 
 const fetchData = store => {
-  const loggedProfile = store.getState().session.user;
-  return Promise.all([
-    store.dispatch(loadHomeShouts()),
-    store.dispatch(loadListening(loggedProfile)),
-  ]);
+  return store.dispatch(loadHomeShouts());
 };
 
 const StartColumn = ({ profile }) =>
