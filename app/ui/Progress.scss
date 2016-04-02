@@ -39,7 +39,7 @@
   width: 100%;
 
   animation: ProgressAnimation 1.25s linear infinite;
-  background: linear-gradient(270deg, transparent, white, transparent);
+  background: linear-gradient(270deg, rgba(white, 0), white, rgba(white, 0));
 }
 
 @keyframes ProgressAnimation {
