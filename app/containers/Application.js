@@ -60,10 +60,10 @@ export class Application extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentWillUpdate(nextProps) {
     const { dispatch, currentLocation } = this.props;
 
-    if (currentLocation.slug !== prevProps.currentLocation.slug) {
+    if (currentLocation.slug !== nextProps.currentLocation.slug) {
       dispatch(loadSuggestions(currentLocation));
     }
   }
