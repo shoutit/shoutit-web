@@ -8,11 +8,8 @@ import VideoCallHost from '../videoCalls/VideoCallHost';
 
 import { getCurrentSession, login } from '../actions/session';
 import { loadCategories, loadCurrencies } from '../actions/misc';
-import { getCurrentLocation, loadSuggestions } from '../actions/location';
+import { loadCurrentLocation, loadSuggestions } from '../actions/location';
 import { loadListening } from '../actions/users';
-
-import { openModal } from '../actions/ui';
-import Modal from '../ui/Modal';
 
 if (process.env.BROWSER) {
   require('normalize.css/normalize.css');
@@ -21,19 +18,26 @@ if (process.env.BROWSER) {
 
 const fetchData = store => {
   const promises = [];
-
-  promises.push(store.dispatch(loadCategories()));
-  promises.push(store.dispatch(loadCurrencies()));
+  const { dispatch } = store;
+  promises.push(dispatch(loadCategories()));
+  promises.push(dispatch(loadCurrencies()));
 
   promises.push(
-    store.dispatch(getCurrentSession()).then(user => {
+    dispatch(getCurrentSession()).then(user => {
       const sessionPromises = [];
       if (user) {
-        sessionPromises.push(store.dispatch(login(user)));
-        sessionPromises.push(store.dispatch(loadListening(user)));
+        sessionPromises.push(dispatch(login(user)));
+        sessionPromises.push(dispatch(loadListening(user)));
+        if (user.location) {
+          sessionPromises.push(dispatch(loadSuggestions(user.location)));
+        }
       }
       if (!user || !user.location) {
-        sessionPromises.push(store.dispatch(getCurrentLocation()));
+        sessionPromises.push(
+          dispatch(loadCurrentLocation().then(location =>
+            dispatch(loadSuggestions(location))
+          ))
+        );
       }
       return Promise.all(sessionPromises);
     })
@@ -47,17 +51,17 @@ export class Application extends React.Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { dispatch, currentLocation, loggedUser } = this.props;
+    const { dispatch, currentLocation, loggedUser, firstRender } = this.props;
     if (loggedUser) {
       dispatch(login(loggedUser)); // trigger client-side login actions (e.g. pusher)
     }
-    dispatch(loadSuggestions(currentLocation));
+    if (!firstRender) {
+      dispatch(loadSuggestions(currentLocation));
+    }
   }
 
   componentDidUpdate(prevProps) {
     const { dispatch, currentLocation } = this.props;
-    const { loggedUser } = this.props;
-    const hasBeenLoggedIn = !prevProps.loggedUser && loggedUser;
 
     if (currentLocation.slug !== prevProps.currentLocation.slug) {
       dispatch(loadSuggestions(currentLocation));
@@ -72,10 +76,6 @@ export class Application extends React.Component {
     }
     return (
       <div className={ className }>
-        {/*<button onClick={ () => props.dispatch(openModal(
-          <Modal><p style={{ height: 100 }}>Test</p></Modal>
-        ))}>Open modal</button>*/}
-
           <div className="App-header">
             <Header
               history={ props.history }
