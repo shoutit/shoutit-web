@@ -76,6 +76,7 @@ export class Dashboard extends Component {
             dispatch(loadHomeShouts(nextUrl));
           }
         }}
+        triggerOffset={ 400 }
       >
         <Page
           startColumn={ <StartColumn profile={ loggedProfile } /> }

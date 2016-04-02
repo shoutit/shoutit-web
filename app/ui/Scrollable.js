@@ -32,6 +32,7 @@ export default class Scrollable extends Component {
   state = {
     scrollHeight: null,
     scrollTop: 0,
+    didScrollToBottom: false,
   };
 
   componentDidMount() {
@@ -45,7 +46,7 @@ export default class Scrollable extends Component {
     if (prevProps.uniqueId !== this.props.uniqueId) {
       const scrollHeight = this.getScrollHeight();
       log('Component unique id did change: setting state.scrollHeight to %s', scrollHeight);
-      this.setState({ scrollHeight }, this.scrollToInitialPosition);
+      this.setState({ scrollHeight, didScrollToBottom: false }, this.scrollToInitialPosition);
       return;
     }
 
@@ -56,7 +57,7 @@ export default class Scrollable extends Component {
         this.getScrollable().scrollTop = scrollHeight - this.state.scrollHeight + this.state.scrollTop;
         log('Set scrollTop to %s', this.getScrollable().scrollTop);
       }
-      this.setState({ scrollHeight });
+      this.setState({ scrollHeight, didScrollToBottom: false });
       return;
     }
   }
@@ -110,7 +111,7 @@ export default class Scrollable extends Component {
   handleScroll(e) {
     const { scrollTop } = this.getScrollable();
     const offsetHeight = this.getOffsetHeight();
-    const { scrollHeight } = this.state;
+    const { scrollHeight, didScrollToBottom } = this.state;
     const { onScroll, onScrollTop, onScrollBottom, triggerOffset } = this.props;
     if (onScroll) {
       onScroll(e);
@@ -118,9 +119,9 @@ export default class Scrollable extends Component {
     if (onScrollTop && scrollTop === 0) {
       log('Scrolled on top, call onScrollTop handler');
       onScrollTop(e);
-    } else if (onScrollBottom && scrollTop + offsetHeight + triggerOffset === scrollHeight) {
-      log('Scrolled on bottom, call onScrollBottom handler');
-      onScrollBottom(e);
+    } else if (!didScrollToBottom && onScrollBottom && scrollTop + offsetHeight + triggerOffset >= scrollHeight) {
+      log('Scrolled on bottom: call onScrollBottom handler (triggerOffset was %spx)', triggerOffset);
+      this.setState({ didScrollToBottom: true }, () => onScrollBottom(e));
     }
     this.setState({ scrollTop });
   }

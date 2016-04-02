@@ -179,6 +179,7 @@ export class Search extends Component {
             dispatch(searchShouts(searchParams, nextUrl));
           }
         }}
+        triggerOffset={ 400 }
       >
         <Page
           className="Search"
