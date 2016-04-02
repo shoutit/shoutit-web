@@ -21,8 +21,11 @@
 .UIMessage-content {
   border-radius: $border-radius;
   display: inline-block;
-  .UIMessage.info & {
+  .UIMessage.alert & {
     background-color: $shoutit-blue;
+  }
+  .UIMessage.info & {
+    background-color: $shoutit-grey-light;
   }
   .UIMessage.error & {
     background-color: $shoutit-red;
@@ -33,7 +36,7 @@
   padding: .5rem 1rem;
   font-weight: lighter;
   .UIMessage.info & {
-    background-color: lighten($shoutit-blue, 10);
+    background-color: lighten($shoutit-grey-light, 5);
   }
   .UIMessage.error & {
     background-color: lighten($shoutit-red, 10);
