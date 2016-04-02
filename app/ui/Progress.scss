@@ -1,0 +1,48 @@
+@import "../styles/constants.scss";
+
+.Progress {
+  margin: 1rem;
+  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  &.animated {
+    visibility: visible;
+  }
+}
+
+.Progress-wrapper {
+  background-color: white;
+  display: inline-block;
+  padding: .5rem 1rem;
+  border-radius: $border-radius;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Progress-label {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  font-size: .875rem;
+  color: rgba($color, .5);
+}
+
+.Progress-animation {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 100%;
+
+  animation: ProgressAnimation 1.25s linear infinite;
+  background: linear-gradient(270deg, transparent, white, transparent);
+}
+
+@keyframes ProgressAnimation {
+  0% { left: -60% }
+  100% { left: 160% }
+}
