@@ -34,7 +34,18 @@
 
 .Header-links {
   margin-left: 1rem;
+  a {
+    margin: 0 1rem;
+    color: $color;
+    padding: .5rem;
+  }
 }
+
+.Header-link-active {
+  border-radius: 0;
+  border-bottom: 2px solid $si-green;
+}
+
 .Header-search {
   display: flex;
   flex: 1;

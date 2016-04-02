@@ -93,8 +93,8 @@ export class Header extends Component {
         </div>
 
         <div className="Header-links">
-          <Button to={ browseLink } label="Browse" />
-          <Button to={ discoverLink } label="Discover" />
+          <Link to={ browseLink } activeClassName="Header-link-active">Browse</Link>
+          <Link to={ discoverLink } activeClassName="Header-link-active">Discover</Link>
         </div>
 
         <div className="Header-search">
