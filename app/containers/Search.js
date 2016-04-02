@@ -6,17 +6,17 @@ import { push, replace } from 'react-router-redux';
 import { searchShouts } from '../actions/search';
 
 import Page from '../layout/Page';
+
 import Scrollable from '../ui/Scrollable';
 import Progress from '../ui/Progress';
 import UIMessage from '../ui/UIMessage';
+
 import ShoutsList from '../shouts/ShoutsList';
+import SuggestedShout from '../shouts/SuggestedShout';
 import SuggestedInterests from '../interests/SuggestedInterests';
 import SuggestedProfiles from '../users/SuggestedProfiles';
-import SearchFilters from '../search/SearchFilters';
 
-if (process.env.BROWSER) {
-  require('./Search.scss');
-}
+import SearchFilters from '../search/SearchFilters';
 
 const getSearchParams = ({ params, query = {}, currentLocation = {} }) => {
   // TODO: this should go into an external module
@@ -66,18 +66,9 @@ const getSearchParams = ({ params, query = {}, currentLocation = {} }) => {
 const fetchData = (store, params, query) => {
   const { currentLocation } = store.getState();
   const searchParams = getSearchParams({ currentLocation, params, query });
-  const promise =  store.dispatch(searchShouts(searchParams));
+  const promise = store.dispatch(searchShouts(searchParams));
   return promise;
 };
-
-function EndColumn() {
-  return (
-    <div className="Search-end-column">
-      <SuggestedInterests />
-      <SuggestedProfiles />
-    </div>
-  );
-}
 
 export class Search extends Component {
 
@@ -189,7 +180,9 @@ export class Search extends Component {
             </div>
           }
           stickyStartColumn
-          endColumn={ <EndColumn /> }
+          endColumn={ [<SuggestedInterests />,
+          <SuggestedProfiles />,
+          <SuggestedShout />] }
         >
           <ShoutsList shouts={ shouts } />
 

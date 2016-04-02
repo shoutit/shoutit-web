@@ -14,14 +14,13 @@ import UIMessage from '../ui/UIMessage';
 import Listening from '../users/Listening';
 import SuggestedInterests from '../interests/SuggestedInterests';
 import SuggestedProfiles from '../users/SuggestedProfiles';
+import SuggestedShout from '../shouts/SuggestedShout';
 
 if (process.env.BROWSER) {
   require('./Dashboard.scss');
 }
 
-const fetchData = store => {
-  return store.dispatch(loadHomeShouts());
-};
+const fetchData = store => store.dispatch(loadHomeShouts());
 
 const StartColumn = ({ profile }) =>
   <div className="Dashboard-start-column">
@@ -32,12 +31,6 @@ const StartColumn = ({ profile }) =>
     <Button to="/messages" size="small" block label="Your messages" leftIcon={ <SVGIcon active name="balloon-dots" /> } />
     <Button to="/search" size="small" block label="Browse shouts" leftIcon={ <SVGIcon active name="world-west" /> } />
     <Listening byProfile={ profile } />
-  </div>;
-
-const EndColumn = () =>
-  <div className="Dashboard-end-column">
-    <SuggestedInterests />
-    <SuggestedProfiles />
   </div>;
 
 export class Dashboard extends Component {
@@ -77,7 +70,7 @@ export class Dashboard extends Component {
         <Page
           startColumn={ <StartColumn profile={ loggedProfile } /> }
           stickyStartColumn
-          endColumn={ <EndColumn /> }
+          endColumn={ [<SuggestedInterests />, <SuggestedProfiles />, <SuggestedShout />] }
         >
           <ShoutsList shouts={ shouts } />
 

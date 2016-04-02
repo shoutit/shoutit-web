@@ -6,11 +6,17 @@ $width-column: 220px;
 }
 
 .Page-column {
-  margin: 12px;
   width: $width-column;
+  margin: 12px;
+  > div {
+    margin-bottom: .75rem;
+  }
 }
 
 .Page-body {
+  padding-right: 1rem;
+  padding-left: 1rem;
+
   flex: 1;
 }
 
@@ -30,6 +36,7 @@ $width-column: 220px;
 
 .Page-sticky.Page-sticky-fixed.Page-is-sticky {
   position: fixed;
+
   backface-visibility: hidden;
 }
 

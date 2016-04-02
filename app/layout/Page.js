@@ -1,5 +1,7 @@
 import React from 'react';
 import Sticky from 'react-sticky-state';
+import MiniFooter from '../layout/MiniFooter';
+
 if (process.env.BROWSER) {
   require('./Page.scss');
 }
@@ -43,7 +45,7 @@ export default function Page({ children, className, startColumn, stickyStartColu
                 { endColumn }
               </div>
             </Sticky> :
-            endColumn
+            [endColumn, <MiniFooter />]
           }
         </div>
       }

@@ -1,0 +1,50 @@
+@import "../styles/constants.scss";
+
+.MiniFooter {
+  margin-top: 1rem;
+  h3 {
+    margin: 0;
+    padding-top: 1rem;
+    padding-bottom: .5rem;
+
+    text-transform: uppercase;
+
+    color: $color-light;
+    border-bottom: 1px solid $border-color;
+
+    font-size: .625rem;
+    font-weight: normal;
+  }
+
+}
+
+.MiniFooter-apps {
+  display: flex;
+  align-items: center;
+  a:first-child {
+    margin-right: 1%;
+  }
+  a:last-child {
+    margin-left: 1%;
+  }
+  img {
+    max-width: 100%;
+  }
+}
+
+.MiniFooter-follow {
+  a {
+    font-size: .875rem;
+    color: $color;
+    display: inline-block;
+    margin-right: 1rem;
+  }
+}
+
+.MiniFooter-copyright {
+  margin-top: 1.5rem;
+  padding-top: .5rem;
+  border-top: 1px solid $border-color-dark;
+  color: $color-light;
+  font-size: .625rem;
+}
