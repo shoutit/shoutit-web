@@ -4,7 +4,7 @@ if (process.env.BROWSER) {
   require('./Progress.scss');
 }
 
-export default function Progress({ label, animate }) {
+export default function Progress({ label = 'Loading…', animate }) {
   let className = 'Progress';
   if (animate) {
     className += ' animated';
