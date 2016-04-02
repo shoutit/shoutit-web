@@ -3,10 +3,18 @@ import { connect } from 'react-redux';
 import TextField from '../ui/TextField';
 import Picker from '../ui/Picker';
 import Button from '../ui/Button';
+import Modal from '../ui/Modal';
+
+import SearchLocation from '../location/SearchLocation';
+
+import { openModal, closeModal } from '../actions/ui';
+import { setUserLocation } from '../actions/users';
+import { setCurrentLocation } from '../actions/location';
 
 if (process.env.BROWSER) {
   require('./SearchFilters.scss');
 }
+
 
 export class SearchFilters extends Component {
 
@@ -56,10 +64,29 @@ export class SearchFilters extends Component {
     };
   }
 
-  render() {
-    const { categories, disabled } = this.props;
-    const { category, shout_type, min_price, max_price, search } = this.state;
+  showLocationModal(e) {
+    e.preventDefault();
+    e.target.blur();
+    const { dispatch, loggedUser } = this.props;
+    const modal = (
+      <Modal title="Change location" name="search-location">
+        <SearchLocation
+          onLocationSelect={ location => {
+            dispatch(closeModal('search-location'));
+            dispatch(setCurrentLocation(location));
+            if (loggedUser) {
+              dispatch(setUserLocation(location));
+            }
+          }}
+        />
+      </Modal>
+    );
+    this.props.dispatch(openModal(modal));
+  }
 
+  render() {
+    const { categories, disabled, searchParams } = this.props;
+    const { category, shout_type, min_price, max_price, search } = this.state;
     let filters = [];
     const selectedCategory = categories.find(({ slug }) => slug === category);
     if (selectedCategory && selectedCategory.filters) {
@@ -77,6 +104,19 @@ export class SearchFilters extends Component {
             this.props.onSubmit(this.getSearchParams());
           }}
         >
+          <TextField
+            className="SearchFilters-input"
+            label="Location"
+            placeholder="Select a location"
+            block
+            disabled={ disabled }
+            name="search"
+            ref="search"
+            value={ searchParams.city }
+            readOnly
+            onKeyDown={ e => this.showLocationModal(e) }
+            onClick={ e => this.showLocationModal(e) }
+          />
           <TextField
             className="SearchFilters-input"
             label="Keywords"
