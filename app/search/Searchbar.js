@@ -152,6 +152,7 @@ export class Searchbar extends Component {
           onClick={ e => this.handleLocationClick(e) }
         />
         <input
+          autoComplete="off"
           ref="search"
           name="search"
           placeholder="Search Shoutit"
