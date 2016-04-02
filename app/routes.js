@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route } from 'react-router';
 
 import Application from './containers/Application';
 import Chat from './containers/Chat';
@@ -9,6 +9,9 @@ import Discover from './containers/Discover';
 import Homepage from './containers/Homepage';
 import Search from './containers/Search';
 import User from './containers/User';
+import Login from './containers/Login';
+import Password from './containers/Password';
+import Signup from './containers/Signup';
 import Interest from './containers/Interest';
 import Shout from './containers/Shout';
 
@@ -33,64 +36,62 @@ import NotFound from './shared/components/misc/notfound.jsx';
 // import TagProfileShouts from './shared/components/tag/tagProfileShouts.jsx';
 import VerifyEmail from './shared/components/user/verifyEmail.jsx';
 
-import ModalHost from './shared/components/helper/ModalHost';
+// import ModalHost from './shared/components/helper/ModalHost';
 
 const routes = (store) =>
   <Route component={ Application }>
-      <Route component={ ModalHost }>
+    <Route path="/"
+      getComponent={ (location, callback) => {
+        const Component = store.getState().session.user ? Dashboard : Homepage;
+        callback(null, Component);
+        return Component;
+      }}
+    />
+    <Route path="/login" component={ Login } />
+    <Route path="/login/password" component={ Password } />
+    <Route path="/signup" component={ Signup } />
 
-        <Route path="/"
-          getComponent={ (location, callback) => {
-            const Component = store.getState().session.user ? Dashboard : Homepage;
-            callback(null, Component);
-            return Component;
-          }}
-        />
-        {/*<Route path="/login" component={ MainPage } />
-        <Route path="/login/password" component={ MainPage } />
-        <Route path="/signup" component={ MainPage } />*/}
-        <Route path="/search(/:shout_type)(/:category)" component={ Search } />
-        <Route path="/shout(/:shoutId)" component={ Shout } />
-        <Route path="/interest(/:tagName)" component={ Interest } />
-        <Route path="/user(/:username)" component={ User } />
-        <Route path="/discover" component={ Discover } />
+    <Route path="/search(/:shout_type)(/:category)" component={ Search } />
+    <Route path="/shout(/:shoutId)" component={ Shout } />
+    <Route path="/interest(/:tagName)" component={ Interest } />
+    <Route path="/user(/:username)" component={ User } />
+    <Route path="/discover" component={ Discover } />
 
-        {/* <Route path="/home" component={ HomePage }>
-          <Route path="/all/:country/:state/:city(/:page)"
-            component={ new FeedListContainer('all') } />
-          <Route path="/offers/:country/:state/:city(/:page)"
-            component={ new FeedListContainer('offer') } />
-          <Route path="/requests/:country/:state/:city(/:page)"
-            component={ new FeedListContainer('request')} />
-          <IndexRoute component={ new FeedListContainer('all') } />
-        </Route>*/}
-        {/*<Route path="/search" component={ SearchContainer} >
-          <Route path="/search(/:shouttype)/:category(/:term)" component={ Search } />
-        </Route>*/}
-        {/*<Route component={ ShoutContainer } >
-          <Route path="/shout/:shoutId(/:location)(/:title)" component={ Shout } />
-        </Route>
-        <Route component={ TagProfileContainer }>
-          <Route path="/interest/:tagName(/:countryCode)" component={ TagProfile }>
-            <Route path="tagrequests" component={ TagProfileRequest } />
-            <Route path="taglisteners" component={ TagProfileListeners } />
-            <IndexRoute component={ TagProfileShouts } />
-          </Route>
-        </Route>
-        <Route path="/user/:username" component={ ProfileContainer} >
-          <Route path="/page/:username" component={ Page} />
-          <IndexRoute component={ Profile } />
-        </Route>
-        <Route path="/discover(/:country)" component={ DiscoverHome }>
-          <Route path="/discover/:country/:pk" component={ DiscoverPage} />
-          <IndexRoute component={ Discover} />
-        </Route>*/}
-        <Route path="/messages" component={ Chat }>
-          <Route path="/messages/:id" component={ Conversation } />
-        </Route>
-        <Route path="/auth/verify_email" component={ VerifyEmail } />
-        <Route path="*" component={ NotFound } />
+    {/* <Route path="/home" component={ HomePage }>
+      <Route path="/all/:country/:state/:city(/:page)"
+        component={ new FeedListContainer('all') } />
+      <Route path="/offers/:country/:state/:city(/:page)"
+        component={ new FeedListContainer('offer') } />
+      <Route path="/requests/:country/:state/:city(/:page)"
+        component={ new FeedListContainer('request')} />
+      <IndexRoute component={ new FeedListContainer('all') } />
+    </Route>*/}
+    {/*<Route path="/search" component={ SearchContainer} >
+      <Route path="/search(/:shouttype)/:category(/:term)" component={ Search } />
+    </Route>*/}
+    {/*<Route component={ ShoutContainer } >
+      <Route path="/shout/:shoutId(/:location)(/:title)" component={ Shout } />
+    </Route>
+    <Route component={ TagProfileContainer }>
+      <Route path="/interest/:tagName(/:countryCode)" component={ TagProfile }>
+        <Route path="tagrequests" component={ TagProfileRequest } />
+        <Route path="taglisteners" component={ TagProfileListeners } />
+        <IndexRoute component={ TagProfileShouts } />
       </Route>
+    </Route>
+    <Route path="/user/:username" component={ ProfileContainer} >
+      <Route path="/page/:username" component={ Page} />
+      <IndexRoute component={ Profile } />
+    </Route>
+    <Route path="/discover(/:country)" component={ DiscoverHome }>
+      <Route path="/discover/:country/:pk" component={ DiscoverPage} />
+      <IndexRoute component={ Discover} />
+    </Route>*/}
+    <Route path="/messages" component={ Chat }>
+      <Route path="/messages/:id" component={ Conversation } />
+    </Route>
+    <Route path="/auth/verify_email" component={ VerifyEmail } />
+    <Route path="*" component={ NotFound } />
   </Route>;
 
 export default routes;
