@@ -195,7 +195,7 @@ export class Search extends Component {
 
           <Progress
             animate={ isFetching }
-            label={ shouts.length === 0 ? 'Loading shouts…' : 'Loading more shouts…' }
+            label={ shouts.length === 0 ? 'Searching for shouts…' : 'Searching for more shouts…' }
           />
 
           { !isFetching && error &&
