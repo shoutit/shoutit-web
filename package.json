@@ -70,7 +70,7 @@
     "react": "0.14.7",
     "react-addons-css-transition-group": "0.14.7",
     "react-avatar-editor": "3.2.0",
-    "react-bootstrap": "0.28.2",
+    "react-bootstrap": "0.28.5",
     "react-custom-scrollbars": "1.1.0",
     "react-document-title": "2.0.1",
     "react-dom": "0.14.7",
