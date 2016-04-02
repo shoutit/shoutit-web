@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { trimWhitespaces } from '../utils/StringUtils';
+import TextField from '../ui/TextField';
+import Picker from '../ui/Picker';
+import Button from '../ui/Button';
 
 if (process.env.BROWSER) {
   require('./SearchFilters.scss');
@@ -18,6 +20,7 @@ export class SearchFilters extends Component {
     disabled: false,
     searchParams: {
       category: '',
+      filters: {},
     },
   }
 
@@ -32,11 +35,12 @@ export class SearchFilters extends Component {
 
   getSearchParams() {
     const searchParams = {
-      search: trimWhitespaces(this.refs.search.value) || undefined,
-      shout_type: this.refs.shout_type.value,
-      category: this.refs.category.value,
-      min_price: parseInt(this.refs.min_price.value, 10) || undefined,
-      max_price: parseInt(this.refs.max_price.value, 10) || undefined,
+      search: this.refs.search.getValue() || undefined,
+      shout_type: this.refs.shout_type.getValue(),
+      category: this.refs.category.getValue(),
+      filters: this.state.filters,
+      // min_price: parseInt(this.refs.min_price.value, 10) || undefined,
+      // max_price: parseInt(this.refs.max_price.value, 10) || undefined,
     };
     return searchParams;
   }
@@ -48,12 +52,20 @@ export class SearchFilters extends Component {
       min_price: props.searchParams.min_price || '',
       max_price: props.searchParams.max_price || '',
       search: props.searchParams.search || '',
+      filters: props.searchParams.filters || {},
     };
   }
 
   render() {
     const { categories, disabled } = this.props;
     const { category, shout_type, min_price, max_price, search } = this.state;
+
+    let filters = [];
+    const selectedCategory = categories.find(({ slug }) => slug === category);
+    if (selectedCategory && selectedCategory.filters) {
+      filters = selectedCategory.filters.filter(filter => filter.values.length > 0);
+    }
+
     return (
       <div className="SearchFilters">
         <form
@@ -65,34 +77,40 @@ export class SearchFilters extends Component {
             this.props.onSubmit(this.getSearchParams());
           }}
         >
-          <h3>Refine your search</h3>
-
-          <input
+          <TextField
+            className="SearchFilters-input"
+            label="Keywords"
+            placeholder="Enter one or more keywords"
+            block
             disabled={ disabled }
             name="search"
             ref="search"
             value={ search }
-            onChange={ e => this.setState({ search: e.target.value }) }
+            onChange={ search => this.setState({ search }) }
           />
-
-          <select
+          <Picker
+            className="SearchFilters-input"
+            block
+            label="Type"
             disabled={ disabled }
             ref="shout_type"
             name="shout_type"
             value={ shout_type }
-            onChange={ e => this.setState({ shout_type: e.target.value }) }
+            onChange={ shout_type => this.setState({ shout_type }) }
           >
             <option value="all">All shouts</option>
             <option value="offer">Only offers</option>
             <option value="request">Only requests</option>
-          </select>
-
-          <select
+          </Picker>
+          <Picker
+            className="SearchFilters-input"
+            block
+            label="Category"
             disabled={ disabled }
             ref="category"
             name="category"
             value={ category }
-            onChange={ e => this.setState({ category: e.target.value }) }
+            onChange={ category => this.setState({ category, filters: {} }) }
           >
             <option value="all">All categories</option>
             { categories.map(({ slug, name }) =>
@@ -100,19 +118,39 @@ export class SearchFilters extends Component {
                 { name }
               </option>
             )}
-          </select>
+          </Picker>
 
-          { category && category.filters &&
-            category.filters.map(filter =>
-              <select name={ filter.slug } disabled={ disabled }>
-                <option>{ filter.name }</option>
-                { filter.values.map(value =>
-                  <option value={ value.slug }>{ value.name}</option>
-                )}
-              </select>
-            )
+          { filters.length > 0 &&
+            <div className="SearchFilters-filters">
+              { filters.map(filter =>
+                  <span>
+                    <Picker
+                      className="SearchFilters-input"
+                      block
+                      label={ filter.name }
+                      name={ filter.slug }
+                      disabled={ disabled }
+                      value={ this.state.filters[filter.slug] || 'all' }
+                      onChange={ value =>
+                        this.setState({
+                          filters: {
+                            ...this.state.filters,
+                            [filter.slug]: value,
+                          } })
+                        }
+                    >
+                      <option value="all">All</option>
+                      { filter.values.map(value =>
+                        <option value={ value.slug }>{ value.name}</option>
+                      )}
+                    </Picker>
+                  </span>
+                )
+              }
+            </div>
           }
 
+{/*
           <input
             disabled={ disabled }
             ref="min_price"
@@ -126,9 +164,10 @@ export class SearchFilters extends Component {
             placeholder="Max Price"
             value={ max_price }
             onChange={ e => this.setState({ max_price: e.target.value }) }
-          />
-
-          <button disabled={ disabled } type="submit">Confirm</button>
+          />*/}
+          <div className="SearchFilters-buttons">
+            <Button block primary size="small" disabled={ disabled } type="submit" label="Search" />
+          </div>
         </form>
       </div>
     );

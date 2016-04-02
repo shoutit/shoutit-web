@@ -17,17 +17,18 @@ if (process.env.BROWSER) {
   require('./Search.scss');
 }
 
-const getSearchParams = ({ params, query, currentLocation }) => {
+const getSearchParams = ({ params, query = {}, currentLocation = {} }) => {
+  // TODO: this should go into an external module
   let searchParams = {};
   const { shout_type, category } = params;
-  const { min_price, max_price, country, state, city, search } = query;
+  const { min_price, max_price, country, state, city, search, filters: qsFilters } = query;
 
   // Set city, state, country
   if (city && country && state) {
     searchParams.city = decodeURIComponent(city);
     searchParams.state = decodeURIComponent(state);
     searchParams.country = decodeURIComponent(country);
-  } else if (currentLocation.country) {
+  } else if (currentLocation && currentLocation.country) {
     searchParams.country = currentLocation.country;
     if (currentLocation.state) {
       searchParams.state = currentLocation.state;
@@ -36,15 +37,28 @@ const getSearchParams = ({ params, query, currentLocation }) => {
       searchParams.city = currentLocation.city;
     }
   }
+
+  let filters = {};
+  if (qsFilters) {
+    qsFilters.split(';').forEach(qsFilter => {
+      const filter = qsFilter.split(':');
+      if (filter.length === 2) {
+        filters = {
+          ...filters,
+          [filter[0]]: filter[1],
+        };
+      }
+    });
+  }
   searchParams = {
     ...searchParams,
     shout_type,
     category,
-    search: search ? decodeURIComponent(search) : '',
+    filters: Object.keys(filters).length === 0 ? undefined : filters,
+    search: search ? decodeURIComponent(search) : undefined,
     min_price: min_price ? parseInt(min_price, 10) : undefined,
     max_price: max_price ? parseInt(max_price, 10) : undefined,
   };
-
   return searchParams;
 };
 
