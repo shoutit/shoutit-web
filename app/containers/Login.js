@@ -34,7 +34,7 @@ export class Login extends Component {
     const { isLoggingIn, loginError, location } = this.props;
     const { onSubmit } = this.props;
     return (
-      <Page className="Login">
+      <Page className="Login" title="Login">
         {/* <div className="separator separator-with"></div>*/}
         <SocialLoginForm />
         {/* <div className="separator separator-or"></div>*/}

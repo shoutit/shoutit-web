@@ -77,6 +77,7 @@ export class Dashboard extends Component {
         triggerOffset={ 400 }
       >
         <Page
+          title="Dashboard"
           startColumn={ <StartColumn profile={ loggedProfile } /> }
           stickyStartColumn
           endColumn={ [<SuggestedInterests />, <SuggestedProfiles />, <SuggestedShout />] }

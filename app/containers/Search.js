@@ -160,7 +160,7 @@ export class Search extends Component {
   }
 
   render() {
-    const { shouts, nextUrl, isFetching, dispatch, error, searchParams } = this.props;
+    const { shouts, nextUrl, isFetching, dispatch, error, searchParams, title } = this.props;
 
     return (
       <Scrollable
@@ -173,6 +173,7 @@ export class Search extends Component {
         triggerOffset={ 400 }
       >
         <Page
+          title={ title }
           className="Search"
           startColumn={
             <div className="Search-start-column">
@@ -229,6 +230,21 @@ const mapStateToProps = (state, ownProps) => {
     error = shoutsBySearch[searchString].error;
     shouts = shoutsBySearch[searchString].ids.map(id => entities.shouts[id]);
   }
+
+  let title = 'Search';
+
+  if (searchParams.category) {
+    title = ` ${state.entities.categories[searchParams.category].name}`;
+  }
+
+  if (searchParams.shout_type && searchParams.shout_type !== 'all') {
+    title += ` ${searchParams.shout_type}s`;
+  }
+
+  if (searchParams.city) {
+    title += ` in ${searchParams.city}`;
+  }
+
   return {
     searchString,
     searchParams,
@@ -237,6 +253,7 @@ const mapStateToProps = (state, ownProps) => {
     isFetching,
     error,
     currentLocation,
+    title,
     location: ownProps.location,
   };
 };

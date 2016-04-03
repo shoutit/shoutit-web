@@ -20,7 +20,7 @@ export class Password extends Component {
 
   render() {
     return (
-      <Page>
+      <Page title="Password recovery">
         Password page
       </Page>
     );

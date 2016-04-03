@@ -23,12 +23,12 @@ export class User extends Component {
 
   render() {
     return (
-      <Page endColumn={ [
+      <Page title="Profile" endColumn={ [
         <SuggestedInterests />,
         <SuggestedProfiles />,
         <SuggestedShout />,
       ]}>
-        User page
+        Profile page
       </Page>
     );
   }

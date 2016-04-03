@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { Link as ScrollLink, Element } from 'react-scroll';
-import Button from '../ui/Button';
 import Card from '../ui/Card';
 import Footer from '../layout/Footer';
 import DocumentTitle from '../ui/DocumentTitle';

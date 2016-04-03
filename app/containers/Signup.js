@@ -20,7 +20,7 @@ export class Signup extends Component {
 
   render() {
     return (
-      <Page>
+      <Page title="Signup">
         Signup page
       </Page>
     );

@@ -23,11 +23,13 @@ export class Interest extends Component {
 
   render() {
     return (
-      <Page endColumn={ [
-        <SuggestedInterests />,
-        <SuggestedProfiles />,
-        <SuggestedShout />,
-      ]}>
+      <Page
+        title="Explore interests"
+        endColumn={ [
+          <SuggestedInterests />,
+          <SuggestedProfiles />,
+          <SuggestedShout />,
+        ]}>
         Interest page
       </Page>
     );
