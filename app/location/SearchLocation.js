@@ -66,6 +66,7 @@ export class SearchLocation extends Component {
     return (
       <div>
         <input
+          autoFocus
           className="htmlInput block"
           type="text"
           ref="input"

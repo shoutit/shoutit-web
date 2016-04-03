@@ -9,10 +9,11 @@
   z-index: 2001;
   height: 100%;
   overflow: scroll;
-  transition: opacity 250ms;
 
   .Modal {
-    transition: transform 250ms;
+
+    // Keep transition in -enter-active and -leave to fix focus issue
+    // https://github.com/facebook/react/issues/2104
   }
 
   .modal-leave {
@@ -30,15 +31,19 @@
   }
 
   &.modal-enter-active {
+    transition: opacity 250ms;
     opacity: 1;
     .Modal {
       transform: translateX(-50%) translateY(0);
+      transition: transform 250ms;
     }
   }
 
   &.modal-leave {
     opacity: 1;
+    transition: opacity 250ms;
     .Modal {
+      transition: transform 250ms;
       transform: translateX(-50%) translateY(0);
     }
   }
