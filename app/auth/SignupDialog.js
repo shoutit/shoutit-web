@@ -1,40 +1,32 @@
-import React from "react";
-import { StoreWatchMixin } from "fluxxor";
-import { Link } from "react-router";
-import DocumentTitle from "react-document-title";
-import { Input } from "react-bootstrap";
+import React from 'react';
+import { Link } from 'react-router';
+import { Input } from 'react-bootstrap';
 
-import Dialog from "../shared/components/helper/Dialog.jsx";
-import Button from "../shared/components/helper/Button.jsx";
-import SocialLoginForm from "./SocialLoginForm";
+import { connect } from 'react-redux';
 
-export default React.createClass({
+import DocumentTitle from '../ui/DocumentTitle';
+import Dialog from '../shared/components/helper/Dialog.jsx';
+import Button from '../ui/Button';
+import SocialLoginForm from './SocialLoginForm';
 
-  displayName: "SignupDialog",
+import { createProfile } from '../actions/session';
 
-  mixins: [new StoreWatchMixin("auth")],
+export const SignupDialog = React.createClass({
 
+  displayName: 'SignupDialog',
 
   componentWillReceiveProps(nextProps) {
     if (this.props.open && this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
       if (nextProps.loggedUser.is_activated) {
-        this.props.history.replaceState(null, "/home");
+        this.props.history.replace('/home');
       }
     }
-    if (this.props.open && !nextProps.open) {
-      // Dialog has been closed
-      this.props.flux.actions.resetAuthErrors();
-    }
-  },
-
-  getStateFromFlux() {
-    return this.props.flux.store("auth").getState();
   },
 
   handleFormSubmit(e) {
     e.preventDefault();
 
-    if (this.state.isSigningUp) {
+    if (this.props.isSigningUp) {
       return;
     }
 
@@ -52,22 +44,21 @@ export default React.createClass({
     this.refs.email.getInputDOMNode().blur();
     this.refs.password.getInputDOMNode().blur();
 
-    this.props.flux.actions.signup({
+    this.props.onSubmit({
       email,
       name: `${firstName} ${lastName}`,
-      password
+      password,
     });
-
   },
 
   renderForm() {
-    const { isSigningUp, signupError } = this.state;
+    const { isSigningUp, signupError } = this.props;
     const error = signupError || {};
     return (
       <div className="si-signup">
         <div className="separator separator-with"></div>
 
-        <SocialLoginForm flux={ this.props.flux } />
+        <SocialLoginForm />
 
         <div className="separator separator-or"></div>
 
@@ -79,7 +70,7 @@ export default React.createClass({
             ref="firstName"
             type="text"
             placeholder="First Name"
-            className={ `input-name ${error.first_name ? "input-alert" : ""}` }
+            className={ `input-name ${error.first_name ? 'input-alert' : ''}` }
           />
 
           { error.last_name && <p className="small">{ error.last_name }</p> }
@@ -88,7 +79,7 @@ export default React.createClass({
             ref="lastName"
             type="text"
             placeholder="Last Name"
-            className={ `input-name input-last-name ${error.last_name ? "input-alert" : ""}` }
+            className={ `input-name input-last-name ${error.last_name ? 'input-alert' : ''}` }
           />
 
           { error.email && <p className="small">{ error.email }</p> }
@@ -97,7 +88,7 @@ export default React.createClass({
             ref="email"
             type="email"
             placeholder="E-mail"
-            className={`input-email ${error.email ? "input-alert" : ""}`}
+            className={`input-email ${error.email ? 'input-alert' : ''}`}
           />
 
           { error.password && <p className="small">{ error.password }</p> }
@@ -106,7 +97,7 @@ export default React.createClass({
             ref="password"
             type="password"
             placeholder="Password"
-            className={`input-password ${error.password ? "input-alert" : ""}`}
+            className={`input-password ${error.password ? 'input-alert' : ''}`}
           />
 
           <Button
@@ -114,14 +105,14 @@ export default React.createClass({
             primary
             block
             disabled={ isSigningUp }
-            label={ isSigningUp ? "Signing up…": "Sign up" } />
+            label={ isSigningUp ? 'Signing up…' : 'Sign up' } />
 
           <p className="signup-note">
-            By signing up, you agree to the<br/>Terms of Service and the Privacy Policy
+            By signing up, you agree to the<br />Terms of Service and the Privacy Policy
           </p>
         </form>
         <div className="separator"></div>
-        <div style={{marginBottom: "15px", textAlign: "center"}}>
+        <div style={{ marginBottom: '15px', textAlign: 'center' }}>
           Have an account? <Link to="/login"><strong>Log in</strong></Link>
         </div>
       </div>
@@ -133,7 +124,7 @@ export default React.createClass({
     return (
       <div className="si-signup">
         <div className="separator"></div>
-        <p style={{ marginTop:"25px" }}>
+        <p style={{ marginTop:'25px' }}>
           Dear { loggedUser.first_name }, welcome to Shoutit.
           We are happy to have you here!
         </p>
@@ -142,11 +133,11 @@ export default React.createClass({
           by clicking on the link we have sent to your email <span>{ loggedUser.email }</span>.
         </p>
         <center>
-          <div style={{margin: "30px"}}>
+          <div style={{ margin: '30px' }}>
             <Button
               primary
               block
-              to="/home"
+              to="/"
               label="Go to your home page" />
           </div>
         </center>
@@ -157,10 +148,10 @@ export default React.createClass({
   render() {
     const { open, onRequestClose, loggedUser } = this.props;
     const waitingForVerification = loggedUser && !loggedUser.is_activated;
-    return(
-      <DocumentTitle title="Sign up - Shoutit">
+    return (
+      <DocumentTitle title="Sign up">
         <Dialog
-          titleWithIcon={ waitingForVerification ? "You are done!" : "Sign up" }
+          titleWithIcon={ waitingForVerification ? 'You are done!' : 'Sign up' }
           open={ open }
           onRequestClose={ onRequestClose }
           contentStyle={{ marginTop: -50 }}
@@ -174,6 +165,23 @@ export default React.createClass({
         </Dialog>
       </DocumentTitle>
     );
-  }
+  },
 
 });
+
+
+const mapStateToProps = state => {
+  return {
+    loggedUser: state.session.user,
+    isSigningUp: state.session.isSigningUp,
+    signupError: state.session.signupError,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubmit: loginData => dispatch(createProfile(loginData)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignupDialog);

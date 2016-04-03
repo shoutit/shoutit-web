@@ -1,0 +1,58 @@
+@import "../styles/constants.scss";
+
+.ShoutPreview {
+  display: block;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  .ShoutPrice {
+    z-index: 2;
+    position: absolute;
+    top: .5rem;
+    right: -.5rem;
+    color: white;
+    background: lighten($shoutit-green, 20);
+    padding: 0.35rem .7rem;
+    box-shadow: -1px 1px 3px rgba(0,0,0,.4);
+    &.free {
+      text-transform: uppercase;
+      // background-color: $shoutit-blue;
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      transform: rotate(-180deg);
+      width: 0;
+      height: 0;
+      right: 0;
+      bottom: -8px;
+      border-left: 8px solid transparent;
+      border-right: 0 solid transparent;
+      border-bottom: 8px solid $shoutit-green;
+      z-index: 1;
+    }
+  }
+
+}
+
+.ShoutPreview-title {
+  margin-bottom: .5rem;
+}
+
+.ShoutPreview-details {
+  font-size: 0.75rem;
+  color: $color-light;
+  display: flex;
+  align-items: center;
+  .UserAvatar {
+    margin-right: .5rem;
+  }
+  .ShoutPreview-category {
+    flex: 1;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    align-items: center;
+  }
+}

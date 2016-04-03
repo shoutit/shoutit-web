@@ -1,10 +1,10 @@
 import React from 'react';
-import DocumentTitle from 'react-document-title';
+import DocumentTitle from "../../../ui/DocumentTitle";
 
 export default React.createClass({
     displayName: "NotFound",
 
-    title: "Not Found - Shoutit",
+    title: "Not Found",
 
     render() {
         return (
@@ -16,4 +16,3 @@ export default React.createClass({
         );
     }
 });
-

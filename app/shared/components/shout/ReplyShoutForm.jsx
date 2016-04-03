@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "react-bootstrap";
 
-import SVGIcon from "../../components/helper/SVGIcon";
+import SVGIcon from "../../../ui/SVGIcon";
 import UserAvatar from "../../../users/UserAvatar";
 
 import { StoreWatchMixin } from "fluxxor";
@@ -20,11 +20,6 @@ export default React.createClass({
 
   mixins: [ StoreWatchMixin("users"), History],
 
-  contextTypes: {
-    flux: React.PropTypes.object,
-    location: React.PropTypes.object
-  },
-
   getInitialState() {
     return {
       loading: false
@@ -38,7 +33,7 @@ export default React.createClass({
   },
 
   getStateFromFlux() {
-    const usersStore = this.context.flux.store("users");
+    const usersStore = this.props.flux.store("users");
     const loggedUser = usersStore.getLoggedUser();
     const { users } = usersStore.getState();
     return { loggedUser, users };

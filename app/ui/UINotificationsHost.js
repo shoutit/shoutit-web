@@ -1,11 +1,13 @@
-import React from "react";
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { connect } from 'react-redux';
+import { dismissUINotification } from '../actions/ui';
 
 if (process.env.BROWSER) {
-  require("./UINotificationsHost.scss");
+  require('./UINotificationsHost.scss');
 }
 
-export default function UINotificationsHost({ notifications, flux }) {
+export function UINotificationsHost({ notifications, dismiss }) {
   return (
     <div className="UINotificationsHost">
       <ReactCSSTransitionGroup transitionName="notification" transitionEnterTimeout={250} transitionLeaveTimeout={250}>
@@ -14,7 +16,7 @@ export default function UINotificationsHost({ notifications, flux }) {
             React.cloneElement(notification.content, {
               notificationId: notification.id,
               key: notification.id,
-              dismissUINotification: () => flux.actions.dismissUINotification(notification.id)
+              onDismissClick: () => dismiss(notification.id),
             })
 
           )
@@ -23,3 +25,15 @@ export default function UINotificationsHost({ notifications, flux }) {
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  notifications: state.uiNotifications,
+});
+
+const mapDispatchToProps = dispatch => ({
+  dismiss(id) {
+    dispatch(dismissUINotification(id));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UINotificationsHost);

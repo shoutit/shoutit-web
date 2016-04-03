@@ -1,12 +1,12 @@
-import React, { PropTypes, Component } from "react";
-import { Modal } from "react-bootstrap";
+import React, { PropTypes, Component } from 'react';
+import { Modal } from 'react-bootstrap';
 
-import Progress from "../shared/components/helper/Progress.jsx";
-import Button from "../shared/components/helper/Button.jsx";
-import ShoutItem from "../shared/components/shout/ShoutItem.jsx";
+import Progress from '../shared/components/helper/Progress.jsx';
+import Button from '../ui/Button';
+import ShoutItem from '../shared/components/shout/ShoutItem.jsx';
 
 if (process.env.BROWSER) {
-  require("./UserShoutsSelectDialog.scss");
+  require('./UserShoutsSelectDialog.scss');
 }
 
 export default class UserShoutsSelectDialog extends Component {
@@ -17,12 +17,12 @@ export default class UserShoutsSelectDialog extends Component {
     open: PropTypes.bool,
     onRequestClose: PropTypes.func,
     flux: PropTypes.object.isRequired,
-    onSelectionConfirm: PropTypes.func.isRequired
+    onSelectionConfirm: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     open: false,
-    attachments: "Select"
+    attachments: 'Select',
   };
 
   constructor(props) {
@@ -32,41 +32,41 @@ export default class UserShoutsSelectDialog extends Component {
 
   state = {
     selected: [],
-    shouts: []
+    shouts: [],
   }
 
   componentDidMount() {
     const { flux, user, open } = this.props;
-    flux.store("users").on("change", this.setStateFromStore);
+    flux.store('users').on('change', this.setStateFromStore);
     if (open) {
-      flux.actions.loadUserShouts(user.username, "offer");
+      flux.actions.loadUserShouts(user.username, 'offer');
     }
   }
 
   componentDidUpdate(prevProps) {
     const { flux, user, open } = this.props;
     if (open && !prevProps.open) {
-      flux.actions.loadUserShouts(user.username, "offer");
+      flux.actions.loadUserShouts(user.username, 'offer');
     }
     else if (!open && prevProps.open) {
       this.setState({
         selected: [],
-        shouts: user.username !== prevProps.user.username ? [] : this.state.shouts
+        shouts: user.username !== prevProps.user.username ? [] : this.state.shouts,
       });
     }
   }
 
   componentWillUnmount() {
     const { flux } = this.props;
-    flux.store("users").removeListener("change", this.setStateFromStore);
+    flux.store('users').removeListener('change', this.setStateFromStore);
   }
 
   setStateFromStore() {
     const { flux, user } = this.props;
-    const state = flux.store("users").getState();
+    const state = flux.store('users').getState();
     this.setState({
       loading: state.shouts[user.username] && state.shouts[user.username].loading,
-      shouts: state.shouts[user.username] ? state.shouts[user.username].list : []
+      shouts: state.shouts[user.username] ? state.shouts[user.username].list : [],
     });
   }
 
@@ -78,7 +78,7 @@ export default class UserShoutsSelectDialog extends Component {
     else {
       const index = selected.indexOf(shout);
       this.setState({
-        selected: [...selected.slice(0, index), ...selected.slice(index + 1) ]
+        selected: [...selected.slice(0, index), ...selected.slice(index + 1)],
       });
     }
   }
@@ -97,7 +97,7 @@ export default class UserShoutsSelectDialog extends Component {
           { shouts.map(shout => {
             const isChecked = !!selected.find(selectedShout => selectedShout.id === shout.id);
             return (
-              <div key={shout.id} className={ `UserShoutsSelectDialog-item${isChecked? " checked" : ""}`}>
+              <div key={shout.id} className={ `UserShoutsSelectDialog-item${isChecked ? ' checked' : ''}`}>
                 <input
                   onChange={ e => this.handleSelectionChange(e.target.checked, shout) }
                   type="checkbox"
@@ -105,7 +105,7 @@ export default class UserShoutsSelectDialog extends Component {
                   value={ shout.id }
                   name="shoutIds"
                 />
-                <label style={{ display: "block", marginBottom: 0, width: "100%", cursor: "pointer" }} htmlFor={`UserShoutsSelectDialog.${shout.id}`}>
+                <label style={{ display: 'block', marginBottom: 0, width: '100%', cursor: 'pointer' }} htmlFor={`UserShoutsSelectDialog.${shout.id}`}>
                   <ShoutItem checked={ isChecked } horizontal shout={ shout } showUser={ false } />
                 </label>
               </div>
@@ -120,12 +120,12 @@ export default class UserShoutsSelectDialog extends Component {
 
         </Modal.Body>
         <Modal.Footer>
-           <Button label="Cancel" onClick={ onRequestClose}  />
+           <Button label="Cancel" onClick={ onRequestClose} />
            <Button
-              disabled={ selected.length === 0}
-              label={ buttonLabel }
-              primary
-              onClick={() => { selected.length > 0 ? onSelectionConfirm(selected) : null; } } />
+             disabled={ selected.length === 0}
+             label={ buttonLabel }
+             primary
+             onClick={() => { selected.length > 0 ? onSelectionConfirm(selected) : null; } } />
         </Modal.Footer>
       </Modal>
     );

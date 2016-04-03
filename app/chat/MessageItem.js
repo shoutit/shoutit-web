@@ -1,18 +1,19 @@
-import React from "react";
-import moment from "moment";
-import { Link } from "react-router";
+import React from 'react';
+import moment from 'moment';
+import { Link } from 'react-router';
 
-import MessageReadByFlag from "./MessageReadByFlag";
-import ShoutItem from "../shared/components/shout/ShoutItem.jsx";
-import GoogleStaticMap from "../shared/components/misc/GoogleStaticMap.jsx";
+import MessageReadByFlag from './MessageReadByFlag';
+import ShoutItem from '../shared/components/shout/ShoutItem.jsx';
+import GoogleStaticMap from '../shared/components/misc/GoogleStaticMap.jsx';
+import NewlineToBreak from '../ui/NewlineToBreak';
 
 if (process.env.BROWSER) {
-  require("./MessageItem.scss");
+  require('./MessageItem.scss');
 }
 
-export default function MessageItem({ message, isMe, readByUsers=[] }) {
-  const { created_at, sending, text, sendError, attachments=[] } = message;
-  const createdAt = moment.unix(created_at);
+export default function MessageItem({ message, isMe, readByProfiles = [] }) {
+  const { createdAt, isCreating, text, createError, attachments = [] } = message;
+  const created = moment.unix(createdAt);
 
   const attachmentsContent = attachments.map((attachment, i) => {
     const { shout, location } = attachment;
@@ -20,7 +21,7 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
     if (shout) {
       content = (
         <Link to={ `/shout/${shout.id}` }>
-          <ShoutItem outline shout={ shout } thumbnailRatio={ 16/9 } />
+          <ShoutItem outline shout={ shout } thumbnailRatio={ 16 / 9 } />
         </Link>
       );
     }
@@ -34,28 +35,28 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
   });
   const footer = (
     <div className="MessageItem-footer">
-      {!sending && !sendError &&
+      {!isCreating && !createError &&
         <span>
-          { readByUsers.length > 0 && <MessageReadByFlag profiles={ readByUsers } /> }
+          { readByProfiles.length > 0 && <MessageReadByFlag profiles={ readByProfiles } /> }
         </span>
       }
-      {!sending && !sendError && <span title={createdAt.format("LLLL")}>
-          { createdAt.format("LT") }
+      {!isCreating && !createError && <span title={created.format('LLLL')}>
+          { created.format('LT') }
         </span>
       }
-      { sending && <span>Sending…</span> }
+      { isCreating && <span>Sending…</span> }
     </div>
   );
 
-  let className = "MessageItem";
+  let className = 'MessageItem';
   if (isMe) {
-    className += " isMe";
+    className += ' isMe';
   }
-  if (sendError) {
-    className += " didError";
+  if (createError) {
+    className += ' didError';
   }
-  if (sending) {
-    className += " sending";
+  if (isCreating) {
+    className += ' sending';
   }
 
   return (
@@ -69,15 +70,17 @@ export default function MessageItem({ message, isMe, readByUsers=[] }) {
         }
         { text &&
           <div className="MessageItem-text">
-            <p> { text } </p>
+            <p>
+              <NewlineToBreak>{ text }</NewlineToBreak>
+            </p>
             { footer }
           </div>
         }
 
       </div>
 
-      { !sending && sendError &&
-        <div className="MessageItem-retry" title={sendError.message}>
+      { !isCreating && createError &&
+        <div className="MessageItem-retry" title={createError.message}>
           ⚠️ This message could not be sent
         </div>
       }

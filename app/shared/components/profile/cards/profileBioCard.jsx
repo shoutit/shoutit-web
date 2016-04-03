@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid, Column, Icon} from '../../helper';
 import Separator from '../../general/separator.jsx';
 import CountryFlag from '../../helper/CountryFlag.jsx';
-import SVGIcon from '../../helper/SVGIcon';
+import SVGIcon from '../../../../ui/SVGIcon';
 import moment from 'moment';
 
 export default React.createClass({

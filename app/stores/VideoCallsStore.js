@@ -1,6 +1,6 @@
-import Fluxxor from "fluxxor";
+import Fluxxor from 'fluxxor';
 
-import * as actions from "../actions/actionTypes";
+import * as actions from '../actions/actionTypes';
 
 const initialState = {
   token: null,
@@ -17,13 +17,13 @@ const initialState = {
 
   incomingInvites: [],           // Invites waiting to be accepted or rejected
 
-  outgoingInvites: []
+  outgoingInvites: [],
 };
 
 export default Fluxxor.createStore({
 
   initialize({ token, identity }) {
-    this.state = {...initialState};
+    this.state = { ...initialState };
 
     if (token) {
       this.state.token = token;
@@ -62,7 +62,7 @@ export default Fluxxor.createStore({
   handleInitStart() {
     this.state.initializing = true;
     this.state.initialized = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   handleInitSuccess({ token, identity, accessManager, conversationsClient }) {
@@ -72,35 +72,35 @@ export default Fluxxor.createStore({
     this.state.conversationsClient = conversationsClient;
     this.state.accessManager = accessManager;
     this.state.initialized = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   handleInitFailure({ error }) {
     this.state.initializing = false;
     this.state.initError = error;
     this.state.initialized = false;
-    this.emit("change");
+    this.emit('change');
   },
 
-  handleOutgoingInvite({ outgoingInvite} ) {
+  handleOutgoingInvite({ outgoingInvite }) {
     this.state.outgoingInvites.push(outgoingInvite);
-    this.emit("change");
+    this.emit('change');
   },
 
   handleOutgoingInviteSuccess({ outgoingInvite, conversation }) {
     this.state.currentConversation = conversation;
     this.state.outgoingInvites.splice(this.state.outgoingInvites.indexOf(outgoingInvite), 1);
-    this.emit("change");
+    this.emit('change');
   },
 
   handleOutgoingInviteFailure({ outgoingInvite }) {
     this.state.outgoingInvites.splice(this.state.outgoingInvites.indexOf(outgoingInvite), 1);
-    this.emit("change");
+    this.emit('change');
   },
 
   handleIncomingInvite({ incomingInvite }) {
     this.state.incomingInvites.push(incomingInvite);
-    this.emit("change");
+    this.emit('change');
   },
 
   handleIncomingInviteSuccess({ incomingInvite, conversation }) {
@@ -109,21 +109,21 @@ export default Fluxxor.createStore({
       this.state.incomingInvites.indexOf(incomingInvite), 1
     );
     incomingInvite.removeAllListeners();
-    this.emit("change");
+    this.emit('change');
   },
 
-  handleIncomingInviteFailure({incomingInvite}) {
+  handleIncomingInviteFailure({ incomingInvite }) {
     this.state.incomingInvites.splice(
       this.state.incomingInvites.indexOf(incomingInvite), 1
     );
     incomingInvite.removeAllListeners();
-    this.emit("change");
+    this.emit('change');
   },
 
   handleConversationDisconnected(conversation) {
     conversation.removeAllListeners();
     this.state.currentConversation = null;
-    this.emit("change");
+    this.emit('change');
   },
 
   serialize() {
@@ -132,6 +132,6 @@ export default Fluxxor.createStore({
 
   hydrate(json) {
     this.state = JSON.parse(json);
-  }
+  },
 
 });

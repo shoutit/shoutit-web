@@ -1,77 +1,77 @@
-import consts from "./consts";
-import client from "./client";
+import consts from './consts';
+import client from './client';
 
 export default {
   loadDiscoverWithCode(country) {
     client.getDiscover(country).end((err, res) => {
-      if(err) {
+      if (err) {
         console.log(err);
         this.dispatch(consts.LOAD_DISCOVER_FAIL);
       } else {
         const id = res.body.results[0].id;
         this.dispatch(consts.LOAD_DISCOVER_WITH_CODE_SUCCESS, {
           id,
-          country
+          country,
         });
         this.flux.actions.loadDiscoverWithId(id);
       }
     });
         // dispatching event to trigger the loading
-    this.dispatch(consts.LOAD_DISCOVER_WITH_CODE, {country});
+    this.dispatch(consts.LOAD_DISCOVER_WITH_CODE, { country });
   },
 
     // Main endpoint from loading discover objects
   loadDiscoverWithId(id) {
     client.getDiscoverList(id).end((err, res) => {
-      if(err || res.status !== 200) {
+      if (err || res.status !== 200) {
         console.log(err);
-        this.dispatch(consts.LOAD_DISCOVER_WITH_ID_FAIL, {id});
+        this.dispatch(consts.LOAD_DISCOVER_WITH_ID_FAIL, { id });
       } else {
                 // Fire the shouts event in case API asks for it
-        if(res.body.show_shouts) {
+        if (res.body.show_shouts) {
           this.flux.actions.loadDiscoverShouts(id);
         }
-        this.dispatch(consts.LOAD_DISCOVER_WITH_ID_SUCCESS, {res: res.body});
+        this.dispatch(consts.LOAD_DISCOVER_WITH_ID_SUCCESS, { res: res.body });
       }
     });
 
-    this.dispatch(consts.LOAD_DISCOVER_WITH_ID, {id});
+    this.dispatch(consts.LOAD_DISCOVER_WITH_ID, { id });
   },
 
   loadDiscoverShouts(id) {
     client.getDiscoverShouts(id).end((err, res) => {
-      if(err) {
+      if (err) {
         console.log(err);
-        this.dispatch(consts.LOAD_DISCOVER_SHOUTS_FAIL, {id});
+        this.dispatch(consts.LOAD_DISCOVER_SHOUTS_FAIL, { id });
       } else {
         this.dispatch(consts.LOAD_DISCOVER_SHOUTS_SUCCESS, {
           res: res.body,
-          id
+          id,
         });
       }
     });
 
-    this.dispatch(consts.LOAD_DISCOVER_SHOUTS, {id});
+    this.dispatch(consts.LOAD_DISCOVER_SHOUTS, { id });
   },
 
   loadMoreDiscoverShouts(id) {
-    const { next } = this.flux.store("discovers").getShoutsState(id);
+    const { next } = this.flux.store('discovers').getShoutsState(id);
 
-    if(next) {
+    if (next) {
       client.getDiscoverShouts(id, {
-        page: next
+        page: next,
       }).end((err, res) => {
-        if(err) {
+        if (err) {
           this.dispatch(consts.LOAD_MORE_DISCOVER_SHOUTS_FAIL, { id });
         } else {
           this.dispatch(consts.LOAD_MORE_DISCOVER_SHOUTS_SUCCESS, {
             id,
-            res: res.body
+            res: res.body,
           });
         }
       });
 
       this.dispatch(consts.LOAD_MORE_DISCOVER_SHOUTS, { id });
     }
-  }
+  },
 };

@@ -1,49 +1,35 @@
-import React from "react";
-import DocumentTitle from "react-document-title";
-import { Link } from "react-router";
-import { Input } from "react-bootstrap";
-import { StoreWatchMixin } from "fluxxor";
+import React from 'react';
+import { Link } from 'react-router';
+import { Input } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { replace } from 'react-router-redux';
 
-import Dialog from "../shared/components/helper/Dialog.jsx";
-import Button from "../shared/components/helper/Button.jsx";
+import DocumentTitle from '../ui/DocumentTitle';
+import Dialog from '../shared/components/helper/Dialog.jsx';
+import Button from '../ui/Button';
 
-export default React.createClass({
+import { requestPasswordReset } from '../actions/session';
 
-  displayName: "ResetPasswordDialog",
+export const ResetPasswordDialog = React.createClass({
 
-  mixins: [new StoreWatchMixin("auth")],
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.open && !nextProps.open) {
-      // Dialog has been closed
-      this.props.flux.actions.resetAuthErrors();
-    }
-  },
-
-  getStateFromFlux() {
-    const flux = this.props.flux;
-    return flux.store("auth").getState();
-  },
+  displayName: 'ResetPasswordDialog',
 
   handleSubmit(e) {
+    const { onSubmit, onEmailSent, isRequestingPasswordReset } = this.props;
     e.preventDefault();
     const email = e.target.email.value;
-    if (!email || this.state.isRequestingPasswordReset) {
+    if (!email || isRequestingPasswordReset) {
       return;
     }
     e.target.email.blur();
-    this.props.flux.actions.requestPasswordReset(email, err => {
-      if (!err) {
-        this.props.history.replaceState(null, "/login");
-      }
-    });
+    onSubmit(email).then(() => onEmailSent());
   },
 
   render() {
     const { onRequestClose, open } = this.props;
-    const { isRequestingPasswordReset, passwordResetError: error } = this.state;
+    const { isRequestingPasswordReset, passwordResetError: error } = this.props;
     return (
-      <DocumentTitle title="Reset your password - Shoutit">
+      <DocumentTitle title="Reset your password">
         <Dialog
           titleWithIcon="Reset your password"
           open={ open }
@@ -59,7 +45,7 @@ export default React.createClass({
             <form onSubmit={this.handleSubmit}>
 
               { error &&
-                <ul style={ { color: "red", padding: 0 }}>
+                <ul style={ { color: 'red', padding: 0 }}>
                   { Object.keys(error).map(field =>
                       error[field].map((error, i) =>
                         <li key={`${field}-${i}`}>{ error }</li>
@@ -78,13 +64,13 @@ export default React.createClass({
 
               <Button
                 type="submit" primary block disabled={ isRequestingPasswordReset }
-                label={ isRequestingPasswordReset ? "Sending…": "Reset password"}
+                label={ isRequestingPasswordReset ? 'Sending…' : 'Reset password'}
                 />
 
             </form>
 
             <div className="separator"></div>
-            <div style={{marginBottom: "15px", textAlign: "center"}}>
+            <div style={{ marginBottom: '15px', textAlign: 'center' }}>
               <Link to="/login"><strong>Back to Log in</strong></Link>
             </div>
           </div>
@@ -92,6 +78,23 @@ export default React.createClass({
 
       </DocumentTitle>
     );
-  }
+  },
 
 });
+
+
+const mapStateToProps = state => {
+  return {
+    isRequestingPasswordReset: state.session.isRequestingPasswordReset,
+    passwordResetError: state.session.passwordResetError,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubmit: email => dispatch(requestPasswordReset(email)),
+    onEmailSent: () => dispatch(replace('/login?recover_sent=true')),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordDialog);

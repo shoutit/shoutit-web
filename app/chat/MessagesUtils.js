@@ -1,10 +1,10 @@
-import moment from "moment";
-import groupBy from "lodash/collection/groupBy";
-import reduce from "lodash/collection/reduce";
-import last from "lodash/array/last";
+import moment from 'moment';
+import groupBy from 'lodash/collection/groupBy';
+import reduce from 'lodash/collection/reduce';
+import last from 'lodash/array/last';
 
 export function groupByDay(messages) {
-  const groupedByDay = groupBy(messages, message =>  moment.unix(message.created_at).format("YYYY-MM-DD"));
+  const groupedByDay = groupBy(messages, message => moment.unix(message.createdAt).format('YYYY-MM-DD'));
   const asArray = reduce(groupedByDay, (result, messages, day) => {
     result.push({ day, messages });
     return result;
@@ -12,45 +12,44 @@ export function groupByDay(messages) {
   return asArray.sort((a, b) => moment(a.day) > moment(b.day));
 }
 
-export function groupByUser(messages) {
-  const groupedByUser = messages.reduce((result, message) => {
+export function groupByProfile(messages) {
+  const groupedByProfile = messages.reduce((result, message) => {
     const lastResult = last(result);
 
     const shouldAddNewGroup = (
       result.length === 0 ||
-      !lastResult.user && message.user ||
-      lastResult.user && !message.user ||
-      lastResult.user.id !== message.user.id
+      !lastResult.profile && message.profile ||
+      lastResult.profile && !message.profile ||
+      lastResult.profile.id !== message.profile.id
     );
 
     if (shouldAddNewGroup) {
-      const messageByUser = { user: message.user, messages: [message] };
-      result.push(messageByUser);
+      const messageByProfile = { profile: message.profile, messages: [message] };
+      result.push(messageByProfile);
     } else {
       last(result).messages.push(message);
     }
     return result;
   }, []);
 
-  return groupedByUser;
+  return groupedByProfile;
 }
 
-export function getReadyBy(message, users, excludeUsername) {
-  if (!message.read_by) {
+export function getReadyBy(message, profiles, excludeUsername) {
+  if (!message.readBy) {
     return [];
   }
 
-  // Map each profile_id to users
-  let readBy = users.filter(user =>
-    message.read_by.some(reader => reader.profile_id === user.id)
+  // Map each profile_id to profiles
+  let readBy = profiles.filter(profile =>
+    message.readBy.some(reader => reader.profileId === profile.id)
   );
 
   // exclude message's author
-  readBy = readBy.filter(user => user.id !== message.user.id);
+  readBy = readBy.filter(profile => profile.id !== message.profile.id);
 
   if (excludeUsername) {
-
-    readBy = readBy.filter(user => user.username !== excludeUsername);
+    readBy = readBy.filter(profile => profile.username !== excludeUsername);
   }
   return readBy;
 }

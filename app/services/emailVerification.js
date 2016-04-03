@@ -1,46 +1,33 @@
-import request from "../utils/request";
-import { createRequestSession } from "../utils/SessionUtils";
+import request from '../utils/request';
+import { createRequestSession } from '../utils/SessionUtils';
+import { parseErrorResponse } from '../utils/APIUtils';
 
 export default {
-  name: "emailVerification",
+  name: 'emailVerification',
   create: (req, resource, params, { email }, config, callback) => {
     request
-      .post("/auth/verify_email")
+      .post('/auth/verify_email')
       .setSession(req.session)
       .send({ email })
       .prefix()
       .end((err, res) => {
         if (err) {
-          if (err.status !== 400) {
-            console.error(err); // eslint-disable-line
-            return callback(err);
-          }
-          const error = new Error("Error sending a new e-mail verification");
-          error.statusCode = 400;
-          error.output = err.response.body.error;
-          return callback(error);
+          return callback(parseErrorResponse(err));
         }
         return callback(null, res.body);
       });
   },
   read: (req, resource, { token }, config, callback) => {
     request
-      .get(`/auth/verify_email`)
+      .get('/auth/verify_email')
       .query({ token })
       .prefix()
       .end((err, res) => {
         if (err) {
-          if (err.status !== 400) {
-            console.error(err); // eslint-disable-line
-            return callback(err);
-          }
-          const error = new Error("Error verifying the token");
-          error.statusCode = 400;
-          error.output = err.response.body.error;
-          return callback(error);
+          return callback(parseErrorResponse(err));
         }
         createRequestSession(req, res.body);
-        return callback(null, res.body);
+        return callback(null, res.body.user);
       });
-  }
+  },
 };

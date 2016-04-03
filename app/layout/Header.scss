@@ -1,0 +1,63 @@
+@import "../styles/constants/colors.scss";
+@import "../styles/pages/mixins.scss";
+
+.Header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 auto 5px;
+}
+
+.Header-logo {
+  padding: 10px;
+}
+
+.Header-separator {
+  margin: 0 10px;
+  position: relative;
+  top: 6px;
+  display: inline-block;
+  height: 20px;
+  content: "";
+  border-right: 1px solid #ccc;
+}
+
+.Header-tools {
+  text-align: right;
+  &.loggedOut {
+    margin-right: 10px;
+  }
+  &.loggedIn {
+    margin-left: 16px;
+  }
+}
+
+.Header-links {
+  margin-left: 1rem;
+  a {
+    margin: 0 1rem;
+    color: $color;
+    padding: .5rem;
+  }
+}
+
+.Header-link-active {
+  border-radius: 0;
+  border-bottom: 2px solid $si-green;
+}
+
+.Header-search {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  margin: 0 2rem;
+}
+
+.Header-overlay {
+  margin-top: 5px;
+  position: absolute;
+  z-index: 1000;
+  max-width: 400px;
+  border: 1px solid $border-color-dark;
+  @include paper();
+}

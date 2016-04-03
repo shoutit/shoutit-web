@@ -1,36 +1,50 @@
-import request from "../utils/request";
-import { createRequestSession } from "../utils/SessionUtils";
+import request from '../utils/request';
+import { createRequestSession } from '../utils/SessionUtils';
+import { parseErrorResponse } from '../utils/APIUtils';
 
 import {
-  AUTH_CLIENT_ID as client_id,
-  AUTH_CLIENT_SECRET as client_secret
-} from "./constants";
+  AUTH_CLIENT_ID as clientId,
+  AUTH_CLIENT_SECRET as clientSecret
+} from './constants';
 
 
 export default {
-  name: "session",
+  name: 'session',
   create: (req, resource, params, body, config, callback) => {
-    const data = { ...body, client_id, client_secret };
+    const data = { ...body, client_id: clientId, client_secret: clientSecret };
     request
-      .post("/oauth2/access_token")
+      .post('/oauth2/access_token')
       .send(data)
       .prefix()
       .end((err, res) => {
         if (err) {
-          if (err.status !== 400) {
-            console.error(err); // eslint-disable-line
-            return callback(err);
-          }
-          const error = new Error("Error getting access token");
-          error.statusCode = 400;
-          error.output = err.response.body;
-          return callback(error);
+          return callback(parseErrorResponse(err));
         }
         createRequestSession(req, res.body);
+        return callback(null, res.body.user);
+      });
+  },
+
+  read: (req, resource, params, config, callback) => {
+    if (!req.session || !req.session.user) {
+      callback();
+      return;
+    }
+    request
+      .get('/profiles/me')
+      .setSession(req.session)
+      .prefix()
+      .end((err, res) => {
+        if (err) {
+          return callback(parseErrorResponse(err));
+        }
+        req.session.user = res.body; // eslint-disable-line
         return callback(null, res.body);
       });
   },
+
   delete: (req, resource, params, config, callback) => {
     req.session.destroy(callback);
-  }
+  },
+
 };

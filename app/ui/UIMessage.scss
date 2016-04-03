@@ -1,0 +1,53 @@
+@import "../styles/constants.scss";
+
+.UIMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.875rem;
+
+  h4 {
+    margin: 0;
+    padding: .5rem 1rem;
+    font-weight: lighter;
+    font-size: 1rem;
+  }
+  .Page-body & {
+    padding: 1rem;
+  }
+}
+
+.UIMessage-content {
+  border-radius: $border-radius;
+  display: inline-block;
+  .UIMessage.alert & {
+    background-color: $shoutit-blue;
+  }
+  .UIMessage.info & {
+    background-color: $shoutit-grey-light;
+  }
+  .UIMessage.error & {
+    background-color: $shoutit-red;
+  }
+}
+
+.UIMessage-details {
+  padding: .5rem 1rem;
+  font-weight: lighter;
+  .UIMessage.info & {
+    background-color: lighten($shoutit-grey-light, 5);
+  }
+  .UIMessage.error & {
+    background-color: lighten($shoutit-red, 10);
+  }
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+}
+
+.UIMessage-retry {
+  margin-left: .5rem;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: normal;
+}

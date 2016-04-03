@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Icon } from "../helper";
-import SVGIcon from "../helper/SVGIcon";
+import SVGIcon from "../../../ui/SVGIcon";
 import AvatarEditor from "react-avatar-editor";
 
 import { imagesPath } from "../../../config";

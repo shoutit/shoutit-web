@@ -1,254 +1,126 @@
-import React from "react";
-import { FluxMixin, StoreWatchMixin } from "fluxxor";
-import { History } from "react-router";
+import React from 'react';
+import { connect } from 'react-redux';
+import { replace } from 'react-router-redux';
 
-import ConversationTitle from "../chat/ConversationTitle";
-import ConversationDeleteDialog from "../chat/ConversationDeleteDialog";
-import UserShoutsSelectDialog from "../users/UserShoutsSelectDialog";
-import MessagesList from "../chat/MessagesList";
-import MessageReplyForm from "../chat/MessageReplyForm";
-import MessagesTypingUsers from "../chat/MessagesTypingUsers";
-import Scrollable from "../ui/Scrollable";
+import ConversationTitle from '../chat/ConversationTitle';
+// import ConversationDeleteDialog from '../chat/ConversationDeleteDialog';
+// import UserShoutsSelectDialog from '../users/UserShoutsSelectDialog';
+import MessagesList from '../chat/MessagesList';
+import ConversationReplyForm from '../chat/ConversationReplyForm';
+import MessagesTypingUsers from '../chat/MessagesTypingUsers';
+import Scrollable from '../ui/Scrollable';
 
-import Progress from "../shared/components/helper/Progress.jsx";
+import { loadMessages, deleteConversation, setCurrentConversation, unsetCurrentConversation } from '../actions/chat';
+import { denormalize } from '../schemas';
 
-let subscribe;
-let unsubscribe;
+import Progress from '../shared/components/helper/Progress.jsx';
 
 if (process.env.BROWSER) {
-  subscribe = require("../client/pusher").subscribe;
-  unsubscribe = require("../client/pusher").unsubscribe;
-  require("./Conversation.scss");
+  require('./Conversation.scss');
 }
 
-/**
- * Container component to display a conversation.
- */
-export default React.createClass({
+export class Conversation extends React.Component {
 
-  displayName: "Conversation",
-
-  mixins: [
-    new FluxMixin(React),
-    new StoreWatchMixin("conversations"),
-    History
-  ],
-
-  getInitialState() {
-    return {
-      showDelete: false,
-      showAttachShout: false
-    };
-  },
+  state = {
+    showDelete: false,
+    showAttachShout: false,
+    typingUsers: [],
+  };
 
   componentDidMount() {
-    this.loadData();
-    this.subscribePresenceChannel();
-  },
+    const { dispatch, conversationId } = this.props;
+    dispatch(loadMessages(conversationId));
+    dispatch(setCurrentConversation(conversationId));
+  }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     // Do not render all again if just draft changed
-    if (nextState.draft !== this.state.draft) {
+    if (nextProps.draft !== this.props.draft) {
       return false;
     }
     return true;
-  },
+  }
 
   componentDidUpdate(prevProps) {
-    const { id } = this.props.params;
-    const conversationChanged = prevProps.params.id !== id;
-
-    if (conversationChanged) {
-      if (this.props.flux.stores.conversations.didLoadMessages(id)) {
-        // Reuse existing data
-        this.setState(this.getStateFromFlux());
-        return;
-      }
-      // Load data
-      this.loadData();
-      this.unsubscribePresenceChannel();
-      this.subscribePresenceChannel();
+    const { conversationId, dispatch } = this.props;
+    if (prevProps.conversationId !== conversationId) {
+      dispatch(loadMessages(conversationId));
+      dispatch(setCurrentConversation(conversationId));
     }
-
-  },
+  }
 
   componentWillUnmount() {
-    this.unsubscribePresenceChannel();
-  },
-
-  presenceChannel: null,
-  typingTimeouts: {},
-
-  getStateFromFlux() {
-
-    const { id } = this.props.params;
-    const { flux } = this.props;
-    const conversation = flux.store("conversations").get(id);
-
-    if (!conversation || !conversation.didLoad || !conversation.didLoadMessages) {
-      return {
-        loading: conversation && conversation.loading
-      };
-    }
-
-    const messages = flux.store("messages").getMessages(conversation.messageIds);
-
-    // Remove typing user if last message is the same
-    const typingUsers = this.state.typingUsers || [];
-    const typingUserIndex = typingUsers.findIndex(
-      user => user.id === conversation.last_message.user.id
-    );
-    if (typingUserIndex > -1) {
-      typingUsers.splice(typingUserIndex, 1);
-    }
-
-    return { conversation, messages, typingUsers, loading: false };
-
-  },
-
-  loadData() {
-    const { id } = this.props.params;
-    this.props.flux.actions.loadMessages(id);
-  },
-
-  subscribePresenceChannel() {
-    const { params, loggedUser } = this.props;
-    this.presenceChannel = subscribe(
-      `presence-c-${params.id}`, loggedUser, (err, channel) => {
-        if (err) {
-          console.error(err); // eslint-disable-line no-console
-          return;
-        }
-        channel.bind("client-user_is_typing", user => this.handleUserIsTyping(user));
-      }
-    );
-  },
-
-  unsubscribePresenceChannel() {
-    if (this.presenceChannel) {
-      unsubscribe(this.presenceChannel);
-      this.presenceChannel = null;
-    }
-  },
-
-  loadPreviousMessages() {
-    const { conversation, messages } = this.state;
-    if (!conversation.previous || conversation.loadingPrevious || messages.length === 0) {
-      return;
-    }
-    const { id } = this.props.params;
-    this.props.flux.actions.loadPreviousMessages(id, messages[0].created_at);
-  },
-
-  clearTypingTimeout(user) {
-    clearTimeout(this.typingTimeouts[user.id]);
-    delete this.typingTimeouts[user.id];
-  },
-
-  setTypingTimeout(user) {
-    this.typingTimeouts[user.id] = setTimeout(() => {
-      const index = this.state.typingUsers.findIndex(
-        typingUser => typingUser.id === user.id
-      );
-      const typingUsers = [ ...this.state.typingUsers];
-      typingUsers.splice(index, 1);
-      this.setState({ typingUsers });
-    }, 3000);
-  },
-
-  handleUserIsTyping(user) {
-    const { typingUsers } = this.state;
-    const { loggedUser } = this.props;
-
-    const isAlreadyTyping = typingUsers.find(typingUser => typingUser.id === user.id);
-
-    if (loggedUser.id === user.id) {
-      return;
-    }
-
-    if (isAlreadyTyping) {
-      this.clearTypingTimeout(user);
-      this.setTypingTimeout(user);
-    } else {
-      this.setState({
-        typingUsers: [...this.state.typingUsers, user]
-      }, () => this.setTypingTimeout(user));
-    }
-
-  },
+    this.props.dispatch(unsetCurrentConversation());
+  }
 
   render() {
-    const { loggedUser, videoCallState, flux } = this.props;
-    const { conversation, messages, draft, loading } = this.state;
 
-    if (!conversation || loading) {
-      return <div className="Conversation">
-        { loading && <Progress centerVertical /> }
-      </div>;
+    const { error, messagesError } = this.props;
+    const { loggedUser, isFetchingMessages, isFetching, conversation, messages = [], typingUsers } = this.props;
+    const { previousUrl, dispatch, conversationId } = this.props;
+    if (error) {
+      return (
+        <div className="Conversation-error">
+          { error.message }
+        </div>
+      );
+    }
+    if (messagesError) {
+      return (
+        <div className="Conversation-error">
+          { messagesError.message }
+        </div>
+      );
+    }
+    if (isFetching || !conversation) {
+      return (
+        <div className="Conversation">
+          <Progress centerVertical />
+        </div>
+      );
     }
 
     const me = loggedUser ? loggedUser.username : undefined;
 
-    const {
-      replyToConversation,
-      deleteConversation,
-      conversationDraftChange,
-      previewVideoCall
-    } = flux.actions;
-
-
-    const { typingUsers, showAttachShout, showDelete } = this.state;
-
+    const { showAttachShout, showDelete } = this.state;
     return (
       <div className="Conversation">
 
-      { conversation.didLoad &&
         <ConversationTitle
           conversation={ conversation }
           me={ me }
-          showVideoCallButton={ videoCallState.initialized }
           onDeleteConversationClick={ () => this.setState({ showDelete: true }) }
           onDeleteMessagesTouchTap={ () => {} }
-          onVideoCallClick={ () =>
-            previewVideoCall(conversation.users.find(user => user.username !== me))
-          }
+
         />
-      }
+        {/* showVideoCallButton={ videoCallState.initialized }*/}
 
-      { conversation.error && !conversation.loading &&
-        <div className="Conversation-error">
-          { conversation.error.status && conversation.error.status === 404 ?
-              "Page not found" :
-              "Error loading this chat."
-          }
-        </div>
-      }
+        {/* onVideoCallClick={ () =>
+          previewVideoCall(conversation.profiles.find(user => user.username !== me))
+        }*/}
 
-      { conversation.loading &&
-        <Progress centerVertical />
-      }
+      { isFetchingMessages && messages.length === 0 && <Progress /> }
 
-      { conversation.didLoadMessages &&
-
+      { messages.length > 0 &&
         <Scrollable
-          uniqueId={ messages[messages.length-1].id }
+          uniqueId={ messages[messages.length - 1].id }
           initialScroll="bottom"
           className="Conversation-scrollable"
           ref="scrollable"
-          onScrollTop={ e => this.loadPreviousMessages(e) }
+          onScrollTop={ previousUrl ? () => dispatch(loadMessages(conversationId, previousUrl)) : null }
         >
           <div className="Conversation-messagesList">
             <div className="Conversation-listTopSeparator" />
             <div
               className="Conversation-progress"
-              style={ conversation.loadingPrevious ? null : { visibility: "hidden" }}>
+              style={ isFetchingMessages ? null : { visibility: 'hidden' }}>
               <Progress />
             </div>
 
             <MessagesList
               loggedUser={ loggedUser }
               messages={ messages }
-              partecipants={ conversation.users }
+              partecipants={ conversation.profiles }
             />
 
             <MessagesTypingUsers users={ typingUsers } />
@@ -258,32 +130,26 @@ export default React.createClass({
         </Scrollable>
       }
 
-      { conversation.didLoadMessages &&
+      { messages.length > 0 &&
         <div className="Conversation-replyFormContainer">
-          <MessageReplyForm
-            autoFocus
-            initialValue={ conversation.draft }
-            onTextChange={ text => conversationDraftChange(conversation.id, text) }
-            onTyping={ () => this.presenceChannel.trigger("client-user_is_typing", loggedUser) }
-            onAttachShoutClick={ () => this.setState({ showAttachShout: true }) }
-            onSubmit={ text => replyToConversation(loggedUser, conversation.id, text) }
-          />
+          <ConversationReplyForm conversation={ conversation } autoFocus />
         </div>
       }
 
-      <ConversationDeleteDialog
+      {/*<ConversationDeleteDialog
         open={ showDelete }
         onRequestClose={ () => this.setState({ showDelete: false }) }
-        onConfirm={() => deleteConversation(conversation.id,
-          () => this.history.replaceState(null, "/messages") )
-        }
+        onConfirm={ () => {
+          dispatch(deleteConversation(conversationId));
+          dispatch(replace('/messages'));
+        }}
         isDeleting={ conversation.isDeleting }
-      />
-
+      />*/}
+{/*
       <UserShoutsSelectDialog
         buttonLabel="Send"
         user={ loggedUser }
-        flux={ this.getFlux() }
+        flux={ flux }
         open={ showAttachShout }
         onRequestClose={ () => this.setState({ showAttachShout: false }) }
         onSelectionConfirm={ shouts => {
@@ -291,10 +157,68 @@ export default React.createClass({
           replyToConversation(loggedUser, conversation.id, draft, attachments);
           this.setState({ showAttachShout: false });
         }}
-      />
+      />*/}
 
       </div>
     );
   }
 
-});
+}
+
+function mapStateToProps(state, ownProps) {
+  const {
+    paginated: { chat, messagesByConversation },
+    entities,
+    session: { user: loggedUser },
+  } = state;
+
+  const conversationId = ownProps.params.id;
+
+  let props = {
+    isFetching: chat.isFetching,
+    conversationId,
+    loggedUser,
+    isFetchingMessages: true,
+    error: chat.error,
+  };
+
+  const conversation = entities.conversations[conversationId];
+
+  if (!chat.isFetching && conversation) {
+    props = {
+      ...props,
+      conversation: denormalize(conversation, entities, 'CONVERSATION'),
+    };
+  }
+
+  if (messagesByConversation[conversationId]) {
+    const {
+      ids,
+      isFetching: isFetchingMessages,
+      previousUrl,
+      error: messagesError,
+    } = messagesByConversation[conversationId];
+
+    const messages = ids.map(id =>
+        denormalize(entities.messages[id], entities, 'MESSAGE')
+      ).sort((a, b) => a.createdAt - b.createdAt);
+
+    let typingUsers;
+    if (state.chat.typingUsers[conversationId]) {
+      typingUsers = state.chat.typingUsers[conversationId].map(id => entities.users[id]);
+    }
+
+    props = {
+      ...props,
+      isFetchingMessages,
+      previousUrl,
+      messagesError,
+      messages,
+      typingUsers,
+    };
+  }
+
+  return props;
+}
+
+export default connect(mapStateToProps)(Conversation);

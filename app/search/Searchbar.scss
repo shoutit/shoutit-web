@@ -1,0 +1,28 @@
+@import "../styles/constants";
+
+.Searchbar {
+  position: relative;
+  width: 100%;
+}
+
+.Searchbar .htmlInput {
+  display: block;
+  width: 100%;
+  padding-left: 110px !important;
+}
+
+.Searchbar-button-location {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  text-align: left;
+  .Button-dropdown-caret {
+    border-right: 1px solid $border-color;
+    border-radius: 0;
+  }
+  .Button-label {
+    font-size: 0.75rem !important;
+  }
+}

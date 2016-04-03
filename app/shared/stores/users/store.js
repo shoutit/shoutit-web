@@ -1,28 +1,28 @@
-import Fluxxor from "fluxxor";
-import url from "url";
-import consts from "./consts";
-import statuses from "../../consts/statuses";
-import locConsts from "../locations/consts";
-import { GET_SUGGESTIONS_SUCCESS } from "../suggestions/actionTypes";
-import { LOGIN_SUCCESS, SIGNUP_SUCCESS, EMAIL_VERIFICATION_SUCCESS, LOGOUT } from "../../../actions/actionTypes";
-import client from "./client";
-import assign from "lodash/object/assign";
-import debug from "debug";
+import Fluxxor from 'fluxxor';
+import url from 'url';
+import consts from './consts';
+import statuses from '../../consts/statuses';
+import locConsts from '../locations/consts';
+import { GET_SUGGESTIONS_SUCCESS } from '../suggestions/actionTypes';
+import { LOGIN_SUCCESS, SIGNUP_SUCCESS, EMAIL_VERIFICATION_SUCCESS, LOGOUT } from '../../../actions/actionTypes';
+import client from './client';
+import assign from 'lodash/object/assign';
+import debug from 'debug';
 
-const {LISTEN_BTN_LOADING} = statuses;
+const { LISTEN_BTN_LOADING } = statuses;
 
-const log = debug("stores:users");
+const log = debug('stores:users');
 
 const PAGE_SIZE = 10;
-const REQUEST_TYPE = "request";
-const OFFER_TYPE = "offer";
-const ALL_TYPE = "all";
+const REQUEST_TYPE = 'request';
+const OFFER_TYPE = 'offer';
+const ALL_TYPE = 'all';
 
 function initUserShoutEntry() {
   return {
     list: [],
     next: null,
-    loading: false
+    loading: false,
   };
 }
 
@@ -32,18 +32,18 @@ function initUserListenEntry() {
     listeners: {
       loaded: false,
       next: null,
-      list: []
+      list: [],
     },
     listening: {
       loaded: false,
       next: null,
-      list: []
+      list: [],
     },
     tags: {
       loaded: false,
       next: null,
-      list: []
-    }
+      list: [],
+    },
   };
 }
 
@@ -57,14 +57,14 @@ const UserStore = Fluxxor.createStore({
       loading: false,
       showDownloadPopup: false,
       editors: {},
-      verifyResponse: "",
+      verifyResponse: '',
       status: null,
       profile: {
         status: null,
         profilePictureUploading: false,
         coverUploading: false,
-        changes: {}
-      }
+        changes: {},
+      },
     };
 
     if (props.loggedUser) {
@@ -116,7 +116,7 @@ const UserStore = Fluxxor.createStore({
         let list = props.listeningTags.tags.map(item => item.name);
         this.state.listens[username].tags.list = list;
         // add tags to tag store
-        //this.flux.store('tags').addTags(list);
+        // this.flux.store('tags').addTags(list);
       }
     }
 
@@ -143,7 +143,7 @@ const UserStore = Fluxxor.createStore({
       consts.STOP_LISTEN_FAIL, this.onStopListenFail,
       consts.LOAD_USER_LISTENERS, this.onLoadUserListeners,
       consts.LOAD_MORE_USER_LISTENERS, this.onLoadMoreUserListeners,
-      consts.LOAD_USER_LISTENING, this.onLoadUserListening,
+      consts.LOAD_LISTENING, this.onLoadUserListening,
       consts.LOAD_MORE_USER_LISTENING, this.onLoadMoreUserListening,
       consts.LOAD_USER_TAGS, this.onLoadUserTags,
       consts.LOAD_USER_TAGS_SUCCESS, this.onLoadUserTagsSuccess,
@@ -187,18 +187,18 @@ const UserStore = Fluxxor.createStore({
     let patch = {
       location: {
         longitude: loc.longitude,
-        latitude: loc.latitude
-      }
+        latitude: loc.latitude,
+      },
     };
 
     if (this.state.user) {
-      client.update({location:loc})
+      client.update({ location:loc })
         .end((err, res) => {
           if (err) {
             console.log(err);
           } else {
             this.state.users[this.state.user] = res.body;
-            this.emit("change");
+            this.emit('change');
           }
         });
     }
@@ -211,7 +211,7 @@ const UserStore = Fluxxor.createStore({
    */
   onGetSuggestionsSuccess({ res }) {
     const { users, pages } = res;
-    const usersData = pages && users? [...users, ...pages]: users || pages;
+    const usersData = pages && users ? [...users, ...pages] : users || pages;
 
     if (usersData) {
       usersData.forEach((user) => {
@@ -221,7 +221,7 @@ const UserStore = Fluxxor.createStore({
       });
     }
 
-    this.emit("change");
+    this.emit('change');
   },
 
   // returns location object if they are properly filled otherwise false
@@ -232,7 +232,7 @@ const UserStore = Fluxxor.createStore({
     }
     let loc = user.location;
 
-    let isLocationsFilled = loc? loc.country && loc.city && loc.state && loc.latitude && loc.longitude: false;
+    let isLocationsFilled = loc ? loc.country && loc.city && loc.state && loc.latitude && loc.longitude : false;
 
     if (isLocationsFilled) {
       return loc;
@@ -243,30 +243,32 @@ const UserStore = Fluxxor.createStore({
 
   onAcqireLoc() {
     let loc = this.getLocFromUser();
-    loc? this.flux.store("locations").updateLocation(loc): undefined;
+    loc ? this.flux.store('locations').updateLocation(loc) : undefined;
   },
 
   onLoginSuccess({ user }) {
     this.state.user = user.username;
+    this.state.users[user.username] = user;
+    this.emit('change');
     // the next method will emit 'change' :/
-    this.onLoadUserSuccess({ username: user.username, res: user });
+    // this.onLoadUserSuccess({ username: user.username, res: user });
   },
 
   onLogout() {
     this.state.user = null;
-    this.emit("change");
+    this.emit('change');
   },
 
   onProfileChange(payload) {
-    let {changes} = payload;
+    let { changes } = payload;
     assign(this.state.profile.changes, changes);
-    this.emit("change");
+    this.emit('change');
   },
 
   onProfileChangesSave() {
     // clear status
-    this.state.profile.status = "saving";
-    this.emit("change");
+    this.state.profile.status = 'saving';
+    this.emit('change');
     // patch the changes
     const user = this.state.user;
     const patch = this.state.profile.changes;
@@ -280,18 +282,18 @@ const UserStore = Fluxxor.createStore({
         } else {
           if (res.status !== 200) {
             if (res.body) {
-                    const err = res.body;
-                    this.state.profile.status = "err";
-                    this.state.profile.errors = res.body;
-                    this.emit("change");
-                  }
+              const err = res.body;
+              this.state.profile.status = 'err';
+              this.state.profile.errors = res.body;
+              this.emit('change');
+            }
           } else {
             const username = res.body.username;
             if (username) {
-                    this.state.users[username] = res.body;
-                  }
-            this.state.profile.status = "saved";
-            this.emit("change");
+              this.state.users[username] = res.body;
+            }
+            this.state.profile.status = 'saved';
+            this.emit('change');
           }
         }
         // clear changes
@@ -302,9 +304,9 @@ const UserStore = Fluxxor.createStore({
 
   onProfilePictureUpload(payload) {
     this.state.profile.profilePictureUploading = true;
-    this.emit("change");
+    this.emit('change');
     // uploading to user bucket
-    client.uploadDataImage(payload.editedImage, "user")
+    client.uploadDataImage(payload.editedImage, 'user')
             .end((err, res) => {
               if (err) {
                 console.log(err);
@@ -312,22 +314,22 @@ const UserStore = Fluxxor.createStore({
                 if (res.status === 200) {
                   const s3Link = res.text;
                   this.onProfileChange({
-                    changes: {image: s3Link}
+                    changes: { image: s3Link },
                   });
                 } else {
-                  console.log("Error on saving file.");
+                  console.log('Error on saving file.');
                 }
               }
               this.state.profile.profilePictureUploading = false;
-              this.emit("change");
+              this.emit('change');
             });
   },
 
   onCoverImageUpload(payload) {
     this.state.profile.coverUploading = true;
-    this.emit("change");
+    this.emit('change');
     // uploading to user bucket
-    client.uploadDataImage(payload.editedImage, "user")
+    client.uploadDataImage(payload.editedImage, 'user')
             .end((err, res) => {
               if (err) {
                 console.log(err);
@@ -335,17 +337,17 @@ const UserStore = Fluxxor.createStore({
                 if (res.status === 200) {
                   const s3Link = res.text;
                   this.onProfileChange({
-                    changes: {cover: s3Link}
+                    changes: { cover: s3Link },
                   });
                         // now save changes
                   this.onProfileChangesSave();
                 } else {
                   console.log(res);
-                  console.log("Error on saving file.");
+                  console.log('Error on saving file.');
                 }
               }
               this.state.profile.coverUploading = false;
-              this.emit("change");
+              this.emit('change');
             });
   },
 
@@ -353,41 +355,41 @@ const UserStore = Fluxxor.createStore({
     if (this.state.user[payload.field]) {
       this.state.user[payload.field] = payload.value;
     }
-    this.emit("change");
+    this.emit('change');
   },
 
   onPassChange(dataPackage) {
-    this.state.editors["password"] = {};
-    this.state.editors["password"].loading = true;
-    this.emit("change");
+    this.state.editors['password'] = {};
+    this.state.editors['password'].loading = true;
+    this.emit('change');
 
-    client.changePass(dataPackage).end((err,res) => {
+    client.changePass(dataPackage).end((err, res) => {
       if (err) {
         console.log(err);
-        this.state.editors["password"].loading = false;
+        this.state.editors['password'].loading = false;
       } else {
         if (res.body.success) {
-          this.state.editors["password"] = {loading: false,msg:res.body.success};
+          this.state.editors['password'] = { loading: false, msg:res.body.success };
         } else {
           // find errors
           if (res.body)
-            this.state.editors["password"] =
-            {loading: false,msg:"Current password does not match!"};
+            this.state.editors['password'] =
+            { loading: false, msg:'Current password does not match!' };
         }
       }
-      this.emit("change");
+      this.emit('change');
     });
   },
 
   augmentPatch(field, value) {
     let apiMap = {
-      email: {email: value},
-      username: {username: value},
+      email: { email: value },
+      username: { username: value },
       address: {
         location: {
-          address:value
-        }
-      }
+          address:value,
+        },
+      },
     };
 
     return apiMap[field];
@@ -398,7 +400,7 @@ const UserStore = Fluxxor.createStore({
     let field = payload.field;
     this.state.editors[field] = {};
     this.state.editors[field].loading = true;
-    this.emit("change");
+    this.emit('change');
 
     let user = this.state.user;
     let patch = this.augmentPatch(field, payload.value);
@@ -412,42 +414,41 @@ const UserStore = Fluxxor.createStore({
           this.state.editors[field].loading = false;
           if (res.status !== 200) {
             if (res.body[field]) {
-                    let err = res.body[field][0];
-                    this.state.editors[field] = {loading: false,msg:err};
-                    this.state.loading = false;
-                    this.emit("change");
-                  }
+              let err = res.body[field][0];
+              this.state.editors[field] = { loading: false, msg:err };
+              this.state.loading = false;
+              this.emit('change');
+            }
           } else {
             var loggedUser = res.body;
             this.onLoadUserSuccess({ username: loggedUser.username, res: loggedUser });
             this.state.user = loggedUser.username;
-            this.state.editors[field] = {loading: false};
+            this.state.editors[field] = { loading: false };
             this.state.loading = false;
-            this.emit("change");
+            this.emit('change');
           }
-
         }
       });
     }
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   onListen({ username }) {
     // set loading status
     this.state.users[username].fluxStatus = LISTEN_BTN_LOADING;
-    this.emit("change");
+    this.emit('change');
   },
 
   onListenFail({ username, err }) {
     log(err);
     this.state.users[username].fluxStatus = null;
-    this.emit("change");
+    this.emit('change');
   },
 
   onListenSuccess({ username, res }) {
     // Update users Listening/Listeners count List in the store
-    if (this.state.users[username].hasOwnProperty("listeners_count")) {
+    if (this.state.users[username].hasOwnProperty('listeners_count')) {
       const counts = Number(this.state.users[username].listeners_count);
       this.state.users[username].listeners_count = counts + 1;
     }
@@ -458,23 +459,23 @@ const UserStore = Fluxxor.createStore({
 
     this.state.users[username].is_listening = true;
     this.state.users[username].fluxStatus = null;
-    this.emit("change");
+    this.emit('change');
   },
 
   onStopListen({ username }) {
     this.state.users[username].fluxStatus = LISTEN_BTN_LOADING;
-    this.emit("change");
+    this.emit('change');
   },
 
   onStopListenFail({ username, err }) {
     log(err);
     this.state.users[username].fluxStatus = null;
-    this.emit("change");
+    this.emit('change');
   },
 
   onStopListenSuccess({ username }) {
     // Update users Listening/Listeners count in store
-    if (this.state.users[username].hasOwnProperty("listeners_count")) {
+    if (this.state.users[username].hasOwnProperty('listeners_count')) {
       const counts = Number(this.state.users[username].listeners_count);
       this.state.users[username].listeners_count = counts - 1;
     }
@@ -485,7 +486,7 @@ const UserStore = Fluxxor.createStore({
 
     this.state.users[username].is_listening = false;
     this.state.users[username].fluxStatus = null;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadUserListeners(payload) {
@@ -509,14 +510,13 @@ const UserStore = Fluxxor.createStore({
         this.state.listens[username].listeners.list = list;
         this.state.listens[username].listeners.next = next;
         this.state.listens[username].listeners.loaded = true;
-
       }
       this.state.loading = false;
-      this.emit("change");
+      this.emit('change');
     });
 
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadMoreUserListeners(payload) {
@@ -524,7 +524,7 @@ const UserStore = Fluxxor.createStore({
     let current = this.state.listens[username].listeners.next;
 
     if (current) {
-      client.getListeners(username, {page: current})
+      client.getListeners(username, { page: current })
         .end((err, res) => {
           if (err) {
             console.log(err);
@@ -546,14 +546,13 @@ const UserStore = Fluxxor.createStore({
             this.state.listens[username].listeners.next = next;
 
             this.state.loading = false;
-            this.emit("change");
+            this.emit('change');
           }
         });
 
       this.state.loading = true;
-      this.emit("change");
+      this.emit('change');
     }
-
   },
 
   onLoadUserListening(payload) {
@@ -583,11 +582,11 @@ const UserStore = Fluxxor.createStore({
         this.state.listens[username].listening.loaded = true;
       }
       this.state.loading = false;
-      this.emit("change");
+      this.emit('change');
     });
 
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadMoreUserListening(payload) {
@@ -595,7 +594,7 @@ const UserStore = Fluxxor.createStore({
     let current = this.state.listens[username].listening.next;
 
     if (current) {
-      client.getListening(username, {page: current})
+      client.getListening(username, { page: current })
         .end((err, res) => {
           if (err) {
             console.log(err);
@@ -617,22 +616,22 @@ const UserStore = Fluxxor.createStore({
             this.state.listens[username].listening.next = next;
 
             this.state.loading = false;
-            this.emit("change");
+            this.emit('change');
           }
         });
 
       this.state.loading = true;
-      this.emit("change");
+      this.emit('change');
     }
   },
 
   onLoadUserTags() {
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadUserTagsSuccess(payload) {
-    this.waitFor(["tags"], function() {
+    this.waitFor(['tags'], function () {
       const { username, res } = payload;
 
       const next = this.parseNextPage(res.next);
@@ -643,14 +642,13 @@ const UserStore = Fluxxor.createStore({
       this.state.listens[username].tags.loaded = true;
 
       this.state.loading = false;
-      this.emit("change");
+      this.emit('change');
     });
-
   },
 
   onLoadUserTagsFail() {
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadMoreUserTags(payload) {
@@ -659,7 +657,7 @@ const UserStore = Fluxxor.createStore({
 
     if (current) {
 
-      client.getTags(username, {page: current})
+      client.getTags(username, { page: current })
         .end((err, res) => {
           if (err) {
             console.log(err);
@@ -674,20 +672,20 @@ const UserStore = Fluxxor.createStore({
           this.state.listens[username].tags.next = next;
 
           // add tags to tag store
-          this.flux.store("tags").addTags(res.body.tags);
+          this.flux.store('tags').addTags(res.body.tags);
 
           this.state.loading = false;
-          this.emit("change");
+          this.emit('change');
         });
 
       this.state.loading = true;
-      this.emit("change");
+      this.emit('change');
     }
   },
 
   onLoadUserShouts({ username, limit }) {
     client.loadShouts(username, {
-      page_size: limit || PAGE_SIZE
+      page_size: limit || PAGE_SIZE,
     }).end((err, res) => {
       if (err) {
         log(err);
@@ -695,7 +693,7 @@ const UserStore = Fluxxor.createStore({
         this.onLoadUserShoutsSuccess({
           username,
           results: res.body.results,
-          next: res.body.next
+          next: res.body.next,
         });
       }
     });
@@ -705,17 +703,17 @@ const UserStore = Fluxxor.createStore({
     }
 
     this.state.shouts[username].loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadUserShoutsSuccess({ username, results, next}) {
+  onLoadUserShoutsSuccess({ username, results, next }) {
     const shouts = this.state.shouts[username];
 
     shouts.list = results;
     shouts.next = this.parseNextPage(next);
     shouts.loading = false;
 
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadMoreUserShouts({ username }) {
@@ -724,7 +722,7 @@ const UserStore = Fluxxor.createStore({
 
     client.loadShouts(username, {
       page_size: PAGE_SIZE,
-      page: shouts.next
+      page: shouts.next,
     })
     .end((err, res) => {
       if (err) {
@@ -733,30 +731,30 @@ const UserStore = Fluxxor.createStore({
         this.onLoadMoreUserShoutsSuccess({
           username,
           results: res.body.results,
-          next: res.body.next
+          next: res.body.next,
         });
       }
     });
 
     shouts.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadMoreUserShoutsSuccess({ username, results, next }) {
     const shouts = this.state.shouts[username];
 
-    shouts.list = [ ...shouts.list, ...results ];
+    shouts.list = [...shouts.list, ...results];
     shouts.next = this.parseNextPage(next);
     shouts.loading = false;
 
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadUser(payload) {
     const username = payload.username;
-    const {users, listens} = this.state;
+    const { users, listens } = this.state;
     const isUserFullyLoaded = Boolean(users[username] && users[username].location && listens[username]);
-    const isLoading = users[username]? users[username].loading: false;
+    const isLoading = users[username] ? users[username].loading : false;
 
     // Checking to see if the user is already fully loaded
     if (!isUserFullyLoaded && !isLoading) {
@@ -764,24 +762,24 @@ const UserStore = Fluxxor.createStore({
         .end((err, res) => {
           if (err || res.status !== 200) {
             this.onLoadUserFailed({
-              username: username
+              username: username,
             });
           } else {
             this.onLoadUserSuccess({
               username: username,
-              res: res.body
+              res: res.body,
             });
           }
         });
 
       if (!users[username]) { users[username] = {}; }
       users[username].loading = true;
-      this.emit("change");
+      this.emit('change');
     }
   },
 
   onLoadUserSuccess(payload) {
-    const {username, res} = payload;
+    const { username, res } = payload;
     let userShouts = this.state.shouts[username];
     let listensShouts = this.state.listens[username];
 
@@ -797,32 +795,32 @@ const UserStore = Fluxxor.createStore({
     this.onLoadUserListening(payload);
 
     this.state.users[username].loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadUserFailed({username}) {
+  onLoadUserFailed({ username }) {
     this.state.users[username] = null;
-    this.emit("change");
+    this.emit('change');
   },
 
   onShowDownloadPopup() {
     this.state.showDownloadPopup = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   onHideDownloadPopup() {
     this.state.showDownloadPopup = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   setFluxStatus(status) {
     this.state.status = status;
-    this.emit("change");
-    //clearing status to avoid displaying old messages
+    this.emit('change');
+    // clearing status to avoid displaying old messages
     setTimeout(() => {
       this.state.status = null;
-      this.emit("change");
-    },0);
+      this.emit('change');
+    }, 0);
   },
 
   serialize() {
@@ -831,7 +829,7 @@ const UserStore = Fluxxor.createStore({
 
   hydrate(json) {
     this.state = JSON.parse(json);
-  }
+  },
 
 });
 

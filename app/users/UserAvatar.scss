@@ -1,6 +1,7 @@
 @import "../styles/constants/colors.scss";
 @import "../styles/mixins/cropped-thumbnail.scss";
 
+$size-smallest: 18px;
 $size-small: 28px;
 $size-medium: 36px;
 $size-large: 48px;
@@ -11,8 +12,13 @@ $size-huge: 128px;
   position: relative;
   width: $size-medium;
   height: $size-medium;
-  border-radius: 10%;
+  border-radius: 50%;
   overflow: hidden;
+
+  &.size-smallest {
+    width: $size-smallest;
+    height: $size-smallest;
+  }
 
   &.size-small {
     width: $size-small;
@@ -50,7 +56,7 @@ $size-huge: 128px;
   }
 
   img {
-    border-radius: 10%;
+    border-radius: 50%;
     @include cropped-thumbnail();
   }
 

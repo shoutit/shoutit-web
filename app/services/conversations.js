@@ -1,17 +1,37 @@
-import request from "../utils/request";
+import request from '../utils/request';
+import { parseErrorResponse } from '../utils/APIUtils';
 
 export default {
-  name: "conversations",
-  read: (req, resource, params, config, callback) => {
+  name: 'conversations',
+
+  read: (req, resource, { id }, config, callback) => {
+    let url = '/conversations';
+    if (id) {
+      url += `/${id}`;
+    }
     request
-      .get("/conversations")
+      .get(url)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(err);
+          return callback(parseErrorResponse(err));
         }
         return callback(null, res.body);
       });
-  }
+  },
+
+  delete: (req, resource, { id }, config, callback) => {
+    request
+      .del(`/conversations/${id}`)
+      .setSession(req.session)
+      .prefix()
+      .end((err, res) => {
+        if (err) {
+          return callback(parseErrorResponse(err));
+        }
+        return callback(null, res.body);
+      });
+  },
+
 };

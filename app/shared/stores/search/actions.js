@@ -1,4 +1,4 @@
-import consts from "./consts";
+import consts from './consts';
 
 export default {
   searchAll(payload) {
@@ -14,7 +14,7 @@ export default {
   searchShoutsSuccess(term, res) {
     this.dispatch(consts.SEARCH_SHOUTS_SUCCESS, {
       term: term,
-      res: res
+      res: res,
     });
   },
 
@@ -25,7 +25,7 @@ export default {
   searchTagsSuccess(term, res) {
     this.dispatch(consts.SEARCH_TAGS_SUCCESS, {
       term: term,
-      res: res
+      res: res,
     });
   },
 
@@ -36,11 +36,11 @@ export default {
   searchUsersSuccess(term, res) {
     this.dispatch(consts.SEARCH_USERS_SUCCESS, {
       term: term,
-      res: res
+      res: res,
     });
   },
 
   searchLoadMore() {
     this.dispatch(consts.SEARCH_LOAD_MORE);
-  }
+  },
 };

@@ -1,7 +1,7 @@
-import changePassword from "./changePassword";
+import changePassword from './changePassword';
 
-export default function() {
+export default function () {
   return {
-    change: changePassword(this, "auth")
+    change: changePassword(this, 'auth'),
   };
 }

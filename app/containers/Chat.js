@@ -1,49 +1,80 @@
-import React from "react";
-import DocumentTitle from "react-document-title";
+import React from 'react';
+import { connect } from 'react-redux';
+import FixedHeightPage from '../ui/FixedHeightPage';
 
-import FixedHeightPage from "../ui/FixedHeightPage";
+import DocumentTitle from '../ui/DocumentTitle';
+import ConversationsTitle from '../chat/ConversationsTitle';
+import ConversationsList from '../chat/ConversationsList';
+import { loadConversations } from '../actions/chat';
+import RequiresLogin from '../auth/RequiresLogin';
 
-import ConversationsTitle from "../chat/ConversationsTitle";
-import ConversationsList from "../chat/ConversationsList";
+import { denormalize } from '../schemas';
 
 if (process.env.BROWSER) {
-  require("./Chat.scss");
+  require('./Chat.scss');
 }
 
-export default function Chat({ params, loggedUser, chat, conversations, videoCallState, children }) {
+export class Chat extends React.Component {
 
-  const unread = conversations.filter(c => c.unread_messages_count > 0);
+  componentDidMount() {
+    if (this.props.loggedUser) {
+      this.props.dispatch(loadConversations());
+    }
+  }
 
-  return (
-    <DocumentTitle title="Messages - Shoutit">
-      <FixedHeightPage>
-        <div className="Chat">
-          <div className="Chat-conversations">
-            <ConversationsTitle unreadCount={ unread.length } />
-            <ConversationsList
-              conversations={ conversations }
-              selectedId={ params.id }
-              loading={ chat.loading }
-              loggedUser={ loggedUser }
-            />
-          </div>
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.loggedUser && !this.props.loggedUser) {
+      this.props.dispatch(loadConversations());
+    }
+  }
 
-          <div className="Chat-messages">
+  render() {
+    const { params, loggedUser, isFetching, conversations, videoCallState, children } = this.props;
+    const unread = conversations.filter(c => c.unreadMessagesCount > 0);
+    return (
+      <RequiresLogin>
+        <DocumentTitle title="Messages">
+          <FixedHeightPage>
+            <div className="Chat">
+              <div className="Chat-conversations">
+                <ConversationsTitle unreadCount={ unread.length } />
+                <ConversationsList
+                  conversations={ conversations }
+                  selectedId={ params.id }
+                  isFetching={ isFetching }
+                  loggedUser={ loggedUser }
+                />
+              </div>
 
-            { children ?
-              React.cloneElement(children, { loggedUser, videoCallState }) :
-              <div className="Chat-placeholder">
-                { !chat.loading &&
-                  conversations.length > 0 ?
-                    "Please pick a conversation." :
-                    "No messages, yet!"
+              <div className="Chat-messages">
+
+                { children ?
+                  React.cloneElement(children, { loggedUser, videoCallState }) :
+                  <div className="Chat-placeholder">
+                    { conversations.length > 0 ?
+                        'Please pick a conversation' :
+                        isFetching ? 'Loading...' :
+                        'No messages.'
+                      }
+                  </div>
                 }
               </div>
-            }
-          </div>
 
-        </div>
-      </FixedHeightPage>
-    </DocumentTitle>
-  );
+            </div>
+          </FixedHeightPage>
+        </DocumentTitle>
+      </RequiresLogin>
+    );
+  }
 }
+
+const mapStateToProps = state => {
+  const { entities: { conversations, ...entities }, paginated: { chat } } = state;
+  const props = {
+    loggedUser: state.session.user,
+    isFetching: chat.isFetching,
+    conversations: chat.ids.map(id => denormalize(conversations[id], entities, 'CONVERSATION')),
+  };
+  return props;
+};
+export default connect(mapStateToProps)(Chat);

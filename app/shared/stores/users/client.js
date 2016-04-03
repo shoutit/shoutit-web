@@ -1,57 +1,57 @@
-import request from "superagent";
+import request from 'superagent';
 
-const PREFIX = "/api/users";
-const AUTH_PREFIX = "/api/auth";
-const SHOUTS_PREFIX = "/api/shouts";
+const PREFIX = '/api/users';
+const AUTH_PREFIX = '/api/auth';
+const SHOUTS_PREFIX = '/api/shouts';
 
 export default {
   update(update) {
     return request
-            .post(PREFIX + "/me")
-            .type("json")
-            .accept("json")
+            .post(PREFIX + '/me')
+            .type('json')
+            .accept('json')
             .send(update);
   },
 
   changePass(query) {
     return request
-            .post(AUTH_PREFIX + "/change_password")
+            .post(AUTH_PREFIX + '/change_password')
             .send(query);
   },
 
   get(username) {
     return request
-            .get(PREFIX + "/" + username);
+            .get(PREFIX + '/' + username);
   },
 
   getListening(username, query) {
     return request
-            .get(PREFIX + "/" + username + "/listening")
+            .get(PREFIX + '/' + username + '/listening')
             .query(query);
   },
 
   getTags(username, query = {}) {
-    query.type = "tags";
+    query.type = 'tags';
 
     return request
-            .get(PREFIX + "/" + username + "/listening")
+            .get(PREFIX + '/' + username + '/listening')
             .query(query);
   },
 
   getListeners(username, query) {
     return request
-            .get(PREFIX + "/" + username + "/listeners")
+            .get(PREFIX + '/' + username + '/listeners')
             .query(query);
   },
 
   listen(username) {
     return request
-            .post(PREFIX + "/" + username + "/listen");
+            .post(PREFIX + '/' + username + '/listen');
   },
 
   stopListen(username) {
     return request
-            .del(PREFIX + "/" + username + "/listen");
+            .del(PREFIX + '/' + username + '/listen');
   },
 
   loadShouts(username, query = {}) {
@@ -64,7 +64,7 @@ export default {
 
   list(query) {
     return request
-            .get(PREFIX + "/")
+            .get(PREFIX + '/')
             .query(query);
   },
 
@@ -79,6 +79,6 @@ export default {
     return request
                 .post(`/services/images/${bucket}`)
                 .send({ dataImage });
-  }
+  },
 
 };

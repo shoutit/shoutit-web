@@ -21,13 +21,13 @@ export default React.createClass({
       location: this.props.location
     };
   },
-
-  statics: {
-    fetchId: 'shout',
-    fetchData(client, session, params) {
-      return client.shouts().get(session, params.shoutId);
-    }
-  },
+  // 
+  // statics: {
+  //   fetchId: 'shout',
+  //   fetchData(client, session, params) {
+  //     return client.shouts().get(session, params.shoutId);
+  //   }
+  // },
 
   getStateFromFlux() {
     const {flux, params} = this.props;

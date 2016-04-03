@@ -9,17 +9,17 @@ import {
   REPLY_SHOUT_SUCCESS,
   REPLY_SHOUT_FAILURE,
   NEW_PUSHED_MESSAGE
-} from "./actionTypes";
+} from './actionTypes';
 
-import * as client from "./MessagesClient";
-import { getUnixTime } from "../utils/DateUtils";
+import * as client from './MessagesClient';
+import { getUnixTime } from '../utils/DateUtils';
 
 function createTempMessage(data) {
   const tempMessageId = new Date().getUTCMilliseconds();
   const message = {
     created_at: getUnixTime(),
     id: tempMessageId,
-    ...data
+    ...data,
   };
   return message;
 }
@@ -31,7 +31,7 @@ export default {
       conversation_id: conversationId,
       text,
       user,
-      attachments
+      attachments,
     });
     this.dispatch(REPLY_CONVERSATION, { conversationId, message });
     client.replyToConversation(conversationId, message).end((error, res) => {
@@ -40,14 +40,14 @@ export default {
         this.dispatch(REPLY_CONVERSATION_FAILURE, {
           conversationId,
           message,
-          error
+          error,
         });
         return;
       }
       this.dispatch(REPLY_CONVERSATION_SUCCESS, {
         conversationId,
         tempMessageId: message.id,
-        message: res.body
+        message: res.body,
       });
     });
 
@@ -67,7 +67,7 @@ export default {
    * @return {Object}   The temporary message that is going to be sent.
    */
   replyToShout(loggedUser, shoutId, text, done) {
-    const message = createTempMessage({ text,  user: loggedUser });
+    const message = createTempMessage({ text, user: loggedUser });
     this.dispatch(REPLY_SHOUT, { shoutId, message });
     client.replyToShout(shoutId, message).end((error, res) => {
       if (error || !res.ok) {
@@ -75,7 +75,7 @@ export default {
         this.dispatch(REPLY_SHOUT_FAILURE, {
           shoutId,
           message,
-          error
+          error,
         });
         done && done(error);
         return;
@@ -86,10 +86,9 @@ export default {
           this.dispatch(REPLY_SHOUT_SUCCESS, {
             shoutId,
             tempMessageId: message.id,
-            message: res.body
+            message: res.body,
           });
           done && done(null, res.body);
-
         });
       });
     });
@@ -113,7 +112,7 @@ export default {
         this.dispatch(SEND_MESSAGE_FAILURE, {
           to,
           message,
-          error
+          error,
         });
         done && done(error);
         return;
@@ -121,11 +120,11 @@ export default {
       this.dispatch(SEND_MESSAGE_SUCCESS, {
         to,
         tempMessageId: message.id,
-        message: res.body
+        message: res.body,
       });
       done && done(error, res.body);
     });
     return message;
-  }
+  },
 
 };

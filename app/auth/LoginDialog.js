@@ -1,37 +1,31 @@
-import React from "react";
-import {Link} from "react-router";
-import {StoreWatchMixin} from "fluxxor";
-import DocumentTitle from "react-document-title";
-import Dialog from "../shared/components/helper/Dialog.jsx";
+import React from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { replace } from 'react-router-redux';
 
-import SocialLoginForm from "./SocialLoginForm";
-import NativeLoginForm from "./NativeLoginForm";
+import DocumentTitle from '../ui/DocumentTitle';
+import Dialog from '../shared/components/helper/Dialog.jsx';
 
-export default React.createClass({
-  displayName: "LoginDialog",
-  mixins: [new StoreWatchMixin("auth")],
+import SocialLoginForm from './SocialLoginForm';
+import NativeLoginForm from './NativeLoginForm';
+
+import { createSession } from '../actions/session';
+
+export const LoginDialog = React.createClass({
+  displayName: 'LoginDialog',
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.open && this.props.loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
-      // User has been logged in, redirect to home page
-      this.props.history.replaceState(null, "/home");
+    const { open, loggedUser, onLoginSuccess } = this.props;
+    if (open && loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
+      onLoginSuccess();
     }
-    if (this.props.open && !nextProps.open) {
-      // Dialog has been closed
-      this.props.flux.actions.resetAuthErrors();
-    }
-  },
-
-  getStateFromFlux() {
-    const flux = this.props.flux;
-    return flux.store("auth").getState();
   },
 
   render() {
-    const { isLoggingIn, loginError } = this.state;
-    const { flux, open, onRequestClose } = this.props;
+    const { isLoggingIn, loginError, location } = this.props;
+    const { open, onRequestClose, onSubmit } = this.props;
     return (
-      <DocumentTitle title="Log in - Shoutit">
+      <DocumentTitle title="Log in">
         <Dialog
           titleWithIcon="Log in"
           open={ open }
@@ -42,21 +36,25 @@ export default React.createClass({
           <div className="si-login">
             <div className="separator separator-with"></div>
 
-            <SocialLoginForm flux={flux} />
+            <SocialLoginForm />
 
             <div className="separator separator-or"></div>
 
+              { location.query && location.query.recover_sent &&
+                <p>
+                  A link to reset your password has been sent. Please check your e-mail.
+                </p>
+              }
+
               <NativeLoginForm
                 error={ loginError }
-                onSubmit={ ({ email, password}) =>
-                  flux.actions.login({ email, password})
-                }
+                onSubmit={ onSubmit }
                 loading={ isLoggingIn }
               />
 
             <div className="separator"></div>
             <center>
-            <span style={{marginBottom: "5px"}}>
+            <span style={{ marginBottom: '5px' }}>
               New to Shoutit&#63;&nbsp;
               <Link to="/signup">
                 <strong>Sign up</strong>
@@ -72,6 +70,31 @@ export default React.createClass({
 
       </DocumentTitle>
     );
-  }
+  },
 
 });
+
+const mapStateToProps = state => {
+  return {
+    loggedUser: state.session.user,
+    isLoggingIn: state.session.isLoggingIn,
+    loginError: state.session.loginError,
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const { location } = ownProps;
+
+  let afterUrl;
+  if (location.query.after) {
+    afterUrl = location.query.after;
+  } else {
+    afterUrl = '/';
+  }
+  return {
+    onSubmit: loginData => dispatch(createSession(loginData)),
+    onLoginSuccess: () => dispatch(replace(afterUrl)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginDialog);

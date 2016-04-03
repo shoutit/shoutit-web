@@ -1,0 +1,30 @@
+@import "../styles/constants/colors.scss";
+@import "../styles/constants/dimensions.scss";
+@import "../styles/constants/shadows.scss";
+
+
+.Modal {
+  position: absolute;
+  top: $header-height + 20px;
+  left: 50%;
+
+  width: 500px;
+  padding: 1rem .5rem .5rem .5rem;
+
+  transform: translateX(-50%);
+
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  background-color: white;
+  box-shadow: $box-shadow-depth-1;
+}
+
+.Modal > h1 {
+  margin: 0;
+  margin-bottom: 1.5rem;
+
+  text-align: center;
+
+  font-weight: lighter;
+  font-size: 1.25rem;
+}

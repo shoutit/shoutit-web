@@ -1,0 +1,45 @@
+@import "../styles/constants";
+$width-column: 220px;
+
+.Page {
+  display: flex;
+}
+
+.Page-column {
+  width: $width-column;
+  margin: 12px;
+  > div {
+    margin-bottom: .75rem;
+  }
+}
+
+.Page-body {
+  padding-right: 1rem;
+  padding-left: 1rem;
+
+  flex: 1;
+}
+
+.Page-sticky-content {
+  position: sticky;
+  top: $header-height+24px;
+}
+
+.Page-sticky {
+  position: sticky;
+  top: $header-height+24px;
+}
+
+.Page-sticky-fixed  {
+  width: $width-column;
+}
+
+.Page-sticky.Page-sticky-fixed.Page-is-sticky {
+  position: fixed;
+
+  backface-visibility: hidden;
+}
+
+.Page-sticky.Page-sticky-fixed.Page-is-absolute {
+  position: absolute;
+}

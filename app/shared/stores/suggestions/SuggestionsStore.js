@@ -1,16 +1,16 @@
-import Fluxxor from "fluxxor";
-import { GET_SUGGESTIONS, GET_SUGGESTIONS_SUCCESS, GET_SUGGESTIONS_FAIL } from "./actionTypes";
-import client from "./client";
-import { assign } from "lodash/object";
-import { kebabCase } from "lodash/string";
+import Fluxxor from 'fluxxor';
+import { GET_SUGGESTIONS, GET_SUGGESTIONS_SUCCESS, GET_SUGGESTIONS_FAIL } from './actionTypes';
+import client from './client';
+import { assign } from 'lodash/object';
+import { kebabCase } from 'lodash/string';
 
 var SuggestionsStore = Fluxxor.createStore({
   initialize(props) {
     this.state = {
-      data: {}
+      data: {},
     };
 
-    if(props.suggestions) {
+    if (props.suggestions) {
       // TODO: load suggestions here
     }
 
@@ -24,12 +24,12 @@ var SuggestionsStore = Fluxxor.createStore({
   emptyList() {
     return {
       loading: true,
-      list: []
+      list: [],
     };
   },
 
   addEmptyLists(citySlug, dataTypes) {
-    if(!this.state.data[citySlug]) {
+    if (!this.state.data[citySlug]) {
       this.state.data[citySlug] = {};
     }
 
@@ -43,11 +43,11 @@ var SuggestionsStore = Fluxxor.createStore({
 
     // Initiate empty variable names
     this.addEmptyLists(citySlug, dataTypes);
-    this.emit("change");
+    this.emit('change');
   },
 
   onGetSuggestionsSuccess({ res, currentLocation, dataTypes }) {
-    this.waitFor(["users", "tags"], () => {
+    this.waitFor(['users', 'tags'], () => {
       const citySlug = kebabCase(currentLocation.city);
 
       // Produce index lists for requested suggestions
@@ -55,23 +55,23 @@ var SuggestionsStore = Fluxxor.createStore({
         const data = res[type];
         this.state.data[citySlug][type].loading = false;
 
-        switch(type) {
-        case "users":
-          this.state.data[citySlug][type].list = data.map((item) => item.username);
-          break;
-        case "shouts":
-          this.state.data[citySlug][type].list = data;
-          break;
-        case "tags":
-          this.state.data[citySlug][type].list = data.map((item) => item.name);
-          break;
-        case "pages":
-          this.state.data[citySlug][type].list = data.map((item) => item.username);
-          break;
+        switch (type) {
+          case 'users':
+            this.state.data[citySlug][type].list = data.map((item) => item.username);
+            break;
+          case 'shouts':
+            this.state.data[citySlug][type].list = data;
+            break;
+          case 'tags':
+            this.state.data[citySlug][type].list = data.map((item) => item.name);
+            break;
+          case 'pages':
+            this.state.data[citySlug][type].list = data.map((item) => item.username);
+            break;
         }
       });
 
-      this.emit("change");
+      this.emit('change');
     });
   },
 
@@ -82,7 +82,7 @@ var SuggestionsStore = Fluxxor.createStore({
       this.state.data[citySlug][type].loading = false;
     });
 
-    this.emit("change");
+    this.emit('change');
   },
 
   serialize() {
@@ -95,7 +95,7 @@ var SuggestionsStore = Fluxxor.createStore({
 
   getState() {
     return this.state;
-  }
+  },
 });
 
 export default SuggestionsStore;

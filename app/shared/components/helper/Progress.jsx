@@ -1,5 +1,4 @@
 import React from "react";
-import CircularProgress from "material-ui/lib/circular-progress";
 
 if (process.env.BROWSER) {
   require("styles/components/Progress.scss");
@@ -18,7 +17,7 @@ export default function Progress({ centerVertical=false, centerHorizontal=true, 
 
   return (
     <div className={ className }>
-      <CircularProgress {...otherProps} />
+      Loading...
     </div>
   );
 }

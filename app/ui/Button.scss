@@ -1,0 +1,293 @@
+@import "../styles/constants/colors.scss";
+
+$border-radius: 5px;
+
+.Button {
+  position: relative;
+
+  display: inline-block;
+  overflow: hidden;
+
+  height: 36px;
+  padding: 0;
+
+  cursor: pointer;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  border: 1px solid transparent;
+  border-radius: $border-radius;
+  background-color: transparent;
+
+  line-height: 36px;
+
+  -webkit-appearance: none;
+
+
+  &:not(.disabled):hover {
+    .Button-label {
+      color: $color-primary;
+    }
+  }
+
+  &.size-small {
+    height: 32px;
+
+    line-height: 30px;
+
+    > .Button-label {
+      padding-right: 10px;
+      padding-left: 10px;
+
+      font-size: 14px;
+    }
+
+  }
+
+  &.size-large {
+    height: 42px;
+
+    line-height: 38px;
+
+    > .Button-label {
+      padding-right: 30px;
+      padding-left: 30px;
+
+      font-size: 18px;
+      font-weight: 300;
+    }
+
+  }
+
+  &.block {
+    display: block;
+
+    width: 100%;
+    &.with-icon {
+      padding-left: 24px;
+      text-align: left;
+    }
+    > .Button-icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+}
+
+  .Button-label {
+    display: block;
+
+    padding-right: 20px;
+    padding-left: 20px;
+
+    vertical-align: middle;
+
+    color: $color;
+    .Button.with-icon > & {
+      display: inline-block;
+    }
+  }
+
+  .Button-icon {
+    display: inline-block;
+
+    height: inherit;
+    padding-right: 5px;
+    padding-left: 5px;
+
+    vertical-align: middle;
+  }
+
+  .Button + .Button:not(.block) {
+    margin-left: 10px;
+  }
+
+  .Button.outline {
+    border: 1px solid $shoutit-green;
+    .Button-label {
+      color: $shoutit-green;
+    }
+    &:not(.disabled):hover {
+      background-color: $shoutit-green;
+      .Button-label {
+        color: white;
+      }
+    }
+  }
+
+  .Button.inverted {
+    border: 1px solid white;
+    .Button-label {
+      color: white;
+    }
+    &:hover {
+      .Button-label {
+        color: white;
+      }
+    }
+  }
+
+  .Button.dropdown {
+    .Button-label {
+      overflow: hidden;
+
+      color: $color-light;
+    }
+    &:hover, &:focus {
+      .Button-label {
+        color: $color-active;
+      }
+      .Button-dropdown-caret:after {
+        background-image: url("../../assets/ui-elements/dropdown-caret-active.svg");
+      }
+    }
+  }
+
+  .Button-dropdown-caret {
+    position: absolute;
+    z-index: 2;
+    top: 3px;
+    right: 0;
+    bottom: 3px;
+
+    display: block;
+
+    width: 20px;
+
+    background: white;
+    &:after {
+      position: absolute;
+      top: 0;
+      right: 0px;
+      bottom: 0;
+      left: 0;
+
+      content: "";
+
+      background-image: url("../../assets/ui-elements/dropdown-caret.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  .Button.primary {
+    border: 0;
+    background-color: $shoutit-green;
+    &:not(.disabled):hover {
+      background-color: darken($shoutit-green, 10);
+      .Button-label {
+        color: white;
+      }
+      .Button-icon {
+        background-color: darken($shoutit-green, 20);
+      }
+    }
+    .Button-label {
+      color: white;
+    }
+    .Button-icon {
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+      background-color: darken($shoutit-green, 10);
+    }
+  }
+
+  .Button.secondary {
+    border: 0;
+    background-color: $si-orange;
+
+    &:not(.disabled):hover {
+      background-color: darken($si-orange, 10);
+      .Button-label {
+        color: white;
+      }
+      .Button-icon {
+        background-color: darken($si-orange, 20);
+      }
+    }
+    .Button-label {
+      color: white;
+    }
+    .Button-icon {
+      background-color: darken($si-orange, 10);
+    }
+  }
+
+  .Button.destructive {
+    border: 0;
+    background-color: $si-red;
+    &:not(.disabled):hover {
+      background-color: darken($si-red, 10);
+      .Button-label {
+        color: white;
+      }
+      .Button-icon {
+        background-color: darken($si-red, 20);
+      }
+    }
+    .Button-label {
+      color: white;
+    }
+    .Button-icon {
+      background-color: darken($si-red, 10);
+    }
+  }
+
+  .Button.disabled {
+    cursor: default;
+
+    opacity: 0.5;
+  }
+
+
+/* Special buttons */
+
+$facebook-base-color: #395185;
+.Button.facebook {
+  text-align: center;
+
+  color: white;
+  background-color: lighten($facebook-base-color, 10);
+  .Button-icon {
+    background-color: $facebook-base-color;
+  }
+  .Button-label {
+    color: white;
+  }
+  &:not(.disabled):hover {
+    color: white;
+    background-color: $facebook-base-color;
+    .Button-label {
+      color: white;
+    }
+    .Button-icon {
+      background-color: darken($facebook-base-color, 10);
+    }
+  }
+}
+
+$google-base-color: darken(#DC4E41, 10);
+.Button.google {
+  text-align: center;
+
+  color: white;
+  background-color: lighten($google-base-color, 10);
+  .Button-icon {
+    background-color: $google-base-color;
+  }
+  .Button-label {
+    color: white;
+  }
+  &:not(.disabled):hover {
+    color: white;
+    background-color: $google-base-color;
+    .Button-label {
+      color: white;
+    }
+    .Button-icon {
+      background-color: darken($google-base-color, 10);
+    }
+  }
+}

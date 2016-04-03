@@ -1,4 +1,4 @@
-import {snakeCase} from "lodash/string";
+import { snakeCase } from 'lodash/string';
 
 /**
  * Make slug id for suggestion ids like "Some Name" => "some-name"
@@ -7,4 +7,4 @@ import {snakeCase} from "lodash/string";
  */
 export default function createSlug(name) {
   return snakeCase(name).replace('_', '-');
-};
+}

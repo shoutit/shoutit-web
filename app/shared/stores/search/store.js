@@ -1,17 +1,17 @@
-import Fluxxor from "fluxxor";
-import consts from "./consts";
-import url from "url";
-import defaults from "../../consts/defaults";
-import assign from "lodash/object/assign";
+import Fluxxor from 'fluxxor';
+import consts from './consts';
+import url from 'url';
+import defaults from '../../consts/defaults';
+import assign from 'lodash/object/assign';
 
-const SHOUT_SEARCH = "shouts";
-const TAG_SEARCH = "tags";
-const USER_SEARCH = "users";
+const SHOUT_SEARCH = 'shouts';
+const TAG_SEARCH = 'tags';
+const USER_SEARCH = 'users';
 
 var clients = {};
-clients[SHOUT_SEARCH] = require("../shouts/client").default;
-clients[USER_SEARCH] = require("../users/client").default;
-clients[TAG_SEARCH] = require("../tags/client").default;
+clients[SHOUT_SEARCH] = require('../shouts/client').default;
+clients[USER_SEARCH] = require('../users/client').default;
+clients[TAG_SEARCH] = require('../tags/client').default;
 
 
 var SearchStore = Fluxxor.createStore({
@@ -75,13 +75,13 @@ var SearchStore = Fluxxor.createStore({
           min_price: payload.min || undefined,
           max_price: payload.max || undefined,
           country: payload.country || undefined,
-          city: payload.city || undefined
+          city: payload.city || undefined,
         };
       } else {
         // only term for tags and user search
         searchQuery = {
           page_size: defaults.PAGE_SIZE,
-          search: payload.term
+          search: payload.term,
         };
       }
 
@@ -92,7 +92,7 @@ var SearchStore = Fluxxor.createStore({
       searchReq.end((err, res) => {
         this.state.reqs[type] = null;
         this.state.searching[type] = false;
-        this.emit("change");
+        this.emit('change');
         if (err) {
           console.log(err);
         } else {
@@ -102,7 +102,7 @@ var SearchStore = Fluxxor.createStore({
 
       this.state.reqs[type] = searchReq;
       this.state.searching[type] = true;
-      this.emit("change");
+      this.emit('change');
     };
   },
 
@@ -112,7 +112,7 @@ var SearchStore = Fluxxor.createStore({
         this.state.reqs[type].abort();
         this.state.reqs[type] = null;
         this.state.searching[type] = false;
-        this.emit("change");
+        this.emit('change');
       }
     };
   },
@@ -122,7 +122,7 @@ var SearchStore = Fluxxor.createStore({
       this.state[type] = data.results;
       // keeping next page number in settings
       this.state.settings.page = data.next ? this.parseNextPage(data.next) : undefined;
-      this.emit("change");
+      this.emit('change');
     };
   },
 
@@ -134,7 +134,7 @@ var SearchStore = Fluxxor.createStore({
       let searchReq = clients[SHOUT_SEARCH].list(settings);
       searchReq.end((err, res) => {
         this.state.searching[SHOUT_SEARCH] = false;
-        this.emit("change");
+        this.emit('change');
         if (err) {
           console.log(err);
         } else {
@@ -143,7 +143,7 @@ var SearchStore = Fluxxor.createStore({
       });
 
       this.state.searching[SHOUT_SEARCH] = true;
-      this.emit("change");
+      this.emit('change');
     }
   },
 
@@ -155,7 +155,7 @@ var SearchStore = Fluxxor.createStore({
 
     // only keeping next number
     this.state.settings.page = data.next ? this.parseNextPage(data.next) : undefined;
-    this.emit("change");
+    this.emit('change');
   },
 
   parseNextPage(nextUrl) {
@@ -180,7 +180,7 @@ var SearchStore = Fluxxor.createStore({
 
   getSearchKeyword() {
     return this.state.settings.search;
-  }
+  },
 });
 
 export default SearchStore;

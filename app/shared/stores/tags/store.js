@@ -1,15 +1,15 @@
-import Fluxxor from "fluxxor";
-import url from "url";
-import consts from "./consts";
-import usersConsts from "../users/consts";
-import { GET_SUGGESTIONS_SUCCESS } from "../suggestions/actionTypes";
-import client from "./client";
-import statuses from "../../consts/statuses.js";
-import assign from "lodash/object/assign";
-import debug from "debug";
+import Fluxxor from 'fluxxor';
+import url from 'url';
+import consts from './consts';
+import usersConsts from '../users/consts';
+import { GET_SUGGESTIONS_SUCCESS } from '../suggestions/actionTypes';
+import client from './client';
+import statuses from '../../consts/statuses.js';
+import assign from 'lodash/object/assign';
+import debug from 'debug';
 
-var {LISTEN_BTN_LOADING} = statuses;
-const log = debug("shoutit:flux:tags");
+var { LISTEN_BTN_LOADING } = statuses;
+const log = debug('shoutit:flux:tags');
 
 var TagStore = Fluxxor.createStore({
   initialize(props) {
@@ -18,7 +18,7 @@ var TagStore = Fluxxor.createStore({
       featuredTags: null,
       loading: false,
       sprite: null,
-      status: null
+      status: null,
     };
 
     if (props.tag) {
@@ -38,7 +38,6 @@ var TagStore = Fluxxor.createStore({
       if (props.taglisteners) {
         this.state.tags[props.tag.name].listeners = props.taglisteners.results;
       }
-
     }
 
     let tagsData = props.tags || props.feed;
@@ -92,7 +91,7 @@ var TagStore = Fluxxor.createStore({
   onLoadTag(payload) {
     var tagName = payload.tagName;
 
-    if(!this.state.tags[tagName]) {
+    if (!this.state.tags[tagName]) {
       this.addTagEntry(payload.tagName);
     }
 
@@ -101,17 +100,17 @@ var TagStore = Fluxxor.createStore({
         if (err || res.status !== 200) {
           this.onLoadTagFailed({
             res: res.body,
-            tagName: tagName
+            tagName: tagName,
           });
         } else {
           this.onLoadTagSuccess({
             res: res.body,
-            tagName: tagName
+            tagName: tagName,
           });
         }
       });
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   addTagEntry(tagName) {
@@ -124,8 +123,8 @@ var TagStore = Fluxxor.createStore({
         listeners: null,
         related: {
           loading: false,
-          list: []
-        }
+          list: [],
+        },
       };
     }
   },
@@ -150,67 +149,67 @@ var TagStore = Fluxxor.createStore({
       this.state.tags[tag.name].tag = tag;
     });
 
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadTagSuccess(payload) {
     this.state.tags[payload.tagName].tag = payload.res;
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadTagFailed(payload) {
     this.state.tags[payload.tagName] = null;
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   onListenTag(payload) {
     var tagName = payload.tagName;
     // add to tags list if not available
-    !this.state.tags[tagName]? this.addTagEntry(tagName): undefined;
+    !this.state.tags[tagName] ? this.addTagEntry(tagName) : undefined;
     this.state.tags[tagName].tag.fluxStatus = LISTEN_BTN_LOADING;
-    this.emit("change");
+    this.emit('change');
   },
 
   onListenTagFail({ tagName }) {
     this.state.tags[tagName].tag.fluxStatus = null;
-    this.emit("change");
+    this.emit('change');
   },
 
   onListenTagSuccess({ tagName }) {
     this.state.tags[tagName].tag.is_listening = true;
-    this.state.tags[tagName].tag.listeners_count+= 1;
+    this.state.tags[tagName].tag.listeners_count += 1;
     this.state.tags[tagName].tag.fluxStatus = null;
-    this.emit("change");
+    this.emit('change');
   },
 
   onStopListenTag(payload) {
     var tagName = payload.tagName;
     // add to tags list if not available
-    !this.state.tags[tagName]? this.addTagEntry(tagName): undefined;
+    !this.state.tags[tagName] ? this.addTagEntry(tagName) : undefined;
     this.state.tags[tagName].tag.fluxStatus = LISTEN_BTN_LOADING;
-    this.emit("change");
+    this.emit('change');
   },
 
   onStopListenTagFail({ tagName }) {
     this.state.tags[tagName].tag.fluxStatus = null;
-    this.emit("change");
+    this.emit('change');
   },
 
   onStopListenTagSuccess({ tagName }) {
     this.state.tags[tagName].tag.is_listening = false;
-    this.state.tags[tagName].tag.listeners_count-= 1;
+    this.state.tags[tagName].tag.listeners_count -= 1;
     this.state.tags[tagName].tag.fluxStatus = null;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadTagShouts({ tagName, countryCode = "" }) {
+  onLoadTagShouts({ tagName, countryCode = '' }) {
 
     const query = {
       tags: tagName,
       country: countryCode,
-      page_size: 10
+      page_size: 10,
     };
 
     client.getShouts(query).end((err, res) => {
@@ -220,12 +219,12 @@ var TagStore = Fluxxor.createStore({
         this.onLoadTagShoutsSuccess({
           tagName,
           countryCode,
-          res: res.body
+          res: res.body,
         });
       }
     });
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadTagShoutsSuccess({ tagName, countryCode, res }) {
@@ -239,7 +238,7 @@ var TagStore = Fluxxor.createStore({
     tagShouts.shoutsNext = next;
 
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadMoreTagShouts({ tagName }) {
@@ -254,20 +253,20 @@ var TagStore = Fluxxor.createStore({
     client.getShouts({
       tags: tagName,
       country: countryCode,
-      page: next
-    }).end((err,res) => {
+      page: next,
+    }).end((err, res) => {
       if (err) {
         log(err);
       } else {
         this.onLoadMoreTagShoutsSuccess({
           tagName,
-          res: res.body
+          res: res.body,
         });
       }
     });
 
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadMoreTagShoutsSuccess({ tagName, res }) {
@@ -278,11 +277,11 @@ var TagStore = Fluxxor.createStore({
       return;
     }
 
-    tagShouts.shouts = [ ...tagShouts.shouts, ...res.results];
+    tagShouts.shouts = [...tagShouts.shouts, ...res.results];
     tagShouts.shoutsNext = next;
 
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadTagListeners(payload) {
@@ -294,19 +293,19 @@ var TagStore = Fluxxor.createStore({
       } else {
         this.onLoadTagListenersSuccess({
           tagName: tagName,
-          res: res.body
+          res: res.body,
         });
       }
     });
     this.state.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadTagListenersSuccess(payload) {
     this.addTagEntry(payload.tagName);
     this.state.tags[payload.tagName].listeners = payload.res.results;
     this.state.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
   onLoadTagRelated(payload) {
@@ -322,16 +321,16 @@ var TagStore = Fluxxor.createStore({
       } else {
         this.onLoadTagRelatedSuccess({
           tagName: tagName,
-          res: res.body
+          res: res.body,
         });
       }
     });
 
     this.state.tags[tagName].related.loading = true;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadTagRelatedSuccess({ res, tagName}) {
+  onLoadTagRelatedSuccess({ res, tagName }) {
     if (res.results.length === 0) {
       this.state.tags[tagName].related.err = true;
     } else {
@@ -340,35 +339,35 @@ var TagStore = Fluxxor.createStore({
     }
 
     this.state.tags[tagName].related.loading = false;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadTagsSuccess({res}) {
+  onLoadTagsSuccess({ res }) {
     this.state.featuredTags = res.results;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadTagsSprite({hash}) {
+  onLoadTagsSprite({ hash }) {
   },
 
-  onLoadTagsSpriteSuccess({res}) {
+  onLoadTagsSpriteSuccess({ res }) {
     this.state.sprite = res;
-    this.emit("change");
+    this.emit('change');
   },
 
-  onLoadTagsSpriteFailed({hash}) {
+  onLoadTagsSpriteFailed({ hash }) {
     this.state.sprite = undefined;
-    this.emit("change");
+    this.emit('change');
   },
 
   setFluxStatus(status) {
     this.state.status = status;
-    this.emit("change");
-    //clearing status to avoid displaying old messages
+    this.emit('change');
+    // clearing status to avoid displaying old messages
     setTimeout(() => {
       this.state.status = null;
-      this.emit("change");
-    },0);
+      this.emit('change');
+    }, 0);
   },
 
   onRequestSpriting() {
@@ -387,7 +386,7 @@ var TagStore = Fluxxor.createStore({
 
   getState() {
     return this.state;
-  }
+  },
 });
 
 export default TagStore;

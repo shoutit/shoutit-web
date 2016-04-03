@@ -1,28 +1,30 @@
-import React from "react";
-import ConversationItem from "./ConversationItem";
-import Progress from "../shared/components/helper/Progress.jsx";
+import React from 'react';
 
-export default function ConversationList({ conversations, loading, loggedUser, selectedId, onItemClick } ) {
+import ConversationItem from './ConversationItem';
+import Progress from '../shared/components/helper/Progress.jsx';
+
+export default function ConversationsList({ conversations, isFetching, loggedUser, selectedId }) {
 
   return (
     <div className="ConversationsList">
       { conversations.length > 0 &&
         <ul className="Chat-conversationsList">
-          { conversations.map(conversation =>
+          { conversations
+              .sort((a, b) => b.modifiedAt - a.modifiedAt)
+              .map(conversation =>
             <li key={ conversation.id } >
               <ConversationItem
-                { ...conversation }
+                conversation={ conversation }
                 me={ loggedUser && loggedUser.username }
-                unread = { conversation.unread_messages_count > 0 }
+                unread = { conversation.unreadMessagesCount > 0 }
                 selected={ conversation.id === selectedId }
-                onClick={ onItemClick }
               />
             </li>
           )}
         </ul>
       }
 
-      { loading && conversations.length === 0 && <Progress /> }
+      { isFetching && conversations.length === 0 && <Progress /> }
 
     </div>
 

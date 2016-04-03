@@ -13,13 +13,13 @@ export default React.createClass({
     params: React.PropTypes.object,
     location: React.PropTypes.object
   },
-
-  statics: {
-    fetchId: 'user',
-    fetchData(client, session, params) {
-      return client.users().get(session, params.username);
-    }
-  },
+  // 
+  // statics: {
+  //   fetchId: 'user',
+  //   fetchData(client, session, params) {
+  //     return client.users().get(session, params.username);
+  //   }
+  // },
 
   getStateFromFlux() {
     const {flux} = this.props;

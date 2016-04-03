@@ -7,12 +7,12 @@ import { SideFooterCard, ListenToCard, InterestsCard, SuggestShoutCard, TagProfi
 export default React.createClass({
   mixins: [new StoreWatchMixin("tags", "users")],
 
-  statics: {
-    fetchId: 'tag',
-    fetchData(client, session, params) {
-      return client.tags().get(session, params.tagName);
-    }
-  },
+  // statics: {
+  //   fetchId: 'tag',
+  //   fetchData(client, session, params) {
+  //     return client.tags().get(session, params.tagName);
+  //   }
+  // },
 
   getStateFromFlux() {
     const {flux} = this.props;

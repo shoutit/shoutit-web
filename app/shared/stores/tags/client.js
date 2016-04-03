@@ -1,38 +1,38 @@
-import request from "superagent";
+import request from 'superagent';
 
-const PREFIX = "/api/tags";
-const SHOUTS_PREFIX = "/api/shouts";
+const PREFIX = '/api/tags';
+const SHOUTS_PREFIX = '/api/shouts';
 
 export default {
   list(query) {
     return request
-      .get(PREFIX + "/")
+      .get(PREFIX + '/')
       .query(query);
   },
 
   get(tagName) {
     return request
-      .get(PREFIX + "/" + tagName);
+      .get(PREFIX + '/' + tagName);
   },
 
   listen(tagName) {
     return request
-      .post(PREFIX + "/" + tagName + "/listen");
+      .post(PREFIX + '/' + tagName + '/listen');
   },
 
   unlisten(tagName) {
     return request
-      .del(PREFIX + "/" + tagName + "/listen");
+      .del(PREFIX + '/' + tagName + '/listen');
   },
 
   getListeners(tagName) {
     return request
-      .get(PREFIX + "/" + tagName + "/listeners");
+      .get(PREFIX + '/' + tagName + '/listeners');
   },
 
   getRelated(tagName) {
     return request
-      .get(PREFIX + "/" + tagName + "/related");
+      .get(PREFIX + '/' + tagName + '/related');
   },
 
   getShouts(query = {}) {
@@ -42,11 +42,11 @@ export default {
   },
 
   loadSpriteInfo(hash) {
-    return request.get("/sprites/" + hash);
+    return request.get('/sprites/' + hash);
   },
 
   requestSpriting(images) {
-    return request.post("/sprites")
-      .send({images});
-  }
+    return request.post('/sprites')
+      .send({ images });
+  },
 };

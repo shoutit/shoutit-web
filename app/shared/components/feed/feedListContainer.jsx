@@ -1,7 +1,7 @@
 import React from 'react';
 import {State, History} from 'react-router';
 import {StoreWatchMixin} from 'fluxxor';
-import DocumentTitle from 'react-document-title';
+import DocumentTitle from "../../../ui/DocumentTitle";
 import FeedList from './feedList.jsx';
 import defaults from '../../consts/defaults';
 import EmbeddedShout from '../shouting/embeddedShout.jsx';
@@ -23,20 +23,6 @@ export default function (type = "all") {
     displayName: type,
     mixins: [new StoreWatchMixin("shouts", "locations"), History],
 
-    statics: {
-      fetchId: 'all',
-      fetchData(client, session, params) {
-        return client.shouts().list(session, {
-          shout_type: type,
-          page_size: defaults.PAGE_SIZE,
-          city: params.city === "all" ? null : params.city,
-          country: params.country === "all" ? null : params.country,
-          state: params.state === "all" ? null : params.state,
-          page: params.page
-        });
-      }
-    },
-
     getStateFromFlux() {
       let flux = this.props.flux;
       return {
@@ -46,11 +32,11 @@ export default function (type = "all") {
     },
 
     render() {
-      const { currentLocation } = this.props;
+      const { currentLocation, flux } = this.props;
       return (
-        <DocumentTitle title={titles[type] + " - Shoutit"}>
+        <DocumentTitle title={titles[type] + ""}>
           <div>
-            <EmbeddedShout collapsed/>
+            <EmbeddedShout flux={ flux } collapsed/>
             <FeedList
               { ...this.state }
               type={ type }

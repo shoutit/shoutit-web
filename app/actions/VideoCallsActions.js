@@ -1,12 +1,12 @@
 
 /* global Twilio */
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
 function subscribeConversationEvents(conversation, self) {
-  conversation.on("disconnected", () => {
+  conversation.on('disconnected', () => {
     self.dispatch(actionTypes.VIDEOCALL_DISCONNECTED, conversation);
   });
-  conversation.on("participantDisconnected", () => {
+  conversation.on('participantDisconnected', () => {
     self.dispatch(actionTypes.VIDEOCALL_PARTICIPANT_DISCONNECTED, conversation);
   });
 }
@@ -14,20 +14,23 @@ function subscribeConversationEvents(conversation, self) {
 export default {
 
   initTwilio() {
+    if (!require('webrtcsupport').support) {
+      return;
+    }
     this.dispatch(actionTypes.TWILIO_INIT);
     const { service } = this.flux;
 
     if (!Twilio) {
-      const error = { status: 500, message: "Missing Twilio SDK"};
-      console.error("Could not get twilio token", error); // eslint-disable-line no-console
+      const error = { status: 500, message: 'Missing Twilio SDK' };
+      console.error('Could not get twilio token', error); // eslint-disable-line no-console
       this.dispatch(actionTypes.TWILIO_INIT_FAILURE, { error });
       return;
     }
 
-    service.create("twilioToken").end((error, data) => {
+    service.create('twilioToken').end((error, data) => {
 
       if (error) {
-        console.error("Could not get token", error); // eslint-disable-line no-console
+        console.error('Could not get token', error); // eslint-disable-line no-console
         this.dispatch(actionTypes.TWILIO_INIT_FAILURE, { error });
         return;
       }
@@ -44,43 +47,37 @@ export default {
           token: data.token,
           identity: data.identity,
           conversationsClient,
-          accessManager
+          accessManager,
         });
       }, error => {
         error.status = 500;
-        console.error("Could not connect to Twilio", error); // eslint-disable-line no-console
+        console.error('Could not connect to Twilio', error); // eslint-disable-line no-console
         this.dispatch(actionTypes.TWILIO_INIT_FAILURE, { error });
       });
 
       // Handle Twilio client events
 
-      conversationsClient.on("invite", incomingInvite => {
+      conversationsClient.on('invite', incomingInvite => {
 
-        service.read("profile")
-          .params({ username: incomingInvite.from})
+        service.read('profile')
+          .params({ username: incomingInvite.from })
           .end((err, user) => {
             const payload = { incomingInvite, user };
 
             this.dispatch(actionTypes.VIDEOCALL_INCOMING, payload);
 
-            incomingInvite.on("rejected", error =>
+            incomingInvite.on('rejected', error =>
               this.dispatch(actionTypes.VIDEOCALL_INCOMING_REJECTED, { ...payload, error })
             );
-            incomingInvite.on("failed", error =>
+            incomingInvite.on('failed', error =>
               this.dispatch(actionTypes.VIDEOCALL_INCOMING_FAILURE, { ...payload, error })
             );
-            incomingInvite.on("canceled", error =>
+            incomingInvite.on('canceled', error =>
               this.dispatch(actionTypes.VIDEOCALL_INCOMING_CANCELED, { ...payload, error })
             );
-
           });
-
-
-
       });
-
     });
-
   },
 
   previewVideoCall(user) {
@@ -96,7 +93,7 @@ export default {
   },
 
   inviteToVideoCall(user) {
-    const client = this.flux.stores["videocall"].getState().conversationsClient;
+    const client = this.flux.stores['videocall'].getState().conversationsClient;
     const outgoingInvite = client.inviteToConversation(user.username);
     const videoCallId = new Date().getTime();
     this.dispatch(actionTypes.VIDEOCALL_OUTGOING, { user, outgoingInvite, videoCallId });
@@ -109,19 +106,18 @@ export default {
       .catch(error => {
         let actionType;
         switch (outgoingInvite.status) {
-        case "canceled":
-          actionType = actionTypes.VIDEOCALL_OUTGOING_CANCELED;
-          break;
-        case "rejected":
-          actionType = actionTypes.VIDEOCALL_OUTGOING_REJECTED;
-          break;
-        default:
-          actionType = actionTypes.VIDEOCALL_OUTGOING_FAILURE;
+          case 'canceled':
+            actionType = actionTypes.VIDEOCALL_OUTGOING_CANCELED;
+            break;
+          case 'rejected':
+            actionType = actionTypes.VIDEOCALL_OUTGOING_REJECTED;
+            break;
+          default:
+            actionType = actionTypes.VIDEOCALL_OUTGOING_FAILURE;
         }
-        console.error("Could not create conversation", error); // eslint-disable-line no-console
+        console.error('Could not create conversation', error); // eslint-disable-line no-console
         this.dispatch(actionType, { user, outgoingInvite, error, videoCallId });
       });
-
-  }
+  },
 
 };

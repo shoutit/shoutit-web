@@ -1,0 +1,37 @@
+@import "../styles/mixins/ellipsis.scss";
+@import "../styles/mixins/card.scss";
+
+.CardWithList {
+  padding: .25rem;
+
+  @include card();
+  ul {
+    margin: .5rem 0;
+    padding: 0 .5rem;
+
+    list-style: none;
+    li {
+      display: flex;
+
+      margin: 0;
+      padding: .25rem 0;
+
+      font-size: 0.875rem;
+
+      @include ellipsis();
+      > a {
+        display: flex;
+
+        color: $color;
+
+        align-items: center;
+      }
+      &:first-child {
+        padding-top: 0;
+      }
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+  }
+}

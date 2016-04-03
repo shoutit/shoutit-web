@@ -1,0 +1,80 @@
+@import "../styles/constants/typography.scss";
+@import "../styles/constants/colors.scss";
+@import "../styles/constants/dimensions.scss";
+
+.Homepage {
+
+}
+
+.Homepage-hero {
+  background-image: url('../../assets/images/home-hero-bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.Homepage-hero-wrapper {
+  color: white;
+  padding: 7rem;
+  display: flex;
+  align-items: center;
+}
+
+.Homepage-hero-bg {
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(black, .4);
+}
+
+.Homepage-hero-copy {
+  position: relative;
+  h1 {
+    font-weight: normal;
+    font-family: $font-family-alternate;
+  }
+  h2 {
+    font-weight: lighter;
+  }
+}
+
+.Homepage-hero-apps {
+  position: relative;
+  a {
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+}
+
+.Homepage-how-it-works {
+  text-align: center;
+  background-color: white;
+  overflow: hidden;
+  h2 {
+    font-family: $font-family-alternate;
+    color: $color-light;
+  }
+  padding-bottom: 2rem;
+}
+
+.Homepage-explore {
+  padding-bottom: 2rem;
+  h2 {
+    text-align: center;
+    font-family: $font-family-alternate;
+    color: $color-light;
+  }
+}
+
+.Homepage-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  .Card {
+    margin: 1rem;
+  }
+}

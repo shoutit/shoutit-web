@@ -12,8 +12,8 @@ import UserAvatar from '../../../../users/UserAvatar';
 import LocationSearch from "../../general/locationSearch.jsx";
 import map from "lodash/collection/map";
 import Clearfix from "../../helper/clearFix.jsx";
-import Button from "../../helper/Button.jsx";
-import SVGIcon from "../../helper/SVGIcon";
+import Button from "../../../../ui/Button";
+import SVGIcon from "../../../../ui/SVGIcon";
 
 const shoutTypes = {
   offer: "Offers",
@@ -34,12 +34,12 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    this.props.flux.actions.changeShoutDraft("latLng", this.props.current.location);
+    this.props.flux.actions.changeShoutDraft("latLng", this.props.currentLocation);
   },
 
   renderUserImage() {
     return (
-      <UserAvatar user={this.props.user} />
+      <UserAvatar user={this.props.loggedUser} />
       );
   },
 
@@ -421,7 +421,7 @@ export default React.createClass({
   onChange={this.onLocationSelectionChange}
   flux={this.props.flux}
   ref="location"
-  selected={this.props.draft.latLng || this.props.current.location}
-  startLocation={this.props.current.location}
+  selected={this.props.draft.latLng || this.props.currentLocation}
+  startLocation={this.props.currentLocation}
   />onBlurCapture={this.onUserFocus({focused: false})}
 */

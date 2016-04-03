@@ -1,3 +1,12 @@
+$shoutit-black: #58585a;
+$shoutit-blue: #40c4ff;
+$shoutit-red: #ff5252;
+$shoutit-green: #4caf50;
+$shoutit-green-light: #c8e6c9;;
+$shoutit-grey-light: #d2d2d2;
+$shoutit-grey: #8c8c8c;
+$shoutit-grey-dark: #646464;
+
 $si-white: #fff;
 $si-red: #E73F3F;
 $si-light-green: #EEF6E8;
@@ -16,14 +25,21 @@ $si-footer-text: #e6e9ed;
 
 $si-error-color: #E73F3F;
 
+$color-primary: #a7d281;
+$color-active: $shoutit-blue;
+
+$border-color-field: $shoutit-grey-light;
+$border-color-field-focus: $shoutit-blue;
 $border-color: #EDEFED;
 $border-color-dark: #DFDFDF;
 $border-color-alt: #a7d281;
-$color: #3b3b3b;
+$color: $shoutit-black;
 $color-light: #989899;
 $color-lighter: #C8C8C9;
-$background-color-light: #EDEFED;
+$background-color-light: #F3F3F3;
 $background-color-alt-light: #F8FAFB;  // slightly green
 $background-color-alt: #EEF6E8;  // slightly green
 $background-color: #F3F3F3;
 $background-color-dark: #989899;
+$background-color-darker: #58585A;
+$button-primary-background-color: $shoutit-green;

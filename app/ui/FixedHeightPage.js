@@ -1,10 +1,10 @@
 /* eslint-env browser */
 
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 if (process.env.BROWSER) {
-  require("./FixedHeightPage.scss");
+  require('./FixedHeightPage.scss');
 }
 
 /**
@@ -19,7 +19,7 @@ export default class FixedHeightPage extends React.Component {
   }
 
   state = {
-    height: 0
+    height: 0,
   }
 
   componentDidMount() {
@@ -36,11 +36,11 @@ export default class FixedHeightPage extends React.Component {
   }
 
   addResizeEventListener() {
-    window.addEventListener("resize", this.setContentHeight);
+    window.addEventListener('resize', this.setContentHeight);
   }
 
   removeResizeEventListener() {
-    window.removeEventListener("resize", this.setContentHeight);
+    window.removeEventListener('resize', this.setContentHeight);
   }
 
   setContentHeight() {
@@ -54,7 +54,7 @@ export default class FixedHeightPage extends React.Component {
     const { children } = this.props;
 
     return (
-      <div className="FixedHeightPage" style={ {height: `${height}px`} }>
+      <div className="FixedHeightPage" style={ { height: `${height}px` } }>
         <div className="FixedHeightPage-wrapper">
           { children }
         </div>

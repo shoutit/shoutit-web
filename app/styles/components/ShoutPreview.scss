@@ -1,7 +1,7 @@
 @import "../constants/colors.scss";
 @import "../constants/defaults";
 
-.ShoutPreview {
+.ShoutPreview2 {
   min-height: 150px;
   background-color: $si-white;
   border-top-left-radius: 5px;
@@ -10,8 +10,8 @@
   margin-bottom: 10px;
 }
 
-.ShoutPreview-caption {
-  .ShoutPreview-title {
+.ShoutPreview2-caption {
+  .ShoutPreview2-title {
     margin: 15px;
     color: $si-blue;
     display: inline-block;
@@ -19,13 +19,13 @@
       color: lighten($si-blue, 10%);
     }
   }
-  .ShoutPreview-cat {
+  .ShoutPreview2-cat {
     color: lighten($si-blue, 10%);
     &:hover {
       color: lighten($si-blue, 15%);
     }
   }
-  .ShoutPreview-price {
+  .ShoutPreview2-price {
     margin: 10px 20px 0 0;
     color: darken($si-green, 10%);
     text-align: right;
@@ -36,17 +36,17 @@
   }
 }
 
-.ShoutPreview-text {
+.ShoutPreview2-text {
   padding: 10px 20px;
   overflow: hidden;
   height: 210px;
 }
 
-.ShoutPreview-footnote {
+.ShoutPreview2-footnote {
   text-align: center;
 }
 
-.ShoutPreview-image {
+.ShoutPreview2-image {
   float: left;
   width: 100%;
   height: 300px;
@@ -60,10 +60,10 @@
   }
 }
 
-.ShoutPreview-heading {
+.ShoutPreview2-heading {
   height: 42px;
   border-bottom: 1px solid lighten($si-light-gray2, 15%);
-  .ShoutPreview-user {
+  .ShoutPreview2-user {
     font-size: 1.5rem;
     font-weight: 700;
     padding: 10px 0;
@@ -71,7 +71,7 @@
     color: $si-light-gray;
     float: left;
   }
-  .ShoutPreview-date {
+  .ShoutPreview2-date {
     font-size: 1.3rem;
     color: $si-light-gray;
     float: right;

@@ -2,7 +2,7 @@ import React from 'react';
 import {StoreWatchMixin} from 'fluxxor';
 import {Grid, Column, Progress} from '../../helper';
 import ProfileShouts from '../ProfileShouts.jsx';
-import DocumentTitle from 'react-document-title';
+import DocumentTitle from "../../../../ui/DocumentTitle";
 import ProfileCover from '../profileCover.jsx';
 import ProfileLeftBar from './pageLeftBar.jsx';
 import assign from 'lodash/object/assign';
@@ -11,13 +11,13 @@ export default React.createClass({
     displayName: "PageProfile",
     mixins: [new StoreWatchMixin("users")],
 
-    // Need to move it later to profileOffers after moving this path to home route path
-    statics: {
-        fetchId:'pageshouts',
-        fetchData(client, session, params) {
-            return client.users().getShouts(session, params.username, 'page');
-        }
-    },
+    // // Need to move it later to profileOffers after moving this path to home route path
+    // statics: {
+    //     fetchId:'pageshouts',
+    //     fetchData(client, session, params) {
+    //         return client.users().getShouts(session, params.username, 'page');
+    //     }
+    // },
 
     contextTypes: {
         params: React.PropTypes.object,
@@ -53,7 +53,7 @@ export default React.createClass({
             user = this.state.users[username];
 
         return (
-                <DocumentTitle title={user.name + " - Shoutit"}>
+                <DocumentTitle title={user.name + ""}>
                     <div>
                         <Grid >
                             <Column size="12" clear={true}>
@@ -75,7 +75,7 @@ export default React.createClass({
 
     renderNotFound() {
         return (
-            <DocumentTitle title={"User Not Found! - Shoutit"}>
+            <DocumentTitle title={"User Not Found!"}>
                 <h3>User not found!</h3>
             </DocumentTitle>
             );
@@ -83,7 +83,7 @@ export default React.createClass({
 
     renderLoading() {
         return(
-            <DocumentTitle title={"[Loading...] - Shoutit"}>
+            <DocumentTitle title={"[Loading...]"}>
                 <Progress />
             </DocumentTitle>
             );

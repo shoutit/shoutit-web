@@ -1,12 +1,55 @@
-@import "./constants/colors.scss";
-@import "./constants/dimensions.scss";
+@import "./constants.scss";
+
+.htmlTextarea,
+.htmlInput:not([type="checkbox"]) {
+  padding: 0.4rem 0.625rem;
+
+  border: 1px solid $border-color-field;
+  border-radius: $border-radius;
+
+  font-family: $font-family;
+  font-size: 0.875rem;
+  &.block {
+    display: block;
+
+    width: 100%;
+  }
+}
 
 .htmlTextarea {
-  padding: 5px 10px;
-  font-size: 14px;
-  border-radius: 0;
-  border: 1px solid $border-color-dark;
-  &:focus {
-    border: 1px solid $border-color-dark;
+  padding: 0.4rem 0.625rem;
+}
+
+.htmlInput:not([type="checkbox"]) {
+  padding: 0 0.625rem;
+
+  line-height: 30px;
+}
+
+.htmlContentWidth {
+  width: $content-width;
+  margin: 0 auto;
+}
+
+ul.htmlSelectableList {
+  margin: 0.25rem 0;
+  padding: 0;
+
+  list-style: none;
+  li {
+    margin: 0;
+    a {
+      display: block;
+
+      width: 100%;
+      padding: .25rem .5rem;
+
+      color: $color;
+
+      font-size: .875rem;
+      &:hover, &:focus {
+        background-color: $background-color;
+      }
+    }
   }
 }

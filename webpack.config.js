@@ -30,7 +30,7 @@ NotifyConfigPlugin.prototype.apply = () => {
 };
 
 module.exports = {
-  devtool: isDevelopment ? "cheap-module-eval-source-map" : "source-map",
+  devtool: isDevelopment ? "#cheap-module-eval-source-map" : "source-map",
   context: context,
   entry: entries,
   output: {
@@ -66,7 +66,7 @@ module.exports = {
         }
       },
       {
-        test: /\.scss$/,
+        test: /\.s?css$/,
         loader: isDevelopment ?
           "style!css?sourceMap!postcss!sass?sourceMap&sourceMapContents" :
            ExtractTextPlugin.extract("style", "css?sourceMap!postcss!sass?sourceMap")

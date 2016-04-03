@@ -9,13 +9,13 @@ module.exports = {
   description: {},
   brand: {},
   offers: {
-    itemScope: "Offer"
+    itemScope: 'Offer',
   },
   price: {},
   priceCurrency: {},
   url : {},
   reviews: {
-    itemScope: "Review"
+    itemScope: 'Review',
   },
-  video: {}
+  video: {},
 };

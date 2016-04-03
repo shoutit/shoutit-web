@@ -2,8 +2,8 @@
  * Created by Philip on 22.06.2015.
  */
 
-import consts from "./consts";
-import client from "./client";
+import consts from './consts';
+import client from './client';
 
 
 export default {
@@ -14,11 +14,11 @@ export default {
       .end(function (error, res) {
         if (error) {
           this.dispatch(consts.LOAD_NOTIFICATIONS_FAILED, {
-            error
+            error,
           });
         } else {
           this.dispatch(consts.LOAD_NOTIFICATIONS_SUCCESS, {
-            res
+            res,
           });
         }
       });
@@ -27,16 +27,16 @@ export default {
   loadMoreNotifications(before) {
     this.dispatch(consts.LOAD_MORE_NOTIFICATIONS);
 
-    client.loadMoreNotifications({before})
+    client.loadMoreNotifications({ before })
       .end(function (error, res) {
         if (error) {
           this.dispatch(consts.LOAD_MORE_NOTIFICATIONS_FAILED, {
-            error
+            error,
           });
         } else {
           this.dispatch(consts.LOAD_MORE_NOTIFICATIONS_SUCCESS, {
             before,
-            res
+            res,
           });
         }
       });
@@ -49,7 +49,7 @@ export default {
       .end(function (error) {
         if (error) {
           this.dispatch(consts.RESET_NOTIFICATIONS_FAILED, {
-            error
+            error,
           });
         } else {
           this.dispatch(consts.RESET_NOTIFICATIONS_SUCCESS);
@@ -59,18 +59,18 @@ export default {
 
   readNotification(id) {
     this.dispatch(consts.READ_NOTIFICATION, {
-      id
+      id,
     });
 
     client.readNotification(id)
       .end(function (error) {
         if (error) {
           this.dispatch(consts.READ_NOTIFICATION_FAILED, {
-            id, error
+            id, error,
           });
         } else {
           this.dispatch(consts.READ_NOTIFICATION_SUCCESS, {
-            id
+            id,
           });
         }
       });
@@ -78,21 +78,21 @@ export default {
 
   unreadNotification(id) {
     this.dispatch(consts.UNREAD_NOTIFICATION, {
-      id
+      id,
     });
 
     client.unreadNotification(id)
       .end(function (error) {
         if (error) {
           this.dispatch(consts.UNREAD_NOTIFICATION_FAILED, {
-            id, error
+            id, error,
           });
         } else {
           this.dispatch(consts.UNREAD_NOTIFICATION_SUCCESS, {
-            id
+            id,
           });
         }
       });
-  }
+  },
 
 };

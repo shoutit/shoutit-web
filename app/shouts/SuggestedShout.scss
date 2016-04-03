@@ -1,0 +1,28 @@
+@import "../styles/mixins/card.scss";
+@import "../styles/constants.scss";
+
+.SuggestedShout {
+  @include card();
+  h3 {
+    margin-bottom: 0;
+    border-bottom: 0;
+  }
+  .ShoutPreview .ShoutPrice {
+    font-size: 75%;
+  }
+  .Card-title {
+    font-size: 0.875rem;
+    background-color: $background-color-alt-light;
+  }
+  .Card {
+    background-color: $background-color-alt-light;
+  }
+  .Card-image,
+  .Card-image-wrapper {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .ShoutPreview .ShoutPreview-details {
+    font-size: 0.75rem;
+  }
+}

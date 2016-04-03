@@ -1,12 +1,12 @@
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import SVGIcon from "../shared/components/helper/SVGIcon";
+import SVGIcon from '../ui/SVGIcon';
 
 export default function MessageReadByFlag({ profiles }) {
   const tooltip = (
     <Tooltip>
-      Read by { profiles.map(profile => profile.name).join(", ") }
+      Read by { profiles.map(profile => profile.name).join(', ') }
     </Tooltip>
   );
   return (

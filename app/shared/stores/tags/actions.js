@@ -1,17 +1,17 @@
-import consts from "./consts";
-import client from "./client";
+import consts from './consts';
+import client from './client';
 
 export default {
   loadTag(tagName) {
     this.dispatch(consts.LOAD_TAG, {
-      tagName: tagName
+      tagName: tagName,
     });
   },
 
   loadTagSuccess(tagName, res) {
     this.dispatch(consts.LOAD_TAG_SUCCESS, {
       tagName: tagName,
-      res: res
+      res: res,
     });
   },
 
@@ -21,9 +21,9 @@ export default {
 
   listenTag(tagName) {
     client.listen(tagName).end((err, res) => {
-      if(err) {
+      if (err) {
         this.dispatch(consts.LISTEN_TAG_FAIL, { tagName });
-      } else if(res.body.success) {
+      } else if (res.body.success) {
         this.dispatch(consts.LISTEN_TAG_SUCCESS, { tagName });
       } else {
         this.dispatch(consts.LISTEN_TAG_FAIL, { tagName });
@@ -35,9 +35,9 @@ export default {
 
   stopListenTag(tagName) {
     client.unlisten(tagName).end((err, res) => {
-      if(err) {
+      if (err) {
         this.dispatch(consts.STOP_LISTEN_TAG_FAIL, { tagName });
-      } else if(res.body.success) {
+      } else if (res.body.success) {
         this.dispatch(consts.STOP_LISTEN_TAG_SUCCESS, { tagName });
       } else {
         this.dispatch(consts.STOP_LISTEN_TAG_FAIL, { tagName });
@@ -49,95 +49,94 @@ export default {
 
   stopListenTagSuccess(tagName) {
     this.dispatch(consts.STOP_LISTEN_TAG_SUCCESS, {
-      tagName: tagName
+      tagName: tagName,
     });
   },
 
   loadTagListeners(tagName) {
     this.dispatch(consts.LOAD_TAG_LISTENERS, {
-      tagName: tagName
+      tagName: tagName,
     });
   },
 
   loadTagRelated(tagName) {
     this.dispatch(consts.LOAD_TAG_RELATED, {
-      tagName: tagName
+      tagName: tagName,
     });
   },
 
   loadTagListenersSuccess(tagName, res) {
     this.dispatch(consts.LOAD_TAG_LISTENERS, {
       tagName: tagName,
-      res: res
+      res: res,
     });
   },
 
   loadTagShouts(tagName, countryCode) {
     this.dispatch(consts.LOAD_TAG_SHOUTS, {
       tagName,
-      countryCode
+      countryCode,
     });
   },
 
   loadMoreTagShouts(tagName, type) {
     this.dispatch(consts.LOAD_MORE_TAG_SHOUTS, {
       tagName: tagName,
-      type: type
+      type: type,
     });
   },
 
   loadTags(query) {
-    this.dispatch(consts.LOAD_TAGS, {query});
+    this.dispatch(consts.LOAD_TAGS, { query });
 
     client.list(query)
       .end((error, res) => {
         if (error || !res.ok) {
           this.dispatch(consts.LOAD_TAGS_FAILED, {
-            error
+            error,
           });
         } else {
           this.dispatch(consts.LOAD_TAGS_SUCCESS, {
-            res: res.body
+            res: res.body,
           });
         }
       });
   },
 
   loadSpriteInfo(hash) {
-    this.dispatch(consts.LOAD_TAGS_SPRITE, {hash});
+    this.dispatch(consts.LOAD_TAGS_SPRITE, { hash });
 
     client.loadSpriteInfo(hash)
       .end((error, res) => {
         if (error || !res.ok || !res.body) {
           this.dispatch(consts.LOAD_TAGS_SPRITE_FAILED, {
             hash,
-            error
+            error,
           });
         } else {
           this.dispatch(consts.LOAD_TAGS_SPRITE_SUCCESS, {
             hash,
-            res: res.body
+            res: res.body,
           });
         }
       });
-
   },
 
   requestSpriting(images) {
-    this.dispatch(consts.REQUEST_SPRITING, {images});
+    this.dispatch(consts.REQUEST_SPRITING, { images });
 
     client.requestSpriting(images)
       .end((error, res) => {
         if (error || !res.ok) {
           this.dispatch(consts.REQUEST_SPRITING_FAILED, {
-            error
+            error,
           });
         } else {
           this.dispatch(consts.REQUEST_SPRITING_SUCCESS, {
-            res: res.body
+            res: res.body,
           });
         }
       });
-  }
+  },
 
 };

@@ -6,9 +6,9 @@ export default function (client, path) {
       query.page = page;
     }
 
-    return client.get(path + "/" + username + "/listeners", {
+    return client.get(path + '/' + username + '/listeners', {
       accessToken: session && session.accessToken ? session.accessToken : null,
-      query: query
+      query: query,
     });
   };
 }

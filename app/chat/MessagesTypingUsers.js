@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react';
 
 if (process.env.BROWSER) {
-  require("./MessagesTypingUsers.scss");
+  require('./MessagesTypingUsers.scss');
 }
 
-export default function MessagesTypingUsers({ users }) {
+export default function MessagesTypingUsers({ users = [] }) {
 
-  let content = "";
+  let content = '';
   if (users.length > 0) {
-    content += users.map(user => user.name).join(", ");
+    content += users.map(user => user.name).join(', ');
     if (users.length === 1) {
-      content += " is typing...";
+      content += ' is typing...';
     }
     else if (users.length > 1) {
-      content += " are typing...";
+      content += ' are typing...';
     }
   }
 

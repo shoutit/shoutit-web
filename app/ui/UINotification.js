@@ -1,31 +1,31 @@
-import React from "react";
-import SVGIcon from "../shared/components/helper/SVGIcon";
+import React from 'react';
+import SVGIcon from '../ui/SVGIcon';
 
 if (process.env.BROWSER) {
-  require("./UINotification.scss");
+  require('./UINotification.scss');
 }
 
 export default class UINotification extends React.Component {
 
   static propTypes = {
-    dismissUINotification: React.PropTypes.func,
+    onDismissClick: React.PropTypes.func,
     icon: React.PropTypes.element,
     showDismissButton: React.PropTypes.bool,
     buttons: React.PropTypes.array,
-    type: React.PropTypes.oneOf(["message"])
+    type: React.PropTypes.oneOf(['message']),
   };
 
   static defaultProps = {
     showDismissButton: true,
     buttons: [],
-    type: "message"
+    type: 'message',
   };
 
   state = {
     style: {
       opacity: 0,
-      visibility: "hidden"
-    }
+      visibility: 'hidden',
+    },
   };
 
   componentDidMount() {
@@ -38,21 +38,20 @@ export default class UINotification extends React.Component {
       this.refs.wrapper.scrollTop = 0;
       this.setState({ style });
     }
-
   }
 
   getStyle() {
     const style = {
-      visibility: "visible",
-      overflow: "hidden",
+      visibility: 'visible',
+      overflow: 'hidden',
       opacity: 1,
-      height: this.refs.body.offsetHeight
+      height: this.refs.body.offsetHeight,
     };
     return style;
   }
 
   render() {
-    const { icon, children, dismissUINotification, showDismissButton, buttons, type } = this.props;
+    const { icon, children, onDismissClick, showDismissButton, buttons, type } = this.props;
     const { style } = this.state;
     const className = `UINotification type-${type}`;
 
@@ -68,7 +67,7 @@ export default class UINotification extends React.Component {
 
             { showDismissButton &&
               <span className="UINotification-dismiss">
-                <SVGIcon size="small" name="close" onClick={ () => dismissUINotification() } />
+                <SVGIcon size="small" name="close" onClick={ () => onDismissClick() } />
               </span>
             }
 
