@@ -21,7 +21,9 @@ export class Discover extends Component {
 
   render() {
     return (
-      <Page endColumn={ <SuggestedShout /> } />
+      <Page endColumn={ <SuggestedShout /> }>
+        Discover page
+      </Page>
     );
   }
 
