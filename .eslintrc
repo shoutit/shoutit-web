@@ -1,7 +1,7 @@
 {
   "parser": "babel-eslint",
   "plugins": ["react"],
-  "extends": "airbnb",
+  "extends": ["airbnb", "plugin:import/errors", "plugin:import/warnings"],
   "rules": {
     "max-len": 0,
     "default-case": 0,
@@ -14,6 +14,13 @@
     "react/no-did-mount-set-state": 0,
     "react/no-did-update-set-state": 0,
     "react/jsx-closing-bracket-location": 0
+  },
+  "settings": {
+    "import/ignore": [
+      "node_modules",
+      "\\.coffee$",
+      "\\.(scss|less|css)$"
+    ]
   },
   "env": {
     "node": true,

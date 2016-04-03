@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import SVGIcon from '../ui/SVGIcon';
 
 if (process.env.BROWSER) {
-  require('styles/components/HeaderProfileOverlay.scss');
+  require('../styles/components/HeaderProfileOverlay.scss');
 }
 
 export default function HeaderProfileOverlay({ loggedUser, onLogoutClick }) {
