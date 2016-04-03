@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import isEqual from 'lodash/lang/isEqual';
+
 import TextField from '../ui/TextField';
 import Picker from '../ui/Picker';
 import Button from '../ui/Button';
@@ -14,7 +16,6 @@ import { setCurrentLocation } from '../actions/location';
 if (process.env.BROWSER) {
   require('./SearchFilters.scss');
 }
-
 
 export class SearchFilters extends Component {
 
@@ -242,7 +243,7 @@ export class SearchFilters extends Component {
             onChange={ e => this.setState({ max_price: e.target.value }) }
           />*/}
           <div className="SearchFilters-buttons">
-            <Button block primary size="small" disabled={ disabled } type="submit" label="Search" />
+            <Button block primary size="small" disabled={ disabled || isEqual(this.state, this.props.searchParams) } type="submit" label="Search" />
           </div>
         </form>
       </div>
