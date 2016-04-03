@@ -75,7 +75,7 @@ export class SearchLocation extends Component {
         />
 
         { (isFetching || isGeocoding) &&
-          <Progress animate label={ isGeocoding ? 'Setting location…' : 'Searching location…' } />
+          <Progress animate label={ isGeocoding ? 'Setting location…' : 'Searching for locations…' } />
         }
 
         { !isGeocoding && input && lastPredictions.length > 0 &&
