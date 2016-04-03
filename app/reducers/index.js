@@ -6,6 +6,7 @@ import categories from './categories';
 import currencies from './currencies';
 import chat from './chat';
 import conversations from './entities-conversations';
+import shoutsBySearch from './shoutsBySearch';
 import currentLocation from './currentLocation';
 import currentUrl from './currentUrl';
 import entity from './entity';
@@ -51,14 +52,7 @@ const paginated = combineReducers({
     addType: actionTypes.LOAD_CONVERSATION_SUCCESS,
     deleteType: actionTypes.LEAVE_CONVERSATION_START,
   }),
-  shoutsBySearch: paginate({
-    mapActionToKey: action => stringify(action.payload.searchParams),
-    fetchTypes: [
-      actionTypes.SEARCH_SHOUTS_START,
-      actionTypes.SEARCH_SHOUTS_SUCCESS,
-      actionTypes.SEARCH_SHOUTS_FAILURE,
-    ],
-  }),
+  shoutsBySearch,
   tagsBySearch: paginate({
     mapActionToKey: action => stringify(action.payload.searchParams),
     fetchTypes: [

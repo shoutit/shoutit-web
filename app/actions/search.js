@@ -48,3 +48,10 @@ export function searchShouts(searchParams, endpoint) {
     payload: { searchParams, endpoint },
   };
 }
+
+export function invalidateShoutsSearch(searchParams) {
+  return {
+    type: actionTypes.INVALIDATE_SHOUTS_SEARCH,
+    payload: { searchParams },
+  };
+}

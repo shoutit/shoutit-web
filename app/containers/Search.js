@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import stringify from 'json-stable-stringify';
 import { push, replace } from 'react-router-redux';
 
-import { searchShouts } from '../actions/search';
+import { searchShouts, invalidateShoutsSearch } from '../actions/search';
 
 import Page from '../layout/Page';
 
@@ -82,17 +82,17 @@ export class Search extends Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { firstRender, dispatch, searchParams, shouts } = this.props;
+    const { firstRender, dispatch, searchParams } = this.props;
     if (!firstRender) {
-      if (shouts.length === 0) {
-        dispatch(searchShouts(searchParams));
-      }
+      dispatch(invalidateShoutsSearch(searchParams));
+      dispatch(searchShouts(searchParams));
     }
   }
 
   componentWillUpdate(nextProps) {
     const { searchString, dispatch, currentLocation, location: { query, pathname } } = this.props;
     if (nextProps.searchString !== searchString) {
+      dispatch(invalidateShoutsSearch(nextProps.searchParams));
       dispatch(searchShouts(nextProps.searchParams));
     }
     const { country, state, city } = nextProps.currentLocation;
