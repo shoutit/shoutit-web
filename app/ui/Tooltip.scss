@@ -1,7 +1,7 @@
 @import "../styles/constants.scss";
 @import "../styles/mixins/tooltip.scss";
 
-@include Tooltip();
+@include Tooltip($tooltip-font-size: 0.75rem);
 
 @include Tooltip(
   $className: TooltipWhite,
@@ -9,7 +9,7 @@
   $tooltip-color: $color,
   $tooltip-opacity: 1,
   $tooltip-border: 0,
-  $tooltip-shadow: $box-shadow-depth-1,
+  $tooltip-shadow: $box-shadow-depth-2,
   $tooltip-inner-padding: 0
 );
 
@@ -31,7 +31,7 @@ $white-arrow-height: 16px;
 .TooltipWhite-placement-top .TooltipWhite-arrow-inner,
 .TooltipWhite-placement-topLeft .TooltipWhite-arrow-inner,
 .TooltipWhite-placement-topRight .TooltipWhite-arrow-inner {
-  bottom: -1 * $white-arrow-height + 5;
+  bottom: -3px;
   margin-left: $white-arrow-width * (-0.5);
   background-image: url("../../assets/ui-elements/tooltips/arrow-placement-top.png")
 }
@@ -54,7 +54,7 @@ $white-arrow-height: 16px;
   height: $white-arrow-width;
   width: $white-arrow-height;
   background-image: url("../../assets/ui-elements/tooltips/arrow-placement-left.png");
-  right: 1px;
+  right: -1 * $white-arrow-height + 5;
   margin-top: $white-arrow-height * (-0.5);
   // border-width: 6px 0 6px 6px;
   // border-left-color: #ffffff;

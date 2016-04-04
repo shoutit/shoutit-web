@@ -6,7 +6,8 @@
   $tooltip-opacity: .9,
   $tooltip-border: none,
   $tooltip-shadow: none,
-  $tooltip-inner-padding: 8px 10px
+  $tooltip-inner-padding: 0.25rem 0.5rem,
+  $tooltip-font-size: 1rem
 ) {
 
   .#{$className} {
@@ -17,9 +18,7 @@
     visibility: visible;
 
     opacity: $tooltip-opacity;
-
-    font-size: 12px;
-    line-height: 1.5;
+    font-size: $tooltip-font-size;
   }
   .#{$className}-hidden {
     display: none;
@@ -46,8 +45,6 @@
   }
 
   .#{$className}-inner {
-    min-height: 34px;
-    min-width: 100px;
     padding: $tooltip-inner-padding;
 
     text-align: left;
