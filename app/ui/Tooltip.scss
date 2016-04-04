@@ -31,7 +31,7 @@ $white-arrow-height: 16px;
 .TooltipWhite-placement-top .TooltipWhite-arrow-inner,
 .TooltipWhite-placement-topLeft .TooltipWhite-arrow-inner,
 .TooltipWhite-placement-topRight .TooltipWhite-arrow-inner {
-  bottom: -3px;
+  bottom: -1 * $white-arrow-height + 5;
   margin-left: $white-arrow-width * (-0.5);
   background-image: url("../../assets/ui-elements/tooltips/arrow-placement-top.png")
 }
