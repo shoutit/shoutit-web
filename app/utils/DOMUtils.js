@@ -5,7 +5,7 @@ export function getStyleBackgroundImage(path, variation) {
   if (!path) {
     return {
       backgroundImage: `url("${imagesPath}/pattern@2x.png")`,
-      backgroundSize: '100%',
+      backgroundSize: '366px 599px',
       backgroundRepeat: 'repeat',
     };
   }
