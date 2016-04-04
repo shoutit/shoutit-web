@@ -18,8 +18,7 @@
   "settings": {
     "import/ignore": [
       "node_modules",
-      "\\.coffee$",
-      "\\.(scss|less|css)$"
+      "\\.(scss|less|css|json)$"
     ]
   },
   "env": {
