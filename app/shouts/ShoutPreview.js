@@ -61,8 +61,8 @@ ShoutPreview.propTypes = {
   shout: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-  shout: denormalize(state.entities.shouts[state.suggestions.shout], state.entities, 'SHOUT'),
+const mapStateToProps = (state, ownProps) => ({
+  shout: denormalize(ownProps.shout, state.entities, 'SHOUT'),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
