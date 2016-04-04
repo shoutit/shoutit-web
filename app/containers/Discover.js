@@ -20,13 +20,25 @@ if (process.env.BROWSER) {
   require('./Discover.scss');
 }
 
+const page_size = 9;
+
 const fetchData = (store, params) => {
+  const { dispatch } = store;
   const { countryName } = params;
   const country = getCountryCode(countryName);
-  if (!country) {
-    return Promise.reject({ status: 404 });
+
+  if (params.id) {
+    return dispatch(loadDiscoverItem(params.id)).then(() =>
+      dispatch(loadShoutsForDiscoverItem(params.id, { page_size }))
+    );
   }
-  return store.dispatch.loadDiscoverItemsByCountry(country);
+
+  return dispatch(loadDiscoverItemsByCountry(country)).then(({ result }) => {
+    Promise.all([
+      ...result.map(id => dispatch(loadDiscoverItem(id))),
+      ...result.map(id => dispatch(loadShoutsForDiscoverItem(id, { page_size }))),
+    ]);
+  });
 };
 
 export class Discover extends Component {
@@ -39,19 +51,19 @@ export class Discover extends Component {
 
   componentDidMount() {
     const { firstRender, country, dispatch, params } = this.props;
-    // if (!firstRender) {
-    if (params.id) {
-      dispatch(loadDiscoverItem(params.id)).then(() => {
-        dispatch(loadShoutsForDiscoverItem(params.id, { page_size: 9 }));
-      });
-    } else {
-      dispatch(loadDiscoverItemsByCountry(country)).then(({ result }) => {
-        // load children for each discover item
-        result.forEach(id => dispatch(loadDiscoverItem(id)));
-        result.forEach(id => dispatch(
-          loadShoutsForDiscoverItem(id, { page_size: 9 })
-        ));
-      });
+    if (!firstRender) {
+      if (params.id) {
+        dispatch(loadDiscoverItem(params.id)).then(() => {
+          dispatch(loadShoutsForDiscoverItem(params.id, { page_size }));
+        });
+      } else {
+        dispatch(loadDiscoverItemsByCountry(country)).then(({ result }) => {
+          result.forEach(id => dispatch(loadDiscoverItem(id)));
+          result.forEach(id => dispatch(
+            loadShoutsForDiscoverItem(id, { page_size })
+          ));
+        });
+      }
     }
   }
 
@@ -59,14 +71,13 @@ export class Discover extends Component {
     const { country, dispatch, params } = this.props;
     if (nextProps.params.id !== params.id) {
       dispatch(loadDiscoverItem(nextProps.params.id)).then(() => {
-        dispatch(loadShoutsForDiscoverItem(nextProps.params.id, { page_size: 9 }));
+        dispatch(loadShoutsForDiscoverItem(nextProps.params.id, { page_size }));
       });
     } else if (nextProps.country !== country) {
       dispatch(loadDiscoverItemsByCountry(nextProps.country)).then(({ result }) => {
-        // load children for each discover item
         result.forEach(id => dispatch(loadDiscoverItem(id)));
         result.forEach(id => dispatch(
-          loadShoutsForDiscoverItem(id, { page_size: 9 })
+          loadShoutsForDiscoverItem(id, { page_size })
         ));
       });
     }
