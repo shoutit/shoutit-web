@@ -27,11 +27,11 @@ $width-column: 220px;
 
 .Page-sticky {
   position: sticky;
+  z-index: 2;
   top: $header-height+24px;
 }
 
 .Page-sticky-fixed  {
-  z-index: 2;
   width: $width-column;
 }
 
