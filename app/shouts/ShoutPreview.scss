@@ -45,6 +45,12 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  .UserAvatar {
+    opacity: 1;
+    &:hover {
+      opacity: .7;
+    }
+  }
   .TimeAgo {
     flex: 1;
     margin-left: .5rem;
@@ -55,6 +61,9 @@
     justify-content: flex-end;
     width: 100%;
     align-items: center;
+    &:hover {
+      color: $si-green;
+    }
     .SVGIcon {
       margin-right: .25rem;
     }
