@@ -55,6 +55,7 @@ export const Schemas = {
   },
   TAGS: arrayOf(Tag),
   USER: User,
+  PROFILE: User,
 };
 
 export const denormalize = (entity, entities, name) => denormalizer(entity, entities, Schemas[name]);
