@@ -12,22 +12,45 @@ export function loadDiscoverItem(id) {
     service: {
       name: 'discover',
       params: { id },
+      schema: Schemas.DISCOVERITEM,
     },
   };
 }
 
-export function loadMainDiscoverItem(country) {
+export function loadDiscoverItemsByCountry(country) {
   return {
     types: [
-      actionTypes.LOAD_MAIN_DISCOVER_ITEM_START,
-      actionTypes.LOAD_MAIN_DISCOVER_ITEM_SUCCESS,
-      actionTypes.LOAD_MAIN_DISCOVER_ITEM_FAILURE,
+      actionTypes.LOAD_DISCOVER_ITEMS_START,
+      actionTypes.LOAD_DISCOVER_ITEMS_SUCCESS,
+      actionTypes.LOAD_DISCOVER_ITEMS_FAILURE,
     ],
     payload: { country },
     service: {
       name: 'discover',
       params: { searchParams: { country } },
       schema: Schemas.DISCOVERITEMS,
+    },
+  };
+}
+
+export function loadShoutsForDiscoverItem(discoverItemId, searchParams, endpoint) {
+  return {
+    types: [
+      actionTypes.LOAD_DISCOVER_SHOUTS_START,
+      actionTypes.LOAD_DISCOVER_SHOUTS_SUCCESS,
+      actionTypes.LOAD_DISCOVER_SHOUTS_FAILURE,
+    ],
+    payload: { discoverItemId, searchParams },
+    service: {
+      name: 'shouts',
+      params: {
+        endpoint,
+        searchParams: {
+          ...searchParams,
+          discover: discoverItemId,
+        },
+      },
+      schema: Schemas.SHOUTS,
     },
   };
 }

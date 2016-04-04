@@ -1,14 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
+
 import Page from '../layout/Page';
+
+import DiscoverItemPreview from '../discover/DiscoverItemPreview';
+
 import SuggestedShout from '../shouts/SuggestedShout';
+import ShoutsList from '../shouts/ShoutsList';
+import Scrollable from '../ui/Scrollable';
+import Progress from '../ui/Progress';
 
-import { loadMainDiscoverItem } from '../actions/discover';
+import { loadDiscoverItemsByCountry, loadDiscoverItem, loadShoutsForDiscoverItem } from '../actions/discover';
 import { getCountryCode } from '../utils/LocationUtils';
+import { getStyleBackgroundImage } from '../utils/DOMUtils';
+import { denormalize } from '../schemas';
 
-// if (process.env.BROWSER) {
-//   require('./Discover.scss');
-// }
+if (process.env.BROWSER) {
+  require('./Discover.scss');
+}
 
 const fetchData = (store, params) => {
   const { countryName } = params;
@@ -16,7 +26,7 @@ const fetchData = (store, params) => {
   if (!country) {
     return Promise.reject({ status: 404 });
   }
-  return store.dispatch.loadMainDiscoverItem(country);
+  return store.dispatch.loadDiscoverItemsByCountry(country);
 };
 
 export class Discover extends Component {
@@ -28,19 +38,82 @@ export class Discover extends Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { firstRender, country, dispatch } = this.props;
+    const { firstRender, country, dispatch, params } = this.props;
     // if (!firstRender) {
-    dispatch(loadMainDiscoverItem(country));
-    // }
+    if (params.id) {
+      dispatch(loadDiscoverItem(params.id)).then(() => {
+        dispatch(loadShoutsForDiscoverItem(params.id, { page_size: 9 }));
+      });
+    } else {
+      dispatch(loadDiscoverItemsByCountry(country)).then(({ result }) => {
+        // load children for each discover item
+        result.forEach(id => dispatch(loadDiscoverItem(id)));
+        result.forEach(id => dispatch(
+          loadShoutsForDiscoverItem(id, { page_size: 9 })
+        ));
+      });
+    }
+  }
+
+  componentWillUpdate(nextProps) {
+    const { country, dispatch, params } = this.props;
+    if (nextProps.params.id !== params.id) {
+      dispatch(loadDiscoverItem(nextProps.params.id)).then(() => {
+        dispatch(loadShoutsForDiscoverItem(nextProps.params.id, { page_size: 9 }));
+      });
+    } else if (nextProps.country !== country) {
+      dispatch(loadDiscoverItemsByCountry(nextProps.country)).then(({ result }) => {
+        // load children for each discover item
+        result.forEach(id => dispatch(loadDiscoverItem(id)));
+        result.forEach(id => dispatch(
+          loadShoutsForDiscoverItem(id, { page_size: 9 })
+        ));
+      });
+    }
   }
 
   render() {
-    console.log(this.props.discoverItem);
+    const { discoverItem, shouts, nextShoutsUrl, isFetchingShouts, dispatch, countryName } = this.props;
     return (
-      <Page title="Discover" endColumn={ <SuggestedShout /> }>
-        Discover page
+      <Scrollable
+        triggerOffset={ 400 }
+        scrollElement={ () => window }
+        onScrollBottom={ () => {
+          if (discoverItem && nextShoutsUrl && !isFetchingShouts) {
+            dispatch(loadShoutsForDiscoverItem(discoverItem.id, null, nextShoutsUrl));
+          }
+        }}>
+        <Page title="Discover" endColumn={ <SuggestedShout /> }>
 
-      </Page>
+          { discoverItem &&
+            <div className="Discover-hero" style={ getStyleBackgroundImage(discoverItem.image, 'large') }>
+              <div className="Discover-hero-content">
+                <h1>{ discoverItem.title }</h1>
+                { discoverItem.subtitle && <h2>{ discoverItem.subtitle }</h2> }
+              </div>
+            </div>
+          }
+
+          { discoverItem && discoverItem.showChildren && discoverItem.children &&
+            <div className="Discover-children">
+              { discoverItem.children.map(child =>
+                <Link to={`/discover/${countryName}/${child.id}`}>
+                  <DiscoverItemPreview discoverItem={ child } />
+                </Link>
+              )}
+            </div>
+          }
+
+          { discoverItem && discoverItem.showShouts && shouts.length > 0 &&
+            <div className="Discover-shouts">
+              <ShoutsList shouts={ shouts } />
+            </div>
+          }
+
+          <Progress animate={ isFetchingShouts } label="Loading shouts…" />
+
+        </Page>
+      </Scrollable>
     );
   }
 
@@ -61,9 +134,28 @@ const mapStateToProps = (state, ownProps) => {
       discoverItem = discoverItems[0];
     }
   }
+
+  let shouts = [];
+  let isFetchingShouts = false;
+  let nextShoutsUrl;
+  if (discoverItem) {
+    discoverItem = denormalize(discoverItem, entities, 'DISCOVERITEM');
+    const shoutsByDiscoverItem = paginated.shoutsByDiscoverItem[discoverItem.id];
+    if (shoutsByDiscoverItem) {
+      isFetchingShouts = shoutsByDiscoverItem.isFetching;
+      nextShoutsUrl = shoutsByDiscoverItem.nextUrl;
+
+      shouts = shoutsByDiscoverItem.ids.map(id => entities.shouts[id]);
+    }
+  }
+
   return {
+    countryName,
     country,
     discoverItem,
+    shouts,
+    isFetchingShouts,
+    nextShoutsUrl,
   };
 };
 

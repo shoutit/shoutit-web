@@ -87,9 +87,17 @@ const paginated = combineReducers({
   discoverItemsByCountry: paginate({
     mapActionToKey: action => action.payload.country,
     fetchTypes: [
-      actionTypes.LOAD_MAIN_DISCOVER_ITEM_START,
-      actionTypes.LOAD_MAIN_DISCOVER_ITEM_SUCCESS,
-      actionTypes.LOAD_MAIN_DISCOVER_ITEM_FAILURE,
+      actionTypes.LOAD_DISCOVER_ITEMS_START,
+      actionTypes.LOAD_DISCOVER_ITEMS_SUCCESS,
+      actionTypes.LOAD_DISCOVER_ITEMS_FAILURE,
+    ],
+  }),
+  shoutsByDiscoverItem: paginate({
+    mapActionToKey: action => action.payload.discoverItemId,
+    fetchTypes: [
+      actionTypes.LOAD_DISCOVER_SHOUTS_START,
+      actionTypes.LOAD_DISCOVER_SHOUTS_SUCCESS,
+      actionTypes.LOAD_DISCOVER_SHOUTS_FAILURE,
     ],
   }),
   listeningByUser: paginate({
