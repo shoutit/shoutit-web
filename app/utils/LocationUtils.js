@@ -54,3 +54,11 @@ export function geocodePlace(placeId, callback) {
 export function getCountryName(code) {
   return countries[code];
 }
+
+export function getCountryCode(name) {
+  const code = Object.keys(countries).find(code => countries[code].toLowerCase() === name.toLowerCase());
+  if (!code) {
+    return null;
+  }
+  return code.toLowerCase();
+}

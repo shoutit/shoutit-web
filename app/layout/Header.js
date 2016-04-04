@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { push } from 'react-router-redux';
 
-// import Dialog from '../shared/components/helper/Dialog';
 import Overlay from '../ui/Overlay';
 import Button from '../ui/Button';
 
@@ -10,12 +10,11 @@ import HeaderMessagesOverlay from './HeaderMessagesOverlay';
 import HeaderNotificationsOverlay from './HeaderNotificationsOverlay';
 import HeaderProfileOverlay from './HeaderProfileOverlay';
 import HeaderProfile from './HeaderProfile';
-// import HeaderNewShout from './HeaderNewShout';
 import Searchbar from '../search/Searchbar';
 
 import { logout } from '../actions/session';
 import { loadConversations } from '../actions/chat';
-
+import { getCountryName } from '../utils/LocationUtils';
 import { imagesPath } from '../config';
 
 if (process.env.BROWSER) {
@@ -25,11 +24,10 @@ if (process.env.BROWSER) {
 export class Header extends Component {
 
   static propTypes = {
-    // flux: PropTypes.object.isRequired,
-    // loggedUser: PropTypes.object,
-    // location: PropTypes.object,
-    // chat: PropTypes.object,
-    // currentLocation: PropTypes.object
+    loggedUser: PropTypes.object,
+    location: PropTypes.object,
+    currentLocation: PropTypes.object,
+    unreadConversations: PropTypes.number,
   };
 
   state = {
@@ -61,13 +59,13 @@ export class Header extends Component {
   }
 
   render() {
-    const { dispatch, loggedUser, unreadConversations, currentLocation, location, history } = this.props;
+    const { dispatch, loggedUser, unreadConversations, currentLocation } = this.props;
 
-    const { overlayName, overlayTarget, openNewShoutDialog } = this.state;
+    const { overlayName, overlayTarget } = this.state;
 
     let discoverLink = '/discover';
     if (currentLocation.country) {
-      discoverLink += `?country=${currentLocation.country}`;
+      discoverLink += `/${getCountryName(currentLocation.country).toLowerCase()}`;
     }
     let browseLink = '/search';
     const browseLinkQuery = [];
@@ -155,28 +153,11 @@ export class Header extends Component {
           >
               <HeaderProfileOverlay
                 loggedUser={ loggedUser }
-                onLogoutClick={ () => dispatch(logout()).then(() => history.push('/')) }
+                onLogoutClick={ () =>
+                  dispatch(logout()).then(() => dispatch(push('/')))
+                }
               />
           </Overlay>,
-
-          // <Dialog
-          //   titleWithIcon="Create a new shout"
-          //   key="newShout"
-          //   open={ openNewShoutDialog }
-          //   autoDetectWindowHeight
-          //   autoScrollBodyContent
-          //   bodyStyle={{ borderRadius: '5px' }}
-          //   contentClassName="new-shout-popup"
-          //   onRequestClose={ () => this.setState({ openNewShoutDialog: false }) }
-          // >
-          //   {/* <HeaderNewShout
-          //     flux={ flux }
-          //     onShoutSent={ () => this.setState({ openNewShoutDialog: false }) }
-          //     loggedUser={ loggedUser }
-          //     currentLocation={ currentLocation }
-          //   />*/}
-          // </Dialog>,
-
         ]}
 
       </header>
