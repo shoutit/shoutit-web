@@ -5,14 +5,14 @@ import { Schemas } from '../schemas';
 export function loadUser(username) {
   return {
     types: [
-      actionTypes.LOAD_USER_START,
-      actionTypes.LOAD_USER_SUCCESS,
-      actionTypes.LOAD_USER_FAILURE,
+      actionTypes.LOAD_PROFILE_START,
+      actionTypes.LOAD_PROFILE_SUCCESS,
+      actionTypes.LOAD_PROFILE_FAILURE,
     ],
     service: {
       name: 'profile',
       params: { username },
-      schema: Schemas.USER,
+      schema: Schemas.PROFILE,
     },
   };
 }
@@ -61,7 +61,7 @@ export function setUserLocation(location) {
       name: 'profile',
       method: 'update',
       body: { location },
-      schema: Schemas.USER,
+      schema: Schemas.PROFILE,
     },
   };
 }
@@ -77,6 +77,28 @@ export function loadHomeShouts(endpoint) {
       name: 'home',
       params: { endpoint },
       schema: Schemas.SHOUTS,
+    },
+  };
+}
+
+export function loadProfileDetailsIfNeeded(profile, neededDetails) {
+  if (neededDetails.every(detail => profile.hasOwnProperty(detail))) {
+    return {
+      type: 'NOOP',
+      payload: {},
+    };
+  }
+  const { username } = profile;
+  return {
+    types: [
+      actionTypes.LOAD_PROFILE_START,
+      actionTypes.LOAD_PROFILE_SUCCESS,
+      actionTypes.LOAD_PROFILE_FAILURE,
+    ],
+    service: {
+      name: 'profile',
+      params: { username },
+      schema: Schemas.PROFILE,
     },
   };
 }

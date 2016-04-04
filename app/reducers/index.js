@@ -84,6 +84,22 @@ const paginated = combineReducers({
       actionTypes.LOAD_LISTENERS_FAILURE,
     ],
   }),
+  discoverItemsByCountry: paginate({
+    mapActionToKey: action => action.payload.country,
+    fetchTypes: [
+      actionTypes.LOAD_DISCOVER_ITEMS_START,
+      actionTypes.LOAD_DISCOVER_ITEMS_SUCCESS,
+      actionTypes.LOAD_DISCOVER_ITEMS_FAILURE,
+    ],
+  }),
+  shoutsByDiscoverItem: paginate({
+    mapActionToKey: action => action.payload.discoverItemId,
+    fetchTypes: [
+      actionTypes.LOAD_DISCOVER_SHOUTS_START,
+      actionTypes.LOAD_DISCOVER_SHOUTS_SUCCESS,
+      actionTypes.LOAD_DISCOVER_SHOUTS_FAILURE,
+    ],
+  }),
   listeningByUser: paginate({
     mapActionToKey: action => action.payload.user.id,
     fetchTypes: [
@@ -127,6 +143,7 @@ const entities = combineReducers({
   shouts: entity({ name: 'shouts' }),
   tags: entity({ name: 'tags' }),
   users: entity({ name: 'users' }),
+  discoverItems: entity({ name: 'discoverItems' }),
 
 });
 

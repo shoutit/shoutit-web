@@ -55,7 +55,7 @@ const routes = (store) =>
     <Route path="/shout(/:shoutId)" component={ Shout } />
     <Route path="/interest(/:tagName)" component={ Interest } />
     <Route path="/user(/:username)" component={ User } />
-    <Route path="/discover" component={ Discover } />
+    <Route path="/discover/:countryName(/:id)" component={ Discover } />
 
     {/* <Route path="/home" component={ HomePage }>
       <Route path="/all/:country/:state/:city(/:page)"

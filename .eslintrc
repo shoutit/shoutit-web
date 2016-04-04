@@ -1,7 +1,7 @@
 {
   "parser": "babel-eslint",
   "plugins": ["react"],
-  "extends": "airbnb",
+  "extends": ["airbnb", "plugin:import/errors", "plugin:import/warnings"],
   "rules": {
     "max-len": 0,
     "default-case": 0,
@@ -9,11 +9,18 @@
     "no-case-declarations": 0,
     "no-param-reassign": 0,
     "no-shadow": 0,
+    "import/no-named-as-default": 0,
     "react/prop-types": 0,
     "react/prefer-stateless-function": 0,
     "react/no-did-mount-set-state": 0,
     "react/no-did-update-set-state": 0,
     "react/jsx-closing-bracket-location": 0
+  },
+  "settings": {
+    "import/ignore": [
+      "node_modules",
+      "\\.(scss|less|css|json)$"
+    ]
   },
   "env": {
     "node": true,

@@ -1,0 +1,205 @@
+
+@mixin Tooltip(
+  $className: Tooltip,
+  $tooltip-background-color: #333,
+  $tooltip-color: white,
+  $tooltip-opacity: .9,
+  $tooltip-border: none,
+  $tooltip-shadow: none,
+  $tooltip-inner-padding: 0.25rem 0.5rem,
+  $tooltip-font-size: 1rem
+) {
+
+  .#{$className} {
+    position: absolute;
+    z-index: 1070;
+
+    display: block;
+    visibility: visible;
+
+    opacity: $tooltip-opacity;
+    font-size: $tooltip-font-size;
+  }
+  .#{$className}-hidden {
+    display: none;
+  }
+  .#{$className}-placement-top,
+  .#{$className}-placement-topLeft,
+  .#{$className}-placement-topRight {
+    padding: 5px 0 9px 0;
+  }
+  .#{$className}-placement-right,
+  .#{$className}-placement-rightTop,
+  .#{$className}-placement-rightBottom {
+    padding: 0 5px 0 9px;
+  }
+  .#{$className}-placement-bottom,
+  .#{$className}-placement-bottomLeft,
+  .#{$className}-placement-bottomRight {
+    padding: 9px 0 5px 0;
+  }
+  .#{$className}-placement-left,
+  .#{$className}-placement-leftTop,
+  .#{$className}-placement-leftBottom {
+    padding: 0 9px 0 5px;
+  }
+
+  .#{$className}-inner {
+    padding: $tooltip-inner-padding;
+
+    text-align: left;
+    text-decoration: none;
+
+    color: $tooltip-color;
+    border-radius: $border-radius-small;
+    background-color: $tooltip-background-color;
+    border: $tooltip-border;
+    box-shadow: $tooltip-shadow;
+  }
+
+  .#{$className}-arrow {
+    position: absolute;
+
+    width: 0;
+    height: 0;
+
+    border-style: solid;
+    border-color: transparent;
+  }
+  .#{$className}-placement-top .#{$className}-arrow,
+  .#{$className}-placement-topLeft .#{$className}-arrow,
+  .#{$className}-placement-topRight .#{$className}-arrow {
+    bottom: 4px;
+
+    margin-left: -5px;
+
+    border-width: 5px 5px 0;
+    border-top-color: $tooltip-background-color;
+  }
+  .#{$className}-placement-top .#{$className}-arrow {
+    left: 50%;
+  }
+  .#{$className}-placement-topLeft .#{$className}-arrow {
+    left: 15%;
+  }
+  .#{$className}-placement-topRight .#{$className}-arrow {
+    right: 15%;
+  }
+  .#{$className}-placement-right .#{$className}-arrow,
+  .#{$className}-placement-rightTop .#{$className}-arrow,
+  .#{$className}-placement-rightBottom .#{$className}-arrow {
+    left: 4px;
+
+    margin-top: -5px;
+
+    border-width: 5px 5px 5px 0;
+    border-right-color: $tooltip-background-color;
+  }
+  .#{$className}-placement-right .#{$className}-arrow {
+    top: 50%;
+  }
+  .#{$className}-placement-rightTop .#{$className}-arrow {
+    top: 15%;
+
+    margin-top: 0;
+  }
+  .#{$className}-placement-rightBottom .#{$className}-arrow {
+    bottom: 15%;
+  }
+  .#{$className}-placement-left .#{$className}-arrow,
+  .#{$className}-placement-leftTop .#{$className}-arrow,
+  .#{$className}-placement-leftBottom .#{$className}-arrow {
+    right: 4px;
+
+    margin-top: -5px;
+
+    border-width: 5px 0 5px 5px;
+    border-left-color: $tooltip-background-color;
+  }
+  .#{$className}-placement-left .#{$className}-arrow {
+    top: 50%;
+  }
+  .#{$className}-placement-leftTop .#{$className}-arrow {
+    top: 15%;
+
+    margin-top: 0;
+  }
+  .#{$className}-placement-leftBottom .#{$className}-arrow {
+    bottom: 15%;
+  }
+  .#{$className}-placement-bottom .#{$className}-arrow,
+  .#{$className}-placement-bottomLeft .#{$className}-arrow,
+  .#{$className}-placement-bottomRight .#{$className}-arrow {
+    top: 4px;
+
+    margin-left: -5px;
+
+    border-width: 0 5px 5px;
+    border-bottom-color: $tooltip-background-color;
+  }
+  .#{$className}-placement-bottom .#{$className}-arrow {
+    left: 50%;
+  }
+  .#{$className}-placement-bottomLeft .#{$className}-arrow {
+    left: 15%;
+  }
+  .#{$className}-placement-bottomRight .#{$className}-arrow {
+    right: 15%;
+  }
+  .#{$className}.#{$className}-zoom-enter,
+  .#{$className}.#{$className}-zoom-leave {
+    display: block;
+  }
+  .#{$className}-zoom-enter,
+  .#{$className}-zoom-appear {
+    animation-duration: 0.3s;
+    animation-play-state: paused;
+    animation-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    opacity: 0;
+    animation-fill-mode: both;
+  }
+  .#{$className}-zoom-leave {
+    animation-duration: 0.3s;
+    animation-play-state: paused;
+    animation-timing-function: cubic-bezier(0.6, -0.3, 0.74, 0.05);
+    animation-fill-mode: both;
+  }
+  .#{$className}-zoom-enter.#{$className}-zoom-enter-active,
+  .#{$className}-zoom-appear.#{$className}-zoom-appear-active {
+    animation-name: rcToolTipZoomIn;
+    animation-play-state: running;
+  }
+  .#{$className}-zoom-leave.#{$className}-zoom-leave-active {
+  animation-name: rcToolTipZoomOut;
+  animation-play-state: running;
+  }
+  @keyframes rcToolTipZoomIn {
+    0% {
+    transform: scale(0, 0);
+    transform-origin: 50% 50%;
+
+    opacity: 0;
+    }
+    100% {
+    transform: scale(1, 1);
+    transform-origin: 50% 50%;
+
+    opacity: 1;
+    }
+  }
+  @keyframes rcToolTipZoomOut {
+    0% {
+    transform: scale(1, 1);
+    transform-origin: 50% 50%;
+
+    opacity: 1;
+    }
+    100% {
+    transform: scale(0, 0);
+    transform-origin: 50% 50%;
+
+    opacity: 0;
+    }
+  }
+
+}

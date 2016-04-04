@@ -261,6 +261,14 @@ $size-huge: 52px;
     background-image: url("../../assets/icons/listened-on.svg");
   }
 
+.SVGIcon-icon.listeners {
+  background-image: url("../../assets/icons/listeners.svg");
+}
+  .SVGIcon.hover:hover .SVGIcon-icon.listeners,
+  .SVGIcon.active .SVGIcon-icon.listeners {
+    background-image: url("../../assets/icons/listeners-active.svg");
+  }
+
 .SVGIcon-icon.listening {
   background-image: url("../../assets/icons/listening.svg");
 }

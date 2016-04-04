@@ -44,7 +44,7 @@ export default function SearchbarResults({ tags = [], shouts = [], profiles = []
             <ul className="htmlSelectableList">
               { tags.map(tag =>
                 <li key={ tag.name }>
-                  <Link to={`/interests/${tag.name}`}>
+                  <Link to={`/interest/${tag.name}`}>
                     <SearchbarResult label={ tag.name } image={ tag.image ? getVariation(tag.image, 'small') : null } />
                   </Link>
                 </li>

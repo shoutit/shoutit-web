@@ -5,7 +5,7 @@ import Button from '../ui/Button';
 import UserAvatar from '../users/UserAvatar';
 
 if (process.env.BROWSER) {
-  require('styles/components/HeaderProfile.scss');
+  require('../styles/components/HeaderProfile.scss');
 }
 
 export default function HeaderProfile({

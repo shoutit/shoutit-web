@@ -1,0 +1,22 @@
+@import '../styles/constants';
+$size-small: 18px;
+$size-medium: 24px;
+$size-large: 48px;
+
+.CountryFlag {
+
+  display: inline-block;
+  vertical-align: middle;
+  height: $size-medium;
+  width: $size-medium;
+
+  &.size-small {
+    height: $size-small;
+    width: $size-small;
+  }
+
+  &.size-large {
+    height: $size-large;
+    width: $size-large;
+  }
+}

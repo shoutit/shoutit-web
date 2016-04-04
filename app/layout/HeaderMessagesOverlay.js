@@ -6,7 +6,7 @@ import ConversationsList from '../chat/ConversationsList.js';
 import { denormalize } from '../schemas';
 
 if (process.env.BROWSER) {
-  require('styles/components/ListOverlay.scss');
+  require('../styles/components/ListOverlay.scss');
 }
 
 export function HeaderMessagesOverlay({ loggedUser, isFetching, conversations = [], onMarkAsReadClick }) {

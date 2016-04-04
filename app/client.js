@@ -20,7 +20,7 @@ import configureStore from './store/configureStore';
 import './client/initFacebook';
 import initGoogleAnalytics from './client/initGoogleAnalytics';
 
-import 'styles/main.scss';
+import './styles/main.scss';
 
 window.debug = debug;
 const log = debug('shoutit');

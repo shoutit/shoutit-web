@@ -1,0 +1,69 @@
+@import '../styles/constants';
+
+.ProfileOverlay {
+  width: 250px;
+  padding-bottom: .5rem;
+}
+
+.ProfileOverlay-cover {
+  border-top-right-radius: $border-radius-small;
+  border-top-left-radius: $border-radius-small;
+  height: 80px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-bottom: 1px solid $border-color;
+  background-color: $background-color-alt-light;
+}
+
+.ProfileOverlay-user {
+  text-align: center;
+  margin-top: -24px;
+
+  h2 {
+    font-weight: lighter;
+    margin: 0;
+    font-size: 1.125rem;
+  }
+
+  h3 {
+    font-size: 0.75rem;
+    color: $color-light;
+    font-weight: normal;
+    margin: 0;
+  }
+
+}
+
+.ProfileOverlay-body {
+  padding: .5rem .25rem 0 .25rem;
+  margin: .5rem .25rem 0 .25rem;
+  border-top: 1px solid $border-color;
+  display: flex;
+  align-items: center;
+}
+
+.ProfileOverlay-location,
+.ProfileOverlay-listeners,
+.ProfileOverlay-location {
+  font-size: 0.75rem;
+  margin-bottom: .25rem;
+  > span:first-child {
+    width: 24px;
+    display: inline-block;
+    text-align: center;
+  }
+}
+
+.ProfileOverlay-location {
+  margin-right: .5rem;
+  > span:first-child {
+    margin-right: .25rem;
+  }
+}
+
+.ProfileOverlay-actions {
+  text-align: center;
+  padding: 0.25rem .5rem;
+  font-size: 0.75rem;
+}

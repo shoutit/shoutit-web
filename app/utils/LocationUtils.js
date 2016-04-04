@@ -2,6 +2,7 @@ import kebabCase from 'lodash/string/kebabCase';
 import request from 'superagent';
 import { camelizeKeys } from 'humps';
 import { googleMapsKey } from '../config';
+import { countries } from '../../assets/countries/countries-en.json';
 
 export function createLocationSlug({ country = 'no-country', state = 'no-state', city = 'no-city' }) {
   return `${kebabCase(country)}_${kebabCase(state)}_${kebabCase(city)}`;
@@ -48,4 +49,16 @@ export function geocodePlace(placeId, callback) {
       }
       callback(null, parseGeocoderResult(camelizeKeys(res.body.results[0])));
     });
+}
+
+export function getCountryName(code) {
+  return countries[code];
+}
+
+export function getCountryCode(name) {
+  const code = Object.keys(countries).find(code => countries[code].toLowerCase() === name.toLowerCase());
+  if (!code) {
+    return null;
+  }
+  return code.toLowerCase();
 }

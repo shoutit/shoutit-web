@@ -1,0 +1,20 @@
+@import "../styles/constants";
+
+.DiscoverItemPreview {
+  background-color: #333;
+  min-height: 100px;
+  position: relative;
+  box-shadow: $box-shadow-depth-0;
+
+  h2 {
+    padding: .5rem 1rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    color: white;
+    font-weight: lighter;
+    background-image: linear-gradient(rgba(black, 0), rgba(black, .8));
+  }
+}
