@@ -1,0 +1,68 @@
+@import "../styles/constants.scss";
+@import "../styles/mixins/tooltip.scss";
+
+@include Tooltip();
+
+@include Tooltip(
+  $className: TooltipWhite,
+  $tooltip-background-color: #fff,
+  $tooltip-color: $color,
+  $tooltip-opacity: 1,
+  $tooltip-border: 0,
+  $tooltip-shadow: $box-shadow-depth-1,
+  $tooltip-inner-padding: 0
+);
+
+$white-arrow-width: 32px;
+$white-arrow-height: 16px;
+
+.TooltipWhite-hidden {
+  // display: block !important;
+}
+
+.TooltipWhite-arrow-inner {
+  position: absolute;
+  width: $white-arrow-width;
+  height: $white-arrow-height;
+  border-color: transparent;
+  background-size: contain;
+}
+
+.TooltipWhite-placement-top .TooltipWhite-arrow-inner,
+.TooltipWhite-placement-topLeft .TooltipWhite-arrow-inner,
+.TooltipWhite-placement-topRight .TooltipWhite-arrow-inner {
+  bottom: -1 * $white-arrow-height + 5;
+  margin-left: $white-arrow-width * (-0.5);
+  background-image: url("../../assets/ui-elements/tooltips/arrow-placement-top.png")
+}
+
+.TooltipWhite-placement-right .TooltipWhite-arrow-inner,
+.TooltipWhite-placement-rightTop .TooltipWhite-arrow-inner,
+.TooltipWhite-placement-rightBottom .TooltipWhite-arrow-inner {
+  background-image: url("../../assets/ui-elements/tooltips/arrow-placement-right.png");
+  height: $white-arrow-width;
+  width: $white-arrow-height;
+  margin-top: $white-arrow-width * (-0.5);
+  left:  -1 * $white-arrow-height + 5;
+  // margin-top: -6px;
+  // border-width: 6px 6px 6px 0;
+  // border-right-color: #ffffff;
+}
+.TooltipWhite-placement-left .TooltipWhite-arrow-inner,
+.TooltipWhite-placement-leftTop .TooltipWhite-arrow-inner,
+.TooltipWhite-placement-leftBottom .TooltipWhite-arrow-inner {
+  height: $white-arrow-width;
+  width: $white-arrow-height;
+  background-image: url("../../assets/ui-elements/tooltips/arrow-placement-left.png");
+  right: 1px;
+  margin-top: $white-arrow-height * (-0.5);
+  // border-width: 6px 0 6px 6px;
+  // border-left-color: #ffffff;
+}
+.TooltipWhite-placement-bottom .TooltipWhite-arrow-inner,
+.TooltipWhite-placement-bottomLeft .TooltipWhite-arrow-inner,
+.TooltipWhite-placement-bottomRight .TooltipWhite-arrow-inner {
+    background-image: url("../../assets/ui-elements/tooltips/arrow-placement-bottom.png");
+    top: -1 * $white-arrow-height + 5;
+    margin-left: $white-arrow-width * (-0.5);
+}
