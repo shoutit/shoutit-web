@@ -1,5 +1,5 @@
 @import "../styles/constants.scss";
-
+@import "../styles/mixins/ellipsis";
 .ShoutPreview {
   display: block;
   width: 100%;
@@ -43,16 +43,20 @@
   font-size: 0.75rem;
   color: $color-light;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   .TimeAgo {
+    flex: 1;
     margin-left: .5rem;
   }
   .ShoutPreview-category {
     flex: 1;
-    text-align: right;
     display: flex;
     justify-content: flex-end;
     width: 100%;
     align-items: center;
+    .SVGIcon {
+      margin-right: .25rem;
+    }
   }
 }
