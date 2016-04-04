@@ -11,7 +11,7 @@ export default function ProfileListItem({ profile }) {
   return (
     <Tooltip
       destroyTooltipOnHide
-      mouseLeaveDelay={0.05}
+      mouseLeaveDelay={0}
       white
       placement="right"
       overlay={ <ProfileOverlay id={ profile.id } /> }
