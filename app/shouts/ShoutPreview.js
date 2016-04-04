@@ -4,9 +4,13 @@ import ShoutPrice from './ShoutPrice';
 import ShoutLink from './ShoutLink';
 import TimeAgo from '../ui/TimeAgo';
 import SVGIcon from '../ui/SVGIcon';
+
 import UserAvatar from '../users/UserAvatar';
 
+import { getStyleBackgroundImage } from '../utils/DOMUtils';
+
 if (process.env.BROWSER) {
+  require('rc-tooltip/assets/bootstrap.css');
   require('../ui/Card.scss');
   require('./ShoutPreview.scss');
 }
@@ -16,7 +20,7 @@ export default function ShoutPreview({ shout }) {
     <ShoutLink className="Card ShoutPreview" shout={ shout }>
       <ShoutPrice shout={ shout } />
       <div className="Card-image-wrapper">
-        <div className="Card-image" style={{ backgroundImage: shout.thumbnail ? `url("${getVariation(shout.thumbnail, 'small')}")` : null }} />
+        <div className="Card-image" style={ getStyleBackgroundImage(shout.thumbnail) } />
       </div>
       <div className="Card-title">
         { shout.title && <div className="Card-title-max-height ShoutPreview-title" title={shout.title}>
