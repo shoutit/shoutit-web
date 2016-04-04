@@ -9,6 +9,7 @@ const Shout = new Schema('shouts');
 const Suggestions = new Schema('suggestions', { idAttribute: 'slug' });
 const Tag = new Schema('tags');
 const User = new Schema('users');
+const DiscoverItem = new Schema('discoverItems');
 
 Category.define({ mainTag: Tag });
 
@@ -37,6 +38,10 @@ Conversation.define({
   lastMessage: Message,
 });
 
+DiscoverItem.define({
+  children: arrayOf(DiscoverItem),
+});
+
 export const Schemas = {
   CATEGORIES: arrayOf(Category),
   CONVERSATION: Conversation,
@@ -56,6 +61,8 @@ export const Schemas = {
   TAGS: arrayOf(Tag),
   USER: User,
   PROFILE: User,
+  DISCOVERITEM: DiscoverItem,
+  DISCOVERITEMS: arrayOf(DiscoverItem),
 };
 
 export const denormalize = (entity, entities, name) => denormalizer(entity, entities, Schemas[name]);

@@ -84,6 +84,14 @@ const paginated = combineReducers({
       actionTypes.LOAD_LISTENERS_FAILURE,
     ],
   }),
+  discoverItemsByCountry: paginate({
+    mapActionToKey: action => action.payload.country,
+    fetchTypes: [
+      actionTypes.LOAD_MAIN_DISCOVER_ITEM_START,
+      actionTypes.LOAD_MAIN_DISCOVER_ITEM_SUCCESS,
+      actionTypes.LOAD_MAIN_DISCOVER_ITEM_FAILURE,
+    ],
+  }),
   listeningByUser: paginate({
     mapActionToKey: action => action.payload.user.id,
     fetchTypes: [
@@ -127,6 +135,7 @@ const entities = combineReducers({
   shouts: entity({ name: 'shouts' }),
   tags: entity({ name: 'tags' }),
   users: entity({ name: 'users' }),
+  discoverItems: entity({ name: 'discoverItems' }),
 
 });
 

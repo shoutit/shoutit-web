@@ -63,7 +63,7 @@ export default function paginate({
         });
       case fetchSuccessType:
         if (!action.payload || !action.payload.result) {
-          throw new Error("Expected a payload object with a result containing the entity's id");
+          throw new Error("Expected a payload object with a result containing the entity's id. Did you add the right schema to the service?");
         }
         return merge({}, state, {
           isFetching: false,
