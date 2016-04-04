@@ -1,20 +1,20 @@
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import { imagesPath } from "../../../config";
+import { imagesPath } from '../config';
 
-import { countries } from "../../../../assets/countries/countries-en.json";
+import { countries } from '../../assets/countries/countries-en.json';
 
 const VERSION = 1;
 
 if (process.env.BROWSER) {
-  require("styles/components/CountryFlag.scss");
+  require('./CountryFlag.scss');
 }
 
 export default function CountryFlag({ code, size }) {
   code = code.toUpperCase();
 
-  let className = "CountryFlag";
+  let className = 'CountryFlag';
 
   if (size) {
     className += ` size-${size}`;
