@@ -54,6 +54,7 @@ export default function paginate({
     isFetching: false,
     nextUrl: undefined,
     previousUrl: undefined,
+    count: undefined,
     ids: [],
   }, action) {
     switch (action.type) {
@@ -68,6 +69,7 @@ export default function paginate({
         return merge({}, state, {
           isFetching: false,
           nextUrl: action.payload.nextUrl,
+          count: action.payload.count,
           previousUrl: action.payload.previousUrl,
           ids: union(state.ids, action.payload.result),
         });
@@ -141,6 +143,9 @@ export default function paginate({
         }
         if (mapActionToKey) {
           const key = mapActionToKey(action);
+          if (typeof(key) === 'undefined') {
+            console.warn("Warning: mapActionToKey for action %s returned an undefined value.", action.type);
+          }
           return merge({}, state, {
             [key]: updateOnFetch(state[key], action),
           });
@@ -154,6 +159,9 @@ export default function paginate({
 
         if (mapActionToKey) {
           const key = mapActionToKey(action);
+          if (typeof(key) === 'undefined') {
+            console.warn("Warning: mapActionToKey for action %s returned an undefined value.", action.type);
+          }
           return {
             ... state,
             [key]: updateOnCreate(state[key], action, tempId),
@@ -165,6 +173,9 @@ export default function paginate({
       case addType:
         if (mapActionToKey) {
           const key = mapActionToKey(action);
+          if (typeof(key) === 'undefined') {
+            console.warn("Warning: mapActionToKey for action %s returned an undefined value.", action.type);
+          }
           return {
             ... state,
             [key]: updateOnAdd(state[key], action),
@@ -176,6 +187,9 @@ export default function paginate({
       case deleteType:
         if (mapActionToKey) {
           const key = mapActionToKey(action);
+          if (typeof(key) === 'undefined') {
+            console.warn("Warning: mapActionToKey for action %s returned an undefined value.", action.type);
+          }
           return {
             ... state,
             [key]: updateOnDelete(state[key], action),

@@ -6,7 +6,7 @@ import UINotificationsHost from '../ui/UINotificationsHost';
 import ModalHost from '../ui/ModalHost';
 import VideoCallHost from '../videoCalls/VideoCallHost';
 
-import { getCurrentSession, login } from '../actions/session';
+import { login } from '../actions/session';
 import { loadCategories, loadCurrencies } from '../actions/misc';
 import { loadCurrentLocation, loadSuggestions } from '../actions/location';
 import { loadListening } from '../actions/users';
@@ -21,28 +21,21 @@ const fetchData = store => {
   const { dispatch } = store;
   promises.push(dispatch(loadCategories()));
   promises.push(dispatch(loadCurrencies()));
-
-  promises.push(
-    dispatch(getCurrentSession()).then(user => {
-      const sessionPromises = [];
-      if (user) {
-        sessionPromises.push(dispatch(login(user)));
-        sessionPromises.push(dispatch(loadListening(user)));
-        if (user.location) {
-          sessionPromises.push(dispatch(loadSuggestions(user.location)));
-        }
-      }
-      if (!user || !user.location) {
-        sessionPromises.push(
-          dispatch(loadCurrentLocation()).then(location =>
-            dispatch(loadSuggestions(location))
-          )
-        );
-      }
-      return Promise.all(sessionPromises);
-    })
-  );
-
+  const user = store.getState().session.user; // logged user comes from rehydrated state
+  if (user) {
+    promises.push(dispatch(login(user)));
+    promises.push(dispatch(loadListening(user)));
+    if (user.location) {
+      promises.push(dispatch(loadSuggestions(user.location)));
+    }
+  }
+  if (!user || !user.location) {
+    promises.push(
+      dispatch(loadCurrentLocation()).then(location =>
+        dispatch(loadSuggestions(location))
+      )
+    );
+  }
   return Promise.all(promises);
 };
 

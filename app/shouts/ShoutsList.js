@@ -14,19 +14,21 @@ export default class ShoutsList extends Component {
 
   static propTypes = {
     shouts: PropTypes.array,
+    showProfile: PropTypes.bool,
   };
 
   static defaultProps = {
     shouts: [],
+    showProfile: true,
   };
 
   render() {
-    const { shouts } = this.props;
+    const { shouts, showProfile } = this.props;
     return (
       <div className="ShoutsList">
         { shouts.map(shout =>
           <div className="ShoutsList-item" key={ shout.id }>
-            <ShoutPreview shout={ shout } />
+            <ShoutPreview shout={ shout } showProfile={ showProfile } />
           </div>
         )}
       </div>

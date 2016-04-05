@@ -81,6 +81,22 @@ export function loadHomeShouts(endpoint) {
   };
 }
 
+export function loadUserShouts(searchParams, endpoint) {
+  return {
+    types: [
+      actionTypes.LOAD_USER_SHOUTS_START,
+      actionTypes.LOAD_USER_SHOUTS_SUCCESS,
+      actionTypes.LOAD_USER_SHOUTS_FAILURE,
+    ],
+    payload: { username: searchParams.user },
+    service: {
+      name: 'shouts',
+      params: { searchParams, endpoint },
+      schema: Schemas.SHOUTS,
+    },
+  };
+}
+
 export function loadProfileDetailsIfNeeded(profile, neededDetails) {
   if (neededDetails.every(detail => profile.hasOwnProperty(detail))) {
     return {

@@ -11,7 +11,7 @@ if (process.env.BROWSER) {
   require('./CountryFlag.scss');
 }
 
-export default function CountryFlag({ code, size = 'medium', rounded = 'false', showTooltip = true }) {
+export default function CountryFlag({ code, size = 'medium', rounded = false, showTooltip = true }) {
   code = code.toUpperCase();
   let className = 'CountryFlag';
   if (size) {

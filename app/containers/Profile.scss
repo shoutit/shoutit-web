@@ -1,0 +1,141 @@
+@import "../styles/constants.scss";
+@import "../styles/mixins/card.scss";
+@import "../styles/mixins/ellipsis.scss";
+
+.Profile {
+  margin-top: 0.75rem;
+
+}
+
+
+.Profile-cover {
+
+  height: 250px;
+  background: white;
+  box-shadow: $box-shadow-depth-0;
+  border-radius: $border-radius;
+}
+
+.Profile-header {
+  padding: 0 1rem;
+  display: flex;
+  align-items: flex-end;;
+  transform: translateY(-44px);
+  .UserAvatar {
+    margin-left: 2.875rem;
+    border: 2px solid white;
+    box-shadow: $box-shadow-depth-1;
+  }
+  h1 {
+    font-weight: lighter;
+    margin: 0rem 0 0rem 1rem;
+  }
+  h3 {
+    font-size: 1rem;
+    font-weight: lighter;
+    margin: .5rem 0 .5rem 1rem;
+  }
+}
+
+.Profile-tools {
+  display: flex;
+}
+
+.Profile-body {
+  margin-top: -32px;
+  display: flex;
+  .Profile-body-start-column {
+    padding: 0 .75rem;
+    margin: $page-column-margin;
+    width: $page-width-column;
+  }
+  .Profile-shouts {
+    flex: 1;
+    margin-top: .75rem;
+    h2 {
+      text-align: center;
+      margin: 0;
+      margin-bottom: .5rem;
+      font-size: 1rem;
+      font-weight: lighter;
+    }
+  }
+}
+
+
+.Profile-bio {
+  font-weight: lighter;
+  margin-top: 0;
+  text-align: center;
+}
+
+.Profile-bio-details {
+  padding: 1rem 0.5rem;
+  font-size: 0.875rem;
+  > div {
+    @include ellipsis();
+    margin-bottom: 0.125rem;
+    > :first-child,
+    a > :first-child {
+      margin-right: 0.25rem;
+    }
+    a {
+      color: $color;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    > :last-child, a > :last-child {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+}
+
+
+.Profile-biography {
+  @include card();
+  padding: 1rem;
+  font-size: 0.875rem;
+
+  .Profile-about {
+    margin: 0;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: $color-light;
+    line-height: 1.35em;
+  }
+}
+
+.Profile-name {
+  flex: 1;
+}
+
+.Profile-users {
+  display: flex;
+  flex-direction: column;
+}
+.Profile-user {
+  font-size: 0.875rem;
+}
+
+.Profile-actions {
+  margin-left: .5rem;
+  border-left: 1px solid $border-color-dark;
+  padding-left: .5rem;
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.Profile-action {
+  font-size: 0.875rem;
+  margin-left: .5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Profile-tool-label {
+  font-size: 0.875rem;
+}

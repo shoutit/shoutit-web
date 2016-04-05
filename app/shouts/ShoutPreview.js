@@ -8,8 +8,6 @@ import TimeAgo from '../ui/TimeAgo';
 import SVGIcon from '../ui/SVGIcon';
 import Tooltip from '../ui/Tooltip';
 
-import { denormalize } from '../schemas';
-
 import UserAvatar from '../users/UserAvatar';
 import ProfileOverlay from '../users/ProfileOverlay';
 
@@ -21,7 +19,7 @@ if (process.env.BROWSER) {
   require('./ShoutPreview.scss');
 }
 
-function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick }) {
+function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfile = true }) {
   return (
 
     <ShoutLink className="Card ShoutPreview" shout={ shout }>
@@ -34,17 +32,18 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick }) {
           { shout.title }
         </div> }
         <div className="ShoutPreview-details">
-          <Tooltip
-            destroyTooltipOnHide
-            mouseLeaveDelay={0.05}
-            white
-            placement="top"
-            overlay={ <ProfileOverlay id={ shout.profile.id } /> }
-          >
-          <span onClick={ onProfileAvatarClick }>
-            <UserAvatar user={ shout.profile } size="smallest" />
-          </span>
-          </Tooltip>
+          { showProfile &&
+            <Tooltip
+              destroyTooltipOnHide
+              mouseLeaveDelay={0.05}
+              white
+              placement="top"
+              overlay={ <ProfileOverlay id={ shout.profile.id } /> }>
+              <span onClick={ onProfileAvatarClick }>
+                <UserAvatar user={ shout.profile } size="smallest" />
+                </span>
+            </Tooltip>
+          }
           <TimeAgo date={ shout.datePublished } />
           <span onClick={ onCategoryClick } className="ShoutPreview-category">
             <SVGIcon size="small" name="tag" />
@@ -59,11 +58,8 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick }) {
 
 ShoutPreview.propTypes = {
   shout: PropTypes.object.isRequired,
+  showProfile: PropTypes.bool,
 };
-
-const mapStateToProps = (state, ownProps) => ({
-  shout: denormalize(ownProps.shout, state.entities, 'SHOUT'),
-});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onCategoryClick: e => {
@@ -78,4 +74,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShoutPreview);
+export default connect(null, mapDispatchToProps)(ShoutPreview);

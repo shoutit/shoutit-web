@@ -4,6 +4,9 @@ import CardWithList from '../ui/CardWithList';
 import ProfileListItem from '../users/ProfileListItem';
 
 export function Listening({ profiles }) {
+  if (profiles.length === 0) {
+    return <span />;
+  }
   return (
     <CardWithList title="Listening to">
       { profiles.map(profile => <ProfileListItem profile={ profile } />

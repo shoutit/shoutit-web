@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import ShoutPreview from './ShoutPreview';
+import { denormalize } from '../schemas/index';
 
 if (process.env.BROWSER) {
   require('./SuggestedShout.scss');
@@ -22,7 +23,7 @@ SuggestedShout.propTypes = {
 
 // It is expected suggestions are already loaded when using this component
 const mapStateToProps = state => ({
-  shout: state.entities.shouts[state.suggestions.shout],
+  shout: denormalize(state.entities.shouts[state.suggestions.shout], state.entities, 'SHOUT'),
 });
 
 export default connect(mapStateToProps)(SuggestedShout);

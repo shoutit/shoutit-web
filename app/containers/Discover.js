@@ -35,8 +35,14 @@ const page_size = 9;
 const fetchData = (store, params) => {
   const { dispatch } = store;
   const { countryName } = params;
-  const country = getCountryCode(countryName);
-
+  let country;
+  if (countryName) {
+    country = getCountryCode(decodeURIComponent(countryName));
+    if (!country) {
+      console.error('Country %s does not exists', country); // eslint-disable-line
+      return Promise.reject({ statusCode: 404 });
+    }
+  }
   if (params.id) {
     return dispatch(loadDiscoverItem(params.id)).then(() =>
       dispatch(loadShoutsForDiscoverItem(params.id, { page_size }))
@@ -51,10 +57,24 @@ const fetchData = (store, params) => {
   });
 };
 
+function getDiscoverLink(country, discoverItem) {
+  let url = '/discover';
+  if (country) {
+    const countryName = getCountryName(country);
+    if (countryName) {
+      url += `/${encodeURIComponent(countryName).toLowerCase()}`;
+    }
+  }
+  if (discoverItem) {
+    url += `/${discoverItem.id}`;
+  }
+  return url;
+}
+
 export class Discover extends Component {
 
   static propTypes = {
-    country: PropTypes.string.isRequired,
+    country: PropTypes.string,
   };
 
   static fetchData = fetchData;
@@ -101,7 +121,7 @@ export class Discover extends Component {
       <Modal title="Change location" name="search-location">
         <SearchLocation
           onLocationSelect={ location => {
-            dispatch(push(`/discover/${encodeURIComponent(getCountryName(location.country)).toLowerCase()}`));
+            dispatch(push(getDiscoverLink(location.country)));
             dispatch(closeModal('search-location'));
             dispatch(setCurrentLocation(location));
             if (loggedUser) {
@@ -115,7 +135,16 @@ export class Discover extends Component {
   }
 
   render() {
-    const { discoverItem, shouts, nextShoutsUrl, country, isFetchingShouts, dispatch, countryName } = this.props;
+    const {
+      country,
+      discoverItem,
+      dispatch,
+      isFetching,
+      isFetchingShouts,
+      nextShoutsUrl,
+      shouts,
+    } = this.props;
+
     return (
       <Scrollable
         triggerOffset={ 400 }
@@ -129,10 +158,11 @@ export class Discover extends Component {
 
           { discoverItem &&
             <div className="Discover-hero" style={ getStyleBackgroundImage(discoverItem.image, 'large') }>
-              <div className="Discover-country" onClick={ e => this.showLocationModal(e) }>
-                <CountryFlag code={ country } rounded size="medium" showTooltip={ false }/>
-                { getCountryName(country) }
-              </div>
+              { country && <div className="Discover-country" onClick={ e => this.showLocationModal(e) }>
+                  <CountryFlag code={ country } rounded size="medium" showTooltip={ false } />
+                  { getCountryName(country) }
+                </div>
+              }
               <div className="Discover-hero-content">
                 <h1>{ discoverItem.title }</h1>
                 { discoverItem.subtitle && <h2>{ discoverItem.subtitle }</h2> }
@@ -144,7 +174,7 @@ export class Discover extends Component {
           { discoverItem && discoverItem.showChildren && discoverItem.children &&
             <div className="Discover-children">
               { discoverItem.children.map(child =>
-                <Link to={`/discover/${countryName}/${child.id}`}>
+                <Link to={ getDiscoverLink(country, child) }>
                   <DiscoverItemPreview discoverItem={ child } />
                 </Link>
               )}
@@ -158,6 +188,7 @@ export class Discover extends Component {
           }
 
           <Progress animate={ isFetchingShouts } label="Loading shouts…" />
+          <Progress animate={ isFetching } label="Loading…" />
 
         </Page>
       </Scrollable>
@@ -169,14 +200,24 @@ export class Discover extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { paginated, entities } = state;
   const { countryName, id } = ownProps.params;
-  const country = getCountryCode(countryName);
+
   let discoverItem;
+
+  let country;
+  if (countryName) {
+    country = getCountryCode(countryName);
+  }
+
+  const discoverItemsByCountry = paginated.discoverItemsByCountry[country];
+  let isFetching = false;
+
   if (id) {
     discoverItem = entities.discoverItems[id];
-  } else if (paginated.discoverItemsByCountry[country]) {
-    const discoverItems = paginated.discoverItemsByCountry[country].ids.map(
+  } else if (discoverItemsByCountry) {
+    const discoverItems = discoverItemsByCountry.ids.map(
       id => entities.discoverItems[id]
     );
+    isFetching = discoverItemsByCountry.isFetching;
     if (discoverItems.length > 0) {
       discoverItem = discoverItems[0];
     }
@@ -192,7 +233,7 @@ const mapStateToProps = (state, ownProps) => {
       isFetchingShouts = shoutsByDiscoverItem.isFetching;
       nextShoutsUrl = shoutsByDiscoverItem.nextUrl;
 
-      shouts = shoutsByDiscoverItem.ids.map(id => entities.shouts[id]);
+      shouts = shoutsByDiscoverItem.ids.map(id => denormalize(entities.shouts[id], entities, 'SHOUT'));
     }
   }
 
@@ -201,6 +242,7 @@ const mapStateToProps = (state, ownProps) => {
     country,
     discoverItem,
     shouts,
+    isFetching,
     isFetchingShouts,
     nextShoutsUrl,
   };

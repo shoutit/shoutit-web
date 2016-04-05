@@ -4,6 +4,7 @@ import stringify from 'json-stable-stringify';
 import { push, replace } from 'react-router-redux';
 
 import { searchShouts, invalidateShoutsSearch } from '../actions/search';
+import { denormalize } from '../schemas';
 
 import Page from '../layout/Page';
 
@@ -228,7 +229,7 @@ const mapStateToProps = (state, ownProps) => {
     isFetching = shoutsBySearch[searchString].isFetching;
     nextUrl = shoutsBySearch[searchString].nextUrl;
     error = shoutsBySearch[searchString].error;
-    shouts = shoutsBySearch[searchString].ids.map(id => entities.shouts[id]);
+    shouts = shoutsBySearch[searchString].ids.map(id => denormalize(entities.shouts[id], entities, 'SHOUT'));
   }
 
   let title = 'Search';

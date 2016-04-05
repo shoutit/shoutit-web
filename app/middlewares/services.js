@@ -61,11 +61,14 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
             // Parse the result according to the schema, eventually adding
             // again the next, previous url
             payload = normalize(payload.results ? payload.results : payload, schema);
-            if (json.previous) {
+            if (json.hasOwnProperty('previous')) {
               payload.previousUrl = json.previous;
             }
-            if (json.next) {
+            if (json.hasOwnProperty('next')) {
               payload.nextUrl = json.next;
+            }
+            if (json.hasOwnProperty('count')) {
+              payload.count = json.count;
             }
           }
         }
