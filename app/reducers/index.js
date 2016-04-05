@@ -76,6 +76,14 @@ const paginated = combineReducers({
       actionTypes.LOAD_HOME_SHOUTS_FAILURE,
     ],
   }),
+  shoutsByUsername: paginate({
+    mapActionToKey: action => action.payload.username,
+    fetchTypes: [
+      actionTypes.LOAD_USER_SHOUTS_START,
+      actionTypes.LOAD_USER_SHOUTS_SUCCESS,
+      actionTypes.LOAD_USER_SHOUTS_FAILURE,
+    ],
+  }),
   listenersByUser: paginate({
     mapActionToKey: action => action.payload.user.id,
     fetchTypes: [
