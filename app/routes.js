@@ -8,7 +8,7 @@ import Dashboard from './containers/Dashboard';
 import Discover from './containers/Discover';
 import Homepage from './containers/Homepage';
 import Search from './containers/Search';
-import User from './containers/User';
+import Profile from './containers/Profile';
 import Login from './containers/Login';
 import Password from './containers/Password';
 import Signup from './containers/Signup';
@@ -54,7 +54,7 @@ const routes = (store) =>
     <Route path="/search(/:shout_type)(/:category)" component={ Search } />
     <Route path="/shout(/:shoutId)" component={ Shout } />
     <Route path="/interest(/:tagName)" component={ Interest } />
-    <Route path="/user(/:username)" component={ User } />
+    <Route path="/user(/:username)" component={ Profile } />
     <Route path="/discover(/:countryName)(/:id)" component={ Discover } />
 
     {/* <Route path="/home" component={ HomePage }>
