@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import ShoutsList from '../shouts/ShoutsList';
+import { denormalize } from '../schemas';
 
 import { loadHomeShouts, loadListening } from '../actions/users';
 import Progress from '../ui/Progress';
@@ -105,7 +106,7 @@ export class Dashboard extends Component {
 
 const mapStateToProps = state => ({
   loggedProfile: state.session.user,
-  shouts: state.paginated.shoutsByHome.ids.map(id => state.entities.shouts[id]),
+  shouts: state.paginated.shoutsByHome.ids.map(id => denormalize(state.entities.shouts[id], state.entities, 'SHOUT')),
   nextUrl: state.paginated.shoutsByHome.nextUrl,
   isFetching: state.paginated.shoutsByHome.isFetching,
   error: state.paginated.shoutsByHome.error,

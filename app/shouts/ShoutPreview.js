@@ -8,8 +8,6 @@ import TimeAgo from '../ui/TimeAgo';
 import SVGIcon from '../ui/SVGIcon';
 import Tooltip from '../ui/Tooltip';
 
-import { denormalize } from '../schemas';
-
 import UserAvatar from '../users/UserAvatar';
 import ProfileOverlay from '../users/ProfileOverlay';
 
@@ -61,10 +59,6 @@ ShoutPreview.propTypes = {
   shout: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  shout: denormalize(ownProps.shout, state.entities, 'SHOUT'),
-});
-
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onCategoryClick: e => {
     e.preventDefault();
@@ -78,4 +72,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShoutPreview);
+export default connect(null, mapDispatchToProps)(ShoutPreview);

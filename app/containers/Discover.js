@@ -233,7 +233,7 @@ const mapStateToProps = (state, ownProps) => {
       isFetchingShouts = shoutsByDiscoverItem.isFetching;
       nextShoutsUrl = shoutsByDiscoverItem.nextUrl;
 
-      shouts = shoutsByDiscoverItem.ids.map(id => entities.shouts[id]);
+      shouts = shoutsByDiscoverItem.ids.map(id => denormalize(entities.shouts[id], entities, 'SHOUT'));
     }
   }
 
