@@ -8,12 +8,17 @@ $size-large: 48px;
 $size-huge: 128px;
 
 .UserAvatar {
-  display: inline-block;
   position: relative;
+
+  display: inline-block;
+  overflow: hidden;
+
   width: $size-medium;
   height: $size-medium;
+
+  vertical-align: middle;
+
   border-radius: 50%;
-  overflow: hidden;
 
   &.size-smallest {
     width: $size-smallest;
@@ -38,11 +43,13 @@ $size-huge: 128px;
   &.mask:after {
     position: absolute;
     z-index: 1;
-    content: "";
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
+
+    content: "";
+
     background-image: url("../../assets/ui-elements/user-mask.png");
     background-size: contain;
   }
@@ -57,6 +64,7 @@ $size-huge: 128px;
 
   img {
     border-radius: 50%;
+
     @include cropped-thumbnail();
   }
 
