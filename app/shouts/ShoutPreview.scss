@@ -52,7 +52,7 @@
     }
   }
   .TimeAgo {
-    margin-left: .5rem;
+    margin-left: .2rem;
   }
   .ShoutPreview-category {
     flex: 1;
@@ -60,11 +60,12 @@
     justify-content: flex-end;
     width: 100%;
     align-items: center;
+    margin-left: .25rem;
     &:hover {
       color: $si-green;
     }
     .SVGIcon {
-      margin-right: .25rem;
+      margin-right: .15rem;
     }
   }
 }
