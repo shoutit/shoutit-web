@@ -38,11 +38,6 @@ export default function renderMiddleware(req, res, next) {
       next(error);
       return;
     }
-    if (!props) {
-      // ???
-      res.status(404).send('Not found');
-      return;
-    }
 
     log('Fetching data for routes...');
 
