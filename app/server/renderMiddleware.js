@@ -19,69 +19,78 @@ export default function renderMiddleware(req, res, next) {
   const fetchr = new Fetchr({ xhrPath: '/fetchr', req });
   // const flux = new Flux(fetchr);
 
-  const store = configureStore({
-    routing: { currentUrl: req.url },
-    session: { user: req.session && req.session.user ? req.session.user : null },
-    currentLocation: req.session && req.session.user ? req.session.user.location : null,
-  }, { fetchr });
-  const routes = configureRoutes(store);
-
-  // Run router to determine the desired state
-  match({ routes, location: req.url }, (error, redirectLocation, props) => {
-    log('Matched request for %s', req.url);
-
-    if (redirectLocation) {
-      res.redirect(301, redirectLocation.pathname + redirectLocation.search);
-      return;
+  log('Reading current session...');
+  fetchr.read('session').end((err, user) => {
+    if (user) {
+      log('User %s has been logged in', user.username);
+      req.session.user = user;
+    } else {
+      log('User is not logged in for this request');
     }
-    if (error) {
-      next(error);
-      return;
-    }
+    const store = configureStore({
+      routing: { currentUrl: req.url },
+      session: { user },
+      currentLocation: user ? user.location : null,
+    }, { fetchr });
+    const routes = configureRoutes(store);
 
-    log('Fetching data for routes...');
+    // Run router to determine the desired state
+    match({ routes, location: req.url }, (error, redirectLocation, props) => {
+      log('Matched request for %s', req.url);
 
-    fetchDataForRoutes(props.routes, props.params, req.query, store, err => {
-      if (err) {
-        log('Error fetching data for routes');
-        next(err);
+      if (redirectLocation) {
+        res.redirect(301, redirectLocation.pathname + redirectLocation.search);
         return;
       }
-      log('Routes data has been fetched');
+      if (error) {
+        next(error);
+        return;
+      }
 
-      const meta = {}; // getMetaFromData(req.url, data);
-      const initialState = store.getState();
-      log('Initial store state', Object.keys(initialState));
-      const location = {
-        query: req.query,
-        pathname: req.url,
-      };
-      let content;
-      try {
-        content = ReactDOMServer.renderToString(
-          <Provider store={ store }>
-            <RouterContext
-              createElement={ (Component, elProps) =>
-                <Component {...elProps} location={ location } />
-              }
-              {...props}
-            />
-          </Provider>
+      log('Fetching data for routes...');
+
+      fetchDataForRoutes(props.routes, props.params, req.query, store, err => {
+        if (err) {
+          log('Error fetching data for routes');
+          next(err);
+          return;
+        }
+        log('Routes data has been fetched');
+
+        const meta = {}; // getMetaFromData(req.url, data);
+        const initialState = store.getState();
+        log('Initial store state', Object.keys(initialState));
+        const location = {
+          query: req.query,
+          pathname: req.url,
+        };
+        let content;
+        try {
+          content = ReactDOMServer.renderToString(
+            <Provider store={ store }>
+              <RouterContext
+                createElement={ (Component, elProps) =>
+                  <Component {...elProps} location={ location } />
+                }
+                {...props}
+              />
+            </Provider>
+          );
+        } catch (e) {
+          next(e, req, res);
+          return;
+        }
+
+        const html = ReactDOMServer.renderToStaticMarkup(
+          <HtmlDocument
+            content={ content }
+            initialState={ initialState }
+            title={ DocumentTitle.rewind() }
+            meta={ meta }
+          />
         );
-      } catch (e) {
-        next(e, req, res);
-        return;
-      }
-
-      const html = ReactDOMServer.renderToStaticMarkup(
-        <HtmlDocument
-          content={ content }
-          initialState={ initialState }
-          title={ DocumentTitle.rewind() }
-          meta={ meta }
-        />
-      );
-      res.send(`<!doctype html>${html}`);
+        res.send(`<!doctype html>${html}`);
+      });
     });
   });
 }

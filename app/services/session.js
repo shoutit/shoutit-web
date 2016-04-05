@@ -1,6 +1,7 @@
 import request from '../utils/request';
 import { createRequestSession } from '../utils/SessionUtils';
 import { parseErrorResponse } from '../utils/APIUtils';
+import { camelizeKeys } from 'humps';
 
 import {
   AUTH_CLIENT_ID as clientId,
@@ -24,7 +25,6 @@ export default {
         return callback(null, res.body.user);
       });
   },
-
   read: (req, resource, params, config, callback) => {
     if (!req.session || !req.session.user) {
       callback();
@@ -36,9 +36,12 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(parseErrorResponse(err));
+          console.warn('Trying to get user %s but got an error with status code %s: destroying current session...', req.session.user.username, res && res.status); //eslint-disable-line
+          console.error(err); //eslint-disable-line
+          req.session.destroy();
+          return callback();
         }
-        req.session.user = res.body; // eslint-disable-line
+        req.session.user = camelizeKeys(res.body);
         return callback(null, res.body);
       });
   },

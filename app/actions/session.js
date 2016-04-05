@@ -1,18 +1,5 @@
 import * as actionTypes from './actionTypes';
 
-export function getCurrentSession() {
-  return {
-    types: [
-      actionTypes.GET_SESSION_START,
-      actionTypes.GET_SESSION_SUCCESS,
-      actionTypes.GET_SESSION_FAILURE,
-    ],
-    service: {
-      name: 'session',
-    },
-  };
-}
-
 export function createSession({ grant_type = 'shoutit_login', ...loginData }) {
   const body = { ...loginData, grant_type };
   return {
