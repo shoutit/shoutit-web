@@ -6,7 +6,7 @@ import InterestListItem from './InterestListItem';
 export function SuggestedInterests({ tags }) {
   return (
     <CardWithList title="Interests">
-      { tags.map(tag => <InterestListItem tag={ tag } />)}
+      { tags.map((tag, i) => <InterestListItem key={ i } tag={ tag } />)}
     </CardWithList>
   );
 }

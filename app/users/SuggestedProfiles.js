@@ -6,7 +6,7 @@ import ProfileListItem from '../users/ProfileListItem';
 export function SuggestedProfiles({ profiles }) {
   return (
     <CardWithList title="Suggested profiles">
-      { profiles.map(profile => <ProfileListItem profile={ profile } />
+      { profiles.map(profile => <ProfileListItem key={ profile.id } profile={ profile } />
     )}
     </CardWithList>
   );
