@@ -19,4 +19,8 @@ $size-large: 48px;
     height: $size-large;
     width: $size-large;
   }
+
+  &.rounded {
+    border-radius: 100%;
+  }
 }
