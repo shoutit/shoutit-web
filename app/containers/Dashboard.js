@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import ShoutsList from '../shouts/ShoutsList';
 
 import { loadHomeShouts, loadListening } from '../actions/users';
-import { denormalize } from '../schemas';
 import Progress from '../ui/Progress';
 import Page from '../layout/Page';
 import Scrollable from '../ui/Scrollable';
@@ -106,9 +105,7 @@ export class Dashboard extends Component {
 
 const mapStateToProps = state => ({
   loggedProfile: state.session.user,
-  shouts: state.paginated.shoutsByHome.ids.map(id =>
-    denormalize(state.entities.shouts[id], state.entities, 'SHOUT')
-  ),
+  shouts: state.paginated.shoutsByHome.ids.map(id => state.entities.shouts[id]),
   nextUrl: state.paginated.shoutsByHome.nextUrl,
   isFetching: state.paginated.shoutsByHome.isFetching,
   error: state.paginated.shoutsByHome.error,

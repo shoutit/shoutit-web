@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { push } from 'react-router-redux';
 
 import Page from '../layout/Page';
 
@@ -8,25 +9,46 @@ import DiscoverItemPreview from '../discover/DiscoverItemPreview';
 
 import SuggestedShout from '../shouts/SuggestedShout';
 import ShoutsList from '../shouts/ShoutsList';
+
+import Modal from '../ui/Modal';
 import Scrollable from '../ui/Scrollable';
+import CountryFlag from '../ui/CountryFlag';
 import Progress from '../ui/Progress';
 
 import { loadDiscoverItemsByCountry, loadDiscoverItem, loadShoutsForDiscoverItem } from '../actions/discover';
-import { getCountryCode } from '../utils/LocationUtils';
+import { getCountryCode, getCountryName } from '../utils/LocationUtils';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import { denormalize } from '../schemas';
+
+import SearchLocation from '../location/SearchLocation';
+
+import { openModal, closeModal } from '../actions/ui';
+import { setUserLocation } from '../actions/users';
+import { setCurrentLocation } from '../actions/location';
 
 if (process.env.BROWSER) {
   require('./Discover.scss');
 }
 
+const page_size = 9;
+
 const fetchData = (store, params) => {
+  const { dispatch } = store;
   const { countryName } = params;
   const country = getCountryCode(countryName);
-  if (!country) {
-    return Promise.reject({ status: 404 });
+
+  if (params.id) {
+    return dispatch(loadDiscoverItem(params.id)).then(() =>
+      dispatch(loadShoutsForDiscoverItem(params.id, { page_size }))
+    );
   }
-  return store.dispatch.loadDiscoverItemsByCountry(country);
+
+  return dispatch(loadDiscoverItemsByCountry(country)).then(({ result }) => {
+    Promise.all([
+      ...result.map(id => dispatch(loadDiscoverItem(id))),
+      ...result.map(id => dispatch(loadShoutsForDiscoverItem(id, { page_size }))),
+    ]);
+  });
 };
 
 export class Discover extends Component {
@@ -39,19 +61,19 @@ export class Discover extends Component {
 
   componentDidMount() {
     const { firstRender, country, dispatch, params } = this.props;
-    // if (!firstRender) {
-    if (params.id) {
-      dispatch(loadDiscoverItem(params.id)).then(() => {
-        dispatch(loadShoutsForDiscoverItem(params.id, { page_size: 9 }));
-      });
-    } else {
-      dispatch(loadDiscoverItemsByCountry(country)).then(({ result }) => {
-        // load children for each discover item
-        result.forEach(id => dispatch(loadDiscoverItem(id)));
-        result.forEach(id => dispatch(
-          loadShoutsForDiscoverItem(id, { page_size: 9 })
-        ));
-      });
+    if (!firstRender) {
+      if (params.id) {
+        dispatch(loadDiscoverItem(params.id)).then(() => {
+          dispatch(loadShoutsForDiscoverItem(params.id, { page_size }));
+        });
+      } else {
+        dispatch(loadDiscoverItemsByCountry(country)).then(({ result }) => {
+          result.forEach(id => dispatch(loadDiscoverItem(id)));
+          result.forEach(id => dispatch(
+            loadShoutsForDiscoverItem(id, { page_size })
+          ));
+        });
+      }
     }
   }
 
@@ -59,21 +81,41 @@ export class Discover extends Component {
     const { country, dispatch, params } = this.props;
     if (nextProps.params.id !== params.id) {
       dispatch(loadDiscoverItem(nextProps.params.id)).then(() => {
-        dispatch(loadShoutsForDiscoverItem(nextProps.params.id, { page_size: 9 }));
+        dispatch(loadShoutsForDiscoverItem(nextProps.params.id, { page_size }));
       });
     } else if (nextProps.country !== country) {
       dispatch(loadDiscoverItemsByCountry(nextProps.country)).then(({ result }) => {
-        // load children for each discover item
         result.forEach(id => dispatch(loadDiscoverItem(id)));
         result.forEach(id => dispatch(
-          loadShoutsForDiscoverItem(id, { page_size: 9 })
+          loadShoutsForDiscoverItem(id, { page_size })
         ));
       });
     }
   }
 
+  showLocationModal(e) {
+    e.preventDefault();
+    e.target.blur();
+    const { dispatch, loggedUser } = this.props;
+    const modal = (
+      <Modal title="Change location" name="search-location">
+        <SearchLocation
+          onLocationSelect={ location => {
+            dispatch(push(`/discover/${encodeURIComponent(getCountryName(location.country)).toLowerCase()}`));
+            dispatch(closeModal('search-location'));
+            dispatch(setCurrentLocation(location));
+            if (loggedUser) {
+              dispatch(setUserLocation(location));
+            }
+          }}
+        />
+      </Modal>
+    );
+    this.props.dispatch(openModal(modal));
+  }
+
   render() {
-    const { discoverItem, shouts, nextShoutsUrl, isFetchingShouts, dispatch, countryName } = this.props;
+    const { discoverItem, shouts, nextShoutsUrl, country, isFetchingShouts, dispatch, countryName } = this.props;
     return (
       <Scrollable
         triggerOffset={ 400 }
@@ -87,9 +129,14 @@ export class Discover extends Component {
 
           { discoverItem &&
             <div className="Discover-hero" style={ getStyleBackgroundImage(discoverItem.image, 'large') }>
+              <div className="Discover-country" onClick={ e => this.showLocationModal(e) }>
+                <CountryFlag code={ country } rounded size="medium" showTooltip={ false }/>
+                { getCountryName(country) }
+              </div>
               <div className="Discover-hero-content">
                 <h1>{ discoverItem.title }</h1>
                 { discoverItem.subtitle && <h2>{ discoverItem.subtitle }</h2> }
+
               </div>
             </div>
           }

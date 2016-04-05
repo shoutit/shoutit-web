@@ -24,25 +24,25 @@ export class ProfileOverlay extends Component {
     dispatch(loadProfileDetailsIfNeeded(profile, ['location', 'listenersCount']));
   }
   render() {
-    const { profile } = this.props;
+    const { profile, profile: { cover, location, name, listenersCount } } = this.props;
     return (
       <div className="ProfileOverlay">
-        <div className="ProfileOverlay-cover" style={getStyleBackgroundImage(profile.cover)} />
+        <div className="ProfileOverlay-cover" style={getStyleBackgroundImage(cover)} />
         <div className="ProfileOverlay-user">
           <UserAvatar user={ profile } size="large" />
-          <h2>{ profile.name }</h2>
+          <h2>{ name }</h2>
         </div>
         <div className="ProfileOverlay-body">
-          { profile.location &&
+          { location &&
             <div className="ProfileOverlay-location">
               <span>
-                <CountryFlag code={ profile.location.country } size="small" />
+                <CountryFlag code={ location.country } size="small" />
               </span>
-              { `from ${profile.location.city}` }
+              { `from ${location.city}` }
             </div>
           }
           <div className="ProfileOverlay-listeners">
-            <SVGIcon name="listeners" active /> { profile.listenersCount } listener{ profile.listenersCount > 1}s
+            <SVGIcon name="listeners" active={ listenersCount > 0 } /> { listenersCount === 0 ? 'No ' : listenersCount } listener{ listenersCount > 1}s
           </div>
         </div>
       </div>

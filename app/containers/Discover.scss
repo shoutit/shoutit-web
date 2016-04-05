@@ -14,6 +14,22 @@
   min-height: 250px;
   align-items: center;
   justify-content: center;
+
+  position: relative;;
+  .Discover-country {
+    cursor: pointer;
+    position: absolute;
+    color: white;
+    top: .5rem;
+    left: .5rem;
+    font-size: 0.75rem;
+    &:hover {
+      opacity: .8;
+    }
+    .CountryFlag {
+      margin-right: .5rem;
+    }
+  }
 }
 
 .Discover-hero-content {
@@ -38,6 +54,7 @@
     font-weight: lighter;
   }
 }
+
 
 .Discover-children {
   display: flex;

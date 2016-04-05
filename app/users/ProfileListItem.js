@@ -11,11 +11,10 @@ export default function ProfileListItem({ profile }) {
   return (
     <Tooltip
       destroyTooltipOnHide
-      mouseLeaveDelay={0}
       white
       placement="right"
       overlay={ <ProfileOverlay id={ profile.id } /> }
-      getTooltipContainer={ c => c.parentNode }
+      getTooltipContainer={ c => c }
     >
       <Link className="ProfileListItem" to={ `/user/${profile.username}` }>
         <UserAvatar size="small" user={ profile } />{ profile.name }
