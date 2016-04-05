@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { push } from 'react-router-redux';
 
 import Page from '../layout/Page';
 
@@ -8,13 +9,22 @@ import DiscoverItemPreview from '../discover/DiscoverItemPreview';
 
 import SuggestedShout from '../shouts/SuggestedShout';
 import ShoutsList from '../shouts/ShoutsList';
+
+import Modal from '../ui/Modal';
 import Scrollable from '../ui/Scrollable';
+import CountryFlag from '../ui/CountryFlag';
 import Progress from '../ui/Progress';
 
 import { loadDiscoverItemsByCountry, loadDiscoverItem, loadShoutsForDiscoverItem } from '../actions/discover';
-import { getCountryCode } from '../utils/LocationUtils';
+import { getCountryCode, getCountryName } from '../utils/LocationUtils';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import { denormalize } from '../schemas';
+
+import SearchLocation from '../location/SearchLocation';
+
+import { openModal, closeModal } from '../actions/ui';
+import { setUserLocation } from '../actions/users';
+import { setCurrentLocation } from '../actions/location';
 
 if (process.env.BROWSER) {
   require('./Discover.scss');
@@ -83,8 +93,29 @@ export class Discover extends Component {
     }
   }
 
+  showLocationModal(e) {
+    e.preventDefault();
+    e.target.blur();
+    const { dispatch, loggedUser } = this.props;
+    const modal = (
+      <Modal title="Change location" name="search-location">
+        <SearchLocation
+          onLocationSelect={ location => {
+            dispatch(push(`/discover/${encodeURIComponent(getCountryName(location.country)).toLowerCase()}`));
+            dispatch(closeModal('search-location'));
+            dispatch(setCurrentLocation(location));
+            if (loggedUser) {
+              dispatch(setUserLocation(location));
+            }
+          }}
+        />
+      </Modal>
+    );
+    this.props.dispatch(openModal(modal));
+  }
+
   render() {
-    const { discoverItem, shouts, nextShoutsUrl, isFetchingShouts, dispatch, countryName } = this.props;
+    const { discoverItem, shouts, nextShoutsUrl, country, isFetchingShouts, dispatch, countryName } = this.props;
     return (
       <Scrollable
         triggerOffset={ 400 }
@@ -98,9 +129,14 @@ export class Discover extends Component {
 
           { discoverItem &&
             <div className="Discover-hero" style={ getStyleBackgroundImage(discoverItem.image, 'large') }>
+              <div className="Discover-country" onClick={ e => this.showLocationModal(e) }>
+                <CountryFlag code={ country } rounded size="medium" showTooltip={ false }/>
+                { getCountryName(country) }
+              </div>
               <div className="Discover-hero-content">
                 <h1>{ discoverItem.title }</h1>
                 { discoverItem.subtitle && <h2>{ discoverItem.subtitle }</h2> }
+
               </div>
             </div>
           }
