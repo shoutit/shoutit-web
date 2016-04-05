@@ -52,7 +52,7 @@ export function geocodePlace(placeId, callback) {
 }
 
 export function getCountryName(code) {
-  return countries[code];
+  return countries[code.toUpperCase()];
 }
 
 export function getCountryCode(name) {
