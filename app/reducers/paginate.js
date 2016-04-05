@@ -54,6 +54,7 @@ export default function paginate({
     isFetching: false,
     nextUrl: undefined,
     previousUrl: undefined,
+    count: undefined,
     ids: [],
   }, action) {
     switch (action.type) {
@@ -68,6 +69,7 @@ export default function paginate({
         return merge({}, state, {
           isFetching: false,
           nextUrl: action.payload.nextUrl,
+          count: action.payload.count,
           previousUrl: action.payload.previousUrl,
           ids: union(state.ids, action.payload.result),
         });

@@ -67,6 +67,9 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
             if (json.next) {
               payload.nextUrl = json.next;
             }
+            if (json.count) {
+              payload.count = json.count;
+            }
           }
         }
         if (parsePayload) {
