@@ -19,7 +19,7 @@ if (process.env.BROWSER) {
   require('./ShoutPreview.scss');
 }
 
-function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick }) {
+function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfile = true }) {
   return (
 
     <ShoutLink className="Card ShoutPreview" shout={ shout }>
@@ -32,17 +32,18 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick }) {
           { shout.title }
         </div> }
         <div className="ShoutPreview-details">
-          <Tooltip
-            destroyTooltipOnHide
-            mouseLeaveDelay={0.05}
-            white
-            placement="top"
-            overlay={ <ProfileOverlay id={ shout.profile.id } /> }
-          >
-          <span onClick={ onProfileAvatarClick }>
-            <UserAvatar user={ shout.profile } size="smallest" />
-          </span>
-          </Tooltip>
+          { showProfile &&
+            <Tooltip
+              destroyTooltipOnHide
+              mouseLeaveDelay={0.05}
+              white
+              placement="top"
+              overlay={ <ProfileOverlay id={ shout.profile.id } /> }>
+              <span onClick={ onProfileAvatarClick }>
+                <UserAvatar user={ shout.profile } size="smallest" />
+                </span>
+            </Tooltip>
+          }
           <TimeAgo date={ shout.datePublished } />
           <span onClick={ onCategoryClick } className="ShoutPreview-category">
             <SVGIcon size="small" name="tag" />
@@ -57,6 +58,7 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick }) {
 
 ShoutPreview.propTypes = {
   shout: PropTypes.object.isRequired,
+  showProfile: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
