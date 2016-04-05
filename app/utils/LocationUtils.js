@@ -56,7 +56,9 @@ export function getCountryName(code) {
 }
 
 export function getCountryCode(name) {
-  const code = Object.keys(countries).find(code => countries[code].toLowerCase() === name.toLowerCase());
+  const code = Object.keys(countries).find(code =>
+    countries[code].toLowerCase() === name.toLowerCase()
+  );
   if (!code) {
     return null;
   }
