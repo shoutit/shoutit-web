@@ -143,6 +143,9 @@ export default function paginate({
         }
         if (mapActionToKey) {
           const key = mapActionToKey(action);
+          if (typeof(key) === 'undefined') {
+            console.warn("Warning: mapActionToKey for action %s returned an undefined value.", action.type);
+          }
           return merge({}, state, {
             [key]: updateOnFetch(state[key], action),
           });
@@ -156,6 +159,9 @@ export default function paginate({
 
         if (mapActionToKey) {
           const key = mapActionToKey(action);
+          if (typeof(key) === 'undefined') {
+            console.warn("Warning: mapActionToKey for action %s returned an undefined value.", action.type);
+          }
           return {
             ... state,
             [key]: updateOnCreate(state[key], action, tempId),
@@ -167,6 +173,9 @@ export default function paginate({
       case addType:
         if (mapActionToKey) {
           const key = mapActionToKey(action);
+          if (typeof(key) === 'undefined') {
+            console.warn("Warning: mapActionToKey for action %s returned an undefined value.", action.type);
+          }
           return {
             ... state,
             [key]: updateOnAdd(state[key], action),
@@ -178,6 +187,9 @@ export default function paginate({
       case deleteType:
         if (mapActionToKey) {
           const key = mapActionToKey(action);
+          if (typeof(key) === 'undefined') {
+            console.warn("Warning: mapActionToKey for action %s returned an undefined value.", action.type);
+          }
           return {
             ... state,
             [key]: updateOnDelete(state[key], action),
