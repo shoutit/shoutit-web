@@ -36,7 +36,7 @@ export class ProfileOverlay extends Component {
         </div>
         { !profile.isOwner &&
           <div className="ProfileOverlay-actions">
-            <ProfileActions profile={ profile } size="small" />
+            <ProfileActions showProfileLink profile={ profile } size="small" />
           </div>
         }
       </div>

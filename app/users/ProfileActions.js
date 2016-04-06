@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { listenToUser, stopListeningToUser } from '../actions/users';
+import { Link } from 'react-router';
 
 import SVGIcon from '../ui/SVGIcon';
 import ListItem from '../ui/ListItem';
@@ -9,7 +10,7 @@ import ListItem from '../ui/ListItem';
 if (process.env.BROWSER) {
   require('./ProfileActions.scss');
 }
-export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListening, size = 'medium' }) {
+export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListening, size = 'medium', showProfileLink = false }) {
   const onListenClick = () => {
     if (isUpdatingListening) {
       return;
@@ -42,6 +43,18 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
               Send {profile.firstName} a message
             </ListItem>
           </li>
+          { showProfileLink &&
+            <li>
+              <Link to={`/user/${profile.username}`}>
+                <ListItem
+                  size={ size }
+                  start= { <SVGIcon active size={ size } name="profile" /> }
+                >
+                  Visit profile
+                </ListItem>
+              </Link>
+            </li>
+          }
         </ul>
     </div>
   );
