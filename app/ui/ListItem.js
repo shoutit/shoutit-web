@@ -20,7 +20,7 @@ export default function ListItem({
     cssClass += ' interaction-enabled';
   }
   return (
-    <div className={ cssClass } onClick={ onClick }>
+    <div className={ cssClass } onClick={ onClick } tabIndex={ onClick ? 0 : -1 }>
       { start && <span className="ListItem-start">
         { start }
       </span>
