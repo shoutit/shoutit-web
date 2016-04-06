@@ -17,7 +17,7 @@ import { apiUrl } from '../config';
 
 const log = debug('shoutit:request');
 
-request.Request.prototype.setSession = function (session) {
+request.Request.prototype.setSession = function setSession(session) {
   if (session && session.accessToken) {
     this.set('Authorization', `Bearer ${session.accessToken}`);
   }
@@ -26,7 +26,7 @@ request.Request.prototype.setSession = function (session) {
 
 const oldEnd = request.Request.prototype.end;
 
-request.Request.prototype.end = function (oldCallback) {
+request.Request.prototype.end = function end(oldCallback) {
   this.end = oldEnd;
   const callback = (err, res) => {
     oldCallback(err, res);
@@ -45,7 +45,7 @@ request.Request.prototype.end = function (oldCallback) {
  * @param  {String} prefix=apiUrl Default is API url from config
  * @return {Request}
  */
-request.Request.prototype.prefix = function (prefix = apiUrl) {
+request.Request.prototype.prefix = function prefix(prefix = apiUrl) {
   if (this.url.indexOf(apiUrl) === -1) {
     this.url = `${prefix}${this.url}`;
   }
