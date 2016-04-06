@@ -1,0 +1,51 @@
+@import '../styles/constants.scss';
+@import '../styles/mixins/card.scss';
+
+.ProfileBiography-bio {
+  font-weight: lighter;
+  margin-top: 0;
+  text-align: center;
+}
+
+.ProfileBiography-connections {
+  display: flex;
+  padding: 0 .75rem;
+  > div {
+    flex: 1;
+  }
+}
+
+.ProfileBiography-isListening {
+  margin: 0;
+  margin-bottom: 1rem;
+  font-size: 0.75rem;
+  text-align: center;
+  color: $color-light;
+}
+
+.ProfileBiography-actions {
+  margin-top: 1rem;
+  @include card();
+  margin-top: 1rem;
+  padding: .75rem;
+}
+
+.ProfileBiography-details {
+  margin-bottom: 1rem;
+  // @include card();
+  margin-top: 1rem;
+  padding: .75rem;
+}
+
+.ProfileBiography-about {
+  // @include card();
+  margin-bottom: 1rem;
+  padding: .75rem;
+  p {
+    margin: 0;
+    font-style: italic;
+    font-size: 0.75rem;
+    color: $color-light;
+    line-height: 1.35em;
+  }
+}
