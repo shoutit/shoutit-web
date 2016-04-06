@@ -13,7 +13,7 @@ import configureStore from '../store/configureStore';
 
 import fetchDataForRoutes from '../utils/fetchDataForRoutes';
 
-const log = debug('shoutit:server');
+const log = debug('shoutit:server:renderMiddleware');
 
 export default function renderMiddleware(req, res, next) {
   const fetchr = new Fetchr({ xhrPath: '/fetchr', req });
@@ -22,10 +22,10 @@ export default function renderMiddleware(req, res, next) {
   log('Reading current session...');
   fetchr.read('session').end((err, user) => {
     if (user) {
-      log('User %s has been logged in', user.username);
+      log('Logged in as %s', user.username);
       req.session.user = user;
     } else {
-      log('User is not logged in for this request');
+      log('User is not logged in');
     }
     const store = configureStore({
       routing: { currentUrl: req.url },
