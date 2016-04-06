@@ -19,6 +19,10 @@
     font-size: 0.75rem;
   }
 
+  &.disabled {
+    opacity: 0.75;
+  }
+  
   .ListItem-start {
     flex-shrink: 0;
     display: inline-block;

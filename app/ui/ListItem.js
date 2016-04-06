@@ -10,6 +10,7 @@ export default function ListItem({
   children,
   size = 'medium',
   nowrap = false,
+  disabled = false,
   onClick,
 }) {
   let cssClass = `${className} ListItem size-${size}`;
@@ -19,8 +20,15 @@ export default function ListItem({
   if (onClick) {
     cssClass += ' interaction-enabled';
   }
+  if (disabled) {
+    cssClass += ' disabled';
+  }
   return (
-    <div className={ cssClass } onClick={ onClick } tabIndex={ onClick ? 0 : -1 }>
+    <div
+      className={ cssClass }
+      onClick={ onClick ? e => { e.currentTarget.blur(); onClick(e); } : null }
+      tabIndex={ onClick && !disabled ? 0 : -1 }
+    >
       { start && <span className="ListItem-start">
         { start }
       </span>
