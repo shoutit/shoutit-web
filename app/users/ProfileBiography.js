@@ -34,15 +34,16 @@ export default function ProfileBiography({ profile }) {
           </div>
         }
 
-        <div className="ProfileBiography-actions">
-          { profile.isListener &&
-            <p className="ProfileBiography-isListener">
-              { profile.firstName } is listening to you.
-            </p>
-          }
-          <ProfileActions profile = { profile } />
-        </div>
-
+        { !profile.isOwner &&
+          <div className="ProfileBiography-actions">
+            { profile.isListener &&
+              <p className="ProfileBiography-isListener">
+                { profile.firstName } is listening to you.
+              </p>
+            }
+            <ProfileActions profile = { profile } />
+          </div>
+        }
         { profile.about &&
           <div className="ProfileBiography-about">
             <p>
