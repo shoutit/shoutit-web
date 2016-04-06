@@ -3,6 +3,7 @@ import { routerReducer } from 'react-router-redux';
 import stringify from 'json-stable-stringify';
 
 import categories from './categories';
+import server from './server';
 import currencies from './currencies';
 import chat from './chat';
 import conversations from './entities-conversations';
@@ -159,6 +160,7 @@ const rootReducer = combineReducers({
   suggestions,
   uiNotifications,
   videocalls,
+  server,
 });
 
 export default rootReducer;
