@@ -52,6 +52,7 @@
     "express-session": "1.13.0",
     "fetchr": "0.5.25",
     "fluxxor": "1.7.3",
+    "git-rev": "0.2.1",
     "gm": "1.21.1",
     "history": "1.17.0",
     "humps": "1.0.0",

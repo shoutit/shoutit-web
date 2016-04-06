@@ -14,6 +14,7 @@ import Password from './containers/Password';
 import Signup from './containers/Signup';
 import Interest from './containers/Interest';
 import Shout from './containers/Shout';
+import Heartbeat from './containers/Heartbeat';
 
 // import MainPage from './shared/components/main/mainPage.jsx';
 import NotFound from './shared/components/misc/notfound.jsx';
@@ -55,6 +56,7 @@ const routes = (store) =>
     <Route path="/shout(/:shoutId)" component={ Shout } />
     <Route path="/interest(/:tagName)" component={ Interest } />
     <Route path="/user(/:username)" component={ Profile } />
+    <Route path="/heartbeat" component={ Heartbeat } />
     <Route path="/discover(/:countryName)(/:id)" component={ Discover } />
 
     {/* <Route path="/home" component={ HomePage }>

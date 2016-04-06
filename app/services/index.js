@@ -13,6 +13,7 @@ export messages from './messages';
 export passwordReset from './passwordReset';
 export profile from './profile';
 export profiles from './profiles';
+export server from './server';
 export session from './session';
 export shouts from './shouts';
 export suggestions from './suggestions';
