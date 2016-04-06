@@ -20,6 +20,7 @@ export default {
     request
       .post('/oauth2/access_token')
       .send(data)
+      .setSession(req.session)
       .prefix()
       .end((err, res) => {
         if (err) {

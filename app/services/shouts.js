@@ -15,6 +15,7 @@ export default {
       .get(url)
       .query(!params.endpoint ? params.searchParams : null)
       .prefix()
+      .setSession(req.session)
       .end((err, res) => {
         if (err) {
           return callback(parseErrorResponse(err));

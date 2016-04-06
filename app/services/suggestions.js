@@ -17,6 +17,7 @@ export default {
 
     request
       .get('/misc/suggestions')
+      .setSession(req.session)
       .query({ type })
       .query({ country })
       .query({ state })

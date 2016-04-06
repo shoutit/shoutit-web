@@ -6,6 +6,7 @@ export default {
   read: (req, resource, { user, type = 'users' }, config, callback) => {
     request
       .get(`/users/${user.username}/listening`)
+      .setSession(req.session)
       .query({ type })
       .prefix()
       .end((err, res) => {

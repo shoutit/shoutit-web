@@ -6,6 +6,7 @@ export default {
   read: (req, resource, params, config, callback) => {
     request
       .get('/tags')
+      .setSession(req.session)
       .query(params)
       .prefix()
       .end((err, res) => {

@@ -6,6 +6,7 @@ export default {
   read: (req, resource, { user }, config, callback) => {
     request
       .get(`/profiles/${user.username}/listeners`)
+      .setSession(req.session)
       .prefix()
       .end((err, res) => {
         if (err) {
