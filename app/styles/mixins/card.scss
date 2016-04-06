@@ -1,9 +1,9 @@
 @import "../styles/constants.scss";
 
-@mixin card() {
+@mixin card($background-color: $background-color-alt-light) {
 
   border-radius: $border-radius;
-  background-color: $background-color-alt-light;
+  background-color: $background-color;
   position: relative;
   box-shadow: $box-shadow-depth-0;
 
