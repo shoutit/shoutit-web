@@ -103,7 +103,7 @@ export class Profile extends Component {
                 <div className="Profile-shouts">
                   <div>
                     { shouts.length > 0 &&
-                      <h2>{ `${profile.firstName}’s shouts (${shoutsCount})` }</h2>
+                      <h2>{ `${profile.isOwner ? 'Your' : `${profile.firstName}’s`} shouts (${shoutsCount})` }</h2>
                     }
                     { shouts.length > 0 &&
                       <ShoutsList shouts={ shouts } showProfile={ false } /> }
