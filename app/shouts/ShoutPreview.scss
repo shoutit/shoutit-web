@@ -43,29 +43,18 @@
   font-size: 0.75rem;
   color: $color-light;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  .UserAvatar {
-    opacity: 1;
-    &:hover {
-      opacity: .7;
+  .ShoutPreview-profile {
+    flex: 1;
+    .UserAvatar {
+      opacity: 1;
+      &:hover {
+        opacity: .7;
+      }
     }
-  }
-  .TimeAgo {
-    margin-left: .2rem;
   }
   .ShoutPreview-category {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    align-items: center;
-    margin-left: .25rem;
     &:hover {
       color: $si-green;
-    }
-    .SVGIcon {
-      margin-right: .15rem;
     }
   }
 }

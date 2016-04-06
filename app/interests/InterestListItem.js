@@ -1,18 +1,18 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import SVGIcon from '../ui/SVGIcon';
+import ListItem from '../ui/ListItem';
 
-if (process.env.BROWSER) {
-  require('./TagListItem.scss');
-}
-export default function TagListItem({ tag }) {
+export default function InterestListItem({ tag, size = 'medium' }) {
   return (
-    <Link className="TagListItem" to={ `/interest/${tag.name}` }>
-      <SVGIcon name="tag" active /> { tag.name }
+    <Link className="InterestListItem" to={ `/interest/${tag.name}` }>
+      <ListItem size={size} nowrap start={ <SVGIcon size={ size } name="tag" active /> }>
+        { tag.name }
+      </ListItem>
     </Link>
   );
 }
 
-TagListItem.PropTypes = {
+InterestListItem.PropTypes = {
   tag: PropTypes.object.isRequired,
 };

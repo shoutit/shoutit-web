@@ -31,6 +31,14 @@
   margin: 0 auto;
 }
 
+ul.htmlNoList {
+  margin: 0.25rem 0;
+  padding: 0;
+  list-style: none;
+  li {
+    margin: 0;
+  }
+}
 ul.htmlSelectableList {
   margin: 0.25rem 0;
   padding: 0;
