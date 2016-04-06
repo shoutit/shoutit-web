@@ -21,6 +21,7 @@ export default {
     request
       .get('/auth/verify_email')
       .query({ token })
+      .setSession(req.session)
       .prefix()
       .end((err, res) => {
         if (err) {
