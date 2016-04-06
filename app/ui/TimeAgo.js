@@ -10,7 +10,7 @@ export default class TimeAgo extends Component {
   render() {
     const m = moment.unix(this.props.date);
     return (
-      <span className="TimeAgo" title={ m.format() }>
+      <span className="TimeAgo" title={ m.format('llll') }>
         { m.fromNow() }
       </span>
     );

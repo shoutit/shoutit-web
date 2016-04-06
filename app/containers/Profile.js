@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import find from 'lodash/collection/find';
-import moment from 'moment';
 
 import { denormalize } from '../schemas';
 import { loadProfileDetailsIfNeeded, loadUser, loadUserShouts } from '../actions/users';
@@ -10,11 +9,10 @@ import Page from '../layout/Page';
 import SuggestedInterests from '../interests/SuggestedInterests';
 import SuggestedProfiles from '../users/SuggestedProfiles';
 import UserAvatar from '../users/UserAvatar';
+import ProfileBiography from '../users/ProfileBiography';
 import SuggestedShout from '../shouts/SuggestedShout';
 import ShoutsList from '../shouts/ShoutsList';
 import Progress from '../ui/Progress';
-import SVGIcon from '../ui/SVGIcon';
-import CountryFlag from '../ui/CountryFlag';
 import Scrollable from '../ui/Scrollable';
 
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
@@ -95,81 +93,17 @@ export class Profile extends Component {
                     { profile.username }
                   </h3>
                 </div>
-                {/*<div className="Profile-tools">
-                  <div className="Profile-users">
-                    <div className="Profile-user">
-                      <SVGIcon name="listeners" />
-                      10 Listeners
-                    </div>
-                    <div className="Profile-user">
-                      <SVGIcon name="listening" />
-                      10 Listening
-                    </div>
-                    <div className="Profile-user">
-                      Listening to you
-                    </div>
-                  </div>
-                  <div className="Profile-actions">
-                    <div className="Profile-action">
-                      <div className="Profile-action-value">
-                        <SVGIcon size="large" name="listen" />
-                      </div>
-                      <div className="Profile-action-label">Listen</div>
-                    </div>
-                    <div className="Profile-action">
-                      <div className="Profile-action-value">
-                        <SVGIcon size="large" name="balloon-dots" />
-                      </div>
-                      <div className="Profile-action-label">Message</div>
-                    </div>
-                  </div>
-                </div>*/}
               </div>
 
               <div className="Profile-body">
                 <div className="Profile-body-start-column">
-                  { profile.bio &&
-                    <div>
-                      <p className="Profile-bio">
-                        { profile.bio }
-                      </p>
-
-                      <div className="Profile-bio-details">
-                        { profile.location.country &&
-                          <div>
-                            <CountryFlag code={ profile.location.country } size="small" />
-                            <span>{ `from ${profile.location.city || profile.location.state || profile.location.country}` }</span>
-                          </div>
-                        }
-                        { profile.website &&
-                        <div>
-                          <a href={ profile.website } target="_blank">
-                            <SVGIcon name="world-west" active />
-                            <span>{ profile.website.replace(/https?:\/\//, '') }</span>
-                          </a>
-                        </div>
-                        }
-                        <div>
-                          <SVGIcon name="clock" active />
-                          <span>Joined on { moment.unix(profile.dateJoined).format('ll') }</span>
-                        </div>
-                      </div>
-
-                      { profile.about &&
-                        <div className="Profile-biography">
-                          <p className="Profile-about">
-                            { profile.about }
-                          </p>
-                        </div>
-                      }
-                  </div>
-                }
+                  <ProfileBiography profile={ profile } />
                 </div>
 
                 <div className="Profile-shouts">
                   <div>
                     { shouts.length > 0 &&
-                      <h2>{ `${profile.firstName}’s shouts (${shoutsCount})` }</h2>
+                      <h2>{ `${profile.isOwner ? 'Your' : `${profile.firstName}’s`} shouts (${shoutsCount})` }</h2>
                     }
                     { shouts.length > 0 &&
                       <ShoutsList shouts={ shouts } showProfile={ false } /> }

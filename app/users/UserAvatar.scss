@@ -1,14 +1,15 @@
 @import "../styles/constants/colors.scss";
 @import "../styles/mixins/cropped-thumbnail.scss";
 
-$size-smallest: 18px;
-$size-small: 28px;
-$size-medium: 36px;
+$size-smallest: 14px;
+$size-small: 18px;
+$size-medium: 28px;
 $size-large: 48px;
 $size-huge: 128px;
 
 .UserAvatar {
   position: relative;
+  background-color: white;
 
   display: inline-block;
   overflow: hidden;

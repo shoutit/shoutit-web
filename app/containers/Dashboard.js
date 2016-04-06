@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import ShoutsList from '../shouts/ShoutsList';
 import { denormalize } from '../schemas';
@@ -10,6 +11,7 @@ import Page from '../layout/Page';
 import Scrollable from '../ui/Scrollable';
 import Button from '../ui/Button';
 import SVGIcon from '../ui/SVGIcon';
+import ListItem from '../ui/ListItem';
 import UIMessage from '../ui/UIMessage';
 import Listening from '../users/Listening';
 import SuggestedInterests from '../interests/SuggestedInterests';
@@ -27,9 +29,25 @@ const StartColumn = ({ profile }) =>
     <h1>
       Welcome back, { profile.firstName }
     </h1>
-    <Button to="/profile/edit" size="small" block label="Edit your profile" leftIcon={ <SVGIcon active name="pencil" /> } />
-    <Button to="/messages" size="small" block label="Your messages" leftIcon={ <SVGIcon active name="balloon-dots" /> } />
-    <Button to="/search" size="small" block label="Browse shouts" leftIcon={ <SVGIcon active name="world-west" /> } />
+
+    <ul className="htmlNoList">
+      <li>
+        <Link to="/profile/edit">
+          <ListItem start={ <SVGIcon active name="pencil" /> }>Edit your profile</ListItem>
+        </Link>
+      </li>
+      <li>
+        <Link to="/messages">
+          <ListItem start={ <SVGIcon active name="balloon-dots" /> }>Messages</ListItem>
+        </Link>
+      </li>
+      <li>
+        <Link to="/search">
+          <ListItem start={ <SVGIcon active name="world-west" /> }>Browse shouts</ListItem>
+        </Link>
+      </li>
+    </ul>
+
     <Listening byProfile={ profile } />
   </div>;
 
@@ -51,8 +69,8 @@ export class Dashboard extends Component {
       if (shouts.length === 0) {
         dispatch(loadHomeShouts(nextUrl));
       }
-      dispatch(loadListening(loggedProfile));
     }
+    dispatch(loadListening(loggedProfile));
   }
 
   shouldComponentUpdate(nextProps) {

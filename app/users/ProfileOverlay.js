@@ -1,15 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
-import { getCountryName } from '../utils/LocationUtils';
 
 import { loadProfileDetailsIfNeeded } from '../actions/users';
 
 import UserAvatar from '../users/UserAvatar';
-
-import CountryFlag from '../ui/CountryFlag';
-import SVGIcon from '../ui/SVGIcon';
-import Button from '../ui/Button';
+import ProfileFromListItem from '../users/ProfileFromListItem';
+import ProfileListenersListItem from '../users/ProfileListenersListItem';
+import ProfileActions from '../users/ProfileActions';
 
 if (process.env.BROWSER) {
   require('./ProfileOverlay.scss');
@@ -24,7 +22,7 @@ export class ProfileOverlay extends Component {
     dispatch(loadProfileDetailsIfNeeded(profile, ['location', 'listenersCount']));
   }
   render() {
-    const { profile, profile: { cover, location, name, listenersCount } } = this.props;
+    const { profile, profile: { cover, name } } = this.props;
     return (
       <div className="ProfileOverlay">
         <div className="ProfileOverlay-cover" style={getStyleBackgroundImage(cover)} />
@@ -33,18 +31,14 @@ export class ProfileOverlay extends Component {
           <h2>{ name }</h2>
         </div>
         <div className="ProfileOverlay-body">
-          { location &&
-            <div className="ProfileOverlay-location">
-              <span>
-                <CountryFlag code={ location.country } size="small" />
-              </span>
-              { `from ${location.city}` }
-            </div>
-          }
-          <div className="ProfileOverlay-listeners">
-            <SVGIcon name="listeners" active={ listenersCount > 0 } /> { listenersCount === 0 ? 'No ' : listenersCount } listener{ listenersCount > 1}s
-          </div>
+          <ProfileFromListItem profile={ profile } size="small" />
+          <ProfileListenersListItem profile={ profile } size="small" />
         </div>
+        { !profile.isOwner &&
+          <div className="ProfileOverlay-actions">
+            <ProfileActions showProfileLink profile={ profile } size="small" />
+          </div>
+        }
       </div>
     );
   }

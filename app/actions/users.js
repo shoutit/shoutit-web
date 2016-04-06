@@ -42,7 +42,7 @@ export function loadListening(user) {
     ],
     payload: { user },
     service: {
-      name: 'listeners',
+      name: 'listening',
       params: { user },
       schema: Schemas.PROFILES,
     },
@@ -115,6 +115,94 @@ export function loadProfileDetailsIfNeeded(profile, neededDetails) {
       name: 'profile',
       params: { username },
       schema: Schemas.PROFILE,
+    },
+  };
+}
+
+export function listenToUser(loggedUser, user) {
+  const entities = {
+    users: {
+      [user.id]: {
+        ...user,
+        isListening: true,
+        listenersCount: user.listenersCount + 1,
+      },
+      [loggedUser.id]: {
+        ...loggedUser,
+        listeningCount: {
+          ...loggedUser.listeningCount,
+          users: loggedUser.listeningCount.users + 1,
+        },
+      },
+    },
+  };
+  return {
+    types: [
+      actionTypes.LISTEN_START,
+      actionTypes.LISTEN_SUCCESS,
+      actionTypes.LISTEN_FAILURE,
+    ],
+    payload: { user, loggedUser, result: user.id, entities },
+    service: {
+      name: 'listen',
+      method: 'create',
+      params: { user },
+      parsePayload: payload => {
+        payload = {
+          ...payload,
+          entities: payload.error ?
+            { users: {
+              [user.id]: user,   // restore original users
+              [loggedUser.id]: loggedUser,
+            } } :
+            entities,
+        };
+        return payload;
+      },
+    },
+  };
+}
+
+export function stopListeningToUser(loggedUser, user) {
+  const entities = {
+    users: {
+      [user.id]: {
+        ...user,
+        isListening: false,
+        listenersCount: user.listenersCount - 1,
+      },
+      [loggedUser.id]: {
+        ...loggedUser,
+        listeningCount: {
+          ...loggedUser.listeningCount,
+          users: loggedUser.listeningCount.users - 1,
+        },
+      },
+    },
+  };
+  return {
+    types: [
+      actionTypes.STOP_LISTEN_START,
+      actionTypes.STOP_LISTEN_SUCCESS,
+      actionTypes.STOP_LISTEN_FAILURE,
+    ],
+    payload: { user, loggedUser, result: user.id, entities },
+    service: {
+      name: 'listen',
+      method: 'delete',
+      params: { user },
+      parsePayload: payload => {
+        payload = {
+          ...payload,
+          entities: payload.error ?
+            { users: {
+              [user.id]: user,   // restore original users
+              [loggedUser.id]: loggedUser,
+            } } :
+            entities,
+        };
+        return payload;
+      },
     },
   };
 }

@@ -102,7 +102,7 @@ export default function paginate({
           throw new Error("Expected a payload object with a result containing the entity's id");
         }
       // remove temporary item from the list and add the new one
-        return { ...state, ids: [...without(state.ids, tempId), action.payload.result] };
+        return { ...state, ids: union(without(state.ids, tempId), [action.payload.result]) };
     }
     return state;
   }

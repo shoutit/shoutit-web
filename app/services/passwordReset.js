@@ -7,6 +7,7 @@ export default {
     request
       .post('/auth/reset_password')
       .send({ email })
+      .setSession(req.session)
       .prefix()
       .end((err, res) => {
         if (err) {

@@ -45,11 +45,15 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
       .body(body)
       .end((err, json) => {
         if (err) {
+          let errorPayload = {
+            error: err.body || err,
+          };
+          if (parsePayload) {
+            errorPayload = parsePayload(errorPayload);
+          }
           next(actionWith({
             error: true,
-            payload: {
-              error: err.body || err,
-            },
+            payload: errorPayload,
             type: failureType,
           }));
           reject(err.body ? err.body : err);

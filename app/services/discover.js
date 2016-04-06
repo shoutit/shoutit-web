@@ -10,8 +10,9 @@ export default {
     }
     request
       .get(url)
-      .query({ searchParams })
+      .setSession(req.session)
       .prefix()
+      .query({ searchParams })
       .end((err, res) => {
         if (err) {
           return callback(parseErrorResponse(err));

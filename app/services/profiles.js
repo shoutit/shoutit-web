@@ -7,6 +7,7 @@ export default {
     request
       .get('/profiles')
       .query(params)
+      .setSession(req.session)
       .prefix()
       .end((err, res) => {
         if (err) {

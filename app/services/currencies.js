@@ -6,10 +6,12 @@ export default {
   name: 'currencies',
   read: (req, resource, params, config, callback) => {
     if (cache) {
-      return callback(null, cache);
+      callback(null, cache);
+      return;
     }
     request
       .get('/misc/currencies')
+      .setSession(req.session)
       .prefix()
       .end((err, res) => {
         if (err) {

@@ -22,7 +22,7 @@ export default {
           return callback(parseErrorResponse(err));
         }
         createRequestSession(req, res.body);
-        return callback(null, res.body.user);
+        return callback(null, camelizeKeys(res.body.user));
       });
   },
   read: (req, resource, params, config, callback) => {
@@ -41,8 +41,9 @@ export default {
           req.session.destroy();
           return callback();
         }
-        req.session.user = camelizeKeys(res.body);
-        return callback(null, res.body);
+        const user = camelizeKeys(res.body);
+        req.session.user = camelizeKeys(user);
+        return callback(null, user);
       });
   },
 

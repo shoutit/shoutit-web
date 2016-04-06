@@ -6,6 +6,7 @@ import ShoutPrice from './ShoutPrice';
 import ShoutLink from './ShoutLink';
 import TimeAgo from '../ui/TimeAgo';
 import SVGIcon from '../ui/SVGIcon';
+import ListItem from '../ui/ListItem';
 import Tooltip from '../ui/Tooltip';
 
 import UserAvatar from '../users/UserAvatar';
@@ -32,23 +33,26 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
           { shout.title }
         </div> }
         <div className="ShoutPreview-details">
-          { showProfile &&
-            <Tooltip
-              destroyTooltipOnHide
-              mouseLeaveDelay={0.05}
-              white
-              placement="top"
-              overlay={ <ProfileOverlay id={ shout.profile.id } /> }>
-              <span onClick={ onProfileAvatarClick }>
-                <UserAvatar user={ shout.profile } size="smallest" />
+          <ListItem
+            className="ShoutPreview-profile"
+            size="small"
+            start={ showProfile &&
+              <Tooltip
+                destroyTooltipOnHide
+                mouseLeaveDelay={0.05}
+                white
+                placement="top"
+                overlay={ <ProfileOverlay id={ shout.profile.id } /> }>
+                <span onClick={ onProfileAvatarClick }>
+                  <UserAvatar user={ shout.profile } size="small" />
                 </span>
-            </Tooltip>
-          }
-          <TimeAgo date={ shout.datePublished } />
-          <span onClick={ onCategoryClick } className="ShoutPreview-category">
-            <SVGIcon size="small" name="tag" />
+              </Tooltip>
+            }>
+            <TimeAgo date={ shout.datePublished } />
+          </ListItem>
+          <ListItem onClick={ onCategoryClick } className="ShoutPreview-category" size="small" start={ <SVGIcon size="small" name="tag" /> }>
             { shout.category.name || shout.category }
-          </span>
+          </ListItem>
         </div>
       </div>
     </ShoutLink>

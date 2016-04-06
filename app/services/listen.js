@@ -1,14 +1,12 @@
 import request from '../utils/request';
-import { createRequestSession } from '../utils/SessionUtils';
 import { parseErrorResponse } from '../utils/APIUtils';
 
 export default {
-  name: 'emailVerification',
-  create: (req, resource, params, { email }, config, callback) => {
+  name: 'listen',
+  create: (req, resource, { user }, body, config, callback) => {
     request
-      .post('/auth/verify_email')
+      .post(`/profiles/${user.username}/listen`)
       .setSession(req.session)
-      .send({ email })
       .prefix()
       .end((err, res) => {
         if (err) {
@@ -17,18 +15,16 @@ export default {
         return callback(null, res.body);
       });
   },
-  read: (req, resource, { token }, config, callback) => {
+  delete: (req, resource, { user }, config, callback) => {
     request
-      .get('/auth/verify_email')
-      .query({ token })
+      .del(`/profiles/${user.username}/listen`)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {
         if (err) {
           return callback(parseErrorResponse(err));
         }
-        createRequestSession(req, res.body);
-        return callback(null, res.body.user);
+        return callback(null, res.body);
       });
   },
 };

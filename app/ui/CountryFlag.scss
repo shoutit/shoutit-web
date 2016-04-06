@@ -9,12 +9,12 @@ $size-large: 48px;
   vertical-align: middle;
   height: $size-medium;
   width: $size-medium;
-  margin: 6px;
+  padding: 3px;
 
   &.size-small {
     height: $size-small;
     width: $size-small;
-    margin: 3px;
+    padding: 0px;
   }
 
   &.size-large {
