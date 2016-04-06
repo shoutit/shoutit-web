@@ -5,7 +5,7 @@ export default {
   name: 'listening',
   read: (req, resource, { user, type = 'users' }, config, callback) => {
     request
-      .get(`/users/${user.username}/listening`)
+      .get(`/profiles/${user.username}/listening`)
       .setSession(req.session)
       .query({ type })
       .prefix()
