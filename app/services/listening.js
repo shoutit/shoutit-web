@@ -13,6 +13,7 @@ export default {
         if (err) {
           return callback(parseErrorResponse(err));
         }
+        res.body.results = res.body[type];
         return callback(null, res.body);
       });
   },
