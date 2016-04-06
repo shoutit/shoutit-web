@@ -12,7 +12,7 @@ export default function ProfileListItem({ profile, size = 'medium' }) {
       white
       placement="right"
       overlay={ <ProfileOverlay id={ profile.id } /> }
-      getTooltipContainer={ c => c }
+      getTooltipContainer={ c => c.parentNode }
     >
       <Link className="ProfileListItem" to={ `/user/${profile.username}` }>
         <ListItem

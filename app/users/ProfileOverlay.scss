@@ -37,12 +37,16 @@
 }
 
 .ProfileOverlay-body {
-  padding: .5rem .25rem 0 .25rem;
-  margin: .5rem .25rem 0 .25rem;
-  border-top: 1px solid $border-color;
   display: flex;
-
+  padding: 0rem .5rem;
+  margin-top: .5rem;
   .ProfileFromListItem {
     flex: 1
   }
+}
+
+.ProfileOverlay-actions {
+  padding: .5rem .25rem 0 .25rem;
+  margin: .5rem .25rem 0 .25rem;
+  border-top: 1px solid $border-color;
 }

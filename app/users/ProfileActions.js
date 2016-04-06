@@ -1,4 +1,7 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import { listenToUser, stopListeningToUser } from '../actions/users';
 
 import SVGIcon from '../ui/SVGIcon';
 import ListItem from '../ui/ListItem';
@@ -6,17 +9,40 @@ import ListItem from '../ui/ListItem';
 if (process.env.BROWSER) {
   require('./ProfileActions.scss');
 }
-
-export default function ProfileActions({ profile }) {
+export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListening, size = 'medium' }) {
+  const onListenClick = () => {
+    if (isUpdatingListening) {
+      return;
+    }
+    if (!loggedUser) {
+      dispatch((push(`/login?after=/user/${profile.username}&login_action=start_listening`)));
+      return;
+    }
+    if (profile.isListening) {
+      dispatch(stopListeningToUser(loggedUser, profile));
+    } else {
+      dispatch(listenToUser(loggedUser, profile));
+    }
+  };
   return (
       <div className="ProfileActions">
-        <ListItem start= { <SVGIcon name="listen" /> }>
-          Listen
-        </ListItem>
-        <ListItem start= { <SVGIcon name="balloon-dots" /> }>
-          Start chatting
-        </ListItem>
-
+        <ul className="htmlNoList">
+          <li>
+            <ListItem
+              size={ size }
+              disabled={ isUpdatingListening }
+              onClick={ e => onListenClick(e) }
+              start= { <SVGIcon size={ size } name="listen" active={ !profile.isListening } on={ profile.isListening } /> }
+            >
+              { profile.isListening ? `Stop listening to ${profile.firstName}` : `Listen to ${profile.firstName}` }
+            </ListItem>
+          </li>
+          <li>
+            <ListItem size={ size } onClick={ () => {} } start= { <SVGIcon size={ size } active name="balloon-dots" /> }>
+              Send {profile.firstName} a message
+            </ListItem>
+          </li>
+        </ul>
     </div>
   );
 }
@@ -24,3 +50,12 @@ export default function ProfileActions({ profile }) {
 ProfileActions.propTypes = {
   profile: PropTypes.object.isRequired,
 };
+
+const mapStateToProps = (
+  { session: { user: loggedUser }, paginated: { listenersByUser } },
+ownProps) => ({
+  loggedUser,
+  isUpdatingListening: listenersByUser[ownProps.profile.id] ? listenersByUser[ownProps.profile.id].isUpdating : false,
+});
+
+export default connect(mapStateToProps)(ProfileActions);

@@ -35,8 +35,8 @@ export default function ProfileBiography({ profile }) {
         }
 
         <div className="ProfileBiography-actions">
-          { profile.isListening &&
-            <p className="ProfileBiography-isListening">
+          { profile.isListener &&
+            <p className="ProfileBiography-isListener">
               { profile.firstName } is listening to you.
             </p>
           }

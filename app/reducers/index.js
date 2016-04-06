@@ -6,6 +6,8 @@ import categories from './categories';
 import currencies from './currencies';
 import chat from './chat';
 import conversations from './entities-conversations';
+import listeningByUser from './listeningByUser';
+import listenersByUser from './listenersByUser';
 import shoutsBySearch from './shoutsBySearch';
 import currentLocation from './currentLocation';
 import currentUrl from './currentUrl';
@@ -84,14 +86,8 @@ const paginated = combineReducers({
       actionTypes.LOAD_USER_SHOUTS_FAILURE,
     ],
   }),
-  listenersByUser: paginate({
-    mapActionToKey: action => action.payload.user.id,
-    fetchTypes: [
-      actionTypes.LOAD_LISTENERS_START,
-      actionTypes.LOAD_LISTENERS_SUCCESS,
-      actionTypes.LOAD_LISTENERS_FAILURE,
-    ],
-  }),
+  listenersByUser,
+  listeningByUser,
   discoverItemsByCountry: paginate({
     mapActionToKey: action => action.payload.country,
     fetchTypes: [
@@ -106,14 +102,6 @@ const paginated = combineReducers({
       actionTypes.LOAD_DISCOVER_SHOUTS_START,
       actionTypes.LOAD_DISCOVER_SHOUTS_SUCCESS,
       actionTypes.LOAD_DISCOVER_SHOUTS_FAILURE,
-    ],
-  }),
-  listeningByUser: paginate({
-    mapActionToKey: action => action.payload.user.id,
-    fetchTypes: [
-      actionTypes.LOAD_LISTENING_START,
-      actionTypes.LOAD_LISTENING_SUCCESS,
-      actionTypes.LOAD_LISTENING_FAILURE,
     ],
   }),
   suggestions: paginate({

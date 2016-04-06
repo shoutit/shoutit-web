@@ -69,8 +69,8 @@ export class Dashboard extends Component {
       if (shouts.length === 0) {
         dispatch(loadHomeShouts(nextUrl));
       }
-      dispatch(loadListening(loggedProfile));
     }
+    dispatch(loadListening(loggedProfile));
   }
 
   shouldComponentUpdate(nextProps) {

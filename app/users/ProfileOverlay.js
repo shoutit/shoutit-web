@@ -7,8 +7,7 @@ import { loadProfileDetailsIfNeeded } from '../actions/users';
 import UserAvatar from '../users/UserAvatar';
 import ProfileFromListItem from '../users/ProfileFromListItem';
 import ProfileListenersListItem from '../users/ProfileListenersListItem';
-
-import SVGIcon from '../ui/SVGIcon';
+import ProfileActions from '../users/ProfileActions';
 
 if (process.env.BROWSER) {
   require('./ProfileOverlay.scss');
@@ -35,6 +34,11 @@ export class ProfileOverlay extends Component {
           <ProfileFromListItem profile={ profile } size="small" />
           <ProfileListenersListItem profile={ profile } size="small" />
         </div>
+        { !profile.isOwner &&
+          <div className="ProfileOverlay-actions">
+            <ProfileActions profile={ profile } size="small" />
+          </div>
+        }
       </div>
     );
   }
