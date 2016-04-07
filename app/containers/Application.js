@@ -31,8 +31,8 @@ const fetchData = store => {
   }
   if (!user || !user.location) {
     promises.push(
-      dispatch(loadCurrentLocation()).then(location =>
-        dispatch(loadSuggestions(location))
+      dispatch(loadCurrentLocation()).then(payload =>
+        dispatch(loadSuggestions(payload.location))
       )
     );
   }
@@ -64,20 +64,29 @@ export class Application extends React.Component {
   render() {
     const { children, ...props } = this.props;
     let className = 'App';
+
     if (!(!props.loggedUser && props.currentUrl === '/')) {
       className += ' stickyHeader';
     }
+
+    const lastRoute = props.routes[props.routes.length - 1];
+    if (lastRoute.getApplicationLayout) {
+      const layout = lastRoute.getApplicationLayout();
+      if (layout.className) {
+        className += ` ${layout.className}`;
+      }
+    }
     return (
       <div className={ className }>
-          <div className="App-header">
-            <Header
-              history={ props.history }
-              flux={ props.flux }
-              chat={ props.chat }
-              conversations={ props.conversations }
-              location={ props.location }
-            />
-          </div>
+        <div className="App-header">
+          <Header
+            history={ props.history }
+            flux={ props.flux }
+            chat={ props.chat }
+            conversations={ props.conversations }
+            location={ props.location }
+          />
+        </div>
         <div className="App-content">
           { React.cloneElement(children, props) }
         </div>
