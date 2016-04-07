@@ -4,7 +4,6 @@ import SVGIcon from '../ui/SVGIcon';
 
 export default function ProfileWebsiteListItem({ profile, size = 'medium' }) {
   let { website } = profile;
-  website = "https://www.test.com/test/test/test/test/test/test";
   if (!website) {
     return <div />;
   }
