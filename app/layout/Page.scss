@@ -2,6 +2,7 @@
 
 .Page {
   display: flex;
+  padding-top: 1rem;
 }
 
 .Page-column {
@@ -15,7 +16,6 @@
 .Page-body {
   padding-right: $page-body-padding-horizontal;
   padding-left: $page-body-padding-horizontal;
-
   flex: 1;
 }
 
