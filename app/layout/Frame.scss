@@ -1,0 +1,71 @@
+@import "../styles/constants.scss";
+
+.Frame {
+  margin: 3rem auto;
+  width: 40%;
+  background-color: white;
+  box-shadow: $box-shadow-depth-1;
+  border-radius: $border-radius;
+}
+
+.Frame-body {
+  padding: 1rem;
+}
+
+.Frame-header {
+  padding-top: 1rem;
+}
+
+.Frame-header h1 {
+  background-image: url('../../assets/images/mark.svg');
+  background-size: 2em;
+  background-repeat: no-repeat;
+  background-position: center top;
+  padding-top: 2.75em;
+  font-size: 1.5rem;
+  margin: 0;
+  text-align: center;
+  font-weight: lighter;
+}
+
+.Frame-separator {
+  margin: .25rem 0;
+  color: $color-lighter;
+  border-top: 1px solid $border-color-dark;
+  text-align: center;
+  transform: translateY(1rem);
+  span {
+    transform: translateY(-1.1rem);
+    display: inline-block;
+    margin: 0 auto;
+    background-color: white;
+    padding: .5rem;
+  }
+}
+
+.Frame-form {
+  width: 75%;
+  margin: 0 auto;
+  .TextField {
+    margin-bottom: .5rem;
+  }
+}
+
+.Frame-form-horizontal-group {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+}
+
+.Frame-footer {
+  margin-top: 1rem;
+  padding: .75rem 1rem;
+  background-color: $background-color-dark;
+  color: darken(white, 10);
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  a, a:hover {
+    color: white;
+  }
+}

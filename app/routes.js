@@ -48,9 +48,9 @@ const routes = (store) =>
         return Component;
       }}
     />
-    <Route path="/login" component={ Login } />
-    <Route path="/login/password" component={ Password } />
-    <Route path="/signup" component={ Signup } />
+    <Route path="/login" component={ Login } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
+    <Route path="/login/password" component={ Password } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
+    <Route path="/signup" component={ Signup } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
 
     <Route path="/search(/:shout_type)(/:category)" component={ Search } />
     <Route path="/shout(/:shoutId)" component={ Shout } />

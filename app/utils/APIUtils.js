@@ -38,3 +38,23 @@ export function parseErrorResponse(err) {
   console.error(getErrorSummary(error.output)); // eslint-disable-line
   return error;
 }
+
+export function getErrorsByLocation(apiError, location) {
+  if (!apiError.hasOwnProperty('errors')) {
+    return undefined;
+  }
+  return apiError.errors.filter(error => error.location === location);
+}
+
+export function getErrorLocations(apiError) {
+  const locations = [];
+  if (!apiError.hasOwnProperty('errors')) {
+    return locations;
+  }
+  for (let i = 0; i < apiError.errors.length; i++) {
+    if (apiError.errors[i].location && locations.indexOf(apiError.errors[i].location) === -1) {
+      locations.push(apiError.errors[i].location);
+    }
+  }
+  return locations;
+}
