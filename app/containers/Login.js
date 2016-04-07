@@ -52,7 +52,8 @@ export class Login extends Component {
   }
 
   componentWillUnmount() {
-    this.props.dispatch(resetSessionErrors());
+    const { dispatch } = this.props;
+    dispatch(resetSessionErrors());
   }
 
   handleFormSubmit(e) {
@@ -85,7 +86,7 @@ export class Login extends Component {
 
 
   render() {
-    const { isLoggingIn, location: { query }, loginError } = this.props;
+    const { isLoggingIn, location: { query }, loginError, dispatch } = this.props;
 
     return (
       <Page className="Login" title="Log in">
@@ -126,8 +127,9 @@ export class Login extends Component {
                 type="email"
                 errors={ loginError && getErrorsByLocation(loginError, 'email') }
                 placeholder="E-mail or username"
+                onBlur={ () => dispatch(resetSessionErrors()) }
                 onChange={ email => {
-                  this.props.dispatch(resetSessionErrors());
+                  dispatch(resetSessionErrors());
                   this.setState({ email });
                 }}
               />
@@ -139,8 +141,9 @@ export class Login extends Component {
                 name="password"
                 type="password"
                 placeholder="Password"
+                onBlur={ () => dispatch(resetSessionErrors()) }
                 onChange={ password => {
-                  this.props.dispatch(resetSessionErrors());
+                  dispatch(resetSessionErrors());
                   this.setState({ password });
                 }}
               />
