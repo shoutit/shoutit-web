@@ -68,6 +68,7 @@ export class SocialLoginForm extends Component {
   }
 
   render() {
+    const { disabled } = this.props;
     const { error, waitingForGoogle, waitingForFacebook } = this.state;
     return (
       <div>
@@ -78,11 +79,15 @@ export class SocialLoginForm extends Component {
           </p>
         }
         <FacebookButton
+          disabled={ disabled }
+          style={{ marginBottom: '.5rem' }}
           block
           label={ waitingForFacebook ? 'Waiting for Facebook…' : 'Facebook' }
           onClick={ e => this.handleFacebookLoginClick(e) }
         />
+
         <GoogleButton
+          disabled={ disabled }
           block
           label={ waitingForGoogle ? 'Waiting for Google…' : 'Google+' }
           onClick={ e => this.handleGoogleLoginClick(e) }
