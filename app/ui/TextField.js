@@ -54,6 +54,14 @@ export default class TextField extends Component {
     this.setState({ focus: false });
   }
 
+  focus() {
+    this.refs.input.focus();
+  }
+
+  select() {
+    this.refs.input.select();
+  }
+
   render() {
     const { block = false, disabled, label, className, ...props } = this.props;
     const { value, focus } = this.state;
