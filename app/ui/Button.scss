@@ -105,12 +105,12 @@ $border-radius: 5px;
   }
 
   .Button.outline {
-    border: 1px solid $shoutit-green;
+    border: 1px solid $si-green;
     .Button-label {
-      color: $shoutit-green;
+      color: $si-green;
     }
     &:not(.disabled):hover {
-      background-color: $shoutit-green;
+      background-color: $si-green;
       .Button-label {
         color: white;
       }
@@ -174,14 +174,14 @@ $border-radius: 5px;
 
   .Button.primary {
     border: 0;
-    background-color: $shoutit-green;
+    background-color: $si-green;
     &:not(.disabled):hover {
-      background-color: darken($shoutit-green, 10);
+      background-color: darken($si-green, 10);
       .Button-label {
         color: white;
       }
       .Button-icon {
-        background-color: darken($shoutit-green, 20);
+        background-color: darken($si-green, 20);
       }
     }
     .Button-label {
@@ -190,7 +190,7 @@ $border-radius: 5px;
     .Button-icon {
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
-      background-color: darken($shoutit-green, 10);
+      background-color: darken($si-green, 10);
     }
   }
 

@@ -22,8 +22,7 @@
 
 .htmlInput:not([type="checkbox"]) {
   padding: 0 0.625rem;
-
-  line-height: 30px;
+  line-height: 34px;
 }
 
 .htmlContentWidth {
@@ -60,4 +59,8 @@ ul.htmlSelectableList {
       }
     }
   }
+}
+
+p.htmlErrorParagraph {
+  color: $shoutit-red;
 }
