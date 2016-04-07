@@ -2,6 +2,13 @@
 
 .App {
   position: relative;
+  min-height: 100%;
+  &.pattern-background {
+    background-attachment: fixed;
+    background-repeat: 20px/2px repeat;
+    background-size: (366px * 0.75) (600px * 0.75);
+    background-image: url('../../assets/images/pattern@2x.png');
+  }
 }
 
 .App-header {
@@ -27,7 +34,7 @@
   margin: 0 auto;
 
   .App.stickyHeader & {
-    padding-top: ($header-height + 10px);
+    padding-top: $header-height;
   }
 
 }
