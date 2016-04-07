@@ -106,3 +106,9 @@ export function verifyEmail(token) {
     },
   };
 }
+
+export function resetSessionErrors() {
+  return {
+    type: actionTypes.RESET_SESSION_ERRORS,
+  };
+}

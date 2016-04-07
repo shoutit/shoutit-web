@@ -41,11 +41,11 @@ export default function (state = initialState, action) {
       };
 
     case actionTypes.LOGIN_FAILURE:
-      const { details } = payload;
+      const { error: loginError } = payload;
       return {
         ...state,
+        loginError,
         isLoggingIn: false,
-        loginError: details,
       };
 
     case actionTypes.SIGNUP_START:
@@ -107,6 +107,15 @@ export default function (state = initialState, action) {
       return {
         ...state,
         user: null,
+      };
+
+    case actionTypes.RESET_SESSION_ERRORS:
+      return {
+        ...state,
+        loginError: null,
+        passwordResetError: null,
+        emailVerificationError: null,
+        signupError: null,
       };
 
     default: return state;
