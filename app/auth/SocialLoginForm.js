@@ -57,6 +57,10 @@ export class SocialLoginForm extends Component {
 
       logFacebook('Login response', facebookResponse);
 
+      if (!authResponse) {
+        this.setState({ waitingForFacebook: false });
+        return;
+      }
       if (authResponse.grantedScopes.split(',').indexOf('email') === -1) {
         logFacebook('Missing permission scope');
         this.setState({ error: 'NO_FACEBOOK_EMAIL_PERMISSION', waitingForFacebook: false });
