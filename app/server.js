@@ -1,6 +1,5 @@
 /* eslint no-var: 0, no-console: 0 */
 import path from 'path';
-import consolidate from 'consolidate';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import morgan from 'morgan';
@@ -11,7 +10,7 @@ import Fetchr from 'fetchr';
 import serveStatic from 'serve-static';
 import errorDomainMiddleware from 'express-domain-middleware';
 
-import csurf from 'csurf';
+// import csurf from 'csurf';
 
 import basicAuthMiddleware from './server/basicAuthMiddleware';
 import slashMiddleware from './server/slashMiddleware';
@@ -29,12 +28,6 @@ const publicDir = path.resolve(__dirname,
 );
 
 export function start(app) {
-
-  // Used by password recovery, should be removed when closing
-  // https://github.com/shoutit/shoutit-web/issues/222
-  app.engine('jade', consolidate.jade);
-  app.set('view engine', 'jade');
-  app.set('views', __dirname + '/server/views');
 
   app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined'));
   app.use(bodyParser.json());
@@ -61,7 +54,7 @@ export function start(app) {
   app.use(errorDomainMiddleware);
 
   // Register fetchr services
-  Object.keys(services).forEach(name => Fetchr.registerService(services[name]));
+  Object.keys(services).forEach(name => Fetchr.registerService(services[name])); // eslint-disable-line
   app.use('/fetchr', Fetchr.middleware());
 
   // Static assets
