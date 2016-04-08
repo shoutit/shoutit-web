@@ -124,7 +124,7 @@ export const SignupDialog = React.createClass({
     return (
       <div className="si-signup">
         <div className="separator"></div>
-        <p style={{ marginTop:'25px' }}>
+        <p style={{ marginTop: '25px' }}>
           Dear { loggedUser.first_name }, welcome to Shoutit.
           We are happy to have you here!
         </p>

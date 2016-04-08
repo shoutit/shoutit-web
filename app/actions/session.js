@@ -63,7 +63,7 @@ export function createProfile(body) {
   };
 }
 
-export function requestPasswordReset(email) {
+export function resetPassword(email) {
   return {
     types: [
       actionTypes.PASSWORD_RESET_START,
@@ -71,9 +71,24 @@ export function requestPasswordReset(email) {
       actionTypes.PASSWORD_RESET_FAILURE,
     ],
     service: {
-      name: 'passwordReset',
+      name: 'resetPassword',
       method: 'create',
       body: { email },
+    },
+  };
+}
+
+export function setPassword(newPassword, resetToken) {
+  return {
+    types: [
+      actionTypes.PASSWORD_SET_START,
+      actionTypes.PASSWORD_SET_SUCCESS,
+      actionTypes.PASSWORD_SET_FAILURE,
+    ],
+    service: {
+      name: 'setPassword',
+      method: 'create',
+      body: { newPassword, resetToken },
     },
   };
 }
@@ -96,9 +111,9 @@ export function sendEmailVerification(email) {
 export function verifyEmail(token) {
   return {
     types: [
-      actionTypes.EMAIL_VERIFICATION_START,
-      actionTypes.EMAIL_VERIFICATION_SUCCESS,
-      actionTypes.EMAIL_VERIFICATION_FAILURE,
+      actionTypes.VERIFY_EMAIL_START,
+      actionTypes.VERIFY_EMAIL_SUCCESS,
+      actionTypes.VERIFY_EMAIL_FAILURE,
     ],
     service: {
       name: 'emailVerification',

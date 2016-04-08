@@ -1,6 +1,6 @@
 /* eslint-env browser */
 
-import React, { Component } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import debug from 'debug';
@@ -13,6 +13,17 @@ const logFacebook = debug('shoutit:facebook');
 
 export class SocialLoginForm extends Component {
 
+  static propTypes = {
+    currentLocation: PropTypes.object,  // passing this, will send the current location to the login actions
+    onLoginSuccess: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    disabled: false,
+  };
+
   state = {
     error: null,
     waitingForFacebook: false,
@@ -21,6 +32,8 @@ export class SocialLoginForm extends Component {
 
   handleGoogleLoginClick(e) {
     e.preventDefault();
+
+    const { dispatch, onLoginSuccess, currentLocation } = this.props;
 
     this.setState({ error: null, waitingForGoogle: true });
 
@@ -36,13 +49,17 @@ export class SocialLoginForm extends Component {
           this.setState({ waitingForGoogle: false });
           return;
         }
-        this.props.dispatch(loginWithGoogle({ gplus_code: authResult.code }));
+        dispatch(loginWithGoogle(
+          { gplus_code: authResult.code },
+          { location: currentLocation }
+        )).then(() => onLoginSuccess());
       },
     });
   }
 
   handleFacebookLoginClick() {
     const { error } = this.state;
+    const { dispatch, onLoginSuccess, currentLocation } = this.props;
 
     const options = { scope: 'email', return_scopes: true };
 
@@ -66,8 +83,10 @@ export class SocialLoginForm extends Component {
         this.setState({ error: 'NO_FACEBOOK_EMAIL_PERMISSION', waitingForFacebook: false });
         return;
       }
-
-      this.props.dispatch(loginWithFacebook({ facebook_access_token: authResponse.accessToken }));
+      dispatch(loginWithFacebook(
+        { facebook_access_token: authResponse.accessToken },
+        { location: currentLocation }
+      )).then(() => onLoginSuccess());
     }, options);
   }
 
@@ -75,9 +94,9 @@ export class SocialLoginForm extends Component {
     const { disabled } = this.props;
     const { error, waitingForGoogle, waitingForFacebook } = this.state;
     return (
-      <div>
+      <div className="SocialLoginForm">
         { error === 'NO_FACEBOOK_EMAIL_PERMISSION' &&
-          <p style={{ color: 'red !important', fontSize: 13 }}>
+          <p className="htmlErrorParagraph">
             In order to use your Facebook account, you should allow us access to your e-mail address.<br />
             Please try again to request the permission to use your e-mail address.
           </p>
@@ -89,7 +108,6 @@ export class SocialLoginForm extends Component {
           label={ waitingForFacebook ? 'Waiting for Facebook…' : 'Facebook' }
           onClick={ e => this.handleFacebookLoginClick(e) }
         />
-
         <GoogleButton
           disabled={ disabled }
           block

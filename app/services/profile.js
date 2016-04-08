@@ -10,7 +10,30 @@ import {
 export default {
   name: 'profile',
   create: (req, resource, params, body, config, callback) => {
-    const { name, email, password } = body;
+    const { firstName, lastName, email, password } = body;
+
+    if (!firstName) {
+      const firstNameError = new Error('First name is required');
+      firstNameError.errors = [{
+        location: 'first_name',
+        message: 'Enter your first name',
+      }];
+      callback(firstNameError);
+      return;
+    }
+
+    if (!lastName) {
+      const lastNameError = new Error('Last name is required');
+      lastNameError.errors = [{
+        location: 'last_name',
+        message: 'Enter your last name',
+      }];
+      callback(lastNameError);
+      return;
+    }
+
+    const name = `${firstName} ${lastName}`;
+
     const data = {
       name, email, password,
       client_id: clientId,

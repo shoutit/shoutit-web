@@ -15,23 +15,6 @@ import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
 
 export class Login extends Component {
 
-  static propTypes = {
-  };
-
-  state = {
-    email: '',
-    password: '',
-  };
-
-  // static fetchData = fetchData;
-
-  componentWillReceiveProps(nextProps) {
-    const { loggedUser, onLoginSuccess } = this.props;
-    if (loggedUser !== nextProps.loggedUser && nextProps.loggedUser) {
-      onLoginSuccess();
-    }
-  }
-
   componentDidUpdate(prevProps) {
     const { loginError } = this.props;
 
@@ -57,9 +40,9 @@ export class Login extends Component {
   }
 
   handleFormSubmit(e) {
-    const { isLoggingIn, onSubmit } = this.props;
-
     e.preventDefault();
+
+    const { isLoggingIn, dispatch } = this.props;
 
     if (isLoggingIn) {
       return;
@@ -68,6 +51,7 @@ export class Login extends Component {
     const form = e.target;
     const email = this.refs.email.getValue();
     const password = this.refs.password.getValue();
+    const keepSession = this.refs.keep_session.checked;
 
     if (!email) {
       form.email.focus();
@@ -80,10 +64,22 @@ export class Login extends Component {
     if (email && password) {
       form.email.blur();
       form.password.blur();
-      onSubmit({ email, password });
+      dispatch(createSession({ email, password, keepSession })).then(() =>
+        this.redirectToNextPage()
+      );
     }
   }
 
+  redirectToNextPage() {
+    const { location: { query }, dispatch } = this.props;
+    let afterUrl;
+    if (query.after) {
+      afterUrl = query.after;
+    } else {
+      afterUrl = '/';
+    }
+    dispatch(replace(afterUrl));
+  }
 
   render() {
     const { isLoggingIn, location: { query }, loginError, dispatch } = this.props;
@@ -98,12 +94,7 @@ export class Login extends Component {
               <span>with</span>
             </div>
             <div className="Frame-form">
-              <SocialLoginForm disabled={ isLoggingIn } />
-              { query && query.recover_sent &&
-                <p>
-                  A link to reset your password has been sent. Please check your e-mail.
-                </p>
-              }
+              <SocialLoginForm disabled={ isLoggingIn } onLoginSuccess={ () => this.redirectToNextPage() } />
             </div>
             <div className="Frame-separator">
               <span>or</span>
@@ -128,10 +119,7 @@ export class Login extends Component {
                 errors={ loginError && getErrorsByLocation(loginError, 'email') }
                 placeholder="E-mail or username"
                 onBlur={ () => dispatch(resetSessionErrors()) }
-                onChange={ email => {
-                  dispatch(resetSessionErrors());
-                  this.setState({ email });
-                }}
+                onChange={ () => dispatch(resetSessionErrors()) }
               />
               <TextField
                 errors={ loginError && getErrorsByLocation(loginError, 'password') }
@@ -142,10 +130,7 @@ export class Login extends Component {
                 type="password"
                 placeholder="Password"
                 onBlur={ () => dispatch(resetSessionErrors()) }
-                onChange={ password => {
-                  dispatch(resetSessionErrors());
-                  this.setState({ password });
-                }}
+                onChange={ () => dispatch(resetSessionErrors()) }
               />
 
               <Button
@@ -154,11 +139,11 @@ export class Login extends Component {
                 block
                 disabled={ isLoggingIn }
                 label={ isLoggingIn ? 'Logging in…' : 'Log in' }
-                />
+              />
 
               <div className="Frame-form-horizontal-group">
                 <span>
-                  <input disabled={ isLoggingIn } type="checkbox" defaultChecked id="login-keep-session" />
+                  <input ref="keep_session" name="keep_session" disabled={ isLoggingIn } type="checkbox" defaultChecked id="login-keep-session" />
                   <label htmlFor="login-keep-session"> Keep me logged in</label>
                 </span>
                 <span>
@@ -178,7 +163,6 @@ export class Login extends Component {
       </Page>
     );
   }
-
 }
 
 const mapStateToProps = state => {
@@ -189,19 +173,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const { location } = ownProps;
-
-  let afterUrl;
-  if (location.query.after) {
-    afterUrl = location.query.after;
-  } else {
-    afterUrl = '/';
-  }
-  return {
-    onSubmit: loginData => dispatch(createSession(loginData)),
-    onLoginSuccess: () => dispatch(replace(afterUrl)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps)(Login);
