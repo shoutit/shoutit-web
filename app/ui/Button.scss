@@ -271,7 +271,6 @@ $facebook-base-color: #395185;
 $google-base-color: darken(#DC4E41, 10);
 .Button.google {
   text-align: center;
-
   color: white;
   background-color: lighten($google-base-color, 10);
   .Button-icon {
