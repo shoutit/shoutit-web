@@ -1,12 +1,9 @@
 import rest from 'restler';
 
 import shouts from './shouts';
-import discover from './discover';
 import users from './users';
 import tags from './tags';
 import misc from './misc';
-import conversations from './conversations';
-import auth from './auth';
 
 import { apiUrl } from '../../config';
 
@@ -17,7 +14,7 @@ const ShoutitClient = rest.service(function (endpoint) {
   };
   this.baseURL = endpoint;
 }, {}, {
-  shouts, discover, users, tags, misc, conversations, auth,
+  shouts, users, tags, misc
 });
 
 export default new ShoutitClient(apiUrl);
