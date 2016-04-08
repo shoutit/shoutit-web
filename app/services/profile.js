@@ -1,6 +1,5 @@
 import request from '../utils/request';
 import { createRequestSession } from '../utils/SessionUtils';
-import { parseErrorResponse } from '../utils/APIUtils';
 
 import {
   AUTH_CLIENT_ID as clientId,
@@ -24,7 +23,7 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(parseErrorResponse(err));
+          return callback(err);
         }
         createRequestSession(req, res.body);
         return callback(null, res.body.user);
@@ -37,7 +36,7 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(parseErrorResponse(err));
+          return callback(err);
         }
         return callback(null, res.body);
       });
@@ -50,7 +49,7 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(parseErrorResponse(err));
+          return callback(err);
         }
         req.session.user = res.body; // eslint-disable-line
         return callback(null, res.body);

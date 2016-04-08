@@ -26,14 +26,14 @@ request.Request.prototype.setSession = function setSession(session) {
 
 const oldEnd = request.Request.prototype.end;
 
+// Add some logs to the end method
 request.Request.prototype.end = function end(oldCallback) {
   this.end = oldEnd;
   const callback = (err, res) => {
     oldCallback(err, res);
+    log('Done %s %s from %s', res.status, this.method, this.url);
     if (err) {
       console.error("Error %s %s from %s: %s", res ? res.status : "(no HTTP status)", this.method, this.url, err.message); // eslint-disable-line
-    } else {
-      log('Done %s %s from %s', res.status, this.method, this.url);
     }
   };
   log('Started %s to %s...', this.method, this.url, this.qs);
