@@ -91,14 +91,12 @@ export class Dashboard extends Component {
             dispatch(loadHomeShouts(nextUrl));
           }
         }}
-        triggerOffset={ 400 }
-      >
+        triggerOffset={ 400 }>
         <Page
-          title="${loggedProfile.name}’s dashboard"
+          title={`${loggedProfile.firstName}’s dashboard`}
           startColumn={ <StartColumn profile={ loggedProfile } /> }
           stickyStartColumn
-          endColumn={ [<SuggestedInterests />, <SuggestedProfiles />, <SuggestedShout />] }
-        >
+          endColumn={ [<SuggestedInterests />, <SuggestedProfiles />, <SuggestedShout />] }>
 
           <ShoutsList shouts={ shouts } />
 
