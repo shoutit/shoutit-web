@@ -1,5 +1,5 @@
 import request from '../utils/request';
-import { parseErrorResponse } from '../utils/APIUtils';
+import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'discover',
@@ -15,7 +15,7 @@ export default {
       .query({ searchParams })
       .end((err, res) => {
         if (err) {
-          return callback(parseErrorResponse(err));
+          return callback(parseApiError(err));
         }
         return callback(null, res.body);
       });

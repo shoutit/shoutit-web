@@ -1,5 +1,5 @@
 import request from '../utils/request';
-import { parseErrorResponse } from '../utils/APIUtils';
+import { parseApiError } from '../utils/APIUtils';
 let cache;
 export default {
   name: 'categories',
@@ -14,7 +14,7 @@ export default {
       .setSession(req.session)
       .end((err, res) => {
         if (err) {
-          return callback(parseErrorResponse(err));
+          return callback(parseApiError(err));
         }
         cache = res.body;
         return callback(null, res.body);

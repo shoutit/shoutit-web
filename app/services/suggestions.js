@@ -1,11 +1,10 @@
 import request from '../utils/request';
 import { createLocationSlug } from '../utils/LocationUtils';
-import { parseErrorResponse } from '../utils/APIUtils';
+import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'suggestions',
   read: (req, resource, { type, location }, config, callback) => {
-
     location = {
       country: null,
       state: null,
@@ -25,7 +24,7 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(parseErrorResponse(err));
+          return callback(parseApiError(err));
         }
         const suggestions = res.body;
         suggestions.slug = createLocationSlug(location);

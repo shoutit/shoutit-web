@@ -22,22 +22,18 @@ export function getErrorSummary(err) {
   return summary.join('\n');
 }
 
-export function parseErrorResponse(err) {
-  const error = new Error(err.message);
-  error.statusCode = err.response ? err.response.statusCode : 400;
-  error.output = {
-    message: error.message,
-    statusCode: error.statusCode,
-    details: err.response ? err.response.body : null,
-  };
-  if (error.output.details &&
-    typeof error.output.details === 'object' &&
-    error.output.details.error &&
-    error.output.details.error.errors) {
-    error.output.errors = error.output.details.error.errors;
+export function parseApiError(err) {
+  if (err.response && err.response.body && err.response.body.error) {
+    const apiError = err.response.body.error;
+    const error = new Error(apiError.message);
+    error.statusCode = apiError.code;
+    // use output and body to get the api error both server and client side
+    // with fetchr https://gitter.im/yahoo/fluxible?at=570816a18b7b2f457634fd4b
+    error.output = apiError;
+    error.body = apiError;
+    return error;
   }
-  console.error(getErrorSummary(error.output)); // eslint-disable-line
-  return error;
+  return err;
 }
 
 export function getErrorsByLocation(apiError, location) {
