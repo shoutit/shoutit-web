@@ -88,9 +88,7 @@ export function start(app) {
   app.post('/api/pusher/auth', pusherMiddleware);
 
   // Enable various redirects
-  Object.keys(redirects).map(path => {
-    app.get(path, redirects[path]);
-  });
+  Object.keys(redirects).map(path => app.get(path, redirects[path]));
 
   app.get(':smscode', smsMiddleware);
   app.get('*', renderMiddleware);
