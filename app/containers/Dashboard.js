@@ -9,7 +9,6 @@ import { loadHomeShouts, loadListening } from '../actions/users';
 import Progress from '../ui/Progress';
 import Page from '../layout/Page';
 import Scrollable from '../ui/Scrollable';
-import Button from '../ui/Button';
 import SVGIcon from '../ui/SVGIcon';
 import ListItem from '../ui/ListItem';
 import UIMessage from '../ui/UIMessage';
@@ -95,12 +94,17 @@ export class Dashboard extends Component {
         triggerOffset={ 400 }
       >
         <Page
-          title="Dashboard"
+          title="${loggedProfile.name}’s dashboard"
           startColumn={ <StartColumn profile={ loggedProfile } /> }
           stickyStartColumn
           endColumn={ [<SuggestedInterests />, <SuggestedProfiles />, <SuggestedShout />] }
         >
+
           <ShoutsList shouts={ shouts } />
+
+          { !isFetching && shouts.length === 0 &&
+            <UIMessage title="No suggestions, yet" details="After some while, you will see some more suggested shouts here." />
+           }
 
           <Progress
             animate={ isFetching }
