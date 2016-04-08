@@ -63,8 +63,12 @@ export default class TextField extends Component {
     this.refs.input.select();
   }
 
+  blur() {
+    this.refs.input.blur();
+  }
+
   render() {
-    const { block = false, disabled, label, className, placeholder, errors, ...props } = this.props;
+    const { block = false, disabled, label, className, placeholder, errors, tooltipPlacement = 'right', ...props } = this.props;
     const { value, focus } = this.state;
     let cssClass = 'TextField';
     if (block) {
@@ -93,7 +97,7 @@ export default class TextField extends Component {
         destroyTooltipOnHide
         white
         visible={ errors && errors.length > 0 }
-        placement="right"
+        placement={ tooltipPlacement }
         overlay={
           <div className="TextField-error-overlay">
             { errors && errors.map((error, i) => <div key={ i }>{ error.message }</div>) }
