@@ -30,7 +30,8 @@ export function parseErrorResponse(err) {
     statusCode: error.statusCode,
     details: err.response ? err.response.body : null,
   };
-  if (typeof error.output.details === 'object' &&
+  if (error.output.details &&
+    typeof error.output.details === 'object' &&
     error.output.details.error &&
     error.output.details.error.errors) {
     error.output.errors = error.output.details.error.errors;
