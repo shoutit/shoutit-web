@@ -1,8 +1,8 @@
 import request from '../utils/request';
-import { parseErrorResponse } from '../utils/APIUtils';
+import { parseApiError } from '../utils/APIUtils';
 
 export default {
-  name: 'passwordReset',
+  name: 'resetPassword',
   create: (req, resource, params, { email }, config, callback) => {
     request
       .post('/auth/reset_password')
@@ -11,7 +11,7 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(parseErrorResponse(err));
+          return callback(parseApiError(err));
         }
         return callback(null, res.body);
       });

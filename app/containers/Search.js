@@ -64,11 +64,13 @@ const getSearchParams = ({ params, query = {}, currentLocation = {} }) => {
   return searchParams;
 };
 
-const fetchData = (store, params, query) => {
-  const { currentLocation } = store.getState();
-  const searchParams = getSearchParams({ currentLocation, params, query });
-  const promise = store.dispatch(searchShouts(searchParams));
-  return promise;
+const fetchData = (dispatch, state, params, query) => {
+  const { currentLocation } = state;
+  const searchParams = getSearchParams({
+    currentLocation, params, query,
+  });
+  dispatch(invalidateShoutsSearch(searchParams));
+  return dispatch(searchShouts(searchParams));
 };
 
 export class Search extends Component {
@@ -83,19 +85,19 @@ export class Search extends Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { firstRender, dispatch, searchParams } = this.props;
+    const { firstRender, dispatch, currentLocation, params, location: { query } } = this.props;
     if (!firstRender) {
-      dispatch(invalidateShoutsSearch(searchParams));
-      dispatch(searchShouts(searchParams));
+      fetchData(dispatch, { currentLocation }, params, query);
     }
   }
 
   componentWillUpdate(nextProps) {
     const { searchString, dispatch, currentLocation, location: { query, pathname } } = this.props;
+
     if (nextProps.searchString !== searchString) {
-      dispatch(invalidateShoutsSearch(nextProps.searchParams));
-      dispatch(searchShouts(nextProps.searchParams));
+      fetchData(dispatch, { currentLocation }, nextProps.params, nextProps.location.query);
     }
+
     const { country, state, city } = nextProps.currentLocation;
     if (
       country !== currentLocation.country ||
@@ -110,6 +112,7 @@ export class Search extends Component {
       const url = `${pathname}?${search}`;
       dispatch(replace(url));
     }
+
   }
 
   handleFilterSubmit(searchParams) {

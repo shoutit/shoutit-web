@@ -1,7 +1,7 @@
 
 import request from '../utils/request';
 import { createLocationSlug } from '../utils/LocationUtils';
-import { parseErrorResponse } from '../utils/APIUtils';
+import { parseApiError } from '../utils/APIUtils';
 import { getValidIPv4Address } from '../utils/InternetUtils';
 
 export default {
@@ -21,7 +21,7 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(parseErrorResponse(err));
+          return callback(parseApiError(err));
         }
         const location = res.body;
         location.slug = createLocationSlug(location);

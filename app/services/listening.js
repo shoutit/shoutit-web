@@ -1,5 +1,5 @@
 import request from '../utils/request';
-import { parseErrorResponse } from '../utils/APIUtils';
+import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'listening',
@@ -11,7 +11,7 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(parseErrorResponse(err));
+          return callback(parseApiError(err));
         }
         res.body.results = res.body[type];
         return callback(null, res.body);

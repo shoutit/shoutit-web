@@ -1,14 +1,17 @@
 import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
-
 export default {
-  name: 'home',
-  read: (req, resource, params = {}, config, callback) => {
-    const url = params.endpoint || '/profiles/me/home';
+  name: 'setPassword',
+  create: (req, resource, params, { newPassword, resetToken }, config, callback) => {
     request
-      .get(url)
+      .post('/auth/set_password')
       .setSession(req.session)
       .prefix()
+      .send({
+        reset_token: resetToken,
+        new_password: newPassword,
+        new_password2: newPassword,
+      })
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));

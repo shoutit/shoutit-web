@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import find from 'lodash/collection/find';
 
 import { denormalize } from '../schemas';
-import { loadProfileDetailsIfNeeded, loadUser, loadUserShouts } from '../actions/users';
+import { loadProfileDetailsIfNeeded, loadUserShouts } from '../actions/users';
+import { routeError } from '../actions/server';
 
 import Page from '../layout/Page';
 import SuggestedInterests from '../interests/SuggestedInterests';
@@ -22,13 +23,15 @@ if (process.env.BROWSER) {
   require('./Profile.scss');
 }
 
-const fetchData = (store, params) =>
-  Promise.all([
-    store.dispatch(loadUser(params.username)),
-    store.dispatch(loadUserShouts({ user: params.username })),
-  ]);
-
 const requiredDetails = ['name', 'cover', 'bio', 'location'];
+
+const fetchData = (dispatch, state, params) =>
+  Promise.all([
+    dispatch(loadProfileDetailsIfNeeded({
+      username: params.username,
+    }, requiredDetails)).catch(err => dispatch(routeError(err)),
+    dispatch(loadUserShouts({ user: params.username }))).catch(() => {}),
+  ]);
 
 export class Profile extends Component {
 
@@ -41,19 +44,16 @@ export class Profile extends Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { dispatch, firstRender, params: { username } } = this.props;
+    const { dispatch, firstRender, params } = this.props;
     if (!firstRender) {
-      dispatch(loadProfileDetailsIfNeeded({ username }, requiredDetails));
-      dispatch(loadUserShouts({ user: username }));
+      fetchData(dispatch, {}, params);
     }
   }
 
   componentWillUpdate(nextProps) {
     const { dispatch, params: { username } } = this.props;
-    const { params: { username: nextUsername } } = nextProps;
-    if (nextUsername !== username) {
-      dispatch(loadProfileDetailsIfNeeded({ username: nextUsername }, requiredDetails));
-      dispatch(loadUserShouts({ user: nextUsername }));
+    if (nextProps.params.username !== username) {
+      fetchData(dispatch, {}, nextProps.params);
     }
   }
 

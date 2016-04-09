@@ -6,9 +6,7 @@ import { getServerStatus } from '../actions/server';
 
 export class Heartbeat extends Component {
 
-  static fetchData = store => {
-    return store.dispatch(getServerStatus());
-  }
+  static fetchData = dispatch => dispatch(getServerStatus());
 
   render() {
     const { status } = this.props;

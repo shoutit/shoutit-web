@@ -164,7 +164,7 @@ export class SearchFilters extends Component {
           { filters.length > 0 &&
             <div className="SearchFilters-filters">
               { filters.map(filter =>
-                  <span>
+                  <span key={ filter.name }>
                     <Picker
                       className="SearchFilters-input"
                       block

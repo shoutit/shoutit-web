@@ -6,7 +6,9 @@
   justify-content: center;
   color: white;
   font-size: 0.875rem;
-
+  &.info {
+    color: $color;
+  }
   h4 {
     margin: 0;
     padding: .5rem 1rem;
@@ -24,9 +26,6 @@
   .UIMessage.alert & {
     background-color: $shoutit-blue;
   }
-  .UIMessage.info & {
-    background-color: $shoutit-grey-light;
-  }
   .UIMessage.error & {
     background-color: $shoutit-red;
   }
@@ -35,9 +34,6 @@
 .UIMessage-details {
   padding: .5rem 1rem;
   font-weight: lighter;
-  .UIMessage.info & {
-    background-color: lighten($shoutit-grey-light, 5);
-  }
   .UIMessage.error & {
     background-color: lighten($shoutit-red, 10);
   }

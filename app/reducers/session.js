@@ -9,12 +9,12 @@ const initialState = {
   signupError: false,
 
   isVerifyingEmail: false,
-  emailVerificationError: null,
+  verifyEmailError: null,
 
   isNewSignup: false,
 
-  isRequestingPasswordReset: false,
-  passwordResetError: null,
+  isResettingPassword: false,
+  resetPasswordError: null,
 
   user: null,
 
@@ -32,7 +32,7 @@ export default function (state = initialState, action) {
       };
 
     case actionTypes.LOGIN_SUCCESS:
-    case actionTypes.EMAIL_VERIFICATION_SUCCESS:
+    case actionTypes.VERIFY_EMAIL_SUCCESS:
       return {
         ...state,
         user: payload,
@@ -41,11 +41,11 @@ export default function (state = initialState, action) {
       };
 
     case actionTypes.LOGIN_FAILURE:
-      const { details } = payload;
+      const { error: loginError } = payload;
       return {
         ...state,
+        loginError,
         isLoggingIn: false,
-        loginError: details,
       };
 
     case actionTypes.SIGNUP_START:
@@ -54,7 +54,6 @@ export default function (state = initialState, action) {
         isSigningUp: true,
         signupError: null,
       };
-
     case actionTypes.SIGNUP_SUCCESS:
       return {
         ...state,
@@ -62,51 +61,79 @@ export default function (state = initialState, action) {
         isSigningUp: false,
         isNewSignup: true,
       };
-
     case actionTypes.SIGNUP_FAILURE:
       return {
         ...state,
         isSigningUp: false,
-        signupError: payload.details,
+        signupError: payload.error,
       };
 
-    case actionTypes.EMAIL_VERIFICATION_START:
+    case actionTypes.VERIFY_EMAIL_START:
       return {
         ...state,
-        emailVerificationError: null,
+        verifyEmailError: null,
         isVerifyingEmail: true,
       };
-
-    case actionTypes.EMAIL_VERIFICATION_FAILURE:
+    case actionTypes.VERIFY_EMAIL_FAILURE:
       return {
         ...state,
         isVerifyingEmail: false,
-        emailVerificationError: payload.details,
+        verifyEmailError: payload.error,
       };
 
     case actionTypes.PASSWORD_RESET_START:
       return {
         ...state,
-        isRequestingPasswordReset: true,
+        resetPasswordError: null,
+        isResettingPassword: true,
       };
-
     case actionTypes.PASSWORD_RESET_SUCCESS:
       return {
         ...state,
-        isRequestingPasswordReset: false,
+        isResettingPassword: false,
+        resetPasswordError: null,
       };
-
     case actionTypes.PASSWORD_RESET_FAILURE:
       return {
         ...state,
-        isRequestingPasswordReset: false,
-        passwordResetError: payload.details,
+        isResettingPassword: false,
+        resetPasswordError: payload.error,
       };
+
+    case actionTypes.PASSWORD_SET_START:
+      return {
+        ...state,
+        isSettingPassword: true,
+        setPasswordError: null,
+      };
+    case actionTypes.PASSWORD_SET_SUCCESS:
+      return {
+        ...state,
+        isSettingPassword: false,
+        setPasswordError: null,
+      };
+    case actionTypes.PASSWORD_SET_FAILURE:
+      return {
+        ...state,
+        isSettingPassword: false,
+        setPasswordError: payload.error,
+      };
+
 
     case actionTypes.LOGOUT:
       return {
         ...state,
         user: null,
+      };
+
+    case actionTypes.RESET_SESSION_ERRORS:
+      return {
+        ...state,
+        loginError: null,
+        resetPasswordError: null,
+        setPasswordError: null,
+        verifyEmailError: null,
+        signupError: null,
       };
 
     default: return state;

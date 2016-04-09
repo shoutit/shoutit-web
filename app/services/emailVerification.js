@@ -1,6 +1,6 @@
 import request from '../utils/request';
 import { createRequestSession } from '../utils/SessionUtils';
-import { parseErrorResponse } from '../utils/APIUtils';
+import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'emailVerification',
@@ -12,7 +12,7 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(parseErrorResponse(err));
+          return callback(parseApiError(err));
         }
         return callback(null, res.body);
       });
@@ -25,7 +25,7 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(parseErrorResponse(err));
+          return callback(parseApiError(err));
         }
         createRequestSession(req, res.body);
         return callback(null, res.body.user);

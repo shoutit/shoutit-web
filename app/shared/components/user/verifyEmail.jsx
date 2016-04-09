@@ -25,7 +25,7 @@ export const VerifyEmail = React.createClass({
   },
 
   render() {
-    const { isVerifyingEmail, emailVerificationError } = this.props;
+    const { isVerifyingEmail, verifyEmailError } = this.props;
     return (
       <DocumentTitle title="E-mail verification">
         <div>
@@ -35,15 +35,15 @@ export const VerifyEmail = React.createClass({
               <p style={{ marginTop: 20 }}>Verifying your e-mail address…</p>
             </div>
            }
-          { emailVerificationError && (
-              emailVerificationError.error === `"Email address is already verified."` ?
+          { verifyEmailError && (
+              verifyEmailError.error === `"Email address is already verified."` ?
               <div style={{ textAlign: "center" }}>
                 <p style={{ margin: 20 }}>This e-mail address is already verified.</p>
                 <Button primary to="/login" label="Login now" />
               </div> :
               <div style={{ textAlign: "center" }}>
                 <p style={{ marginTop: 20 }}>Error verifying this e-mail address.</p>
-                <p className="small" style={{ margin: 20}}>{ emailVerificationError.error }</p>
+                <p className="small" style={{ margin: 20}}>{ verifyEmailError.error }</p>
                 <Button primary to="/login" label="Login now" />
               </div>
               )
@@ -57,7 +57,7 @@ export const VerifyEmail = React.createClass({
 function mapStateToProps(state) {
   return {
     isVerifyingEmail: state.session.isVerifyingEmail,
-    emailVerificationError: state.session.emailVerificationError
+    verifyEmailError: state.session.verifyEmailError
   };
 }
 

@@ -1,6 +1,6 @@
 import request from '../utils/request';
 import { createRequestSession } from '../utils/SessionUtils';
-import { parseErrorResponse } from '../utils/APIUtils';
+import { parseApiError } from '../utils/APIUtils';
 import { camelizeKeys } from 'humps';
 
 import {
@@ -19,7 +19,7 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(parseErrorResponse(err));
+          return callback(parseApiError(err));
         }
         createRequestSession(req, res.body);
         return callback(null, camelizeKeys(res.body.user));

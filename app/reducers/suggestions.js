@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  shout: [],
+  shout: null,
   shouts: [],
   tags: [],
   users: [],

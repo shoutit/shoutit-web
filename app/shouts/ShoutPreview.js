@@ -15,7 +15,6 @@ import ProfileOverlay from '../users/ProfileOverlay';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
 if (process.env.BROWSER) {
-  require('rc-tooltip/assets/bootstrap.css');
   require('../ui/Card.scss');
   require('./ShoutPreview.scss');
 }

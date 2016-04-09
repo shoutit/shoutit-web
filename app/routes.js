@@ -10,8 +10,10 @@ import Homepage from './containers/Homepage';
 import Search from './containers/Search';
 import Profile from './containers/Profile';
 import Login from './containers/Login';
-import Password from './containers/Password';
+import ResetPassword from './containers/ResetPassword';
+import SetPassword from './containers/SetPassword';
 import Signup from './containers/Signup';
+import VerifyEmail from './containers/VerifyEmail';
 import Interest from './containers/Interest';
 import Shout from './containers/Shout';
 import Heartbeat from './containers/Heartbeat';
@@ -35,7 +37,7 @@ import NotFound from './shared/components/misc/notfound.jsx';
 // import TagProfileListeners from './shared/components/tag/tagProfileListeners.jsx';
 // import TagProfileRequest from './shared/components/tag/tagProfileRequests.jsx';
 // import TagProfileShouts from './shared/components/tag/tagProfileShouts.jsx';
-import VerifyEmail from './shared/components/user/verifyEmail.jsx';
+// import VerifyEmail from './shared/components/user/verifyEmail.jsx';
 
 // import ModalHost from './shared/components/helper/ModalHost';
 
@@ -48,9 +50,11 @@ const routes = (store) =>
         return Component;
       }}
     />
-    <Route path="/login" component={ Login } />
-    <Route path="/login/password" component={ Password } />
-    <Route path="/signup" component={ Signup } />
+    <Route path="/login" component={ Login } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
+    <Route path="/login/password" component={ ResetPassword } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
+    <Route path="/login/password/:resetToken" component={ SetPassword } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
+    <Route path="/signup" component={ Signup } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
+    <Route path="/signup/verify/:token" component={ VerifyEmail } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
 
     <Route path="/search(/:shout_type)(/:category)" component={ Search } />
     <Route path="/shout(/:shoutId)" component={ Shout } />
@@ -92,7 +96,6 @@ const routes = (store) =>
     <Route path="/messages" component={ Chat }>
       <Route path="/messages/:id" component={ Conversation } />
     </Route>
-    <Route path="/auth/verify_email" component={ VerifyEmail } />
     <Route path="*" component={ NotFound } />
   </Route>;
 

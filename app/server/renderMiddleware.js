@@ -1,10 +1,11 @@
 import React from 'react';
-import { match, RouterContext } from 'react-router';
 import ReactDOMServer from 'react-dom/server';
+import { match, RouterContext } from 'react-router';
 import DocumentTitle from 'react-document-title';
 import Fetchr from 'fetchr';
 import debug from 'debug';
 
+import { routeError } from '../actions/server';
 import HtmlDocument from './HtmlDocument';
 import configureRoutes from '../routes';
 
@@ -30,7 +31,7 @@ export default function renderMiddleware(req, res, next) {
     const store = configureStore({
       routing: { currentUrl: req.url },
       session: { user },
-      currentLocation: user ? user.location : null,
+      currentLocation: user ? user.location : undefined,
     }, { fetchr });
     const routes = configureRoutes(store);
 
@@ -42,24 +43,22 @@ export default function renderMiddleware(req, res, next) {
         res.redirect(301, redirectLocation.pathname + redirectLocation.search);
         return;
       }
+
       if (error) {
-        next(error);
-        return;
+        store.dispatch(routeError(error));
       }
 
       log('Fetching data for routes...');
+
       try {
         fetchDataForRoutes(props.routes, props.params, req.query, store, err => {
-          if (err) {
-            log('Error fetching data for routes');
-            next(err);
-            return;
-          }
           log('Routes data has been fetched');
+          if (error) {
+            store.dispatch(routeError(error));
+          }
 
           const meta = {}; // getMetaFromData(req.url, data);
           const initialState = store.getState();
-          log('Initial store state', Object.keys(initialState));
           const location = {
             query: req.query,
             pathname: req.url,
@@ -89,7 +88,7 @@ export default function renderMiddleware(req, res, next) {
               meta={ meta }
             />
           );
-          res.send(`<!doctype html>${html}`);
+          res.status(err ? (err.statusCode || 500) : 200).send(`<!doctype html>${html}`);
         });
       } catch (e) {
         next(e);

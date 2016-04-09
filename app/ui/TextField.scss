@@ -3,55 +3,83 @@
 .TextField {
   position: relative;
   display: inline-block;
-  &.block, &.block input {
+  border-bottom: 1px solid $color-placeholder;
+  &.block,
+  &.block input {
     display: block;
-
     width: 100%;
   }
   &.disabled {
     opacity: 0.6;
   }
-
-}
-
-.TextField:not(.has-focus) {
-  border-bottom: 1px solid lighten($color-lighter, 10);
-}
-
-.TextField:not(.has-focus) {
-  border-bottom: 1px solid transparent;
-}
-
-.TextField.has-focus {
-  border-bottom: 1px solid $shoutit-blue;
+  &.no-label:not(.has-focus):not(.has-value) {
+    padding-top: .75rem;
+  }
+  &.has-error {
+    border-bottom: 1px solid lighten($shoutit-red, 10);
+  }
 }
 
 .TextField-label {
+  display: block;
+  text-align: left;
   text-transform: uppercase;
   color: $color-light;
   font-size: 0.5rem;
-  line-height: 1em;
-  padding-left: 1px;
+  line-height: .5rem;
+  padding-top: .5rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
+
+  .TextField.no-label:not(.has-focus):not(.has-value) & {
+    display: none;
+  }
+
+  .TextField.has-focus &,
+  .TextField.has-value & {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+  }
 }
 
-  .TextField:not(.has-focus).has-value .TextField-label {
-    color: $color-light;
-  }
-
 .TextField-input {
-  z-index: 2;
-  right: 0;
-  bottom: 0;
-  left: 0;
-
-  color: $shoutit-blue;
+  position: relative;
+  z-index: 1;
+  color: $color;
   border: 0;
-  outline: none;
   background-color: transparent !important;
-
+  padding: 0;
   font-size: 0.875rem;
-  line-height: 1.5rem;
-  .TextField.has-focus & {
-    color: $color;
+  line-height: 1.75rem;
+  padding-left: .5rem;
+  // outline: none;
+
+  .TextField.has-focus &,
+  .TextField.has-value & {
+    padding-top: .75rem;
+    line-height: 2rem;
   }
+
+  .TextField.has-error.has-value & {
+    color: $input-error;
+  }
+
+  .TextField.no-label:not(.has-focus):not(.has-value) & {
+    font-size: 1rem;
+    line-height: 2rem;
+  }
+
+}
+
+.TextField-error-overlay {
+  display: flex;
+  align-items: center;
+  width: 200px;
+  min-height: 3rem;
+  padding: .5rem .75rem;
+  font-size: 0.75rem;
+  color: $shoutit-red;
 }

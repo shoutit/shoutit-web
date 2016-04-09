@@ -9,6 +9,9 @@ if (process.env.BROWSER) {
 }
 
 export function SuggestedShout({ shout }) {
+  if (!shout) {
+    return <div />;
+  }
   return (
     <div className="SuggestedShout">
       <h3>Suggested shout</h3>
@@ -18,12 +21,11 @@ export function SuggestedShout({ shout }) {
 }
 
 SuggestedShout.propTypes = {
-  shout: PropTypes.object.isRequired,
+  shout: PropTypes.object,
 };
 
-// It is expected suggestions are already loaded when using this component
 const mapStateToProps = state => ({
-  shout: denormalize(state.entities.shouts[state.suggestions.shout], state.entities, 'SHOUT'),
+  shout: state.suggestions.shout ? denormalize(state.entities.shouts[state.suggestions.shout], state.entities, 'SHOUT') : null,
 });
 
 export default connect(mapStateToProps)(SuggestedShout);

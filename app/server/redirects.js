@@ -1,9 +1,11 @@
 import MobileDetect from 'mobile-detect';
 
 const redirects = {
+  '/auth/verify_email': (req, res) => res.redirect(`/signup/verify/${req.query.token}`),
+  '/services/reset_password': (req, res) => res.redirect(`/login/password/${req.query.reset_token}`),
   '/s/:shoutId': (req, res) => res.redirect(`/shout/${req.params.shoutId}`),
   '/u/:username': (req, res) => res.redirect(`/user/${req.params.username}`),
-  '/t/:tagName':  (req, res) => res.redirect(`/tag/${req.params.tagName}`),
+  '/t/:tagName': (req, res) => res.redirect(`/tag/${req.params.tagName}`),
   '/m/:msgId': (req, res) => res.redirect(`/tag/${req.params.tagName}`),
   '/search/:term/shouts': (req, res) => res.redirect(`/messages/${req.params.msgId}`),
   '/app': (req, res) => {

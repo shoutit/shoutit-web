@@ -139,7 +139,7 @@ export class Searchbar extends Component {
       foundProfiles = profilesBySearch[profilesSearchSlug].ids.map(id => profiles[id]);
     }
 
-    const locationLabel = currentLocation ? currentLocation.city : 'Anywhere';
+    const locationLabel = currentLocation.city || currentLocation.state || currentLocation.country || 'Anywhere';
 
     return (
       <form ref="form" onSubmit={ this.handleSubmit } className="Searchbar">

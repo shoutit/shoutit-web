@@ -44,21 +44,22 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
       .params(params)
       .body(body)
       .end((err, json) => {
+
         if (err) {
-          let errorPayload = {
-            error: err.body || err,
-          };
+          let error = err.body || err;
+
           if (parsePayload) {
-            errorPayload = parsePayload(errorPayload);
+            error = parsePayload(error);
           }
           next(actionWith({
             error: true,
-            payload: errorPayload,
+            payload: { error },
             type: failureType,
           }));
-          reject(err.body ? err.body : err);
+          reject(error);
           return;
         }
+
         let payload = camelizeKeys(json);
         if (payload) {
           if (schema) {
@@ -76,12 +77,11 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
             }
           }
         }
+
         if (parsePayload) {
           payload = parsePayload(payload, store.getState());
         }
-
         resolve(payload);
-
         next(actionWith({
           payload,
           type: successType,

@@ -6,10 +6,11 @@ import ShoutsList from '../shouts/ShoutsList';
 import { denormalize } from '../schemas';
 
 import { loadHomeShouts, loadListening } from '../actions/users';
+import { routeError } from '../actions/server';
+
 import Progress from '../ui/Progress';
 import Page from '../layout/Page';
 import Scrollable from '../ui/Scrollable';
-import Button from '../ui/Button';
 import SVGIcon from '../ui/SVGIcon';
 import ListItem from '../ui/ListItem';
 import UIMessage from '../ui/UIMessage';
@@ -22,7 +23,9 @@ if (process.env.BROWSER) {
   require('./Dashboard.scss');
 }
 
-const fetchData = store => store.dispatch(loadHomeShouts());
+const fetchData = dispatch =>
+  dispatch(loadHomeShouts())
+    .catch(err => dispatch(routeError(err)));
 
 const StartColumn = ({ profile }) =>
   <div className="Dashboard-start-column">
@@ -64,11 +67,9 @@ export class Dashboard extends Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { firstRender, dispatch, loggedProfile, nextUrl, shouts } = this.props;
-    if (!firstRender) {
-      if (shouts.length === 0) {
-        dispatch(loadHomeShouts(nextUrl));
-      }
+    const { firstRender, dispatch, loggedProfile, shouts } = this.props;
+    if (!firstRender && shouts.length === 0) {
+      fetchData(dispatch);
     }
     dispatch(loadListening(loggedProfile));
   }
@@ -92,15 +93,18 @@ export class Dashboard extends Component {
             dispatch(loadHomeShouts(nextUrl));
           }
         }}
-        triggerOffset={ 400 }
-      >
+        triggerOffset={ 400 }>
         <Page
-          title="Dashboard"
+          title={`${loggedProfile.firstName}’s dashboard`}
           startColumn={ <StartColumn profile={ loggedProfile } /> }
           stickyStartColumn
-          endColumn={ [<SuggestedInterests />, <SuggestedProfiles />, <SuggestedShout />] }
-        >
+          endColumn={ [<SuggestedInterests />, <SuggestedProfiles />, <SuggestedShout />] }>
+
           <ShoutsList shouts={ shouts } />
+
+          { !isFetching && shouts.length === 0 &&
+            <UIMessage title="No suggestions, yet" details="After some while, you will see some more suggested shouts here." />
+           }
 
           <Progress
             animate={ isFetching }

@@ -1,35 +1,27 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
 import stringify from 'json-stable-stringify';
 
 import categories from './categories';
-import server from './server';
-import currencies from './currencies';
 import chat from './chat';
 import conversations from './entities-conversations';
-import listeningByUser from './listeningByUser';
-import listenersByUser from './listenersByUser';
-import shoutsBySearch from './shoutsBySearch';
+import currencies from './currencies';
 import currentLocation from './currentLocation';
-import currentUrl from './currentUrl';
 import entity from './entity';
 import forms from './forms';
-import paginate from './paginate';
-import session from './session';
-import suggestions from './suggestions';
-import placePredictions from './placePredictions';
-import videocalls from './videocalls';
-import uiNotifications from './uiNotifications';
+import listenersByUser from './listenersByUser';
+import listeningByUser from './listeningByUser';
 import modals from './modals';
+import paginate from './paginate';
+import placePredictions from './placePredictions';
+import routing from './routing';
+import server from './server';
+import session from './session';
+import shoutsBySearch from './shoutsBySearch';
+import suggestions from './suggestions';
+import uiNotifications from './uiNotifications';
+import videocalls from './videocalls';
 
 import * as actionTypes from '../actions/actionTypes';
-
-// Add `currentUrl` to the routing's state – useful for server-side rendering
-const routing = (state, action) => {
-  let newState = currentUrl(state, action);
-  newState = routerReducer(newState, action);
-  return newState;
-};
 
 const paginated = combineReducers({
   messagesByConversation: paginate({
@@ -143,7 +135,6 @@ const entities = combineReducers({
   discoverItems: entity({ name: 'discoverItems' }),
 
 });
-
 
 const rootReducer = combineReducers({
   categories,
