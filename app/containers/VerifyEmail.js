@@ -7,11 +7,10 @@ import Frame from '../layout/Frame';
 
 import { verifyEmail } from '../actions/session';
 
-const fetchData = (store, params) => {
-  return store.dispatch(verifyEmail(params.token))
+const fetchData = (dispatch, state, params) =>
+  dispatch(verifyEmail(params.token))
     .then(() => {})
     .catch(() => {});
-};
 
 export class VerifyEmail extends Component {
 

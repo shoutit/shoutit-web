@@ -1,3 +1,6 @@
+import debug from 'debug';
+
+const errorParserLog = debug('shoutit:parseApiError');
 
 const pathRE = /^(.+?)(\.[\w]*)$/; // $1=filename $2=.extension
 
@@ -23,17 +26,26 @@ export function getErrorSummary(err) {
 }
 
 export function parseApiError(err) {
+  errorParserLog('Parsing API error', err.message);
+  let parsedError = err;
   if (err.response && err.response.body && err.response.body.error) {
-    const apiError = err.response.body.error;
-    const error = new Error(apiError.message);
-    error.statusCode = apiError.code;
-    // use output and body to get the api error both server and client side
-    // with fetchr https://gitter.im/yahoo/fluxible?at=570816a18b7b2f457634fd4b
-    error.output = apiError;
-    error.body = apiError;
-    return error;
+    errorParserLog('Found a response error from API');
+    parsedError = new Error(err.response.body.error.message);
+    parsedError.statusCode = err.response.body.error.code;
+    parsedError.output = err.response.body.error;
+    parsedError.body = parsedError.output;
+  } else if (err.response && err.response.error) {
+    errorParserLog('Found a generic response error', err);
+    parsedError = new Error(err.message);
+    parsedError.statusCode = err.status || 400;
+    parsedError.output = {
+      statusCode: err.status || 500,
+      message: err.message,
+    };
+    parsedError.body = parsedError.output;
   }
-  return err;
+  errorParserLog('Error has been parsed', parsedError);
+  return parsedError;
 }
 
 export function getErrorsByLocation(apiError, location) {

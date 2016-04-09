@@ -6,10 +6,21 @@
   background-color: white;
   box-shadow: $box-shadow-depth-1;
   border-radius: $border-radius;
+  &.transparent {
+    background-color: transparent;
+    box-shadow: none;
+  }
 }
 
 .Frame-body {
   padding: 1rem;
+
+  .Frame.transparent & {
+    margin-top: 1rem;
+    background-color: white;
+    box-shadow: $box-shadow-depth-0;
+    border-radius: $border-radius;
+  }
 }
 
 .Frame-header {

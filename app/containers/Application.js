@@ -5,6 +5,8 @@ import Header from '../layout/Header';
 import UINotificationsHost from '../ui/UINotificationsHost';
 import ModalHost from '../ui/ModalHost';
 import VideoCallHost from '../videoCalls/VideoCallHost';
+import ServerError from './ServerError';
+import NotFound from './NotFound';
 
 import { login } from '../actions/session';
 import { loadCategories, loadCurrencies } from '../actions/misc';
@@ -16,12 +18,11 @@ if (process.env.BROWSER) {
   require('./Application.scss');
 }
 
-const fetchData = store => {
+const fetchData = (dispatch, state) => {
   const promises = [];
-  const { dispatch } = store;
   promises.push(dispatch(loadCategories()));
   promises.push(dispatch(loadCurrencies()));
-  const user = store.getState().session.user; // logged user comes from rehydrated state
+  const user = state.session.user; // logged user comes from rehydrated state
   if (user) {
     promises.push(dispatch(login(user)));
     promises.push(dispatch(loadListening(user)));
@@ -44,51 +45,57 @@ export class Application extends React.Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { dispatch, currentLocation, loggedUser, firstRender } = this.props;
+    const { dispatch, loggedUser } = this.props;
     if (loggedUser) {
       dispatch(login(loggedUser)); // trigger client-side login actions (e.g. pusher)
-    }
-    if (!firstRender) {
-      dispatch(loadSuggestions(currentLocation));
     }
   }
 
   componentWillUpdate(nextProps) {
     const { dispatch, currentLocation } = this.props;
 
+    // Update suggestions if location change
     if (currentLocation.slug !== nextProps.currentLocation.slug) {
       dispatch(loadSuggestions(currentLocation));
     }
   }
 
   render() {
-    const { children, ...props } = this.props;
+    const { children, error, ...props } = this.props;
     let className = 'App';
-
     if (!(!props.loggedUser && props.currentUrl === '/')) {
       className += ' stickyHeader';
     }
 
-    const lastRoute = props.routes[props.routes.length - 1];
-    if (lastRoute.getApplicationLayout) {
-      const layout = lastRoute.getApplicationLayout();
-      if (layout.className) {
-        className += ` ${layout.className}`;
+    if (props.routes) {
+      const lastRoute = props.routes[props.routes.length - 1];
+      if (lastRoute.getApplicationLayout) {
+        const layout = lastRoute.getApplicationLayout();
+        if (layout.className) {
+          className += ` ${layout.className}`;
+        }
       }
     }
     return (
       <div className={ className }>
-        <div className="App-header">
-          <Header
-            history={ props.history }
-            flux={ props.flux }
-            chat={ props.chat }
-            conversations={ props.conversations }
-            location={ props.location }
-          />
-        </div>
+        { (!error || error.statusCode === 404) &&
+          <div className="App-header">
+            <Header
+              history={ props.history }
+              flux={ props.flux }
+              chat={ props.chat }
+              conversations={ props.conversations }
+              location={ props.location }
+            />
+          </div>
+        }
         <div className="App-content">
-          { React.cloneElement(children, props) }
+          { !error ? // eslint-disable-line
+            React.cloneElement(children, props) :
+            (error.statusCode === 404 ?
+            <NotFound /> :
+            <ServerError error={ error } />)
+          }
         </div>
         <ModalHost />
         <UINotificationsHost />
@@ -104,6 +111,7 @@ function mapStateToProps(state) {
     loggedUser: state.session.user,
     currentLocation: state.currentLocation,
     currentUrl: state.routing.currentUrl,
+    error: state.routing.error,
   };
 }
 

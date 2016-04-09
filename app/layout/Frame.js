@@ -1,12 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router';
 
 if (process.env.BROWSER) {
   require('./Frame.scss');
 }
-export default function Frame({ title, children }) {
+export default function Frame({ title, children, transparent = false }) {
   return (
-    <div className="Frame">
+    <div className={`Frame${transparent ? ' transparent' : ''}`}>
       <div className="Frame-header">
         <h1>{ title }</h1>
       </div>

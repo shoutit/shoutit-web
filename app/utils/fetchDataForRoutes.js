@@ -18,7 +18,7 @@ export default function fetchDataForRoutes(routes, params, query, store, done) {
   const promises = routes
     .map(route => getRouteComponent(route))
     .filter(component => component && component.fetchData)
-    .map(component => component.fetchData(store, params, query));
+    .map(component => component.fetchData(store.dispatch, store.getState(), params, query));
 
   Promise.all(promises).then(
     () => done(),

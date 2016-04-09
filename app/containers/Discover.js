@@ -25,6 +25,7 @@ import SearchLocation from '../location/SearchLocation';
 import { openModal, closeModal } from '../actions/ui';
 import { setUserLocation } from '../actions/users';
 import { setCurrentLocation } from '../actions/location';
+import { routeError } from '../actions/server';
 
 if (process.env.BROWSER) {
   require('./Discover.scss');
@@ -32,29 +33,32 @@ if (process.env.BROWSER) {
 
 const page_size = 9;
 
-const fetchData = (store, params) => {
-  const { dispatch } = store;
+const fetchData = (dispatch, state, params) => {
   const { countryName } = params;
   let country;
   if (countryName) {
     country = getCountryCode(decodeURIComponent(countryName));
     if (!country) {
-      console.error('Country %s does not exists', country); // eslint-disable-line
-      return Promise.reject({ statusCode: 404 });
+      const error = new Error('Country does not exists');
+      error.statusCode = 404;
+      return dispatch(routeError(error));
     }
   }
+
   if (params.id) {
-    return dispatch(loadDiscoverItem(params.id)).then(() =>
-      dispatch(loadShoutsForDiscoverItem(params.id, { page_size }))
-    );
+    return dispatch(loadDiscoverItem(params.id))
+      .then(() => dispatch(loadShoutsForDiscoverItem(params.id, { page_size })))
+      .catch(err => dispatch(routeError(err)));
   }
 
-  return dispatch(loadDiscoverItemsByCountry(country)).then(({ result }) => {
-    Promise.all([
-      ...result.map(id => dispatch(loadDiscoverItem(id))),
-      ...result.map(id => dispatch(loadShoutsForDiscoverItem(id, { page_size }))),
-    ]);
-  });
+  return dispatch(loadDiscoverItemsByCountry(country))
+    .then(({ result }) =>
+      Promise.all([
+        ...result.map(id => dispatch(loadDiscoverItem(id))),
+        ...result.map(id => dispatch(loadShoutsForDiscoverItem(id, { page_size }))),
+      ])
+    )
+    .catch(err => dispatch(routeError(err)));
 };
 
 function getDiscoverLink(country, discoverItem) {
@@ -72,28 +76,15 @@ function getDiscoverLink(country, discoverItem) {
 }
 
 export class Discover extends Component {
-
   static propTypes = {
     country: PropTypes.string,
   };
-
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { firstRender, country, dispatch, params } = this.props;
+    const { firstRender, dispatch, params } = this.props;
     if (!firstRender) {
-      if (params.id) {
-        dispatch(loadDiscoverItem(params.id)).then(() => {
-          dispatch(loadShoutsForDiscoverItem(params.id, { page_size }));
-        });
-      } else {
-        dispatch(loadDiscoverItemsByCountry(country)).then(({ result }) => {
-          result.forEach(id => dispatch(loadDiscoverItem(id)));
-          result.forEach(id => dispatch(
-            loadShoutsForDiscoverItem(id, { page_size })
-          ));
-        });
-      }
+      fetchData(dispatch, null, params);
     }
   }
 
@@ -104,12 +95,7 @@ export class Discover extends Component {
         dispatch(loadShoutsForDiscoverItem(nextProps.params.id, { page_size }));
       });
     } else if (nextProps.country !== country) {
-      dispatch(loadDiscoverItemsByCountry(nextProps.country)).then(({ result }) => {
-        result.forEach(id => dispatch(loadDiscoverItem(id)));
-        result.forEach(id => dispatch(
-          loadShoutsForDiscoverItem(id, { page_size })
-        ));
-      });
+      fetchData(dispatch, null, nextProps.params);
     }
   }
 
@@ -188,7 +174,7 @@ export class Discover extends Component {
           }
 
           <Progress animate={ isFetchingShouts } label="Loading shouts…" />
-          <Progress animate={ isFetching } label="Loading…" />
+          <Progress animate={ isFetching && !discoverItem } label="Loading…" />
 
         </Page>
       </Scrollable>
