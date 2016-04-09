@@ -44,8 +44,8 @@ log('Rehydrating store with initial state', window.__INITIAL_STATE__);
 const logRouter = debug('shoutit:router');
 
 let firstRender = true;
-ReactDOM.render(
 
+const renderApp = () =>
   <Router
     history={ history }
     render={ renderProps => {
@@ -73,7 +73,11 @@ ReactDOM.render(
 
     { routes }
 
-  </Router>,
+  </Router>;
+
+
+ReactDOM.render(
+  renderApp(),
   document.getElementById('content'),
   () => log('App has been mounted 🎉')
 );
