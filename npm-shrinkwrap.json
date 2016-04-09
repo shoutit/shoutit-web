@@ -7269,42 +7269,6 @@
       "from": "react-tagsinput@3.1.0",
       "resolved": "https://registry.npmjs.org/react-tagsinput/-/react-tagsinput-3.1.0.tgz"
     },
-    "react-tap-event-plugin": {
-      "version": "0.2.2",
-      "from": "react-tap-event-plugin@0.2.2",
-      "resolved": "https://registry.npmjs.org/react-tap-event-plugin/-/react-tap-event-plugin-0.2.2.tgz",
-      "dependencies": {
-        "fbjs": {
-          "version": "0.2.1",
-          "from": "fbjs@>=0.2.1 <0.3.0",
-          "resolved": "https://registry.npmjs.org/fbjs/-/fbjs-0.2.1.tgz",
-          "dependencies": {
-            "core-js": {
-              "version": "1.2.6",
-              "from": "core-js@>=1.0.0 <2.0.0",
-              "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
-            },
-            "promise": {
-              "version": "7.1.1",
-              "from": "promise@>=7.0.3 <8.0.0",
-              "resolved": "https://registry.npmjs.org/promise/-/promise-7.1.1.tgz",
-              "dependencies": {
-                "asap": {
-                  "version": "2.0.3",
-                  "from": "asap@>=2.0.3 <2.1.0",
-                  "resolved": "https://registry.npmjs.org/asap/-/asap-2.0.3.tgz"
-                }
-              }
-            },
-            "whatwg-fetch": {
-              "version": "0.9.0",
-              "from": "whatwg-fetch@>=0.9.0 <0.10.0",
-              "resolved": "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-0.9.0.tgz"
-            }
-          }
-        }
-      }
-    },
     "react-textarea-autosize": {
       "version": "3.3.0",
       "from": "react-textarea-autosize@3.3.0",
