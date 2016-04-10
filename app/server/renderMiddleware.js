@@ -36,7 +36,7 @@ export default function renderMiddleware(req, res, next) {
     const routes = configureRoutes(store);
 
     // Run router to determine the desired state
-    match({ routes, location: req.url }, (error, redirectLocation, props) => {
+    match({ routes, location: req.url }, (matchError, redirectLocation, props) => {
       log('Matched request for %s', req.url);
 
       if (redirectLocation) {
@@ -44,17 +44,18 @@ export default function renderMiddleware(req, res, next) {
         return;
       }
 
-      if (error) {
-        store.dispatch(routeError(error));
+      if (matchError) {
+        store.dispatch(routeError(matchError));
       }
 
       log('Fetching data for routes...');
 
       try {
-        fetchDataForRoutes(props.routes, props.params, req.query, store, err => {
-          log('Routes data has been fetched');
-          if (error) {
-            store.dispatch(routeError(error));
+        fetchDataForRoutes(props.routes, props.params, req.query, store, fetchingError => {
+          log('Routes data has been fetched', fetchingError);
+
+          if (fetchingError) {
+            store.dispatch(routeError(fetchingError));
           }
 
           const meta = {}; // getMetaFromData(req.url, data);
@@ -88,7 +89,7 @@ export default function renderMiddleware(req, res, next) {
               meta={ meta }
             />
           );
-          res.status(err ? (err.statusCode || 500) : 200).send(`<!doctype html>${html}`);
+          res.status(fetchingError ? (fetchingError.statusCode || 500) : 200).send(`<!doctype html>${html}`);
         });
       } catch (e) {
         next(e);
