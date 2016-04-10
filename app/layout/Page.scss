@@ -21,13 +21,13 @@
 
 .Page-sticky-content {
   position: sticky;
-  top: calc(#{$header-height}+1rem);
+  top: calc(#{$header-height} + 1.75rem);
 }
 
 .Page-sticky {
   position: sticky;
-  z-index: 2;
-  top: calc(#{$header-height}+1rem);
+  z-index: $z-index-page-sticky;
+  top: calc(#{$header-height} + 1.75rem);
 }
 
 .Page-sticky-fixed  {
@@ -36,7 +36,6 @@
 
 .Page-sticky.Page-sticky-fixed.Page-is-sticky {
   position: fixed;
-
   backface-visibility: hidden;
 }
 
