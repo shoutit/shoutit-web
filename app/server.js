@@ -14,11 +14,10 @@ import errorDomainMiddleware from 'express-domain-middleware';
 
 import basicAuthMiddleware from './server/basicAuthMiddleware';
 import slashMiddleware from './server/slashMiddleware';
-import smsMiddleware from './server/smsMiddleware';
+// import smsMiddleware from './server/smsMiddleware';
 import pusherMiddleware from './server/pusherMiddleware';
 import renderMiddleware from './server/renderMiddleware';
 import errorMiddleware from './server/errorMiddleware';
-import useLegacyServices from './server/legacyServices';
 import redirects from './server/redirects';
 
 import * as services from './services';
@@ -75,15 +74,12 @@ export function start(app) {
     next();
   });
 
-  // Enable legacy services (api etc before fetchr)
-  useLegacyServices(app);
-
   app.post('/api/pusher/auth', pusherMiddleware);
 
   // Enable various redirects
   Object.keys(redirects).map(path => app.get(path, redirects[path]));
 
-  app.get(':smscode', smsMiddleware);
+  // app.get(':smscode', smsMiddleware);
   app.get('*', renderMiddleware);
 
   app.use(errorMiddleware);
