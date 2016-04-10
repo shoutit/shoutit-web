@@ -10,6 +10,9 @@
   &.animated {
     visibility: visible;
   }
+  &.no-space {
+    margin: 0;
+  }
 }
 
 .Progress-wrapper {
