@@ -32,7 +32,6 @@ Message.define({
 });
 
 Conversation.define({
-  users: arrayOf(User),
   profiles: arrayOf(User),
   about: Shout,
   lastMessage: Message,
