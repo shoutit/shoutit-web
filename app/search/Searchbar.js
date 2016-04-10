@@ -193,7 +193,7 @@ export class Searchbar extends Component {
               this.setState({ showOverlay: false });
             }
           }}
-          style={ { width: '100%' }}
+          style={ { width: '100%', borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
           show={ hasFocus || showOverlay }
           placement="bottom"
           container={ this }
