@@ -38,7 +38,7 @@ export default class Scrollable extends Component {
   componentDidMount() {
     const scrollHeight = this.getScrollHeight();
     log('Component did mount: setting state.scrollHeight to %s', scrollHeight);
-    this.setState({ scrollHeight });
+    this.setState({ scrollHeight }, this.scrollToInitialPosition);
     this.getScrollElement().addEventListener('scroll', this.handleScroll);
   }
 
