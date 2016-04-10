@@ -26,7 +26,7 @@ html {
 
 body {
   height: 100%;
-  background-color: $background-color-light;
+  background-color: $background-color;
   color: $color;
   -webkit-font-smoothing: subpixel-antialiased;
 }
@@ -54,6 +54,19 @@ p {
 }
 :-ms-input-placeholder {
   color: $color-placeholder;
+}
+
+:focus::-webkit-input-placeholder {
+  color: lighten($color-placeholder, 20);
+}
+:focus:-moz-placeholder { /* Firefox 18- */
+  color: lighten($color-placeholder, 20);
+}
+:focus::-moz-placeholder {  /* Firefox 19+ */
+  color: lighten($color-placeholder, 20);
+}
+:focus:-ms-input-placeholder {
+  color: lighten($color-placeholder, 20);
 }
 
 @import "html.scss";
