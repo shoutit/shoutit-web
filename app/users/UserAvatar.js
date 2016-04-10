@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 // import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import { getVariation } from '../utils/APIUtils';
+import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
 if (process.env.BROWSER) {
   require('./UserAvatar.scss');
@@ -38,29 +38,23 @@ export default class UserAvatar extends Component {
       className += ' placeholder';
     }
 
-    let src;
+    let avatar = null;
     if (image) {
-      const variation = (size === 'small') ? 'small' : 'medium';
-      src = getVariation(image, variation);
-    }
-
-    let avatar;
-    if (src) {
-      avatar = <img alt={ username } src={ src } ref="image" />;
+      avatar = <span style={ getStyleBackgroundImage(image, size) } className="UserAvatar-image" />;
     }
     if (linkToUserPage) {
       avatar = <Link className={ className } to={ `/user/${username}` }>{ avatar }</Link>;
     } else {
-      avatar = <span className={ className }>{ avatar }</span>;
+      avatar = <span className={ className } ref="image">{ avatar }</span>;
     }
-
-    if (tooltip) {
-      avatar = (
-          // <OverlayTrigger placement="top" overlay={ <Tooltip>{ name }</Tooltip> }>
-            { avatar }
-          // </OverlayTrigger>
-        );
-    }
+    //
+    // if (tooltip) {
+    //   avatar = (
+    //       // <OverlayTrigger placement="top" overlay={ <Tooltip>{ name }</Tooltip> }>
+    //         { avatar }
+    //       // </OverlayTrigger>
+    //     );
+    // }
 
     return avatar;
   }
