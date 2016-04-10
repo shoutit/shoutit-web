@@ -7,7 +7,7 @@ if (process.env.BROWSER) {
 }
 export default class FixedHeightPage extends Component {
   static propTypes = {
-    children: PropTypes.Element,
+    children: PropTypes.element,
   };
   constructor(props) {
     super(props);
