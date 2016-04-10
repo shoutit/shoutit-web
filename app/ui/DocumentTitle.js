@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDocumentTitle from 'react-document-title';
 import { connect } from 'react-redux';
 
-export function DocumentTitle({ title, unreadConversations = 0, children }) {
+export function DocumentTitle({ title, badge = 0, children }) {
 
   if (!title) {
     title = 'shoutit';
@@ -10,20 +10,15 @@ export function DocumentTitle({ title, unreadConversations = 0, children }) {
     title = `${title} – Shoutit`;
   }
 
-  if (unreadConversations) {
-    title = `(${unreadConversations}) ${title}`;
+  if (badge) {
+    title = `(${badge}) ${title}`;
   }
 
   return <ReactDocumentTitle title={ title }>{children}</ReactDocumentTitle>;
 }
 
-function mapStateToProps(state) {
-  const { paginated, entities } = state;
-  const conversations = paginated.chat.ids.map(id => entities.conversations[id]);
-  const unreadConversations = conversations.filter(c => c.unreadMessagesCount > 0).length;
-  return {
-    unreadConversations,
-  };
-}
+const mapStateToProps = state => ({
+  badge: state.session.user ? state.session.user.stats.unreadConversationsCount : 0,
+});
 
 export default connect(mapStateToProps)(DocumentTitle);
