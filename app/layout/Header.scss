@@ -1,5 +1,4 @@
-@import "../styles/constants/colors.scss";
-@import "../styles/pages/mixins.scss";
+@import "../styles/constants.scss";
 
 .Header {
   position: relative;
@@ -47,13 +46,4 @@
   flex: 1;
   align-items: center;
   margin: 0 2rem;
-}
-
-.Header-overlay {
-  margin-top: 5px;
-  position: absolute;
-  z-index: 1000;
-  max-width: 400px;
-  border: 1px solid $border-color-dark;
-  @include paper();
 }

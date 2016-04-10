@@ -12,7 +12,7 @@
 }
 
 .App-header {
-  z-index: 2;
+  z-index: $z-index-header;
   width: 100%;
   background-color: rgba(white, .955);
   box-shadow: $box-shadow-depth-0;
