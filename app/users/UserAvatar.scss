@@ -8,7 +8,6 @@ $size-large: 48px;
 $size-huge: 128px;
 
 .UserAvatar {
-  position: relative;
   background-color: white;
 
   display: inline-block;
@@ -40,7 +39,10 @@ $size-huge: 128px;
     width: $size-huge;
     height: $size-huge;
   }
+  &.mask {
+    position: relative;
 
+  }
   &.mask:after {
     position: absolute;
     z-index: 1;
@@ -63,10 +65,10 @@ $size-huge: 128px;
     background-size: 100%;
   }
 
-  img {
-    border-radius: 50%;
-
-    @include cropped-thumbnail();
+  .UserAvatar-image {
+    width: inherit;
+    height: inherit;
+    display: inline-block;
   }
 
 }
