@@ -92,7 +92,7 @@ export function unsetCurrentConversation() {
 export function replyToConversation(conversationId, sender, message) {
   const newMessage = {
     ...message,
-    profile: sender,
+    profile: sender.id,
     id: `temp-${uuid.v1()}`,
     createdAt: getUnixTime(),
   };
@@ -103,7 +103,8 @@ export function replyToConversation(conversationId, sender, message) {
       actionTypes.REPLY_CONVERSATION_FAILURE,
     ],
     payload: {
-      conversationId, message: newMessage,
+      conversationId,
+      message: newMessage,
     },
     service: {
       name: 'conversationReply',
