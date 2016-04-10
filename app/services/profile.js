@@ -4,7 +4,7 @@ import { parseApiError } from '../utils/APIUtils';
 
 import {
   AUTH_CLIENT_ID as clientId,
-  AUTH_CLIENT_SECRET as clientSecret
+  AUTH_CLIENT_SECRET as clientSecret,
 } from './constants';
 
 export default {
