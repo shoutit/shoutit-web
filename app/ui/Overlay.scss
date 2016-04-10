@@ -14,6 +14,10 @@
   &.inverted {
     border-color: rgba(#535353, .97);
     background-color: rgba(#535353, .97);
+    a > .ListItem,
+    a {
+      color: white;
+    }
   }
 }
 
