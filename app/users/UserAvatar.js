@@ -40,7 +40,7 @@ export default class UserAvatar extends Component {
 
     let avatar = null;
     if (image) {
-      avatar = <span style={ getStyleBackgroundImage(image, size) } className="UserAvatar-image" />;
+      avatar = <span style={ getStyleBackgroundImage(image, size === 'huge' ? 'large' : size) } className="UserAvatar-image" />;
     }
     if (linkToUserPage) {
       avatar = <Link className={ className } to={ `/user/${username}` }>{ avatar }</Link>;
