@@ -27,7 +27,7 @@ export default function ListItem({
     <div
       className={ cssClass }
       onClick={ onClick ? e => { e.currentTarget.blur(); onClick(e); } : null }
-      tabIndex={ onClick && !disabled ? 0 : -1 }
+      tabIndex={ onClick && !disabled ? 0 : null }
     >
       { start && <span className="ListItem-start">
         { start }
