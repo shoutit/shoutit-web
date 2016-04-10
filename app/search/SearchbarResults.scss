@@ -41,3 +41,10 @@
   @include ellipsis();
   vertical-align: middle;
 }
+
+a.SearchbarResults-show-more {
+  padding: 0 .5rem;
+  display: block;
+  font-size: 0.875rem;
+  text-align: center;
+}

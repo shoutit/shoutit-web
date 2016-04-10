@@ -13,6 +13,7 @@ import { trimWhitespaces } from '../utils/StringUtils';
 import SearchbarResults from './SearchbarResults';
 
 import Overlay from '../ui/Overlay';
+import Progress from '../ui/Progress';
 import Button from '../ui/Button';
 import Modal from '../ui/Modal';
 import SearchLocation from '../location/SearchLocation';
@@ -38,7 +39,7 @@ export class Searchbar extends Component {
 
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.submit = this.submit.bind(this);
     this.handleChange = throttle(this.handleChange, 1000).bind(this);
   }
 
@@ -53,7 +54,7 @@ export class Searchbar extends Component {
 
   };
 
-  handleSubmit(e) {
+  submit(e) {
     e.preventDefault();
     const search = trimWhitespaces(this.refs.search.value).toLowerCase();
     if (search) {
@@ -91,6 +92,7 @@ export class Searchbar extends Component {
     const profilesSearchParams = searchParams;
 
     this.setState({
+      searchString: search,
       showOverlay: true,
       shoutsSearchSlug: stringify(shoutsSearchParams),
       tagsSearchSlug: stringify(tagsSearchParams),
@@ -123,26 +125,48 @@ export class Searchbar extends Component {
   }
 
   render() {
-    const { showOverlay, shoutsSearchSlug, tagsSearchSlug, profilesSearchSlug } = this.state;
-    const { shouts, tags, profiles, shoutsBySearch, tagsBySearch, profilesBySearch, currentLocation } = this.props;
+    const { searchString, showOverlay, shoutsSearchSlug, tagsSearchSlug, profilesSearchSlug, hasFocus } = this.state;
+    const {
+      shouts,
+      tags,
+      profiles,
+      shoutsBySearch,
+      tagsBySearch,
+      profilesBySearch,
+      currentLocation,
+    } = this.props;
 
     let foundShouts = [];
     let foundTags = [];
     let foundProfiles = [];
+
+    let hasMoreShouts = false;
+    let shoutsCount = 0;
+    let isFetchingShouts = false;
+    let isFetchingProfiles = false;
+    let isFetchingTags = false;
+
     if (shoutsSearchSlug && shoutsBySearch[shoutsSearchSlug]) {
       foundShouts = shoutsBySearch[shoutsSearchSlug].ids.map(id => shouts[id]);
+      isFetchingShouts = shoutsBySearch[shoutsSearchSlug].isFetching;
+      hasMoreShouts = shoutsBySearch[shoutsSearchSlug].nextUrl;
+      shoutsCount = shoutsBySearch[shoutsSearchSlug].count;
     }
     if (tagsSearchSlug && tagsBySearch[tagsSearchSlug]) {
       foundTags = tagsBySearch[tagsSearchSlug].ids.map(id => tags[id]);
+      isFetchingTags = tagsBySearch[tagsSearchSlug].isFetching;
     }
     if (profilesSearchSlug && profilesBySearch[profilesSearchSlug]) {
       foundProfiles = profilesBySearch[profilesSearchSlug].ids.map(id => profiles[id]);
+      isFetchingProfiles = profilesBySearch[profilesSearchSlug].isFetching;
     }
 
     const locationLabel = currentLocation.city || currentLocation.state || currentLocation.country || 'Anywhere';
+    const hasResults = foundTags.length > 0 || foundShouts.length > 0 || foundProfiles.length > 0;
+    const isFetching = isFetchingShouts || isFetchingProfiles || isFetchingTags;
 
     return (
-      <form ref="form" onSubmit={ this.handleSubmit } className="Searchbar">
+      <form ref="form" onSubmit={ this.submit } className="Searchbar">
         <Button
           type="button"
           dropdown
@@ -170,13 +194,31 @@ export class Searchbar extends Component {
             }
           }}
           style={ { width: '100%' }}
-          show={ showOverlay && (foundTags.length > 0 || foundShouts.length > 0 || foundProfiles.length > 0) }
+          show={ hasFocus || showOverlay }
           placement="bottom"
           container={ this }
           target={ () => this.refs.search }
         >
-          <SearchbarResults tags={ foundTags } shouts={ foundShouts } profiles={ foundProfiles } />
-        </Overlay>
+          { (!hasResults && !isFetching && searchString) ? // eslint-disable-line
+            <p style={{ margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' }}>Nothing found.</p> :
+            ((!hasResults && !isFetching) || !searchString) ? // eslint-disable-line
+            <p style={{ margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' }}>Type something to start search.</p> :
+            (isFetching && !hasResults) ?
+              <div style={{ margin: '.5rem' }}>
+                <Progress spaced={ false } animate label="Searching…" />
+              </div> :
+            <SearchbarResults
+              search={ searchString }
+              onShowMoreShoutsClick={ this.submit }
+              shoutsCount={ shoutsCount }
+              hasMoreShouts={ hasMoreShouts }
+              onResultClick={ () => this.setState({ showOverlay: false }) }
+              tags={ foundTags }
+              shouts={ foundShouts }
+              profiles={ foundProfiles }
+            />
+          }
+          </Overlay>
       </form>
     );
   }
@@ -188,13 +230,17 @@ const mapStateToProps = state => (
     currentLocation: state.currentLocation,
 
     shoutsBySearch: state.paginated.shoutsBySearch,
+    isFetchingShouts: state.paginated.shoutsBySearch.isFetching,
     shouts: state.entities.shouts,
 
     tagsBySearch: state.paginated.tagsBySearch,
     tags: state.entities.tags,
+    isFetchingTags: state.paginated.tagsBySearch.isFetching,
 
     profilesBySearch: state.paginated.profilesBySearch,
     profiles: state.entities.users,
+    isFetchingProfiles: state.paginated.profilesBySearch.isFetching,
+
   }
 );
 
