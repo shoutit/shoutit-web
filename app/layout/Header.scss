@@ -23,12 +23,8 @@
 }
 
 .Header-tools {
-  text-align: right;
-  &.loggedOut {
-    margin-right: 10px;
-  }
-  &.loggedIn {
-    margin-left: 16px;
+  > * {
+    margin: 0 .5rem;
   }
 }
 
