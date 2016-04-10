@@ -34,6 +34,7 @@ $border-color-field: $shoutit-grey-light;
 $border-color-field-focus: $shoutit-blue;
 $border-color: #EDEFED;
 $border-color-dark: #DFDFDF;
+$border-color-darker: #bfbfbf;
 $border-color-alt: #a7d281;
 
 $color: $shoutit-black;
@@ -43,13 +44,13 @@ $color-primary: #a7d281;
 $color-active: $green;
 $color-active-hover: $green-dark;
 
-$background-color-light: #F3F3F3;
-$background-color-alt-light: #F8FAFB;  // slightly green
-$background-color-alt: #EEF6E8;  // slightly green
+$background-color-light: #FAFAFA;
 $background-color: #F3F3F3;
 $background-color-dark: #989899;
 $background-color-darker: #58585A;
-$button-primary-background-color: $shoutit-green;
+$background-color-alt-light: #F8FAFB;  // slightly green
+$background-color-alt: #EEF6E8;  // slightly green
 
+$button-primary-background-color: $shoutit-green;
 $color-placeholder: $color-light;
 $input-error: $shoutit-red;

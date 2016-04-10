@@ -1,9 +1,11 @@
 import merge from 'lodash/object/merge';
 import without from 'lodash/array/without';
+import union from 'lodash/array/union';
 
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
+  openedConversations: [],
   currentConversation: null,
   typingUsers: {},
 };
@@ -42,6 +44,16 @@ export default function (state = initialState, action) {
       };
       return newState;
 
+    case actionTypes.OPEN_CONVERSATION:
+      return {
+        ...state,
+        openedConversations: union(state.openedConversations, [payload.conversation.id]),
+      };
+    case actionTypes.CLOSE_CONVERSATION:
+      return {
+        ...state,
+        openedConversations: without(state.openedConversations, payload.conversationId),
+      };
     default: return state;
   }
 }

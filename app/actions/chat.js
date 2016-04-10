@@ -179,3 +179,61 @@ export function notifyTypingUser(user) {
     payload: user,
   };
 }
+
+export function openConversation(conversation) {
+  return {
+    type: actionTypes.OPEN_CONVERSATION,
+    payload: {
+      conversation,
+    },
+  };
+}
+
+export function startConversation(loggedUser, user) {
+  const conversation = {
+    id: `new-conversation-with-${user.id}`,
+    isNew: true,
+    profiles: [
+      loggedUser.id,
+      user.id,
+    ],
+  };
+  return {
+    type: actionTypes.OPEN_CONVERSATION,
+    payload: {
+      conversation,
+      entities: {
+        conversations: {
+          [conversation.id]: conversation,
+        },
+      },
+    },
+  };
+}
+
+export function createConversation(username, conversation, message) {
+  return {
+    types: [
+      actionTypes.CREATE_CONVERSATION_START,
+      actionTypes.CREATE_CONVERSATION_SUCCESS,
+      actionTypes.CREATE_CONVERSATION_FAILURE,
+    ],
+    payload: {
+      conversation,
+    },
+    service: {
+      name: 'profileChat',
+      method: 'create',
+      params: { username },
+      body: message,
+      schema: Schemas.CONVERSATION,
+    },
+  };
+}
+
+export function closeConversation(conversationId) {
+  return {
+    type: actionTypes.CLOSE_CONVERSATION,
+    payload: { conversationId },
+  };
+}

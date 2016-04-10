@@ -3,7 +3,6 @@ import { Route } from 'react-router';
 
 import Application from './containers/Application';
 import Chat from './containers/Chat';
-import Conversation from './containers/Conversation';
 import Dashboard from './containers/Dashboard';
 import Discover from './containers/Discover';
 import Homepage from './containers/Homepage';
@@ -40,9 +39,7 @@ const routes = (store) =>
     <Route path="/heartbeat" component={ Heartbeat } />
     <Route path="/discover(/:countryName)(/:id)" component={ Discover } />
 
-    <Route path="/messages" component={ Chat }>
-      <Route path="/messages/:id" component={ Conversation } />
-    </Route>
+    <Route path="/messages(/:conversationId)" component={ Chat } />
   </Route>;
 
 export default routes;

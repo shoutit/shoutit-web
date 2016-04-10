@@ -50,7 +50,7 @@ export class HeaderMessagesButton extends Component {
           onHide={ this.hideOverlay }
           target={ () => this.refs.icon.getIconNode() }
         >
-          <HeaderMessagesOverlay />
+          <HeaderMessagesOverlay closeOverlay={ this.hideOverlay } />
         </Overlay>
       </span>
     );

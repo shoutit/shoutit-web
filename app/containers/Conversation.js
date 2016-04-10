@@ -13,7 +13,7 @@ import Scrollable from '../ui/Scrollable';
 import { loadMessages, deleteConversation, setCurrentConversation, unsetCurrentConversation } from '../actions/chat';
 import { denormalize } from '../schemas';
 
-import Progress from '../shared/components/helper/Progress.jsx';
+import Progress from '../ui/Progress';
 
 if (process.env.BROWSER) {
   require('./Conversation.scss');

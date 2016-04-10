@@ -8,12 +8,12 @@ if (process.env.BROWSER) {
 }
 
 function MessagesByDay({ day, messages, loggedUser, partecipants }) {
+
   const messagesByUser = groupByProfile(messages)
     .map((byProfile, i) => {
       const { profile, messages: profileMessages } = byProfile;
-      const isMe = profile && profile.username === loggedUser.username;
       let className = 'MessagesList';
-      if (isMe) {
+      if (profile && profile.isOwner) {
         className += ' isMe';
       }
       return (
@@ -26,7 +26,6 @@ function MessagesByDay({ day, messages, loggedUser, partecipants }) {
               <MessageItem
                 key={ message.id }
                 message={ message }
-                isMe={ isMe }
                 readByProfiles={ message.profile ?
                   getReadyBy(message, partecipants, loggedUser.username) :
                   undefined

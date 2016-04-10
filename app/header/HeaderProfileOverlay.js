@@ -13,14 +13,14 @@ export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
       <li>
         <Link onClick={ onItemClick } to={`/user/${user.username}`}>
           <ListItem start= { <SVGIcon name="profile" active /> }>
-            My Profile
+            Your Profile
           </ListItem>
         </Link>
       </li>
       <li>
         <Link onClick={ onItemClick } to="/profile/edit">
           <ListItem start= { <SVGIcon name="pencil" active /> }>
-            Edit Profile
+            Edit Account
           </ListItem>
         </Link>
       </li>
