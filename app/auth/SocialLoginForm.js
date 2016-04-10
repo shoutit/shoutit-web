@@ -2,11 +2,9 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-
 import debug from 'debug';
 
-import { FacebookButton, GoogleButton } from '../shared/components/helper/SocialButtons.jsx';
-
+import { FacebookButton, GoogleButton } from '../ui/SocialButtons';
 import { loginWithGoogle, loginWithFacebook } from '../actions/session';
 
 const logFacebook = debug('shoutit:facebook');
