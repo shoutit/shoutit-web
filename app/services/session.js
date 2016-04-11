@@ -22,7 +22,7 @@ export default {
           return callback(parseApiError(err));
         }
         createRequestSession(req, res.body);
-        return callback(null, camelizeKeys(res.body.user));
+        return callback(null, camelizeKeys(res.body));
       });
   },
   read: (req, resource, params, config, callback) => {
