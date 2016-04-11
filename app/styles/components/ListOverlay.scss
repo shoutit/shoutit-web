@@ -1,24 +1,20 @@
 @import "../constants/colors.scss";
 
 .ListOverlay {
+  display: flex;
+  flex-direction: column;
 }
 
 .ListOverlay-header {
-  display: flex;
   padding: 10px;
   font-size: 14px;
   overflow: auto;
   border-bottom: 1px solid $border-color-dark;
-  > .ListOverlay-title {
-    flex: 1;
-  }
-  > .ListOverlay-action {
-    color: $si-blue;
-    cursor: pointer;
-  }
 }
 
 .ListOverlay-body {
+  position: relative;
+  flex: 1;
   min-height: 200px;
   max-height: 500px;
   overflow: auto;
@@ -34,13 +30,14 @@
 .ListOverlay-footer {
   text-align: center;
   a {
-    background-color: $si-green;
-    font-size: 14px;
+    background-color: $green;
+    font-size: 0.875rem;
     display: block;
-    padding: 5px 0;
+    padding: .5rem;
     color: white;
     &:hover {
       color: white;
+      background-color: $green-dark;
     }
   }
 }

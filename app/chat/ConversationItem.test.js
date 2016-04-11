@@ -30,7 +30,7 @@ describe('ConversationItem', () => {
       .property('children', 'A, B');
   });
 
-  it('should use isSelected class', () => {
+  it('should use is-selected class', () => {
     const shallowRenderer = TestUtils.createRenderer();
     shallowRenderer.render(
       <ConversationItem
@@ -41,10 +41,10 @@ describe('ConversationItem', () => {
     );
 
     const output = shallowRenderer.getRenderOutput();
-    expect(output.props.className).to.contain('isSelected');
+    expect(output.props.className).to.contain('is-selected');
   });
 
-  it('should use isUnread class', () => {
+  it('should use is-unread class', () => {
     const shallowRenderer = TestUtils.createRenderer();
     shallowRenderer.render(
       <ConversationItem
@@ -55,7 +55,7 @@ describe('ConversationItem', () => {
     );
 
     const output = shallowRenderer.getRenderOutput();
-    expect(output.props.className).to.contain('isUnread');
+    expect(output.props.className).to.contain('is-unread');
   });
 
   it('should show the title of the shout it is about', () => {

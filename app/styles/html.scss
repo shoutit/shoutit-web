@@ -2,8 +2,8 @@
 
 .htmlTextarea,
 .htmlInput:not([type="checkbox"]) {
-  padding: 0.4rem 0.625rem;
-
+  padding: 0.625rem;
+  outline: none;
   border: 1px solid $border-color-field;
   border-radius: $border-radius;
 
@@ -11,13 +11,12 @@
   font-size: 0.875rem;
   &.block {
     display: block;
-
     width: 100%;
   }
 }
 
 .htmlTextarea {
-  padding: 0.4rem 0.625rem;
+  padding: 0.625rem;
 }
 
 .htmlInput:not([type="checkbox"]) {
@@ -31,7 +30,7 @@
 }
 
 ul.htmlNoList {
-  margin: 0.25rem 0;
+  margin: 0;
   padding: 0;
   list-style: none;
   li {
@@ -67,5 +66,5 @@ p.htmlErrorParagraph {
 
 .htmlAncillary {
   color: $color-lighter;
-  font-size: .75em;
+  font-size: 0.875em;
 }

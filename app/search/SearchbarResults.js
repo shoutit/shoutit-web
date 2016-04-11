@@ -19,22 +19,27 @@ function SearchbarResult({ image, label }) {
   );
 }
 
-export default function SearchbarResults({ tags = [], shouts = [], profiles = [] }) {
+export default function SearchbarResults({ search = '', hasMoreShouts = false, shoutsCount, onShowMoreShoutsClick, tags = [], shouts = [], profiles = [], onResultClick }) {
   return (
     <div className="SearchbarResults">
       {
         shouts.length > 0 &&
           <div className="SearchbarResults-list">
-            <h3>Shouts</h3>
+            <h3>Shouts ({shoutsCount})</h3>
             <ul className="htmlSelectableList">
             { shouts.map(shout =>
               <li key={ shout.id }>
-                <Link to={`/shout/${shout.id}`}>
+                <Link onClick={ onResultClick } to={`/shout/${shout.id}`}>
                   <SearchbarResult label={ shout.title } image={ shout.thumbnail ? getVariation(shout.thumbnail, 'small') : null } />
                 </Link>
               </li>
             )}
             </ul>
+            { hasMoreShouts &&
+              <Link className="SearchbarResults-show-more" to={ `/search?search=${encodeURIComponent(search)}` } onClick={ onShowMoreShoutsClick }>
+                See more results
+              </Link>
+            }
           </div>
       }
       {
@@ -44,7 +49,7 @@ export default function SearchbarResults({ tags = [], shouts = [], profiles = []
             <ul className="htmlSelectableList">
               { tags.map(tag =>
                 <li key={ tag.name }>
-                  <Link to={`/interest/${tag.name}`}>
+                  <Link onClick={ onResultClick } to={`/interest/${tag.name}`}>
                     <SearchbarResult label={ tag.name } image={ tag.image ? getVariation(tag.image, 'small') : null } />
                   </Link>
                 </li>
@@ -59,7 +64,7 @@ export default function SearchbarResults({ tags = [], shouts = [], profiles = []
             <ul className="htmlSelectableList">
             { profiles.map(profile =>
               <li key={profile.username}>
-                <Link to={`/${profile.type}/${profile.username}`}>
+                <Link onClick={ onResultClick } to={`/${profile.type}/${profile.username}`}>
                   <SearchbarResult label={ profile.name } image={ profile.image ? getVariation(profile.image, 'small') : null } />
                 </Link>
               </li>
@@ -76,4 +81,6 @@ SearchbarResults.propTypes = {
   tags: PropTypes.array.isRequired,
   shouts: PropTypes.array.isRequired,
   profiles: PropTypes.array.isRequired,
+  onResultClick: PropTypes.func,
+  onShowMoreShoutsClick: PropTypes.func,
 };

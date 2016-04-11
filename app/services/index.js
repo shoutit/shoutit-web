@@ -12,6 +12,7 @@ export listening from './listening';
 export messages from './messages';
 export resetPassword from './resetPassword';
 export profile from './profile';
+export profileChat from './profileChat';
 export profiles from './profiles';
 export server from './server';
 export setPassword from './setPassword';

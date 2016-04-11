@@ -19,7 +19,9 @@
     border-bottom: 1px solid $border-color;
   }
 
-
+  .TextField {
+    border-bottom: 0;
+  }
 }
 .SearchFilters-label {
   padding-top: .5rem;

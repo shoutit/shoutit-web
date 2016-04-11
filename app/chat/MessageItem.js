@@ -3,25 +3,24 @@ import moment from 'moment';
 import { Link } from 'react-router';
 
 import MessageReadByFlag from './MessageReadByFlag';
-import ShoutItem from '../shared/components/shout/ShoutItem.jsx';
-import GoogleStaticMap from '../shared/components/misc/GoogleStaticMap.jsx';
+import ShoutPreview from '../shouts/ShoutPreview';
+import GoogleStaticMap from '../location/GoogleStaticMap';
 import NewlineToBreak from '../ui/NewlineToBreak';
 
 if (process.env.BROWSER) {
   require('./MessageItem.scss');
 }
 
-export default function MessageItem({ message, isMe, readByProfiles = [] }) {
+export default function MessageItem({ message, readByProfiles = [] }) {
   const { createdAt, isCreating, text, createError, attachments = [] } = message;
   const created = moment.unix(createdAt);
-
   const attachmentsContent = attachments.map((attachment, i) => {
     const { shout, location } = attachment;
     let content;
     if (shout) {
       content = (
         <Link to={ `/shout/${shout.id}` }>
-          <ShoutItem outline shout={ shout } thumbnailRatio={ 16 / 9 } />
+          <ShoutPreview shout={ shout } thumbnailRatio={ 16 / 9 } />
         </Link>
       );
     }
@@ -49,11 +48,12 @@ export default function MessageItem({ message, isMe, readByProfiles = [] }) {
   );
 
   let className = 'MessageItem';
-  if (isMe) {
-    className += ' isMe';
+
+  if (message.profile && message.profile.isOwner) {
+    className += ' is-me';
   }
   if (createError) {
-    className += ' didError';
+    className += ' did-error';
   }
   if (isCreating) {
     className += ' sending';

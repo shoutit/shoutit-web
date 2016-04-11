@@ -364,6 +364,14 @@ $size-huge: 52px;
     background-image: url("../../assets/icons/question-circle-active.svg");
   }
 
+.SVGIcon-icon.reply {
+  background-image: url("../../assets/icons/reply.svg");
+}
+  .SVGIcon.hover:hover .SVGIcon-icon.reply,
+  .SVGIcon.active .SVGIcon-icon.reply {
+    background-image: url("../../assets/icons/reply-active.svg");
+  }
+
 .SVGIcon-icon.seen {
   background-image: url("../../assets/icons/seen.svg");
 }

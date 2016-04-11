@@ -6,6 +6,9 @@ import { getUnixTime } from '../utils/DateUtils';
 import { Schemas } from '../schemas';
 
 const parsePayloadForConversations = (payload, state) => {
+  if (payload.error) {
+    return payload;
+  }
   if (!state.chat.currentConversation) {
     return payload;
   }
@@ -92,7 +95,7 @@ export function unsetCurrentConversation() {
 export function replyToConversation(conversationId, sender, message) {
   const newMessage = {
     ...message,
-    profile: sender,
+    profile: sender.id,
     id: `temp-${uuid.v1()}`,
     createdAt: getUnixTime(),
   };
@@ -103,7 +106,8 @@ export function replyToConversation(conversationId, sender, message) {
       actionTypes.REPLY_CONVERSATION_FAILURE,
     ],
     payload: {
-      conversationId, message: newMessage,
+      conversationId,
+      message: newMessage,
     },
     service: {
       name: 'conversationReply',
@@ -176,5 +180,63 @@ export function notifyTypingUser(user) {
   return {
     type: actionTypes.NOTIFY_CLIENT_IS_TYPING,
     payload: user,
+  };
+}
+
+export function openConversation(conversation) {
+  return {
+    type: actionTypes.OPEN_CONVERSATION,
+    payload: {
+      conversation,
+    },
+  };
+}
+
+export function startConversation(loggedUser, user) {
+  const conversation = {
+    id: `new-conversation-with-${user.id}`,
+    isNew: true,
+    profiles: [
+      loggedUser.id,
+      user.id,
+    ],
+  };
+  return {
+    type: actionTypes.OPEN_CONVERSATION,
+    payload: {
+      conversation,
+      entities: {
+        conversations: {
+          [conversation.id]: conversation,
+        },
+      },
+    },
+  };
+}
+
+export function createConversation(username, conversation, message) {
+  return {
+    types: [
+      actionTypes.CREATE_CONVERSATION_START,
+      actionTypes.CREATE_CONVERSATION_SUCCESS,
+      actionTypes.CREATE_CONVERSATION_FAILURE,
+    ],
+    payload: {
+      conversation,
+    },
+    service: {
+      name: 'profileChat',
+      method: 'create',
+      params: { username },
+      body: message,
+      schema: Schemas.CONVERSATION,
+    },
+  };
+}
+
+export function closeConversation(conversationId) {
+  return {
+    type: actionTypes.CLOSE_CONVERSATION,
+    payload: { conversationId },
   };
 }

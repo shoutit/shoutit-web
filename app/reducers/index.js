@@ -39,10 +39,15 @@ const paginated = combineReducers({
     addType: actionTypes.ADD_MESSAGE,
   }),
   chat: paginate({
+    mapActionToTempId: action => action.payload.conversation.id,
     fetchTypes: [
       actionTypes.LOAD_CONVERSATIONS_START,
       actionTypes.LOAD_CONVERSATIONS_SUCCESS,
       actionTypes.LOAD_CONVERSATIONS_FAILURE,
+    ],
+    createTypes: [
+      actionTypes.CREATE_CONVERSATION_START,
+      actionTypes.CREATE_CONVERSATION_SUCCESS,
     ],
     addType: actionTypes.LOAD_CONVERSATION_SUCCESS,
     deleteType: actionTypes.LEAVE_CONVERSATION_START,
@@ -111,7 +116,16 @@ const entities = combineReducers({
   categories: entity({ name: 'categories' }),
 
   conversations: (state, action) => {
-    let newState = entity({ name: 'conversations' })(state, action);
+    let newState = entity({
+      name: 'conversations',
+      mapActionToTempId: action => action.payload.conversation.id,
+      mapActionToTempEntity: action => action.payload.conversation,
+      createTypes: [
+        actionTypes.CREATE_CONVERSATION_START,
+        actionTypes.CREATE_CONVERSATION_SUCCESS,
+        actionTypes.CREATE_CONVERSATION_FAILURE,
+      ],
+    })(state, action);
     newState = conversations(newState, action);
     return newState;
   },
@@ -136,7 +150,7 @@ const entities = combineReducers({
 
 });
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   categories,
   chat,
   currencies,
@@ -153,5 +167,12 @@ const rootReducer = combineReducers({
   videocalls,
   server,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === actionTypes.LOGOUT) {
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
 
 export default rootReducer;

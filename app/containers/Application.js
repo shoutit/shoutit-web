@@ -5,6 +5,7 @@ import Header from '../layout/Header';
 import UINotificationsHost from '../ui/UINotificationsHost';
 import ModalHost from '../ui/ModalHost';
 import VideoCallHost from '../videoCalls/VideoCallHost';
+import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
 import NotFound from './NotFound';
 
@@ -58,6 +59,10 @@ export class Application extends React.Component {
     if (currentLocation.slug !== nextProps.currentLocation.slug) {
       dispatch(loadSuggestions(currentLocation));
     }
+    if (!nextProps.loggedUser && this.props.loggedUser) {
+      // Fetch application data again when logged user changed (e.g. has been logged out)
+      fetchData(this.props.dispatch, { session: { user: undefined } });
+    }
   }
 
   render() {
@@ -101,6 +106,7 @@ export class Application extends React.Component {
         <UINotificationsHost />
         { props.videoCallState && props.videoCallState.currentConversation &&
           <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }
+        <ConversationsHost />
       </div>
     );
   }

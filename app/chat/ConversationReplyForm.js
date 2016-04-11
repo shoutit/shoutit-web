@@ -5,7 +5,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import Button from '../ui/Button';
 import SVGIcon from '../ui/SVGIcon';
 import { saveDraft } from '../actions/forms';
-import { replyToConversation, notifyTypingUser } from '../actions/chat';
+import { replyToConversation, notifyTypingUser, createConversation, closeConversation, openConversation } from '../actions/chat';
 import { ENTER } from '../utils/keycodes';
 import { trimWhitespaces } from '../utils/StringUtils';
 
@@ -17,13 +17,15 @@ export class ConversationReplyForm extends Component {
 
   static propTypes = {
     draft: PropTypes.string,
+    conversation: PropTypes.object.isRequired,
     typingTimeout: PropTypes.number,
-    onAttachShoutClick: PropTypes.func.isRequired,
+    focus: PropTypes.bool,
+    // onAttachShoutClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     draft: '',
-    autoFocus: false,
+    focus: true,
     disabled: false,
     placeholder: 'Type a message…',
     typingTimeout: 3000,
@@ -38,16 +40,33 @@ export class ConversationReplyForm extends Component {
 
   isTyping = false;
   typingTimeout = null;
+  textarea = null;
+
+  createNewConversation(text) {
+    const { conversation, dispatch, loggedUser } = this.props;
+    const username = conversation.profiles.filter(profile => profile.id !== loggedUser.id)[0].username;
+    const message = { text };
+    dispatch(createConversation(username, conversation, message))
+      .then(({ result }) => {
+        dispatch(closeConversation(conversation.id));
+        dispatch(openConversation({ id: result }));
+      });
+  }
 
   submit() {
     const { disabled, conversation, dispatch, loggedUser, name } = this.props;
-    const text = trimWhitespaces(this.refs.draft.value);
+    const text = trimWhitespaces(this.textarea.value);
     if (disabled || !text) {
       return;
     }
-    dispatch(replyToConversation(conversation.id, loggedUser, { text }));
     dispatch(saveDraft(name, { draft: '' }));
-    this.refs.draft.focus();
+    this.textarea.focus();
+
+    if (conversation.isNew) {
+      this.createNewConversation(text);
+    } else {
+      dispatch(replyToConversation(conversation.id, loggedUser, { text }));
+    }
   }
 
   handleTextChange(e) {
@@ -67,7 +86,7 @@ export class ConversationReplyForm extends Component {
   }
 
   render() {
-    const { onAttachShoutClick, fields, name, ...attributes } = this.props;
+    const { fields, name, conversation, ...attributes } = this.props;
     return (
       <form name={ name }
         className="ConversationReplyForm"
@@ -75,9 +94,15 @@ export class ConversationReplyForm extends Component {
       >
         <TextareaAutosize
           { ...attributes }
-          ref="draft"
+          ref={ el => {
+            this.textarea = el;
+            if (this.props.inputRef) {
+              this.props.inputRef(el);
+            }
+          }}
           className="htmlTextarea"
           maxRows={ 5 }
+          disabled={ conversation.isCreating }
           name="draft"
           value={ fields.draft }
           autoComplete="off"
@@ -89,8 +114,6 @@ export class ConversationReplyForm extends Component {
           }}
           onChange={ e => this.handleTextChange(e) }
         />
-        <Button leftIcon={ <SVGIcon name="send" fill /> } label="Send" primary type="submit" size="small" disabled={ attributes.disabled || !trimWhitespaces(fields.draft) } className="reply" />
-        <Button label="Attach shout" type="button" size="small" disabled={ attributes.disabled } onClick={ onAttachShoutClick } />
       </form>
     );
   }

@@ -12,7 +12,7 @@
   h4 {
     margin: 0;
     padding: .5rem 1rem;
-    font-weight: lighter;
+    font-weight: normal;;
     font-size: 1rem;
   }
   .Page-body & {
@@ -33,7 +33,7 @@
 
 .UIMessage-details {
   padding: .5rem 1rem;
-  font-weight: lighter;
+  font-weight: normal;;
   .UIMessage.error & {
     background-color: lighten($shoutit-red, 10);
   }

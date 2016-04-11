@@ -1,3 +1,4 @@
+@import "../constants.scss";
 
 @mixin Tooltip(
   $className: Tooltip,
@@ -12,7 +13,7 @@
 
   .#{$className} {
     position: absolute;
-    z-index: 1070;
+    z-index: $z-index-tooltip;
 
     display: block;
     visibility: visible;

@@ -17,16 +17,22 @@ export default class Scrollable extends Component {
     onScrollTop: PropTypes.func,
     onScrollBottom: PropTypes.func,
     initialScroll: PropTypes.oneOf(['top', 'bottom']),
+    preventDocumentScroll: PropTypes.bool,
   };
 
   static defaultProps = {
     initialScroll: 'top',
     triggerOffset: 0,
+    preventDocumentScroll: false,
   };
 
   constructor(props) {
     super(props);
     this.handleScroll = this.handleScroll.bind(this);
+    if (props.preventDocumentScroll) {
+      this.handleMouseEnter = this.handleMouseEnter.bind(this);
+      this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    }
   }
 
   state = {
@@ -38,8 +44,13 @@ export default class Scrollable extends Component {
   componentDidMount() {
     const scrollHeight = this.getScrollHeight();
     log('Component did mount: setting state.scrollHeight to %s', scrollHeight);
-    this.setState({ scrollHeight });
+    this.setState({ scrollHeight }, this.scrollToInitialPosition);
     this.getScrollElement().addEventListener('scroll', this.handleScroll);
+
+    if (this.props.preventDocumentScroll) {
+      this.getScrollElement().addEventListener('mouseenter', this.handleMouseEnter);
+      this.getScrollElement().addEventListener('mouseleave', this.handleMouseLeave);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -64,6 +75,11 @@ export default class Scrollable extends Component {
 
   componentWillUnmount() {
     this.getScrollElement().removeEventListener('scroll', this.handleScroll);
+    if (this.props.preventDocumentScroll) {
+      document.body.style.overflow = '';
+      this.getScrollElement().removeEventListener('mouseenter', this.handleMouseEnter);
+      this.getScrollElement().removeEventListener('mouseleave', this.handleMouseLeave);
+    }
   }
 
   getScrollable() {
@@ -91,6 +107,14 @@ export default class Scrollable extends Component {
       return document.documentElement.clientHeight;
     }
     return scrollElement.offsetHeight;
+  }
+
+  handleMouseLeave() {
+    document.body.style.overflow = '';
+  }
+
+  handleMouseEnter() {
+    document.body.style.overflow = 'hidden';
   }
 
   scrollToInitialPosition() {
