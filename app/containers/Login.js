@@ -114,7 +114,7 @@ export class Login extends Component {
                 block
                 disabled={ isLoggingIn }
                 name="email"
-                type="email"
+                type="text"
                 errors={ loginError && getErrorsByLocation(loginError, 'email') }
                 placeholder="E-mail or username"
                 onBlur={ () => dispatch(resetSessionErrors()) }
