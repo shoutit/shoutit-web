@@ -44,7 +44,14 @@ export function logout() {
 export function login(user) {
   return {
     type: actionTypes.LOGIN_SUCCESS,
-    payload: user,
+    payload: {
+      user,
+      entities: {
+        users: {
+          [user.id]: user,
+        },
+      },
+    },
   };
 }
 

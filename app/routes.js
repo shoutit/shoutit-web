@@ -33,7 +33,7 @@ const routes = (store) =>
     <Route path="/signup/verify/:token" component={ VerifyEmail } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
 
     <Route path="/search(/:shout_type)(/:category)" component={ Search } />
-    <Route path="/shout(/:shoutId)" component={ Shout } />
+    <Route path="/shout(/:id)" component={ Shout } />
     <Route path="/interest(/:tagName)" component={ Interest } />
     <Route path="/user(/:username)" component={ Profile } />
     <Route path="/heartbeat" component={ Heartbeat } />

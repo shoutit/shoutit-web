@@ -35,7 +35,7 @@ export default function (state = initialState, action) {
     case actionTypes.VERIFY_EMAIL_SUCCESS:
       return {
         ...state,
-        user: payload,
+        user: payload.user,
         isVerifyingEmail: false,
         isLoggingIn: false,
       };
@@ -57,7 +57,7 @@ export default function (state = initialState, action) {
     case actionTypes.SIGNUP_SUCCESS:
       return {
         ...state,
-        user: payload,
+        user: payload.user,
         isSigningUp: false,
         isNewSignup: true,
       };

@@ -7,7 +7,7 @@ export default function (state = {}, action) {
     case actionTypes.LOAD_CURRENT_LOCATION_SUCCESS:
       return action.payload.location;
     case actionTypes.LOGIN_SUCCESS:
-      const { location } = action.payload;
+      const { location } = action.payload.user;
       return {
         ...location,
         slug: createLocationSlug(location),

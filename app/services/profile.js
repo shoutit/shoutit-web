@@ -50,7 +50,7 @@ export default {
           return callback(parseApiError(err));
         }
         createRequestSession(req, res.body);
-        return callback(null, res.body.user);
+        return callback(null, res.body);
       });
   },
   read: (req, resource, { username }, config, callback) => {
