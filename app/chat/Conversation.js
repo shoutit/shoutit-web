@@ -66,7 +66,6 @@ export class Conversation extends React.Component {
 
     const recipient = conversation ? conversation.profiles.filter(profile => profile.id !== loggedUser.id)[0] : undefined
 
-    console.log(recipient);
     return (
       <div className="Conversation">
         <Scrollable
