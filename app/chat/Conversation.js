@@ -102,7 +102,7 @@ export class Conversation extends React.Component {
                 />
             }
 
-            { conversation && conversation.isNew &&
+            { conversation && conversation.isNew && !conversation.isCreating &&
               <div style={{ padding: '1rem', textAlign: 'center' }}>
                 <UserAvatar user={ recipient } size="large" style={{ marginBottom: '1rem' }} />
                 <p className="htmlAncillary">
@@ -111,9 +111,7 @@ export class Conversation extends React.Component {
               </div>
             }
             { conversation && conversation.isCreating &&
-              <p>
-                Creating conversation...
-              </p>
+              <Progress animate label="Sending message…" />
             }
 
             <MessagesTypingUsers users={ typingUsers } />
