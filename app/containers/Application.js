@@ -59,6 +59,10 @@ export class Application extends React.Component {
     if (currentLocation.slug !== nextProps.currentLocation.slug) {
       dispatch(loadSuggestions(currentLocation));
     }
+    if (!nextProps.loggedUser && this.props.loggedUser) {
+      // Fetch application data again when logged user changed (e.g. has been logged out)
+      fetchData(this.props.dispatch, { session: { user: undefined } });
+    }
   }
 
   render() {

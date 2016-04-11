@@ -150,7 +150,7 @@ const entities = combineReducers({
 
 });
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   categories,
   chat,
   currencies,
@@ -167,5 +167,12 @@ const rootReducer = combineReducers({
   videocalls,
   server,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === actionTypes.LOGOUT) {
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
 
 export default rootReducer;
