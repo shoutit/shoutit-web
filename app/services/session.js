@@ -5,7 +5,7 @@ import { camelizeKeys } from 'humps';
 
 import {
   AUTH_CLIENT_ID as clientId,
-  AUTH_CLIENT_SECRET as clientSecret
+  AUTH_CLIENT_SECRET as clientSecret,
 } from './constants';
 
 
