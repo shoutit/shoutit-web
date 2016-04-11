@@ -49,7 +49,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
           let error = err.body || err;
 
           if (parsePayload) {
-            error = parsePayload(error);
+            error = parsePayload({ error }, store.getState());
           }
           next(actionWith({
             error: true,

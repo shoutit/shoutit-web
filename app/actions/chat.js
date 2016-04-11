@@ -6,6 +6,9 @@ import { getUnixTime } from '../utils/DateUtils';
 import { Schemas } from '../schemas';
 
 const parsePayloadForConversations = (payload, state) => {
+  if (payload.error) {
+    return payload;
+  }
   if (!state.chat.currentConversation) {
     return payload;
   }
