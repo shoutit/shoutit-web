@@ -69,6 +69,7 @@ export class Conversation extends React.Component {
     return (
       <div className="Conversation">
         <Scrollable
+          preventDocumentScroll
           uniqueId={ messages.length > 0 ? messages[messages.length - 1].id : 'empty' }
           initialScroll="bottom"
           className="Conversation-scrollable"
