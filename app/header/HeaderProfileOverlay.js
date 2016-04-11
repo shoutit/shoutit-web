@@ -25,7 +25,7 @@ export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
         </Link>
       </li>
       <li>
-        <Link to="/logout" onClick={ onLogoutClick }>
+        <Link to="/" onClick={ onLogoutClick }>
           <ListItem start= { <SVGIcon name="exit" active /> }>
             Logout
           </ListItem>
@@ -40,7 +40,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLogoutClick: () => dispatch(logout()).then(() => dispatch(push('/'))),
+  onLogoutClick: e => {
+    e.preventDefault();
+    dispatch(logout()).then(() => dispatch(push('/')));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderProfileOverlay);
