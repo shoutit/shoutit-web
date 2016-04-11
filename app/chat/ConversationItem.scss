@@ -2,7 +2,7 @@
 @import "../styles/mixins/ellipsis.scss";
 
 .ConversationItem {
-  font-size: 0.875em;
+  font-size: 0.875rem;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -21,7 +21,7 @@
 }
 
 .ConversationItem-usersImage {
-  padding: 10px 5px;
+  padding: 0.625rem 0.25rem;
 }
 
 .ConversationItem-body {
@@ -30,17 +30,29 @@
   flex: 1;
   min-width: 0;
   flex-basis: 50%;
-  padding: 10px 5px;
+  padding: 0.625rem 0.25rem;
   > div {
     @include ellipsis();
   }
 }
 
-.ConversationItem-createdAt {
-  padding: 10px 5px;
-  color: $color-light;
-  font-size: 0.875em;
+
+.ConversationItem-tools {
+  padding: 0.625rem 0.25rem;
   align-self: flex-start;
+  text-align: right;
+  font-weight: normal;
+}
+
+.ConversationItem-created-at {
+  color: $color-light;
+  font-size: 0.75rem;
+}
+
+.ConversationItem-unread-count {
+  color: $color-light;
+  font-size: 0.625rem;
+  margin-top: .25rem;
 }
 
 .ConversationItem-title {
@@ -50,14 +62,21 @@
 
 .ConversationItem-aboutShout {
   color: $si-blue;
-  font-size: 0.875em;
+  font-size: 0.875rem;
 }
 
 .ConversationItem-partecipants {
   // font-weight: bold;
 }
 
-.ConversationItem-lastMessage {
-  font-size: 0.875em;
+.ConversationItem-last-message {
+  font-size: 0.75rem;
   color: $color;
+  span {
+    vertical-align: middle;
+    display: inline-block;
+  }
+  .SVGIcon {
+    margin-right: .25rem;
+  }
 }
