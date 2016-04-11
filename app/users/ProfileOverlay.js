@@ -16,15 +16,16 @@ if (process.env.BROWSER) {
 export class ProfileOverlay extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
+    style: PropTypes.object,
   };
   componentDidMount() {
     const { profile, dispatch } = this.props;
     dispatch(loadProfileDetailsIfNeeded(profile, ['location', 'listenersCount']));
   }
   render() {
-    const { profile, profile: { cover, name } } = this.props;
+    const { profile, style, profile: { cover, name } } = this.props;
     return (
-      <div className="ProfileOverlay">
+      <div className="ProfileOverlay" style={ style }>
         <div className="ProfileOverlay-cover" style={getStyleBackgroundImage(cover)} />
         <div className="ProfileOverlay-user">
           <UserAvatar user={ profile } size="large" />
