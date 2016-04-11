@@ -4,10 +4,13 @@ if (process.env.BROWSER) {
   require('./Card.scss');
 }
 
-export default function Card({ image, title, size = 'small' }) {
-  const className = `Card size-${size}`;
+export default function Card({ image, title, size = 'small', block = false }) {
+  let className = `Card size-${size}`;
+  if (block) {
+    className += `${className} block`;
+  }
   return (
-    <div className={ className} >
+    <div className={ className } >
       <div className="Card-image-wrapper">
         <div className="Card-image" style={{ backgroundImage: `url(${image})` }} />
       </div>
