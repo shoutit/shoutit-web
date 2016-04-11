@@ -111,7 +111,6 @@ export class Login extends Component {
             <form onSubmit={ e => this.handleFormSubmit(e) } className="Frame-form" noValidate>
               <TextField
                 ref="email"
-                autoComplete="off"
                 block
                 disabled={ isLoggingIn }
                 name="email"
