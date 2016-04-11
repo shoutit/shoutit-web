@@ -18,6 +18,7 @@ export server from './server';
 export setPassword from './setPassword';
 export session from './session';
 export shouts from './shouts';
+export shout from './shout';
 export suggestions from './suggestions';
 export tags from './tags';
 export twilioToken from './twilioToken';
