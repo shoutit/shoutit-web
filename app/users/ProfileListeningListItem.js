@@ -9,9 +9,10 @@ export default function ProfileListening({ profile, size = 'small' }) {
       className="ProfileListening"
       size={ size }
       nowrap
-      start={ <SVGIcon name="listening" active={ listeningCount.users > 0 } /> }
-    >
-     { listeningCount.users === 0 ? 'Not listening' : `${listeningCount.users} listening` } 
+      start={ <SVGIcon name="listening" active={ listeningCount.users > 0 } /> }>
+
+      { listeningCount.users === 0 ? 'Not listening' : `${listeningCount.users} listening` }
+
     </ListItem>
   );
 }

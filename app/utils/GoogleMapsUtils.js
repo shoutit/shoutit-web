@@ -24,11 +24,11 @@ export function createLinkToGoogleMaps(location) {
   q = q.join(',%20');
 
   if (ll) {
-    search += '&' + ll;
+    search += `&${ll}`;
   }
 
   if (q) {
-    search += '&q=' + q;
+    search += `&q=${q}`;
   } else {
     search += `&q=loc:${location.latitude},${location.longitude}`;
   }

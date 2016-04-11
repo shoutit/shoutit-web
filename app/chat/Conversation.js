@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import MessagesList from '../chat/MessagesList';
@@ -16,7 +16,25 @@ if (process.env.BROWSER) {
   require('./Conversation.scss');
 }
 
-export class Conversation extends React.Component {
+export class Conversation extends Component {
+
+  static propTypes = {
+
+    dispatch: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
+    loggedUser: PropTypes.object.isRequired,
+
+    conversation: PropTypes.object,
+    draft: PropTypes.string,
+    error: PropTypes.object,
+    isFetching: PropTypes.bool,
+    isFetchingMessages: PropTypes.bool,
+    messages: PropTypes.array,
+    messagesError: PropTypes.object,
+    previousUrl: PropTypes.string,
+    typingUsers: PropTypes.array,
+
+  };
 
   state = {
     showDelete: false,
@@ -64,7 +82,9 @@ export class Conversation extends React.Component {
     const { loggedUser, isFetchingMessages, conversation, messages = [], typingUsers } = this.props;
     const { previousUrl, dispatch, id } = this.props;
 
-    const recipient = conversation ? conversation.profiles.filter(profile => profile.id !== loggedUser.id)[0] : undefined
+    const recipient = conversation ?
+      conversation.profiles.filter(profile => profile.id !== loggedUser.id)[0] :
+      undefined;
 
     return (
       <div className="Conversation">

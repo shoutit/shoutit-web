@@ -17,6 +17,8 @@ export class ConversationsList extends Component {
     isFetching: PropTypes.bool,
     conversations: PropTypes.array,
     onConversationClick: PropTypes.func,
+    selectedId: PropTypes.string,
+    dispatch: PropTypes.func.isRequired,
   }
 
   componentDidMount() {

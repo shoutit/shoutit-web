@@ -2,8 +2,10 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import TextareaAutosize from 'react-textarea-autosize';
-import Button from '../ui/Button';
-import SVGIcon from '../ui/SVGIcon';
+
+// import Button from '../ui/Button';
+// import SVGIcon from '../ui/SVGIcon';
+
 import { saveDraft } from '../actions/forms';
 import { replyToConversation, notifyTypingUser, createConversation, closeConversation, openConversation } from '../actions/chat';
 import { ENTER } from '../utils/keycodes';
@@ -17,9 +19,15 @@ export class ConversationReplyForm extends Component {
 
   static propTypes = {
     draft: PropTypes.string,
+    fields: PropTypes.object.isRequired,
+    name: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
     conversation: PropTypes.object.isRequired,
+    loggedUser: PropTypes.object.isRequired,
     typingTimeout: PropTypes.number,
     focus: PropTypes.bool,
+    disabled: PropTypes.bool,
+    inputRef: PropTypes.func,
     // onAttachShoutClick: PropTypes.func.isRequired,
   };
 

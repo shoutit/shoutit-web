@@ -14,10 +14,7 @@
     "no-param-reassign": 0,
     "no-shadow": 0,
     "import/no-named-as-default": 0,
-    "react/prop-types": 0,
     "react/prefer-stateless-function": 0,
-    "react/no-did-mount-set-state": 0,
-    "react/no-did-update-set-state": 0,
     "react/jsx-closing-bracket-location": 0
   },
   "settings": {

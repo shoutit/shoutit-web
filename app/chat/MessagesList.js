@@ -7,14 +7,14 @@ if (process.env.BROWSER) {
   require('./MessagesList.scss');
 }
 
-function MessagesByDay({ day, messages, loggedUser, partecipants }) {
+export function MessagesByDay({ day, messages, loggedUser, partecipants }) {
 
   const messagesByUser = groupByProfile(messages)
     .map((byProfile, i) => {
       const { profile, messages: profileMessages } = byProfile;
       let className = 'MessagesList';
       if (profile && profile.isOwner) {
-        className += ' isMe';
+        className += ' is-me';
       }
       return (
         <div key={ i } className={ className }>
@@ -47,21 +47,29 @@ function MessagesByDay({ day, messages, loggedUser, partecipants }) {
   );
 }
 
+MessagesByDay.propTypes = {
+  day: React.PropTypes.object.isRequired,
+  messages: React.PropTypes.array,
+  loggedUser: React.PropTypes.object,
+  partecipants: React.PropTypes.array,
+};
+
 export default function MessagesList({ messages, loggedUser, partecipants }) {
   return (
     <div>
-        { groupByDay(messages).map((group, i) =>
-          <MessagesByDay
-            key={i}
-            day={ group.day }
-            loggedUser={ loggedUser }
-            messages={ group.messages }
-            partecipants={ partecipants }
-          />
-        )}
+      { groupByDay(messages).map((group, i) =>
+        <MessagesByDay
+          key={i}
+          day={ group.day }
+          loggedUser={ loggedUser }
+          messages={ group.messages }
+          partecipants={ partecipants }
+        />
+      )}
     </div>
   );
 }
+
 MessagesList.propTypes = {
   messages: React.PropTypes.array,
   loggedUser: React.PropTypes.object,

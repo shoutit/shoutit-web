@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node index.js",
     "build": "NODE_ENV=production webpack -p --bail",
-    "lint": "eslint app test",
+    "lint": "eslint app",
     "test": "# npm run test:mocha && npm run test:karma",
     "test:karma": "karma start --reporters mocha",
     "test:karma:watch": "karma start --auto-watch --no-single-run",

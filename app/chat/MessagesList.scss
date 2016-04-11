@@ -1,4 +1,4 @@
-@import "../styles/constants/colors.scss";
+@import "../styles/constants.scss";
 
 .MessagesList {
   display: flex;
@@ -6,7 +6,7 @@
   padding-left: .5rem;
 }
 
-.MessagesList.isMe {
+.MessagesList.is-me {
   flex-direction: row-reverse;
   .MessagesList-user {
     display: none;

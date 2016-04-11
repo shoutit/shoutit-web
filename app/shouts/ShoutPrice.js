@@ -3,7 +3,7 @@ import currencyFormatter from 'currency-formatter';
 
 export default function ShoutPrice({ shout }) {
   const isFree = !shout.price;
-  let className='ShoutPrice';
+  let className = 'ShoutPrice';
   if (isFree) {
     className += ' free';
   }
@@ -11,8 +11,7 @@ export default function ShoutPrice({ shout }) {
     <span className={ className }>
       { !isFree ?
         currencyFormatter.format(shout.price / 100, { code: shout.currency })
-        :
-        'Free'
+        : 'Free'
       }
     </span>
   );
