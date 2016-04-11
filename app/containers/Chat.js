@@ -13,6 +13,7 @@ import RequiresLogin from '../auth/RequiresLogin';
 
 import { denormalize } from '../schemas';
 import { getConversationName } from '../chat/ChatUtils';
+import { closeConversation } from '../actions/chat';
 
 if (process.env.BROWSER) {
   require('./Chat.scss');
@@ -21,7 +22,7 @@ if (process.env.BROWSER) {
 export class Chat extends React.Component {
 
   render() {
-    const { params, loggedUser, isFetching, conversations, conversation } = this.props;
+    const { params, loggedUser, isFetching, conversations, conversation, dispatch } = this.props;
     return (
       <RequiresLogin>
         <FixedHeightPage>
@@ -39,6 +40,7 @@ export class Chat extends React.Component {
                     selectedId={ params.conversationId }
                     isFetching={ isFetching }
                     loggedUser={ loggedUser }
+                    onConversationClick={ conversation => dispatch(closeConversation(conversation.id)) }
                   />
                 </div>
               </div>

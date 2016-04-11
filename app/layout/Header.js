@@ -50,6 +50,7 @@ export class Header extends Component {
     currentLocation: PropTypes.object,
   };
 
+
   render() {
     return (
       <header className="Header" style={{ position: 'relative' }}>

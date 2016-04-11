@@ -36,12 +36,27 @@ HeaderMessagesOverlay.propTypes = {
   onConversationClick: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  onConversationClick: (conversation, e) => {
-    e.preventDefault();
-    ownProps.closeOverlay();
-    dispatch(openConversation(conversation));
-  },
+const mapStateToProps = state => ({
+  currentUrl: state.routing.currentUrl,
 });
 
-export default connect(null, mapDispatchToProps)(HeaderMessagesOverlay);
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { dispatch } = dispatchProps;
+  const { currentUrl } = stateProps;
+  return {
+    ...ownProps,
+    onConversationClick: (conversation, e) => {
+      ownProps.closeOverlay();
+
+      if (currentUrl.indexOf(/messages/) === 0) {
+        // User is already in the messages page, let the link work as usual
+        return;
+      }
+      // otherwise, open the message overlay
+      e.preventDefault();
+      dispatch(openConversation(conversation));
+    },
+  };
+};
+
+export default connect(mapStateToProps, null, mergeProps)(HeaderMessagesOverlay);
