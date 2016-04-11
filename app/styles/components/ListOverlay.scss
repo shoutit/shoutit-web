@@ -30,13 +30,14 @@
 .ListOverlay-footer {
   text-align: center;
   a {
-    background-color: $si-green;
-    font-size: 14px;
+    background-color: $green;
+    font-size: 0.875rem;
     display: block;
-    padding: 5px 0;
+    padding: .5rem;
     color: white;
     &:hover {
       color: white;
+      background-color: $green-dark;
     }
   }
 }
