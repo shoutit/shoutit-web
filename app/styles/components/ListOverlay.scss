@@ -3,6 +3,8 @@
 .ListOverlay {
   display: flex;
   flex-direction: column;
+
+  transform: translateZ(0); // fix issue with scrollbars on chrome
 }
 
 .ListOverlay-header {
