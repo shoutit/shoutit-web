@@ -9,7 +9,7 @@ const log = debug('shoutit:ui:Scrollable');
 export default class Scrollable extends Component {
 
   static propTypes = {
-    scrollElement: PropTypes.func.isRequired,
+    scrollElement: PropTypes.func,
     children: PropTypes.element.isRequired,
     uniqueId: PropTypes.oneOfType([
       PropTypes.string, PropTypes.number,
@@ -122,18 +122,11 @@ export default class Scrollable extends Component {
   }
 
   scrollToInitialPosition() {
-    log("Scrolling to initial '%s' position", this.props.initialScroll);
-    switch (this.props.initialScroll) {
-      case 'top':
-        this.getScrollable().scrollTop = 0;
-        break;
-      case 'bottom':
-        this.getScrollable().scrollTop = this.state.scrollHeight;
-        break;
-      default:
-        break;
+    if (this.props.initialScroll === 'bottom') {
+      log("Scrolling to initial '%s' position", this.props.initialScroll);
+      this.getScrollable().scrollTop = this.state.scrollHeight;
+      log('Set scrollTop to %s', this.getScrollable().scrollTop);
     }
-    log('Set scrollTop to %s', this.getScrollable().scrollTop);
   }
 
   handleScroll(e) {
@@ -144,6 +137,7 @@ export default class Scrollable extends Component {
     if (onScroll) {
       onScroll(e);
     }
+    // log('Scrolling... scrollTop: %s, offsetHeight: %s, triggerOffset: %s, scrollHeight: %s', scrollTop, offsetHeight, triggerOffset, scrollHeight);
     if (onScrollTop && scrollTop === 0) {
       log('Scrolled on top, call onScrollTop handler');
       onScrollTop(e);
