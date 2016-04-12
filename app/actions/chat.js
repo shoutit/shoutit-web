@@ -24,7 +24,7 @@ const parsePayloadForConversations = (payload, state) => {
   return newPayload;
 };
 
-export function loadConversations() {
+export function loadConversations(endpoint) {
   return {
     types: [
       actionTypes.LOAD_CONVERSATIONS_START,
@@ -33,6 +33,7 @@ export function loadConversations() {
     ],
     service: {
       name: 'conversations',
+      params: { endpoint },
       schema: Schemas.CONVERSATIONS,
       parsePayload: parsePayloadForConversations,
     },
