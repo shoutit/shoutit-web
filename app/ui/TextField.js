@@ -35,6 +35,13 @@ export default class TextField extends Component {
     focus: false,
   };
 
+  componentDidMount() {
+    // Detect if autofill has put some value in the field
+    if (this.getValue() && !this.state.value) {
+      this.setState({ value: this.getValue() }); // eslint-disable-line
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {
       this.setState({ value: nextProps.value });
