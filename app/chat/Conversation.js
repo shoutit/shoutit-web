@@ -130,8 +130,8 @@ export class Conversation extends Component {
                 </p>
               </div>
             }
-            { conversation && conversation.isCreating &&
-              <Progress animate label="Sending message…" />
+            { previousUrl &&
+              <Progress animate={ conversation && conversation.isCreating } label="Sending message…" size="small" />
             }
 
             <MessagesTypingUsers users={ typingUsers } />

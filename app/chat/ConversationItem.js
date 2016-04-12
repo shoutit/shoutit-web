@@ -46,7 +46,8 @@ export default function ConversationItem({ conversation, loggedUser, selected = 
         { lastMessage &&
           <div className="ConversationItem-last-message" title={ lastMessage.text }>
             { lastMessage.profile && lastMessage.profile.isOwner && <SVGIcon name="reply" size="small" /> }
-            <span>{ lastMessage.text }</span>
+            { lastMessage.text && <span>{ lastMessage.text }</span> }
+            { !lastMessage.text && lastMessage.attachments && <span className="htmlAncillary">Sent an attachment</span> }
           </div>
         }
       </div>
