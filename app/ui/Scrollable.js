@@ -9,7 +9,8 @@ const log = debug('shoutit:ui:Scrollable');
 export default class Scrollable extends Component {
 
   static propTypes = {
-    scrollElement: PropTypes.func,
+    scrollElement: PropTypes.func.isRequired,
+    children: PropTypes.element.isRequired,
     uniqueId: PropTypes.oneOfType([
       PropTypes.string, PropTypes.number,
     ]),
@@ -18,6 +19,9 @@ export default class Scrollable extends Component {
     onScrollBottom: PropTypes.func,
     initialScroll: PropTypes.oneOf(['top', 'bottom']),
     preventDocumentScroll: PropTypes.bool,
+    triggerOffset: PropTypes.number,
+    className: PropTypes.string,
+    style: PropTypes.object,
   };
 
   static defaultProps = {
@@ -44,7 +48,7 @@ export default class Scrollable extends Component {
   componentDidMount() {
     const scrollHeight = this.getScrollHeight();
     log('Component did mount: setting state.scrollHeight to %s', scrollHeight);
-    this.setState({ scrollHeight }, this.scrollToInitialPosition);
+    this.setState({ scrollHeight }, this.scrollToInitialPosition); // eslint-disable-line
     this.getScrollElement().addEventListener('scroll', this.handleScroll);
 
     if (this.props.preventDocumentScroll) {
@@ -57,7 +61,7 @@ export default class Scrollable extends Component {
     if (prevProps.uniqueId !== this.props.uniqueId) {
       const scrollHeight = this.getScrollHeight();
       log('Component unique id did change: setting state.scrollHeight to %s', scrollHeight);
-      this.setState({ scrollHeight, didScrollToBottom: false }, this.scrollToInitialPosition);
+      this.setState({ scrollHeight, didScrollToBottom: false }, this.scrollToInitialPosition); // eslint-disable-line
       return;
     }
 
@@ -68,7 +72,7 @@ export default class Scrollable extends Component {
         this.getScrollable().scrollTop = scrollHeight - this.state.scrollHeight + this.state.scrollTop;
         log('Set scrollTop to %s', this.getScrollable().scrollTop);
       }
-      this.setState({ scrollHeight, didScrollToBottom: false });
+      this.setState({ scrollHeight, didScrollToBottom: false }); // eslint-disable-line
       return;
     }
   }
