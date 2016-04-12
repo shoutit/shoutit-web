@@ -15,8 +15,11 @@
     background-color: $background-color;
     font-weight: bold;
   }
-  &:hover:not(.is-selected) {
+  &:hover:not(.is-selected):not(.is-unread) {
     background-color: $background-color-alt-light;
+  }
+  &:hover.is-unread {
+    background-color: darken($background-color, 5);
   }
 }
 
