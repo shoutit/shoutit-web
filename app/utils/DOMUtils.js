@@ -10,7 +10,7 @@ export function getStyleBackgroundImage(path, variation) {
     };
   }
   return {
-    backgroundImage: `url("${getVariation(path, variation)}")`,
+    backgroundImage: `url("${variation ? getVariation(path, variation) : path}")`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
