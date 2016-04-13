@@ -89,7 +89,7 @@ export class Shout extends Component {
     const { shout } = this.props;
 
     return [
-      <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } />,
+      !shout.profile.isOwner ? <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } /> : null,
       <Card block key="profile">
         <ProfileOverlay style={{ width: '100%' }} id={ shout.profile.id } />
       </Card>,
@@ -156,7 +156,7 @@ export class Shout extends Component {
               { shout.location.city || shout.location.state || shout.location.country }
             </ListItem>
 
-            <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } />
+            { !shout.profile.isOwner && <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } /> }
 
           </div>
         </div>
@@ -169,7 +169,7 @@ export class Shout extends Component {
 
     return (
       <div>
-      <Page title="Shout"
+      <Page title={ shout ? shout.title : null }
         className="ShoutPage"
         miniFooter={ false }
         stickyEndColumn
