@@ -231,11 +231,9 @@ SearchFilters.propTypes = {
   disabled: PropTypes.bool,
 };
 
-const mapStateToProps = state => {
-  const categories = state.categories.ids.map(id => state.entities.categories[id]);
-  return {
-    categories,
-    isLoggedIn: !!state.session.user,
-  };
-};
+const mapStateToProps = state => ({
+  categories: state.categories.ids.map(id => state.entities.categories[id]),
+  isLoggedIn: !!state.session.user,
+});
+
 export default connect(mapStateToProps)(SearchFilters);
