@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import currencyFormatter from 'currency-formatter';
 
-export default function ShoutPrice({ shout }) {
+if (process.env.BROWSER) {
+  require('./ShoutPrice.scss');
+}
+export default function ShoutPrice({ shout, layout = 'badge' }) {
   const isFree = !shout.price;
-  let className = 'ShoutPrice';
+  let className = `ShoutPrice ${layout}`;
   if (isFree) {
     className += ' free';
   }
@@ -16,3 +19,8 @@ export default function ShoutPrice({ shout }) {
     </span>
   );
 }
+
+ShoutPrice.propTypes = {
+  layout: PropTypes.oneOf(['badge', 'plain']),
+  shout: PropTypes.object.isRequired,
+};
