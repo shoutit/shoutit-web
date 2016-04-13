@@ -33,9 +33,10 @@ export default function ListItem({
         { start }
       </span>
       }
-      <span className="ListItem-end">
+      { children && <span className="ListItem-end">
         { children }
       </span>
+      }
     </div>
   );
 }
