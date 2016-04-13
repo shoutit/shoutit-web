@@ -1,0 +1,18 @@
+@import "../styles/constants";
+
+.GoogleStaticMap {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding-bottom: 75%;
+  span {
+    border-radius: $border-radius;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    left: 1px;
+    display: block;
+    background-position: center;
+  }
+}

@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { googleMapsKey } from '../config';
 import { createLinkToGoogleMaps } from '../utils/GoogleMapsUtils';
 
+if (process.env.BROWSER) {
+  require('./GoogleStaticMap.scss');
+}
 export default function GoogleStaticMap({
   // pass location
   location,
@@ -23,16 +26,16 @@ export default function GoogleStaticMap({
     markers = [location];
   }
 
-  const src = ['https://maps.googleapis.com/maps/api/staticmap?'];
+  const imageUrl = ['https://maps.googleapis.com/maps/api/staticmap?'];
 
-  src.push(`key=${googleMapsKey}`);
-  src.push('scale=2'); // for retina displays
+  imageUrl.push(`key=${googleMapsKey}`);
+  imageUrl.push('scale=2'); // for retina displays
 
-  src.push(`center=${center.latitude},${center.longitude}`);
-  src.push(`zoom=${zoom}`);
-  src.push(`size=${width}x${height}`);
-  src.push(`maptype=${mapType}`);
-  src.push(`language=${language}`);
+  imageUrl.push(`center=${center.latitude},${center.longitude}`);
+  imageUrl.push(`zoom=${zoom}`);
+  imageUrl.push(`size=${width}x${height}`);
+  imageUrl.push(`maptype=${mapType}`);
+  imageUrl.push(`language=${language}`);
 
   markers.forEach(marker => {
     const {
@@ -42,14 +45,33 @@ export default function GoogleStaticMap({
       color = '0xff0000',
     } = marker;
 
-    src.push(`markers=size:${size}%7Ccolor:${color}%7Clabel:A%7C${latitude},${longitude}`);
+    imageUrl.push(`markers=size:${size}%7Ccolor:${color}%7Clabel:A%7C${latitude},${longitude}`);
   });
 
   const href = createLinkToGoogleMaps(location || center);
 
+  const style = {
+    backgroundImage: `url("${imageUrl.join('&')}")`,
+    backgroundSize: `${width}px ${height}px`,
+  };
+
   return (
-    <a href={ href } target="_blank">
-      <img src={ src.join('&') } width={ width } height={ height } />
+    <a href={ href } target="_blank" className="GoogleStaticMap">
+      <span style={ style } />
     </a>
   );
 }
+
+GoogleStaticMap.propTypes = {
+  zoom: PropTypes.number,
+  location: PropTypes.object.isRequired,
+  center: PropTypes.shape({
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
+  }),
+  markers: PropTypes.array,
+  width: PropTypes.number,
+  height: PropTypes.number,
+  language: PropTypes.string,
+  mapType: PropTypes.string,
+};
