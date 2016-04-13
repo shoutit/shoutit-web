@@ -131,7 +131,7 @@ export class Shout extends Component {
           </div>
         </div>
 
-        { (shout.images.length > 0 || shout.videos.length > 0) &&
+        { (shout.images && shout.images.length > 0 || shout.videos && shout.videos.length > 0) &&
           <div className="Shout-gallery">
             <Gallery images={ shout.images || undefined } videos={ shout.videos || undefined } />
           </div>
