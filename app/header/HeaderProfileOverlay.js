@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
@@ -35,6 +35,12 @@ export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
   );
 }
 
+HeaderProfileOverlay.propTypes = {
+  user: PropTypes.object.isRequired,
+  onLogoutClick: PropTypes.func.isRequired,
+  onItemClick: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = state => ({
   user: state.session.user,
 });
@@ -42,7 +48,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onLogoutClick: e => {
     e.preventDefault();
-    dispatch(logout()).then(() => dispatch(push('/')));
+    dispatch(logout()).then(() => window.location.reload());
   },
 });
 
