@@ -6871,11 +6871,6 @@
       "from": "https://registry.npmjs.org/react-avatar-editor/-/react-avatar-editor-3.2.1.tgz",
       "resolved": "https://registry.npmjs.org/react-avatar-editor/-/react-avatar-editor-3.2.1.tgz"
     },
-    "react-custom-scrollbars": {
-      "version": "1.1.0",
-      "from": "https://registry.npmjs.org/react-custom-scrollbars/-/react-custom-scrollbars-1.1.0.tgz",
-      "resolved": "https://registry.npmjs.org/react-custom-scrollbars/-/react-custom-scrollbars-1.1.0.tgz"
-    },
     "react-document-title": {
       "version": "2.0.1",
       "from": "https://registry.npmjs.org/react-document-title/-/react-document-title-2.0.1.tgz",
