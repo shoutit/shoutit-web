@@ -197,8 +197,8 @@ export function startConversation(loggedUser, user) {
   const conversation = {
     id: `new-conversation-with-${user.id}`,
     isNew: true,
+    type: 'chat',
     profiles: [
-      loggedUser.id,
       user.id,
     ],
   };
@@ -215,7 +215,52 @@ export function startConversation(loggedUser, user) {
   };
 }
 
-export function createConversation(username, conversation, message) {
+export function startyShoutReply(loggedUser, shout) {
+  const conversation = {
+    id: `shout-reply-${shout.id}`,
+    isNew: true,
+    type: 'about_shout',
+    about: shout.id,
+    profiles: [
+      shout.profile.id,
+    ],
+  };
+  return {
+    type: actionTypes.OPEN_CONVERSATION,
+    payload: {
+      conversation,
+      entities: {
+        conversations: {
+          [conversation.id]: conversation,
+        },
+      },
+    },
+  };
+}
+
+export function replyToShout(conversation, text) {
+  const { about: shout } = conversation;
+  return {
+    types: [
+      actionTypes.CREATE_CONVERSATION_START,
+      actionTypes.CREATE_CONVERSATION_SUCCESS,
+      actionTypes.CREATE_CONVERSATION_FAILURE,
+    ],
+    payload: {
+      conversation,
+    },
+    service: {
+      name: 'shoutReply',
+      method: 'create',
+      params: { shout },
+      body: { text },
+      schema: Schemas.CONVERSATION,
+    },
+  };
+}
+
+export function chatWithProfile(conversation, text) {
+  const username = conversation.profiles.filter(profile => !profile.isOwner)[0].username;
   return {
     types: [
       actionTypes.CREATE_CONVERSATION_START,
@@ -229,7 +274,7 @@ export function createConversation(username, conversation, message) {
       name: 'profileChat',
       method: 'create',
       params: { username },
-      body: message,
+      body: { text },
       schema: Schemas.CONVERSATION,
     },
   };

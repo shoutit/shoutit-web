@@ -7,7 +7,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 // import SVGIcon from '../ui/SVGIcon';
 
 import { saveDraft } from '../actions/forms';
-import { replyToConversation, notifyTypingUser, createConversation, closeConversation, openConversation } from '../actions/chat';
+import { replyToConversation, replyToShout, notifyTypingUser, chatWithProfile, closeConversation, openConversation } from '../actions/chat';
 import { ENTER } from '../utils/keycodes';
 import { trimWhitespaces } from '../utils/StringUtils';
 
@@ -50,15 +50,20 @@ export class ConversationReplyForm extends Component {
   typingTimeout = null;
   textarea = null;
 
-  createNewConversation(text) {
-    const { conversation, dispatch, loggedUser } = this.props;
-    const username = conversation.profiles.filter(profile => profile.id !== loggedUser.id)[0].username;
-    const message = { text };
-    dispatch(createConversation(username, conversation, message))
-      .then(({ result }) => {
-        dispatch(closeConversation(conversation.id));
-        dispatch(openConversation({ id: result }));
-      });
+  createNewConversation(conversation, text) {
+    const { dispatch, name } = this.props;
+
+    function onSuccess({ result }) {
+      dispatch(closeConversation(conversation.id));
+      dispatch(openConversation({ id: result }));
+      dispatch(saveDraft(name, { draft: '' }));
+    }
+
+    if (conversation.type === 'chat') {
+      dispatch(chatWithProfile(conversation, text)).then(onSuccess);
+    } else {
+      dispatch(replyToShout(conversation, text)).then(onSuccess);
+    }
   }
 
   submit() {
@@ -67,12 +72,13 @@ export class ConversationReplyForm extends Component {
     if (disabled || !text) {
       return;
     }
-    dispatch(saveDraft(name, { draft: '' }));
-    this.textarea.focus();
 
     if (conversation.isNew) {
-      this.createNewConversation(text);
+      this.textarea.blur();
+      this.createNewConversation(conversation, text);
     } else {
+      dispatch(saveDraft(name, { draft: '' }));
+      this.textarea.focus();
       dispatch(replyToConversation(conversation.id, loggedUser, { text }));
     }
   }

@@ -34,7 +34,7 @@ export default function ConversationItem({ conversation, loggedUser, selected = 
           { getConversationName(conversation, loggedUser) }
         </div>
         {/*{ type === 'about_shout' &&
-          <div className="ConversationItem-aboutShout">
+          <div className="ConversationItem-about_shout">
             {about.title}
           </div>
         }

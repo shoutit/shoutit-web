@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 
 import MessagesList from '../chat/MessagesList';
 import ConversationReplyForm from '../chat/ConversationReplyForm';
+import ConversationStart from '../chat/ConversationStart';
 import MessagesTypingUsers from '../chat/MessagesTypingUsers';
 import Scrollable from '../ui/Scrollable';
-import UserAvatar from '../users/UserAvatar';
 
 import { loadMessages, setCurrentConversation, unsetCurrentConversation } from '../actions/chat';
 import { denormalize } from '../schemas';
@@ -82,10 +82,6 @@ export class Conversation extends Component {
     const { loggedUser, isFetchingMessages, conversation, messages = [], typingUsers } = this.props;
     const { previousUrl, dispatch, id } = this.props;
 
-    const recipient = conversation ?
-      conversation.profiles.filter(profile => profile.id !== loggedUser.id)[0] :
-      undefined;
-
     return (
       <div className="Conversation">
         <Scrollable
@@ -112,8 +108,9 @@ export class Conversation extends Component {
               </div>
             }
 
-            <Progress animate={ isFetchingMessages } />
-
+            { (!conversation || !conversation.isNew) &&
+              <Progress animate={ !conversation || isFetchingMessages } />
+            }
             { conversation && messages.length > 0 &&
                 <MessagesList
                   loggedUser={ loggedUser }
@@ -123,15 +120,10 @@ export class Conversation extends Component {
             }
 
             { conversation && conversation.isNew && !conversation.isCreating &&
-              <div style={{ padding: '1rem', textAlign: 'center' }}>
-                <UserAvatar user={ recipient } size="large" style={{ marginBottom: '1rem' }} />
-                <p className="htmlAncillary">
-                  To start chatting, write { recipient.name } a new message.
-                </p>
-              </div>
+              <ConversationStart conversation={ conversation } />
             }
-            { previousUrl &&
-              <Progress animate={ conversation && conversation.isCreating } label="Sending message…" size="small" />
+            { conversation && conversation.isNew && conversation.isCreating &&
+              <Progress animate label="Sending message…" />
             }
 
             <MessagesTypingUsers users={ typingUsers } />
