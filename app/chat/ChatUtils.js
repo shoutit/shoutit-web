@@ -1,7 +1,14 @@
 export function getConversationName(conversation) {
+  let name = '';
   if (conversation.type === 'about_shout') {
-    return `${conversation.about.title || 'Shout'} by ${conversation.about.profile.name}`;
+    const shout = conversation.about;
+    name += shout.title || 'Shout';
+    if (shout.profile) {
+      name += ` by ${conversation.about.profile.name}`;
+    }
+  } else {
+    const profiles = conversation.profiles.filter(profile => !profile.isOwner);
+    name = profiles.map(profile => profile.name).join(', ') || '(nobody)';
   }
-  const partecipants = conversation.profiles.filter(profile => !profile.isOwner);
-  return partecipants.map(profile => profile.name).join(', ') || '(no partecipants)';
+  return name;
 }
