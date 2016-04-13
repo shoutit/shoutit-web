@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ReactPlayer from 'react-player';
 
 import { getVariation } from '../utils/APIUtils';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
