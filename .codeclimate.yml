@@ -16,5 +16,6 @@ ratings:
 exclude_paths:
 - test/
 - public/
+- app/services/
 - "**.test.js"
 - "**.spec.js"
