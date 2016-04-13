@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import UserAvatar from '../users/UserAvatar.js';
@@ -12,14 +12,13 @@ if (process.env.BROWSER) {
 
 export default function ConversationItem({ conversation, loggedUser, selected = false, unread = false, onClick }) {
 
-  const { id, type, profiles, lastMessage, about, unreadMessagesCount } = conversation;
+  const { id, profiles, lastMessage, unreadMessagesCount } = conversation;
 
   const partecipants = profiles.filter(profile => profile.id !== loggedUser.id);
   let className = 'ConversationItem';
   if (selected) {
     className = `${className} is-selected`;
   }
-
   if (unread) {
     className = `${className} is-unread`;
   }
@@ -35,7 +34,7 @@ export default function ConversationItem({ conversation, loggedUser, selected = 
           { getConversationName(conversation, loggedUser) }
         </div>
         {/*{ type === 'about_shout' &&
-          <div className="ConversationItem-aboutShout">
+          <div className="ConversationItem-about_shout">
             {about.title}
           </div>
         }
@@ -47,7 +46,8 @@ export default function ConversationItem({ conversation, loggedUser, selected = 
         { lastMessage &&
           <div className="ConversationItem-last-message" title={ lastMessage.text }>
             { lastMessage.profile && lastMessage.profile.isOwner && <SVGIcon name="reply" size="small" /> }
-            <span>{ lastMessage.text }</span>
+            { lastMessage.text && <span>{ lastMessage.text }</span> }
+            { !lastMessage.text && lastMessage.attachments && <span className="htmlAncillary">Sent an attachment</span> }
           </div>
         }
       </div>
@@ -68,3 +68,11 @@ export default function ConversationItem({ conversation, loggedUser, selected = 
     </Link>
   );
 }
+
+ConversationItem.propTypes = {
+  conversation: PropTypes.object.isRequired,
+  loggedUser: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
+  selected: PropTypes.bool,
+  unread: PropTypes.bool,
+};

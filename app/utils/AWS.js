@@ -21,10 +21,14 @@ export function upload({ body: Body, key: Key, bucket: Bucket }, done) {
   s3.upload(params, (err, data) => {
     if (err) {
       console.error(err);
-      done && done(err);
+      if (done) {
+        done(err);
+      }
       return;
     }
     log('Upload success for %s', Key, data);
-    done && done(null, data);
+    if (done) {
+      done(null, data);
+    }
   });
 }

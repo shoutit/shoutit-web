@@ -10,6 +10,7 @@ export default class Scrollable extends Component {
 
   static propTypes = {
     scrollElement: PropTypes.func,
+    children: PropTypes.element.isRequired,
     uniqueId: PropTypes.oneOfType([
       PropTypes.string, PropTypes.number,
     ]),
@@ -18,6 +19,9 @@ export default class Scrollable extends Component {
     onScrollBottom: PropTypes.func,
     initialScroll: PropTypes.oneOf(['top', 'bottom']),
     preventDocumentScroll: PropTypes.bool,
+    triggerOffset: PropTypes.number,
+    className: PropTypes.string,
+    style: PropTypes.object,
   };
 
   static defaultProps = {
@@ -44,7 +48,7 @@ export default class Scrollable extends Component {
   componentDidMount() {
     const scrollHeight = this.getScrollHeight();
     log('Component did mount: setting state.scrollHeight to %s', scrollHeight);
-    this.setState({ scrollHeight }, this.scrollToInitialPosition);
+    this.setState({ scrollHeight }, this.scrollToInitialPosition); // eslint-disable-line
     this.getScrollElement().addEventListener('scroll', this.handleScroll);
 
     if (this.props.preventDocumentScroll) {
@@ -57,7 +61,7 @@ export default class Scrollable extends Component {
     if (prevProps.uniqueId !== this.props.uniqueId) {
       const scrollHeight = this.getScrollHeight();
       log('Component unique id did change: setting state.scrollHeight to %s', scrollHeight);
-      this.setState({ scrollHeight, didScrollToBottom: false }, this.scrollToInitialPosition);
+      this.setState({ scrollHeight, didScrollToBottom: false }, this.scrollToInitialPosition); // eslint-disable-line
       return;
     }
 
@@ -68,7 +72,7 @@ export default class Scrollable extends Component {
         this.getScrollable().scrollTop = scrollHeight - this.state.scrollHeight + this.state.scrollTop;
         log('Set scrollTop to %s', this.getScrollable().scrollTop);
       }
-      this.setState({ scrollHeight, didScrollToBottom: false });
+      this.setState({ scrollHeight, didScrollToBottom: false }); // eslint-disable-line
       return;
     }
   }
@@ -118,18 +122,11 @@ export default class Scrollable extends Component {
   }
 
   scrollToInitialPosition() {
-    log("Scrolling to initial '%s' position", this.props.initialScroll);
-    switch (this.props.initialScroll) {
-      case 'top':
-        this.getScrollable().scrollTop = 0;
-        break;
-      case 'bottom':
-        this.getScrollable().scrollTop = this.state.scrollHeight;
-        break;
-      default:
-        break;
+    if (this.props.initialScroll === 'bottom') {
+      log("Scrolling to initial '%s' position", this.props.initialScroll);
+      this.getScrollable().scrollTop = this.state.scrollHeight;
+      log('Set scrollTop to %s', this.getScrollable().scrollTop);
     }
-    log('Set scrollTop to %s', this.getScrollable().scrollTop);
   }
 
   handleScroll(e) {
@@ -140,6 +137,7 @@ export default class Scrollable extends Component {
     if (onScroll) {
       onScroll(e);
     }
+    // log('Scrolling... scrollTop: %s, offsetHeight: %s, triggerOffset: %s, scrollHeight: %s', scrollTop, offsetHeight, triggerOffset, scrollHeight);
     if (onScrollTop && scrollTop === 0) {
       log('Scrolled on top, call onScrollTop handler');
       onScrollTop(e);

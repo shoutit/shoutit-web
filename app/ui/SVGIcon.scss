@@ -112,6 +112,9 @@ $size-huge: 52px;
   .SVGIcon.active .SVGIcon-icon.balloon-dots {
     background-image: url("../../assets/icons/balloon-dots-active.svg");
   }
+  .SVGIcon.fill .SVGIcon-icon.balloon-dots {
+    background-image: url("../../assets/icons/balloon-dots-fill.svg");
+  }
 
 .SVGIcon-icon.ban {
   background-image: url("../../assets/icons/ban.svg");

@@ -3,8 +3,8 @@ import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'shout',
-  create: (req, resource, params, body, config, callback) => {
-  },
+  // create: (req, resource, params, body, config, callback) => {
+  // },
   read: (req, resource, { id }, config, callback) => {
     request
       .get(`/shouts/${id}`)
@@ -17,6 +17,6 @@ export default {
         return callback(null, res.body);
       });
   },
-  update: (req, resource, params, body, config, callback) => {
-  },
+  // update: (req, resource, params, body, config, callback) => {
+  // },
 };

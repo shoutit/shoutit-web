@@ -13,6 +13,9 @@
   &.no-space {
     margin: 0;
   }
+  &.size-small {
+    margin: .5rem .25rem;
+  }
 }
 
 .Progress-wrapper {
@@ -31,6 +34,9 @@
   display: inline-block;
   font-size: .875rem;
   color: $color;
+  .Progress.size-small & {
+    font-size: .75rem;
+  }
 }
 
 .Progress-animation {

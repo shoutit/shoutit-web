@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 // import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import SVGIcon from '../ui/SVGIcon';
@@ -15,3 +15,7 @@ export default function MessageReadByFlag({ profiles }) {
     // </OverlayTrigger>
   );
 }
+
+MessageReadByFlag.propTypes = {
+  profiles: PropTypes.array,
+};

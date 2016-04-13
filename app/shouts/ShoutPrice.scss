@@ -1,0 +1,32 @@
+@import "../styles/constants.scss";
+
+.ShoutPrice {
+
+  &.badge {
+    color: white;
+    background: $si-green;
+    padding: 0.35rem .7rem;
+    box-shadow: -1px 1px 3px rgba(0,0,0,.4);
+    &:before {
+      content: '';
+      position: absolute;
+      transform: rotate(-180deg);
+      width: 0;
+      height: 0;
+      right: 0;
+      bottom: -8px;
+      border-left: 8px solid transparent;
+      border-right: 0 solid transparent;
+      border-bottom: 8px solid darken($si-green, 20);
+      z-index: 1;
+    }
+  }
+  &.plain {
+    font-size: 1.5rem;
+    font-weight: lighter;
+  }
+  &.free {
+    text-transform: uppercase;
+    // background-color: $si-blue;
+  }
+}

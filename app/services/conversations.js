@@ -4,8 +4,8 @@ import { parseApiError } from '../utils/APIUtils';
 export default {
   name: 'conversations',
 
-  read: (req, resource, { id }, config, callback) => {
-    let url = '/conversations';
+  read: (req, resource, { id, endpoint }, config, callback) => {
+    let url = endpoint || '/conversations';
     if (id) {
       url += `/${id}`;
     }

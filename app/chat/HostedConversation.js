@@ -11,9 +11,11 @@ if (process.env.BROWSER) {
 
 export class HostedConversation extends Component {
 
-  static propTypes: {
+  static propTypes = {
     id: PropTypes.string.isRequired,
-  }
+    loggedUser: PropTypes.object.isRequired,
+    onClick: PropTypes.func,
+  };
 
   render() {
     const { onCloseClick, conversation, loggedUser, onClick } = this.props;

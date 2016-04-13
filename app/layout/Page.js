@@ -6,7 +6,7 @@ import DocumentTitle from '../ui/DocumentTitle';
 if (process.env.BROWSER) {
   require('./Page.scss');
 }
-export default function Page({ children, className, startColumn, stickyStartColumn = false, endColumn, stickyEndColumn = false, title = '' }) {
+export default function Page({ children, className, startColumn, stickyStartColumn = false, endColumn, stickyEndColumn = false, title = '', miniFooter = true }) {
   const stickyProps = {
     stickyWrapperClass: 'Page-sticky-wrap',
     stickyClass: 'Page-sticky',
@@ -47,7 +47,7 @@ export default function Page({ children, className, startColumn, stickyStartColu
                   { endColumn }
                 </div>
               </Sticky> :
-              [endColumn, <MiniFooter key="minifooter" />]
+              [endColumn, miniFooter ? <MiniFooter key="minifooter" /> : null]
             }
           </div>
         }

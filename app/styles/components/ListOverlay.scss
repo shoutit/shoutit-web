@@ -3,6 +3,8 @@
 .ListOverlay {
   display: flex;
   flex-direction: column;
+
+  transform: translateZ(0); // fix issue with scrollbars on chrome
 }
 
 .ListOverlay-header {
@@ -15,8 +17,7 @@
 .ListOverlay-body {
   position: relative;
   flex: 1;
-  min-height: 200px;
-  max-height: 500px;
+  height: 400px;
   overflow: auto;
 }
 

@@ -8,6 +8,7 @@
   text-decoration: none;
   cursor: pointer;
   background-color: white;
+  border-bottom: 1px solid $border-color;
   &.is-selected {
     background-color: $background-color-alt;
   }
@@ -15,8 +16,11 @@
     background-color: $background-color;
     font-weight: bold;
   }
-  &:hover:not(.is-selected) {
-    background-color: $background-color-alt-light;
+  &:hover:not(.is-selected):not(.is-unread) {
+    // background-color: lighten($background-color-alt, 2);
+  }
+  &:hover.is-unread {
+    // background-color: darken($background-color, 1);
   }
 }
 
@@ -60,7 +64,7 @@
   margin-bottom: .25rem;
 }
 
-.ConversationItem-aboutShout {
+.ConversationItem-about_shout {
   color: $si-blue;
   font-size: 0.875rem;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router';
 
@@ -87,3 +87,8 @@ export default function MessageItem({ message, readByProfiles = [] }) {
     </div>
   );
 }
+
+MessageItem.propTypes = {
+  message: PropTypes.object.isRequired,
+  readByProfiles: PropTypes.array,
+};

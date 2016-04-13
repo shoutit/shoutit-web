@@ -1,0 +1,108 @@
+@import "../styles/constants.scss";
+
+.ShoutPage {
+  padding-top: .75rem;
+  padding-bottom: 1rem;
+
+  h1 {
+    margin: 0;
+    margin-top: .5rem;
+    margin-bottom: 1rem;
+    font-weight: lighter;
+  }
+
+  .Page-column {
+    margin-bottom: 0;
+  }
+
+
+}
+
+.Shout {
+  position: relative;
+  padding: .5rem 1rem;
+  padding-top: 0;
+  border-radius: $border-radius;
+  background-color: white;
+  box-shadow: $box-shadow-depth-0;
+
+}
+
+.Shout-title {
+  padding: .5rem 0;
+  // background-color: rgba(white, .8);
+  // position: sticky;
+  // top: 70px;
+  // z-index: 2;
+}
+
+.Shout-header {
+  display: flex;
+  .ListItem {
+    margin-right: .5rem;
+  }
+}
+
+.Shout-gallery {
+  width: 720px;
+  min-height: 540px;
+  margin: .5rem auto;
+}
+
+.Shout-body {
+  display: flex;
+
+  .Shout-text {
+    flex: 1;
+  }
+  .Shout-card {
+    width: 240px;
+  }
+}
+
+.Shout-card {
+  padding-top: 1rem;
+  padding-left: 1rem;
+  border-left: 1px solid $border-color;
+  .ListItem {
+    margin-bottom: .25rem;
+  }
+  .ShoutBuy {
+    padding-top: 1.25rem;
+  }
+}
+
+.ShoutBuy {
+  padding-top: .5rem;
+  margin-bottom: 1.25rem;
+  text-align: center;
+  .ShoutPrice {
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .htmlAncillary {
+    text-align: left;
+  }
+}
+
+.Shouts-related {
+  width: $content-width;
+  margin: 1rem auto;
+  padding: 0 1rem;
+
+  h2 {
+    margin: 0;
+    text-align: center;
+    font-weight: lighter;
+  }
+}
+
+
+.Shouts-related-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  .ShoutPreview {
+    width: calc(33% - 2rem);
+    margin: 1rem;
+  }
+}
