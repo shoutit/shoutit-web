@@ -10,11 +10,17 @@ if (process.env.BROWSER) {
   require('./ConversationItem.scss');
 }
 
-export default function ConversationItem({ conversation, loggedUser, selected = false, unread = false, onClick }) {
+export default function ConversationItem({
+  conversation,
+  loggedUser,
+  onClick,
+  selected = false,
+  unread = false,
+}) {
 
   const { id, profiles, lastMessage, unreadMessagesCount } = conversation;
 
-  const partecipants = profiles.filter(profile => profile.id !== loggedUser.id);
+  const partecipants = profiles.filter(profile => !profile.isOwner);
   let className = 'ConversationItem';
   if (selected) {
     className = `${className} is-selected`;
@@ -24,7 +30,7 @@ export default function ConversationItem({ conversation, loggedUser, selected = 
   }
   return (
     <Link onClick={ onClick } to={ `/messages/${id}` } className={ className }>
-      <div className="ConversationItem-usersImage">
+      <div className="ConversationItem-user-avatar">
         <UserAvatar user={ partecipants[0] } />
       </div>
 

@@ -84,13 +84,13 @@ describe('reducer/paginate', () => {
 
       });
 
-      it('should append the error when failed fetching', () => {
+      it('should append the error when fetching fails', () => {
         const state = reduce({
           ids: ['foo', 'bar'],
           isFetching: true,
         }, {
           type: 'FETCH_FAILURE',
-          payload: 'A bad error',
+          payload: { error: 'A bad error' },
         });
 
         expect(state).to.eql({
@@ -172,7 +172,7 @@ describe('reducer/paginate', () => {
 
       });
 
-      it('should append the error when failed fetchin', () => {
+      it('should append the error when fetching fails', () => {
         const state = reduce({
           C: {
             isFetching: true,
@@ -181,17 +181,18 @@ describe('reducer/paginate', () => {
         }, {
           type: 'FETCH_FAILURE',
           payload: {
-            message: 'Bad bad things',
             fooId: 'C',
+            error: {
+              message: 'Bad bad things',
+            },
           },
         });
         expect(state).to.eql({
           C: {
             ids: ['gin', 'bar'],
             isFetching: false,
-            error:  {
+            error: {
               message: 'Bad bad things',
-              fooId: 'C',
             },
           },
         });

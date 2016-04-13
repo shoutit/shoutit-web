@@ -8,7 +8,7 @@ describe('request', () => {
 
   it('should set authorization header from session object', () => {
     const req = request.get('/foo').setSession({ accessToken: 'foo' });
-    expect(req.header.authorization).to.equal('Bearer foo');
+    expect(req.header.Authorization).to.equal('Bearer foo');
   });
 
   it('should prefix the url', () => {

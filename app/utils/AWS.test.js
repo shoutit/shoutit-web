@@ -10,7 +10,7 @@ describe('AWS', () => {
     return;
   }
 
-  describe('upload', function () {
+  describe('upload', function testUpload() {
     this.timeout(5000);
 
     it('should upload a stream', done => {
