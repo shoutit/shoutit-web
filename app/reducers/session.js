@@ -119,12 +119,11 @@ export default function (state = initialState, action) {
         setPasswordError: payload.error,
       };
 
-
-    case actionTypes.LOGOUT:
-      return {
-        ...state,
-        user: null,
-      };
+    // case actionTypes.LOGOUT:
+    //   return {
+    //     ...state,
+    //     user: null,
+    //   };
 
     case actionTypes.RESET_SESSION_ERRORS:
       return {

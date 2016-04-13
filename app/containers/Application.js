@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import Header from '../layout/Header';
@@ -68,28 +68,33 @@ export class Application extends React.Component {
   render() {
     const { children, error, ...props } = this.props;
     let className = 'App';
-    let stickyHeader = true;
-    let showHeader = (!error || error.statusCode === 404);
+
+    let layout = {
+      stickyHeader: !error || error.statusCode === 404,
+      showHeader: true,
+    };
 
     if (props.routes) {
       const lastRoute = props.routes[props.routes.length - 1];
       if (lastRoute.getApplicationLayout) {
-        const layout = lastRoute.getApplicationLayout();
-        if (layout.className) {
-          className += ` ${layout.className}`;
-        }
-        showHeader = !layout.hideHeader;
-        stickyHeader = layout.stickyHeader;
+        layout = {
+          ...layout,
+          ...lastRoute.getApplicationLayout(),
+        };
       }
     }
 
-    if (showHeader && stickyHeader) {
+    if (layout.showHeader && layout.stickyHeader) {
       className += ' stickyHeader';
     }
+    if (layout.className) {
+      className += ` ${layout.className}`;
+    }
+
 
     return (
       <div className={ className }>
-        { showHeader &&
+        { layout.showHeader &&
           <div className="App-header">
             <Header
               history={ props.history }
@@ -117,6 +122,14 @@ export class Application extends React.Component {
     );
   }
 }
+
+Application.propTypes = {
+  loggedUser: PropTypes.object,
+  currentLocation: PropTypes.object,
+  error: PropTypes.object,
+  children: PropTypes.element.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
 
 function mapStateToProps(state) {
   return {

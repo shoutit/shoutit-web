@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 // Replace a new line with a <br/> element
 
@@ -14,3 +14,7 @@ export default function NewlineToBreak({ children }) {
     </span>
   );
 }
+
+NewlineToBreak.propTypes = {
+  children: PropTypes.element.isRequired,
+};

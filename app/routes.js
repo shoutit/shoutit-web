@@ -19,14 +19,14 @@ import Heartbeat from './containers/Heartbeat';
 
 const authAppLayout = () => ({
   className: 'pattern-background',
-  hideHeader: true,
+  showHeader: false,
 });
 
 const routes = (store) =>
   <Route component={ Application }>
     <Route path="/"
       getApplicationLayout={ () => ({
-        stickyHeader: false,
+        stickyHeader: store.getState().session.user,
       })}
       getComponent={ (location, callback) => {
         const Component = store.getState().session.user ? Dashboard : Homepage;

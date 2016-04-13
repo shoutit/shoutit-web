@@ -89,7 +89,7 @@ export class Shout extends Component {
     const { shout } = this.props;
 
     return [
-      <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } />,
+      !shout.profile.isOwner ? <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } /> : null,
       <Card block key="profile">
         <ProfileOverlay style={{ width: '100%' }} id={ shout.profile.id } />
       </Card>,
@@ -131,7 +131,7 @@ export class Shout extends Component {
           </div>
         </div>
 
-        { (shout.images || shout.videos) &&
+        { (shout.images.length > 0 || shout.videos.length > 0) &&
           <div className="Shout-gallery">
             <Gallery images={ shout.images || undefined } videos={ shout.videos || undefined } />
           </div>
@@ -139,12 +139,13 @@ export class Shout extends Component {
 
         <div className="Shout-body">
           <div className="Shout-text">
-            <p>
-              <NewlineToBreak>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </NewlineToBreak>
-            </p>
-          </div>
+              { shout.text && <p>
+                <NewlineToBreak>
+                  { shout.text }
+                </NewlineToBreak>
+              </p>
+              }
+            </div>
           <div className="Shout-card">
             <ListItem start={ <SVGIcon name="clock" /> }>
               <TimeAgo date={ shout.datePublished } />
@@ -155,7 +156,7 @@ export class Shout extends Component {
               { shout.location.city || shout.location.state || shout.location.country }
             </ListItem>
 
-            <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } />
+            { !shout.profile.isOwner && <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } /> }
 
           </div>
         </div>
@@ -168,7 +169,7 @@ export class Shout extends Component {
 
     return (
       <div>
-      <Page title="Shout"
+      <Page title={ shout ? shout.title : null }
         className="ShoutPage"
         miniFooter={ false }
         stickyEndColumn
