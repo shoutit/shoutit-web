@@ -3,6 +3,7 @@
   "plugins": ["react"],
   "extends": ["airbnb", "plugin:import/errors", "plugin:import/warnings"],
   "rules": {
+    "no-unused-expressions": 0,
     "spaced-comment": 0,
     "padded-blocks": 0,
     "arrow-body-style": 0,
