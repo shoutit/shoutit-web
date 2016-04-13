@@ -68,14 +68,14 @@ export class SearchFilters extends Component {
   showLocationModal(e) {
     e.preventDefault();
     e.target.blur();
-    const { dispatch, loggedUser } = this.props;
+    const { dispatch, isLoggedIn } = this.props;
     const modal = (
       <Modal title="Change location" name="search-location">
         <SearchLocation
           onLocationSelect={ location => {
             dispatch(closeModal('search-location'));
             dispatch(setCurrentLocation(location));
-            if (loggedUser) {
+            if (isLoggedIn) {
               dispatch(setUserLocation(location));
             }
           }}
@@ -155,7 +155,7 @@ export class SearchFilters extends Component {
           >
             <option value="all">All categories</option>
             { categories.map(({ slug, name }) =>
-              <option value={slug }>
+              <option value={ slug } key={ slug }>
                 { name }
               </option>
             )}
@@ -182,7 +182,7 @@ export class SearchFilters extends Component {
                     >
                       <option value="all">All</option>
                       { filter.values.map(value =>
-                        <option value={ value.slug }>{ value.name}</option>
+                        <option value={ value.slug } key={ value.slug }>{ value.name}</option>
                       )}
                     </Picker>
                   </span>
@@ -225,10 +225,17 @@ export class SearchFilters extends Component {
   }
 }
 
+SearchFilters.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool,
+  disabled: PropTypes.bool,
+};
+
 const mapStateToProps = state => {
   const categories = state.categories.ids.map(id => state.entities.categories[id]);
   return {
     categories,
+    isLoggedIn: !!state.session.user,
   };
 };
 export default connect(mapStateToProps)(SearchFilters);
