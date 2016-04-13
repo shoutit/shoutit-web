@@ -53,24 +53,23 @@ export class Application extends React.Component {
   }
 
   componentWillUpdate(nextProps) {
-    const { dispatch, currentLocation } = this.props;
+    const { dispatch, currentLocation, loggedUser } = this.props;
 
     // Update suggestions if location change
     if (currentLocation.slug !== nextProps.currentLocation.slug) {
       dispatch(loadSuggestions(currentLocation));
     }
-    if (!nextProps.loggedUser && this.props.loggedUser) {
+    if (!nextProps.loggedUser && loggedUser) {
       // Fetch application data again when logged user changed (e.g. has been logged out)
-      fetchData(this.props.dispatch, { session: { user: undefined } });
+      fetchData(dispatch, { session: { user: undefined } });
     }
   }
 
   render() {
     const { children, error, ...props } = this.props;
     let className = 'App';
-    if (!(!props.loggedUser && props.currentUrl === '/')) {
-      className += ' stickyHeader';
-    }
+    let stickyHeader = true;
+    let showHeader = (!error || error.statusCode === 404);
 
     if (props.routes) {
       const lastRoute = props.routes[props.routes.length - 1];
@@ -79,11 +78,18 @@ export class Application extends React.Component {
         if (layout.className) {
           className += ` ${layout.className}`;
         }
+        showHeader = !layout.hideHeader;
+        stickyHeader = layout.stickyHeader;
       }
     }
+
+    if (showHeader && stickyHeader) {
+      className += ' stickyHeader';
+    }
+
     return (
       <div className={ className }>
-        { (!error || error.statusCode === 404) &&
+        { showHeader &&
           <div className="App-header">
             <Header
               history={ props.history }

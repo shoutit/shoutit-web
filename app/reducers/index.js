@@ -102,6 +102,14 @@ const paginated = combineReducers({
       actionTypes.LOAD_DISCOVER_SHOUTS_FAILURE,
     ],
   }),
+  relatedShoutsByShout: paginate({
+    mapActionToKey: action => action.payload.shoutId,
+    fetchTypes: [
+      actionTypes.LOAD_RELATED_SHOUTS_START,
+      actionTypes.LOAD_RELATED_SHOUTS_SUCCESS,
+      actionTypes.LOAD_RELATED_SHOUTS_FAILURE,
+    ],
+  }),
   suggestions: paginate({
     fetchTypes: [
       actionTypes.LOAD_SUGGESTIONS_START,
@@ -114,6 +122,11 @@ const paginated = combineReducers({
 const entities = combineReducers({
 
   categories: entity({ name: 'categories' }),
+  currencies: entity({ name: 'currencies' }),
+  shouts: entity({ name: 'shouts' }),
+  tags: entity({ name: 'tags' }),
+  users: entity({ name: 'users' }),
+  discoverItems: entity({ name: 'discoverItems' }),
 
   conversations: (state, action) => {
     let newState = entity({
@@ -130,8 +143,6 @@ const entities = combineReducers({
     return newState;
   },
 
-  currencies: entity({ name: 'currencies' }),
-
   messages: entity({
     name: 'messages',
     mapActionToTempId: action => action.payload.message.id,
@@ -142,11 +153,6 @@ const entities = combineReducers({
       actionTypes.REPLY_CONVERSATION_FAILURE,
     ],
   }),
-
-  shouts: entity({ name: 'shouts' }),
-  tags: entity({ name: 'tags' }),
-  users: entity({ name: 'users' }),
-  discoverItems: entity({ name: 'discoverItems' }),
 
 });
 

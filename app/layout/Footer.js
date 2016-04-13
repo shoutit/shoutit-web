@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { imagesPath, facebookLink, twitterLink, instagramLink, appStoreLink, playStoreLink  } from '../config';
+import { imagesPath, facebookLink, twitterLink, instagramLink, appStoreLink, playStoreLink } from '../config';
 
 if (process.env.BROWSER) {
   require('./Footer.scss');

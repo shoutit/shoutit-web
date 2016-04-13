@@ -67,7 +67,7 @@ describe('ConversationItem', () => {
         users={ users }
       />
     );
-    expect(tree.findNode('.ConversationItem-aboutShout').props).to.have
+    expect(tree.findNode('.ConversationItem-about_shout').props).to.have
       .property('children', 'Foo');
   });
 

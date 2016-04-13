@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default function (projectId) {
-  let ga = window.ga = window.ga || function () { //eslint-disable-line
+  let ga = window.ga = window.ga || function () {
     (ga.q = ga.q || []).push(arguments);
   };
   ga.l = new Date();

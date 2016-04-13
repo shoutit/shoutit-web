@@ -7,10 +7,6 @@
 
   font-size: 0.875rem;
 
-  &.nowrap {
-    @include ellipsis();
-  }
-
   &.interaction-enabled {
     cursor: pointer;
   }
@@ -22,7 +18,7 @@
   &.disabled {
     opacity: 0.75;
   }
-  
+
   .ListItem-start {
     flex-shrink: 0;
     display: inline-block;
@@ -32,6 +28,9 @@
 
   .ListItem-end {
     display: inline-block;
+    .ListItem.nowrap & {
+      @include ellipsis();
+    }
   }
 
   .ListItem-start + .ListItem-end {
@@ -41,7 +40,6 @@
   &.size-small .ListItem-start + .ListItem-end {
     margin-left: .25rem;
   }
-
 
   a > & {
     color: $color

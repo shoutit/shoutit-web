@@ -5,9 +5,10 @@ import { push } from 'react-router-redux';
 import ShoutPrice from './ShoutPrice';
 import ShoutLink from './ShoutLink';
 import TimeAgo from '../ui/TimeAgo';
-import SVGIcon from '../ui/SVGIcon';
 import ListItem from '../ui/ListItem';
 import Tooltip from '../ui/Tooltip';
+
+import CategoryListItem from './CategoryListItem';
 
 import UserAvatar from '../users/UserAvatar';
 import ProfileOverlay from '../users/ProfileOverlay';
@@ -38,7 +39,7 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
             start={ showProfile &&
               <Tooltip
                 destroyTooltipOnHide
-                mouseLeaveDelay={0.05}
+                mouseLeaveDelay={ 0.05 }
                 white
                 placement="top"
                 overlay={ <ProfileOverlay id={ shout.profile.id } /> }>
@@ -49,9 +50,7 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
             }>
             <TimeAgo date={ shout.datePublished } />
           </ListItem>
-          <ListItem onClick={ onCategoryClick } className="ShoutPreview-category" size="small" start={ <SVGIcon size="small" name="tag" /> }>
-            { shout.category.name || shout.category }
-          </ListItem>
+          <CategoryListItem onClick={ onCategoryClick } category={ shout.category } size="small" />
         </div>
       </div>
     </ShoutLink>
@@ -61,6 +60,8 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
 
 ShoutPreview.propTypes = {
   shout: PropTypes.object.isRequired,
+  onProfileAvatarClick: PropTypes.func.isRequired,
+  onCategoryClick: PropTypes.func.isRequired,
   showProfile: PropTypes.bool,
 };
 

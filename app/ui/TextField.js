@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { trimWhitespaces } from '../utils/StringUtils';
 import Tooltip from '../ui/Tooltip';
 
@@ -8,16 +8,39 @@ if (process.env.BROWSER) {
 
 export default class TextField extends Component {
 
+  static propTypes = {
+    initialValue: PropTypes.string,
+    value: PropTypes.string,
+    label: PropTypes.string,
+    tooltipPlacement: PropTypes.string,
+    className: PropTypes.string,
+    placeholder: PropTypes.string,
+    errors: PropTypes.array,
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    disabled: PropTypes.bool,
+    block: PropTypes.bool,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       value: props.initialValue || props.value || '',
     };
   }
+
   state = {
     value: '',
     focus: false,
   };
+
+  componentDidMount() {
+    // Detect if autofill has put some value in the field
+    if (this.getValue() && !this.state.value) {
+      this.setState({ value: this.getValue() }); // eslint-disable-line
+    }
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {

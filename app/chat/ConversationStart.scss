@@ -1,0 +1,25 @@
+.ConversationStart {
+  .ConversationStart-chat {
+    text-align: center;
+    .UserAvatar {
+      margin: 0 auto;
+      margin-top: 2rem;
+    }
+  }
+
+  .ShoutPreview {
+    border-radius: 0;
+    .ShoutPrice {
+      display: none;
+    }
+    .Card-image, .Card-title {
+      border-radius: 0;
+    }
+  }
+
+  .htmlAncillary {
+    text-align: center;
+    font-size: 0.75rem;
+    margin: 1rem;
+  }
+}

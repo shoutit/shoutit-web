@@ -48,7 +48,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     onConversationClick: (conversation, e) => {
       ownProps.closeOverlay();
 
-      if (currentUrl.indexOf(/messages/) === 0) {
+      if (currentUrl.indexOf('messages') > -1) {
         // User is already in the messages page, let the link work as usual
         return;
       }
