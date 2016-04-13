@@ -17,20 +17,28 @@ import Interest from './containers/Interest';
 import Shout from './containers/Shout';
 import Heartbeat from './containers/Heartbeat';
 
+const authAppLayout = () => ({
+  className: 'pattern-background',
+  hideHeader: true,
+});
+
 const routes = (store) =>
   <Route component={ Application }>
     <Route path="/"
+      getApplicationLayout={ () => ({
+        stickyHeader: false,
+      })}
       getComponent={ (location, callback) => {
         const Component = store.getState().session.user ? Dashboard : Homepage;
         callback(null, Component);
         return Component;
       }}
     />
-    <Route path="/login" component={ Login } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
-    <Route path="/login/password" component={ ResetPassword } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
-    <Route path="/login/password/:resetToken" component={ SetPassword } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
-    <Route path="/signup" component={ Signup } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
-    <Route path="/signup/verify/:token" component={ VerifyEmail } getApplicationLayout={ () => ({ className: 'pattern-background' }) } />
+    <Route path="/login" component={ Login } getApplicationLayout={ authAppLayout } />
+    <Route path="/login/password" component={ ResetPassword } getApplicationLayout={ authAppLayout } />
+    <Route path="/login/password/:resetToken" component={ SetPassword } getApplicationLayout={ authAppLayout } />
+    <Route path="/signup" component={ Signup } getApplicationLayout={ authAppLayout } />
+    <Route path="/signup/verify/:token" component={ VerifyEmail } getApplicationLayout={ authAppLayout } />
 
     <Route path="/search(/:shout_type)(/:category)" component={ Search } />
     <Route path="/shout(/:id)" component={ Shout } />
