@@ -134,6 +134,7 @@ export class Searchbar extends Component {
       tagsBySearch,
       profilesBySearch,
       currentLocation,
+      error,
     } = this.props;
 
     let foundShouts = [];
@@ -207,6 +208,8 @@ export class Searchbar extends Component {
               <div style={{ margin: '.5rem' }}>
                 <Progress spaced={ false } animate label="Searching…" />
               </div> :
+            error ?
+              <p className="htmlError">Can't load results right now</p> :
             <SearchbarResults
               search={ searchString }
               onShowMoreShoutsClick={ this.submit }
@@ -241,6 +244,7 @@ const mapStateToProps = state => (
     profiles: state.entities.users,
     isFetchingProfiles: state.paginated.profilesBySearch.isFetching,
 
+    error: state.paginated.profilesBySearch.error || state.paginated.tagsBySearch.error || state.paginated.shoutsBySearch.error,
   }
 );
 
