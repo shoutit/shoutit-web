@@ -48,7 +48,7 @@ export function MessagesByDay({ day, messages, loggedUser, partecipants }) {
 }
 
 MessagesByDay.propTypes = {
-  day: PropTypes.object.isRequired,
+  day: PropTypes.string.isRequired,
   messages: PropTypes.array,
   loggedUser: PropTypes.object,
   partecipants: PropTypes.array,
