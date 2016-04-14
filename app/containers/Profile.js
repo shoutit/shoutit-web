@@ -37,8 +37,13 @@ export class Profile extends Component {
 
   static propTypes = {
     shouts: PropTypes.array,
+    firstRender: PropTypes.bool,
+    dispatch: PropTypes.func.isRequired,
+    params: PropTypes.object.isRequired,
     profile: PropTypes.object,
     isFetchingShouts: PropTypes.bool,
+    shoutsCount: PropTypes.number,
+    nextShoutsUrl: PropTypes.string,
   };
 
   static fetchData = fetchData;
