@@ -86,7 +86,6 @@ export class Conversation extends Component {
     const { error, messagesError, layout } = this.props;
     const { loggedUser, isFetchingMessages, conversation, messages = [], typingUsers } = this.props;
     const { previousUrl, dispatch, id } = this.props;
-    console.log(conversation);
     return (
       <div className={ `Conversation layout-${layout}` }>
         <Scrollable
@@ -99,12 +98,12 @@ export class Conversation extends Component {
           <div className="Conversation-messagesList" onClick={ () => this.form && this.form.focus() }>
 
             { error && <div className="Conversation-error">
-              { error.message }
+              Could not load conversation - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages(id, previousUrl)); }}>retry?</a>
               </div>
             }
 
             { messagesError && <div className="Conversation-error">
-              { messagesError.message }
+              Could not load messages - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages(id, previousUrl)); }}>retry?</a>
               </div>
             }
 
