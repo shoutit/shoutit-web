@@ -11,28 +11,33 @@ if (process.env.BROWSER) {
   require('./MessageItem.scss');
 }
 
-export default function MessageItem({ message, readByProfiles = [] }) {
-  const { createdAt, isCreating, text, createError, attachments = [] } = message;
+function MessageAttachment({ attachment }) {
+  const { shout, location } = attachment;
+  let content;
+  if (shout) {
+    content = (
+      <Link to={ `/shout/${shout.id}` }>
+        <ShoutPreview shout={ shout } thumbnailRatio={ 16 / 9 } showProfile={ false } />
+      </Link>
+    );
+  }
+  if (location) {
+    content = <GoogleStaticMap center={ location } markers={[{ ...location }]} />;
+  }
+  if (!content) {
+    return <div className="MessageItem-attachment"></div>;
+  }
+  return <div className="MessageItem-attachment">{ content }</div>;
+}
+
+MessageAttachment.propTypes = {
+  attachment: PropTypes.object.isRequired,
+};
+
+function MessageFooter({ message, readByProfiles = [] }) {
+  const { isCreating, createError, createdAt } = message;
   const created = moment.unix(createdAt);
-  const attachmentsContent = attachments.map((attachment, i) => {
-    const { shout, location } = attachment;
-    let content;
-    if (shout) {
-      content = (
-        <Link to={ `/shout/${shout.id}` }>
-          <ShoutPreview shout={ shout } thumbnailRatio={ 16 / 9 } />
-        </Link>
-      );
-    }
-    if (location) {
-      content = <GoogleStaticMap center={ location } markers={[{ ...location }]} />;
-    }
-    if (!content) {
-      return null;
-    }
-    return <div key={ i } className="MessageItem-attachment">{ content }</div>;
-  });
-  const footer = (
+  return (
     <div className="MessageItem-footer">
       {!isCreating && !createError &&
         <span>
@@ -46,6 +51,19 @@ export default function MessageItem({ message, readByProfiles = [] }) {
       { isCreating && <span>Sending…</span> }
     </div>
   );
+}
+
+MessageFooter.propTypes = {
+  message: PropTypes.object.isRequired,
+  readByProfiles: PropTypes.array,
+};
+
+export default function MessageItem({ message, readByProfiles = [] }) {
+  const { isCreating, text, createError, attachments = [] } = message;
+  const hasAttachments = attachments.length > 0;
+  const attachmentsContent = attachments.map((attachment, i) =>
+    <MessageAttachment key={ i } attachment={ attachment } />
+  );
 
   let className = 'MessageItem';
 
@@ -58,14 +76,17 @@ export default function MessageItem({ message, readByProfiles = [] }) {
   if (isCreating) {
     className += ' sending';
   }
+  if (hasAttachments) {
+    className += ' has-attachments';
+  }
 
   return (
     <div className={ className }>
       <div className="MessageItem-wrapper">
-        { attachmentsContent.length > 0 &&
+        { hasAttachments &&
             <div className="MessageItem-attachments">
               { attachmentsContent }
-              { !text && footer }
+              { !text && <MessageFooter message={ message } /> }
             </div>
         }
         { text &&
@@ -73,7 +94,7 @@ export default function MessageItem({ message, readByProfiles = [] }) {
             <p>
               <NewlineToBreak>{ text }</NewlineToBreak>
             </p>
-            { footer }
+            <MessageFooter message={ message } readByProfiles={ readByProfiles } />
           </div>
         }
 

@@ -28,7 +28,7 @@ export class HostedConversation extends Component {
           <span tabIndex={0} className="HostedConversation-close" onClick={ onCloseClick }>✕</span>
         </div>
         <div className="HostedConversation-conversation">
-          <Conversation id={ conversation.id } />
+          <Conversation id={ conversation.id } layout="hosted" />
         </div>
       </div>
     );

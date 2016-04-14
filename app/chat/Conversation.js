@@ -34,7 +34,12 @@ export class Conversation extends Component {
     previousUrl: PropTypes.string,
     typingUsers: PropTypes.array,
 
+    layout: PropTypes.oneOf(['hosted', 'full']),
   };
+
+  static defaultProps = {
+    layout: 'full',
+  }
 
   state = {
     showDelete: false,
@@ -78,12 +83,12 @@ export class Conversation extends Component {
   form = null;
 
   render() {
-    const { error, messagesError } = this.props;
+    const { error, messagesError, layout } = this.props;
     const { loggedUser, isFetchingMessages, conversation, messages = [], typingUsers } = this.props;
     const { previousUrl, dispatch, id } = this.props;
-
+    console.log(conversation);
     return (
-      <div className="Conversation">
+      <div className={ `Conversation layout-${layout}` }>
         <Scrollable
           preventDocumentScroll
           uniqueId={ messages.length > 0 ? messages[messages.length - 1].id : 'empty' }
@@ -151,7 +156,7 @@ export class Conversation extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { entities, paginated } = state;
   const { id } = ownProps;
-  const conversation = entities.conversations[id] ? denormalize(entities.conversations[id], entities, 'CONVERSATION') : undefined;
+  const conversation = denormalize(entities.conversations[id], entities, 'CONVERSATION');
 
   const messagesByConversation = paginated.messagesByConversation[id];
 
