@@ -26,6 +26,7 @@
     box-shadow: $box-shadow-depth-1;
   }
   h1 {
+    @include ellipsis();
     font-weight: lighter;
     margin: 0rem 0 0rem 1rem;
   }
