@@ -56,11 +56,13 @@ export default function paginate({
     previousUrl: undefined,
     count: undefined,
     ids: [],
+    error: undefined,
   }, action) {
     switch (action.type) {
       case fetchStartType:
         return merge({}, state, {
           isFetching: true,
+          error: undefined,
         });
       case fetchSuccessType:
         if (!action.payload || !action.payload.result) {
@@ -90,12 +92,14 @@ export default function paginate({
 
   function updateOnCreate(state = {
     ids: [],
+    error: undefined,
   }, action, tempId) {
     switch (action.type) {
       case createStartType:
       // add temporary item to the list
         return merge({}, state, {
           ids: [...state.ids, tempId],
+          error: undefined,
         });
       case createSuccessType:
         if (!action.payload || !action.payload.result) {
