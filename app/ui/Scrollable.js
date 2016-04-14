@@ -113,6 +113,10 @@ export default class Scrollable extends Component {
     return scrollElement.offsetHeight;
   }
 
+  canScroll() {
+    return this.getScrollHeight() > this.getOffsetHeight();
+  }
+
   handleMouseLeave() {
     document.body.style.overflow = '';
   }
