@@ -36,11 +36,9 @@ export class ProfilePreview extends Component {
           <ProfileFromListItem profile={ profile } size="small" />
           <ProfileListenersListItem profile={ profile } size="small" />
         </div>
-        { !profile.isOwner &&
-          <div className="ProfilePreview-actions">
-            <ProfileActions showProfileLink profile={ profile } size="small" />
-          </div>
-        }
+        <div className="ProfilePreview-actions">
+          <ProfileActions showProfileLink profile={ profile } size="small" />
+        </div>
       </div>
     );
   }
