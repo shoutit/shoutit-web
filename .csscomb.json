@@ -26,7 +26,8 @@
   "tab-size": true,
   "unitless-zero": true,
   "sort-order": [
-    [
+      "$include",
+      "appearance",
       "position",
       "z-index",
       "top",
@@ -45,6 +46,8 @@
       "-webkit-overflow-scrolling",
       "clip",
       "zoom",
+      "align-items",
+      "justify-content",
       "flex-direction",
       "flex-order",
       "flex-pack",
@@ -328,6 +331,5 @@
       "font-emphasize-style",
       "font-smooth",
       "line-height"
-    ]
   ]
 }
