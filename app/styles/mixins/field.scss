@@ -44,6 +44,14 @@
   &.has-error label {
     color: $shoutit-red;
   }
+
+  &.inset > .field-wrapper {
+    padding: .5em;
+    border-radius: $border-radius-small;
+    background-color: $background-color-light;
+    box-shadow: inset $box-shadow-depth-0;
+  }
+
 }
 
 @mixin field() {

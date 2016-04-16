@@ -9,7 +9,7 @@ import Modal from '../ui/Modal';
 import HeaderMessagesButton from '../header/HeaderMessagesButton';
 import HeaderNotificationsButton from '../header/HeaderNotificationsButton';
 import HeaderProfileButton from '../header/HeaderProfileButton';
-import ShoutForm from '../shouts/ShoutForm';
+import CreateShout from '../shouts/CreateShout';
 import Searchbar from '../search/Searchbar';
 
 import { getCountryName } from '../utils/LocationUtils';
@@ -64,11 +64,10 @@ export class Header extends Component {
     const { dispatch } = this.props;
 
     const modal = (
-      <Modal rootClose={ false } name="new-shout">
-        <ShoutForm
-          shoutId="new-shout"
+      <Modal name="new-shout">
+        <CreateShout
           modalName="new-shout"
-          onCancelClick={ () => dispatch(closeModal('new-shout'))}
+          onCancel={ () => dispatch(closeModal('new-shout'))}
           onSuccess={ () => dispatch(closeModal('new-shout'))}
         />
       </Modal>

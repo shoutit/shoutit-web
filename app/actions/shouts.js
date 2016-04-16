@@ -1,6 +1,7 @@
 
 import * as actionTypes from './actionTypes';
 import { Schemas } from '../schemas';
+import { getUnixTime } from '../utils/DateUtils';
 
 export function loadShout(id) {
   return {
@@ -34,7 +35,11 @@ export function loadRelatedShouts(shoutId, query, endpoint) {
   };
 }
 
-export function createShout(user, shout) {
+export function createShout(user, newShout) {
+  const shout = {
+    ...newShout,
+    createdAt: getUnixTime(),
+  };
   return {
     types: [
       actionTypes.CREATE_SHOUT_START,
@@ -65,6 +70,22 @@ export function updateShout(shout) {
       params: { id: shout.id },
       body: shout,
       schema: Schemas.SHOUT,
+    },
+  };
+}
+
+export function amendShout(shout, data) {
+  return {
+    type: actionTypes.AMEND_SHOUT,
+    payload: {
+      entities: {
+        shouts: {
+          [shout.id]: {
+            ...shout,
+            ...data,
+          },
+        },
+      },
     },
   };
 }
