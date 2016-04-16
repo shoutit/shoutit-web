@@ -70,3 +70,16 @@ export default class Icon extends Component {
     );
   }
 }
+
+Icon.propTypes = {
+  name: PropTypes.string.isRequired,
+
+  active: PropTypes.bool,
+  badge: PropTypes.number,
+  disabled: PropTypes.bool,
+  fill: PropTypes.bool,
+  hover: PropTypes.bool,
+  on: PropTypes.bool,
+  size: PropTypes.oneOf(['small', 'medium', 'huge', 'large']),
+
+};
