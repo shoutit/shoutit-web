@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import Header from '../layout/Header';
+import Footer from '../layout/Footer';
 import UINotificationsHost from '../ui/UINotificationsHost';
 import ModalHost from '../ui/ModalHost';
 import VideoCallHost from '../videoCalls/VideoCallHost';
@@ -72,6 +73,7 @@ export class Application extends React.Component {
     let layout = {
       stickyHeader: !error || error.statusCode === 404,
       showHeader: true,
+      showFooter: true,
     };
 
     if (props.routes) {
@@ -113,6 +115,11 @@ export class Application extends React.Component {
             <ServerError error={ error } />)
           }
         </div>
+        { layout.showFooter &&
+          <div className="App-footer">
+            <Footer />
+          </div>
+        }
         <ModalHost />
         <UINotificationsHost />
         { props.videoCallState && props.videoCallState.currentConversation &&
