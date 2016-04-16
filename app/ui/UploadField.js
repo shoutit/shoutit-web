@@ -121,7 +121,7 @@ export default class UploadField extends Component {
     return (
       <div className="UploadField" style={{ position: 'relative' }}>
         <Dropzone accept="image/x-png, image/jpeg" disableClick onDrop={ this.upload } className="UploadField-dropzone" ref="dropzone">
-        <FormField block label={ label }>
+        <FormField block inset label={ label }>
           { uploads.map((upload, i) => <File key={ i } upload={ upload } onDeleteClick={ this.delete } />) }
           { uploads.length < maxFiles && <div className="UploadField-add" ref="dropzone" onClick={ () => this.refs.dropzone.open() }></div> }
         </FormField>

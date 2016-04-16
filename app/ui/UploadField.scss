@@ -4,6 +4,7 @@
   .field-wrapper {
     background: none;
     border: none;
+    line-height: 0;
   }
   label {
     color: $color;
@@ -16,7 +17,7 @@
   display: inline-block;
   width: 4em;
   height: 4em;
-  margin: .5em .25em;
+  margin: 0 .25em;
   border: 1px solid $border-color-darker;
   &:first-child {
     margin-left: 0;
