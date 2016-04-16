@@ -5,17 +5,18 @@ import Application from './containers/Application';
 import Chat from './containers/Chat';
 import Dashboard from './containers/Dashboard';
 import Discover from './containers/Discover';
+import Heartbeat from './containers/Heartbeat';
 import Homepage from './containers/Homepage';
-import Search from './containers/Search';
-import Profile from './containers/Profile';
+import Interest from './containers/Interest';
 import Login from './containers/Login';
+import NotFound from './containers/NotFound';
+import Profile from './containers/Profile';
 import ResetPassword from './containers/ResetPassword';
+import Search from './containers/Search';
 import SetPassword from './containers/SetPassword';
+import Shout from './containers/Shout';
 import Signup from './containers/Signup';
 import VerifyEmail from './containers/VerifyEmail';
-import Interest from './containers/Interest';
-import Shout from './containers/Shout';
-import Heartbeat from './containers/Heartbeat';
 
 const authAppLayout = () => ({
   className: 'pattern-background',
@@ -42,13 +43,14 @@ const routes = (store) =>
     <Route path="/signup/verify/:token" component={ VerifyEmail } getApplicationLayout={ authAppLayout } />
 
     <Route path="/search(/:shout_type)(/:category)" component={ Search } />
-    <Route path="/shout(/:id)" component={ Shout } />
+    <Route path="/shout/:id" component={ Shout } />
     <Route path="/interest(/:tagName)" component={ Interest } />
     <Route path="/user(/:username)" component={ Profile } />
     <Route path="/heartbeat" component={ Heartbeat } />
     <Route path="/discover(/:countryName)(/:id)" component={ Discover } />
 
     <Route path="/messages(/:conversationId)" component={ Chat } />
+    <Route path="*" component={ NotFound } />
   </Route>;
 
 export default routes;
