@@ -72,8 +72,8 @@ export class CreateShout extends Component {
           { !shout.type ?
             <div>
               <p style={{ margin: 0, textAlign: 'center' }}>What are you posting?</p>
-              <div style={{ width: '50%', margin: '2rem auto' }}>
-                <Button primary block style={{ margin: '.5rem' }} onClick={ () => this.amendShout({ type: 'offer' }) } label="Offer" />
+              <div style={{ width: '50%', margin: '2rem auto 1rem auto' }}>
+                <Button primary block style={{ margin: '0 .5rem .5rem .5rem' }} onClick={ () => this.amendShout({ type: 'offer' }) } label="Offer" />
                 <Button secondary block style={{ margin: '.5rem .5rem 0 .5rem' }} onClick={ () => this.amendShout({ type: 'request' }) } label="Request" />
               </div>
             </div> :
