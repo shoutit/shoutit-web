@@ -33,7 +33,7 @@ export class CreateShout extends Component {
   }
 
   componentWillUnmount() {
-    this.amendShout({ createError: null });
+    this.amendShout({ createError: null, type: null });
   }
 
   form = null;
@@ -59,10 +59,9 @@ export class CreateShout extends Component {
   }
 
   handleCancelClick() {
-    const { onCancel, shout } = this.props;
+    const { onCancel } = this.props;
     this.form.blur();
     onCancel();
-    setTimeout(() => this.amendShout(shout, { type: null }), 500);
   }
 
   render() {
