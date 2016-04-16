@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { loadShout, loadRelatedShouts } from '../actions/shouts';
-import { startyShoutReply } from '../actions/chat';
+import { startShoutReply } from '../actions/chat';
 import { routeError } from '../actions/server';
 
 import Page from '../layout/Page';
@@ -80,16 +80,16 @@ export class Shout extends Component {
     }
   }
 
-  startyShoutReply() {
+  startShoutReply() {
     const { loggedUser, shout, dispatch } = this.props;
-    dispatch(startyShoutReply(loggedUser, shout));
+    dispatch(startShoutReply(loggedUser, shout));
   }
 
   renderEndColumn() {
     const { shout } = this.props;
 
     return [
-      <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } />,
+      <ShoutBuy shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
       <Card block key="profile">
         <ProfileOverlay style={{ width: '100%' }} id={ shout.profile.id } />
       </Card>,
@@ -156,7 +156,7 @@ export class Shout extends Component {
               { shout.location.city || shout.location.state || shout.location.country }
             </ListItem>
 
-            { <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } /> }
+            { <ShoutBuy shout={ shout } onReplyClick={ () => this.startShoutReply() } /> }
 
           </div>
         </div>
