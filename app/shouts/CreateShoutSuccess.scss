@@ -1,0 +1,28 @@
+@import '../styles/constants.scss';
+
+
+.CreateShoutSuccess {
+  padding-bottom: 1rem;
+  h2 {
+    margin-top: 0;
+    background-image: url('../../assets/icons/sparkle-active.svg');
+    background-size: 4rem;
+    background-repeat: no-repeat;
+    background-position: top center;
+    padding-top: 4rem;
+    color: $si-green;
+    text-align: center;
+    font-weight: lighter;
+  }
+
+  h3 {
+    text-align: center;
+    font-weight: normal;
+    font-size: 1rem;
+  }
+}
+
+.CreateShoutSuccess-buttons {
+  width: 200px;
+  margin: 0 auto;
+}

@@ -25,12 +25,6 @@ import TimeAgo from '../ui/TimeAgo';
 
 import { denormalize } from '../schemas';
 
-import { openModal } from '../actions/ui';
-import CreateShoutSuccess from '../shouts/CreateShoutSuccess';
-import Modal from '../ui/Modal';
-
-
-
 if (process.env.BROWSER) {
   require('./Shout.scss');
 }
@@ -95,7 +89,7 @@ export class Shout extends Component {
     const { shout } = this.props;
 
     return [
-      !shout.profile.isOwner ? <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } /> : null,
+      <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } />,
       <Card block key="profile">
         <ProfileOverlay style={{ width: '100%' }} id={ shout.profile.id } />
       </Card>,
@@ -120,9 +114,9 @@ export class Shout extends Component {
 
   renderShout() {
     const { shout } = this.props;
+    // <Modal name="next-steps" size="small" rootClose><CreateShoutSuccess shoutId={ this.props.shout.id } /></Modal>
     return (
       <div className="Shout">
-      <Modal name="next-steps" size="small" rootClose><CreateShoutSuccess shoutId={ this.props.shout.id } /></Modal>
         <div className="Shout-title">
           <h1>{ shout.title || shout.text }</h1>
           <div className="Shout-header">
@@ -162,7 +156,7 @@ export class Shout extends Component {
               { shout.location.city || shout.location.state || shout.location.country }
             </ListItem>
 
-            { !shout.profile.isOwner && <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } /> }
+            { <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } /> }
 
           </div>
         </div>
