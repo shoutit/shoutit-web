@@ -28,7 +28,7 @@ export default function ({
       case createStartType:
         return merge({}, tempEntity, {
           isCreating: true,
-          createError: undefined,
+          createError: tempEntity.createError ? null : undefined,
         });
       case createFailureType:
         return merge({}, tempEntity, {
