@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node index.js",
     "build": "NODE_ENV=production webpack -p --bail",
-    "dev": "DEBUG=shoutit,shoutit:* NODE_ENV=development babel-watch app.js",
+    "dev": "DEBUG=shoutit,shoutit:* NODE_ENV=development babel-watch -w app/server -w app.js app.js",
     "dev:built": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=production npm start",
     "lint": "eslint app",
     "test": "npm run test:mocha",
