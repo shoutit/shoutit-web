@@ -50,7 +50,7 @@ function ShoutBuy({ shout, onReplyClick }) {
 
 ShoutBuy.propTypes = {
   shout: PropTypes.object.isRequired,
-  onReplyClick: PropTypes.object.isRequired,
+  onReplyClick: PropTypes.func.isRequired,
 };
 
 export class Shout extends Component {
