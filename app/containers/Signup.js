@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 import { Link } from 'react-router';
@@ -15,16 +15,25 @@ import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
 
 export class Signup extends Component {
 
+  static propTypes = {
+    error: PropTypes.object,
+    isSigningUp: PropTypes.bool,
+    dispatch: PropTypes.func.isRequired,
+    currentLocation: PropTypes.object,
+    location: PropTypes.object.isRequired,
+    loggedUser: PropTypes.object,
+  };
+
   state = {
     success: false,
   };
 
   componentDidUpdate(prevProps) {
-    const { signupError } = this.props;
+    const { error } = this.props;
 
-    if (signupError && prevProps.signupError !== signupError) {
+    if (error && prevProps.error !== error) {
       let location;
-      const errorLocations = getErrorLocations(signupError);
+      const errorLocations = getErrorLocations(error);
       if (errorLocations.includes('email')) {
         location = 'email';
       } else if (errorLocations.includes('password')) {
@@ -97,7 +106,7 @@ export class Signup extends Component {
   }
 
   renderForm() {
-    const { isSigningUp, location: { query }, signupError, dispatch, currentLocation } = this.props;
+    const { isSigningUp, location: { query }, error, currentLocation } = this.props;
     return (
       <Frame title="Sign up">
 
@@ -112,17 +121,17 @@ export class Signup extends Component {
             <span>or with your e-mail</span>
           </div>
 
-          { signupError &&
-            !getErrorsByLocation(signupError, 'email') &&
-            !getErrorsByLocation(signupError, 'password') &&
-            !getErrorsByLocation(signupError, 'first_name') &&
-            !getErrorsByLocation(signupError, 'last_name') &&
+          { error &&
+            !getErrorsByLocation(error, 'email') &&
+            !getErrorsByLocation(error, 'password') &&
+            !getErrorsByLocation(error, 'first_name') &&
+            !getErrorsByLocation(error, 'last_name') &&
             <p className="htmlErrorParagraph">
               Sign up did not work for an unknown error. Please try again later or contact support.
             </p>
         }
 
-          <form onSubmit={ e => this.handleFormSubmit(e) } className="Frame-form" noValidate>
+          <form onSubmit={ e => this.handleFormSubmit(e) } className="Form Frame-form" noValidate>
 
           <div className="Frame-form-horizontal-group">
             <TextField
@@ -133,21 +142,17 @@ export class Signup extends Component {
               disabled={ isSigningUp }
               name="first_name"
               type="text"
-              errors={ signupError && getErrorsByLocation(signupError, 'first_name') }
+              error={ error }
               placeholder="First name"
-              onBlur={ () => dispatch(resetSessionErrors()) }
-              onChange={ () => dispatch(resetSessionErrors()) }
             />
             <TextField
-              errors={ signupError && getErrorsByLocation(signupError, 'last_name') }
+              error={ error }
               ref="lastName"
               block
               disabled={ isSigningUp }
               name="last_name"
               type="text"
               placeholder="Last name"
-              onBlur={ () => dispatch(resetSessionErrors()) }
-              onChange={ () => dispatch(resetSessionErrors()) }
             />
           </div>
 
@@ -158,22 +163,18 @@ export class Signup extends Component {
             disabled={ isSigningUp }
             name="email"
             type="email"
-            errors={ signupError && getErrorsByLocation(signupError, 'email') }
+            error={ error }
             placeholder="E-mail address"
-            onBlur={ () => dispatch(resetSessionErrors()) }
-            onChange={ () => dispatch(resetSessionErrors()) }
           />
 
           <TextField
-            errors={ signupError && getErrorsByLocation(signupError, 'password') }
+            error={ error }
             ref="password"
             block
             disabled={ isSigningUp }
             name="password"
             type="password"
             placeholder="Choose a password"
-            onBlur={ () => dispatch(resetSessionErrors()) }
-            onChange={ () => dispatch(resetSessionErrors()) }
           />
 
           <p style={{ paddingTop: '1rem', fontSize: '0.875rem' }}>
@@ -233,7 +234,7 @@ const mapStateToProps = state => {
   return {
     loggedUser: state.session.user,
     isSigningUp: state.session.isSigningUp,
-    signupError: state.session.signupError,
+    error: state.session.signupError,
     currentLocation: state.currentLocation,
   };
 };

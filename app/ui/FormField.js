@@ -1,20 +1,35 @@
 import React, { PropTypes, Component } from 'react';
 import Tooltip from '../ui/Tooltip';
 
+import { getErrorsByLocation } from '../utils/APIUtils';
+
 if (process.env.BROWSER) {
   require('./FormField.scss');
 }
+
+function ValidationError({ errors }) {
+  return (
+    <div className="FormField-error-overlay">
+      { errors && errors.map((error, i) => <div key={ i }>{ error.message }</div>) }
+    </div>
+  );
+}
+
+ValidationError.propTypes = {
+  errors: PropTypes.array.isRequired,
+};
 
 export default class FormField extends Component {
 
   static propTypes = {
     field: PropTypes.element,
     children: PropTypes.node,
+    name: PropTypes.string.isRequired,
 
     block: PropTypes.bool,
     className: PropTypes.string,
     disabled: PropTypes.bool,
-    errors: PropTypes.array,
+    error: PropTypes.object,
     initialValue: PropTypes.string,
     label: PropTypes.string,
     inputRef: PropTypes.func,
@@ -25,18 +40,26 @@ export default class FormField extends Component {
     startElement: PropTypes.element,
     tooltipPlacement: PropTypes.string,
     value: PropTypes.string,
+    style: PropTypes.object,
+  }
+
+  static defaultProps = {
+    tooltipPlacement: 'right',
+    block: false,
   }
 
   constructor(props) {
     super(props);
     this.state = {
       value: props.initialValue || props.value || '',
+      error: props.error,
     };
   }
 
   state = {
     value: '',
     focus: false,
+    error: null,
   };
 
   componentDidMount() {
@@ -47,8 +70,15 @@ export default class FormField extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    let state;
     if (nextProps.value !== this.props.value) {
-      this.setState({ value: nextProps.value });
+      state = { ...state, value: nextProps.value };
+    }
+    if (nextProps.error !== this.props.error) {
+      state = { ...state, error: nextProps.error };
+    }
+    if (state) {
+      this.setState(state);
     }
   }
 
@@ -56,14 +86,21 @@ export default class FormField extends Component {
     return this.field.value;
   }
 
+  getValidationErrors() {
+    if (!this.state.error) {
+      return [];
+    }
+    return getErrorsByLocation(this.state.error, this.props.name);
+  }
+
   field = null;
 
   handleChange(e) {
     const value = this.field.value;
+    this.setState({ value, error: null });
     if (this.props.onChange) {
       this.props.onChange(value, e);
     }
-    this.setState({ value });
   }
 
   handleFocus(e) {
@@ -97,14 +134,14 @@ export default class FormField extends Component {
   }
 
   render() {
-    const { block = false, startElement, disabled, label, className, placeholder, errors, tooltipPlacement = 'right', field, inputRef, children, ...props } = this.props;
-    const { value, focus } = this.state;
+    const { block, startElement, disabled, label, className, placeholder, tooltipPlacement, field, inputRef, children, style, ...props } = this.props;
+    const { value, focus, error } = this.state;
+    const validationErrors = this.getValidationErrors();
     let cssClass = 'FormField';
-    const hasError = errors && errors.length > 0;
     if (block) {
       cssClass += ' block';
     }
-    if (hasError) {
+    if (validationErrors.length > 0) {
       cssClass += ' has-error';
     }
     if (value) {
@@ -122,15 +159,12 @@ export default class FormField extends Component {
     if (className) {
       cssClass += ` ${className}`;
     }
-    if (errors && errors.length > 0) {
-      cssClass += ' has-error';
-    }
 
     let fieldElement;
     if (field) {
       fieldElement = React.cloneElement(field, {
         ...props,
-        autoFocus: errors && errors.length > 0,
+        autoFocus: !!error,
         ref: el => {
           this.field = el;
           if (inputRef) {
@@ -147,25 +181,26 @@ export default class FormField extends Component {
       });
     }
 
+    let content = (
+      <span className="field-wrapper">
+        { startElement && <span className="FormField-start-element"> { startElement }</span> }
+        <span className="field-element-wrapper">
+          { fieldElement || children }
+        </span>
+      </span>
+    );
+
+
     return (
-      <span className={ cssClass }>
+      <span className={ cssClass } style={ style }>
         { label && <label htmlFor={this._reactInternalInstance._rootNodeID}>{ label }</label> }
         <Tooltip
           destroyTooltipOnHide
           white
-          visible={ hasError }
+          visible={ validationErrors.length > 0 }
           placement={ tooltipPlacement }
-          overlay={
-            <div className="FormField-error-overlay">
-              { errors && errors.map((error, i) => <div key={ i }>{ error.message }</div>) }
-            </div>
-          }>
-          <span className="field-wrapper">
-            { startElement && <span className="FormField-start-element"> { startElement }</span> }
-            <span className="field-element-wrapper">
-              { fieldElement || children }
-            </span>
-          </span>
+          overlay={ <ValidationError errors={ validationErrors } /> }>
+          { content }
         </Tooltip>
       </span>
     );

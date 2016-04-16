@@ -3,7 +3,7 @@
 
 .FormField {
   @include fieldContainer();
-  input {
+  input:not([type='radio']) {
     @include field();
   }
   select {

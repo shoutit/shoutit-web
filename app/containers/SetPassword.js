@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
@@ -13,16 +13,23 @@ import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
 
 export class SetPassword extends Component {
 
+  static propTypes = {
+    error: PropTypes.object,
+    isSettingPassword: PropTypes.bool,
+    dispatch: PropTypes.func.isRequired,
+    params: PropTypes.object.isRequired,
+  };
+
   state = {
     sent: false,
   };
 
   componentDidUpdate(prevProps) {
-    const { setPasswordError } = this.props;
+    const { error } = this.props;
 
-    if (setPasswordError && prevProps.setPasswordError !== setPasswordError) {
+    if (error && prevProps.error !== error) {
       let location;
-      const errorLocations = getErrorLocations(setPasswordError);
+      const errorLocations = getErrorLocations(error);
       if (errorLocations.includes('new_password')) {
         location = 'newPassword';
       }
@@ -50,19 +57,19 @@ export class SetPassword extends Component {
   }
 
   renderForm() {
-    const { isSettingPassword, setPasswordError, dispatch } = this.props;
+    const { isSettingPassword, error } = this.props;
     return (
       <Frame title="Set a new password">
 
         <div className="Frame-body">
 
-          { setPasswordError && !getErrorsByLocation(setPasswordError, 'new_password') &&
+          { error && !getErrorsByLocation(error, 'new_password') &&
             <p className="htmlErrorParagraph">
               Could not set your password because of an unknown error. Please try again later or contact support.
             </p>
           }
 
-          { setPasswordError && getErrorsByLocation(setPasswordError, 'reset_token') &&
+          { error && getErrorsByLocation(error, 'reset_token') &&
             <p className="htmlErrorParagraph">
               Could not set your password because this link is wrong. <Link to="/login/password">Click here to request a new link</Link>.
             </p>
@@ -77,13 +84,9 @@ export class SetPassword extends Component {
               disabled={ isSettingPassword }
               name="newPassword"
               type="password"
-              errors={ setPasswordError && getErrorsByLocation(setPasswordError, 'new_password') }
+              error={ error }
               placeholder="Enter a password"
-              onBlur={ () => dispatch(resetSessionErrors()) }
-              onChange={ password => {
-                dispatch(resetSessionErrors());
-                this.setState({ password });
-              }}
+              onChange={ password => this.setState({ password }) }
             />
 
             <Button
@@ -129,7 +132,7 @@ export class SetPassword extends Component {
 const mapStateToProps = state => {
   return {
     isSettingPassword: state.session.isSettingPassword,
-    setPasswordError: state.session.setPasswordError,
+    error: state.session.setPasswordError,
   };
 };
 

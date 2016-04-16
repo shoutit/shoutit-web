@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 import { Link } from 'react-router';
@@ -15,12 +15,19 @@ import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
 
 export class Login extends Component {
 
-  componentDidUpdate(prevProps) {
-    const { loginError } = this.props;
+  static propTypes = {
+    error: PropTypes.object,
+    isLoggingIn: PropTypes.bool,
+    dispatch: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
+  };
 
-    if (loginError && prevProps.loginError !== loginError) {
+  componentDidUpdate(prevProps) {
+    const { error } = this.props;
+
+    if (error && prevProps.error !== error) {
       let location;
-      const errorLocations = getErrorLocations(loginError);
+      const errorLocations = getErrorLocations(error);
       if (errorLocations.includes('email')) {
         location = 'email';
       } else if (errorLocations.includes('password')) {
@@ -82,8 +89,7 @@ export class Login extends Component {
   }
 
   render() {
-    const { isLoggingIn, location: { query }, loginError, dispatch } = this.props;
-
+    const { isLoggingIn, location: { query }, error } = this.props;
     return (
       <Page className="Login" title="Log in">
 
@@ -100,9 +106,9 @@ export class Login extends Component {
               <span>or</span>
             </div>
 
-            { loginError &&
-              !getErrorsByLocation(loginError, 'email') &&
-              !getErrorsByLocation(loginError, 'password') &&
+            { error &&
+              !getErrorsByLocation(error, 'email') &&
+              !getErrorsByLocation(error, 'password') &&
               <p className="htmlErrorParagraph">
                 Login did not work for an unknown error. Please try again later or contact support.
               </p>
@@ -115,21 +121,17 @@ export class Login extends Component {
                 disabled={ isLoggingIn }
                 name="email"
                 type="text"
-                errors={ loginError && getErrorsByLocation(loginError, 'email') }
+                error={ error }
                 placeholder="E-mail or username"
-                onBlur={ () => dispatch(resetSessionErrors()) }
-                onChange={ () => dispatch(resetSessionErrors()) }
               />
               <TextField
-                errors={ loginError && getErrorsByLocation(loginError, 'password') }
+                error={ error }
                 ref="password"
                 block
                 disabled={ isLoggingIn }
                 name="password"
                 type="password"
                 placeholder="Password"
-                onBlur={ () => dispatch(resetSessionErrors()) }
-                onChange={ () => dispatch(resetSessionErrors()) }
               />
 
               <Button
@@ -140,7 +142,7 @@ export class Login extends Component {
                 label={ isLoggingIn ? 'Logging in…' : 'Log in' }
               />
 
-              <div className="Frame-form-horizontal-group">
+              <div className="Frame-form-horizontal-group" style={{ fontSize: '0.875rem' }}>
                 <span>
                   <input ref="keep_session" name="keep_session" disabled={ isLoggingIn } type="checkbox" defaultChecked id="login-keep-session" />
                   <label htmlFor="login-keep-session"> Keep me logged in</label>
@@ -168,7 +170,7 @@ const mapStateToProps = state => {
   return {
     loggedUser: state.session.user,
     isLoggingIn: state.session.isLoggingIn,
-    loginError: state.session.loginError,
+    error: state.session.loginError,
   };
 };
 
