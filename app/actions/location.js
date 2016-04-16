@@ -55,6 +55,12 @@ export function loadSuggestions(location) {
   };
 }
 
+export function resetPlacePredictionsLastInput() {
+  return {
+    type: actionTypes.PLACE_PREDICTIONS_RESET_INPUT,
+  };
+}
+
 let autocompleteService;
 export function loadPlacePredictions(input, types = ['(cities)']) {
   input = trimWhitespaces(input);
