@@ -30,7 +30,7 @@ export class ProfilePreview extends Component {
         <div className="ProfilePreview-cover" style={getStyleBackgroundImage(cover, 'medium')} />
         <div className="ProfilePreview-user">
           <UserAvatar user={ profile } size="large" />
-          <h2>{ name }</h2>
+          <h2>{ name } {profile.isOwner && ' (you)'}</h2>
         </div>
         <div className="ProfilePreview-body">
           <ProfileFromListItem profile={ profile } size="small" />
