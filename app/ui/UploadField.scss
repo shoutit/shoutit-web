@@ -1,0 +1,86 @@
+@import "../styles/constants";
+
+.UploadField {
+  .field-wrapper {
+    background: none;
+    border: none;
+  }
+  label {
+    color: $color;
+    font-size: .875em;
+  }
+}
+
+.UploadField-file,
+.UploadField-add {
+  display: inline-block;
+  width: 4em;
+  height: 4em;
+  margin: .5em .25em;
+  border: 1px solid $border-color-darker;
+  &:first-child {
+    margin-left: 0;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.UploadField-file {
+  overflow: hidden;
+  position: relative;
+  border: 0;
+  display: inline-block;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.UploadField-file-trash {
+  display: none;
+  width: 100%;
+  transition: width .15s;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(black,.5);
+  .SVGIcon {
+    cursor: pointer;
+  }
+}
+
+.UploadField-file:hover .UploadField-file-trash {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.UploadField-file-percent {
+  width: 100%;
+  transition: width .15s;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0,0,0,.5);
+}
+
+.UploadField-file-error {
+  width: 100%;
+  transition: width .15s;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,.5);
+}
+
+.UploadField-add {
+  cursor: pointer;
+  background-color: $background-color-alt;
+  border: 1px dashed $border-color-darker;
+  background-image: url('../../assets/icons/add-active.svg');
+  background-position: center center;
+  background-size: 50%;
+  background-repeat: no-repeat;
+}
