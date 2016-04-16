@@ -14,12 +14,14 @@ import FormField from './FormField';
 export class LocationField extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    predictions: PropTypes.object,
-    errors: PropTypes.object,
+    error: PropTypes.object,
+    inputRef: PropTypes.func,
     isFetching: PropTypes.bool,
     lastInput: PropTypes.string,
+    location: PropTypes.object,
+    name: PropTypes.string,
     onChange: PropTypes.func,
-    inputRef: PropTypes.func,
+    predictions: PropTypes.array,
   };
   constructor(props) {
     super(props);
@@ -34,25 +36,34 @@ export class LocationField extends Component {
       readOnly: false,
       isGeocoding: false,
       showOverlay: false,
-      errors: props.errors,
+      error: props.error,
       previousPredictions: null,
     };
 
-    if (props.initialValue) {
-      const { city, country } = props.initialValue;
+    if (props.location) {
+      const { city, country } = props.location;
       this.state.value = formatLocation({ city, country });
-      this.state.location = props.initialValue;
+      this.state.location = props.location;
     }
-
   }
   componentWillReceiveProps(nextProps) {
+    let state;
     if (nextProps.predictions) {
-      this.setState({ previousPredictions: nextProps.predictions });
+      state = {
+        ...state,
+        previousPredictions: nextProps.predictions,
+      };
+    }
+    if (state) {
+      this.setState(state);
     }
   }
   componentWillUnmount() {
+    const { lastInput, dispatch } = this.props;
     clearTimeout(this.timeoutId);
-    this.props.dispatch(resetPlacePredictionsLastInput());
+    if (lastInput) {
+      dispatch(resetPlacePredictionsLastInput());
+    }
   }
   getValue() {
     return this.state.location;
@@ -73,19 +84,38 @@ export class LocationField extends Component {
   }
   handleBlur() {
     this.timeoutId = setTimeout(() => {
-      this.setState({ showOverlay: false });
-      this.props.dispatch(resetPlacePredictionsLastInput());
+      let state = {
+        showOverlay: false,
+      };
+
       if (!this.field.getValue()) {
-        this.setState({ previousPredictions: null });
+        state = {
+          ...state,
+          previousPredictions: null,
+        };
+      }
+      this.setState(state);
+      const { dispatch, lastInput } = this.props;
+      if (lastInput) {
+        dispatch(resetPlacePredictionsLastInput());
       }
     }, 100);
   }
-  handleChange() {
-    const value = this.field.getValue();
-    if (value.length > 1) {
-      this.fetchPredictions(value);
+  handleChange(value) {
+    let state = {
+      value, errors: [], showOverlay: true,
+    };
+    if (!value) {
+      state = {
+        ...state,
+        previousPredictions: null,
+      };
     }
-    this.setState({ showOverlay: true, value, errors: [] });
+    this.setState(state, () => {
+      if (value.length > 1) {
+        this.fetchPredictions(value);
+      }
+    });
   }
   handleKeyDown(e) {
     if (e.keyCode === ESCAPE) {
@@ -104,7 +134,7 @@ export class LocationField extends Component {
       value: prediction.description,
       readOnly: false,
       showOverlay: false,
-      errors: [],
+      error: null,
     });
     const previousInput = this.props.lastInput;
     this.blur();
@@ -126,9 +156,12 @@ export class LocationField extends Component {
         // Prediction couldn't be geocoded
         this.setState({
           location: null,
-          errors: [{
-            message: 'This place is not valid: please choose another one.',
-          }],
+          error: {
+            errors: [{
+              location: this.props.name,
+              message: 'This place is not valid: please choose another one.',
+            }],
+          },
           value: prediction.description,
           showOverlay: true,
           readOnly: true,
@@ -144,10 +177,10 @@ export class LocationField extends Component {
   renderPredictionResults() {
     const { predictions, lastInput } = this.props;
     const { previousPredictions } = this.state;
-    if (!predictions && !previousPredictions && !lastInput) {
-      return <p style={{ margin: '.5rem 0.5rem', fontSize: '0.75rem' }}>Start typing to search for a location.</p>;
-    }
     const results = predictions || previousPredictions || [];
+    if (results.length === 0 || !lastInput || !this.state.value) {
+      return <p style={{ margin: '.5rem 0.5rem', fontSize: '0.75rem' }}>Start typing to search.</p>;
+    }
     return (
       <ul className="htmlSelectableList">
         { results.map(prediction =>
@@ -161,17 +194,17 @@ export class LocationField extends Component {
     );
   }
   render() {
-    const { inputRef } = this.props;
-    const { readOnly, value, showOverlay, hasFocus, errors } = this.state;
+    const { inputRef, name, ...props } = this.props; // eslint-disable-line
+    const { readOnly, value, showOverlay, hasFocus, error } = this.state;
     return (
       <div className="LocationField" style={{ position: 'relative' }}>
         <FormField
-          { ...this.props }
-          errors={ errors }
+          {...props}
+          name={ name }
+          error={ error }
           autoComplete="off"
           readOnly={ !readOnly }
           type="text"
-          initialValue=""
           value={ value }
           onFocus={ this.handleFocus }
           onBlur={ this.handleBlur }
@@ -202,11 +235,6 @@ export class LocationField extends Component {
     );
   }
 }
-
-LocationField.propTypes = {
-  initialValue: PropTypes.object,
-};
-
 
 const mapStateToProps = state => ({
   isFetching: state.placePredictions.isFetching,
