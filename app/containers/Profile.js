@@ -84,7 +84,7 @@ export class Profile extends Component {
 
           { profile &&
             <div className="Profile">
-              <div className="Profile-cover" style={ getStyleBackgroundImage(profile.cover) } />
+              <div className="Profile-cover" style={ getStyleBackgroundImage(profile.cover, 'large') } />
 
               <div className="Profile-header">
                 <a href={ profile.image ? getVariation(profile.image, 'large') : '' }>

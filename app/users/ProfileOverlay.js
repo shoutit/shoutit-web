@@ -17,6 +17,7 @@ export class ProfileOverlay extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
     style: PropTypes.object,
+    dispatch: PropTypes.func.isRequired,
   };
   componentDidMount() {
     const { profile, dispatch } = this.props;
@@ -26,7 +27,7 @@ export class ProfileOverlay extends Component {
     const { profile, style, profile: { cover, name } } = this.props;
     return (
       <div className="ProfileOverlay" style={ style }>
-        <div className="ProfileOverlay-cover" style={getStyleBackgroundImage(cover)} />
+        <div className="ProfileOverlay-cover" style={getStyleBackgroundImage(cover, 'medium')} />
         <div className="ProfileOverlay-user">
           <UserAvatar user={ profile } size="large" />
           <h2>{ name }</h2>

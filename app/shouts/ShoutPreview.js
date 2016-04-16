@@ -26,7 +26,7 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
     <ShoutLink className="Card ShoutPreview" shout={ shout }>
       <ShoutPrice shout={ shout } />
       <div className="Card-image-wrapper">
-        <div className="Card-image" style={ getStyleBackgroundImage(shout.thumbnail) } />
+        <div className="Card-image" style={ getStyleBackgroundImage(shout.thumbnail, 'medium') } />
       </div>
       <div className="Card-title">
         { shout.title && <div className="Card-title-max-height ShoutPreview-title" title={shout.title}>
