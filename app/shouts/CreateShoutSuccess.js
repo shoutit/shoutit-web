@@ -6,6 +6,7 @@ import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 import HorizontalRule from '../ui/HorizontalRule';
 import CreateShout from '../shouts/CreateShout';
+import EditShoutButton from '../shouts/EditShoutButton';
 
 import { openModal, closeModal } from '../actions/ui';
 
@@ -13,7 +14,7 @@ if (process.env.BROWSER) {
   require('./CreateShoutSuccess.scss');
 }
 
-export function CreateShoutSuccess({ shoutId, onEditClick, onNewClick }) {
+export function CreateShoutSuccess({ shoutId, onNewClick }) {
   return (
     <div className="CreateShoutSuccess">
 
@@ -21,9 +22,8 @@ export function CreateShoutSuccess({ shoutId, onEditClick, onNewClick }) {
 
       <h3>Your shout has been published.</h3>
 
-
       <div className="CreateShoutSuccess-buttons">
-        <Button block size="small" primary label="Add more details" onClick={ onEditClick } />
+        <EditShoutButton shoutId={ shoutId } leftIcon={ null } block size="small" primary label="Add more details" />
       </div>
 
       <HorizontalRule label="or" />
@@ -39,7 +39,6 @@ export function CreateShoutSuccess({ shoutId, onEditClick, onNewClick }) {
 
 CreateShoutSuccess.propTypes = {
   shoutId: PropTypes.string.isRequired,
-  onEditClick: PropTypes.func.isRequired,
   onNewClick: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
 };
@@ -56,7 +55,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   );
 
   return {
-    onEditClick: () => {},
     onNewClick: () => {
       ownProps.close();
       setTimeout(() => dispatch(openModal(newShoutModal)), 500);

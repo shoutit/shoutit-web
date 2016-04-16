@@ -10,6 +10,7 @@ import ProfileListItem from '../users/ProfileListItem';
 import ProfilePreview from '../users/ProfilePreview';
 
 import CategoryListItem from '../shouts/CategoryListItem';
+import EditShoutButton from '../shouts/EditShoutButton';
 import ShoutPrice from '../shouts/ShoutPrice';
 import ShoutPreview from '../shouts/ShoutPreview';
 
@@ -34,20 +35,28 @@ const fetchData = (dispatch, state, params) =>
     dispatch(loadRelatedShouts(params.id, { page_size: 8 })),
   ]);
 
-function ShoutBuy({ shout, onReplyClick }) {
+function ShoutActions({ shout, onReplyClick }) {
   return (
-    <div className="ShoutBuy">
+    <div className="ShoutActions">
       <ShoutPrice shout={ shout } layout="plain" />
-      <Button onClick={ onReplyClick } size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Reply to this shout" />
 
-      <p className="htmlAncillary">
-        Start chatting with { shout.profile.firstName } if you are interested on this.
-      </p>
+      { shout.profile.isOwner ?
+        <div>
+          <EditShoutButton shoutId={ shout.id } />
+        </div> :
+        <div>
+          <Button onClick={ onReplyClick } size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Reply to this Shout" />
+          <p className="htmlAncillary">
+            Start chatting with { shout.profile.firstName } if you are interested on this.
+          </p>
+        </div>
+      }
+
     </div>
   );
 }
 
-ShoutBuy.propTypes = {
+ShoutActions.propTypes = {
   shout: PropTypes.object.isRequired,
   onReplyClick: PropTypes.func.isRequired,
 };
@@ -88,7 +97,7 @@ export class Shout extends Component {
     const { shout } = this.props;
 
     return [
-      <ShoutBuy shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
+      <ShoutActions shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
       <Card block key="profile">
         <ProfilePreview style={{ width: '100%' }} id={ shout.profile.id } />
       </Card>,
@@ -154,7 +163,7 @@ export class Shout extends Component {
               { shout.location.city || shout.location.state || shout.location.country }
             </ListItem>
 
-            { <ShoutBuy shout={ shout } onReplyClick={ () => this.startShoutReply() } /> }
+            { <ShoutActions shout={ shout } onReplyClick={ () => this.startShoutReply() } /> }
 
           </div>
         </div>
