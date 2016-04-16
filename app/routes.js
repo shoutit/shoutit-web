@@ -20,6 +20,7 @@ import Heartbeat from './containers/Heartbeat';
 const authAppLayout = () => ({
   className: 'pattern-background',
   showHeader: false,
+  showFooter: false,
 });
 
 const routes = (store) =>
