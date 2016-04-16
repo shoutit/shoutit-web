@@ -195,22 +195,22 @@ $border-radius: 5px;
 
   .Button.secondary {
     border: 0;
-    background-color: $si-orange;
+    background-color: $shoutit-blue;
 
     &:not(.disabled):hover {
-      background-color: darken($si-orange, 10);
+      background-color: darken($shoutit-blue, 10);
       .Button-label {
         color: white;
       }
       .Button-icon {
-        background-color: darken($si-orange, 20);
+        background-color: darken($shoutit-blue, 20);
       }
     }
     .Button-label {
       color: white;
     }
     .Button-icon {
-      background-color: darken($si-orange, 10);
+      background-color: darken($shoutit-blue, 10);
     }
   }
 
