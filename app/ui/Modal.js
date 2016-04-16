@@ -10,6 +10,7 @@ export default class Modal extends React.Component {
     rootClose: PropTypes.bool,
     children: PropTypes.node,
     title: PropTypes.string,
+    size: PropTypes.oneOf(['small', 'medium', 'large'])
   };
 
   static defaultProps = {
@@ -25,12 +26,12 @@ export default class Modal extends React.Component {
   }
 
   render() {
-    const { rootClose, children, title } = this.props;
+    const { rootClose, children, title, size } = this.props;
 
     return (
       <div
         ref="modal"
-        className="Modal"
+        className={`Modal size-${size}`}
         onClick={ rootClose ? e => e.stopPropagation() : () => {} } // Prevent closing modal when clicking on it
       >
         { title && <h1 className="Modal-title">{ title }</h1> }
