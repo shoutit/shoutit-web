@@ -2,17 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/lang/isEqual';
 
-import TextField from '../ui/TextField';
-import Picker from '../ui/Picker';
-import LocationField from '../ui/LocationField';
 import Button from '../ui/Button';
+import Form from '../ui/Form';
+import LocationField from '../ui/LocationField';
+import Picker from '../ui/Picker';
 import SegmentedControl from '../ui/SegmentedControl';
+import TextField from '../ui/TextField';
 
 import { setUserLocation } from '../actions/users';
 import { setCurrentLocation } from '../actions/location';
 
 if (process.env.BROWSER) {
-  require('../styles/Form.scss');
   require('./SearchFilters.scss');
 }
 
@@ -90,18 +90,17 @@ export class SearchFilters extends Component {
 
     return (
       <div className="SearchFilters">
-        <form
-          className="Form"
-          onSubmit={ e => {
+        <Form
+          onSubmit={ () => {
             if (disabled) {
               return;
             }
-            e.preventDefault();
             this.props.onSubmit(this.getSearchParams());
           }}
         >
-          <SegmentedControl disabled={ disabled } ref="shout_type" name="shout_type" options={ [
-            { label: 'Offers', value: 'offer', checked: true },
+          <SegmentedControl value={ shout_type } disabled={ disabled } ref="shout_type" name="shout_type" options={ [
+            { label: 'All', value: 'all' },
+            { label: 'Offers', value: 'offer' },
             { label: 'Requests', value: 'request' },
           ]} onChange={ shout_type => this.setState({ shout_type }) } />
 
@@ -110,7 +109,7 @@ export class SearchFilters extends Component {
             inputRef={ el => { this.locationField = el; }}
             label="Location"
             name="location"
-            initialValue={ searchParams }
+            location={ searchParams }
             onChange={ () => this.refs.submitButton.focus() }
           />
           <TextField
@@ -120,7 +119,7 @@ export class SearchFilters extends Component {
             disabled={ disabled }
             name="search"
             ref="search"
-            value={ search }
+            defaultValue={ search }
             onChange={ search => this.setState({ search }) }
           />
 
@@ -131,7 +130,7 @@ export class SearchFilters extends Component {
             disabled={ disabled }
             ref="category"
             name="category"
-            value={ category }
+            defaultValue={ category }
             onChange={ category => this.setState({ category, filters: {} }) }
           >
             <option value="all">All categories</option>
@@ -152,7 +151,7 @@ export class SearchFilters extends Component {
                       label={ filter.name }
                       name={ filter.slug }
                       disabled={ disabled }
-                      value={ this.state.filters[filter.slug] || 'all' }
+                      defaultValue={ this.state.filters[filter.slug] || 'all' }
                       onChange={ value =>
                         this.setState({
                           filters: {
@@ -181,7 +180,7 @@ export class SearchFilters extends Component {
           disabled={ disabled }
           name="min_price"
           ref="min_price"
-          value={ min_price }
+          defaultValue={ min_price }
           onChange={ min_price => this.setState({ min_price }) }
         />
         <TextField
@@ -193,14 +192,14 @@ export class SearchFilters extends Component {
           disabled={ disabled }
           name="max_price"
           ref="max_price"
-          value={ max_price }
+          defaultValue={ max_price }
           onChange={ max_price => this.setState({ max_price }) }
         />
 
           <div className="SearchFilters-buttons">
             <Button ref="submitButton" block primary size="small" disabled={ disabled || isEqual(this.state, this.props.searchParams) } type="submit" label="Search" />
           </div>
-        </form>
+        </Form>
       </div>
     );
   }
