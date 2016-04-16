@@ -5,6 +5,7 @@ import Form from '../ui/Form';
 import LocationField from '../ui/LocationField';
 import Picker from '../ui/Picker';
 import TextField from '../ui/TextField';
+import CurrencyField from '../ui/CurrencyField';
 import UploadField from '../ui/UploadField';
 
 if (process.env.BROWSER) {
@@ -34,7 +35,7 @@ export class ShoutModal extends Component {
 
   getShout() {
     return {
-      price: this.refs.priceField.getValue() * 100,
+      price: this.refs.priceField.getValue(),
       currency: this.refs.currencyPicker.getValue(),
       location: this.locationField.getValue(),
       images: this.refs.imageUploadField.getValue(),
@@ -90,7 +91,7 @@ export class ShoutModal extends Component {
           error={ error }
         />
 
-        <TextField
+        <CurrencyField
           ref="priceField"
           type="text"
           name="price"
@@ -98,7 +99,9 @@ export class ShoutModal extends Component {
           disabled={ disabled }
           block
           value={ shout.price }
-          onChange={ price => this.handleChange({ price }) }
+          onChange={ price => {
+            this.handleChange({ price });
+          }}
           error={ error }
           startElement={
             <Picker
@@ -111,7 +114,7 @@ export class ShoutModal extends Component {
                 <option>Currency</option>
                 { currencies.map(currency =>
                   <option key={ currency.code } value={ currency.code }>
-                    { currency.name }
+                    { currency.code } { currency.name }
                   </option>
                 )}
             </Picker>

@@ -40,7 +40,7 @@ export default class FormField extends Component {
     placeholder: PropTypes.string,
     startElement: PropTypes.element,
     tooltipPlacement: PropTypes.string,
-    value: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     style: PropTypes.object,
   }
 
@@ -61,9 +61,9 @@ export default class FormField extends Component {
 
   componentWillReceiveProps(nextProps) {
     let state;
-    if (nextProps.value !== this.props.value) {
-      state = { ...state, value: nextProps.value };
-    }
+    // if (nextProps.value !== this.props.value) {
+    //   state = { ...state, value: nextProps.value };
+    // }
     if (nextProps.error !== this.props.error) {
       state = { ...state, error: nextProps.error };
     }
@@ -164,10 +164,10 @@ export default class FormField extends Component {
             inputRef(this);
           }
         },
-        value: this.state.value,
-        id: this._reactInternalInstance._rootNodeID,
+        value,
         placeholder,
         disabled,
+        id: this._reactInternalInstance._rootNodeID,
         className: 'FormField-input',
         onChange: e => this.handleChange(e),
         onFocus: e => this.handleFocus(e),
