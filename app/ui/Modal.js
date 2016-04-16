@@ -8,6 +8,8 @@ export default class Modal extends React.Component {
 
   static propTypes = {
     rootClose: PropTypes.bool,
+    children: PropTypes.node,
+    title: PropTypes.string,
   };
 
   static defaultProps = {
@@ -15,7 +17,11 @@ export default class Modal extends React.Component {
   };
 
   componentDidMount() {
-    // this.refs.modal.focus();
+    document.body.style.overflow = 'hidden';
+  }
+
+  componentWillUnmount() {
+    document.body.style.overflow = null;
   }
 
   render() {
