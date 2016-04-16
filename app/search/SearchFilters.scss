@@ -18,63 +18,8 @@
     padding-bottom: .625rem;
     border-bottom: 1px solid $border-color;
   }
-
-  .TextField {
-    border-bottom: 0;
-  }
-}
-.SearchFilters-label {
-  padding-top: .5rem;
-  text-transform: uppercase;
-  color: $color-light;
-  font-size: 0.5rem;
-  text-align: center;
-}
-
-.SearchFilters-input {
-  margin-bottom: .5rem;
-  &.Picker {
-    margin-left: .5rem;
-  }
-  &.TextField + .Picker {
-    margin-top: 1rem;
-  }
-}
-
-.SearchFilters-filters {
-  display: flex;
-  flex-wrap: wrap;
-  padding: .5rem;
-  border-radius: $border-radius-small;
-  background-color: $background-color-light;
-  box-shadow: inset $box-shadow-depth-0;
-  padding-bottom: 0;
-  margin-bottom: .5rem;
-  > span {
-    flex: 1;
-    flex-basis: 50%;
-    padding-left: 0.25rem;
-  }
 }
 
 .SearchFilters-buttons {
   margin-top: 1rem;
-}
-
-.SearchFilters-range {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  padding-bottom: 0;
-  color: $color-light;
-  > .SearchFilters-range-separe {
-    padding: 0 1rem;
-  }
-  > .TextField {
-    flex: 1;
-    &:first-child input {
-      text-align: right;
-      padding-right: .5rem;
-    }
-  }
 }
