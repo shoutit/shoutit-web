@@ -73,6 +73,14 @@ $size-huge: 52px;
 
 /* PLEASE KEEP THIS LIST ALPHABETICALLY SORTED :) */
 
+.SVGIcon-icon.add {
+  background-image: url("../../assets/icons/add.svg");
+}
+  .SVGIcon.hover:hover .SVGIcon-icon.add,
+  .SVGIcon.active .SVGIcon-icon.add {
+    background-image: url("../../assets/icons/add-active.svg");
+  }
+
 .SVGIcon-icon.attach {
   background-image: url("../../assets/icons/attach.svg");
 }
@@ -427,6 +435,9 @@ $size-huge: 52px;
   .SVGIcon.hover:hover .SVGIcon-icon.trash,
   .SVGIcon.active .SVGIcon-icon.trash {
     background-image: url("../../assets/icons/trash-active.svg");
+  }
+  .SVGIcon.fill .SVGIcon-icon.trash {
+    background-image: url("../../assets/icons/trash-fill.svg");
   }
   .SVGIcon.on .SVGIcon-icon.trash {
     background-image: url("../../assets/icons/trash-on.svg");
