@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import Overlay from '../ui/Overlay';
 
 import HeaderMessagesOverlay from './HeaderMessagesOverlay';
@@ -38,7 +38,7 @@ export class HeaderMessagesButton extends Component {
     return (
       <span>
         <Link to="/messages" onClick={ this.showOverlay } style={{ position: 'relative' }}>
-          <SVGIcon ref="icon" name="balloon-dots" badge={ badge } />
+          <Icon ref="icon" name="balloon-dots" badge={ badge } />
         </Link>
         <Overlay
           arrow

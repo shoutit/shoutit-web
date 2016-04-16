@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import UserAvatar from '../users/UserAvatar';
 import Overlay from '../ui/Overlay';
 
-import HeaderProfilePreview from './HeaderProfilePreview';
+import HeaderProfileOverlay from './HeaderProfileOverlay';
 
 export class HeaderProfileButton extends Component {
 
@@ -54,7 +54,7 @@ export class HeaderProfileButton extends Component {
           onHide={ this.hideOverlay }
           target={ () => this.refs.avatar.getImageNode() }
         >
-          <HeaderProfilePreview onItemClick={ this.hideOverlay } />
+          <HeaderProfileOverlay onItemClick={ this.hideOverlay } />
         </Overlay>
       </span>
     );

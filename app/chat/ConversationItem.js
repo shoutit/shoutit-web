@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import UserAvatar from '../users/UserAvatar.js';
-import SVGIcon from '../ui/SVGIcon.js';
+import Icon from '../ui/Icon.js';
 import { formatCreatedAt } from '../utils/DateUtils';
 import { getConversationName } from './ChatUtils';
 
@@ -51,7 +51,7 @@ export default function ConversationItem({
 
         { lastMessage &&
           <div className="ConversationItem-last-message" title={ lastMessage.text }>
-            { lastMessage.profile && lastMessage.profile.isOwner && <SVGIcon name="reply" size="small" /> }
+            { lastMessage.profile && lastMessage.profile.isOwner && <Icon name="reply" size="small" /> }
             { lastMessage.text && <span>{ lastMessage.text }</span> }
             { !lastMessage.text && lastMessage.attachments && <span className="htmlAncillary">Sent an attachment</span> }
           </div>

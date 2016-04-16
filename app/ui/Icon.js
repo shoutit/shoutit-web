@@ -1,10 +1,10 @@
 import React, { PropTypes, Component } from 'react';
 
 if (process.env.BROWSER) {
-  require('./SVGIcon.scss');
+  require('./Icon.scss');
 }
 
-export default class SVGIcon extends Component {
+export default class Icon extends Component {
 
   static propTypes = {
     name: PropTypes.string.isRequired,
@@ -28,7 +28,7 @@ export default class SVGIcon extends Component {
       ...props,
     } = this.props;
 
-    let className = `SVGIcon ${size}`;
+    let className = `Icon ${size}`;
 
     if (active) {
       className += ' active';
@@ -50,7 +50,7 @@ export default class SVGIcon extends Component {
     if (typeof badge !== 'undefined') {
       // Set visibility hidden to leave the space once the badge get a value
       badgeEl = (
-        <span className={ `SVGIcon-badge ${badge === 0 ? ' isHidden' : ''}` }>
+        <span className={ `Icon-badge ${badge === 0 ? ' isHidden' : ''}` }>
           { badge }
         </span>
       );
@@ -63,7 +63,7 @@ export default class SVGIcon extends Component {
 
     return (
       <span { ...props } style={ style } className={ className } >
-        <span ref="icon" className={ `SVGIcon-icon ${name}` } />
+        <span ref="icon" className={ `Icon-icon ${name}` } />
         { badgeEl }
       </span>
 

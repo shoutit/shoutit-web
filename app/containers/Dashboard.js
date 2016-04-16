@@ -11,7 +11,7 @@ import { routeError } from '../actions/server';
 import Progress from '../ui/Progress';
 import Page from '../layout/Page';
 import Scrollable from '../ui/Scrollable';
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
 import UIMessage from '../ui/UIMessage';
 import Listening from '../users/Listening';
@@ -36,17 +36,17 @@ const StartColumn = ({ profile }) =>
     <ul className="htmlNoList">
       <li>
         <Link to="/profile/edit">
-          <ListItem start={ <SVGIcon active name="pencil" /> }>Edit your profile</ListItem>
+          <ListItem start={ <Icon active name="pencil" /> }>Edit your profile</ListItem>
         </Link>
       </li>
       <li>
         <Link to="/messages">
-          <ListItem start={ <SVGIcon active name="balloon-dots" /> }>Messages</ListItem>
+          <ListItem start={ <Icon active name="balloon-dots" /> }>Messages</ListItem>
         </Link>
       </li>
       <li>
         <Link to="/search">
-          <ListItem start={ <SVGIcon active name="world-west" /> }>Browse shouts</ListItem>
+          <ListItem start={ <Icon active name="world-west" /> }>Browse shouts</ListItem>
         </Link>
       </li>
     </ul>

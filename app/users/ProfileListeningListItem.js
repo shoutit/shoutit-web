@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
 
 export default function ProfileListening({ profile, size = 'small' }) {
@@ -9,7 +9,7 @@ export default function ProfileListening({ profile, size = 'small' }) {
       className="ProfileListening"
       size={ size }
       nowrap
-      start={ <SVGIcon name="listening" active={ listeningCount.users > 0 } /> }>
+      start={ <Icon name="listening" active={ listeningCount.users > 0 } /> }>
 
       { listeningCount.users === 0 ? 'Not listening' : `${listeningCount.users} listening` }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import Button from '../ui/Button';
 import UserAvatar from '../users/UserAvatar';
 
@@ -21,11 +21,11 @@ export function HeaderProfile({
     <div className="HeaderProfile">
       <div>
         <Link to="/messages" onClick={ onMessagesClick }>
-          <SVGIcon name="balloon-dots" badge={ user.stats.unreadConversationsCount } />
+          <Icon name="balloon-dots" badge={ user.stats.unreadConversationsCount } />
         </Link>
       </div>
       <div>
-        <SVGIcon name="bell" badge={ 0 } onClick={ onNotificationsClick } />
+        <Icon name="bell" badge={ 0 } onClick={ onNotificationsClick } />
       </div>
       <div>
         <Button
@@ -33,7 +33,7 @@ export function HeaderProfile({
           size="small"
           label="Create Shout"
           onClick={ onNewShoutClick }
-          leftIcon={ <SVGIcon name="sparkle" fill /> } />
+          leftIcon={ <Icon name="sparkle" fill /> } />
       </div>
       <div>
           <Link

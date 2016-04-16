@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import CategoryListItem from './CategoryListItem';
 import TimeAgo from '../ui/TimeAgo';
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
 import NewlineToBreak from '../ui/NewlineToBreak';
 import Button from '../ui/Button';
@@ -22,17 +22,17 @@ export default function ShoutDetail({ shout }) {
 
         <div className="ShoutDetail-title">
           <h1>{ shout.title || shout.text }</h1>
-          <Button size="small" primary leftIcon = { <SVGIcon fill name="balloon-dots" /> } label="Buy this item" />
+          <Button size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Buy this item" />
         </div>
         <div className="ShoutDetail-header-details">
           <ProfileListItem tooltipPlacement="bottom" profile={ shout.profile } />
 
-          <ListItem start={ <SVGIcon name="clock" /> }>
+          <ListItem start={ <Icon name="clock" /> }>
             <TimeAgo date={ shout.datePublished } />
           </ListItem>
 
           <CategoryListItem size="medium" category={ shout.category } />
-          <ListItem start={ <SVGIcon name="location" /> }>
+          <ListItem start={ <Icon name="location" /> }>
             { shout.location.city || shout.location.state || shout.location.country }
           </ListItem>
 

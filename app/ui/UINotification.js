@@ -1,5 +1,5 @@
 import React from 'react';
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 
 if (process.env.BROWSER) {
   require('./UINotification.scss');
@@ -67,7 +67,7 @@ export default class UINotification extends React.Component {
 
             { showDismissButton &&
               <span className="UINotification-dismiss">
-                <SVGIcon size="small" name="close" onClick={ () => onDismissClick() } />
+                <Icon size="small" name="close" onClick={ () => onDismissClick() } />
               </span>
             }
 

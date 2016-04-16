@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
 
 if (process.env.BROWSER) {
@@ -12,7 +12,7 @@ export default function CategoryListItem({ category, size = 'medium', onClick })
       onClick={ onClick }
       className="CategoryListItem"
       size={ size }
-      start={ <SVGIcon size={ size } name="tag" /> }
+      start={ <Icon size={ size } name="tag" /> }
     >
       { category.name || category }
     </ListItem>

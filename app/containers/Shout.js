@@ -19,7 +19,7 @@ import Gallery from '../ui/Gallery';
 import ListItem from '../ui/ListItem';
 import NewlineToBreak from '../ui/NewlineToBreak';
 import Progress from '../ui/Progress';
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import TimeAgo from '../ui/TimeAgo';
 
 import { denormalize } from '../schemas';
@@ -38,7 +38,7 @@ function ShoutBuy({ shout, onReplyClick }) {
   return (
     <div className="ShoutBuy">
       <ShoutPrice shout={ shout } layout="plain" />
-      <Button onClick={ onReplyClick } size="small" primary leftIcon = { <SVGIcon fill name="balloon-dots" /> } label="Reply to this shout" />
+      <Button onClick={ onReplyClick } size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Reply to this shout" />
 
       <p className="htmlAncillary">
         Start chatting with { shout.profile.firstName } if you are interested on this.
@@ -119,10 +119,10 @@ export class Shout extends Component {
           <h1>{ shout.title || shout.text }</h1>
           <div className="Shout-header">
             <ProfileListItem tooltipPlacement="bottom" profile={ shout.profile } />
-            <ListItem size="small" start={ <SVGIcon name="clock" size="small" /> }>
+            <ListItem size="small" start={ <Icon name="clock" size="small" /> }>
               <TimeAgo date={ shout.datePublished } />
             </ListItem>
-            <ListItem size="small" start={ <SVGIcon size="small" name="location" /> }>
+            <ListItem size="small" start={ <Icon size="small" name="location" /> }>
               { shout.location.city || shout.location.state || shout.location.country }
             </ListItem>
             <CategoryListItem size="small" category={ shout.category } />
@@ -145,12 +145,12 @@ export class Shout extends Component {
               }
             </div>
           <div className="Shout-card">
-            <ListItem start={ <SVGIcon name="clock" /> }>
+            <ListItem start={ <Icon name="clock" /> }>
               <TimeAgo date={ shout.datePublished } />
             </ListItem>
 
             <CategoryListItem size="medium" category={ shout.category } />
-            <ListItem start={ <SVGIcon name="location" /> }>
+            <ListItem start={ <Icon name="location" /> }>
               { shout.location.city || shout.location.state || shout.location.country }
             </ListItem>
 

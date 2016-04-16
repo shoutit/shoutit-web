@@ -5,7 +5,7 @@ import { listenToUser, stopListeningToUser } from '../actions/users';
 import { startConversation } from '../actions/chat';
 import { Link } from 'react-router';
 
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
 
 if (process.env.BROWSER) {
@@ -44,7 +44,7 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
               size={ size }
               disabled={ isUpdatingListening }
               onClick={ onListenClick }
-              start= { <SVGIcon size={ size } name="listen" active={ !profile.isListening } on={ profile.isListening } /> }
+              start= { <Icon size={ size } name="listen" active={ !profile.isListening } on={ profile.isListening } /> }
             >
               { profile.isListening ? `Stop listening to ${profile.firstName}` : `Listen to ${profile.firstName}` }
             </ListItem>
@@ -52,7 +52,7 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
           <li>
             <ListItem size={ size }
               onClick={ onSendMessageClick }
-              start= { <SVGIcon size={ size } active name="balloon-dots" /> }>
+              start= { <Icon size={ size } active name="balloon-dots" /> }>
               Send {profile.firstName} a message
             </ListItem>
           </li>
@@ -61,7 +61,7 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
               <Link to={`/user/${profile.username}`}>
                 <ListItem
                   size={ size }
-                  start= { <SVGIcon active size={ size } name="profile" /> }
+                  start= { <Icon active size={ size } name="profile" /> }
                 >
                   Visit profile
                 </ListItem>

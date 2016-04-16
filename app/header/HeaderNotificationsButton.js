@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
 
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import Overlay from '../ui/Overlay';
 
 import HeaderNotificationsOverlay from './HeaderNotificationsOverlay';
@@ -35,7 +35,7 @@ export class HeaderNotificationsButton extends Component {
     const { badge } = this.props;
     return (
       <span>
-        <SVGIcon ref="icon" onClick={ this.showOverlay } name="bell" badge={ badge } />
+        <Icon ref="icon" onClick={ this.showOverlay } name="bell" badge={ badge } />
         <Overlay
           arrow
           rootClose

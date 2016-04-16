@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import TextareaAutosize from 'react-textarea-autosize';
 
 // import Button from '../ui/Button';
-// import SVGIcon from '../ui/SVGIcon';
+// import Icon from '../ui/Icon';
 
 import { saveDraft } from '../actions/forms';
 import { replyToConversation, replyToShout, notifyTypingUser, chatWithProfile, closeConversation, openConversation } from '../actions/chat';

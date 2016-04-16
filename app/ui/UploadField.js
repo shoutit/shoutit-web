@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import Dropzone from 'react-dropzone';
 import FormField from './FormField';
-import SVGIcon from './SVGIcon';
+import Icon from './Icon';
 import request from '../utils/request';
 import { uploadResources } from '../config';
 
@@ -13,7 +13,7 @@ export function File({ upload, onDeleteClick }) {
   return (
     <span className="UploadField-file" style={{ backgroundImage: `url("${upload.file.preview}")` }}>
       { upload.percent < 100 && <div className="UploadField-file-percent" style={{ width: `${100 - upload.percent}%` }} /> }
-      <div className="UploadField-file-trash"><SVGIcon onClick={ () => onDeleteClick(upload) } name="trash" fill /></div>
+      <div className="UploadField-file-trash"><Icon onClick={ () => onDeleteClick(upload) } name="trash" fill /></div>
       { upload.error && <div className="UploadField-file-error" /> }
     </span>
   );
