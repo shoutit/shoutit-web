@@ -108,7 +108,7 @@ export class Login extends Component {
               </p>
           }
 
-            <form onSubmit={ e => this.handleFormSubmit(e) } className="Frame-form" noValidate>
+            <form onSubmit={ e => this.handleFormSubmit(e) } className="Form Frame-form" noValidate>
               <TextField
                 ref="email"
                 block
