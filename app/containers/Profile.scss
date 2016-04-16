@@ -1,38 +1,36 @@
-@import "../styles/constants.scss";
-@import "../styles/mixins/card.scss";
-@import "../styles/mixins/ellipsis.scss";
+@import '../styles/constants.scss';
+@import '../styles/mixins/card.scss';
+@import '../styles/mixins/ellipsis.scss';
 
 .Profile {
-  margin-top: 0.75rem;
-
+  margin-top: .75rem;
 }
 
-
 .Profile-cover {
-
   height: 250px;
+  border-radius: $border-radius;
   background: white;
   box-shadow: $box-shadow-depth-0;
-  border-radius: $border-radius;
 }
 
 .Profile-header {
   display: flex;
-  align-items: flex-end;;
-  transform: translateY(-44px);
+  align-items: flex-end;
+  transform: translateY(-44px);;
   .UserAvatar {
     margin-left: 3.875rem;
     border: 2px solid white;
     box-shadow: $box-shadow-depth-1;
   }
   h1 {
-    font-weight: lighter;
+    @include ellipsis();
     margin: 0rem 0 0rem 1rem;
+    font-weight: lighter;
   }
   h3 {
+    margin: .5rem 0 .5rem 1rem;
     font-size: 1rem;
     font-weight: normal;
-    margin: .5rem 0 .5rem 1rem;
   }
 }
 
@@ -41,20 +39,21 @@
 }
 
 .Profile-body {
-  margin-top: -32px;
   display: flex;
+  margin-top: -32px;
   .Profile-body-start-column {
     overflow: hidden;
-    margin: $page-column-margin;
     width: $page-width-column;
+    margin: $page-column-margin;
   }
   .Profile-shouts {
-    flex: 1;
     margin-top: .75rem;
+
+    flex: 1;
     h2 {
-      text-align: center;
       margin: 0;
       margin-bottom: .5rem;
+      text-align: center;
       font-size: 1rem;
       font-weight: normal;
     }

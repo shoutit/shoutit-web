@@ -1,15 +1,14 @@
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
 
 .Modal {
   position: absolute;
+  z-index: $z-index-modal-host;
   top: $header-height + 20px;
   left: 50%;
-  z-index: $z-index-modal-host;
   width: 500px;
-  padding: 1rem .5rem .5rem .5rem;
-
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
   transform: translateX(-50%);
-
   border: 1px solid $border-color;
   border-radius: $border-radius;
   background-color: white;
@@ -19,9 +18,7 @@
 .Modal > h1 {
   margin: 0;
   margin-bottom: 1.5rem;
-
   text-align: center;
-
-  font-weight: lighter;
   font-size: 1.25rem;
+  font-weight: lighter;
 }

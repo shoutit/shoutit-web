@@ -1,4 +1,4 @@
-@import "../styles/constants/colors.scss";
+@import '../styles/constants/colors.scss';
 
 .Conversation {
   position: absolute;
@@ -8,6 +8,10 @@
   left: 0;
   display: flex;
   flex-direction: column;
+
+  &.layout-hosted {
+    font-size: .875rem;
+  }
 }
 
 .Conversation-error {
@@ -18,16 +22,22 @@
 
 .Conversation-scrollable {
   display: flex;
-  flex-direction: column;
-  flex: 1 1 0;
   overflow: auto;
+  flex-direction: column;
   transform: translateZ(0);
+
+  flex: 1 1 0;
 }
 
 .Conversation-messagesList {
-  flex: 1;
   display: flex;
   flex-direction: column;
+
+  flex: 1;
+
+  .Progress {
+    flex: 1;
+  }
 }
 
 .Conversation-listTopSeparator {
@@ -35,7 +45,7 @@
 }
 
 .Conversation-replyFormContainer {
+  margin: 1px;
   border-top: 1px solid $border-color-dark;
   background-color: $background-color;
-  margin: 1px;
 }

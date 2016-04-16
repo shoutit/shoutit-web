@@ -1,38 +1,37 @@
-@import "../styles/constants.scss";
-@import "../styles/mixins/ellipsis";
+@import '../styles/constants.scss';
+@import '../styles/mixins/ellipsis';
 .HostedConversation {
-
 }
 
 .HostedConversation-header {
   position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  overflow: hidden;
+  flex-direction: row;
   height: 2rem;
+  color: white;
   background-color: $green;
   .HostedConversation.has-focus &,
   .HostedConversation:hover & {
     background-color: $green-dark;
   }
-  color: white;
-  overflow: hidden;
-
-  display: flex;
-  flex-direction: row;
 
   h3 {
-    @include ellipsis();
     margin: 0 .5rem;
+    font-size: .875rem;
     font-weight: bold;
-    font-size: 0.875rem;
     line-height: 2rem;
+
+    @include ellipsis();
     flex: 1;
     a {
       color: white;
       &:hover {
-        color: white;
-        text-decoration: underline;;
+        text-decoration: underline;
+        color: white;;
       }
     }
   }
@@ -40,8 +39,8 @@
   .HostedConversation-close {
     display: inline-block;
     padding: 0 .5rem;
-    line-height: 2rem;
     cursor: pointer;
+    line-height: 2rem;
     &:hover {
       opacity: .75;
     }
@@ -51,7 +50,7 @@
 .HostedConversation-conversation {
   position: absolute;
   top: 32px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }

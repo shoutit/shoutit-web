@@ -100,8 +100,7 @@ export function loadUserShouts(searchParams, endpoint) {
 export function loadProfileDetailsIfNeeded(profile, neededDetails) {
   if (neededDetails.every(detail => profile.hasOwnProperty(detail))) {
     return {
-      type: 'NOOP',
-      payload: {},
+      type: null,
     };
   }
   const { username } = profile;

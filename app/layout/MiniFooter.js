@@ -26,10 +26,10 @@ export default function MiniFooter() {
         <a target="_blank" href={ twitterLink }>Twitter</a>
         <a target="_blank" href={ instagramLink }>Instagram</a>
       </div>
-
+{/*
       <div className="MiniFooter-copyright">
         Copyright © { (new Date().getFullYear()) } Shoutit – All Rights Reserved.
-      </div>
+      </div>*/}
 
     </div>
   );

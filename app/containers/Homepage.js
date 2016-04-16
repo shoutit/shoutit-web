@@ -62,8 +62,6 @@ export function Homepage({ categories }) {
           <h2>How it works</h2>
           <img src={`${imagesPath}/home-how-it-works.png`} height="500" width="1000" />
         </Element>
-
-        <Footer />
       </div>
     </DocumentTitle>
   );

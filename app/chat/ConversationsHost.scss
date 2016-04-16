@@ -1,4 +1,4 @@
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
 .ConversationsHost {
   position: fixed;
   z-index: $z-index-conversation-host;
@@ -10,7 +10,6 @@
 .ConversationsHost-wrapper {
   display: flex;
   flex-direction: row-reverse;
-
   width: $content-width;
   height: 0;
   margin: 0 auto;
@@ -19,13 +18,10 @@
 
 .ConversationsHost-hosted-conversation {
   position: relative;
-
-  width: 250px;
+  width: 275px;
   height: 350px;
   margin-left: .5rem;
-
   transform: translateY(-350px);
-
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
   background-color: $background-color-alt-light;

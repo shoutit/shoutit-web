@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
@@ -13,16 +13,23 @@ import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
 
 export class ResetPassword extends Component {
 
+  static propTypes = {
+    error: PropTypes.object,
+    isResettingPassword: PropTypes.bool,
+    dispatch: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
+  };
+
   state = {
     sent: false,
   };
 
   componentDidUpdate(prevProps) {
-    const { resetPasswordError } = this.props;
+    const { error } = this.props;
 
-    if (resetPasswordError && prevProps.resetPasswordError !== resetPasswordError) {
+    if (error && prevProps.error !== error) {
       let location;
-      const errorLocations = getErrorLocations(resetPasswordError);
+      const errorLocations = getErrorLocations(error);
       if (errorLocations.includes('email')) {
         location = 'email';
       }
@@ -51,13 +58,13 @@ export class ResetPassword extends Component {
   }
 
   renderForm() {
-    const { isResettingPassword, location: { query }, resetPasswordError, dispatch } = this.props;
+    const { isResettingPassword, location: { query }, error } = this.props;
     return (
       <Frame title="Reset your password">
 
         <div className="Frame-body">
 
-          { resetPasswordError && !getErrorsByLocation(resetPasswordError, 'email') &&
+          { error && !getErrorsByLocation(error, 'email') &&
             <p className="htmlErrorParagraph">
               Could not reset your password because of an unknown error. Please try again later or contact support.
             </p>
@@ -71,13 +78,9 @@ export class ResetPassword extends Component {
               disabled={ isResettingPassword }
               name="email"
               type="email"
-              errors={ resetPasswordError && getErrorsByLocation(resetPasswordError, 'email') }
+              error={ error }
               placeholder="Enter your e-mail or username"
-              onBlur={ () => dispatch(resetSessionErrors()) }
-              onChange={ email => {
-                dispatch(resetSessionErrors());
-                this.setState({ email });
-              }}
+              onChange={ email => this.setState({ email }) }
             />
 
             <Button
@@ -133,7 +136,7 @@ export class ResetPassword extends Component {
 const mapStateToProps = state => {
   return {
     isResettingPassword: state.session.isResettingPassword,
-    resetPasswordError: state.session.resetPasswordError,
+    error: state.session.resetPasswordError,
   };
 };
 

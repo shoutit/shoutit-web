@@ -37,8 +37,13 @@ export class Profile extends Component {
 
   static propTypes = {
     shouts: PropTypes.array,
+    firstRender: PropTypes.bool,
+    dispatch: PropTypes.func.isRequired,
+    params: PropTypes.object.isRequired,
     profile: PropTypes.object,
     isFetchingShouts: PropTypes.bool,
+    shoutsCount: PropTypes.number,
+    nextShoutsUrl: PropTypes.string,
   };
 
   static fetchData = fetchData;
@@ -79,7 +84,7 @@ export class Profile extends Component {
 
           { profile &&
             <div className="Profile">
-              <div className="Profile-cover" style={ getStyleBackgroundImage(profile.cover) } />
+              <div className="Profile-cover" style={ getStyleBackgroundImage(profile.cover, 'large') } />
 
               <div className="Profile-header">
                 <a href={ profile.image ? getVariation(profile.image, 'large') : '' }>
@@ -102,7 +107,7 @@ export class Profile extends Component {
 
                 <div className="Profile-shouts">
                   <div>
-                    { shouts.length > 0 &&
+                    { (shoutsCount && shouts.length) > 0 &&
                       <h2>{ `${profile.isOwner ? 'Your' : `${profile.firstName}’s`} shouts (${shoutsCount})` }</h2>
                     }
                     { shouts.length > 0 &&

@@ -27,10 +27,23 @@ export class ConversationsList extends Component {
     this.props.dispatch(loadConversations());
   }
 
+  componentDidUpdate() {
+    this.loadMoreIfNeeded();
+  }
+
+  loadMoreIfNeeded() {
+    const { dispatch, previousUrl, isFetching } = this.props;
+    const { scrollable } = this.refs;
+    if (!isFetching && previousUrl && !scrollable.canScroll()) {
+      dispatch(loadConversations(previousUrl));
+    }
+  }
+
   render() {
     const { isFetching, conversations, loggedUser, selectedId, onConversationClick, dispatch, previousUrl } = this.props;
     return (
       <Scrollable
+        ref="scrollable"
         preventDocumentScroll
         className="ConversationsList"
         onScrollBottom={ previousUrl ? () => dispatch(loadConversations(previousUrl)) : null }
@@ -59,7 +72,7 @@ export class ConversationsList extends Component {
               <p>No messages</p>
             </div>
           }
-          { (previousUrl || conversations.length === 0) &&
+          { (previousUrl || conversations.length === 0) && isFetching &&
             <Progress
               size="small"
               animate={ isFetching }

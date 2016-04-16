@@ -16,5 +16,5 @@ export default function NewlineToBreak({ children }) {
 }
 
 NewlineToBreak.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
 };

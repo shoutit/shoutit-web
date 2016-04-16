@@ -47,7 +47,10 @@ export default function Page({ children, className, startColumn, stickyStartColu
                   { endColumn }
                 </div>
               </Sticky> :
-              [endColumn, miniFooter ? <MiniFooter key="minifooter" /> : null]
+              [
+                endColumn,
+                miniFooter ? <MiniFooter key="minifooter" /> : null,
+              ]
             }
           </div>
         }

@@ -1,0 +1,50 @@
+@import '../styles/constants';
+@import '../styles/mixins/field';
+
+.FormField {
+  @include fieldContainer();
+  input:not([type='radio']) {
+    @include field();
+  }
+  select {
+    @include field();
+    padding-right: 24px;
+    background-image: url('../../assets/ui-elements/dropdown-caret-big.svg');
+    background-repeat: no-repeat;
+    background-position: 100%;
+  }
+  .field-element-wrapper {
+    flex: 1;
+  }
+}
+
+.FormField-start-element {
+  border-right: 1px solid $border-color;
+  .FormField {
+    display: inline-block;
+    > .field-wrapper {
+      margin-top: -1px;
+      margin-right: -1px;
+      margin-bottom: -1px;
+      margin-left: -1px;
+      padding: 0;
+      border: 1px solid transparent;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      background-color: transparent;
+    }
+  }
+  + input {
+    width: auto;
+  }
+}
+
+.FormField-error-overlay {
+  display: flex;
+  align-items: center;
+  width: 200px;
+  min-height: 3rem;
+  padding: .5rem .75rem;
+  color: $shoutit-red;
+  font-size: .75rem;
+}

@@ -74,7 +74,7 @@ export default class Gallery extends Component {
             >
               <span
                 className={`Gallery-thumbnail ${item.type}`}
-                style={ item.thumbnailUrl ? getStyleBackgroundImage(item.thumbnailUrl) : getStyleBackgroundImage(item.url, 'medium') }
+                style={ item.thumbnailUrl ? getStyleBackgroundImage(item.thumbnailUrl, 'small') : getStyleBackgroundImage(item.url, 'small') }
               />
             </span>
 

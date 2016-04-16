@@ -1,14 +1,16 @@
-@import "../styles/constants/colors.scss";
-@import "../styles/mixins/ellipsis.scss";
+@import '../styles/constants/colors.scss';
+@import '../styles/mixins/ellipsis.scss';
 
 .ConversationItem {
-  font-size: 0.875rem;
   display: flex;
-  align-items: center;
-  text-decoration: none;
+  padding: 0 .25rem;
   cursor: pointer;
-  background-color: white;
+  text-decoration: none;
   border-bottom: 1px solid $border-color;
+  background-color: white;
+  font-size: .875rem;
+
+  align-items: center;
   &.is-selected {
     background-color: $background-color-alt;
   }
@@ -25,16 +27,17 @@
 }
 
 .ConversationItem-user-avatar {
-  padding: 0.625rem 0.25rem;
+  padding: .625rem .25rem;
 }
 
 .ConversationItem-body {
   display: flex;
   flex-direction: column;
-  flex: 1;
   min-width: 0;
+  padding: .625rem .25rem;
+
+  flex: 1;
   flex-basis: 50%;
-  padding: 0.625rem 0.25rem;
   > div {
     @include ellipsis();
   }
@@ -42,31 +45,32 @@
 
 
 .ConversationItem-tools {
-  padding: 0.625rem 0.25rem;
-  align-self: flex-start;
+  padding: .625rem .25rem;
   text-align: right;
   font-weight: normal;
+
+  align-self: flex-start;
 }
 
 .ConversationItem-created-at {
   color: $color-light;
-  font-size: 0.75rem;
+  font-size: .75rem;
 }
 
 .ConversationItem-unread-count {
-  color: $color-light;
-  font-size: 0.625rem;
   margin-top: .25rem;
+  color: $color-light;
+  font-size: .625rem;
 }
 
 .ConversationItem-title {
-  font-size: 1em;
   margin-bottom: .25rem;
+  font-size: 1em;
 }
 
 .ConversationItem-about_shout {
   color: $si-blue;
-  font-size: 0.875rem;
+  font-size: .875rem;
 }
 
 .ConversationItem-partecipants {
@@ -74,11 +78,11 @@
 }
 
 .ConversationItem-last-message {
-  font-size: 0.75rem;
   color: $color;
+  font-size: .75rem;
   span {
-    vertical-align: middle;
     display: inline-block;
+    vertical-align: middle;
   }
   .SVGIcon {
     margin-right: .25rem;

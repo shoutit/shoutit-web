@@ -36,7 +36,7 @@ export default function renderMiddleware(req, res, next) {
     const routes = configureRoutes(store);
 
     // Run router to determine the desired state
-    match({ routes, location: req.url }, (matchError, redirectLocation, props) => {
+    match({ routes, location: req.url }, (matchError, redirectLocation, renderProps) => {
       log('Matched request for %s', req.url);
 
       if (redirectLocation) {
@@ -48,14 +48,20 @@ export default function renderMiddleware(req, res, next) {
         store.dispatch(routeError(matchError));
       }
 
+      let status = 200;
+      if (renderProps.routes && renderProps.routes[renderProps.routes.length - 1].path === '*') {
+        status = 404;
+      }
+
       log('Fetching data for routes...');
 
       try {
-        fetchDataForRoutes(props.routes, props.params, req.query, store, fetchingError => {
+        fetchDataForRoutes(renderProps.routes, renderProps.params, req.query, store, fetchingError => {
           log('Routes data has been fetched', fetchingError);
 
           if (fetchingError) {
             store.dispatch(routeError(fetchingError));
+            status = fetchingError.statusCode || 500;
           }
 
           const meta = {}; // getMetaFromData(req.url, data);
@@ -69,10 +75,10 @@ export default function renderMiddleware(req, res, next) {
             content = ReactDOMServer.renderToString(
               <Provider store={ store }>
                 <RouterContext
-                  createElement={ (Component, elProps) =>
-                    <Component {...elProps} location={ location } />
+                  createElement={ (Component, props) =>
+                    <Component {...props} location={ location } />
                   }
-                  {...props}
+                  {...renderProps}
                 />
               </Provider>
             );
@@ -89,7 +95,7 @@ export default function renderMiddleware(req, res, next) {
               meta={ meta }
             />
           );
-          res.status(fetchingError ? (fetchingError.statusCode || 500) : 200).send(`<!doctype html>${html}`);
+          res.status(status).send(`<!doctype html>${html}`);
         });
       } catch (e) {
         next(e);

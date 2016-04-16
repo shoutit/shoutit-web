@@ -1,7 +1,7 @@
 @import "../styles/constants.scss";
 
 .Progress {
-  margin: 2rem 1rem;
+  margin: 2em 1em;
   display: block;
   display: flex;
   align-items: center;
@@ -14,14 +14,14 @@
     margin: 0;
   }
   &.size-small {
-    margin: .5rem .25rem;
+    margin: .5em .25em;
   }
 }
 
 .Progress-wrapper {
   background-color: white;
   display: inline-block;
-  padding: .5rem 1rem;
+  padding: .5em 1em;
   border-radius: $border-radius;
   display: flex;
   align-items: center;
@@ -32,10 +32,10 @@
   position: relative;
   overflow: hidden;
   display: inline-block;
-  font-size: .875rem;
+  font-size: .875em;
   color: $color;
   .Progress.size-small & {
-    font-size: .75rem;
+    font-size: .75em;
   }
 }
 

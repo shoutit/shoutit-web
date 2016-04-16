@@ -10,7 +10,7 @@ export default class Scrollable extends Component {
 
   static propTypes = {
     scrollElement: PropTypes.func,
-    children: PropTypes.element.isRequired,
+    children: PropTypes.node.isRequired,
     uniqueId: PropTypes.oneOfType([
       PropTypes.string, PropTypes.number,
     ]),
@@ -111,6 +111,10 @@ export default class Scrollable extends Component {
       return document.documentElement.clientHeight;
     }
     return scrollElement.offsetHeight;
+  }
+
+  canScroll() {
+    return this.getScrollHeight() > this.getOffsetHeight();
   }
 
   handleMouseLeave() {

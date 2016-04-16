@@ -4,14 +4,18 @@ import { Link } from 'react-router';
 
 import SVGIcon from '../ui/SVGIcon';
 import Button from '../ui/Button';
+import Modal from '../ui/Modal';
 
 import HeaderMessagesButton from '../header/HeaderMessagesButton';
 import HeaderNotificationsButton from '../header/HeaderNotificationsButton';
 import HeaderProfileButton from '../header/HeaderProfileButton';
+import CreateShout from '../shouts/CreateShout';
 import Searchbar from '../search/Searchbar';
 
 import { getCountryName } from '../utils/LocationUtils';
 import { imagesPath } from '../config';
+
+import { openModal, closeModal } from '../actions/ui';
 
 if (process.env.BROWSER) {
   require('./Header.scss');
@@ -46,10 +50,32 @@ function getDiscoverLink(location) {
 export class Header extends Component {
 
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     isLoggedIn: PropTypes.bool,
     currentLocation: PropTypes.object,
   };
 
+  constructor(props) {
+    super(props);
+    this.handleNewShoutClick = this.handleNewShoutClick.bind(this);
+
+  }
+  handleNewShoutClick() {
+    const { dispatch } = this.props;
+
+    const modal = (
+      <Modal name="new-shout">
+        <CreateShout
+          modalName="new-shout"
+          onCancel={ () => dispatch(closeModal('new-shout'))}
+          onSuccess={ () => dispatch(closeModal('new-shout'))}
+        />
+      </Modal>
+    );
+
+    dispatch(openModal(modal));
+
+  }
 
   render() {
     return (
@@ -74,6 +100,7 @@ export class Header extends Component {
             <HeaderMessagesButton overlayContainer={ this } />
             <HeaderNotificationsButton overlayContainer={ this } />
             <Button
+              onClick={ this.handleNewShoutClick }
               primary
               size="small"
               label="Create Shout"

@@ -50,7 +50,7 @@ function ShoutBuy({ shout, onReplyClick }) {
 
 ShoutBuy.propTypes = {
   shout: PropTypes.object.isRequired,
-  onReplyClick: PropTypes.object.isRequired,
+  onReplyClick: PropTypes.func.isRequired,
 };
 
 export class Shout extends Component {
@@ -169,20 +169,19 @@ export class Shout extends Component {
 
     return (
       <div>
-      <Page title={ shout ? shout.title : null }
-        className="ShoutPage"
-        miniFooter={ false }
-        stickyEndColumn
-        endColumn={ this.renderEndColumn() }>
+        <Page title={ shout ? shout.title : null }
+          className="ShoutPage"
+          miniFooter={ false }
+          stickyEndColumn
+          endColumn={ this.renderEndColumn() }>
 
-        { !shout && <Progress animate /> }
+          { !shout && <Progress animate /> }
 
-        { shout && this.renderShout() }
-      </Page>
+          { shout && this.renderShout() }
+        </Page>
 
-      { shout && this.renderRelatedShouts() }
+        { shout && this.renderRelatedShouts() }
 
-      <Footer />
       </div>
     );
   }

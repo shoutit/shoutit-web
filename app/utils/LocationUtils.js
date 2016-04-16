@@ -64,3 +64,17 @@ export function getCountryCode(name) {
   }
   return code.toLowerCase();
 }
+
+export function formatLocation(location) {
+  const values = [];
+  if (location.city) {
+    values.push(location.city);
+  }
+  if (location.state) {
+    values.push(location.state);
+  }
+  if (location.country) {
+    values.push(location.country);
+  }
+  return values.join(', ');
+}

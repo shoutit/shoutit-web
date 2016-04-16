@@ -12,13 +12,14 @@ import errorDomainMiddleware from 'express-domain-middleware';
 
 // import csurf from 'csurf';
 
-import basicAuthMiddleware from './server/basicAuthMiddleware';
-import slashMiddleware from './server/slashMiddleware';
 // import smsMiddleware from './server/smsMiddleware';
-import pusherMiddleware from './server/pusherMiddleware';
-import renderMiddleware from './server/renderMiddleware';
+import basicAuthMiddleware from './server/basicAuthMiddleware';
 import errorMiddleware from './server/errorMiddleware';
+import pusherMiddleware from './server/pusherMiddleware';
 import redirects from './server/redirects';
+import renderMiddleware from './server/renderMiddleware';
+import slashMiddleware from './server/slashMiddleware';
+import { fileUploadMiddleware, fileDeleteMiddleware } from './server/fileMiddleware';
 
 import * as services from './services';
 
@@ -75,6 +76,8 @@ export function start(app) {
   });
 
   app.post('/api/pusher/auth', pusherMiddleware);
+  app.post('/api/file/:resourceType', fileUploadMiddleware);
+  app.delete('/api/file/:resourceType', fileDeleteMiddleware);
 
   // Enable various redirects
   Object.keys(redirects).map(path => app.get(path, redirects[path]));

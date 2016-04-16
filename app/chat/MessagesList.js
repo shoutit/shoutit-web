@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import moment from 'moment';
 import { groupByDay, groupByProfile, getReadyBy } from '../chat/MessagesUtils';
 import MessageItem from './MessageItem';
@@ -48,10 +48,10 @@ export function MessagesByDay({ day, messages, loggedUser, partecipants }) {
 }
 
 MessagesByDay.propTypes = {
-  day: React.PropTypes.object.isRequired,
-  messages: React.PropTypes.array,
-  loggedUser: React.PropTypes.object,
-  partecipants: React.PropTypes.array,
+  day: PropTypes.string.isRequired,
+  messages: PropTypes.array,
+  loggedUser: PropTypes.object,
+  partecipants: PropTypes.array,
 };
 
 export default function MessagesList({ messages, loggedUser, partecipants }) {

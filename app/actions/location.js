@@ -1,6 +1,7 @@
 /* global google */
 import { camelizeKeys } from 'humps';
 import * as actionTypes from './actionTypes';
+import { trimWhitespaces } from '../utils/StringUtils';
 
 import { Schemas } from '../schemas';
 
@@ -54,8 +55,15 @@ export function loadSuggestions(location) {
   };
 }
 
+export function resetPlacePredictionsLastInput() {
+  return {
+    type: actionTypes.PLACE_PREDICTIONS_RESET_INPUT,
+  };
+}
+
 let autocompleteService;
 export function loadPlacePredictions(input, types = ['(cities)']) {
+  input = trimWhitespaces(input);
   if (!google || !google.maps) {
     const error = new Error('Google Maps Service is not initialized');
     console.error(error); // eslint-disable-line

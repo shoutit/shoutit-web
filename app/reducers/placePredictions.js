@@ -14,6 +14,7 @@ export default function placePredictionsReducer(state = initialState, action) {
         ...state,
         isFetching: true,
         lastInput: action.payload.input,
+        error: null,
       };
     case actionTypes.PLACE_PREDICTIONS_SUCCESS:
       return {
@@ -30,6 +31,11 @@ export default function placePredictionsReducer(state = initialState, action) {
         ...state,
         isFetching: false,
         error: action.payload,
+      };
+    case actionTypes.PLACE_PREDICTIONS_RESET_INPUT:
+      return {
+        ...state,
+        lastInput: '',
       };
   }
   return state;

@@ -2,14 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/lang/isEqual';
 
-import TextField from '../ui/TextField';
-import Picker from '../ui/Picker';
 import Button from '../ui/Button';
-import Modal from '../ui/Modal';
+import Form from '../ui/Form';
+import LocationField from '../ui/LocationField';
+import Picker from '../ui/Picker';
+import SegmentedControl from '../ui/SegmentedControl';
+import TextField from '../ui/TextField';
 
-import SearchLocation from '../location/SearchLocation';
-
-import { openModal, closeModal } from '../actions/ui';
 import { setUserLocation } from '../actions/users';
 import { setCurrentLocation } from '../actions/location';
 
@@ -35,6 +34,7 @@ export class SearchFilters extends Component {
 
   constructor(props) {
     super(props);
+    this.handleLocationChange = this.handleLocationChange.bind(this);
     this.state = this.getStateFromProps(props);
   }
 
@@ -43,7 +43,11 @@ export class SearchFilters extends Component {
   }
 
   getSearchParams() {
+    const location = this.locationField.getValue();
     const searchParams = {
+      city: location.city,
+      state: location.state,
+      country: location.country,
       search: this.refs.search.getValue() || undefined,
       shout_type: this.refs.shout_type.getValue(),
       category: this.refs.category.getValue(),
@@ -65,24 +69,14 @@ export class SearchFilters extends Component {
     };
   }
 
-  showLocationModal(e) {
-    e.preventDefault();
-    e.target.blur();
+  locationField = null;
+
+  handleLocationChange(location) {
     const { dispatch, isLoggedIn } = this.props;
-    const modal = (
-      <Modal title="Change location" name="search-location">
-        <SearchLocation
-          onLocationSelect={ location => {
-            dispatch(closeModal('search-location'));
-            dispatch(setCurrentLocation(location));
-            if (isLoggedIn) {
-              dispatch(setUserLocation(location));
-            }
-          }}
-        />
-      </Modal>
-    );
-    this.props.dispatch(openModal(modal));
+    dispatch(setCurrentLocation(location));
+    if (isLoggedIn) {
+      dispatch(setUserLocation(location));
+    }
   }
 
   render() {
@@ -96,53 +90,39 @@ export class SearchFilters extends Component {
 
     return (
       <div className="SearchFilters">
-        <form
-          onSubmit={ e => {
+        <Form
+          onSubmit={ () => {
             if (disabled) {
               return;
             }
-            e.preventDefault();
             this.props.onSubmit(this.getSearchParams());
           }}
         >
-          <TextField
-            className="SearchFilters-input"
-            label="Location"
-            placeholder="Select a location"
+          <SegmentedControl value={ shout_type } disabled={ disabled } ref="shout_type" name="shout_type" options={ [
+            { label: 'All', value: 'all' },
+            { label: 'Offers', value: 'offer' },
+            { label: 'Requests', value: 'request' },
+          ]} onChange={ shout_type => this.setState({ shout_type }) } />
+
+          <LocationField
             block
-            disabled={ disabled }
-            name="search"
-            ref="search"
-            value={ searchParams.city }
-            readOnly
-            onKeyDown={ e => this.showLocationModal(e) }
-            onClick={ e => this.showLocationModal(e) }
+            inputRef={ el => { this.locationField = el; }}
+            label="Location"
+            name="location"
+            location={ searchParams }
+            onChange={ () => this.refs.submitButton.focus() }
           />
           <TextField
-            className="SearchFilters-input"
             label="Keywords"
             placeholder="Enter one or more keywords"
             block
             disabled={ disabled }
             name="search"
             ref="search"
-            value={ search }
+            defaultValue={ search }
             onChange={ search => this.setState({ search }) }
           />
-          <Picker
-            className="SearchFilters-input"
-            block
-            label="Type"
-            disabled={ disabled }
-            ref="shout_type"
-            name="shout_type"
-            value={ shout_type }
-            onChange={ shout_type => this.setState({ shout_type }) }
-          >
-            <option value="all">All shouts</option>
-            <option value="offer">Only offers</option>
-            <option value="request">Only requests</option>
-          </Picker>
+
           <Picker
             className="SearchFilters-input"
             block
@@ -150,7 +130,7 @@ export class SearchFilters extends Component {
             disabled={ disabled }
             ref="category"
             name="category"
-            value={ category }
+            defaultValue={ category }
             onChange={ category => this.setState({ category, filters: {} }) }
           >
             <option value="all">All categories</option>
@@ -162,7 +142,7 @@ export class SearchFilters extends Component {
           </Picker>
 
           { filters.length > 0 &&
-            <div className="SearchFilters-filters">
+            <div className="Form-inset-small">
               { filters.map(filter =>
                   <span key={ filter.name }>
                     <Picker
@@ -171,7 +151,7 @@ export class SearchFilters extends Component {
                       label={ filter.name }
                       name={ filter.slug }
                       disabled={ disabled }
-                      value={ this.state.filters[filter.slug] || 'all' }
+                      defaultValue={ this.state.filters[filter.slug] || 'all' }
                       onChange={ value =>
                         this.setState({
                           filters: {
@@ -200,7 +180,7 @@ export class SearchFilters extends Component {
           disabled={ disabled }
           name="min_price"
           ref="min_price"
-          value={ min_price }
+          defaultValue={ min_price }
           onChange={ min_price => this.setState({ min_price }) }
         />
         <TextField
@@ -212,14 +192,14 @@ export class SearchFilters extends Component {
           disabled={ disabled }
           name="max_price"
           ref="max_price"
-          value={ max_price }
+          defaultValue={ max_price }
           onChange={ max_price => this.setState({ max_price }) }
         />
 
           <div className="SearchFilters-buttons">
-            <Button block primary size="small" disabled={ disabled || isEqual(this.state, this.props.searchParams) } type="submit" label="Search" />
+            <Button ref="submitButton" block primary size="small" disabled={ disabled || isEqual(this.state, this.props.searchParams) } type="submit" label="Search" />
           </div>
-        </form>
+        </Form>
       </div>
     );
   }

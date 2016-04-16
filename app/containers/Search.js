@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import stringify from 'json-stable-stringify';
-import { push, replace } from 'react-router-redux';
+import { push } from 'react-router-redux';
 
 import { searchShouts, invalidateShoutsSearch } from '../actions/search';
 import { denormalize } from '../schemas';
@@ -76,10 +76,18 @@ const fetchData = (dispatch, state, params, query) => {
 export class Search extends Component {
 
   static propTypes = {
-    shouts: PropTypes.array,
-    searchString: PropTypes.string,
+    currentLocation: PropTypes.object,
+    dispatch: PropTypes.func.isRequired,
+    error: PropTypes.object,
+    firstRender: PropTypes.bool,
+    isFetching: PropTypes.bool,
+    location: PropTypes.object.isRequired,
     nextUrl: PropTypes.string,
+    params: PropTypes.object,
     searchParams: PropTypes.object,
+    searchString: PropTypes.string,
+    shouts: PropTypes.array,
+    title: PropTypes.string,
   };
 
   static fetchData = fetchData;
@@ -90,34 +98,16 @@ export class Search extends Component {
       fetchData(dispatch, { currentLocation }, params, query);
     }
   }
-
   componentWillUpdate(nextProps) {
-    const { searchString, dispatch, currentLocation, location: { query, pathname } } = this.props;
-
+    const { searchString, dispatch, currentLocation } = this.props;
     if (nextProps.searchString !== searchString) {
       fetchData(dispatch, { currentLocation }, nextProps.params, nextProps.location.query);
     }
-
-    const { country, state, city } = nextProps.currentLocation;
-    if (
-      country !== currentLocation.country ||
-      state !== currentLocation.state ||
-      city !== currentLocation.city
-    ) {
-      const qs = {
-        ...query,
-        country, state, city: encodeURIComponent(city),
-      };
-      const search = Object.keys(qs).map(k => `${k}=${qs[k]}`).join('&');
-      const url = `${pathname}?${search}`;
-      dispatch(replace(url));
-    }
-
   }
 
   handleFilterSubmit(searchParams) {
-    const { dispatch, searchParams: { city, state, country } } = this.props;
-    const { shout_type, category, min_price, max_price, search, filters } = searchParams;
+    const { dispatch } = this.props;
+    const { shout_type, category, min_price, max_price, search, filters, city, state, country } = searchParams;
     let url = '/search';
     const query = [];
 

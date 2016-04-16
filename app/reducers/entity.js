@@ -28,11 +28,12 @@ export default function ({
       case createStartType:
         return merge({}, tempEntity, {
           isCreating: true,
+          createError: tempEntity.createError ? null : undefined,
         });
       case createFailureType:
         return merge({}, tempEntity, {
           isCreating: false,
-          createError: action.payload,
+          createError: action.payload.error || action.payload,
         });
       default:
         return tempEntity;
