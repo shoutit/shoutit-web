@@ -7,7 +7,7 @@ import { logout } from '../actions/session';
 import SVGIcon from '../ui/SVGIcon';
 import ListItem from '../ui/ListItem';
 
-export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
+export function HeaderProfilePreview({ user, onLogoutClick, onItemClick }) {
   return (
     <ul className="htmlNoList">
       <li>
@@ -35,7 +35,7 @@ export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
   );
 }
 
-HeaderProfileOverlay.propTypes = {
+HeaderProfilePreview.propTypes = {
   user: PropTypes.object.isRequired,
   onLogoutClick: PropTypes.func.isRequired,
   onItemClick: PropTypes.func.isRequired,
@@ -52,4 +52,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderProfileOverlay);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderProfilePreview);

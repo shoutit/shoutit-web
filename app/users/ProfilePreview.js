@@ -10,10 +10,10 @@ import ProfileListenersListItem from '../users/ProfileListenersListItem';
 import ProfileActions from '../users/ProfileActions';
 
 if (process.env.BROWSER) {
-  require('./ProfileOverlay.scss');
+  require('./ProfilePreview.scss');
 }
 
-export class ProfileOverlay extends Component {
+export class ProfilePreview extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
     style: PropTypes.object,
@@ -26,18 +26,18 @@ export class ProfileOverlay extends Component {
   render() {
     const { profile, style, profile: { cover, name } } = this.props;
     return (
-      <div className="ProfileOverlay" style={ style }>
-        <div className="ProfileOverlay-cover" style={getStyleBackgroundImage(cover, 'medium')} />
-        <div className="ProfileOverlay-user">
+      <div className="ProfilePreview" style={ style }>
+        <div className="ProfilePreview-cover" style={getStyleBackgroundImage(cover, 'medium')} />
+        <div className="ProfilePreview-user">
           <UserAvatar user={ profile } size="large" />
           <h2>{ name }</h2>
         </div>
-        <div className="ProfileOverlay-body">
+        <div className="ProfilePreview-body">
           <ProfileFromListItem profile={ profile } size="small" />
           <ProfileListenersListItem profile={ profile } size="small" />
         </div>
         { !profile.isOwner &&
-          <div className="ProfileOverlay-actions">
+          <div className="ProfilePreview-actions">
             <ProfileActions showProfileLink profile={ profile } size="small" />
           </div>
         }
@@ -54,4 +54,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(ProfileOverlay);
+export default connect(mapStateToProps)(ProfilePreview);

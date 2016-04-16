@@ -1,11 +1,11 @@
 @import '../styles/constants';
 
-.ProfileOverlay {
+.ProfilePreview {
   width: 250px;
   padding-bottom: .5rem;
 }
 
-.ProfileOverlay-cover {
+.ProfilePreview-cover {
   border-top-right-radius: $border-radius-small;
   border-top-left-radius: $border-radius-small;
   height: 80px;
@@ -16,7 +16,7 @@
   background-color: $background-color-alt-light;
 }
 
-.ProfileOverlay-user {
+.ProfilePreview-user {
   text-align: center;
   margin-top: -24px;
 
@@ -36,7 +36,7 @@
 
 }
 
-.ProfileOverlay-body {
+.ProfilePreview-body {
   display: flex;
   padding: 0rem .5rem;
   margin-top: .5rem;
@@ -45,7 +45,7 @@
   }
 }
 
-.ProfileOverlay-actions {
+.ProfilePreview-actions {
   padding: .5rem .25rem 0 .25rem;
   margin: .5rem .25rem 0 .25rem;
   border-top: 1px solid $border-color;

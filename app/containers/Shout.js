@@ -6,9 +6,8 @@ import { startShoutReply } from '../actions/chat';
 import { routeError } from '../actions/server';
 
 import Page from '../layout/Page';
-import Footer from '../layout/Footer';
 import ProfileListItem from '../users/ProfileListItem';
-import ProfileOverlay from '../users/ProfileOverlay';
+import ProfilePreview from '../users/ProfilePreview';
 
 import CategoryListItem from '../shouts/CategoryListItem';
 import ShoutPrice from '../shouts/ShoutPrice';
@@ -32,7 +31,7 @@ if (process.env.BROWSER) {
 const fetchData = (dispatch, state, params) =>
   Promise.all([
     dispatch(loadShout(params.id)).catch(err => dispatch(routeError(err))),
-    dispatch(loadRelatedShouts(params.id, { page_size: 6 })),
+    dispatch(loadRelatedShouts(params.id, { page_size: 8 })),
   ]);
 
 function ShoutBuy({ shout, onReplyClick }) {
@@ -91,7 +90,7 @@ export class Shout extends Component {
     return [
       <ShoutBuy shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
       <Card block key="profile">
-        <ProfileOverlay style={{ width: '100%' }} id={ shout.profile.id } />
+        <ProfilePreview style={{ width: '100%' }} id={ shout.profile.id } />
       </Card>,
     ];
   }
@@ -114,7 +113,6 @@ export class Shout extends Component {
 
   renderShout() {
     const { shout } = this.props;
-    // <Modal name="next-steps" size="small" rootClose><CreateShoutSuccess shoutId={ this.props.shout.id } /></Modal>
     return (
       <div className="Shout">
         <div className="Shout-title">

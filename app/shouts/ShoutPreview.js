@@ -11,7 +11,7 @@ import Tooltip from '../ui/Tooltip';
 import CategoryListItem from './CategoryListItem';
 
 import UserAvatar from '../users/UserAvatar';
-import ProfileOverlay from '../users/ProfileOverlay';
+import ProfilePreview from '../users/ProfilePreview';
 
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
@@ -42,7 +42,7 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
                 mouseLeaveDelay={ 0.05 }
                 white
                 placement="top"
-                overlay={ <ProfileOverlay id={ shout.profile.id } /> }>
+                overlay={ <ProfilePreview id={ shout.profile.id } /> }>
                 <span onClick={ onProfileAvatarClick }>
                   <UserAvatar user={ shout.profile } size="small" />
                 </span>

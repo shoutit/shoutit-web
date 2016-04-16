@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import UserAvatar from '../users/UserAvatar';
 import Tooltip from '../ui/Tooltip';
 import ListItem from '../ui/ListItem';
-import ProfileOverlay from '../users/ProfileOverlay';
+import ProfilePreview from '../users/ProfilePreview';
 
 export default function ProfileListItem({
   profile,
@@ -15,7 +15,7 @@ export default function ProfileListItem({
 }) {
 
   const avatar = <UserAvatar size={ size } user={ profile } />;
-  const overlay = <ProfileOverlay id={ profile.id } />;
+  const overlay = <ProfilePreview id={ profile.id } />;
   const content = (
 
       <ListItem className="ProfileListItem" size={ size } nowrap start={ avatar } onClick={ onClick }>
