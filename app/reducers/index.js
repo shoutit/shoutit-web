@@ -78,10 +78,15 @@ const paginated = combineReducers({
   }),
   shoutsByUsername: paginate({
     mapActionToKey: action => action.payload.username,
+    mapActionToTempId: action => action.payload.shout.id,
     fetchTypes: [
       actionTypes.LOAD_USER_SHOUTS_START,
       actionTypes.LOAD_USER_SHOUTS_SUCCESS,
       actionTypes.LOAD_USER_SHOUTS_FAILURE,
+    ],
+    createTypes: [
+      actionTypes.CREATE_SHOUT_START,
+      actionTypes.CREATE_SHOUT_SUCCESS,
     ],
   }),
   listenersByUser,
@@ -120,13 +125,22 @@ const paginated = combineReducers({
 });
 
 const entities = combineReducers({
-
   categories: entity({ name: 'categories' }),
   currencies: entity({ name: 'currencies' }),
-  shouts: entity({ name: 'shouts' }),
   tags: entity({ name: 'tags' }),
   users: entity({ name: 'users' }),
   discoverItems: entity({ name: 'discoverItems' }),
+
+  shouts: entity({
+    name: 'shouts',
+    mapActionToTempId: action => action.payload.shout.id,
+    mapActionToTempEntity: action => action.payload.shout,
+    createTypes: [
+      actionTypes.CREATE_SHOUT_START,
+      actionTypes.CREATE_SHOUT_SUCCESS,
+      actionTypes.CREATE_SHOUT_FAILURE,
+    ],
+  }),
 
   conversations: (state, action) => {
     let newState = entity({

@@ -33,3 +33,38 @@ export function loadRelatedShouts(shoutId, query, endpoint) {
     },
   };
 }
+
+export function createShout(user, shout) {
+  return {
+    types: [
+      actionTypes.CREATE_SHOUT_START,
+      actionTypes.CREATE_SHOUT_SUCCESS,
+      actionTypes.CREATE_SHOUT_FAILURE,
+    ],
+    payload: { shout, username: user.username },
+    service: {
+      method: 'create',
+      name: 'shout',
+      body: shout,
+      schema: Schemas.SHOUT,
+    },
+  };
+}
+
+export function updateShout(shout) {
+  return {
+    types: [
+      actionTypes.UPDATE_SHOUT_START,
+      actionTypes.UPDATE_SHOUT_SUCCESS,
+      actionTypes.UPDATE_SHOUT_FAILURE,
+    ],
+    payload: { shout },
+    service: {
+      method: 'update',
+      name: 'shout',
+      params: { id: shout.id },
+      body: shout,
+      schema: Schemas.SHOUT,
+    },
+  };
+}

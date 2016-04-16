@@ -3,8 +3,19 @@ import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'shout',
-  // create: (req, resource, params, body, config, callback) => {
-  // },
+  create: (req, resource, params, shout, config, callback) => {
+    request
+      .post('/shouts')
+      .prefix()
+      .setSession(req.session)
+      .send(shout)
+      .end((err, res) => {
+        if (err) {
+          return callback(parseApiError(err));
+        }
+        return callback(null, res.body);
+      });
+  },
   read: (req, resource, { id }, config, callback) => {
     request
       .get(`/shouts/${id}`)
@@ -17,6 +28,17 @@ export default {
         return callback(null, res.body);
       });
   },
-  // update: (req, resource, params, body, config, callback) => {
-  // },
+  update: (req, resource, { id }, shout, config, callback) => {
+    request
+      .patch(`/shouts/${id}`)
+      .prefix()
+      .setSession(req.session)
+      .send(shout)
+      .end((err, res) => {
+        if (err) {
+          return callback(parseApiError(err));
+        }
+        return callback(null, res.body);
+      });
+  },
 };
