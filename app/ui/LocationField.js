@@ -27,7 +27,7 @@ export class LocationField extends Component {
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleKeyUp = this.handleKeyUp.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handlePredictionClick = this.handlePredictionClick.bind(this);
 
     this.state = {
@@ -87,7 +87,7 @@ export class LocationField extends Component {
     }
     this.setState({ showOverlay: true, value, errors: [] });
   }
-  handleKeyUp(e) {
+  handleKeyDown(e) {
     if (e.keyCode === ESCAPE) {
       this.setState({ showOverlay: false });
     } else if (e.keyCode === ENTER) {
@@ -176,7 +176,7 @@ export class LocationField extends Component {
           onFocus={ this.handleFocus }
           onBlur={ this.handleBlur }
           onChange={ this.handleChange }
-          onKeyUp={ this.handleKeyUp }
+          onKeyDown={ this.handleKeyDown }
           ref={ el => {
             this.field = el;
             if (inputRef) {
