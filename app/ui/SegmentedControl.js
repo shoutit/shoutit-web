@@ -8,6 +8,7 @@ if (process.env.BROWSER) {
 export default class SegmentedControl extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
+    value: PropTypes.string,
     options: PropTypes.array.isRequired,
     onChange: PropTypes.func,
   };
@@ -15,15 +16,17 @@ export default class SegmentedControl extends Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      value: this.getCheckedValueFromOptions(props.options),
+      value: this.props.value,
     };
   }
-  getCheckedValueFromOptions(options) {
-    const option = options.find(opt => opt.checked);
-    if (option) {
-      return option.value;
+  componentWillReceiveProps(nextProps) {
+    let state;
+    if (nextProps.value !== this.props.value) {
+      state = { ...state, value: nextProps.value };
     }
-    return undefined;
+    if (state) {
+      this.setState(state);
+    }
   }
   getValue() {
     return this.state.value;

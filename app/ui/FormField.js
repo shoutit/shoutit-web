@@ -27,10 +27,11 @@ export default class FormField extends Component {
     name: PropTypes.string.isRequired,
 
     block: PropTypes.bool,
+    inset: PropTypes.bool,
     className: PropTypes.string,
     disabled: PropTypes.bool,
     error: PropTypes.object,
-    initialValue: PropTypes.string,
+    defaultValue: PropTypes.string,
     label: PropTypes.string,
     inputRef: PropTypes.func,
     onBlur: PropTypes.func,
@@ -46,27 +47,16 @@ export default class FormField extends Component {
   static defaultProps = {
     tooltipPlacement: 'right',
     block: false,
+    inset: false,
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      value: props.initialValue || props.value || '',
+      value: props.value || '',
       error: props.error,
+      focus: false,
     };
-  }
-
-  state = {
-    value: '',
-    focus: false,
-    error: null,
-  };
-
-  componentDidMount() {
-    // Detect if autofill has put some value in the field
-    if (this.field && this.getValue() && !this.state.value) {
-      this.setState({ value: this.getValue() }); // eslint-disable-line
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -134,7 +124,7 @@ export default class FormField extends Component {
   }
 
   render() {
-    const { block, startElement, disabled, label, className, placeholder, tooltipPlacement, field, inputRef, children, style, ...props } = this.props;
+    const { block, startElement, disabled, label, className, placeholder, tooltipPlacement, field, inputRef, children, style, inset, ...props } = this.props;
     const { value, focus, error } = this.state;
     const validationErrors = this.getValidationErrors();
     let cssClass = 'FormField';
@@ -156,6 +146,9 @@ export default class FormField extends Component {
     if (!label) {
       cssClass += ' no-label';
     }
+    if (inset) {
+      cssClass += ' inset';
+    }
     if (className) {
       cssClass += ` ${className}`;
     }
@@ -171,6 +164,7 @@ export default class FormField extends Component {
             inputRef(this);
           }
         },
+        value: this.state.value,
         id: this._reactInternalInstance._rootNodeID,
         placeholder,
         disabled,
