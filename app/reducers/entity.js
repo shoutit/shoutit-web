@@ -32,7 +32,7 @@ export default function ({
       case createFailureType:
         return merge({}, tempEntity, {
           isCreating: false,
-          createError: action.payload,
+          createError: action.payload.error || action.payload,
         });
       default:
         return tempEntity;
