@@ -76,7 +76,7 @@ export default class UploadField extends Component {
   }
 
   upload(files) {
-    const { resourceType } = this.props;
+    const { resourceType, onChange } = this.props;
     const uploads = [];
 
     const existingUploads = this.state.uploads;
@@ -107,6 +107,9 @@ export default class UploadField extends Component {
          this.setState({
            uploads: this.state.uploads,
          });
+         if (onChange) {
+           onChange(this.getValue());
+         }
        }.bind(this));
 
 

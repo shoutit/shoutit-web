@@ -6931,6 +6931,18 @@
         }
       }
     },
+    "react-dropzone": {
+      "version": "3.4.0",
+      "from": "react-dropzone@latest",
+      "resolved": "https://registry.npmjs.org/react-dropzone/-/react-dropzone-3.4.0.tgz",
+      "dependencies": {
+        "attr-accept": {
+          "version": "1.0.3",
+          "from": "attr-accept@>=1.0.3 <2.0.0",
+          "resolved": "https://registry.npmjs.org/attr-accept/-/attr-accept-1.0.3.tgz"
+        }
+      }
+    },
     "react-dropzone-component": {
       "version": "0.8.1",
       "from": "https://registry.npmjs.org/react-dropzone-component/-/react-dropzone-component-0.8.1.tgz",
