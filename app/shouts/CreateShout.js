@@ -103,7 +103,6 @@ const mapStateToProps = state => {
 
   const shout = entities.shouts[NEW_SHOUT_ID] || {
     id: NEW_SHOUT_ID,
-    profile: session.user.profileId,
     mobile: session.user.mobile,
     type: null,
     location: session.user.location || currentLocation,
