@@ -7,12 +7,13 @@ import { getValidIPv4Address } from '../utils/InternetUtils';
 export default {
   name: 'location',
   read: (req, resource, { latlng = '0,0' }, config, callback) => {
-    const remoteAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const remoteAddress = req.headers['X-Forwarded-For'] || req.connection.remoteAddress;
     const ip = getValidIPv4Address(remoteAddress);
     const headers = {};
     if (ip) {
       headers['X-Forwarded-For'] = ip;
     }
+    console.log('Location service - req.ip, %s, remoteAddress: %s, sent ip: %s', req.ip, remoteAddress, ip, headers);
     request
       .get('/misc/geocode')
       .query({ latlng })
