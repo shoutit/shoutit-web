@@ -23,6 +23,8 @@ export class ShoutModal extends Component {
     mode: PropTypes.oneOf(['update', 'create']),
     onSubmit: PropTypes.func,
     onChange: PropTypes.func,
+    onUploadStart: PropTypes.func,
+    onUploadEnd: PropTypes.func,
     inputRef: PropTypes.func,
     currentLocation: PropTypes.object,
     disabled: PropTypes.bool,
@@ -31,12 +33,15 @@ export class ShoutModal extends Component {
 
   static defaultProps = {
     mode: 'create',
+    isUploadingFiles: false,
   };
 
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUploadStart = this.handleUploadStart.bind(this);
+    this.handleUploadEnd = this.handleUploadEnd.bind(this);
   }
 
   getShout() {
@@ -67,12 +72,29 @@ export class ShoutModal extends Component {
   titleField = null;
 
   handleSubmit() {
+    // if (this.state.isUploadingFiles) {
+    //   return;
+    // }
     this.props.onSubmit(this.getShout());
   }
 
   handleChange(data) {
     if (this.props.onChange) {
       this.props.onChange(data);
+    }
+  }
+
+  handleUploadStart() {
+    this.setState({ isUploadingFiles: true });
+    if (this.props.onUploadStart) {
+      this.props.onUploadStart();
+    }
+  }
+
+  handleUploadEnd() {
+    this.setState({ isUploadingFiles: false });
+    if (this.props.onUploadEnd) {
+      this.props.onUploadEnd();
     }
   }
 
@@ -94,6 +116,8 @@ export class ShoutModal extends Component {
           disabled={ disabled }
           urls={ shout.images }
           onChange={ images => this.handleChange({ images }) }
+          onUploadStart={ this.handleUploadStart }
+          onUploadEnd={ this.handleUploadEnd }
           error={ error }
         />
 
