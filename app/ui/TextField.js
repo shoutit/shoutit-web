@@ -15,7 +15,7 @@ export default class TextField extends Component {
     this.refs.field.select();
   }
   render() {
-    return <FormField { ...this.props } type={ this.props.type || 'text' } field={ <input /> } ref="field" />;
+    return <FormField { ...this.props } type={ this.props.type || 'text' } field="input" ref="field" />;
   }
 }
 

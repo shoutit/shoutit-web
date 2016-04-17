@@ -218,7 +218,7 @@ export class LocationField extends Component {
               inputRef(this);
             }
           }}
-          field={ <input ref="input" /> } />
+          field="input" />
         <Overlay
           rootClose
           onHide={ () => {
