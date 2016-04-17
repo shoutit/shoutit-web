@@ -40,7 +40,7 @@
 .UploadField-file-trash {
   display: none;
   width: 100%;
-  transition: width .15s;
+  transition: width .25s;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -85,4 +85,7 @@
   background-position: center center;
   background-size: 50%;
   background-repeat: no-repeat;
+  &:hover {
+    background-color: darken($background-color-alt, 5);
+  }
 }
