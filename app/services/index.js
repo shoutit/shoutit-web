@@ -21,6 +21,7 @@ export session from './session';
 export shouts from './shouts';
 export shout from './shout';
 export shoutReply from './shoutReply';
+export shoutCall from './shoutCall';
 export suggestions from './suggestions';
 export tags from './tags';
 export twilioToken from './twilioToken';

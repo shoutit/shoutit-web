@@ -348,6 +348,17 @@ $size-huge: 52px;
     background-image: url("../../assets/icons/pencil-fill.svg");
   }
 
+.Icon-icon.phone {
+  background-image: url("../../assets/icons/phone.svg");
+}
+  .Icon.hover:hover .Icon-icon.phone,
+  .Icon.active .Icon-icon.phone {
+    background-image: url("../../assets/icons/phone-active.svg");
+  }
+  .Icon.fill .Icon-icon.phone {
+    background-image: url("../../assets/icons/phone-fill.svg");
+  }
+
 .Icon-icon.pin {
   background-image: url("../../assets/icons/pin.svg");
 }

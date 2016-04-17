@@ -14,6 +14,7 @@ import ShoutPrice from '../shouts/ShoutPrice';
 import ShoutPreview from '../shouts/ShoutPreview';
 
 import FilterListItem from '../shouts/FilterListItem';
+import ShoutCallButton from '../shouts/ShoutCallButton';
 import SuggestedShout from '../shouts/SuggestedShout';
 import SuggestedInterests from '../interests/SuggestedInterests';
 import SuggestedProfiles from '../users/SuggestedProfiles';
@@ -41,6 +42,12 @@ const fetchData = (dispatch, state, params) =>
   ]);
 
 function ShoutActions({ shout, onReplyClick }) {
+  const buttonStyle = {
+    width: '80%',
+    margin: '0 auto',
+    marginBottom: '.5rem',
+    textAlign: 'center',
+  };
   return (
     <div className="ShoutActions">
       <ShoutPrice shout={ shout } layout="plain" />
@@ -50,7 +57,8 @@ function ShoutActions({ shout, onReplyClick }) {
           <EditShoutButton shoutId={ shout.id } />
         </div> :
         <div>
-          <Button onClick={ onReplyClick } size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Reply to this Shout" />
+          <Button style={ buttonStyle } block onClick={ onReplyClick } size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Reply to this Shout" />
+          { shout.isMobileSet && <ShoutCallButton shout={ shout }  style={ buttonStyle } block /> }
         </div>
       }
 
