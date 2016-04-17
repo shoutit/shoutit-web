@@ -120,7 +120,7 @@ export default class FormField extends Component {
   render() {
     const { block, startElement, disabled, label, className, placeholder, tooltipPlacement, field, inputRef, children, style, inset, ...props } = this.props;
     const { focus, error } = this.state;
-    const validationErrors = this.getValidationErrors();
+    const validationErrors = this.getValidationErrors() || [];
     let cssClass = 'FormField';
     if (block) {
       cssClass += ' block';
