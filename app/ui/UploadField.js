@@ -5,8 +5,9 @@ import without from 'lodash/array/without';
 import last from 'lodash/array/last';
 import union from 'lodash/array/union';
 
-import FormField from './FormField';
-import Icon from './Icon';
+import Tooltip from '../ui/Tooltip';
+import FormField from '../ui/FormField';
+import Icon from '../ui/Icon';
 import request from '../utils/request';
 import { uploadResources } from '../config';
 import { getVariation } from '../utils/APIUtils';
@@ -14,7 +15,7 @@ import { getVariation } from '../utils/APIUtils';
 const log = debug('shoutit:ui:UploadField');
 
 if (process.env.BROWSER) {
-  require('./UploadField.scss');
+  require('../ui/UploadField.scss');
 }
 
 export function File({ upload, onDeleteClick }) {
@@ -36,9 +37,11 @@ export function File({ upload, onDeleteClick }) {
 
       { upload.error && <div className="UploadField-file-error" /> }
 
-      <div className="UploadField-file-trash">
-        <Icon onClick={ () => onDeleteClick(upload) } name="trash" fill />
-      </div>
+      <Tooltip placement="top" overlay="Click to delete">
+        <div className="UploadField-file-trash" onClick={ () => onDeleteClick(upload) } >
+            <Icon name="trash" fill />
+        </div>
+      </Tooltip>
 
 
     </span>
@@ -56,6 +59,7 @@ export default class UploadField extends Component {
     name: PropTypes.string,
     label: PropTypes.string,
     uploadingLabel: PropTypes.string,
+    deleteTooltip: PropTypes.string,
     onChange: PropTypes.func,
     onUploadStart: PropTypes.func,
     onUploadEnd: PropTypes.func,
@@ -66,8 +70,9 @@ export default class UploadField extends Component {
 
   static defaultProps = {
     label: 'Upload files',
+    deleteTooltip: 'Click to remove',
     uploadingLabel: 'Uploading…',
-    maxFiles: 5,
+    maxFiles: 18,
     initialFileUrls: [],
   }
 
@@ -220,12 +225,16 @@ export default class UploadField extends Component {
 
     return (
       <div className="UploadField" style={{ position: 'relative' }}>
-        <Dropzone accept="image/x-png, image/jpeg" disableClick onDrop={ this.upload } className="UploadField-dropzone" ref="dropzone">
-        <FormField block inset label={ this.isUploading() ? uploadingLabel : label } name={ name }>
-          { uploads.map((upload, i) => <File key={ i } upload={ upload } onDeleteClick={ this.delete } />) }
-          { uploads.length < maxFiles && <div className="UploadField-add" ref="dropzone" onClick={ () => this.refs.dropzone.open() }></div> }
-        </FormField>
+      <FormField block label={ this.isUploading() ? uploadingLabel : label } name={ name }>
+        <Dropzone accept="image/x-png, image/jpeg" disableClick onDrop={ this.upload } className="UploadField-dropzone" activeClassName="UploadField-dropzone active" ref="dropzone">
+            <div className="UploadField-instructions">
+              Click on <Icon name="add" size="small" /> or drag files here
+            </div>
+
+            { uploads.map((upload, i) => <File key={ i } upload={ upload } onDeleteClick={ this.delete } />) }
+            { uploads.length < maxFiles && <div className="UploadField-add" ref="dropzone" onClick={ () => this.refs.dropzone.open() }></div> }
         </Dropzone>
+      </FormField>
       </div>
     );
   }

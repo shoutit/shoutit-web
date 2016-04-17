@@ -1,15 +1,35 @@
-@import "../styles/constants";
+@import '../styles/constants';
 
 .UploadField {
   .field-wrapper {
-    background: none;
-    border: none;
-    line-height: 0;
+    padding: 0;
+    border: 0;
   }
   label {
     color: $color;
     font-size: .875em;
   }
+}
+
+.UploadField-dropzone {
+  display: block;
+  padding: .5em;
+  border-radius: $border-radius-small;
+  background-color: $background-color-light;
+  box-shadow: inset $box-shadow-depth-0;
+  border: 1px solid $border-color-dark;
+
+  &.active {
+    background-color: $background-color;
+  }
+}
+
+.UploadField-instructions {
+  color: $color-lighter;
+  font-size: 0.875rem;
+  text-align: center;
+  margin: .5rem 0;
+  margin-bottom: 1rem;
 }
 
 .UploadField-file,
@@ -28,27 +48,25 @@
 }
 
 .UploadField-file {
-  overflow: hidden;
   position: relative;
-  border: 0;
   display: inline-block;
-  background-size: cover;
+  overflow: hidden;
+  border: 0;
   background-repeat: no-repeat;
   background-position: center;
+  background-size: cover;
 }
 
 .UploadField-file-trash {
-  display: none;
-  width: 100%;
-  transition: width .25s;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
+  display: none;
+  width: 100%;
+  cursor: pointer;
+  transition: width .25s;
   background-color: rgba(black,.5);
-  .Icon {
-    cursor: pointer;
-  }
 }
 
 .UploadField-file:hover .UploadField-file-trash {
@@ -58,33 +76,33 @@
 }
 
 .UploadField-file-percent {
-  width: 100%;
-  transition: width .15s;
   position: absolute;
   top: 0;
-  bottom: 0;
   right: 0;
+  bottom: 0;
+  width: 100%;
+  transition: width .15s;
   background-color: rgba(0,0,0,.75);
 }
 
 .UploadField-file-error {
-  width: 100%;
-  transition: width .15s;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
+  width: 100%;
+  transition: width .15s;
   background-color: rgba(0,0,0,.5);
 }
 
 .UploadField-add {
   cursor: pointer;
-  background-color: $background-color-alt;
   border: 1px dashed $border-color-darker;
+  background-color: $background-color-alt;
   background-image: url('../../assets/icons/add-active.svg');
+  background-repeat: no-repeat;
   background-position: center center;
   background-size: 50%;
-  background-repeat: no-repeat;
   &:hover {
     background-color: darken($background-color-alt, 5);
   }
