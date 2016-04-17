@@ -151,9 +151,11 @@ export class Shout extends Component {
     return (
       <div className="Shout">
 
-        <div className="Shout-title">
-          <h1>{ shout.title || shout.text }</h1>
-        </div>
+        { shout.title &&
+          <div className="Shout-title">
+            <h1>{ shout.title }</h1>
+          </div>
+        }
 
         { (shout.images && shout.images.length > 0 || shout.videos && shout.videos.length > 0) &&
           <div className="Shout-gallery">
