@@ -12,12 +12,12 @@ import CategoryListItem from '../shouts/CategoryListItem';
 import EditShoutButton from '../shouts/EditShoutButton';
 import ShoutPrice from '../shouts/ShoutPrice';
 import ShoutPreview from '../shouts/ShoutPreview';
-
 import FilterListItem from '../shouts/FilterListItem';
 import ShoutCallButton from '../shouts/ShoutCallButton';
 import SuggestedShout from '../shouts/SuggestedShout';
 import SuggestedInterests from '../interests/SuggestedInterests';
 import SuggestedProfiles from '../users/SuggestedProfiles';
+import Location from '../location/Location';
 
 import Button from '../ui/Button';
 import CardWithList from '../ui/CardWithList';
@@ -123,6 +123,7 @@ export class Shout extends Component {
         <LocationListItem location={ shout.location } />
       </CardWithList>,
       categoryWithFilters,
+      <Location style={{ marginTop: '1rem' }} location={ shout.location } />,
     ];
   }
 

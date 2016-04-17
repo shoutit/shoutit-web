@@ -67,6 +67,12 @@ export function getCountryCode(name) {
 
 export function formatLocation(location) {
   const values = [];
+  if (location.address) {
+    values.push(location.address);
+  }
+  if (location.postal_code) {
+    values.push(location.postal_code);
+  }
   if (location.city) {
     values.push(location.city);
   }

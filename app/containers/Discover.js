@@ -77,7 +77,18 @@ function getDiscoverLink(country, discoverItem) {
 
 export class Discover extends Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    params: PropTypes.object.isRequired,
+
     country: PropTypes.string,
+    discoverItem: PropTypes.object,
+    firstRender: PropTypes.bool,
+    isFetching: PropTypes.bool,
+    isFetchingShouts: PropTypes.bool,
+    loggedUser: PropTypes.object,
+    nextShoutsUrl: PropTypes.string,
+    shouts: PropTypes.array,
+    shoutsCount: PropTypes.number,
   };
   static fetchData = fetchData;
 
@@ -129,6 +140,7 @@ export class Discover extends Component {
       isFetchingShouts,
       nextShoutsUrl,
       shouts,
+      shoutsCount,
     } = this.props;
 
     return (
@@ -169,6 +181,7 @@ export class Discover extends Component {
 
           { discoverItem && discoverItem.showShouts && shouts.length > 0 &&
             <div className="Discover-shouts">
+              <h2>{ discoverItem.title } Shouts ({ shoutsCount })</h2>
               <ShoutsList shouts={ shouts } />
             </div>
           }
@@ -212,13 +225,14 @@ const mapStateToProps = (state, ownProps) => {
   let shouts = [];
   let isFetchingShouts = false;
   let nextShoutsUrl;
+  let shoutsCount;
   if (discoverItem) {
     discoverItem = denormalize(discoverItem, entities, 'DISCOVERITEM');
     const shoutsByDiscoverItem = paginated.shoutsByDiscoverItem[discoverItem.id];
     if (shoutsByDiscoverItem) {
       isFetchingShouts = shoutsByDiscoverItem.isFetching;
       nextShoutsUrl = shoutsByDiscoverItem.nextUrl;
-
+      shoutsCount = shoutsByDiscoverItem.count;
       shouts = shoutsByDiscoverItem.ids.map(id => denormalize(entities.shouts[id], entities, 'SHOUT'));
     }
   }
@@ -231,6 +245,7 @@ const mapStateToProps = (state, ownProps) => {
     isFetching,
     isFetchingShouts,
     nextShoutsUrl,
+    shoutsCount,
   };
 };
 
