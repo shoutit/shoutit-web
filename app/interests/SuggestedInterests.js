@@ -5,13 +5,13 @@ import InterestListItem from './InterestListItem';
 
 export function SuggestedInterests({ tags }) {
   return (
-    <CardWithList title="Interests">
+    <CardWithList title="Suggested Interests">
       { tags.map((tag, i) => <InterestListItem key={ i } tag={ tag } />)}
     </CardWithList>
   );
 }
 
-SuggestedInterests.PropTypes = {
+SuggestedInterests.propTypes = {
   tags: PropTypes.array.isRequired,
 };
 
