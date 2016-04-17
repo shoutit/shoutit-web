@@ -14,9 +14,6 @@ import ShoutPrice from '../shouts/ShoutPrice';
 import ShoutPreview from '../shouts/ShoutPreview';
 import FilterListItem from '../shouts/FilterListItem';
 import ShoutCallButton from '../shouts/ShoutCallButton';
-import SuggestedShout from '../shouts/SuggestedShout';
-import SuggestedInterests from '../interests/SuggestedInterests';
-import SuggestedProfiles from '../users/SuggestedProfiles';
 import Location from '../location/Location';
 
 import Button from '../ui/Button';
@@ -107,22 +104,28 @@ export class Shout extends Component {
     const { shout } = this.props;
 
     const categoryWithFilters = (
-        <CardWithList block style={{ marginTop: '1rem', padding: '.5rem', backgroundColor: 'white' }}>
+        <CardWithList block style={{ padding: '.5rem', backgroundColor: 'white' }}>
           <CategoryListItem category={ shout.category } />
           { shout.filters.map((filter) => <FilterListItem key={ filter.slug } filter={ filter } category={ shout.category } />) }
         </CardWithList>
       );
 
     return [
+      categoryWithFilters,
+    ];
+  }
+
+  renderEndColumn() {
+    const { shout } = this.props;
+    return [
       <ShoutActions shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
-      <CardWithList block key="profile" style={{ padding: '.5rem' }} >
+      <CardWithList block key="profile" style={{ marginTop: '2rem', padding: '.5rem' }} >
         <ProfileListItem tooltipPlacement="right" profile={ shout.profile } />
         <ListItem start={ <Icon name="clock" active /> }>
           <TimeAgo date={ shout.datePublished } />
         </ListItem>
         <LocationListItem location={ shout.location } />
       </CardWithList>,
-      categoryWithFilters,
       <Location style={{ marginTop: '1rem' }} location={ shout.location } />,
     ];
   }
@@ -180,13 +183,8 @@ export class Shout extends Component {
         <Page title={ shout ? shout.title : null }
           className="ShoutPage"
           miniFooter={ false }
-          stickyStartColumn
           startColumn={ this.renderStartColumn() }
-          endColumn={[
-            <SuggestedInterests />,
-            <SuggestedProfiles />,
-            <SuggestedShout />,
-          ]}>
+          endColumn={ this.renderEndColumn() }>
           { !shout && <Progress animate /> }
           { shout && this.renderShout() }
         </Page>

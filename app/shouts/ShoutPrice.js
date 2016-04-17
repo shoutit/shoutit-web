@@ -10,10 +10,11 @@ export default function ShoutPrice({ shout, layout = 'badge' }) {
   if (isFree) {
     className += ' free';
   }
+  const price = shout.price / 100;
   return (
     <span className={ className }>
       { !isFree ?
-        currencyFormatter.format(shout.price / 100, { code: shout.currency })
+          currencyFormatter.format(price, { code: shout.currency, precision: Number.isInteger(price) ? 0 : 2 })
         : 'Free'
       }
     </span>
