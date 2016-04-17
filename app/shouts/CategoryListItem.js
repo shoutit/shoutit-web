@@ -12,7 +12,7 @@ export default function CategoryListItem({ category, size = 'medium', onClick })
       onClick={ onClick }
       className="CategoryListItem"
       size={ size }
-      start={ <Icon size={ size } name="tag" /> }
+      start={ <Icon size={ size } active name="tag" /> }
     >
       { category.name || category }
     </ListItem>

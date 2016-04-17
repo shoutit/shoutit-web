@@ -5,13 +5,15 @@ import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import { loadProfileDetailsIfNeeded } from '../actions/users';
 
 import UserAvatar from '../users/UserAvatar';
-import ProfileFromListItem from '../users/ProfileFromListItem';
+import LocationListItem from '../location/LocationListItem';
 import ProfileListenersListItem from '../users/ProfileListenersListItem';
 import ProfileActions from '../users/ProfileActions';
 
 if (process.env.BROWSER) {
   require('./ProfilePreview.scss');
 }
+
+const requiredDetails = ['location', 'listenersCount', 'name', 'cover'];
 
 export class ProfilePreview extends Component {
   static propTypes = {
@@ -21,7 +23,7 @@ export class ProfilePreview extends Component {
   };
   componentDidMount() {
     const { profile, dispatch } = this.props;
-    dispatch(loadProfileDetailsIfNeeded(profile, ['location', 'listenersCount']));
+    dispatch(loadProfileDetailsIfNeeded(profile, requiredDetails));
   }
   render() {
     const { profile, style, profile: { cover, name } } = this.props;
@@ -33,7 +35,7 @@ export class ProfilePreview extends Component {
           <h2>{ name } {profile.isOwner && ' (you)'}</h2>
         </div>
         <div className="ProfilePreview-body">
-          <ProfileFromListItem profile={ profile } size="small" />
+          { profile.location && <LocationListItem location={ profile.location } size="small" /> }
           <ProfileListenersListItem profile={ profile } size="small" />
         </div>
         <div className="ProfilePreview-actions">

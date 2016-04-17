@@ -22,6 +22,7 @@ import NewlineToBreak from '../ui/NewlineToBreak';
 import Progress from '../ui/Progress';
 import Icon from '../ui/Icon';
 import TimeAgo from '../ui/TimeAgo';
+import LocationListItem from '../location/LocationListItem';
 
 import { denormalize } from '../schemas';
 
@@ -128,12 +129,10 @@ export class Shout extends Component {
           <h1>{ shout.title || shout.text }</h1>
           <div className="Shout-header">
             <ProfileListItem tooltipPlacement="bottom" profile={ shout.profile } />
-            <ListItem size="small" start={ <Icon name="clock" size="small" /> }>
+            <ListItem size="small" start={ <Icon name="clock" active size="small" /> }>
               <TimeAgo date={ shout.datePublished } />
             </ListItem>
-            <ListItem size="small" start={ <Icon size="small" name="location" /> }>
-              { shout.location.city || shout.location.state || shout.location.country }
-            </ListItem>
+            <LocationListItem size="small" location={ shout.location } />
             <CategoryListItem size="small" category={ shout.category } />
           </div>
         </div>
@@ -154,14 +153,12 @@ export class Shout extends Component {
               }
             </div>
           <div className="Shout-card">
-            <ListItem start={ <Icon name="clock" /> }>
+            <ListItem start={ <Icon name="clock" active /> }>
               <TimeAgo date={ shout.datePublished } />
             </ListItem>
 
             <CategoryListItem size="medium" category={ shout.category } />
-            <ListItem start={ <Icon name="location" /> }>
-              { shout.location.city || shout.location.state || shout.location.country }
-            </ListItem>
+            <LocationListItem size="medium" location={ shout.location } />
 
             { <ShoutActions shout={ shout } onReplyClick={ () => this.startShoutReply() } /> }
 
