@@ -7,19 +7,18 @@ import { routeError } from '../actions/server';
 
 import Page from '../layout/Page';
 import ProfileListItem from '../users/ProfileListItem';
-import ProfilePreview from '../users/ProfilePreview';
 
 import CategoryListItem from '../shouts/CategoryListItem';
 import EditShoutButton from '../shouts/EditShoutButton';
 import ShoutPrice from '../shouts/ShoutPrice';
 import ShoutPreview from '../shouts/ShoutPreview';
 
+import FilterListItem from '../shouts/FilterListItem';
 import SuggestedShout from '../shouts/SuggestedShout';
 import SuggestedInterests from '../interests/SuggestedInterests';
 import SuggestedProfiles from '../users/SuggestedProfiles';
 
 import Button from '../ui/Button';
-import Card from '../ui/Card';
 import CardWithList from '../ui/CardWithList';
 import Gallery from '../ui/Gallery';
 import ListItem from '../ui/ListItem';
@@ -99,16 +98,23 @@ export class Shout extends Component {
   renderStartColumn() {
     const { shout } = this.props;
 
+    const categoryWithFilters = (
+        <CardWithList block style={{ marginTop: '1rem', padding: '.5rem', backgroundColor: 'white' }}>
+          <CategoryListItem category={ shout.category } />
+          { shout.filters.map((filter) => <FilterListItem key={ filter.slug } filter={ filter } category={ shout.category } />) }
+        </CardWithList>
+      );
+
     return [
       <ShoutActions shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
-      <CardWithList block key="profile" style={{ padding: '.5rem'}}>
+      <CardWithList block key="profile" style={{ padding: '.5rem' }} >
         <ProfileListItem tooltipPlacement="right" profile={ shout.profile } />
         <ListItem start={ <Icon name="clock" active /> }>
           <TimeAgo date={ shout.datePublished } />
         </ListItem>
         <LocationListItem location={ shout.location } />
-        <CategoryListItem category={ shout.category } />
       </CardWithList>,
+      categoryWithFilters,
     ];
   }
 

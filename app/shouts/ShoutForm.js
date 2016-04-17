@@ -42,9 +42,9 @@ export class ShoutModal extends Component {
   getShout() {
     const { mode } = this.props;
     const category = this.categoryPicker.getSelectedCategory();
-    return {
+    const shout = {
       category: category ? category.slug : null,
-      filters: mode === 'update' ? this.categoryPicker.getSelectedFilters() : null,
+      filters: mode === 'update' ? this.categoryPicker.getSelectedFilters() : [],
       currency: this.currencyPicker.getValue() || null,
       images: this.imageUploadField.getValue(),
       location: this.locationField.getValue(),
@@ -53,6 +53,7 @@ export class ShoutModal extends Component {
       text: mode === 'update' ? this.textField.getValue() : null,
       title: this.titleField.getValue(),
     };
+    return shout;
   }
 
   categoryPicker = null;
