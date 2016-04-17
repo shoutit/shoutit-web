@@ -31,7 +31,6 @@ export default class FormField extends Component {
     className: PropTypes.string,
     disabled: PropTypes.bool,
     error: PropTypes.object,
-    defaultValue: PropTypes.string,
     label: PropTypes.string,
     inputRef: PropTypes.func,
     onBlur: PropTypes.func,
@@ -40,7 +39,6 @@ export default class FormField extends Component {
     placeholder: PropTypes.string,
     startElement: PropTypes.element,
     tooltipPlacement: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     style: PropTypes.object,
   }
 
@@ -53,7 +51,7 @@ export default class FormField extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value || '',
+      // value: props.value || '',
       error: props.error,
       focus: false,
     };
@@ -61,9 +59,6 @@ export default class FormField extends Component {
 
   componentWillReceiveProps(nextProps) {
     let state;
-    // if (nextProps.value !== this.props.value) {
-    //   state = { ...state, value: nextProps.value };
-    // }
     if (nextProps.error !== this.props.error) {
       state = { ...state, error: nextProps.error };
     }
@@ -86,10 +81,10 @@ export default class FormField extends Component {
   field = null;
 
   handleChange(e) {
-    const value = this.field.value;
-    this.setState({ value, error: null });
+    // const value = this.field.value;
+    this.setState({ error: null });
     if (this.props.onChange) {
-      this.props.onChange(value, e);
+      this.props.onChange(this.field.value, e);
     }
   }
 
@@ -125,7 +120,7 @@ export default class FormField extends Component {
 
   render() {
     const { block, startElement, disabled, label, className, placeholder, tooltipPlacement, field, inputRef, children, style, inset, ...props } = this.props;
-    const { value, focus, error } = this.state;
+    const { focus, error } = this.state;
     const validationErrors = this.getValidationErrors();
     let cssClass = 'FormField';
     if (block) {
@@ -133,9 +128,6 @@ export default class FormField extends Component {
     }
     if (validationErrors.length > 0) {
       cssClass += ' has-error';
-    }
-    if (value) {
-      cssClass += ' has-value';
     }
     if (focus) {
       cssClass += ' has-focus';
@@ -164,7 +156,6 @@ export default class FormField extends Component {
             inputRef(this);
           }
         },
-        value,
         placeholder,
         disabled,
         id: this._reactInternalInstance._rootNodeID,
@@ -183,7 +174,6 @@ export default class FormField extends Component {
         </span>
       </span>
     );
-
 
     return (
       <span className={ cssClass } style={ style }>
