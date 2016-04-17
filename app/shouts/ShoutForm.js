@@ -20,7 +20,6 @@ export class ShoutModal extends Component {
     shout: PropTypes.object.isRequired,
     actions: PropTypes.node.isRequired,
     currencies: PropTypes.array.isRequired,
-    categories: PropTypes.array.isRequired,
     mode: PropTypes.oneOf(['update', 'create']),
     onSubmit: PropTypes.func,
     onChange: PropTypes.func,
@@ -77,7 +76,7 @@ export class ShoutModal extends Component {
   }
 
   render() {
-    const { currencies, categories, error, shout, disabled, actions, inputRef, mode } = this.props;
+    const { currencies, error, shout, disabled, actions, inputRef, mode } = this.props;
     return (
       <Form
         ref={ el => {
@@ -200,9 +199,8 @@ export class ShoutModal extends Component {
 }
 
 const mapStateToProps = state => {
-  const { categories, currencies, entities } = state;
+  const { currencies, entities } = state;
   return {
-    categories: categories.ids.map(id => entities.categories[id]),
     currencies: currencies.map(code => entities.currencies[code]),
   };
 };
