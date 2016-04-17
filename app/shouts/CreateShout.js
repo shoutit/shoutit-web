@@ -5,8 +5,11 @@ import { push } from 'react-router-redux';
 import Button from '../ui/Button';
 
 import { createShout, amendShout } from '../actions/shouts';
+import { openModal, closeModal } from '../actions/ui';
+import Modal from '../ui/Modal';
 
 import ShoutForm from './ShoutForm';
+import CreateShoutSuccess from './CreateShoutSuccess';
 
 const NEW_SHOUT_ID = 'new-shout';
 
@@ -38,6 +41,11 @@ export class CreateShout extends Component {
 
   form = null;
 
+  amendShout(data) {
+    const { dispatch, shout } = this.props;
+    dispatch(amendShout(shout, data));
+  }
+
   createShout() {
     const { dispatch, shout, loggedUser, onSuccess } = this.props;
 
@@ -45,17 +53,26 @@ export class CreateShout extends Component {
       return;
     }
     dispatch(createShout(loggedUser, shout)).then(payload => {
+      const shoutId = payload.result;
+      this.showNextSteps(shoutId);
       if (onSuccess) {
         onSuccess();
       }
-      dispatch(push(`/shout/${payload.result}?create=success`));
+      dispatch(push(`/shout/${shoutId}`));
     });
 
   }
 
-  amendShout(data) {
-    const { dispatch, shout } = this.props;
-    dispatch(amendShout(shout, data));
+  showNextSteps(shoutId) {
+    this.props.dispatch(dispatch => {
+      setTimeout(() => {
+        dispatch(openModal(
+          <Modal size="small" name="next-steps">
+            <CreateShoutSuccess shoutId={ shoutId } close={ () => dispatch(closeModal('next-steps')) } />
+          </Modal>
+        ));
+      }, 2000);
+    });
   }
 
   handleCancelClick() {

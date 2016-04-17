@@ -215,7 +215,7 @@ export function startConversation(loggedUser, user) {
   };
 }
 
-export function startyShoutReply(loggedUser, shout) {
+export function startShoutReply(loggedUser, shout) {
   const conversation = {
     id: `shout-reply-${shout.id}`,
     isNew: true,

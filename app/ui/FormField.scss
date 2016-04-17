@@ -19,6 +19,9 @@
 }
 
 .FormField-start-element {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
   border-right: 1px solid $border-color;
   .FormField {
     display: inline-block;

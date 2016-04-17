@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import ProfileFromListItem from './ProfileFromListItem';
+import LocationListItem from '../location/LocationListItem';
 import ProfileWebsiteListItem from './ProfileWebsiteListItem';
 import ProfileJoinedOnListItem from './ProfileJoinedOnListItem';
 import ProfileListeningListItem from './ProfileListeningListItem';
@@ -21,7 +21,7 @@ export default function ProfileBiography({ profile }) {
 
         { (profile.location || profile.dateJoined || profile.website) &&
           <div className="ProfileBiography-details">
-              { profile.location && <ProfileFromListItem profile={ profile } /> }
+              { profile.location && <LocationListItem location={ profile.location } /> }
               { profile.dateJoined && <ProfileJoinedOnListItem profile={ profile } /> }
               { profile.website && <ProfileWebsiteListItem profile={ profile } /> }
           </div>

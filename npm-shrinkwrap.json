@@ -6997,9 +6997,9 @@
       }
     },
     "react-redux": {
-      "version": "4.4.4",
-      "from": "react-redux@4.4.4",
-      "resolved": "https://registry.npmjs.org/react-redux/-/react-redux-4.4.4.tgz",
+      "version": "4.4.5",
+      "from": "react-redux@4.4.5",
+      "resolved": "https://registry.npmjs.org/react-redux/-/react-redux-4.4.5.tgz",
       "dependencies": {
         "hoist-non-react-statics": {
           "version": "1.0.5",
@@ -7012,9 +7012,9 @@
           "resolved": "https://registry.npmjs.org/invariant/-/invariant-2.2.1.tgz"
         },
         "lodash": {
-          "version": "4.11.0",
+          "version": "4.11.1",
           "from": "lodash@>=4.2.0 <5.0.0",
-          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.11.0.tgz"
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.11.1.tgz"
         },
         "loose-envify": {
           "version": "1.1.0",

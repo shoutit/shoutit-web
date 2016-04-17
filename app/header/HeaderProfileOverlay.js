@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { logout } from '../actions/session';
 
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
 
 export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
@@ -12,21 +12,21 @@ export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
     <ul className="htmlNoList">
       <li>
         <Link onClick={ onItemClick } to={`/user/${user.username}`}>
-          <ListItem start= { <SVGIcon name="profile" active /> }>
+          <ListItem start= { <Icon name="profile" active /> }>
             Your Profile
           </ListItem>
         </Link>
       </li>
       <li>
         <Link onClick={ onItemClick } to="/profile/edit">
-          <ListItem start= { <SVGIcon name="pencil" active /> }>
+          <ListItem start= { <Icon name="pencil" active /> }>
             Edit Account
           </ListItem>
         </Link>
       </li>
       <li>
         <Link to="/" onClick={ onLogoutClick }>
-          <ListItem start= { <SVGIcon name="exit" active /> }>
+          <ListItem start= { <Icon name="exit" active /> }>
             Logout
           </ListItem>
         </Link>

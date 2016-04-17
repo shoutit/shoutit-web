@@ -1,20 +1,33 @@
 import React, { PropTypes, Component } from 'react';
 import Dropzone from 'react-dropzone';
 import FormField from './FormField';
-import SVGIcon from './SVGIcon';
+import Icon from './Icon';
 import request from '../utils/request';
 import { uploadResources } from '../config';
+import { getVariation } from '../utils/APIUtils';
 
 if (process.env.BROWSER) {
   require('./UploadField.scss');
 }
 
 export function File({ upload, onDeleteClick }) {
+  const url = upload.file ? upload.file.preview : getVariation(upload.url, 'small');
+
   return (
-    <span className="UploadField-file" style={{ backgroundImage: `url("${upload.file.preview}")` }}>
-      { upload.percent < 100 && <div className="UploadField-file-percent" style={{ width: `${100 - upload.percent}%` }} /> }
-      <div className="UploadField-file-trash"><SVGIcon onClick={ () => onDeleteClick(upload) } name="trash" fill /></div>
+    <span
+      className="UploadField-file"
+      style={{ backgroundImage: `url("${url}")` }}>
+
+      { upload.percent < 100 &&
+        <div className="UploadField-file-percent" style={{ width: `${100 - upload.percent}%` }} />
+      }
+
+      <div className="UploadField-file-trash">
+        <Icon onClick={ () => onDeleteClick(upload) } name="trash" fill />
+      </div>
+
       { upload.error && <div className="UploadField-file-error" /> }
+
     </span>
   );
 }
@@ -28,13 +41,16 @@ export default class UploadField extends Component {
 
   static propTypes = {
     label: PropTypes.string,
+    onChange: PropTypes.func,
     maxFiles: PropTypes.number,
     resourceType: PropTypes.oneOf(['shout', 'user', 'tag']),
+    urls: PropTypes.array,
   }
 
   static defaultProps = {
-    label: 'Upload images',
+    label: 'Upload files',
     maxFiles: 5,
+    urls: [],
   }
 
   constructor(props) {
@@ -43,12 +59,12 @@ export default class UploadField extends Component {
     this.delete = this.delete.bind(this);
     this.state = {
       requests: [],
-      uploads: [],
+      uploads: props.urls.map(url => ({ url })),
     };
   }
 
   getValue() {
-    return this.state.uploads.filter(upload => upload.ok).map(upload => upload.url);
+    return this.state.uploads.filter(upload => !!upload.url).map(upload => upload.url);
   }
 
   delete(upload) {

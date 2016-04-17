@@ -1,12 +1,12 @@
 import React from 'react';
 import Button from './Button';
-import SVGIcon from './SVGIcon';
+import Icon from './Icon';
 
 export function FacebookButton(props) {
   return (
     <Button
       {...props}
-      leftIcon={ <SVGIcon name="facebook" fill /> }
+      leftIcon={ <Icon name="facebook" fill /> }
       className="facebook"
     />
   );
@@ -16,7 +16,7 @@ export function GoogleButton(props) {
   return (
     <Button
       {...props}
-      leftIcon={ <SVGIcon name="google-plus" fill /> }
+      leftIcon={ <Icon name="google-plus" fill /> }
       className="google"
     />
   );

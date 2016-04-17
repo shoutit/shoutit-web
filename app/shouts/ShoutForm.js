@@ -5,6 +5,7 @@ import Form from '../ui/Form';
 import LocationField from '../ui/LocationField';
 import Picker from '../ui/Picker';
 import TextField from '../ui/TextField';
+import CurrencyField from '../ui/CurrencyField';
 import UploadField from '../ui/UploadField';
 
 if (process.env.BROWSER) {
@@ -18,12 +19,17 @@ export class ShoutModal extends Component {
     actions: PropTypes.node.isRequired,
     currencies: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
+    mode: PropTypes.oneOf(['update', 'create']),
     onSubmit: PropTypes.func,
     onChange: PropTypes.func,
     inputRef: PropTypes.func,
     currentLocation: PropTypes.object,
     disabled: PropTypes.bool,
     error: PropTypes.object,
+  };
+
+  static defaultProps = {
+    mode: 'create',
   };
 
   constructor(props) {
@@ -34,16 +40,24 @@ export class ShoutModal extends Component {
 
   getShout() {
     return {
-      price: this.refs.priceField.getValue() * 100,
-      currency: this.refs.currencyPicker.getValue(),
+      category: this.categoryPicker.getValue(),
+      currency: this.currencyPicker.getValue() || null,
+      images: this.imageUploadField.getValue(),
       location: this.locationField.getValue(),
-      images: this.refs.imageUploadField.getValue(),
-      category: this.refs.categoryPicker.getValue(),
+      mobile: this.mobileField.getValue(),
+      price: this.priceField.getValue(),
+      title: this.titleField.getValue(),
     };
   }
 
-  locationField = null;
+  categoryPicker = null;
+  currencyPicker = null;
   form = null;
+  imageUploadField = null;
+  locationField = null;
+  mobileField = null;
+  priceField = null;
+  titleField = null;
 
   handleSubmit() {
     this.props.onSubmit(this.getShout());
@@ -56,76 +70,78 @@ export class ShoutModal extends Component {
   }
 
   render() {
-    const { currencies, categories, error, shout, disabled, actions, inputRef } = this.props;
+    const { currencies, categories, error, shout, disabled, actions, inputRef, mode } = this.props;
+
     return (
       <Form
         ref={ el => {
-          this.form = el;
           if (inputRef) {
             inputRef(el);
           }
         }} onSubmit={ this.handleSubmit } error={ error } actions={ actions }>
 
           <UploadField
-            ref="imageUploadField"
+            ref={ el => { this.imageUploadField = el; }}
             name="images"
             resourceType="shout"
-            label="Add photos"
+            label={ mode === 'update' ? 'Edit photos' : 'Add photos' }
             disabled={ disabled }
-            value={ shout.images }
+            urls={ shout.images }
             onChange={ images => this.handleChange({ images }) }
             error={ error }
           />
 
         <TextField
-          ref="titleField"
+          ref={ el => { this.titleField = el; }}
           type="text"
           name="title"
           placeholder="Title"
           disabled={ disabled }
           block
           style={{ fontSize: '1.25rem' }}
-          value={ shout.title }
+          defaultValue={ shout.title }
           onChange={ title => this.handleChange({ title }) }
           error={ error }
         />
 
-        <TextField
-          ref="priceField"
+        <CurrencyField
+          ref={ el => { this.priceField = el; }}
           type="text"
           name="price"
           placeholder="Type a price"
           disabled={ disabled }
           block
-          value={ shout.price }
-          onChange={ price => this.handleChange({ price }) }
+          defaultValue={ shout.price }
+          onChange={ price => {
+            this.handleChange({ price });
+          }}
           error={ error }
           startElement={
             <Picker
               name="currency"
-              ref="currencyPicker"
+              ref={ el => { this.currencyPicker = el; }}
               tooltipPlacement="left"
-              value={ shout.currency }
+              defaultValue={ shout.currency }
               onChange={ currency => this.handleChange({ currency }) }
               error={ error }>
-                <option>Currency</option>
+                <option value="">Currency</option>
                 { currencies.map(currency =>
                   <option key={ currency.code } value={ currency.code }>
-                    { currency.name }
+                    { currency.code } { currency.name }
                   </option>
                 )}
             </Picker>
           } />
 
         <Picker
-          ref="categoryPicker"
+          ref={ el => { this.categoryPicker = el; }}
           name="category.slug"
           disabled={ disabled }
           block
-          value={ shout.category }
+          defaultValue={ shout.category }
           onChange={ category => this.handleChange({ category }) }
           error={ error }>
-            <option value="other">Choose a category</option>
+            <option value="">Choose a category</option>
             { categories.map(({ slug, name }) =>
               <option value={ slug } key={ slug }>
                 { name }
@@ -147,14 +163,14 @@ export class ShoutModal extends Component {
         />
 
         <TextField
-          ref="mobileField"
+          ref={ el => { this.mobileField = el; }}
           type="text"
           name="mobile"
           label="Let people contact you"
           placeholder="Enter a mobile number"
           disabled={ disabled }
           block
-          value={ shout.mobile }
+          defaultValue={ shout.mobile }
           onChange={ mobile => this.handleChange({ mobile }) }
           error={ error }
         />

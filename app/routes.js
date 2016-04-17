@@ -29,6 +29,7 @@ const routes = (store) =>
     <Route path="/"
       getApplicationLayout={ () => ({
         stickyHeader: store.getState().session.user,
+        showFooter: true,
       })}
       getComponent={ (location, callback) => {
         const Component = store.getState().session.user ? Dashboard : Homepage;
@@ -43,14 +44,13 @@ const routes = (store) =>
     <Route path="/signup/verify/:token" component={ VerifyEmail } getApplicationLayout={ authAppLayout } />
 
     <Route path="/search(/:shout_type)(/:category)" component={ Search } />
-    <Route path="/shout/:id" component={ Shout } />
+    <Route path="/shout/:id" component={ Shout } getApplicationLayout={ () => ({ showFooter: true })} />
     <Route path="/interest(/:tagName)" component={ Interest } />
     <Route path="/user(/:username)" component={ Profile } />
-    <Route path="/heartbeat" component={ Heartbeat } />
+    <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true })} />
     <Route path="/discover(/:countryName)(/:id)" component={ Discover } />
-
     <Route path="/messages(/:conversationId)" component={ Chat } />
-    <Route path="*" component={ NotFound } />
+    <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true })} />
   </Route>;
 
 export default routes;

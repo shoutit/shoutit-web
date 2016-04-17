@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 // import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 
 export default function MessageReadByFlag({ profiles }) {
   // const tooltip = (
@@ -11,7 +11,7 @@ export default function MessageReadByFlag({ profiles }) {
   // );
   return (
     // <OverlayTrigger placement="top" overlay={ tooltip }>
-      <SVGIcon name="seen" active size="small" />
+      <Icon name="seen" active size="small" />
     // </OverlayTrigger>
   );
 }

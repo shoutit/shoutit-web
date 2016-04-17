@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import Button from '../ui/Button';
 
 import { startVideocall } from '../actions/videocalls';
@@ -15,7 +15,7 @@ export function VideocallButton({ onVideocallClick, enabled = false, user }) {
       size="small"
       label="Video call"
       onClick={ () => onVideocallClick(user) }
-      leftIcon={ <SVGIcon fill name="video" />
+      leftIcon={ <Icon fill name="video" />
       }
     />
   );

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import Button from '../ui/Button';
 import Modal from '../ui/Modal';
 
@@ -104,7 +104,7 @@ export class Header extends Component {
               primary
               size="small"
               label="Create Shout"
-              leftIcon={ <SVGIcon name="sparkle" fill /> } />
+              leftIcon={ <Icon name="sparkle" fill /> } />
             <HeaderProfileButton overlayContainer={ this } />
           </div> :
           <div className="Header-tools loggedOut">

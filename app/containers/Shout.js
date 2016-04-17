@@ -2,15 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { loadShout, loadRelatedShouts } from '../actions/shouts';
-import { startyShoutReply } from '../actions/chat';
+import { startShoutReply } from '../actions/chat';
 import { routeError } from '../actions/server';
 
 import Page from '../layout/Page';
-import Footer from '../layout/Footer';
 import ProfileListItem from '../users/ProfileListItem';
-import ProfileOverlay from '../users/ProfileOverlay';
+import ProfilePreview from '../users/ProfilePreview';
 
 import CategoryListItem from '../shouts/CategoryListItem';
+import EditShoutButton from '../shouts/EditShoutButton';
 import ShoutPrice from '../shouts/ShoutPrice';
 import ShoutPreview from '../shouts/ShoutPreview';
 
@@ -20,8 +20,9 @@ import Gallery from '../ui/Gallery';
 import ListItem from '../ui/ListItem';
 import NewlineToBreak from '../ui/NewlineToBreak';
 import Progress from '../ui/Progress';
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import TimeAgo from '../ui/TimeAgo';
+import LocationListItem from '../location/LocationListItem';
 
 import { denormalize } from '../schemas';
 
@@ -32,23 +33,31 @@ if (process.env.BROWSER) {
 const fetchData = (dispatch, state, params) =>
   Promise.all([
     dispatch(loadShout(params.id)).catch(err => dispatch(routeError(err))),
-    dispatch(loadRelatedShouts(params.id, { page_size: 6 })),
+    dispatch(loadRelatedShouts(params.id, { page_size: 8 })),
   ]);
 
-function ShoutBuy({ shout, onReplyClick }) {
+function ShoutActions({ shout, onReplyClick }) {
   return (
-    <div className="ShoutBuy">
+    <div className="ShoutActions">
       <ShoutPrice shout={ shout } layout="plain" />
-      <Button onClick={ onReplyClick } size="small" primary leftIcon = { <SVGIcon fill name="balloon-dots" /> } label="Reply to this shout" />
 
-      <p className="htmlAncillary">
-        Start chatting with { shout.profile.firstName } if you are interested on this.
-      </p>
+      { shout.profile.isOwner ?
+        <div>
+          <EditShoutButton shoutId={ shout.id } />
+        </div> :
+        <div>
+          <Button onClick={ onReplyClick } size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Reply to this Shout" />
+          <p className="htmlAncillary">
+            Start chatting with { shout.profile.firstName } if you are interested on this.
+          </p>
+        </div>
+      }
+
     </div>
   );
 }
 
-ShoutBuy.propTypes = {
+ShoutActions.propTypes = {
   shout: PropTypes.object.isRequired,
   onReplyClick: PropTypes.func.isRequired,
 };
@@ -80,18 +89,18 @@ export class Shout extends Component {
     }
   }
 
-  startyShoutReply() {
+  startShoutReply() {
     const { loggedUser, shout, dispatch } = this.props;
-    dispatch(startyShoutReply(loggedUser, shout));
+    dispatch(startShoutReply(loggedUser, shout));
   }
 
   renderEndColumn() {
     const { shout } = this.props;
 
     return [
-      !shout.profile.isOwner ? <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } /> : null,
+      <ShoutActions shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
       <Card block key="profile">
-        <ProfileOverlay style={{ width: '100%' }} id={ shout.profile.id } />
+        <ProfilePreview style={{ width: '100%' }} id={ shout.profile.id } />
       </Card>,
     ];
   }
@@ -116,17 +125,14 @@ export class Shout extends Component {
     const { shout } = this.props;
     return (
       <div className="Shout">
-
         <div className="Shout-title">
           <h1>{ shout.title || shout.text }</h1>
           <div className="Shout-header">
             <ProfileListItem tooltipPlacement="bottom" profile={ shout.profile } />
-            <ListItem size="small" start={ <SVGIcon name="clock" size="small" /> }>
+            <ListItem size="small" start={ <Icon name="clock" active size="small" /> }>
               <TimeAgo date={ shout.datePublished } />
             </ListItem>
-            <ListItem size="small" start={ <SVGIcon size="small" name="location" /> }>
-              { shout.location.city || shout.location.state || shout.location.country }
-            </ListItem>
+            <LocationListItem size="small" location={ shout.location } />
             <CategoryListItem size="small" category={ shout.category } />
           </div>
         </div>
@@ -147,16 +153,14 @@ export class Shout extends Component {
               }
             </div>
           <div className="Shout-card">
-            <ListItem start={ <SVGIcon name="clock" /> }>
+            <ListItem start={ <Icon name="clock" active /> }>
               <TimeAgo date={ shout.datePublished } />
             </ListItem>
 
             <CategoryListItem size="medium" category={ shout.category } />
-            <ListItem start={ <SVGIcon name="location" /> }>
-              { shout.location.city || shout.location.state || shout.location.country }
-            </ListItem>
+            <LocationListItem size="medium" location={ shout.location } />
 
-            { !shout.profile.isOwner && <ShoutBuy shout={ shout } onReplyClick={ () => this.startyShoutReply() } /> }
+            { <ShoutActions shout={ shout } onReplyClick={ () => this.startShoutReply() } /> }
 
           </div>
         </div>

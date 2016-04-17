@@ -5,13 +5,17 @@ import { listenToUser, stopListeningToUser } from '../actions/users';
 import { startConversation } from '../actions/chat';
 import { Link } from 'react-router';
 
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
 
 if (process.env.BROWSER) {
   require('./ProfileActions.scss');
 }
 export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListening, size = 'medium', showProfileLink = false }) {
+
+  if (profile.isOwner && !showProfileLink) {
+    return <div />;
+  }
 
   const onListenClick = () => {
     if (isUpdatingListening) {
@@ -39,31 +43,35 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
   return (
       <div className="ProfileActions">
         <ul className="htmlNoList">
-          <li>
-            <ListItem
-              size={ size }
-              disabled={ isUpdatingListening }
-              onClick={ onListenClick }
-              start= { <SVGIcon size={ size } name="listen" active={ !profile.isListening } on={ profile.isListening } /> }
-            >
-              { profile.isListening ? `Stop listening to ${profile.firstName}` : `Listen to ${profile.firstName}` }
-            </ListItem>
-          </li>
-          <li>
-            <ListItem size={ size }
-              onClick={ onSendMessageClick }
-              start= { <SVGIcon size={ size } active name="balloon-dots" /> }>
-              Send {profile.firstName} a message
-            </ListItem>
-          </li>
+          { !profile.isOwner &&
+            <li>
+              <ListItem
+                size={ size }
+                disabled={ isUpdatingListening }
+                onClick={ onListenClick }
+                start= { <Icon size={ size } name="listen" active={ !profile.isListening } on={ profile.isListening } /> }
+              >
+                { profile.isListening ? `Stop listening to ${profile.firstName}` : `Listen to ${profile.firstName}` }
+              </ListItem>
+            </li>
+          }
+          { !profile.isOwner &&
+            <li>
+              <ListItem size={ size }
+                onClick={ onSendMessageClick }
+                start= { <Icon size={ size } active name="balloon-dots" /> }>
+                Send {profile.firstName} a message
+              </ListItem>
+            </li>
+          }
           { showProfileLink &&
             <li>
               <Link to={`/user/${profile.username}`}>
                 <ListItem
                   size={ size }
-                  start= { <SVGIcon active size={ size } name="profile" /> }
+                  start= { <Icon active size={ size } name="profile" /> }
                 >
-                  Visit profile
+                  View profile
                 </ListItem>
               </Link>
             </li>
@@ -75,6 +83,11 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
 
 ProfileActions.propTypes = {
   profile: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  isUpdatingListening: PropTypes.bool,
+  loggedUser: PropTypes.object,
+  showProfileLink: PropTypes.bool,
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
 };
 
 const mapStateToProps = (state, ownProps) => {

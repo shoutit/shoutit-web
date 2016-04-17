@@ -39,22 +39,6 @@
   font-weight: lighter;
 }
 
-.Frame-separator {
-  margin: .25rem 0;
-  color: $color-lighter;
-  border-top: 1px solid $border-color;
-  text-align: center;
-  transform: translateY(1rem);
-  span {
-    transform: translateY(-1.1rem);
-    display: inline-block;
-    margin: 0 auto;
-    color: $color-light;
-    background-color: white;
-    padding: .5rem;
-  }
-}
-
 .Frame-form {
   width: 75%;
   margin: 0 auto;
@@ -64,7 +48,6 @@
 }
 
 .Frame-form-horizontal-group {
-  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
 }

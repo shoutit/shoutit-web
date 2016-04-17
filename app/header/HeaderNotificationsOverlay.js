@@ -1,7 +1,7 @@
 import React from 'react';
 
 if (process.env.BROWSER) {
-  require('../styles/components/ListOverlay.scss');
+  require('../styles/ListOverlay.scss');
 }
 
 export default function HeaderNotificationsOverlay({ onMarkAsReadClick, unreadCount }) {

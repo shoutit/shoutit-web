@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import ListItem from '../ui/ListItem';
-import SVGIcon from '../ui/SVGIcon';
+import Icon from '../ui/Icon';
 
 export default function ProfileWebsiteListItem({ profile, size = 'medium' }) {
   let { website } = profile;
@@ -12,7 +12,7 @@ export default function ProfileWebsiteListItem({ profile, size = 'medium' }) {
       <ListItem
         className="ProfileWebsiteListItem"
         size={ size }
-        start={ <SVGIcon name="world-west" active size={ size } /> }
+        start={ <Icon name="world-west" active size={ size } /> }
       >
         { website.replace(/https?:\/\//, '') }
       </ListItem>

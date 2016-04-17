@@ -19,28 +19,6 @@
     opacity: 0.75;
   }
 
-  .ListItem-start {
-    flex-shrink: 0;
-    display: inline-block;
-    vertical-align: middle;
-    overflow: hidden;
-  }
-
-  .ListItem-end {
-    display: inline-block;
-    .ListItem.nowrap & {
-      @include ellipsis();
-    }
-  }
-
-  .ListItem-start + .ListItem-end {
-    margin-left: .5rem;
-  }
-
-  &.size-small .ListItem-start + .ListItem-end {
-    margin-left: .25rem;
-  }
-
   a > & {
     color: $color
   }
@@ -52,4 +30,26 @@
       margin: .25rem 0;
     }
   }
+}
+
+.ListItem-end {
+  display: inline-block;
+  .ListItem.nowrap & {
+    @include ellipsis();
+  }
+}
+
+.ListItem-start {
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.ListItem-start + .ListItem-end {
+  margin-left: .5rem;
+}
+
+.ListItem.size-small .ListItem-start + .ListItem-end {
+  margin-left: .25rem;
 }

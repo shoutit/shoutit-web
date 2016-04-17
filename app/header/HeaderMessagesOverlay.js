@@ -6,7 +6,7 @@ import { openConversation } from '../actions/chat';
 import ConversationsList from '../chat/ConversationsList.js';
 
 if (process.env.BROWSER) {
-  require('../styles/components/ListOverlay.scss');
+  require('../styles/ListOverlay.scss');
 }
 export class HeaderMessagesOverlay extends Component {
   render() {

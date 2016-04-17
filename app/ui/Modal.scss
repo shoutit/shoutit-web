@@ -12,7 +12,16 @@
   border: 1px solid $border-color;
   border-radius: $border-radius;
   background-color: white;
-  box-shadow: $box-shadow-depth-1;
+  box-shadow: $box-shadow-depth-2;
+  &.size-small {
+    width: 350px;
+  }
+  &.size-medium {
+    width: 500px;
+  }
+  &.size-large {
+    width: 750px;
+  }
 }
 
 .Modal > h1 {

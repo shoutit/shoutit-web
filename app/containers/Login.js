@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import { createSession, resetSessionErrors } from '../actions/session';
 
 import Button from '../ui/Button';
+import HorizontalRule from '../ui/HorizontalRule';
 import TextField from '../ui/TextField';
 import Page from '../layout/Page';
 import Frame from '../layout/Frame';
@@ -96,15 +97,14 @@ export class Login extends Component {
         <Frame title="Login">
 
           <div className="Frame-body">
-            <div className="Frame-separator">
-              <span>with</span>
-            </div>
+
+            <HorizontalRule label="with" />
+
             <div className="Frame-form">
               <SocialLoginForm disabled={ isLoggingIn } onLoginSuccess={ () => this.redirectToNextPage() } />
             </div>
-            <div className="Frame-separator">
-              <span>or</span>
-            </div>
+
+            <HorizontalRule label="or" />
 
             { error &&
               !getErrorsByLocation(error, 'email') &&

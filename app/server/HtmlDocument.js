@@ -1,6 +1,6 @@
 /* eslint react/no-danger: 0 */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 import serialize from 'serialize-javascript';
 
 import * as config from '../config';
@@ -13,7 +13,6 @@ if (process.env.NODE_ENV === 'production') {
 export default function HtmlDocument({
   content,
   title,
-  state,
   initialState,
   meta,
 }) {
@@ -75,7 +74,6 @@ export default function HtmlDocument({
       <body>
         <div id="content" dangerouslySetInnerHTML={ { __html: content } } />
 
-        <script dangerouslySetInnerHTML={ { __html: `window.__state=${state}` } } />
         <script dangerouslySetInnerHTML={ { __html: `window.__INITIAL_STATE__=${serialize(initialState)}` } } />
 
         <script async src="https://apis.google.com/js/client:platform.js" />
@@ -93,3 +91,10 @@ export default function HtmlDocument({
     </html>
   );
 }
+
+HtmlDocument.propTypes = {
+  content: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  initialState: PropTypes.object.isRequired,
+  meta: PropTypes.object,
+};

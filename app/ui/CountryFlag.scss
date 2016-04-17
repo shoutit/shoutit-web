@@ -4,22 +4,21 @@ $size-medium: 24px;
 $size-large: 48px;
 
 .CountryFlag {
-
   display: inline-block;
-  vertical-align: middle;
-  height: $size-medium;
   width: $size-medium;
+  height: $size-medium;
   padding: 3px;
+  vertical-align: middle;
 
   &.size-small {
-    height: $size-small;
     width: $size-small;
-    padding: 0px;
+    height: $size-small;
+    padding: 0;
   }
 
   &.size-large {
-    height: $size-large;
     width: $size-large;
+    height: $size-large;
   }
 
   &.rounded {
