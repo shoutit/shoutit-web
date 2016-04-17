@@ -77,12 +77,26 @@ export default class UploadField extends Component {
     };
   }
 
+  componentWillUnmount() {
+    this.abortUnfinishedUploads();
+  }
+
   getValue() {
     return this.state.uploads.filter(upload => !!upload.url).map(upload => upload.url);
   }
 
   isUploading() {
     return this.state.uploads.some(upload => upload.isUploading);
+  }
+
+  abortUnfinishedUploads() {
+    log('Aborting unfinished uploads...');
+    this.state.uploads
+      .forEach(upload => {
+        if (upload.request) {
+          upload.request.abort();
+        }
+      });
   }
 
   delete(upload) {
@@ -124,7 +138,7 @@ export default class UploadField extends Component {
       });
       const index = existingUploads.length + uploads.length - 1;
 
-      request
+      uploads[uploads.length - 1].request = request
        .post(`/api/file/${resourceType}`)
        .attach(uploadResources[resourceType].fieldname, file)
        .on('progress', function handleProgress(e) { // eslint-disable-line
