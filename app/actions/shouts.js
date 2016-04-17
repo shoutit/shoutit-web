@@ -89,3 +89,19 @@ export function amendShout(shout, data) {
     },
   };
 }
+
+export function call(id) {
+  return {
+    types: [
+      actionTypes.UPDATE_SHOUT_START,
+      actionTypes.UPDATE_SHOUT_SUCCESS,
+      actionTypes.UPDATE_SHOUT_FAILURE,
+    ],
+    payload: { shout: { id } },
+    service: {
+      name: 'shoutCall',
+      params: { id },
+      schema: Schemas.SHOUT,
+    },
+  };
+}
