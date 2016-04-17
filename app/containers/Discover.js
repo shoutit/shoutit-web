@@ -77,7 +77,17 @@ function getDiscoverLink(country, discoverItem) {
 
 export class Discover extends Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    params: PropTypes.object.isRequired,
+
     country: PropTypes.string,
+    discoverItem: PropTypes.object,
+    firstRender: PropTypes.bool,
+    isFetching: PropTypes.bool,
+    isFetchingShouts: PropTypes.bool,
+    loggedUser: PropTypes.object,
+    nextShoutsUrl: PropTypes.string,
+    shouts: PropTypes.array,
   };
   static fetchData = fetchData;
 
