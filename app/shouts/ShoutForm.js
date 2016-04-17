@@ -48,15 +48,19 @@ export class ShoutModal extends Component {
     const { mode } = this.props;
     const category = this.categoryPicker.getSelectedCategory();
     const shout = {
-      category: category ? category.slug : null,
-      filters: mode === 'update' ? this.categoryPicker.getSelectedFilters() : [],
-      currency: this.currencyPicker.getValue() || null,
-      images: this.imageUploadField.getValue(),
+      title: this.titleField.getValue(),
+      text: mode === 'update' ? this.textField.getValue() : null,
       location: this.locationField.getValue(),
       mobile: this.mobileField.getValue(),
+
+      category: category ? category.slug : null,
+      filters: mode === 'update' ? this.categoryPicker.getSelectedFilters() : [],
+
+      currency: this.currencyPicker.getValue() || null,
       price: this.priceField.getValue(),
-      text: mode === 'update' ? this.textField.getValue() : null,
-      title: this.titleField.getValue(),
+
+      images: this.imageUploadField.getValue(),
+      removedImages: this.imageUploadField.getFilesToDelete(),
     };
     return shout;
   }
@@ -72,9 +76,6 @@ export class ShoutModal extends Component {
   titleField = null;
 
   handleSubmit() {
-    // if (this.state.isUploadingFiles) {
-    //   return;
-    // }
     this.props.onSubmit(this.getShout());
   }
 
@@ -114,7 +115,7 @@ export class ShoutModal extends Component {
           resourceType="shout"
           label={ mode === 'update' ? 'Edit photos' : 'Add photos' }
           disabled={ disabled }
-          urls={ shout.images }
+          initialFileUrls={ shout.images }
           onChange={ images => this.handleChange({ images }) }
           onUploadStart={ this.handleUploadStart }
           onUploadEnd={ this.handleUploadEnd }

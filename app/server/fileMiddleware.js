@@ -1,14 +1,12 @@
 /* eslint no-console: 0 */
 import path from 'path';
-import os from 'os';
 import fs from 'fs';
+import last from 'lodash/array/last';
 
 import createMulter from './createMulter';
 import * as AWS from '../utils/AWS';
 import { convertImageToJPEG } from '../utils/ImageUtils';
 import { uploadResources } from '../config';
-
-const tmpDir = os.tmpdir();
 
 function uniqueFilenameFromUser(user) {
   return `${Date.now()}_${user.id}`;
@@ -99,7 +97,8 @@ export function fileUploadMiddleware(req, res) {
 export function fileDeleteMiddleware(req, res) {
   const { name } = req.query;
   const { resourceType } = req.params;
-  console.log(name);
+  const { bucket } = uploadResources[resourceType];
+
   if (!req.session.user) {
     res.status(403).send('User session is required.');
     return;
@@ -108,6 +107,16 @@ export function fileDeleteMiddleware(req, res) {
     res.status(400).send('A filename is required.');
     return;
   }
-  // TODO: check user can delete image first
-  res.status(200).send('OK');
+  if (last(name.split('_') !== req.session.user.id)) {
+    res.status(403).send('Access denied.');
+  }
+
+  AWS.del({ keys: [name], bucket }, err => {
+    if (err) {
+      res.status(500).send(err.message);
+      return;
+    }
+    res.status(200).send('OK');
+  });
+
 }

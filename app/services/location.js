@@ -13,7 +13,6 @@ export default {
     if (ip) {
       headers['x-forwarded-for'] = ip;
     }
-    console.log('Location service - req.ip, %s, remoteAddress: %s, sent ip: %s', req.ip, remoteAddress, ip, headers);
     request
       .get('/misc/geocode')
       .query({ latlng })

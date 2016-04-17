@@ -82,31 +82,45 @@ export default function ({
 
   return function entityReducer(state = {}, action) {
     if (action.hasOwnProperty('type')) {
+      let id;
+      let tempId;
       switch (action.type) {
+
         case createStartType:
         case createFailureType:
           // If the action type is a create type, add a temporary entity to track its creation
-          const tempId = mapActionToTempId(action);
-          return merge({}, state, {
+          tempId = mapActionToTempId(action);
+          return {
+            ...state,
             [tempId]: updateTempEntity(state[tempId] || mapActionToTempEntity(action), action),
-          });
+          };
         case createSuccessType:
           // Remove the temp entity and add the new entity
-          return merge({}, omit(state, mapActionToTempId(action)), action.payload.entities[name]);
+          tempId = mapActionToTempId(action);
+          return {
+            ...omit(state, tempId),
+            ...action.payload.entities[name],
+          };
+
         case updateStartType:
-          return merge({}, state, {
-            [mapActionToId(action)]: updateEntity(mapActionToTempEntity(action), action),
-          });
+          id = mapActionToId(action);
+          return {
+            ...state,
+            [id]: updateEntity(mapActionToTempEntity(action), action),
+          };
         case updateFailureType:
-          const id = mapActionToId(action);
-          return merge({}, state, {
+          id = mapActionToId(action);
+          return {
+            ...state,
             [id]: updateEntity(state[id], action),
-          });
+          };
         case updateSuccessType:
-          const updatedId = mapActionToId(action);
-          return merge({}, state, {
-            [updatedId]: updateEntity(action.payload.entities[name][updatedId], action),
-          });
+          id = mapActionToId(action);
+          return {
+            ...state,
+            [id]: updateEntity(action.payload.entities[name][id], action),
+          };
+
       }
     }
 

@@ -1,5 +1,9 @@
+import last from 'lodash/array/last';
+
 import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
+import * as AWS from '../utils/AWS';
+import { uploadResources } from '../config';
 
 export default {
   name: 'shout',
@@ -40,5 +44,28 @@ export default {
         }
         return callback(null, res.body);
       });
+
+    if (shout.removedImages) {
+      const { bucket } = uploadResources.shout;
+      AWS.del({ keys: shout.removedImages, bucket });
+    }
+  },
+  delete: (req, resource, { shout }, config, callback) => {
+    request
+      .delete(`/shouts/${shout.id}`)
+      .prefix()
+      .setSession(req.session)
+      .end((err, res) => {
+        if (err) {
+          return callback(parseApiError(err));
+        }
+        return callback(null, res.body);
+      });
+
+    if (shout.images && shout.images.length > 0) {
+      const { bucket } = uploadResources.shout;
+      AWS.del({ keys: shout.images.map(url => last(url.split('/'))), bucket });
+    }
+
   },
 };

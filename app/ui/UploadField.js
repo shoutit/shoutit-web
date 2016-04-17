@@ -1,9 +1,13 @@
 import React, { PropTypes, Component } from 'react';
 import Dropzone from 'react-dropzone';
 import debug from 'debug';
+import without from 'lodash/array/without';
+import last from 'lodash/array/last';
+import union from 'lodash/array/union';
 
-import FormField from './FormField';
-import Icon from './Icon';
+import Tooltip from '../ui/Tooltip';
+import FormField from '../ui/FormField';
+import Icon from '../ui/Icon';
 import request from '../utils/request';
 import { uploadResources } from '../config';
 import { getVariation } from '../utils/APIUtils';
@@ -11,7 +15,7 @@ import { getVariation } from '../utils/APIUtils';
 const log = debug('shoutit:ui:UploadField');
 
 if (process.env.BROWSER) {
-  require('./UploadField.scss');
+  require('../ui/UploadField.scss');
 }
 
 export function File({ upload, onDeleteClick }) {
@@ -31,11 +35,14 @@ export function File({ upload, onDeleteClick }) {
         <div className="UploadField-file-percent" style={{ width: `${100 - percent}%` }} />
       }
 
-      <div className="UploadField-file-trash">
-        <Icon onClick={ () => onDeleteClick(upload) } name="trash" fill />
-      </div>
-
       { upload.error && <div className="UploadField-file-error" /> }
+
+      <Tooltip placement="top" overlay="Click to delete">
+        <div className="UploadField-file-trash" onClick={ () => onDeleteClick(upload) } >
+            <Icon name="trash" fill />
+        </div>
+      </Tooltip>
+
 
     </span>
   );
@@ -52,19 +59,21 @@ export default class UploadField extends Component {
     name: PropTypes.string,
     label: PropTypes.string,
     uploadingLabel: PropTypes.string,
+    deleteTooltip: PropTypes.string,
     onChange: PropTypes.func,
     onUploadStart: PropTypes.func,
     onUploadEnd: PropTypes.func,
     maxFiles: PropTypes.number,
     resourceType: PropTypes.oneOf(['shout', 'user', 'tag']).isRequired,
-    urls: PropTypes.array, // existing files to delete
+    initialFileUrls: PropTypes.array, // existing files to delete
   }
 
   static defaultProps = {
     label: 'Upload files',
+    deleteTooltip: 'Click to remove',
     uploadingLabel: 'Uploading…',
-    maxFiles: 5,
-    urls: [],
+    maxFiles: 18,
+    initialFileUrls: [],
   }
 
   constructor(props) {
@@ -72,8 +81,8 @@ export default class UploadField extends Component {
     this.upload = this.upload.bind(this);
     this.delete = this.delete.bind(this);
     this.state = {
-      requests: [],
-      uploads: props.urls.map(url => ({ url })),
+      uploads: props.initialFileUrls.map(url => ({ url })),
+      filesToDelete: [],
     };
   }
 
@@ -83,6 +92,10 @@ export default class UploadField extends Component {
 
   getValue() {
     return this.state.uploads.filter(upload => !!upload.url).map(upload => upload.url);
+  }
+
+  getFilesToDelete() {
+    return this.state.filesToDelete;
   }
 
   isUploading() {
@@ -100,27 +113,47 @@ export default class UploadField extends Component {
   }
 
   delete(upload) {
-    const { resourceType } = this.props;
+    const { resourceType, initialFileUrls, onUploadEnd } = this.props;
 
     if (upload.request) {
+      const wasUploading = this.isUploading();
+      log('Aborting running request...');
       upload.request.abort();
-    } else {
-      request
-       .delete(`/api/file/${resourceType}`)
-       .query({ name: upload.fileName })
-       .end(function handleResponse(err, res) { // eslint-disable-line
-        //  console.log(res);
-          //  if (err || !res.ok) {
-          //    this.state.uploads[index].error = err;
-          //  } else {
-          //    this.state.uploads[index].ok = true;
-          //    this.state.uploads[index].url = res.text;
-          //  }
-          //  this.setState({
-          //    uploads: this.state.uploads,
-          //  });
-       }.bind(this));
+      this.setState({
+        uploads: without(this.state.uploads, upload),
+      }, () => {
+        if (wasUploading && !this.isUploading() && onUploadEnd) {
+          onUploadEnd();
+        }
+      });
+
+      return;
     }
+
+    const name = last(upload.url.split('/'));
+
+    if (initialFileUrls.includes(upload.url)) {
+      log('Setting %s for deletion', name);
+      this.setState({
+        filesToDelete: union(this.state.filesToDelete, [name]),
+        uploads: without(this.state.uploads, upload),
+      });
+      return;
+    }
+    this.setState({
+      uploads: without(this.state.uploads, upload),
+    });
+    log('Deleting %s...', name);
+    request
+      .delete(`/api/file/${resourceType}`)
+      .query({ name })
+      .end(function handleResponse(err, res) { // eslint-disable-line
+        if (err || !res.ok) {
+          console.error(err); // eslint-disable-line
+          return;
+        }
+        log('Deleted %s', name);
+      }.bind(this)); // eslint-disable-line
   }
 
   upload(files) {
@@ -146,7 +179,7 @@ export default class UploadField extends Component {
          this.setState({
            uploads: this.state.uploads,
          });
-        }.bind(this))
+        }.bind(this)) // eslint-disable-line
         .end(function handleResponse(err, res) { // eslint-disable-line
 
           this.state.uploads[index].isUploading = false;
@@ -158,7 +191,7 @@ export default class UploadField extends Component {
             delete this.state.uploads[index].request;
             this.state.uploads[index].ok = true;
             this.state.uploads[index].url = res.text;
-            this.state.uploads[index].fileName = res.text.split('/')[res.text.split('/').length - 1];
+            this.state.uploads[index].fileName = last(res.text.split('/'));
           }
 
           log('Finished uploading %s of %s', i + 1, files.length, this.state.uploads[index].fileName);
@@ -176,9 +209,7 @@ export default class UploadField extends Component {
             onUploadEnd();
           }
 
-       }.bind(this));
-
-
+       }.bind(this)); // eslint-disable-line
     });
 
     if (onUploadStart) {
@@ -194,12 +225,16 @@ export default class UploadField extends Component {
 
     return (
       <div className="UploadField" style={{ position: 'relative' }}>
-        <Dropzone accept="image/x-png, image/jpeg" disableClick onDrop={ this.upload } className="UploadField-dropzone" ref="dropzone">
-        <FormField block inset label={ this.isUploading() ? uploadingLabel : label } name={ name }>
-          { uploads.map((upload, i) => <File key={ i } upload={ upload } onDeleteClick={ this.delete } />) }
-          { uploads.length < maxFiles && <div className="UploadField-add" ref="dropzone" onClick={ () => this.refs.dropzone.open() }></div> }
-        </FormField>
+      <FormField block label={ this.isUploading() ? uploadingLabel : label } name={ name }>
+        <Dropzone accept="image/x-png, image/jpeg" disableClick onDrop={ this.upload } className="UploadField-dropzone" activeClassName="UploadField-dropzone active" ref="dropzone">
+            <div className="UploadField-instructions">
+              Click on <Icon name="add" size="small" /> or drag files here
+            </div>
+
+            { uploads.map((upload, i) => <File key={ i } upload={ upload } onDeleteClick={ this.delete } />) }
+            { uploads.length < maxFiles && <div className="UploadField-add" ref="dropzone" onClick={ () => this.refs.dropzone.open() }></div> }
         </Dropzone>
+      </FormField>
       </div>
     );
   }
