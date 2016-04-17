@@ -29,9 +29,11 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
         <div className="Card-image" style={ getStyleBackgroundImage(shout.thumbnail, 'medium') } />
       </div>
       <div className="Card-title">
-        { shout.title && <div className="Card-title-max-height ShoutPreview-title" title={shout.title}>
-          { shout.title }
-        </div> }
+        { (shout.title || shout.text) &&
+          <div className="Card-title-max-height ShoutPreview-title" title={shout.title}>
+            { shout.title || shout.text }
+          </div>
+        }
         <div className="ShoutPreview-details">
           <ListItem
             className="ShoutPreview-profile"
@@ -69,7 +71,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onCategoryClick: e => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(push(`/interest/${ownProps.shout.category.name || ownProps.shout.category}`));
+    dispatch(push(`/interest/${ownProps.shout.category.slug || ownProps.shout.category}`));
   },
   onProfileAvatarClick: e => {
     e.preventDefault();
