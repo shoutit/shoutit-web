@@ -42,8 +42,9 @@ export class ShoutModal extends Component {
 
   getShout() {
     const { mode } = this.props;
+    const category = this.categoryPicker.getSelectedCategory();
     return {
-      category: this.categoryPicker.getSelectedCategory(),
+      category: category ? category.slug : null,
       filters: mode === 'update' ? this.categoryPicker.getSelectedFilters() : null,
       currency: this.currencyPicker.getValue() || null,
       images: this.imageUploadField.getValue(),
