@@ -133,12 +133,18 @@ const entities = combineReducers({
 
   shouts: entity({
     name: 'shouts',
+    mapActionToId: action => action.payload.shout.id,
     mapActionToTempId: action => action.payload.shout.id,
     mapActionToTempEntity: action => action.payload.shout,
     createTypes: [
       actionTypes.CREATE_SHOUT_START,
       actionTypes.CREATE_SHOUT_SUCCESS,
       actionTypes.CREATE_SHOUT_FAILURE,
+    ],
+    updateTypes: [
+      actionTypes.UPDATE_SHOUT_START,
+      actionTypes.UPDATE_SHOUT_SUCCESS,
+      actionTypes.UPDATE_SHOUT_FAILURE,
     ],
   }),
 
