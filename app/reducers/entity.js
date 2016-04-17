@@ -94,6 +94,9 @@ export default function ({
           // Remove the temp entity and add the new entity
           return merge({}, omit(state, mapActionToTempId(action)), action.payload.entities[name]);
         case updateStartType:
+          return merge({}, state, {
+            [mapActionToId(action)]: updateEntity(mapActionToTempEntity(action), action),
+          });
         case updateFailureType:
           const id = mapActionToId(action);
           return merge({}, state, {
