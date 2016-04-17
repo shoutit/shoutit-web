@@ -10,7 +10,7 @@ export default class Modal extends React.Component {
     rootClose: PropTypes.bool,
     children: PropTypes.node,
     title: PropTypes.string,
-    size: PropTypes.oneOf(['small', 'medium', 'large'])
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
   };
 
   static defaultProps = {
