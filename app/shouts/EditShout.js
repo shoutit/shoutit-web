@@ -6,10 +6,6 @@ import Button from '../ui/Button';
 import { updateShout, amendShout } from '../actions/shouts';
 
 import ShoutForm from './ShoutForm';
-//
-// if (process.env.BROWSER) {
-//   require('./EditShout.scss');
-// }
 
 export class EditShout extends Component {
 
@@ -26,25 +22,32 @@ export class EditShout extends Component {
     this.updateShout = this.updateShout.bind(this);
   }
 
+  state = {
+    isUploading: false,
+  }
+
   componentWillUnmount() {
     const { dispatch, shout } = this.props;
     dispatch(amendShout(shout, { updateError: null }));
   }
 
   updateShout(shout) {
+    if (shout.isUpdating || this.state.isUploading) {
+      return;
+    }
+
     const { dispatch, onSuccess } = this.props;
     shout = {
       ...this.props.shout,
       ...shout,
     };
-    if (shout.isUpdating) {
-      return;
-    }
+
     dispatch(updateShout(shout)).then(onSuccess);
   }
 
   render() {
     const { shout, onCancel } = this.props;
+    const { isUploading } = this.state;
     return (
       <div className="EditShout">
         <ShoutForm
@@ -53,9 +56,11 @@ export class EditShout extends Component {
           shout={ shout }
           error={ shout.updateError }
           onSubmit={ this.updateShout }
+          onUploadStart={ () => this.setState({ isUploading: true })}
+          onUploadEnd={ () => this.setState({ isUploading: false })}
           actions={[
             <Button type="button" label="Cancel" onClick={ onCancel } disabled={ shout.isUpdating } />,
-            <Button primary label="Publish" disabled={ shout.isUpdating } />,
+            <Button primary label="Publish" disabled={ shout.isUpdating || isUploading } />,
           ]}
         />
       </div>

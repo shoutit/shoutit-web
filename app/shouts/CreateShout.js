@@ -35,6 +35,10 @@ export class CreateShout extends Component {
     this.handleCancelClick = this.handleCancelClick.bind(this);
   }
 
+  state = {
+    isUploading: false,
+  }
+
   componentWillUnmount() {
     this.amendShout({ createError: null, type: null });
   }
@@ -49,7 +53,7 @@ export class CreateShout extends Component {
   createShout() {
     const { dispatch, shout, loggedUser, onSuccess } = this.props;
 
-    if (shout.isCreating) {
+    if (shout.isCreating || this.state.isUploading) {
       return;
     }
     dispatch(createShout(loggedUser, shout)).then(payload => {
@@ -83,6 +87,7 @@ export class CreateShout extends Component {
 
   render() {
     const { shout, error } = this.props;
+    const { isUploading } = this.state;
     return (
       <div className="CreateShout">
           { !shout.type ?
@@ -103,9 +108,11 @@ export class CreateShout extends Component {
                 onChange={ data => this.amendShout({ ...data, createError: null }) }
                 onSubmit={ this.createShout }
                 onCancel={ this.handleCancelClick }
+                onUploadStart={ () => this.setState({ isUploading: true })}
+                onUploadEnd={ () => this.setState({ isUploading: false })}
                 actions={[
                   <Button type="button" label="Cancel" onClick={ this.handleCancelClick } disabled={ shout.isCreating } />,
-                  <Button primary label="Publish" disabled={ shout.isCreating } />,
+                  <Button primary label="Publish" disabled={ shout.isCreating || isUploading } />,
                 ]}
               />
             </div>
