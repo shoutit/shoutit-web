@@ -5,6 +5,7 @@ import Form from '../ui/Form';
 import LocationField from '../ui/LocationField';
 import Picker from '../ui/Picker';
 import TextField from '../ui/TextField';
+import TextArea from '../ui/TextArea';
 import CurrencyField from '../ui/CurrencyField';
 import UploadField from '../ui/UploadField';
 
@@ -46,6 +47,7 @@ export class ShoutModal extends Component {
       location: this.locationField.getValue(),
       mobile: this.mobileField.getValue(),
       price: this.priceField.getValue(),
+      text: this.TextField.getValue(),
       title: this.titleField.getValue(),
     };
   }
@@ -57,6 +59,7 @@ export class ShoutModal extends Component {
   locationField = null;
   mobileField = null;
   priceField = null;
+  TextField = null;
   titleField = null;
 
   handleSubmit() {
@@ -104,6 +107,21 @@ export class ShoutModal extends Component {
           error={ error }
         />
 
+        { mode === 'update' &&
+
+            <TextArea
+              ref={ el => { this.TextField = el; }}
+              name="text"
+              placeholder="Description"
+              disabled={ disabled }
+              block
+              defaultValue={ shout.text }
+              onChange={ text => this.handleChange({ text }) }
+              error={ error }
+            />
+        }
+
+
         <CurrencyField
           ref={ el => { this.priceField = el; }}
           type="text"
@@ -134,6 +152,7 @@ export class ShoutModal extends Component {
           } />
 
         <Picker
+          label="Category"
           ref={ el => { this.categoryPicker = el; }}
           name="category.slug"
           disabled={ disabled }
