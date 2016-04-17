@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import FormField from './FormField';
 
-export default class Picker extends Component {
+export default class TextArea extends Component {
   getValue() {
     return this.refs.field.getValue();
   }
@@ -11,13 +11,14 @@ export default class Picker extends Component {
   blur() {
     this.refs.field.blur();
   }
+  select() {
+    this.refs.field.select();
+  }
   render() {
-    const { children } = this.props;
-    return <FormField { ...this.props } field="select" ref="field">{ children }</FormField>;
+    return <FormField { ...this.props } field="textarea" ref="field" />;
   }
 }
 
-Picker.propTypes = {
+TextArea.propTypes = {
   type: PropTypes.string,
-  children: PropTypes.node,
 };

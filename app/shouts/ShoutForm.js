@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import CategoryPicker from '../ui/CategoryPicker';
+import CurrencyField from '../ui/CurrencyField';
 import Form from '../ui/Form';
 import LocationField from '../ui/LocationField';
 import Picker from '../ui/Picker';
+import TextArea from '../ui/TextArea';
 import TextField from '../ui/TextField';
-import CurrencyField from '../ui/CurrencyField';
 import UploadField from '../ui/UploadField';
 
 if (process.env.BROWSER) {
@@ -39,13 +41,17 @@ export class ShoutModal extends Component {
   }
 
   getShout() {
+    const { mode } = this.props;
+    const category = this.categoryPicker.getSelectedCategory();
     return {
-      category: this.categoryPicker.getValue(),
+      category: category ? category.slug : null,
+      filters: mode === 'update' ? this.categoryPicker.getSelectedFilters() : null,
       currency: this.currencyPicker.getValue() || null,
       images: this.imageUploadField.getValue(),
       location: this.locationField.getValue(),
       mobile: this.mobileField.getValue(),
       price: this.priceField.getValue(),
+      text: mode === 'update' ? this.textField.getValue() : null,
       title: this.titleField.getValue(),
     };
   }
@@ -57,6 +63,7 @@ export class ShoutModal extends Component {
   locationField = null;
   mobileField = null;
   priceField = null;
+  textField = null;
   titleField = null;
 
   handleSubmit() {
@@ -71,7 +78,6 @@ export class ShoutModal extends Component {
 
   render() {
     const { currencies, categories, error, shout, disabled, actions, inputRef, mode } = this.props;
-
     return (
       <Form
         ref={ el => {
@@ -80,16 +86,16 @@ export class ShoutModal extends Component {
           }
         }} onSubmit={ this.handleSubmit } error={ error } actions={ actions }>
 
-          <UploadField
-            ref={ el => { this.imageUploadField = el; }}
-            name="images"
-            resourceType="shout"
-            label={ mode === 'update' ? 'Edit photos' : 'Add photos' }
-            disabled={ disabled }
-            urls={ shout.images }
-            onChange={ images => this.handleChange({ images }) }
-            error={ error }
-          />
+        <UploadField
+          ref={ el => { this.imageUploadField = el; }}
+          name="images"
+          resourceType="shout"
+          label={ mode === 'update' ? 'Edit photos' : 'Add photos' }
+          disabled={ disabled }
+          urls={ shout.images }
+          onChange={ images => this.handleChange({ images }) }
+          error={ error }
+        />
 
         <TextField
           ref={ el => { this.titleField = el; }}
@@ -103,6 +109,19 @@ export class ShoutModal extends Component {
           onChange={ title => this.handleChange({ title }) }
           error={ error }
         />
+
+        { mode === 'update' &&
+          <TextArea
+            ref={ el => { this.textField = el; }}
+            name="text"
+            placeholder="Description"
+            disabled={ disabled }
+            block
+            defaultValue={ shout.text }
+            onChange={ text => this.handleChange({ text }) }
+            error={ error }
+          />
+        }
 
         <CurrencyField
           ref={ el => { this.priceField = el; }}
@@ -133,21 +152,20 @@ export class ShoutModal extends Component {
             </Picker>
           } />
 
-        <Picker
-          ref={ el => { this.categoryPicker = el; }}
+        <CategoryPicker
+          inputRef={ el => { this.categoryPicker = el; }}
+          showFilters={ mode === 'update' }
+          label="Category"
+          filtersClassName="Form-inset-small"
           name="category.slug"
           disabled={ disabled }
           block
-          defaultValue={ shout.category }
-          onChange={ category => this.handleChange({ category }) }
-          error={ error }>
-            <option value="">Choose a category</option>
-            { categories.map(({ slug, name }) =>
-              <option value={ slug } key={ slug }>
-                { name }
-              </option>
-            )}
-        </Picker>
+          selectedCategorySlug={ shout.category ? (shout.category.slug || shout.category) : '' }
+          selectedFilters={ shout.filters }
+          onChange={ category =>
+            this.handleChange({ category, filters: this.categoryPicker.getSelectedFilters() })
+          }
+          error={ error } />
 
         <LocationField
           onChange={ location => this.handleChange({ location }) }

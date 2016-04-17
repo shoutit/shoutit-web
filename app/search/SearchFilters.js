@@ -5,7 +5,7 @@ import isEqual from 'lodash/lang/isEqual';
 import Button from '../ui/Button';
 import Form from '../ui/Form';
 import LocationField from '../ui/LocationField';
-import Picker from '../ui/Picker';
+import CategoryPicker from '../ui/CategoryPicker';
 import SegmentedControl from '../ui/SegmentedControl';
 import TextField from '../ui/TextField';
 
@@ -50,7 +50,7 @@ export class SearchFilters extends Component {
       country: location.country,
       search: this.refs.search.getValue() || undefined,
       shout_type: this.refs.shout_type.getValue(),
-      category: this.refs.category.getValue(),
+      category: this.state.category,
       filters: this.state.filters,
       min_price: parseInt(this.refs.min_price.getValue(), 10) || undefined,
       max_price: parseInt(this.refs.max_price.getValue(), 10) || undefined,
@@ -60,7 +60,7 @@ export class SearchFilters extends Component {
 
   getStateFromProps(props) {
     return {
-      category: props.searchParams.category || 'all',
+      category: props.searchParams.category || '',
       shout_type: props.searchParams.shout_type || 'all',
       min_price: props.searchParams.min_price || '',
       max_price: props.searchParams.max_price || '',
@@ -80,13 +80,8 @@ export class SearchFilters extends Component {
   }
 
   render() {
-    const { categories, disabled, searchParams } = this.props;
-    const { category, shout_type, min_price, max_price, search } = this.state;
-    let filters = [];
-    const selectedCategory = categories.find(({ slug }) => slug === category);
-    if (selectedCategory && selectedCategory.filters) {
-      filters = selectedCategory.filters.filter(filter => filter.values.length > 0);
-    }
+    const { disabled, searchParams } = this.props;
+    const { category, shout_type, min_price, max_price, search, filters } = this.state;
 
     return (
       <div className="SearchFilters">
@@ -123,53 +118,18 @@ export class SearchFilters extends Component {
             onChange={ search => this.setState({ search }) }
           />
 
-          <Picker
-            className="SearchFilters-input"
-            block
-            label="Category"
-            disabled={ disabled }
-            ref="category"
-            name="category"
-            defaultValue={ category }
-            onChange={ category => this.setState({ category, filters: {} }) }
-          >
-            <option value="all">All categories</option>
-            { categories.map(({ slug, name }) =>
-              <option value={ slug } key={ slug }>
-                { name }
-              </option>
-            )}
-          </Picker>
-
-          { filters.length > 0 &&
-            <div className="Form-inset-small">
-              { filters.map(filter =>
-                  <span key={ filter.name }>
-                    <Picker
-                      className="SearchFilters-input"
-                      block
-                      label={ filter.name }
-                      name={ filter.slug }
-                      disabled={ disabled }
-                      defaultValue={ this.state.filters[filter.slug] || 'all' }
-                      onChange={ value =>
-                        this.setState({
-                          filters: {
-                            ...this.state.filters,
-                            [filter.slug]: value,
-                          } })
-                        }
-                    >
-                      <option value="all">All</option>
-                      { filter.values.map(value =>
-                        <option value={ value.slug } key={ value.slug }>{ value.name}</option>
-                      )}
-                    </Picker>
-                  </span>
-                )
-              }
-            </div>
+        <CategoryPicker
+          filtersClassName="Form-inset-small"
+          selectedCategorySlug={ category }
+          selectedFilters={ filters }
+          showFilters
+          onChange={ (category, filters) =>
+            this.setState({
+              category: category ? category.slug : '',
+              filters,
+            })
           }
+        />
 
         <TextField
           autoComplete="off"

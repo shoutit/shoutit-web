@@ -13,6 +13,9 @@
     background-repeat: no-repeat;
     background-position: 100%;
   }
+  textarea {
+    @include field();
+  }
   .field-element-wrapper {
     flex: 1;
   }

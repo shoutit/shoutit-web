@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import throttle from 'lodash/function/throttle';
+import debug from 'debug';
 
 import CountryFlag from '../ui/CountryFlag';
 
@@ -11,6 +12,8 @@ import { loadPlacePredictions, resetPlacePredictionsLastInput } from '../actions
 
 import Overlay from '../ui/Overlay';
 import FormField from './FormField';
+
+const log = debug('shoutit:ui:LocationField');
 
 export class LocationField extends Component {
   static propTypes = {
@@ -137,16 +140,13 @@ export class LocationField extends Component {
       showOverlay: false,
       error: null,
     });
-    const previousInput = this.props.lastInput;
     this.blur();
+    log('Start geocoding place with id %s', prediction.placeId);
     geocodePlace(prediction.placeId, (err, location) => {
       this.setState({ isGeocoding: false }, () => {
-        const { lastInput, onChange } = this.props;
-        if (lastInput !== previousInput) {
-          // ignore reponses arriving too late
-          return;
-        }
+        const { onChange } = this.props;
         if (location && location.city) {
+          log('Found location geocoding %s', prediction.placeId, location);
           const value = formatLocation(location);
           this.setState({ location, value });
           if (onChange) {
@@ -154,6 +154,7 @@ export class LocationField extends Component {
           }
           return;
         }
+        log('Could not geocode %s, showing error', prediction.placeId);
         // Prediction couldn't be geocoded
         this.setState({
           location: null,
@@ -218,7 +219,7 @@ export class LocationField extends Component {
               inputRef(this);
             }
           }}
-          field={ <input ref="input" /> } />
+          field="input" />
         <Overlay
           rootClose
           onHide={ () => {

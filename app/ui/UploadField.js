@@ -40,6 +40,7 @@ File.propTypes = {
 export default class UploadField extends Component {
 
   static propTypes = {
+    name: PropTypes.string,
     label: PropTypes.string,
     onChange: PropTypes.func,
     maxFiles: PropTypes.number,
@@ -135,12 +136,12 @@ export default class UploadField extends Component {
   }
 
   render() {
-    const { label, maxFiles } = this.props;
+    const { label, maxFiles, name } = this.props;
     const { uploads } = this.state;
     return (
       <div className="UploadField" style={{ position: 'relative' }}>
         <Dropzone accept="image/x-png, image/jpeg" disableClick onDrop={ this.upload } className="UploadField-dropzone" ref="dropzone">
-        <FormField block inset label={ label }>
+        <FormField block inset label={ label } name={ name }>
           { uploads.map((upload, i) => <File key={ i } upload={ upload } onDeleteClick={ this.delete } />) }
           { uploads.length < maxFiles && <div className="UploadField-add" ref="dropzone" onClick={ () => this.refs.dropzone.open() }></div> }
         </FormField>

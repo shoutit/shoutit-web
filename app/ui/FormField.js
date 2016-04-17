@@ -22,7 +22,7 @@ ValidationError.propTypes = {
 export default class FormField extends Component {
 
   static propTypes = {
-    field: PropTypes.element,
+    field: PropTypes.string,
     children: PropTypes.node,
     name: PropTypes.string.isRequired,
 
@@ -51,7 +51,6 @@ export default class FormField extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // value: props.value || '',
       error: props.error,
       focus: false,
     };
@@ -147,8 +146,9 @@ export default class FormField extends Component {
 
     let fieldElement;
     if (field) {
-      fieldElement = React.cloneElement(field, {
+      fieldElement = React.createElement(field, {
         ...props,
+        children,
         autoFocus: !!error,
         ref: el => {
           this.field = el;
