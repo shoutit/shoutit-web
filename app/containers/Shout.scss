@@ -15,10 +15,20 @@
     margin-bottom: 0;
   }
 
+  .Page-body {
+    display: flex;
+    flex-direction: column;
+    > .Shout {
+      flex: 1;
+    }
+  }
 
 }
 
 .Shout {
+  margin-top: .75rem;
+  margin-bottom: .5rem;
+
   position: relative;
   padding: .5rem 1rem;
   padding-top: 0;
@@ -44,8 +54,7 @@
 }
 
 .Shout-gallery {
-  width: 720px;
-  min-height: 540px;
+  width: 100%;
   margin: .5rem auto;
 }
 
@@ -88,6 +97,7 @@
 .Shouts-related {
   width: $content-width;
   margin: 1rem auto;
+  margin-top: 4rem;
   padding: 0 1rem;
 
   h2 {

@@ -14,8 +14,13 @@ import EditShoutButton from '../shouts/EditShoutButton';
 import ShoutPrice from '../shouts/ShoutPrice';
 import ShoutPreview from '../shouts/ShoutPreview';
 
+import SuggestedShout from '../shouts/SuggestedShout';
+import SuggestedInterests from '../interests/SuggestedInterests';
+import SuggestedProfiles from '../users/SuggestedProfiles';
+
 import Button from '../ui/Button';
 import Card from '../ui/Card';
+import CardWithList from '../ui/CardWithList';
 import Gallery from '../ui/Gallery';
 import ListItem from '../ui/ListItem';
 import NewlineToBreak from '../ui/NewlineToBreak';
@@ -47,9 +52,6 @@ function ShoutActions({ shout, onReplyClick }) {
         </div> :
         <div>
           <Button onClick={ onReplyClick } size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Reply to this Shout" />
-          <p className="htmlAncillary">
-            Start chatting with { shout.profile.firstName } if you are interested on this.
-          </p>
         </div>
       }
 
@@ -94,14 +96,19 @@ export class Shout extends Component {
     dispatch(startShoutReply(loggedUser, shout));
   }
 
-  renderEndColumn() {
+  renderStartColumn() {
     const { shout } = this.props;
 
     return [
       <ShoutActions shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
-      <Card block key="profile">
-        <ProfilePreview style={{ width: '100%' }} id={ shout.profile.id } />
-      </Card>,
+      <CardWithList block key="profile" style={{ padding: '.5rem'}}>
+        <ProfileListItem tooltipPlacement="right" profile={ shout.profile } />
+        <ListItem start={ <Icon name="clock" active /> }>
+          <TimeAgo date={ shout.datePublished } />
+        </ListItem>
+        <LocationListItem location={ shout.location } />
+        <CategoryListItem category={ shout.category } />
+      </CardWithList>,
     ];
   }
 
@@ -125,16 +132,9 @@ export class Shout extends Component {
     const { shout } = this.props;
     return (
       <div className="Shout">
+
         <div className="Shout-title">
           <h1>{ shout.title || shout.text }</h1>
-          <div className="Shout-header">
-            <ProfileListItem tooltipPlacement="bottom" profile={ shout.profile } />
-            <ListItem size="small" start={ <Icon name="clock" active size="small" /> }>
-              <TimeAgo date={ shout.datePublished } />
-            </ListItem>
-            <LocationListItem size="small" location={ shout.location } />
-            <CategoryListItem size="small" category={ shout.category } />
-          </div>
         </div>
 
         { (shout.images && shout.images.length > 0 || shout.videos && shout.videos.length > 0) &&
@@ -152,17 +152,27 @@ export class Shout extends Component {
               </p>
               }
             </div>
-          <div className="Shout-card">
+          {/*<div className="Shout-card">
+
             <ListItem start={ <Icon name="clock" active /> }>
               <TimeAgo date={ shout.datePublished } />
             </ListItem>
 
-            <CategoryListItem size="medium" category={ shout.category } />
             <LocationListItem size="medium" location={ shout.location } />
+
+            <CategoryListItem size="medium" category={ shout.category } />
+
+            { shout.filters && shout.filters.length > 0 &&
+              shout.filters.map((filter, i) =>
+                <ListItem key={ i } start={ <span>{ filter.name} </span> }>
+                  { filter.value.name }
+                </ListItem>
+
+            )}
 
             { <ShoutActions shout={ shout } onReplyClick={ () => this.startShoutReply() } /> }
 
-          </div>
+          </div>*/}
         </div>
       </div>
     );
@@ -176,8 +186,13 @@ export class Shout extends Component {
         <Page title={ shout ? shout.title : null }
           className="ShoutPage"
           miniFooter={ false }
-          stickyEndColumn
-          endColumn={ this.renderEndColumn() }>
+          stickyStartColumn
+          startColumn={ this.renderStartColumn() }
+          endColumn={[
+            <SuggestedInterests />,
+            <SuggestedProfiles />,
+            <SuggestedShout />,
+          ]}>
 
           { !shout && <Progress animate /> }
 
