@@ -12,11 +12,10 @@ import TextField from './TextField';
 export default class CurrencyField extends Component {
   constructor(props) {
     super(props);
-    // this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    // this.handleBlur = this.handleBlur.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
     this.state = {
-      value: isNaN(props.value) ? '' : props.value / 100,
+      value: (!props.defaultValue || isNaN(props.defaultValue)) ? '' : props.defaultValue / 100,
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -51,10 +50,20 @@ export default class CurrencyField extends Component {
       if (onChange) {
         onChange(null, e);
       }
+      this.setState({ value: e.target.value });
       return;
     }
     if (onChange) {
       onChange(round(value * 100, 2), e);
+    }
+    this.setState({ value });
+  }
+  handleBlur(e) {
+    const value = e.target.value;
+    if (!value || isNaN(value)) {
+      this.setState({ value: '' });
+    } else {
+      this.setState({ value: round(value, 2) });
     }
   }
   render() {
@@ -63,6 +72,7 @@ export default class CurrencyField extends Component {
       <TextField
         { ...this.props }
         value={ value }
+        onBlur={ this.handleBlur }
         onChange={ this.handleChange }
       />
     );
@@ -70,6 +80,6 @@ export default class CurrencyField extends Component {
 }
 
 CurrencyField.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
 };
