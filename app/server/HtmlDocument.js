@@ -2,6 +2,7 @@
 
 import React, { PropTypes } from 'react';
 import serialize from 'serialize-javascript';
+import newrelic from 'newrelic';
 
 import * as config from '../config';
 
@@ -69,6 +70,7 @@ export default function HtmlDocument({
         { process.env.NODE_ENV === 'production' &&
           <link rel="stylesheet" type="text/css" href={ `${config.publicUrl}${chunkNames.css}` } /> }
 
+        { process.env.NEW_RELIC_APP_NAME && <script dangerouslySetInnerHTML={ { __html: newrelic.getBrowserTimingHeader() } } /> }
       </head>
 
       <body>
