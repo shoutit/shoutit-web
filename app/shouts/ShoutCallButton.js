@@ -45,7 +45,7 @@ export class ShoutCallButton extends Component {
 
     if (!shout.mobile && !shout.isUpdating) {
       return (
-        <Tooltip placement="right" overlay="Click to reveal the number to call">
+        <Tooltip placement="right" overlay="Click to reveal">
           { button }
         </Tooltip>
       );
