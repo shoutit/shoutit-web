@@ -140,7 +140,6 @@ export class LocationField extends Component {
       showOverlay: false,
       error: null,
     });
-    // const previousInput = this.props.lastInput;
     this.blur();
     log('Start geocoding place with id %s', prediction.placeId);
     geocodePlace(prediction.placeId, (err, location) => {
