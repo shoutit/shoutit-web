@@ -70,7 +70,7 @@ export function formatLocation(location) {
   if (location.city) {
     values.push(location.city);
   }
-  if (location.state) {
+  if (location.state && location.state !== location.city) {
     values.push(location.state);
   }
   if (location.country) {
