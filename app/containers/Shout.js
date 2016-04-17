@@ -58,7 +58,7 @@ function ShoutActions({ shout, onReplyClick }) {
         </div> :
         <div>
           <Button style={ buttonStyle } block onClick={ onReplyClick } size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Reply to this Shout" />
-          { shout.isMobileSet && <ShoutCallButton shout={ shout }  style={ buttonStyle } block /> }
+          { shout.isMobileSet && <ShoutCallButton shout={ shout } style={ buttonStyle } block /> }
         </div>
       }
 
@@ -159,34 +159,13 @@ export class Shout extends Component {
 
         <div className="Shout-body">
           <div className="Shout-text">
-              { shout.text && <p>
-                <NewlineToBreak>
-                  { shout.text }
-                </NewlineToBreak>
-              </p>
-              }
-            </div>
-          {/*<div className="Shout-card">
-
-            <ListItem start={ <Icon name="clock" active /> }>
-              <TimeAgo date={ shout.datePublished } />
-            </ListItem>
-
-            <LocationListItem size="medium" location={ shout.location } />
-
-            <CategoryListItem size="medium" category={ shout.category } />
-
-            { shout.filters && shout.filters.length > 0 &&
-              shout.filters.map((filter, i) =>
-                <ListItem key={ i } start={ <span>{ filter.name} </span> }>
-                  { filter.value.name }
-                </ListItem>
-
-            )}
-
-            { <ShoutActions shout={ shout } onReplyClick={ () => this.startShoutReply() } /> }
-
-          </div>*/}
+            { shout.text && <p>
+              <NewlineToBreak>
+                { shout.text }
+              </NewlineToBreak>
+            </p>
+            }
+          </div>
         </div>
       </div>
     );
@@ -207,14 +186,10 @@ export class Shout extends Component {
             <SuggestedProfiles />,
             <SuggestedShout />,
           ]}>
-
           { !shout && <Progress animate /> }
-
           { shout && this.renderShout() }
         </Page>
-
         { shout && this.renderRelatedShouts() }
-
       </div>
     );
   }

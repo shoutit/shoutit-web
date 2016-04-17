@@ -71,7 +71,10 @@ export default function HtmlDocument({
           <link rel="stylesheet" type="text/css" href={ `${config.publicUrl}${chunkNames.css}` } /> }
 
         { process.env.NEW_RELIC_APP_NAME &&
-          <script type="text/javascript" dangerouslySetInnerHTML={ { __html: newrelic.getBrowserTimingHeader() } } /> }
+          <script type="text/javascript" dangerouslySetInnerHTML={ {
+            __html: newrelic.getBrowserTimingHeader().replace(/<\/?script[^>]*>/g, '') } }
+          />
+        }
       </head>
 
       <body>
