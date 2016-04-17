@@ -22,4 +22,5 @@ export default function FilterListItem({ category, filter, size = 'medium' }) {
 FilterListItem.propTypes = {
   size: PropTypes.oneOf(['small', 'medium', 'large']),
   filter: PropTypes.object.isRequired,
+  category: PropTypes.object.isRequired,
 };
