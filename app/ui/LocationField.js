@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import throttle from 'lodash/function/throttle';
 
+import CountryFlag from '../ui/CountryFlag';
+
 import { ESCAPE, ENTER } from '../utils/keycodes';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
 import { loadPlacePredictions, resetPlacePredictionsLastInput } from '../actions/location';
 
 import Overlay from '../ui/Overlay';
-
 import FormField from './FormField';
 
 export class LocationField extends Component {
@@ -195,7 +196,7 @@ export class LocationField extends Component {
   }
   render() {
     const { inputRef, name, ...props } = this.props; // eslint-disable-line
-    const { readOnly, value, showOverlay, hasFocus, error } = this.state;
+    const { readOnly, value, showOverlay, hasFocus, error, location } = this.state;
     return (
       <div className="LocationField" style={{ position: 'relative' }}>
         <FormField
@@ -210,6 +211,7 @@ export class LocationField extends Component {
           onBlur={ this.handleBlur }
           onChange={ this.handleChange }
           onKeyDown={ this.handleKeyDown }
+          startElement={ location && <CountryFlag code={ location.country } /> }
           ref={ el => {
             this.field = el;
             if (inputRef) {
