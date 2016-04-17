@@ -7,7 +7,7 @@ import Button from '../ui/Button';
 import Modal from '../ui/Modal';
 
 import HeaderMessagesButton from '../header/HeaderMessagesButton';
-import HeaderNotificationsButton from '../header/HeaderNotificationsButton';
+// import HeaderNotificationsButton from '../header/HeaderNotificationsButton';
 import HeaderProfileButton from '../header/HeaderProfileButton';
 import CreateShout from '../shouts/CreateShout';
 import Searchbar from '../search/Searchbar';
@@ -98,7 +98,7 @@ export class Header extends Component {
         { this.props.isLoggedIn ?
           <div className="Header-tools loggedIn">
             <HeaderMessagesButton overlayContainer={ this } />
-            <HeaderNotificationsButton overlayContainer={ this } />
+            {/*<HeaderNotificationsButton overlayContainer={ this } />*/}
             <Button
               onClick={ this.handleNewShoutClick }
               primary

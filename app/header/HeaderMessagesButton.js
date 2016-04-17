@@ -35,11 +35,11 @@ export class HeaderMessagesButton extends Component {
   }
 
   render() {
-    // const { badge } = this.props;
+    const { badge } = this.props;
     return (
       <span>
         <Link to="/messages" onClick={ this.showOverlay } style={{ position: 'relative' }}>
-          <Icon ref="icon" name="balloon-dots" badge={ 0 } />
+          <Icon ref="icon" name="balloon-dots" badge={ badge } />
         </Link>
         <Overlay
           arrow
