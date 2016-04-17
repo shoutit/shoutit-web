@@ -1,0 +1,18 @@
+@import '../styles/constants';
+
+ul .FilterListItem {
+  .ListItem-start {
+    flex-basis: 30%;
+    font-size: 0.875em;
+    color: $color-light;
+  }
+  a {
+    color: $color;
+    &:hover {
+      opacity: .7;
+    }
+  }
+  border-top: 1px solid $border-color;
+  padding: .5em 0;
+  margin: 0;
+}

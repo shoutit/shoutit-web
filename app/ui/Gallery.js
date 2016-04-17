@@ -27,14 +27,12 @@ export default class Gallery extends Component {
   renderItem(item) {
     if (item.type === 'image') {
       return (
-        <a href={ item.url } target="_blank">
-          <img src={ getVariation(item.url, 'large') } />
-        </a>
+        <img src={ getVariation(item.url, 'large') } />
       );
     } else if (item.type === 'video') {
       return (
         <span className="Gallery-video">
-        <video src={ item.url } controls />
+          <video src={ item.url } controls />
         </span>
       );
     }
