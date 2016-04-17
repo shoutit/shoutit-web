@@ -112,10 +112,10 @@ export class Search extends Component {
     const query = [];
 
     // TODO: this should go into an external module
-    if (shout_type !== 'all' || (category && category !== 'all')) {
+    if (shout_type !== 'all' || category) {
       url += `/${shout_type}`;
     }
-    if (category !== 'all') {
+    if (category) {
       url += `/${category}`;
     }
 

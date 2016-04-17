@@ -146,7 +146,6 @@ export default class FormField extends Component {
 
     let fieldElement;
     if (field) {
-      console.log(field);
       fieldElement = React.createElement(field, {
         ...props,
         children,
