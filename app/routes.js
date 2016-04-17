@@ -46,7 +46,7 @@ const routes = (store) =>
     <Route path="/search(/:shout_type)(/:category)" component={ Search } />
     <Route path="/shout/:id" component={ Shout } getApplicationLayout={ () => ({ showFooter: true })} />
     <Route path="/interest(/:tagName)" component={ Interest } />
-    <Route path="/user(/:username)" component={ Profile } />
+    <Route path="/user(/:username)" component={ Profile } getApplicationLayout={ () => ({ showFooter: true })} />
     <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true })} />
     <Route path="/discover(/:countryName)(/:id)" component={ Discover } />
     <Route path="/messages(/:conversationId)" component={ Chat } />
