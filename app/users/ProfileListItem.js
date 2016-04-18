@@ -28,7 +28,6 @@ export default function ProfileListItem({
   }
   return (
     <Tooltip
-      destroyTooltipOnHide
       white
       placement={ tooltipPlacement }
       overlay={ overlay }

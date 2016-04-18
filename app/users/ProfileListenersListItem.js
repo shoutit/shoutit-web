@@ -18,4 +18,5 @@ export default function ProfileListenersListItem({ profile, size = 'small' }) {
 
 ProfileListenersListItem.propTypes = {
   profile: PropTypes.object.isRequired,
+  size: PropTypes.oneOf(['small', 'medium']),
 };

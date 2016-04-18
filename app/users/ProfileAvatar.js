@@ -11,7 +11,7 @@ if (process.env.BROWSER) {
 export default class ProfileAvatar extends Component {
 
   static propTypes = {
-    user: PropTypes.user.isRequired,
+    user: PropTypes.object.isRequired,
     tooltip: PropTypes.bool,
     linkToProfilePage: PropTypes.bool,
     placeholder: PropTypes.bool,
