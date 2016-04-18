@@ -24,14 +24,14 @@ export default class Gallery extends Component {
     selectedIndex: 0,
   };
 
-  renderItem(item) {
+  renderItem(item, i) {
     if (item.type === 'image') {
       return (
-        <img src={ getVariation(item.url, 'large') } />
+        <img key={ `image-${i}` } src={ getVariation(item.url, 'large') } />
       );
     } else if (item.type === 'video') {
       return (
-        <span className="Gallery-video">
+        <span key={ `video-${i}` } className="Gallery-video">
           <video src={ item.url } controls />
         </span>
       );
@@ -54,10 +54,11 @@ export default class Gallery extends Component {
 
           { items.map((item, i) =>
             <div
+              key={ i }
               className="Gallery-slide"
               style={{ left: `${i * 100 - offset}%`, right: `${i * -100 + offset}%` }}
               >
-              { this.renderItem(item) }
+              { this.renderItem(item, i) }
             </div>
            )}
 
