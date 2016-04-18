@@ -54,16 +54,17 @@ File.propTypes = {
 export default class UploadField extends Component {
 
   static propTypes = {
-    name: PropTypes.string,
-    label: PropTypes.string,
-    uploadingLabel: PropTypes.string,
-    deleteTooltip: PropTypes.string,
-    onChange: PropTypes.func,
-    onUploadStart: PropTypes.func,
-    onUploadEnd: PropTypes.func,
-    maxFiles: PropTypes.number,
     resourceType: PropTypes.oneOf(['shout', 'user', 'tag']).isRequired,
+    name: PropTypes.string.isRequired,
+    deleteTooltip: PropTypes.string,
+    disabled: PropTypes.bool,
     initialFileUrls: PropTypes.array, // existing files to delete
+    label: PropTypes.string,
+    maxFiles: PropTypes.number,
+    onChange: PropTypes.func,
+    onUploadEnd: PropTypes.func,
+    onUploadStart: PropTypes.func,
+    uploadingLabel: PropTypes.string,
   }
 
   static defaultProps = {
