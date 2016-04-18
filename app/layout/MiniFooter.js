@@ -13,10 +13,10 @@ export default function MiniFooter() {
 
       <div className="MiniFooter-apps">
         <a href={appStoreLink} target="_blank">
-          <img src={`${imagesPath}/app-store-badge.png`} height={ 32 } />
+          <img src={`${imagesPath}/app-store-badge.png`} />
         </a>
         <a href={playStoreLink} target="_blank">
-          <img src={`${imagesPath}/google-play-badge.png`} height={ 32 } />
+          <img src={`${imagesPath}/google-play-badge.png`} />
         </a>
       </div>
 
