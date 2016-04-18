@@ -5,6 +5,7 @@ export default function ({
   name,
   createTypes,
   updateTypes,
+  deleteTypes,
   mapActionToId,
   mapActionToTempEntity,
   mapActionToTempId,
@@ -17,6 +18,10 @@ export default function ({
   let updateStartType;
   let updateSuccessType;
   let updateFailureType;
+
+  let deleteStartType;
+  let deleteSuccessType;
+  let deleteFailureType;
 
   if (createTypes) {
     [createStartType, createSuccessType, createFailureType] = createTypes;
@@ -38,6 +43,16 @@ export default function ({
     }
     if (typeof mapActionToId !== 'function') {
       throw new Error('When using updateTypes, expected mapActionToId being a function.');
+    }
+  }
+
+  if (deleteTypes) {
+    [deleteStartType, deleteSuccessType, deleteFailureType] = deleteTypes;
+    if (!Array.isArray(deleteTypes) || deleteTypes.length > 0 && deleteTypes.length < 2) {
+      throw new Error('Expected deleteTypes to be an array of three elements.');
+    }
+    if (typeof mapActionToId !== 'function') {
+      throw new Error('When using deleteTypes, expected mapActionToId being a function.');
     }
   }
 
@@ -78,6 +93,24 @@ export default function ({
           isUpdating: false,
           updateError: action.payload.error || action.payload,
         };
+      case deleteStartType:
+        return {
+          ...entity,
+          isDeleting: true,
+          deleteError: entity.deleteError ? null : undefined,
+        };
+      case deleteSuccessType:
+        return {
+          ...entity,
+          isDeleting: false,
+          deleteError: entity.deleteError ? null : undefined,
+        };
+      case deleteFailureType:
+        return {
+          ...entity,
+          isDeleting: false,
+          deleteError: action.payload.error || action.payload,
+        };
       default:
         return entity;
     }
@@ -105,12 +138,14 @@ export default function ({
             ...action.payload.entities[name],
           };
 
+        case deleteStartType:
         case updateStartType:
           id = mapActionToId(action);
           return {
             ...state,
             [id]: updateEntity(state[id], action),
           };
+        case deleteFailureType:
         case updateFailureType:
           id = mapActionToId(action);
           return {
