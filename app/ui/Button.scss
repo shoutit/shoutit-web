@@ -216,21 +216,20 @@ $border-radius: 5px;
 
   .Button.destructive {
     border: 0;
-    background-color: $si-red;
     &:not(.disabled):hover {
-      background-color: darken($si-red, 10);
+      background-color: darken($shoutit-red, 10);
       .Button-label {
         color: white;
       }
       .Button-icon {
-        background-color: darken($si-red, 20);
+        background-color: darken($shoutit-red, 20);
       }
     }
     .Button-label {
-      color: white;
+      color: $shoutit-red;
     }
     .Button-icon {
-      background-color: darken($si-red, 10);
+      background-color: darken($shoutit-red, 10);
     }
   }
 
