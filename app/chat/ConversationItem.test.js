@@ -1,93 +1,57 @@
-import React from "react";
-import TestUtils from "react-addons-test-utils";
-import { expect } from "chai";
-import { Link } from "react-router";
-import sd from "skin-deep";
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import { expect } from 'chai';
+import { Link } from 'react-router';
+import sd from 'skin-deep';
 
-import ConversationItem from "./ConversationItem";
-import { getUnixTime, formatCreatedAt } from "../../app/utils/DateUtils";
+import ConversationItem from './ConversationItem';
+import { getUnixTime, formatCreatedAt } from '../../app/utils/DateUtils';
 
-describe("ConversationItem", () => {
-  const users =  [{ username: "a", name: "A" }, { username: "b", name: "B" }];
+describe('ConversationItem', () => {
+  const conversation = {
+    id: 100,
+    profiles: [{ username: 'a', name: 'A' }, { username: 'b', name: 'B' }],
+  };
 
-  it("should render correctly", () => {
+  it('should render correctly', () => {
     const tree = sd.shallowRender(
-      <ConversationItem
-        id={100}
-        users={ users }
-      />
+      <ConversationItem conversation={ conversation } />
     );
 
     const output = tree.getRenderOutput();
 
     expect(output.type).to.equal(Link);
-    expect(output.props.to).to.equal("/messages/100");
-    expect(output.props.className).to.contain("ConversationItem");
+    expect(output.props.to).to.equal('/messages/100');
+    expect(output.props.className).to.contain('ConversationItem');
 
-    expect(tree.findNode(".ConversationItem-usersImage")).to.be.defined;
-    expect(tree.findNode(".ConversationItem-body")).to.be.defined;
-    expect(tree.findNode(".ConversationItem-partecipants").props).to.have
-      .property("children", "A, B");
-
-
+    expect(tree.findNode('.ConversationItem-user-avatar')).to.be.defined;
+    expect(tree.findNode('.ConversationItem-body')).to.be.defined;
   });
 
-  it("should use isSelected class", () => {
+  it('should use is-selected class', () => {
     const shallowRenderer = TestUtils.createRenderer();
     shallowRenderer.render(
       <ConversationItem
-        id={100}
         selected
-        users={ users }
+        conversation={ conversation }
       />
     );
 
     const output = shallowRenderer.getRenderOutput();
-    expect(output.props.className).to.contain("isSelected");
+    expect(output.props.className).to.contain('is-selected');
   });
 
-  it("should use isUnread class", () => {
+  it('should use is-unread class', () => {
     const shallowRenderer = TestUtils.createRenderer();
     shallowRenderer.render(
       <ConversationItem
-        id={100}
         unread
-        users={ users }
+        conversation={ conversation }
       />
     );
 
     const output = shallowRenderer.getRenderOutput();
-    expect(output.props.className).to.contain("isUnread");
-  });
-
-  it("should show the title of the shout it is about", () => {
-    const tree = sd.shallowRender(
-      <ConversationItem
-        id={100}
-        type="about_shout"
-        about={{ title: "Foo"} }
-        users={ users }
-      />
-    );
-    expect(tree.findNode(".ConversationItem-aboutShout").props).to.have
-      .property("children", "Foo");
-  });
-
-  it("should show the last message", () => {
-    const created_at = getUnixTime();
-    const tree = sd.shallowRender(
-      <ConversationItem
-        id={100}
-        last_message={{ text: "Bar", created_at } }
-        users={ users }
-      />
-    );
-    expect(tree.findNode(".ConversationItem-lastMessage").props).to.have
-      .property("children", "Bar");
-    expect(tree.findNode(".ConversationItem-createdAt").props).to.have
-      .property("children", formatCreatedAt(created_at));
-
-
+    expect(output.props.className).to.contain('is-unread');
   });
 
 });

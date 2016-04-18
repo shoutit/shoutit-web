@@ -1,58 +1,77 @@
-import React from "react";
-import moment from "moment";
-import { groupByDay, groupByUser, getReadyBy } from "../chat/MessagesUtils";
-import MessageItem from "./MessageItem";
-import UserAvatar from "../users/UserAvatar";
+import React, { PropTypes } from 'react';
+import moment from 'moment';
+import { groupByDay, groupByProfile, getReadyBy } from '../chat/MessagesUtils';
+import MessageItem from './MessageItem';
+import ProfileAvatar from '../users/ProfileAvatar';
 if (process.env.BROWSER) {
-  require("./MessagesList.scss");
+  require('./MessagesList.scss');
 }
 
-function MessagesByDay({ day, messages, loggedUser, partecipants }) {
-  const messagesByUser = groupByUser(messages)
-    .map((byUser, i) => {
+export function MessagesByDay({ day, messages, loggedUser, partecipants }) {
 
-      const { user, messages } = byUser;
-      const isMe = user && user.username === loggedUser.username;
-      let className = "MessagesList";
-      if (isMe) {
-        className += " isMe";
+  const messagesByUser = groupByProfile(messages)
+    .map((byProfile, i) => {
+      const { profile, messages: profileMessages } = byProfile;
+      let className = 'MessagesList';
+      if (profile && profile.isOwner) {
+        className += ' is-me';
       }
       return (
         <div key={ i } className={ className }>
           <div className="MessagesList-user">
-              { user && <UserAvatar user={ user } linkToUserPage tooltip /> }
+            { profile && <ProfileAvatar user={ profile } linkToProfilePage tooltip /> }
           </div>
-          <div  className="MessagesList-messages">
-            { messages.map(message =>
+          <div className="MessagesList-messages">
+            { profileMessages.map(message =>
               <MessageItem
                 key={ message.id }
                 message={ message }
-                isMe={ isMe }
-                readByUsers={ message.user ? getReadyBy(message, partecipants, loggedUser.username) : undefined }
+                readByProfiles={ message.profile ?
+                  getReadyBy(message, partecipants, loggedUser.username) :
+                  undefined
+                }
               />
             )}
           </div>
         </div>
       );
-
     });
 
   return (
     <div>
       <div className="MessagesList-day">
-        <span /><span>{ moment(day).format("ll") }</span><span/>
+        <span /><span>{ moment(day).format('ll') }</span><span />
       </div>
       { messagesByUser }
     </div>
   );
 }
 
+MessagesByDay.propTypes = {
+  day: PropTypes.string.isRequired,
+  messages: PropTypes.array,
+  loggedUser: PropTypes.object,
+  partecipants: PropTypes.array,
+};
+
 export default function MessagesList({ messages, loggedUser, partecipants }) {
   return (
     <div>
-        { groupByDay(messages).map(({day, messages}, i) =>
-          <MessagesByDay key={i} day={ day } loggedUser={ loggedUser } messages={ messages } partecipants={ partecipants } />
-        )}
+      { groupByDay(messages).map((group, i) =>
+        <MessagesByDay
+          key={i}
+          day={ group.day }
+          loggedUser={ loggedUser }
+          messages={ group.messages }
+          partecipants={ partecipants }
+        />
+      )}
     </div>
   );
 }
+
+MessagesList.propTypes = {
+  messages: React.PropTypes.array,
+  loggedUser: React.PropTypes.object,
+  partecipants: React.PropTypes.array,
+};

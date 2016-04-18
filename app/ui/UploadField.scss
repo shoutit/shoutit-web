@@ -1,0 +1,109 @@
+@import '../styles/constants';
+
+.UploadField {
+  .field-wrapper {
+    padding: 0;
+    border: 0;
+  }
+  label {
+    color: $color;
+    font-size: .875em;
+  }
+}
+
+.UploadField-dropzone {
+  display: block;
+  padding: .5em;
+  border-radius: $border-radius-small;
+  background-color: $background-color-light;
+  box-shadow: inset $box-shadow-depth-0;
+  border: 1px solid $border-color-dark;
+
+  &.active {
+    background-color: $background-color;
+  }
+}
+
+.UploadField-instructions {
+  color: $color-lighter;
+  font-size: 0.875rem;
+  text-align: center;
+  margin: .5rem 0;
+  margin-bottom: 1rem;
+}
+
+.UploadField-file,
+.UploadField-add {
+  display: inline-block;
+  width: 4em;
+  height: 4em;
+  margin: 0 .25em;
+  border: 1px solid $border-color-darker;
+  &:first-child {
+    margin-left: 0;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.UploadField-file {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  border: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.UploadField-file-trash {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  width: 100%;
+  cursor: pointer;
+  transition: width .5s;
+  background-color: rgba(black,.5);
+}
+
+.UploadField-file:hover .UploadField-file-trash {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.UploadField-file-percent {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  transition: width .15s;
+  background-color: rgba(0,0,0,.75);
+}
+
+.UploadField-file-error {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transition: width .15s;
+  background-color: rgba(0,0,0,.5);
+}
+
+.UploadField-add {
+  cursor: pointer;
+  border: 1px dashed $border-color-darker;
+  background-color: $background-color-alt;
+  background-image: url('../../assets/icons/add-active.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50%;
+  &:hover {
+    background-color: darken($background-color-alt, 5);
+  }
+}

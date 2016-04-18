@@ -1,17 +1,28 @@
-@import "../styles/constants/dimensions.scss";
+@import "../styles/constants.scss";
 
 .App {
   position: relative;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  &.pattern-background {
+    background-attachment: fixed;
+    background-repeat: 20px/2px repeat;
+    background-size: (366px * 0.75) (600px * 0.75);
+    background-image: url('../../assets/images/pattern@2x.png');
+  }
 }
 
 .App-header {
-  z-index: 2;
+  z-index: $z-index-header;
   width: 100%;
-  position: fixed;
   background-color: white;
-  box-shadow: 0 1px 2px rgba(black, 0.1);
+  box-shadow: $box-shadow-depth-0;
   -webkit-font-smoothing: subpixel-antialiased;
 
+  .App.stickyHeader & {
+    position: fixed;
+  }
   .Header {
     height: $header-height;
     width: $content-width;
@@ -22,11 +33,11 @@
 
 .App-content {
   z-index: 0;
-  width: $content-width;
   margin: 0 auto;
-
+  height: 100%;
+  flex: 1;
   .App.stickyHeader & {
-    padding-top: ($header-height + 10px);
+    padding-top: $header-height;
   }
 
 }

@@ -1,24 +1,24 @@
 /* globals Twilio */
 
-import React from "react";
+import React from 'react';
 
-const TWILIO_NOT_LOADED = "TWILIO_NOT_LOADED";
+const TWILIO_NOT_LOADED = 'TWILIO_NOT_LOADED';
 
 if (process.env.BROWSER) {
-  require("./VideoCallLocalMedia.scss");
+  require('./VideoCallLocalMedia.scss');
 }
 
 export default class VideoCallLocalMedia extends React.Component {
 
   state = {
-    error: null
+    error: null,
   }
 
   componentDidMount() {
 
     if (!Twilio) {
       this.setState({
-        error: new Error(TWILIO_NOT_LOADED)
+        error: new Error(TWILIO_NOT_LOADED),
       });
       return;
     }
@@ -35,9 +35,7 @@ export default class VideoCallLocalMedia extends React.Component {
         .catch(error => {
           this.setState({ error });
         });
-
     });
-
   }
 
   componentWillUnmount() {

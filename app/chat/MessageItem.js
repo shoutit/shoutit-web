@@ -1,86 +1,115 @@
-import React from "react";
-import moment from "moment";
-import { Link } from "react-router";
+import React, { PropTypes } from 'react';
+import moment from 'moment';
+import { Link } from 'react-router';
 
-import MessageReadByFlag from "./MessageReadByFlag";
-import ShoutItem from "../shared/components/shout/ShoutItem.jsx";
-import GoogleStaticMap from "../shared/components/misc/GoogleStaticMap.jsx";
+import MessageReadByFlag from './MessageReadByFlag';
+import ShoutPreview from '../shouts/ShoutPreview';
+import GoogleStaticMap from '../location/GoogleStaticMap';
+import NewlineToBreak from '../ui/NewlineToBreak';
 
 if (process.env.BROWSER) {
-  require("./MessageItem.scss");
+  require('./MessageItem.scss');
 }
 
-export default function MessageItem({ message, isMe, readByUsers=[] }) {
-  const { created_at, sending, text, sendError, attachments=[] } = message;
-  const createdAt = moment.unix(created_at);
+function MessageAttachment({ attachment }) {
+  const { shout, location } = attachment;
+  let content;
+  if (shout) {
+    content = (
+      <Link to={ `/shout/${shout.id}` }>
+        <ShoutPreview shout={ shout } thumbnailRatio={ 16 / 9 } showProfile={ false } />
+      </Link>
+    );
+  }
+  if (location) {
+    content = <GoogleStaticMap center={ location } markers={[{ ...location }]} />;
+  }
+  if (!content) {
+    return <div className="MessageItem-attachment"></div>;
+  }
+  return <div className="MessageItem-attachment">{ content }</div>;
+}
 
-  const attachmentsContent = attachments.map((attachment, i) => {
-    const { shout, location } = attachment;
-    let content;
-    if (shout) {
-      content = (
-        <Link to={ `/shout/${shout.id}` }>
-          <ShoutItem outline shout={ shout } thumbnailRatio={ 16/9 } />
-        </Link>
-      );
-    }
-    if (location) {
-      content = <GoogleStaticMap center={ location } markers={[{ ...location }]} />;
-    }
-    if (!content) {
-      return null;
-    }
-    return <div key={ i } className="MessageItem-attachment">{ content }</div>;
-  });
-  const footer = (
+MessageAttachment.propTypes = {
+  attachment: PropTypes.object.isRequired,
+};
+
+function MessageFooter({ message, readByProfiles = [] }) {
+  const { isCreating, createError, createdAt } = message;
+  const created = moment.unix(createdAt);
+  return (
     <div className="MessageItem-footer">
-      {!sending && !sendError &&
+      {!isCreating && !createError &&
         <span>
-          { readByUsers.length > 0 && <MessageReadByFlag profiles={ readByUsers } /> }
+          { readByProfiles.length > 0 && <MessageReadByFlag profiles={ readByProfiles } /> }
         </span>
       }
-      {!sending && !sendError && <span title={createdAt.format("LLLL")}>
-          { createdAt.format("LT") }
+      {!isCreating && !createError && <span title={created.format('LLLL')}>
+          { created.format('LT') }
         </span>
       }
-      { sending && <span>Sending…</span> }
+      { isCreating && <span>Sending…</span> }
     </div>
   );
+}
 
-  let className = "MessageItem";
-  if (isMe) {
-    className += " isMe";
+MessageFooter.propTypes = {
+  message: PropTypes.object.isRequired,
+  readByProfiles: PropTypes.array,
+};
+
+export default function MessageItem({ message, readByProfiles = [] }) {
+  const { isCreating, text, createError, attachments = [] } = message;
+  const hasAttachments = attachments.length > 0;
+  const attachmentsContent = attachments.map((attachment, i) =>
+    <MessageAttachment key={ i } attachment={ attachment } />
+  );
+
+  let className = 'MessageItem';
+
+  if (message.profile && message.profile.isOwner) {
+    className += ' is-me';
   }
-  if (sendError) {
-    className += " didError";
+  if (createError) {
+    className += ' did-error';
   }
-  if (sending) {
-    className += " sending";
+  if (isCreating) {
+    className += ' sending';
+  }
+  if (hasAttachments) {
+    className += ' has-attachments';
   }
 
   return (
     <div className={ className }>
       <div className="MessageItem-wrapper">
-        { attachmentsContent.length > 0 &&
+        { hasAttachments &&
             <div className="MessageItem-attachments">
               { attachmentsContent }
-              { !text && footer }
+              { !text && <MessageFooter message={ message } /> }
             </div>
         }
         { text &&
           <div className="MessageItem-text">
-            <p> { text } </p>
-            { footer }
+            <p>
+              <NewlineToBreak>{ text }</NewlineToBreak>
+            </p>
+            <MessageFooter message={ message } readByProfiles={ readByProfiles } />
           </div>
         }
 
       </div>
 
-      { !sending && sendError &&
-        <div className="MessageItem-retry" title={sendError.message}>
+      { !isCreating && createError &&
+        <div className="MessageItem-retry" title={createError.message}>
           ⚠️ This message could not be sent
         </div>
       }
     </div>
   );
 }
+
+MessageItem.propTypes = {
+  message: PropTypes.object.isRequired,
+  readByProfiles: PropTypes.array,
+};

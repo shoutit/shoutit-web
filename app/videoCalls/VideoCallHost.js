@@ -1,10 +1,10 @@
-import React from "react";
-import Draggable from "react-draggable";
+import React from 'react';
+import Draggable from 'react-draggable';
 
-import Button from "../shared/components/helper/Button.jsx";
+import Button from '../ui/Button';
 
 if (process.env.BROWSER) {
-  require("./VideoCallHost.scss");
+  require('./VideoCallHost.scss');
 }
 
 export default class VideoCallHost extends React.Component {
@@ -17,12 +17,12 @@ export default class VideoCallHost extends React.Component {
   componentDidMount() {
     const { conversation } = this.props;
     conversation.localMedia.attach(this.refs.localMedia);
-    conversation.addListener("participantConnected", this.handlePartecipantConnected);
+    conversation.addListener('participantConnected', this.handlePartecipantConnected);
   }
 
   componentWillUnmount() {
     const { conversation } = this.props;
-    conversation.removeListener("participantConnected", this.handlePartecipantConnected);
+    conversation.removeListener('participantConnected', this.handlePartecipantConnected);
   }
 
   handlePartecipantConnected(partecipant) {

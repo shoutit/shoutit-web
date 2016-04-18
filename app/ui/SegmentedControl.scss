@@ -1,0 +1,58 @@
+@import "../styles/constants.scss";
+
+.SegmentedControl {
+  .field-wrapper {
+    padding: 0;
+    border-radius: 0;
+    border: 0;
+  }
+}
+
+.SegmentedControl-options {
+  display: flex;
+}
+
+.SegmentedControl-option {
+  display: inline-block;
+  flex: 1;
+
+  input {
+    display: none;
+  }
+
+  > label {
+    text-align: center;
+    display: block;
+    padding: .5em;
+    background-color: transparent;
+    font-size: .875em;
+    border: 1px solid $border-color-dark;
+  }
+
+  input:checked + label {
+    color: white;
+    background-color: $si-green;
+    border: 1px solid $si-green;
+  }
+
+  + .SegmentedControl-option {
+    > label {
+      border-left: 0;
+    }
+  }
+
+  &:not(:last-child) > input:checked + label {
+    // border-right: 0;
+  }
+
+  &:first-child > label {
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+  }
+
+  &:last-child > label {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+
+}

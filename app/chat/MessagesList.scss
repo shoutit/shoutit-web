@@ -1,12 +1,12 @@
-@import "../styles/constants/colors.scss";
+@import "../styles/constants.scss";
 
 .MessagesList {
   display: flex;
   align-items: flex-end;
-  padding: 0 5px 10px 10px;
+  padding-left: .5em;
 }
 
-.MessagesList.isMe {
+.MessagesList.is-me {
   flex-direction: row-reverse;
   .MessagesList-user {
     display: none;

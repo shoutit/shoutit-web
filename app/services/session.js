@@ -1,36 +1,54 @@
-import request from "../utils/request";
-import { createRequestSession } from "../utils/SessionUtils";
+import request from '../utils/request';
+import { createRequestSession } from '../utils/SessionUtils';
+import { parseApiError } from '../utils/APIUtils';
+import { camelizeKeys } from 'humps';
 
 import {
-  AUTH_CLIENT_ID as client_id,
-  AUTH_CLIENT_SECRET as client_secret
-} from "./constants";
+  AUTH_CLIENT_ID as clientId,
+  AUTH_CLIENT_SECRET as clientSecret,
+} from './constants';
 
 
 export default {
-  name: "session",
+  name: 'session',
   create: (req, resource, params, body, config, callback) => {
-    const data = { ...body, client_id, client_secret };
+    const data = { ...body, client_id: clientId, client_secret: clientSecret };
     request
-      .post("/oauth2/access_token")
+      .post('/oauth2/access_token')
       .send(data)
       .prefix()
       .end((err, res) => {
         if (err) {
-          if (err.status !== 400) {
-            console.error(err); // eslint-disable-line
-            return callback(err);
-          }
-          const error = new Error("Error getting access token");
-          error.statusCode = 400;
-          error.output = err.response.body;
-          return callback(error);
+          return callback(parseApiError(err));
         }
         createRequestSession(req, res.body);
-        return callback(null, res.body);
+        return callback(null, camelizeKeys(res.body));
       });
   },
+  read: (req, resource, params, config, callback) => {
+    if (!req.session || !req.session.user) {
+      callback();
+      return;
+    }
+    request
+      .get('/profiles/me')
+      .setSession(req.session)
+      .prefix()
+      .end((err, res) => {
+        if (err) {
+          console.warn('Trying to get user %s but got an error with status code %s: destroying current session...', req.session.user.username, res && res.status); //eslint-disable-line
+          console.error(err); //eslint-disable-line
+          req.session.destroy();
+          return callback();
+        }
+        const user = camelizeKeys(res.body);
+        req.session.user = camelizeKeys(user);
+        return callback(null, user);
+      });
+  },
+
   delete: (req, resource, params, config, callback) => {
     req.session.destroy(callback);
-  }
+  },
+
 };

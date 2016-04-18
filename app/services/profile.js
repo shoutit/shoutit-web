@@ -1,30 +1,53 @@
-import request from "../utils/request";
-import { createRequestSession } from "../utils/SessionUtils";
+import request from '../utils/request';
+import { createRequestSession } from '../utils/SessionUtils';
+import { parseApiError } from '../utils/APIUtils';
 
 import {
-  AUTH_CLIENT_ID as client_id,
-  AUTH_CLIENT_SECRET as client_secret
-} from "./constants";
+  AUTH_CLIENT_ID as clientId,
+  AUTH_CLIENT_SECRET as clientSecret,
+} from './constants';
 
 export default {
-  name: "profile",
+  name: 'profile',
   create: (req, resource, params, body, config, callback) => {
-    const { name, email, password } = body;
-    const data = { name, email, password, client_id, client_secret, grant_type: "shoutit_signup" };
+    const { firstName, lastName, email, password } = body;
+
+    if (!firstName) {
+      const firstNameError = new Error('First name is required');
+      firstNameError.errors = [{
+        location: 'first_name',
+        message: 'Enter your first name',
+      }];
+      callback(firstNameError);
+      return;
+    }
+
+    if (!lastName) {
+      const lastNameError = new Error('Last name is required');
+      lastNameError.errors = [{
+        location: 'last_name',
+        message: 'Enter your last name',
+      }];
+      callback(lastNameError);
+      return;
+    }
+
+    const name = `${firstName} ${lastName}`;
+
+    const data = {
+      name, email, password,
+      client_id: clientId,
+      client_secret: clientSecret,
+      grant_type: 'shoutit_signup',
+    };
     request
-      .post("/oauth2/access_token")
+      .post('/oauth2/access_token')
       .send(data)
+      .setSession(req.session)
       .prefix()
       .end((err, res) => {
         if (err) {
-          if (err.status !== 400) {
-            console.error(err); // eslint-disable-line
-            return callback(err);
-          }
-          const error = new Error("Error creating a new account");
-          error.statusCode = 400;
-          error.output = err.response.body;
-          return callback(error);
+          return callback(parseApiError(err));
         }
         createRequestSession(req, res.body);
         return callback(null, res.body);
@@ -37,9 +60,23 @@ export default {
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(err);
+          return callback(parseApiError(err));
         }
         return callback(null, res.body);
       });
-  }
+  },
+  update: (req, resource, params, body, config, callback) => {
+    request
+      .patch('/profiles/me')
+      .send(body)
+      .setSession(req.session)
+      .prefix()
+      .end((err, res) => {
+        if (err) {
+          return callback(parseApiError(err));
+        }
+        req.session.user = res.body; // eslint-disable-line
+        return callback(null, res.body);
+      });
+  },
 };

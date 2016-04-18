@@ -1,0 +1,74 @@
+@import "../styles/constants/colors.scss";
+@import "../styles/mixins/cropped-thumbnail.scss";
+
+$size-smallest: 14px;
+$size-small: 18px;
+$size-medium: 24px;
+$size-large: 48px;
+$size-huge: 128px;
+
+.ProfileAvatar {
+  background-color: white;
+
+  display: inline-block;
+  overflow: hidden;
+
+  width: $size-medium;
+  height: $size-medium;
+
+  vertical-align: middle;
+
+  border-radius: 50%;
+
+  &.size-smallest {
+    width: $size-smallest;
+    height: $size-smallest;
+  }
+
+  &.size-small {
+    width: $size-small;
+    height: $size-small;
+  }
+
+  &.size-large {
+    width: $size-large;
+    height: $size-large;
+  }
+
+  &.size-huge {
+    width: $size-huge;
+    height: $size-huge;
+  }
+  &.mask {
+    position: relative;
+
+  }
+  &.mask:after {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    content: "";
+
+    background-image: url("../../assets/ui-elements/user-mask.png");
+    background-size: contain;
+  }
+
+  &.placeholder {
+    background-color: $background-color-dark;
+    background-image: url("../../assets/icons/profile-fill.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+  }
+
+  .ProfileAvatar-image {
+    width: inherit;
+    height: inherit;
+    display: inline-block;
+  }
+
+}

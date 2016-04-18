@@ -1,7 +1,7 @@
 export function createLinkToGoogleMaps(location) {
-  let ll = "";
+  let ll = '';
   let q = [];
-  let search = "";
+  let search = '';
 
   if (location.latitude && location.longitude) {
     ll = `ll=${location.latitude},${location.longitude}`;
@@ -21,18 +21,17 @@ export function createLinkToGoogleMaps(location) {
   if (location.country) {
     q.push(encodeURIComponent(location.country));
   }
-  q = q.join(",%20");
+  q = q.join(',%20');
 
   if (ll) {
-    search += "&" + ll;
+    search += `&${ll}`;
   }
 
   if (q) {
-    search += "&q=" + q;
+    search += `&q=${q}`;
   } else {
     search += `&q=loc:${location.latitude},${location.longitude}`;
   }
 
   return `https://www.google.com/maps?${search}`;
-
 }

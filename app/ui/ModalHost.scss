@@ -1,0 +1,56 @@
+@import '../styles/constants.scss';
+
+.ModalHost-wrapper {
+  position: fixed;
+  z-index: $z-index-modal-host;
+  top: 0;
+  right: 0;
+  left: 0;
+  overflow: scroll;
+  height: 100%;
+  background-color: rgba(black, .4);
+
+  .Modal {
+    // Warn! Keep transition in -enter-active and -leave to fix focus issue
+    // https://github.com/facebook/react/issues/2104
+  }
+
+  .modal-leave {
+    transition-duration: 150ms;
+    .Modal {
+      transition-duration: 150ms;
+    }
+  }
+
+  &.modal-enter {
+    opacity: 0;
+    .Modal {
+      transform: translateX(-50%) translateY(-50%);
+    }
+  }
+
+  &.modal-enter-active {
+    transition: opacity 250ms;
+    opacity: 1;
+    .Modal {
+      transition: transform 250ms;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  &.modal-leave {
+    transition: opacity 250ms;
+    opacity: 1;
+    .Modal {
+      transition: transform 250ms;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  &.modal-leave-active {
+    opacity: 0;
+    .Modal {
+      transform: translateX(-50%) translateY(-50%);
+    }
+  }
+}

@@ -1,17 +1,17 @@
 
-@import "../styles/constants/colors.scss";
-$border-radius: 5px;
+@import "../styles/constants.scss";
 
 .MessageItem {
   font-size: 0.875em;
   margin: 1px 5px;
 
   .MessageItem-text {
+    min-width: 120px;
     background-color: white;
     border: 1px solid $border-color;
   }
 
-  &.isMe {
+  &.is-me {
     text-align: right;
     .MessageItem-text {
      background-color: $background-color-alt;
@@ -19,7 +19,7 @@ $border-radius: 5px;
    }
   }
 
-  &.didError .MessageItem-wrapper {
+  &.did-error .MessageItem-wrapper {
     opacity: 0.4;
   }
 
@@ -34,6 +34,10 @@ $border-radius: 5px;
   display: inline-block;
   min-width: 25%;
   max-width: 75%;
+  .MessageItem.has-attachments & {
+    width: 90%;
+    max-width: 90%;
+  }
 }
 
 .MessageItem-attachment {

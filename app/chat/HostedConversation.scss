@@ -1,0 +1,56 @@
+@import '../styles/constants.scss';
+@import '../styles/mixins/ellipsis';
+.HostedConversation {
+}
+
+.HostedConversation-header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  overflow: hidden;
+  flex-direction: row;
+  height: 2rem;
+  color: white;
+  background-color: $green;
+  .HostedConversation.has-focus &,
+  .HostedConversation:hover & {
+    background-color: $green-dark;
+  }
+
+  h3 {
+    margin: 0 .5rem;
+    font-size: .875rem;
+    font-weight: bold;
+    line-height: 2rem;
+
+    @include ellipsis();
+    flex: 1;
+    a {
+      color: white;
+      &:hover {
+        text-decoration: underline;
+        color: white;;
+      }
+    }
+  }
+
+  .HostedConversation-close {
+    display: inline-block;
+    padding: 0 .5rem;
+    cursor: pointer;
+    line-height: 2rem;
+    &:hover {
+      opacity: .75;
+    }
+  }
+}
+
+.HostedConversation-conversation {
+  position: absolute;
+  top: 32px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}

@@ -1,58 +1,90 @@
-@import "../styles/constants/colors.scss";
+@import '../styles/constants/colors.scss';
+@import '../styles/mixins/ellipsis.scss';
 
 .ConversationItem {
-  font-size: 0.875em;
   display: flex;
+  padding: 0 .25rem;
+  cursor: pointer;
   text-decoration: none;
   border-bottom: 1px solid $border-color;
-  cursor: pointer;
-  &.isSelected {
-    background-color: $si-light-green;
+  background-color: white;
+  font-size: .875rem;
+
+  align-items: center;
+  &.is-selected {
+    background-color: $background-color-alt;
   }
-  &.isUnread {
-    background-color: $background-color-alt-light;
+  &.is-unread {
+    background-color: $background-color;
     font-weight: bold;
   }
-  &:hover {
-    color: inherit;
+  &:hover:not(.is-selected):not(.is-unread) {
+    // background-color: lighten($background-color-alt, 2);
+  }
+  &:hover.is-unread {
+    // background-color: darken($background-color, 1);
   }
 }
 
-.ConversationItem-usersImage {
-  padding: 10px 5px;
+.ConversationItem-user-avatar {
+  padding: .625rem .25rem;
 }
 
 .ConversationItem-body {
   display: flex;
   flex-direction: column;
-  flex: 1;
   min-width: 0;
+  padding: .625rem .25rem;
+
+  flex: 1;
   flex-basis: 50%;
-  padding: 10px 5px;
   > div {
-    // TODO: move ellipsis into mixin
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    @include ellipsis();
   }
 }
 
-.ConversationItem-createdAt {
-  padding: 10px 5px;
-  color: $color-light;
-  font-size: 0.875em;
+
+.ConversationItem-tools {
+  padding: .625rem .25rem;
+  text-align: right;
+  font-weight: normal;
+
+  align-self: flex-start;
 }
 
-.ConversationItem-aboutShout {
+.ConversationItem-created-at {
+  color: $color-light;
+  font-size: .75rem;
+}
+
+.ConversationItem-unread-count {
+  margin-top: .25rem;
+  color: $color-light;
+  font-size: .625rem;
+}
+
+.ConversationItem-title {
+  margin-bottom: .25rem;
+  font-size: 1em;
+}
+
+.ConversationItem-about_shout {
   color: $si-blue;
-  font-size: 0.875em;
+  font-size: .875rem;
 }
 
 .ConversationItem-partecipants {
   // font-weight: bold;
 }
 
-.ConversationItem-lastMessage {
-  font-size: 0.875em;
-  color: $color-light;
+.ConversationItem-last-message {
+  color: $color;
+  font-size: .75rem;
+  span {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .Icon {
+    margin-right: .25rem;
+  }
 }

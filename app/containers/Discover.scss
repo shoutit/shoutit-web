@@ -1,0 +1,83 @@
+@import "../styles/constants";
+
+
+.Discover-hero {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: .75rem;
+
+  border-radius: $border-radius;
+  background-color: black;
+  box-shadow: $box-shadow-depth-0;
+
+  min-height: 250px;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;;
+  .Discover-country {
+    cursor: pointer;
+    position: absolute;
+    color: white;
+    top: .5rem;
+    left: .5rem;
+    font-size: 0.75rem;
+    &:hover {
+      opacity: .8;
+    }
+    .CountryFlag {
+      margin-right: .5rem;
+    }
+  }
+}
+
+.Discover-hero-content {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+
+  background-color: rgba(black, .6);
+  color: white;
+  align-items: center;
+  justify-content: center;
+  -webkit-backdrop-filter: blur(5px);
+  h1 {
+    display: inline-block;
+    margin: 0;
+    font-weight: lighter;
+  }
+  h2 {
+    display: inline-block;
+    margin: 0;
+    margin-top: 1rem;
+    font-weight: lighter;
+  }
+}
+
+
+.Discover-children {
+  display: flex;
+  flex-wrap: wrap;
+  > * {
+    margin: 1rem;
+    flex: 1;
+    flex-basis: 25%;
+
+    &:nth-child(3n+0) {
+      margin-right: .25rem;
+    }
+    &:nth-child(1n+0) {
+      margin-left: .25rem;
+    }
+
+  }
+}
+
+.Discover-shouts {
+  h2 {
+    margin-top: 2rem;
+    font-weight: lighter;
+    text-align: center;
+  }
+}

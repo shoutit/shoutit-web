@@ -1,0 +1,55 @@
+@import "../styles/constants.scss";
+@import "../styles/mixins/ellipsis";
+
+.ShoutPreview {
+  position: relative;
+  z-index: 1;
+
+  display: block;
+
+  width: 100%;
+
+  .ShoutPreview-price {
+    position: absolute;
+    z-index: 2;
+    top: .5rem;
+    right: -.5rem;
+    .ShoutPrice,
+    .ShoutType {
+      display: block;
+    }
+    .ShoutType {
+      margin-top: .5rem;
+    }
+  }
+
+}
+
+.ShoutPreview-title {
+  margin-bottom: .5rem;
+}
+
+.ShoutPreview-details {
+  display: flex;
+
+  color: $color-light;
+
+  font-size: 0.75rem;
+
+  justify-content: space-between;
+  .ShoutPreview-profile {
+    @include ellipsis();
+    .ProfileAvatar {
+      opacity: 1;
+      &:hover {
+        opacity: .7;
+      }
+    }
+  }
+  .TagListItem {
+    @include ellipsis();
+    &:hover {
+      color: $si-green;
+    }
+  }
+}

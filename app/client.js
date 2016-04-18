@@ -1,89 +1,83 @@
 /* eslint no-console: 0 */
 /* eslint-env browser */
 
-import React from "react";
-import ReactDOM from "react-dom";
-import { Router } from "react-router";
-import injectTapEventPlugin from "react-tap-event-plugin";
-import useScroll from "scroll-behavior/lib/useStandardScroll";
-import createHistory from "history/lib/createBrowserHistory";
-import debug from "debug";
-import Fetchr from "fetchr";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { Router, browserHistory, RouterContext } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
+import useScroll from 'scroll-behavior/lib/useStandardScroll';
 
-import config from "../config";
+import debug from 'debug';
+import Fetchr from 'fetchr';
+import 'babel-polyfill';
 
-import routes from "./routes";
-import Flux from "./Flux";
+import * as config from './config';
 
-import "./client/initFacebook";
-import initGoogleAnalytics from "./client/initGoogleAnalytics";
-import { setupPusher } from "./client/pusher";
+import configureRoutes from './routes';
+import configureStore from './store/configureStore';
 
+import './client/initFacebook';
+import initGoogleAnalytics from './client/initGoogleAnalytics';
 
-import "babel-core/polyfill";
-
-import "styles/main.scss";
-
-injectTapEventPlugin();
+import './styles/main.scss';
 
 window.debug = debug;
-const log = debug("shoutit");
+const log = debug('shoutit');
 
-const fetchr = new Fetchr({ xhrPath: "/fetchr", xhrTimeout: 20000 });
-const flux = new Flux(undefined, fetchr);
+const fetchr = new Fetchr({ xhrPath: '/fetchr', xhrTimeout: 20000 });
 
-flux.setDispatchInterceptor((action, dispatch) =>  {
-  ReactDOM.unstable_batchedUpdates(() => dispatch(action));
+log('Starting client web app', `\n${config.getSummary()}\n`);
+
+const scrollHistory = useScroll(() => browserHistory)();
+const store = configureStore(window.__INITIAL_STATE__, {
+  fetchr, history: scrollHistory, devToolsExtension: window.devToolsExtension,
 });
-
-if (window.__state) {
-  flux.rehydrate(window.__state);
-  log("Flux stores has been rehydrated");
-}
-else {
-  console.warn("No data to rehydrate in the flux stores");
-}
-
-flux.on("dispatch", (type, payload) =>
-  debug("shoutit:flux")("Dispatching %s", type, payload)
-);
-
-let ga;
+const history = syncHistoryWithStore(scrollHistory, store);
+const routes = configureRoutes(store);
 if (config.ga) {
-  ga = initGoogleAnalytics(config.ga);
+  const ga = initGoogleAnalytics(config.ga);
+  history.listen(location => ga('send', 'pageview', location.pathname));
 }
+log('Rehydrating store with initial state', window.__INITIAL_STATE__);
 
-if (window.google) {
-  const locationStore = flux.store("locations");
-  locationStore.setGMaps(window.google.maps);
-}
+const logRouter = debug('shoutit:router');
 
-setupPusher(flux.store("auth"), {
-  onNewMessage: (message) => {
-    if (flux.store("conversations").get(message.conversation_id)) {
-      flux.actions.newPushedMessage(message);
-    }
-    else {
-      flux.actions.loadConversations();
-    }
-  }
-});
+let firstRender = true;
 
-log("Starting client web app", `\n${config.getSummary()}\n`);
+const renderApp = () =>
+  <Router
+    history={ history }
+    render={ renderProps => {
+      if (firstRender) {
+        logRouter('First time rendering %s...', renderProps.location.pathname, renderProps);
+      } else {
+        logRouter('Rendering %s...', renderProps.location.pathname, renderProps);
+      }
+      const _firstRender = firstRender;
+      const routerContext = (
+        <Provider store={ store }>
+          <RouterContext {...renderProps}
+            createElement={ (Component, elProps) => {
+              logRouter('Creating element for %s %s, first render? %s',
+                Component.displayName || Component.name, elProps.location.pathname, _firstRender
+              );
+              return <Component {...elProps} firstRender={ _firstRender } />;
+            }}
+          />
+        </Provider>
+      );
+      firstRender = false;
+      return routerContext;
+    }}>
+
+    { routes }
+
+  </Router>;
+
 
 ReactDOM.render(
-  <Router
-    history={useScroll(createHistory)()}
-    createElement={ (Component, props) =>
-      <Component {...props} flux={flux} />
-    }>
-    { routes }
-  </Router>,
-  document.getElementById("content"),
-  () => {
-    log("App has been mounted");
-    if (ga) {
-      ga("send", "pageview", window.location.href);
-    }
-  }
+  renderApp(),
+  document.getElementById('content'),
+  () => log('App has been mounted 🎉')
 );

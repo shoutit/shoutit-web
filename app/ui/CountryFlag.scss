@@ -1,0 +1,27 @@
+@import '../styles/constants';
+$size-small: 18px;
+$size-medium: 24px;
+$size-large: 48px;
+
+.CountryFlag {
+  display: inline-block;
+  width: $size-medium;
+  height: $size-medium;
+  padding: 3px;
+  vertical-align: middle;
+
+  &.size-small {
+    width: $size-small;
+    height: $size-small;
+    padding: 0;
+  }
+
+  &.size-large {
+    width: $size-large;
+    height: $size-large;
+  }
+
+  &.rounded {
+    border-radius: 100%;
+  }
+}

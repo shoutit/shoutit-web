@@ -1,0 +1,51 @@
+@import '../styles/constants/colors.scss';
+
+.Conversation {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+
+  &.layout-hosted {
+    font-size: .875rem;
+  }
+}
+
+.Conversation-error {
+  padding: 10px;
+  text-align: center;
+  color: $si-error-color;
+}
+
+.Conversation-scrollable {
+  display: flex;
+  overflow: auto;
+  flex-direction: column;
+  transform: translateZ(0);
+
+  flex: 1 1 0;
+}
+
+.Conversation-messagesList {
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+
+  .Progress {
+    flex: 1;
+  }
+}
+
+.Conversation-listTopSeparator {
+  flex: 1 0 auto;
+}
+
+.Conversation-replyFormContainer {
+  margin: 1px;
+  border-top: 1px solid $border-color-dark;
+  background-color: $background-color;
+}

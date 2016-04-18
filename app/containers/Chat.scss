@@ -1,16 +1,27 @@
 
-@import "../styles/constants/defaults";
-@import "../styles/constants/colors.scss";
-@import "../styles/pages/mixins.scss";
+@import "../styles/constants.scss";
 
 .Chat {
-  @include paper();
   position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
+  top: .75rem;
+  right: .5rem;
+  bottom: .75rem;
   left: 0px;
   overflow: hidden;
+
+  background-color: $background-color-alt-light;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-depth-0;
+
+  h1 {
+    padding: .75rem;
+    margin: 0;
+    font-weight: normal;
+    font-size: 1rem;
+    border-bottom: 1px solid $border-color;
+    color: $color;
+    min-height: 2.5rem;
+  }
 }
 
   .Chat-conversations {
@@ -18,19 +29,37 @@
     top: 0;
     bottom: 0;
     left: 0;
-    width: 25%;
+    width: 30%;
+    background-color: darken(white, 2.5);
+    border-right: 1px solid $border-color-dark;
     overflow: auto;
+    display: flex;
+    flex-direction: column;
   }
 
-  .Chat-messages {
+  .Chat-conversations-list {
+    flex: 1;
+    position: relative;
+  }
+
+  .Chat-conversation {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
-    left: 25%;
-    overflow: auto;
-    border-left: 1px solid $border-color-dark;
+    left: 30%;
     background-color: $background-color-alt-light;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    h1 {
+      background-color: white;
+    }
+  }
+
+  .Chat-conversation-body {
+    flex: 1;
+    position: relative;
   }
 
   .Chat-placeholder {
@@ -38,6 +67,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
   }
 
   .Chat-conversationsList {

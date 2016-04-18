@@ -1,126 +1,150 @@
-import React, { PropTypes } from "react";
-import { FluxMixin, StoreWatchMixin } from "fluxxor";
-import {createSlug} from "../shared/components/helper";
-import Header from "../shared/components/header";
-import MainPage from "../shared/components/main/mainPage.jsx";
-import UINotificationsHost from "../ui/UINotificationsHost";
-import VideoCallHost from "../videoCalls/VideoCallHost";
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 
-const pagesWithoutHeader = [ MainPage ];
+import Header from '../layout/Header';
+import Footer from '../layout/Footer';
+import UINotificationsHost from '../ui/UINotificationsHost';
+import ModalHost from '../ui/ModalHost';
+import VideoCallHost from '../videoCalls/VideoCallHost';
+import ConversationsHost from '../chat/ConversationsHost';
+import ServerError from './ServerError';
+import NotFound from './NotFound';
+
+import { login } from '../actions/session';
+import { loadCategories, loadCurrencies } from '../actions/misc';
+import { loadCurrentLocation, loadSuggestions } from '../actions/location';
+import { loadListening } from '../actions/users';
 
 if (process.env.BROWSER) {
-  require("./Application.scss");
+  require('normalize.css/normalize.css');
+  require('./Application.scss');
 }
 
-export default React.createClass({
+const fetchData = (dispatch, state) => {
+  const promises = [];
+  promises.push(dispatch(loadCategories()));
+  promises.push(dispatch(loadCurrencies()));
+  const user = state.session.user; // logged user comes from rehydrated state
+  if (user) {
+    promises.push(dispatch(login(user)));
+    promises.push(dispatch(loadListening(user)));
+    if (user.location) {
+      promises.push(dispatch(loadSuggestions(user.location)));
+    }
+  }
+  if (!user || !user.location) {
+    promises.push(
+      dispatch(loadCurrentLocation()).then(payload =>
+        dispatch(loadSuggestions(payload.location))
+      )
+    );
+  }
+  return Promise.all(promises);
+};
 
-  displayName: "Application",
+export class Application extends React.Component {
 
-  propTypes: {
-    flux: PropTypes.object.isRequired
-  },
-
-  mixins: [
-    new FluxMixin(React),
-    new StoreWatchMixin(
-      "auth",
-      "chat",
-      "conversations",
-      "locations",
-      "suggestions",
-      "ui_notifications",
-      "videocall"
-    )
-  ],
+  static fetchData = fetchData;
 
   componentDidMount() {
-    this.getData();
-  },
-
-  componentDidUpdate(prevProps, prevState) {
-    const { loggedUser, currentLocation } = this.state;
-    if (prevState.loggedUser !== loggedUser) {
-      this.getData();
-    }
-    // Actions triggered in location change
-    if (prevState.currentLocation.city !== currentLocation.city) {
-      this.props.flux.actions.getSuggestions(currentLocation);
-    }
-  },
-
-  getStateFromFlux() {
-    const { flux } = this.props;
-    const chat = flux.store("chat").getState();
-    const conversations = flux.store("conversations").getConversations(chat.conversationIds);
-    const currentLocation = flux.store("locations").getCurrent();
-    const loggedUser = flux.store("auth").getLoggedProfile();
-    const suggestions = flux.store("suggestions").getState();
-    const uiNotifications = flux.store("ui_notifications").getNotifications();
-    const videoCallState = flux.store("videocall").getState();
-    return {
-      chat,
-      conversations,
-      currentLocation,
-      loggedUser,
-      suggestions,
-      videoCallState,
-      uiNotifications
-    };
-  },
-
-  getData() {
-    const { flux } = this.props;
-    const { loggedUser } = this.state;
-
-    flux.actions.acquireLocation();
-
+    const { dispatch, loggedUser } = this.props;
     if (loggedUser) {
-      flux.actions.loadConversations();
-      if (require("webrtcsupport").support) {
-        flux.actions.initTwilio();
-      }
+      dispatch(login(loggedUser)); // trigger client-side login actions (e.g. pusher)
     }
-  },
+  }
+
+  componentWillUpdate(nextProps) {
+    const { dispatch, currentLocation, loggedUser } = this.props;
+
+    // Update suggestions if location change
+    if (currentLocation.slug !== nextProps.currentLocation.slug) {
+      dispatch(loadSuggestions(currentLocation));
+    }
+    if (!nextProps.loggedUser && loggedUser) {
+      // Fetch application data again when logged user changed (e.g. has been logged out)
+      fetchData(dispatch, { session: { user: undefined } });
+    }
+  }
 
   render() {
-    const { loggedUser, chat, conversations, currentLocation, suggestions, videoCallState } = this.state;
-    const { children, flux, routes, location, history } = this.props;
+    const { children, error, ...props } = this.props;
+    let className = 'App';
 
-    const suggestionsData = {
-      data: suggestions.data[createSlug(currentLocation.city)]
+    let layout = {
+      stickyHeader: !error || error.statusCode === 404,
+      showHeader: true,
+      showFooter: false,
     };
 
-    const hideHeader = routes.some(route =>
-      pagesWithoutHeader.indexOf(route.component) > -1
-    );
-    const props = { loggedUser, chat, conversations, currentLocation, location,
-      suggestions: suggestionsData, history, videoCallState };
+    if (props.routes) {
+      const lastRoute = props.routes[props.routes.length - 1];
+      if (lastRoute.getApplicationLayout) {
+        layout = {
+          ...layout,
+          ...lastRoute.getApplicationLayout(),
+        };
+      }
+    }
+
+    if (layout.showHeader && layout.stickyHeader) {
+      className += ' stickyHeader';
+    }
+    if (layout.className) {
+      className += ` ${layout.className}`;
+    }
+
 
     return (
-      <div className={`App${hideHeader ? "" : " stickyHeader"}` }>
-        { !hideHeader &&
+      <div className={ className }>
+        { layout.showHeader &&
           <div className="App-header">
             <Header
-              history={ history }
-              loggedUser={ loggedUser }
-              currentLocation={ currentLocation }
-              flux={ flux }
-              chat={ chat }
-              conversations={ conversations }
-              location={ location }
+              history={ props.history }
+              flux={ props.flux }
+              chat={ props.chat }
+              conversations={ props.conversations }
+              location={ props.location }
             />
           </div>
         }
         <div className="App-content">
-          { React.cloneElement(children, props) }
+          { !error ? // eslint-disable-line
+            React.cloneElement(children, props) :
+            (error.statusCode === 404 ?
+            <NotFound /> :
+            <ServerError error={ error } />)
+          }
         </div>
-        <UINotificationsHost
-          notifications={ this.state.uiNotifications }
-          flux={ flux }
-        />
-        { videoCallState.currentConversation &&
-          <VideoCallHost conversation={ videoCallState.currentConversation } /> }
+        { layout.showFooter &&
+          <div className="App-footer">
+            <Footer />
+          </div>
+        }
+        <ModalHost />
+        <UINotificationsHost />
+        { props.videoCallState && props.videoCallState.currentConversation &&
+          <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }
+        <ConversationsHost />
       </div>
     );
   }
-});
+}
+
+Application.propTypes = {
+  loggedUser: PropTypes.object,
+  currentLocation: PropTypes.object,
+  error: PropTypes.object,
+  children: PropTypes.element.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
+
+function mapStateToProps(state) {
+  return {
+    loggedUser: state.session.user,
+    currentLocation: state.currentLocation,
+    currentUrl: state.routing.currentUrl,
+    error: state.routing.error,
+  };
+}
+
+export default connect(mapStateToProps)(Application);
