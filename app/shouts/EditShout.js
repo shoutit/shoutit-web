@@ -48,6 +48,13 @@ export class EditShout extends Component {
   render() {
     const { shout, onCancel } = this.props;
     const { isUploading } = this.state;
+    let submitLabel = 'Publish';
+    if (isUploading) {
+      submitLabel = 'Uploading…';
+    }
+    if (shout.isUpdating) {
+      submitLabel = 'Publishing…';
+    }
     return (
       <div className="EditShout">
         <ShoutForm
@@ -60,7 +67,7 @@ export class EditShout extends Component {
           onUploadEnd={ () => this.setState({ isUploading: false })}
           actions={[
             <Button type="button" label="Cancel" onClick={ onCancel } disabled={ shout.isUpdating } />,
-            <Button primary label="Publish" disabled={ shout.isUpdating || isUploading } />,
+            <Button primary style={{ minWidth: '10rem' }} label={ submitLabel } disabled={ shout.isUpdating || isUploading } />,
           ]}
         />
       </div>
