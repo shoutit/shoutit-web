@@ -38,7 +38,7 @@ export function TagActions({ tag, loggedUser, dispatch, isUpdatingListening, siz
             </ListItem>
           </li>*/}
           <li>
-            <Link to={`/interest/${tag.name}`}>
+            <Link to={`/interest/${tag.slug || tag.name}`}>
               <ListItem
                 size={ size }
                 start= { <Icon active size={ size } name="tag" /> }

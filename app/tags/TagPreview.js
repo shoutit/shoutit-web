@@ -6,6 +6,7 @@ import { loadTagIfNeeded } from '../actions/tags';
 import Icon from '../ui/Icon';
 import TagListenersListItem from '../tags/TagListenersListItem';
 import TagActions from '../tags/TagActions';
+
 if (process.env.BROWSER) {
   require('./TagPreview.scss');
 }
@@ -30,7 +31,10 @@ export class TagPreview extends Component {
         <div className="TagPreview-cover" style={ getStyleBackgroundImage(tag.image, 'medium') } />
         <div className="TagPreview-header">
           <div className="TagPreview-icon">
-            <Icon name="tag" size="large" active />
+            { tag.icon ?
+              <img src={ tag.icon } /> :
+              <Icon name="tag" size="large" active />
+            }
           </div>
           <h2>{ tag.name }</h2>
         </div>
@@ -47,7 +51,14 @@ export class TagPreview extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps;
-  const tag = state.entities.tags[id];
+  let tag = state.entities.tags[id];
+  const category = state.entities.categories[tag.name];
+  if (category) {
+    tag = {
+      ...tag,
+      ...category,
+    };
+  }
   return {
     tag,
   };
