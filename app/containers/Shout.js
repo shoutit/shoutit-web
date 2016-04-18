@@ -9,7 +9,7 @@ import Page from '../layout/Page';
 import ProfileListItem from '../users/ProfileListItem';
 
 import CategoryListItem from '../shouts/CategoryListItem';
-import EditShoutButton from '../shouts/EditShoutButton';
+import UpdateShoutButton from '../shouts/UpdateShoutButton';
 import ShoutPrice from '../shouts/ShoutPrice';
 import ShoutPreview from '../shouts/ShoutPreview';
 import FilterListItem from '../shouts/FilterListItem';
@@ -55,7 +55,7 @@ function ShoutActions({ shout, onReplyClick }) {
 
       { shout.profile.isOwner ?
         <div>
-          <EditShoutButton style={ buttonStyle } block shoutId={ shout.id } />
+          <UpdateShoutButton style={ buttonStyle } block shoutId={ shout.id } />
           { callButton }
         </div> :
         <div>

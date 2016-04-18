@@ -6,7 +6,7 @@ import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 import HorizontalRule from '../ui/HorizontalRule';
 import CreateShout from '../shouts/CreateShout';
-import EditShoutButton from '../shouts/EditShoutButton';
+import UpdateShoutButton from '../shouts/UpdateShoutButton';
 
 import { openModal, closeModal } from '../actions/ui';
 
@@ -23,7 +23,7 @@ export function CreateShoutSuccess({ shoutId, onNewClick }) {
       <h3>Your shout has been published.</h3>
 
       <div className="CreateShoutSuccess-buttons">
-        <EditShoutButton shoutId={ shoutId } leftIcon={ null } block size="small" primary label="Add more details" />
+        <UpdateShoutButton shoutId={ shoutId } leftIcon={ null } block size="small" primary label="Add more details" />
       </div>
 
       <HorizontalRule label="or" />

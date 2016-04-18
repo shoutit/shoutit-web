@@ -7,7 +7,7 @@ import { updateShout, amendShout } from '../actions/shouts';
 
 import ShoutForm from './ShoutForm';
 
-export class EditShout extends Component {
+export class UpdateShout extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -56,7 +56,7 @@ export class EditShout extends Component {
       submitLabel = 'Publishing…';
     }
     return (
-      <div className="EditShout">
+      <div className="UpdateShout">
         <ShoutForm
           mode="update"
           disabled={ shout.isUpdating }
@@ -81,4 +81,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(EditShout);
+export default connect(mapStateToProps)(UpdateShout);
