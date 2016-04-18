@@ -3,9 +3,9 @@ import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'shoutCall',
-  read: (req, resource, { id }, config, callback) => {
+  read: (req, resource, { shout }, config, callback) => {
     request
-      .get(`/shouts/${id}/call`)
+      .get(`/shouts/${shout.id}/call`)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {
@@ -13,9 +13,11 @@ export default {
           callback(parseApiError(err));
           return;
         }
-        const shout = res.body;
-        shout.id = id;
-        callback(null, shout);
+        const data = {
+          ...shout,
+          mobile: res.body.mobile,
+        };
+        callback(null, data);
       });
   },
 };

@@ -19,7 +19,7 @@ export class ShoutCallButton extends Component {
   }
 
   handleClick() {
-    this.props.dispatch(call(this.props.shout.id));
+    this.props.dispatch(call(this.props.shout));
   }
 
   render() {
