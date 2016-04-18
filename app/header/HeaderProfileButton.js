@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import UserAvatar from '../users/UserAvatar';
+import ProfileAvatar from '../users/ProfileAvatar';
 import Overlay from '../ui/Overlay';
 
 import HeaderProfileOverlay from './HeaderProfileOverlay';
@@ -41,7 +41,7 @@ export class HeaderProfileButton extends Component {
           className="HeaderProfile-profileLink"
           to={`/user/${user.username}`}
           onClick={ this.showOverlay }>
-            <UserAvatar ref="avatar" user={ user } size="large" />
+            <ProfileAvatar ref="avatar" user={ user } size="large" />
         </Link>
         <Overlay
           arrow

@@ -1,5 +1,5 @@
 import React from 'react';
-import UserAvatar from './UserAvatar';
+import ProfileAvatar from './ProfileAvatar';
 
 export default function ManyUsersAvatar({ users, size = 40, max = 4, columns = 2 }) {
   const containerStyle = {
@@ -23,7 +23,7 @@ export default function ManyUsersAvatar({ users, size = 40, max = 4, columns = 2
   return (
     <div style={ containerStyle }>
       { users.slice(0, max).map(user =>
-        <UserAvatar key={user.id} user={ user } size={ users.length === 1 ? 'medium' : 'small' } />
+        <ProfileAvatar key={user.id} user={ user } size={ users.length === 1 ? 'medium' : 'small' } />
       )}
     </div>
   );

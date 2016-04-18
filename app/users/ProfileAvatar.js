@@ -5,10 +5,19 @@ import { Link } from 'react-router';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
 if (process.env.BROWSER) {
-  require('./UserAvatar.scss');
+  require('./ProfileAvatar.scss');
 }
 
-export default class UserAvatar extends Component {
+export default class ProfileAvatar extends Component {
+
+  static propTypes = {
+    user: PropTypes.user.isRequired,
+    tooltip: PropTypes.bool,
+    linkToProfilePage: PropTypes.bool,
+    placeholder: PropTypes.bool,
+    mask: PropTypes.bool,
+    size: PropTypes.oneOf(['medium', 'small', 'large']),
+  }
 
   getImageNode() {
     return this.refs.image;
@@ -17,16 +26,16 @@ export default class UserAvatar extends Component {
   render() {
     const {
       user = {},
-      tooltip = false,
-      linkToUserPage = false,
+      // tooltip = false,
+      linkToProfilePage = false,
       placeholder = false,  // show placeholder behind the image (default true when user has no image)
       size = 'medium',     // small, medium, large or huge
       mask,               // apply the shoutit logo mask, works only on white backgrounds
     } = this.props;
 
-    const { image, username, name } = user;
+    const { image, username } = user;
 
-    let className = 'UserAvatar';
+    let className = 'ProfileAvatar';
 
     if (size) {
       className += ` size-${size}`;
@@ -40,9 +49,9 @@ export default class UserAvatar extends Component {
 
     let avatar = null;
     if (image) {
-      avatar = <span style={ getStyleBackgroundImage(image, size === 'huge' ? 'large' : size) } className="UserAvatar-image" />;
+      avatar = <span style={ getStyleBackgroundImage(image, size === 'huge' ? 'large' : size) } className="ProfileAvatar-image" />;
     }
-    if (linkToUserPage) {
+    if (linkToProfilePage) {
       avatar = <Link className={ className } to={ `/user/${username}` }>{ avatar }</Link>;
     } else {
       avatar = <span className={ className } ref="image">{ avatar }</span>;

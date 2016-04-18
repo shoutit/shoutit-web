@@ -4,7 +4,7 @@ import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
 import { loadProfileDetailsIfNeeded } from '../actions/users';
 
-import UserAvatar from '../users/UserAvatar';
+import ProfileAvatar from '../users/ProfileAvatar';
 import LocationListItem from '../location/LocationListItem';
 import ProfileListenersListItem from '../users/ProfileListenersListItem';
 import ProfileActions from '../users/ProfileActions';
@@ -31,7 +31,7 @@ export class ProfilePreview extends Component {
       <div className="ProfilePreview" style={ style }>
         <div className="ProfilePreview-cover" style={getStyleBackgroundImage(cover, 'medium')} />
         <div className="ProfilePreview-user">
-          <UserAvatar user={ profile } size="large" />
+          <ProfileAvatar user={ profile } size="large" />
           <h2>{ name } {profile.isOwner && ' (you)'}</h2>
         </div>
         <div className="ProfilePreview-body">

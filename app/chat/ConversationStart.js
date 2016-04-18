@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import UserAvatar from '../users/UserAvatar';
+import ProfileAvatar from '../users/ProfileAvatar';
 import ShoutPreview from '../shouts/ShoutPreview';
 
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
@@ -18,7 +18,7 @@ export default function ConversationStart({ conversation }) {
     <div className="ConversationStart">
       { conversation.type === 'chat' ?
         <div className="ConversationStart-chat">
-          <UserAvatar user={ user } size="large" style={{ marginBottom: '1rem' }} />
+          <ProfileAvatar user={ user } size="large" style={{ marginBottom: '1rem' }} />
           <p className="htmlAncillary">
             To start chatting, write { user.firstName } a message.
           </p>

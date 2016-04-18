@@ -7,7 +7,7 @@ import ListItem from '../ui/ListItem';
 import NewlineToBreak from '../ui/NewlineToBreak';
 import Button from '../ui/Button';
 import Gallery from '../ui/Gallery';
-import UserAvatar from '../users/UserAvatar';
+import ProfileAvatar from '../users/ProfileAvatar';
 import ProfileListItem from '../users/ProfileListItem';
 
 if (process.env.BROWSER) {

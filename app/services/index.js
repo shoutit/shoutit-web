@@ -23,5 +23,6 @@ export shout from './shout';
 export shoutReply from './shoutReply';
 export shoutCall from './shoutCall';
 export suggestions from './suggestions';
+export tag from './tag';
 export tags from './tags';
 export twilioToken from './twilioToken';

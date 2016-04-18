@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Icon from '../ui/Icon';
 import Button from '../ui/Button';
-import UserAvatar from '../users/UserAvatar';
+import ProfileAvatar from '../users/ProfileAvatar';
 
 if (process.env.BROWSER) {
   require('../styles/components/HeaderProfile.scss');
@@ -40,7 +40,7 @@ export function HeaderProfile({
             className="HeaderProfile-profileLink"
             to={`/user/${user.username}`}
             onClick={ onProfileClick }>
-              <UserAvatar user={ user } size="large" mask />
+              <ProfileAvatar user={ user } size="large" mask />
           </Link>
       </div>
     </div>

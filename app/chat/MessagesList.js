@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import moment from 'moment';
 import { groupByDay, groupByProfile, getReadyBy } from '../chat/MessagesUtils';
 import MessageItem from './MessageItem';
-import UserAvatar from '../users/UserAvatar';
+import ProfileAvatar from '../users/ProfileAvatar';
 if (process.env.BROWSER) {
   require('./MessagesList.scss');
 }
@@ -19,7 +19,7 @@ export function MessagesByDay({ day, messages, loggedUser, partecipants }) {
       return (
         <div key={ i } className={ className }>
           <div className="MessagesList-user">
-            { profile && <UserAvatar user={ profile } linkToUserPage tooltip /> }
+            { profile && <ProfileAvatar user={ profile } linkToProfilePage tooltip /> }
           </div>
           <div className="MessagesList-messages">
             { profileMessages.map(message =>
