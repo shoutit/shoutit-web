@@ -3,9 +3,9 @@ import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'tag',
-  read: (req, resource, { id }, config, callback) => {
+  read: (req, resource, { name }, config, callback) => {
     request
-      .get(`/tags/${id}`)
+      .get(`/tags/${name}`)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {

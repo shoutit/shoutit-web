@@ -20,7 +20,7 @@ if (process.env.BROWSER) {
   require('./ShoutPreview.scss');
 }
 
-function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfile = true }) {
+function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfile = true, showCategory = true }) {
   return (
 
     <ShoutLink className="Card ShoutPreview" shout={ shout }>
@@ -52,7 +52,7 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
             }>
             <TimeAgo date={ shout.datePublished } />
           </ListItem>
-          <CategoryListItem onClick={ onCategoryClick } category={ shout.category } size="small" />
+          { showCategory && <CategoryListItem onClick={ onCategoryClick } category={ shout.category } size="small" /> }
         </div>
       </div>
     </ShoutLink>
@@ -65,6 +65,7 @@ ShoutPreview.propTypes = {
   onProfileAvatarClick: PropTypes.func.isRequired,
   onCategoryClick: PropTypes.func.isRequired,
   showProfile: PropTypes.bool,
+  showCategory: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

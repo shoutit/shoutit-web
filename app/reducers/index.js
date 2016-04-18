@@ -89,6 +89,14 @@ const paginated = combineReducers({
       actionTypes.CREATE_SHOUT_SUCCESS,
     ],
   }),
+  shoutsByTagname: paginate({
+    mapActionToKey: action => action.payload.name,
+    fetchTypes: [
+      actionTypes.LOAD_TAG_SHOUTS_START,
+      actionTypes.LOAD_TAG_SHOUTS_SUCCESS,
+      actionTypes.LOAD_TAG_SHOUTS_FAILURE,
+    ],
+  }),
   listenersByUser,
   listeningByUser,
   discoverItemsByCountry: paginate({
@@ -113,6 +121,14 @@ const paginated = combineReducers({
       actionTypes.LOAD_RELATED_SHOUTS_START,
       actionTypes.LOAD_RELATED_SHOUTS_SUCCESS,
       actionTypes.LOAD_RELATED_SHOUTS_FAILURE,
+    ],
+  }),
+  relatedTagsByTag: paginate({
+    mapActionToKey: action => action.payload.tag.id,
+    fetchTypes: [
+      actionTypes.LOAD_RELATED_TAGS_START,
+      actionTypes.LOAD_RELATED_TAGS_SUCCESS,
+      actionTypes.LOAD_RELATED_TAGS_FAILURE,
     ],
   }),
   suggestions: paginate({
