@@ -2,44 +2,43 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
-import { loadProfileDetailsIfNeeded } from '../actions/users';
-
-import UserAvatar from '../users/UserAvatar';
-import LocationListItem from '../location/LocationListItem';
-import ProfileListenersListItem from '../users/ProfileListenersListItem';
-import ProfileActions from '../users/ProfileActions';
-
+import { loadTagIfNeeded } from '../actions/tags';
+import Icon from '../ui/Icon';
+import TagListenersListItem from '../tags/TagListenersListItem';
+import TagActions from '../tags/TagActions';
 if (process.env.BROWSER) {
-  require('./InterestPreview.scss');
+  require('./TagPreview.scss');
 }
 
-const requiredDetails = ['location', 'listenersCount', 'name', 'cover'];
+const properties = ['listenersCount', 'isListening'];
 
-export class InterestPreview extends Component {
+export class TagPreview extends Component {
   static propTypes = {
-    profile: PropTypes.object.isRequired,
+    id: PropTypes.string.isRequired,
+    tag: PropTypes.object.isRequired,
     style: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
   };
   componentDidMount() {
-    const { profile, dispatch } = this.props;
-    dispatch(loadProfileDetailsIfNeeded(profile, requiredDetails));
+    const { tag, dispatch } = this.props;
+    dispatch(loadTagIfNeeded(tag, properties));
   }
   render() {
-    const { profile, style, profile: { cover, name } } = this.props;
+    const { tag, style } = this.props;
     return (
-      <div className="InterestPreview" style={ style }>
-        <div className="InterestPreview-cover" style={getStyleBackgroundImage(cover, 'medium')} />
-        <div className="InterestPreview-user">
-          <UserAvatar user={ profile } size="large" />
-          <h2>{ name } {profile.isOwner && ' (you)'}</h2>
+      <div className="TagPreview" style={ style }>
+        <div className="TagPreview-cover" style={ getStyleBackgroundImage(tag.image, 'medium') } />
+        <div className="TagPreview-header">
+          <div className="TagPreview-icon">
+            <Icon name="tag" size="large" active />
+          </div>
+          <h2>{ tag.name }</h2>
         </div>
-        <div className="InterestPreview-body">
-          { profile.location && <LocationListItem location={ profile.location } size="small" /> }
-          <ProfileListenersListItem profile={ profile } size="small" />
+        <div className="TagPreview-body">
+          <TagListenersListItem tag={ tag } size="small" />
         </div>
-        <div className="InterestPreview-actions">
-          <ProfileActions showProfileLink profile={ profile } size="small" />
+        <div className="TagPreview-actions">
+          <TagActions tag={ tag } size="small" />
         </div>
       </div>
     );
@@ -48,10 +47,10 @@ export class InterestPreview extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps;
-  const profile = state.entities.users[id];
+  const tag = state.entities.tags[id];
   return {
-    profile,
+    tag,
   };
 };
 
-export default connect(mapStateToProps)(InterestPreview);
+export default connect(mapStateToProps)(TagPreview);

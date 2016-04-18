@@ -16,7 +16,7 @@
   background-color: $background-color-alt-light;
 }
 
-.TagPreview-user {
+.TagPreview-header {
   text-align: center;
   margin-top: -24px;
 
@@ -26,13 +26,22 @@
     font-size: 1.125rem;
   }
 
-  h3 {
-    font-size: 0.75rem;
-    color: $color-light;
-    font-weight: normal;
-    margin: 0;
-  }
+}
 
+.TagPreview-icon {
+  display: inline-block;
+  background-color: white;
+  padding: 6px;
+  border: 1px solid $si-green;
+  text-align: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 48px;
+  position: relative;
+  box-shadow: $box-shadow-depth-0;
+  .Icon {
+    left: -2px;
+  }
 }
 
 .TagPreview-body {
