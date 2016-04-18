@@ -45,17 +45,22 @@ function ShoutActions({ shout, onReplyClick }) {
     marginBottom: '.5rem',
     textAlign: 'center',
   };
+  let callButton;
+  if (shout.isMobileSet) {
+    callButton = <ShoutCallButton shout={ shout } style={ buttonStyle } block />;
+  }
   return (
     <div className="ShoutActions">
       <ShoutPrice shout={ shout } layout="plain" />
 
       { shout.profile.isOwner ?
         <div>
-          <EditShoutButton shoutId={ shout.id } />
+          <EditShoutButton style={ buttonStyle } block shoutId={ shout.id } />
+          { callButton }
         </div> :
         <div>
           <Button style={ buttonStyle } block onClick={ onReplyClick } size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Reply to this Shout" />
-          { shout.isMobileSet && <ShoutCallButton shout={ shout } style={ buttonStyle } block /> }
+          { callButton }
         </div>
       }
 
