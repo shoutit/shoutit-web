@@ -9,11 +9,18 @@
 
   width: 100%;
 
-  .ShoutPrice {
+  .ShoutPreview-price {
     position: absolute;
     z-index: 2;
     top: .5rem;
     right: -.5rem;
+    .ShoutPrice,
+    .ShoutType {
+      display: block;
+    }
+    .ShoutType {
+      margin-top: .5rem;
+    }
   }
 
 }

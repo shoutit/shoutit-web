@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
 import ShoutPrice from './ShoutPrice';
+import ShoutType from './ShoutType';
 import ShoutLink from './ShoutLink';
 import TimeAgo from '../ui/TimeAgo';
 import ListItem from '../ui/ListItem';
@@ -24,7 +25,10 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
   return (
 
     <ShoutLink className="Card ShoutPreview" shout={ shout }>
-      <ShoutPrice shout={ shout } />
+      <div className="ShoutPreview-price">
+        <ShoutPrice shout={ shout } />
+        { shout.type === 'request' && <ShoutType shout={ shout } /> }
+      </div>
       <div className="Card-image-wrapper">
         <div className="Card-image" style={ getStyleBackgroundImage(shout.thumbnail, 'medium') } />
       </div>

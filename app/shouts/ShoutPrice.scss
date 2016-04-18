@@ -1,24 +1,24 @@
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
 
 .ShoutPrice {
-
   &.badge {
+    position: relative;
+    padding: .35rem .7rem;
     color: white;
     background: $si-green;
-    padding: 0.35rem .7rem;
     box-shadow: -1px 1px 3px rgba(0,0,0,.4);
     &:before {
-      content: '';
       position: absolute;
-      transform: rotate(-180deg);
-      width: 0;
-      height: 0;
+      z-index: 1;
       right: 0;
       bottom: -8px;
-      border-left: 8px solid transparent;
+      width: 0;
+      height: 0;
+      content: '';
+      transform: rotate(-180deg);
       border-right: 0 solid transparent;
       border-bottom: 8px solid darken($si-green, 20);
-      z-index: 1;
+      border-left: 8px solid transparent;
     }
   }
   &.plain {
