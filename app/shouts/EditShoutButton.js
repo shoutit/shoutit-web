@@ -26,7 +26,7 @@ export function EditShoutButton({ shoutId, dispatch, ...props }) {
 
 EditShoutButton.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  shoutId: PropTypes.object.isRequired,
+  shoutId: PropTypes.string.isRequired,
 };
 
 export default connect()(EditShoutButton);
