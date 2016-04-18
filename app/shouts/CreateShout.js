@@ -88,6 +88,13 @@ export class CreateShout extends Component {
   render() {
     const { shout, error } = this.props;
     const { isUploading } = this.state;
+    let submitLabel = 'Publish';
+    if (isUploading) {
+      submitLabel = 'Uploading…';
+    }
+    if (shout.isCreating) {
+      submitLabel = 'Publishing…';
+    }
     return (
       <div className="CreateShout">
           { !shout.type ?
@@ -112,7 +119,7 @@ export class CreateShout extends Component {
                 onUploadEnd={ () => this.setState({ isUploading: false })}
                 actions={[
                   <Button type="button" label="Cancel" onClick={ this.handleCancelClick } disabled={ shout.isCreating } />,
-                  <Button primary label="Publish" disabled={ shout.isCreating || isUploading } />,
+                  <Button primary style={{ minWidth: '10rem' }} label={ submitLabel } disabled={ shout.isCreating || isUploading } />,
                 ]}
               />
             </div>

@@ -146,6 +146,11 @@ const entities = combineReducers({
       actionTypes.UPDATE_SHOUT_SUCCESS,
       actionTypes.UPDATE_SHOUT_FAILURE,
     ],
+    deleteTypes: [
+      actionTypes.DELETE_SHOUT_START,
+      actionTypes.DELETE_SHOUT_SUCCESS,
+      actionTypes.DELETE_SHOUT_FAILURE,
+    ],
   }),
 
   conversations: (state, action) => {

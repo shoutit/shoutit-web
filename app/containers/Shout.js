@@ -9,7 +9,7 @@ import Page from '../layout/Page';
 import ProfileListItem from '../users/ProfileListItem';
 
 import CategoryListItem from '../shouts/CategoryListItem';
-import EditShoutButton from '../shouts/EditShoutButton';
+import UpdateShoutButton from '../shouts/UpdateShoutButton';
 import ShoutPrice from '../shouts/ShoutPrice';
 import ShoutPreview from '../shouts/ShoutPreview';
 import FilterListItem from '../shouts/FilterListItem';
@@ -42,20 +42,25 @@ function ShoutActions({ shout, onReplyClick }) {
   const buttonStyle = {
     width: '80%',
     margin: '0 auto',
-    marginBottom: '.5rem',
+    marginTop: '.5rem',
     textAlign: 'center',
   };
+  let callButton;
+  if (shout.isMobileSet) {
+    callButton = <ShoutCallButton tooltipPlacement="bottom" shout={ shout } style={ buttonStyle } block />;
+  }
   return (
     <div className="ShoutActions">
       <ShoutPrice shout={ shout } layout="plain" />
 
       { shout.profile.isOwner ?
         <div>
-          <EditShoutButton shoutId={ shout.id } />
+          <UpdateShoutButton style={ buttonStyle } block shoutId={ shout.id } />
+          { callButton }
         </div> :
         <div>
           <Button style={ buttonStyle } block onClick={ onReplyClick } size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Reply to this Shout" />
-          { shout.isMobileSet && <ShoutCallButton shout={ shout } style={ buttonStyle } block /> }
+          { callButton }
         </div>
       }
 
@@ -118,7 +123,7 @@ export class Shout extends Component {
   renderEndColumn() {
     const { shout } = this.props;
     return [
-      <ShoutActions shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
+      <ShoutActions key="actions" shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
       <CardWithList block key="profile" style={{ marginTop: '2rem', padding: '.5rem' }} >
         <ProfileListItem tooltipPlacement="right" profile={ shout.profile } />
         <ListItem start={ <Icon name="clock" active /> }>
@@ -126,7 +131,7 @@ export class Shout extends Component {
         </ListItem>
         <LocationListItem location={ shout.location } />
       </CardWithList>,
-      <Location style={{ marginTop: '1rem' }} location={ shout.location } />,
+      <Location key="location" style={{ marginTop: '1rem' }} location={ shout.location } />,
     ];
   }
 

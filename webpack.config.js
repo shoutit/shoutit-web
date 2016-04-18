@@ -30,7 +30,7 @@ NotifyConfigPlugin.prototype.apply = () => {
 };
 
 module.exports = {
-  devtool: isDevelopment ? '#cheap-module-eval-source-map' : 'source-map',
+  devtool: isDevelopment ? '#cheap-module-eval-source-map' : '#source-map',
   context: context,
   entry: entries,
   output: {

@@ -8,10 +8,15 @@ import { call } from '../actions/shouts';
 
 export class ShoutCallButton extends Component {
 
-  propTypes = {
+  static propTypes = {
     shout: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
+    tooltipPlacement: PropTypes.string,
   };
+
+  static defaultProps = {
+    tooltipPlacement: 'top',
+  }
 
   constructor(props) {
     super(props);
@@ -19,11 +24,11 @@ export class ShoutCallButton extends Component {
   }
 
   handleClick() {
-    this.props.dispatch(call(this.props.shout.id));
+    this.props.dispatch(call(this.props.shout));
   }
 
   render() {
-    const { shout } = this.props;
+    const { shout, tooltipPlacement } = this.props;
     let label = `Call ${shout.mobileHint.replace('...', '…')}`;
     if (shout.isUpdating) {
       label = 'Please wait…';
@@ -45,7 +50,7 @@ export class ShoutCallButton extends Component {
 
     if (!shout.mobile && !shout.isUpdating) {
       return (
-        <Tooltip placement="right" overlay="Click to reveal">
+        <Tooltip placement={ tooltipPlacement } overlay="Click to reveal">
           { button }
         </Tooltip>
       );

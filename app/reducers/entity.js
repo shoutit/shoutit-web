@@ -5,6 +5,7 @@ export default function ({
   name,
   createTypes,
   updateTypes,
+  deleteTypes,
   mapActionToId,
   mapActionToTempEntity,
   mapActionToTempId,
@@ -17,6 +18,10 @@ export default function ({
   let updateStartType;
   let updateSuccessType;
   let updateFailureType;
+
+  let deleteStartType;
+  let deleteSuccessType;
+  let deleteFailureType;
 
   if (createTypes) {
     [createStartType, createSuccessType, createFailureType] = createTypes;
@@ -41,6 +46,16 @@ export default function ({
     }
   }
 
+  if (deleteTypes) {
+    [deleteStartType, deleteSuccessType, deleteFailureType] = deleteTypes;
+    if (!Array.isArray(deleteTypes) || deleteTypes.length > 0 && deleteTypes.length < 2) {
+      throw new Error('Expected deleteTypes to be an array of three elements.');
+    }
+    if (typeof mapActionToId !== 'function') {
+      throw new Error('When using deleteTypes, expected mapActionToId being a function.');
+    }
+  }
+
   function updateTempEntity(tempEntity, action) {
     switch (action.type) {
       case createStartType:
@@ -61,20 +76,41 @@ export default function ({
   function updateEntity(entity, action) {
     switch (action.type) {
       case updateStartType:
-        return merge({}, entity, {
+        return {
+          ...entity,
           isUpdating: true,
           updateError: entity.updateError ? null : undefined,
-        });
+        };
       case updateSuccessType:
-        return merge({}, entity, {
+        return {
+          ...entity,
           isUpdating: false,
           updateError: entity.updateError ? null : undefined,
-        });
+        };
       case updateFailureType:
-        return merge({}, entity, {
+        return {
+          ...entity,
           isUpdating: false,
           updateError: action.payload.error || action.payload,
-        });
+        };
+      case deleteStartType:
+        return {
+          ...entity,
+          isDeleting: true,
+          deleteError: entity.deleteError ? null : undefined,
+        };
+      case deleteSuccessType:
+        return {
+          ...entity,
+          isDeleting: false,
+          deleteError: entity.deleteError ? null : undefined,
+        };
+      case deleteFailureType:
+        return {
+          ...entity,
+          isDeleting: false,
+          deleteError: action.payload.error || action.payload,
+        };
       default:
         return entity;
     }
@@ -102,12 +138,14 @@ export default function ({
             ...action.payload.entities[name],
           };
 
+        case deleteStartType:
         case updateStartType:
           id = mapActionToId(action);
           return {
             ...state,
-            [id]: updateEntity(mapActionToTempEntity(action), action),
+            [id]: updateEntity(state[id], action),
           };
+        case deleteFailureType:
         case updateFailureType:
           id = mapActionToId(action);
           return {

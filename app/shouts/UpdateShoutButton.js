@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import Button from '../ui/Button';
 import Icon from '../ui/Icon';
 
-import EditShoutModal from './EditShoutModal';
+import UpdateShoutModal from './UpdateShoutModal';
 
 import { openModal, closeModal } from '../actions/ui';
 
-export function EditShoutButton({ shoutId, dispatch, ...props }) {
+export function UpdateShoutButton({ shoutId, dispatch, ...props }) {
   function onClick() {
     dispatch(openModal(
-      <EditShoutModal
+      <UpdateShoutModal
         name="edit-modal"
         shoutId={ shoutId }
         onCancel={ () => dispatch(closeModal('edit-modal')) }
@@ -24,9 +24,9 @@ export function EditShoutButton({ shoutId, dispatch, ...props }) {
   );
 }
 
-EditShoutButton.propTypes = {
+UpdateShoutButton.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  shoutId: PropTypes.object.isRequired,
+  shoutId: PropTypes.string.isRequired,
 };
 
-export default connect()(EditShoutButton);
+export default connect()(UpdateShoutButton);

@@ -13,12 +13,8 @@ export default function Tooltip({ children, white = false, getTooltipContainer, 
   } else {
     prefixCls = 'Tooltip';
   }
-  // if (!getTooltipContainer) {
-  //   getTooltipContainer = c => c;
-  // }
-
   return (
-    <ReactTooltip { ...props } getTooltipContainer={ getTooltipContainer } prefixCls={ prefixCls }>
+    <ReactTooltip destroyTooltipOnHide { ...props } getTooltipContainer={ getTooltipContainer } prefixCls={ prefixCls }>
       { children }
     </ReactTooltip>
   );

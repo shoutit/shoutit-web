@@ -7,10 +7,10 @@ if (process.env.BROWSER) {
   require('./Location.scss');
 }
 
-export default function Location({ location, style }) {
+export default function Location({ location, style, zoom = 11 }) {
   return (
     <Card block className="Location" style={ style }>
-      <GoogleStaticMap zoom="11" location={ location } />
+      <GoogleStaticMap zoom={ zoom } location={ location } />
       <div className="Location-body">
         { formatLocation(location) }
       </div>
@@ -21,4 +21,5 @@ export default function Location({ location, style }) {
 Location.propTypes = {
   location: PropTypes.object.isRequired,
   style: PropTypes.object,
+  zoom: PropTypes.number,
 };

@@ -74,6 +74,24 @@ export function updateShout(shout) {
   };
 }
 
+export function deleteShout(shout) {
+  return {
+    types: [
+      actionTypes.DELETE_SHOUT_START,
+      actionTypes.DELETE_SHOUT_SUCCESS,
+      actionTypes.DELETE_SHOUT_FAILURE,
+    ],
+    payload: { shout },
+    service: {
+      method: 'delete',
+      name: 'shout',
+      params: { shout },
+      body: shout,
+      schema: Schemas.SHOUT,
+    },
+  };
+}
+
 export function amendShout(shout, data) {
   return {
     type: actionTypes.AMEND_SHOUT,
@@ -90,17 +108,17 @@ export function amendShout(shout, data) {
   };
 }
 
-export function call(id) {
+export function call(shout) {
   return {
     types: [
       actionTypes.UPDATE_SHOUT_START,
       actionTypes.UPDATE_SHOUT_SUCCESS,
       actionTypes.UPDATE_SHOUT_FAILURE,
     ],
-    payload: { shout: { id } },
+    payload: { shout: { id: shout.id } },
     service: {
       name: 'shoutCall',
-      params: { id },
+      params: { shout },
       schema: Schemas.SHOUT,
     },
   };
