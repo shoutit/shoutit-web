@@ -70,7 +70,7 @@ export default store => next => action => { // eslint-disable-line no-unused-var
   switch (action.type) {
 
     case actionTypes.LOGIN_SUCCESS:
-      const profile = action.payload;
+      const profile = action.payload.user;
       channelId = `presence-v3-p-${profile.id}`;
 
       log('Subscribing channel %s...', channelId);
