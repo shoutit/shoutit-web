@@ -103,7 +103,7 @@ export class LocationField extends Component {
       if (lastInput) {
         dispatch(resetPlacePredictionsLastInput());
       }
-    }, 100);
+    }, 300);
   }
   handleChange(value) {
     let state = {
