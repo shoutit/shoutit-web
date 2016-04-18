@@ -77,10 +77,10 @@ export class Interest extends Component {
           }
         }}
       >
-        <Page title="Tag"
+        <Page title={ tag ? tag.name : null }
           stickyStartColumn
           startColumn={ [
-            <Card>
+            <Card className="Interest-main-card" block style={{ width: '100%' }}>
               <TagPreview style={{ width: '100%' }} id={ tag.id } />
             </Card>,
           ]}
@@ -112,7 +112,14 @@ export class Interest extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { params: { name } } = ownProps;
   const { paginated, entities } = state;
-  const tag = find(entities.tags, { name });
+  let tag = find(entities.tags, { name });
+  const category = entities.categories[name];
+  if (category) {
+    tag = {
+      ...tag,
+      ...category,
+    };
+  }
   let shouts = [];
   let isFetchingShouts = false;
   let shoutsCount = 0;

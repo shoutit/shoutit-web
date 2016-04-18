@@ -39,7 +39,7 @@
       }
     }
   }
-  .CategoryListItem {
+  .TagListItem {
     @include ellipsis();
     &:hover {
       color: $si-green;

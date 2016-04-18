@@ -38,9 +38,18 @@
   height: 48px;
   border-radius: 48px;
   position: relative;
+  justify-content: center;
   box-shadow: $box-shadow-depth-0;
+  display: flex;
+    margin: 0 auto;
   .Icon {
     left: -2px;
+  }
+  text-align: center;
+  img {
+    align-self: center;
+    display: inline-block;
+    width: 28px;
   }
 }
 

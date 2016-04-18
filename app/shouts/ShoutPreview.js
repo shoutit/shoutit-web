@@ -8,7 +8,7 @@ import TimeAgo from '../ui/TimeAgo';
 import ListItem from '../ui/ListItem';
 import Tooltip from '../ui/Tooltip';
 
-import CategoryListItem from './CategoryListItem';
+import TagListItem from '../tags/TagListItem';
 
 import ProfileAvatar from '../users/ProfileAvatar';
 import ProfilePreview from '../users/ProfilePreview';
@@ -52,7 +52,7 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
             }>
             <TimeAgo date={ shout.datePublished } />
           </ListItem>
-          { showCategory && <CategoryListItem onClick={ onCategoryClick } category={ shout.category } size="small" /> }
+          { showCategory && <TagListItem link={ false } onClick={ onCategoryClick } tag={ shout.category } size="small" /> }
         </div>
       </div>
     </ShoutLink>
