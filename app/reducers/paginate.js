@@ -115,7 +115,8 @@ export default function paginate({
     if (!action.payload || !action.payload.result) {
       throw new Error("Expected a payload object with a result containing the entity's id");
     }
-    return { ...state, ids: [...state.ids, action.payload.result] };
+    const ids = state.ids || [];
+    return { ...state, ids: [...ids, action.payload.result] };
   }
 
   function updateOnDelete(state = initialState, action) {

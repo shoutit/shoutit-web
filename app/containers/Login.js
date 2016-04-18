@@ -92,7 +92,7 @@ export class Login extends Component {
   render() {
     const { isLoggingIn, location: { query }, error } = this.props;
     return (
-      <Page className="Login" title="Log in">
+      <Page className="Login" title="Login">
 
         <Frame title="Login">
 

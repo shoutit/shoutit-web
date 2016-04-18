@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
@@ -19,7 +19,16 @@ if (process.env.BROWSER) {
   require('./Chat.scss');
 }
 
-export class Chat extends React.Component {
+export class Chat extends Component {
+
+  static propTypes = {
+    params: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    loggedUser: PropTypes.object,
+    isFetching: PropTypes.bool,
+    conversations: PropTypes.array,
+    conversation: PropTypes.object,
+  }
 
   render() {
     const { params, loggedUser, isFetching, conversations, conversation, dispatch } = this.props;

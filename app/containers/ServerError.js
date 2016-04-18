@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Page from '../layout/Page';
 import Frame from '../layout/Frame';
 
@@ -25,3 +25,7 @@ export default function ServerError({ error }) {
   );
 
 }
+
+ServerError.propTypes = {
+  error: PropTypes.object.isRequired,
+};

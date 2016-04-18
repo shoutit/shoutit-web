@@ -136,7 +136,6 @@ export class Signup extends Component {
           <div className="Frame-form-horizontal-group">
             <TextField
               ref="firstName"
-              autoComplete="off"
               block
               tooltipPlacement="left"
               disabled={ isSigningUp }
@@ -158,7 +157,6 @@ export class Signup extends Component {
 
           <TextField
             ref="email"
-            autoComplete="off"
             block
             disabled={ isSigningUp }
             name="email"

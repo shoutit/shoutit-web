@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { setPassword, resetSessionErrors } from '../actions/session';
+import { setPassword } from '../actions/session';
 
 import Button from '../ui/Button';
 import TextField from '../ui/TextField';

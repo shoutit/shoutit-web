@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PropTypes, Component } from 'react';
 import DocumentTitle from '../ui/DocumentTitle';
 import { connect } from 'react-redux';
 
@@ -7,6 +7,11 @@ import { getServerStatus } from '../actions/server';
 export class Heartbeat extends Component {
 
   static fetchData = dispatch => dispatch(getServerStatus());
+
+
+  static propTypes = {
+    status: PropTypes.object.isRequired,
+  }
 
   render() {
     const { status } = this.props;
