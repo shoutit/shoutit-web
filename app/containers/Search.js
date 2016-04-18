@@ -14,7 +14,7 @@ import UIMessage from '../ui/UIMessage';
 
 import ShoutsList from '../shouts/ShoutsList';
 import SuggestedShout from '../shouts/SuggestedShout';
-import SuggestedInterests from '../interests/SuggestedInterests';
+import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';
 
 import SearchFilters from '../search/SearchFilters';
@@ -175,7 +175,7 @@ export class Search extends Component {
             </div>
           }
           stickyStartColumn
-          endColumn={ [<SuggestedInterests />,
+          endColumn={ [<SuggestedTags />,
           <SuggestedProfiles />,
           <SuggestedShout />] }
         >

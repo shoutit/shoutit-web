@@ -1,0 +1,51 @@
+@import '../styles/constants';
+
+.TagPreview {
+  width: 250px;
+  padding-bottom: .5rem;
+}
+
+.TagPreview-cover {
+  border-top-right-radius: $border-radius-small;
+  border-top-left-radius: $border-radius-small;
+  height: 80px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-bottom: 1px solid $border-color;
+  background-color: $background-color-alt-light;
+}
+
+.TagPreview-user {
+  text-align: center;
+  margin-top: -24px;
+
+  h2 {
+    font-weight: lighter;
+    margin: .5rem .5rem 0 .5rem;
+    font-size: 1.125rem;
+  }
+
+  h3 {
+    font-size: 0.75rem;
+    color: $color-light;
+    font-weight: normal;
+    margin: 0;
+  }
+
+}
+
+.TagPreview-body {
+  display: flex;
+  padding: 0rem .5rem;
+  margin-top: .5rem;
+  .LocationListItem {
+    flex: 1
+  }
+}
+
+.TagPreview-actions {
+  padding: .5rem .25rem 0 .25rem;
+  margin: .5rem .25rem 0 .25rem;
+  border-top: 1px solid $border-color;
+}

@@ -41,7 +41,7 @@ export default function ListItem({
   );
 }
 
-ListItem.PropTypes = {
+ListItem.propTypes = {
   start: PropTypes.element,
   childen: PropTypes.element.isRequired,
   size: PropTypes.oneOf(['small', 'medium', 'large']),

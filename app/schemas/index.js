@@ -46,8 +46,11 @@ export const Schemas = {
   CONVERSATION: Conversation,
   CONVERSATIONS: arrayOf(Conversation),
   CURRENCIES: arrayOf(Currency),
+  DISCOVERITEM: DiscoverItem,
+  DISCOVERITEMS: arrayOf(DiscoverItem),
   MESSAGE: Message,
   MESSAGES: arrayOf(Message),
+  PROFILE: User,
   PROFILES: arrayOf(User),
   SHOUT: Shout,
   SHOUTS: arrayOf(Shout),
@@ -57,11 +60,9 @@ export const Schemas = {
     tags: arrayOf(Tag),
     shout: Shout,
   },
+  TAG: Tag,
   TAGS: arrayOf(Tag),
   USER: User,
-  PROFILE: User,
-  DISCOVERITEM: DiscoverItem,
-  DISCOVERITEMS: arrayOf(DiscoverItem),
 };
 
 export const denormalize = (entity, entities, name) => denormalizer(entity, entities, Schemas[name]);

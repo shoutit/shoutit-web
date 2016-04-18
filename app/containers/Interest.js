@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Page from '../layout/Page';
-import SuggestedInterests from '../interests/SuggestedInterests';
+import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';
 import SuggestedShout from '../shouts/SuggestedShout';
 
@@ -26,7 +26,7 @@ export class Interest extends Component {
       <Page
         title="Explore interests"
         endColumn={ [
-          <SuggestedInterests />,
+          <SuggestedTags />,
           <SuggestedProfiles />,
           <SuggestedShout />,
         ]}>
