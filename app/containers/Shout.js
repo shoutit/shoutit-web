@@ -42,12 +42,12 @@ function ShoutActions({ shout, onReplyClick }) {
   const buttonStyle = {
     width: '80%',
     margin: '0 auto',
-    marginBottom: '.5rem',
+    marginTop: '.5rem',
     textAlign: 'center',
   };
   let callButton;
   if (shout.isMobileSet) {
-    callButton = <ShoutCallButton shout={ shout } style={ buttonStyle } block />;
+    callButton = <ShoutCallButton tooltipPlacement="bottom" shout={ shout } style={ buttonStyle } block />;
   }
   return (
     <div className="ShoutActions">
@@ -123,7 +123,7 @@ export class Shout extends Component {
   renderEndColumn() {
     const { shout } = this.props;
     return [
-      <ShoutActions shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
+      <ShoutActions key="actions" shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
       <CardWithList block key="profile" style={{ marginTop: '2rem', padding: '.5rem' }} >
         <ProfileListItem tooltipPlacement="right" profile={ shout.profile } />
         <ListItem start={ <Icon name="clock" active /> }>
@@ -131,7 +131,7 @@ export class Shout extends Component {
         </ListItem>
         <LocationListItem location={ shout.location } />
       </CardWithList>,
-      <Location style={{ marginTop: '1rem' }} location={ shout.location } />,
+      <Location key="location" style={{ marginTop: '1rem' }} location={ shout.location } />,
     ];
   }
 
