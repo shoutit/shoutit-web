@@ -11,6 +11,7 @@ import ProfileListItem from '../users/ProfileListItem';
 import CategoryListItem from '../shouts/CategoryListItem';
 import UpdateShoutButton from '../shouts/UpdateShoutButton';
 import ShoutPrice from '../shouts/ShoutPrice';
+import ShoutType from '../shouts/ShoutType';
 import ShoutPreview from '../shouts/ShoutPreview';
 import FilterListItem from '../shouts/FilterListItem';
 import ShoutCallButton from '../shouts/ShoutCallButton';
@@ -51,8 +52,8 @@ function ShoutActions({ shout, onReplyClick }) {
   }
   return (
     <div className="ShoutActions">
+      { shout.type === 'request' && <ShoutType shout={ shout } layout="plain" /> }
       <ShoutPrice shout={ shout } layout="plain" />
-
       { shout.profile.isOwner ?
         <div>
           <UpdateShoutButton style={ buttonStyle } block shoutId={ shout.id } />
