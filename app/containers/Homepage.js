@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { Link as ScrollLink, Element } from 'react-scroll';
 import Card from '../ui/Card';
-import Footer from '../layout/Footer';
 import DocumentTitle from '../ui/DocumentTitle';
 import { getVariation } from '../utils/APIUtils';
 
@@ -66,6 +65,10 @@ export function Homepage({ categories }) {
     </DocumentTitle>
   );
 }
+
+Homepage.propTypes = {
+  categories: PropTypes.array.isRequired,
+};
 
 Homepage.layoutSettings = {
   stickyHeader: false,

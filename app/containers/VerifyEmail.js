@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import Button from '../ui/Button';
@@ -15,6 +15,10 @@ const fetchData = (dispatch, state, params) =>
 export class VerifyEmail extends Component {
 
   static fetchData = fetchData;
+
+  static propTypes = {
+    error: PropTypes.object,
+  }
 
   render() {
     const { error } = this.props;

@@ -54,13 +54,22 @@ const StartColumn = ({ profile }) =>
     <Listening byProfile={ profile } />
   </div>;
 
+StartColumn.propTypes = {
+  profile: PropTypes.object.isRequired,
+};
+
 export class Dashboard extends Component {
 
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     shouts: PropTypes.array.isRequired,
     searchString: PropTypes.string,
     nextUrl: PropTypes.string,
+    firstRender: PropTypes.bool,
+    isFetching: PropTypes.bool,
     searchParams: PropTypes.array,
+    error: PropTypes.object,
+    profile: PropTypes.object,
     loggedProfile: PropTypes.object.isRequired,
   };
 
@@ -95,7 +104,7 @@ export class Dashboard extends Component {
         }}
         triggerOffset={ 400 }>
         <Page
-          title={`${loggedProfile.firstName}’s dashboard`}
+          title={ `${loggedProfile.firstName}’s dashboard` }
           startColumn={ <StartColumn profile={ loggedProfile } /> }
           stickyStartColumn
           endColumn={ [<SuggestedTags />, <SuggestedProfiles />, <SuggestedShout />] }>

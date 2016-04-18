@@ -152,7 +152,7 @@ export class Discover extends Component {
             dispatch(loadShoutsForDiscoverItem(discoverItem.id, null, nextShoutsUrl));
           }
         }}>
-        <Page title="Discover" endColumn={ <SuggestedShout /> }>
+        <Page title={discoverItem ? discoverItem.title : null } endColumn={ <SuggestedShout /> }>
 
           { discoverItem &&
             <div className="Discover-hero" style={ getStyleBackgroundImage(discoverItem.image, 'large') }>

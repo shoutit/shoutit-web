@@ -75,7 +75,7 @@ export class Profile extends Component {
         }}
         triggerOffset={ 400 }
       >
-        <Page title="Profile"
+        <Page title={ profile ? `Shouts by ${profile.name}` : null }
           endColumn={ [<SuggestedTags key="interests" />,
           <SuggestedProfiles key="profiles" />,
           <SuggestedShout key="shout" />] }
