@@ -15,7 +15,7 @@ export function Listening({ profiles }) {
   );
 }
 
-Listening.PropTypes = {
+Listening.propTypes = {
   profiles: PropTypes.array.isRequired,
   byProfile: PropTypes.object.isRequired,
 };

@@ -8,9 +8,9 @@ import TimeAgo from '../ui/TimeAgo';
 import ListItem from '../ui/ListItem';
 import Tooltip from '../ui/Tooltip';
 
-import CategoryListItem from './CategoryListItem';
+import TagListItem from '../tags/TagListItem';
 
-import UserAvatar from '../users/UserAvatar';
+import ProfileAvatar from '../users/ProfileAvatar';
 import ProfilePreview from '../users/ProfilePreview';
 
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
@@ -20,7 +20,7 @@ if (process.env.BROWSER) {
   require('./ShoutPreview.scss');
 }
 
-function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfile = true }) {
+function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfile = true, showCategory = true }) {
   return (
 
     <ShoutLink className="Card ShoutPreview" shout={ shout }>
@@ -46,13 +46,13 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
                 placement="top"
                 overlay={ <ProfilePreview id={ shout.profile.id } /> }>
                 <span onClick={ onProfileAvatarClick }>
-                  <UserAvatar user={ shout.profile } size="small" />
+                  <ProfileAvatar user={ shout.profile } size="small" />
                 </span>
               </Tooltip>
             }>
             <TimeAgo date={ shout.datePublished } />
           </ListItem>
-          <CategoryListItem onClick={ onCategoryClick } category={ shout.category } size="small" />
+          { showCategory && <TagListItem link={ false } onClick={ onCategoryClick } tag={ shout.category } size="small" /> }
         </div>
       </div>
     </ShoutLink>
@@ -65,6 +65,7 @@ ShoutPreview.propTypes = {
   onProfileAvatarClick: PropTypes.func.isRequired,
   onCategoryClick: PropTypes.func.isRequired,
   showProfile: PropTypes.bool,
+  showCategory: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

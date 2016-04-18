@@ -55,7 +55,7 @@ $white-arrow-height: 16px;
   width: $white-arrow-height;
   background-image: url("../../assets/ui-elements/tooltips/arrow-placement-left.png");
   right: -1 * $white-arrow-height + 5;
-  margin-top: $white-arrow-height * (-0.5);
+  margin-top: $white-arrow-height * (-0.5) - 8;
   // border-width: 6px 0 6px 6px;
   // border-left-color: #ffffff;
 }

@@ -15,7 +15,7 @@ import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
 import UIMessage from '../ui/UIMessage';
 import Listening from '../users/Listening';
-import SuggestedInterests from '../interests/SuggestedInterests';
+import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';
 import SuggestedShout from '../shouts/SuggestedShout';
 
@@ -98,7 +98,7 @@ export class Dashboard extends Component {
           title={`${loggedProfile.firstName}’s dashboard`}
           startColumn={ <StartColumn profile={ loggedProfile } /> }
           stickyStartColumn
-          endColumn={ [<SuggestedInterests />, <SuggestedProfiles />, <SuggestedShout />] }>
+          endColumn={ [<SuggestedTags />, <SuggestedProfiles />, <SuggestedShout />] }>
 
           <ShoutsList shouts={ shouts } />
 

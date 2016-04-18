@@ -7,7 +7,7 @@ $size-medium: 24px;
 $size-large: 48px;
 $size-huge: 128px;
 
-.UserAvatar {
+.ProfileAvatar {
   background-color: white;
 
   display: inline-block;
@@ -65,7 +65,7 @@ $size-huge: 128px;
     background-size: 100%;
   }
 
-  .UserAvatar-image {
+  .ProfileAvatar-image {
     width: inherit;
     height: inherit;
     display: inline-block;

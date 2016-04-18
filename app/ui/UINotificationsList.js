@@ -25,7 +25,7 @@ Options(Object):
 import React from 'react';
 import Icon from '../ui/Icon';
 import Button from '../ui/Button';
-import UserAvatar from '../users/UserAvatar';
+import ProfileAvatar from '../users/ProfileAvatar';
 
 import UINotification from './UINotification';
 import VideoCallLocalMedia from '../videoCalls/VideoCallLocalMedia';
@@ -69,7 +69,7 @@ export function VIDEOCALL_PREVIEW({ user }, dismiss, flux) {
   ];
 
   const content = (
-    <UINotification showDismissButton={ false } icon= { <UserAvatar user={ user } /> } buttons={buttons}>
+    <UINotification showDismissButton={ false } icon= { <ProfileAvatar user={ user } /> } buttons={buttons}>
       Call <strong>{ user.name }</strong>?
       <div style={{ marginTop: 10 }}>
         <VideoCallLocalMedia />
@@ -145,7 +145,7 @@ export function VIDEOCALL_INCOMING({ incomingInvite, user }, dismiss, flux) {
   ];
 
   const content = (
-    <UINotification showDismissButton={ false } icon= { <UserAvatar user={ user } /> } buttons={buttons}>
+    <UINotification showDismissButton={ false } icon= { <ProfileAvatar user={ user } /> } buttons={buttons}>
       <strong>{ user.name }</strong> is calling you…
     </UINotification>
   );

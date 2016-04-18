@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import UserAvatar from '../users/UserAvatar';
+import ProfileAvatar from '../users/ProfileAvatar';
 import Tooltip from '../ui/Tooltip';
 import ListItem from '../ui/ListItem';
 import ProfilePreview from '../users/ProfilePreview';
@@ -14,7 +14,7 @@ export default function ProfileListItem({
   tooltipPlacement = 'right',
 }) {
 
-  const avatar = <UserAvatar size={ size } user={ profile } />;
+  const avatar = <ProfileAvatar size={ size } user={ profile } />;
   const overlay = <ProfilePreview id={ profile.id } />;
   const content = (
 
@@ -28,7 +28,6 @@ export default function ProfileListItem({
   }
   return (
     <Tooltip
-      destroyTooltipOnHide
       white
       placement={ tooltipPlacement }
       overlay={ overlay }

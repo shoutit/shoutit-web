@@ -19,4 +19,5 @@ export default function ProfileListening({ profile, size = 'small' }) {
 
 ProfileListening.propTypes = {
   profile: PropTypes.object.isRequired,
+  size: PropTypes.oneOf(['small', 'medium']),
 };

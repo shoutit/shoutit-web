@@ -12,7 +12,7 @@ export function SuggestedProfiles({ profiles }) {
   );
 }
 
-SuggestedProfiles.PropTypes = {
+SuggestedProfiles.propTypes = {
   profiles: PropTypes.array.isRequired,
 };
 

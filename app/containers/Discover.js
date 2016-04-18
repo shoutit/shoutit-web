@@ -171,8 +171,8 @@ export class Discover extends Component {
 
           { discoverItem && discoverItem.showChildren && discoverItem.children &&
             <div className="Discover-children">
-              { discoverItem.children.map(child =>
-                <Link to={ getDiscoverLink(country, child) }>
+              { discoverItem.children.map((child, i) =>
+                <Link to={ getDiscoverLink(country, child) } key={ i }>
                   <DiscoverItemPreview discoverItem={ child } />
                 </Link>
               )}
@@ -182,7 +182,7 @@ export class Discover extends Component {
           { discoverItem && discoverItem.showShouts && shouts.length > 0 &&
             <div className="Discover-shouts">
               <h2>{ discoverItem.title } Shouts ({ shoutsCount })</h2>
-              <ShoutsList shouts={ shouts } />
+              <ShoutsList columns={ 3 } shouts={ shouts } />
             </div>
           }
 

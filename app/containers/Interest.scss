@@ -1,0 +1,13 @@
+@import '../styles/constants.scss';
+@import '../styles/mixins/card.scss';
+@import '../styles/mixins/ellipsis.scss';
+
+.Interest {
+  margin-top: .75rem;
+
+}
+.Interest-main-card {
+    .TagPreview-cover {
+      height: 160px;
+    }
+}

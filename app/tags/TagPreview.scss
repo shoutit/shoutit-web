@@ -1,0 +1,69 @@
+@import '../styles/constants';
+
+.TagPreview {
+  width: 250px;
+  padding-bottom: .5rem;
+}
+
+.TagPreview-cover {
+  border-top-right-radius: $border-radius-small;
+  border-top-left-radius: $border-radius-small;
+  height: 80px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-bottom: 1px solid $border-color;
+  background-color: $background-color-alt-light;
+}
+
+.TagPreview-header {
+  text-align: center;
+  margin-top: -24px;
+
+  h2 {
+    font-weight: lighter;
+    margin: .5rem .5rem 0 .5rem;
+    font-size: 1.125rem;
+  }
+
+}
+
+.TagPreview-icon {
+  display: inline-block;
+  background-color: white;
+  padding: 6px;
+  border: 1px solid $si-green;
+  text-align: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 48px;
+  position: relative;
+  justify-content: center;
+  box-shadow: $box-shadow-depth-0;
+  display: flex;
+    margin: 0 auto;
+  .Icon {
+    left: -2px;
+  }
+  text-align: center;
+  img {
+    align-self: center;
+    display: inline-block;
+    width: 28px;
+  }
+}
+
+.TagPreview-body {
+  display: flex;
+  padding: 0rem .5rem;
+  margin-top: .5rem;
+  .LocationListItem {
+    flex: 1
+  }
+}
+
+.TagPreview-actions {
+  padding: .5rem .25rem 0 .25rem;
+  margin: .5rem .25rem 0 .25rem;
+  border-top: 1px solid $border-color;
+}

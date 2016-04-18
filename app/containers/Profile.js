@@ -7,9 +7,9 @@ import { loadProfileDetailsIfNeeded, loadUserShouts } from '../actions/users';
 import { routeError } from '../actions/server';
 
 import Page from '../layout/Page';
-import SuggestedInterests from '../interests/SuggestedInterests';
+import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';
-import UserAvatar from '../users/UserAvatar';
+import ProfileAvatar from '../users/ProfileAvatar';
 import ProfileBiography from '../users/ProfileBiography';
 import SuggestedShout from '../shouts/SuggestedShout';
 import ShoutsList from '../shouts/ShoutsList';
@@ -76,7 +76,7 @@ export class Profile extends Component {
         triggerOffset={ 400 }
       >
         <Page title="Profile"
-          endColumn={ [<SuggestedInterests key="interests" />,
+          endColumn={ [<SuggestedTags key="interests" />,
           <SuggestedProfiles key="profiles" />,
           <SuggestedShout key="shout" />] }
         >
@@ -88,7 +88,7 @@ export class Profile extends Component {
 
               <div className="Profile-header">
                 <a href={ profile.image ? getVariation(profile.image, 'large') : '' }>
-                  <UserAvatar size="huge" user={ profile } />
+                  <ProfileAvatar size="huge" user={ profile } />
                 </a>
                 <div className="Profile-name">
                   <h1>

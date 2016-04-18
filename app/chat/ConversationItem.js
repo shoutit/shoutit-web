@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-import UserAvatar from '../users/UserAvatar.js';
+import ProfileAvatar from '../users/ProfileAvatar.js';
 import Icon from '../ui/Icon.js';
 import { formatCreatedAt } from '../utils/DateUtils';
 import { getConversationName } from './ChatUtils';
@@ -31,7 +31,7 @@ export default function ConversationItem({
   return (
     <Link onClick={ onClick } to={ `/messages/${id}` } className={ className }>
       <div className="ConversationItem-user-avatar">
-        <UserAvatar user={ partecipants[0] } />
+        <ProfileAvatar user={ partecipants[0] } />
       </div>
 
       <div className="ConversationItem-body">
