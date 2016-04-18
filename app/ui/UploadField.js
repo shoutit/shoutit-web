@@ -31,9 +31,7 @@ export function File({ upload, onDeleteClick }) {
       className="UploadField-file"
       style={{ backgroundImage: `url("${url}")` }}>
 
-      { percent < 100 &&
-        <div className="UploadField-file-percent" style={{ width: `${100 - percent}%` }} />
-      }
+      <div className="UploadField-file-percent" style={{ width: `${100 - percent}%` }} />
 
       { upload.error && <div className="UploadField-file-error" /> }
 
@@ -172,33 +170,30 @@ export default class UploadField extends Component {
       const index = existingUploads.length + uploads.length - 1;
 
       uploads[uploads.length - 1].request = request
-       .post(`/api/file/${resourceType}`)
-       .attach(uploadResources[resourceType].fieldname, file)
-       .on('progress', function handleProgress(e) { // eslint-disable-line
-         this.state.uploads[index].percent = e.percent;
-         this.setState({
-           uploads: this.state.uploads,
-         });
-        }.bind(this)) // eslint-disable-line
-        .end(function handleResponse(err, res) { // eslint-disable-line
-
-          this.state.uploads[index].isUploading = false;
+        .post(`/api/file/${resourceType}`)
+        .attach(uploadResources[resourceType].fieldname, file)
+        .on('progress', e => {
+          const uploads = [...this.state.uploads];
+          uploads[index].percent = e.percent;
+          this.setState({ uploads });
+        })
+        .end((err, res) => {
+          const uploads = [...this.state.uploads];
+          uploads[index].isUploading = false;
 
           if (err || !res.ok) {
-            this.state.uploads[index].error = err;
+            uploads[index].error = err;
             console.error(err); // eslint-disable-line
           } else {
-            delete this.state.uploads[index].request;
-            this.state.uploads[index].ok = true;
-            this.state.uploads[index].url = res.text;
-            this.state.uploads[index].fileName = last(res.text.split('/'));
+            delete uploads[index].request;
+            uploads[index].ok = true;
+            uploads[index].url = res.text;
+            uploads[index].fileName = last(res.text.split('/'));
           }
 
           log('Finished uploading %s of %s', i + 1, files.length, this.state.uploads[index].fileName);
 
-          this.setState({
-            uploads: this.state.uploads,
-          });
+          this.setState({ uploads });
 
           if (onChange) {
             onChange(this.getValue());
@@ -209,7 +204,7 @@ export default class UploadField extends Component {
             onUploadEnd();
           }
 
-       }.bind(this)); // eslint-disable-line
+        });
     });
 
     if (onUploadStart) {
