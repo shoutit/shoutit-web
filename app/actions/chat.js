@@ -177,7 +177,9 @@ export function removeTypingClient(conversationId, userId) {
   };
 }
 
-export function notifyTypingUser(user) {
+export function notifyTypingUser(typingUser) {
+  const { id, username, name, firstName, lastName } = typingUser;
+  const user = { id, username, name, firstName, lastName };
   return {
     type: actionTypes.NOTIFY_CLIENT_IS_TYPING,
     payload: user,
