@@ -8,7 +8,7 @@ import { call } from '../actions/shouts';
 
 export class ShoutCallButton extends Component {
 
-  propTypes = {
+  static propTypes = {
     shout: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
   };
