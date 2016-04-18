@@ -7,6 +7,21 @@ if (process.env.BROWSER) {
 
 export default class Button extends Component {
 
+  static propTypes = {
+    children: PropTypes.node,
+    label: PropTypes.string.isRequired,
+    size: PropTypes.oneOf(['small', 'medium']),
+    leftIcon: PropTypes.node,
+    primary: PropTypes.bool,
+    secondary: PropTypes.bool,
+    destructive: PropTypes.bool,
+    outline: PropTypes.bool,
+    inverted: PropTypes.bool,
+    block: PropTypes.bool,
+    dropdown: PropTypes.bool,
+    className: PropTypes.string,
+  }
+
   focus() {
     this.refs.button.focus();
   }
