@@ -61,20 +61,23 @@ export default function ({
   function updateEntity(entity, action) {
     switch (action.type) {
       case updateStartType:
-        return merge({}, entity, {
+        return {
+          ...entity,
           isUpdating: true,
           updateError: entity.updateError ? null : undefined,
-        });
+        };
       case updateSuccessType:
-        return merge({}, entity, {
+        return {
+          ...entity,
           isUpdating: false,
           updateError: entity.updateError ? null : undefined,
-        });
+        };
       case updateFailureType:
-        return merge({}, entity, {
+        return {
+          ...entity,
           isUpdating: false,
           updateError: action.payload.error || action.payload,
-        });
+        };
       default:
         return entity;
     }
@@ -106,7 +109,7 @@ export default function ({
           id = mapActionToId(action);
           return {
             ...state,
-            [id]: updateEntity(mapActionToTempEntity(action), action),
+            [id]: updateEntity(state[id], action),
           };
         case updateFailureType:
           id = mapActionToId(action);
