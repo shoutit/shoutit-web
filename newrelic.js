@@ -7,12 +7,12 @@
 
 exports.config = {
   logging: {
-    level: 'info'
+    level: 'info',
   },
   rules: {
     ignore: [
-      '^/api',
-      '^/fetchr',
+      /^\/api/,
+      /^\/fetchr/,
     ],
   },
 };
