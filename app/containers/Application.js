@@ -28,15 +28,10 @@ const fetchData = (dispatch, state) => {
   if (user) {
     promises.push(dispatch(login(user)));
     promises.push(dispatch(loadListening(user)));
-    if (user.location) {
-      promises.push(dispatch(loadSuggestions(user.location)));
-    }
   }
   if (!user || !user.location) {
     promises.push(
-      dispatch(loadCurrentLocation()).then(payload =>
-        dispatch(loadSuggestions(payload.location))
-      )
+      dispatch(loadCurrentLocation())
     );
   }
   return Promise.all(promises);
@@ -47,10 +42,11 @@ export class Application extends React.Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { dispatch, loggedUser } = this.props;
+    const { dispatch, loggedUser, currentLocation } = this.props;
     if (loggedUser) {
       dispatch(login(loggedUser)); // trigger client-side login actions (e.g. pusher)
     }
+    dispatch(loadSuggestions(currentLocation));
   }
 
   componentWillUpdate(nextProps) {

@@ -31,7 +31,7 @@ export default function Card({ image, title, size = 'small', block = false, chil
 Card.propTypes = {
   image: PropTypes.string,
   style: PropTypes.object,
-  children: PropTypes.element,
+  children: PropTypes.node,
   block: PropTypes.bool,
   className: PropTypes.string,
   title: PropTypes.string,
