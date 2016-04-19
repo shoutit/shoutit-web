@@ -52,12 +52,16 @@ export class TagPreview extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps;
   let tag = state.entities.tags[id];
-  const category = state.entities.categories[tag.name];
-  if (category) {
-    tag = {
-      ...tag,
-      ...category,
-    };
+  if (!tag) {
+    tag = state.entities.categories[id];
+  } else {
+    const category = state.entities.categories[tag.slug || tag.name];
+    if (category) {
+      tag = {
+        ...tag,
+        ...category,
+      };
+    }
   }
   return {
     tag,

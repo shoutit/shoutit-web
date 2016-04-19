@@ -73,7 +73,7 @@ export class Application extends React.Component {
     let layout = {
       stickyHeader: !error || error.statusCode === 404,
       showHeader: true,
-      showFooter: false,
+      showFooter: !!error,
     };
 
     if (props.routes) {
