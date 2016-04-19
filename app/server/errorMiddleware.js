@@ -8,7 +8,7 @@ export default function errorMiddleware(err, req, res, next) { // eslint-disable
   if (err.status === 401 || err.statusCode === 401) {
     if (req.url.indexOf('/login') === -1) {
       // redirect to login page
-      res.redirect(`/login?after=${req.url}`);
+      res.redirect(`/login?redirect=${req.url}`);
       return;
     }
   }
