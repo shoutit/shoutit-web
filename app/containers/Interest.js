@@ -80,8 +80,8 @@ export class Interest extends Component {
         <Page title={ tag ? tag.name : null }
           stickyStartColumn
           startColumn={ [
-            <Card className="Interest-main-card" block style={{ width: '100%' }}>
-              <TagPreview style={{ width: '100%' }} id={ tag.id } />
+            tag && <Card className="Interest-main-card" block style={{ width: '100%' }}>
+              <TagPreview style={{ width: '100%' }} id={ tag.slug || tag.id } />
             </Card>,
           ]}
           endColumn={ [

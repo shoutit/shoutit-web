@@ -140,7 +140,6 @@ export class Discover extends Component {
       isFetchingShouts,
       nextShoutsUrl,
       shouts,
-      shoutsCount,
     } = this.props;
 
     return (
@@ -181,7 +180,7 @@ export class Discover extends Component {
 
           { discoverItem && discoverItem.showShouts && shouts.length > 0 &&
             <div className="Discover-shouts">
-              <h2>{ discoverItem.title } Shouts ({ shoutsCount })</h2>
+              <h2>{ discoverItem.title } Shouts</h2>
               <ShoutsList columns={ 3 } shouts={ shouts } />
             </div>
           }

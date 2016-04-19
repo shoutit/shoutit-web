@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import DocumentTitle from 'react-document-title';
+import last from 'lodash/array/last';
+import newrelic, { newrelicEnabled } from './newrelic';
+
 import Fetchr from 'fetchr';
 import debug from 'debug';
 
@@ -15,6 +18,14 @@ import configureStore from '../store/configureStore';
 import fetchDataForRoutes from '../utils/fetchDataForRoutes';
 
 const log = debug('shoutit:server:renderMiddleware');
+
+const noticeError = (e, params) => {
+  if (!newrelicEnabled) {
+    return;
+  }
+  log('Notice error to newrelic', e);
+  newrelic.noticeError(e, params);
+};
 
 export default function renderMiddleware(req, res, next) {
   const fetchr = new Fetchr({ xhrPath: '/fetchr', req });
@@ -39,6 +50,12 @@ export default function renderMiddleware(req, res, next) {
     match({ routes, location: req.url }, (matchError, redirectLocation, renderProps) => {
       log('Matched request for %s', req.url);
 
+      if (newrelicEnabled) {
+        const transactionName = last(renderProps.routes).path;
+        log('Setting newrelic transactionName to %s', transactionName);
+        newrelic.setTransactionName(transactionName);
+      }
+
       if (redirectLocation) {
         res.redirect(301, redirectLocation.pathname + redirectLocation.search);
         return;
@@ -61,7 +78,14 @@ export default function renderMiddleware(req, res, next) {
 
           if (fetchingError) {
             store.dispatch(routeError(fetchingError));
-            status = fetchingError.statusCode || 500;
+          }
+
+          const routingErrorFromStore = store.getState().routing.error;
+          if (routingErrorFromStore) {
+            if (routingErrorFromStore.statusCode !== 404) {
+              noticeError(routingErrorFromStore);
+            }
+            status = routingErrorFromStore.statusCode || 500;
           }
 
           const meta = {}; // getMetaFromData(req.url, data);
@@ -83,6 +107,7 @@ export default function renderMiddleware(req, res, next) {
               </Provider>
             );
           } catch (e) {
+            noticeError(e);
             next(e, req, res);
             return;
           }
@@ -98,6 +123,7 @@ export default function renderMiddleware(req, res, next) {
           res.status(status).send(`<!doctype html>${html}`);
         });
       } catch (e) {
+        noticeError(e);
         next(e);
       }
     });
