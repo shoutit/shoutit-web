@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-
+import { Link } from 'react-router';
 import { loadShout, loadRelatedShouts } from '../actions/shouts';
 import { startShoutReply } from '../actions/chat';
 import { routeError } from '../actions/server';
@@ -111,7 +111,7 @@ export class Shout extends Component {
 
     const categoryWithFilters = (
         <CardWithList block style={{ padding: '.5rem', backgroundColor: 'white' }}>
-          <CategoryListItem category={ shout.category } />
+          <Link to={ `/interest/${shout.category.slug}`}><CategoryListItem category={ shout.category } /></Link>
           { shout.filters.map((filter) => <FilterListItem key={ filter.slug } filter={ filter } category={ shout.category } />) }
         </CardWithList>
       );
