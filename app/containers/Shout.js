@@ -34,10 +34,7 @@ if (process.env.BROWSER) {
 }
 
 const fetchData = (dispatch, state, params) =>
-  Promise.all([
-    dispatch(loadShout(params.id)).catch(err => dispatch(routeError(err))),
-    dispatch(loadRelatedShouts(params.id, { page_size: 8 })).catch(() => {}),
-  ]);
+  dispatch(loadShout(params.id)).catch(err => dispatch(routeError(err)));
 
 function ShoutActions({ shout, onReplyClick }) {
   const buttonStyle = {
@@ -92,12 +89,14 @@ export class Shout extends Component {
     if (!firstRender) {
       fetchData(dispatch, {}, params);
     }
+    dispatch(loadRelatedShouts(params.id, { page_size: 8 })).catch(() => {});
   }
 
   componentWillUpdate(nextProps) {
-    const { dispatch, params: { id } } = this.props;
-    if (nextProps.params.id !== id) {
+    const { dispatch, params } = this.props;
+    if (nextProps.params.id !== params.id) {
       fetchData(dispatch, {}, nextProps.params);
+      dispatch(loadRelatedShouts(params.id, { page_size: 8 })).catch(() => {});
     }
   }
 
