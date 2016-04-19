@@ -12,7 +12,7 @@ export default {
       .get(url)
       .setSession(req.session)
       .prefix()
-      .query({ searchParams })
+      .query(searchParams)
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));

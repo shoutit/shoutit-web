@@ -2,6 +2,7 @@
 
 import React, { PropTypes } from 'react';
 import serialize from 'serialize-javascript';
+import newrelic, { newrelicEnabled } from './newrelic';
 
 import * as config from '../config';
 
@@ -69,9 +70,9 @@ export default function HtmlDocument({
         { process.env.NODE_ENV === 'production' &&
           <link rel="stylesheet" type="text/css" href={ `${config.publicUrl}${chunkNames.css}` } /> }
 
-        { process.env.NEW_RELIC_APP_NAME &&
+        { newrelicEnabled &&
           <script type="text/javascript" dangerouslySetInnerHTML={ {
-            __html: require('newrelic').getBrowserTimingHeader().replace(/<\/?script[^>]*>/g, '') } }
+            __html: newrelic.getBrowserTimingHeader().replace(/<\/?script[^>]*>/g, '') } }
           />
         }
       </head>

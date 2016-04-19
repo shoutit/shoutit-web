@@ -20,14 +20,14 @@ export default {
         return callback(null, res.body);
       });
   },
-  read: (req, resource, { id }, config, callback) => {
+  read: (req, resource, params, config, callback) => {
     request
-      .get(`/shouts/${id}`)
+      .get(`/shouts/${params.id}`)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {
         if (err) {
-          return callback(parseApiError(err));
+          return callback(parseApiError(err, { resource, params, url: req.url }));
         }
         return callback(null, res.body);
       });
