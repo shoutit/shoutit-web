@@ -19,6 +19,14 @@ import fetchDataForRoutes from '../utils/fetchDataForRoutes';
 
 const log = debug('shoutit:server:renderMiddleware');
 
+const noticeError = (e, params) => {
+  if (!newrelicEnabled) {
+    return;
+  }
+  log('Notice error to newrelic', e);
+  newrelic.noticeError(e, params);
+};
+
 export default function renderMiddleware(req, res, next) {
   const fetchr = new Fetchr({ xhrPath: '/fetchr', req });
   // const flux = new Flux(fetchr);
@@ -70,7 +78,14 @@ export default function renderMiddleware(req, res, next) {
 
           if (fetchingError) {
             store.dispatch(routeError(fetchingError));
-            status = fetchingError.statusCode || 500;
+          }
+
+          const routingErrorFromStore = store.getState().routing.error;
+          if (routingErrorFromStore) {
+            if (routingErrorFromStore.statusCode !== 404) {
+              noticeError(routingErrorFromStore);
+            }
+            status = routingErrorFromStore.statusCode || 500;
           }
 
           const meta = {}; // getMetaFromData(req.url, data);
@@ -92,6 +107,7 @@ export default function renderMiddleware(req, res, next) {
               </Provider>
             );
           } catch (e) {
+            noticeError(e);
             next(e, req, res);
             return;
           }
@@ -107,6 +123,7 @@ export default function renderMiddleware(req, res, next) {
           res.status(status).send(`<!doctype html>${html}`);
         });
       } catch (e) {
+        noticeError(e);
         next(e);
       }
     });
