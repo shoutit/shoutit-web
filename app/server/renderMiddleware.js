@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import DocumentTitle from 'react-document-title';
+import last from 'lodash/array/last';
+import newrelic, { newrelicEnabled } from './newrelic';
+
 import Fetchr from 'fetchr';
 import debug from 'debug';
 
@@ -38,6 +41,12 @@ export default function renderMiddleware(req, res, next) {
     // Run router to determine the desired state
     match({ routes, location: req.url }, (matchError, redirectLocation, renderProps) => {
       log('Matched request for %s', req.url);
+
+      if (newrelicEnabled) {
+        const transactionName = last(renderProps.routes).path;
+        log('Setting newrelic transactionName to %s', transactionName);
+        newrelic.setTransactionName(transactionName);
+      }
 
       if (redirectLocation) {
         res.redirect(301, redirectLocation.pathname + redirectLocation.search);
