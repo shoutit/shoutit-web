@@ -1,9 +1,11 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 import { listenToUser, stopListeningToUser } from '../actions/users';
 import { startConversation } from '../actions/chat';
 import { Link } from 'react-router';
+
+import RequiresLogin from '../auth/RequiresLogin';
+import { START_LISTENING, SEND_MESSAGE } from '../auth/loginActions';
 
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
@@ -21,10 +23,6 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
     if (isUpdatingListening) {
       return;
     }
-    if (!loggedUser) {
-      dispatch((push(`/login?after=/user/${profile.username}&login_action=start_listening`)));
-      return;
-    }
     if (profile.isListening) {
       dispatch(stopListeningToUser(loggedUser, profile));
     } else {
@@ -33,10 +31,6 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
   };
 
   const onSendMessageClick = () => {
-    if (!loggedUser) {
-      dispatch((push(`/login?after=/user/${profile.username}&login_action=send_message`)));
-      return;
-    }
     dispatch(startConversation(loggedUser, profile));
   };
 
@@ -45,23 +39,27 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
         <ul className="htmlNoList">
           { !profile.isOwner &&
             <li>
-              <ListItem
-                size={ size }
-                disabled={ isUpdatingListening }
-                onClick={ onListenClick }
-                start= { <Icon size={ size } name="listen" active={ !profile.isListening } on={ profile.isListening } /> }
-              >
-                { profile.isListening ? `Stop listening to ${profile.firstName}` : `Listen to ${profile.firstName}` }
-              </ListItem>
+              <RequiresLogin event="onClick" loginAction={ START_LISTENING } redirectUrl={ `/user/${profile.username}` }>
+                <ListItem
+                  size={ size }
+                  disabled={ isUpdatingListening }
+                  onClick={ onListenClick }
+                  start= { <Icon size={ size } name="listen" active={ !profile.isListening } on={ profile.isListening } /> }
+                >
+                  { profile.isListening ? `Stop listening to ${profile.firstName}` : `Listen to ${profile.firstName}` }
+                </ListItem>
+              </RequiresLogin>
             </li>
           }
           { !profile.isOwner &&
             <li>
-              <ListItem size={ size }
-                onClick={ onSendMessageClick }
-                start= { <Icon size={ size } active name="balloon-dots" /> }>
-                Send {profile.firstName} a message
-              </ListItem>
+              <RequiresLogin event="onClick" loginAction={ SEND_MESSAGE } redirectUrl={ `/user/${profile.username}` }>
+                <ListItem size={ size }
+                  onClick={ onSendMessageClick }
+                  start= { <Icon size={ size } active name="balloon-dots" /> }>
+                  Send {profile.firstName} a message
+                </ListItem>
+              </RequiresLogin>
             </li>
           }
           { showProfileLink &&
