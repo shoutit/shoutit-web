@@ -36,7 +36,7 @@ if (process.env.BROWSER) {
 const fetchData = (dispatch, state, params) =>
   Promise.all([
     dispatch(loadShout(params.id)).catch(err => dispatch(routeError(err))),
-    dispatch(loadRelatedShouts(params.id, { page_size: 8 })),
+    dispatch(loadRelatedShouts(params.id, { page_size: 8 })).catch(() => {}),
   ]);
 
 function ShoutActions({ shout, onReplyClick }) {
