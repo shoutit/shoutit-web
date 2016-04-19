@@ -80,13 +80,13 @@ export class Login extends Component {
 
   redirectToNextPage() {
     const { location: { query }, dispatch } = this.props;
-    let afterUrl;
-    if (query.after) {
-      afterUrl = query.after;
+    let redirectUrl;
+    if (query.redirect) {
+      redirectUrl = query.redirect;
     } else {
-      afterUrl = '/';
+      redirectUrl = '/';
     }
-    dispatch(replace(afterUrl));
+    dispatch(replace(redirectUrl));
   }
 
   render() {
@@ -94,7 +94,7 @@ export class Login extends Component {
     return (
       <Page className="Login" title="Login">
 
-        <Frame title="Login">
+        <Frame title={ query.login_action ? 'Please login to continue' : 'Login' }>
 
           <div className="Frame-body">
 

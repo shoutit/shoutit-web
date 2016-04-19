@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import Icon from '../ui/Icon';
 import Button from '../ui/Button';
 import Tooltip from '../ui/Tooltip';
+import RequiresLogin from '../auth/RequiresLogin';
+import { REVEAL_NUMBER } from '../auth/loginActions';
 
 import { call } from '../actions/shouts';
 
@@ -34,18 +36,21 @@ export class ShoutCallButton extends Component {
       label = 'Please wait…';
     }
     if (shout.mobile) {
-      label = shout.mobile;
+      label = <a href={`tel://${shout.mobile}`}>{ shout.mobile }</a>;
     }
 
     const button = (
-      <Button
-        { ...this.props }
-        secondary
-        size="small"
-        onClick={ !shout.mobile && !shout.isUpdating ? this.handleClick : null }
-        leftIcon = { <Icon fill name="phone" /> }
-        label={ label }
-      />
+      <RequiresLogin event="onClick" loginAction={ REVEAL_NUMBER }>
+        <Button
+          { ...this.props }
+          secondary
+          disabled={ shout.isUpdating }
+          size="small"
+          onClick={ !shout.mobile && !shout.isUpdating ? this.handleClick : null }
+          leftIcon = { <Icon fill name="phone" /> }
+          label={ label }
+        />
+      </RequiresLogin>
     );
 
     if (!shout.mobile && !shout.isUpdating) {

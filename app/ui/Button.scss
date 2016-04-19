@@ -176,7 +176,7 @@ $border-radius: 5px;
     background-color: $si-green;
     &:not(.disabled):hover {
       background-color: darken($si-green, 10);
-      .Button-label {
+      .Button-label, .Button-label a {
         color: white;
       }
       .Button-icon {
@@ -199,14 +199,14 @@ $border-radius: 5px;
 
     &:not(.disabled):hover {
       background-color: darken($shoutit-blue, 10);
-      .Button-label {
+      .Button-label, .Button-label a {
         color: white;
       }
       .Button-icon {
         background-color: darken($shoutit-blue, 20);
       }
     }
-    .Button-label {
+    .Button-label, .Button-label a {
       color: white;
     }
     .Button-icon {

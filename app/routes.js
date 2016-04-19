@@ -44,7 +44,7 @@ const routes = (store) =>
     <Route path="/signup/verify/:token" component={ VerifyEmail } getApplicationLayout={ authAppLayout } />
 
     <Route path="/search(/:shout_type)(/:category)" component={ Search } />
-    <Route path="/shout/:id" component={ Shout } getApplicationLayout={ () => ({ showFooter: true })} />
+    <Route path="/shout/:id(/:city)(/:description)" component={ Shout } getApplicationLayout={ () => ({ showFooter: true })} />
     <Route path="/interest/:name" component={ Interest } />
     <Route path="/user/:username" component={ Profile } getApplicationLayout={ () => ({ showFooter: true })} />
     <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true })} />
