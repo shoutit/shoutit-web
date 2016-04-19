@@ -42,7 +42,11 @@ export default function ListItem({
 }
 
 ListItem.propTypes = {
+  className: PropTypes.string,
   start: PropTypes.element,
-  childen: PropTypes.element.isRequired,
+  nowrap: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
+  children: PropTypes.node.isRequired,
   size: PropTypes.oneOf(['small', 'medium', 'large']),
 };
