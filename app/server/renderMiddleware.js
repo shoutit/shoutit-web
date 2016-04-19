@@ -51,7 +51,7 @@ export default function renderMiddleware(req, res, next) {
       log('Matched request for %s', req.url);
 
       if (newrelicEnabled) {
-        const transactionName = last(renderProps.routes).path;
+        const transactionName = last(renderProps.routes).path.replace(/^\//, '');
         log('Setting newrelic transactionName to %s', transactionName);
         newrelic.setTransactionName(transactionName);
       }
