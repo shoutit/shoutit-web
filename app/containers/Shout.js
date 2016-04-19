@@ -5,6 +5,9 @@ import { loadShout, loadRelatedShouts } from '../actions/shouts';
 import { startShoutReply } from '../actions/chat';
 import { routeError } from '../actions/server';
 
+import RequiresLogin from '../auth/RequiresLogin';
+import { REPLY_SHOUT } from '../auth/loginActions';
+
 import Page from '../layout/Page';
 import ProfileListItem from '../users/ProfileListItem';
 
@@ -57,7 +60,9 @@ function ShoutActions({ shout, onReplyClick }) {
           { callButton }
         </div> :
         <div>
-          <Button style={ buttonStyle } block onClick={ onReplyClick } size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Reply to this Shout" />
+          <RequiresLogin event="onClick" loginAction={ REPLY_SHOUT }>
+            <Button style={ buttonStyle } block onClick={ onReplyClick } size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Reply to this Shout" />
+          </RequiresLogin>
           { callButton }
         </div>
       }
