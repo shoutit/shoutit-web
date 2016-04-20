@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Overlay as ReactOverlay } from 'react-overlays';
 
 if (process.env.BROWSER) {
@@ -17,6 +17,15 @@ function OverlayWrapper({ arrow, arrowOffsetLeft, arrowOffsetTop, children, styl
     </div>
   );
 }
+
+OverlayWrapper.propTypes = {
+  arrow: PropTypes.bool,
+  arrowOffsetLeft: PropTypes.number,
+  arrowOffsetTop: PropTypes.number,
+  children: PropTypes.node,
+  style: PropTypes.object,
+  className: PropTypes.string,
+};
 
 /**
  * Return an Overlay from react-overlays that can add an arrow when passing
@@ -50,3 +59,13 @@ export default function Overlay({ arrow, inverted, placement = 'bottom', childre
     </ReactOverlay>
   );
 }
+
+Overlay.propTypes = {
+  ...ReactOverlay.propTypes,
+  arrow: PropTypes.bool,
+  inverted: PropTypes.bool,
+  placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+  children: PropTypes.node,
+  style: PropTypes.object,
+  className: PropTypes.string,
+};

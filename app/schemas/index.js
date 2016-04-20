@@ -1,68 +1,73 @@
 import { Schema, arrayOf } from 'normalizr';
 import { denormalize as denormalizer } from 'denormalizr';
 
-const Category = new Schema('categories', { idAttribute: 'slug' });
-const Conversation = new Schema('conversations');
-const Currency = new Schema('currencies', { idAttribute: 'code' });
-const Message = new Schema('messages');
-const Shout = new Schema('shouts');
-const Suggestions = new Schema('suggestions', { idAttribute: 'slug' });
-const Tag = new Schema('tags');
-const User = new Schema('users');
-const DiscoverItem = new Schema('discoverItems');
+export const CATEGORY = new Schema('categories', { idAttribute: 'slug' });
+export const CATEGORIES = arrayOf(CATEGORY);
+export const CONVERSATION = new Schema('conversations');
+export const CONVERSATIONS = arrayOf(CONVERSATION);
+export const CURRENCY = new Schema('currencies', { idAttribute: 'code' });
+export const CURRENCIES = arrayOf(CURRENCY);
+export const DISCOVERITEM = new Schema('discoverItems');
+export const DISCOVERITEMS = arrayOf(DISCOVERITEM);
+export const MESSAGE = new Schema('messages');
+export const MESSAGES = arrayOf(MESSAGE);
+export const SHOUT = new Schema('shouts');
+export const SHOUTS = arrayOf(SHOUT);
 
-Category.define({ mainTag: Tag });
-
-Shout.define({
-  category: Category,
-  user: User,
-  profile: User,
-});
-
-Suggestions.define({
-  users: arrayOf(User),
-  shouts: arrayOf(Shout),
-  tags: arrayOf(Tag),
-  shout: Shout,
-});
-
-Message.define({
-  user: User,
-  profile: User,
-});
-
-Conversation.define({
-  profiles: arrayOf(User),
-  about: Shout,
-  lastMessage: Message,
-});
-
-DiscoverItem.define({
-  children: arrayOf(DiscoverItem),
-});
+export const TAG = new Schema('tags');
+export const TAGS = arrayOf(TAG);
+export const USER = new Schema('users');
+export const PROFILE = new Schema('users');
+export const PROFILES = arrayOf(USER);
+export const SUGGESTIONS = {
+  users: arrayOf(USER),
+  shouts: arrayOf(SHOUT),
+  tags: arrayOf(TAG),
+  shout: SHOUT,
+};
 
 export const Schemas = {
-  CATEGORIES: arrayOf(Category),
-  CONVERSATION: Conversation,
-  CONVERSATIONS: arrayOf(Conversation),
-  CURRENCIES: arrayOf(Currency),
-  DISCOVERITEM: DiscoverItem,
-  DISCOVERITEMS: arrayOf(DiscoverItem),
-  MESSAGE: Message,
-  MESSAGES: arrayOf(Message),
-  PROFILE: User,
-  PROFILES: arrayOf(User),
-  SHOUT: Shout,
-  SHOUTS: arrayOf(Shout),
-  SUGGESTIONS: {
-    users: arrayOf(User),
-    shouts: arrayOf(Shout),
-    tags: arrayOf(Tag),
-    shout: Shout,
-  },
-  TAG: Tag,
-  TAGS: arrayOf(Tag),
-  USER: User,
+  CATEGORY,
+  CATEGORIES,
+  CONVERSATION,
+  CONVERSATIONS,
+  CURRENCY,
+  CURRENCIES,
+  DISCOVERITEM,
+  DISCOVERITEMS,
+  MESSAGE,
+  MESSAGES,
+  SHOUT,
+  SHOUTS,
+  SUGGESTIONS,
+  TAG,
+  TAGS,
+  USER,
+  PROFILE,
+  PROFILES,
 };
+
+CATEGORY.define({ mainTAG: TAG });
+
+SHOUT.define({
+  category: CATEGORY,
+  user: USER,
+  profile: USER,
+});
+
+MESSAGE.define({
+  user: USER,
+  profile: USER,
+});
+
+CONVERSATION.define({
+  profiles: arrayOf(USER),
+  about: SHOUT,
+  lastMessage: MESSAGE,
+});
+
+DISCOVERITEM.define({
+  children: arrayOf(DISCOVERITEM),
+});
 
 export const denormalize = (entity, entities, name) => denormalizer(entity, entities, Schemas[name]);

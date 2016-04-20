@@ -7,7 +7,7 @@ import { camelizeKeys } from 'humps';
 import { pusherAppKey } from '../config';
 import * as actionTypes from '../actions/actionTypes';
 
-import { Schemas } from '../schemas';
+import { MESSAGE } from '../schemas';
 import { addMessage, loadConversation, typingClientNotification, removeTypingClient } from '../actions/chat';
 
 const log = debug('shoutit:pusherMiddleware');
@@ -22,7 +22,7 @@ const handleNewMessageNotification = (message, store) => {
   const { chat: { currentConversation }, entities: { conversations } } = store.getState();
   const { conversationId } = message;
   const conversation = conversations[conversationId];
-  const payload = normalize(message, Schemas.MESSAGE);
+  const payload = normalize(message, MESSAGE);
 
   if (!conversation) {
     store.dispatch(loadConversation(conversationId));

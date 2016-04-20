@@ -3,7 +3,7 @@ import uuid from 'uuid';
 import merge from 'lodash/object/merge';
 
 import { getUnixTime } from '../utils/DateUtils';
-import { Schemas } from '../schemas';
+import { CONVERSATIONS, CONVERSATION, MESSAGES, MESSAGE } from '../schemas';
 
 const parsePayloadForConversations = (payload, state) => {
   if (payload.error) {
@@ -34,7 +34,7 @@ export function loadConversations(endpoint) {
     service: {
       name: 'conversations',
       params: { endpoint },
-      schema: Schemas.CONVERSATIONS,
+      schema: CONVERSATIONS,
       parsePayload: parsePayloadForConversations,
     },
   };
@@ -50,7 +50,7 @@ export function loadConversation(id) {
     service: {
       name: 'conversations',
       params: { id },
-      schema: Schemas.CONVERSATION,
+      schema: CONVERSATION,
       parsePayload: parsePayloadForConversations,
     },
   };
@@ -67,7 +67,7 @@ export function loadMessages(conversationId, endpoint) {
     service: {
       name: 'messages',
       params: { conversationId, endpoint },
-      schema: Schemas.MESSAGES,
+      schema: MESSAGES,
     },
   };
 }
@@ -115,7 +115,7 @@ export function replyToConversation(conversationId, sender, message) {
       method: 'create',
       params: { conversationId },
       body: message,
-      schema: Schemas.MESSAGE,
+      schema: MESSAGE,
       parsePayload: payload => {
         // Add the last message to the conversation
         const messageId = payload.result;
@@ -256,7 +256,7 @@ export function replyToShout(conversation, text) {
       method: 'create',
       params: { shout },
       body: { text },
-      schema: Schemas.CONVERSATION,
+      schema: CONVERSATION,
     },
   };
 }
@@ -277,7 +277,7 @@ export function chatWithProfile(conversation, text) {
       method: 'create',
       params: { username },
       body: { text },
-      schema: Schemas.CONVERSATION,
+      schema: CONVERSATION,
     },
   };
 }

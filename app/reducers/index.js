@@ -18,7 +18,7 @@ import server from './server';
 import session from './session';
 import shoutsBySearch from './shoutsBySearch';
 import suggestions from './suggestions';
-import uiNotifications from './uiNotifications';
+// import uiNotifications from './uiNotifications';
 import videocalls from './videocalls';
 
 import * as actionTypes from '../actions/actionTypes';
@@ -210,7 +210,7 @@ const appReducer = combineReducers({
   routing,
   session,
   suggestions,
-  uiNotifications,
+  // uiNotifications,
   videocalls,
   server,
 });

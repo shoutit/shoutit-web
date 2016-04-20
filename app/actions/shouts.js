@@ -1,6 +1,6 @@
 
 import * as actionTypes from './actionTypes';
-import { Schemas } from '../schemas';
+import { SHOUT, SHOUTS } from '../schemas';
 import { getUnixTime } from '../utils/DateUtils';
 
 export function loadShout(id) {
@@ -14,7 +14,7 @@ export function loadShout(id) {
     service: {
       name: 'shout',
       params: { id },
-      schema: Schemas.SHOUT,
+      schema: SHOUT,
     },
   };
 }
@@ -30,7 +30,7 @@ export function loadRelatedShouts(shoutId, query, endpoint) {
     service: {
       name: 'relatedShouts',
       params: { shoutId },
-      schema: Schemas.SHOUTS,
+      schema: SHOUTS,
     },
   };
 }
@@ -51,7 +51,7 @@ export function createShout(user, newShout) {
       method: 'create',
       name: 'shout',
       body: shout,
-      schema: Schemas.SHOUT,
+      schema: SHOUT,
     },
   };
 }
@@ -69,7 +69,7 @@ export function updateShout(shout) {
       name: 'shout',
       params: { id: shout.id },
       body: shout,
-      schema: Schemas.SHOUT,
+      schema: SHOUT,
     },
   };
 }
@@ -87,7 +87,7 @@ export function deleteShout(shout) {
       name: 'shout',
       params: { shout },
       body: shout,
-      schema: Schemas.SHOUT,
+      schema: SHOUT,
     },
   };
 }
@@ -119,7 +119,7 @@ export function call(shout) {
     service: {
       name: 'shoutCall',
       params: { shout },
-      schema: Schemas.SHOUT,
+      schema: SHOUT,
     },
   };
 }

@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 
 import Icon from '../ui/Icon';
 
-export default function MessageReadByFlag({ profiles }) {
+export default function MessageReadByFlag() {
   // const tooltip = (
   //   <Tooltip>
   //     Read by { profiles.map(profile => profile.name).join(', ') }
