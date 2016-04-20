@@ -4,7 +4,8 @@ export function formatPrice(price, currency) {
   if (!price) {
     return 'free';
   }
-  return currencyFormatter.format(price / 100, {
+  price = price / 100;
+  return currencyFormatter.format(price, {
     code: currency, precision: Number.isInteger(price) ? 0 : 2,
   });
 }
