@@ -6871,49 +6871,6 @@
       "from": "https://registry.npmjs.org/react-avatar-editor/-/react-avatar-editor-3.2.1.tgz",
       "resolved": "https://registry.npmjs.org/react-avatar-editor/-/react-avatar-editor-3.2.1.tgz"
     },
-    "react-document-title": {
-      "version": "2.0.1",
-      "from": "https://registry.npmjs.org/react-document-title/-/react-document-title-2.0.1.tgz",
-      "resolved": "https://registry.npmjs.org/react-document-title/-/react-document-title-2.0.1.tgz",
-      "dependencies": {
-        "react-side-effect": {
-          "version": "1.0.2",
-          "from": "https://registry.npmjs.org/react-side-effect/-/react-side-effect-1.0.2.tgz",
-          "resolved": "https://registry.npmjs.org/react-side-effect/-/react-side-effect-1.0.2.tgz",
-          "dependencies": {
-            "fbjs": {
-              "version": "0.1.0-alpha.10",
-              "from": "https://registry.npmjs.org/fbjs/-/fbjs-0.1.0-alpha.10.tgz",
-              "resolved": "https://registry.npmjs.org/fbjs/-/fbjs-0.1.0-alpha.10.tgz",
-              "dependencies": {
-                "core-js": {
-                  "version": "1.2.6",
-                  "from": "core-js@>=1.0.0 <2.0.0",
-                  "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
-                },
-                "promise": {
-                  "version": "7.1.1",
-                  "from": "https://registry.npmjs.org/promise/-/promise-7.1.1.tgz",
-                  "resolved": "https://registry.npmjs.org/promise/-/promise-7.1.1.tgz",
-                  "dependencies": {
-                    "asap": {
-                      "version": "2.0.3",
-                      "from": "https://registry.npmjs.org/asap/-/asap-2.0.3.tgz",
-                      "resolved": "https://registry.npmjs.org/asap/-/asap-2.0.3.tgz"
-                    }
-                  }
-                },
-                "whatwg-fetch": {
-                  "version": "0.9.0",
-                  "from": "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-0.9.0.tgz",
-                  "resolved": "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-0.9.0.tgz"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "react-dom": {
       "version": "0.14.7",
       "from": "https://registry.npmjs.org/react-dom/-/react-dom-0.14.7.tgz",
@@ -6952,6 +6909,107 @@
           "version": "4.3.0",
           "from": "https://registry.npmjs.org/dropzone/-/dropzone-4.3.0.tgz",
           "resolved": "https://registry.npmjs.org/dropzone/-/dropzone-4.3.0.tgz"
+        }
+      }
+    },
+    "react-helmet": {
+      "version": "3.0.2",
+      "from": "react-helmet@latest",
+      "resolved": "https://registry.npmjs.org/react-helmet/-/react-helmet-3.0.2.tgz",
+      "dependencies": {
+        "deep-equal": {
+          "version": "1.0.1",
+          "from": "deep-equal@1.0.1",
+          "resolved": "https://registry.npmjs.org/deep-equal/-/deep-equal-1.0.1.tgz"
+        },
+        "object-assign": {
+          "version": "4.0.1",
+          "from": "object-assign@>=4.0.1 <5.0.0",
+          "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-4.0.1.tgz"
+        },
+        "react-side-effect": {
+          "version": "1.0.2",
+          "from": "react-side-effect@1.0.2",
+          "resolved": "https://registry.npmjs.org/react-side-effect/-/react-side-effect-1.0.2.tgz",
+          "dependencies": {
+            "fbjs": {
+              "version": "0.1.0-alpha.10",
+              "from": "fbjs@0.1.0-alpha.10",
+              "resolved": "https://registry.npmjs.org/fbjs/-/fbjs-0.1.0-alpha.10.tgz",
+              "dependencies": {
+                "core-js": {
+                  "version": "1.2.6",
+                  "from": "core-js@>=1.0.0 <2.0.0",
+                  "resolved": "https://registry.npmjs.org/core-js/-/core-js-1.2.6.tgz"
+                },
+                "promise": {
+                  "version": "7.1.1",
+                  "from": "promise@>=7.0.3 <8.0.0",
+                  "resolved": "https://registry.npmjs.org/promise/-/promise-7.1.1.tgz",
+                  "dependencies": {
+                    "asap": {
+                      "version": "2.0.3",
+                      "from": "asap@>=2.0.3 <2.1.0",
+                      "resolved": "https://registry.npmjs.org/asap/-/asap-2.0.3.tgz"
+                    }
+                  }
+                },
+                "whatwg-fetch": {
+                  "version": "0.9.0",
+                  "from": "whatwg-fetch@>=0.9.0 <0.10.0",
+                  "resolved": "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-0.9.0.tgz"
+                }
+              }
+            }
+          }
+        },
+        "shallowequal": {
+          "version": "0.2.2",
+          "from": "shallowequal@0.2.2",
+          "resolved": "https://registry.npmjs.org/shallowequal/-/shallowequal-0.2.2.tgz",
+          "dependencies": {
+            "lodash.keys": {
+              "version": "3.1.2",
+              "from": "lodash.keys@>=3.1.2 <4.0.0",
+              "resolved": "https://registry.npmjs.org/lodash.keys/-/lodash.keys-3.1.2.tgz",
+              "dependencies": {
+                "lodash._getnative": {
+                  "version": "3.9.1",
+                  "from": "lodash._getnative@>=3.0.0 <4.0.0",
+                  "resolved": "https://registry.npmjs.org/lodash._getnative/-/lodash._getnative-3.9.1.tgz"
+                },
+                "lodash.isarguments": {
+                  "version": "3.0.8",
+                  "from": "lodash.isarguments@>=3.0.0 <4.0.0",
+                  "resolved": "https://registry.npmjs.org/lodash.isarguments/-/lodash.isarguments-3.0.8.tgz"
+                },
+                "lodash.isarray": {
+                  "version": "3.0.4",
+                  "from": "lodash.isarray@>=3.0.0 <4.0.0",
+                  "resolved": "https://registry.npmjs.org/lodash.isarray/-/lodash.isarray-3.0.4.tgz"
+                }
+              }
+            }
+          }
+        },
+        "warning": {
+          "version": "2.1.0",
+          "from": "warning@2.1.0",
+          "resolved": "https://registry.npmjs.org/warning/-/warning-2.1.0.tgz",
+          "dependencies": {
+            "loose-envify": {
+              "version": "1.1.0",
+              "from": "loose-envify@>=1.0.0 <2.0.0",
+              "resolved": "https://registry.npmjs.org/loose-envify/-/loose-envify-1.1.0.tgz",
+              "dependencies": {
+                "js-tokens": {
+                  "version": "1.0.3",
+                  "from": "js-tokens@>=1.0.1 <2.0.0",
+                  "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-1.0.3.tgz"
+                }
+              }
+            }
+          }
         }
       }
     },

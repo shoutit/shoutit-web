@@ -1,11 +1,14 @@
 import React, { PropTypes } from 'react';
+import Helmet from '../utils/Helmet';
+
 import Page from '../layout/Page';
 import Frame from '../layout/Frame';
 
 export default function ServerError({ error }) {
   const title = 'Cannot display this page';
   return (
-    <Page title="Error loading this page">
+    <Page>
+      <Helmet title="Error loading this page" />
       <Frame title={ title } transparent>
 
         <div className="Frame-body">

@@ -1,10 +1,10 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import Helmet from '../utils/Helmet';
 
 import Button from '../ui/Button';
 import Page from '../layout/Page';
 import Frame from '../layout/Frame';
-
 import { verifyEmail } from '../actions/session';
 
 const fetchData = (dispatch, state, params) =>
@@ -23,8 +23,8 @@ export class VerifyEmail extends Component {
   render() {
     const { error } = this.props;
     return (
-      <Page title={ error ? 'Error verifying your e-mail' : 'E-mail has been verified' }>
-
+      <Page>
+        <Helmet title={ error ? 'Error verifying your e-mail' : 'E-mail has been verified' } />
         { error &&
           <Frame title="Verify your e-mail">
             <div className="Frame-body">
