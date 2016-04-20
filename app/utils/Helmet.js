@@ -10,7 +10,9 @@ export function Helmet({ title, badge = 0, description = '', images = [], meta, 
   if (title && badge > 0) {
     title = `(${badge}) ${title}`;
   }
-  description = description.substring(0, 160);
+  if (description) {
+    description = description.substring(0, 160);
+  }
   const otherMeta = [
     { name: 'description', content: description },
     { property: 'og:title', content: title },
