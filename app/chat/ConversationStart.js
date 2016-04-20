@@ -2,8 +2,6 @@ import React, { PropTypes } from 'react';
 import ProfileAvatar from '../users/ProfileAvatar';
 import ShoutPreview from '../shouts/ShoutPreview';
 
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
-
 if (process.env.BROWSER) {
   require('./ConversationStart.scss');
 }

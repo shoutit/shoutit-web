@@ -32,7 +32,7 @@ export class HeaderNotificationsButton extends Component {
   }
 
   render() {
-    const { badge } = this.props;
+    const { badge, overlayContainer } = this.props;
     return (
       <span>
         <Icon ref="icon" onClick={ this.showOverlay } name="bell" badge={ badge } />
@@ -42,7 +42,7 @@ export class HeaderNotificationsButton extends Component {
           style={ { width: 400, marginLeft: 4 }}
           show={ this.state.showOverlay }
           placement="bottom"
-          container={ this.props.overlayContainer }
+          container={ overlayContainer }
           onHide={ this.hideOverlay }
           target={ () => this.refs.icon.getIconNode() }
         >
