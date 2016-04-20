@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 import { Link } from 'react-router';
+import Helmet from '../utils/Helmet';
 
 import { createProfile, resetSessionErrors } from '../actions/session';
 
@@ -220,7 +221,8 @@ export class Signup extends Component {
   render() {
     const { success } = this.state;
     return (
-      <Page title="Sign up">
+      <Page>
+        <Helmet title="Sign up" />
         { !success ? this.renderForm() : this.renderSuccessMessage() }
       </Page>
     );

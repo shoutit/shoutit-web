@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import stringify from 'json-stable-stringify';
 import { push } from 'react-router-redux';
+import Helmet from '../utils/Helmet';
 
 import { searchShouts, invalidateShoutsSearch } from '../actions/search';
 import { denormalize } from '../schemas';
@@ -167,7 +168,6 @@ export class Search extends Component {
         triggerOffset={ 400 }
       >
         <Page
-          title={ title }
           className="Search"
           startColumn={
             <div className="Search-start-column">
@@ -179,6 +179,7 @@ export class Search extends Component {
           <SuggestedProfiles />,
           <SuggestedShout />] }
         >
+          <Helmet title={ title } />
           <ShoutsList shouts={ shouts } />
 
           <Progress

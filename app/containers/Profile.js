@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import find from 'lodash/collection/find';
+import Helmet from '../utils/Helmet';
 
 import { denormalize } from '../schemas';
 import { loadProfileDetailsIfNeeded, loadUserShouts } from '../actions/users';
@@ -75,11 +76,26 @@ export class Profile extends Component {
         }}
         triggerOffset={ 400 }
       >
-        <Page title={ profile ? `Shouts by ${profile.name}` : null }
-          endColumn={ [<SuggestedTags key="interests" />,
-          <SuggestedProfiles key="profiles" />,
-          <SuggestedShout key="shout" />] }
+        <Page
+          endColumn={[
+            <SuggestedTags key="interests" />,
+            <SuggestedProfiles key="profiles" />,
+            <SuggestedShout key="shout" />,
+          ]}
         >
+
+          { profile &&
+            <Helmet
+              title={ `Shouts by ${profile.name}` }
+              description={ profile.bio }
+              images={ [profile.image] }
+              meta={[
+                { property: 'og:type', content: 'shoutitcom:user' },
+                { property: 'shoutitcom:username', content: profile.username },
+              ]}
+            />
+          }
+
           { !profile && <Progress animate /> }
 
           { profile &&

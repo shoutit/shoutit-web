@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
+import Helmet from '../utils/Helmet';
 
 import Page from '../layout/Page';
 
@@ -151,8 +152,8 @@ export class Discover extends Component {
             dispatch(loadShoutsForDiscoverItem(discoverItem.id, null, nextShoutsUrl));
           }
         }}>
-        <Page title={discoverItem ? discoverItem.title : null } endColumn={ <SuggestedShout /> }>
-
+        <Page endColumn={ <SuggestedShout /> }>
+          { discoverItem && <Helmet title={ discoverItem.title } images={[discoverItem.image]} /> }
           { discoverItem &&
             <div className="Discover-hero" style={ getStyleBackgroundImage(discoverItem.image, 'large') }>
               { country && <div className="Discover-country" onClick={ e => this.showLocationModal(e) }>

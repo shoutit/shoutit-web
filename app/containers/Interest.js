@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import find from 'lodash/collection/find';
+import Helmet from '../utils/Helmet';
 
 import { denormalize } from '../schemas';
 import { loadTagIfNeeded, loadTagShouts, loadRelatedTags } from '../actions/tags';
@@ -77,7 +78,7 @@ export class Interest extends Component {
           }
         }}
       >
-        <Page title={ tag ? tag.name : null }
+        <Page
           stickyStartColumn
           startColumn={ [
             tag && <Card className="Interest-main-card" block style={{ width: '100%' }}>
@@ -90,6 +91,8 @@ export class Interest extends Component {
             <SuggestedShout key="shout" />,
           ] }
         >
+          { tag && <Helmet title={ tag.name } images={ [tag.image] } /> }
+
           { !tag && <Progress animate /> }
 
           { tag &&

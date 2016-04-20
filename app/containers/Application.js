@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Helmet from '../utils/Helmet';
 
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
@@ -14,6 +15,8 @@ import { login } from '../actions/session';
 import { loadCategories, loadCurrencies } from '../actions/misc';
 import { loadCurrentLocation, loadSuggestions } from '../actions/location';
 import { loadListening } from '../actions/users';
+
+import * as config from '../config';
 
 if (process.env.BROWSER) {
   require('normalize.css/normalize.css');
@@ -92,6 +95,34 @@ export class Application extends React.Component {
 
     return (
       <div className={ className }>
+        <Helmet
+          htmlAttributes={{ lang: 'en' }}
+          titleTemplate="%s - Shoutit"
+          title="Buy and sell while chatting! - Shoutit"
+          defaultTitle="Buy and sell while chatting! - Shoutit"
+          description="The fastest way to share and offer what you want to sell or buy. Take photos and videos and chat with buyers or sellers"
+          meta={[
+            { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
+            { name: 'keywords', content: 'shoutit' },
+            { property: 'fb:app_id', content: config.facebookId },
+            { property: 'og:url', content: `${config.siteUrl}${props.currentUrl}` },
+            { property: 'og:locale', content: 'en_US' },
+            { property: 'og:site_name', content: 'Shoutit' },
+            { property: 'og:type', content: 'website' },
+            { name: 'twitter:site', content: '@Shoutitcom' },
+            { name: 'twitter:card', content: 'summary' },
+            { name: 'twitter:app:name:iphone', content: 'Shoutit' },
+            { name: 'twitter:app:name:ipad', content: 'Shoutit' },
+            { name: 'twitter:app:name:googleplay', content: 'Shoutit' },
+            { name: 'twitter:app:id:iphone', content: '947017118' },
+            { name: 'twitter:app:id:ipad', content: '947017118' },
+            { name: 'twitter:app:id:googleplay', content: 'com.shoutit.app.android' },
+          ]}
+          link={[
+            { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
+            { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
+          ]}
+        />
         { layout.showHeader &&
           <div className="App-header">
             <Header
@@ -121,6 +152,8 @@ export class Application extends React.Component {
         { props.videoCallState && props.videoCallState.currentConversation &&
           <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }
         <ConversationsHost />
+
+
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Helmet from '../utils/Helmet';
 
 import ShoutsList from '../shouts/ShoutsList';
 import { denormalize } from '../schemas';
@@ -104,10 +105,11 @@ export class Dashboard extends Component {
         }}
         triggerOffset={ 400 }>
         <Page
-          title={ `${loggedProfile.firstName}’s dashboard` }
           startColumn={ <StartColumn profile={ loggedProfile } /> }
           stickyStartColumn
           endColumn={ [<SuggestedTags />, <SuggestedProfiles />, <SuggestedShout />] }>
+
+          <Helmet title={ `${loggedProfile.firstName}’s dashboard` } />
 
           <ShoutsList shouts={ shouts } />
 

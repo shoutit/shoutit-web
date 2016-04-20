@@ -3,8 +3,8 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { Link as ScrollLink, Element } from 'react-scroll';
 import Card from '../ui/Card';
-import DocumentTitle from '../ui/DocumentTitle';
 import { getVariation } from '../utils/APIUtils';
+import Helmet from '../utils/Helmet';
 
 import { imagesPath, appStoreLink, playStoreLink } from '../config';
 
@@ -14,8 +14,10 @@ if (process.env.BROWSER) {
 
 export function Homepage({ categories }) {
   return (
-    <DocumentTitle title="Buy and sell while chatting!">
       <div className="Homepage">
+        <Helmet meta={[
+          { name: 'twitter:card', content: 'app' },
+        ]} />
         <div className="Homepage-hero">
           <div className="Homepage-hero-bg" />
 
@@ -61,8 +63,7 @@ export function Homepage({ categories }) {
           <h2>How it works</h2>
           <img src={`${imagesPath}/home-how-it-works.png`} height="500" width="1000" />
         </Element>
-      </div>
-    </DocumentTitle>
+    </div>
   );
 }
 
