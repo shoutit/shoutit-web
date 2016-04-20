@@ -5,7 +5,6 @@ import { Link } from 'react-router';
 import sd from 'skin-deep';
 
 import ConversationItem from './ConversationItem';
-import { getUnixTime, formatCreatedAt } from '../../app/utils/DateUtils';
 
 describe('ConversationItem', () => {
   const conversation = {

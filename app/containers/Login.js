@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 import { Link } from 'react-router';
+import Helmet from '../utils/Helmet';
 
 import { createSession, resetSessionErrors } from '../actions/session';
 
@@ -92,8 +93,8 @@ export class Login extends Component {
   render() {
     const { isLoggingIn, location: { query }, error } = this.props;
     return (
-      <Page className="Login" title="Login">
-
+      <Page className="Login">
+        <Helmet title="Login" />
         <Frame title={ query.login_action ? 'Please login to continue' : 'Login' }>
 
           <div className="Frame-body">

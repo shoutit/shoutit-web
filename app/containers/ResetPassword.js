@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Helmet from '../utils/Helmet';
 
 import { resetPassword } from '../actions/session';
 
@@ -125,7 +126,8 @@ export class ResetPassword extends Component {
   render() {
     const { sent } = this.state;
     return (
-      <Page title="Reset your password">
+      <Page>
+        <Helmet title="Reset your password" />
         { !sent ? this.renderForm() : this.renderSuccessMessage() }
       </Page>
     );

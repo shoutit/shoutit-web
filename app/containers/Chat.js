@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Helmet from '../utils/Helmet';
 
 import FixedHeightPage from '../layout/FixedHeightPage';
 import Page from '../layout/Page';
@@ -35,7 +36,8 @@ export class Chat extends Component {
     return (
       <RequiresLogin>
         <FixedHeightPage>
-          <Page title="Messages" endColumn={ <SuggestedShout /> }>
+          <Page endColumn={ <SuggestedShout /> }>
+            <Helmet title="Messages" />
             <div className="Chat">
               <div className="Chat-conversations">
                 <div className="Chat-conversations-title">

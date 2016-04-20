@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import currencyFormatter from 'currency-formatter';
+import { formatPrice } from '../utils/CurrencyUtils';
 
 if (process.env.BROWSER) {
   require('./ShoutPrice.scss');
@@ -10,13 +10,9 @@ export default function ShoutPrice({ shout, layout = 'badge' }) {
   if (isFree) {
     className += ' free';
   }
-  const price = shout.price / 100;
   return (
     <span className={ className }>
-      { !isFree ?
-          currencyFormatter.format(price, { code: shout.currency, precision: Number.isInteger(price) ? 0 : 2 })
-        : 'Free'
-      }
+      { formatPrice(shout.price, shout.currency) }
     </span>
   );
 }

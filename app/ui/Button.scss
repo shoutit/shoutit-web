@@ -59,6 +59,21 @@ $border-radius: 5px;
 
   }
 
+  &.size-huge {
+    height: 42px;
+
+    line-height: 42px;
+
+    > .Button-label {
+      padding-right: 30px;
+      padding-left: 30px;
+
+      font-size: 18px;
+      font-weight: 300;
+    }
+
+  }
+
   &.block {
     display: block;
 

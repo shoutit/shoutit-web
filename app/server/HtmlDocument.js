@@ -3,6 +3,7 @@
 import React, { PropTypes } from 'react';
 import serialize from 'serialize-javascript';
 import newrelic, { newrelicEnabled } from './newrelic';
+import Helmet from '../utils/Helmet';
 
 import * as config from '../config';
 
@@ -13,12 +14,10 @@ if (process.env.NODE_ENV === 'production') {
 
 export default function HtmlDocument({
   content,
-  title,
   initialState,
-  meta,
 }) {
-
-  const metatags = [];
+  const head = Helmet.rewind();
+  const attrs = head.htmlAttributes.toComponent();
   // metatags.push({ property: "fb:app_id", content: config.facebookId });
   // metatags.push({ property: "og:url", content: meta.url });
   // metatags.push({ property: "og:title", content: meta.title });
@@ -56,16 +55,12 @@ export default function HtmlDocument({
   // }
 
   return (
-    <html>
+    <html {...attrs}>
       <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# shoutitcom: http://ogp.me/ns/fb/shoutitcom#">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 
-        <title>{ title }</title>
-
-        { metatags.map((props, i) => <meta { ...props } key={ i } />) }
-
-        <link rel="shortcut icon" type="image/png" href={ `${config.publicUrl}/images/favicons/favicon.ico` } />
-        <link rel="apple-touch-icon" type="image/png" size="256x256" href={ `${config.publicUrl}/images/favicons/apple-touch-icon.png` } />
+        { head.title.toComponent() }
+        { head.meta.toComponent() }
+        { head.link.toComponent() }
 
         { process.env.NODE_ENV === 'production' &&
           <link rel="stylesheet" type="text/css" href={ `${config.publicUrl}${chunkNames.css}` } /> }
@@ -100,7 +95,5 @@ export default function HtmlDocument({
 
 HtmlDocument.propTypes = {
   content: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
   initialState: PropTypes.object.isRequired,
-  meta: PropTypes.object,
 };

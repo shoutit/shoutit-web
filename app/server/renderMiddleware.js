@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
-import DocumentTitle from 'react-document-title';
+
 import last from 'lodash/array/last';
 import newrelic, { newrelicEnabled } from './newrelic';
 
@@ -88,7 +88,6 @@ export default function renderMiddleware(req, res, next) {
             status = routingErrorFromStore.statusCode || 500;
           }
 
-          const meta = {}; // getMetaFromData(req.url, data);
           const initialState = store.getState();
           const location = {
             query: req.query,
@@ -113,12 +112,7 @@ export default function renderMiddleware(req, res, next) {
           }
 
           const html = ReactDOMServer.renderToStaticMarkup(
-            <HtmlDocument
-              content={ content }
-              initialState={ initialState }
-              title={ DocumentTitle.rewind() }
-              meta={ meta }
-            />
+            <HtmlDocument content={ content } initialState={ initialState } />
           );
           res.status(status).send(`<!doctype html>${html}`);
         });

@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from '../utils/PropTypes';
+
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
 if (process.env.BROWSER) {
@@ -11,3 +13,7 @@ export default function DiscoverItemPreview({ discoverItem }) {
     </div>
   );
 }
+
+DiscoverItemPreview.propTypes = {
+  discoverItem: PropTypes.object.isRequired,
+};
