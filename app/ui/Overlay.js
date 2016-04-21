@@ -20,8 +20,8 @@ function OverlayWrapper({ arrow, arrowOffsetLeft, arrowOffsetTop, children, styl
 
 OverlayWrapper.propTypes = {
   arrow: PropTypes.bool,
-  arrowOffsetLeft: PropTypes.number,
-  arrowOffsetTop: PropTypes.number,
+  arrowOffsetLeft: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  arrowOffsetTop: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   children: PropTypes.node,
   style: PropTypes.object,
   className: PropTypes.string,
