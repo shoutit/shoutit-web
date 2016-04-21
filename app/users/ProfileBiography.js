@@ -36,11 +36,6 @@ export default function ProfileBiography({ profile }) {
 
         { !profile.isOwner &&
           <div className="ProfileBiography-actions">
-            { profile.isListener &&
-              <p className="ProfileBiography-isListener">
-                { profile.firstName } is listening to you.
-              </p>
-            }
             <ProfileActions profile = { profile } />
           </div>
         }

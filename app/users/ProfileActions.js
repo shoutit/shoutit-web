@@ -36,6 +36,11 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
 
   return (
       <div className="ProfileActions">
+        { profile.isListener &&
+          <p className="ProfileActions-is-listener">
+            { profile.firstName } is listening to you.
+          </p>
+        }
         <ul className="htmlNoList">
           { !profile.isOwner && profile.isListener &&
             <li>

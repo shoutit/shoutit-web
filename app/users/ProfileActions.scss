@@ -1,12 +1,10 @@
 @import "../styles/mixins/card";
 .ProfileActions {
 }
-//
-// .ProfileActions-action {
-//   display: flex;
-//   flex-direction: column;
-// }
-//
-// .ProfileActions-icon {
-//   min-height: 24px;
-// }
+
+.ProfileActions-is-listener {
+  margin: .5rem;
+  font-size: 0.75em;
+  text-align: center;
+  color: $color-light;
+}
