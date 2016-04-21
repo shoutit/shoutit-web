@@ -47,13 +47,13 @@ export default combineReducers({
     switch (action.type) {
       case actionTypes.SET_CURRENT_CONVERSATION:
         const id = action.payload;
-        if (id && newState && newState[id]) {
+        if (!id || !newState || !newState[id]) {
           return state;
         }
         newState = {
           ...newState,
           [id]: {
-            ...newState.conversations[id],
+            ...newState[id],
             unreadMessagesCount: 0,
           },
         };
