@@ -9,16 +9,12 @@ if (process.env.BROWSER) {
 
 export default function ConversationAbout({ shout }) {
   const { thumbnail, title, description } = shout;
-  console.log(shout);
   return (
     <ShoutLink shout={ shout } className="ConversationAbout">
       { thumbnail &&
         <span className="ConversationAbout-image" style={ getStyleBackgroundImage(thumbnail, 'small') } />
       }
       <span className="ConversationAbout-title">
-        { title || (description && description.substring(0, 160)) || 'About a shout without content' }
-        { title || (description && description.substring(0, 160)) || 'About a shout without content' }
-        { title || (description && description.substring(0, 160)) || 'About a shout without content' }
         { title || (description && description.substring(0, 160)) || 'About a shout without content' }
       </span>
     </ShoutLink>
