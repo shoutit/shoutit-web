@@ -88,14 +88,15 @@ export class ConversationsList extends Component {
 }
 
 const mapStateToProps = state => {
-  const { entities: { conversations, ...entities }, paginated: { chat } } = state;
-  const props = {
+  const { entities, paginated } = state;
+  return {
     loggedUser: state.session.user,
-    isFetching: chat.isFetching,
-    previousUrl: chat.previousUrl,
-    conversations: chat.ids.map(id => denormalize(conversations[id], entities, 'CONVERSATION')).filter(conversation => !conversation.isNew),
+    isFetching: paginated.chatConversations.isFetching,
+    previousUrl: paginated.chatConversations.previousUrl,
+    conversations: paginated.chatConversations.ids.map(
+      id => denormalize(entities.conversations[id], entities, 'CONVERSATION'))
+        .filter(conversation => !conversation.isNew),
   };
-  return props;
 };
 
 export default connect(mapStateToProps)(ConversationsList);

@@ -84,15 +84,13 @@ export class Chat extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { entities: { conversations, ...entities }, paginated: { chat } } = state;
+  const { entities, paginated, session } = state;
   const { conversationId } = ownProps.params;
   return {
-    loggedUser: state.session.user,
-    isFetching: chat.isFetching,
-    conversations: chat.ids.map(id => denormalize(conversations[id], entities, 'CONVERSATION')),
-    conversation: conversationId && conversations[conversationId] ?
-      denormalize(conversations[conversationId], entities, 'CONVERSATION') :
-      undefined,
+    loggedUser: session.user,
+    isFetching: paginated.chatConversations.isFetching,
+    conversations: paginated.chatConversations.ids.map(id => denormalize(entities.conversations[id], entities, 'CONVERSATION')),
+    conversation: denormalize(entities.conversations[conversationId], entities, 'CONVERSATION'),
   };
 };
 export default connect(mapStateToProps)(Chat);
