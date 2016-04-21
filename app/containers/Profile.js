@@ -151,7 +151,7 @@ export class Profile extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { params: { username } } = ownProps;
   const { paginated, entities } = state;
-  const profile = find(entities.users, { username });
+  const profile = denormalize(find(entities.users, { username }), entities, 'PROFILE');
   let shouts = [];
   let isFetchingShouts = false;
   let shoutsCount = 0;

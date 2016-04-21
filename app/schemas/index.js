@@ -13,14 +13,12 @@ export const MESSAGE = new Schema('messages');
 export const MESSAGES = arrayOf(MESSAGE);
 export const SHOUT = new Schema('shouts');
 export const SHOUTS = arrayOf(SHOUT);
-
 export const TAG = new Schema('tags');
 export const TAGS = arrayOf(TAG);
-export const USER = new Schema('users');
 export const PROFILE = new Schema('users');
-export const PROFILES = arrayOf(USER);
+export const PROFILES = arrayOf(PROFILE);
 export const SUGGESTIONS = {
-  users: arrayOf(USER),
+  users: arrayOf(PROFILE),
   shouts: arrayOf(SHOUT),
   tags: arrayOf(TAG),
   shout: SHOUT,
@@ -42,7 +40,6 @@ export const Schemas = {
   SUGGESTIONS,
   TAG,
   TAGS,
-  USER,
   PROFILE,
   PROFILES,
 };
@@ -51,17 +48,21 @@ CATEGORY.define({ mainTAG: TAG });
 
 SHOUT.define({
   category: CATEGORY,
-  user: USER,
-  profile: USER,
+  user: PROFILE,
+  profile: PROFILE,
 });
 
 MESSAGE.define({
-  user: USER,
-  profile: USER,
+  user: PROFILE,
+  profile: PROFILE,
+});
+
+PROFILE.define({
+  conversation: CONVERSATION,
 });
 
 CONVERSATION.define({
-  profiles: arrayOf(USER),
+  profiles: arrayOf(PROFILE),
   about: SHOUT,
   lastMessage: MESSAGE,
 });

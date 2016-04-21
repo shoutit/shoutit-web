@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
+import { denormalize } from '../schemas';
+
 import { loadProfileDetailsIfNeeded } from '../actions/users';
 
 import ProfileAvatar from '../users/ProfileAvatar';
@@ -48,7 +50,7 @@ export class ProfilePreview extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps;
-  const profile = state.entities.users[id];
+  const profile = denormalize(state.entities.users[id], state.entities, 'PROFILE');
   return {
     profile,
   };
