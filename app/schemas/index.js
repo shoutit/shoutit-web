@@ -50,6 +50,7 @@ SHOUT.define({
   category: CATEGORY,
   user: PROFILE,
   profile: PROFILE,
+  conversations: arrayOf(CONVERSATION),
 });
 
 MESSAGE.define({

@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import Helmet from '../utils/Helmet';
 
 import { loadShout, loadRelatedShouts } from '../actions/shouts';
-import { startShoutReply } from '../actions/chat';
+import { startShoutReply, openConversation } from '../actions/chat';
 import { routeError } from '../actions/server';
 
 import { formatPrice } from '../utils/CurrencyUtils';
@@ -113,7 +113,11 @@ export class Shout extends Component {
 
   startShoutReply() {
     const { loggedUser, shout, dispatch } = this.props;
-    dispatch(startShoutReply(loggedUser, shout));
+    if (shout.conversations && shout.conversations.length > 0) {
+      dispatch(openConversation(shout.conversations[0]));
+    } else {
+      dispatch(startShoutReply(loggedUser, shout));
+    }
   }
 
   renderStartColumn() {

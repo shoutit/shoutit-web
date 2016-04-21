@@ -255,7 +255,7 @@ export function replyToShout(conversation, text) {
     service: {
       name: 'shoutReply',
       method: 'create',
-      params: { shout },
+      params: { id: shout.id },
       body: { text },
       schema: CONVERSATION,
     },
