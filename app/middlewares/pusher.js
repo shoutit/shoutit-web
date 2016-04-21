@@ -106,6 +106,9 @@ export default store => next => action => { // eslint-disable-line no-unused-var
         client.conversationChannel = null;
       }
       const conversationId = action.payload;
+      if (!conversationId) {
+        return;
+      }
       channelId = `presence-v3-c-${conversationId}`;
 
       log('Subscribing channel %s...', channelId);
