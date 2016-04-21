@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { listenToUser, stopListeningToUser } from '../actions/users';
-import { startConversation } from '../actions/chat';
+import { startConversation, openConversation } from '../actions/chat';
 import { Link } from 'react-router';
 
 import RequiresLogin from '../auth/RequiresLogin';
@@ -31,7 +31,12 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
   };
 
   const onSendMessageClick = () => {
-    dispatch(startConversation(loggedUser, profile));
+    if (profile.conversation) {
+      dispatch(openConversation(profile.conversation));
+    } else {
+      dispatch(startConversation(loggedUser, profile));
+    }
+
   };
 
   return (
