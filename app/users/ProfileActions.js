@@ -37,6 +37,17 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
   return (
       <div className="ProfileActions">
         <ul className="htmlNoList">
+          { !profile.isOwner && profile.isListener &&
+            <li>
+              <RequiresLogin event="onClick" loginAction={ SEND_MESSAGE } redirectUrl={ `/user/${profile.username}` }>
+                <ListItem size={ size }
+                  onClick={ onSendMessageClick }
+                  start= { <Icon size={ size } active name="balloon-dots" /> }>
+                  Send {profile.firstName} a message
+                </ListItem>
+              </RequiresLogin>
+            </li>
+          }
           { !profile.isOwner &&
             <li>
               <RequiresLogin event="onClick" loginAction={ START_LISTENING } redirectUrl={ `/user/${profile.username}` }>
@@ -47,17 +58,6 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
                   start= { <Icon size={ size } name="listen" active={ !profile.isListening } on={ profile.isListening } /> }
                 >
                   { profile.isListening ? `Stop listening to ${profile.firstName}` : `Listen to ${profile.firstName}` }
-                </ListItem>
-              </RequiresLogin>
-            </li>
-          }
-          { !profile.isOwner &&
-            <li>
-              <RequiresLogin event="onClick" loginAction={ SEND_MESSAGE } redirectUrl={ `/user/${profile.username}` }>
-                <ListItem size={ size }
-                  onClick={ onSendMessageClick }
-                  start= { <Icon size={ size } active name="balloon-dots" /> }>
-                  Send {profile.firstName} a message
                 </ListItem>
               </RequiresLogin>
             </li>
