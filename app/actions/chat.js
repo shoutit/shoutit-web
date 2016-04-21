@@ -201,6 +201,7 @@ export function startConversation(loggedUser, user) {
     isNew: true,
     type: 'chat',
     profiles: [
+      loggedUser.id,
       user.id,
     ],
   };
