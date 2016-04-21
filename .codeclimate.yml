@@ -4,6 +4,7 @@ engines:
     enabled: true
     exclude_paths:
     - app/reducers
+    - app/actions
     config:
       languages:
       - javascript
