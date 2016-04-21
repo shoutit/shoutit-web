@@ -108,7 +108,7 @@ export class Conversation extends Component {
             }
 
             { conversation && conversation.createError && <div className="Conversation-error">
-              { conversation.createError.error.message }
+              { conversation.createError.message }
               </div>
             }
 
