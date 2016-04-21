@@ -2,17 +2,8 @@
 engines:
   duplication:
     enabled: true
-    exclude_fingerprints:
-    - a293ebe0c8f825764590e4608f2514ca
-    - dde8240158af48fc7a8af93d40b6e207
-    - 69890c607695b540bcdb070e0ec33a80
-    - cd940968a59715345cb737d94627a4ab
-    - 1480341e6811ff70187816eff8761230
-    - eb8d04d34fb90b2e8f61610dbfa0a0a8
-    - 2e869930dac7579753d862c5f8d5ba84
-    - a8ed8905c56c0f9611b2ad3d524bb62b
-    - 216fd49dcbe76d787aac9d945a5b2bfb
-    - 2de92d3357dc2721cb5f2851b90c0627
+    exclude_paths:
+    - app/reducers
     config:
       languages:
       - javascript
