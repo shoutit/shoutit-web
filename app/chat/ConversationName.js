@@ -21,6 +21,6 @@ export default function ConversationName({ conversation, link = true }) {
 }
 
 ConversationName.propTypes = {
-  link: PropTypes.boolean,
+  link: PropTypes.bool,
   conversation: PropTypes.object,
 };
