@@ -1,6 +1,6 @@
 
 import * as actionTypes from './actionTypes';
-import { Schemas } from '../schemas';
+import { CURRENCIES, CATEGORIES } from '../schemas';
 
 export function loadCategories() {
   return {
@@ -11,7 +11,7 @@ export function loadCategories() {
     ],
     service: {
       name: 'categories',
-      schema: Schemas.CATEGORIES,
+      schema: CATEGORIES,
     },
   };
 }
@@ -25,7 +25,7 @@ export function loadCurrencies() {
     ],
     service: {
       name: 'currencies',
-      schema: Schemas.CURRENCIES,
+      schema: CURRENCIES,
     },
   };
 }

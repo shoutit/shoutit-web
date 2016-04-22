@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { listenToUser, stopListeningToUser } from '../actions/users';
-import { startConversation } from '../actions/chat';
+import { startConversation, openConversation } from '../actions/chat';
 import { Link } from 'react-router';
 
 import RequiresLogin from '../auth/RequiresLogin';
@@ -31,12 +31,33 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
   };
 
   const onSendMessageClick = () => {
-    dispatch(startConversation(loggedUser, profile));
+    if (profile.conversation) {
+      dispatch(openConversation(profile.conversation));
+    } else {
+      dispatch(startConversation(loggedUser, profile));
+    }
+
   };
 
   return (
       <div className="ProfileActions">
+        { profile.isListener &&
+          <p className="ProfileActions-is-listener">
+            { profile.firstName } is listening to you.
+          </p>
+        }
         <ul className="htmlNoList">
+          { !profile.isOwner && profile.isListener &&
+            <li>
+              <RequiresLogin event="onClick" loginAction={ SEND_MESSAGE } redirectUrl={ `/user/${profile.username}` }>
+                <ListItem size={ size }
+                  onClick={ onSendMessageClick }
+                  start= { <Icon size={ size } active name="balloon-dots" /> }>
+                  Send {profile.firstName} a message
+                </ListItem>
+              </RequiresLogin>
+            </li>
+          }
           { !profile.isOwner &&
             <li>
               <RequiresLogin event="onClick" loginAction={ START_LISTENING } redirectUrl={ `/user/${profile.username}` }>
@@ -47,17 +68,6 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
                   start= { <Icon size={ size } name="listen" active={ !profile.isListening } on={ profile.isListening } /> }
                 >
                   { profile.isListening ? `Stop listening to ${profile.firstName}` : `Listen to ${profile.firstName}` }
-                </ListItem>
-              </RequiresLogin>
-            </li>
-          }
-          { !profile.isOwner &&
-            <li>
-              <RequiresLogin event="onClick" loginAction={ SEND_MESSAGE } redirectUrl={ `/user/${profile.username}` }>
-                <ListItem size={ size }
-                  onClick={ onSendMessageClick }
-                  start= { <Icon size={ size } active name="balloon-dots" /> }>
-                  Send {profile.firstName} a message
                 </ListItem>
               </RequiresLogin>
             </li>

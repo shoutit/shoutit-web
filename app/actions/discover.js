@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import { Schemas } from '../schemas';
+import { DISCOVERITEM, DISCOVERITEMS, SHOUTS } from '../schemas';
 
 export function loadDiscoverItem(id) {
   return {
@@ -12,7 +12,7 @@ export function loadDiscoverItem(id) {
     service: {
       name: 'discover',
       params: { id },
-      schema: Schemas.DISCOVERITEM,
+      schema: DISCOVERITEM,
     },
   };
 }
@@ -28,7 +28,7 @@ export function loadDiscoverItemsByCountry(country) {
     service: {
       name: 'discover',
       params: { searchParams: { country } },
-      schema: Schemas.DISCOVERITEMS,
+      schema: DISCOVERITEMS,
     },
   };
 }
@@ -50,7 +50,7 @@ export function loadShoutsForDiscoverItem(discoverItemId, searchParams, endpoint
           discover: discoverItemId,
         },
       },
-      schema: Schemas.SHOUTS,
+      schema: SHOUTS,
     },
   };
 }

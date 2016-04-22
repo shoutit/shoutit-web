@@ -1,6 +1,6 @@
 
 import * as actionTypes from './actionTypes';
-import { Schemas } from '../schemas';
+import { PROFILE, PROFILES, SHOUTS } from '../schemas';
 
 export function loadUser(username) {
   return {
@@ -12,7 +12,7 @@ export function loadUser(username) {
     service: {
       name: 'profile',
       params: { username },
-      schema: Schemas.PROFILE,
+      schema: PROFILE,
     },
   };
 }
@@ -28,7 +28,7 @@ export function loadListeners(user) {
     service: {
       name: 'listeners',
       params: { user },
-      schema: Schemas.PROFILES,
+      schema: PROFILES,
     },
   };
 }
@@ -44,7 +44,7 @@ export function loadListening(user) {
     service: {
       name: 'listening',
       params: { user },
-      schema: Schemas.PROFILES,
+      schema: PROFILES,
     },
   };
 }
@@ -61,7 +61,7 @@ export function setUserLocation(location) {
       name: 'profile',
       method: 'update',
       body: { location },
-      schema: Schemas.PROFILE,
+      schema: PROFILE,
     },
   };
 }
@@ -76,7 +76,7 @@ export function loadHomeShouts(endpoint) {
     service: {
       name: 'home',
       params: { endpoint },
-      schema: Schemas.SHOUTS,
+      schema: SHOUTS,
     },
   };
 }
@@ -92,7 +92,7 @@ export function loadUserShouts(searchParams, endpoint) {
     service: {
       name: 'shouts',
       params: { searchParams, endpoint },
-      schema: Schemas.SHOUTS,
+      schema: SHOUTS,
     },
   };
 }
@@ -113,7 +113,7 @@ export function loadProfileDetailsIfNeeded(profile, neededDetails) {
     service: {
       name: 'profile',
       params: { username },
-      schema: Schemas.PROFILE,
+      schema: PROFILE,
     },
   };
 }

@@ -26,13 +26,13 @@ export class ShoutCallButton extends Component {
   }
 
   handleClick() {
-    this.props.dispatch(call(this.props.shout));
+    this.props.dispatch(call(this.props.shout.id));
   }
 
   render() {
     const { shout, tooltipPlacement } = this.props;
     let label = `Call ${shout.mobileHint.replace('...', '…')}`;
-    if (shout.isUpdating) {
+    if (shout.isCalling) {
       label = 'Please wait…';
     }
     if (shout.mobile) {
@@ -44,16 +44,16 @@ export class ShoutCallButton extends Component {
         <Button
           { ...this.props }
           secondary
-          disabled={ shout.isUpdating }
+          disabled={ shout.isCalling }
           size="small"
-          onClick={ !shout.mobile && !shout.isUpdating ? this.handleClick : null }
+          onClick={ !shout.mobile && !shout.isCalling ? this.handleClick : null }
           leftIcon = { <Icon fill name="phone" /> }
           label={ label }
         />
       </RequiresLogin>
     );
 
-    if (!shout.mobile && !shout.isUpdating) {
+    if (!shout.mobile && !shout.isCalling) {
       return (
         <Tooltip placement={ tooltipPlacement } overlay="Click to reveal">
           { button }

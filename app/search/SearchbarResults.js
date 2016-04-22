@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { getVariation } from '../utils/APIUtils';
+import ShoutLink from '../shouts/ShoutLink';
 
 if (process.env.BROWSER) {
   require('./SearchbarResults.scss');
@@ -19,6 +20,11 @@ function SearchbarResult({ image, label }) {
   );
 }
 
+SearchbarResult.propTypes = {
+  image: PropTypes.string,
+  label: PropTypes.string.isRequired,
+};
+
 export default function SearchbarResults({ search = '', hasMoreShouts = false, shoutsCount, onShowMoreShoutsClick, tags = [], shouts = [], profiles = [], onResultClick }) {
   return (
     <div className="SearchbarResults">
@@ -29,9 +35,9 @@ export default function SearchbarResults({ search = '', hasMoreShouts = false, s
             <ul className="htmlSelectableList">
             { shouts.map(shout =>
               <li key={ shout.id }>
-                <Link onClick={ onResultClick } to={`/shout/${shout.id}`}>
+                <ShoutLink onClick={ onResultClick } shout={ shout }>
                   <SearchbarResult label={ shout.title } image={ shout.thumbnail ? getVariation(shout.thumbnail, 'small') : null } />
-                </Link>
+                </ShoutLink>
               </li>
             )}
             </ul>
@@ -83,4 +89,7 @@ SearchbarResults.propTypes = {
   profiles: PropTypes.array.isRequired,
   onResultClick: PropTypes.func,
   onShowMoreShoutsClick: PropTypes.func,
+  search: PropTypes.string,
+  hasMoreShouts: PropTypes.bool,
+  shoutsCount: PropTypes.number,
 };

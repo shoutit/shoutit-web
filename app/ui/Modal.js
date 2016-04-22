@@ -18,14 +18,6 @@ export default class Modal extends React.Component {
     size: 'medium',
   };
 
-  componentDidMount() {
-    document.body.style.overflow = 'hidden';
-  }
-
-  componentWillUnmount() {
-    document.body.style.overflow = null;
-  }
-
   render() {
     const { rootClose, children, title, size } = this.props;
 

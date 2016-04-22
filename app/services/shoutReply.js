@@ -3,9 +3,9 @@ import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'shoutReply',
-  create: (req, resource, { shout }, message, config, callback) => {
+  create: (req, resource, { id }, message, config, callback) => {
     request
-      .post(`/shouts/${shout.id}/reply`)
+      .post(`/shouts/${id}/reply`)
       .send(message)
       .setSession(req.session)
       .prefix()

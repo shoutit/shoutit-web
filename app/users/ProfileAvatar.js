@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-// import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import Tooltip from '../ui/Tooltip';
 
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
@@ -26,7 +26,7 @@ export default class ProfileAvatar extends Component {
   render() {
     const {
       user = {},
-      // tooltip = false,
+      tooltip = false,
       linkToProfilePage = false,
       placeholder = false,  // show placeholder behind the image (default true when user has no image)
       size = 'medium',     // small, medium, large or huge
@@ -56,14 +56,14 @@ export default class ProfileAvatar extends Component {
     } else {
       avatar = <span className={ className } ref="image">{ avatar }</span>;
     }
-    //
-    // if (tooltip) {
-    //   avatar = (
-    //       // <OverlayTrigger placement="top" overlay={ <Tooltip>{ name }</Tooltip> }>
-    //         { avatar }
-    //       // </OverlayTrigger>
-    //     );
-    // }
+
+    if (tooltip) {
+      avatar = (
+        <Tooltip placement="top" overlay={ user.name }>
+          { avatar }
+        </Tooltip>
+        );
+    }
 
     return avatar;
   }

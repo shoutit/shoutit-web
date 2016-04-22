@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 import { logout } from '../actions/session';
 
 import Icon from '../ui/Icon';

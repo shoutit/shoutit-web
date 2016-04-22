@@ -47,6 +47,6 @@ ListItem.propTypes = {
   nowrap: PropTypes.bool,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   size: PropTypes.oneOf(['small', 'medium', 'large']),
 };

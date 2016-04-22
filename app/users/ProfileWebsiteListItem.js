@@ -22,4 +22,5 @@ export default function ProfileWebsiteListItem({ profile, size = 'medium' }) {
 
 ProfileWebsiteListItem.propTypes = {
   profile: PropTypes.object.isRequired,
+  size: PropTypes.oneOf(['small', 'medium']),
 };

@@ -1,6 +1,6 @@
 
 import * as actionTypes from './actionTypes';
-import { Schemas } from '../schemas';
+import { TAG, SHOUTS, TAGS } from '../schemas';
 
 export function loadTagIfNeeded(tag, properties = []) {
   if (properties.every(property => tag.hasOwnProperty(property))) {
@@ -18,7 +18,7 @@ export function loadTagIfNeeded(tag, properties = []) {
     service: {
       name: 'tag',
       params: { name },
-      schema: Schemas.TAG,
+      schema: TAG,
     },
   };
 }
@@ -34,7 +34,7 @@ export function loadTagShouts(name, searchParams, endpoint) {
     service: {
       name: 'shouts',
       params: { searchParams: { ...searchParams, tags: name }, endpoint },
-      schema: Schemas.SHOUTS,
+      schema: SHOUTS,
     },
   };
 }
@@ -50,7 +50,7 @@ export function loadRelatedTags(tag, query, endpoint) {
     service: {
       name: 'relatedTags',
       params: { tag, endpoint, query },
-      schema: Schemas.TAGS,
+      schema: TAGS,
     },
   };
 }

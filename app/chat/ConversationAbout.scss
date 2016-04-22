@@ -1,0 +1,31 @@
+@import '../styles/constants.scss';
+
+.ConversationAbout {
+  background-color: white;
+  height: 3.5em;
+  display: block;
+  color: $color;
+  display: flex;
+  align-items: center;
+  padding: .5em 1em;
+  font-size: .875em;
+  &:hover {
+    color: lighten($color, 20);
+  }
+}
+
+.ConversationAbout-image {
+  border-radius: 3px;
+  display: inline-block;
+  width: 2.5em;
+  height: 2.5em;
+  background-repeat: no-repeat;
+  background-position: contain;
+  margin-right: .5em;
+  flex-shrink: 0;
+}
+
+.ConversationAbout-title {
+  max-height: 2.3em;
+  overflow: hidden;
+}

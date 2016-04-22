@@ -13,7 +13,7 @@
     "dev": "DEBUG=shoutit,shoutit:* NODE_ENV=development babel-watch -D -w app/server -w app/services app.js",
     "dev:built": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=production npm start",
     "lint": "eslint app",
-    "test": "npm run test:mocha",
+    "test": "npm run lint && npm run test:mocha",
     "test:karma": "karma start --reporters mocha",
     "test:karma:watch": "karma start --auto-watch --no-single-run",
     "test:karma:cover": "karma start --reporters mocha --reporters coverage",

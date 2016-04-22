@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 if (process.env.BROWSER) {
   require('./Frame.scss');
 }
-export default function Frame({ title, children, transparent = false, style, className = ''}) {
+export default function Frame({ title, children, transparent = false, style, className = '' }) {
   return (
     <div className={`Frame${transparent ? ' transparent' : ''} ${className}` } style={ style }>
       <div className="Frame-header">
@@ -13,3 +13,11 @@ export default function Frame({ title, children, transparent = false, style, cla
     </div>
   );
 }
+
+Frame.propTypes = {
+  title: PropTypes.string,
+  children: PropTypes.node,
+  transparent: PropTypes.bool,
+  style: PropTypes.object,
+  className: PropTypes.string,
+};

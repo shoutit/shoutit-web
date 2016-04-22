@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -46,6 +46,14 @@ export function HeaderProfile({
     </div>
   );
 }
+
+HeaderProfile.propTypes = {
+  user: PropTypes.object.isRequired,
+  onMessagesClick: PropTypes.func,
+  onNewShoutClick: PropTypes.func,
+  onNotificationsClick: PropTypes.func,
+  onProfileClick: PropTypes.func,
+};
 
 const mapStateToProps = state => ({
   user: state.session.user,

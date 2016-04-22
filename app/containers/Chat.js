@@ -6,6 +6,7 @@ import Helmet from '../utils/Helmet';
 import FixedHeightPage from '../layout/FixedHeightPage';
 import Page from '../layout/Page';
 import ConversationsList from '../chat/ConversationsList';
+import ConversationName from '../chat/ConversationName';
 import Conversation from '../chat/Conversation';
 
 import SuggestedShout from '../shouts/SuggestedShout';
@@ -13,7 +14,6 @@ import SuggestedShout from '../shouts/SuggestedShout';
 import RequiresLogin from '../auth/RequiresLogin';
 
 import { denormalize } from '../schemas';
-import { getConversationName } from '../chat/ChatUtils';
 import { closeConversation } from '../actions/chat';
 
 if (process.env.BROWSER) {
@@ -25,14 +25,13 @@ export class Chat extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
-    loggedUser: PropTypes.object,
     isFetching: PropTypes.bool,
     conversations: PropTypes.array,
     conversation: PropTypes.object,
   }
 
   render() {
-    const { params, loggedUser, isFetching, conversations, conversation, dispatch } = this.props;
+    const { params, isFetching, conversations, conversation, dispatch } = this.props;
     return (
       <RequiresLogin>
         <FixedHeightPage>
@@ -50,7 +49,6 @@ export class Chat extends Component {
                     conversations={ conversations }
                     selectedId={ params.conversationId }
                     isFetching={ isFetching }
-                    loggedUser={ loggedUser }
                     onConversationClick={ conversation => dispatch(closeConversation(conversation.id)) }
                   />
                 </div>
@@ -60,7 +58,7 @@ export class Chat extends Component {
                 <div className="Chat-conversation">
                   <div className="Chat-conversation-header">
                     <h1>
-                      { conversation ? getConversationName(conversation, loggedUser) : null }
+                      { conversation ? <ConversationName conversation={ conversation } /> : null }
                     </h1>
                   </div>
                   <div className="Chat-conversation-body">
@@ -84,15 +82,12 @@ export class Chat extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { entities: { conversations, ...entities }, paginated: { chat } } = state;
+  const { entities, paginated } = state;
   const { conversationId } = ownProps.params;
   return {
-    loggedUser: state.session.user,
-    isFetching: chat.isFetching,
-    conversations: chat.ids.map(id => denormalize(conversations[id], entities, 'CONVERSATION')),
-    conversation: conversationId && conversations[conversationId] ?
-      denormalize(conversations[conversationId], entities, 'CONVERSATION') :
-      undefined,
+    isFetching: paginated.chatConversations.isFetching,
+    conversations: paginated.chatConversations.ids.map(id => denormalize(entities.conversations[id], entities, 'CONVERSATION')),
+    conversation: denormalize(entities.conversations[conversationId], entities, 'CONVERSATION'),
   };
 };
 export default connect(mapStateToProps)(Chat);

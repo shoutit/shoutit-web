@@ -5,7 +5,7 @@ import { getVariation } from './APIUtils';
 
 describe('APIUtils', () => {
 
-  describe('getVariation', function () {
+  describe('getVariation', () => {
 
     it("should return the 'medium' variation as default", () => {
       const url = 'http://example.com/test.image.jpg';

@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import CardWithList from '../ui/CardWithList';
 import ProfileListItem from '../users/ProfileListItem';
+import { denormalize } from '../schemas';
 
 export function Listening({ profiles }) {
   if (profiles.length === 0) {
@@ -24,7 +25,9 @@ const mapStateToProps = (state, ownProps) => {
   let profiles = [];
   const { byProfile } = ownProps;
   if (state.paginated.listeningByUser[byProfile.id]) {
-    profiles = state.paginated.listeningByUser[byProfile.id].ids.map(id => state.entities.users[id]);
+    profiles = state.paginated.listeningByUser[byProfile.id].ids.map(
+      id => denormalize(state.entities.users[id], state.entities, 'PROFILE')
+    );
   }
   return {
     profiles,

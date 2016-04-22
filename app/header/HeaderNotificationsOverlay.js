@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 if (process.env.BROWSER) {
   require('../styles/ListOverlay.scss');
 }
 
-export default function HeaderNotificationsOverlay({ onMarkAsReadClick, unreadCount }) {
+export default function HeaderNotificationsOverlay({ onMarkAsReadClick, unreadCount = 0 }) {
   return (
     <div className="ListOverlay">
       <div className="ListOverlay-header">
@@ -27,3 +27,8 @@ export default function HeaderNotificationsOverlay({ onMarkAsReadClick, unreadCo
 
   );
 }
+
+HeaderNotificationsOverlay.propTypes = {
+  onMarkAsReadClick: PropTypes.func,
+  unreadCount: PropTypes.number,
+};
