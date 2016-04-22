@@ -46,6 +46,9 @@ const handleNewMessageNotification = (message, store) => {
   store.dispatch(addMessage(payload));
 };
 
+const handleReadByNotification = (readBy, store) => {
+};
+
 const typingTimeouts = {};
 const handleClientIsTypingNotification = (conversationId, profile, store) => {
   log('Dispatching typing client...');
@@ -123,7 +126,9 @@ export default store => next => action => { // eslint-disable-line no-unused-var
           handleClientIsTypingNotification(conversationId, camelizeKeys(typingClient), store)
       );
 
-      // conversationChannel.bind("left_chat", payload => store.dispatch(newListen(payload)));
+        conversationChannel.bind('new_read_by', readBy =>
+          handleReadByNotification(conversationId, camelizeKeys(readBy), store)
+        );
       // conversationChannel.bind("joined_chat", payload => store.dispatch(profileChange(payload)));
       });
 
