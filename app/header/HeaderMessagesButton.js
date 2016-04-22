@@ -36,7 +36,6 @@ export class HeaderMessagesButton extends Component {
 
   render() {
     const { badge } = this.props;
-    console.log(typeof this.props.overlayContainer);
     return (
       <span>
         <Link to="/messages" onClick={ this.showOverlay } style={{ position: 'relative' }}>
