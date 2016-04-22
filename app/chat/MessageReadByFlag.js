@@ -1,18 +1,13 @@
 import React, { PropTypes } from 'react';
-// import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import Tooltip from '../ui/Tooltip';
 
 import Icon from '../ui/Icon';
 
-export default function MessageReadByFlag() {
-  // const tooltip = (
-  //   <Tooltip>
-  //     Read by { profiles.map(profile => profile.name).join(', ') }
-  //   </Tooltip>
-  // );
+export default function MessageReadByFlag({ profiles }) {
   return (
-    // <OverlayTrigger placement="top" overlay={ tooltip }>
+    <Tooltip placement="top" overlay={ `Read by ${profiles.map(profile => profile.name).join(',')}` }>
       <Icon name="seen" active size="small" />
-    // </OverlayTrigger>
+    </Tooltip>
   );
 }
 
