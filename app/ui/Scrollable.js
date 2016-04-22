@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
+import { preventBodyScroll } from '../utils/DOMUtils';
 import debug from 'debug';
 
 const log = debug('shoutit:ui:Scrollable');
@@ -80,7 +81,6 @@ export default class Scrollable extends Component {
   componentWillUnmount() {
     this.getScrollElement().removeEventListener('scroll', this.handleScroll);
     if (this.props.preventDocumentScroll) {
-      document.body.style.overflow = '';
       this.getScrollElement().removeEventListener('mouseenter', this.handleMouseEnter);
       this.getScrollElement().removeEventListener('mouseleave', this.handleMouseLeave);
     }
@@ -117,13 +117,15 @@ export default class Scrollable extends Component {
     return this.getScrollHeight() > this.getOffsetHeight();
   }
 
-  handleMouseLeave() {
-    document.body.style.overflow = '';
-  }
 
   handleMouseEnter() {
-    document.body.style.overflow = 'hidden';
+    preventBodyScroll(this.getScrollable()).on();
   }
+
+  handleMouseLeave() {
+    preventBodyScroll(this.getScrollable()).off();
+  }
+
 
   scrollToInitialPosition() {
     if (this.props.initialScroll === 'bottom') {

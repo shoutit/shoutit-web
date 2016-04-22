@@ -1,36 +1,64 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { connect } from 'react-redux';
 import { closeModal } from '../actions/ui';
+import { preventBodyScroll } from '../utils/DOMUtils';
 
 if (process.env.BROWSER) {
   require('./ModalHost.scss');
 }
 
-export function ModalHost({ modals = [], closeModal }) {
-  return (
-    <ReactCSSTransitionGroup transitionName="modal" transitionEnterTimeout={250} transitionLeaveTimeout={150}>
-      { modals.map((modal, i) => {
-        const close = () => closeModal(modal);
-        return (
-          <div
-            key={i}
-            onClick={ modal.props.rootClose ? close : null }
-            className="ModalHost-wrapper"
-          >
-            { React.cloneElement(modal, { close }) }
-          </div>
-          );
-      })
-      }
-      </ReactCSSTransitionGroup>
-  );
-}
+export class ModalHost extends Component {
 
-ModalHost.propTypes = {
-  modals: PropTypes.array,
-  closeModal: PropTypes.func.isRequired,
-};
+  static propTypes = {
+    modals: PropTypes.array,
+    closeModal: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    modals: [],
+  };
+
+  componentDidMount() {
+    if (this.props.modals.length > 0) {
+      preventBodyScroll().on();
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.modals.length > 0) {
+      preventBodyScroll(this.refs.wrapper).on();
+    } else {
+      preventBodyScroll(this.refs.wrapper).off();
+    }
+  }
+
+  componentWillUnmount() {
+    preventBodyScroll(this.refs.wrapper).off();
+  }
+
+  render() {
+    const { modals, closeModal } = this.props;
+    return (
+      <ReactCSSTransitionGroup transitionName="modal" transitionEnterTimeout={250} transitionLeaveTimeout={150}>
+        { modals.map((modal, i) => {
+          const close = () => closeModal(modal);
+          return (
+            <div
+              key={i}
+              onClick={ modal.props.rootClose ? close : null }
+              className="ModalHost-wrapper"
+              ref="wrapper"
+            >
+              { React.cloneElement(modal, { close }) }
+            </div>
+            );
+        })
+        }
+        </ReactCSSTransitionGroup>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   modals: state.modals,
