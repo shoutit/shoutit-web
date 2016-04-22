@@ -130,9 +130,7 @@ export class Shout extends Component {
         </CardWithList>
       );
 
-    return [
-      categoryWithFilters,
-    ];
+    return categoryWithFilters;
   }
 
   renderEndColumn() {
@@ -160,7 +158,7 @@ export class Shout extends Component {
       <div className="Shouts-related">
         <h2>Related shouts</h2>
         <div className="Shouts-related-wrapper">
-          { relatedShouts.map(shout => <ShoutPreview shout={ shout } />) }
+          { relatedShouts.map(shout => <ShoutPreview key={ shout.id } shout={ shout } />) }
         </div>
       </div>
     );
