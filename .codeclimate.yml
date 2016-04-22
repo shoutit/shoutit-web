@@ -5,6 +5,7 @@ engines:
     exclude_paths:
     - app/reducers
     - app/actions
+    - app/services
     config:
       languages:
       - javascript
