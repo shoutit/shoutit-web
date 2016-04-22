@@ -12,7 +12,7 @@ export class HeaderMessagesButton extends Component {
 
   static propTypes = {
     badge: PropTypes.number,
-    overlayContainer: PropTypes.node,
+    overlayContainer: PropTypes.oneOfType([PropTypes.object, PropTypes.element, PropTypes.func]),
   }
 
   constructor(props) {
@@ -36,6 +36,7 @@ export class HeaderMessagesButton extends Component {
 
   render() {
     const { badge } = this.props;
+    console.log(typeof this.props.overlayContainer);
     return (
       <span>
         <Link to="/messages" onClick={ this.showOverlay } style={{ position: 'relative' }}>

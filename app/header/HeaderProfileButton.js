@@ -12,7 +12,7 @@ export class HeaderProfileButton extends Component {
 
   static propTypes = {
     user: PropTypes.object.isRequired,
-    overlayContainer: PropTypes.node,
+    overlayContainer: PropTypes.oneOfType([PropTypes.object, PropTypes.element, PropTypes.func]),
   }
 
   constructor(props) {
