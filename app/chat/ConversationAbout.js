@@ -17,7 +17,7 @@ export default function ConversationAbout({ shout }) {
         <Icon name="sparkle" active />
       }
       <span className="ConversationAbout-title">
-        { title || (description && description.substring(0, 160)) || 'About a shout without content' }
+        { title || (description && description.substring(0, 160)) || '(click to see the shout)' }
       </span>
     </ShoutLink>
   );
