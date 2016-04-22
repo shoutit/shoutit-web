@@ -3,7 +3,7 @@ import { camelizeKeys } from 'humps';
 import * as actionTypes from './actionTypes';
 import { trimWhitespaces } from '../utils/StringUtils';
 
-import { Schemas } from '../schemas';
+import { SUGGESTIONS } from '../schemas';
 
 export function loadCurrentLocation() {
   return {
@@ -50,7 +50,7 @@ export function loadSuggestions(location) {
     service: {
       name: 'suggestions',
       params: { location },
-      schema: Schemas.SUGGESTIONS,
+      schema: SUGGESTIONS,
     },
   };
 }

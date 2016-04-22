@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import { Schemas } from '../schemas';
+import { TAGS, PROFILES, SHOUTS } from '../schemas';
 
 export function searchTags(searchParams) {
   return {
@@ -10,7 +10,7 @@ export function searchTags(searchParams) {
     ],
     service: {
       name: 'tags',
-      schema: Schemas.TAGS,
+      schema: TAGS,
       params: searchParams,
     },
     payload: { searchParams },
@@ -26,7 +26,7 @@ export function searchProfiles(searchParams) {
     ],
     service: {
       name: 'profiles',
-      schema: Schemas.PROFILES,
+      schema: PROFILES,
       params: searchParams,
     },
     payload: { searchParams },
@@ -42,7 +42,7 @@ export function searchShouts(searchParams, endpoint) {
     ],
     service: {
       name: 'shouts',
-      schema: Schemas.SHOUTS,
+      schema: SHOUTS,
       params: { searchParams, endpoint },
     },
     payload: { searchParams, endpoint },

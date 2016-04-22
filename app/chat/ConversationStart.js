@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import ProfileAvatar from '../users/ProfileAvatar';
-import ShoutPreview from '../shouts/ShoutPreview';
+// import ShoutPreview from '../shouts/ShoutPreview';
 
 if (process.env.BROWSER) {
   require('./ConversationStart.scss');
@@ -23,7 +23,7 @@ export default function ConversationStart({ conversation }) {
         </div>
         :
         <div className="ConversationStart-shout">
-          <ShoutPreview shout={ conversation.about } />
+          {/*<ShoutPreview shout={ conversation.about } />*/}
           <p className="htmlAncillary">
             If you are interested in this, write { user.firstName } a message.
           </p>

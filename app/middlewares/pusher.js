@@ -7,7 +7,7 @@ import { camelizeKeys } from 'humps';
 import { pusherAppKey } from '../config';
 import * as actionTypes from '../actions/actionTypes';
 
-import { Schemas } from '../schemas';
+import { MESSAGE } from '../schemas';
 import { addMessage, loadConversation, typingClientNotification, removeTypingClient } from '../actions/chat';
 
 const log = debug('shoutit:pusherMiddleware');
@@ -22,7 +22,7 @@ const handleNewMessageNotification = (message, store) => {
   const { chat: { currentConversation }, entities: { conversations } } = store.getState();
   const { conversationId } = message;
   const conversation = conversations[conversationId];
-  const payload = normalize(message, Schemas.MESSAGE);
+  const payload = normalize(message, MESSAGE);
 
   if (!conversation) {
     store.dispatch(loadConversation(conversationId));
@@ -44,6 +44,9 @@ const handleNewMessageNotification = (message, store) => {
   payload.result = message.id;
   payload.conversationId = conversationId;
   store.dispatch(addMessage(payload));
+};
+
+const handleReadByNotification = (readBy, store) => {
 };
 
 const typingTimeouts = {};
@@ -106,6 +109,9 @@ export default store => next => action => { // eslint-disable-line no-unused-var
         client.conversationChannel = null;
       }
       const conversationId = action.payload;
+      if (!conversationId) {
+        return;
+      }
       channelId = `presence-v3-c-${conversationId}`;
 
       log('Subscribing channel %s...', channelId);
@@ -120,7 +126,9 @@ export default store => next => action => { // eslint-disable-line no-unused-var
           handleClientIsTypingNotification(conversationId, camelizeKeys(typingClient), store)
       );
 
-      // conversationChannel.bind("left_chat", payload => store.dispatch(newListen(payload)));
+        conversationChannel.bind('new_read_by', readBy =>
+          handleReadByNotification(conversationId, camelizeKeys(readBy), store)
+        );
       // conversationChannel.bind("joined_chat", payload => store.dispatch(profileChange(payload)));
       });
 

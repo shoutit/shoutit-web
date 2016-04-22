@@ -12,7 +12,7 @@ export class HeaderMessagesButton extends Component {
 
   static propTypes = {
     badge: PropTypes.number,
-    overlayContainer: PropTypes.node,
+    overlayContainer: PropTypes.oneOfType([PropTypes.object, PropTypes.element, PropTypes.func]),
   }
 
   constructor(props) {

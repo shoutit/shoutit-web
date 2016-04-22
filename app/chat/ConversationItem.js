@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import ProfileAvatar from '../users/ProfileAvatar.js';
 import Icon from '../ui/Icon.js';
 import { formatCreatedAt } from '../utils/DateUtils';
-import { getConversationName } from './ChatUtils';
+import ConversationName from '../chat/ConversationName';
 
 if (process.env.BROWSER) {
   require('./ConversationItem.scss');
@@ -12,7 +12,6 @@ if (process.env.BROWSER) {
 
 export default function ConversationItem({
   conversation,
-  loggedUser,
   onClick,
   selected = false,
   unread = false,
@@ -37,17 +36,14 @@ export default function ConversationItem({
       <div className="ConversationItem-body">
 
         <div className="ConversationItem-title">
-          { getConversationName(conversation, loggedUser) }
+          <ConversationName conversation={ conversation } link={ false } />
         </div>
-        {/*{ type === 'about_shout' &&
+
+        { conversation.type === 'about_shout' &&
           <div className="ConversationItem-about_shout">
-            {about.title}
+            {conversation.about.title}
           </div>
         }
-
-        <div className="ConversationItem-partecipants">
-          { partecipants }
-        </div>*/}
 
         { lastMessage &&
           <div className="ConversationItem-last-message" title={ lastMessage.text }>
@@ -77,7 +73,6 @@ export default function ConversationItem({
 
 ConversationItem.propTypes = {
   conversation: PropTypes.object.isRequired,
-  loggedUser: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
   selected: PropTypes.bool,
   unread: PropTypes.bool,

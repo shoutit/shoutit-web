@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import MessagesList from '../chat/MessagesList';
 import ConversationReplyForm from '../chat/ConversationReplyForm';
+import ConversationAbout from '../chat/ConversationAbout';
 import ConversationStart from '../chat/ConversationStart';
 import MessagesTypingUsers from '../chat/MessagesTypingUsers';
 import Scrollable from '../ui/Scrollable';
@@ -88,6 +89,11 @@ export class Conversation extends Component {
     const { previousUrl, dispatch, id } = this.props;
     return (
       <div className={ `Conversation layout-${layout}` }>
+        {
+          conversation && conversation.type === 'about_shout' &&
+          <ConversationAbout shout={ conversation.about } />
+        }
+
         <Scrollable
           preventDocumentScroll
           uniqueId={ messages.length > 0 ? messages[messages.length - 1].id : 'empty' }
@@ -108,7 +114,7 @@ export class Conversation extends Component {
             }
 
             { conversation && conversation.createError && <div className="Conversation-error">
-              { conversation.createError.error.message }
+              { conversation.createError.message }
               </div>
             }
 

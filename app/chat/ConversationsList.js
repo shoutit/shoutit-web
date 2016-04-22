@@ -14,7 +14,6 @@ if (process.env.BROWSER) {
 export class ConversationsList extends Component {
 
   static propTypes = {
-    loggedUser: PropTypes.object.isRequired,
     isFetching: PropTypes.bool,
     conversations: PropTypes.array,
     onConversationClick: PropTypes.func,
@@ -40,7 +39,7 @@ export class ConversationsList extends Component {
   }
 
   render() {
-    const { isFetching, conversations, loggedUser, selectedId, onConversationClick, dispatch, previousUrl } = this.props;
+    const { isFetching, conversations, selectedId, onConversationClick, dispatch, previousUrl } = this.props;
     return (
       <Scrollable
         ref="scrollable"
@@ -48,6 +47,7 @@ export class ConversationsList extends Component {
         className="ConversationsList"
         onScrollBottom={ previousUrl ? () => dispatch(loadConversations(previousUrl)) : null }
         uniqueId={ conversations.length === 0 ? 'empty' : conversations[conversations.length - 1].id }>
+
 
           { conversations.length > 0 &&
             <ul className="htmlNoList">
@@ -58,7 +58,6 @@ export class ConversationsList extends Component {
                   <ConversationItem
                     onClick={ onConversationClick ? e => onConversationClick(conversation, e) : null }
                     conversation={ conversation }
-                    loggedUser={ loggedUser }
                     unread = { conversation.unreadMessagesCount > 0 }
                     selected={ conversation.id === selectedId }
                   />
@@ -88,14 +87,14 @@ export class ConversationsList extends Component {
 }
 
 const mapStateToProps = state => {
-  const { entities: { conversations, ...entities }, paginated: { chat } } = state;
-  const props = {
-    loggedUser: state.session.user,
-    isFetching: chat.isFetching,
-    previousUrl: chat.previousUrl,
-    conversations: chat.ids.map(id => denormalize(conversations[id], entities, 'CONVERSATION')).filter(conversation => !conversation.isNew),
+  const { entities, paginated } = state;
+  return {
+    isFetching: paginated.chatConversations.isFetching,
+    previousUrl: paginated.chatConversations.previousUrl,
+    conversations: paginated.chatConversations.ids.map(
+      id => denormalize(entities.conversations[id], entities, 'CONVERSATION'))
+        .filter(conversation => !conversation.isNew),
   };
-  return props;
 };
 
 export default connect(mapStateToProps)(ConversationsList);

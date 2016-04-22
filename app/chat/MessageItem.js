@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
-import { Link } from 'react-router';
 
+import ShoutLink from '../shouts/ShoutLink';
 import MessageReadByFlag from './MessageReadByFlag';
 import ShoutPreview from '../shouts/ShoutPreview';
 import GoogleStaticMap from '../location/GoogleStaticMap';
@@ -16,9 +16,9 @@ function MessageAttachment({ attachment }) {
   let content;
   if (shout) {
     content = (
-      <Link to={ `/shout/${shout.id}` }>
+      <ShoutLink shout={ shout }>
         <ShoutPreview shout={ shout } thumbnailRatio={ 16 / 9 } showProfile={ false } />
-      </Link>
+      </ShoutLink>
     );
   }
   if (location) {

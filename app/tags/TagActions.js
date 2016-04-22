@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+// import { push } from 'react-router-redux';
 // import { listenToTag, stopListeningToTag } from '../actions/tags';
 import { Link } from 'react-router';
 
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
 
-export function TagActions({ tag, loggedUser, dispatch, isUpdatingListening, size = 'medium', showProfileLink = false }) {
+export function TagActions({ tag, size = 'medium' }) {
   //
   // const onListenClick = () => {
   //   if (isUpdatingListening) {
@@ -60,7 +60,7 @@ TagActions.propTypes = {
   size: PropTypes.oneOf(['small', 'medium', 'large']),
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   // const { paginated: { listenersByUser } } = state;
   return {
     loggedUser: state.session.user,

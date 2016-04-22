@@ -26,9 +26,18 @@ export class Searchbar extends Component {
 
   static propTypes = {
     currentLocation: PropTypes.object,
+    tags: PropTypes.object,
     foundTags: PropTypes.array,
+    tagsBySearch: PropTypes.object,
+    shouts: PropTypes.object,
     foundShouts: PropTypes.array,
+    shoutsBySearch: PropTypes.object,
+    profiles: PropTypes.object,
     foundProfiles: PropTypes.array,
+    profilesBySearch: PropTypes.object,
+    dispatch: PropTypes.func.isRequired,
+    isLoggedIn: PropTypes.bool,
+    error: PropTypes.object,
   };
 
   static defaultProps = {
@@ -107,14 +116,14 @@ export class Searchbar extends Component {
   handleLocationClick(e) {
     e.preventDefault();
     e.target.blur();
-    const { dispatch, loggedUser } = this.props;
+    const { dispatch, isLoggedIn } = this.props;
     const modal = (
       <Modal title="Set your location" name="search-location">
         <SearchLocation
           onLocationSelect={ location => {
             dispatch(closeModal('search-location'));
             dispatch(setCurrentLocation(location));
-            if (loggedUser) {
+            if (isLoggedIn) {
               dispatch(setUserLocation(location));
             }
           }}
@@ -227,25 +236,24 @@ export class Searchbar extends Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    loggedUser: state.session.user,
-    currentLocation: state.currentLocation,
+const mapStateToProps = state => ({
+  isLoggedIn: !!state.session.user,
+  currentLocation: state.currentLocation,
 
-    shoutsBySearch: state.paginated.shoutsBySearch,
-    isFetchingShouts: state.paginated.shoutsBySearch.isFetching,
-    shouts: state.entities.shouts,
+  shoutsBySearch: state.paginated.shoutsBySearch,
+  isFetchingShouts: state.paginated.shoutsBySearch.isFetching,
+  shouts: state.entities.shouts,
 
-    tagsBySearch: state.paginated.tagsBySearch,
-    tags: state.entities.tags,
-    isFetchingTags: state.paginated.tagsBySearch.isFetching,
+  tagsBySearch: state.paginated.tagsBySearch,
+  tags: state.entities.tags,
+  isFetchingTags: state.paginated.tagsBySearch.isFetching,
 
-    profilesBySearch: state.paginated.profilesBySearch,
-    profiles: state.entities.users,
-    isFetchingProfiles: state.paginated.profilesBySearch.isFetching,
+  profilesBySearch: state.paginated.profilesBySearch,
+  profiles: state.entities.users,
+  isFetchingProfiles: state.paginated.profilesBySearch.isFetching,
 
-    error: state.paginated.profilesBySearch.error || state.paginated.tagsBySearch.error || state.paginated.shoutsBySearch.error,
-  }
-);
+  error: state.paginated.profilesBySearch.error || state.paginated.tagsBySearch.error || state.paginated.shoutsBySearch.error,
+
+});
 
 export default connect(mapStateToProps)(Searchbar);

@@ -10,6 +10,7 @@ import Progress from '../ui/Progress';
 export class SearchLocation extends Component {
 
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     predictions: PropTypes.object,
     error: PropTypes.object,
     isFetching: PropTypes.bool,
