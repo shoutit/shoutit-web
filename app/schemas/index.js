@@ -44,8 +44,6 @@ export const Schemas = {
   PROFILES,
 };
 
-CATEGORY.define({ mainTAG: TAG });
-
 SHOUT.define({
   category: CATEGORY,
   user: PROFILE,
