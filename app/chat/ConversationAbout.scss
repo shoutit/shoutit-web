@@ -7,8 +7,11 @@
   color: $color;
   display: flex;
   align-items: center;
-  padding: .5em;
+  padding: .5em 1em;
   font-size: .875em;
+  &:hover {
+    color: lighten($color, 20);
+  }
 }
 
 .ConversationAbout-image {
@@ -23,6 +26,6 @@
 }
 
 .ConversationAbout-title {
-  height: 2.3em;
+  max-height: 2.3em;
   overflow: hidden;
 }
