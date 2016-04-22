@@ -38,15 +38,12 @@ export default function ConversationItem({
         <div className="ConversationItem-title">
           <ConversationName conversation={ conversation } link={ false } />
         </div>
-        {/*{ type === 'about_shout' &&
+
+        { conversation.type === 'about_shout' &&
           <div className="ConversationItem-about_shout">
-            {about.title}
+            {conversation.about.title}
           </div>
         }
-
-        <div className="ConversationItem-partecipants">
-          { partecipants }
-        </div>*/}
 
         { lastMessage &&
           <div className="ConversationItem-last-message" title={ lastMessage.text }>
