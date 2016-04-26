@@ -15,8 +15,17 @@ export default function errorMiddleware(err, req, res, next) { // eslint-disable
   console.log('Error on request %s %s', req.method, req.url);
   console.log(err.stack);
 
-  res.status(err.status || err.statusCode || 500)
-    .send(`<h1>Something bad happened</h1>
+  res.status(err.status || err.statusCode || 500);
+
+  if (req.xhr) {
+    res.json({
+      message: err.message,
+      detail: err.detail,
+    });
+    return;
+  }
+
+  res.send(`<h1>Something bad happened</h1>
 <p>${err.message}</p>
 <pre>${process.env.NODE_ENV === 'development' ? err.stack : null}</pre>
 `);
