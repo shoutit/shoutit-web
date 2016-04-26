@@ -26,13 +26,16 @@ if (process.env.BROWSER) {
 
 const requiredDetails = ['name', 'cover', 'bio', 'location'];
 
-const fetchData = (dispatch, state, params) =>
-  Promise.all([
-    dispatch(loadProfileDetailsIfNeeded({
-      username: params.username,
-    }, requiredDetails)).catch(err => dispatch(routeError(err)),
-    dispatch(loadUserShouts({ user: params.username }))).catch(() => {}),
-  ]);
+const fetchData = (dispatch, state, params) => {
+  const { username } = params;
+
+  const profile = dispatch(loadProfileDetailsIfNeeded({ username }, requiredDetails))
+    .catch(err => dispatch(routeError(err)));
+
+  const shouts = dispatch(loadUserShouts(username));
+  return Promise.all([shouts, profile]);
+};
+
 
 export class Profile extends Component {
 
@@ -71,7 +74,7 @@ export class Profile extends Component {
         scrollElement={ () => window }
         onScrollBottom={ () => {
           if (nextShoutsUrl && !isFetchingShouts) {
-            dispatch(loadUserShouts({ user: profile.username }, nextShoutsUrl));
+            dispatch(loadUserShouts(profile.username, nextShoutsUrl));
           }
         }}
         triggerOffset={ 400 }
