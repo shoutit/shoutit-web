@@ -10,6 +10,7 @@ import { routeError } from '../actions/server';
 import Page from '../layout/Page';
 import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';
+import ProfileCover from '../users/ProfileCover';
 import ProfileAvatar from '../users/ProfileAvatar';
 import ProfileBiography from '../users/ProfileBiography';
 import SuggestedShout from '../shouts/SuggestedShout';
@@ -17,7 +18,6 @@ import ShoutsList from '../shouts/ShoutsList';
 import Progress from '../ui/Progress';
 import Scrollable from '../ui/Scrollable';
 
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import { getVariation } from '../utils/APIUtils';
 
 if (process.env.BROWSER) {
@@ -100,8 +100,7 @@ export class Profile extends Component {
 
           { profile &&
             <div className="Profile">
-              <div className="Profile-cover" style={ getStyleBackgroundImage(profile.cover, 'large') } />
-
+              <ProfileCover profile={ profile } />
               <div className="Profile-header">
                 <a href={ profile.image ? getVariation(profile.image, 'large') : '' }>
                   <ProfileAvatar size="huge" user={ profile } />

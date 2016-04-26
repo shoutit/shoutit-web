@@ -1,0 +1,8 @@
+@import '../styles/constants.scss';
+
+.ProfileCover {
+  height: 250px;
+  border-radius: $border-radius;
+  background: white;
+  box-shadow: $box-shadow-depth-0;
+}
