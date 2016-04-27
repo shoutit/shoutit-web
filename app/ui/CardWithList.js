@@ -10,7 +10,7 @@ export default function CardWithList({ children = [], title, style }) {
       { title && <h3>{ title }</h3> }
       { children.length > 0 &&
         <ul>
-          { children.map((child, i) => <li key={ i}>{ child }</li>)}
+          { children.map((child, i) => <li key={ i }>{ child }</li>) }
         </ul>
       }
     </div>

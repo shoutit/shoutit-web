@@ -85,12 +85,12 @@ export class ResetPassword extends Component {
             />
 
             <Button
-              style={{ marginTop: '1rem' }}
-              primary
+              style={ { marginTop: '1rem' } }
+              action="primary"
               block
-              disabled={ isResettingPassword }
-              label={ isResettingPassword ? 'Please wait…' : 'Send link' }
-              />
+              disabled={ isResettingPassword }>
+              { isResettingPassword ? 'Please wait…' : 'Send link' }
+            </Button>
 
             <p className="htmlAncillary">
               You will receive a link to change the password.
@@ -98,8 +98,8 @@ export class ResetPassword extends Component {
 
           </form>
         </div>
-        <div className="Frame-footer" style={{ textAlign: 'center' }}>
-          <Link to={{ pathname: '/login', query }}>Back to login</Link>
+        <div className="Frame-footer" style={ { textAlign: 'center' } }>
+          <Link to={ { pathname: '/login', query } }>Back to login</Link>
         </div>
       </Frame>
     );
@@ -114,8 +114,8 @@ export class ResetPassword extends Component {
             We just sent you the link to set a new password. It should arrive in the next few minutes!
           </p>
         </div>
-        <div className="Frame-footer" style={{ textAlign: 'center' }}>
-          <Link to={{ pathname: '/login', query }}>
+        <div className="Frame-footer" style={ { textAlign: 'center' } }>
+          <Link to={ { pathname: '/login', query } }>
             Back to login
           </Link>
         </div>

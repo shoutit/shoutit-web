@@ -1,23 +1,21 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Icon from '../ui/Icon';
 import Button from '../ui/Button';
 
 import { startVideocall } from '../actions/videocalls';
 
 export function VideocallButton({ onVideocallClick, enabled = false, user }) {
   if (!enabled) {
-    return <span />;
+    return null;
   }
   return (
     <Button
-      primary
+      action="primary"
       size="small"
-      label="Video call"
       onClick={ () => onVideocallClick(user) }
-      leftIcon={ <Icon fill name="video" />
-      }
-    />
+      icon="video">
+        Video call
+    </Button>
   );
 }
 

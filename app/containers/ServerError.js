@@ -15,7 +15,7 @@ export default function ServerError({ error }) {
           This page is not available right now. Please try again later.
 
           { process.env.NODE_ENV === 'development' &&
-            <pre style={{ fontSize: '.75em' }}>
+            <pre style={ { fontSize: '.75em' } }>
               { error.message }<br />
               { error.developer_message }<br />
               { error.code }<br />

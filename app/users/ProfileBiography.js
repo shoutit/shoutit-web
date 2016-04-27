@@ -13,39 +13,39 @@ if (process.env.BROWSER) {
 
 export default function ProfileBiography({ profile }) {
   return (
-      <div className="ProfileBiography">
+    <div className="ProfileBiography">
 
-        <p className="ProfileBiography-bio">
-          { profile.bio }
-        </p>
+      <p className="ProfileBiography-bio">
+        { profile.bio }
+      </p>
 
-        { (profile.location || profile.dateJoined || profile.website) &&
-          <div className="ProfileBiography-details">
-              { profile.location && <LocationListItem location={ profile.location } /> }
-              { profile.dateJoined && <ProfileJoinedOnListItem profile={ profile } /> }
-              { profile.website && <ProfileWebsiteListItem profile={ profile } /> }
-          </div>
-        }
+      { (profile.location || profile.dateJoined || profile.website) &&
+        <div className="ProfileBiography-details">
+            { profile.location && <LocationListItem size="small" location={ profile.location } /> }
+            { profile.dateJoined && <ProfileJoinedOnListItem size="small" profile={ profile } /> }
+            { profile.website && <ProfileWebsiteListItem size="small" profile={ profile } /> }
+        </div>
+      }
 
-        { profile.listeningCount &&
-          <div className="ProfileBiography-connections">
-            <ProfileListeningListItem profile={ profile } />
-            <ProfileListenersListItem profile={ profile } />
-          </div>
-        }
+      { profile.listeningCount &&
+        <div className="ProfileBiography-connections">
+          <ProfileListeningListItem profile={ profile } />
+          <ProfileListenersListItem profile={ profile } />
+        </div>
+      }
 
-        { !profile.isOwner &&
-          <div className="ProfileBiography-actions">
-            <ProfileActions profile = { profile } />
-          </div>
-        }
-        { profile.about &&
-          <div className="ProfileBiography-about">
-            <p>
-              { profile.about }
-            </p>
-          </div>
-        }
+      { !profile.isOwner &&
+        <div className="ProfileBiography-actions">
+          <ProfileActions profile={ profile } />
+        </div>
+      }
+      { profile.about &&
+        <div className="ProfileBiography-about">
+          <p>
+            { profile.about }
+          </p>
+        </div>
+      }
     </div>
   );
 }

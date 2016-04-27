@@ -164,7 +164,7 @@ export class Search extends Component {
           if (nextUrl && !isFetching) {
             dispatch(searchShouts(searchParams, nextUrl));
           }
-        }}
+        } }
         triggerOffset={ 400 }
       >
         <Page
@@ -175,10 +175,8 @@ export class Search extends Component {
             </div>
           }
           stickyStartColumn
-          endColumn={ [<SuggestedTags />,
-          <SuggestedProfiles />,
-          <SuggestedShout />] }
-        >
+          endColumn={ [<SuggestedTags />, <SuggestedProfiles />, <SuggestedShout />] }>
+
           <Helmet title={ title } />
           <ShoutsList shouts={ shouts } />
 

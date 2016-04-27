@@ -107,10 +107,10 @@ export class ShoutModal extends Component {
           if (inputRef) {
             inputRef(el);
           }
-        }} onSubmit={ this.handleSubmit } error={ error } actions={ actions }>
+        } } onSubmit={ this.handleSubmit } error={ error } actions={ actions }>
 
         <UploadField
-          ref={ el => { this.imageUploadField = el; }}
+          ref={ el => { this.imageUploadField = el; } }
           name="images"
           resourceType="shout"
           label={ mode === 'update' ? 'Edit photos' : 'Add photos' }
@@ -123,13 +123,13 @@ export class ShoutModal extends Component {
         />
 
         <TextField
-          ref={ el => { this.titleField = el; }}
+          ref={ el => { this.titleField = el; } }
           type="text"
           name="title"
           placeholder="Title"
           disabled={ disabled }
           block
-          style={{ fontSize: '1.25rem' }}
+          style={ { fontSize: '1.25rem' } }
           defaultValue={ shout.title }
           onChange={ title => this.handleChange({ title }) }
           error={ error }
@@ -137,7 +137,7 @@ export class ShoutModal extends Component {
 
         { mode === 'update' &&
           <TextArea
-            ref={ el => { this.textField = el; }}
+            ref={ el => { this.textField = el; } }
             name="text"
             placeholder="Description"
             disabled={ disabled }
@@ -149,7 +149,7 @@ export class ShoutModal extends Component {
         }
 
         <CurrencyField
-          ref={ el => { this.priceField = el; }}
+          ref={ el => { this.priceField = el; } }
           type="text"
           name="price"
           placeholder="Type a price"
@@ -158,27 +158,27 @@ export class ShoutModal extends Component {
           defaultValue={ shout.price }
           onChange={ price => {
             this.handleChange({ price });
-          }}
+          } }
           error={ error }
           startElement={
             <Picker
               name="currency"
-              ref={ el => { this.currencyPicker = el; }}
+              ref={ el => { this.currencyPicker = el; } }
               tooltipPlacement="left"
               defaultValue={ shout.currency }
               onChange={ currency => this.handleChange({ currency }) }
               error={ error }>
-                <option value="">Currency</option>
-                { currencies.map(currency =>
-                  <option key={ currency.code } value={ currency.code }>
-                    { currency.code } { currency.name }
-                  </option>
-                )}
+              <option value="">Currency</option>
+              { currencies.map(currency =>
+                <option key={ currency.code } value={ currency.code }>
+                  { currency.code } { currency.name }
+                </option>
+              ) }
             </Picker>
           } />
 
         <CategoryPicker
-          inputRef={ el => { this.categoryPicker = el; }}
+          inputRef={ el => { this.categoryPicker = el; } }
           showFilters={ mode === 'update' }
           label="Category"
           filtersClassName="Form-inset-small"
@@ -197,7 +197,7 @@ export class ShoutModal extends Component {
           label="Location"
           error={ error }
           disabled={ disabled }
-          inputRef={ el => { this.locationField = el; }}
+          inputRef={ el => { this.locationField = el; } }
           placeholder="Location"
           location={ shout.location }
           block
@@ -206,7 +206,7 @@ export class ShoutModal extends Component {
         />
 
         <TextField
-          ref={ el => { this.mobileField = el; }}
+          ref={ el => { this.mobileField = el; } }
           type="text"
           name="mobile"
           label="Let people contact you"

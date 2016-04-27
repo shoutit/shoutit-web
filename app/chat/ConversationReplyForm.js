@@ -113,7 +113,7 @@ export class ConversationReplyForm extends Component {
             if (this.props.inputRef) {
               this.props.inputRef(el);
             }
-          }}
+          } }
           className="htmlTextarea"
           maxRows={ 5 }
           disabled={ conversation.isCreating }
@@ -125,7 +125,7 @@ export class ConversationReplyForm extends Component {
               e.preventDefault();
               this.submit();
             }
-          }}
+          } }
           onChange={ e => this.handleTextChange(e) }
         />
       </form>

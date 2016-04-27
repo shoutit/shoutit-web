@@ -1,304 +1,210 @@
-@import "../styles/constants/colors.scss";
-
-$border-radius: 5px;
-
+@import '../styles/constants.scss';
+@import '../styles/mixins/ellipsis.scss';
 .Button {
-  position: relative;
-
   display: inline-block;
-  overflow: hidden;
-
-  height: 36px;
-  padding: 0;
-
+  padding: .375rem 1rem;
   cursor: pointer;
+  text-align: center;
+  text-align: center;
   vertical-align: middle;
   white-space: nowrap;
-
+  color: $color;
+  border: 0;
   border: 1px solid transparent;
-  border-radius: $border-radius;
-  background-color: transparent;
-
-  line-height: 36px;
+  border-radius: .25rem;
+  font-size: 1rem;
 
   -webkit-appearance: none;
-
-
-  &:not(.disabled):hover {
-    .Button-label {
-      color: $color-primary;
-    }
+  &:hover {
+    color: $color;
   }
-
-  &.size-small {
-    height: 32px;
-
-    line-height: 30px;
-
-    > .Button-label {
-      padding-right: 10px;
-      padding-left: 10px;
-
-      font-size: 14px;
-    }
-
-  }
-
-  &.size-large {
-    height: 42px;
-
-    line-height: 38px;
-
-    > .Button-label {
-      padding-right: 30px;
-      padding-left: 30px;
-
-      font-size: 18px;
-      font-weight: 300;
-    }
-
-  }
-
-  &.size-huge {
-    height: 42px;
-    line-height: 42px;
-
-    > .Button-label {
-      padding-right: 30px;
-      padding-left: 30px;
-
-      font-size: 18px;
-      font-weight: 300;
-    }
-
-  }
-
   &.block {
     display: block;
-
     width: 100%;
+  }
+  &.with-icon {
+    padding-left: .5rem;
+  }
+  &.size-small {
+    padding: .3rem .75rem;
+    border-radius: .2rem;
+    font-size: .875rem;
     &.with-icon {
-      padding-left: 24px;
-      text-align: left;
-    }
-    > .Button-icon {
-      position: absolute;
-      top: 0;
-      left: 0;
+      padding-left: .5rem;
     }
   }
-
 }
 
-  .Button-label {
-    display: block;
+.Button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    padding-right: 20px;
-    padding-left: 20px;
 
-    vertical-align: middle;
+.Button-icon {
+  margin-right: .35em;
+}
 
+.Button-label {
+  @include ellipsis();
+  line-height: $icon-size-medium;
+  .Button.size-small & {
+    line-height: $icon-size-small;
+  }
+}
+
+.Button.action-default {
+  border-color: #DDD;
+  background-color: white;
+  background-image: linear-gradient(rgba(black, 0), rgba(black, .05));
+  &:hover {
+    background-color: white;
+    background-image: linear-gradient(rgba(black, .025), rgba(black, .075));
+  }
+  &:disabled,
+  &.disabled {
+    color: #CCC;
+    border-color: transparent;
+    background-color: #F1F1F1;
+    background-image: none;
+  }
+  a,
+  a:hover {
     color: $color;
-    .Button.with-icon > & {
-      display: inline-block;
-    }
   }
+}
 
-  .Button-icon {
-    display: inline-block;
-
-    height: inherit;
-    padding-right: 5px;
-    padding-left: 5px;
-
-    vertical-align: middle;
+.Button.action-primary {
+  color: white;
+  border-color: $si-green darken($si-green, 5) darken($si-green, 15);
+  background-color: $si-green;
+  background-image: linear-gradient($si-green, darken($si-green, 15));
+  &:hover {
+    background-color: darken($si-green, 5);
+    background-image: linear-gradient(darken($si-green, 5), darken(darken($si-green, 5), 15));
   }
-
-  .Button + .Button:not(.block) {
-    margin-left: 10px;
+  &:disabled,
+  &.disabled {
+    color: rgba(white, .9);
+    border-color: transparent;
+    background-color: lighten($si-green, 20);
+    background-image: none;
   }
-
-  .Button.outline {
-    border: 1px solid $si-green;
-    .Button-label {
-      color: $si-green;
-    }
-    &:not(.disabled):hover {
-      background-color: $si-green;
-      .Button-label {
-        color: white;
-      }
-    }
+  a,
+  a:hover {
+    color: white;
   }
+}
 
-  .Button.inverted {
-    border: 1px solid white;
-    .Button-label {
-      color: white;
-    }
-    &:hover {
-      .Button-label {
-        color: white;
-      }
-    }
+.Button.action-primary-alt {
+  color: white;
+  border-color: $shoutit-blue darken($shoutit-blue, 5) darken($shoutit-blue, 15);
+  background-color: $shoutit-blue;
+  background-image: linear-gradient($shoutit-blue, darken($shoutit-blue, 15));
+  &:hover {
+    background-color: darken($shoutit-blue, 5);
+    background-image: linear-gradient(darken($shoutit-blue, 5), darken(darken($shoutit-blue, 5), 15));
   }
-
-  .Button.dropdown {
-    .Button-label {
-      overflow: hidden;
-
-      color: $color-light;
-    }
-    &:hover, &:focus {
-      .Button-label {
-        color: $color-active;
-      }
-      .Button-dropdown-caret:after {
-        background-image: url("../../assets/ui-elements/dropdown-caret-active.svg");
-      }
-    }
+  &:disabled,
+  &.disabled {
+    color: rgba(white, .9);
+    border-color: transparent;
+    background-color: lighten($shoutit-blue, 20);
+    background-image: none;
   }
-
-  .Button-dropdown-caret {
-    position: absolute;
-    top: 3px;
-    right: 0;
-    bottom: 3px;
-
-    display: block;
-
-    width: 20px;
-
-    background: white;
-    &:after {
-      position: absolute;
-      top: 0;
-      right: 0px;
-      bottom: 0;
-      left: 0;
-
-      content: "";
-
-      background-image: url("../../assets/ui-elements/dropdown-caret.svg");
-      background-repeat: no-repeat;
-      background-position: center;
-    }
+  a,
+  a:hover {
+    color: white;
   }
+}
 
-  .Button.primary {
-    border: 0;
-    background-color: $si-green;
-    &:not(.disabled):hover {
-      background-color: darken($si-green, 10);
-      .Button-label, .Button-label a {
-        color: white;
-      }
-      .Button-icon {
-        background-color: darken($si-green, 20);
-      }
-    }
-    .Button-label {
-      color: white;
-    }
-    .Button-icon {
-      border-top-left-radius: $border-radius;
-      border-bottom-left-radius: $border-radius;
-      background-color: darken($si-green, 10);
-    }
+.Button.action-inverted {
+  color: white;
+  border-color: white;
+  background-color: black;
+  background-image: linear-gradient(lighten(black, 30), black);
+  &:disabled,
+  &.disabled {
+    color: rgba(white, .7);
+    background-image: none;
   }
-
-  .Button.secondary {
-    border: 0;
-    background-color: $shoutit-blue;
-
-    &:not(.disabled):hover {
-      background-color: darken($shoutit-blue, 10);
-      .Button-label, .Button-label a {
-        color: white;
-      }
-      .Button-icon {
-        background-color: darken($shoutit-blue, 20);
-      }
-    }
-    .Button-label, .Button-label a {
-      color: white;
-    }
-    .Button-icon {
-      background-color: darken($shoutit-blue, 10);
-    }
+  a,
+  a:hover {
+    color: white;
   }
+}
 
-  .Button.destructive {
-    border: 0;
-    &:not(.disabled):hover {
-      background-color: darken($shoutit-red, 10);
-      .Button-label {
-        color: white;
-      }
-      .Button-icon {
-        background-color: darken($shoutit-red, 20);
-      }
-    }
-    .Button-label {
-      color: $shoutit-red;
-    }
-    .Button-icon {
-      background-color: darken($shoutit-red, 10);
-    }
+.Button.action-destructive {
+  color: white;
+  border-color: $shoutit-red darken($shoutit-red, 5) darken($shoutit-red, 15);
+  background-color: $shoutit-red;
+  background-image: linear-gradient($shoutit-red, darken($shoutit-red, 15));
+  &:hover {
+    background-color: darken($shoutit-red, 5);
+    background-image: linear-gradient(darken($shoutit-red, 5), darken(darken($shoutit-red, 5), 15));
   }
-
-  .Button.disabled {
-    cursor: default;
-
-    opacity: 0.5;
+  &:disabled,
+  &.disabled {
+    color: rgba(white, .9);
+    border-color: transparent;
+    background-color: lighten($shoutit-red, 20);
+    background-image: none;
   }
-
-
-/* Special buttons */
+  a,
+  a:hover {
+    color: white;
+  }
+}
 
 $facebook-base-color: #395185;
-.Button.facebook {
-  text-align: center;
 
+.Button.facebook,
+.Button.google {
   color: white;
-  background-color: lighten($facebook-base-color, 10);
-  .Button-icon {
-    background-color: $facebook-base-color;
-  }
+  border-color: transparent;
   .Button-label {
+    padding-left: .5rem;
     color: white;
+  }
+  .Button-icon {
+    padding-right: .5rem;
+    border-right: 1px solid rgba(white, .5);
   }
   &:not(.disabled):hover {
     color: white;
-    background-color: $facebook-base-color;
     .Button-label {
       color: white;
     }
-    .Button-icon {
-      background-color: darken($facebook-base-color, 10);
-    }
+  }
+  &:disabled,
+  &.disabled {
+    color: rgba(white, .9);
+  }
+  .Button-wrapper {
+    justify-content: flex-start;
+  }
+}
+
+.Button.facebook {
+  background-color: lighten($facebook-base-color, 10);
+  &:not(.disabled):hover {
+    background-color: $facebook-base-color;
+  }
+  &:disabled,
+  &.disabled {
+    background-color: lighten($facebook-base-color, 30);
   }
 }
 
 $google-base-color: darken(#DC4E41, 10);
 .Button.google {
-  text-align: center;
-  color: white;
   background-color: lighten($google-base-color, 10);
-  .Button-icon {
-    background-color: $google-base-color;
-  }
-  .Button-label {
-    color: white;
-  }
   &:not(.disabled):hover {
-    color: white;
     background-color: $google-base-color;
-    .Button-label {
-      color: white;
-    }
-    .Button-icon {
-      background-color: darken($google-base-color, 10);
-    }
+  }
+  &:disabled,
+  &.disabled {
+    background-color: lighten($google-base-color, 30);
   }
 }

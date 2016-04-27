@@ -1,6 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 
+import Icon from '../ui/Icon';
+
 if (process.env.BROWSER) {
   require('./Button.scss');
 }
@@ -8,18 +10,17 @@ if (process.env.BROWSER) {
 export default class Button extends Component {
 
   static propTypes = {
-    children: PropTypes.node,
-    label: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    action: PropTypes.oneOf(['default', 'primary', 'primary-alt', 'destructive']),
     size: PropTypes.oneOf(['small', 'medium']),
-    leftIcon: PropTypes.node,
-    primary: PropTypes.bool,
-    secondary: PropTypes.bool,
-    destructive: PropTypes.bool,
-    outline: PropTypes.bool,
-    inverted: PropTypes.bool,
+    icon: PropTypes.string,
     block: PropTypes.bool,
-    dropdown: PropTypes.bool,
     className: PropTypes.string,
+  }
+
+  static defaultProps = {
+    action: 'default',
+    block: false,
   }
 
   focus() {
@@ -31,78 +32,48 @@ export default class Button extends Component {
   }
 
   render() {
-    const {
-      children,
-      label,
-      size, // Optional, `small` or `large`
-      leftIcon, // Optional
-      dropdown = false,
-      primary = false, // filled green
-      secondary = false, // filled orange
-      destructive = false, // danger thing
-      outline = false, // bordered
-      inverted = false, // white button
-      block = false,
-      className,
-      ...attributes,
-    } = this.props;
+    const { icon, children, action, size, block, ...attributes } = this.props;
 
-    let Element;
-    if (attributes.disabled) {
-      Element = 'button';
-    } else if (attributes.to) {
-      Element = Link;
-    } else if (attributes.href) {
-      Element = 'a';
-    } else {
-      Element = 'button';
+    let className = `Button action-${action}`;
+    if (icon) {
+      className += ' with-icon';
     }
-    let elClassName = 'Button';
-
-    if (leftIcon) {
-      elClassName += ' with-icon';
-    }
-
     if (block) {
-      elClassName += ' block';
+      className += ' block';
     }
-
-    if (dropdown) {
-      elClassName += ' dropdown';
-    }
-
-    if (primary) {
-      elClassName += ' primary';
-    } else if (secondary) {
-      elClassName += ' secondary';
-    } else if (destructive) {
-      elClassName += ' destructive';
-    } else if (outline) {
-      elClassName += ' outline';
-    } else if (inverted) {
-      elClassName += ' inverted';
-    }
-
     if (attributes.disabled) {
-      elClassName += ' disabled';
+      className += ' disabled';
     }
     if (size) {
-      elClassName += ` size-${size}`;
+      className += ` size-${size}`;
     }
-    if (className) {
-      elClassName += ` ${className}`;
+    if (attributes.className) {
+      className += ` ${attributes.className}`;
     }
+    const content = (
+      <span className="Button-wrapper">
+        { icon &&
+          <span className="Button-icon">
+            <Icon size={ size } name={ icon } fill />
+          </span>
+        }
+        <span className="Button-label">
+          { children }
+        </span>
+      </span>
+    );
 
+    if (attributes.to) {
+      return (
+        <Link {...attributes} className={ className } ref="button">
+          { content }
+        </Link>
+      );
+    }
     return (
-      React.createElement(
-        Element,
-        { ...attributes, className: elClassName, ref: 'button' },
-        [
-          leftIcon ? <span key="button-icon" className="Button-icon">{ leftIcon }</span> : null,
-          label ? <span key="button-label" className="Button-label">{ label }</span> : children,
-          dropdown ? <span key="button-dropdown" className="Button-dropdown-caret" /> : null,
-        ]
-      )
+      <button {...attributes} className={ className } ref="button">
+        { content }
+      </button>
     );
   }
 

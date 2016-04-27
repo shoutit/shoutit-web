@@ -14,7 +14,7 @@ export default function FilterListItem({ category, filter, size = 'medium' }) {
     >
       <Link to={ `/search/all/${category.slug}?filters=${filter.slug}:${filter.value.slug}` }>
         { filter.value.name }
-        </Link>
+      </Link>
     </ListItem>
   );
 }

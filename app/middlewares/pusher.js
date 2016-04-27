@@ -46,7 +46,7 @@ const handleNewMessageNotification = (message, store) => {
   store.dispatch(addMessage(payload));
 };
 
-const handleReadByNotification = (readBy, store) => {
+const handleReadByNotification = () => {
 };
 
 const typingTimeouts = {};

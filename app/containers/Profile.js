@@ -10,15 +10,15 @@ import { routeError } from '../actions/server';
 import Page from '../layout/Page';
 import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';
-import ProfileAvatar from '../users/ProfileAvatar';
+import ProfileCover from '../users/ProfileCover';
 import ProfileBiography from '../users/ProfileBiography';
 import SuggestedShout from '../shouts/SuggestedShout';
 import ShoutsList from '../shouts/ShoutsList';
+
+
 import Progress from '../ui/Progress';
 import Scrollable from '../ui/Scrollable';
 
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
-import { getVariation } from '../utils/APIUtils';
 
 if (process.env.BROWSER) {
   require('./Profile.scss');
@@ -26,13 +26,16 @@ if (process.env.BROWSER) {
 
 const requiredDetails = ['name', 'cover', 'bio', 'location'];
 
-const fetchData = (dispatch, state, params) =>
-  Promise.all([
-    dispatch(loadProfileDetailsIfNeeded({
-      username: params.username,
-    }, requiredDetails)).catch(err => dispatch(routeError(err)),
-    dispatch(loadUserShouts({ user: params.username }))).catch(() => {}),
-  ]);
+const fetchData = (dispatch, state, params) => {
+  const { username } = params;
+
+  const profile = dispatch(loadProfileDetailsIfNeeded({ username }, requiredDetails))
+    .catch(err => dispatch(routeError(err)));
+
+  const shouts = dispatch(loadUserShouts(username));
+  return Promise.all([shouts, profile]);
+};
+
 
 export class Profile extends Component {
 
@@ -65,23 +68,22 @@ export class Profile extends Component {
 
   render() {
     const { profile, shouts, isFetchingShouts, shoutsCount, nextShoutsUrl, dispatch } = this.props;
-
     return (
       <Scrollable
         scrollElement={ () => window }
         onScrollBottom={ () => {
           if (nextShoutsUrl && !isFetchingShouts) {
-            dispatch(loadUserShouts({ user: profile.username }, nextShoutsUrl));
+            dispatch(loadUserShouts(profile.username, nextShoutsUrl));
           }
-        }}
+        } }
         triggerOffset={ 400 }
       >
         <Page
-          endColumn={[
+          endColumn={ [
             <SuggestedTags key="interests" />,
             <SuggestedProfiles key="profiles" />,
             <SuggestedShout key="shout" />,
-          ]}
+          ] }
         >
 
           { profile &&
@@ -89,10 +91,10 @@ export class Profile extends Component {
               title={ `Shouts by ${profile.name}` }
               description={ profile.bio }
               images={ [profile.image] }
-              meta={[
+              meta={ [
                 { property: 'og:type', content: 'shoutitcom:user' },
                 { property: 'shoutitcom:username', content: profile.username },
-              ]}
+              ] }
             />
           }
 
@@ -100,21 +102,7 @@ export class Profile extends Component {
 
           { profile &&
             <div className="Profile">
-              <div className="Profile-cover" style={ getStyleBackgroundImage(profile.cover, 'large') } />
-
-              <div className="Profile-header">
-                <a href={ profile.image ? getVariation(profile.image, 'large') : '' }>
-                  <ProfileAvatar size="huge" user={ profile } />
-                </a>
-                <div className="Profile-name">
-                  <h1>
-                    { profile.name }
-                  </h1>
-                  <h3>
-                    { profile.username }
-                  </h3>
-                </div>
-              </div>
+              <ProfileCover profile={ profile } />
 
               <div className="Profile-body">
                 <div className="Profile-body-start-column">
@@ -130,7 +118,7 @@ export class Profile extends Component {
                       <ShoutsList shouts={ shouts } showProfile={ false } /> }
                     <Progress
                       animate={ isFetchingShouts }
-                      label={ shouts.length === 0 ? 'Loading shouts…' : 'Loading more shouts…'} />
+                      label={ shouts.length === 0 ? 'Loading shouts…' : 'Loading more shouts…' } />
                   </div>
                   { !isFetchingShouts && shouts.length === 0 &&
                     <h2>{ `${profile.firstName} has no shouts, yet!` }</h2>

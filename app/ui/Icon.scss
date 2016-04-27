@@ -1,23 +1,18 @@
 @import "../styles/constants.scss";
 
-$size-small: 18px;
-$size-medium: 24px;
-$size-large: 36px;
-$size-huge: 52px;
-
 .Icon {
   display: inline-block;
   vertical-align: middle;
   position: relative;
-  height: $size-medium;
-  min-width: $size-medium;
+  height: $icon-size-medium;
+  min-width: $icon-size-medium;
   &.small {
-    min-width: $size-small;
-    height: $size-small;
+    min-width: $icon-size-small;
+    height: $icon-size-small;
   }
   &.huge {
-    min-width: $size-huge;
-    height: $size-huge;
+    min-width: $icon-size-huge;
+    height: $icon-size-huge;
   }
   &.disabled {
     opacity: 0.5;
@@ -28,19 +23,19 @@ $size-huge: 52px;
   display: inline-block;
   background-size: contain;
   background-position: center;
-  width: $size-medium;
-  height: $size-medium;
+  width: $icon-size-medium;
+  height: $icon-size-medium;
   .Icon.small & {
-    width: $size-small;
-    height: $size-small;
+    width: $icon-size-small;
+    height: $icon-size-small;
   }
   .Icon.large & {
-    width: $size-large;
-    height: $size-large;
+    width: $icon-size-large;
+    height: $icon-size-large;
   }
   .Icon.huge & {
-    width: $size-huge;
-    height: $size-huge;
+    width: $icon-size-huge;
+    height: $icon-size-huge;
   }
 }
 
@@ -224,7 +219,7 @@ $size-huge: 52px;
     background-image: url("../../assets/icons/google-plus-fill.svg");
   }
 
-.Icon-icon.home {
+.Icon-icon.grid {
   background-image: url("../../assets/icons/grid.svg");
 }
   .Icon.hover:hover .Icon-icon.grid,

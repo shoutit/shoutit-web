@@ -88,7 +88,7 @@ export class SearchLocation extends Component {
                   { prediction.description }
                 </a>
               </li>
-            )}
+            ) }
           </ul>
         }
 

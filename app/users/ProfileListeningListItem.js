@@ -9,7 +9,7 @@ export default function ProfileListening({ profile, size = 'small' }) {
       className="ProfileListening"
       size={ size }
       nowrap
-      start={ <Icon name="listening" active={ listeningCount.users > 0 } /> }>
+      start={ <Icon name="listening" size={ size } active={ listeningCount.users > 0 } /> }>
 
       { listeningCount.users === 0 ? 'Not listening' : `${listeningCount.users} listening` }
 

@@ -4,29 +4,35 @@
   position: relative;
   width: 100%;
   margin: 0;
+
+  .Button {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 140px;
+    text-align: left;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-left: .2rem;
+    padding-right: .2rem;
+    .Button-label {
+      font-size: 0.75rem;
+      vertical-align: middle;
+      .CountryFlag {
+        margin-right: .25rem;
+      }
+    }
+  }
+
 }
 
 .Searchbar .htmlInput {
   display: block;
   width: 100%;
-  padding-left: 110px !important;
+  padding-left: 150px !important;
 }
 
-.Searchbar-button-location {
-  position: absolute;
-  left: 0;
-  top: 3px;
-  bottom: 0;
-  width: 100px;
-  text-align: left;
-  .Button-dropdown-caret {
-    border-right: 1px solid $border-color;
-    border-radius: 0;
-  }
-  .Button-label {
-    font-size: 0.75rem !important;
-  }
-}
 
 .Searchbar-results {
   width: 100%;

@@ -12,13 +12,13 @@ export function TagListItem({ tag, size = 'medium', tooltipPlacement = 'right', 
   const overlay = <TagPreview id={ tag.id } />;
   let icon;
   if (tag.icon) {
-    icon = <img src={ tag.icon } style={{ width: '1.3em', verticalAlign: 'middle' }} />;
+    icon = <img alt="Icon" src={ tag.icon } style={ { width: '1.3em', verticalAlign: 'middle' } } />;
   } else {
     icon = <Icon size={ size } name="tag" active />;
   }
 
   const item = (
-    <ListItem className="TagListItem" size={size} nowrap start={ icon }>
+    <ListItem className="TagListItem" size={ size } nowrap start={ icon }>
       { tag.name }
     </ListItem>
   );

@@ -35,7 +35,7 @@ const StartColumn = ({ profile }) =>
     </h1>
 
     <ul className="htmlNoList">
-      {/*<li>
+      {/* <li>
         <Link to="/profile/edit">
           <ListItem start={ <Icon active name="pencil" /> }>Edit your profile</ListItem>
         </Link>
@@ -102,7 +102,7 @@ export class Dashboard extends Component {
           if (nextUrl && !isFetching) {
             dispatch(loadHomeShouts(nextUrl));
           }
-        }}
+        } }
         triggerOffset={ 400 }>
         <Page
           startColumn={ <StartColumn profile={ loggedProfile } /> }

@@ -9,10 +9,12 @@ import { openModal, closeModal } from '../actions/ui';
 import { setUserLocation } from '../actions/users';
 import { setCurrentLocation } from '../actions/location';
 
+import { formatLocation } from '../utils/LocationUtils';
 import { trimWhitespaces } from '../utils/StringUtils';
 import SearchbarResults from './SearchbarResults';
 
 import Overlay from '../ui/Overlay';
+import CountryFlag from '../ui/CountryFlag';
 import Progress from '../ui/Progress';
 import Button from '../ui/Button';
 import Modal from '../ui/Modal';
@@ -126,7 +128,7 @@ export class Searchbar extends Component {
             if (isLoggedIn) {
               dispatch(setUserLocation(location));
             }
-          }}
+          } }
         />
       </Modal>
     );
@@ -171,7 +173,7 @@ export class Searchbar extends Component {
       isFetchingProfiles = profilesBySearch[profilesSearchSlug].isFetching;
     }
 
-    const locationLabel = currentLocation.city || currentLocation.state || currentLocation.country || 'Anywhere';
+    const locationLabel = formatLocation({ city: currentLocation.city, country: currentLocation.country }) || 'Anywhere';
     const hasResults = foundTags.length > 0 || foundShouts.length > 0 || foundProfiles.length > 0;
     const isFetching = isFetchingShouts || isFetchingProfiles || isFetchingTags;
 
@@ -181,10 +183,10 @@ export class Searchbar extends Component {
           type="button"
           dropdown
           size="small"
-          className="Searchbar-button-location"
-          label={ locationLabel }
-          onClick={ e => this.handleLocationClick(e) }
-        />
+          onClick={ e => this.handleLocationClick(e) }>
+          { currentLocation && <CountryFlag size="small" code={ currentLocation.country } /> }
+          { locationLabel }
+        </Button>
         <input
           autoComplete="off"
           ref="search"
@@ -194,7 +196,7 @@ export class Searchbar extends Component {
           type="text"
           onChange={ this.handleChange }
           onBlur={ () => this.setState({ isFocused: false }) }
-          onFocus={ () => this.setState({ isFocused: true, showOverlay: true })}
+          onFocus={ () => this.setState({ isFocused: true, showOverlay: true }) }
         />
         <Overlay
           rootClose
@@ -202,23 +204,29 @@ export class Searchbar extends Component {
             if (!this.state.isFocused) {
               this.setState({ showOverlay: false });
             }
-          }}
-          style={ { width: '100%', borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
+          } }
+          style={ { width: '100%', borderTopLeftRadius: 0, borderTopRightRadius: 0 } }
           show={ hasFocus || showOverlay }
           placement="bottom"
           container={ this }
           target={ () => this.refs.search }
         >
-          { (!hasResults && !isFetching && searchString) ? // eslint-disable-line
-            <p style={{ margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' }}>Nothing found.</p> :
-            ((!hasResults && !isFetching) || !searchString) ? // eslint-disable-line
-            <p style={{ margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' }}>Type something to start search.</p> :
-            (isFetching && !hasResults) ?
-              <div style={{ margin: '.5rem' }}>
-                <Progress spaced={ false } animate label="Searching…" />
-              </div> :
-            error ?
-              <p className="htmlError">Can't load results right now</p> :
+
+          { !hasResults && !isFetching &&
+            <p style={ { margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' } }>
+              { searchString ? 'Nothing found' : 'Type something to start search' }
+            </p>
+          }
+
+          { !hasResults && isFetching &&
+            <div style={ { margin: '.5rem' } }>
+              <Progress spaced={ false } animate label="Searching…" />
+            </div>
+          }
+
+          { error && <p className="htmlError">Can't load results right now</p> }
+
+          { hasResults &&
             <SearchbarResults
               search={ searchString }
               onShowMoreShoutsClick={ this.submit }
@@ -230,7 +238,8 @@ export class Searchbar extends Component {
               profiles={ foundProfiles }
             />
           }
-          </Overlay>
+
+        </Overlay>
       </form>
     );
   }

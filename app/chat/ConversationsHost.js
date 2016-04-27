@@ -26,9 +26,9 @@ export class ConversationsHost extends Component {
         <div className="ConversationsHost-wrapper">
           { conversations.map(id =>
             <div key={ id } className="ConversationsHost-hosted-conversation">
-              <HostedConversation id={ id } onClick={ () => this.setState({ focused: id })} />
+              <HostedConversation id={ id } onClick={ () => this.setState({ focused: id }) } />
             </div>
-          )}
+          ) }
         </div>
       </div>
     );

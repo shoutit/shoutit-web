@@ -7,7 +7,7 @@ if (process.env.BROWSER) {
 export default function HorizontalRule({ label }) {
   return (
     <div className="HorizontalRule">
-      { label && <span>{ label }</span>}
+      { label && <span>{ label }</span> }
     </div>
   );
 }

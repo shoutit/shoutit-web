@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import Button from '../ui/Button';
-import Icon from '../ui/Icon';
 
 import UpdateShoutModal from './UpdateShoutModal';
 
@@ -20,11 +19,14 @@ export function UpdateShoutButton({ shoutId, dispatch, ...props }) {
     ));
   }
   return (
-    <Button onClick={ onClick } size="small" primary leftIcon = { <Icon fill name="pencil" /> } label="Edit Shout" {...props} />
+    <Button onClick={ onClick } size="small" action="primary" icon="pencil" {...props}>
+      { props.children || 'Edit Shout' }
+    </Button>
   );
 }
 
 UpdateShoutButton.propTypes = {
+  children: PropTypes.node,
   dispatch: PropTypes.func.isRequired,
   shoutId: PropTypes.string.isRequired,
 };

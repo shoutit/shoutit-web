@@ -32,10 +32,10 @@ export default class ShoutsList extends Component {
     return (
       <div className="ShoutsList">
         { shouts.map(shout =>
-          <div className="ShoutsList-item" style={{ width }} key={ shout.id }>
+          <div className="ShoutsList-item" style={ { width } } key={ shout.id }>
             <ShoutPreview shout={ shout } showProfile={ showProfile } showCategory={ showCategory } />
           </div>
-        )}
+        ) }
       </div>
     );
   }
