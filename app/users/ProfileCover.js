@@ -10,7 +10,7 @@ if (process.env.BROWSER) {
   require('./ProfileCover.scss');
 }
 
-export const width = 940;
+export const width = 904;
 export const height = 250;
 
 export default class ProfileCover extends Component {
