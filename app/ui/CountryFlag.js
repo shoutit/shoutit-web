@@ -11,7 +11,7 @@ if (process.env.BROWSER) {
   require('./CountryFlag.scss');
 }
 
-export default function CountryFlag({ code, size = 'medium', rounded = true, showTooltip = true }) {
+export default function CountryFlag({ code, size = 'medium', rounded = true, showTooltip = true, style }) {
   code = code.toUpperCase();
   let className = 'CountryFlag';
   if (size) {
@@ -23,9 +23,7 @@ export default function CountryFlag({ code, size = 'medium', rounded = true, sho
   const countryName = getCountryName(code);
   return (
     <Tooltip placement="top" overlay={ countryName } trigger={ showTooltip ? ['hover'] : [] }>
-      <span>
-        <img alt={ countryName } className={ className } src={ `${imagesPath}/flags/${code}.png?v${VERSION}` } />
-      </span>
+      <img alt={ countryName } className={ className } style={ style } src={ `${imagesPath}/flags/${code}.png?v${VERSION}` } />
     </Tooltip>
   );
 }
@@ -34,5 +32,6 @@ CountryFlag.propTypes = {
   code: PropTypes.string.isRequired,
   size: PropTypes.string,
   rounded: PropTypes.bool,
+  style: PropTypes.object,
   showTooltip: PropTypes.bool,
 };
