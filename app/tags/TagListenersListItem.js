@@ -9,7 +9,7 @@ export default function TagListenersListItem({ tag, size = 'small' }) {
       className="TagListenersListItem"
       size={ size }
       nowrap
-      start={ <Icon name="listeners" active={ listenersCount > 0 } /> }>
+      start={ <Icon name="listeners" size={ size } active={ listenersCount > 0 } /> }>
 
       { listenersCount === 0 ? 'No ' : listenersCount } listener{ listenersCount > 1 }s
 
