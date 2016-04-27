@@ -21,9 +21,9 @@ export default function ProfileBiography({ profile }) {
 
       { (profile.location || profile.dateJoined || profile.website) &&
         <div className="ProfileBiography-details">
-            { profile.location && <LocationListItem location={ profile.location } /> }
-            { profile.dateJoined && <ProfileJoinedOnListItem profile={ profile } /> }
-            { profile.website && <ProfileWebsiteListItem profile={ profile } /> }
+            { profile.location && <LocationListItem size="small" location={ profile.location } /> }
+            { profile.dateJoined && <ProfileJoinedOnListItem size="small" profile={ profile } /> }
+            { profile.website && <ProfileWebsiteListItem size="small" profile={ profile } /> }
         </div>
       }
 
