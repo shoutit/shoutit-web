@@ -13,6 +13,7 @@ import { trimWhitespaces } from '../utils/StringUtils';
 import SearchbarResults from './SearchbarResults';
 
 import Overlay from '../ui/Overlay';
+import CountryFlag from '../ui/CountryFlag';
 import Progress from '../ui/Progress';
 import Button from '../ui/Button';
 import Modal from '../ui/Modal';
@@ -181,10 +182,10 @@ export class Searchbar extends Component {
           type="button"
           dropdown
           size="small"
-          className="Searchbar-button-location"
-          label={ locationLabel }
-          onClick={ e => this.handleLocationClick(e) }
-        />
+          onClick={ e => this.handleLocationClick(e) }>
+          { currentLocation && <CountryFlag size="small" code={ currentLocation.country } /> }
+          { locationLabel }
+        </Button>
         <input
           autoComplete="off"
           ref="search"
