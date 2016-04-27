@@ -65,13 +65,13 @@ export default class Button extends Component {
 
     if (attributes.to) {
       return (
-        <Link className={ className } ref="button" {...attributes}>
+        <Link {...attributes} className={ className } ref="button">
           { content }
         </Link>
       );
     }
     return (
-      <button className={ className } ref="button" {...attributes}>
+      <button {...attributes} className={ className } ref="button">
         { content }
       </button>
     );
