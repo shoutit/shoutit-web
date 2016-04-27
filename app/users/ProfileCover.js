@@ -62,7 +62,7 @@ export default class ProfileCover extends Component {
           <div className="ProfileCover-actions">
             <Button destructive label="Delete cover" size="small" />
             <Button label="Cancel" onClick={ () => this.setState({ isEditing: false }) } />
-            <Button primary label="Save changes" />
+            <Button action="primary" label="Save changes" />
           </div>
         }
 

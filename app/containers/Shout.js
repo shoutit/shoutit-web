@@ -67,7 +67,9 @@ function ShoutActions({ shout, onReplyClick }) {
         </div> :
         <div>
           <RequiresLogin event="onClick" loginAction={ REPLY_SHOUT }>
-            <Button style={ buttonStyle } block onClick={ onReplyClick } size="small" primary leftIcon={ <Icon fill name="balloon-dots" /> } label="Reply to this Shout" />
+            <Button style={ buttonStyle } block onClick={ onReplyClick } size="small" action="primary" icon="balloon-dots">
+              Reply to this Shout
+            </Button>
           </RequiresLogin>
           { callButton }
         </div>

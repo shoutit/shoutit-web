@@ -86,11 +86,11 @@ export class ResetPassword extends Component {
 
             <Button
               style={ { marginTop: '1rem' } }
-              primary
+              action="primary"
               block
-              disabled={ isResettingPassword }
-              label={ isResettingPassword ? 'Please wait…' : 'Send link' }
-              />
+              disabled={ isResettingPassword }>
+              { isResettingPassword ? 'Please wait…' : 'Send link' }
+            </Button>
 
             <p className="htmlAncillary">
               You will receive a link to change the password.

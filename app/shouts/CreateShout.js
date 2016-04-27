@@ -101,8 +101,12 @@ export class CreateShout extends Component {
             <div>
               <p style={ { margin: 0, textAlign: 'center' } }>What are you posting?</p>
               <div style={ { width: '50%', margin: '2rem auto 1rem auto' } }>
-                <Button primary block style={ { margin: '0 .5rem .5rem .5rem' } } onClick={ () => this.amendShout({ type: 'offer' }) } label="Offer" />
-                <Button secondary block style={ { margin: '.5rem .5rem 0 .5rem' } } onClick={ () => this.amendShout({ type: 'request' }) } label="Request" />
+                <Button action="primary" block style={ { margin: '0 .5rem .5rem .5rem' } } onClick={ () => this.amendShout({ type: 'offer' }) }>
+                  Offer
+                </Button>
+                <Button action="primary-alt" block style={ { margin: '.5rem .5rem 0 .5rem' } } onClick={ () => this.amendShout({ type: 'request' }) }>
+                  Request
+                </Button>
               </div>
             </div> :
             <div style={ { marginBottom: '1rem' } }>
@@ -118,8 +122,12 @@ export class CreateShout extends Component {
                 onUploadStart={ () => this.setState({ isUploading: true }) }
                 onUploadEnd={ () => this.setState({ isUploading: false }) }
                 actions={ [
-                  <Button type="button" label="Cancel" onClick={ this.handleCancelClick } disabled={ shout.isCreating } />,
-                  <Button primary style={ { minWidth: '10rem' } } label={ submitLabel } disabled={ shout.isCreating || isUploading } />,
+                  <Button type="button" onClick={ this.handleCancelClick } disabled={ shout.isCreating }>
+                    Cancel
+                  </Button>,
+                  <Button action="primary" style={ { minWidth: '10rem' } } disabled={ shout.isCreating || isUploading }>
+                    { submitLabel }
+                  </Button>,
                 ] }
               />
             </div>

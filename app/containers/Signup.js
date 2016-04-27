@@ -182,12 +182,11 @@ export class Signup extends Component {
 
             <Button
               style={ { marginTop: '1rem' } }
-              primary
+              action="primary"
               block
-              disabled={ isSigningUp }
-              label={ isSigningUp ? 'Creating account…' : 'Sign up' }
-              />
-
+              disabled={ isSigningUp }>
+              { isSigningUp ? 'Creating account…' : 'Sign up' }
+            </Button>
           </form>
         </div>
         <div className="Frame-footer" style={ { textAlign: 'center' } }>

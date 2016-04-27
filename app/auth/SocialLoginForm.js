@@ -103,15 +103,15 @@ export class SocialLoginForm extends Component {
           disabled={ disabled }
           style={ { marginBottom: '.5rem' } }
           block
-          label={ waitingForFacebook ? 'Waiting for Facebook…' : 'Facebook' }
-          onClick={ e => this.handleFacebookLoginClick(e) }
-        />
+          onClick={ e => this.handleFacebookLoginClick(e) }>
+          { waitingForFacebook ? 'Waiting for Facebook…' : 'Facebook' }
+        </FacebookButton>
         <GoogleButton
           disabled={ disabled }
           block
-          label={ waitingForGoogle ? 'Waiting for Google…' : 'Google+' }
-          onClick={ e => this.handleGoogleLoginClick(e) }
-        />
+          onClick={ e => this.handleGoogleLoginClick(e) }>
+          { waitingForGoogle ? 'Waiting for Google…' : 'Google+' }
+        </GoogleButton>
       </div>
     );
   }

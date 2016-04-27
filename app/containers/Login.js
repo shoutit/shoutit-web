@@ -137,11 +137,11 @@ export class Login extends Component {
 
               <Button
                 style={ { marginTop: '1rem' } }
-                primary
+                action="primary"
                 block
-                disabled={ isLoggingIn }
-                label={ isLoggingIn ? 'Logging in…' : 'Log in' }
-              />
+                disabled={ isLoggingIn }>
+                { isLoggingIn ? 'Logging in…' : 'Log in' }
+              </Button>
 
               <div className="Frame-form-horizontal-group" style={ { fontSize: '0.875rem' } }>
                 <span>

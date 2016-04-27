@@ -11,7 +11,7 @@ export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
     <ul className="htmlNoList">
       <li>
         <Link onClick={ onItemClick } to={ `/user/${user.username}` }>
-          <ListItem start={ <Icon name="profile" active /> }>
+          <ListItem start={ <Icon name="profile" active size="small" /> }>
             Your Profile
           </ListItem>
         </Link>
@@ -25,7 +25,7 @@ export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
       </li>*/}
       <li>
         <Link to="/" onClick={ onLogoutClick }>
-          <ListItem start={ <Icon name="exit" active /> }>
+          <ListItem start={ <Icon name="exit" active size="small" /> }>
             Logout
           </ListItem>
         </Link>

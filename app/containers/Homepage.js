@@ -37,10 +37,10 @@ export class Homepage extends Component {
             <h1>Buy and Sell while Chatting!</h1>
             <h2>Chat with buyers and sellers in your area or anywhere in the world!
             </h2>
-            <ScrollLink to="explore" className="Button secondary size-huge" smooth duration={ 800 } offset={ 0 }>
+            <ScrollLink to="explore" className="Button action-primary-alt size-huge" smooth duration={ 800 } offset={ 0 }>
               <span className="Button-label">Explore</span>
             </ScrollLink>
-            <ScrollLink to="how-it-works" className="Button primary size-huge" smooth duration={ 800 } offset={ 0 }>
+            <ScrollLink to="how-it-works" className="Button action-primary size-huge" smooth duration={ 800 } offset={ 0 } style={ { marginLeft: '1rem' } }>
               <span className="Button-label">How it works</span>
             </ScrollLink>
           </div>
@@ -62,7 +62,7 @@ export class Homepage extends Component {
           </div>
 {/*
           <div className="Homepage-hero-buttons">
-            <ScrollLink to="explore" className="Button primary size-huge" smooth duration={ 800 } offset={ 0 }>
+            <ScrollLink to="explore" className="Button action="primary" size-huge" smooth duration={ 800 } offset={ 0 }>
               <span className="Button-label">Explore</span>
             </ScrollLink>
             <ScrollLink to="how-it-works" className="Button inverted size-huge" smooth duration={ 800 } offset={ 0 }>

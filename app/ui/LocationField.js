@@ -212,7 +212,7 @@ export class LocationField extends Component {
           onBlur={ this.handleBlur }
           onChange={ this.handleChange }
           onKeyDown={ this.handleKeyDown }
-          startElement={ location && <CountryFlag code={ location.country } /> }
+          startElement={ location && <CountryFlag code={ location.country } size="small" style={ { margin: '0 3px' } } /> }
           ref={ el => {
             this.field = el;
             if (inputRef) {

@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import Icon from '../ui/Icon';
 import Button from '../ui/Button';
 import Modal from '../ui/Modal';
 
@@ -99,17 +98,14 @@ export class Header extends Component {
           <div className="Header-tools loggedIn">
             <HeaderMessagesButton overlayContainer={ this } />
             {/* <HeaderNotificationsButton overlayContainer={ this } />*/}
-            <Button
-              onClick={ this.handleNewShoutClick }
-              primary
-              size="small"
-              label="Create Shout"
-              leftIcon={ <Icon name="sparkle" fill /> } />
+            <Button action="primary" size="small" icon="sparkle" onClick={ this.handleNewShoutClick }>
+              Create Shout
+            </Button>
             <HeaderProfileButton overlayContainer={ this } />
           </div> :
           <div className="Header-tools loggedOut">
-            <Button label="Log in" to="/login" />
-            <Button label="Sign up" primary to="/signup" />
+            <Button to="/login">Log in</Button>
+            <Button action="primary" to="/signup">Sign up</Button>
           </div>
         }
 

@@ -41,7 +41,7 @@ export class VerifyEmail extends Component {
                 Thanks, your e-mail has been verified!
               </p>
               <div className="Frame-form" style={ { textAlign: 'center' } }>
-                <Button primary to="/" label="Go to your home page" />
+                <Button action="primary" to="/">Go to your home page</Button>
               </div>
             </div>
           </Frame>

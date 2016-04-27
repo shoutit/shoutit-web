@@ -157,7 +157,9 @@ export class SearchFilters extends Component {
           />
 
           <div className="SearchFilters-buttons">
-            <Button ref="submitButton" block primary size="small" disabled={ disabled || isEqual(this.state, this.props.searchParams) } type="submit" label="Search" />
+            <Button ref="submitButton" block action="primary" size="small" disabled={ disabled || isEqual(this.state, this.props.searchParams) } type="submit">
+              Search
+            </Button>
           </div>
         </Form>
       </div>

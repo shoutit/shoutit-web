@@ -23,13 +23,17 @@ export function CreateShoutSuccess({ shoutId, onNewClick }) {
       <h3>Your shout has been published.</h3>
 
       <div className="CreateShoutSuccess-buttons">
-        <UpdateShoutButton shoutId={ shoutId } leftIcon={ null } block size="small" primary label="Add more details" />
+        <UpdateShoutButton shoutId={ shoutId } block size="small" action="primary">
+          Add more details
+        </UpdateShoutButton>
       </div>
 
       <HorizontalRule label="or" />
 
       <div className="CreateShoutSuccess-buttons">
-        <Button block size="small" secondary label="Create another shout" onClick={ onNewClick } />
+        <Button block size="small" action="primary-alt" onClick={ onNewClick }>
+          Create another shout
+        </Button>
       </div>
 
 
