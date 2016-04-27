@@ -6,36 +6,9 @@
   margin-top: .75rem;
 }
 
-.Profile-header {
-  display: flex;
-  align-items: flex-end;
-  transform: translateY(-44px);;
-
-  .ProfileAvatar {
-    margin-left: 3.875rem;
-    border: 2px solid white;
-    box-shadow: $box-shadow-depth-1;
-  }
-  h1 {
-    margin: 0rem 0 0rem 1rem;
-    font-weight: lighter;
-    height: 1.2em;
-    overflow: hidden;
-  }
-  h3 {
-    margin: .5rem 0 .5rem 1rem;
-    font-size: 1rem;
-    font-weight: normal;
-  }
-}
-
-.Profile-tools {
-  display: flex;
-}
-
 .Profile-body {
+  margin-top: 1rem;
   display: flex;
-  margin-top: -32px;
   .Profile-body-start-column {
     overflow: hidden;
     width: $page-width-column;

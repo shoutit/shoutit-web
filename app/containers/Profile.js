@@ -11,14 +11,14 @@ import Page from '../layout/Page';
 import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';
 import ProfileCover from '../users/ProfileCover';
-import ProfileAvatar from '../users/ProfileAvatar';
 import ProfileBiography from '../users/ProfileBiography';
 import SuggestedShout from '../shouts/SuggestedShout';
 import ShoutsList from '../shouts/ShoutsList';
+
+
 import Progress from '../ui/Progress';
 import Scrollable from '../ui/Scrollable';
 
-import { getVariation } from '../utils/APIUtils';
 
 if (process.env.BROWSER) {
   require('./Profile.scss');
@@ -68,7 +68,6 @@ export class Profile extends Component {
 
   render() {
     const { profile, shouts, isFetchingShouts, shoutsCount, nextShoutsUrl, dispatch } = this.props;
-
     return (
       <Scrollable
         scrollElement={ () => window }
@@ -104,19 +103,6 @@ export class Profile extends Component {
           { profile &&
             <div className="Profile">
               <ProfileCover profile={ profile } />
-              <div className="Profile-header">
-                <a href={ profile.image ? getVariation(profile.image, 'large') : '' }>
-                  <ProfileAvatar size="huge" user={ profile } />
-                </a>
-                <div className="Profile-name">
-                  <h1>
-                    { profile.name }
-                  </h1>
-                  <h3>
-                    { profile.username }
-                  </h3>
-                </div>
-              </div>
 
               <div className="Profile-body">
                 <div className="Profile-body-start-column">
