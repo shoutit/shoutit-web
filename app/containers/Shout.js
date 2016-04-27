@@ -67,7 +67,7 @@ function ShoutActions({ shout, onReplyClick }) {
         </div> :
         <div>
           <RequiresLogin event="onClick" loginAction={ REPLY_SHOUT }>
-            <Button style={ buttonStyle } block onClick={ onReplyClick } size="small" primary leftIcon = { <Icon fill name="balloon-dots" /> } label="Reply to this Shout" />
+            <Button style={ buttonStyle } block onClick={ onReplyClick } size="small" primary leftIcon={ <Icon fill name="balloon-dots" /> } label="Reply to this Shout" />
           </RequiresLogin>
           { callButton }
         </div>
@@ -124,11 +124,11 @@ export class Shout extends Component {
     const { shout } = this.props;
 
     const categoryWithFilters = (
-        <CardWithList block style={{ padding: '.5rem', backgroundColor: 'white' }}>
-          <Link to={ `/interest/${shout.category.slug}`}><CategoryListItem category={ shout.category } /></Link>
-          { shout.filters.map((filter) => <FilterListItem key={ filter.slug } filter={ filter } category={ shout.category } />) }
-        </CardWithList>
-      );
+      <CardWithList block style={ { padding: '.5rem', backgroundColor: 'white' } }>
+        <Link to={ `/interest/${shout.category.slug}` }><CategoryListItem category={ shout.category } /></Link>
+        { shout.filters.map((filter) => <FilterListItem key={ filter.slug } filter={ filter } category={ shout.category } />) }
+      </CardWithList>
+    );
 
     return categoryWithFilters;
   }
@@ -137,14 +137,14 @@ export class Shout extends Component {
     const { shout } = this.props;
     return [
       <ShoutActions key="actions" shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
-      <CardWithList block key="profile" style={{ marginTop: '2rem', padding: '.5rem' }} >
+      <CardWithList block key="profile" style={ { marginTop: '2rem', padding: '.5rem' } } >
         <ProfileListItem tooltipPlacement="right" profile={ shout.profile } />
         <ListItem start={ <Icon name="clock" active /> }>
           <TimeAgo date={ shout.datePublished } />
         </ListItem>
         <LocationListItem location={ shout.location } />
       </CardWithList>,
-      <Location key="location" style={{ marginTop: '1rem' }} location={ shout.location } />,
+      <Location key="location" style={ { marginTop: '1rem' } } location={ shout.location } />,
     ];
   }
 
@@ -210,7 +210,7 @@ export class Shout extends Component {
               title={ shout.title }
               description={ shout.text }
               images={ shout.images }
-              meta={[
+              meta={ [
                 { property: 'og:type', content: `shoutitcom:${shout.type}` },
                 { property: 'shoutitcom:price', content: formatPrice(shout.price, shout.currency) },
                 { property: 'shoutitcom:username', content: shout.profile.username },
@@ -219,7 +219,7 @@ export class Shout extends Component {
                 { name: 'twitter:data1', content: formatPrice(shout.price, shout.currency) },
                 { name: 'twitter:label2', content: 'Location' },
                 { name: 'twitter:data2', content: formatLocation(shout.location) },
-              ]}
+              ] }
             />
           }
           { !shout && <Progress animate /> }

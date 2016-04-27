@@ -136,20 +136,20 @@ export class Login extends Component {
               />
 
               <Button
-                style={{ marginTop: '1rem' }}
+                style={ { marginTop: '1rem' } }
                 primary
                 block
                 disabled={ isLoggingIn }
                 label={ isLoggingIn ? 'Logging in…' : 'Log in' }
               />
 
-              <div className="Frame-form-horizontal-group" style={{ fontSize: '0.875rem' }}>
+              <div className="Frame-form-horizontal-group" style={ { fontSize: '0.875rem' } }>
                 <span>
                   <input ref="keep_session" name="keep_session" disabled={ isLoggingIn } type="checkbox" defaultChecked id="login-keep-session" />
                   <label htmlFor="login-keep-session"> Keep me logged in</label>
                 </span>
                 <span>
-                  <Link to={{ pathname: '/login/password', query }} className="forgot-btn">
+                  <Link to={ { pathname: '/login/password', query } } className="forgot-btn">
                     Recover your password
                   </Link>
                 </span>
@@ -157,9 +157,9 @@ export class Login extends Component {
 
             </form>
           </div>
-          <div className="Frame-footer" style={{ textAlign: 'center' }}>
+          <div className="Frame-footer" style={ { textAlign: 'center' } }>
             New to shoutit? { ' ' }
-            <Link to={{ pathname: '/signup', query }}>Sign up</Link>
+            <Link to={ { pathname: '/signup', query } }>Sign up</Link>
           </div>
         </Frame>
       </Page>

@@ -76,15 +76,15 @@ export class Profile extends Component {
           if (nextShoutsUrl && !isFetchingShouts) {
             dispatch(loadUserShouts(profile.username, nextShoutsUrl));
           }
-        }}
+        } }
         triggerOffset={ 400 }
       >
         <Page
-          endColumn={[
+          endColumn={ [
             <SuggestedTags key="interests" />,
             <SuggestedProfiles key="profiles" />,
             <SuggestedShout key="shout" />,
-          ]}
+          ] }
         >
 
           { profile &&
@@ -92,10 +92,10 @@ export class Profile extends Component {
               title={ `Shouts by ${profile.name}` }
               description={ profile.bio }
               images={ [profile.image] }
-              meta={[
+              meta={ [
                 { property: 'og:type', content: 'shoutitcom:user' },
                 { property: 'shoutitcom:username', content: profile.username },
-              ]}
+              ] }
             />
           }
 
@@ -132,7 +132,7 @@ export class Profile extends Component {
                       <ShoutsList shouts={ shouts } showProfile={ false } /> }
                     <Progress
                       animate={ isFetchingShouts }
-                      label={ shouts.length === 0 ? 'Loading shouts…' : 'Loading more shouts…'} />
+                      label={ shouts.length === 0 ? 'Loading shouts…' : 'Loading more shouts…' } />
                   </div>
                   { !isFetchingShouts && shouts.length === 0 &&
                     <h2>{ `${profile.firstName} has no shouts, yet!` }</h2>

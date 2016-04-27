@@ -30,12 +30,12 @@ const routes = (store) =>
       getApplicationLayout={ () => ({
         stickyHeader: store.getState().session.user,
         showFooter: true,
-      })}
+      }) }
       getComponent={ (location, callback) => {
         const Component = store.getState().session.user ? Dashboard : Homepage;
         callback(null, Component);
         return Component;
-      }}
+      } }
     />
     <Route path="/login" component={ Login } getApplicationLayout={ authAppLayout } />
     <Route path="/login/password" component={ ResetPassword } getApplicationLayout={ authAppLayout } />
@@ -44,13 +44,13 @@ const routes = (store) =>
     <Route path="/signup/verify/:token" component={ VerifyEmail } getApplicationLayout={ authAppLayout } />
 
     <Route path="/search(/:shout_type)(/:category)" component={ Search } />
-    <Route path="/shout/:id(/:city)(/:description)" component={ Shout } getApplicationLayout={ () => ({ showFooter: true })} />
+    <Route path="/shout/:id(/:city)(/:description)" component={ Shout } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/interest/:name" component={ Interest } />
-    <Route path="/user/:username" component={ Profile } getApplicationLayout={ () => ({ showFooter: true })} />
-    <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true })} />
+    <Route path="/user/:username" component={ Profile } getApplicationLayout={ () => ({ showFooter: true }) } />
+    <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/discover/:countryName(/:id)" component={ Discover } />
     <Route path="/messages(/:conversationId)" component={ Chat } />
-    <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true })} />
+    <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true }) } />
   </Route>;
 
 export default routes;

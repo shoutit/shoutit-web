@@ -48,8 +48,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     <Modal name="new-shout">
       <CreateShout
         modalName="new-shout"
-        onCancel={ () => dispatch(closeModal('new-shout'))}
-        onSuccess={ () => dispatch(closeModal('new-shout'))}
+        onCancel={ () => dispatch(closeModal('new-shout')) }
+        onSuccess={ () => dispatch(closeModal('new-shout')) }
       />
     </Modal>
   );

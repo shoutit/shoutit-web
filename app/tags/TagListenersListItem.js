@@ -11,7 +11,7 @@ export default function TagListenersListItem({ tag, size = 'small' }) {
       nowrap
       start={ <Icon name="listeners" active={ listenersCount > 0 } /> }>
 
-      { listenersCount === 0 ? 'No ' : listenersCount } listener{ listenersCount > 1}s
+      { listenersCount === 0 ? 'No ' : listenersCount } listener{ listenersCount > 1 }s
 
     </ListItem>
   );

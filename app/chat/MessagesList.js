@@ -31,7 +31,7 @@ export function MessagesByDay({ day, messages, loggedUser, partecipants }) {
                   undefined
                 }
               />
-            )}
+            ) }
           </div>
         </div>
       );
@@ -59,13 +59,13 @@ export default function MessagesList({ messages, loggedUser, partecipants }) {
     <div>
       { groupByDay(messages).map((group, i) =>
         <MessagesByDay
-          key={i}
+          key={ i }
           day={ group.day }
           loggedUser={ loggedUser }
           messages={ group.messages }
           partecipants={ partecipants }
         />
-      )}
+      ) }
     </div>
   );
 }

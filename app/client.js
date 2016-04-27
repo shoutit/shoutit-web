@@ -1,4 +1,4 @@
-/* eslint no-console: 0 */
+/* eslint no-console: 0, no-underscore-dangle: 0 */
 /* eslint-env browser */
 
 import React from 'react';
@@ -63,13 +63,13 @@ const renderApp = () =>
                 Component.displayName || Component.name, elProps.location.pathname, _firstRender
               );
               return <Component {...elProps} firstRender={ _firstRender } />;
-            }}
+            } }
           />
         </Provider>
       );
       firstRender = false;
       return routerContext;
-    }}>
+    } }>
 
     { routes }
 

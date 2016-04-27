@@ -7,9 +7,7 @@ export default function ConversationName({ conversation, link = true }) {
   if (link) {
     return (
       <span>
-       { profiles.map(profile =>
-          <Link key={ profile.username } to={ `/user/${profile.username}` }>{ profile.name }</Link>
-       )}
+       { profiles.map(profile => <Link key={ profile.username } to={ `/user/${profile.username}` }>{ profile.name }</Link>) }
       </span>
     );
   }

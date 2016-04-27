@@ -67,8 +67,8 @@ export class Header extends Component {
       <Modal name="new-shout">
         <CreateShout
           modalName="new-shout"
-          onCancel={ () => dispatch(closeModal('new-shout'))}
-          onSuccess={ () => dispatch(closeModal('new-shout'))}
+          onCancel={ () => dispatch(closeModal('new-shout')) }
+          onSuccess={ () => dispatch(closeModal('new-shout')) }
         />
       </Modal>
     );
@@ -79,10 +79,10 @@ export class Header extends Component {
 
   render() {
     return (
-      <header className="Header" style={{ position: 'relative' }}>
+      <header className="Header" style={ { position: 'relative' } }>
         <div className="Header-logo">
           <Link to="/">
-            <img height="36" width="132" src={ `${imagesPath}/logo.png` } />
+            <img alt="To home page" height="36" width="132" src={ `${imagesPath}/logo.png` } />
           </Link>
         </div>
 
@@ -98,7 +98,7 @@ export class Header extends Component {
         { this.props.isLoggedIn ?
           <div className="Header-tools loggedIn">
             <HeaderMessagesButton overlayContainer={ this } />
-            {/*<HeaderNotificationsButton overlayContainer={ this } />*/}
+            {/* <HeaderNotificationsButton overlayContainer={ this } />*/}
             <Button
               onClick={ this.handleNewShoutClick }
               primary

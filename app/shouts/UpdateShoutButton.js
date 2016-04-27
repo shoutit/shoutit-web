@@ -20,7 +20,7 @@ export function UpdateShoutButton({ shoutId, dispatch, ...props }) {
     ));
   }
   return (
-    <Button onClick={ onClick } size="small" primary leftIcon = { <Icon fill name="pencil" /> } label="Edit Shout" {...props} />
+    <Button onClick={ onClick } size="small" primary leftIcon={ <Icon fill name="pencil" /> } label="Edit Shout" {...props} />
   );
 }
 

@@ -81,16 +81,16 @@ export class UpdateShout extends Component {
           shout={ shout }
           error={ shout.updateError }
           onSubmit={ this.updateShout }
-          onUploadStart={ () => this.setState({ isUploading: true })}
-          onUploadEnd={ () => this.setState({ isUploading: false })}
-          actions={[
+          onUploadStart={ () => this.setState({ isUploading: true }) }
+          onUploadEnd={ () => this.setState({ isUploading: false }) }
+          actions={ [
             <Button type="button" label="Cancel" onClick={ onCancel } disabled={ shout.isUpdating || shout.isDeleting } />,
-            <Button primary style={{ minWidth: '10rem' }} label={ submitLabel } disabled={ shout.isUpdating || isUploading || shout.isDeleting } />,
-          ]}
+            <Button primary style={ { minWidth: '10rem' } } label={ submitLabel } disabled={ shout.isUpdating || isUploading || shout.isDeleting } />,
+          ] }
         />
         <div className="CreateShout-delete">
           <Button destructive size="small" label="Delete" disabled={ shout.isDeleting } onClick={ this.deleteShout } />
-          <span className="htmlAncillary" style={{ fontSize: '.75rem' }}>
+          <span className="htmlAncillary" style={ { fontSize: '.75rem' } }>
             { ' ' } – will delete this Shout permanently
           </span>
         </div>

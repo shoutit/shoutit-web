@@ -181,17 +181,17 @@ export class LocationField extends Component {
     const { previousPredictions } = this.state;
     const results = predictions || previousPredictions || [];
     if (results.length === 0 || !lastInput || !this.state.value) {
-      return <p style={{ margin: '.5rem 0.5rem', fontSize: '0.75rem' }}>Start typing to search.</p>;
+      return <p style={ { margin: '.5rem 0.5rem', fontSize: '0.75rem' } }>Start typing to search.</p>;
     }
     return (
       <ul className="htmlSelectableList">
         { results.map(prediction =>
           <li key={ prediction.id }>
-            <a href="#" onClick={ e => { e.preventDefault(); this.handlePredictionClick(prediction); }}>
+            <a href="#" onClick={ e => { e.preventDefault(); this.handlePredictionClick(prediction); } }>
               { prediction.description }
             </a>
           </li>
-        )}
+        ) }
       </ul>
     );
   }
@@ -199,7 +199,7 @@ export class LocationField extends Component {
     const { inputRef, name, ...props } = this.props; // eslint-disable-line
     const { readOnly, value, showOverlay, hasFocus, error, location } = this.state;
     return (
-      <div className="LocationField" style={{ position: 'relative' }}>
+      <div className="LocationField" style={ { position: 'relative' } }>
         <FormField
           {...props}
           name={ name }
@@ -218,7 +218,7 @@ export class LocationField extends Component {
             if (inputRef) {
               inputRef(this);
             }
-          }}
+          } }
           field="input" />
         <Overlay
           rootClose
@@ -226,8 +226,8 @@ export class LocationField extends Component {
             if (!hasFocus) {
               this.setState({ showOverlay: false });
             }
-          }}
-          style={{ width: '100%' }}
+          } }
+          style={ { width: '100%' } }
           show={ showOverlay }
           placement="bottom"
           container={ this }

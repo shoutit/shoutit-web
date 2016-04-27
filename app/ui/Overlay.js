@@ -12,7 +12,7 @@ function OverlayWrapper({ arrow, arrowOffsetLeft, arrowOffsetTop, children, styl
   }
   return (
     <div className={ className } style={ style }>
-      { arrow && <div className="Overlay-arrow" style={arrowStyle} /> }
+      { arrow && <div className="Overlay-arrow" style={ arrowStyle } /> }
       { children }
     </div>
   );

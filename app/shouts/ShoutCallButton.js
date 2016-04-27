@@ -36,7 +36,7 @@ export class ShoutCallButton extends Component {
       label = 'Please wait…';
     }
     if (shout.mobile) {
-      label = <a href={`tel://${shout.mobile}`}>{ shout.mobile }</a>;
+      label = <a href={ `tel://${shout.mobile}` }>{ shout.mobile }</a>;
     }
 
     const button = (
@@ -47,7 +47,7 @@ export class ShoutCallButton extends Component {
           disabled={ shout.isCalling }
           size="small"
           onClick={ !shout.mobile && !shout.isCalling ? this.handleClick : null }
-          leftIcon = { <Icon fill name="phone" /> }
+          leftIcon={ <Icon fill name="phone" /> }
           label={ label }
         />
       </RequiresLogin>

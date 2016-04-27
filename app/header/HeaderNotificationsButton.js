@@ -40,7 +40,7 @@ export class HeaderNotificationsButton extends Component {
         <Overlay
           arrow
           rootClose
-          style={ { width: 400, marginLeft: 4 }}
+          style={ { width: 400, marginLeft: 4 } }
           show={ this.state.showOverlay }
           placement="bottom"
           container={ overlayContainer }

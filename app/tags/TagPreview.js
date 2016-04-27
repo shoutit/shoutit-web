@@ -32,7 +32,7 @@ export class TagPreview extends Component {
         <div className="TagPreview-header">
           <div className="TagPreview-icon">
             { tag.icon ?
-              <img src={ tag.icon } /> :
+              <img src={ tag.icon } alt="Icon" /> :
               <Icon name="tag" size="large" active />
             }
           </div>

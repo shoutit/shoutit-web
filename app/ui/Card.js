@@ -14,8 +14,9 @@ export default function Card({ image, title, size = 'small', block = false, chil
   }
   return (
     <div className={ cssClass } style={ style } >
-      { image && <div className="Card-image-wrapper">
-          <div className="Card-image" style={{ backgroundImage: `url(${image})` }} />
+      { image &&
+        <div className="Card-image-wrapper">
+          <div className="Card-image" style={ { backgroundImage: `url(${image})` } } />
         </div>
       }
       { title &&
@@ -23,7 +24,7 @@ export default function Card({ image, title, size = 'small', block = false, chil
         { title }
         </div>
       }
-      { children && <div>{ children }</div>}
+      { children && <div>{ children }</div> }
     </div>
   );
 }

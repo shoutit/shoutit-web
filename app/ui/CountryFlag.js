@@ -20,10 +20,11 @@ export default function CountryFlag({ code, size = 'medium', rounded = true, sho
   if (rounded) {
     className += ' rounded';
   }
+  const countryName = getCountryName(code);
   return (
-    <Tooltip placement="top" overlay={ getCountryName(code) } trigger={ showTooltip ? ['hover'] : [] }>
+    <Tooltip placement="top" overlay={ countryName } trigger={ showTooltip ? ['hover'] : [] }>
       <span>
-        <img className={ className } src={ `${imagesPath}/flags/${code}.png?v${VERSION}` } />
+        <img alt={ countryName } className={ className } src={ `${imagesPath}/flags/${code}.png?v${VERSION}` } />
       </span>
     </Tooltip>
   );

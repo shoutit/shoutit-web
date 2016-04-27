@@ -125,7 +125,7 @@ export class Discover extends Component {
             if (loggedUser) {
               dispatch(setUserLocation(location));
             }
-          }}
+          } }
         />
       </Modal>
     );
@@ -151,12 +151,13 @@ export class Discover extends Component {
           if (discoverItem && nextShoutsUrl && !isFetchingShouts) {
             dispatch(loadShoutsForDiscoverItem(discoverItem.id, null, nextShoutsUrl));
           }
-        }}>
+        } }>
         <Page endColumn={ <SuggestedShout /> }>
-          { discoverItem && <Helmet title={ discoverItem.title } images={[discoverItem.image]} /> }
+          { discoverItem && <Helmet title={ discoverItem.title } images={ [discoverItem.image] } /> }
           { discoverItem &&
             <div className="Discover-hero" style={ getStyleBackgroundImage(discoverItem.image, 'large') }>
-              { country && <div className="Discover-country" onClick={ e => this.showLocationModal(e) }>
+              { country &&
+                <div className="Discover-country" onClick={ e => this.showLocationModal(e) }>
                   <CountryFlag code={ country } rounded size="medium" showTooltip={ false } />
                   { getCountryName(country) }
                 </div>
@@ -164,7 +165,6 @@ export class Discover extends Component {
               <div className="Discover-hero-content">
                 <h1>{ discoverItem.title }</h1>
                 { discoverItem.subtitle && <h2>{ discoverItem.subtitle }</h2> }
-
               </div>
             </div>
           }
@@ -175,7 +175,7 @@ export class Discover extends Component {
                 <Link to={ getDiscoverLink(country, child) } key={ i }>
                   <DiscoverItemPreview discoverItem={ child } />
                 </Link>
-              )}
+              ) }
             </div>
           }
 

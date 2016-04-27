@@ -91,7 +91,7 @@ export class SetPassword extends Component {
             />
 
             <Button
-              style={{ marginTop: '1rem' }}
+              style={ { marginTop: '1rem' } }
               primary
               block
               disabled={ isSettingPassword }
@@ -111,7 +111,7 @@ export class SetPassword extends Component {
           <p>
             Your password has been updated. Now you can login again!
           </p>
-          <div className="Frame-form" style={{ textAlign: 'center' }}>
+          <div className="Frame-form" style={ { textAlign: 'center' } }>
             <Button primary to="/login" label="To login" />
           </div>
         </div>

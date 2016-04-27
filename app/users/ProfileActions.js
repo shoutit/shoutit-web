@@ -36,55 +36,55 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
     } else {
       dispatch(startConversation(loggedUser, profile));
     }
-
   };
 
   return (
-      <div className="ProfileActions">
-        { profile.isListener &&
-          <p className="ProfileActions-is-listener">
-            { profile.firstName } is listening to you.
-          </p>
+    <div className="ProfileActions">
+      { profile.isListener &&
+        <p className="ProfileActions-is-listener">
+          { profile.firstName } is listening to you.
+        </p>
+      }
+      <ul className="htmlNoList">
+        { !profile.isOwner && profile.isListener &&
+          <li>
+            <RequiresLogin event="onClick" loginAction={ SEND_MESSAGE } redirectUrl={ `/user/${profile.username}` }>
+              <ListItem
+                size={ size }
+                onClick={ onSendMessageClick }
+                start={ <Icon size={ size } active name="balloon-dots" /> }>
+                Send { profile.firstName } a message
+              </ListItem>
+            </RequiresLogin>
+          </li>
         }
-        <ul className="htmlNoList">
-          { !profile.isOwner && profile.isListener &&
-            <li>
-              <RequiresLogin event="onClick" loginAction={ SEND_MESSAGE } redirectUrl={ `/user/${profile.username}` }>
-                <ListItem size={ size }
-                  onClick={ onSendMessageClick }
-                  start= { <Icon size={ size } active name="balloon-dots" /> }>
-                  Send {profile.firstName} a message
-                </ListItem>
-              </RequiresLogin>
-            </li>
-          }
-          { !profile.isOwner &&
-            <li>
-              <RequiresLogin event="onClick" loginAction={ START_LISTENING } redirectUrl={ `/user/${profile.username}` }>
-                <ListItem
-                  size={ size }
-                  disabled={ isUpdatingListening }
-                  onClick={ onListenClick }
-                  start= { <Icon size={ size } name="listen" active={ !profile.isListening } on={ profile.isListening } /> }
-                >
-                  { profile.isListening ? `Stop listening to ${profile.firstName}` : `Listen to ${profile.firstName}` }
-                </ListItem>
-              </RequiresLogin>
-            </li>
-          }
-          { showProfileLink &&
-            <li>
-              <Link to={`/user/${profile.username}`}>
-                <ListItem
-                  size={ size }
-                  start= { <Icon active size={ size } name="profile" /> }
-                >
-                  View profile
-                </ListItem>
-              </Link>
-            </li>
-          }
-        </ul>
+        { !profile.isOwner &&
+          <li>
+            <RequiresLogin event="onClick" loginAction={ START_LISTENING } redirectUrl={ `/user/${profile.username}` }>
+              <ListItem
+                size={ size }
+                disabled={ isUpdatingListening }
+                onClick={ onListenClick }
+                start={ <Icon size={ size } name="listen" active={ !profile.isListening } on={ profile.isListening } /> }
+              >
+                { profile.isListening ? `Stop listening to ${profile.firstName}` : `Listen to ${profile.firstName}` }
+              </ListItem>
+            </RequiresLogin>
+          </li>
+        }
+        { showProfileLink &&
+          <li>
+            <Link to={ `/user/${profile.username}` }>
+              <ListItem
+                size={ size }
+                start={ <Icon active size={ size } name="profile" /> }
+              >
+                View profile
+              </ListItem>
+            </Link>
+          </li>
+        }
+      </ul>
     </div>
   );
 }

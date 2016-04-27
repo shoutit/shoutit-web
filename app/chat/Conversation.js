@@ -89,10 +89,8 @@ export class Conversation extends Component {
     const { previousUrl, dispatch, id } = this.props;
     return (
       <div className={ `Conversation layout-${layout}` }>
-        {
-          conversation && conversation.type === 'about_shout' &&
-          <ConversationAbout shout={ conversation.about } />
-        }
+        { conversation && conversation.type === 'about_shout' &&
+          <ConversationAbout shout={ conversation.about } /> }
 
         <Scrollable
           preventDocumentScroll
@@ -103,18 +101,21 @@ export class Conversation extends Component {
           onScrollTop={ previousUrl ? () => dispatch(loadMessages(id, previousUrl)) : null }>
           <div className="Conversation-messagesList" onClick={ () => this.form && this.form.focus() }>
 
-            { error && <div className="Conversation-error">
-              Could not load conversation - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages(id, previousUrl)); }}>retry?</a>
+            { error &&
+              <div className="Conversation-error">
+                Could not load conversation - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages(id, previousUrl)); } }>retry?</a>
               </div>
             }
 
-            { messagesError && <div className="Conversation-error">
-              Could not load messages - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages(id, previousUrl)); }}>retry?</a>
+            { messagesError &&
+              <div className="Conversation-error">
+                Could not load messages - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages(id, previousUrl)); } }>retry?</a>
               </div>
             }
 
-            { conversation && conversation.createError && <div className="Conversation-error">
-              { conversation.createError.message }
+            { conversation && conversation.createError &&
+              <div className="Conversation-error">
+                { conversation.createError.message }
               </div>
             }
 
@@ -122,11 +123,11 @@ export class Conversation extends Component {
               <Progress animate={ !conversation || isFetchingMessages } />
             }
             { conversation && messages.length > 0 &&
-                <MessagesList
-                  loggedUser={ loggedUser }
-                  messages={ messages }
-                  partecipants={ conversation.profiles }
-                />
+              <MessagesList
+                loggedUser={ loggedUser }
+                messages={ messages }
+                partecipants={ conversation.profiles }
+              />
             }
 
             { conversation && conversation.isNew && !conversation.isCreating &&

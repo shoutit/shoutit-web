@@ -85,7 +85,7 @@ export class ResetPassword extends Component {
             />
 
             <Button
-              style={{ marginTop: '1rem' }}
+              style={ { marginTop: '1rem' } }
               primary
               block
               disabled={ isResettingPassword }
@@ -98,8 +98,8 @@ export class ResetPassword extends Component {
 
           </form>
         </div>
-        <div className="Frame-footer" style={{ textAlign: 'center' }}>
-          <Link to={{ pathname: '/login', query }}>Back to login</Link>
+        <div className="Frame-footer" style={ { textAlign: 'center' } }>
+          <Link to={ { pathname: '/login', query } }>Back to login</Link>
         </div>
       </Frame>
     );
@@ -114,8 +114,8 @@ export class ResetPassword extends Component {
             We just sent you the link to set a new password. It should arrive in the next few minutes!
           </p>
         </div>
-        <div className="Frame-footer" style={{ textAlign: 'center' }}>
-          <Link to={{ pathname: '/login', query }}>
+        <div className="Frame-footer" style={ { textAlign: 'center' } }>
+          <Link to={ { pathname: '/login', query } }>
             Back to login
           </Link>
         </div>

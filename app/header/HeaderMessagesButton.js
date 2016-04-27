@@ -38,13 +38,13 @@ export class HeaderMessagesButton extends Component {
     const { badge } = this.props;
     return (
       <span>
-        <Link to="/messages" onClick={ this.showOverlay } style={{ position: 'relative' }}>
+        <Link to="/messages" onClick={ this.showOverlay } style={ { position: 'relative' } }>
           <Icon ref="icon" name="balloon-dots" badge={ badge } />
         </Link>
         <Overlay
           arrow
           rootClose
-          style={ { width: 400, marginLeft: 4 }}
+          style={ { width: 400, marginLeft: 4 } }
           show={ this.state.showOverlay }
           placement="bottom"
           container={ this.props.overlayContainer }

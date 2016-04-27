@@ -34,7 +34,7 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
       </div>
       <div className="Card-title">
         { (shout.title || shout.text) &&
-          <div className="Card-title-max-height ShoutPreview-title" title={shout.title}>
+          <div className="Card-title-max-height ShoutPreview-title" title={ shout.title }>
             { shout.title || shout.text }
           </div>
         }

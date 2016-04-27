@@ -10,7 +10,7 @@ const UIMessage = ({
   retryAction,
   type = 'info',
 }) =>
-  <div className={`UIMessage ${type}`}>
+  <div className={ `UIMessage ${type}` }>
     <div className="UIMessage-content">
       <h4>{ title }</h4>
       <div className="UIMessage-details">

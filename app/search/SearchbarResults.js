@@ -11,7 +11,7 @@ function SearchbarResult({ image, label }) {
   return (
     <div className="SearchbarResult">
       <span>
-        <span className="SearchbarResult-image" style={{ backgroundImage: image ? `url("${image}")` : null }} />
+        <span className="SearchbarResult-image" style={ { backgroundImage: image ? `url("${image}")` : null } } />
       </span>
       <span className="SearchbarResult-label">
         { label }
@@ -31,7 +31,7 @@ export default function SearchbarResults({ search = '', hasMoreShouts = false, s
       {
         shouts.length > 0 &&
           <div className="SearchbarResults-list">
-            <h3>Shouts ({shoutsCount})</h3>
+            <h3>Shouts ({ shoutsCount })</h3>
             <ul className="htmlSelectableList">
             { shouts.map(shout =>
               <li key={ shout.id }>
@@ -39,7 +39,7 @@ export default function SearchbarResults({ search = '', hasMoreShouts = false, s
                   <SearchbarResult label={ shout.title } image={ shout.thumbnail ? getVariation(shout.thumbnail, 'small') : null } />
                 </ShoutLink>
               </li>
-            )}
+            ) }
             </ul>
             { hasMoreShouts &&
               <Link className="SearchbarResults-show-more" to={ `/search?search=${encodeURIComponent(search)}` } onClick={ onShowMoreShoutsClick }>
@@ -55,11 +55,11 @@ export default function SearchbarResults({ search = '', hasMoreShouts = false, s
             <ul className="htmlSelectableList">
               { tags.map(tag =>
                 <li key={ tag.name }>
-                  <Link onClick={ onResultClick } to={`/interest/${tag.name}`}>
+                  <Link onClick={ onResultClick } to={ `/interest/${tag.name}` }>
                     <SearchbarResult label={ tag.name } image={ tag.image ? getVariation(tag.image, 'small') : null } />
                   </Link>
                 </li>
-              )}
+              ) }
             </ul>
           </div>
       }
@@ -69,12 +69,12 @@ export default function SearchbarResults({ search = '', hasMoreShouts = false, s
             <h3>Profiles</h3>
             <ul className="htmlSelectableList">
             { profiles.map(profile =>
-              <li key={profile.username}>
-                <Link onClick={ onResultClick } to={`/${profile.type}/${profile.username}`}>
+              <li key={ profile.username }>
+                <Link onClick={ onResultClick } to={ `/${profile.type}/${profile.username}` }>
                   <SearchbarResult label={ profile.name } image={ profile.image ? getVariation(profile.image, 'small') : null } />
                 </Link>
               </li>
-            )}
+            ) }
             </ul>
           </div>
       }

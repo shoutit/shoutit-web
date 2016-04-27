@@ -27,7 +27,7 @@ export default class Gallery extends Component {
   renderItem(item, i) {
     if (item.type === 'image') {
       return (
-        <img key={ `image-${i}` } src={ getVariation(item.url, 'large') } />
+        <img role="presentation" key={ `image-${i}` } src={ getVariation(item.url, 'large') } />
       );
     } else if (item.type === 'video') {
       return (
@@ -56,11 +56,11 @@ export default class Gallery extends Component {
             <div
               key={ i }
               className="Gallery-slide"
-              style={{ left: `${i * 100 - offset}%`, right: `${i * -100 + offset}%` }}
+              style={ { left: `${i * 100 - offset}%`, right: `${i * -100 + offset}%` } }
               >
               { this.renderItem(item, i) }
             </div>
-           )}
+           ) }
 
         </div>
 
@@ -69,15 +69,15 @@ export default class Gallery extends Component {
           { items.map((item, i) =>
             <span key={ i }
               onClick={ () => this.setState({ selectedIndex: i }) }
-              className={`Gallery-thumbnail-wrapper${selectedIndex === i ? ' selected' : ''}`}
+              className={ `Gallery-thumbnail-wrapper${selectedIndex === i ? ' selected' : ''}` }
             >
               <span
-                className={`Gallery-thumbnail ${item.type}`}
+                className={ `Gallery-thumbnail ${item.type}` }
                 style={ item.thumbnailUrl ? getStyleBackgroundImage(item.thumbnailUrl, 'small') : getStyleBackgroundImage(item.url, 'small') }
               />
             </span>
 
-           )}
+           ) }
           </div>
 
         }

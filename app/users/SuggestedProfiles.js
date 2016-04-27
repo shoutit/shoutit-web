@@ -7,7 +7,7 @@ export function SuggestedProfiles({ profiles }) {
   return (
     <CardWithList title="Suggested profiles">
       { profiles.map(profile => <ProfileListItem key={ profile.id } profile={ profile } />
-    )}
+    ) }
     </CardWithList>
   );
 }

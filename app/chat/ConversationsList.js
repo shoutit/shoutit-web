@@ -54,15 +54,15 @@ export class ConversationsList extends Component {
               { conversations
                   .sort((a, b) => b.modifiedAt - a.modifiedAt)
                   .map(conversation =>
-                <li key={ conversation.id } >
-                  <ConversationItem
-                    onClick={ onConversationClick ? e => onConversationClick(conversation, e) : null }
-                    conversation={ conversation }
-                    unread = { conversation.unreadMessagesCount > 0 }
-                    selected={ conversation.id === selectedId }
-                  />
-                </li>
-              )}
+                    <li key={ conversation.id } >
+                      <ConversationItem
+                        onClick={ onConversationClick ? e => onConversationClick(conversation, e) : null }
+                        conversation={ conversation }
+                        unread={ conversation.unreadMessagesCount > 0 }
+                        selected={ conversation.id === selectedId }
+                      />
+                    </li>
+              ) }
             </ul>
           }
 

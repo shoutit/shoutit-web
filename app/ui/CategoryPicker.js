@@ -115,29 +115,28 @@ export class CategoryPicker extends Component {
             <option value={ slug } key={ slug }>
               { name }
             </option>
-          )}
+          ) }
         </Picker>
 
         { filters.length > 0 &&
-          <div className={ filtersClassName } style={{ marginTop: '.5em' }}>
+          <div className={ filtersClassName } style={ { marginTop: '.5em' } }>
             { filters.map(filter =>
-                <span key={ filter.name }>
-                  <Picker
-                    className="SearchFilters-input"
-                    block
-                    label={ filter.name }
-                    name={ filter.slug }
-                    disabled={ disabled }
-                    value={ selectedFilters[filter.slug] || '' }
-                    onChange={ value => this.handleFilterChange(filter, value) }>
-                    <option value="">All</option>
-                    { filter.values.map(value =>
-                      <option value={ value.slug } key={ value.slug }>{ value.name}</option>
-                    )}
-                  </Picker>
-                </span>
-              )
-            }
+              <span key={ filter.name }>
+                <Picker
+                  className="SearchFilters-input"
+                  block
+                  label={ filter.name }
+                  name={ filter.slug }
+                  disabled={ disabled }
+                  value={ selectedFilters[filter.slug] || '' }
+                  onChange={ value => this.handleFilterChange(filter, value) }>
+                  <option value="">All</option>
+                  { filter.values.map(value =>
+                    <option value={ value.slug } key={ value.slug }>{ value.name }</option>
+                  ) }
+                </Picker>
+              </span>
+            ) }
           </div>
         }
       </div>

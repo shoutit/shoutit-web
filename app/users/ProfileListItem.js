@@ -17,10 +17,9 @@ export default function ProfileListItem({
   const avatar = <ProfileAvatar size={ size } user={ profile } />;
   const overlay = <ProfilePreview id={ profile.id } />;
   const content = (
-
-      <ListItem className="ProfileListItem" size={ size } nowrap start={ avatar } onClick={ onClick }>
-        { showName && profile.name }
-      </ListItem>
+    <ListItem className="ProfileListItem" size={ size } nowrap start={ avatar } onClick={ onClick }>
+      { showName && profile.name }
+    </ListItem>
   );
 
   if (!link) {

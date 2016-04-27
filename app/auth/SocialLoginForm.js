@@ -101,7 +101,7 @@ export class SocialLoginForm extends Component {
         }
         <FacebookButton
           disabled={ disabled }
-          style={{ marginBottom: '.5rem' }}
+          style={ { marginBottom: '.5rem' } }
           block
           label={ waitingForFacebook ? 'Waiting for Facebook…' : 'Facebook' }
           onClick={ e => this.handleFacebookLoginClick(e) }

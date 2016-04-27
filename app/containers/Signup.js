@@ -134,65 +134,65 @@ export class Signup extends Component {
 
           <form onSubmit={ e => this.handleFormSubmit(e) } className="Form Frame-form" noValidate>
 
-          <div className="Frame-form-horizontal-group">
+            <div className="Frame-form-horizontal-group">
+              <TextField
+                ref="firstName"
+                block
+                tooltipPlacement="left"
+                disabled={ isSigningUp }
+                name="first_name"
+                type="text"
+                error={ error }
+                placeholder="First name"
+              />
+              <TextField
+                error={ error }
+                ref="lastName"
+                block
+                disabled={ isSigningUp }
+                name="last_name"
+                type="text"
+                placeholder="Last name"
+              />
+            </div>
+
             <TextField
-              ref="firstName"
+              ref="email"
               block
-              tooltipPlacement="left"
               disabled={ isSigningUp }
-              name="first_name"
-              type="text"
+              name="email"
+              type="email"
               error={ error }
-              placeholder="First name"
+              placeholder="E-mail address"
             />
+
             <TextField
               error={ error }
-              ref="lastName"
+              ref="password"
               block
               disabled={ isSigningUp }
-              name="last_name"
-              type="text"
-              placeholder="Last name"
+              name="password"
+              type="password"
+              placeholder="Choose a password"
             />
-          </div>
 
-          <TextField
-            ref="email"
-            block
-            disabled={ isSigningUp }
-            name="email"
-            type="email"
-            error={ error }
-            placeholder="E-mail address"
-          />
+            <p style={ { paddingTop: '1rem', fontSize: '0.875rem' } }>
+              By signing up, you agree to our Terms of Service and to our Privacy Policy.
+            </p>
 
-          <TextField
-            error={ error }
-            ref="password"
-            block
-            disabled={ isSigningUp }
-            name="password"
-            type="password"
-            placeholder="Choose a password"
-          />
-
-          <p style={{ paddingTop: '1rem', fontSize: '0.875rem' }}>
-            By signing up, you agree to our Terms of Service and to our Privacy Policy.
-          </p>
-
-          <Button
-            style={{ marginTop: '1rem' }}
-            primary
-            block
-            disabled={ isSigningUp }
-            label={ isSigningUp ? 'Creating account…' : 'Sign up' }
-            />
+            <Button
+              style={ { marginTop: '1rem' } }
+              primary
+              block
+              disabled={ isSigningUp }
+              label={ isSigningUp ? 'Creating account…' : 'Sign up' }
+              />
 
           </form>
         </div>
-        <div className="Frame-footer" style={{ textAlign: 'center' }}>
+        <div className="Frame-footer" style={ { textAlign: 'center' } }>
           Already have an account? { ' ' }
-          <Link to={{ pathname: '/login', query }}>Log in</Link>
+          <Link to={ { pathname: '/login', query } }>Log in</Link>
         </div>
       </Frame>
     );
@@ -209,8 +209,8 @@ export class Signup extends Component {
             Please verify your e-mail address by clicking on the link we just sent to { loggedUser.email }.
           </p>
         </div>
-        <div className="Frame-footer" style={{ textAlign: 'center' }}>
-          <Link to={{ pathname: '/', query }}>
+        <div className="Frame-footer" style={ { textAlign: 'center' } }>
+          <Link to={ { pathname: '/', query } }>
             Go to your home page
           </Link>
         </div>

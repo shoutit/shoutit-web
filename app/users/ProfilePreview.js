@@ -31,10 +31,10 @@ export class ProfilePreview extends Component {
     const { profile, style, profile: { cover, name } } = this.props;
     return (
       <div className="ProfilePreview" style={ style }>
-        <div className="ProfilePreview-cover" style={getStyleBackgroundImage(cover, 'medium')} />
+        <div className="ProfilePreview-cover" style={ getStyleBackgroundImage(cover, 'medium') } />
         <div className="ProfilePreview-user">
           <ProfileAvatar user={ profile } size="large" />
-          <h2>{ name } {profile.isOwner && ' (you)'}</h2>
+          <h2>{ name } { profile.isOwner && ' (you)' }</h2>
         </div>
         <div className="ProfilePreview-body">
           { profile.location && <LocationListItem location={ profile.location } size="small" /> }

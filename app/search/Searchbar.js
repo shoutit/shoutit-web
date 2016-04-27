@@ -126,7 +126,7 @@ export class Searchbar extends Component {
             if (isLoggedIn) {
               dispatch(setUserLocation(location));
             }
-          }}
+          } }
         />
       </Modal>
     );
@@ -194,7 +194,7 @@ export class Searchbar extends Component {
           type="text"
           onChange={ this.handleChange }
           onBlur={ () => this.setState({ isFocused: false }) }
-          onFocus={ () => this.setState({ isFocused: true, showOverlay: true })}
+          onFocus={ () => this.setState({ isFocused: true, showOverlay: true }) }
         />
         <Overlay
           rootClose
@@ -202,35 +202,35 @@ export class Searchbar extends Component {
             if (!this.state.isFocused) {
               this.setState({ showOverlay: false });
             }
-          }}
-          style={ { width: '100%', borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
+          } }
+          style={ { width: '100%', borderTopLeftRadius: 0, borderTopRightRadius: 0 } }
           show={ hasFocus || showOverlay }
           placement="bottom"
           container={ this }
           target={ () => this.refs.search }
         >
-          { (!hasResults && !isFetching && searchString) ? // eslint-disable-line
-            <p style={{ margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' }}>Nothing found.</p> :
-            ((!hasResults && !isFetching) || !searchString) ? // eslint-disable-line
-            <p style={{ margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' }}>Type something to start search.</p> :
-            (isFetching && !hasResults) ?
-              <div style={{ margin: '.5rem' }}>
-                <Progress spaced={ false } animate label="Searching…" />
-              </div> :
+          { (!hasResults && !isFetching && searchString) ?
+            <p style={ { margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' } }>Nothing found.</p> :
+            ((!hasResults && !isFetching) || !searchString) ?
+              <p style={ { margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' } }>Type something to start search.</p> :
+              (isFetching && !hasResults) ?
+                <div style={ { margin: '.5rem' } }>
+                  <Progress spaced={ false } animate label="Searching…" />
+                </div> :
             error ?
               <p className="htmlError">Can't load results right now</p> :
-            <SearchbarResults
-              search={ searchString }
-              onShowMoreShoutsClick={ this.submit }
-              shoutsCount={ shoutsCount }
-              hasMoreShouts={ hasMoreShouts }
-              onResultClick={ () => this.setState({ showOverlay: false }) }
-              tags={ foundTags }
-              shouts={ foundShouts }
-              profiles={ foundProfiles }
-            />
+              <SearchbarResults
+                search={ searchString }
+                onShowMoreShoutsClick={ this.submit }
+                shoutsCount={ shoutsCount }
+                hasMoreShouts={ hasMoreShouts }
+                onResultClick={ () => this.setState({ showOverlay: false }) }
+                tags={ foundTags }
+                shouts={ foundShouts }
+                profiles={ foundProfiles }
+              />
           }
-          </Overlay>
+        </Overlay>
       </form>
     );
   }

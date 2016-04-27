@@ -91,17 +91,17 @@ export class SearchFilters extends Component {
               return;
             }
             this.props.onSubmit(this.getSearchParams());
-          }}
+          } }
         >
           <SegmentedControl value={ shout_type } disabled={ disabled } ref="shout_type" name="shout_type" options={ [
             { label: 'All', value: 'all' },
             { label: 'Offers', value: 'offer' },
             { label: 'Requests', value: 'request' },
-          ]} onChange={ shout_type => this.setState({ shout_type }) } />
+          ] } onChange={ shout_type => this.setState({ shout_type }) } />
 
           <LocationField
             block
-            inputRef={ el => { this.locationField = el; }}
+            inputRef={ el => { this.locationField = el; } }
             label="Location"
             name="location"
             location={ searchParams }
@@ -118,43 +118,43 @@ export class SearchFilters extends Component {
             onChange={ search => this.setState({ search }) }
           />
 
-        <CategoryPicker
-          filtersClassName="Form-inset-small"
-          selectedCategorySlug={ category }
-          selectedFilters={ filters }
-          showFilters
-          onChange={ (category, filters) =>
-            this.setState({
-              category: category ? category.slug : '',
-              filters,
-            })
-          }
-        />
+          <CategoryPicker
+            filtersClassName="Form-inset-small"
+            selectedCategorySlug={ category }
+            selectedFilters={ filters }
+            showFilters
+            onChange={ (category, filters) =>
+              this.setState({
+                category: category ? category.slug : '',
+                filters,
+              })
+            }
+          />
 
-        <TextField
-          autoComplete="off"
-          className="SearchFilters-input"
-          placeholder="Min price"
-          block
-          label="Starting from price"
-          disabled={ disabled }
-          name="min_price"
-          ref="min_price"
-          defaultValue={ min_price }
-          onChange={ min_price => this.setState({ min_price }) }
-        />
-        <TextField
-          autoComplete="off"
-          className="SearchFilters-input"
-          placeholder="Max price"
-          label="To price"
-          block
-          disabled={ disabled }
-          name="max_price"
-          ref="max_price"
-          defaultValue={ max_price }
-          onChange={ max_price => this.setState({ max_price }) }
-        />
+          <TextField
+            autoComplete="off"
+            className="SearchFilters-input"
+            placeholder="Min price"
+            block
+            label="Starting from price"
+            disabled={ disabled }
+            name="min_price"
+            ref="min_price"
+            defaultValue={ min_price }
+            onChange={ min_price => this.setState({ min_price }) }
+          />
+          <TextField
+            autoComplete="off"
+            className="SearchFilters-input"
+            placeholder="Max price"
+            label="To price"
+            block
+            disabled={ disabled }
+            name="max_price"
+            ref="max_price"
+            defaultValue={ max_price }
+            onChange={ max_price => this.setState({ max_price }) }
+          />
 
           <div className="SearchFilters-buttons">
             <Button ref="submitButton" block primary size="small" disabled={ disabled || isEqual(this.state, this.props.searchParams) } type="submit" label="Search" />

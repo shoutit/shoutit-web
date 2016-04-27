@@ -40,15 +40,15 @@ export class HeaderProfileButton extends Component {
       <span>
         <Link
           className="HeaderProfile-profileLink"
-          to={`/user/${user.username}`}
+          to={ `/user/${user.username}` }
           onClick={ this.showOverlay }>
-            <ProfileAvatar ref="avatar" user={ user } size="large" />
+          <ProfileAvatar ref="avatar" user={ user } size="large" />
         </Link>
         <Overlay
           arrow
           inverted
           rootClose
-          style={{ minWidth: 150, padding: '0 .5rem' }}
+          style={ { minWidth: 150, padding: '0 .5rem' } }
           show={ this.state.showOverlay }
           placement="bottom"
           container={ this.props.overlayContainer }
