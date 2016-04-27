@@ -20,12 +20,13 @@ export function UpdateShoutButton({ shoutId, dispatch, ...props }) {
   }
   return (
     <Button onClick={ onClick } size="small" action="primary" icon="pencil" {...props}>
-      Edit Shout
+      { props.children || 'Edit Shout' }
     </Button>
   );
 }
 
 UpdateShoutButton.propTypes = {
+  children: PropTypes.node,
   dispatch: PropTypes.func.isRequired,
   shoutId: PropTypes.string.isRequired,
 };
