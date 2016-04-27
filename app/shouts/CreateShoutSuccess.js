@@ -23,7 +23,7 @@ export function CreateShoutSuccess({ shoutId, onNewClick }) {
       <h3>Your shout has been published.</h3>
 
       <div className="CreateShoutSuccess-buttons">
-        <UpdateShoutButton shoutId={ shoutId } block size="small" action="primary">
+        <UpdateShoutButton shoutId={ shoutId } block size="small" action="primary" icon={ null }>
           Add more details
         </UpdateShoutButton>
       </div>
