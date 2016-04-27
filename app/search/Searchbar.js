@@ -9,6 +9,7 @@ import { openModal, closeModal } from '../actions/ui';
 import { setUserLocation } from '../actions/users';
 import { setCurrentLocation } from '../actions/location';
 
+import { formatLocation } from '../utils/LocationUtils';
 import { trimWhitespaces } from '../utils/StringUtils';
 import SearchbarResults from './SearchbarResults';
 
@@ -172,7 +173,7 @@ export class Searchbar extends Component {
       isFetchingProfiles = profilesBySearch[profilesSearchSlug].isFetching;
     }
 
-    const locationLabel = currentLocation.city || currentLocation.state || currentLocation.country || 'Anywhere';
+    const locationLabel = formatLocation({ city: currentLocation.city, country: currentLocation.country }) || 'Anywhere';
     const hasResults = foundTags.length > 0 || foundShouts.length > 0 || foundProfiles.length > 0;
     const isFetching = isFetchingShouts || isFetchingProfiles || isFetchingTags;
 
