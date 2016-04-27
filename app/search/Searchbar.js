@@ -209,27 +209,34 @@ export class Searchbar extends Component {
           container={ this }
           target={ () => this.refs.search }
         >
-          { (!hasResults && !isFetching && searchString) ?
-            <p style={ { margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' } }>Nothing found.</p> :
-            ((!hasResults && !isFetching) || !searchString) ?
-              <p style={ { margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' } }>Type something to start search.</p> :
-              (isFetching && !hasResults) ?
-                <div style={ { margin: '.5rem' } }>
-                  <Progress spaced={ false } animate label="Searching…" />
-                </div> :
-            error ?
-              <p className="htmlError">Can't load results right now</p> :
-              <SearchbarResults
-                search={ searchString }
-                onShowMoreShoutsClick={ this.submit }
-                shoutsCount={ shoutsCount }
-                hasMoreShouts={ hasMoreShouts }
-                onResultClick={ () => this.setState({ showOverlay: false }) }
-                tags={ foundTags }
-                shouts={ foundShouts }
-                profiles={ foundProfiles }
-              />
+
+          { !hasResults && !isFetching &&
+            <p style={ { margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' } }>
+              { searchString ? 'Nothing found' : 'Type something to start search' }
+            </p>
           }
+
+          { !hasResults && isFetching &&
+            <div style={ { margin: '.5rem' } }>
+              <Progress spaced={ false } animate label="Searching…" />
+            </div>
+          }
+
+          { error && <p className="htmlError">Can't load results right now</p> }
+
+          { hasResults &&
+            <SearchbarResults
+              search={ searchString }
+              onShowMoreShoutsClick={ this.submit }
+              shoutsCount={ shoutsCount }
+              hasMoreShouts={ hasMoreShouts }
+              onResultClick={ () => this.setState({ showOverlay: false }) }
+              tags={ foundTags }
+              shouts={ foundShouts }
+              profiles={ foundProfiles }
+            />
+          }
+
         </Overlay>
       </form>
     );
