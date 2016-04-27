@@ -37,11 +37,11 @@ export class VerifyEmail extends Component {
         { !error &&
           <Frame title="All done">
             <div className="Frame-body">
-              <p style={{ textAlign: 'center' }}>
+              <p style={ { textAlign: 'center' } }>
                 Thanks, your e-mail has been verified!
               </p>
-              <div className="Frame-form" style={{ textAlign: 'center' }}>
-                <Button primary to="/" label="Go to your home page" />
+              <div className="Frame-form" style={ { textAlign: 'center' } }>
+                <Button action="primary" to="/">Go to your home page</Button>
               </div>
             </div>
           </Frame>

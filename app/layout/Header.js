@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import Icon from '../ui/Icon';
 import Button from '../ui/Button';
 import Modal from '../ui/Modal';
 
@@ -67,8 +66,8 @@ export class Header extends Component {
       <Modal name="new-shout">
         <CreateShout
           modalName="new-shout"
-          onCancel={ () => dispatch(closeModal('new-shout'))}
-          onSuccess={ () => dispatch(closeModal('new-shout'))}
+          onCancel={ () => dispatch(closeModal('new-shout')) }
+          onSuccess={ () => dispatch(closeModal('new-shout')) }
         />
       </Modal>
     );
@@ -79,10 +78,10 @@ export class Header extends Component {
 
   render() {
     return (
-      <header className="Header" style={{ position: 'relative' }}>
+      <header className="Header" style={ { position: 'relative' } }>
         <div className="Header-logo">
           <Link to="/">
-            <img height="36" width="132" src={ `${imagesPath}/logo.png` } />
+            <img alt="To home page" height="36" width="132" src={ `${imagesPath}/logo.png` } />
           </Link>
         </div>
 
@@ -98,18 +97,15 @@ export class Header extends Component {
         { this.props.isLoggedIn ?
           <div className="Header-tools loggedIn">
             <HeaderMessagesButton overlayContainer={ this } />
-            {/*<HeaderNotificationsButton overlayContainer={ this } />*/}
-            <Button
-              onClick={ this.handleNewShoutClick }
-              primary
-              size="small"
-              label="Create Shout"
-              leftIcon={ <Icon name="sparkle" fill /> } />
+            {/* <HeaderNotificationsButton overlayContainer={ this } />*/}
+            <Button action="primary" size="small" icon="sparkle" onClick={ this.handleNewShoutClick }>
+              Create Shout
+            </Button>
             <HeaderProfileButton overlayContainer={ this } />
           </div> :
           <div className="Header-tools loggedOut">
-            <Button label="Log in" to="/login" />
-            <Button label="Sign up" primary to="/signup" />
+            <Button to="/login">Log in</Button>
+            <Button action="primary" to="/signup">Sign up</Button>
           </div>
         }
 

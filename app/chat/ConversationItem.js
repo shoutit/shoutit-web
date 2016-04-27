@@ -41,7 +41,7 @@ export default function ConversationItem({
 
         { conversation.type === 'about_shout' &&
           <div className="ConversationItem-about_shout">
-            {conversation.about.title}
+            { conversation.about.title }
           </div>
         }
 

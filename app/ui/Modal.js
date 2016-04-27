@@ -24,7 +24,7 @@ export default class Modal extends React.Component {
     return (
       <div
         ref="modal"
-        className={`Modal size-${size}`}
+        className={ `Modal size-${size}` }
         onClick={ rootClose ? e => e.stopPropagation() : () => {} } // Prevent closing modal when clicking on it
       >
         { title && <h1 className="Modal-title">{ title }</h1> }

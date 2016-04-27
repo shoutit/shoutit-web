@@ -28,7 +28,7 @@ describe('Scrollable', () => {
 
   it('should render with children', () => {
     const scrollable = ReactDOM.render(
-      <Scrollable className="foo" style={{ height: 500 }}><span>bar</span></Scrollable>, rootNode);
+      <Scrollable className="foo" style={ { height: 500 } }><span>bar</span></Scrollable>, rootNode);
 
     const node = ReactDOM.findDOMNode(scrollable);
     expect(node).to.exist;
@@ -39,8 +39,8 @@ describe('Scrollable', () => {
 
   it('should scroll to bottom when mounted', () => {
     const scrollable = ReactDOM.render(
-      <Scrollable initialScroll="bottom" style={{ height: 100, overflow: 'auto' }}>
-        <div style={{ height: 500 }} />
+      <Scrollable initialScroll="bottom" style={ { height: 100, overflow: 'auto' } }>
+        <div style={ { height: 500 } } />
       </Scrollable>, rootNode);
 
     expect(ReactDOM.findDOMNode(scrollable).scrollTop).to.equal(400);
@@ -48,16 +48,16 @@ describe('Scrollable', () => {
 
   it('should scroll to bottom when its unique id changes', () => {
     const scrollable = ReactDOM.render(
-      <Scrollable initialScroll="bottom" uniqueId="foo" style={{ height: 100, overflow: 'auto' }}>
-        <div style={{ height: 500 }} />
+      <Scrollable initialScroll="bottom" uniqueId="foo" style={ { height: 100, overflow: 'auto' } }>
+        <div style={ { height: 500 } } />
       </Scrollable>, rootNode);
     const node = ReactDOM.findDOMNode(scrollable);
     node.scrollTop = 50;
     TestUtils.Simulate.scroll(node, { target: node });
 
     ReactDOM.render(
-      <Scrollable initialScroll="bottom" uniqueId="bar" style={{ height: 100, overflow: 'auto' }}>
-        <div style={{ height: 500 }} />
+      <Scrollable initialScroll="bottom" uniqueId="bar" style={ { height: 100, overflow: 'auto' } }>
+        <div style={ { height: 500 } } />
       </Scrollable>, rootNode);
 
     expect(ReactDOM.findDOMNode(scrollable).scrollTop).to.equal(400);
@@ -65,16 +65,16 @@ describe('Scrollable', () => {
 
   it("should mantain current scroll when content's height changes", () => {
     const scrollable = ReactDOM.render(
-      <Scrollable initialScroll="bottom" uniqueId="foo" style={{ height: 100, overflow: 'auto' }}>
-        <div style={{ height: 500 }} />
+      <Scrollable initialScroll="bottom" uniqueId="foo" style={ { height: 100, overflow: 'auto' } }>
+        <div style={ { height: 500 } } />
       </Scrollable>, rootNode);
     const node = ReactDOM.findDOMNode(scrollable);
     node.scrollTop = 50;
     TestUtils.Simulate.scroll(node, { target: node });
 
     ReactDOM.render(
-      <Scrollable initialScroll="bottom" uniqueId="foo" style={{ height: 100, overflow: 'auto' }}>
-        <div style={{ height: 800 }} />
+      <Scrollable initialScroll="bottom" uniqueId="foo" style={ { height: 100, overflow: 'auto' } }>
+        <div style={ { height: 800 } } />
       </Scrollable>, rootNode);
 
     expect(ReactDOM.findDOMNode(scrollable).scrollTop).to.equal((800 - 500 + 50));
@@ -83,8 +83,8 @@ describe('Scrollable', () => {
 
   it('should scroll to top when mounted', () => {
     const scrollable = ReactDOM.render(
-      <Scrollable style={{ height: 100, overflow: 'auto' }}>
-        <div style={{ height: 500 }} />
+      <Scrollable style={ { height: 100, overflow: 'auto' } }>
+        <div style={ { height: 500 } } />
       </Scrollable>, rootNode);
 
     expect(ReactDOM.findDOMNode(scrollable).scrollTop).to.equal(0);
@@ -94,8 +94,8 @@ describe('Scrollable', () => {
     const spy = sinon.spy();
     const scrollable = ReactDOM.render(
       <Scrollable onScrollTop={ spy }
-        style={{ height: 100, overflow: 'auto' }}>
-        <div style={{ height: 500 }} />
+        style={ { height: 100, overflow: 'auto' } }>
+        <div style={ { height: 500 } } />
       </Scrollable>, rootNode);
 
     const node = ReactDOM.findDOMNode(scrollable);
@@ -108,8 +108,8 @@ describe('Scrollable', () => {
     const spy = sinon.spy();
     const scrollable = ReactDOM.render(
       <Scrollable onScrollBottom={ spy }
-        style={{ height: 100, overflow: 'auto' }}>
-        <div style={{ height: 500 }} />
+        style={ { height: 100, overflow: 'auto' } }>
+        <div style={ { height: 500 } } />
       </Scrollable>, rootNode);
 
     const node = ReactDOM.findDOMNode(scrollable);

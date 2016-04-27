@@ -11,7 +11,7 @@ export function Listening({ profiles }) {
   return (
     <CardWithList title="Listening to">
       { profiles.map(profile => <ProfileListItem key={ profile.id } profile={ profile } />
-    )}
+    ) }
     </CardWithList>
   );
 }

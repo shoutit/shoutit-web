@@ -24,7 +24,7 @@ export class HostedConversation extends Component {
           <h3>
             <ConversationName conversation={ conversation } />
           </h3>
-          <span tabIndex={0} className="HostedConversation-close" onClick={ onCloseClick }>✕</span>
+          <span tabIndex={ 0 } className="HostedConversation-close" onClick={ onCloseClick }>✕</span>
         </div>
         <div className="HostedConversation-conversation">
           <Conversation id={ conversation.id } layout="hosted" />

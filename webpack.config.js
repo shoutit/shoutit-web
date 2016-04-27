@@ -103,7 +103,7 @@ module.exports = {
         BROWSER: JSON.stringify(true),
       },
     }),
-    new webpack.ContextReplacementPlugin(/buffer/, require('buffer')),
+    // new webpack.ContextReplacementPlugin(/buffer/, require('buffer')),
     new webpack.optimize.OccurenceOrderPlugin(),
     new ExtractTextPlugin(isDevelopment ? 'main.css' : '/styles/main-[contenthash].css'),
     isDevelopment ? new webpack.HotModuleReplacementPlugin() : noop,

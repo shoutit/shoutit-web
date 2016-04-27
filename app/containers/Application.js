@@ -96,12 +96,12 @@ export class Application extends React.Component {
     return (
       <div className={ className }>
         <Helmet
-          htmlAttributes={{ lang: 'en' }}
+          htmlAttributes={ { lang: 'en' } }
           titleTemplate="%s - Shoutit"
           title="Buy and sell while chatting! - Shoutit"
           defaultTitle="Buy and sell while chatting! - Shoutit"
           description="The fastest way to share and offer what you want to sell or buy. Take photos and videos and chat with buyers or sellers"
-          meta={[
+          meta={ [
             { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
             { name: 'keywords', content: 'shoutit' },
             { property: 'fb:app_id', content: config.facebookId },
@@ -117,11 +117,11 @@ export class Application extends React.Component {
             { name: 'twitter:app:id:iphone', content: '947017118' },
             { name: 'twitter:app:id:ipad', content: '947017118' },
             { name: 'twitter:app:id:googleplay', content: 'com.shoutit.app.android' },
-          ]}
-          link={[
+          ] }
+          link={ [
             { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
             { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
-          ]}
+          ] }
         />
         { layout.showHeader &&
           <div className="App-header">
@@ -138,8 +138,8 @@ export class Application extends React.Component {
           { !error ? // eslint-disable-line
             React.cloneElement(children, props) :
             (error.statusCode === 404 ?
-            <NotFound /> :
-            <ServerError error={ error } />)
+              <NotFound /> :
+              <ServerError error={ error } />)
           }
         </div>
         { layout.showFooter &&
@@ -148,9 +148,9 @@ export class Application extends React.Component {
           </div>
         }
         <ModalHost />
-        {/*<UINotificationsHost />*/}
-        {/*{ props.videoCallState && props.videoCallState.currentConversation &&*/}
-          {/*<VideoCallHost conversation={ props.videoCallState.currentConversation } /> }*/}
+        {/* <UINotificationsHost />*/}
+        {/* { props.videoCallState && props.videoCallState.currentConversation &&*/}
+          {/* <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }*/}
         <ConversationsHost />
 
       </div>

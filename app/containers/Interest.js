@@ -76,15 +76,15 @@ export class Interest extends Component {
           if (nextShoutsUrl && !isFetchingShouts) {
             dispatch(loadTagShouts(tag.name, {}, nextShoutsUrl));
           }
-        }}
+        } }
       >
         <Page
           stickyStartColumn
           startColumn={ [
-            tag && <Card className="Interest-main-card" block style={{ width: '100%' }}>
-              <TagPreview style={{ width: '100%' }} id={ tag.slug || tag.id } />
+            tag && <Card className="Interest-main-card" block style={ { width: '100%' } }>
+              <TagPreview style={ { width: '100%' } } id={ tag.slug || tag.id } />
             </Card>,
-          ]}
+          ] }
           endColumn={ [
             <RelatedTags key="related" tag={ tag } />,
             <SuggestedProfiles key="profiles" />,
@@ -102,7 +102,7 @@ export class Interest extends Component {
               }
               <Progress
                 animate={ isFetchingShouts }
-                label={ shouts.length === 0 ? 'Loading shouts…' : 'Loading more shouts…'} />
+                label={ shouts.length === 0 ? 'Loading shouts…' : 'Loading more shouts…' } />
             </div>
           }
         </Page>

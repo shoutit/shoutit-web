@@ -18,10 +18,10 @@ export class Heartbeat extends Component {
     return (
       <div>
         <Helmet title="Alive!" />
-        <div style={{ fontSize: 128, textAlign: 'center', padding: '4rem' }}>
+        <div style={ { fontSize: 128, textAlign: 'center', padding: '4rem' } }>
           ❤️
         </div>
-        <pre style={{ textAlign: 'center', margin: '0 auto', padding: '1rem', backgroundColor: 'white' }}>
+        <pre style={ { textAlign: 'center', margin: '0 auto', padding: '1rem', backgroundColor: 'white' } }>
           Shoutit { status.tag }
         </pre>
       </div>

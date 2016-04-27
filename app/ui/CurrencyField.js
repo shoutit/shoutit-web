@@ -26,9 +26,6 @@ export default class CurrencyField extends Component {
     }
   }
   getValue() {
-    return this.state.value;
-  }
-  getValue() {
     const { value } = this.state;
     if (isNaN(value)) {
       return '';

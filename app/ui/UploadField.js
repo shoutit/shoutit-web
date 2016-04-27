@@ -29,18 +29,17 @@ export function File({ upload, onDeleteClick }) {
   return (
     <span
       className="UploadField-file"
-      style={{ backgroundImage: `url("${url}")` }}>
+      style={ { backgroundImage: `url("${url}")` } }>
 
-      <div className="UploadField-file-percent" style={{ width: `${100 - percent}%` }} />
+      <div className="UploadField-file-percent" style={ { width: `${100 - percent}%` } } />
 
       { upload.error && <div className="UploadField-file-error" /> }
 
       <Tooltip placement="top" overlay="Click to delete">
         <div className="UploadField-file-trash" onClick={ () => onDeleteClick(upload) } >
-            <Icon name="trash" fill />
+          <Icon name="trash" fill />
         </div>
       </Tooltip>
-
 
     </span>
   );
@@ -220,17 +219,17 @@ export default class UploadField extends Component {
     const { uploads } = this.state;
 
     return (
-      <div className="UploadField" style={{ position: 'relative' }}>
-      <FormField block label={ this.isUploading() ? uploadingLabel : label } name={ name }>
-        <Dropzone accept="image/x-png, image/jpeg" disableClick onDrop={ this.upload } className="UploadField-dropzone" activeClassName="UploadField-dropzone active" ref="dropzone">
+      <div className="UploadField" style={ { position: 'relative' } }>
+        <FormField block label={ this.isUploading() ? uploadingLabel : label } name={ name }>
+          <Dropzone accept="image/x-png, image/jpeg" disableClick onDrop={ this.upload } className="UploadField-dropzone" activeClassName="UploadField-dropzone active" ref="dropzone">
             <div className="UploadField-instructions">
               Click on <Icon name="add" size="small" /> or drag files here
             </div>
 
             { uploads.map((upload, i) => <File key={ i } upload={ upload } onDeleteClick={ this.delete } />) }
             { uploads.length < maxFiles && <div className="UploadField-add" ref="dropzone" onClick={ () => this.refs.dropzone.open() }></div> }
-        </Dropzone>
-      </FormField>
+          </Dropzone>
+        </FormField>
       </div>
     );
   }

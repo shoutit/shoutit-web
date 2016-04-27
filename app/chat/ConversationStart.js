@@ -16,14 +16,14 @@ export default function ConversationStart({ conversation }) {
     <div className="ConversationStart">
       { conversation.type === 'chat' ?
         <div className="ConversationStart-chat">
-          <ProfileAvatar user={ user } size="large" style={{ marginBottom: '1rem' }} />
+          <ProfileAvatar user={ user } size="large" style={ { marginBottom: '1rem' } } />
           <p className="htmlAncillary">
             To start chatting, write { user.firstName } a message.
           </p>
         </div>
         :
         <div className="ConversationStart-shout">
-          {/*<ShoutPreview shout={ conversation.about } />*/}
+          {/* <ShoutPreview shout={ conversation.about } />*/}
           <p className="htmlAncillary">
             If you are interested in this, write { user.firstName } a message.
           </p>

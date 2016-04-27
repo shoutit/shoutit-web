@@ -1,6 +1,5 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import Icon from '../ui/Icon';
 import Button from '../ui/Button';
 import Tooltip from '../ui/Tooltip';
 import RequiresLogin from '../auth/RequiresLogin';
@@ -36,20 +35,20 @@ export class ShoutCallButton extends Component {
       label = 'Please wait…';
     }
     if (shout.mobile) {
-      label = <a href={`tel://${shout.mobile}`}>{ shout.mobile }</a>;
+      label = <a href={ `tel://${shout.mobile}` }>{ shout.mobile }</a>;
     }
 
     const button = (
       <RequiresLogin event="onClick" loginAction={ REVEAL_NUMBER }>
         <Button
           { ...this.props }
-          secondary
+          action="primary-alt"
           disabled={ shout.isCalling }
           size="small"
           onClick={ !shout.mobile && !shout.isCalling ? this.handleClick : null }
-          leftIcon = { <Icon fill name="phone" /> }
-          label={ label }
-        />
+          icon="phone">
+          { label }
+        </Button>
       </RequiresLogin>
     );
 

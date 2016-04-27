@@ -158,7 +158,7 @@ export default class FormField extends Component {
         },
         placeholder,
         disabled,
-        id: this._reactInternalInstance._rootNodeID,
+        id: props.name,
         className: 'FormField-input',
         onChange: e => this.handleChange(e),
         onFocus: e => this.handleFocus(e),
@@ -177,7 +177,7 @@ export default class FormField extends Component {
 
     return (
       <span className={ cssClass } style={ style }>
-        { label && <label htmlFor={this._reactInternalInstance._rootNodeID}>{ label }</label> }
+        { label && <label htmlFor={ props.name }>{ label }</label> }
         <Tooltip
           destroyTooltipOnHide
           white

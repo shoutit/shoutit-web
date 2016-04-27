@@ -22,7 +22,7 @@ function MessageAttachment({ attachment }) {
     );
   }
   if (location) {
-    content = <GoogleStaticMap center={ location } markers={[{ ...location }]} />;
+    content = <GoogleStaticMap center={ location } markers={ [{ ...location }] } />;
   }
   if (!content) {
     return <div className="MessageItem-attachment"></div>;
@@ -39,12 +39,13 @@ function MessageFooter({ message, readByProfiles = [] }) {
   const created = moment.unix(createdAt);
   return (
     <div className="MessageItem-footer">
-      {!isCreating && !createError &&
+      { !isCreating && !createError &&
         <span>
           { readByProfiles.length > 0 && <MessageReadByFlag profiles={ readByProfiles } /> }
         </span>
       }
-      {!isCreating && !createError && <span title={created.format('LLLL')}>
+      { !isCreating && !createError &&
+        <span title={ created.format('LLLL') }>
           { created.format('LT') }
         </span>
       }
@@ -84,10 +85,10 @@ export default function MessageItem({ message, readByProfiles = [] }) {
     <div className={ className }>
       <div className="MessageItem-wrapper">
         { hasAttachments &&
-            <div className="MessageItem-attachments">
-              { attachmentsContent }
-              { !text && <MessageFooter message={ message } /> }
-            </div>
+          <div className="MessageItem-attachments">
+            { attachmentsContent }
+            { !text && <MessageFooter message={ message } /> }
+          </div>
         }
         { text &&
           <div className="MessageItem-text">
@@ -101,7 +102,7 @@ export default function MessageItem({ message, readByProfiles = [] }) {
       </div>
 
       { !isCreating && createError &&
-        <div className="MessageItem-retry" title={createError.message}>
+        <div className="MessageItem-retry" title={ createError.message }>
           ⚠️ This message could not be sent
         </div>
       }

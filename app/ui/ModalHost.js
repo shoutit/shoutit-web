@@ -40,12 +40,12 @@ export class ModalHost extends Component {
   render() {
     const { modals, closeModal } = this.props;
     return (
-      <ReactCSSTransitionGroup transitionName="modal" transitionEnterTimeout={250} transitionLeaveTimeout={150}>
+      <ReactCSSTransitionGroup transitionName="modal" transitionEnterTimeout={ 250 } transitionLeaveTimeout={ 150 }>
         { modals.map((modal, i) => {
           const close = () => closeModal(modal);
           return (
             <div
-              key={i}
+              key={ i }
               onClick={ modal.props.rootClose ? close : null }
               className="ModalHost-wrapper"
               ref="wrapper"
@@ -55,7 +55,7 @@ export class ModalHost extends Component {
             );
         })
         }
-        </ReactCSSTransitionGroup>
+      </ReactCSSTransitionGroup>
     );
   }
 }

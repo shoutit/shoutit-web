@@ -25,29 +25,29 @@ export function TagActions({ tag, size = 'medium' }) {
   // };
 
   return (
-      <div className="TagActions">
-        <ul className="htmlNoList">
-          {/*<li>
+    <div className="TagActions">
+      <ul className="htmlNoList">
+        {/* <li>
+          <ListItem
+            size={ size }
+            disabled={ isUpdatingListening }
+            onClick={ onListenClick }
+            start= { <Icon size={ size } name="listen" active={ !tag.isListening } on={ tag.isListening } /> }
+          >
+            { tag.isListening ? `Stop listening to ${tag.name}` : `Listen to ${tag.name}` }
+          </ListItem>
+        </li>*/}
+        <li>
+          <Link to={ `/interest/${tag.slug || tag.name}` }>
             <ListItem
               size={ size }
-              disabled={ isUpdatingListening }
-              onClick={ onListenClick }
-              start= { <Icon size={ size } name="listen" active={ !tag.isListening } on={ tag.isListening } /> }
+              start={ <Icon active size={ size } name="tag" /> }
             >
-              { tag.isListening ? `Stop listening to ${tag.name}` : `Listen to ${tag.name}` }
+              View Shouts
             </ListItem>
-          </li>*/}
-          <li>
-            <Link to={`/interest/${tag.slug || tag.name}`}>
-              <ListItem
-                size={ size }
-                start= { <Icon active size={ size } name="tag" /> }
-              >
-                View Shouts
-              </ListItem>
-            </Link>
-          </li>
-        </ul>
+          </Link>
+        </li>
+      </ul>
     </div>
   );
 }

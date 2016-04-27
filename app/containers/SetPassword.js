@@ -91,12 +91,13 @@ export class SetPassword extends Component {
             />
 
             <Button
-              style={{ marginTop: '1rem' }}
-              primary
+              style={ { marginTop: '1rem' } }
+              action="primary"
               block
               disabled={ isSettingPassword }
-              label={ isSettingPassword ? 'Please wait…' : 'Continue' }
-              />
+            >
+              { isSettingPassword ? 'Please wait…' : 'Continue' }
+            </Button>
 
           </form>
         </div>
@@ -111,8 +112,8 @@ export class SetPassword extends Component {
           <p>
             Your password has been updated. Now you can login again!
           </p>
-          <div className="Frame-form" style={{ textAlign: 'center' }}>
-            <Button primary to="/login" label="To login" />
+          <div className="Frame-form" style={ { textAlign: 'center' } }>
+            <Button action="primary" to="/login">To login</Button>
           </div>
         </div>
       </Frame>

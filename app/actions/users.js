@@ -81,17 +81,20 @@ export function loadHomeShouts(endpoint) {
   };
 }
 
-export function loadUserShouts(searchParams, endpoint) {
+export function loadUserShouts(username, endpoint) {
   return {
     types: [
       actionTypes.LOAD_USER_SHOUTS_START,
       actionTypes.LOAD_USER_SHOUTS_SUCCESS,
       actionTypes.LOAD_USER_SHOUTS_FAILURE,
     ],
-    payload: { username: searchParams.user },
+    payload: { username },
     service: {
       name: 'shouts',
-      params: { searchParams, endpoint },
+      params: {
+        searchParams: { profile: username },
+        endpoint,
+      },
       schema: SHOUTS,
     },
   };

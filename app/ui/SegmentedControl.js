@@ -42,7 +42,7 @@ export default class SegmentedControl extends Component {
     const { options, name } = this.props;
     const { value } = this.state;
     const fields = options.map((option, i) => {
-      const id = `${this._reactInternalInstance._rootNodeID}.${i}`;
+      const id = `${name}.${i}`;
       return (
         <span key={ i } className="SegmentedControl-option">
           <input onChange={ this.handleChange } checked={ value === option.value } id={ id } name={ name } type="radio" value={ option.value } />
