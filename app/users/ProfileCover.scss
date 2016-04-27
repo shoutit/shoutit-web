@@ -12,7 +12,7 @@ $profile-cover-header-height: 128px;
   background: white;
   box-shadow: $box-shadow-depth-0;
   position: relative;
-  transition: all 0.24s;
+  // transition: all 0.24s;
   outline: 20000px solid rgba(0,0,0,0);
   canvas {
     cursor: grab;
