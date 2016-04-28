@@ -137,6 +137,9 @@ export class ShoutModal extends Component {
 
         { mode === 'update' &&
           <TextArea
+            autosize
+            rows={ 2 }
+            maxRows={ 10 }
             ref={ el => { this.textField = el; } }
             name="text"
             placeholder="Description"

@@ -1,7 +1,11 @@
 import React, { PropTypes, Component } from 'react';
 import FormField from './FormField';
+import TextareaAutosize from 'react-textarea-autosize';
 
 export default class TextArea extends Component {
+  static propTypes = {
+    autosize: PropTypes.bool,
+  }
   getValue() {
     return this.refs.field.getValue();
   }
@@ -15,10 +19,7 @@ export default class TextArea extends Component {
     this.refs.field.select();
   }
   render() {
-    return <FormField { ...this.props } field="textarea" ref="field" />;
+    const { autosize, ...props } = this.props;
+    return <FormField { ...props } field={ autosize ? TextareaAutosize : 'textarea' } ref="field" />;
   }
 }
-
-TextArea.propTypes = {
-  type: PropTypes.string,
-};
