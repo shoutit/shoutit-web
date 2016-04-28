@@ -32,10 +32,9 @@ const fetchData = (dispatch, state, params) => {
   const profile = dispatch(loadProfileDetailsIfNeeded({ username }, requiredDetails))
     .catch(err => dispatch(routeError(err)));
 
-  const shouts = dispatch(loadUserShouts(username));
+  const shouts = dispatch(loadUserShouts(username)).catch(() => {});
   return Promise.all([shouts, profile]);
 };
-
 
 export class Profile extends Component {
 
