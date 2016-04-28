@@ -173,7 +173,7 @@ export class Searchbar extends Component {
       isFetchingProfiles = profilesBySearch[profilesSearchSlug].isFetching;
     }
 
-    const locationLabel = formatLocation({ city: currentLocation.city, country: currentLocation.country }) || 'Anywhere';
+    const locationLabel = formatLocation({ city: currentLocation.city, state: currentLocation.state }) || 'Anywhere';
     const hasResults = foundTags.length > 0 || foundShouts.length > 0 || foundProfiles.length > 0;
     const isFetching = isFetchingShouts || isFetchingProfiles || isFetchingTags;
 
@@ -182,7 +182,6 @@ export class Searchbar extends Component {
         <Button
           type="button"
           dropdown
-          size="small"
           onClick={ e => this.handleLocationClick(e) }>
           { currentLocation && <CountryFlag size="small" code={ currentLocation.country } /> }
           { locationLabel }
