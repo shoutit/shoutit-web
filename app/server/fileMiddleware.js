@@ -1,6 +1,7 @@
 /* eslint no-console: 0 */
 import path from 'path';
 import fs from 'fs';
+import os from 'os';
 import last from 'lodash/array/last';
 
 import createMulter from './createMulter';
@@ -48,32 +49,28 @@ export function fileUploadMiddleware(req, res) {
     });
   };
 
-
   // upload from data image
 
-  // if (req.body && req.body.data) {
-  //   const filePath = path.join(tmpDir, `${filename}.jpg`);
-  //   const buffer = new Buffer(req.body.dataImage.replace(/^data:image\/\w+;base64,/, ''), 'base64');
-  //   fs.writeFile(filePath, buffer, err => {
-  //     if (err) {
-  //       console.error('Cannot write file %s from buffer', filePath, err);
-  //       res.status(500).send('Cannot use this content');
-  //       return;
-  //     }
-  //     uploadToS3(filePath);
-  //   });
-  //   return;
-  // }
+  if (req.body && req.body.image) {
+    const filePath = path.join(os.tmpdir(), `${filename}.jpg`);
+    const buffer = new Buffer(req.body.image.replace(/^data:image\/\w+;base64,/, ''), 'base64');
+    fs.writeFile(filePath, buffer, err => {
+      if (err) {
+        console.error('Cannot write file %s from buffer', filePath, err);
+        res.status(500).send('Cannot use this content');
+        return;
+      }
+      uploadToS3(filePath);
+    });
+    return;
+  }
 
-  // Upload from form field
-  //
-  //
-  console.log(filename, fieldname);
+  // upload data from form
 
   createMulter(filename, fieldname)(req, res, err => {
 
     if (err) {
-      console.log(err);
+      console.error(err);
       res.status(400).send('Cannot upload this file.');
       return;
     }
@@ -107,6 +104,7 @@ export function fileDeleteMiddleware(req, res) {
     res.status(400).send('A filename is required.');
     return;
   }
+
   if (last(name.split('_') !== req.session.user.id)) {
     res.status(403).send('Access denied.');
   }

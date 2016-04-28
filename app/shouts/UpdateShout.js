@@ -84,10 +84,10 @@ export class UpdateShout extends Component {
           onUploadStart={ () => this.setState({ isUploading: true }) }
           onUploadEnd={ () => this.setState({ isUploading: false }) }
           actions={ [
-            <Button type="button" onClick={ onCancel } disabled={ shout.isUpdating || shout.isDeleting }>
+            <Button key="cancel" type="button" onClick={ onCancel } disabled={ shout.isUpdating || shout.isDeleting }>
               Cancel
             </Button>,
-            <Button action="primary" style={ { minWidth: '10rem' } } disabled={ shout.isUpdating || isUploading || shout.isDeleting }>
+            <Button key="submit" action="primary" style={ { minWidth: '10rem' } } disabled={ shout.isUpdating || isUploading || shout.isDeleting }>
               { submitLabel }
             </Button>,
           ] }

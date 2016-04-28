@@ -137,6 +137,9 @@ export class ShoutModal extends Component {
 
         { mode === 'update' &&
           <TextArea
+            autosize
+            rows={ 2 }
+            maxRows={ 10 }
             ref={ el => { this.textField = el; } }
             name="text"
             placeholder="Description"
@@ -210,7 +213,7 @@ export class ShoutModal extends Component {
           type="text"
           name="mobile"
           label="Let people contact you"
-          placeholder="Enter a mobile number"
+          placeholder="Enter your mobile number"
           disabled={ disabled }
           block
           defaultValue={ shout.mobile }

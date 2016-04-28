@@ -29,7 +29,6 @@ const noticeError = (e, params) => {
 
 export default function renderMiddleware(req, res, next) {
   const fetchr = new Fetchr({ xhrPath: '/fetchr', req });
-  // const flux = new Flux(fetchr);
 
   log('Reading current session...');
   fetchr.read('session').end((err, user) => {

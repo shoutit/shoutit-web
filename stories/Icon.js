@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import Icon from '../Icon';
-import icons from '../../../assets/icons';
+import Icon from '../app/ui/Icon';
+import icons from '../assets/icons';
 
 const renderIcons = props => (
   <div style={ { margin: '1rem' } }>
