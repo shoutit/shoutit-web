@@ -1,11 +1,11 @@
 import React, { PropTypes, Component } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { connect } from 'react-redux';
-import last from 'lodash/array/last';
 
-import { getVariation } from '../utils/APIUtils';
 import request from '../utils/request';
+import { getVariation } from '../utils/APIUtils';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
+import { getFilename } from '../utils/StringUtils';
 
 import { updateProfile } from '../actions/users';
 
@@ -98,7 +98,7 @@ export class ProfileCover extends Component {
     this.setState({ isLoading: true });
     request
       .delete('/api/file/user')
-      .query({ name: last(profile.cover.split('/')) })
+      .query({ name: getFilename(profile.cover) })
       .end((err, res) => {
         if (err || !res.ok) {
           console.error(err); // eslint-disable-line
