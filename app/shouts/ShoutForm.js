@@ -213,7 +213,7 @@ export class ShoutModal extends Component {
           type="text"
           name="mobile"
           label="Let people contact you"
-          placeholder="Enter a mobile number"
+          placeholder="Enter your mobile number"
           disabled={ disabled }
           block
           defaultValue={ shout.mobile }
