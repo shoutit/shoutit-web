@@ -1,0 +1,12 @@
+.UploadButton {
+  display: inline-block;
+  vertical-align: middle;
+  input {
+    position: absolute;
+    z-index: -1;
+    overflow: hidden;
+    width: .1px;
+    height: .1px;
+    opacity: 0;
+  }
+}
