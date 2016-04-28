@@ -34,11 +34,11 @@ export default class Gallery extends Component {
   renderItem(item, i) {
     if (item.type === 'image') {
       return (
-        <img role="presentation" key={ `image-${i}` } src={ getVariation(item.url, 'large') } />
+        <img role="presentation" key={ `image-${item.url}` } src={ getVariation(item.url, 'large') } />
       );
     } else if (item.type === 'video') {
       return (
-        <span key={ `video-${i}` } className="Gallery-video">
+        <span key={ `video-${item.url}` } className="Gallery-video">
           <video src={ item.url } controls />
         </span>
       );
