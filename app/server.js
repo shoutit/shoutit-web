@@ -30,8 +30,8 @@ const publicDir = path.resolve(__dirname,
 export function start(app) {
 
   app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined'));
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true })); // required proxying pusher/auth
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' })); // required proxying pusher/auth
   app.use(compression());
   // app.use(csurf({ cookie: true }));
 
