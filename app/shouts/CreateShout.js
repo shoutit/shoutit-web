@@ -122,10 +122,10 @@ export class CreateShout extends Component {
                 onUploadStart={ () => this.setState({ isUploading: true }) }
                 onUploadEnd={ () => this.setState({ isUploading: false }) }
                 actions={ [
-                  <Button type="button" onClick={ this.handleCancelClick } disabled={ shout.isCreating }>
+                  <Button key="cancel" type="button" onClick={ this.handleCancelClick } disabled={ shout.isCreating }>
                     Cancel
                   </Button>,
-                  <Button action="primary" style={ { minWidth: '10rem' } } disabled={ shout.isCreating || isUploading }>
+                  <Button key="submit" action="primary" style={ { minWidth: '10rem' } } disabled={ shout.isCreating || isUploading }>
                     { submitLabel }
                   </Button>,
                 ] }
