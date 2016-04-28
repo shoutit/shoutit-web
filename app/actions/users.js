@@ -66,6 +66,23 @@ export function setUserLocation(location) {
   };
 }
 
+export function updateProfile(profile) {
+  return {
+    types: [
+      actionTypes.UPDATE_PROFILE_START,
+      actionTypes.UPDATE_PROFILE_SUCCESS,
+      actionTypes.UPDATE_PROFILE_FAILURE,
+    ],
+    payload: { profile },
+    service: {
+      name: 'profile',
+      method: 'update',
+      body: profile,
+      schema: PROFILE,
+    },
+  };
+}
+
 export function loadHomeShouts(endpoint) {
   return {
     types: [

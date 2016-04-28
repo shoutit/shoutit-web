@@ -7,7 +7,17 @@ export default combineReducers({
   categories: entity({ name: 'categories' }),
   currencies: entity({ name: 'currencies' }),
   tags: entity({ name: 'tags' }),
-  users: entity({ name: 'users' }),
+
+  users: entity({
+    name: 'users',
+    mapActionToId: action => action.payload.profile.id,
+    updateTypes: [
+      actionTypes.UPDATE_PROFILE_START,
+      actionTypes.UPDATE_PROFILE_SUCCESS,
+      actionTypes.UPDATE_PROFILE_FAILURE,
+    ],
+  }),
+
   discoverItems: entity({ name: 'discoverItems' }),
 
   shouts: (state, action) => {
