@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import Button from '../Button';
+import Button from '../app/ui/Button';
 
 const buttons = (props) => (
   <div style={ { padding: '1rem', backgroundColor: 'white' } }>
@@ -29,6 +29,6 @@ const buttons = (props) => (
 );
 
 storiesOf('ui.Button', module)
-  .add('normal state', () => buttons())
-  .add('small icons', () => buttons({ size: 'small' }))
+  .add('default size', () => buttons())
+  .add('small size', () => buttons({ size: 'small' }))
   .add('disabled', () => buttons({ disabled: true }));

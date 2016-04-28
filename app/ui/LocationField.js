@@ -87,6 +87,10 @@ export class LocationField extends Component {
     this.setState({ readOnly: true, hasFocus: true, showOverlay: true });
   }
   handleBlur() {
+    let timeout = 0;
+    if (this.state.previousPredictions || this.props.predictions) {
+      timeout = 300;
+    }
     this.timeoutId = setTimeout(() => {
       let state = {
         showOverlay: false,
@@ -103,7 +107,7 @@ export class LocationField extends Component {
       if (lastInput) {
         dispatch(resetPlacePredictionsLastInput());
       }
-    }, 300);
+    }, timeout);
   }
   handleChange(value) {
     let state = {

@@ -1,8 +1,9 @@
-import last from 'lodash/array/last';
 
 import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
 import * as AWS from '../utils/AWS';
+import { getFilename } from '../utils/StringUtils';
+
 import { uploadResources } from '../config';
 
 export default {
@@ -64,7 +65,7 @@ export default {
 
     if (shout.images && shout.images.length > 0) {
       const { bucket } = uploadResources.shout;
-      AWS.del({ keys: shout.images.map(url => last(url.split('/'))), bucket });
+      AWS.del({ keys: shout.images.map(url => getFilename(url)), bucket });
     }
 
   },

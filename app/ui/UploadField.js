@@ -2,7 +2,6 @@ import React, { PropTypes, Component } from 'react';
 import Dropzone from 'react-dropzone';
 import debug from 'debug';
 import without from 'lodash/array/without';
-import last from 'lodash/array/last';
 import union from 'lodash/array/union';
 
 import Tooltip from '../ui/Tooltip';
@@ -11,6 +10,7 @@ import Icon from '../ui/Icon';
 import request from '../utils/request';
 import { uploadResources } from '../config';
 import { getVariation } from '../utils/APIUtils';
+import { getFilename } from '../utils/StringUtils';
 
 const log = debug('shoutit:ui:UploadField');
 
@@ -128,7 +128,7 @@ export default class UploadField extends Component {
       return;
     }
 
-    const name = last(upload.url.split('/'));
+    const name = getFilename(upload.url);
 
     if (initialFileUrls.includes(upload.url)) {
       log('Setting %s for deletion', name);
@@ -188,7 +188,7 @@ export default class UploadField extends Component {
             delete uploads[index].request;
             uploads[index].ok = true;
             uploads[index].url = res.text;
-            uploads[index].fileName = last(res.text.split('/'));
+            uploads[index].fileName = getFilename(res.text);
           }
 
           log('Finished uploading %s of %s', i + 1, files.length, this.state.uploads[index].fileName);

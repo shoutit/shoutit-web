@@ -11,16 +11,18 @@ export default class Button extends Component {
 
   static propTypes = {
     children: PropTypes.node.isRequired,
-    action: PropTypes.oneOf(['default', 'primary', 'primary-alt', 'destructive']),
+    action: PropTypes.oneOf(['default', 'primary', 'primary-alt', 'destructive', 'inverted']),
     size: PropTypes.oneOf(['small', 'medium']),
     icon: PropTypes.string,
     block: PropTypes.bool,
     className: PropTypes.string,
+    element: PropTypes.string,
   }
 
   static defaultProps = {
     action: 'default',
     block: false,
+    element: 'button',
   }
 
   focus() {
@@ -63,18 +65,16 @@ export default class Button extends Component {
       </span>
     );
 
+    let { element } = this.props;
     if (attributes.to) {
-      return (
-        <Link {...attributes} className={ className } ref="button">
-          { content }
-        </Link>
-      );
+      element = Link;
     }
-    return (
-      <button {...attributes} className={ className } ref="button">
-        { content }
-      </button>
-    );
+    return React.createElement(element, {
+      ...attributes,
+      className,
+      children: content,
+      ref: 'button',
+    });
   }
 
 }
