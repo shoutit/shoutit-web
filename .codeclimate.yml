@@ -6,6 +6,7 @@ engines:
     - app/reducers
     - app/actions
     - app/services
+    - stories
     config:
       languages:
       - javascript
