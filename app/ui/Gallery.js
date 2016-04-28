@@ -24,6 +24,13 @@ export default class Gallery extends Component {
     selectedIndex: 0,
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.images.length !== nextProps.images.length ||
+      this.props.videos.length !== nextProps.videos.length) {
+      this.setState({ selectedIndex: 0 });
+    }
+  }
+
   renderItem(item, i) {
     if (item.type === 'image') {
       return (
