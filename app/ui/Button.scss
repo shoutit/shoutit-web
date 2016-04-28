@@ -86,7 +86,6 @@
   }
   &:disabled,
   &.disabled {
-    color: rgba(white, .9);
     border-color: transparent;
     background-color: lighten($si-green, 20);
     background-image: none;
@@ -108,7 +107,6 @@
   }
   &:disabled,
   &.disabled {
-    color: rgba(white, .9);
     border-color: transparent;
     background-color: lighten($shoutit-blue, 20);
     background-image: none;
@@ -146,7 +144,6 @@
   }
   &:disabled,
   &.disabled {
-    color: rgba(white, .9);
     border-color: transparent;
     background-color: lighten($shoutit-red, 20);
     background-image: none;
@@ -176,10 +173,6 @@ $facebook-base-color: #395185;
     .Button-label {
       color: white;
     }
-  }
-  &:disabled,
-  &.disabled {
-    color: rgba(white, .9);
   }
   .Button-wrapper {
     justify-content: flex-start;
