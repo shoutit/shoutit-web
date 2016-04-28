@@ -16,7 +16,7 @@ export default class ProfileAvatar extends Component {
     linkToProfilePage: PropTypes.bool,
     placeholder: PropTypes.bool,
     mask: PropTypes.bool,
-    size: PropTypes.oneOf(['medium', 'small', 'large']),
+    size: PropTypes.oneOf(['medium', 'small', 'large', 'huge']),
   }
 
   getImageNode() {
