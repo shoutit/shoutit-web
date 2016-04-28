@@ -1,30 +1,22 @@
-// import React from 'react';
-// import TestUtils from 'react-addons-test-utils';
-// import ProfileCover from './ProfileCover';
-//
-// import { expect } from 'chai';
-//
-// describe('ProfileCover', () => {
-//   it('should render correctly', () => {
-//     const shallowRenderer = TestUtils.createRenderer();
-//     shallowRenderer.render(<ProfileCover profile={ { cover: null } } />);
-//
-//     const output = shallowRenderer.getRenderOutput();
-//     expect(output.props.className).to.include('ProfileCover');
-//   });
-//
-//   it('should render the pattern image when no cover is available', () => {
-//     const shallowRenderer = TestUtils.createRenderer();
-//     shallowRenderer.render(<ProfileCover profile={ { cover: null } } />);
-//     const output = shallowRenderer.getRenderOutput();
-//     // expect(output.props.style.backgroundImage).to.eql('url("http://localhost:3000/images/pattern@2x.png")');
-//     expect(output.props.className).to.include('ProfileCover');
-//   });
-//
-//   it('should include a large version of the profile\'s cover', () => {
-//     const shallowRenderer = TestUtils.createRenderer();
-//     shallowRenderer.render(<ProfileCover profile={ { cover: 'foo.jpg' } } />);
-//     const output = shallowRenderer.getRenderOutput();
-//     expect(output.props.style.backgroundImage).to.eql('url("foo_large.jpg")');
-//   });
-// });
+import React from 'react';
+import { ProfileCover } from './ProfileCover';
+import sd from 'skin-deep';
+
+import { expect } from 'chai';
+
+describe('ProfileCover', () => {
+
+  it('should render correctly', () => {
+    const tree = sd.shallowRender(<ProfileCover profile={ { cover: null } } />);
+    expect(tree.props.className).to.include('ProfileCover');
+    const cover = tree.findNode('.ProfileCover-image');
+    expect(cover.props.style.backgroundImage).to.eql('url("http://localhost:3000/images/pattern@2x.png")');
+  });
+
+  it('should display the large variation of the profile\'s cover', () => {
+    const tree = sd.shallowRender(<ProfileCover profile={ { cover: 'foo.jpg' } } />);
+    const cover = tree.findNode('.ProfileCover-image');
+    expect(cover.props.style.backgroundImage).to.eql('url("foo_large.jpg")');
+  });
+
+});
