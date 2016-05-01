@@ -14,6 +14,7 @@ general:
 
 dependencies:
   pre:
+    - git describe --tags > CURRENT_TAG
     - npm prune
   override:
     - npm install

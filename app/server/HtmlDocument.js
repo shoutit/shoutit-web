@@ -3,6 +3,7 @@
 import React, { PropTypes } from 'react';
 import serialize from 'serialize-javascript';
 import newrelic, { newrelicEnabled } from './newrelic';
+import uservoice from './uservoice';
 import Helmet from '../utils/Helmet';
 
 import * as config from '../config';
@@ -49,6 +50,8 @@ export default function HtmlDocument({
 
         <script src="https://media.twiliocdn.com/sdk/js/common/v0.1/twilio-common.min.js" />
         <script src="https://media.twiliocdn.com/sdk/js/conversations/v0.13/twilio-conversations.min.js" />
+
+        <script dangerouslySetInnerHTML={ { __html: uservoice } } />
 
         <script src={ `${config.publicUrl}${chunkNames.main}` } />
 

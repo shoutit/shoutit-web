@@ -1,4 +1,5 @@
-import git from 'git-rev';
+import fs from 'fs';
+import path from 'path';
 let cache;
 export default {
   name: 'server',
@@ -7,10 +8,14 @@ export default {
       callback(null, cache);
       return;
     }
-    git.tag(tag => {
-      const status = { tag };
-      callback(null, status);
-      cache = status;
+    fs.readFile(path.resolve(__dirname, '../../CURRENT_TAG'), 'utf8', (err, data) => {
+      if (err) {
+        console.error(err); // eslint-disable-line
+      }
+      cache = {
+        currentTag: data,
+      };
+      callback(null, cache);
     });
   },
 };
