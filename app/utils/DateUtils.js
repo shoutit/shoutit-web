@@ -24,6 +24,6 @@ export function formatCreatedAt(m, now = moment()) {
   return m.format('l');
 }
 
-export function getUnixTime() {
-  return Math.floor(Date.now() / 1000);
+export function getUnixTime(date = Date.now()) {
+  return Math.floor(date / 1000);
 }
