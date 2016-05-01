@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
 import { expect } from 'chai';
-import { getVariation } from './APIUtils';
+import { getVariation, getErrorLocations, getErrorsByLocation } from './APIUtils';
 
 describe('APIUtils', () => {
 
@@ -22,4 +22,43 @@ describe('APIUtils', () => {
       expect(getVariation(url)).to.equal('http://example.com/test_image_medium');
     });
   });
+
+  describe('getErrorLocations', () => {
+    it('should return an empty array if the error has no `errors` key', () => {
+      expect(getErrorLocations({ foo: 'bar ' })).to.eql([]);
+    });
+    it('should return an array of unique error locations', () => {
+      const error = {
+        errors: [
+          { location: 'foo' },
+          { location: 'bar' },
+          { location: 'foo' },
+        ],
+      };
+      expect(getErrorLocations(error)).to.eql(['foo', 'bar']);
+    });
+  });
+
+  describe('getErrorsByLocation', () => {
+    it('should return undefined if the error has no `errors` key', () => {
+      expect(getErrorsByLocation({ foo: 'bar ' }, 'foo')).to.be.undefined;
+    });
+    it('should return all the errors for the given location', () => {
+      const error = {
+        errors: [
+          { location: 'foo', message: 'abc' },
+          { location: 'bar', message: 'gyp' },
+          { location: 'foo', message: 'xyz' },
+        ],
+      };
+      expect(getErrorsByLocation(error, 'foo')).to.be.eql([
+        { location: 'foo', message: 'abc' },
+        { location: 'foo', message: 'xyz' },
+      ]);
+      expect(getErrorsByLocation(error, 'bar')).to.be.eql([
+        { location: 'bar', message: 'gyp' },
+      ]);
+    });
+  });
+
 });
