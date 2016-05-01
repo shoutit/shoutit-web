@@ -1,4 +1,4 @@
-
+/* eslint no-console: 0 */
 import request from '../utils/request';
 import { createLocationSlug } from '../utils/LocationUtils';
 import { parseApiError } from '../utils/APIUtils';
@@ -24,6 +24,13 @@ export default {
           return callback(parseApiError(err));
         }
         const location = res.body;
+        if (location.city.match('amsterdam')) {
+          console.warn('Location is Amsterdam!');
+          console.warn('req.connection.remoteAddress', req.connection.remoteAddress);
+          console.warn('req.headers["x-forwarded-for"]', req.headers['x-forwarded-for']);
+          console.warn('ip address', ip);
+          console.warn('sent headers', headers);
+        }
         location.slug = createLocationSlug(location);
         return callback(null, { location });
       });
