@@ -22,7 +22,7 @@ export class Heartbeat extends Component {
           ❤️
         </div>
         <pre style={ { textAlign: 'center', margin: '0 auto', padding: '1rem', backgroundColor: 'white' } }>
-          Shoutit { status.tag }
+          Shoutit { status.currentTag }
         </pre>
       </div>
     );

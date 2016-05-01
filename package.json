@@ -46,7 +46,6 @@
     "express-domain-middleware": "0.1.0",
     "express-session": "1.13.0",
     "fetchr": "0.5.25",
-    "git-rev": "0.2.1",
     "gm": "1.22.0",
     "history": "1.17.0",
     "humps": "1.1.0",

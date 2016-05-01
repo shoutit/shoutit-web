@@ -5598,11 +5598,6 @@
         }
       }
     },
-    "git-rev": {
-      "version": "0.2.1",
-      "from": "git-rev@0.2.1",
-      "resolved": "https://registry.npmjs.org/git-rev/-/git-rev-0.2.1.tgz"
-    },
     "gm": {
       "version": "1.22.0",
       "from": "gm@1.22.0",
