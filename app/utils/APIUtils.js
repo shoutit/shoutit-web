@@ -11,20 +11,6 @@ export function getVariation(path, variation = 'medium') {
   return path.replace(pathRE, `$1_${variation}$2`);
 }
 
-export function getErrorSummary(err) {
-  const summary = [];
-  summary.push('');
-  summary.push(`Message:     ${err.message}`);
-  summary.push(`Time:        ${(new Date()).toISOString()}`);
-  summary.push(`Status code: ${err.statusCode}`);
-  if (err.details && err.details.error) {
-    const details = err.details.error;
-    summary.push(`Request ID:  ${details.request_id}`);
-    summary.push(`${details.developer_message}`);
-  }
-  return summary.join('\n');
-}
-
 export function parseApiError(err, info) {
   errorParserLog('Parsing API %s error', err.message, info || 'No additional info provided');
   let parsedError = err;
