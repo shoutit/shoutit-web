@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import trim from 'lodash/string/trim';
 
 import TextareaAutosize from 'react-textarea-autosize';
 
@@ -9,7 +10,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { saveDraft } from '../actions/forms';
 import { replyToConversation, replyToShout, notifyTypingUser, chatWithProfile, closeConversation, openConversation } from '../actions/chat';
 import { ENTER } from '../utils/keycodes';
-import { trimWhitespaces } from '../utils/StringUtils';
+
 
 if (process.env.BROWSER) {
   require('./ConversationReplyForm.scss');
@@ -68,7 +69,7 @@ export class ConversationReplyForm extends Component {
 
   submit() {
     const { disabled, conversation, dispatch, loggedUser, name } = this.props;
-    const text = trimWhitespaces(this.textarea.value);
+    const text = trim(this.textarea.value);
     if (disabled || !text) {
       return;
     }

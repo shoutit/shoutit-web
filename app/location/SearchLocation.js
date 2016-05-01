@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import trim from 'lodash/string/trim';
 import throttle from 'lodash/function/throttle';
-import { trimWhitespaces } from '../utils/StringUtils';
 import { geocodePlace } from '../utils/LocationUtils';
 import { loadPlacePredictions } from '../actions/location';
 
@@ -36,7 +36,7 @@ export class SearchLocation extends Component {
   };
 
   handleChange() {
-    const input = trimWhitespaces(this.refs.input.value).toLowerCase();
+    const input = trim(this.refs.input.value).toLowerCase();
     this.setState({ input });
     if (input.length < 2) {
       return;

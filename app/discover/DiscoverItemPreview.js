@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from '../utils/PropTypes';
+import React, { PropTypes } from 'react';
 
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 

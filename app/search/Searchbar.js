@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import trim from 'lodash/string/trim';
 import throttle from 'lodash/function/throttle';
 import stringify from 'json-stable-stringify';
 
@@ -10,7 +11,6 @@ import { setUserLocation } from '../actions/users';
 import { setCurrentLocation } from '../actions/location';
 
 import { formatLocation } from '../utils/LocationUtils';
-import { trimWhitespaces } from '../utils/StringUtils';
 import SearchbarResults from './SearchbarResults';
 
 import Overlay from '../ui/Overlay';
@@ -67,7 +67,7 @@ export class Searchbar extends Component {
 
   submit(e) {
     e.preventDefault();
-    const search = trimWhitespaces(this.refs.search.value).toLowerCase();
+    const search = trim(this.refs.search.value).toLowerCase();
     if (search) {
       this.setState({
         showOverlay: false,
@@ -79,7 +79,7 @@ export class Searchbar extends Component {
 
   handleChange() {
     const { dispatch, currentLocation } = this.props;
-    const search = trimWhitespaces(this.refs.search.value);
+    const search = trim(this.refs.search.value);
     if (search.length < 2) {
       this.setState({
         shoutsSearchSlug: false,
