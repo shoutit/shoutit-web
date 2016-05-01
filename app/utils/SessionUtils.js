@@ -1,9 +1,5 @@
 /* eslint no-param-reassign: 0, no-console: 0 */
-/**
- * Augment an express request object with session data
- * @param  {Object} req
- * @param  {Object} sessionData The object coming from a API access token request
- */
+
 export function createRequestSession(req, sessionData) {
   if (!req.session) {
     console.error('Error: req.session is not available - is redis running?');

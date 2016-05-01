@@ -9,23 +9,31 @@ export function createLocationSlug({ country = 'no-country', state = 'no-state',
 }
 
 export function parseGeocoderResult(result) {
-  const location = {
-    latitude: result.geometry.location.lat,
-    longitude: result.geometry.location.lng,
+  let location = {
+    latitude: null,
+    longitude: null,
     country: null,
     state: null,
     city: null,
   };
-  result.addressComponents.forEach(address => {
-    if (address.types.indexOf('country') > -1) {
-      location.country = address.shortName;
-    } else if (address.types.indexOf('locality') > -1) {
-      location.city = address.shortName;
-    } else if (address.types.indexOf('administrative_area_level_1') > -1) {
-      location.state = address.shortName;
-    }
-  });
-
+  if (result.geometry && result.geometry.location) {
+    location = {
+      ...location,
+      latitude: result.geometry.location.lat,
+      longitude: result.geometry.location.lng,
+    };
+  }
+  if (result.addressComponents) {
+    result.addressComponents.forEach(address => {
+      if (address.types.indexOf('country') > -1) {
+        location.country = address.shortName;
+      } else if (address.types.indexOf('locality') > -1) {
+        location.city = address.shortName;
+      } else if (address.types.indexOf('administrative_area_level_1') > -1) {
+        location.state = address.shortName;
+      }
+    });
+  }
   return location;
 }
 
