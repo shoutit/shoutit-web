@@ -56,8 +56,9 @@ export class Application extends React.Component {
     const { dispatch, currentLocation, loggedUser } = this.props;
 
     // Update suggestions if location change
+
     if (currentLocation.slug !== nextProps.currentLocation.slug) {
-      dispatch(loadSuggestions(currentLocation));
+      dispatch(loadSuggestions(nextProps.currentLocation));
     }
     if (!nextProps.loggedUser && loggedUser) {
       // Fetch application data again when logged user changed (e.g. has been logged out)
