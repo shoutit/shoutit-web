@@ -46,8 +46,7 @@ export class LocationField extends Component {
     };
 
     if (props.currentLocation) {
-      const { city, country } = props.currentLocation;
-      this.state.value = formatLocation({ city, country });
+      this.state.value = formatLocation(props.currentLocation);
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -59,10 +58,9 @@ export class LocationField extends Component {
       };
     }
     if (nextProps.currentLocation.slug !== this.props.currentLocation.slug) {
-      const { city, country } = nextProps.currentLocation;
       state = {
         ...state,
-        value: formatLocation({ city, country }),
+        value: formatLocation(nextProps.currentLocation),
       };
     }
     if (state) {
