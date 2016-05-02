@@ -16,6 +16,10 @@
     border-bottom-right-radius: 0;
     padding-left: .2rem;
     padding-right: .2rem;
+    .Button-wrapper {
+      justify-content: flex-start;
+      margin-left: .2rem;
+    }
     .Button-label {
       font-size: 0.75rem;
       vertical-align: middle;
