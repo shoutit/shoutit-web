@@ -8,7 +8,7 @@ import geolocationMiddleware from './geolocationMiddleware';
 
 const mockLocation = { country: 'IT', state: 'Lazio', city: 'Rome', slug: 'it_lazio_rome' };
 
-describe('geolocationMiddleware', () => {
+describe('server/geolocationMiddleware', () => {
   it('should first use the geolocation of the logged profile', () => {
     const req = {
       session: { user: { location: mockLocation } },
