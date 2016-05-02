@@ -7,8 +7,7 @@ import stringify from 'json-stable-stringify';
 
 import { searchShouts, searchTags, searchProfiles } from '../actions/search';
 import { openModal, closeModal } from '../actions/ui';
-import { updateProfileLocation } from '../actions/users';
-import { setCurrentLocation } from '../actions/location';
+import { updateCurrentLocation } from '../actions/location';
 
 import { formatLocation } from '../utils/LocationUtils';
 import SearchbarResults from './SearchbarResults';
@@ -38,7 +37,6 @@ export class Searchbar extends Component {
     foundProfiles: PropTypes.array,
     profilesBySearch: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
-    isLoggedIn: PropTypes.bool,
     error: PropTypes.object,
   };
 
@@ -118,16 +116,13 @@ export class Searchbar extends Component {
   handleLocationClick(e) {
     e.preventDefault();
     e.target.blur();
-    const { dispatch, isLoggedIn } = this.props;
+    const { dispatch } = this.props;
     const modal = (
       <Modal title="Set your location" name="search-location">
         <SearchLocation
           onLocationSelect={ location => {
             dispatch(closeModal('search-location'));
-            dispatch(setCurrentLocation(location));
-            if (isLoggedIn) {
-              dispatch(updateProfileLocation(location));
-            }
+            dispatch(updateCurrentLocation(location));
           } }
         />
       </Modal>
@@ -245,7 +240,6 @@ export class Searchbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: !!state.session.user,
   currentLocation: state.currentLocation,
 
   shoutsBySearch: state.paginated.shoutsBySearch,

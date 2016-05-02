@@ -24,8 +24,7 @@ import { denormalize } from '../schemas';
 import SearchLocation from '../location/SearchLocation';
 
 import { openModal, closeModal } from '../actions/ui';
-import { updateProfileLocation } from '../actions/users';
-import { setCurrentLocation } from '../actions/location';
+import { updateCurrentLocation } from '../actions/location';
 import { routeError } from '../actions/server';
 
 if (process.env.BROWSER) {
@@ -86,7 +85,6 @@ export class Discover extends Component {
     firstRender: PropTypes.bool,
     isFetching: PropTypes.bool,
     isFetchingShouts: PropTypes.bool,
-    loggedUser: PropTypes.object,
     nextShoutsUrl: PropTypes.string,
     shouts: PropTypes.array,
     shoutsCount: PropTypes.number,
@@ -114,17 +112,14 @@ export class Discover extends Component {
   showLocationModal(e) {
     e.preventDefault();
     e.target.blur();
-    const { dispatch, loggedUser } = this.props;
+    const { dispatch } = this.props;
     const modal = (
       <Modal title="Change location" name="search-location">
         <SearchLocation
           onLocationSelect={ location => {
             dispatch(push(getDiscoverLink(location.country)));
             dispatch(closeModal('search-location'));
-            dispatch(setCurrentLocation(location));
-            if (loggedUser) {
-              dispatch(updateProfileLocation(location));
-            }
+            dispatch(updateCurrentLocation(location));
           } }
         />
       </Modal>

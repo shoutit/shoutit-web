@@ -6,39 +6,20 @@ import trim from 'lodash/string/trim';
 import * as actionTypes from './actionTypes';
 import { SUGGESTIONS } from '../schemas';
 
-export function loadCurrentLocation() {
-  return {
-    types: [
-      actionTypes.LOAD_CURRENT_LOCATION_START,
-      actionTypes.LOAD_CURRENT_LOCATION_SUCCESS,
-      actionTypes.LOAD_CURRENT_LOCATION_FAILURE,
-    ],
-    service: {
-      name: 'location',
-      params: { latlng: '0,0' },
-    },
-  };
-}
-
-export function loadLocationByLatLng(latlng) {
-  return {
-    types: [
-      actionTypes.LOAD_LOCATION_START,
-      actionTypes.LOAD_LOCATION_SUCCESS,
-      actionTypes.LOAD_LOCATION_FAILURE,
-    ],
-    service: {
-      name: 'location',
-      params: { latlng },
-    },
-  };
-}
-
-export function setCurrentLocation(location) {
+export function updateCurrentLocation(location) {
   Cookies.set('location', location, { expires: 365 });
   return {
-    type: actionTypes.SET_CURRENT_LOCATION,
+    types: [
+      actionTypes.UPDATE_CURRENT_LOCATION_START,
+      actionTypes.UPDATE_CURRENT_LOCATION_SUCCESS,
+      actionTypes.UPDATE_CURRENT_LOCATION_FAILURE,
+    ],
     payload: { location },
+    service: {
+      method: 'update',
+      name: 'location',
+      body: { location },
+    },
   };
 }
 
