@@ -10,7 +10,10 @@ export default {
     if (req.cookies.location) {
       try {
         const location = JSON.parse(req.cookies.location);
-        callback(null, { location });
+        if (location.country && location.state && location.city) {
+          callback(null, { location });
+          return;
+        }
       } catch (e) {
         console.error('Cannot parse location from cookie', req.cookies.location, e);
       }
