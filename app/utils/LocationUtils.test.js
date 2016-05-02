@@ -33,10 +33,10 @@ describe('LocationUtils', () => {
   });
 
   describe('parseGeocoderResult', () => {
-    it('should include latitude and longitude', () => {
-      const result = { geometry: { location: { lat: 1, lng: 2 } } };
-      expect(LocationUtils.parseGeocoderResult(result)).to.have.property('latitude', 1);
-      expect(LocationUtils.parseGeocoderResult(result)).to.have.property('longitude', 2);
+    it('should include rounded latitude and longitude', () => {
+      const result = { geometry: { location: { lat: 10.123456789, lng: 20.123456789 } } };
+      expect(LocationUtils.parseGeocoderResult(result)).to.have.property('latitude', 10.123457);
+      expect(LocationUtils.parseGeocoderResult(result)).to.have.property('longitude', 20.123457);
     });
     it('should include the country', () => {
       const result = {

@@ -1,6 +1,8 @@
 import kebabCase from 'lodash/string/kebabCase';
 import request from 'superagent';
 import { camelizeKeys } from 'humps';
+import round from 'lodash/math/round';
+
 import { googleMapsKey } from '../config';
 import { countries } from '../../assets/countries/countries-en.json';
 
@@ -19,8 +21,8 @@ export function parseGeocoderResult(result) {
   if (result.geometry && result.geometry.location) {
     location = {
       ...location,
-      latitude: result.geometry.location.lat,
-      longitude: result.geometry.location.lng,
+      latitude: round(result.geometry.location.lat, 6),
+      longitude: round(result.geometry.location.lng, 6),
     };
   }
   if (result.addressComponents) {
