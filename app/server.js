@@ -1,6 +1,7 @@
 /* eslint no-var: 0, no-console: 0 */
 import path from 'path';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import morgan from 'morgan';
 import favicon from 'serve-favicon';
@@ -30,6 +31,7 @@ const publicDir = path.resolve(__dirname,
 export function start(app) {
 
   app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined'));
+  app.use(cookieParser());
   app.use(bodyParser.json({ limit: '50mb' }));
   app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' })); // required proxying pusher/auth
   app.use(compression());

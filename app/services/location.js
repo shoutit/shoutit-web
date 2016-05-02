@@ -7,6 +7,14 @@ import { getValidIPv4Address } from '../utils/InternetUtils';
 export default {
   name: 'location',
   read: (req, resource, { latlng = '0,0' }, config, callback) => {
+    if (req.cookies.location) {
+      try {
+        const location = JSON.parse(req.cookies.location);
+        callback(null, { location });
+      } catch (e) {
+        console.error('Cannot parse location from cookie', req.cookies.location, e);
+      }
+    }
     const remoteAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     const ip = getValidIPv4Address(remoteAddress);
     const headers = {};

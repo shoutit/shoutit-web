@@ -5084,6 +5084,23 @@
         }
       }
     },
+    "cookie-parser": {
+      "version": "1.4.1",
+      "from": "cookie-parser@latest",
+      "resolved": "https://registry.npmjs.org/cookie-parser/-/cookie-parser-1.4.1.tgz",
+      "dependencies": {
+        "cookie": {
+          "version": "0.2.3",
+          "from": "cookie@0.2.3",
+          "resolved": "https://registry.npmjs.org/cookie/-/cookie-0.2.3.tgz"
+        },
+        "cookie-signature": {
+          "version": "1.0.6",
+          "from": "cookie-signature@1.0.6",
+          "resolved": "https://registry.npmjs.org/cookie-signature/-/cookie-signature-1.0.6.tgz"
+        }
+      }
+    },
     "csurf": {
       "version": "1.8.3",
       "from": "csurf@1.8.3",
@@ -5681,6 +5698,11 @@
       "version": "1.1.0",
       "from": "humps@1.1.0",
       "resolved": "https://registry.npmjs.org/humps/-/humps-1.1.0.tgz"
+    },
+    "js-cookie": {
+      "version": "2.1.1",
+      "from": "js-cookie@latest",
+      "resolved": "https://registry.npmjs.org/js-cookie/-/js-cookie-2.1.1.tgz"
     },
     "json-stable-stringify": {
       "version": "1.0.1",

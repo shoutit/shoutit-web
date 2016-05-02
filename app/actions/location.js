@@ -1,8 +1,9 @@
 /* global google */
+import Cookies from 'js-cookie';
 import { camelizeKeys } from 'humps';
 import trim from 'lodash/string/trim';
-import * as actionTypes from './actionTypes';
 
+import * as actionTypes from './actionTypes';
 import { SUGGESTIONS } from '../schemas';
 
 export function loadCurrentLocation() {
@@ -34,6 +35,7 @@ export function loadLocationByLatLng(latlng) {
 }
 
 export function setCurrentLocation(location) {
+  Cookies.set('location', location, { expires: 365 });
   return {
     type: actionTypes.SET_CURRENT_LOCATION,
     payload: { location },
