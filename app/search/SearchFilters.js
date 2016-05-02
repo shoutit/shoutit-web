@@ -9,7 +9,7 @@ import CategoryPicker from '../ui/CategoryPicker';
 import SegmentedControl from '../ui/SegmentedControl';
 import TextField from '../ui/TextField';
 
-import { setUserLocation } from '../actions/users';
+import { updateProfileLocation } from '../actions/users';
 import { setCurrentLocation } from '../actions/location';
 
 if (process.env.BROWSER) {
@@ -75,7 +75,7 @@ export class SearchFilters extends Component {
     const { dispatch, isLoggedIn } = this.props;
     dispatch(setCurrentLocation(location));
     if (isLoggedIn) {
-      dispatch(setUserLocation(location));
+      dispatch(updateProfileLocation(location));
     }
   }
 

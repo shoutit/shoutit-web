@@ -7,7 +7,7 @@ import stringify from 'json-stable-stringify';
 
 import { searchShouts, searchTags, searchProfiles } from '../actions/search';
 import { openModal, closeModal } from '../actions/ui';
-import { setUserLocation } from '../actions/users';
+import { updateProfileLocation } from '../actions/users';
 import { setCurrentLocation } from '../actions/location';
 
 import { formatLocation } from '../utils/LocationUtils';
@@ -126,7 +126,7 @@ export class Searchbar extends Component {
             dispatch(closeModal('search-location'));
             dispatch(setCurrentLocation(location));
             if (isLoggedIn) {
-              dispatch(setUserLocation(location));
+              dispatch(updateProfileLocation(location));
             }
           } }
         />

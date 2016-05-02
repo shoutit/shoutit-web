@@ -24,7 +24,7 @@ import { denormalize } from '../schemas';
 import SearchLocation from '../location/SearchLocation';
 
 import { openModal, closeModal } from '../actions/ui';
-import { setUserLocation } from '../actions/users';
+import { updateProfileLocation } from '../actions/users';
 import { setCurrentLocation } from '../actions/location';
 import { routeError } from '../actions/server';
 
@@ -123,7 +123,7 @@ export class Discover extends Component {
             dispatch(closeModal('search-location'));
             dispatch(setCurrentLocation(location));
             if (loggedUser) {
-              dispatch(setUserLocation(location));
+              dispatch(updateProfileLocation(location));
             }
           } }
         />

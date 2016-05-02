@@ -49,12 +49,12 @@ export function loadListening(user) {
   };
 }
 
-export function setUserLocation(location) {
+export function updateProfileLocation(location) {
   return {
     types: [
-      actionTypes.SET_USER_LOCATION_START,
-      actionTypes.SET_USER_LOCATION_SUCCESS,
-      actionTypes.SET_USER_LOCATION_FAILURE,
+      actionTypes.UPDATE_PROFILE_LOCATION_START,
+      actionTypes.UPDATE_PROFILE_LOCATION_SUCCESS,
+      actionTypes.UPDATE_PROFILE_LOCATION_FAILURE,
     ],
     payload: { location },
     service: {
