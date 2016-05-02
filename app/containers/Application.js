@@ -13,7 +13,7 @@ import NotFound from './NotFound';
 
 import { login } from '../actions/session';
 import { loadCategories, loadCurrencies } from '../actions/misc';
-import { loadCurrentLocation, loadSuggestions } from '../actions/location';
+import { loadSuggestions } from '../actions/location';
 import { loadListening } from '../actions/users';
 
 import * as config from '../config';
@@ -31,11 +31,6 @@ const fetchData = (dispatch, state) => {
   if (user) {
     promises.push(dispatch(login(user)));
     promises.push(dispatch(loadListening(user)));
-  }
-  if (!user || !user.location) {
-    promises.push(
-      dispatch(loadCurrentLocation())
-    );
   }
   return Promise.all(promises);
 };
