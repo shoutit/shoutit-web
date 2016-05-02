@@ -9,9 +9,6 @@ import CategoryPicker from '../ui/CategoryPicker';
 import SegmentedControl from '../ui/SegmentedControl';
 import TextField from '../ui/TextField';
 
-import { updateProfileLocation } from '../actions/users';
-import { setCurrentLocation } from '../actions/location';
-
 if (process.env.BROWSER) {
   require('./SearchFilters.scss');
 }
@@ -34,7 +31,7 @@ export class SearchFilters extends Component {
 
   constructor(props) {
     super(props);
-    this.handleLocationChange = this.handleLocationChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = this.getStateFromProps(props);
   }
 
@@ -43,11 +40,7 @@ export class SearchFilters extends Component {
   }
 
   getSearchParams() {
-    const location = this.locationField.getValue();
     const searchParams = {
-      city: location.city,
-      state: location.state,
-      country: location.country,
       search: this.refs.search.getValue() || undefined,
       shout_type: this.refs.shout_type.getValue(),
       category: this.state.category,
@@ -69,44 +62,29 @@ export class SearchFilters extends Component {
     };
   }
 
-  locationField = null;
-
-  handleLocationChange(location) {
-    const { dispatch, isLoggedIn } = this.props;
-    dispatch(setCurrentLocation(location));
-    if (isLoggedIn) {
-      dispatch(updateProfileLocation(location));
+  handleSubmit() {
+    if (this.props.disabled) {
+      return;
     }
+    this.props.onSubmit(this.getSearchParams());
   }
 
   render() {
-    const { disabled, searchParams } = this.props;
+    const { disabled } = this.props;
     const { category, shout_type, min_price, max_price, search, filters } = this.state;
 
     return (
       <div className="SearchFilters">
-        <Form
-          onSubmit={ () => {
-            if (disabled) {
-              return;
-            }
-            this.props.onSubmit(this.getSearchParams());
-          } }
-        >
+        <Form onSubmit={ this.handleSubmit }>
+
           <SegmentedControl value={ shout_type } disabled={ disabled } ref="shout_type" name="shout_type" options={ [
             { label: 'All', value: 'all' },
             { label: 'Offers', value: 'offer' },
             { label: 'Requests', value: 'request' },
           ] } onChange={ shout_type => this.setState({ shout_type }) } />
 
-          <LocationField
-            block
-            inputRef={ el => { this.locationField = el; } }
-            label="Location"
-            name="location"
-            location={ searchParams }
-            onChange={ () => this.refs.submitButton.focus() }
-          />
+          <LocationField block label="Location" name="location" />
+
           <TextField
             label="Keywords"
             placeholder="Enter one or more keywords"
