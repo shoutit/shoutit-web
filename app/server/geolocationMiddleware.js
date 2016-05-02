@@ -49,7 +49,7 @@ export default function geoLocationMiddleware(req, res, next) {
           ...res.body,
           slug: createLocationSlug(res.body),
         };
-        log('Got geolocation from ip address: %s', req.geolocation.slug);
+        console.log('Got geolocation from ip address: %s', req.geolocation.slug);
       } else {
         console.warn('Couldn\'t get geolocation for %s', ip, err);
       }
