@@ -8,7 +8,7 @@ import CountryFlag from '../ui/CountryFlag';
 
 import { ESCAPE, ENTER } from '../utils/keycodes';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
-import { loadPlacePredictions, resetPlacePredictionsLastInput } from '../actions/location';
+import { loadPlacePredictions, resetPlacePredictionsLastInput, updateCurrentLocation } from '../actions/location';
 
 import Overlay from '../ui/Overlay';
 import FormField from './FormField';
@@ -20,9 +20,10 @@ export class LocationField extends Component {
     dispatch: PropTypes.func.isRequired,
     error: PropTypes.object,
     inputRef: PropTypes.func,
+    disabled: PropTypes.bool,
     isFetching: PropTypes.bool,
     lastInput: PropTypes.string,
-    location: PropTypes.object,
+    currentLocation: PropTypes.object,
     name: PropTypes.string,
     onChange: PropTypes.func,
     predictions: PropTypes.array,
@@ -44,10 +45,9 @@ export class LocationField extends Component {
       previousPredictions: null,
     };
 
-    if (props.location) {
-      const { city, country } = props.location;
+    if (props.currentLocation) {
+      const { city, country } = props.currentLocation;
       this.state.value = formatLocation({ city, country });
-      this.state.location = props.location;
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -56,6 +56,13 @@ export class LocationField extends Component {
       state = {
         ...state,
         previousPredictions: nextProps.predictions,
+      };
+    }
+    if (nextProps.currentLocation.slug !== this.props.currentLocation.slug) {
+      const { city, country } = nextProps.currentLocation;
+      state = {
+        ...state,
+        value: formatLocation({ city, country }),
       };
     }
     if (state) {
@@ -148,20 +155,16 @@ export class LocationField extends Component {
     log('Start geocoding place with id %s', prediction.placeId);
     geocodePlace(prediction.placeId, (err, location) => {
       this.setState({ isGeocoding: false }, () => {
-        const { onChange } = this.props;
         if (location && location.city) {
           log('Found location geocoding %s', prediction.placeId, location);
           const value = formatLocation(location);
-          this.setState({ location, value });
-          if (onChange) {
-            onChange(location);
-          }
+          this.setState({ value });
+          this.handleGeocodeSuccess(location);
           return;
         }
         log('Could not geocode %s, showing error', prediction.placeId);
         // Prediction couldn't be geocoded
         this.setState({
-          location: null,
           error: {
             errors: [{
               location: this.props.name,
@@ -174,6 +177,16 @@ export class LocationField extends Component {
         }, this.select);
       });
     });
+  }
+  handleGeocodeSuccess(location) {
+    const { disabled, onChange, dispatch } = this.props;
+    if (disabled) {
+      return;
+    }
+    dispatch(updateCurrentLocation(location));
+    if (onChange) {
+      onChange(location);
+    }
   }
   fetchPredictions(value) {
     const { dispatch } = this.props;
@@ -200,8 +213,8 @@ export class LocationField extends Component {
     );
   }
   render() {
-    const { inputRef, name, ...props } = this.props; // eslint-disable-line
-    const { readOnly, value, showOverlay, hasFocus, error, location } = this.state;
+    const { inputRef, name, currentLocation, ...props } = this.props; // eslint-disable-line
+    const { readOnly, value, showOverlay, hasFocus, error } = this.state;
     return (
       <div className="LocationField" style={ { position: 'relative' } }>
         <FormField
@@ -216,7 +229,7 @@ export class LocationField extends Component {
           onBlur={ this.handleBlur }
           onChange={ this.handleChange }
           onKeyDown={ this.handleKeyDown }
-          startElement={ location && <CountryFlag code={ location.country } size="small" style={ { margin: '0 3px' } } /> }
+          startElement={ currentLocation && <CountryFlag code={ currentLocation.country } size="small" style={ { margin: '0 3px' } } /> }
           ref={ el => {
             this.field = el;
             if (inputRef) {
@@ -247,6 +260,7 @@ const mapStateToProps = state => ({
   isFetching: state.placePredictions.isFetching,
   predictions: state.placePredictions.predictions[state.placePredictions.lastInput],
   lastInput: state.placePredictions.lastInput,
+  currentLocation: state.currentLocation,
 });
 
 export default connect(mapStateToProps)(LocationField);
