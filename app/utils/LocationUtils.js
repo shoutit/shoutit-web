@@ -36,6 +36,10 @@ export function parseGeocoderResult(result) {
       }
     });
   }
+  location = {
+    ...location,
+    slug: createLocationSlug(location),
+  };
   return location;
 }
 

@@ -85,7 +85,7 @@ describe('LocationUtils', () => {
       LocationUtils.geocodePlace('AB', callback);
 
       expect(callback).to.have.been.calledWith(null, {
-        city: 'Rome', country: 'IT', latitude: null, longitude: null, state: 'Lazio',
+        city: 'Rome', country: 'IT', latitude: null, longitude: null, state: 'Lazio', slug: 'it_lazio_rome',
       });
     });
   });
