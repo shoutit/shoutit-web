@@ -15,6 +15,7 @@ import errorDomainMiddleware from 'express-domain-middleware';
 
 // import smsMiddleware from './server/smsMiddleware';
 import basicAuthMiddleware from './server/basicAuthMiddleware';
+import geolocationMiddleware from './server/geolocationMiddleware';
 import errorMiddleware from './server/errorMiddleware';
 import pusherMiddleware from './server/pusherMiddleware';
 import redirects from './server/redirects';
@@ -69,7 +70,11 @@ export function start(app) {
     app.use('/images', serveStatic(`${publicDir}/images`, { maxAge }));
   }
 
+  // Remove trailing slashes from urls
   app.use(slashMiddleware);
+
+  // Get the client's geo location
+  app.use(geolocationMiddleware);
 
   // Required by material-ui for server-side rendering: https://github.com/callemall/material-ui/issues/2356
   app.use((req, res, next) => {
