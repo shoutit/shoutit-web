@@ -2,6 +2,7 @@ import kebabCase from 'lodash/string/kebabCase';
 import request from 'superagent';
 import { camelizeKeys } from 'humps';
 import round from 'lodash/math/round';
+import capitalize from 'lodash/string/capitalize';
 
 import { googleMapsKey } from '../config';
 import { countries } from '../../assets/countries/countries-en.json';
@@ -88,13 +89,13 @@ export function formatLocation(location) {
     values.push(location.postal_code);
   }
   if (location.city) {
-    values.push(location.city);
+    values.push(capitalize(location.city));
   }
   if (location.state && location.state !== location.city) {
-    values.push(location.state);
+    values.push(capitalize(location.state));
   }
   if (location.country) {
-    values.push(location.country);
+    values.push(getCountryName(location.country));
   }
   return values.join(', ');
 }

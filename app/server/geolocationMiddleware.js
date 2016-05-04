@@ -1,34 +1,51 @@
 /* eslint consistent-return: 0, no-console: 0 */
-import { getValidIPv4Address } from '../utils/InternetUtils';
+import get from 'lodash/object/get';
 import debug from 'debug';
+
+import { getValidIPv4Address } from '../utils/InternetUtils';
 import request from '../utils/request';
-import { createLocationSlug } from '../utils/LocationUtils';
+import { createLocationSlug, getCountryName, formatLocation } from '../utils/LocationUtils';
+
+const geoRE = /^\/(search|discover)\/(\w{2})(\/(\w*))?(\/(\w*))?/;
 
 const log = debug('shoutit:geolocationMiddleware');
-export default function geoLocationMiddleware(req, res, next) {
-  if (req.session && req.session.user && req.session.user.location) {
-    req.geolocation = {
-      ...req.session.user.location,
-      slug: createLocationSlug(req.session.user.location),
-    };
-    log('Got geolocation from logged profile: %s', req.geolocation.slug);
-    return next();
-  }
 
-  if (req.cookies && req.cookies.location) {
+export default function geoLocationMiddleware(req, res, next) {
+
+  const matchesUrl = req.url.match(geoRE);
+  if (matchesUrl && getCountryName(matchesUrl[2])) {
+    req.geolocation = {
+      country: matchesUrl[2],
+    };
+    if (matchesUrl[4]) {
+      req.geolocation.state = matchesUrl[4];
+    }
+    if (matchesUrl[6]) {
+      req.geolocation.city = matchesUrl[6];
+    }
+    log('Got geolocation from URL');
+  } else if (get(req, 'session.user.location')) {
+    req.geolocation = req.session.user.location;
+    log('Got geolocation from logged profile');
+  } else if (get(req, 'cookies.location')) {
     try {
       const geolocation = JSON.parse(req.cookies.location);
       if (geolocation.country && geolocation.state && geolocation.city) {
-        req.geolocation = {
-          ...geolocation,
-          slug: createLocationSlug(geolocation),
-        };
-        log('Got geolocation from location cookie: %s', req.geolocation.slug);
-        return next();
+        req.geolocation = geolocation;
+        log('Got geolocation from location cookie');
       }
     } catch (e) {
       console.error('Cannot parse location from cookie', e);
     }
+  }
+
+  if (req.geolocation) {
+    req.geolocation = {
+      ...req.geolocation,
+      slug: createLocationSlug(req.geolocation),
+      name: formatLocation(req.geolocation),
+    };
+    return next();
   }
 
   // Detect location from client's remote address
@@ -45,11 +62,13 @@ export default function geoLocationMiddleware(req, res, next) {
     .prefix()
     .end((err, res) => {
       if (!err) {
+        const geolocation = res.body;
         req.geolocation = {
-          ...res.body,
-          slug: createLocationSlug(res.body),
+          ...geolocation,
+          slug: createLocationSlug(geolocation),
+          name: formatLocation(geolocation),
         };
-        console.log('Got geolocation from ip address: %s', req.geolocation.slug);
+        console.log('Got geolocation from ip address', ip, req.geolocation.slug);
       } else {
         console.warn('Couldn\'t get geolocation for %s', ip, err);
       }
