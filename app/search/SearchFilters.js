@@ -48,6 +48,9 @@ export class SearchFilters extends Component {
       min_price: parseInt(this.refs.min_price.getValue(), 10) || undefined,
       max_price: parseInt(this.refs.max_price.getValue(), 10) || undefined,
     };
+    if (Object.keys(searchParams).length === 0) {
+      return null;
+    }
     return searchParams;
   }
 
@@ -63,10 +66,11 @@ export class SearchFilters extends Component {
   }
 
   handleSubmit() {
-    if (this.props.disabled) {
+    const { disabled, onSubmit } = this.props;
+    if (disabled) {
       return;
     }
-    this.props.onSubmit(this.getSearchParams());
+    onSubmit(this.getSearchParams());
   }
 
   render() {
