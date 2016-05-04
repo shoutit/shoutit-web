@@ -59,8 +59,8 @@ export class Interest extends Component {
 
   componentWillUpdate(nextProps) {
     const { dispatch, params: { name }, currentLocation } = this.props;
-    if (nextProps.params.name !== name) {
-      fetchData(dispatch, { currentLocation }, nextProps.params);
+    if (nextProps.params.name !== name || currentLocation.slug !== nextProps.currentLocation.slug) {
+      fetchData(dispatch, { currentLocation: nextProps.currentLocation }, nextProps.params);
     }
   }
 
