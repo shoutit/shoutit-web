@@ -8,11 +8,18 @@ export default {
     if (id) {
       url += `/${id}`;
     }
+    let query = searchParams;
+    if (req.geolocation) {
+      query = {
+        ...searchParams,
+        ...req.geolocation,
+      };
+    }
     request
       .get(url)
       .setSession(req.session)
       .prefix()
-      .query(searchParams)
+      .query(query)
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));
