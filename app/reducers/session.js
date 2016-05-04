@@ -35,7 +35,7 @@ export default function (state = initialState, action) {
     case actionTypes.VERIFY_EMAIL_SUCCESS:
       return {
         ...state,
-        user: payload.user,
+        user: payload.user.id,
         isVerifyingEmail: false,
         isLoggingIn: false,
       };

@@ -138,7 +138,7 @@ export class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  loggedProfile: state.session.user,
+  loggedProfile: state.entities.users[state.session.user],
   shouts: state.paginated.shoutsByHome.ids.map(id => denormalize(state.entities.shouts[id], state.entities, 'SHOUT')),
   nextUrl: state.paginated.shoutsByHome.nextUrl,
   isFetching: state.paginated.shoutsByHome.isFetching,

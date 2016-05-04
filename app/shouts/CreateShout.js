@@ -139,18 +139,18 @@ export class CreateShout extends Component {
 
 const mapStateToProps = state => {
   const { entities, currentLocation, session } = state;
-
+  const loggedUser = entities.users[session.user];
   const shout = entities.shouts[NEW_SHOUT_ID] || {
     id: NEW_SHOUT_ID,
-    mobile: session.user.mobile,
+    mobile: loggedUser.mobile,
     type: null,
-    location: session.user.location || currentLocation,
+    location: loggedUser.location || currentLocation,
   };
 
   return {
     shout,
+    loggedUser,
     error: shout.createError,
-    loggedUser: session.user,
   };
 };
 

@@ -63,7 +63,7 @@ TagActions.propTypes = {
 const mapStateToProps = (state) => {
   // const { paginated: { listenersByUser } } = state;
   return {
-    loggedUser: state.session.user,
+    loggedUser: state.entities.users[state.session.user],
     // isUpdatingListening: listenersByUser[ownProps.profile.id] ? listenersByUser[ownProps.profile.id].isUpdating : false,
   };
 };

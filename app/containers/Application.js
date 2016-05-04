@@ -27,10 +27,9 @@ const fetchData = (dispatch, state) => {
   const promises = [];
   promises.push(dispatch(loadCategories()));
   promises.push(dispatch(loadCurrencies()));
-  const user = state.session.user; // logged user comes from rehydrated state
-  if (user) {
-    promises.push(dispatch(login(user)));
-    promises.push(dispatch(loadListening(user)));
+  const loggedUser = state.entities.users[state.session.user]; // logged user comes from rehydrated state
+  if (loggedUser) {
+    promises.push(dispatch(loadListening(loggedUser)));
   }
   return Promise.all(promises);
 };
@@ -164,7 +163,7 @@ Application.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    loggedUser: state.session.user,
+    loggedUser: state.entities.users[state.session.user],
     currentLocation: state.currentLocation,
     currentUrl: state.routing.currentUrl,
     error: state.routing.error,

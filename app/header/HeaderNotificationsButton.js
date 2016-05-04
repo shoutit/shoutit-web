@@ -55,7 +55,7 @@ export class HeaderNotificationsButton extends Component {
 }
 
 const mapStateToProps = () => ({
-  badge: 0, // state.session.user.stats.unreadNotificationsCount,
+  badge: 0, // state.entities.users[state.session.user].stats.unreadNotificationsCount,
 });
 
 export default connect(mapStateToProps)(HeaderNotificationsButton);

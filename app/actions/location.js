@@ -4,7 +4,7 @@ import { camelizeKeys } from 'humps';
 import trim from 'lodash/string/trim';
 
 import * as actionTypes from './actionTypes';
-import { SUGGESTIONS } from '../schemas';
+import { SUGGESTIONS, PROFILE } from '../schemas';
 
 export function updateCurrentLocation(location) {
   Cookies.set('location', location, { expires: 365 });
@@ -19,6 +19,7 @@ export function updateCurrentLocation(location) {
       method: 'update',
       name: 'location',
       body: { location },
+      schema: PROFILE,
     },
   };
 }

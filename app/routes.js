@@ -28,7 +28,7 @@ const routes = (store) =>
   <Route component={ Application }>
     <Route path="/"
       getApplicationLayout={ () => ({
-        stickyHeader: store.getState().session.user,
+        stickyHeader: !!store.getState().session.user,
         showFooter: true,
       }) }
       getComponent={ (location, callback) => {

@@ -38,7 +38,7 @@ Helmet.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  badge: state.session.user ? state.session.user.stats.unreadConversationsCount : 0,
+  badge: state.session.user ? state.entities.users[state.session.user].stats.unreadConversationsCount : 0,
 });
 
 const ConnectedHelmet = connect(mapStateToProps)(Helmet);

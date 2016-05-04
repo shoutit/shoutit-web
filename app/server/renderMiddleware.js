@@ -13,6 +13,7 @@ import HtmlDocument from './HtmlDocument';
 import configureRoutes from '../routes';
 
 import { Provider } from 'react-redux';
+import { login } from '../actions/session';
 import configureStore from '../store/configureStore';
 
 import fetchDataForRoutes from '../utils/fetchDataForRoutes';
@@ -40,9 +41,13 @@ export default function renderMiddleware(req, res, next) {
     }
     const store = configureStore({
       routing: { currentUrl: req.url },
-      session: { user },
       currentLocation: req.geolocation,
     }, { fetchr });
+
+    if (req.session.user) {
+      store.dispatch(login(req.session.user));
+    }
+
     const routes = configureRoutes(store);
 
     // Run router to determine the desired state

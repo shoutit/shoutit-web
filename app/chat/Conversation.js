@@ -184,7 +184,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return {
-    loggedUser: state.session.user,
+    loggedUser: entities.users[state.session.user],
     conversation,
     messages,
     isFetchingMessages,
