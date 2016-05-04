@@ -265,7 +265,7 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: state.placePredictions.isFetching,
   predictions: state.placePredictions.predictions[state.placePredictions.lastInput],
   lastInput: state.placePredictions.lastInput,
-  location: ownProps.location,
+  location: ownProps.location || state.currentLocation,
 });
 
 export default connect(mapStateToProps)(LocationField);
