@@ -6,9 +6,10 @@ export default function (state = {}, action) {
     case actionTypes.UPDATE_CURRENT_LOCATION_START:
       return action.payload.location;
     case actionTypes.LOGIN_SUCCESS:
-      const { location } = action.payload.user;
+    case actionTypes.SIGNUP_SUCCESS:
+      const loggedUser = action.payload.entities.users[action.payload.result];
       return {
-        ...location,
+        ...loggedUser.location,
         slug: createLocationSlug(location),
       };
     default: return state;

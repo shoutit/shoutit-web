@@ -1,5 +1,6 @@
+import { camelizeKeys } from 'humps';
 import request from '../utils/request';
-import { createRequestSession } from '../utils/SessionUtils';
+import { createSessionFromAPIResponse } from '../utils/SessionUtils';
 import { parseApiError } from '../utils/APIUtils';
 
 import {
@@ -49,8 +50,8 @@ export default {
         if (err) {
           return callback(parseApiError(err));
         }
-        createRequestSession(req, res.body);
-        return callback(null, res.body);
+        createSessionFromAPIResponse(req, camelizeKeys(res.body));
+        return callback(null, req.session.user);
       });
   },
   read: (req, resource, { username }, config, callback) => {

@@ -4,7 +4,7 @@ import { replace } from 'react-router-redux';
 import { Link } from 'react-router';
 import Helmet from '../utils/Helmet';
 
-import { createProfile, resetSessionErrors } from '../actions/session';
+import { signup, resetErrors } from '../actions/session';
 
 import Button from '../ui/Button';
 import HorizontalRule from '../ui/HorizontalRule';
@@ -51,7 +51,7 @@ export class Signup extends Component {
 
   componentWillUnmount() {
     const { dispatch } = this.props;
-    dispatch(resetSessionErrors());
+    dispatch(resetErrors());
   }
 
   handleFormSubmit(e) {
@@ -88,7 +88,7 @@ export class Signup extends Component {
       this.refs.lastName.blur();
       this.refs.email.blur();
       this.refs.password.blur();
-      dispatch(createProfile(
+      dispatch(signup(
         { email, password, firstName, lastName, location: currentLocation }
       )).then(() => {
         this.setState({ success: true });

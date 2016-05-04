@@ -32,10 +32,11 @@ export default function (state = initialState, action) {
       };
 
     case actionTypes.LOGIN_SUCCESS:
+    case actionTypes.SIGNUP_SUCCESS:
     case actionTypes.VERIFY_EMAIL_SUCCESS:
       return {
         ...state,
-        user: payload.user.id,
+        user: payload.result,
         isVerifyingEmail: false,
         isLoggingIn: false,
       };
@@ -53,13 +54,6 @@ export default function (state = initialState, action) {
         ...state,
         isSigningUp: true,
         signupError: null,
-      };
-    case actionTypes.SIGNUP_SUCCESS:
-      return {
-        ...state,
-        user: payload.result.user.id,
-        isSigningUp: false,
-        isNewSignup: true,
       };
     case actionTypes.SIGNUP_FAILURE:
       return {

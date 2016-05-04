@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import { PROFILE } from '../schemas';
-export function createSession({ grant_type = 'shoutit_login', ...loginData }) {
+
+export function login({ grant_type = 'shoutit_login', ...loginData }) {
   const body = { ...loginData, grant_type };
   return {
     payload: { grant_type },
@@ -13,18 +14,19 @@ export function createSession({ grant_type = 'shoutit_login', ...loginData }) {
       name: 'session',
       method: 'create',
       body,
+      schema: PROFILE,
     },
   };
 }
 
 export function loginWithGoogle({ gplus_code, user }) {
   const loginData = { gplus_code, user, grant_type: 'gplus_code' };
-  return createSession(loginData);
+  return login(loginData);
 }
 
 export function loginWithFacebook({ facebook_access_token, user }) {
   const loginData = { facebook_access_token, user, grant_type: 'facebook_access_token' };
-  return createSession(loginData);
+  return login(loginData);
 }
 
 export function logout() {
@@ -41,21 +43,7 @@ export function logout() {
   };
 }
 
-export function login(user) {
-  return {
-    type: actionTypes.LOGIN_SUCCESS,
-    payload: {
-      user,
-      entities: {
-        users: {
-          [user.id]: user,
-        },
-      },
-    },
-  };
-}
-
-export function createProfile(body) {
+export function signup(body) {
   return {
     types: [
       actionTypes.SIGNUP_START,
@@ -66,9 +54,7 @@ export function createProfile(body) {
       name: 'profile',
       method: 'create',
       body,
-      schema: {
-        profile: PROFILE,
-      },
+      schema: PROFILE,
     },
   };
 }
@@ -132,7 +118,7 @@ export function verifyEmail(token) {
   };
 }
 
-export function resetSessionErrors() {
+export function resetErrors() {
   return {
     type: actionTypes.RESET_SESSION_ERRORS,
   };
