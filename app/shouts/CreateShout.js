@@ -144,7 +144,7 @@ const mapStateToProps = state => {
     id: NEW_SHOUT_ID,
     mobile: loggedUser.mobile,
     type: null,
-    location: loggedUser.location || currentLocation,
+    location: currentLocation,
   };
 
   return {

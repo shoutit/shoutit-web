@@ -18,15 +18,19 @@ const log = debug('shoutit:ui:LocationField');
 export class LocationField extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     error: PropTypes.object,
     inputRef: PropTypes.func,
     disabled: PropTypes.bool,
     isFetching: PropTypes.bool,
     lastInput: PropTypes.string,
-    currentLocation: PropTypes.object,
     name: PropTypes.string,
     onChange: PropTypes.func,
     predictions: PropTypes.array,
+    updatesUserLocation: PropTypes.bool,
+  };
+  static defaultProps = {
+    updatesUserLocation: true,
   };
   constructor(props) {
     super(props);
@@ -45,8 +49,9 @@ export class LocationField extends Component {
       previousPredictions: null,
     };
 
-    if (props.currentLocation) {
-      this.state.value = formatLocation(props.currentLocation);
+    if (props.location) {
+      this.state.value = formatLocation(props.location);
+      this.state.location = formatLocation(props.location);
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -57,10 +62,10 @@ export class LocationField extends Component {
         previousPredictions: nextProps.predictions,
       };
     }
-    if (nextProps.currentLocation.slug !== this.props.currentLocation.slug) {
+    if (nextProps.location.slug !== this.props.location.slug) {
       state = {
         ...state,
-        value: formatLocation(nextProps.currentLocation),
+        value: formatLocation(nextProps.location),
       };
     }
     if (state) {
@@ -156,7 +161,7 @@ export class LocationField extends Component {
         if (location && location.city) {
           log('Found location geocoding %s', prediction.placeId, location);
           const value = formatLocation(location);
-          this.setState({ value });
+          this.setState({ value, location });
           this.handleGeocodeSuccess(location);
           return;
         }
@@ -177,11 +182,13 @@ export class LocationField extends Component {
     });
   }
   handleGeocodeSuccess(location) {
-    const { disabled, onChange, dispatch } = this.props;
+    const { disabled, onChange, dispatch, updatesUserLocation } = this.props;
     if (disabled) {
       return;
     }
-    dispatch(updateCurrentLocation(location));
+    if (updatesUserLocation) {
+      dispatch(updateCurrentLocation(location));
+    }
     if (onChange) {
       onChange(location);
     }
@@ -211,7 +218,7 @@ export class LocationField extends Component {
     );
   }
   render() {
-    const { inputRef, name, currentLocation, ...props } = this.props; // eslint-disable-line
+    const { inputRef, name, location, ...props } = this.props; // eslint-disable-line
     const { readOnly, value, showOverlay, hasFocus, error } = this.state;
     return (
       <div className="LocationField" style={ { position: 'relative' } }>
@@ -227,7 +234,7 @@ export class LocationField extends Component {
           onBlur={ this.handleBlur }
           onChange={ this.handleChange }
           onKeyDown={ this.handleKeyDown }
-          startElement={ currentLocation && <CountryFlag code={ currentLocation.country } size="small" style={ { margin: '0 3px' } } /> }
+          startElement={ location && <CountryFlag code={ location.country } size="small" style={ { margin: '0 3px' } } /> }
           ref={ el => {
             this.field = el;
             if (inputRef) {
@@ -254,11 +261,11 @@ export class LocationField extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   isFetching: state.placePredictions.isFetching,
   predictions: state.placePredictions.predictions[state.placePredictions.lastInput],
   lastInput: state.placePredictions.lastInput,
-  currentLocation: state.currentLocation,
+  location: ownProps.location,
 });
 
 export default connect(mapStateToProps)(LocationField);
