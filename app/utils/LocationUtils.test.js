@@ -126,7 +126,7 @@ describe('utils/LocationUtils', () => {
   });
 
   describe('formatLocation', () => {
-    it('should return a string with the location data', () => {
+    it('should return a string with the location without the address', () => {
       const location = {
         address: 'Via Roma',
         postal_code: '10100',
@@ -134,7 +134,17 @@ describe('utils/LocationUtils', () => {
         state: 'Lazio',
         country: 'IT',
       };
-      expect(LocationUtils.formatLocation(location)).to.equal('Via Roma, 10100, Rome, Lazio, Italy');
+      expect(LocationUtils.formatLocation(location)).to.equal('Rome, Lazio, Italy');
+    });
+    it('should use the address', () => {
+      const location = {
+        address: 'Via Roma',
+        postal_code: '10100',
+        city: 'Rome',
+        state: 'Lazio',
+        country: 'IT',
+      };
+      expect(LocationUtils.formatLocation(location, { useAddress: true })).to.equal('Via Roma, 10100, Rome, Lazio, Italy');
     });
     it('should skip state if the same as the city', () => {
       const location = {

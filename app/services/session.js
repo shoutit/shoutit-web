@@ -1,5 +1,5 @@
 import request from '../utils/request';
-import { createRequestSession } from '../utils/SessionUtils';
+import { createSessionFromAPIResponse } from '../utils/SessionUtils';
 import { parseApiError } from '../utils/APIUtils';
 import { camelizeKeys } from 'humps';
 
@@ -7,7 +7,6 @@ import {
   AUTH_CLIENT_ID as clientId,
   AUTH_CLIENT_SECRET as clientSecret,
 } from './constants';
-
 
 export default {
   name: 'session',
@@ -21,8 +20,8 @@ export default {
         if (err) {
           return callback(parseApiError(err));
         }
-        createRequestSession(req, res.body);
-        return callback(null, camelizeKeys(res.body));
+        createSessionFromAPIResponse(req, camelizeKeys(res.body));
+        return callback(null, req.session.user);
       });
   },
   read: (req, resource, params, config, callback) => {
@@ -30,6 +29,7 @@ export default {
       callback();
       return;
     }
+    // Ask again the current profile
     request
       .get('/profiles/me')
       .setSession(req.session)
@@ -42,7 +42,6 @@ export default {
           return callback();
         }
         const user = camelizeKeys(res.body);
-        req.session.user = camelizeKeys(user);
         return callback(null, user);
       });
   },
