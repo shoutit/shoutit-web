@@ -57,7 +57,7 @@ export default function (state = initialState, action) {
     case actionTypes.SIGNUP_SUCCESS:
       return {
         ...state,
-        user: payload.user,
+        user: payload.result.user.id,
         isSigningUp: false,
         isNewSignup: true,
       };
