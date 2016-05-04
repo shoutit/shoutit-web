@@ -81,7 +81,7 @@ describe('services/discover', () => {
         done();
       });
       discover.read(
-        { geolocation: { country: 'it', state: 'lazio', city: 'rome' } },
+        { geolocation: { country: 'it', state: 'lazio', city: 'rome', slug: 'a-slug', name: 'A name' } },
         resource,
         { searchParams: { search: 'foo' } },
         config,

@@ -1,4 +1,6 @@
 import request from '../utils/request';
+import omit from 'lodash/object/omit';
+
 import { parseApiError } from '../utils/APIUtils';
 
 export default {
@@ -18,7 +20,7 @@ export default {
       if (req.geolocation) {
         query = {
           ...query,
-          ...req.geolocation,
+          ...omit(req.geolocation, ['slug', 'name']),
         };
       }
     }

@@ -89,7 +89,7 @@ describe('services/shouts', () => {
         done();
       });
       shouts.read(
-        { geolocation: { country: 'it', state: 'lazio', city: 'rome' } },
+        { geolocation: { country: 'it', state: 'lazio', city: 'rome', name: 'Roma', slug: 'a-slug' } },
         resource,
         { searchParams: { search: 'foo' } },
         config,

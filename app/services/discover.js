@@ -1,3 +1,5 @@
+import omit from 'lodash/object/omit';
+
 import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
 
@@ -12,7 +14,7 @@ export default {
     if (req.geolocation) {
       query = {
         ...searchParams,
-        ...req.geolocation,
+        ...omit(req.geolocation, ['slug', 'name']),
       };
     }
     request
