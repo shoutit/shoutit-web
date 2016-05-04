@@ -24,16 +24,13 @@ if (process.env.BROWSER) {
 const properties = ['listenersCount', 'isListening'];
 
 const fetchData = (dispatch, state, params) => {
-
-  const searchParams = state.currentLocation;
-
   return Promise.all([
     dispatch(loadTagIfNeeded({ name: params.name }, properties))
       .then(payload =>
         dispatch(loadRelatedTags({ id: payload.result, name: params.name })).catch(() => {}),
         err => dispatch(routeError(err))
       ),
-    dispatch(loadTagShouts(params.name, searchParams)).catch(() => {}),
+    dispatch(loadTagShouts(params.name, state.currentLocation)).catch(() => {}),
   ]);
 }
 ;
@@ -42,6 +39,7 @@ export class Interest extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
+    currentLocation: PropTypes.object.isRequired,
     firstRender: PropTypes.bool,
     isFetchingShouts: PropTypes.bool,
     nextShoutsUrl: PropTypes.string,
@@ -53,16 +51,16 @@ export class Interest extends Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { dispatch, firstRender, params } = this.props;
+    const { dispatch, firstRender, currentLocation, params } = this.props;
     if (!firstRender) {
-      fetchData(dispatch, {}, params);
+      fetchData(dispatch, { currentLocation }, params);
     }
   }
 
   componentWillUpdate(nextProps) {
-    const { dispatch, params: { name } } = this.props;
+    const { dispatch, params: { name }, currentLocation } = this.props;
     if (nextProps.params.name !== name) {
-      fetchData(dispatch, {}, nextProps.params);
+      fetchData(dispatch, { currentLocation }, nextProps.params);
     }
   }
 
@@ -114,7 +112,7 @@ export class Interest extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { params: { name } } = ownProps;
-  const { paginated, entities } = state;
+  const { paginated, entities, currentLocation } = state;
   let tag = find(entities.tags, { name });
   const category = entities.categories[name];
   if (category) {
@@ -138,6 +136,7 @@ const mapStateToProps = (state, ownProps) => {
     tag,
     shouts,
     shoutsCount,
+    currentLocation,
     isFetchingShouts,
     nextShoutsUrl,
   };
