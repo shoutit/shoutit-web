@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-
+import { PROFILE } from '../schemas';
 export function createSession({ grant_type = 'shoutit_login', ...loginData }) {
   const body = { ...loginData, grant_type };
   return {
@@ -66,6 +66,9 @@ export function createProfile(body) {
       name: 'profile',
       method: 'create',
       body,
+      schema: {
+        profile: PROFILE,
+      },
     },
   };
 }

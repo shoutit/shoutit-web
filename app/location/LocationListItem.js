@@ -10,7 +10,7 @@ export default function LocationListItem({ location, size = 'medium' }) {
       size={ size }
       start={ <CountryFlag code={ location.country } size={ size } /> }
     >
-      { formatLocation({ state: location.state, city: location.city }) }
+      { formatLocation(location) }
     </ListItem>
   );
 }

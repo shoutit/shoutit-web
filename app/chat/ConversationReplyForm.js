@@ -138,7 +138,7 @@ const mapStateToProps = (state, ownProps) => {
   const name = `conversationReply-${ownProps.conversation.id}`;
   return {
     name,
-    loggedUser: state.session.user,
+    loggedUser: state.entities.users[state.session.user],
     fields: state.forms[name] || { draft: '' },
   };
 };

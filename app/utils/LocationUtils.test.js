@@ -6,7 +6,7 @@ import { Request } from 'superagent';
 
 import * as LocationUtils from './LocationUtils';
 
-describe('LocationUtils', () => {
+describe('utils/LocationUtils', () => {
   describe('createLocationSlug', () => {
 
     it('should create the slug from a full location', () => {
@@ -33,10 +33,10 @@ describe('LocationUtils', () => {
   });
 
   describe('parseGeocoderResult', () => {
-    it('should include latitude and longitude', () => {
-      const result = { geometry: { location: { lat: 1, lng: 2 } } };
-      expect(LocationUtils.parseGeocoderResult(result)).to.have.property('latitude', 1);
-      expect(LocationUtils.parseGeocoderResult(result)).to.have.property('longitude', 2);
+    it('should include rounded latitude and longitude', () => {
+      const result = { geometry: { location: { lat: 10.123456789, lng: 20.123456789 } } };
+      expect(LocationUtils.parseGeocoderResult(result)).to.have.property('latitude', 10.123457);
+      expect(LocationUtils.parseGeocoderResult(result)).to.have.property('longitude', 20.123457);
     });
     it('should include the country', () => {
       const result = {
@@ -85,7 +85,7 @@ describe('LocationUtils', () => {
       LocationUtils.geocodePlace('AB', callback);
 
       expect(callback).to.have.been.calledWith(null, {
-        city: 'Rome', country: 'IT', latitude: null, longitude: null, state: 'Lazio',
+        city: 'Rome', country: 'IT', latitude: null, longitude: null, state: 'Lazio', slug: 'it_lazio_rome',
       });
     });
   });
@@ -105,6 +105,26 @@ describe('LocationUtils', () => {
     });
   });
 
+  describe('getLocationPath', () => {
+    it('should return the path with country', () => {
+      expect(LocationUtils.getLocationPath({ country: 'IT' })).to.equal('/it');
+    });
+    it('should return the path with country and state', () => {
+      expect(LocationUtils.getLocationPath({ country: 'IT', state: 'Lazio' })).to.equal('/it/lazio');
+    });
+    it('should return the path with the country, state and city', () => {
+      expect(LocationUtils.getLocationPath({ country: 'IT', state: 'Lazio', city: 'Roma' })).to.equal('/it/lazio/roma');
+    });
+    it('should work with invalid locations', () => {
+      // without country
+      expect(LocationUtils.getLocationPath({ state: 'Lazio', city: 'Roma' })).to.equal('');
+      // unexisting country
+      expect(LocationUtils.getLocationPath({ country: 'xx', state: 'Lazio', city: 'Roma' })).to.equal('');
+      // without state
+      expect(LocationUtils.getLocationPath({ country: 'it', city: 'Roma' })).to.equal('/it');
+    });
+  });
+
   describe('formatLocation', () => {
     it('should return a string with the location data', () => {
       const location = {
@@ -114,7 +134,7 @@ describe('LocationUtils', () => {
         state: 'Lazio',
         country: 'IT',
       };
-      expect(LocationUtils.formatLocation(location)).to.equal('Via Roma, 10100, Rome, Lazio, IT');
+      expect(LocationUtils.formatLocation(location)).to.equal('Via Roma, 10100, Rome, Lazio, Italy');
     });
     it('should skip state if the same as the city', () => {
       const location = {
@@ -122,7 +142,7 @@ describe('LocationUtils', () => {
         state: 'Berlin',
         country: 'DE',
       };
-      expect(LocationUtils.formatLocation(location)).to.equal('Berlin, DE');
+      expect(LocationUtils.formatLocation(location)).to.equal('Berlin, Germany');
     });
   });
 

@@ -1,4 +1,3 @@
-
 import * as actionTypes from './actionTypes';
 import { TAG, SHOUTS, TAGS } from '../schemas';
 
@@ -23,7 +22,7 @@ export function loadTagIfNeeded(tag, properties = []) {
   };
 }
 
-export function loadTagShouts(name, searchParams, endpoint) {
+export function loadTagShouts(name, location, endpoint) {
   return {
     types: [
       actionTypes.LOAD_TAG_SHOUTS_START,
@@ -33,9 +32,16 @@ export function loadTagShouts(name, searchParams, endpoint) {
     payload: { name },
     service: {
       name: 'shouts',
-      params: { searchParams: { ...searchParams, tags: name }, endpoint },
+      params: { searchParams: { country: location.country, tags: name }, endpoint },
       schema: SHOUTS,
     },
+  };
+}
+
+export function invalidateTagShouts(tag) {
+  return {
+    type: actionTypes.INVALIDATE_TAG_SHOUTS,
+    payload: tag,
   };
 }
 

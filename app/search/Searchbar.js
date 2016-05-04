@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import trim from 'lodash/string/trim';
 import throttle from 'lodash/function/throttle';
-import stringify from 'json-stable-stringify';
 
 import { searchShouts, searchTags, searchProfiles } from '../actions/search';
 import { openModal, closeModal } from '../actions/ui';
-import { setUserLocation } from '../actions/users';
-import { setCurrentLocation } from '../actions/location';
+import { updateCurrentLocation } from '../actions/location';
 
+import { stringifySearchParams } from '../utils/SearchUtils';
 import { formatLocation } from '../utils/LocationUtils';
 import SearchbarResults from './SearchbarResults';
 
@@ -38,7 +37,6 @@ export class Searchbar extends Component {
     foundProfiles: PropTypes.array,
     profilesBySearch: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
-    isLoggedIn: PropTypes.bool,
     error: PropTypes.object,
   };
 
@@ -105,12 +103,12 @@ export class Searchbar extends Component {
     this.setState({
       searchString: search,
       showOverlay: true,
-      shoutsSearchSlug: stringify(shoutsSearchParams),
-      tagsSearchSlug: stringify(tagsSearchParams),
-      profilesSearchSlug: stringify(profilesSearchParams),
+      shoutsSearchSlug: stringifySearchParams(shoutsSearchParams),
+      tagsSearchSlug: stringifySearchParams(tagsSearchParams),
+      profilesSearchSlug: stringifySearchParams(profilesSearchParams),
     });
 
-    dispatch(searchShouts(shoutsSearchParams));
+    dispatch(searchShouts(currentLocation, shoutsSearchParams));
     dispatch(searchTags(tagsSearchParams));
     dispatch(searchProfiles(profilesSearchParams));
   }
@@ -118,16 +116,13 @@ export class Searchbar extends Component {
   handleLocationClick(e) {
     e.preventDefault();
     e.target.blur();
-    const { dispatch, isLoggedIn } = this.props;
+    const { dispatch } = this.props;
     const modal = (
       <Modal title="Set your location" name="search-location">
         <SearchLocation
           onLocationSelect={ location => {
             dispatch(closeModal('search-location'));
-            dispatch(setCurrentLocation(location));
-            if (isLoggedIn) {
-              dispatch(setUserLocation(location));
-            }
+            dispatch(updateCurrentLocation(location));
           } }
         />
       </Modal>
@@ -173,7 +168,7 @@ export class Searchbar extends Component {
       isFetchingProfiles = profilesBySearch[profilesSearchSlug].isFetching;
     }
 
-    const locationLabel = formatLocation({ city: currentLocation.city, state: currentLocation.state }) || 'Anywhere';
+    const locationLabel = formatLocation(currentLocation) || 'Anywhere';
     const hasResults = foundTags.length > 0 || foundShouts.length > 0 || foundProfiles.length > 0;
     const isFetching = isFetchingShouts || isFetchingProfiles || isFetchingTags;
 
@@ -245,7 +240,6 @@ export class Searchbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: !!state.session.user,
   currentLocation: state.currentLocation,
 
   shoutsBySearch: state.paginated.shoutsBySearch,

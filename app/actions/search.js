@@ -1,3 +1,5 @@
+import omit from 'lodash/object/omit';
+
 import * as actionTypes from './actionTypes';
 import { TAGS, PROFILES, SHOUTS } from '../schemas';
 
@@ -33,7 +35,8 @@ export function searchProfiles(searchParams) {
   };
 }
 
-export function searchShouts(searchParams, endpoint) {
+export function searchShouts(location, searchParams, endpoint) {
+  location = omit(location, ['slug', 'name']);
   return {
     types: [
       actionTypes.SEARCH_SHOUTS_START,
@@ -43,7 +46,7 @@ export function searchShouts(searchParams, endpoint) {
     service: {
       name: 'shouts',
       schema: SHOUTS,
-      params: { searchParams, endpoint },
+      params: { searchParams, location, endpoint },
     },
     payload: { searchParams, endpoint },
   };

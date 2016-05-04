@@ -17,15 +17,14 @@ import CountryFlag from '../ui/CountryFlag';
 import Progress from '../ui/Progress';
 
 import { loadDiscoverItemsByCountry, loadDiscoverItem, loadShoutsForDiscoverItem } from '../actions/discover';
-import { getCountryCode, getCountryName } from '../utils/LocationUtils';
+import { getCountryName, getLocationPath } from '../utils/LocationUtils';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import { denormalize } from '../schemas';
 
 import SearchLocation from '../location/SearchLocation';
 
 import { openModal, closeModal } from '../actions/ui';
-import { setUserLocation } from '../actions/users';
-import { setCurrentLocation } from '../actions/location';
+import { updateCurrentLocation } from '../actions/location';
 import { routeError } from '../actions/server';
 
 if (process.env.BROWSER) {
@@ -35,20 +34,10 @@ if (process.env.BROWSER) {
 const page_size = 9;
 
 const fetchData = (dispatch, state, params) => {
-  const { countryName } = params;
-  let country;
-  if (countryName) {
-    country = getCountryCode(decodeURIComponent(countryName));
-    if (!country) {
-      const error = new Error('Country does not exists');
-      error.statusCode = 404;
-      return dispatch(routeError(error));
-    }
-  }
-
-  if (params.id) {
-    return dispatch(loadDiscoverItem(params.id))
-      .then(() => dispatch(loadShoutsForDiscoverItem(params.id, { page_size })))
+  const { country, id } = params;
+  if (id) {
+    return dispatch(loadDiscoverItem(id))
+      .then(() => dispatch(loadShoutsForDiscoverItem(id, { page_size })))
       .catch(err => dispatch(routeError(err)));
   }
 
@@ -65,10 +54,7 @@ const fetchData = (dispatch, state, params) => {
 function getDiscoverLink(country, discoverItem) {
   let url = '/discover';
   if (country) {
-    const countryName = getCountryName(country);
-    if (countryName) {
-      url += `/${encodeURIComponent(countryName).toLowerCase()}`;
-    }
+    url += getLocationPath({ country });
   }
   if (discoverItem) {
     url += `/${discoverItem.id}`;
@@ -82,11 +68,11 @@ export class Discover extends Component {
     params: PropTypes.object.isRequired,
 
     country: PropTypes.string,
+    currentLocation: PropTypes.object,
     discoverItem: PropTypes.object,
     firstRender: PropTypes.bool,
     isFetching: PropTypes.bool,
     isFetchingShouts: PropTypes.bool,
-    loggedUser: PropTypes.object,
     nextShoutsUrl: PropTypes.string,
     shouts: PropTypes.array,
     shoutsCount: PropTypes.number,
@@ -101,30 +87,34 @@ export class Discover extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    const { country, dispatch, params } = this.props;
+    const { dispatch, params } = this.props;
     if (nextProps.params.id !== params.id) {
       dispatch(loadDiscoverItem(nextProps.params.id)).then(() => {
         dispatch(loadShoutsForDiscoverItem(nextProps.params.id, { page_size }));
       });
-    } else if (nextProps.country !== country) {
+    } else if (params.country !== nextProps.params.country) {
       fetchData(dispatch, null, nextProps.params);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { dispatch, currentLocation } = this.props;
+    if (prevProps.currentLocation.slug !== currentLocation.slug) {
+      dispatch(push(`/discover/${currentLocation.country.toLowerCase()}`));
     }
   }
 
   showLocationModal(e) {
     e.preventDefault();
     e.target.blur();
-    const { dispatch, loggedUser } = this.props;
+    const { dispatch } = this.props;
     const modal = (
       <Modal title="Change location" name="search-location">
         <SearchLocation
           onLocationSelect={ location => {
             dispatch(push(getDiscoverLink(location.country)));
             dispatch(closeModal('search-location'));
-            dispatch(setCurrentLocation(location));
-            if (loggedUser) {
-              dispatch(setUserLocation(location));
-            }
+            dispatch(updateCurrentLocation(location));
           } }
         />
       </Modal>
@@ -197,15 +187,10 @@ export class Discover extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { paginated, entities } = state;
-  const { countryName, id } = ownProps.params;
+  const { routing, paginated, entities, currentLocation } = state;
+  const { country, id } = ownProps.params;
 
   let discoverItem;
-
-  let country;
-  if (countryName) {
-    country = getCountryCode(countryName);
-  }
 
   const discoverItemsByCountry = paginated.discoverItemsByCountry[country];
   let isFetching = false;
@@ -238,8 +223,9 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return {
-    countryName,
     country,
+    currentUrl: routing.currentUrl,
+    currentLocation,
     discoverItem,
     shouts,
     isFetching,

@@ -11,37 +11,19 @@ import HeaderProfileButton from '../header/HeaderProfileButton';
 import CreateShout from '../shouts/CreateShout';
 import Searchbar from '../search/Searchbar';
 
-import { getCountryName } from '../utils/LocationUtils';
 import { imagesPath } from '../config';
 
 import { openModal, closeModal } from '../actions/ui';
+import { getLocationPath } from '../utils/LocationUtils';
 
 if (process.env.BROWSER) {
   require('./Header.scss');
 }
 
-function getBrowseLink(location) {
-  let link = '/search';
-  const query = [];
-  if (location.country) {
-    query.push(`country=${location.country}`);
-  }
-  if (location.state) {
-    query.push(`state=${encodeURIComponent(location.state)}`);
-  }
-  if (location.city) {
-    query.push(`city=${encodeURIComponent(location.city)}`);
-  }
-  if (query.length > 0) {
-    link += `?${query.join('&')}`;
-  }
-  return link;
-}
-
 function getDiscoverLink(location) {
   let link = '/discover';
   if (location.country) {
-    link += `/${getCountryName(location.country).toLowerCase()}`;
+    link += `/${location.country.toLowerCase()}`;
   }
   return link;
 }
@@ -77,6 +59,7 @@ export class Header extends Component {
   }
 
   render() {
+    const { currentLocation, isLoggedIn } = this.props;
     return (
       <header className="Header" style={ { position: 'relative' } }>
         <div className="Header-logo">
@@ -86,15 +69,15 @@ export class Header extends Component {
         </div>
 
         <div className="Header-links">
-          <Link to={ getBrowseLink(this.props.currentLocation) } activeClassName="Header-link-active">Browse</Link>
-          <Link to={ getDiscoverLink(this.props.currentLocation) } activeClassName="Header-link-active">Discover</Link>
+          <Link to={ `/search${getLocationPath(currentLocation)}` } activeClassName="Header-link-active">Browse</Link>
+          <Link to={ getDiscoverLink(currentLocation) } activeClassName="Header-link-active">Discover</Link>
         </div>
 
         <div className="Header-search">
           <Searchbar />
         </div>
 
-        { this.props.isLoggedIn ?
+        { isLoggedIn ?
           <div className="Header-tools loggedIn">
             <HeaderMessagesButton overlayContainer={ this } />
             {/* <HeaderNotificationsButton overlayContainer={ this } />*/}

@@ -196,6 +196,7 @@ export class ShoutModal extends Component {
           error={ error } />
 
         <LocationField
+          updatesUserLocation={ false }
           onChange={ location => this.handleChange({ location }) }
           label="Location"
           error={ error }
@@ -228,8 +229,9 @@ export class ShoutModal extends Component {
 }
 
 const mapStateToProps = state => {
-  const { currencies, entities } = state;
+  const { currencies, entities, currentLocation } = state;
   return {
+    currentLocation,
     currencies: currencies.map(code => entities.currencies[code]),
   };
 };
