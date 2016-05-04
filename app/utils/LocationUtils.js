@@ -94,13 +94,19 @@ export function getLocationPath(location) {
   return path;
 }
 
-export function formatLocation(location) {
+export function formatLocation(location, options) {
+  options = {
+    useAddress: false,
+    ...options,
+  };
   const values = [];
-  if (location.address) {
-    values.push(location.address);
-  }
-  if (location.postal_code) {
-    values.push(location.postal_code);
+  if (options.useAddress) {
+    if (location.address) {
+      values.push(location.address);
+    }
+    if (location.postal_code) {
+      values.push(location.postal_code);
+    }
   }
   if (location.city) {
     values.push(toTitleCase(location.city));
