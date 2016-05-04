@@ -3,8 +3,7 @@ import { createLocationSlug } from '../utils/LocationUtils';
 
 export default function (state = {}, action) {
   switch (action.type) {
-    case actionTypes.SET_CURRENT_LOCATION:
-    case actionTypes.LOAD_CURRENT_LOCATION_SUCCESS:
+    case actionTypes.UPDATE_CURRENT_LOCATION_START:
       return action.payload.location;
     case actionTypes.LOGIN_SUCCESS:
       const { location } = action.payload.user;

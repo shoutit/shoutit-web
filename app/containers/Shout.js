@@ -235,7 +235,7 @@ export class Shout extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  loggedUser: state.session.user,
+  loggedUser: state.entities.users[state.session.user],
   shout: state.entities.shouts[ownProps.params.id] ?
     denormalize(state.entities.shouts[ownProps.params.id], state.entities, 'SHOUT') :
     undefined,

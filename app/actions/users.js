@@ -49,23 +49,6 @@ export function loadListening(user) {
   };
 }
 
-export function setUserLocation(location) {
-  return {
-    types: [
-      actionTypes.SET_USER_LOCATION_START,
-      actionTypes.SET_USER_LOCATION_SUCCESS,
-      actionTypes.SET_USER_LOCATION_FAILURE,
-    ],
-    payload: { location },
-    service: {
-      name: 'profile',
-      method: 'update',
-      body: { location },
-      schema: PROFILE,
-    },
-  };
-}
-
 export function updateProfile(profile) {
   return {
     types: [

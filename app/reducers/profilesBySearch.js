@@ -1,9 +1,10 @@
 import * as actionTypes from '../actions/actionTypes';
+import { stringifySearchParams } from '../utils/SearchUtils';
+
 import paginate from './paginate';
-import stringify from 'json-stable-stringify';
 
 export default paginate({
-  mapActionToKey: action => stringify(action.payload.searchParams),
+  mapActionToKey: action => stringifySearchParams(action.payload.searchParams),
   fetchTypes: [
     actionTypes.SEARCH_PROFILES_START,
     actionTypes.SEARCH_PROFILES_SUCCESS,

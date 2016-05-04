@@ -231,7 +231,7 @@ export class Signup extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedUser: state.session.user,
+    loggedUser: state.entities.users[state.session.user],
     isSigningUp: state.session.isSigningUp,
     error: state.session.signupError,
     currentLocation: state.currentLocation,

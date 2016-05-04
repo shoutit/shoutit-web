@@ -169,7 +169,7 @@ export class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedUser: state.session.user,
+    loggedUser: state.entities.users[state.session.user],
     isLoggingIn: state.session.isLoggingIn,
     error: state.session.loginError,
   };

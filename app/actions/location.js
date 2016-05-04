@@ -1,42 +1,26 @@
 /* global google */
+import Cookies from 'js-cookie';
 import { camelizeKeys } from 'humps';
+import trim from 'lodash/string/trim';
+
 import * as actionTypes from './actionTypes';
-import { trimWhitespaces } from '../utils/StringUtils';
+import { SUGGESTIONS, PROFILE } from '../schemas';
 
-import { SUGGESTIONS } from '../schemas';
-
-export function loadCurrentLocation() {
+export function updateCurrentLocation(location) {
+  Cookies.set('location', location, { expires: 365 });
   return {
     types: [
-      actionTypes.LOAD_CURRENT_LOCATION_START,
-      actionTypes.LOAD_CURRENT_LOCATION_SUCCESS,
-      actionTypes.LOAD_CURRENT_LOCATION_FAILURE,
+      actionTypes.UPDATE_CURRENT_LOCATION_START,
+      actionTypes.UPDATE_CURRENT_LOCATION_SUCCESS,
+      actionTypes.UPDATE_CURRENT_LOCATION_FAILURE,
     ],
-    service: {
-      name: 'location',
-      params: { latlng: '0,0' },
-    },
-  };
-}
-
-export function loadLocationByLatLng(latlng) {
-  return {
-    types: [
-      actionTypes.LOAD_LOCATION_START,
-      actionTypes.LOAD_LOCATION_SUCCESS,
-      actionTypes.LOAD_LOCATION_FAILURE,
-    ],
-    service: {
-      name: 'location',
-      params: { latlng },
-    },
-  };
-}
-
-export function setCurrentLocation(location) {
-  return {
-    type: actionTypes.SET_CURRENT_LOCATION,
     payload: { location },
+    service: {
+      method: 'update',
+      name: 'location',
+      body: { location },
+      schema: PROFILE,
+    },
   };
 }
 
@@ -63,7 +47,7 @@ export function resetPlacePredictionsLastInput() {
 
 let autocompleteService;
 export function loadPlacePredictions(input, types = ['(cities)']) {
-  input = trimWhitespaces(input);
+  input = trim(input);
   if (!google || !google.maps) {
     const error = new Error('Google Maps Service is not initialized');
     console.error(error); // eslint-disable-line

@@ -59,7 +59,7 @@ export class HeaderMessagesButton extends Component {
 }
 
 const mapStateToProps = state => ({
-  badge: state.session.user.stats.unreadConversationsCount,
+  badge: state.entities.users[state.session.user].stats.unreadConversationsCount,
 });
 
 export default connect(mapStateToProps)(HeaderMessagesButton);

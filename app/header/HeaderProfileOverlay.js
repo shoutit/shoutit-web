@@ -41,7 +41,7 @@ HeaderProfileOverlay.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: state.session.user,
+  user: state.entities.users[state.session.user],
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -8,7 +8,7 @@ import CountryFlag from '../ui/CountryFlag';
 
 import { ESCAPE, ENTER } from '../utils/keycodes';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
-import { loadPlacePredictions, resetPlacePredictionsLastInput } from '../actions/location';
+import { loadPlacePredictions, resetPlacePredictionsLastInput, updateCurrentLocation } from '../actions/location';
 
 import Overlay from '../ui/Overlay';
 import FormField from './FormField';
@@ -18,14 +18,19 @@ const log = debug('shoutit:ui:LocationField');
 export class LocationField extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
     error: PropTypes.object,
     inputRef: PropTypes.func,
+    disabled: PropTypes.bool,
     isFetching: PropTypes.bool,
     lastInput: PropTypes.string,
-    location: PropTypes.object,
     name: PropTypes.string,
     onChange: PropTypes.func,
     predictions: PropTypes.array,
+    updatesUserLocation: PropTypes.bool,
+  };
+  static defaultProps = {
+    updatesUserLocation: true,
   };
   constructor(props) {
     super(props);
@@ -45,9 +50,8 @@ export class LocationField extends Component {
     };
 
     if (props.location) {
-      const { city, country } = props.location;
-      this.state.value = formatLocation({ city, country });
-      this.state.location = props.location;
+      this.state.value = formatLocation(props.location);
+      this.state.location = formatLocation(props.location);
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -56,6 +60,12 @@ export class LocationField extends Component {
       state = {
         ...state,
         previousPredictions: nextProps.predictions,
+      };
+    }
+    if (nextProps.location.slug !== this.props.location.slug) {
+      state = {
+        ...state,
+        value: formatLocation(nextProps.location),
       };
     }
     if (state) {
@@ -148,20 +158,16 @@ export class LocationField extends Component {
     log('Start geocoding place with id %s', prediction.placeId);
     geocodePlace(prediction.placeId, (err, location) => {
       this.setState({ isGeocoding: false }, () => {
-        const { onChange } = this.props;
         if (location && location.city) {
           log('Found location geocoding %s', prediction.placeId, location);
           const value = formatLocation(location);
-          this.setState({ location, value });
-          if (onChange) {
-            onChange(location);
-          }
+          this.setState({ value, location });
+          this.handleGeocodeSuccess(location);
           return;
         }
         log('Could not geocode %s, showing error', prediction.placeId);
         // Prediction couldn't be geocoded
         this.setState({
-          location: null,
           error: {
             errors: [{
               location: this.props.name,
@@ -174,6 +180,18 @@ export class LocationField extends Component {
         }, this.select);
       });
     });
+  }
+  handleGeocodeSuccess(location) {
+    const { disabled, onChange, dispatch, updatesUserLocation } = this.props;
+    if (disabled) {
+      return;
+    }
+    if (updatesUserLocation) {
+      dispatch(updateCurrentLocation(location));
+    }
+    if (onChange) {
+      onChange(location);
+    }
   }
   fetchPredictions(value) {
     const { dispatch } = this.props;
@@ -200,8 +218,8 @@ export class LocationField extends Component {
     );
   }
   render() {
-    const { inputRef, name, ...props } = this.props; // eslint-disable-line
-    const { readOnly, value, showOverlay, hasFocus, error, location } = this.state;
+    const { inputRef, name, location, ...props } = this.props; // eslint-disable-line
+    const { readOnly, value, showOverlay, hasFocus, error } = this.state;
     return (
       <div className="LocationField" style={ { position: 'relative' } }>
         <FormField
@@ -243,10 +261,11 @@ export class LocationField extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   isFetching: state.placePredictions.isFetching,
   predictions: state.placePredictions.predictions[state.placePredictions.lastInput],
   lastInput: state.placePredictions.lastInput,
+  location: ownProps.location || state.currentLocation,
 });
 
 export default connect(mapStateToProps)(LocationField);

@@ -11,20 +11,6 @@ export function getVariation(path, variation = 'medium') {
   return path.replace(pathRE, `$1_${variation}$2`);
 }
 
-export function getErrorSummary(err) {
-  const summary = [];
-  summary.push('');
-  summary.push(`Message:     ${err.message}`);
-  summary.push(`Time:        ${(new Date()).toISOString()}`);
-  summary.push(`Status code: ${err.statusCode}`);
-  if (err.details && err.details.error) {
-    const details = err.details.error;
-    summary.push(`Request ID:  ${details.request_id}`);
-    summary.push(`${details.developer_message}`);
-  }
-  return summary.join('\n');
-}
-
 export function parseApiError(err, info) {
   errorParserLog('Parsing API %s error', err.message, info || 'No additional info provided');
   let parsedError = err;
@@ -32,7 +18,7 @@ export function parseApiError(err, info) {
     errorParserLog('Found a response error from API');
     parsedError = new Error(err.response.body.error.message);
     const apiError = err.response.body.error;
-    if (apiError.message.match(/^Resource not found/)) {
+    if (apiError.message && apiError.message.match(/^Resource not found/)) {
       // Temp fix waiting for https://github.com/shoutit/shoutit-api/issues/79
       apiError.code = 404;
     }

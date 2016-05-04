@@ -63,7 +63,7 @@ export class HeaderProfileButton extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.session.user,
+  user: state.entities.users[state.session.user],
 });
 
 export default connect(mapStateToProps)(HeaderProfileButton);

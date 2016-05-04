@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from '../utils/PropTypes';
+import React, { PropTypes } from 'react';
 import moment from 'moment';
 
 import ListItem from '../ui/ListItem';
@@ -19,5 +18,5 @@ export default function ProfileJoinedOnListItem({ profile, size = 'medium' }) {
 
 ProfileJoinedOnListItem.propTypes = {
   profile: PropTypes.object.isRequired,
-  size: PropTypes.size,
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
 };

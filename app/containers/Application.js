@@ -13,7 +13,7 @@ import NotFound from './NotFound';
 
 import { login } from '../actions/session';
 import { loadCategories, loadCurrencies } from '../actions/misc';
-import { loadCurrentLocation, loadSuggestions } from '../actions/location';
+import { loadSuggestions } from '../actions/location';
 import { loadListening } from '../actions/users';
 
 import * as config from '../config';
@@ -27,15 +27,9 @@ const fetchData = (dispatch, state) => {
   const promises = [];
   promises.push(dispatch(loadCategories()));
   promises.push(dispatch(loadCurrencies()));
-  const user = state.session.user; // logged user comes from rehydrated state
-  if (user) {
-    promises.push(dispatch(login(user)));
-    promises.push(dispatch(loadListening(user)));
-  }
-  if (!user || !user.location) {
-    promises.push(
-      dispatch(loadCurrentLocation())
-    );
+  const loggedUser = state.entities.users[state.session.user]; // logged user comes from rehydrated state
+  if (loggedUser) {
+    promises.push(dispatch(loadListening(loggedUser)));
   }
   return Promise.all(promises);
 };
@@ -56,8 +50,9 @@ export class Application extends React.Component {
     const { dispatch, currentLocation, loggedUser } = this.props;
 
     // Update suggestions if location change
+
     if (currentLocation.slug !== nextProps.currentLocation.slug) {
-      dispatch(loadSuggestions(currentLocation));
+      dispatch(loadSuggestions(nextProps.currentLocation));
     }
     if (!nextProps.loggedUser && loggedUser) {
       // Fetch application data again when logged user changed (e.g. has been logged out)
@@ -168,7 +163,7 @@ Application.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    loggedUser: state.session.user,
+    loggedUser: state.entities.users[state.session.user],
     currentLocation: state.currentLocation,
     currentUrl: state.routing.currentUrl,
     error: state.routing.error,
