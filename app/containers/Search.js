@@ -1,10 +1,10 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import stringify from 'json-stable-stringify';
-import isEqual from 'lodash/lang/isEqual';
 
-import { push, replace } from 'react-router-redux';
+import { push } from 'react-router-redux';
 import Helmet from '../utils/Helmet';
+import { getLocationPath } from '../utils/LocationUtils';
+import { getSearchParamsFromQuery, getQuerystringFromSearchParams, stringifySearchParams } from '../utils/SearchUtils';
 
 import { searchShouts, invalidateShoutsSearch } from '../actions/search';
 
@@ -23,94 +23,16 @@ import SuggestedProfiles from '../users/SuggestedProfiles';
 
 import SearchFilters from '../search/SearchFilters';
 
-const getSearchParamsFromRoute = (params, query) => {
-
-  const { shout_type, category } = params;
-  const { min_price, max_price, search, filters: qsFilters } = query;
-
-  let filters = {};
-  if (qsFilters) {
-    qsFilters.split(';').forEach(qsFilter => {
-      const filter = qsFilter.split(':');
-      if (filter.length === 2) {
-        filters = {
-          ...filters,
-          [filter[0]]: filter[1],
-        };
-      }
-    });
-  }
-  const searchParams = {
-    shout_type,
-    category,
-    filters: Object.keys(filters).length === 0 ? undefined : filters,
-    search: search ? decodeURIComponent(search) : undefined,
-    min_price: min_price ? parseInt(min_price, 10) : undefined,
-    max_price: max_price ? parseInt(max_price, 10) : undefined,
-  };
-  return searchParams;
-};
-
-function getRoutePath(currentLocation, searchParams) {
-  const { country, state, city } = currentLocation;
-  const { shout_type, category, min_price, max_price, search, filters } = searchParams;
-  let url = '/search';
-  const query = [];
-
-  if (shout_type) {
-    url += `/${shout_type}`;
-  } else if (category) {
-    url += '/all';
-  }
-  if (category) {
-    url += `/${category}`;
-  }
-
-  if (country) {
-    query.push(`country=${country}`);
-  }
-  if (state) {
-    query.push(`state=${state}`);
-  }
-  if (city) {
-    query.push(`city=${city}`);
-  }
-  if (search) {
-    query.push(`search=${encodeURIComponent(search)}`);
-  }
-  if (min_price) {
-    query.push(`min_price=${min_price}`);
-  }
-  if (max_price) {
-    query.push(`max_price=${max_price}`);
-  }
-
-  if (filters) {
-    const qsFilters = [];
-    Object.keys(filters).forEach(slug =>
-      qsFilters.push(`${slug}:${filters[slug]}`)
-    );
-    if (qsFilters.length > 0) {
-      query.push(`filters=${qsFilters.join(';')}`);
-    }
-  }
-
-  if (query.length > 0) {
-    url += `?${query.join('&')}`;
-  }
-
-  return url;
-}
-
 const fetchData = (dispatch, state, params, query) => {
-  const searchParams = getSearchParamsFromRoute(params, query);
+  const searchParams = getSearchParamsFromQuery(query);
   dispatch(invalidateShoutsSearch(searchParams));
-  return dispatch(searchShouts(searchParams));
+  return dispatch(searchShouts(state.currentLocation, searchParams));
 };
 
 export class Search extends Component {
 
   static propTypes = {
+    currentUrl: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     currentLocation: PropTypes.object,
@@ -120,53 +42,57 @@ export class Search extends Component {
     nextUrl: PropTypes.string,
     params: PropTypes.object,
     searchParams: PropTypes.object,
-    searchString: PropTypes.string,
     shouts: PropTypes.array,
     title: PropTypes.string,
   };
 
   static fetchData = fetchData;
 
+  constructor(props) {
+    super(props);
+    this.search = this.search.bind(this);
+  }
+
   componentDidMount() {
-    const { firstRender, dispatch, currentLocation, params, location: { query } } = this.props;
+    const { firstRender, dispatch, params, currentLocation, location } = this.props;
     if (!firstRender) {
-      const state = { currentLocation };
-      fetchData(dispatch, state, params, query);
+      fetchData(dispatch, { currentLocation }, params, location.query);
     }
   }
 
   componentWillUpdate(nextProps) {
-
-    const { searchString, dispatch, currentLocation } = this.props;
+    const { currentUrl, dispatch, currentLocation } = this.props;
     const state = { currentLocation };
-    if (nextProps.searchString !== searchString) {
+    if (nextProps.currentUrl !== currentUrl) {
       fetchData(dispatch, state, nextProps.params, nextProps.location.query);
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { currentLocation, dispatch, searchParams } = this.props;
-    if (!isEqual(prevProps.currentLocation, currentLocation)) {
-      const url = getRoutePath(currentLocation, searchParams);
-      dispatch(replace(url));
+    const { currentLocation, searchParams } = this.props;
+    if (prevProps.currentLocation.slug !== currentLocation.slug) {
+      this.search(searchParams);
     }
   }
 
-  handleFilterSubmit(searchParams) {
+  search(searchParams) {
     const { dispatch, currentLocation } = this.props;
-    const url = getRoutePath(currentLocation, searchParams);
-    dispatch(push(url));
+    let path = `/search${getLocationPath(currentLocation)}`;
+    if (searchParams) {
+      path += `?${getQuerystringFromSearchParams(searchParams)}`;
+    }
+    dispatch(push(path));
   }
 
   render() {
-    const { shouts, nextUrl, isFetching, dispatch, error, searchParams, title } = this.props;
+    const { shouts, nextUrl, isFetching, dispatch, error, searchParams, currentLocation, title } = this.props;
 
     return (
       <Scrollable
         scrollElement={ () => window }
         onScrollBottom={ () => {
           if (nextUrl && !isFetching) {
-            dispatch(searchShouts(searchParams, nextUrl));
+            dispatch(searchShouts(currentLocation, searchParams, nextUrl));
           }
         } }
         triggerOffset={ 400 }
@@ -175,7 +101,7 @@ export class Search extends Component {
           className="Search"
           startColumn={
             <div className="Search-start-column">
-              <SearchFilters disabled={ false } searchParams={ searchParams } onSubmit={ params => this.handleFilterSubmit(params) } />
+              <SearchFilters disabled={ false } searchParams={ searchParams } onSubmit={ this.search } />
             </div>
           }
           stickyStartColumn
@@ -194,7 +120,7 @@ export class Search extends Component {
               title="There was an error"
               details="Cannot load shouts right now."
               type="error"
-              retryAction={ () => dispatch(searchShouts(searchParams, nextUrl)) }
+              retryAction={ () => dispatch(searchShouts(currentLocation, searchParams, nextUrl)) }
             />
           }
 
@@ -213,22 +139,21 @@ export class Search extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { currentLocation, paginated: { shoutsBySearch }, entities } = state;
+  const { routing, currentLocation, paginated: { shoutsBySearch }, entities } = state;
 
-  const searchParams = getSearchParamsFromRoute(ownProps.params, ownProps.location.query);
-
-  const searchString = stringify(searchParams);
+  const searchParams = getSearchParamsFromQuery(ownProps.location.query);
+  const searchResults = shoutsBySearch[stringifySearchParams(searchParams)];
 
   let isFetching = false;
   let nextUrl;
   let error;
   let shouts = [];
 
-  if (shoutsBySearch[searchString]) {
-    isFetching = shoutsBySearch[searchString].isFetching;
-    nextUrl = shoutsBySearch[searchString].nextUrl;
-    error = shoutsBySearch[searchString].error;
-    shouts = shoutsBySearch[searchString].ids.map(id => denormalize(entities.shouts[id], entities, 'SHOUT'));
+  if (searchResults) {
+    isFetching = searchResults.isFetching;
+    nextUrl = searchResults.nextUrl;
+    error = searchResults.error;
+    shouts = searchResults.ids.map(id => denormalize(entities.shouts[id], entities, 'SHOUT'));
   }
 
   let title = 'Search';
@@ -246,7 +171,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return {
-    searchString,
+    currentUrl: routing.currentUrl,
     searchParams,
     shouts,
     nextUrl,
