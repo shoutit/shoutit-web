@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import trim from 'lodash/string/trim';
 import throttle from 'lodash/function/throttle';
-import stringify from 'json-stable-stringify';
 
 import { searchShouts, searchTags, searchProfiles } from '../actions/search';
 import { openModal, closeModal } from '../actions/ui';
 import { updateCurrentLocation } from '../actions/location';
 
+import { stringifySearchParams } from '../utils/SearchUtils';
 import { formatLocation } from '../utils/LocationUtils';
 import SearchbarResults from './SearchbarResults';
 
@@ -103,12 +103,12 @@ export class Searchbar extends Component {
     this.setState({
       searchString: search,
       showOverlay: true,
-      shoutsSearchSlug: stringify(shoutsSearchParams),
-      tagsSearchSlug: stringify(tagsSearchParams),
-      profilesSearchSlug: stringify(profilesSearchParams),
+      shoutsSearchSlug: stringifySearchParams(shoutsSearchParams),
+      tagsSearchSlug: stringifySearchParams(tagsSearchParams),
+      profilesSearchSlug: stringifySearchParams(profilesSearchParams),
     });
 
-    dispatch(searchShouts(shoutsSearchParams));
+    dispatch(searchShouts(currentLocation, shoutsSearchParams));
     dispatch(searchTags(tagsSearchParams));
     dispatch(searchProfiles(profilesSearchParams));
   }
