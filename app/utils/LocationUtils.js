@@ -80,6 +80,20 @@ export function getCountryCode(name) {
   return code.toLowerCase();
 }
 
+export function getLocationPath(location) {
+  let path = '';
+  if (location.country && getCountryName(location.country)) {
+    path += `/${location.country.toLowerCase()}`;
+    if (location.state) {
+      path += `/${encodeURIComponent(location.state).toLowerCase()}`;
+      if (location.city) {
+        path += `/${encodeURIComponent(location.city).toLowerCase()}`;
+      }
+    }
+  }
+  return path;
+}
+
 export function formatLocation(location) {
   const values = [];
   if (location.address) {

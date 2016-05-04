@@ -6,7 +6,7 @@ import { Request } from 'superagent';
 
 import * as LocationUtils from './LocationUtils';
 
-describe('LocationUtils', () => {
+describe('utils/LocationUtils', () => {
   describe('createLocationSlug', () => {
 
     it('should create the slug from a full location', () => {
@@ -102,6 +102,26 @@ describe('LocationUtils', () => {
     });
     it('should return null if country is not found', () => {
       expect(LocationUtils.getCountryCode('foo')).to.be.null;
+    });
+  });
+
+  describe('getLocationPath', () => {
+    it('should return the path with country', () => {
+      expect(LocationUtils.getLocationPath({ country: 'IT' })).to.equal('/it');
+    });
+    it('should return the path with country and state', () => {
+      expect(LocationUtils.getLocationPath({ country: 'IT', state: 'Lazio' })).to.equal('/it/lazio');
+    });
+    it('should return the path with the country, state and city', () => {
+      expect(LocationUtils.getLocationPath({ country: 'IT', state: 'Lazio', city: 'Roma' })).to.equal('/it/lazio/roma');
+    });
+    it('should work with invalid locations', () => {
+      // without country
+      expect(LocationUtils.getLocationPath({ state: 'Lazio', city: 'Roma' })).to.equal('');
+      // unexisting country
+      expect(LocationUtils.getLocationPath({ country: 'xx', state: 'Lazio', city: 'Roma' })).to.equal('');
+      // without state
+      expect(LocationUtils.getLocationPath({ country: 'it', city: 'Roma' })).to.equal('/it');
     });
   });
 
