@@ -114,7 +114,7 @@ describe('LocationUtils', () => {
         state: 'Lazio',
         country: 'IT',
       };
-      expect(LocationUtils.formatLocation(location)).to.equal('Via Roma, 10100, Rome, Lazio, IT');
+      expect(LocationUtils.formatLocation(location)).to.equal('Via Roma, 10100, Rome, Lazio, Italy');
     });
     it('should skip state if the same as the city', () => {
       const location = {
@@ -122,7 +122,7 @@ describe('LocationUtils', () => {
         state: 'Berlin',
         country: 'DE',
       };
-      expect(LocationUtils.formatLocation(location)).to.equal('Berlin, DE');
+      expect(LocationUtils.formatLocation(location)).to.equal('Berlin, Germany');
     });
   });
 
