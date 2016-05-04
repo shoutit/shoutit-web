@@ -83,15 +83,15 @@ describe('services/shouts', () => {
       shouts.read({}, resource, { searchParams: { search: 'foo' }, endpoint: 'foo' }, config, serviceCallback);
     });
 
-    it('should augment the search params with the request\'s geolocation', done => {
+    it('should augment the search params with location', done => {
       sinon.stub(Request.prototype, 'end', function callback() {
         expect(this.qs).to.eql({ country: 'it', state: 'lazio', city: 'rome', search: 'foo' });
         done();
       });
       shouts.read(
-        { geolocation: { country: 'it', state: 'lazio', city: 'rome', name: 'Roma', slug: 'a-slug' } },
+        { },
         resource,
-        { searchParams: { search: 'foo' } },
+        { searchParams: { search: 'foo' }, location: { country: 'it', state: 'lazio', city: 'rome' } },
         config,
         serviceCallback);
     });

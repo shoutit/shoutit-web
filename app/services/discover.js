@@ -1,20 +1,18 @@
-import omit from 'lodash/object/omit';
-
 import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'discover',
-  read: (req, resource, { id, searchParams }, config, callback) => {
+  read: (req, resource, { id, searchParams, location }, config, callback) => {
     let url = '/discover';
     if (id) {
       url += `/${id}`;
     }
     let query = searchParams;
-    if (req.geolocation) {
+    if (location) {
       query = {
         ...searchParams,
-        ...omit(req.geolocation, ['slug', 'name']),
+        ...location,
       };
     }
     request

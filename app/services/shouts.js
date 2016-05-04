@@ -1,5 +1,4 @@
 import request from '../utils/request';
-import omit from 'lodash/object/omit';
 
 import { parseApiError } from '../utils/APIUtils';
 
@@ -7,7 +6,6 @@ export default {
   name: 'shouts',
   read: (req, resource, params = {}, config, callback) => {
     const url = params.endpoint || '/shouts';
-
     let query;
     if (!params.endpoint && params.searchParams) {
       query = params.searchParams;
@@ -17,10 +15,10 @@ export default {
         });
         delete query.filters;
       }
-      if (req.geolocation) {
+      if (params.location) {
         query = {
           ...query,
-          ...omit(req.geolocation, ['slug', 'name']),
+          ...params.location,
         };
       }
     }
