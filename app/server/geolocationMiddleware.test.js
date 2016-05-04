@@ -43,6 +43,19 @@ describe('server/geolocationMiddleware', () => {
       name: 'Lazio, Italy',
     });
   });
+  it('should work with encoded uri components', () => {
+    const req = {
+      url: '/discover/it/emilia%20romagna/valeggio%20sul%20mincio',
+    };
+    geolocationMiddleware(req, null, () => {});
+    expect(req.geolocation).to.eql({
+      country: 'it',
+      state: 'emilia romagna',
+      city: 'valeggio sul mincio',
+      slug: 'it_emilia-romagna_valeggio-sul-mincio',
+      name: 'Valeggio Sul Mincio, Emilia Romagna, Italy',
+    });
+  });
   it('should ignore unexisting countries from url', () => {
     sinon.stub(Request.prototype, 'end', done => done);
     const req = {

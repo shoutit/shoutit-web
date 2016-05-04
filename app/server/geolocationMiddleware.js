@@ -6,7 +6,7 @@ import { getValidIPv4Address } from '../utils/InternetUtils';
 import request from '../utils/request';
 import { createLocationSlug, getCountryName, formatLocation } from '../utils/LocationUtils';
 
-const geoRE = /^\/(search|discover)\/(\w{2})(\/(\w*))?(\/(\w*))?/;
+const geoRE = /^\/(search|discover)\/(\w{2})(\/([^\/]*))?(\/([^\/]*))?/;
 
 const log = debug('shoutit:geolocationMiddleware');
 
@@ -18,10 +18,10 @@ export default function geoLocationMiddleware(req, res, next) {
       country: matchesUrl[2],
     };
     if (matchesUrl[4]) {
-      req.geolocation.state = matchesUrl[4];
+      req.geolocation.state = decodeURIComponent(matchesUrl[4]);
     }
     if (matchesUrl[6]) {
-      req.geolocation.city = matchesUrl[6];
+      req.geolocation.city = decodeURIComponent(matchesUrl[6]);
     }
     log('Got geolocation from URL');
   } else if (get(req, 'session.user.location')) {
