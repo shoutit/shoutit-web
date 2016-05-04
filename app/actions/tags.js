@@ -38,6 +38,13 @@ export function loadTagShouts(name, location, endpoint) {
   };
 }
 
+export function invalidateTagShouts(tag) {
+  return {
+    type: actionTypes.INVALIDATE_TAG_SHOUTS,
+    payload: tag,
+  };
+}
+
 export function loadRelatedTags(tag, query, endpoint) {
   return {
     types: [

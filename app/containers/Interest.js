@@ -4,7 +4,7 @@ import find from 'lodash/collection/find';
 import Helmet from '../utils/Helmet';
 
 import { denormalize } from '../schemas';
-import { loadTagIfNeeded, loadTagShouts, loadRelatedTags } from '../actions/tags';
+import { loadTagIfNeeded, loadTagShouts, loadRelatedTags, invalidateTagShouts } from '../actions/tags';
 import { routeError } from '../actions/server';
 
 import Page from '../layout/Page';
@@ -58,8 +58,9 @@ export class Interest extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    const { dispatch, params: { name }, currentLocation } = this.props;
+    const { dispatch, params: { name }, currentLocation, tag } = this.props;
     if (nextProps.params.name !== name || currentLocation.slug !== nextProps.currentLocation.slug) {
+      dispatch(invalidateTagShouts(tag));
       fetchData(dispatch, { currentLocation: nextProps.currentLocation }, nextProps.params);
     }
   }
