@@ -17,10 +17,10 @@ export default function geoLocationMiddleware(req, res, next) {
     req.geolocation = {
       country: matchesUrl[2],
     };
-    if (matchesUrl[4]) {
+    if (matchesUrl[1] === 'search' && matchesUrl[4]) {
       req.geolocation.state = decodeURIComponent(matchesUrl[4]);
     }
-    if (matchesUrl[6]) {
+    if (matchesUrl[1] === 'search' && matchesUrl[6]) {
       req.geolocation.city = decodeURIComponent(matchesUrl[6]);
     }
     log('Got geolocation from URL');
