@@ -11,7 +11,6 @@ import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
 import NotFound from './NotFound';
 
-import { login } from '../actions/session';
 import { loadCategories, loadCurrencies } from '../actions/misc';
 import { loadSuggestions } from '../actions/location';
 import { loadListening } from '../actions/users';
@@ -39,10 +38,7 @@ export class Application extends React.Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { dispatch, loggedUser, currentLocation } = this.props;
-    if (loggedUser) {
-      dispatch(login(loggedUser)); // trigger client-side login actions (e.g. pusher)
-    }
+    const { dispatch, currentLocation } = this.props;
     dispatch(loadSuggestions(currentLocation));
   }
 

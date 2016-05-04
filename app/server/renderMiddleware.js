@@ -13,7 +13,6 @@ import HtmlDocument from './HtmlDocument';
 import configureRoutes from '../routes';
 
 import { Provider } from 'react-redux';
-import { login } from '../actions/session';
 import configureStore from '../store/configureStore';
 
 import fetchDataForRoutes from '../utils/fetchDataForRoutes';
@@ -32,21 +31,27 @@ export default function renderMiddleware(req, res, next) {
   const fetchr = new Fetchr({ xhrPath: '/fetchr', req });
 
   log('Reading current session...');
+
   fetchr.read('session').end((err, user) => {
-    if (user) {
-      log('Logged in as %s', user.username);
-      req.session.user = user;
-    } else {
-      log('User is not logged in');
-    }
-    const store = configureStore({
+    const storeState = {
       routing: { currentUrl: req.url },
       currentLocation: req.geolocation,
-    }, { fetchr });
-
-    if (req.session.user) {
-      store.dispatch(login(req.session.user));
+    };
+    if (user) {
+      req.session.user = user;
+      log('Logged in as %s', user.username);
+      storeState.session = {
+        user: user.id,
+      };
+      storeState.entities = {
+        users: {
+          [user.id]: user,
+        },
+      };
+    } else {
+      log('Profile is not logged in');
     }
+    const store = configureStore(storeState, { fetchr });
 
     const routes = configureRoutes(store);
 

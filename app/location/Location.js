@@ -12,7 +12,7 @@ export default function Location({ location, style, zoom = 11 }) {
     <Card block className="Location" style={ style }>
       <GoogleStaticMap zoom={ zoom } location={ location } />
       <div className="Location-body">
-        { formatLocation(location) }
+        { formatLocation(location, { useAddress: true }) }
       </div>
     </Card>
   );
