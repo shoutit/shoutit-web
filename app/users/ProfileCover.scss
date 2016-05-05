@@ -34,7 +34,6 @@ $profile-cover-header-height: 128px;
   }
 }
 
-
 .ProfileCover-instructions {
   position: absolute;
   z-index: 10001;
@@ -92,5 +91,11 @@ $profile-cover-header-height: 128px;
     margin-top: 5px;
     font-size: 1rem;
     font-weight: normal;
+  }
+}
+
+.ProfileCover-avatar {
+  &.editable {
+    cursor: pointer;
   }
 }

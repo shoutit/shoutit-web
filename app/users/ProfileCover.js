@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import AvatarEditor from 'react-avatar-editor';
+import ReactAvatarEditor from 'react-avatar-editor';
 import { connect } from 'react-redux';
 
 import request from '../utils/request';
@@ -8,9 +8,12 @@ import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import { getFilename } from '../utils/StringUtils';
 
 import { updateProfile } from '../actions/users';
+import { openModal, closeModal } from '../actions/ui';
 
+import AvatarEditor from '../users/AvatarEditor';
 import ProfileAvatar from '../users/ProfileAvatar';
 import Button from '../ui/Button';
+import Modal from '../ui/Modal';
 import UploadButton from '../ui/UploadButton';
 
 if (process.env.BROWSER) {
@@ -30,6 +33,7 @@ export class ProfileCover extends Component {
   constructor(props) {
     super(props);
     this.handlePictureChange = this.handlePictureChange.bind(this);
+    this.openAvatarEditor = this.openAvatarEditor.bind(this);
     this.cancelEditing = this.cancelEditing.bind(this);
     this.handleSaveClick = this.handleSaveClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
@@ -108,6 +112,23 @@ export class ProfileCover extends Component {
     dispatch(updateProfile({ id: profile.id, cover: null })).then(this.cancelEditing);
   }
 
+  openAvatarEditor() {
+    const { dispatch, profile } = this.props;
+
+    const modal = (
+      <Modal name="avatar-editor">
+        <AvatarEditor
+          profile={ profile }
+          onCancel={ () => dispatch(closeModal('avatar-editor')) }
+          onSuccess={ () => dispatch(closeModal('avatar-editor')) }
+        />
+      </Modal>
+    );
+
+    dispatch(openModal(modal));
+
+  }
+
   render() {
     const { profile } = this.props;
     const { isEditing, isLoading, image } = this.state;
@@ -125,7 +146,7 @@ export class ProfileCover extends Component {
 
           { isEditing &&
             <div>
-              <AvatarEditor ref="editor" width={ width } height={ height } image={ getVariation(image, 'large') } border={ 0 } />
+              <ReactAvatarEditor ref="editor" width={ width } height={ height } image={ getVariation(image, 'large') } border={ 0 } />
               { profile.cover !== image && !isLoading &&
                 <div className="ProfileCover-instructions">
                   Drag to reposition
@@ -210,9 +231,11 @@ export class ProfileCover extends Component {
         }
 
         <div className="ProfileCover-header">
-          <a href={ profile.image ? getVariation(profile.image, 'large') : '' }>
+          <span
+            className={ `ProfileCover-avatar${profile.isOwner && !isEditing ? ' editable' : ''}` }
+            onClick={ profile.isOwner && !isEditing ? this.openAvatarEditor : null } >
             <ProfileAvatar size="huge" user={ profile } />
-          </a>
+          </span>
 
           { !isEditing &&
             <div className="ProfileCover-name">
