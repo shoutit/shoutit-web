@@ -125,7 +125,7 @@ export class ProfileCover extends Component {
 
           { isEditing &&
             <div>
-              <AvatarEditor ref="editor" width={ width } height={ height } image={ image } border={ 0 } />
+              <AvatarEditor ref="editor" width={ width } height={ height } image={ getVariation(image, 'large') } border={ 0 } />
               { profile.cover !== image && !isLoading &&
                 <div className="ProfileCover-instructions">
                   Drag to reposition
