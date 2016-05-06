@@ -2,7 +2,6 @@ import React, { PropTypes, Component } from 'react';
 import ReactAvatarEditor from 'react-avatar-editor';
 import { connect } from 'react-redux';
 import { updateProfile } from '../actions/users';
-import { getVariation } from '../utils/APIUtils';
 import { getFilename } from '../utils/StringUtils';
 import request from '../utils/request';
 
@@ -152,7 +151,7 @@ export class AvatarEditor extends Component {
               ref="editor"
               width={ width }
               height={ height }
-              image={ image === profile.image ? getVariation(image, 'large') : image }
+              image={ image }
               border={ 0 }
             />
             :

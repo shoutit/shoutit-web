@@ -3,7 +3,7 @@ import ReactAvatarEditor from 'react-avatar-editor';
 import { connect } from 'react-redux';
 
 import request from '../utils/request';
-import { getVariation } from '../utils/APIUtils';
+// import { getVariation } from '../utils/APIUtils';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import { getFilename } from '../utils/StringUtils';
 
@@ -150,7 +150,7 @@ export class ProfileCover extends Component {
                 ref="editor"
                 width={ width }
                 height={ height }
-                image={ image === profile.cover ? getVariation(image, 'large') : image }
+                image={ image }
                 border={ 0 }
               />
               { profile.cover !== image && !isLoading &&
