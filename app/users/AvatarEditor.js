@@ -147,7 +147,14 @@ export class AvatarEditor extends Component {
       <Form className="AvatarEditor" actions={ actions }>
         <div>
           { image ?
-            <ReactAvatarEditor scale={ scale } ref="editor" width={ width } height={ height } image={ image } border={ 0 } />
+            <ReactAvatarEditor
+              scale={ scale }
+              ref="editor"
+              width={ width }
+              height={ height }
+              image={ image === profile.image ? getVariation(image, 'large') : image }
+              border={ 0 }
+            />
             :
             <span className="AvatarEditor-placeholder" style={ { width, height } } />
           }
