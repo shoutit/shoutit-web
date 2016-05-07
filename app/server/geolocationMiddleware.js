@@ -6,7 +6,7 @@ import { getValidIPv4Address } from '../utils/InternetUtils';
 import request from '../utils/request';
 import { createLocationSlug, getCountryName, formatLocation } from '../utils/LocationUtils';
 
-const geoRE = /^\/(search|discover)\/(\w{2})(\/([^\/]*))?(\/([^\/]*))?/;
+const geoRE = /^\/(search|discover)\/(\w{2})(\/([^\/]*))?(\/([^\/\?]*))?/;
 
 const log = debug('shoutit:geolocationMiddleware');
 
