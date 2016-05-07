@@ -2,9 +2,13 @@
 
 $profile-cover-header-height: 128px;
 
-
 .ProfileCover {
   position: relative;
+}
+
+.ProfileCover .ProfileAvatar {
+  border: 2px solid white;
+  box-shadow: $box-shadow-depth-1;
 }
 
 .ProfileCover-image {
@@ -66,13 +70,12 @@ $profile-cover-header-height: 128px;
   display: flex;
   align-items: flex-end;
   margin-top: -50px;
-  .ProfileAvatar {
+  .ProfileCover-avatar {
     z-index: 10001;
     position: relative;
     margin-left: 3.875rem;
     margin-right: 1rem;
-    border: 2px solid white;
-    box-shadow: $box-shadow-depth-1;
+
   }
   .ProfileCover-name {
     .ProfileCover.is-editing & {

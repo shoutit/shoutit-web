@@ -8,7 +8,7 @@ import LocationField from '../ui/LocationField';
 import Picker from '../ui/Picker';
 import TextArea from '../ui/TextArea';
 import TextField from '../ui/TextField';
-import UploadField from '../ui/UploadField';
+import FileUploadField from '../ui/FileUploadField';
 
 if (process.env.BROWSER) {
   require('./ShoutForm.scss');
@@ -59,8 +59,8 @@ export class ShoutModal extends Component {
       currency: this.currencyPicker.getValue() || null,
       price: this.priceField.getValue(),
 
-      images: this.imageUploadField.getValue(),
-      removedImages: this.imageUploadField.getFilesToDelete(),
+      images: this.imageFileUploadField.getValue(),
+      removedImages: this.imageFileUploadField.getFilesToDelete(),
     };
     return shout;
   }
@@ -68,7 +68,7 @@ export class ShoutModal extends Component {
   categoryPicker = null;
   currencyPicker = null;
   form = null;
-  imageUploadField = null;
+  imageFileUploadField = null;
   locationField = null;
   mobileField = null;
   priceField = null;
@@ -109,8 +109,8 @@ export class ShoutModal extends Component {
           }
         } } onSubmit={ this.handleSubmit } error={ error } actions={ actions }>
 
-        <UploadField
-          ref={ el => { this.imageUploadField = el; } }
+        <FileUploadField
+          ref={ el => { this.imageFileUploadField = el; } }
           name="images"
           resourceType="shout"
           label={ mode === 'update' ? 'Edit photos' : 'Add photos' }

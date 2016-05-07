@@ -69,7 +69,7 @@
 //   ];
 //
 //   const content = (
-//     <UINotification showDismissButton={ false } icon= { <ProfileAvatar user={ user } /> } buttons={buttons}>
+//     <UINotification showDismissButton={ false } icon= { <ProfileAvatar profile={ user } /> } buttons={buttons}>
 //       Call <strong>{ user.name }</strong>?
 //       <div style={{ marginTop: 10 }}>
 //         <VideoCallLocalMedia />
@@ -145,7 +145,7 @@
 //   ];
 //
 //   const content = (
-//     <UINotification showDismissButton={ false } icon= { <ProfileAvatar user={ user } /> } buttons={buttons}>
+//     <UINotification showDismissButton={ false } icon= { <ProfileAvatar profile={ user } /> } buttons={buttons}>
 //       <strong>{ user.name }</strong> is calling you…
 //     </UINotification>
 //   );

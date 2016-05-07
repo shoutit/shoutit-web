@@ -19,6 +19,7 @@ if (process.env.BROWSER) {
 export class AvatarEditor extends Component {
 
   static propTypes = {
+    image: PropTypes.string.isRequired,
     profile: PropTypes.object.isRequired,
     onCancel: PropTypes.func.isRequired,
     onSuccess: PropTypes.func.isRequired,
@@ -31,9 +32,10 @@ export class AvatarEditor extends Component {
     this.handlePictureChange = this.handlePictureChange.bind(this);
     this.handleSaveClick = this.handleSaveClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
     this.handleScale = this.handleScale.bind(this);
     this.state = {
-      image: props.profile.image,
+      image: props.image,
       uploadRequest: null,
       scale: 1,
     };
@@ -98,6 +100,12 @@ export class AvatarEditor extends Component {
     this.setState({ scale });
   }
 
+  handleDrop() {
+    this.setState({
+      image: this.refs.editor.getImage(),
+    });
+  }
+
   cancelEditing() {
     if (this.state.uploadRequest) {
       this.state.uploadRequest.abort();
@@ -153,6 +161,7 @@ export class AvatarEditor extends Component {
               height={ height }
               image={ image }
               border={ 0 }
+              onDropFile={ this.handleDrop }
             />
             :
             <span className="AvatarEditor-placeholder" style={ { width, height } } />

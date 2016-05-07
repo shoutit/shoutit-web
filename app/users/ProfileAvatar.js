@@ -11,7 +11,7 @@ if (process.env.BROWSER) {
 export default class ProfileAvatar extends Component {
 
   static propTypes = {
-    user: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
     tooltip: PropTypes.bool,
     linkToProfilePage: PropTypes.bool,
     placeholder: PropTypes.bool,
@@ -25,15 +25,15 @@ export default class ProfileAvatar extends Component {
 
   render() {
     const {
-      user = {},
+      profile = {},
       tooltip = false,
       linkToProfilePage = false,
-      placeholder = false,  // show placeholder behind the image (default true when user has no image)
+      placeholder = false,  // show placeholder behind the image (default true when profile has no image)
       size = 'medium',     // small, medium, large or huge
       mask,               // apply the shoutit logo mask, works only on white backgrounds
     } = this.props;
 
-    const { image, username } = user;
+    const { image, username } = profile;
 
     let className = 'ProfileAvatar';
 
@@ -43,7 +43,7 @@ export default class ProfileAvatar extends Component {
     if (mask) {
       className += ' mask';
     }
-    if (!user.image || placeholder) {
+    if (!profile.image || placeholder) {
       className += ' placeholder';
     }
 
@@ -59,7 +59,7 @@ export default class ProfileAvatar extends Component {
 
     if (tooltip) {
       avatar = (
-        <Tooltip placement="top" overlay={ user.name }>
+        <Tooltip placement="top" overlay={ profile.name }>
           { avatar }
         </Tooltip>
         );
