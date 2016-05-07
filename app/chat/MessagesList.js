@@ -19,7 +19,7 @@ export function MessagesByDay({ day, messages, loggedUser, partecipants }) {
       return (
         <div key={ i } className={ className }>
           <div className="MessagesList-user">
-            { profile && <ProfileAvatar user={ profile } linkToProfilePage tooltip /> }
+            { profile && <ProfileAvatar profile={ profile } linkToProfilePage tooltip /> }
           </div>
           <div className="MessagesList-messages">
             { profileMessages.map(message =>

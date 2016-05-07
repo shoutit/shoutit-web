@@ -23,7 +23,7 @@
 //   return (
 //     <div style={ containerStyle }>
 //       { users.slice(0, max).map(user =>
-//         <ProfileAvatar key={user.id} user={ user } size={ users.length === 1 ? 'medium' : 'small' } />
+//         <ProfileAvatar key={user.id} profile={ user } size={ users.length === 1 ? 'medium' : 'small' } />
 //       )}
 //     </div>
 //   );

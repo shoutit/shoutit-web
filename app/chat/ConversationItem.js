@@ -30,7 +30,7 @@ export default function ConversationItem({
   return (
     <Link onClick={ onClick } to={ `/messages/${id}` } className={ className }>
       <div className="ConversationItem-user-avatar">
-        <ProfileAvatar user={ partecipants[0] } />
+        <ProfileAvatar profile={ partecipants[0] } />
       </div>
 
       <div className="ConversationItem-body">

@@ -1,9 +1,7 @@
 import React, { PropTypes, Component } from 'react';
+import FileInput from '../ui/FileInput';
 import Button from '../ui/Button';
 
-if (process.env.BROWSER) {
-  require('./UploadButton.scss');
-}
 export default class UploadButton extends Component {
 
   static propTypes = {
@@ -16,12 +14,11 @@ export default class UploadButton extends Component {
   render() {
     const { accept, children, name, onChange, ...props } = this.props;
     return (
-      <span className="UploadButton">
-        <input id={ name } type="file" accept={ accept } onChange={ onChange } />
-        <Button {...props} element="label" htmlFor={ name }>
+      <FileInput className="UploadButton" accept={ accept } name={ name } onChange={ onChange }>
+        <Button {...props} element="span">
           { children }
         </Button>
-      </span>
+      </FileInput>
     );
   }
 }

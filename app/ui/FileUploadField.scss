@@ -1,6 +1,6 @@
 @import '../styles/constants';
 
-.UploadField {
+.FileUploadField {
   .field-wrapper {
     padding: 0;
     border: 0;
@@ -11,7 +11,7 @@
   }
 }
 
-.UploadField-dropzone {
+.FileUploadField-dropzone {
   display: block;
   padding: .5em;
   border-radius: $border-radius-small;
@@ -24,7 +24,7 @@
   }
 }
 
-.UploadField-instructions {
+.FileUploadField-instructions {
   color: $color-lighter;
   font-size: 0.875rem;
   text-align: center;
@@ -32,8 +32,8 @@
   margin-bottom: 1rem;
 }
 
-.UploadField-file,
-.UploadField-add {
+.FileUploadField-file,
+.FileUploadField-add {
   display: inline-block;
   width: 4em;
   height: 4em;
@@ -47,7 +47,7 @@
   }
 }
 
-.UploadField-file {
+.FileUploadField-file {
   position: relative;
   display: inline-block;
   overflow: hidden;
@@ -57,7 +57,7 @@
   background-size: cover;
 }
 
-.UploadField-file-trash {
+.FileUploadField-file-trash {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -69,13 +69,13 @@
   background-color: rgba(black,.5);
 }
 
-.UploadField-file:hover .UploadField-file-trash {
+.FileUploadField-file:hover .FileUploadField-file-trash {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.UploadField-file-percent {
+.FileUploadField-file-percent {
   position: absolute;
   top: 0;
   right: 0;
@@ -85,7 +85,7 @@
   background-color: rgba(0,0,0,.75);
 }
 
-.UploadField-file-error {
+.FileUploadField-file-error {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -95,7 +95,7 @@
   background-color: rgba(0,0,0,.5);
 }
 
-.UploadField-add {
+.FileUploadField-add {
   cursor: pointer;
   border: 1px dashed $border-color-darker;
   background-color: $background-color-alt;

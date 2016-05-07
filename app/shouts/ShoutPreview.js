@@ -50,7 +50,7 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
                 placement="top"
                 overlay={ <ProfilePreview id={ shout.profile.id } /> }>
                 <span onClick={ onProfileAvatarClick }>
-                  <ProfileAvatar user={ shout.profile } size="small" />
+                  <ProfileAvatar profile={ shout.profile } size="small" />
                 </span>
               </Tooltip>
             }>

@@ -1,4 +1,4 @@
-.UploadButton {
+.FileInput {
   display: inline-block;
   vertical-align: middle;
   input {
@@ -8,5 +8,9 @@
     width: .1px;
     height: .1px;
     opacity: 0;
+  }
+  label {
+    cursor: pointer;
+    display: inline-block;
   }
 }

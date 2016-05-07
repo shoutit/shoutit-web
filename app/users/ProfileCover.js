@@ -8,12 +8,10 @@ import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import { getFilename } from '../utils/StringUtils';
 
 import { updateProfile } from '../actions/users';
-import { openModal, closeModal } from '../actions/ui';
 
-import AvatarEditor from '../users/AvatarEditor';
 import ProfileAvatar from '../users/ProfileAvatar';
+import ProfileAvatarEditable from '../users/ProfileAvatarEditable';
 import Button from '../ui/Button';
-import Modal from '../ui/Modal';
 import UploadButton from '../ui/UploadButton';
 
 if (process.env.BROWSER) {
@@ -33,7 +31,6 @@ export class ProfileCover extends Component {
   constructor(props) {
     super(props);
     this.handlePictureChange = this.handlePictureChange.bind(this);
-    this.openAvatarEditor = this.openAvatarEditor.bind(this);
     this.cancelEditing = this.cancelEditing.bind(this);
     this.handleSaveClick = this.handleSaveClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
@@ -110,23 +107,6 @@ export class ProfileCover extends Component {
         }
       });
     dispatch(updateProfile({ id: profile.id, cover: null })).then(this.cancelEditing);
-  }
-
-  openAvatarEditor() {
-    const { dispatch, profile } = this.props;
-
-    const modal = (
-      <Modal name="avatar-editor">
-        <AvatarEditor
-          profile={ profile }
-          onCancel={ () => dispatch(closeModal('avatar-editor')) }
-          onSuccess={ () => dispatch(closeModal('avatar-editor')) }
-        />
-      </Modal>
-    );
-
-    dispatch(openModal(modal));
-
   }
 
   render() {
@@ -237,20 +217,17 @@ export class ProfileCover extends Component {
         }
 
         <div className="ProfileCover-header">
-          <span
-            className={ `ProfileCover-avatar${profile.isOwner && !isEditing ? ' editable' : ''}` }
-            onClick={ profile.isOwner && !isEditing ? this.openAvatarEditor : null } >
-            <ProfileAvatar size="huge" user={ profile } />
-          </span>
+          <div className="ProfileCover-avatar">
+            { profile.isOwner && !isEditing ?
+              <ProfileAvatarEditable size="huge" profile={ profile } /> :
+              <ProfileAvatar size="huge" profile={ profile } />
+            }
+          </div>
 
           { !isEditing &&
             <div className="ProfileCover-name">
-              <h1>
-                { profile.name }
-              </h1>
-              <h3>
-                { profile.username }
-              </h3>
+              <h1>{ profile.name }</h1>
+              <h3>{ profile.username }</h3>
             </div>
           }
 
