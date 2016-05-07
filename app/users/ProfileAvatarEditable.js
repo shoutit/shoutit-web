@@ -6,6 +6,7 @@ import { openModal, closeModal } from '../actions/ui';
 import AvatarEditor from '../users/AvatarEditor';
 import ProfileAvatar from '../users/ProfileAvatar';
 import Modal from '../ui/Modal';
+import FileInput from '../ui/FileInput';
 
 if (process.env.BROWSER) {
   require('./ProfileAvatarEditable.scss');
@@ -22,15 +23,20 @@ export class ProfileAvatarEditable extends Component {
   constructor(props) {
     super(props);
     this.openAvatarEditor = this.openAvatarEditor.bind(this);
+    this.handleFileInputChange = this.handleFileInputChange.bind(this);
+    this.state = {
+      image: props.profile.image,
+    };
   }
 
-  openAvatarEditor() {
+  openAvatarEditor(image) {
     const modalName = 'avatar-editor';
     const { closeModal, openModal, profile } = this.props;
 
     const modal = (
       <Modal name={ modalName }>
         <AvatarEditor
+          image={ image }
           profile={ profile }
           onCancel={ () => closeModal(modalName) }
           onSuccess={ () => closeModal(modalName) }
@@ -40,10 +46,31 @@ export class ProfileAvatarEditable extends Component {
     openModal(modal);
   }
 
+  handleFileInputChange(e) {
+    const { files } = e.target;
+    if (files && files.length > 0) {
+      const fileReader = new FileReader();
+      fileReader.onload = event => this.openAvatarEditor(event.target.result);
+      fileReader.readAsDataURL(files[0]);
+    }
+  }
+
   render() {
+    const { profile } = this.props;
     return (
-      <span className="ProfileAvatarEditable" onClick={ this.openAvatarEditor }>
-        <ProfileAvatar {...this.props} />
+      <span
+        className="ProfileAvatarEditable"
+        onClick={ profile.image ? () => this.openAvatarEditor(profile.image) : null }
+      >
+        <FileInput
+          name="avatar"
+          disabled={ !!profile.image }
+          onChange={ this.handleFileInputChange }>
+          <ProfileAvatar {...this.props} />
+          <span className="ProfileAvatarEditable-instructions">
+            { profile.image ? 'Change picture' : 'Set profile picture' }
+          </span>
+        </FileInput>
       </span>
     );
   }
