@@ -15,6 +15,10 @@ import Frame from '../layout/Frame';
 import SocialLoginForm from '../auth/SocialLoginForm';
 import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
 
+if (process.env.BROWSER) {
+  require('./Login.scss');
+}
+
 export class Login extends Component {
 
   static propTypes = {
@@ -23,6 +27,11 @@ export class Login extends Component {
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
   };
+
+  constructor(props) {
+    super(props);
+    this.submit = this.submit.bind(this);
+  }
 
   componentDidUpdate(prevProps) {
     const { error } = this.props;
@@ -48,7 +57,7 @@ export class Login extends Component {
     dispatch(resetErrors());
   }
 
-  handleFormSubmit(e) {
+  submit(e) {
     e.preventDefault();
 
     const { isLoggingIn, dispatch } = this.props;
@@ -115,10 +124,9 @@ export class Login extends Component {
               </p>
           }
 
-            <form onSubmit={ e => this.handleFormSubmit(e) } className="Form Frame-form" noValidate>
+            <form onSubmit={ this.submit } className="Form Frame-form" noValidate>
               <TextField
                 ref="email"
-                block
                 disabled={ isLoggingIn }
                 name="email"
                 type="text"
@@ -128,7 +136,6 @@ export class Login extends Component {
               <TextField
                 error={ error }
                 ref="password"
-                block
                 disabled={ isLoggingIn }
                 name="password"
                 type="password"

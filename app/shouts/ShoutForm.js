@@ -103,6 +103,7 @@ export class ShoutModal extends Component {
     const { currencies, error, shout, disabled, actions, inputRef, mode } = this.props;
     return (
       <Form
+        className="ShoutForm"
         ref={ el => {
           if (inputRef) {
             inputRef(el);
@@ -128,7 +129,6 @@ export class ShoutModal extends Component {
           name="title"
           placeholder="Title"
           disabled={ disabled }
-          block
           style={ { fontSize: '1.25rem' } }
           defaultValue={ shout.title }
           onChange={ title => this.handleChange({ title }) }
@@ -144,7 +144,6 @@ export class ShoutModal extends Component {
             name="text"
             placeholder="Description"
             disabled={ disabled }
-            block
             defaultValue={ shout.text }
             onChange={ text => this.handleChange({ text }) }
             error={ error }
@@ -157,7 +156,6 @@ export class ShoutModal extends Component {
           name="price"
           placeholder="Type a price"
           disabled={ disabled }
-          block
           defaultValue={ shout.price }
           onChange={ price => {
             this.handleChange({ price });
@@ -187,7 +185,6 @@ export class ShoutModal extends Component {
           filtersClassName="Form-inset-small"
           name="category.slug"
           disabled={ disabled }
-          block
           selectedCategorySlug={ shout.category ? (shout.category.slug || shout.category) : '' }
           selectedFilters={ shout.filters }
           onChange={ category =>
@@ -204,7 +201,6 @@ export class ShoutModal extends Component {
           inputRef={ el => { this.locationField = el; } }
           placeholder="Location"
           location={ shout.location }
-          block
           name="location"
           type="text"
         />
@@ -216,7 +212,6 @@ export class ShoutModal extends Component {
           label="Let people contact you"
           placeholder="Enter your mobile number"
           disabled={ disabled }
-          block
           defaultValue={ shout.mobile }
           onChange={ mobile => this.handleChange({ mobile }) }
           error={ error }

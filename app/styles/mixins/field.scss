@@ -3,20 +3,13 @@
 @mixin fieldContainer() {
   position: relative;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 
-  &.block {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  &.disabled .field-wrapper {
-    opacity: .6;
-  }
 
   > label {
     display: inline-block;
-    padding: .25em 0;
+    padding: .35em 0;
     color: $color-light;
     font-size: .875em;
   }
@@ -26,21 +19,25 @@
     padding: 1px;
     position: relative;
     width: 100%;
-    transition: box-shadow .075s;
     border: 1px solid $border-color-dark;
     border-radius: $border-radius-small;
     background-color: white;
   }
 
+  &.disabled .field-wrapper {
+    opacity: .6;
+  }
+
   &.has-focus > .field-wrapper {
     border-color: $si-green;
-    box-shadow: 0 0 4px $si-green;
+    box-shadow: 0 0 0 3px rgba($si-green, .25);
   }
 
   &.has-error > .field-wrapper {
     border-color: $shoutit-red;
     box-shadow: none;
   }
+
   &.has-error label {
     color: $shoutit-red;
   }
