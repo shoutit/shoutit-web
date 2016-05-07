@@ -10,7 +10,10 @@ describe('utils/StringUtils', () => {
   });
   describe('toTitleCase', () => {
     it('should change the case of multiple words', () => {
-      expect(toTitleCase('word with sPACES in it')).to.eql('Word With Spaces In It');
+      expect(toTitleCase('word with spaces in it')).to.eql('Word With Spaces In It');
+    });
+    it('should change the case when string has dashes', () => {
+      expect(toTitleCase('word-with-spaces-in it')).to.eql('Word-With-Spaces-In It');
     });
   });
 });
