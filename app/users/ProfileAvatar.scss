@@ -1,5 +1,4 @@
-@import "../styles/constants/colors.scss";
-@import "../styles/mixins/cropped-thumbnail.scss";
+@import "../styles/constants.scss";
 
 $size-smallest: 14px;
 $size-small: 18px;
@@ -38,6 +37,8 @@ $size-huge: 128px;
   &.size-huge {
     width: $size-huge;
     height: $size-huge;
+    border: 2px solid white;
+    box-shadow: $box-shadow-depth-1;
   }
   &.mask {
     position: relative;
