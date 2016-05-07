@@ -99,9 +99,10 @@ ProfileActions.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { session: { user: loggedUser }, paginated: { listenersByUser } } = state;
+  const { paginated, session, entities } = state;
+  const { listenersByUser } = paginated;
   return {
-    loggedUser,
+    loggedUser: entities.users[session.user],
     isUpdatingListening: listenersByUser[ownProps.profile.id] ? listenersByUser[ownProps.profile.id].isUpdating : false,
   };
 };
