@@ -2,6 +2,7 @@ import React from 'react';
 import { Route } from 'react-router';
 
 import Application from './containers/Application';
+import Account from './containers/Account';
 import Chat from './containers/Chat';
 import Dashboard from './containers/Dashboard';
 import Discover from './containers/Discover';
@@ -50,6 +51,10 @@ const routes = (store) =>
     <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/discover/:country(/:id)" component={ Discover } />
     <Route path="/messages(/:conversationId)" component={ Chat } />
+    <Route path="/account" component={ Account } getApplicationLayout={ () => ({
+      showFooter: true,
+      stickyHeader: false,
+    }) } />
     <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true }) } />
   </Route>;
 

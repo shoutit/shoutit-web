@@ -16,13 +16,13 @@ export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
           </ListItem>
         </Link>
       </li>
-      {/* <li>
-        <Link onClick={ onItemClick } to="/profile/edit">
-          <ListItem start= { <Icon name="pencil" active /> }>
+      <li>
+        <Link onClick={ onItemClick } to="/account">
+          <ListItem start={ <Icon name="pencil" size="small" active /> }>
             Edit Account
           </ListItem>
         </Link>
-      </li>*/}
+      </li>
       <li>
         <Link to="/" onClick={ onLogoutClick }>
           <ListItem start={ <Icon name="exit" active size="small" /> }>

@@ -1,0 +1,85 @@
+@import '../styles/constants.scss';
+
+.Account {
+
+  .FormField {
+    margin-top: 0.75rem;
+  }
+
+}
+
+.Account-layout {
+  display: flex;
+  background: white;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-depth-0;
+
+  > div {
+    padding: 1rem;
+  }
+
+  > div:first-child {
+    margin: .5rem;
+    width: 60%;
+    padding-right: 1rem;
+    border-right: 1px solid $border-color;
+  }
+
+  > div:last-child {
+    margin: .5rem;
+    width: 40%;
+    padding-left: 1rem;
+  }
+
+  h3 {
+    margin-top: 1.5em;
+  }
+}
+
+.Account-profile {
+  display: flex;
+  justify-content: center;
+  .Account-profile-name {
+    display: flex;
+    > .FormField {
+      width: 40%;
+      margin-top: 0rem;
+      margin-right: 0.5rem;
+    }
+    > .FormField:last-child {
+      margin-right: 0;
+      width: 20%;
+    }
+  }
+  .Account-profile-avatar {
+    padding: 0 1rem;
+  }
+  .Account-profile-fields {
+    padding: 0 1rem;
+    flex: 1;
+  }
+}
+
+.Account-actions {
+  text-align: center;
+  margin-top: 1rem;
+  .Button {
+    min-width: 150px;
+  }
+}
+
+.Account-main-password {
+  display: flex;
+  margin: 0;
+
+  > .FormField {
+    width: 50%;
+    margin-top: 0;
+    &:first-child {
+      margin-right: .25rem;
+    }
+    &:last-child {
+      margin-left: .25rem;
+    }
+  }
+}
