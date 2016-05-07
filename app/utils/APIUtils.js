@@ -18,10 +18,6 @@ export function parseApiError(err, info) {
     errorParserLog('Found a response error from API');
     parsedError = new Error(err.response.body.error.message);
     const apiError = err.response.body.error;
-    if (apiError.message && apiError.message.match(/^Resource not found/)) {
-      // Temp fix waiting for https://github.com/shoutit/shoutit-api/issues/79
-      apiError.code = 404;
-    }
     // This is what will be actually sent to clients
     parsedError.output = {
       ...info,
