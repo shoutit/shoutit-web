@@ -18,6 +18,7 @@ export class ProfileAvatarEditable extends Component {
     ...ProfileAvatar.PropTypes,
     openModal: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
+    profile: PropTypes.object.isRequired,
   }
 
   constructor(props) {
