@@ -51,7 +51,7 @@ export class LocationField extends Component {
 
     if (props.location) {
       this.state.value = formatLocation(props.location);
-      this.state.location = formatLocation(props.location);
+      this.state.location = props.location;
     }
   }
   componentWillReceiveProps(nextProps) {
