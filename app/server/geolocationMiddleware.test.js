@@ -47,7 +47,7 @@ describe('server/geolocationMiddleware', () => {
     });
     it('should work with encoded uri components', () => {
       const req = {
-        url: '/search/it/emilia%20romagna/valeggio%20sul%20mincio',
+        url: '/search/it/emilia%20romagna/valeggio%20sul%20mincio?test=true',
       };
       geolocationMiddleware(req, null, () => {});
       expect(req.geolocation).to.eql({
