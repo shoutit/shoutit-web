@@ -20,14 +20,10 @@ export default class Form extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
-  }
-
   blur() {
-    [...this.refs.form.elements].filter(el => !!el.blur).forEach(el => el.blur);
+    [...this.refs.form.elements]
+      .filter(el => typeof(el.blur) === 'function')
+      .forEach(el => el.blur());
   }
 
   handleSubmit(e) {
