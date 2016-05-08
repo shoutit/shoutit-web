@@ -1,6 +1,6 @@
 @import '../styles/constants.scss';
 
-.Account {
+.Settings {
 
   .FormField {
     margin-top: 0.75rem;
@@ -8,7 +8,7 @@
 
 }
 
-.Account-layout {
+.Settings-layout {
   display: flex;
   background: white;
   border-radius: $border-radius;
@@ -36,10 +36,10 @@
   }
 }
 
-.Account-profile {
+.Settings-profile {
   display: flex;
   justify-content: center;
-  .Account-profile-name {
+  .Settings-profile-name {
     display: flex;
     > .FormField {
       width: 40%;
@@ -51,16 +51,16 @@
       width: 20%;
     }
   }
-  .Account-profile-avatar {
+  .Settings-profile-avatar {
     padding: 0 1rem;
   }
-  .Account-profile-fields {
+  .Settings-profile-fields {
     padding: 0 1rem;
     flex: 1;
   }
 }
 
-.Account-actions {
+.Settings-actions {
   text-align: center;
   margin-top: 1rem;
   .Button {
@@ -68,7 +68,7 @@
   }
 }
 
-.Account-main-password {
+.Settings-main-password {
   display: flex;
   margin: 0;
 

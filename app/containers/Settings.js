@@ -13,9 +13,9 @@ import LocationField from '../ui/LocationField';
 import { updateProfile } from '../actions/users';
 
 if (process.env.BROWSER) {
-  require('./Account.scss');
+  require('./Settings.scss');
 }
-export class Account extends Component {
+export class Settings extends Component {
 
   static propTypes = {
     profile: PropTypes.object.isRequired,
@@ -59,25 +59,23 @@ export class Account extends Component {
 
     return (
       <RequiresLogin>
-        <Page className="Account">
+        <Page className="Settings">
           <Helmet title="Your account" />
 
-          <h1>Your account</h1>
-
-          <div className="Account-layout">
+          <div className="Settings-layout">
 
             <div>
               <form onSubmit={ e => { e.preventDefault(); this.submitProfileForm(); } } ref="profileForm">
-                <div className="Account-profile">
-                  <div className="Account-profile-avatar">
+                <div className="Settings-profile">
+                  <div className="Settings-profile-avatar">
                     <ProfileAvatarEditable profile={ profile } size="huge" />
                   </div>
 
-                  <div className="Account-profile-fields">
+                  <div className="Settings-profile-fields">
 
-                    <h2>Profile</h2>
+                    <h2>Public Profile</h2>
 
-                    <div className="Account-profile-name">
+                    <div className="Settings-profile-name">
 
                       <TextField
                         ref="firstName"
@@ -150,7 +148,7 @@ export class Account extends Component {
                       label="Your Location"
                     />
 
-                    <div className="Account-actions">
+                    <div className="Settings-actions">
                       <Button action="primary" disabled={ !didProfileDataChange || profile.isUpdating }>
                         { didProfileDataChange && profile.isUpdating ? 'Saving…' : 'Save changes' }
                       </Button>
@@ -163,20 +161,20 @@ export class Account extends Component {
 
             <div>
               <form>
-                <h2>Account details</h2>
+                <h2>Settings details</h2>
 
-                <TextField block name="username" label="Username" defaultValue={ profile.username } />
-                <TextField block name="email" label="E-mail" defaultValue={ profile.email } />
-                <TextField block name="mobile" label="Mobile" defaultValue={ profile.mobile } />
+                <TextField name="username" label="Username" defaultValue={ profile.username } />
+                <TextField name="email" label="E-mail" defaultValue={ profile.email } />
+                <TextField name="mobile" label="Mobile" defaultValue={ profile.mobile } />
 
                 <h3>Change password</h3>
 
-                <div className="Account-main-password">
+                <div className="Settings-main-password">
                   <TextField name="password" placeholder="New password" type="password" />
                   <TextField name="password_2" placeholder="Repeat the new password" type="password" />
                 </div>
 
-                <div className="Account-actions">
+                <div className="Settings-actions">
                   <Button action="primary">Save changes</Button>
                 </div>
               </form>
@@ -197,4 +195,4 @@ const mapDispatchToProps = dispatch => ({
   updateProfile: data => dispatch(updateProfile(data)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Account);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
