@@ -142,7 +142,7 @@ export class ProfileSettings extends Component {
                 maxLength={ 160 }
                 maxRows={ 3 }
                 name="bio"
-                defaultValue={ profile.bio }
+                value={ profile.bio }
                 onBlur={ this.submitProfileForm }
                 onChange={ bio => this.setState({ bio }) }
                 error={ error }

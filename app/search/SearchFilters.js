@@ -94,7 +94,7 @@ export class SearchFilters extends Component {
             disabled={ disabled }
             name="search"
             ref="search"
-            defaultValue={ search }
+            value={ search }
             onChange={ search => this.setState({ search }) }
           />
 
@@ -119,7 +119,7 @@ export class SearchFilters extends Component {
               disabled={ disabled }
               name="min_price"
               ref="min_price"
-              defaultValue={ min_price }
+              value={ min_price }
               onChange={ min_price => this.setState({ min_price }) }
             />
             <TextField
@@ -129,7 +129,7 @@ export class SearchFilters extends Component {
               disabled={ disabled }
               name="max_price"
               ref="max_price"
-              defaultValue={ max_price }
+              value={ max_price }
               onChange={ max_price => this.setState({ max_price }) }
             />
           </div>

@@ -45,12 +45,8 @@
   }
 }
 
-.FormField-error-overlay {
-  display: flex;
-  align-items: center;
-  width: 200px;
-  min-height: 3rem;
-  padding: .5rem .75rem;
+.FormField-error {
+  margin: .5em .25em;
   color: $shoutit-red;
-  font-size: .75rem;
+  font-size: .75em;
 }

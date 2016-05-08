@@ -130,7 +130,7 @@ export class ShoutModal extends Component {
           placeholder="Title"
           disabled={ disabled }
           style={ { fontSize: '1.25rem' } }
-          defaultValue={ shout.title }
+          value={ shout.title }
           onChange={ title => this.handleChange({ title }) }
           error={ error }
         />
@@ -144,7 +144,7 @@ export class ShoutModal extends Component {
             name="text"
             placeholder="Description"
             disabled={ disabled }
-            defaultValue={ shout.text }
+            value={ shout.text }
             onChange={ text => this.handleChange({ text }) }
             error={ error }
           />
@@ -156,7 +156,7 @@ export class ShoutModal extends Component {
           name="price"
           placeholder="Type a price"
           disabled={ disabled }
-          defaultValue={ shout.price }
+          value={ shout.price }
           onChange={ price => {
             this.handleChange({ price });
           } }
@@ -166,7 +166,7 @@ export class ShoutModal extends Component {
               name="currency"
               ref={ el => { this.currencyPicker = el; } }
               tooltipPlacement="left"
-              defaultValue={ shout.currency }
+              value={ shout.currency }
               onChange={ currency => this.handleChange({ currency }) }
               error={ error }>
               <option value="">Currency</option>
@@ -212,7 +212,7 @@ export class ShoutModal extends Component {
           label="Let people contact you"
           placeholder="Enter your mobile number"
           disabled={ disabled }
-          defaultValue={ shout.mobile }
+          value={ shout.mobile }
           onChange={ mobile => this.handleChange({ mobile }) }
           error={ error }
         />
