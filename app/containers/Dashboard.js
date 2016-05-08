@@ -34,20 +34,25 @@ const StartColumn = ({ profile }) =>
       Welcome back, { profile.firstName }
     </h1>
 
-    <ul className="htmlNoList">
-      {/* <li>
-        <Link to="/profile/edit">
-          <ListItem start={ <Icon active name="pencil" /> }>Edit your profile</ListItem>
+    <ul className="htmlNoList" style={ { padding: '0 .5rem' } }>
+      <li>
+        <Link to={ `/users/${profile.username}` }>
+          <ListItem start={ <Icon active name="profile" size="small" /> }>Your Profile</ListItem>
         </Link>
-      </li>*/}
+      </li>
+      <li>
+        <Link to="/settings">
+          <ListItem start={ <Icon active name="pencil" size="small" /> }>Edit Your Profile</ListItem>
+        </Link>
+      </li>
       <li>
         <Link to="/messages">
-          <ListItem start={ <Icon active name="balloon-dots" /> }>Messages</ListItem>
+          <ListItem start={ <Icon active name="balloon-dots" size="small" /> }>Messages</ListItem>
         </Link>
       </li>
       <li>
         <Link to="/search">
-          <ListItem start={ <Icon active name="world-west" /> }>Browse shouts</ListItem>
+          <ListItem start={ <Icon active name="world-west" size="small" /> }>Browse shouts</ListItem>
         </Link>
       </li>
     </ul>
@@ -109,7 +114,7 @@ export class Dashboard extends Component {
           stickyStartColumn
           endColumn={ [<SuggestedTags />, <SuggestedProfiles />, <SuggestedShout />] }>
 
-          <Helmet title={ `${loggedProfile.firstName}’s dashboard` } />
+          <Helmet title={ `${loggedProfile.firstName}’s Home Page` } />
 
           <ShoutsList shouts={ shouts } />
 
