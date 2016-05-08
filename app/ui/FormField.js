@@ -67,6 +67,9 @@ export default class FormField extends Component {
   }
 
   getValue() {
+    if (!this.field) {
+      return '';
+    }
     return this.field.value;
   }
 
@@ -80,7 +83,6 @@ export default class FormField extends Component {
   field = null;
 
   handleChange(e) {
-    // const value = this.field.value;
     this.setState({ error: null });
     if (this.props.onChange) {
       this.props.onChange(this.field.value, e);
