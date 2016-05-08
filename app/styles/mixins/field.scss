@@ -19,7 +19,7 @@
       font-size: .875em;
     }
     .FormField-max-length {
-      font-size: .75rem;
+      font-size: .625em;
       color: $color-light;
     }
   }
@@ -38,6 +38,11 @@
     opacity: .6;
   }
 
+
+  &:hover > .field-wrapper {
+    box-shadow: 0 0 0 3px rgba($border-color-dark, .25);
+  }
+
   &.has-focus > .field-wrapper {
     border-color: $si-green;
     box-shadow: 0 0 0 3px rgba($si-green, .25);
@@ -45,11 +50,7 @@
 
   &.has-error > .field-wrapper {
     border-color: $shoutit-red;
-    box-shadow: none;
-  }
-
-  &.has-error .FormField-label {
-    color: $shoutit-red;
+    box-shadow: 0 0 0 3px rgba($shoutit-red, .25);
   }
 
   &.inset > .field-wrapper {
