@@ -59,15 +59,15 @@ export default function renderMiddleware(req, res, next) {
     match({ routes, location: req.url }, (matchError, redirectLocation, renderProps) => {
       log('Matched request for %s', req.url);
 
-      if (newrelicEnabled) {
-        const transactionName = last(renderProps.routes).path.replace(/^\//, '');
-        log('Setting newrelic transactionName to %s', transactionName);
-        newrelic.setTransactionName(transactionName);
-      }
-
       if (redirectLocation) {
         res.redirect(301, redirectLocation.pathname + redirectLocation.search);
         return;
+      }
+
+      if (newrelicEnabled && renderProps.routes) {
+        const transactionName = last(renderProps.routes).path.replace(/^\//, '');
+        log('Setting newrelic transactionName to %s', transactionName);
+        newrelic.setTransactionName(transactionName);
       }
 
       if (matchError) {
