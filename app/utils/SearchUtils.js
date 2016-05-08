@@ -65,10 +65,10 @@ export function getSearchParamsFromQuery(query) {
   const searchParams = {
     shout_type,
     category,
-    filters,
     search: search ? decodeURIComponent(search) : undefined,
     min_price: min_price ? parseInt(min_price, 10) : undefined,
     max_price: max_price ? parseInt(max_price, 10) : undefined,
+    ...filters,
   };
   return searchParams;
 }

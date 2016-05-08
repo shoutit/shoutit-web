@@ -73,7 +73,8 @@ describe('utils/SearchUtils', () => {
         min_price: 1,
         max_price: 2,
         search: 'with space',
-        filters: { foo: 'bar', abc: 'xyz' },
+        foo: 'bar',
+        abc: 'xyz',
       });
     });
 

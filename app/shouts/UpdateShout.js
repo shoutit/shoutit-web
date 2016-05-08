@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import Button from '../ui/Button';
+import DestructiveAction from '../ui/DestructiveAction';
 
 import { updateShout, deleteShout, amendShout } from '../actions/shouts';
 
@@ -93,12 +94,7 @@ export class UpdateShout extends Component {
           ] }
         />
         <div className="CreateShout-delete">
-          <Button action="destructive" size="small" disabled={ shout.isDeleting } onClick={ this.deleteShout }>
-            Delete
-          </Button>
-          <span className="htmlAncillary" style={ { fontSize: '.75rem' } }>
-            { ' ' } – will delete this Shout permanently
-          </span>
+          <DestructiveAction label="Delete Shout" onClick={ this.deleteShout } description="delete permanently this shout and its data" />
         </div>
       </div>
     );

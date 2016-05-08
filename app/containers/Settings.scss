@@ -1,0 +1,91 @@
+@import '../styles/constants.scss';
+
+.Settings {
+
+  .FormField {
+    margin-top: 0.75rem;
+  }
+
+  &.Page {
+    width: 1000px;
+  }
+
+  .CardWithList {
+    background-color: white;
+    a {
+      display: inline-block;
+      color: $color;
+      font-size: 0.875rem;
+      padding: .5rem 0;
+      &.active {
+        color: $si-green;
+      }
+    }
+  }
+}
+
+.Settings-layout {
+  margin-top: .75rem;
+  padding: 1rem 0;
+  display: flex;
+  background: white;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-depth-0;
+  justify-content: center;
+  form {
+    width: 75%;
+  }
+  h3 {
+    margin-top: 1em;
+    text-align: center;
+    &:not(:first-child) {
+      margin-top: 1.5em;
+    }
+  }
+}
+
+.Settings-profile-name {
+  display: flex;
+  > .FormField {
+    width: 40%;
+    margin-top: 0rem;
+    margin-right: 0.5rem;
+  }
+  > .FormField:last-child {
+    margin-right: 0;
+    width: 20%;
+  }
+}
+.Settings-profile-avatar {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+}
+.Settings-profile-fields {
+  padding: 0 1rem;
+  flex: 1;
+}
+
+.Settings-actions {
+  text-align: center;
+  margin: 2rem 0;
+  .Button {
+    min-width: 150px;
+  }
+}
+
+.Settings-main-password {
+  display: flex;
+  margin: 0;
+
+  > .FormField {
+    width: 50%;
+    margin-top: 0;
+    &:first-child {
+      margin-right: .25rem;
+    }
+    &:last-child {
+      margin-left: .25rem;
+    }
+  }
+}

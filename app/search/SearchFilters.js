@@ -87,16 +87,14 @@ export class SearchFilters extends Component {
             { label: 'Requests', value: 'request' },
           ] } onChange={ shout_type => this.setState({ shout_type }) } />
 
-          <LocationField block label="Location" name="location" />
+          <LocationField name="location" />
 
           <TextField
-            label="Keywords"
-            placeholder="Enter one or more keywords"
-            block
+            placeholder="Search by keyword"
             disabled={ disabled }
             name="search"
             ref="search"
-            defaultValue={ search }
+            value={ search }
             onChange={ search => this.setState({ search }) }
           />
 
@@ -113,30 +111,28 @@ export class SearchFilters extends Component {
             }
           />
 
-          <TextField
-            autoComplete="off"
-            className="SearchFilters-input"
-            placeholder="Min price"
-            block
-            label="Starting from price"
-            disabled={ disabled }
-            name="min_price"
-            ref="min_price"
-            defaultValue={ min_price }
-            onChange={ min_price => this.setState({ min_price }) }
-          />
-          <TextField
-            autoComplete="off"
-            className="SearchFilters-input"
-            placeholder="Max price"
-            label="To price"
-            block
-            disabled={ disabled }
-            name="max_price"
-            ref="max_price"
-            defaultValue={ max_price }
-            onChange={ max_price => this.setState({ max_price }) }
-          />
+          <div className="SearchFilters-price">
+            <TextField
+              autoComplete="off"
+              className="SearchFilters-input"
+              placeholder="Min price"
+              disabled={ disabled }
+              name="min_price"
+              ref="min_price"
+              value={ min_price }
+              onChange={ min_price => this.setState({ min_price }) }
+            />
+            <TextField
+              autoComplete="off"
+              className="SearchFilters-input"
+              placeholder="Max price"
+              disabled={ disabled }
+              name="max_price"
+              ref="max_price"
+              value={ max_price }
+              onChange={ max_price => this.setState({ max_price }) }
+            />
+          </div>
 
           <div className="SearchFilters-buttons">
             <Button ref="submitButton" block action="primary" size="small" disabled={ disabled || isEqual(this.state, this.props.searchParams) } type="submit">

@@ -162,6 +162,7 @@ export class LocationField extends Component {
           log('Found location geocoding %s', prediction.placeId, location);
           const value = formatLocation(location);
           this.setState({ value, location });
+          this.field.setValue(value);
           this.handleGeocodeSuccess(location);
           return;
         }

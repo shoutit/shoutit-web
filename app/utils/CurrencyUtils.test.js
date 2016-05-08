@@ -11,8 +11,8 @@ describe('CurrencyUtils', () => {
       expect(CurrencyUtils.formatPrice('')).to.equal('free');
     });
     it('should convert cents in units', () => {
-      expect(CurrencyUtils.formatPrice(100, 'EUR')).to.equal('1 €');
-      expect(CurrencyUtils.formatPrice(120, 'EUR')).to.equal('1,20 €');
+      expect(CurrencyUtils.formatPrice(100, 'EUR')).to.equal('1 €');
+      expect(CurrencyUtils.formatPrice(120, 'EUR')).to.equal('1,20 €');
     });
   });
 });

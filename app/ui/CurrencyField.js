@@ -15,7 +15,7 @@ export default class CurrencyField extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.state = {
-      value: (!props.defaultValue || isNaN(props.defaultValue)) ? '' : props.defaultValue / 100,
+      value: (!props.value || isNaN(props.value)) ? '' : props.value / 100,
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -42,21 +42,18 @@ export default class CurrencyField extends Component {
     this.refs.field.select();
   }
   handleChange(value, e) {
+    value = value.replace(/,/g, '.');
     const { onChange } = this.props;
-    if (!value || isNaN(value)) {
-      if (onChange) {
-        onChange(null, e);
-      }
-      this.setState({ value: e.target.value });
-      return;
-    }
-    if (onChange) {
+    if ((!value || isNaN(value)) && onChange) {
+      onChange(null, e);
+    } else if (onChange) {
       onChange(round(value * 100, 2), e);
     }
-    this.setState({ value });
+    this.setState({ value }, () => {
+      this.field.setValue(value);
+    });
   }
-  handleBlur(e) {
-    const value = e.target.value;
+  handleBlur(value) {
     if (!value || isNaN(value)) {
       this.setState({ value: '' });
     } else {
@@ -67,6 +64,7 @@ export default class CurrencyField extends Component {
     const { value } = this.state;
     return (
       <TextField
+        inputRef={ field => { this.field = field; } }
         { ...this.props }
         value={ value }
         onBlur={ this.handleBlur }
@@ -77,6 +75,6 @@ export default class CurrencyField extends Component {
 }
 
 CurrencyField.propTypes = {
-  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
 };
