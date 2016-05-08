@@ -12,6 +12,15 @@
 
   .CardWithList {
     background-color: white;
+    a {
+      display: inline-block;
+      color: $color;
+      font-size: 0.875rem;
+      padding: .5rem 0;
+      &.active {
+        color: $si-green;
+      }
+    }
   }
 }
 
