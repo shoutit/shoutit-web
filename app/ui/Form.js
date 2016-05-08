@@ -20,14 +20,10 @@ export default class Form extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
-  }
-
   blur() {
-    [...this.refs.form.elements].filter(el => !!el.blur).forEach(el => el.blur);
+    [...this.refs.form.elements]
+      .filter(el => typeof(el.blur) === 'function')
+      .forEach(el => el.blur());
   }
 
   handleSubmit(e) {
@@ -55,7 +51,7 @@ export default class Form extends Component {
     }
 
     return (
-      <form {...props} className={ cssClass } onSubmit={ this.handleSubmit } ref="form">
+      <form {...props} noValidate className={ cssClass } onSubmit={ this.handleSubmit } ref="form">
         { children }
 
         { errorMessages.length > 0 &&

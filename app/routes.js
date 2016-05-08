@@ -1,7 +1,11 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, Redirect } from 'react-router';
 
 import Application from './containers/Application';
+
+import AccountSettings from './containers/AccountSettings';
+import ProfileSettings from './containers/ProfileSettings';
+
 import Chat from './containers/Chat';
 import Dashboard from './containers/Dashboard';
 import Discover from './containers/Discover';
@@ -22,6 +26,10 @@ const authAppLayout = () => ({
   className: 'pattern-background',
   showHeader: false,
   showFooter: false,
+});
+
+const settingsAppLayout = () => ({
+  showFooter: true, stickyHeader: false,
 });
 
 const routes = (store) =>
@@ -50,6 +58,9 @@ const routes = (store) =>
     <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/discover/:country(/:id)" component={ Discover } />
     <Route path="/messages(/:conversationId)" component={ Chat } />
+    <Redirect from="/settings" to="/settings/profile" />
+    <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ settingsAppLayout } />
+    <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ settingsAppLayout } />
     <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true }) } />
   </Route>;
 

@@ -135,12 +135,12 @@
 
 .Button.action-destructive {
   color: white;
-  border-color: $shoutit-red darken($shoutit-red, 5) darken($shoutit-red, 15);
+  border-color: $shoutit-red darken($shoutit-red, 5) darken($shoutit-red, 5);
   background-color: $shoutit-red;
-  background-image: linear-gradient($shoutit-red, darken($shoutit-red, 15));
+  background-image: linear-gradient($shoutit-red, darken($shoutit-red, 5));
   &:hover {
     background-color: darken($shoutit-red, 5);
-    background-image: linear-gradient(darken($shoutit-red, 5), darken(darken($shoutit-red, 5), 15));
+    background-image: linear-gradient(darken($shoutit-red, 5), darken(darken($shoutit-red, 5), 5));
   }
   &:disabled,
   &.disabled {

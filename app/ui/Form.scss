@@ -1,14 +1,5 @@
 @import '../styles/constants.scss';
 
-.Form {
-  border: 0;
-  background-color: white;
-
-  > *:not(:last-child) {
-    margin-bottom: .5em;
-  }
-}
-
 .Form-inset-small {
   display: flex;
   padding: .5em;

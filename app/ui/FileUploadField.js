@@ -220,7 +220,7 @@ export default class FileUploadField extends Component {
 
     return (
       <div className="FileUploadField" style={ { position: 'relative' } }>
-        <FormField block label={ this.isUploading() ? uploadingLabel : label } name={ name }>
+        <FormField label={ this.isUploading() ? uploadingLabel : label } name={ name }>
           <Dropzone accept="image/x-png, image/jpeg" disableClick onDrop={ this.upload } className="FileUploadField-dropzone" activeClassName="FileUploadField-dropzone active" ref="dropzone">
             <div className="FileUploadField-instructions">
               Click on <Icon name="add" size="small" /> or drag files here

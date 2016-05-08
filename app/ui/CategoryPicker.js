@@ -8,6 +8,7 @@ export class CategoryPicker extends Component {
     categories: PropTypes.array.isRequired,
 
     className: PropTypes.string,
+    label: PropTypes.string,
     disabled: PropTypes.bool,
     filtersClassName: PropTypes.string,
     inputRef: PropTypes.func,
@@ -91,19 +92,23 @@ export class CategoryPicker extends Component {
     });
   }
   render() {
-    const { categories, disabled, showFilters, className, filtersClassName, inputRef } = this.props;
+    const { categories, disabled, showFilters, className, filtersClassName, label, inputRef } = this.props;
     const { selectedCategory, selectedFilters } = this.state;
     let filters = [];
     if (showFilters && selectedCategory && selectedCategory.filters) {
       filters = selectedCategory.filters.filter(filter => filter.values.length > 0);
     }
+    let cssClass = 'CategoryPicker';
 
+    if (className) {
+      cssClass += ` ${className}`;
+    }
     return (
-      <div className={ className } ref={ () => { inputRef ? inputRef(this) : null; } }>
+      <div className={ cssClass } ref={ () => { inputRef ? inputRef(this) : null; } }>
         <Picker
           className="SearchFilters-input"
           block
-          label="Category"
+          label={ label }
           disabled={ disabled }
           ref="category"
           name="category"

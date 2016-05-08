@@ -3,31 +3,31 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { logout } from '../actions/session';
 
-import Icon from '../ui/Icon';
-import ListItem from '../ui/ListItem';
+if (process.env.BROWSER) {
+  require('./HeaderProfileOverlay.scss');
+}
 
 export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
   return (
-    <ul className="htmlNoList">
+    <ul className="HeaderProfileOverlay">
       <li>
-        <Link onClick={ onItemClick } to={ `/user/${user.username}` }>
-          <ListItem start={ <Icon name="profile" active size="small" /> }>
-            Your Profile
-          </ListItem>
+        <Link onClick={ onItemClick } to="/">
+          Home Page
         </Link>
       </li>
-      {/* <li>
-        <Link onClick={ onItemClick } to="/profile/edit">
-          <ListItem start= { <Icon name="pencil" active /> }>
-            Edit Account
-          </ListItem>
+      <li>
+        <Link onClick={ onItemClick } to={ `/user/${user.username}` }>
+          Your Profile
         </Link>
-      </li>*/}
+      </li>
+      <li className="separe">
+        <Link onClick={ onItemClick } to="/settings">
+          Settings
+        </Link>
+      </li>
       <li>
         <Link to="/" onClick={ onLogoutClick }>
-          <ListItem start={ <Icon name="exit" active size="small" /> }>
-            Logout
-          </ListItem>
+          Logout
         </Link>
       </li>
     </ul>

@@ -39,13 +39,6 @@ export default function ProfileBiography({ profile }) {
           <ProfileActions profile={ profile } />
         </div>
       }
-      { profile.about &&
-        <div className="ProfileBiography-about">
-          <p>
-            { profile.about }
-          </p>
-        </div>
-      }
     </div>
   );
 }

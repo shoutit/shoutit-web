@@ -1,13 +1,9 @@
-@import '../styles/constants.scss';
-
 .ShoutForm {
 
-  .Frame-header {
-    padding-top: 0;
+  > .FormField,
+  > .LocationField,
+  > .CategoryPicker {
+    margin-top: .5rem;
   }
 
-}
-
-.ShoutForm-advanced {
-  display: flex;
 }

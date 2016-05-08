@@ -75,7 +75,6 @@ export class ResetPassword extends Component {
             <TextField
               autoFocus
               ref="email"
-              block
               disabled={ isResettingPassword }
               name="email"
               type="email"

@@ -1,0 +1,16 @@
+.Signup .Form {
+  > .FormField,
+  > .Frame-form-horizontal-group {
+    margin-top: .5rem;
+  }
+
+  .Frame-form-horizontal-group .FormField {
+
+    &:first-child {
+      margin-right: .25rem;
+    }
+    &:last-child {
+      margin-left: .25rem;
+    }
+  }
+}

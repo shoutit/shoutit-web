@@ -15,6 +15,11 @@ import Frame from '../layout/Frame';
 import SocialLoginForm from '../auth/SocialLoginForm';
 import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
 
+
+if (process.env.BROWSER) {
+  require('./Signup.scss');
+}
+
 export class Signup extends Component {
 
   static propTypes = {
@@ -137,7 +142,6 @@ export class Signup extends Component {
             <div className="Frame-form-horizontal-group">
               <TextField
                 ref="firstName"
-                block
                 tooltipPlacement="left"
                 disabled={ isSigningUp }
                 name="first_name"
@@ -148,7 +152,6 @@ export class Signup extends Component {
               <TextField
                 error={ error }
                 ref="lastName"
-                block
                 disabled={ isSigningUp }
                 name="last_name"
                 type="text"
@@ -158,7 +161,6 @@ export class Signup extends Component {
 
             <TextField
               ref="email"
-              block
               disabled={ isSigningUp }
               name="email"
               type="email"
@@ -169,14 +171,13 @@ export class Signup extends Component {
             <TextField
               error={ error }
               ref="password"
-              block
               disabled={ isSigningUp }
               name="password"
               type="password"
               placeholder="Choose a password"
             />
 
-            <p style={ { paddingTop: '1rem', fontSize: '0.875rem' } }>
+            <p style={ { fontSize: '0.875rem' } }>
               By signing up, you agree to our Terms of Service and to our Privacy Policy.
             </p>
 
@@ -220,7 +221,7 @@ export class Signup extends Component {
   render() {
     const { success } = this.state;
     return (
-      <Page>
+      <Page className="Signup">
         <Helmet title="Sign up" />
         { !success ? this.renderForm() : this.renderSuccessMessage() }
       </Page>

@@ -81,7 +81,6 @@ export class SetPassword extends Component {
             <TextField
               autoFocus
               ref="newPassword"
-              block
               disabled={ isSettingPassword }
               name="newPassword"
               type="password"

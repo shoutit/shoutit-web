@@ -60,11 +60,9 @@ export class RequiresLogin extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isLoggedIn: !!state.session.user,
-    currentUrl: state.routing.currentUrl,
-  };
-};
+const mapStateToProps = state => ({
+  isLoggedIn: !!state.session.user,
+  currentUrl: state.routing.currentUrl,
+});
 
 export default connect(mapStateToProps)(RequiresLogin);
