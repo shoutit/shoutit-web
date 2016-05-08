@@ -2,8 +2,20 @@ import React, { PropTypes, Component } from 'react';
 import FormField from './FormField';
 
 export default class TextField extends Component {
+  static propTypes = {
+    type: PropTypes.string,
+  }
   getValue() {
-    return this.refs.field.getValue();
+    let fieldValue = this.refs.field.getValue();
+    switch (this.props.type) {
+      case 'url':
+        if (!fieldValue.match(/^https?:\/\//)) {
+          fieldValue = `http://${fieldValue}`;
+        }
+        break;
+      default: break;
+    }
+    return fieldValue;
   }
   focus() {
     this.refs.field.focus();
@@ -15,10 +27,14 @@ export default class TextField extends Component {
     this.refs.field.select();
   }
   render() {
-    return <FormField { ...this.props } type={ this.props.type || 'text' } field="input" ref="field" />;
+    const { type, ...props } = this.props;
+    return (
+      <FormField
+        { ...props }
+        type={ type || 'text' }
+        field="input"
+        ref="field"
+      />
+    );
   }
 }
-
-TextField.propTypes = {
-  type: PropTypes.string,
-};
