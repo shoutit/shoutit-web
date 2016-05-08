@@ -28,6 +28,10 @@ const authAppLayout = () => ({
   showFooter: false,
 });
 
+const settingsAppLayout = () => ({
+  showFooter: true, stickyHeader: false,
+});
+
 const routes = (store) =>
   <Route component={ Application }>
     <Route path="/"
@@ -55,8 +59,8 @@ const routes = (store) =>
     <Route path="/discover/:country(/:id)" component={ Discover } />
     <Route path="/messages(/:conversationId)" component={ Chat } />
     <Redirect from="/settings" to="/settings/profile" />
-    <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ () => ({ showFooter: true, stickyHeader: false }) } />
-    <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ () => ({ showFooter: true, stickyHeader: false }) } />
+    <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ settingsAppLayout } />
+    <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ settingsAppLayout } />
     <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true }) } />
   </Route>;
 
