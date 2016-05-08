@@ -2,7 +2,10 @@ import React from 'react';
 import { Route, Redirect } from 'react-router';
 
 import Application from './containers/Application';
-import Settings from './containers/Settings';
+
+import AccountSettings from './containers/AccountSettings';
+import ProfileSettings from './containers/ProfileSettings';
+
 import Chat from './containers/Chat';
 import Dashboard from './containers/Dashboard';
 import Discover from './containers/Discover';
@@ -52,8 +55,8 @@ const routes = (store) =>
     <Route path="/discover/:country(/:id)" component={ Discover } />
     <Route path="/messages(/:conversationId)" component={ Chat } />
     <Redirect from="/settings" to="/settings/profile" />
-    <Route path="/settings/profile" component={ Settings } getApplicationLayout={ () => ({ showFooter: true, stickyHeader: false }) } />
-    <Route path="/settings/account" component={ Settings } getApplicationLayout={ () => ({ showFooter: true, stickyHeader: false }) } />
+    <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ () => ({ showFooter: true, stickyHeader: false }) } />
+    <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ () => ({ showFooter: true, stickyHeader: false }) } />
     <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true }) } />
   </Route>;
 

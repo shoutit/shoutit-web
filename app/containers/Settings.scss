@@ -6,63 +6,60 @@
     margin-top: 0.75rem;
   }
 
+  &.Page {
+    width: 1000px;
+  }
+
+  .CardWithList {
+    background-color: white;
+  }
 }
 
 .Settings-layout {
+  margin-top: .75rem;
+  padding: 1rem 0;
   display: flex;
   background: white;
   border-radius: $border-radius;
   box-shadow: $box-shadow-depth-0;
-
-  > div {
-    padding: 1rem;
+  justify-content: center;
+  form {
+    width: 75%;
   }
-
-  > div:first-child {
-    margin: .5rem;
-    width: 60%;
-    padding-right: 1rem;
-    border-right: 1px solid $border-color;
-  }
-
-  > div:last-child {
-    margin: .5rem;
-    width: 40%;
-    padding-left: 1rem;
-  }
-
   h3 {
-    margin-top: 1.5em;
+    margin-top: 1em;
+    text-align: center;
+    &:not(:first-child) {
+      margin-top: 1.5em;
+    }
   }
 }
 
-.Settings-profile {
+.Settings-profile-name {
+  display: flex;
+  > .FormField {
+    width: 40%;
+    margin-top: 0rem;
+    margin-right: 0.5rem;
+  }
+  > .FormField:last-child {
+    margin-right: 0;
+    width: 20%;
+  }
+}
+.Settings-profile-avatar {
+  margin: 2rem 0;
   display: flex;
   justify-content: center;
-  .Settings-profile-name {
-    display: flex;
-    > .FormField {
-      width: 40%;
-      margin-top: 0rem;
-      margin-right: 0.5rem;
-    }
-    > .FormField:last-child {
-      margin-right: 0;
-      width: 20%;
-    }
-  }
-  .Settings-profile-avatar {
-    padding: 0 1rem;
-  }
-  .Settings-profile-fields {
-    padding: 0 1rem;
-    flex: 1;
-  }
+}
+.Settings-profile-fields {
+  padding: 0 1rem;
+  flex: 1;
 }
 
 .Settings-actions {
   text-align: center;
-  margin-top: 1rem;
+  margin: 2rem 0;
   .Button {
     min-width: 150px;
   }
