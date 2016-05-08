@@ -77,7 +77,6 @@ export default class FormField extends Component {
   }
 
   setValue(value) {
-    console.log('Setting field value to', value);
     this.setState({ value });
   }
 
