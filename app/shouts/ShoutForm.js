@@ -217,7 +217,6 @@ export class ShoutModal extends Component {
           error={ error }
         />
 
-
       </Form>
     );
   }
