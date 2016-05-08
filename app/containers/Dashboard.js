@@ -36,7 +36,7 @@ const StartColumn = ({ profile }) =>
 
     <ul className="htmlNoList" style={ { padding: '0 .5rem' } }>
       <li>
-        <Link to={ `/users/${profile.username}` }>
+        <Link to={ `/user/${profile.username}` }>
           <ListItem start={ <Icon active name="profile" size="small" /> }>Your Profile</ListItem>
         </Link>
       </li>
