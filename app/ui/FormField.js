@@ -25,7 +25,6 @@ export default class FormField extends Component {
     field: PropTypes.string,
     children: PropTypes.node,
     name: PropTypes.string.isRequired,
-
     block: PropTypes.bool,
     inset: PropTypes.bool,
     className: PropTypes.string,
@@ -33,6 +32,7 @@ export default class FormField extends Component {
     error: PropTypes.object,
     label: PropTypes.string,
     inputRef: PropTypes.func,
+    maxLength: PropTypes.number,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
@@ -174,10 +174,15 @@ export default class FormField extends Component {
         </span>
       </span>
     );
-
+    const value = this.getValue();
     return (
       <span className={ cssClass } style={ style }>
-        { label && <label htmlFor={ props.name }>{ label }</label> }
+        { label &&
+          <label htmlFor={ props.name }>
+            <span className="FormField-label">{ label }</span>
+            { props.maxLength && <span className="FormField-max-length">{ `${value.length}/${props.maxLength}` }</span> }
+          </label>
+        }
         <Tooltip
           destroyTooltipOnHide
           white

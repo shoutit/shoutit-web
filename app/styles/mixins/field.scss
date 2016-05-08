@@ -8,10 +8,20 @@
 
 
   > label {
-    display: inline-block;
     padding: .35em 0;
-    color: $color-light;
-    font-size: .875em;
+    display: flex;
+    width: 100%;
+    align-items: baseline;
+    justify-content: space-between;;
+    .FormField-label {
+      flex: 1;
+      color: $color-light;
+      font-size: .875em;
+    }
+    .FormField-max-length {
+      font-size: .75rem;
+      color: $color-light;
+    }
   }
 
   > .field-wrapper {
@@ -38,7 +48,7 @@
     box-shadow: none;
   }
 
-  &.has-error label {
+  &.has-error .FormField-label {
     color: $shoutit-red;
   }
 
