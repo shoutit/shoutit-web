@@ -44,7 +44,7 @@ export class ProfileSettings extends Component {
       last_name: profile.lastName,
       gender: profile.gender,
       bio: profile.bio,
-      website: profile.website,
+      website: profile.website || '',
     };
   }
 
@@ -73,7 +73,7 @@ export class ProfileSettings extends Component {
       this.state.last_name !== profile.lastName ||
       this.state.gender !== profile.gender ||
       this.state.bio !== profile.bio ||
-      this.state.website !== profile.website;
+      this.state.website !== (profile.website || '');
   }
 
   render() {
@@ -159,7 +159,7 @@ export class ProfileSettings extends Component {
                 name="website"
                 label="Website"
                 value={ this.state.website }
-                onChange={ website => this.setState({ website }) }
+                onChange={ website => this.setState({ website: website || '' }) }
                 error={ error }
                 disabled={ profile.isUpdating }
               />
