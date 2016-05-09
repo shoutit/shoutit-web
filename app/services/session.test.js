@@ -28,7 +28,6 @@ describe('services/session', () => {
       expect(req.session.user).to.eql({ foo: 'bar' });
       expect(req.session.accessToken).to.eql('abc');
       expect(req.session.refreshToken).to.eql('xyz');
-      expect(req.session.accessTokenExpires).to.be.greaterThan(new Date(Date.now()));
       expect(req.session.cookie.expires).to.be.greaterThan(new Date(Date.now()));
     });
   });
