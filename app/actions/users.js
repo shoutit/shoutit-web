@@ -66,6 +66,22 @@ export function updateProfile(profile) {
   };
 }
 
+export function updatePassword(body) {
+  return {
+    types: [
+      actionTypes.UPDATE_PASSWORD_START,
+      actionTypes.UPDATE_PASSWORD_SUCCESS,
+      actionTypes.UPDATE_PASSWORD_FAILURE,
+    ],
+    service: {
+      name: 'password',
+      method: 'update',
+      body,
+    },
+  };
+}
+
+
 export function loadHomeShouts(endpoint) {
   return {
     types: [

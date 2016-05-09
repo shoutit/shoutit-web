@@ -16,6 +16,9 @@ const initialState = {
   isResettingPassword: false,
   resetPasswordError: null,
 
+  isUpdatingPassword: false,
+  updatePasswordError: null,
+
   user: null,
 
 };
@@ -113,17 +116,31 @@ export default function (state = initialState, action) {
         setPasswordError: payload.error,
       };
 
-    // case actionTypes.LOGOUT:
-    //   return {
-    //     ...state,
-    //     user: null,
-    //   };
+    case actionTypes.UPDATE_PASSWORD_START:
+      return {
+        ...state,
+        updatePasswordError: null,
+        isUpdatingPassword: true,
+      };
+    case actionTypes.UPDATE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isUpdatingPassword: false,
+        updatePasswordError: null,
+      };
+    case actionTypes.UPDATE_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isUpdatingPassword: false,
+        updatePasswordError: payload.error,
+      };
 
     case actionTypes.RESET_SESSION_ERRORS:
       return {
         ...state,
         loginError: null,
         resetPasswordError: null,
+        updatePasswordError: null,
         setPasswordError: null,
         verifyEmailError: null,
         signupError: null,

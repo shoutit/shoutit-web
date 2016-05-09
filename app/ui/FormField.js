@@ -21,24 +21,26 @@ ValidationError.propTypes = {
 export default class FormField extends Component {
 
   static propTypes = {
-    field: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-    children: PropTypes.node,
     name: PropTypes.string.isRequired,
+
+    ancillary: PropTypes.node,
     block: PropTypes.bool,
+    children: PropTypes.node,
     className: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     disabled: PropTypes.bool,
     error: PropTypes.object,
-    label: PropTypes.string,
+    field: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     inputRef: PropTypes.func,
+    label: PropTypes.string,
     maxLength: PropTypes.number,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
     placeholder: PropTypes.string,
     startElement: PropTypes.element,
-    tooltipPlacement: PropTypes.string,
     style: PropTypes.object,
+    tooltipPlacement: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }
 
   static defaultProps = {
@@ -128,7 +130,7 @@ export default class FormField extends Component {
   }
 
   render() {
-    const { block, startElement, disabled, label, className, placeholder, field, inputRef, children, style, ...props } = this.props;
+    const { block, startElement, disabled, label, className, placeholder, field, inputRef, children, style, ancillary, ...props } = this.props;
     const { focus, value } = this.state;
     const validationErrors = this.getValidationErrors() || [];
     let cssClass = 'FormField';
@@ -187,6 +189,10 @@ export default class FormField extends Component {
             { fieldElement || children }
           </span>
         </span>
+        { validationErrors.length === 0 && ancillary && <span className="FormField-ancillary">
+          { ancillary }
+        </span>
+        }
         { validationErrors.length > 0 &&
           <ValidationError errors={ validationErrors } />
         }

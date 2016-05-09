@@ -17,6 +17,9 @@ export default class TextField extends Component {
     }
     return fieldValue;
   }
+  setValue(value) {
+    this.refs.field.setValue(value);
+  }
   focus() {
     this.refs.field.focus();
   }

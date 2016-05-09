@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+
 import Page from '../layout/Page';
 import Helmet from '../utils/Helmet';
 import RequiresLogin from '../auth/RequiresLogin';
@@ -9,9 +10,9 @@ import CardWithList from '../ui/CardWithList';
 import TextField from '../ui/TextField';
 import Form from '../ui/Form';
 import Button from '../ui/Button';
-// import DestructiveAction from '../ui/DestructiveAction';
 
-import { updateProfile } from '../actions/users';
+import { updateProfile, updatePassword } from '../actions/users';
+import { resetErrors } from '../actions/session';
 
 if (process.env.BROWSER) {
   require('./Settings.scss');
@@ -19,66 +20,80 @@ if (process.env.BROWSER) {
 export class AccountSettings extends Component {
 
   static propTypes = {
+    session: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
-    updateProfile: PropTypes.func.isRequired,
+    updatePassword: PropTypes.func.isRequired,
+    resetErrors: PropTypes.func.isRequired,
+    updateAccount: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    profile: {},
+  }
 
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleFieldChange = this.handleFieldChange.bind(this);
-    this.updateProfile = this.updateProfile.bind(this);
-    this.state = this.getStateFromProfile(props.profile);
+    this.handlePasswordFormSubmit = this.handlePasswordFormSubmit.bind(this);
+    this.handleAccountFormSubmit = this.handleAccountFormSubmit.bind(this);
+    this.state = this.getState(props.profile);
   }
 
-  getStateFromProfile(profile) {
+  componentWillUnmount() {
+    this.props.resetErrors();
+  }
+
+  getState(profile) {
     return {
       email: profile.email,
       username: profile.username,
       mobile: profile.mobile,
+      isPasswordSet: profile.isPasswordSet,
     };
   }
 
-  submitProfileForm() {
-    const { id } = this.props.profile;
-    this.props.updateProfile({ id, ...this.state });
-  }
-
-  updateProfile() {
-    if (!this.didChange()) {
+  handleAccountFormSubmit() {
+    if (!this.didAccountChange()) {
       return;
     }
-    const { id } = this.props.profile;
-    this.props.updateProfile({ id, ...this.state }).then(data => {
-      this.setState(this.getStateFromProfile(data.entities.users[data.result]));
+    const { updateAccount, profile } = this.props;
+    const { id } = profile;
+    const { email, mobile, username } = this.state;
+    updateAccount({ id, email, mobile, username }).then(data => {
+      this.setState(this.getState(data.entities.users[data.result]));
     });
   }
 
-  didChange() {
+  handlePasswordFormSubmit() {
+    const { updatePassword } = this.props;
+    const { new_password, new_password2, old_password } = this.state;
+    updatePassword({ new_password, new_password2, old_password }).then(() => {
+      this.setState({
+        new_password: undefined,
+        new_password2: undefined,
+        old_password: undefined,
+        isPasswordSet: true,
+      });
+      if (this.refs.old_password) {
+        this.refs.old_password.setValue('');
+      }
+      this.refs.new_password.setValue('');
+      this.refs.new_password2.setValue('');
+    });
+  }
+
+  didAccountChange() {
     const { profile } = this.props;
     return this.state.email !== profile.email ||
-        this.state.username !== profile.username ||
-        this.state.mobile !== profile.mobile;
+      this.state.username !== profile.username ||
+      this.state.mobile !== profile.mobile;
   }
 
-  handleFieldChange(name, value) {
-    this.setState({ [name]: value });
-  }
-  //
-  // handleDeactivateClick() {
-  //   if (confirm('Really deactivate account?')) { // eslint-disable-line
-  //     console.log('done');
-  //   }
-  // }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    this.updateProfile();
+  isChangingPassword() {
+    return !!this.state.new_password && !!this.state.new_password2;
   }
 
   render() {
-    // const { profileData, accountData, didProfileDataChange } = this.state;
-    const { profile } = this.props;
+    const { profile, session } = this.props;
     const error = profile.updateError;
     const navigation = (
       <CardWithList title="Profile Settings">
@@ -96,10 +111,45 @@ export class AccountSettings extends Component {
           <Helmet title="Account settings" />
 
           <div className="Settings-layout">
-            <Form onSubmit={ this.handleSubmit }>
-
+            <Form onSubmit={ this.handlePasswordFormSubmit }>
+              <h3>Change Password</h3>
+              { this.state.isPasswordSet &&
+                <TextField
+                  ref="old_password"
+                  name="old_password"
+                  placeholder="Old password"
+                  type="password"
+                  onChange={ old_password => this.setState({ old_password }) }
+                  ancillary={ <Link to="/login/password">Recover your password</Link> }
+                  error={ session.updatePasswordError }
+                />
+               }
+              <div className="Settings-main-password">
+                <TextField
+                  ref="new_password"
+                  name="new_password"
+                  placeholder="New password"
+                  type="password"
+                  onChange={ new_password => this.setState({ new_password }) }
+                  error={ session.updatePasswordError } />
+                <TextField
+                  ref="new_password2"
+                  name="new_password2"
+                  placeholder="Repeat the new password"
+                  type="password"
+                  onChange={ new_password2 => this.setState({ new_password2 }) }
+                  error={ session.updatePasswordError } />
+              </div>
+              <div className="Settings-actions">
+                <Button action="primary" disabled={ session.isUpdatingPassword || !this.isChangingPassword() }>
+                  Change password
+                </Button>
+              </div>
+            </Form>
+          </div>
+          <div className="Settings-layout">
+            <Form onSubmit={ this.handleAccountFormSubmit }>
               <h3>Your Account</h3>
-
               <TextField
                 name="email"
                 label="E-mail"
@@ -108,7 +158,6 @@ export class AccountSettings extends Component {
                 error={ error }
                 disabled={ profile.isUpdating }
               />
-
               <TextField
                 name="mobile"
                 label="Mobile"
@@ -117,7 +166,6 @@ export class AccountSettings extends Component {
                 error={ error }
                 disabled={ profile.isUpdating }
               />
-
               <TextField
                 name="username"
                 label="Username"
@@ -126,23 +174,13 @@ export class AccountSettings extends Component {
                 error={ error }
                 disabled={ profile.isUpdating }
               />
-{/*
-              <h3>Change Password</h3>
-
-              <div className="Settings-main-password">
-                <TextField name="password" placeholder="New password" type="password" />
-                <TextField name="password_2" placeholder="Repeat the new password" type="password" />
-              </div>
-*/}
               <div className="Settings-actions">
-                <Button action="primary" disabled={ !this.didChange() || profile.isUpdating }>
+                <Button action="primary" disabled={ !this.didAccountChange() || profile.isUpdating }>
                   { profile.isUpdating && 'Updating…' }
-                  { this.didChange() && !profile.isUpdating && 'Update account' }
-                  { !this.didChange() && !profile.isUpdating && 'Account updated' }
+                  { this.didAccountChange() && !profile.isUpdating && 'Update account' }
+                  { !this.didAccountChange() && !profile.isUpdating && 'Account updated' }
                 </Button>
               </div>
-
-              {/* <DestructiveAction label="Deactivate account" description="Will delete your shouts, destroy your car and your house." onClick={ this.handleDeactivateClick } />*/}
 
             </Form>
           </div>
@@ -155,10 +193,15 @@ export class AccountSettings extends Component {
 
 const mapStateToProps = state => ({
   profile: state.entities.users[state.session.user],
+  session: state.session,
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateProfile: data => dispatch(updateProfile(data)),
+  updateAccount: data => dispatch(updateProfile(data)),
+  updatePassword: data => dispatch(updatePassword(data)),
+  resetErrors: () => {
+    dispatch(resetErrors());
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountSettings);
