@@ -16,8 +16,7 @@ export function setRequestSession(req, sessionData) {
   req.session.user = profile;
   req.session.accessToken = accessToken;
   req.session.refreshToken = refreshToken;
-  req.session.accessTokenExpires = Date.now() + expiresIn * 1000;
-  req.session.cookie.expires = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+  req.session.cookie.expires = new Date(Date.now() + expiresIn * 1000);
   req.session.scope = scope ? scope.split[' '] : [];
   log('Request session has been created and will expires on %s', new Date(req.session.accessTokenExpires));
 }
@@ -69,13 +68,7 @@ export default {
       return;
     }
     log('This session will expire on %s', new Date(req.session.accessTokenExpires));
-    if (req.session.accessTokenExpires <= Date.now()) {
-      log('Session\'s access token is expired, refreshing the token...');
-      // Refresh the access token if the session expired
-      createRequestSession(req, { grant_type: 'refresh_token', refresh_token: req.session.refreshToken }, callback);
-    } else {
-      readSessionProfile(req, callback);
-    }
+    readSessionProfile(req, callback);
   },
   delete: (req, resource, params, config, callback) => {
     req.session.destroy(callback);
