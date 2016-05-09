@@ -10,6 +10,7 @@ export listen from './listen';
 export listeners from './listeners';
 export listening from './listening';
 export messages from './messages';
+export password from './password';
 export resetPassword from './resetPassword';
 export relatedShouts from './relatedShouts';
 export relatedTags from './relatedTags';
