@@ -23,6 +23,10 @@ export class AccountSettings extends Component {
     updateProfile: PropTypes.func.isRequired,
   };
 
+  static defaultProps = {
+    profile: {},
+  }
+
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
