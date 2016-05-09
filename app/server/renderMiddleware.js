@@ -30,8 +30,6 @@ const noticeError = (e, params) => {
 export default function renderMiddleware(req, res, next) {
   const fetchr = new Fetchr({ xhrPath: '/fetchr', req });
 
-  log('Reading current session...');
-
   fetchr.read('session').end((err, user) => {
     const storeState = {
       routing: { currentUrl: req.url },
@@ -39,7 +37,6 @@ export default function renderMiddleware(req, res, next) {
     };
     if (user) {
       req.session.user = user;
-      log('Logged in as %s', user.username);
       storeState.session = {
         user: user.id,
       };
@@ -48,11 +45,8 @@ export default function renderMiddleware(req, res, next) {
           [user.id]: user,
         },
       };
-    } else {
-      log('Profile is not logged in');
     }
     const store = configureStore(storeState, { fetchr });
-
     const routes = configureRoutes(store);
 
     // Run router to determine the desired state
