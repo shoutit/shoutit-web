@@ -58,30 +58,30 @@ export default function renderMiddleware(req, res, next) {
     // Run router to determine the desired state
     match({ routes, location: req.url }, (matchError, redirectLocation, renderProps) => {
       log('Matched request for %s', req.url);
-
-      if (redirectLocation) {
-        res.redirect(301, redirectLocation.pathname + redirectLocation.search);
-        return;
-      }
-
-      if (newrelicEnabled && renderProps.routes) {
-        const transactionName = last(renderProps.routes).path.replace(/^\//, '');
-        log('Setting newrelic transactionName to %s', transactionName);
-        newrelic.setTransactionName(transactionName);
-      }
-
-      if (matchError) {
-        store.dispatch(routeError(matchError));
-      }
-
-      let status = 200;
-      if (renderProps.routes && renderProps.routes[renderProps.routes.length - 1].path === '*') {
-        status = 404;
-      }
-
-      log('Fetching data for routes...');
-
       try {
+
+        if (redirectLocation) {
+          res.redirect(301, redirectLocation.pathname + redirectLocation.search);
+          return;
+        }
+
+        if (newrelicEnabled && renderProps.routes) {
+          const transactionName = last(renderProps.routes).path.replace(/^\//, '');
+          log('Setting newrelic transactionName to %s', transactionName);
+          newrelic.setTransactionName(transactionName);
+        }
+
+        if (matchError) {
+          store.dispatch(routeError(matchError));
+        }
+
+        let status = 200;
+        if (renderProps.routes && renderProps.routes[renderProps.routes.length - 1].path === '*') {
+          status = 404;
+        }
+
+        log('Fetching data for routes...');
+
         fetchDataForRoutes(renderProps.routes, renderProps.params, req.query, store, fetchingError => {
           log('Routes data has been fetched', fetchingError);
 

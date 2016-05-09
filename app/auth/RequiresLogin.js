@@ -6,6 +6,10 @@ import * as loginActions from '../auth/loginActions';
 
 const noop = () => {};
 
+if (process.env.BROWSER) {
+  require('./RequiresLogin.scss');
+}
+
 export class RequiresLogin extends Component {
 
   static propTypes = {
@@ -51,7 +55,7 @@ export class RequiresLogin extends Component {
     }
     if (!isLoggedIn) {
       return (
-        <div>
+        <div className="RequiresLogin">
           Please <Link to={ redirect }>login</Link> to access this page.
         </div>
       );

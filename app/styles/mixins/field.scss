@@ -60,6 +60,12 @@
     box-shadow: inset $box-shadow-depth-0;
   }
 
+  .FormField-ancillary {
+    color: $color-light;
+    margin: .5em .25em;
+    font-size: .75em;
+  }
+
 }
 
 @mixin field() {
