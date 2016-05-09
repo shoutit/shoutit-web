@@ -1,7 +1,7 @@
 import { camelizeKeys } from 'humps';
 
 import request from '../utils/request';
-import { createSessionFromAPIResponse } from '../utils/SessionUtils';
+import { setRequestSession } from '../services/session';
 import { parseApiError } from '../utils/APIUtils';
 
 export default {
@@ -29,7 +29,7 @@ export default {
         if (err) {
           return callback(parseApiError(err));
         }
-        createSessionFromAPIResponse(req, camelizeKeys(res.body));
+        setRequestSession(req, camelizeKeys(res.body));
         return callback(null, res.body);
       });
   },
