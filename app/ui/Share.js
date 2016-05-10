@@ -82,7 +82,7 @@ export default class Share extends Component {
           <div className="Share-network">
             <Tooltip visible={ false } overlay="Share on Pininterest">
               <PinterestShareButton
-                url={ String(window.location) }
+                url={ url }
                 media={ getVariation(image, 'large') }
                 className="Share-network-button">
                 <PinterestIcon size={ iconSize } round />
