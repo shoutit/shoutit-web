@@ -1,0 +1,22 @@
+.Share {
+  display: flex;
+  justify-content: space-around;
+}
+
+.Share-network {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .SocialMediaShareButton {
+    cursor: pointer;
+    opacity: 0.9;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.Share-network-count {
+  font-size: 0.75em;
+}

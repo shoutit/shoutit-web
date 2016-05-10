@@ -2,14 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import capitalize from 'lodash/string/capitalize';
 import { Link } from 'react-router';
-import Helmet from '../utils/Helmet';
-
 import { loadShout, loadRelatedShouts } from '../actions/shouts';
 import { startShoutReply, openConversation } from '../actions/chat';
 import { routeError } from '../actions/server';
 
 import { formatPrice } from '../utils/CurrencyUtils';
 import { formatLocation } from '../utils/LocationUtils';
+
+import Helmet from '../utils/Helmet';
 
 import RequiresLogin from '../auth/RequiresLogin';
 import { REPLY_SHOUT } from '../auth/loginActions';
@@ -18,22 +18,24 @@ import Page from '../layout/Page';
 import ProfileListItem from '../users/ProfileListItem';
 
 import CategoryListItem from '../shouts/CategoryListItem';
-import UpdateShoutButton from '../shouts/UpdateShoutButton';
+import FilterListItem from '../shouts/FilterListItem';
+import Location from '../location/Location';
+import ShoutCallButton from '../shouts/ShoutCallButton';
+import ShoutPreview from '../shouts/ShoutPreview';
 import ShoutPrice from '../shouts/ShoutPrice';
 import ShoutType from '../shouts/ShoutType';
-import ShoutPreview from '../shouts/ShoutPreview';
-import FilterListItem from '../shouts/FilterListItem';
-import ShoutCallButton from '../shouts/ShoutCallButton';
-import Location from '../location/Location';
+import UpdateShoutButton from '../shouts/UpdateShoutButton';
 
 import Button from '../ui/Button';
 import CardWithList from '../ui/CardWithList';
 import Gallery from '../ui/Gallery';
+import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
 import NewlineToBreak from '../ui/NewlineToBreak';
 import Progress from '../ui/Progress';
-import Icon from '../ui/Icon';
+import Share from '../ui/Share';
 import TimeAgo from '../ui/TimeAgo';
+
 import LocationListItem from '../location/LocationListItem';
 
 import { denormalize } from '../schemas';
@@ -126,13 +128,19 @@ export class Shout extends Component {
     const { shout } = this.props;
 
     const categoryWithFilters = (
-      <CardWithList block style={ { padding: '.5rem', backgroundColor: 'white' } }>
+      <CardWithList key="filters" block style={ { padding: '.5rem' } }>
         <Link to={ `/interest/${shout.category.slug}` }><CategoryListItem category={ shout.category } /></Link>
         { shout.filters.map((filter) => <FilterListItem key={ filter.slug } filter={ filter } category={ shout.category } />) }
       </CardWithList>
     );
 
-    return categoryWithFilters;
+    const share = (
+      <CardWithList title="Share this shout" block key="share" style={ { padding: '.5rem' } }>
+        <Share shareUrl={ `/shout/${shout.id}` } title={ shout.title } image={ shout.thumbnail } />
+      </CardWithList>
+    );
+
+    return [categoryWithFilters, share];
   }
 
   renderEndColumn() {
@@ -170,7 +178,6 @@ export class Shout extends Component {
     const { shout } = this.props;
     return (
       <div className="Shout">
-
         { shout.title &&
           <div className="Shout-title">
             <h1>{ shout.title }</h1>
