@@ -18,7 +18,7 @@ export function setRequestSession(req, sessionData) {
   req.session.refreshToken = refreshToken;
   req.session.cookie.expires = new Date(Date.now() + expiresIn * 1000);
   req.session.scope = scope ? scope.split[' '] : [];
-  log('Request session has been created and will expires on %s', new Date(req.session.accessTokenExpires));
+  log('Request session has been created and will expires on %s', req.session.cookie.expires);
 }
 
 export function createRequestSession(req, data, callback) {
@@ -67,7 +67,6 @@ export default {
       callback();
       return;
     }
-    log('This session will expire on %s', new Date(req.session.accessTokenExpires));
     readSessionProfile(req, callback);
   },
   delete: (req, resource, params, config, callback) => {
