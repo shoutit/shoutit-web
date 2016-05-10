@@ -131,8 +131,8 @@ export class ProfileSettings extends Component {
                   disabled={ profile.isUpdating }
                   >
                   <option value=""></option>
-                  <option value="F">Female</option>
-                  <option value="M">Male</option>
+                  <option value="female">Female</option>
+                  <option value="male">Male</option>
                 </Picker>
 
 
