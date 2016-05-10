@@ -38,10 +38,10 @@ export default class Share extends Component {
       <div className="Share">
         <div className="Share-network">
 
-          <Tooltip visible={ false } overlay="Share on Facebook">
+          <Tooltip overlay="Share on Facebook">
             <FacebookShareButton
               url={ url }
-              title={ title }
+              title={ title || 'Shoutit' }
               className="Share-network-button">
               <FacebookIcon size={ iconSize } round />
             </FacebookShareButton>
@@ -54,10 +54,10 @@ export default class Share extends Component {
 
         <div className="Share-network">
 
-          <Tooltip visible={ false } overlay="Share on Twitter">
+          <Tooltip overlay="Share on Twitter">
             <TwitterShareButton
               url={ url }
-              title={ title }
+              title={ title || 'Shoutit' }
               className="Share-network-button">
               <TwitterIcon size={ iconSize } round />
             </TwitterShareButton>
@@ -66,7 +66,7 @@ export default class Share extends Component {
         </div>
 
         <div className="Share-network">
-          <Tooltip visible={ false } overlay="Share on Google+">
+          <Tooltip overlay="Share on Google+">
             <GooglePlusShareButton
               url={ url }
               className="Share-network-button">
@@ -80,7 +80,7 @@ export default class Share extends Component {
 
         { image &&
           <div className="Share-network">
-            <Tooltip visible={ false } overlay="Share on Pininterest">
+            <Tooltip overlay="Share on Pininterest">
               <PinterestShareButton
                 url={ url }
                 media={ getVariation(image, 'large') }
