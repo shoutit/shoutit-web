@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
-import Tooltip from '../ui/Tooltip';
+import Popover from '../ui/Popover';
 import TagPreview from '../tags/TagPreview';
 
-export function TagListItem({ tag, size = 'medium', tooltipPlacement = 'right', link = true }) {
+export function TagListItem({ tag, size = 'medium', link = true }) {
 
   const overlay = <TagPreview id={ tag.id } />;
   let icon;
@@ -23,18 +23,14 @@ export function TagListItem({ tag, size = 'medium', tooltipPlacement = 'right', 
     </ListItem>
   );
   return (
-    <Tooltip
-      white
-      placement={ tooltipPlacement }
-      overlay={ overlay }
-      getTooltipContainer={ c => c.parentNode }>
+    <Popover overlay={ overlay } delay={ 500 }>
       { link ?
         <Link to={ `/interest/${tag.slug || tag.name}` }>
           { item }
         </Link>
         : item
       }
-    </Tooltip>
+    </Popover>
   );
 }
 

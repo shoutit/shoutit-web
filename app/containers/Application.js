@@ -18,7 +18,6 @@ import { loadListening } from '../actions/users';
 import * as config from '../config';
 
 if (process.env.BROWSER) {
-  require('normalize.css/normalize.css');
   require('./Application.scss');
 }
 

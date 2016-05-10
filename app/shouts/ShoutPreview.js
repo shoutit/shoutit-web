@@ -7,7 +7,7 @@ import ShoutType from './ShoutType';
 import ShoutLink from './ShoutLink';
 import TimeAgo from '../ui/TimeAgo';
 import ListItem from '../ui/ListItem';
-import Tooltip from '../ui/Tooltip';
+import Popover from '../ui/Popover';
 
 import TagListItem from '../tags/TagListItem';
 
@@ -43,16 +43,11 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
             className="ShoutPreview-profile"
             size="small"
             start={ showProfile &&
-              <Tooltip
-                destroyTooltipOnHide
-                mouseLeaveDelay={ 0.05 }
-                white
-                placement="top"
-                overlay={ <ProfilePreview id={ shout.profile.id } /> }>
+              <Popover containerPadding={ -20 } delay={ 500 } trigger={ ['hover', 'focus'] } overlay={ <ProfilePreview id={ shout.profile.id } /> }>
                 <span onClick={ onProfileAvatarClick }>
                   <ProfileAvatar profile={ shout.profile } size="small" />
                 </span>
-              </Tooltip>
+              </Popover>
             }>
             <TimeAgo date={ shout.datePublished } />
           </ListItem>

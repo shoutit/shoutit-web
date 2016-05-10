@@ -56,7 +56,7 @@ function ShoutActions({ shout, onReplyClick }) {
   };
   let callButton;
   if (shout.isMobileSet) {
-    callButton = <ShoutCallButton tooltipPlacement="bottom" shout={ shout } style={ buttonStyle } block />;
+    callButton = <ShoutCallButton shout={ shout } style={ buttonStyle } block />;
   }
   return (
     <div className="ShoutActions">

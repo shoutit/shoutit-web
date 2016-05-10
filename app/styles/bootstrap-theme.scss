@@ -1,0 +1,15 @@
+@import './constants';
+.fade {
+  transition-duration: 0s;
+}
+.popover {
+  border: 0;
+  box-shadow: $box-shadow-depth-2;
+}
+.popover-content {
+  padding: 0;
+}
+
+.tooltip {
+  font-size: 0.75em
+}

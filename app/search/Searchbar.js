@@ -13,7 +13,6 @@ import { formatLocation } from '../utils/LocationUtils';
 import SearchbarResults from './SearchbarResults';
 
 import Overlay from '../ui/Overlay';
-import CountryFlag from '../ui/CountryFlag';
 import Progress from '../ui/Progress';
 import Button from '../ui/Button';
 import Modal from '../ui/Modal';
@@ -178,7 +177,6 @@ export class Searchbar extends Component {
           type="button"
           dropdown
           onClick={ e => this.handleLocationClick(e) }>
-          { currentLocation && <CountryFlag size="small" code={ currentLocation.country } /> }
           { locationLabel }
         </Button>
         <input

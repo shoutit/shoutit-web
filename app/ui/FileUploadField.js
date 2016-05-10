@@ -35,7 +35,7 @@ export function File({ upload, onDeleteClick }) {
 
       { upload.error && <div className="FileUploadField-file-error" /> }
 
-      <Tooltip placement="top" overlay="Click to delete">
+      <Tooltip overlay="Click to delete">
         <div className="FileUploadField-file-trash" onClick={ () => onDeleteClick(upload) } >
           <Icon name="trash" fill />
         </div>
