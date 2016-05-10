@@ -13,6 +13,7 @@ const TwitterIcon = generateShareIcon('twitter');
 const GooglePlusIcon = generateShareIcon('google');
 const PinterestIcon = generateShareIcon('pinterest');
 
+const DEFAULT_TITLE = 'Shoutit - Buy and sell while chatting';
 if (process.env.BROWSER) {
   require('./Share.scss');
 }
@@ -21,7 +22,7 @@ export default class Share extends Component {
 
   static propTypes = {
     shareUrl: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     image: PropTypes.string,
     iconSize: PropTypes.number,
   }
@@ -29,6 +30,7 @@ export default class Share extends Component {
   static defaultProps = {
     shareUrl: '',
     iconSize: 32,
+    title: DEFAULT_TITLE,
   }
 
   render() {
@@ -41,7 +43,7 @@ export default class Share extends Component {
           <Tooltip overlay="Share on Facebook">
             <FacebookShareButton
               url={ url }
-              title={ title || 'Shoutit' }
+              title={ title || DEFAULT_TITLE }
               className="Share-network-button">
               <FacebookIcon size={ iconSize } round />
             </FacebookShareButton>
@@ -57,7 +59,7 @@ export default class Share extends Component {
           <Tooltip overlay="Share on Twitter">
             <TwitterShareButton
               url={ url }
-              title={ title || 'Shoutit' }
+              title={ title || DEFAULT_TITLE }
               className="Share-network-button">
               <TwitterIcon size={ iconSize } round />
             </TwitterShareButton>
