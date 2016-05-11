@@ -1,7 +1,7 @@
 /* eslint consistent-return: 0, no-console: 0 */
 import get from 'lodash/object/get';
 import debug from 'debug';
-
+import { toTitleCase } from '../utils/StringUtils';
 import { getValidIPv4Address } from '../utils/InternetUtils';
 import request from '../utils/request';
 import { createLocationSlug, getCountryName, formatLocation } from '../utils/LocationUtils';
@@ -18,10 +18,11 @@ export default function geoLocationMiddleware(req, res, next) {
       country: matchesUrl[2],
     };
     if (matchesUrl[1] === 'search' && matchesUrl[4]) {
-      req.geolocation.state = decodeURIComponent(matchesUrl[4]);
+      req.geolocation.state = toTitleCase(decodeURIComponent(matchesUrl[4]));
+      console.log(req.geolocation.state);
     }
     if (matchesUrl[1] === 'search' && matchesUrl[6]) {
-      req.geolocation.city = decodeURIComponent(matchesUrl[6]);
+      req.geolocation.city = toTitleCase(decodeURIComponent(matchesUrl[6]));
     }
     log('Got geolocation from URL');
   } else if (get(req, 'session.user.location')) {
