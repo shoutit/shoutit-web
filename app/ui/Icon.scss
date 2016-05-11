@@ -10,6 +10,10 @@
     min-width: $icon-size-small;
     height: $icon-size-small;
   }
+  &.large {
+    min-width: $icon-size-large;
+    height: $icon-size-large;
+  }
   &.huge {
     min-width: $icon-size-huge;
     height: $icon-size-huge;
