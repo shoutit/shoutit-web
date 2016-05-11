@@ -45,10 +45,10 @@
       }
     }
   }
-  .TagListItem {
+  .CategoryListItem {
     @include ellipsis();
     &:hover {
-      color: $si-green;
+      opacity: .9;
     }
   }
 }

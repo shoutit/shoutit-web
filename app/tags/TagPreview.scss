@@ -9,66 +9,64 @@
 }
 
 .TagPreview-cover {
-  border-top-right-radius: $border-radius-small;
-  border-top-left-radius: $border-radius-small;
-  height: 80px;
   width: 100%;
+  height: 80px;
+  border-bottom: 1px solid $border-color;
+  border-top-left-radius: $border-radius-small;
+  border-top-right-radius: $border-radius-small;
+  background-color: $background-color-alt-light;
   background-repeat: no-repeat;
   background-size: cover;
-  border-bottom: 1px solid $border-color;
-  background-color: $background-color-alt-light;
 }
 
 .TagPreview-header {
-  text-align: center;
   margin-top: -24px;
+  text-align: center;
   .TagPreview.no-cover & {
     margin-top: 0;
   }
   h2 {
-    font-weight: lighter;
-    margin: .5rem .5rem 0 .5rem;
+    margin: 1rem .25rem;
     font-size: 1.125rem;
+    font-weight: lighter;
   }
-
 }
 
 .TagPreview-icon {
-  display: inline-block;
-  background-color: white;
-  padding: 6px;
-  border: 1px solid $si-green;
-  text-align: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 48px;
   position: relative;
-  justify-content: center;
-  box-shadow: $box-shadow-depth-0;
+  display: inline-block;
   display: flex;
-    margin: 0 auto;
-  .Icon {
-    left: -2px;
-  }
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto;
+  padding: 6px;
   text-align: center;
+  text-align: center;
+  border: 1px solid $si-green;
+  border-radius: 54px;
+  background-color: white;
+  box-shadow: $box-shadow-depth-0;
   img {
-    align-self: center;
     display: inline-block;
     width: 28px;
+
+    align-self: center;
   }
 }
 
 .TagPreview-body {
   display: flex;
-  padding: 0rem .5rem;
   margin-top: .5rem;
+  padding: 0rem .5rem;
   .LocationListItem {
-    flex: 1
+    flex: 1;
   }
 }
 
 .TagPreview-actions {
-  padding: .5rem .25rem 0 .25rem;
   margin: .5rem .25rem 0 .25rem;
+  padding: .5rem .25rem 0 .25rem;
   border-top: 1px solid $border-color;
 }

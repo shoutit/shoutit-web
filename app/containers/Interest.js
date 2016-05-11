@@ -97,7 +97,7 @@ export class Interest extends Component {
           { tag &&
             <div className="Interest-shouts">
               { shouts.length > 0 &&
-                <ShoutsList shouts={ shouts } showCategory={ false } />
+                <ShoutsList shouts={ shouts } />
               }
               <Progress
                 animate={ isFetchingShouts }
