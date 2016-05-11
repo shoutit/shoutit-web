@@ -11,10 +11,6 @@ import ListItem from '../ui/ListItem';
 
 export class TagActions extends Component {
 
-  static defaultProps = {
-    size: 'medium',
-  }
-
   static propTypes = {
     tag: PropTypes.object.isRequired,
     category: PropTypes.object,
@@ -23,6 +19,10 @@ export class TagActions extends Component {
     loggedUser: PropTypes.object,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
   };
+
+  static defaultProps = {
+    size: 'medium',
+  }
 
   constructor(props) {
     super(props);
