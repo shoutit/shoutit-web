@@ -1,0 +1,21 @@
+@import '../styles/constants';
+
+.CategoryIcon {
+  display: inline-block;
+  vertical-align: middle;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  &.size-small {
+    width: $icon-size-small;
+    height: $icon-size-small;
+  }
+  &.size-medium {
+    width: $icon-size-medium;
+    height: $icon-size-medium;
+  }
+  &.size-large {
+    width: $icon-size-large;
+    height: $icon-size-large;
+  }
+}
