@@ -15,5 +15,8 @@ describe('utils/StringUtils', () => {
     it('should change the case when string has dashes', () => {
       expect(toTitleCase('word-with-spaces-in it')).to.eql('Word-With-Spaces-In It');
     });
+    it('should change the case when string has unicode letters', () => {
+      expect(toTitleCase('müllheim nrw')).to.eql('Müllheim Nrw');
+    });
   });
 });
