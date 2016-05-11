@@ -6,7 +6,7 @@ import ReactBootstrapTooltip from 'react-bootstrap/lib/Tooltip';
 export default function Tooltip({ children, overlay, placement = 'top', disabled = false }) {
   return (
     <OverlayTrigger placement={ placement } trigger={ disabled ? [] : ['hover', 'focus'] } overlay={ <ReactBootstrapTooltip id="Tooltip">{ overlay }</ReactBootstrapTooltip> }>
-      { children }
+      <span>{ children }</span>
     </OverlayTrigger>
   );
 }
