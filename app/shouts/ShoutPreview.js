@@ -71,7 +71,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onCategoryClick: e => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(push(`/interest/${ownProps.shout.category.slug || ownProps.shout.category}`));
+    dispatch(push(`/search?category=${ownProps.shout.category.slug}`));
   },
   onProfileAvatarClick: e => {
     e.preventDefault();

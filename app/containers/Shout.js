@@ -129,7 +129,7 @@ export class Shout extends Component {
 
     const categoryWithFilters = (
       <CardWithList key="filters" block style={ { padding: '.5rem' } }>
-        <Link to={ `/interest/${shout.category.slug}` }><CategoryListItem category={ shout.category } /></Link>
+        <Link to={ `/search?category=${shout.category.slug}` }><CategoryListItem category={ shout.category } /></Link>
         { shout.filters.map((filter) => <FilterListItem key={ filter.slug } filter={ filter } category={ shout.category } />) }
       </CardWithList>
     );
