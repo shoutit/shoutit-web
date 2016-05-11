@@ -44,7 +44,6 @@
     "currency-formatter": "1.0.2",
     "debug": "2.2.0",
     "denormalizr": "0.0.9",
-    "dom-helpers": "2.4.0",
     "express": "4.13.4",
     "express-domain-middleware": "0.1.0",
     "express-session": "1.13.0",

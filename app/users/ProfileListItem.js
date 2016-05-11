@@ -11,7 +11,6 @@ export default function ProfileListItem({
   link = true,
   showName = true,
   onClick,
-  tooltipPlacement = 'right',
 }) {
 
   const avatar = <ProfileAvatar size={ size } profile={ profile } />;
@@ -26,9 +25,7 @@ export default function ProfileListItem({
     return content;
   }
   return (
-    <Popover
-      delay={ 500 }
-      overlay={ overlay }>
+    <Popover overlay={ overlay } placement="right">
       { link ?
         <Link to={ `/user/${profile.username}` }>
           { content }

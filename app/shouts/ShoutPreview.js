@@ -42,12 +42,12 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
           <ListItem
             className="ShoutPreview-profile"
             size="small"
-            start={ showProfile &&
-              <Popover containerPadding={ -20 } delay={ 500 } trigger={ ['hover', 'focus'] } overlay={ <ProfilePreview id={ shout.profile.id } /> }>
+            start={ showProfile ?
+              <Popover containerPadding={ -20 } trigger={ ['hover', 'focus'] } overlay={ <ProfilePreview id={ shout.profile.id } /> }>
                 <span onClick={ onProfileAvatarClick }>
                   <ProfileAvatar profile={ shout.profile } size="small" />
                 </span>
-              </Popover>
+              </Popover> : null
             }>
             <TimeAgo date={ shout.datePublished } />
           </ListItem>

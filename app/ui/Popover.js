@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import contains from 'dom-helpers/query/contains';
 
 import Overlay from 'react-bootstrap/lib/Overlay';
 import RBPopover from 'react-bootstrap/lib/Popover';
@@ -7,11 +6,13 @@ import RBPopover from 'react-bootstrap/lib/Popover';
 export default class Popover extends Component {
 
   static opened = {};
+
   static propTypes = {
     trigger: PropTypes.array,
     children: PropTypes.element.isRequired,
     delay: PropTypes.number,
     delayHide: PropTypes.number,
+    positionTop: PropTypes.number,
     topOffset: PropTypes.number,
     placement: PropTypes.string,
     title: PropTypes.string,
@@ -22,8 +23,8 @@ export default class Popover extends Component {
 
   static defaultProps = {
     delay: 0,
-    delayHide: 200,
-    placement: 'auto',
+    delayHide: 300,
+    placement: 'top',
     topOffset: 75,
     id: 'popover',
   }
@@ -36,10 +37,10 @@ export default class Popover extends Component {
     this.handlePopoverMouseLeave = this.handlePopoverMouseLeave.bind(this);
     this.handleOverlayHide = this.handleOverlayHide.bind(this);
     this.handleOverlayEnter = this.handleOverlayEnter.bind(this);
-    this.handleOverlayEntered = this.handleOverlayEntered.bind(this);
     this.state = {
       show: props.show || false,
-      placement: props.placement === 'auto' ? 'top' : props.placement,
+      placement: props.placement,
+      positionTop: props.positionTop,
       width: 0,
       height: 0,
     };
@@ -58,20 +59,28 @@ export default class Popover extends Component {
     this.setState({ show: false });
   }
 
-  adjustPosition(node) {
-    if (this.props.placement !== 'auto') {
-      return;
-    }
-    let placement = 'top';
+  adjustPlacement(node) {
+    let { placement } = this.props;
 
     const { width, height } = node.getBoundingClientRect();
-    const { top } = this.refs.target.getBoundingClientRect();
+    const { top: targetTop, right: targetRight } = this.refs.target.getBoundingClientRect();
+    const { right: maxRight } = document.getElementsByClassName('App-content')[0].getBoundingClientRect();
 
-    if (top - height < this.props.topOffset) {
-      placement = 'bottom';
+    if (placement === 'top' || placement === 'bottom') {
+      // adjust vertical position
+      if (targetTop - height < this.props.topOffset) {
+        placement = 'bottom';
+      } else {
+        placement = 'top';
+      }
     } else {
-      placement = 'top';
+      if (targetRight + width > maxRight) {
+        placement = 'left';
+      } else {
+        placement = 'right';
+      }
     }
+
     this.setState({ width, height, placement });
 
   }
@@ -83,7 +92,7 @@ export default class Popover extends Component {
   handleMouseLeave(e) {
     const target = e.currentTarget;
     const related = e.relatedTarget || e.nativeEvent.toElement;
-    if (related === target || (related !== window && contains(target, related))) {
+    if (related === target || (related !== window && target.contains(related))) {
       return;
     }
     clearTimeout(this.showInterval);
@@ -113,11 +122,7 @@ export default class Popover extends Component {
     node.addEventListener('mouseenter', this.handlePopoverMouseEnter);
     node.addEventListener('mouseleave', this.handlePopoverMouseLeave);
     node.addEventListener('click', this.handlePopoverClick);
-    this.adjustPosition(node);
-  }
-
-  handleOverlayEntered(node) {
-
+    this.adjustPlacement(node);
   }
 
   handleOverlayHide() {
@@ -137,7 +142,6 @@ export default class Popover extends Component {
           {...props }
           onHide={ this.handleOverlayHide }
           onEnter={ this.handleOverlayEnter }
-          onEntered={ this.handleOverlayEntered }
           show={ this.state.show }
           target={ () => this.refs.target }
           placement={ this.state.placement }

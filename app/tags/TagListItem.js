@@ -23,7 +23,7 @@ export function TagListItem({ tag, size = 'medium', link = true }) {
     </ListItem>
   );
   return (
-    <Popover overlay={ overlay } delay={ 500 }>
+    <Popover overlay={ overlay } placement="right">
       { link ?
         <Link to={ `/interest/${tag.slug || tag.name}` }>
           { item }
