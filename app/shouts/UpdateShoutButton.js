@@ -3,21 +3,11 @@ import { connect } from 'react-redux';
 
 import Button from '../ui/Button';
 
-import UpdateShoutModal from './UpdateShoutModal';
+import UpdateShout from './UpdateShout';
 
 import { openModal, closeModal } from '../actions/ui';
 
-export function UpdateShoutButton({ shoutId, dispatch, ...props }) {
-  function onClick() {
-    dispatch(openModal(
-      <UpdateShoutModal
-        name="edit-modal"
-        shoutId={ shoutId }
-        onCancel={ () => dispatch(closeModal('edit-modal')) }
-        onSuccess={ () => dispatch(closeModal('edit-modal')) }
-      />
-    ));
-  }
+export function UpdateShoutButton({ onClick, ...props }) {
   return (
     <Button onClick={ onClick } size="small" action="primary" icon="pencil" {...props}>
       { props.children || 'Edit Shout' }
@@ -27,8 +17,15 @@ export function UpdateShoutButton({ shoutId, dispatch, ...props }) {
 
 UpdateShoutButton.propTypes = {
   children: PropTypes.node,
-  dispatch: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   shoutId: PropTypes.string.isRequired,
 };
 
-export default connect()(UpdateShoutButton);
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onClick: () => dispatch(openModal(
+    <UpdateShout shoutId={ ownProps.shoutId } onCancel={ () => dispatch(closeModal()) } onSuccess={ () => dispatch(closeModal()) } />,
+    { title: 'Edit this Shout' }
+  )),
+});
+
+export default connect(null, mapDispatchToProps)(UpdateShoutButton);

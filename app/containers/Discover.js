@@ -11,7 +11,6 @@ import DiscoverItemPreview from '../discover/DiscoverItemPreview';
 import SuggestedShout from '../shouts/SuggestedShout';
 import ShoutsList from '../shouts/ShoutsList';
 
-import Modal from '../ui/Modal';
 import Scrollable from '../ui/Scrollable';
 import CountryFlag from '../ui/CountryFlag';
 import Progress from '../ui/Progress';
@@ -108,18 +107,16 @@ export class Discover extends Component {
     e.preventDefault();
     e.target.blur();
     const { dispatch } = this.props;
-    const modal = (
-      <Modal title="Change location" name="search-location">
-        <SearchLocation
-          onLocationSelect={ location => {
-            dispatch(push(getDiscoverLink(location.country)));
-            dispatch(closeModal('search-location'));
-            dispatch(updateCurrentLocation(location));
-          } }
-        />
-      </Modal>
+    const body = (
+      <SearchLocation
+        onLocationSelect={ location => {
+          dispatch(push(getDiscoverLink(location.country)));
+          dispatch(closeModal());
+          dispatch(updateCurrentLocation(location));
+        } }
+      />
     );
-    this.props.dispatch(openModal(modal));
+    this.props.dispatch(openModal(body, { bsSize: 'small', title: 'Change Your Location' }));
   }
 
   render() {

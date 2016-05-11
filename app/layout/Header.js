@@ -3,17 +3,16 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import Button from '../ui/Button';
-import Modal from '../ui/Modal';
 
 import HeaderMessagesButton from '../header/HeaderMessagesButton';
 // import HeaderNotificationsButton from '../header/HeaderNotificationsButton';
 import HeaderProfileButton from '../header/HeaderProfileButton';
-import CreateShout from '../shouts/CreateShout';
+import NewShout from '../shouts/NewShout';
 import Searchbar from '../search/Searchbar';
 
 import { imagesPath } from '../config';
 
-import { openModal, closeModal } from '../actions/ui';
+import { openModal } from '../actions/ui';
 import { getLocationPath } from '../utils/LocationUtils';
 
 if (process.env.BROWSER) {
@@ -41,21 +40,13 @@ export class Header extends Component {
     this.handleNewShoutClick = this.handleNewShoutClick.bind(this);
 
   }
+
   handleNewShoutClick() {
     const { dispatch } = this.props;
-
-    const modal = (
-      <Modal name="new-shout">
-        <CreateShout
-          modalName="new-shout"
-          onCancel={ () => dispatch(closeModal('new-shout')) }
-          onSuccess={ () => dispatch(closeModal('new-shout')) }
-        />
-      </Modal>
-    );
-
-    dispatch(openModal(modal));
-
+    dispatch(openModal(<NewShout />, {
+      title: 'What are you posting?',
+      bsSize: 'small',
+    }));
   }
 
   render() {
