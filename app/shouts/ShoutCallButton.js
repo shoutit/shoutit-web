@@ -29,7 +29,7 @@ export class ShoutCallButton extends Component {
   }
 
   render() {
-    const { shout, tooltipPlacement } = this.props;
+    const { shout } = this.props;
     let label = `Call ${shout.mobileHint.replace('...', '…')}`;
     if (shout.isCalling) {
       label = 'Please wait…';
@@ -54,7 +54,7 @@ export class ShoutCallButton extends Component {
 
     if (!shout.mobile && !shout.isCalling) {
       return (
-        <Tooltip placement={ tooltipPlacement } overlay="Click to reveal">
+        <Tooltip overlay="Click to reveal">
           { button }
         </Tooltip>
       );

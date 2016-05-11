@@ -1,8 +1,7 @@
-import kebabCase from 'lodash/string/kebabCase';
+import kebabCase from 'lodash/kebabCase';
 import request from 'superagent';
 import { camelizeKeys } from 'humps';
-import round from 'lodash/math/round';
-import { toTitleCase } from '../utils/StringUtils';
+import round from 'lodash/round';
 
 import { googleMapsKey } from '../config';
 import { countries } from '../../assets/countries/countries-en.json';
@@ -109,10 +108,10 @@ export function formatLocation(location, options) {
     }
   }
   if (location.city) {
-    values.push(toTitleCase(location.city));
+    values.push(location.city);
   }
   if (location.state && location.state !== location.city) {
-    values.push(toTitleCase(location.state));
+    values.push(location.state);
   }
   if (location.country) {
     values.push(getCountryName(location.country));

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import capitalize from 'lodash/string/capitalize';
+import capitalize from 'lodash/capitalize';
 import { Link } from 'react-router';
 import { loadShout, loadRelatedShouts } from '../actions/shouts';
 import { startShoutReply, openConversation } from '../actions/chat';
@@ -56,7 +56,7 @@ function ShoutActions({ shout, onReplyClick }) {
   };
   let callButton;
   if (shout.isMobileSet) {
-    callButton = <ShoutCallButton tooltipPlacement="bottom" shout={ shout } style={ buttonStyle } block />;
+    callButton = <ShoutCallButton shout={ shout } style={ buttonStyle } block />;
   }
   return (
     <div className="ShoutActions">
@@ -129,7 +129,7 @@ export class Shout extends Component {
 
     const categoryWithFilters = (
       <CardWithList key="filters" block style={ { padding: '.5rem' } }>
-        <Link to={ `/interest/${shout.category.slug}` }><CategoryListItem category={ shout.category } /></Link>
+        <Link to={ `/search?category=${shout.category.slug}` }><CategoryListItem category={ shout.category } /></Link>
         { shout.filters.map((filter) => <FilterListItem key={ filter.slug } filter={ filter } category={ shout.category } />) }
       </CardWithList>
     );

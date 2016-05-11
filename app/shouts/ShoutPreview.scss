@@ -38,7 +38,6 @@
 
   justify-content: space-between;
   .ShoutPreview-profile {
-    @include ellipsis();
     .ProfileAvatar {
       opacity: 1;
       &:hover {
@@ -46,10 +45,10 @@
       }
     }
   }
-  .TagListItem {
+  .CategoryListItem {
     @include ellipsis();
     &:hover {
-      color: $si-green;
+      opacity: .9;
     }
   }
 }

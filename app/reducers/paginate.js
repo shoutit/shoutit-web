@@ -1,6 +1,6 @@
-import merge from 'lodash/object/merge';
-import union from 'lodash/array/union';
-import without from 'lodash/array/without';
+import merge from 'lodash/merge';
+import union from 'lodash/union';
+import without from 'lodash/without';
 
 export default function paginate({
   fetchTypes,

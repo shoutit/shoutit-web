@@ -1,7 +1,7 @@
 /* global google */
 import Cookies from 'js-cookie';
 import { camelizeKeys } from 'humps';
-import trim from 'lodash/string/trim';
+import trim from 'lodash/trim';
 
 import * as actionTypes from './actionTypes';
 import { SUGGESTIONS, PROFILE } from '../schemas';

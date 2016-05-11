@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import find from 'lodash/collection/find';
+import find from 'lodash/find';
 import Helmet from '../utils/Helmet';
 
 import { denormalize } from '../schemas';
@@ -81,7 +81,7 @@ export class Interest extends Component {
           stickyStartColumn
           startColumn={ [
             tag && <Card className="Interest-main-card" block style={ { width: '100%' } }>
-              <TagPreview style={ { width: '100%' } } id={ tag.slug || tag.id } />
+              <TagPreview style={ { width: '100%' } } id={ tag.id } />
             </Card>,
           ] }
           endColumn={ [
@@ -97,7 +97,7 @@ export class Interest extends Component {
           { tag &&
             <div className="Interest-shouts">
               { shouts.length > 0 &&
-                <ShoutsList shouts={ shouts } showCategory={ false } />
+                <ShoutsList shouts={ shouts } />
               }
               <Progress
                 animate={ isFetchingShouts }
@@ -114,14 +114,7 @@ export class Interest extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { params: { name } } = ownProps;
   const { paginated, entities, currentLocation } = state;
-  let tag = find(entities.tags, { name });
-  const category = entities.categories[name];
-  if (category) {
-    tag = {
-      ...tag,
-      ...category,
-    };
-  }
+  const tag = find(entities.tags, { name });
   let shouts = [];
   let isFetchingShouts = false;
   let shoutsCount = 0;

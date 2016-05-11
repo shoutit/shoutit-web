@@ -1,13 +1,7 @@
 import React, { PropTypes, Component } from 'react';
-import round from 'lodash/math/round';
+import round from 'lodash/round';
 
 import TextField from './TextField';
-
-// const parseRE = /[^\d\.]/g;
-//
-// function cleanValue(value) {
-//   return value.replace(parseRE, '');
-// }
 
 export default class CurrencyField extends Component {
   constructor(props) {

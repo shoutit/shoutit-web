@@ -1,4 +1,4 @@
-import omit from 'lodash/object/omit';
+import omit from 'lodash/omit';
 
 import * as actionTypes from '../actions/actionTypes';
 import paginate from './paginate';

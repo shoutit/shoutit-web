@@ -1,4 +1,4 @@
-import omit from 'lodash/object/omit';
+import omit from 'lodash/omit';
 
 import * as actionTypes from './actionTypes';
 import { TAGS, PROFILES, SHOUTS } from '../schemas';

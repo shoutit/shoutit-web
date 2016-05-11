@@ -40,7 +40,7 @@ describe('server/geolocationMiddleware', () => {
       geolocationMiddleware(req, null, () => {});
       expect(req.geolocation).to.eql({
         country: 'it',
-        state: 'lazio',
+        state: 'Lazio',
         slug: 'it_lazio_no-city',
         name: 'Lazio, Italy',
       });
@@ -52,8 +52,8 @@ describe('server/geolocationMiddleware', () => {
       geolocationMiddleware(req, null, () => {});
       expect(req.geolocation).to.eql({
         country: 'it',
-        state: 'emilia romagna',
-        city: 'valeggio sul mincio',
+        state: 'Emilia Romagna',
+        city: 'Valeggio Sul Mincio',
         slug: 'it_emilia-romagna_valeggio-sul-mincio',
         name: 'Valeggio Sul Mincio, Emilia Romagna, Italy',
       });

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import ProfileAvatar from '../users/ProfileAvatar';
-import Tooltip from '../ui/Tooltip';
+import Popover from '../ui/Popover';
 import ListItem from '../ui/ListItem';
 import ProfilePreview from '../users/ProfilePreview';
 
@@ -11,7 +11,6 @@ export default function ProfileListItem({
   link = true,
   showName = true,
   onClick,
-  tooltipPlacement = 'right',
 }) {
 
   const avatar = <ProfileAvatar size={ size } profile={ profile } />;
@@ -26,18 +25,14 @@ export default function ProfileListItem({
     return content;
   }
   return (
-    <Tooltip
-      white
-      placement={ tooltipPlacement }
-      overlay={ overlay }
-      getTooltipContainer={ c => c.parentNode }>
+    <Popover overlay={ overlay } placement="right">
       { link ?
         <Link to={ `/user/${profile.username}` }>
           { content }
         </Link> :
         <span>{ content }</span>
       }
-    </Tooltip>
+    </Popover>
 
   );
 }

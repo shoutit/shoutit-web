@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 
-import last from 'lodash/array/last';
+import last from 'lodash/last';
 import newrelic, { newrelicEnabled } from './newrelic';
 
 import Fetchr from 'fetchr';

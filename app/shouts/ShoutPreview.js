@@ -7,9 +7,9 @@ import ShoutType from './ShoutType';
 import ShoutLink from './ShoutLink';
 import TimeAgo from '../ui/TimeAgo';
 import ListItem from '../ui/ListItem';
-import Tooltip from '../ui/Tooltip';
+import Popover from '../ui/Popover';
 
-import TagListItem from '../tags/TagListItem';
+import CategoryListItem from '../shouts/CategoryListItem';
 
 import ProfileAvatar from '../users/ProfileAvatar';
 import ProfilePreview from '../users/ProfilePreview';
@@ -42,21 +42,16 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
           <ListItem
             className="ShoutPreview-profile"
             size="small"
-            start={ showProfile &&
-              <Tooltip
-                destroyTooltipOnHide
-                mouseLeaveDelay={ 0.05 }
-                white
-                placement="top"
-                overlay={ <ProfilePreview id={ shout.profile.id } /> }>
+            start={ showProfile ?
+              <Popover className="Test" containerPadding={ -20 } trigger="click" overlay={ <ProfilePreview id={ shout.profile.id } /> }>
                 <span onClick={ onProfileAvatarClick }>
                   <ProfileAvatar profile={ shout.profile } size="small" />
                 </span>
-              </Tooltip>
+              </Popover> : null
             }>
             <TimeAgo date={ shout.datePublished } />
           </ListItem>
-          { showCategory && <TagListItem link={ false } onClick={ onCategoryClick } tag={ shout.category } size="small" /> }
+          { showCategory && <CategoryListItem onClick={ onCategoryClick } category={ shout.category } size="small" /> }
         </div>
       </div>
     </ShoutLink>
@@ -76,7 +71,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onCategoryClick: e => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(push(`/interest/${ownProps.shout.category.slug || ownProps.shout.category}`));
+    dispatch(push(`/search?category=${ownProps.shout.category.slug}`));
   },
   onProfileAvatarClick: e => {
     e.preventDefault();

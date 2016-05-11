@@ -1,10 +1,6 @@
 import React, { PropTypes } from 'react';
-import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
-
-if (process.env.BROWSER) {
-  // require('./CategoryListItem.scss');
-}
+import CategoryIcon from '../shouts/CategoryIcon';
 
 export default function CategoryListItem({ category, size = 'medium', onClick }) {
   return (
@@ -12,9 +8,9 @@ export default function CategoryListItem({ category, size = 'medium', onClick })
       onClick={ onClick }
       className="CategoryListItem"
       size={ size }
-      start={ <Icon size={ size } active name="tag" /> }
+      start={ <CategoryIcon size={ size } category={ category } size={ size } /> }
     >
-      { category.name || category }
+      { category.name }
     </ListItem>
   );
 }

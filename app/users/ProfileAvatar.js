@@ -59,7 +59,7 @@ export default class ProfileAvatar extends Component {
 
     if (tooltip) {
       avatar = (
-        <Tooltip placement="top" overlay={ profile.name }>
+        <Tooltip overlay={ profile.name }>
           { avatar }
         </Tooltip>
         );

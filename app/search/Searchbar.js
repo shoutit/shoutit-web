@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import trim from 'lodash/string/trim';
-import throttle from 'lodash/function/throttle';
+import trim from 'lodash/trim';
+import throttle from 'lodash/throttle';
 
 import { searchShouts, searchTags, searchProfiles } from '../actions/search';
 import { openModal, closeModal } from '../actions/ui';
@@ -13,7 +13,6 @@ import { formatLocation } from '../utils/LocationUtils';
 import SearchbarResults from './SearchbarResults';
 
 import Overlay from '../ui/Overlay';
-import CountryFlag from '../ui/CountryFlag';
 import Progress from '../ui/Progress';
 import Button from '../ui/Button';
 import Modal from '../ui/Modal';
@@ -178,7 +177,6 @@ export class Searchbar extends Component {
           type="button"
           dropdown
           onClick={ e => this.handleLocationClick(e) }>
-          { currentLocation && <CountryFlag size="small" code={ currentLocation.country } /> }
           { locationLabel }
         </Button>
         <input

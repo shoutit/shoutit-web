@@ -1,6 +1,6 @@
-import merge from 'lodash/object/merge';
-import without from 'lodash/array/without';
-import union from 'lodash/array/union';
+import merge from 'lodash/merge';
+import without from 'lodash/without';
+import union from 'lodash/union';
 
 import * as actionTypes from '../actions/actionTypes';
 

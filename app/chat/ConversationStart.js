@@ -23,7 +23,7 @@ export default function ConversationStart({ conversation }) {
         </div>
         :
         <div className="ConversationStart-shout">
-          {/* <ShoutPreview shout={ conversation.about } />*/}
+          { /* <ShoutPreview shout={ conversation.about } />*/ }
           <p className="htmlAncillary">
             If you are interested in this, write { profile.firstName } a message.
           </p>

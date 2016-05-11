@@ -80,7 +80,7 @@ export class Header extends Component {
         { isLoggedIn ?
           <div className="Header-tools loggedIn">
             <HeaderMessagesButton overlayContainer={ this } />
-            {/* <HeaderNotificationsButton overlayContainer={ this } />*/}
+            { /* <HeaderNotificationsButton overlayContainer={ this } />*/ }
             <Button action="primary" size="small" icon="sparkle" onClick={ this.handleNewShoutClick }>
               Create Shout
             </Button>
