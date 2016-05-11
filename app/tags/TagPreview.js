@@ -49,7 +49,7 @@ export class TagPreview extends Component {
           <TagListenersListItem tag={ tag } size="small" />
         </div>
         <div className="TagPreview-actions">
-          <TagActions tag={ tag } size="small" />
+          <TagActions tag={ tag } category={ category } size="small" />
         </div>
       </div>
     );
