@@ -75,11 +75,8 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
         { showProfileLink &&
           <li>
             <Link to={ `/user/${profile.username}` }>
-              <ListItem
-                size={ size }
-                start={ <Icon active size={ size } name="profile" /> }
-              >
-                View profile
+              <ListItem size={ size } start={ <Icon active size={ size } name="profile" /> }>
+                View Profile
               </ListItem>
             </Link>
           </li>
