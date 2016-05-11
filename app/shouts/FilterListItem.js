@@ -12,7 +12,7 @@ export default function FilterListItem({ category, filter, size = 'medium' }) {
       size={ size }
       start={ filter.name }
     >
-      <Link to={ `/search/all/${category.slug}?filters=${filter.slug}:${filter.value.slug}` }>
+      <Link to={ `/search?category=${category.slug}&filters=${filter.slug}:${filter.value.slug}` }>
         { filter.value.name }
       </Link>
     </ListItem>
