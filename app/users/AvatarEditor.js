@@ -138,7 +138,7 @@ export class AvatarEditor extends Component {
       icon="camera"
       disabled={ isLoading }
       onChange={ this.handlePictureChange }>
-        { image ? 'Change picture' : 'Choose a picture' }
+        Upload image
     </UploadButton>);
 
     if (image && profile.image !== image) {
