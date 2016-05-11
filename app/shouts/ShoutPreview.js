@@ -43,7 +43,7 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
             className="ShoutPreview-profile"
             size="small"
             start={ showProfile ?
-              <Popover className="Test" containerPadding={ -20 } trigger="click" overlay={ <ProfilePreview id={ shout.profile.id } /> }>
+              <Popover trigger={ ['hover', 'focus'] } overlay={ <ProfilePreview id={ shout.profile.id } /> }>
                 <span onClick={ onProfileAvatarClick }>
                   <ProfileAvatar profile={ shout.profile } size="small" />
                 </span>

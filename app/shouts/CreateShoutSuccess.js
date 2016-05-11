@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 
 import { connect } from 'react-redux';
 
-import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 import HorizontalRule from '../ui/HorizontalRule';
 import CreateShout from '../shouts/CreateShout';
@@ -47,23 +46,13 @@ CreateShoutSuccess.propTypes = {
   close: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const newShoutModal = (
-    <Modal name="new-shout">
-      <CreateShout
-        modalName="new-shout"
-        onCancel={ () => dispatch(closeModal('new-shout')) }
-        onSuccess={ () => dispatch(closeModal('new-shout')) }
-      />
-    </Modal>
-  );
-
-  return {
-    onNewClick: () => {
-      ownProps.close();
-      setTimeout(() => dispatch(openModal(newShoutModal)), 500);
-    },
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  onNewClick: () => dispatch(openModal(
+    <CreateShout
+      onCancel={ () => dispatch(closeModal()) }
+      onSuccess={ () => dispatch(closeModal()) } />
+  )),
+  close: () => dispatch(closeModal()),
+});
 
 export default connect(null, mapDispatchToProps)(CreateShoutSuccess);

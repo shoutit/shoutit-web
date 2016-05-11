@@ -7,16 +7,15 @@ export function dismissUINotification(id) {
   };
 }
 
-export function closeModal(id) {
+export function closeModal() {
   return {
     type: actionTypes.CLOSE_MODAL,
-    payload: id,
   };
 }
 
-export function openModal(modal) {
+export function openModal(body, options) {
   return {
     type: actionTypes.OPEN_MODAL,
-    payload: modal,
+    payload: { body, ...options, show: true },
   };
 }

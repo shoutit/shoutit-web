@@ -1,16 +1,25 @@
 import * as actionTypes from '../actions/actionTypes';
-import without from 'lodash/without';
 
-export default function modalsReducer(state = [], action) {
+const initialState = {
+  show: false,
+  body: null,
+
+  // Header options
+  closeButton: false,
+  title: null,
+
+  backdrop: true,
+  bsSize: null,
+
+  // Footer options
+
+};
+export default function modalsReducer(state = initialState, action) {
   switch (action.type) {
     case actionTypes.CLOSE_MODAL:
-      let modal = action.payload;
-      if (typeof modal === 'string') {
-        modal = state.find(m => m.props.name === action.payload);
-      }
-      return without(state, modal);
+      return { ...state, show: false };
     case actionTypes.OPEN_MODAL:
-      return [...state, action.payload];
+      return { ...initialState, ...action.payload };
   }
   return state;
 }
