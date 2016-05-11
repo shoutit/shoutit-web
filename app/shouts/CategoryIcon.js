@@ -7,7 +7,7 @@ export default function CategoryIcon({ category, size = 'medium' }) {
   const style = {
     backgroundImage: `url("${category.icon}")`,
   };
-  let className = `CategoryIcon size-${size}`;
+  const className = `CategoryIcon size-${size}`;
   return (
     <span className={ className } style={ style } />
   );
