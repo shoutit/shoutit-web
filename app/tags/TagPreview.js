@@ -31,10 +31,7 @@ export class TagPreview extends Component {
         <div className="TagPreview-cover" style={ getStyleBackgroundImage(tag.image, 'medium') } />
         <div className="TagPreview-header">
           <div className="TagPreview-icon">
-            { tag.icon ?
-              <img src={ tag.icon } alt="Icon" /> :
-              <Icon name="tag" size="large" active />
-            }
+            <Icon name="tag" size="large" active />
           </div>
           <h2>{ tag.name }</h2>
         </div>
@@ -51,18 +48,7 @@ export class TagPreview extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps;
-  let tag = state.entities.tags[id];
-  if (!tag) {
-    tag = state.entities.categories[id];
-  } else {
-    const category = state.entities.categories[tag.slug || tag.name];
-    if (category) {
-      tag = {
-        ...tag,
-        ...category,
-      };
-    }
-  }
+  const tag = state.entities.tags[id];
   return {
     tag,
   };
