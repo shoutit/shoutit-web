@@ -3,6 +3,9 @@
 .TagPreview {
   width: 250px;
   padding-bottom: .5rem;
+  &.no-cover {
+    padding-top: .5rem;
+  }
 }
 
 .TagPreview-cover {
@@ -19,7 +22,9 @@
 .TagPreview-header {
   text-align: center;
   margin-top: -24px;
-
+  .TagPreview.no-cover & {
+    margin-top: 0;
+  }
   h2 {
     font-weight: lighter;
     margin: .5rem .5rem 0 .5rem;

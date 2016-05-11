@@ -26,9 +26,13 @@ export class TagPreview extends Component {
   }
   render() {
     const { tag, style } = this.props;
+    let className = 'TagPreview';
+    if (!tag.image) {
+      className += ' no-cover';
+    }
     return (
-      <div className="TagPreview" style={ style }>
-        <div className="TagPreview-cover" style={ getStyleBackgroundImage(tag.image, 'medium') } />
+      <div className={ className } style={ style }>
+        { tag.image && <div className="TagPreview-cover" style={ getStyleBackgroundImage(tag.image, 'medium') } /> }
         <div className="TagPreview-header">
           <div className="TagPreview-icon">
             <Icon name="tag" size="large" active />
