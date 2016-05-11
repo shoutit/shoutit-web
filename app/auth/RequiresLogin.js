@@ -15,7 +15,8 @@ export class RequiresLogin extends Component {
   static propTypes = {
     event: PropTypes.string, // the event that should trigger the action for which the login is required
     redirectUrl: PropTypes.string, // redirect to this url after login instead of the currentUrl
-    loginAction: PropTypes.oneOf(Object.keys(loginActions).map(action => action.toLowerCase())),
+    loginAction: PropTypes.oneOf(Object.keys(loginActions).map(action => action.toLowerCase())), // passed as login_action in the querystring
+    actionParams: PropTypes.string, // passed as login_params in the querystring
     currentUrl: PropTypes.string,
     dispatch: PropTypes.func.isRequired,
     children: PropTypes.element.isRequired,
@@ -28,13 +29,16 @@ export class RequiresLogin extends Component {
   }
 
   getRedirect() {
-    const { currentUrl, loginAction, redirectUrl } = this.props;
+    const { currentUrl, loginAction, redirectUrl, actionParams } = this.props;
     let url = '/login';
     if (currentUrl) {
       url += `?redirect=${redirectUrl || currentUrl}`;
     }
     if (loginAction) {
       url += `&login_action=${loginAction}`;
+      if (actionParams) {
+        url += `&login_params=${actionParams}`;
+      }
     }
     return url;
   }
