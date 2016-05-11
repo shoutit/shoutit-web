@@ -15,7 +15,7 @@ general:
 dependencies:
   pre:
     - git describe --tags > CURRENT_TAG
-    - npm prune
+    - rm -rf node_modules
   override:
     - npm install
     - npm install -g codeclimate-test-reporter
