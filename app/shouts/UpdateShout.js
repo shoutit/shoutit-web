@@ -75,7 +75,6 @@ export class UpdateShout extends Component {
     }
     return (
       <div className="CreateShout">
-        <h1>Update { shout.type }</h1>
         <ShoutForm
           mode="update"
           disabled={ shout.isUpdating || shout.isDeleting }

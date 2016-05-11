@@ -5,13 +5,11 @@ import { push } from 'react-router-redux';
 import Button from '../ui/Button';
 
 import { createShout, amendShout } from '../actions/shouts';
-import { openModal, closeModal } from '../actions/ui';
-import Modal from '../ui/Modal';
+import { openModal } from '../actions/ui';
 
 import ShoutForm from './ShoutForm';
 import CreateShoutSuccess from './CreateShoutSuccess';
 
-const NEW_SHOUT_ID = 'new-shout';
 
 if (process.env.BROWSER) {
   require('./CreateShout.scss');
@@ -40,7 +38,9 @@ export class CreateShout extends Component {
   }
 
   componentWillUnmount() {
-    this.amendShout({ createError: null, type: null });
+    this.amendShout({
+      createError: null,
+    });
   }
 
   form = null;
@@ -71,11 +71,9 @@ export class CreateShout extends Component {
     this.props.dispatch(dispatch => {
       setTimeout(() => {
         dispatch(openModal(
-          <Modal size="small" name="next-steps">
-            <CreateShoutSuccess shoutId={ shoutId } close={ () => dispatch(closeModal('next-steps')) } />
-          </Modal>
+          <CreateShoutSuccess shoutId={ shoutId } />, { bsSize: 'small' }
         ));
-      }, 2000);
+      }, 1000);
     });
   }
 
@@ -97,56 +95,36 @@ export class CreateShout extends Component {
     }
     return (
       <div className="CreateShout">
-          { !shout.type ?
-            <div>
-              <p style={ { margin: 0, textAlign: 'center' } }>What are you posting?</p>
-              <div style={ { width: '50%', margin: '2rem auto 1rem auto' } }>
-                <Button action="primary" block style={ { margin: '0 .5rem .5rem .5rem' } } onClick={ () => this.amendShout({ type: 'offer' }) }>
-                  Offer
-                </Button>
-                <Button action="primary-alt" block style={ { margin: '.5rem .5rem 0 .5rem' } } onClick={ () => this.amendShout({ type: 'request' }) }>
-                  Request
-                </Button>
-              </div>
-            </div> :
-            <div style={ { marginBottom: '1rem' } }>
-              <h1>New { shout.type }</h1>
-              <ShoutForm
-                inputRef={ el => { this.form = el; } }
-                disabled={ shout.isCreating }
-                shout={ shout }
-                error={ error }
-                onChange={ data => this.amendShout({ ...data, createError: null }) }
-                onSubmit={ this.createShout }
-                onCancel={ this.handleCancelClick }
-                onUploadStart={ () => this.setState({ isUploading: true }) }
-                onUploadEnd={ () => this.setState({ isUploading: false }) }
-                actions={ [
-                  <Button key="cancel" type="button" onClick={ this.handleCancelClick } disabled={ shout.isCreating }>
-                    Cancel
-                  </Button>,
-                  <Button key="submit" action="primary" style={ { minWidth: '10rem' } } disabled={ shout.isCreating || isUploading }>
-                    { submitLabel }
-                  </Button>,
-                ] }
-              />
-            </div>
-          }
+        <div style={ { marginBottom: '1rem' } }>
+          <ShoutForm
+            inputRef={ el => { this.form = el; } }
+            disabled={ shout.isCreating }
+            shout={ shout }
+            error={ error }
+            onChange={ data => this.amendShout({ ...data, createError: null }) }
+            onSubmit={ this.createShout }
+            onCancel={ this.handleCancelClick }
+            onUploadStart={ () => this.setState({ isUploading: true }) }
+            onUploadEnd={ () => this.setState({ isUploading: false }) }
+            actions={ [
+              <Button key="cancel" type="button" onClick={ this.handleCancelClick } disabled={ shout.isCreating }>
+                Cancel
+              </Button>,
+              <Button key="submit" action="primary" style={ { minWidth: '10rem' } } disabled={ shout.isCreating || isUploading }>
+                { submitLabel }
+              </Button>,
+            ] }
+          />
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  const { entities, currentLocation, session } = state;
+const mapStateToProps = (state, ownProps) => {
+  const { entities, session } = state;
   const loggedUser = entities.users[session.user];
-  const shout = entities.shouts[NEW_SHOUT_ID] || {
-    id: NEW_SHOUT_ID,
-    mobile: loggedUser.mobile,
-    type: null,
-    location: currentLocation,
-  };
-
+  const shout = { ...ownProps.shout, ...entities.shouts[ownProps.shout.id] };
   return {
     shout,
     loggedUser,

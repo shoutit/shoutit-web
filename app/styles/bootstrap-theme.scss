@@ -1,6 +1,9 @@
 @import './constants';
-.fade {
+.fade.popover {
   transition-duration: 0s;
+}
+.fade.modal-backdrop {
+  transition-duration: .1s;
 }
 .popover {
   border: 0;
@@ -12,4 +15,36 @@
 
 .tooltip {
   font-size: 0.75em
+}
+
+@media (min-width: 768px) {
+  .modal-dialog {
+    margin: 3rem auto;
+    margin-top: 5rem;
+  }
+}
+
+.modal-header {
+  padding: 1rem;
+  border-bottom: 1px solid $border-color;
+  font-size: 1.2em;
+  font-weight: 300;
+  text-align: center;
+}
+
+.modal-content {
+  border: none;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-depth-2;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+.modal-sm {
+  width: 450px;
+}
+
+.modal-backdrop {
+  background-color: rgba(black, .4)
 }

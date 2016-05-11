@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import chatConversations from './chatConversations';
 import discoverItemsByCountry from './discoverItemsByCountry';
 import listenersByUser from './listenersByUser';
+import listenersByTag from './listenersByTag';
 import listeningByUser from './listeningByUser';
 import messagesByConversation from './messagesByConversation';
 import profilesBySearch from './profilesBySearch';
@@ -20,6 +21,7 @@ export default combineReducers({
   chatConversations,
   discoverItemsByCountry,
   listenersByUser,
+  listenersByTag,
   listeningByUser,
   messagesByConversation,
   profilesBySearch,

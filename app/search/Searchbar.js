@@ -15,7 +15,6 @@ import SearchbarResults from './SearchbarResults';
 import Overlay from '../ui/Overlay';
 import Progress from '../ui/Progress';
 import Button from '../ui/Button';
-import Modal from '../ui/Modal';
 import SearchLocation from '../location/SearchLocation';
 
 if (process.env.BROWSER) {
@@ -117,16 +116,14 @@ export class Searchbar extends Component {
     e.target.blur();
     const { dispatch } = this.props;
     const modal = (
-      <Modal title="Set your location" name="search-location">
-        <SearchLocation
-          onLocationSelect={ location => {
-            dispatch(closeModal('search-location'));
-            dispatch(updateCurrentLocation(location));
-          } }
-        />
-      </Modal>
+      <SearchLocation
+        onLocationSelect={ location => {
+          dispatch(closeModal());
+          dispatch(updateCurrentLocation(location));
+        } }
+      />
     );
-    this.props.dispatch(openModal(modal));
+    this.props.dispatch(openModal(modal, { title: 'Change Your Location', bsSize: 'small' }));
   }
 
   render() {

@@ -205,7 +205,7 @@ export class ProfileCover extends Component {
                 icon="camera"
                 disabled={ isLoading }
                 onChange={ this.handlePictureChange }>
-                  { profile.cover ? 'Change image' : 'Choose an image' }
+                  Upload image
               </UploadButton>
             }
             { profile.cover !== image &&
