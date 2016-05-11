@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import trim from 'lodash/string/trim';
+import trim from 'lodash/trim';
 
 import TextareaAutosize from 'react-textarea-autosize';
 

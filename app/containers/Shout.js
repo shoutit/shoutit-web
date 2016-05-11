@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import capitalize from 'lodash/string/capitalize';
+import capitalize from 'lodash/capitalize';
 import { Link } from 'react-router';
 import { loadShout, loadRelatedShouts } from '../actions/shouts';
 import { startShoutReply, openConversation } from '../actions/chat';

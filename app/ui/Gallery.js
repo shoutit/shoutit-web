@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import { getVariation } from '../utils/APIUtils';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
-import union from 'lodash/array/union';
+import union from 'lodash/union';
 
 if (process.env.BROWSER) {
   require('./Gallery.scss');

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import ReactHelmet from 'react-helmet';
-import union from 'lodash/array/union';
+import union from 'lodash/union';
 import { connect } from 'react-redux';
 
 import { getVariation } from '../utils/APIUtils';

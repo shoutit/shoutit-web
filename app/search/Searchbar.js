@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import trim from 'lodash/string/trim';
-import throttle from 'lodash/function/throttle';
+import trim from 'lodash/trim';
+import throttle from 'lodash/throttle';
 
 import { searchShouts, searchTags, searchProfiles } from '../actions/search';
 import { openModal, closeModal } from '../actions/ui';

@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import Dropzone from 'react-dropzone';
 import debug from 'debug';
-import without from 'lodash/array/without';
-import union from 'lodash/array/union';
+import without from 'lodash/without';
+import union from 'lodash/union';
 
 import Tooltip from '../ui/Tooltip';
 import FormField from '../ui/FormField';

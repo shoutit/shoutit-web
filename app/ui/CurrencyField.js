@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import round from 'lodash/math/round';
+import round from 'lodash/round';
 
 import TextField from './TextField';
 

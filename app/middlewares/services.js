@@ -1,7 +1,7 @@
 import { normalize } from 'normalizr';
 import { camelizeKeys } from 'humps';
 
-import merge from 'lodash/object/merge';
+import merge from 'lodash/merge';
 
 export default fetchr => store => next => action => { // eslint-disable-line no-unused-vars
   if (!action.service) {

@@ -52,7 +52,7 @@ export class ShoutCallButton extends Component {
       </RequiresLogin>
     );
 
-    if (true || !shout.mobile && !shout.isCalling) {
+    if (!shout.mobile && !shout.isCalling) {
       return (
         <Tooltip overlay="Click to reveal">
           { button }

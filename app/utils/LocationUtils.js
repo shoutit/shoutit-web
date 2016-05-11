@@ -1,7 +1,7 @@
-import kebabCase from 'lodash/string/kebabCase';
+import kebabCase from 'lodash/kebabCase';
 import request from 'superagent';
 import { camelizeKeys } from 'humps';
-import round from 'lodash/math/round';
+import round from 'lodash/round';
 
 import { googleMapsKey } from '../config';
 import { countries } from '../../assets/countries/countries-en.json';

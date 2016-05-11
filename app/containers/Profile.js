@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import find from 'lodash/collection/find';
+import find from 'lodash/find';
 import Helmet from '../utils/Helmet';
 
 import { denormalize } from '../schemas';

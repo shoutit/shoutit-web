@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import merge from 'lodash/object/merge';
+import merge from 'lodash/merge';
 
 const initialState = {
   enabled: false,

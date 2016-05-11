@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 import uuid from 'uuid';
-import merge from 'lodash/object/merge';
+import merge from 'lodash/merge';
 
 import { getUnixTime } from '../utils/DateUtils';
 import { CONVERSATIONS, CONVERSATION, MESSAGES, MESSAGE } from '../schemas';

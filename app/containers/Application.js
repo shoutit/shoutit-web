@@ -138,9 +138,9 @@ export class Application extends React.Component {
           </div>
         }
         <ModalHost />
-        {/* <UINotificationsHost />*/}
-        {/* { props.videoCallState && props.videoCallState.currentConversation &&*/}
-          {/* <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }*/}
+        { /* <UINotificationsHost />*/ }
+        { /* { props.videoCallState && props.videoCallState.currentConversation &&*/ }
+          { /* <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }*/ }
         <ConversationsHost />
 
       </div>

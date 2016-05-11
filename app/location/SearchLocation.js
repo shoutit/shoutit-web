@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import trim from 'lodash/string/trim';
-import throttle from 'lodash/function/throttle';
+import trim from 'lodash/trim';
+import throttle from 'lodash/throttle';
 import { geocodePlace } from '../utils/LocationUtils';
 import { loadPlacePredictions } from '../actions/location';
 

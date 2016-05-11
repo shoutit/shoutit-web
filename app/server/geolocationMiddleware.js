@@ -1,5 +1,5 @@
 /* eslint consistent-return: 0, no-console: 0 */
-import get from 'lodash/object/get';
+import get from 'lodash/get';
 import debug from 'debug';
 import { toTitleCase } from '../utils/StringUtils';
 import { getValidIPv4Address } from '../utils/InternetUtils';

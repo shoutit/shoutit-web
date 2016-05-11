@@ -2,7 +2,7 @@
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
-import last from 'lodash/array/last';
+import last from 'lodash/last';
 
 import createMulter from './createMulter';
 import * as AWS from '../utils/AWS';
