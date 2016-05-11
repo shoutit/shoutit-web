@@ -7,6 +7,7 @@ import Form from '../ui/Form';
 import LocationField from '../ui/LocationField';
 import CategoryPicker from '../ui/CategoryPicker';
 import SegmentedControl from '../ui/SegmentedControl';
+import CurrencyField from '../ui/CurrencyField';
 import TextField from '../ui/TextField';
 
 if (process.env.BROWSER) {
@@ -112,7 +113,7 @@ export class SearchFilters extends Component {
           />
 
           <div className="SearchFilters-price">
-            <TextField
+            <CurrencyField
               autoComplete="off"
               className="SearchFilters-input"
               placeholder="Min price"
@@ -122,7 +123,7 @@ export class SearchFilters extends Component {
               value={ min_price }
               onChange={ min_price => this.setState({ min_price }) }
             />
-            <TextField
+            <CurrencyField
               autoComplete="off"
               className="SearchFilters-input"
               placeholder="Max price"
