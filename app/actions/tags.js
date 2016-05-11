@@ -1,3 +1,5 @@
+import set from 'lodash/set';
+
 import * as actionTypes from './actionTypes';
 import { TAG, SHOUTS, TAGS } from '../schemas';
 
@@ -57,6 +59,66 @@ export function loadRelatedTags(tag, query, endpoint) {
       name: 'relatedTags',
       params: { tag, endpoint, query },
       schema: TAGS,
+    },
+  };
+}
+
+export function listenToTag(loggedUser, tag) {
+  const entities = {};
+
+  set(entities, `tags.${tag.id}.isListening`, true);
+  set(entities, `tags.${tag.id}.listenersCount`, tag.listenersCount + 1);
+  set(entities, `users.${loggedUser.id}.listeningCount.tags`, loggedUser.listeningCount.tags + 1);
+
+  return {
+    types: [
+      actionTypes.LISTEN_TAG_START,
+      actionTypes.LISTEN_TAG_SUCCESS,
+      actionTypes.LISTEN_TAG_FAILURE,
+    ],
+    payload: { tag, loggedUser, result: tag.id, entities },
+    service: {
+      name: 'tagListen',
+      method: 'create',
+      params: { tag },
+      parsePayload: payload => {
+        if (payload.error) {
+          set(payload, `entities.tags.${tag.id}`, tag);
+          set(payload, `entities.users.${loggedUser.id}.listeningCount.tags`, loggedUser.listeningCount.tags);
+        }
+        return payload;
+      },
+    },
+  };
+}
+
+
+export function stopListeningToTag(loggedUser, tag) {
+
+  const entities = {};
+
+  set(entities, `tags.${tag.id}.isListening`, false);
+  set(entities, `tags.${tag.id}.listenersCount`, tag.listenersCount - 1);
+  set(entities, `users.${loggedUser.id}.listeningCount.tags`, loggedUser.listeningCount.tags - 1);
+
+  return {
+    types: [
+      actionTypes.STOP_LISTEN_TAG_START,
+      actionTypes.STOP_LISTEN_TAG_SUCCESS,
+      actionTypes.STOP_LISTEN_TAG_FAILURE,
+    ],
+    payload: { tag, loggedUser, result: tag.id, entities },
+    service: {
+      name: 'tagListen',
+      method: 'delete',
+      params: { tag },
+      parsePayload: payload => {
+        if (payload.error) {
+          set(payload, `entities.tags.${tag.id}.listenersCount`, tag.listenersCount);
+          set(payload, `entities.users.${loggedUser.id}.listeningCount.tags`, loggedUser.listeningCount.tags);
+        }
+        return payload;
+      },
     },
   };
 }

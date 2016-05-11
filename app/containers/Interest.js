@@ -46,6 +46,7 @@ export class Interest extends Component {
     shouts: PropTypes.array,
     shoutsCount: PropTypes.number,
     tag: PropTypes.object,
+    category: PropTypes.object,
   };
 
   static fetchData = fetchData;
@@ -66,7 +67,7 @@ export class Interest extends Component {
   }
 
   render() {
-    const { tag, shouts, isFetchingShouts, nextShoutsUrl, dispatch } = this.props;
+    const { tag, category, shouts, isFetchingShouts, nextShoutsUrl, dispatch } = this.props;
     return (
       <Scrollable
         triggerOffset={ 400 }
@@ -90,7 +91,7 @@ export class Interest extends Component {
             <SuggestedShout key="shout" />,
           ] }
         >
-          { tag && <Helmet title={ tag.name } images={ [tag.image] } /> }
+          { tag && <Helmet title={ category ? category.name : tag.name } images={ [tag.image] } /> }
 
           { !tag && <Progress animate /> }
 
@@ -115,6 +116,7 @@ const mapStateToProps = (state, ownProps) => {
   const { params: { name } } = ownProps;
   const { paginated, entities, currentLocation } = state;
   const tag = find(entities.tags, { name });
+  const category = entities.categories[tag.name];
   let shouts = [];
   let isFetchingShouts = false;
   let shoutsCount = 0;
@@ -128,6 +130,7 @@ const mapStateToProps = (state, ownProps) => {
   }
   return {
     tag,
+    category,
     shouts,
     shoutsCount,
     currentLocation,
