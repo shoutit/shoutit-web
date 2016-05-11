@@ -1,26 +1,19 @@
 import React, { PropTypes } from 'react';
-import ReactTooltip from 'rc-tooltip';
 
-if (process.env.BROWSER) {
-  require('./Tooltip.scss');
-}
+import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
+import ReactBootstrapTooltip from 'react-bootstrap/lib/Tooltip';
 
-export default function Tooltip({ children, white = false, getTooltipContainer, ...props }) {
-  let prefixCls;
-  if (white) {
-    prefixCls = 'TooltipWhite';
-    props.arrowContent = <div className="TooltipWhite-arrow-inner" />;
-  } else {
-    prefixCls = 'Tooltip';
-  }
+export default function Tooltip({ children, overlay, placement = 'top', disabled = false }) {
   return (
-    <ReactTooltip destroyTooltipOnHide { ...props } getTooltipContainer={ getTooltipContainer } prefixCls={ prefixCls }>
+    <OverlayTrigger placement={ placement } trigger={ disabled ? [] : ['hover', 'focus'] } overlay={ <ReactBootstrapTooltip id="Tooltip">{ overlay }</ReactBootstrapTooltip> }>
       { children }
-    </ReactTooltip>
+    </OverlayTrigger>
   );
 }
 
 Tooltip.propTypes = {
-  ...ReactTooltip.propTypes,
-  white: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+  placement: PropTypes.string,
+  overlay: PropTypes.node,
+  disabled: PropTypes.bool,
 };

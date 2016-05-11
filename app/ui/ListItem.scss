@@ -24,7 +24,7 @@
   }
 
   ul & {
-    margin: .5rem 0;
+    margin: .25rem 0;
     color: $color;
     &.size-small {
       margin: .25rem 0;
@@ -43,7 +43,6 @@
   flex-shrink: 0;
   display: inline-block;
   vertical-align: middle;
-  overflow: hidden;
 }
 
 .ListItem-start + .ListItem-end {

@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import without from 'lodash/array/without';
+import without from 'lodash/without';
 
 export default function modalsReducer(state = [], action) {
   switch (action.type) {

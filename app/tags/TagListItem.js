@@ -1,58 +1,54 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
-import Tooltip from '../ui/Tooltip';
+import Popover from '../ui/Popover';
 import TagPreview from '../tags/TagPreview';
+import CategoryIcon from '../shouts/CategoryIcon';
 
-export function TagListItem({ tag, size = 'medium', tooltipPlacement = 'right', link = true }) {
+export function TagListItem({ tag, size = 'medium', link = true, category }) {
 
   const overlay = <TagPreview id={ tag.id } />;
   let icon;
-  if (tag.icon) {
-    icon = <img alt="Icon" src={ tag.icon } style={ { width: '1.3em', verticalAlign: 'middle' } } />;
+  if (category) {
+    icon = <CategoryIcon category={ category } size={ size } />;
   } else {
     icon = <Icon size={ size } name="tag" active />;
   }
-
   const item = (
     <ListItem className="TagListItem" size={ size } nowrap start={ icon }>
-      { tag.name }
+      { category ? category.name : tag.name }
     </ListItem>
   );
   return (
-    <Tooltip
-      white
-      placement={ tooltipPlacement }
-      overlay={ overlay }
-      getTooltipContainer={ c => c.parentNode }>
+    <Popover overlay={ overlay } placement="right">
       { link ?
         <Link to={ `/interest/${tag.slug || tag.name}` }>
           { item }
         </Link>
         : item
       }
-    </Tooltip>
+    </Popover>
   );
 }
 
 TagListItem.propTypes = {
   link: PropTypes.bool,
   tag: PropTypes.object.isRequired,
+  category: PropTypes.object,
   tooltipPlacement: PropTypes.string,
   size: PropTypes.oneOf(['medium', 'small']),
 };
 
+
 const mapStateToProps = (state, ownProps) => {
-  let tag = ownProps.tag;
-  if (state.entities.categories[ownProps.tag.name]) {
-    tag = {
-      ...ownProps.tag,
-      ...state.entities.categories[ownProps.tag.name],
-    };
-  }
-  return { tag };
+  const { tag } = ownProps;
+  const category = state.entities.categories[tag.name];
+  return {
+    tag,
+    category,
+  };
 };
+
 export default connect(mapStateToProps)(TagListItem);

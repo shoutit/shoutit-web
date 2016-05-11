@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import isEqual from 'lodash/lang/isEqual';
+import isEqual from 'lodash/isEqual';
 
 import Button from '../ui/Button';
 import Form from '../ui/Form';

@@ -1,9 +1,8 @@
 import React, { PropTypes } from 'react';
+import Tooltip from '../ui/Tooltip';
 
 import { imagesPath } from '../config';
 import { getCountryName } from '../utils/LocationUtils';
-
-import Tooltip from '../ui/Tooltip';
 
 const VERSION = 1; // change version to skip browser cache
 
@@ -11,7 +10,7 @@ if (process.env.BROWSER) {
   require('./CountryFlag.scss');
 }
 
-export default function CountryFlag({ code, size = 'medium', rounded = true, showTooltip = true, style }) {
+export default function CountryFlag({ code, size = 'medium', rounded = true, style }) {
   code = code.toUpperCase();
   let className = 'CountryFlag';
   if (size) {
@@ -22,7 +21,7 @@ export default function CountryFlag({ code, size = 'medium', rounded = true, sho
   }
   const countryName = getCountryName(code);
   return (
-    <Tooltip placement="top" overlay={ countryName } trigger={ showTooltip ? ['hover'] : [] }>
+    <Tooltip position="top" overlay={ countryName }>
       <img alt={ countryName } className={ className } style={ style } src={ `${imagesPath}/flags/${code}.png?v${VERSION}` } />
     </Tooltip>
   );

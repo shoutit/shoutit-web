@@ -18,7 +18,6 @@ import { loadListening } from '../actions/users';
 import * as config from '../config';
 
 if (process.env.BROWSER) {
-  require('normalize.css/normalize.css');
   require('./Application.scss');
 }
 
@@ -139,9 +138,9 @@ export class Application extends React.Component {
           </div>
         }
         <ModalHost />
-        {/* <UINotificationsHost />*/}
-        {/* { props.videoCallState && props.videoCallState.currentConversation &&*/}
-          {/* <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }*/}
+        { /* <UINotificationsHost />*/ }
+        { /* { props.videoCallState && props.videoCallState.currentConversation &&*/ }
+          { /* <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }*/ }
         <ConversationsHost />
 
       </div>

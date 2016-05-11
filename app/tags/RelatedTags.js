@@ -4,6 +4,9 @@ import CardWithList from '../ui/CardWithList';
 import TagListItem from '../tags/TagListItem';
 
 export function RelatedTags({ tags }) {
+  if (tags.length === 0) {
+    return null;
+  }
   return (
     <CardWithList title="Related Interests">
       { tags.map((tag, i) => <TagListItem key={ i } tag={ tag } />) }

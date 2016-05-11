@@ -1,5 +1,5 @@
-import without from 'lodash/array/without';
-import union from 'lodash/array/union';
+import without from 'lodash/without';
+import union from 'lodash/union';
 
 import * as actionTypes from '../actions/actionTypes';
 import paginate from './paginate';

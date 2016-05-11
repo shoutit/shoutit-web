@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import throttle from 'lodash/function/throttle';
+import throttle from 'lodash/throttle';
 import debug from 'debug';
 
 import CountryFlag from '../ui/CountryFlag';

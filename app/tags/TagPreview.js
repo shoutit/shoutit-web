@@ -6,6 +6,7 @@ import { loadTagIfNeeded } from '../actions/tags';
 import Icon from '../ui/Icon';
 import TagListenersListItem from '../tags/TagListenersListItem';
 import TagActions from '../tags/TagActions';
+import CategoryIcon from '../shouts/CategoryIcon';
 
 if (process.env.BROWSER) {
   require('./TagPreview.scss');
@@ -17,6 +18,7 @@ export class TagPreview extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     tag: PropTypes.object.isRequired,
+    category: PropTypes.object,
     style: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
   };
@@ -25,18 +27,23 @@ export class TagPreview extends Component {
     dispatch(loadTagIfNeeded(tag, properties));
   }
   render() {
-    const { tag, style } = this.props;
+    const { tag, style, category } = this.props;
+    let className = 'TagPreview';
+    if (!tag.image) {
+      className += ' no-cover';
+    }
     return (
-      <div className="TagPreview" style={ style }>
-        <div className="TagPreview-cover" style={ getStyleBackgroundImage(tag.image, 'medium') } />
+      <div className={ className } style={ style }>
+        { tag.image && <div className="TagPreview-cover" style={ getStyleBackgroundImage(tag.image, 'medium') } /> }
         <div className="TagPreview-header">
           <div className="TagPreview-icon">
-            { tag.icon ?
-              <img src={ tag.icon } alt="Icon" /> :
+            { category ?
+              <CategoryIcon category={ category } size="large" />
+              :
               <Icon name="tag" size="large" active />
             }
           </div>
-          <h2>{ tag.name }</h2>
+          <h2>{ category ? category.name : tag.name }</h2>
         </div>
         <div className="TagPreview-body">
           <TagListenersListItem tag={ tag } size="small" />
@@ -51,20 +58,11 @@ export class TagPreview extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { id } = ownProps;
-  let tag = state.entities.tags[id];
-  if (!tag) {
-    tag = state.entities.categories[id];
-  } else {
-    const category = state.entities.categories[tag.slug || tag.name];
-    if (category) {
-      tag = {
-        ...tag,
-        ...category,
-      };
-    }
-  }
+  const tag = state.entities.tags[id];
+  const category = state.entities.categories[tag.name];
   return {
     tag,
+    category,
   };
 };
 

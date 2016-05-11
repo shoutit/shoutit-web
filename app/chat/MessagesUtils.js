@@ -1,7 +1,7 @@
 import moment from 'moment';
-import groupBy from 'lodash/collection/groupBy';
-import reduce from 'lodash/collection/reduce';
-import last from 'lodash/array/last';
+import groupBy from 'lodash/groupBy';
+import reduce from 'lodash/reduce';
+import last from 'lodash/last';
 
 export function groupByDay(messages) {
   const groupedByDay = groupBy(messages, message => moment.unix(message.createdAt).format('YYYY-MM-DD'));

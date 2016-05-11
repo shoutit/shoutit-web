@@ -5,7 +5,7 @@ import Icon from '../ui/Icon';
 
 export default function MessageReadByFlag({ profiles }) {
   return (
-    <Tooltip placement="top" overlay={ `Read by ${profiles.map(profile => profile.name).join(',')}` }>
+    <Tooltip overlay={ `Read by ${profiles.map(profile => profile.name).join(',')}` }>
       <Icon name="seen" active size="small" />
     </Tooltip>
   );
