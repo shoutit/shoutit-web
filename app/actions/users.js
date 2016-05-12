@@ -119,7 +119,7 @@ export function loadUserShouts(username, endpoint) {
 export function loadProfileDetailsIfNeeded(profile, neededDetails) {
   if (neededDetails.every(detail => profile.hasOwnProperty(detail))) {
     return {
-      type: null,
+      type: 'NOOP',
     };
   }
   const { username } = profile;

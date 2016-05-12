@@ -6,7 +6,7 @@ import { TAG, SHOUTS, TAGS, PROFILES } from '../schemas';
 export function loadTagIfNeeded(tag, properties = []) {
   if (properties.every(property => tag.hasOwnProperty(property))) {
     return {
-      type: null,
+      type: 'NOOP',
     };
   }
   const { name } = tag;
