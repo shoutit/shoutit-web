@@ -3,9 +3,9 @@ import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'listen',
-  create: (req, resource, { user }, body, config, callback) => {
+  create: (req, resource, { username }, body, config, callback) => {
     request
-      .post(`/profiles/${user.username}/listen`)
+      .post(`/profiles/${username}/listen`)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {
@@ -15,9 +15,9 @@ export default {
         return callback(null, res.body);
       });
   },
-  delete: (req, resource, { user }, config, callback) => {
+  delete: (req, resource, { username }, config, callback) => {
     request
-      .del(`/profiles/${user.username}/listen`)
+      .del(`/profiles/${username}/listen`)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {

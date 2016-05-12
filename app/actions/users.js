@@ -164,7 +164,7 @@ export function listenToUser(loggedUser, user) {
     service: {
       name: 'listen',
       method: 'create',
-      params: { user },
+      params: { username: user.username },
       parsePayload: payload => {
         payload = {
           ...payload,
@@ -208,7 +208,7 @@ export function stopListeningToUser(loggedUser, user) {
     service: {
       name: 'listen',
       method: 'delete',
-      params: { user },
+      params: { username: user.username },
       parsePayload: payload => {
         payload = {
           ...payload,
