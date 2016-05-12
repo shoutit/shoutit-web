@@ -45,6 +45,7 @@
 .modal-body.scrollable-body {
   padding: 0;
   height: 50vh;
+  min-height: 300px;
   position: relative;
   overflow-y: auto;
   -webkit-transform: translate3d(0, 0, 0); // fix scrollbar placement
