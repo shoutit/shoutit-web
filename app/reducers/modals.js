@@ -11,6 +11,8 @@ const initialState = {
   backdrop: true,
   bsSize: null,
 
+  scrollableBody: false,
+
   // Footer options
 
 };

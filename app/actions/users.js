@@ -17,7 +17,7 @@ export function loadUser(username) {
   };
 }
 
-export function loadListeners(user) {
+export function loadListeners(user, endpoint) {
   return {
     types: [
       actionTypes.LOAD_LISTENERS_START,
@@ -27,13 +27,13 @@ export function loadListeners(user) {
     payload: { user },
     service: {
       name: 'listeners',
-      params: { user },
+      params: { username: user.username, endpoint },
       schema: PROFILES,
     },
   };
 }
 
-export function loadListening(user) {
+export function loadListening(user, endpoint) {
   return {
     types: [
       actionTypes.LOAD_LISTENING_START,
@@ -43,7 +43,7 @@ export function loadListening(user) {
     payload: { user },
     service: {
       name: 'listening',
-      params: { user },
+      params: { username: user.username, endpoint },
       schema: PROFILES,
     },
   };
@@ -119,7 +119,7 @@ export function loadUserShouts(username, endpoint) {
 export function loadProfileDetailsIfNeeded(profile, neededDetails) {
   if (neededDetails.every(detail => profile.hasOwnProperty(detail))) {
     return {
-      type: null,
+      type: 'NOOP',
     };
   }
   const { username } = profile;
@@ -164,7 +164,7 @@ export function listenToUser(loggedUser, user) {
     service: {
       name: 'listen',
       method: 'create',
-      params: { user },
+      params: { username: user.username },
       parsePayload: payload => {
         payload = {
           ...payload,
@@ -208,7 +208,7 @@ export function stopListeningToUser(loggedUser, user) {
     service: {
       name: 'listen',
       method: 'delete',
-      params: { user },
+      params: { username: user.username },
       parsePayload: payload => {
         payload = {
           ...payload,

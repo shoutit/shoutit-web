@@ -1,12 +1,12 @@
 import set from 'lodash/set';
 
 import * as actionTypes from './actionTypes';
-import { TAG, SHOUTS, TAGS } from '../schemas';
+import { TAG, SHOUTS, TAGS, PROFILES } from '../schemas';
 
 export function loadTagIfNeeded(tag, properties = []) {
   if (properties.every(property => tag.hasOwnProperty(property))) {
     return {
-      type: null,
+      type: 'NOOP',
     };
   }
   const { name } = tag;
@@ -59,6 +59,23 @@ export function loadRelatedTags(tag, query, endpoint) {
       name: 'relatedTags',
       params: { tag, endpoint, query },
       schema: TAGS,
+    },
+  };
+}
+
+
+export function loadTagListeners(tag, endpoint) {
+  return {
+    types: [
+      actionTypes.LOAD_TAG_LISTENERS_START,
+      actionTypes.LOAD_TAG_LISTENERS_SUCCESS,
+      actionTypes.LOAD_TAG_LISTENERS_FAILURE,
+    ],
+    payload: { tag },
+    service: {
+      name: 'tagListeners',
+      params: { name: tag.name, endpoint },
+      schema: PROFILES,
     },
   };
 }

@@ -33,9 +33,15 @@
 }
 
 .ListItem-end {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  align-self: stretch;
   .ListItem.nowrap & {
     @include ellipsis();
+  }
+  .ListItem-end-child {
+    display: flex;
+    min-width: 0; // make ellipsis working
   }
 }
 

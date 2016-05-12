@@ -15,12 +15,16 @@ const twilio = process.env.BROWSER ?
 const router = process.env.BROWSER ?
   require('react-router-redux').routerMiddleware : () => noop;
 
+const routing = process.env.BROWSER ?
+  require('../middlewares/routing').default : noop;
+
 export default function configureStore(initialState, { fetchr, devToolsExtension, history }) {
   const store = createStore(
     rootReducer,
     initialState,
     compose(
       applyMiddleware(
+        routing,
         services(fetchr),
         pusher,
         twilio,
