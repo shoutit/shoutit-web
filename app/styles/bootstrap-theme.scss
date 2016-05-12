@@ -41,6 +41,15 @@
 .modal-body {
   padding: 1.5rem;
 }
+
+.modal-body.scrollable-body {
+  padding: 0;
+  height: 50vh;
+  position: relative;
+  overflow-y: auto;
+  -webkit-transform: translate3d(0, 0, 0); // fix scrollbar placement
+}
+
 .modal-sm {
   width: 450px;
 }
