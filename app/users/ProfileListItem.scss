@@ -1,0 +1,19 @@
+@import '../styles/constants';
+@import '../styles/mixins/ellipsis';
+
+.ProfileListItem {
+}
+
+.ProfileListItem-child {
+  min-width: 0;
+}
+.ProfileListItem-name {
+  @include ellipsis();
+}
+
+.ProfileListItem-ancillary {
+  margin-top: .25em;
+  font-size: 0.875em;
+  color: $color-light;
+  @include ellipsis();
+}

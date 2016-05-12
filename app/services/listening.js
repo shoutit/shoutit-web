@@ -3,17 +3,16 @@ import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'listening',
-  read: (req, resource, { user, type = 'users' }, config, callback) => {
+  read: (req, resource, { username, endpoint }, config, callback) => {
+    const url = endpoint || `/profiles/${username}/listening`;
     request
-      .get(`/profiles/${user.username}/listening`)
+      .get(url)
       .setSession(req.session)
-      .query({ type })
       .prefix()
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));
         }
-        res.body.results = res.body[type];
         return callback(null, res.body);
       });
   },

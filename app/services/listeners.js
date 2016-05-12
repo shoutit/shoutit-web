@@ -3,9 +3,10 @@ import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'listeners',
-  read: (req, resource, { user }, config, callback) => {
+  read: (req, resource, { username, endpoint }, config, callback) => {
+    const url = endpoint || `/profiles/${username}/listeners`;
     request
-      .get(`/profiles/${user.username}/listeners`)
+      .get(url)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {

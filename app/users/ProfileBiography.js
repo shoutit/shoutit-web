@@ -3,7 +3,6 @@ import React, { PropTypes } from 'react';
 import LocationListItem from '../location/LocationListItem';
 import ProfileWebsiteListItem from './ProfileWebsiteListItem';
 import ProfileJoinedOnListItem from './ProfileJoinedOnListItem';
-import ProfileListeningListItem from './ProfileListeningListItem';
 import ProfileListenersListItem from './ProfileListenersListItem';
 import ProfileActions from '../users/ProfileActions';
 
@@ -27,12 +26,10 @@ export default function ProfileBiography({ profile }) {
         </div>
       }
 
-      { profile.listeningCount &&
-        <div className="ProfileBiography-connections">
-          <ProfileListeningListItem profile={ profile } />
-          <ProfileListenersListItem profile={ profile } />
-        </div>
-      }
+      <div className="ProfileBiography-connections">
+        <ProfileListenersListItem profile={ profile } />
+        { profile.listeningCount && <ProfileListenersListItem type="listening" profile={ profile } /> }
+      </div>
 
       { !profile.isOwner &&
         <div className="ProfileBiography-actions">

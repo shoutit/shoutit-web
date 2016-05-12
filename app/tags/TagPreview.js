@@ -46,7 +46,7 @@ export class TagPreview extends Component {
           <h2>{ category ? category.name : tag.name }</h2>
         </div>
         <div className="TagPreview-body">
-          <TagListenersListItem tag={ tag } size="small" />
+          <TagListenersListItem category={ category } tag={ tag } size="small" />
         </div>
         <div className="TagPreview-actions">
           <TagActions tag={ tag } category={ category } size="small" />

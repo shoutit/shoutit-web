@@ -27,5 +27,6 @@ export shoutCall from './shoutCall';
 export suggestions from './suggestions';
 export tag from './tag';
 export tagListen from './tagListen';
+export tagListeners from './tagListeners';
 export tags from './tags';
 export twilioToken from './twilioToken';

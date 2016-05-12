@@ -33,14 +33,18 @@ export class ModalHost extends Component {
   }
 
   render() {
-    const { body, dispatch, show, title, footer, closeButton, ...modalProps } = this.state;
+    const { body, dispatch, show, title, footer, closeButton, scrollableBody, ...modalProps } = this.state;
+    let bodyClassName = 'modal';
+    if (scrollableBody) {
+      bodyClassName = 'modal-body scrollable';
+    }
     return (
       <div className="ModalHost">
         <Modal {...modalProps} show={ show } onHide={ () => dispatch(closeModal()) }>
           { (closeButton || title) &&
             <Modal.Header closeButton={ closeButton } aria-label="Close">{ title }</Modal.Header>
           }
-          <Modal.Body>
+          <Modal.Body bsClass={ bodyClassName }>
             { body }
           </Modal.Body>
           { footer &&
