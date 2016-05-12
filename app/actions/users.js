@@ -33,7 +33,7 @@ export function loadListeners(user, endpoint) {
   };
 }
 
-export function loadListening(user) {
+export function loadListening(user, endpoint) {
   return {
     types: [
       actionTypes.LOAD_LISTENING_START,
@@ -43,7 +43,7 @@ export function loadListening(user) {
     payload: { user },
     service: {
       name: 'listening',
-      params: { username: user.username },
+      params: { username: user.username, endpoint },
       schema: PROFILES,
     },
   };
