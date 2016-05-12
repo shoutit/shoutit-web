@@ -34,8 +34,8 @@ export class ModalHost extends Component {
 
   render() {
     const { body, dispatch, show, title, footer, closeButton, scrollableBody, ...modalProps } = this.state;
-    let bodyClassName = 'modal-body';
-    if (true) {
+    let bodyClassName = 'modal';
+    if (scrollableBody) {
       bodyClassName = 'modal-body scrollable';
     }
     return (
