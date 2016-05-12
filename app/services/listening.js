@@ -3,9 +3,9 @@ import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'listening',
-  read: (req, resource, { user, type = 'users' }, config, callback) => {
+  read: (req, resource, { username, type = 'users' }, config, callback) => {
     request
-      .get(`/profiles/${user.username}/listening`)
+      .get(`/profiles/${username}/listening`)
       .setSession(req.session)
       .query({ type })
       .prefix()
