@@ -41,6 +41,7 @@
   }
   .ListItem-end-child {
     display: flex;
+    min-width: 0; // make ellipsis working
   }
 }
 
