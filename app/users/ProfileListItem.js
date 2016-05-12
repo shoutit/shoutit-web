@@ -4,37 +4,46 @@ import ProfileAvatar from '../users/ProfileAvatar';
 import Popover from '../ui/Popover';
 import ListItem from '../ui/ListItem';
 import ProfilePreview from '../users/ProfilePreview';
+import { formatLocation } from '../utils/LocationUtils';
+
+if (process.env.BROWSER) {
+  require('./ProfileListItem.scss');
+}
 
 export default function ProfileListItem({
   profile,
   size = 'medium',
   link = true,
+  popover = true,
   showName = true,
   onClick,
 }) {
 
   const avatar = <ProfileAvatar size={ size } profile={ profile } />;
-  const overlay = <ProfilePreview id={ profile.id } />;
-  const content = (
+  let content = (
     <ListItem className="ProfileListItem" size={ size } nowrap start={ avatar } onClick={ onClick }>
-      { showName && profile.name }
+      <div className="ProfileListItem-child">
+        <div className="ProfileListItem-name">{ showName && profile.name }</div>
+        { size === 'large' && profile.location && <div className="ProfileListItem-ancillary">{ formatLocation(profile.location) }</div> }
+      </div>
     </ListItem>
   );
-
-  if (!link) {
-    return content;
+  if (link) {
+    content = (
+      <Link to={ `/user/${profile.username}` }>
+        { content }
+      </Link>
+    );
   }
-  return (
-    <Popover overlay={ overlay } placement="right">
-      { link ?
-        <Link to={ `/user/${profile.username}` }>
-          { content }
-        </Link> :
-        <span>{ content }</span>
-      }
-    </Popover>
-
-  );
+  if (popover) {
+    const overlay = <ProfilePreview id={ profile.id } />;
+    content = (
+      <Popover overlay={ overlay } placement="right">
+        { content }
+      </Popover>
+    );
+  }
+  return content;
 }
 
 ProfileListItem.propTypes = {
