@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
-import { openModal } from '../actions/ui';
 import ListenersScrollableList from '../users/ListenersScrollableList';
+
+import { openModal } from '../actions/ui';
 
 export function ProfileListenersListItem({ type = 'listeners', profile, onClick, size = 'small' }) {
   let count;
@@ -39,9 +40,9 @@ const mapDispatchToProps = (dispatch, { profile, type = 'listeners' }) => ({
   onClick: () => {
     let title;
     if (type === 'listeners') {
-      title = `Profiles listening to ${profile.firstName}`;
+      title = `Listening to ${profile.firstName}`;
     } else {
-      title = `Profiles ${profile.firstName} is listening to`;
+      title = `${profile.firstName} is listening to`;
     }
     dispatch(openModal(
       <ListenersScrollableList type={ type } profile={ profile } />,
