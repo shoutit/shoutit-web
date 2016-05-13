@@ -1,0 +1,19 @@
+@import '../constants';
+
+.dropdown-menu {
+  border-radius: $border-radius-small;
+  box-shadow: $box-shadow-depth-2;
+  border: 0;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  background-color: $background-color;
+  color: black;
+}
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  background-color: $si-green;
+}
