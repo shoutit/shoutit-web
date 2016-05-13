@@ -137,7 +137,7 @@ export function replyToConversation(conversationId, sender, message) {
   };
 }
 
-export function deleteConversation(id) {
+export function leaveConversation(id) {
   return {
     types: [
       actionTypes.LEAVE_CONVERSATION_START,
@@ -284,10 +284,13 @@ export function chatWithProfile(conversation, text) {
   };
 }
 
-export function closeConversation(conversationId) {
+export function closeConversation(id) {
   return {
     type: actionTypes.CLOSE_CONVERSATION,
-    payload: { conversationId },
+    payload: { id },
+  };
+}
+
 export function readConversation(conversation) {
   const { id } = conversation;
   return {
