@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import uuid from 'uuid';
 import merge from 'lodash/merge';
+import set from 'lodash/set';
 
 import { getUnixTime } from '../utils/DateUtils';
 import { CONVERSATIONS, CONVERSATION, MESSAGES, MESSAGE } from '../schemas';
@@ -287,5 +288,56 @@ export function closeConversation(conversationId) {
   return {
     type: actionTypes.CLOSE_CONVERSATION,
     payload: { conversationId },
+export function readConversation(conversation) {
+  const { id } = conversation;
+  return {
+    types: [
+      actionTypes.READ_CONVERSATION_START,
+      actionTypes.READ_CONVERSATION_SUCCESS,
+      actionTypes.READ_CONVERSATION_FAILURE,
+    ],
+    payload: {
+      conversation,
+      entities: set({}, `conversations.${id}.unreadMessagesCount`, 0),
+    },
+    service: {
+      name: 'conversationRead',
+      method: 'create',
+      params: { id },
+      parsePayload: (payload, state, err) => {
+        if (err) {
+          return payload;
+        }
+        const parsedPayload = set({}, `entities.conversations.${id}.unreadMessagesCount`, 0);
+        return parsedPayload;
+      },
+    },
+  };
+}
+
+export function unreadConversation(conversation) {
+  const { id } = conversation;
+  return {
+    types: [
+      actionTypes.UNREAD_CONVERSATION_START,
+      actionTypes.UNREAD_CONVERSATION_SUCCESS,
+      actionTypes.UNREAD_CONVERSATION_FAILURE,
+    ],
+    payload: {
+      conversation,
+      entities: set({}, `conversations.${id}.unreadMessagesCount`, 1),
+    },
+    service: {
+      name: 'conversationRead',
+      method: 'delete',
+      params: { id },
+      parsePayload: payload => {
+        if (payload.error) {
+          return payload;
+        }
+        const parsedPayload = set({}, `entities.conversations.${id}.unreadMessagesCount`, 1);
+        return parsedPayload;
+      },
+    },
   };
 }
