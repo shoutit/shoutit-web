@@ -1,0 +1,30 @@
+
+.nav {
+  margin: 0;
+}
+
+.Toolbar-nav {
+  &.nav-sm {
+    > li > a {
+      padding: 6px;
+    }
+    .dropdown-menu {
+      font-size: 13px;
+      margin: 0;
+    }
+    .dropdown-menu > li > a {
+      padding: 4px 12px;
+    }
+    .dropdown-menu .divider {
+      margin: 5px 0;
+    }
+  }
+  .open > a,
+  .open > a:hover,
+  .open > a:focus,
+  > li > a:hover,
+  > li > a:focus {
+    background-color: transparent;
+    opacity: 0.8;
+  }
+}

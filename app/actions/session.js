@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import { PROFILE } from '../schemas';
+import set from 'lodash/set';
 
 export function login({ grant_type = 'shoutit_login', ...loginData }) {
   const body = { ...loginData, grant_type };
@@ -16,6 +17,15 @@ export function login({ grant_type = 'shoutit_login', ...loginData }) {
       body,
       schema: PROFILE,
     },
+  };
+}
+
+export function loginUser(user) {
+  const payload = set({}, `entities.users.${user.id}`, user);
+  set(payload, 'result', user.id);
+  return {
+    type: actionTypes.LOGIN_SUCCESS,
+    payload,
   };
 }
 
