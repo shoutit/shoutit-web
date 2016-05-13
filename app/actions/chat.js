@@ -292,7 +292,7 @@ export function closeConversation(id) {
 }
 
 export function readConversation(conversation) {
-  const { id } = conversation;
+  const { id, unreadMessagesCount } = conversation;
   return {
     types: [
       actionTypes.READ_CONVERSATION_START,
@@ -301,7 +301,6 @@ export function readConversation(conversation) {
     ],
     payload: {
       conversation,
-      entities: set({}, `conversations.${id}.unreadMessagesCount`, 0),
     },
     service: {
       name: 'conversationRead',
@@ -312,6 +311,14 @@ export function readConversation(conversation) {
           return payload;
         }
         const parsedPayload = set({}, `entities.conversations.${id}.unreadMessagesCount`, 0);
+        if (unreadMessagesCount > 0) {
+          const { unreadConversationsCount } = state.entities.users[state.session.user].stats;
+          set(
+            parsedPayload,
+            `entities.users.${state.session.user}.stats.unreadConversationsCount`,
+            unreadConversationsCount - 1
+          );
+        }
         return parsedPayload;
       },
     },
@@ -319,7 +326,7 @@ export function readConversation(conversation) {
 }
 
 export function unreadConversation(conversation) {
-  const { id } = conversation;
+  const { id, unreadMessagesCount } = conversation;
   return {
     types: [
       actionTypes.UNREAD_CONVERSATION_START,
@@ -328,17 +335,23 @@ export function unreadConversation(conversation) {
     ],
     payload: {
       conversation,
-      entities: set({}, `conversations.${id}.unreadMessagesCount`, 1),
     },
     service: {
       name: 'conversationRead',
       method: 'delete',
       params: { id },
-      parsePayload: payload => {
+      parsePayload: (payload, state) => {
         if (payload.error) {
           return payload;
         }
         const parsedPayload = set({}, `entities.conversations.${id}.unreadMessagesCount`, 1);
+        if (unreadMessagesCount === 0) {
+          set(
+            parsedPayload,
+            `entities.users.${state.session.user}.stats.unreadConversationsCount`,
+            state.entities.users[state.session.user].stats.unreadConversationsCount + 1
+          );
+        }
         return parsedPayload;
       },
     },
