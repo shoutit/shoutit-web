@@ -19,6 +19,7 @@ export class ConversationsList extends Component {
     onConversationClick: PropTypes.func,
     selectedId: PropTypes.string,
     previousUrl: PropTypes.string,
+    showConversationDropdown: PropTypes.bool,
     dispatch: PropTypes.func.isRequired,
   }
 
@@ -39,7 +40,7 @@ export class ConversationsList extends Component {
   }
 
   render() {
-    const { isFetching, conversations, selectedId, onConversationClick, dispatch, previousUrl } = this.props;
+    const { isFetching, conversations, selectedId, onConversationClick, dispatch, previousUrl, showConversationDropdown } = this.props;
     return (
       <Scrollable
         ref="scrollable"
@@ -56,9 +57,9 @@ export class ConversationsList extends Component {
                   .map(conversation =>
                     <li key={ conversation.id } >
                       <ConversationItem
+                        showDropdown={ showConversationDropdown }
                         onClick={ onConversationClick ? e => onConversationClick(conversation, e) : null }
                         conversation={ conversation }
-                        unread={ conversation.unreadMessagesCount > 0 }
                         selected={ conversation.id === selectedId }
                       />
                     </li>
