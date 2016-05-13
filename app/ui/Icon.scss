@@ -168,6 +168,9 @@
   .Icon.active .Icon-icon.close {
     background-image: url("../../assets/icons/close-active.svg");
   }
+  .Icon.fill .Icon-icon.close {
+    background-image: url("../../assets/icons/close-fill.svg");
+  }
 
 .Icon-icon.cog {
   background-image: url("../../assets/icons/cog.svg");
@@ -175,6 +178,9 @@
   .Icon.hover:hover .Icon-icon.cog,
   .Icon.active .Icon-icon.cog {
     background-image: url("../../assets/icons/cog-active.svg");
+  }
+  .Icon.fill .Icon-icon.cog {
+    background-image: url("../../assets/icons/cog-fill.svg");
   }
 
 .Icon-icon.email {
