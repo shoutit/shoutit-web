@@ -1,0 +1,43 @@
+@import '../constants.scss';
+
+@media (min-width: 768px) {
+  .modal-dialog {
+    margin: 3rem auto;
+    margin-top: 5rem;
+  }
+}
+
+.modal-header {
+  padding: 1rem;
+  border-bottom: 1px solid $border-color;
+  font-size: 1.2em;
+  font-weight: 300;
+  text-align: center;
+}
+
+.modal-content {
+  border: none;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-depth-2;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-body.scrollable-body {
+  padding: 0;
+  height: 50vh;
+  min-height: 300px;
+  position: relative;
+  overflow-y: auto;
+  -webkit-transform: translate3d(0, 0, 0); // fix scrollbar placement
+}
+
+.modal-sm {
+  width: 450px;
+}
+
+.modal-backdrop {
+  background-color: rgba(black, .4)
+}

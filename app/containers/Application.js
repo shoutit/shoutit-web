@@ -14,6 +14,7 @@ import NotFound from './NotFound';
 import { loadCategories, loadCurrencies } from '../actions/misc';
 import { loadSuggestions } from '../actions/location';
 import { loadListening } from '../actions/users';
+import { loginUser } from '../actions/session';
 
 import * as config from '../config';
 
@@ -37,8 +38,11 @@ export class Application extends React.Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { dispatch, currentLocation } = this.props;
+    const { dispatch, currentLocation, loggedUser } = this.props;
     dispatch(loadSuggestions(currentLocation));
+    if (loggedUser) {
+      dispatch(loginUser(loggedUser));
+    }
   }
 
   componentWillUpdate(nextProps) {
