@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import uuid from 'uuid';
 import merge from 'lodash/merge';
+import set from 'lodash/set';
 
 import { getUnixTime } from '../utils/DateUtils';
 import { CONVERSATIONS, CONVERSATION, MESSAGES, MESSAGE } from '../schemas';
@@ -136,7 +137,7 @@ export function replyToConversation(conversationId, sender, message) {
   };
 }
 
-export function deleteConversation(id) {
+export function leaveConversation(id) {
   return {
     types: [
       actionTypes.LEAVE_CONVERSATION_START,
@@ -283,9 +284,76 @@ export function chatWithProfile(conversation, text) {
   };
 }
 
-export function closeConversation(conversationId) {
+export function closeConversation(id) {
   return {
     type: actionTypes.CLOSE_CONVERSATION,
-    payload: { conversationId },
+    payload: { id },
+  };
+}
+
+export function readConversation(conversation) {
+  const { id, unreadMessagesCount } = conversation;
+  return {
+    types: [
+      actionTypes.READ_CONVERSATION_START,
+      actionTypes.READ_CONVERSATION_SUCCESS,
+      actionTypes.READ_CONVERSATION_FAILURE,
+    ],
+    payload: {
+      conversation,
+    },
+    service: {
+      name: 'conversationRead',
+      method: 'create',
+      params: { id },
+      parsePayload: (payload, state, err) => {
+        if (err) {
+          return payload;
+        }
+        const parsedPayload = set({}, `entities.conversations.${id}.unreadMessagesCount`, 0);
+        if (unreadMessagesCount > 0) {
+          const { unreadConversationsCount } = state.entities.users[state.session.user].stats;
+          set(
+            parsedPayload,
+            `entities.users.${state.session.user}.stats.unreadConversationsCount`,
+            unreadConversationsCount - 1
+          );
+        }
+        return parsedPayload;
+      },
+    },
+  };
+}
+
+export function unreadConversation(conversation) {
+  const { id, unreadMessagesCount } = conversation;
+  return {
+    types: [
+      actionTypes.UNREAD_CONVERSATION_START,
+      actionTypes.UNREAD_CONVERSATION_SUCCESS,
+      actionTypes.UNREAD_CONVERSATION_FAILURE,
+    ],
+    payload: {
+      conversation,
+    },
+    service: {
+      name: 'conversationRead',
+      method: 'delete',
+      params: { id },
+      parsePayload: (payload, state) => {
+        if (payload.error) {
+          return payload;
+        }
+        const parsedPayload = set({}, `entities.conversations.${id}.unreadMessagesCount`, 1);
+        if (unreadMessagesCount === 0) {
+          set(
+            parsedPayload,
+            `entities.users.${state.session.user}.stats.unreadConversationsCount`,
+            state.entities.users[state.session.user].stats.unreadConversationsCount + 1
+          );
+        }
+        return parsedPayload;
+      },
+    },
   };
 }

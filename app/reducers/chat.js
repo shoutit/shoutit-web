@@ -49,10 +49,11 @@ export default function (state = initialState, action) {
         ...state,
         openedConversations: union(state.openedConversations, [payload.conversation.id]),
       };
+    case actionTypes.LEAVE_CONVERSATION_START:
     case actionTypes.CLOSE_CONVERSATION:
       return {
         ...state,
-        openedConversations: without(state.openedConversations, payload.conversationId),
+        openedConversations: without(state.openedConversations, payload.id),
       };
     default: return state;
   }

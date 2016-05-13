@@ -6,6 +6,10 @@
   position: relative;
   height: $icon-size-medium;
   min-width: $icon-size-medium;
+  &.x-small {
+    min-width: $icon-size-x-small;
+    height: $icon-size-x-small;
+  }
   &.small {
     min-width: $icon-size-small;
     height: $icon-size-small;
@@ -29,6 +33,10 @@
   background-position: center;
   width: $icon-size-medium;
   height: $icon-size-medium;
+  .Icon.x-small & {
+    width: $icon-size-x-small;
+    height: $icon-size-x-small;
+  }
   .Icon.small & {
     width: $icon-size-small;
     height: $icon-size-small;

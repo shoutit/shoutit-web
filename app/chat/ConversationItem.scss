@@ -1,28 +1,86 @@
-@import '../styles/constants/colors.scss';
+@import '../styles/constants.scss';
 @import '../styles/mixins/ellipsis.scss';
 
 .ConversationItem {
-  display: flex;
-  padding: 0 .25em;
+  position: relative;
+  border-bottom: 1px solid $border-color-dark;
+  padding: .75em .5em;
   cursor: pointer;
-  text-decoration: none;
-  border-bottom: 1px solid $border-color;
-  background-color: white;
-  font-size: .875em;
+}
 
-  align-items: center;
-  &.is-selected {
-    background-color: $background-color-alt;
-  }
-  &.is-unread {
-    background-color: $background-color;
+.ConversationItem.is-selected {
+  background-color: $background-color-alt;
+}
+.ConversationItem.is-unread {
+  background-color: $background-color;
+  .ConversationItem-content {
     font-weight: bold;
   }
-  &:hover:not(.is-selected):not(.is-unread) {
-    // background-color: lighten($background-color-alt, 2);
+}
+.ConversationItem.hover {
+  color: $color;
+}
+.ConversationItem.hover:not(.is-selected) {
+  background-color: $background-color-light;
+}
+.ConversationItem > a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: $color;
+  &:hover {
+    color: $color;
   }
-  &:hover.is-unread {
-    // background-color: darken($background-color, 1);
+}
+
+.ConversationItem .Dropdown {
+  position: absolute;
+  top: 50%;
+  margin-top: -6px;
+  right: .5rem;
+}
+
+.ConversationItem-image {
+}
+
+.ConversationItem-content {
+  min-width: 0;
+  padding-left: .5rem;
+
+  flex: 1;
+  > div {
+    @include ellipsis();
+  }
+}
+
+.ConversationItem-tools {
+  align-self: flex-start;
+  text-align: right;
+  font-size: .75em;
+}
+
+.ConversationItem-head {
+  font-size: .875em;
+  font-weight: bold;
+}
+
+.ConversationItem-date {
+  color: $color-light;
+  line-height: 1rem;
+}
+.ConversationItem-about {
+  font-size: .75em;
+  margin: .25em 0;
+}
+
+.ConversationItem-last {
+  display: flex;
+  margin-top: .25em;
+  align-items: flex-start;
+  color: $color-light;
+  font-size: .75em;
+  .Icon {
+    margin-right: .25em;
   }
 }
 
@@ -31,62 +89,7 @@
   align-self: flex-start;
 }
 
-.ConversationItem-body {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  padding: .625em .25em;
-
-  flex: 1;
-  flex-basis: 50%;
-  > div {
-    @include ellipsis();
-  }
-}
-
-
-.ConversationItem-tools {
-  padding: .625em .25em;
-  text-align: right;
-  font-weight: normal;
-
-  align-self: flex-start;
-}
-
-.ConversationItem-created-at {
-  color: $color-light;
-  font-size: .75em;
-}
-
 .ConversationItem-unread-count {
   margin-top: .25em;
-  color: $color-light;
-  font-size: .625em;
-}
-
-.ConversationItem-title {
-  margin-bottom: .25em;
-  font-size: 1em;
-}
-
-.ConversationItem-about_shout {
-  color: $color;
-  font-size: .875em;
-  margin: .25em 0;
-}
-
-.ConversationItem-partecipants {
-  // font-weight: bold;
-}
-
-.ConversationItem-last-message {
-  color: $color-light;
-  font-size: .875em;
-  span {
-    display: inline-block;
-    vertical-align: middle;
-  }
-  .Icon {
-    margin-right: .25em;
-  }
+  color: $si-green;
 }

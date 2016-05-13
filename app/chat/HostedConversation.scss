@@ -1,14 +1,17 @@
-@import '../styles/constants.scss';
+@import '../styles/constants';
 @import '../styles/mixins/ellipsis';
+
 .HostedConversation {
 }
 
 .HostedConversation-header {
   position: absolute;
+  z-index: 1;
   top: 0;
   right: 0;
   left: 0;
   display: flex;
+  align-items: stretch;
   flex-direction: row;
   height: 2rem;
   color: white;
@@ -19,12 +22,11 @@
   }
 
   h3 {
+    @include ellipsis();
     margin: 0 .5rem;
     font-size: .875rem;
     font-weight: bold;
     line-height: 2rem;
-
-    @include ellipsis();
     flex: 1;
     a {
       color: white;
@@ -35,13 +37,19 @@
     }
   }
 
-  .HostedConversation-close {
-    display: inline-block;
-    padding: 0 .5rem;
-    cursor: pointer;
-    line-height: 2rem;
-    &:hover {
-      opacity: .75;
+  .HostedConversation-toolbar {
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    padding-right: .25rem;
+    > * {
+      padding: 0 .25rem;
+      &:hover .Icon {
+        opacity: .75;
+      }
+      &.Icon:hover {
+        opacity: .75;
+      }
     }
   }
 }

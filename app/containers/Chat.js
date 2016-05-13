@@ -46,6 +46,7 @@ export class Chat extends Component {
                 </div>
                 <div className="Chat-conversations-list">
                   <ConversationsList
+                    showConversationDropdown
                     conversations={ conversations }
                     selectedId={ params.conversationId }
                     isFetching={ isFetching }
