@@ -52,7 +52,7 @@ export class Conversation extends Component {
   componentDidMount() {
     const { dispatch, id, conversation } = this.props;
     if (!conversation || !conversation.isNew) {
-      dispatch(loadMessages(id)).then(
+      dispatch(loadMessages({ id })).then(
         () => dispatch(setCurrentConversation(id))
       );
     }
@@ -72,7 +72,7 @@ export class Conversation extends Component {
   componentDidUpdate(prevProps) {
     const { id, dispatch, conversation } = this.props;
     if (prevProps.id !== id && !(conversation && conversation.isNew)) {
-      dispatch(loadMessages(id)).then(
+      dispatch(loadMessages({ id })).then(
         () => dispatch(setCurrentConversation(id))
       );
     }
@@ -99,18 +99,18 @@ export class Conversation extends Component {
           initialScroll="bottom"
           className="Conversation-scrollable"
           ref="scrollable"
-          onScrollTop={ previousUrl ? () => dispatch(loadMessages(id, previousUrl)) : null }>
+          onScrollTop={ previousUrl ? () => dispatch(loadMessages({ id }, previousUrl)) : null }>
           <div className="Conversation-messagesList" onClick={ () => this.form && this.form.focus() }>
 
             { error &&
               <div className="Conversation-error">
-                Could not load conversation - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages(id, previousUrl)); } }>retry?</a>
+                Could not load conversation - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages({ id }, previousUrl)); } }>retry?</a>
               </div>
             }
 
             { messagesError &&
               <div className="Conversation-error">
-                Could not load messages - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages(id, previousUrl)); } }>retry?</a>
+                Could not load messages - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages({ id }, previousUrl)); } }>retry?</a>
               </div>
             }
 

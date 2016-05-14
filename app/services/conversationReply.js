@@ -3,9 +3,9 @@ import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'conversationReply',
-  create: (req, resource, { conversationId }, body, config, callback) => {
+  create: (req, resource, { id }, body, config, callback) => {
     request
-      .post(`/conversations/${conversationId}/reply`)
+      .post(`/conversations/${id}/reply`)
       .send(body)
       .setSession(req.session)
       .prefix()

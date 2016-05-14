@@ -19,8 +19,7 @@ export default store => next => action => { // eslint-disable-line no-unused-var
       }
       break;
     case actionTypes.LEAVE_CONVERSATION_START:
-      const { conversation } = action.payload;
-      if (state.routing.currentUrl === `/messages/${conversation.id}`) {
+      if (state.routing.currentUrl === `/messages/${action.payload.id}`) {
         store.dispatch(replace('/messages'));
       }
       break;

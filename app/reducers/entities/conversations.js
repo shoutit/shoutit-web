@@ -36,6 +36,12 @@ export default (state, action) => {
           modifiedAt: payload.entities.messages[payload.result].createdAt,
         },
       });
+      break;
+    case actionTypes.START_CONVERSATION:
+      state = merge({}, state, {
+        [payload.conversation.id]: payload.conversation,
+      });
+      break;
   }
   return state;
 };

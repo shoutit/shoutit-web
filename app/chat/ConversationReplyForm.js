@@ -82,7 +82,7 @@ export class ConversationReplyForm extends Component {
     } else {
       dispatch(saveDraft(name, { draft: '' }));
       this.textarea.focus();
-      dispatch(replyToConversation(conversation.id, loggedUser, { text }));
+      dispatch(replyToConversation(conversation, loggedUser, { text }));
     }
   }
 

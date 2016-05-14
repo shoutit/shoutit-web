@@ -27,7 +27,7 @@ const handleNewMessageNotification = (message, store) => {
   const payload = normalize(message, MESSAGE);
 
   if (!conversation) {
-    store.dispatch(loadConversation(conversationId));
+    store.dispatch(loadConversation({ id: conversationId }));
   } else {
     let unreadMessagesCount = conversation.unreadMessagesCount;
     if (currentConversation !== conversationId) {

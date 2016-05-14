@@ -1,17 +1,17 @@
 import * as actionTypes from './actionTypes';
 import { MESSAGES } from '../schemas';
 
-export function loadMessages(conversationId, endpoint) {
+export function loadMessages(conversation, endpoint) {
   return {
     types: [
       actionTypes.LOAD_MESSAGES_START,
       actionTypes.LOAD_MESSAGES_SUCCESS,
       actionTypes.LOAD_MESSAGES_FAILURE,
     ],
-    payload: { conversationId },
+    payload: { conversation },
     service: {
       name: 'messages',
-      params: { conversationId, endpoint },
+      params: { id: conversation.id, endpoint },
       schema: MESSAGES,
     },
   };

@@ -44,6 +44,7 @@ export default function (state = initialState, action) {
       };
       return newState;
 
+    case actionTypes.START_CONVERSATION:
     case actionTypes.OPEN_CONVERSATION:
       return {
         ...state,
