@@ -62,6 +62,11 @@ export default (state, action) => {
         [payload.id]: { stats: payload.stats },
       });
       break;
+    case actionTypes.REPLACE_PROFILE:
+      state = merge({}, state, {
+        [payload.id]: payload,
+      });
+      break;
   }
   return state;
 };

@@ -10,7 +10,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { typingClientNotification, removeTypingClient } from '../actions/chat';
 import { loadConversation } from '../actions/conversations';
 import { addNewMessage, readMessage, setMessageReadBy } from '../actions/messages';
-import { updateProfileStats } from '../actions/users';
+import { updateProfileStats, replaceProfile } from '../actions/users';
 
 const log = debug('shoutit:middlewares:pusher');
 // Pusher.log = log;
@@ -78,6 +78,11 @@ export default store => next => action => { // eslint-disable-line no-unused-var
         presenceChannel.bind('stats_update', payload => {
           log('Received stats_update event', payload);
           store.dispatch(updateProfileStats(store.getState().session.user, camelizeKeys(payload)));
+        });
+
+        presenceChannel.bind('profile_update', payload => {
+          log('Received profile_update event', payload);
+          store.dispatch(replaceProfile(camelizeKeys(payload)));
         });
 
       });

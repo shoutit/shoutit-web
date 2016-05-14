@@ -192,3 +192,8 @@ export const updateProfileStats = (id, stats) => ({
     id,
   },
 });
+
+export const replaceProfile = profile => ({
+  type: actionTypes.REPLACE_PROFILE,
+  payload: profile,
+});
