@@ -1,11 +1,11 @@
+import noop from 'lodash/noop';
+
 import * as actionTypes from './actionTypes';
 import { TAG, SHOUTS, TAGS, PROFILES } from '../schemas';
 
 export function loadTagIfNeeded(tag, properties = []) {
   if (properties.every(property => tag.hasOwnProperty(property))) {
-    return {
-      type: 'NOOP',
-    };
+    return noop;
   }
   const { name } = tag;
   return {

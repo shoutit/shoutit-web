@@ -1,3 +1,4 @@
+import noop from 'lodash/noop';
 
 import * as actionTypes from './actionTypes';
 import { PROFILE, PROFILES, SHOUTS, CONVERSATION } from '../schemas';
@@ -118,9 +119,7 @@ export function loadUserShouts(username, endpoint) {
 
 export function loadProfileDetailsIfNeeded(profile, neededDetails) {
   if (neededDetails.every(detail => profile.hasOwnProperty(detail))) {
-    return {
-      type: 'NOOP',
-    };
+    return noop;
   }
   const { username } = profile;
   return {
