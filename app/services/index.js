@@ -11,6 +11,7 @@ export listeners from './listeners';
 export listening from './listening';
 export location from './location';
 export messages from './messages';
+export messagesRead from './messagesRead';
 export password from './password';
 export profile from './profile';
 export profileChat from './profileChat';

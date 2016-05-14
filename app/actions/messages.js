@@ -17,6 +17,23 @@ export function loadMessages(conversation, endpoint) {
   };
 }
 
+export function readMessage(message) {
+  return {
+    types: [
+      actionTypes.READ_MESSAGE_START,
+      actionTypes.READ_MESSAGE_SUCCESS,
+      actionTypes.READ_MESSAGE_FAILURE,
+    ],
+    payload: { message },
+    service: {
+      name: 'messagesRead',
+      method: 'create',
+      params: { id: message.id },
+      schema: MESSAGES,
+    },
+  };
+}
+
 export function addNewMessage(normalizedPayload) {
   const { entities, result: id } = normalizedPayload;
   return {
