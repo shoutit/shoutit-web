@@ -8,7 +8,7 @@ import ConversationStart from '../chat/ConversationStart';
 import MessagesTypingUsers from '../chat/MessagesTypingUsers';
 import Scrollable from '../ui/Scrollable';
 
-import { setCurrentConversation, unsetCurrentConversation } from '../actions/conversations';
+import { setActiveConversation, unsetActiveConversation, read } from '../actions/conversations';
 import { loadMessages } from '../actions/messages';
 import { denormalize } from '../schemas';
 
@@ -52,9 +52,9 @@ export class Conversation extends Component {
   componentDidMount() {
     const { dispatch, id, conversation } = this.props;
     if (!conversation || !conversation.isNew) {
-      dispatch(loadMessages({ id })).then(
-        () => dispatch(setCurrentConversation(id))
-      );
+      dispatch(setActiveConversation({ id }));
+      dispatch(loadMessages({ id }));
+    }
     }
     if (this.form) {
       this.form.focus();
@@ -72,14 +72,15 @@ export class Conversation extends Component {
   componentDidUpdate(prevProps) {
     const { id, dispatch, conversation } = this.props;
     if (prevProps.id !== id && !(conversation && conversation.isNew)) {
-      dispatch(loadMessages({ id })).then(
-        () => dispatch(setCurrentConversation(id))
-      );
+      dispatch(unsetActiveConversation({ id: prevProps.id }));
+      dispatch(setActiveConversation({ id }));
+      dispatch(loadMessages({ id }));
     }
   }
 
   componentWillUnmount() {
-    this.props.dispatch(unsetCurrentConversation());
+    const { dispatch, id } = this.props;
+    dispatch(unsetActiveConversation({ id }));
   }
 
   form = null;

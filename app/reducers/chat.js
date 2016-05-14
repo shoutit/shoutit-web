@@ -6,7 +6,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
   openedConversations: [],
-  currentConversation: null,
+  activeConversations: [],
   typingUsers: {},
 };
 
@@ -14,16 +14,14 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-
-    case actionTypes.SET_CURRENT_CONVERSATION:
-      return {
-        ... state,
-        currentConversation: payload,
-        typingUsers: {
-          [payload]: [],
-        },
-      };
-
+    case actionTypes.SET_ACTIVE_CONVERSATION:
+      return merge({}, state, {
+        activeConversations: union(state.activeConversations, [payload.id]),
+      });
+    case actionTypes.UNSET_ACTIVE_CONVERSATION:
+      return Object.assign({}, state, {
+        activeConversations: without(state.activeConversations, payload.id),
+      });
     case actionTypes.RECEIVE_CLIENT_IS_TYPING:
       if (state.typingUsers[payload.conversationId].indexOf(payload.userId) > -1) {
         return state;

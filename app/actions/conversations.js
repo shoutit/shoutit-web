@@ -17,14 +17,14 @@ export const loadConversation = conversation => ({
   },
 });
 
-export const setCurrentConversation = id => ({
-  type: actionTypes.SET_CURRENT_CONVERSATION,
-  payload: id,
+export const setActiveConversation = conversation => ({
+  type: actionTypes.SET_ACTIVE_CONVERSATION,
+  payload: conversation,
 });
 
-export const unsetCurrentConversation = () => ({
-  type: actionTypes.SET_CURRENT_CONVERSATION,
-  payload: null,
+export const unsetActiveConversation = conversation => ({
+  type: actionTypes.UNSET_ACTIVE_CONVERSATION,
+  payload: conversation,
 });
 
 export const replyToConversation = (conversation, sender, message) => {
