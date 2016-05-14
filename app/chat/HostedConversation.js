@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Conversation from './Conversation';
 import ConversationName from './ConversationName';
-import { closeConversation } from '../actions/chat';
+import { closeConversation } from '../actions/conversations';
 import { denormalize } from '../schemas';
 
 import ConversationDropdown from '../chat/ConversationDropdown';
@@ -29,13 +29,14 @@ export class HostedConversation extends Component {
             <ConversationName conversation={ conversation } />
           </h3>
           <div className="HostedConversation-toolbar">
-            <ConversationDropdown
+            { !conversation.isNew && <ConversationDropdown
               skipItems={ ['toggleRead'] }
               pullRight
               toggle={ <Icon name="cog" size="small" fill /> }
               size="small"
               conversation={ conversation }
             />
+          }
             <Icon name="close" size="small" fill onClick={ onCloseClick } />
           </div>
         </div>
@@ -58,7 +59,7 @@ const mapStateToProps = (state, ownProps) => ({
   conversation: denormalize(state.entities.conversations[ownProps.id], state.entities, 'CONVERSATION'),
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onCloseClick: () => dispatch(closeConversation(ownProps.id)),
+  onCloseClick: () => dispatch(closeConversation({ id: ownProps.id })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HostedConversation);

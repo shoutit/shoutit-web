@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { openConversation } from '../actions/chat';
+import { openConversation } from '../actions/conversations';
 
 import ConversationsList from '../chat/ConversationsList.js';
 

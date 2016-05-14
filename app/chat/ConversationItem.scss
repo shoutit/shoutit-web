@@ -4,14 +4,13 @@
 .ConversationItem {
   position: relative;
   border-bottom: 1px solid $border-color-dark;
-  padding: .75em .5em;
   cursor: pointer;
 }
 
 .ConversationItem.is-selected {
   background-color: $background-color-alt;
 }
-.ConversationItem.is-unread {
+.ConversationItem.is-unread:not(.is-selected) {
   background-color: $background-color;
   .ConversationItem-content {
     font-weight: bold;
@@ -24,6 +23,7 @@
   background-color: $background-color-light;
 }
 .ConversationItem > a {
+  padding: .75em .5em;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -45,7 +45,7 @@
 
 .ConversationItem-content {
   min-width: 0;
-  padding-left: .5rem;
+  padding-left: .5em;
 
   flex: 1;
   > div {
@@ -79,6 +79,11 @@
   align-items: flex-start;
   color: $color-light;
   font-size: .75em;
+  min-width: 0;
+  > span {
+
+    @include ellipsis();
+  }
   .Icon {
     margin-right: .25em;
   }

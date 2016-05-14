@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { listenToUser, stopListeningToUser } from '../actions/users';
-import { startConversation, openConversation } from '../actions/chat';
+import { startConversation, openConversation } from '../actions/conversations';
 import { Link } from 'react-router';
 
 import RequiresLogin from '../auth/RequiresLogin';
@@ -13,16 +13,13 @@ import ListItem from '../ui/ListItem';
 if (process.env.BROWSER) {
   require('./ProfileActions.scss');
 }
-export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListening, size = 'medium', showProfileLink = false }) {
+export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium', showProfileLink = false }) {
 
   if (profile.isOwner && !showProfileLink) {
     return <div />;
   }
 
   const onListenClick = () => {
-    if (isUpdatingListening) {
-      return;
-    }
     if (profile.isListening) {
       dispatch(stopListeningToUser(loggedUser, profile));
     } else {
@@ -63,7 +60,6 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
             <RequiresLogin event="onClick" loginAction={ START_LISTENING } redirectUrl={ `/user/${profile.username}` }>
               <ListItem
                 size={ size }
-                disabled={ isUpdatingListening }
                 onClick={ onListenClick }
                 start={ <Icon size={ size } name="listen" active={ !profile.isListening } on={ profile.isListening } /> }
               >
@@ -89,19 +85,13 @@ export function ProfileActions({ profile, loggedUser, dispatch, isUpdatingListen
 ProfileActions.propTypes = {
   profile: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
-  isUpdatingListening: PropTypes.bool,
   loggedUser: PropTypes.object,
   showProfileLink: PropTypes.bool,
   size: PropTypes.oneOf(['small', 'medium', 'large']),
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const { paginated, session, entities } = state;
-  const { listenersByUser } = paginated;
-  return {
-    loggedUser: entities.users[session.user],
-    isUpdatingListening: listenersByUser[ownProps.profile.id] ? listenersByUser[ownProps.profile.id].isUpdating : false,
-  };
-};
+const mapStateToProps = state => ({
+  loggedUser: state.entities.users[state.session.user],
+});
 
 export default connect(mapStateToProps)(ProfileActions);

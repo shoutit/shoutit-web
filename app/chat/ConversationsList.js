@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { loadConversations } from '../actions/chat';
+import { loadChat } from '../actions/chat';
 import { denormalize } from '../schemas';
 
 import ConversationItem from './ConversationItem';
@@ -24,7 +24,7 @@ export class ConversationsList extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(loadConversations());
+    this.props.dispatch(loadChat());
   }
 
   componentDidUpdate() {
@@ -35,7 +35,7 @@ export class ConversationsList extends Component {
     const { dispatch, previousUrl, isFetching } = this.props;
     const { scrollable } = this.refs;
     if (!isFetching && previousUrl && !scrollable.canScroll()) {
-      dispatch(loadConversations(previousUrl));
+      dispatch(loadChat(previousUrl));
     }
   }
 
@@ -46,7 +46,7 @@ export class ConversationsList extends Component {
         ref="scrollable"
         preventDocumentScroll
         className="ConversationsList"
-        onScrollBottom={ previousUrl ? () => dispatch(loadConversations(previousUrl)) : null }
+        onScrollBottom={ previousUrl ? () => dispatch(loadChat(previousUrl)) : null }
         uniqueId={ conversations.length === 0 ? 'empty' : conversations[conversations.length - 1].id }>
 
 

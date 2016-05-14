@@ -14,7 +14,7 @@ import SuggestedShout from '../shouts/SuggestedShout';
 import RequiresLogin from '../auth/RequiresLogin';
 
 import { denormalize } from '../schemas';
-import { closeConversation } from '../actions/chat';
+import { closeConversation } from '../actions/conversations';
 
 if (process.env.BROWSER) {
   require('./Chat.scss');
@@ -50,7 +50,7 @@ export class Chat extends Component {
                     conversations={ conversations }
                     selectedId={ params.conversationId }
                     isFetching={ isFetching }
-                    onConversationClick={ conversation => dispatch(closeConversation(conversation.id)) }
+                    onConversationClick={ conversation => dispatch(closeConversation(conversation)) }
                   />
                 </div>
               </div>

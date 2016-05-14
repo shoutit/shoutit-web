@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import capitalize from 'lodash/capitalize';
 import { Link } from 'react-router';
-import { loadShout, loadRelatedShouts } from '../actions/shouts';
-import { startShoutReply, openConversation } from '../actions/chat';
+import { loadShout, loadRelatedShouts, startShoutReply } from '../actions/shouts';
+import { openConversation } from '../actions/conversations';
 import { routeError } from '../actions/server';
 
 import { formatPrice } from '../utils/CurrencyUtils';

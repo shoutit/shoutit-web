@@ -3,6 +3,8 @@
 
 require('babel-register');
 
+var noop = require('lodash/noop');
+
 var path = require('path');
 var webpack = require('webpack');
 var autoprefixer = require('autoprefixer');
@@ -16,8 +18,6 @@ var isDevelopment = process.env.NODE_ENV === 'development';
 var context = path.join(__dirname, './app');
 var entries = ['./client.js'];
 var config = require('./app/config');
-
-function noop() {}
 
 if (isDevelopment) {
   entries.push('webpack-hot-middleware/client');

@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import noop from 'lodash/noop';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 import * as loginActions from '../auth/loginActions';
-
-const noop = () => {};
 
 if (process.env.BROWSER) {
   require('./RequiresLogin.scss');
