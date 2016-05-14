@@ -4,7 +4,6 @@
 .ConversationItem {
   position: relative;
   border-bottom: 1px solid $border-color-dark;
-  padding: .75em .5em;
   cursor: pointer;
 }
 
@@ -24,6 +23,7 @@
   background-color: $background-color-light;
 }
 .ConversationItem > a {
+  padding: .75em .5em;
   display: flex;
   align-items: center;
   text-decoration: none;
