@@ -10,6 +10,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { typingClientNotification, removeTypingClient } from '../actions/chat';
 import { loadConversation } from '../actions/conversations';
 import { addNewMessage, readMessage, setMessageReadBy } from '../actions/messages';
+import { updateProfileStats } from '../actions/users';
 
 const log = debug('shoutit:middlewares:pusher');
 // Pusher.log = log;
@@ -19,11 +20,7 @@ const client = new Pusher(pusherAppKey, {
   authEndpoint: '/api/pusher/auth',
 });
 
-const handleReadByNotification = () => {
-};
-
 const typingTimeouts = {};
-
 const handleClientIsTypingNotification = (conversationId, profile, store) => {
   log('Dispatching typing client...');
 
@@ -78,10 +75,17 @@ export default store => next => action => { // eslint-disable-line no-unused-var
 
         });
 
+        presenceChannel.bind('stats_update', payload => {
+          log('Received stats_update event', payload);
+          store.dispatch(updateProfileStats(store.getState().session.user, camelizeKeys(payload)));
+        });
+
       });
+
       presenceChannel.bind('pusher:subscription_error', (state) => {
         console.error("Error subscribing to channel %s", channelId, state); // eslint-disable-line
       });
+
       client.presenceChannel = presenceChannel;
       break;
 

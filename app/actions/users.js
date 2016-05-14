@@ -184,3 +184,11 @@ export function chatWithProfile(conversation, text) {
     },
   };
 }
+
+export const updateProfileStats = (id, stats) => ({
+  type: actionTypes.UPDATE_PROFILE_STATS,
+  payload: {
+    stats,
+    id,
+  },
+});

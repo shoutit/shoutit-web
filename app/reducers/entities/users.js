@@ -57,6 +57,11 @@ export default (state, action) => {
         },
       });
       break;
+    case actionTypes.UPDATE_PROFILE_STATS:
+      state = merge({}, state, {
+        [payload.id]: { stats: payload.stats },
+      });
+      break;
   }
   return state;
 };
