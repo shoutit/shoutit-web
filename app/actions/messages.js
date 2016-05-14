@@ -34,6 +34,11 @@ export function readMessage(message) {
   };
 }
 
+export const setMessageReadBy = readBy => ({
+  type: actionTypes.SET_MESSAGE_READ_BY,
+  payload: readBy,
+});
+
 export function addNewMessage(normalizedPayload) {
   const { entities, result: id } = normalizedPayload;
   return {

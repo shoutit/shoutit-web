@@ -9,7 +9,7 @@ import { pusherAppKey } from '../config';
 import * as actionTypes from '../actions/actionTypes';
 import { typingClientNotification, removeTypingClient } from '../actions/chat';
 import { loadConversation } from '../actions/conversations';
-import { addNewMessage, readMessage } from '../actions/messages';
+import { addNewMessage, readMessage, setMessageReadBy } from '../actions/messages';
 
 const log = debug('shoutit:middlewares:pusher');
 // Pusher.log = log;
@@ -77,6 +77,7 @@ export default store => next => action => { // eslint-disable-line no-unused-var
           }
 
         });
+
       });
       presenceChannel.bind('pusher:subscription_error', (state) => {
         console.error("Error subscribing to channel %s", channelId, state); // eslint-disable-line
@@ -93,7 +94,6 @@ export default store => next => action => { // eslint-disable-line no-unused-var
       break;
 
     case actionTypes.SET_ACTIVE_CONVERSATION:
-      const { id } = action.payload;
       channelId = getConversationChannelId(action.payload);
       log('Subscribing channel %s...', channelId);
 
@@ -106,10 +106,16 @@ export default store => next => action => { // eslint-disable-line no-unused-var
         // conversationChannel.bind('client-is_typing', typingClient =>
         //   handleClientIsTypingNotification(id, camelizeKeys(typingClient), store)
       // );
+      //
+        conversationChannel.bind('client-is_typing', payload => {
+          log('Received client-is_typing event', payload);
+          // store.dispatch(setMessageReadBy(camelizeKeys(payload)));
+        });
 
-        conversationChannel.bind('new_read_by', readBy =>
-          handleReadByNotification(id, camelizeKeys(readBy), store)
-        );
+        conversationChannel.bind('new_read_by', payload => {
+          log('Received new_read_by event', payload);
+          store.dispatch(setMessageReadBy(camelizeKeys(payload)));
+        });
       });
 
       conversationChannel.bind('pusher:subscription_error', state => {
