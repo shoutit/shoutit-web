@@ -13,5 +13,5 @@ export default paginate({
     actionTypes.REPLY_CONVERSATION_START,
     actionTypes.REPLY_CONVERSATION_SUCCESS,
   ],
-  addType: actionTypes.ADD_MESSAGE,
+  addType: actionTypes.ADD_NEW_MESSAGE,
 });

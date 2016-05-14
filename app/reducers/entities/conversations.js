@@ -42,6 +42,20 @@ export default (state, action) => {
         [payload.conversation.id]: payload.conversation,
       });
       break;
+    case actionTypes.ADD_NEW_MESSAGE:
+      const { conversationId, createdAt, id } = payload.message;
+      if (state[conversationId]) {
+        // payload may have not beene loaded yet
+        state = merge({}, state, {
+          [conversationId]: {
+            lastMessage: id,
+            modifiedAt: createdAt,
+            messagesCount: state[conversationId].messagesCount + 1,
+            unreadMessagesCount: state[conversationId].unreadMessagesCount + 1,
+          },
+        });
+      }
+
   }
   return state;
 };

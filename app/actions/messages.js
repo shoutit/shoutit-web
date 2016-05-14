@@ -17,9 +17,16 @@ export function loadMessages(conversation, endpoint) {
   };
 }
 
-export function addMessage(payload) {  // normalized payload
+export function addNewMessage(normalizedPayload) {
+  const { entities, result: id } = normalizedPayload;
   return {
-    type: actionTypes.ADD_MESSAGE,
-    payload,
+    type: actionTypes.ADD_NEW_MESSAGE,
+    payload: {
+      message: entities.messages[id],
+      conversation: {
+        id: entities.messages[id].conversationId,
+      },
+      ...normalizedPayload,
+    },
   };
 }
