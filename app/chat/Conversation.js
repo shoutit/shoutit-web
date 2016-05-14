@@ -8,7 +8,7 @@ import ConversationStart from '../chat/ConversationStart';
 import MessagesTypingUsers from '../chat/MessagesTypingUsers';
 import Scrollable from '../ui/Scrollable';
 
-import { setActiveConversation, unsetActiveConversation, read } from '../actions/conversations';
+import { setActiveConversation, unsetActiveConversation, readConversation } from '../actions/conversations';
 import { loadMessages } from '../actions/messages';
 import { denormalize } from '../schemas';
 
@@ -56,7 +56,7 @@ export class Conversation extends Component {
       dispatch(loadMessages({ id }));
     }
     if (conversation && conversation.unreadMessagesCount > 0) {
-      dispatch(read(conversation));
+      dispatch(readConversation(conversation));
     }
     if (this.form) {
       this.form.focus();
@@ -78,7 +78,7 @@ export class Conversation extends Component {
       dispatch(setActiveConversation({ id }));
       dispatch(loadMessages({ id }));
       if (conversation && conversation.unreadMessagesCount > 0) {
-        dispatch(read(conversation));
+        dispatch(readConversation(conversation));
       }
     }
   }

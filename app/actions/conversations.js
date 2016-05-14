@@ -77,7 +77,7 @@ export function startConversation(loggedUser, user) {
   };
 }
 
-export const leave = conversation => ({
+export const leaveConversation = conversation => ({
   types: [
     actionTypes.LEAVE_CONVERSATION_START,
     actionTypes.LEAVE_CONVERSATION_SUCCESS,
@@ -91,7 +91,7 @@ export const leave = conversation => ({
   },
 });
 
-export const read = conversation => ({
+export const readConversation = conversation => ({
   types: [
     actionTypes.READ_CONVERSATION_START,
     actionTypes.READ_CONVERSATION_SUCCESS,
@@ -105,7 +105,7 @@ export const read = conversation => ({
   },
 });
 
-export function unread(conversation) {
+export function unreadConversation(conversation) {
   return {
     types: [
       actionTypes.UNREAD_CONVERSATION_START,
