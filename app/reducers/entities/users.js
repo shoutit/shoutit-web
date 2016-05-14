@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-
 import * as actionTypes from '../../actions/actionTypes';
 import createEntityReducer from './createEntityReducer';
 
@@ -44,8 +43,20 @@ export default (state, action) => {
         },
       });
       break;
+    case actionTypes.LISTEN_TAG_START:
+      state = merge({}, state, {
+        [payload.loggedUser.id]: {
+          listeningCount: { tags: payload.loggedUser.listeningCount.tags + 1 },
+        },
+      });
+      break;
+    case actionTypes.STOP_LISTEN_TAG_START:
+      state = merge({}, state, {
+        [payload.loggedUser.id]: {
+          listeningCount: { tags: payload.loggedUser.listeningCount.tags - 1 },
+        },
+      });
+      break;
   }
-
   return state;
-
 };
