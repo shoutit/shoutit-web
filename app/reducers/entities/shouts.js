@@ -1,8 +1,11 @@
+import merge from 'lodash/merge';
+import without from 'lodash/without';
+
 import * as actionTypes from '../../actions/actionTypes';
 import createEntityReducer from './createEntityReducer';
 
 export default (state, action) => {
-  let newState = createEntityReducer({
+  state = createEntityReducer({
     name: 'shouts',
     mapActionToId: action => action.payload.shout.id,
     mapActionToTempId: action => action.payload.shout.id,
@@ -24,39 +27,41 @@ export default (state, action) => {
     ],
   })(state, action);
 
-  let id;
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case actionTypes.CALL_SHOUT_START:
-      id = action.payload.id;
-      newState = {
-        ...newState,
-        [id]: {
-          ...newState[id],
-          isCalling: true,
-        },
-      };
+      state = merge({}, state, {
+        [payload.id]: { isCalling: true },
+      });
       break;
     case actionTypes.CALL_SHOUT_SUCCESS:
-      id = action.payload.id;
-      newState = {
-        ...newState,
-        [id]: {
-          ...newState[id],
-          mobile: action.payload.mobile,
-          isCalling: false,
-        },
-      };
+      state = merge({}, state, {
+        [payload.id]: { isCalling: false, mobile: payload.mobile },
+      });
       break;
     case actionTypes.CALL_SHOUT_FAILURE:
-      id = action.payload.id;
-      newState = {
-        ...newState,
-        [id]: {
-          ...newState[id],
-          isCalling: false,
-        },
-      };
+      state = merge({}, state, {
+        [payload.id]: { isCalling: false },
+      });
+      break;
+    case actionTypes.LEAVE_CONVERSATION_START:
+      if (payload.type === 'about_shout') {
+        const shoutId = payload.about.id;
+        state = Object.assign({}, state, {
+          [shoutId]: { ...state[shoutId], conversations: without(state[shoutId].conversations, payload.id) },
+        });
+      }
+      break;
+    case actionTypes.CREATE_CONVERSATION_SUCCESS:
+      if (payload.conversation.type === 'about_shout') {
+        const shoutId = payload.conversation.about.id;
+        state = merge({}, state, {
+          [shoutId]: { conversations: [payload.result] },
+        });
+      }
+
       break;
   }
-  return newState;
+  return state;
 };
