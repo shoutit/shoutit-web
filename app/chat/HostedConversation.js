@@ -29,13 +29,14 @@ export class HostedConversation extends Component {
             <ConversationName conversation={ conversation } />
           </h3>
           <div className="HostedConversation-toolbar">
-            <ConversationDropdown
+            { !conversation.isNew && <ConversationDropdown
               skipItems={ ['toggleRead'] }
               pullRight
               toggle={ <Icon name="cog" size="small" fill /> }
               size="small"
               conversation={ conversation }
             />
+          }
             <Icon name="close" size="small" fill onClick={ onCloseClick } />
           </div>
         </div>
