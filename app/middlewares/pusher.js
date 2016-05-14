@@ -94,7 +94,8 @@ export default store => next => action => { // eslint-disable-line no-unused-var
       break;
 
     case actionTypes.SET_ACTIVE_CONVERSATION:
-      channelId = getConversationChannelId(action.payload);
+      const conversation = action.payload;
+      channelId = getConversationChannelId(conversation);
       log('Subscribing channel %s...', channelId);
 
       const conversationChannel = client.subscribe(channelId);
@@ -102,14 +103,10 @@ export default store => next => action => { // eslint-disable-line no-unused-var
 
       conversationChannel.bind('pusher:subscription_succeeded', () => {
         log('Channel %s subscribed and listening for events', channelId);
-
-        // conversationChannel.bind('client-is_typing', typingClient =>
-        //   handleClientIsTypingNotification(id, camelizeKeys(typingClient), store)
-      // );
       //
         conversationChannel.bind('client-is_typing', payload => {
           log('Received client-is_typing event', payload);
-          // store.dispatch(setMessageReadBy(camelizeKeys(payload)));
+          handleClientIsTypingNotification(conversation.id, camelizeKeys(payload), store);
         });
 
         conversationChannel.bind('new_read_by', payload => {

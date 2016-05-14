@@ -23,12 +23,14 @@ export default function (state = initialState, action) {
         activeConversations: without(state.activeConversations, payload.id),
       });
     case actionTypes.RECEIVE_CLIENT_IS_TYPING:
-      if (state.typingUsers[payload.conversationId].indexOf(payload.userId) > -1) {
+      if (state.typingUsers[payload.conversationId] &&
+        state.typingUsers[payload.conversationId].indexOf(payload.userId) > -1) {
+        // ignore if already typing
         return state;
       }
       return merge({}, state, {
         typingUsers: {
-          [payload.conversationId]: [...state.typingUsers[payload.conversationId], payload.userId],
+          [payload.conversationId]: [payload.userId],
         },
       });
 
