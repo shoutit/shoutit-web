@@ -19,6 +19,13 @@ export default (state, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case actionTypes.READ_MESSAGE_START:
+      state = merge({}, state, {
+        [payload.message.conversationId]: {
+          unreadMessagesCount: state[payload.message.conversationId].unreadMessagesCount - 1,
+        },
+      });
+      break;
     case actionTypes.READ_CONVERSATION_START:
       state = merge({}, state, {
         [payload.conversation.id]: { unreadMessagesCount: 0 },
