@@ -93,7 +93,9 @@ export default class ConversationItem extends Component {
             { lastMessage &&
               <div className="ConversationItem-last" title={ lastMessage.text }>
                 { lastMessage.profile && lastMessage.profile.isOwner &&
-                  <Icon name={ lastMessage.readBy ? 'ok' : 'reply' } size="x-small" /> }
+                  <Icon name={ lastMessage.readBy.filter(({ profileId }) => profileId !== lastMessage.profile.id).length > 0 ? 'ok' : 'reply' }
+                    size="x-small"
+                  /> }
                 { lastMessage.text &&
                   <span>{ lastMessage.text }</span> }
                 { !lastMessage.text && lastMessage.attachments &&
