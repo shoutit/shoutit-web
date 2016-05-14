@@ -3,8 +3,8 @@ import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'messages',
-  read: (req, resource, { conversationId, endpoint, pageSize = 20 }, config, callback) => {
-    const url = endpoint || `/conversations/${conversationId}/messages`;
+  read: (req, resource, { id, endpoint, pageSize = 20 }, config, callback) => {
+    const url = endpoint || `/conversations/${id}/messages`;
     request
       .get(url)
       .query({ page_size: pageSize })

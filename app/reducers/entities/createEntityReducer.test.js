@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import entityReducer from './entity';
+import createEntityReducer from './createEntityReducer';
 
-describe('reducer/entity', () => {
+describe('reducer/entities/createEntityReducer', () => {
 
   it('should reduce only its own entity', () => {
 
-    const reduce = entityReducer({ name: 'foo' });
+    const reduce = createEntityReducer({ name: 'foo' });
 
     const state = reduce({}, {
       payload: {
@@ -21,7 +21,7 @@ describe('reducer/entity', () => {
 
   it('should set an entity as creating when the create start type is dispatched', () => {
 
-    const reduce = entityReducer({
+    const reduce = createEntityReducer({
       name: 'people',
       createTypes: ['CREATE_START', 'CREATE_SUCCESS', 'CREATE_FAILURE'],
       mapActionToTempEntity: action => action.payload,
@@ -48,7 +48,7 @@ describe('reducer/entity', () => {
 
   it('should set the create error when a create failure type is dispatched', () => {
 
-    const reduce = entityReducer({
+    const reduce = createEntityReducer({
       name: 'people',
       createTypes: ['CREATE_START', 'CREATE_SUCCESS', 'CREATE_FAILURE'],
       mapActionToTempEntity: action => action.payload,
@@ -73,7 +73,7 @@ describe('reducer/entity', () => {
 
   it('should remove the temporary entity on create success', () => {
 
-    const reduce = entityReducer({
+    const reduce = createEntityReducer({
       name: 'people',
       createTypes: ['CREATE_START', 'CREATE_SUCCESS', 'CREATE_FAILURE'],
       mapActionToTempEntity: action => action.payload,

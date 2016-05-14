@@ -4,9 +4,9 @@ import paginate from './paginate';
 export default paginate({
   mapActionToTempId: action => action.payload.conversation.id,
   fetchTypes: [
-    actionTypes.LOAD_CONVERSATIONS_START,
-    actionTypes.LOAD_CONVERSATIONS_SUCCESS,
-    actionTypes.LOAD_CONVERSATIONS_FAILURE,
+    actionTypes.LOAD_CHAT_START,
+    actionTypes.LOAD_CHAT_SUCCESS,
+    actionTypes.LOAD_CHAT_FAILURE,
   ],
   createTypes: [
     actionTypes.CREATE_CONVERSATION_START,

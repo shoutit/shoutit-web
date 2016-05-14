@@ -14,7 +14,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
     throw new Error('fetchrMiddlware: service must be an object');
   }
 
-  const { method = 'read', name, params, body, schema, parsePayload } = service;
+  const { method = 'read', name, params, body, schema } = service;
 
   if (typeof name !== 'string') {
     throw new Error('Must specify a fetchr service name');
@@ -24,9 +24,6 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
   }
   if (!types.every(type => typeof type === 'string')) {
     throw new Error('Expected action types to be strings');
-  }
-  if (parsePayload && typeof parsePayload !== 'function') {
-    throw new Error('parsePayload must be a function');
   }
 
   function actionWith(data) {
@@ -46,11 +43,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
       .end((err, json) => {
 
         if (err) {
-          let error = err.body || err;
-
-          if (parsePayload) {
-            error = parsePayload(error, store.getState());
-          }
+          const error = err.body || err;
           next(actionWith({
             error: true,
             payload: { error },
@@ -78,9 +71,6 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
           }
         }
 
-        if (parsePayload) {
-          payload = parsePayload(payload, store.getState());
-        }
         resolve(payload);
         next(actionWith({
           payload,

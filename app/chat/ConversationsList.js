@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { loadConversations } from '../actions/chat';
+import { loadChat } from '../actions/chat';
 import { denormalize } from '../schemas';
 
 import ConversationItem from './ConversationItem';
@@ -19,11 +19,12 @@ export class ConversationsList extends Component {
     onConversationClick: PropTypes.func,
     selectedId: PropTypes.string,
     previousUrl: PropTypes.string,
+    showConversationDropdown: PropTypes.bool,
     dispatch: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
-    this.props.dispatch(loadConversations());
+    this.props.dispatch(loadChat());
   }
 
   componentDidUpdate() {
@@ -34,18 +35,18 @@ export class ConversationsList extends Component {
     const { dispatch, previousUrl, isFetching } = this.props;
     const { scrollable } = this.refs;
     if (!isFetching && previousUrl && !scrollable.canScroll()) {
-      dispatch(loadConversations(previousUrl));
+      dispatch(loadChat(previousUrl));
     }
   }
 
   render() {
-    const { isFetching, conversations, selectedId, onConversationClick, dispatch, previousUrl } = this.props;
+    const { isFetching, conversations, selectedId, onConversationClick, dispatch, previousUrl, showConversationDropdown } = this.props;
     return (
       <Scrollable
         ref="scrollable"
         preventDocumentScroll
         className="ConversationsList"
-        onScrollBottom={ previousUrl ? () => dispatch(loadConversations(previousUrl)) : null }
+        onScrollBottom={ previousUrl ? () => dispatch(loadChat(previousUrl)) : null }
         uniqueId={ conversations.length === 0 ? 'empty' : conversations[conversations.length - 1].id }>
 
 
@@ -56,9 +57,9 @@ export class ConversationsList extends Component {
                   .map(conversation =>
                     <li key={ conversation.id } >
                       <ConversationItem
+                        showDropdown={ showConversationDropdown }
                         onClick={ onConversationClick ? e => onConversationClick(conversation, e) : null }
                         conversation={ conversation }
-                        unread={ conversation.unreadMessagesCount > 0 }
                         selected={ conversation.id === selectedId }
                       />
                     </li>

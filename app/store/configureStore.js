@@ -24,8 +24,8 @@ export default function configureStore(initialState, { fetchr, devToolsExtension
     initialState,
     compose(
       applyMiddleware(
-        routing,
         services(fetchr),
+        routing,
         pusher,
         twilio,
         thunk,

@@ -80,6 +80,6 @@ Icon.propTypes = {
   fill: PropTypes.bool,
   hover: PropTypes.bool,
   on: PropTypes.bool,
-  size: PropTypes.oneOf(['small', 'medium', 'huge', 'large']),
+  size: PropTypes.oneOf(['x-small', 'small', 'medium', 'huge', 'large']),
 
 };

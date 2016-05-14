@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import paginate from './paginate';
 
 export default paginate({
-  mapActionToKey: action => action.payload.conversationId,
+  mapActionToKey: action => action.payload.conversation.id,
   mapActionToTempId: action => action.payload.message.id,
   fetchTypes: [
     actionTypes.LOAD_MESSAGES_START,
@@ -13,5 +13,5 @@ export default paginate({
     actionTypes.REPLY_CONVERSATION_START,
     actionTypes.REPLY_CONVERSATION_SUCCESS,
   ],
-  addType: actionTypes.ADD_MESSAGE,
+  addType: actionTypes.ADD_NEW_MESSAGE,
 });

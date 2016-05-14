@@ -223,11 +223,12 @@ export default class FileUploadField extends Component {
         <FormField label={ this.isUploading() ? uploadingLabel : label } name={ name }>
           <Dropzone accept="image/x-png, image/jpeg" disableClick onDrop={ this.upload } className="FileUploadField-dropzone" activeClassName="FileUploadField-dropzone active" ref="dropzone">
             <div className="FileUploadField-instructions">
-              Click on <Icon name="add" size="small" /> or drag files here
+              Click on <Icon name="add" size="small" onClick={ () => this.refs.dropzone.open() } /> or drop images here.
             </div>
 
             { uploads.map((upload, i) => <File key={ i } upload={ upload } onDeleteClick={ this.delete } />) }
-            { uploads.length < maxFiles && <div className="FileUploadField-add" ref="dropzone" onClick={ () => this.refs.dropzone.open() }></div> }
+            { uploads.length < maxFiles &&
+              <div className="FileUploadField-add" ref="dropzone" onClick={ () => this.refs.dropzone.open() }></div> }
           </Dropzone>
         </FormField>
       </div>
