@@ -55,8 +55,8 @@ export class Conversation extends Component {
       dispatch(setActiveConversation({ id }));
       dispatch(loadMessages({ id }));
     }
-    if (conversation.unreadMessagesCount > 0) {
-      dispatch(read({ id }));
+    if (conversation && conversation.unreadMessagesCount > 0) {
+      dispatch(read(conversation));
     }
     if (this.form) {
       this.form.focus();
@@ -77,8 +77,8 @@ export class Conversation extends Component {
       dispatch(unsetActiveConversation({ id: prevProps.id }));
       dispatch(setActiveConversation({ id }));
       dispatch(loadMessages({ id }));
-      if (conversation.unreadMessagesCount > 0) {
-        dispatch(read({ id }));
+      if (conversation && conversation.unreadMessagesCount > 0) {
+        dispatch(read(conversation));
       }
     }
   }
