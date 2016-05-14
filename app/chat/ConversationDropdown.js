@@ -2,11 +2,10 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { leaveConversation, readConversation, unreadConversation } from '../actions/chat';
+import { leave, read, unread } from '../actions/conversations';
 
 import Icon from '../ui/Icon';
 import Dropdown, { MenuItem } from '../ui/Dropdown';
-
 
 export class ConversationDropdown extends Component {
 
@@ -24,16 +23,16 @@ export class ConversationDropdown extends Component {
   handleToggleReadClick() {
     const { conversation, dispatch } = this.props;
     if (this.props.conversation.unreadMessagesCount > 0) {
-      dispatch(readConversation(conversation));
+      dispatch(read(conversation));
     } else {
-      dispatch(unreadConversation(conversation));
+      dispatch(unread(conversation));
     }
   }
 
   handleLeaveClick() {
     const { conversation, dispatch } = this.props;
     if (confirm('Do you really want to leave this conversation?')) { // eslint-disable-line
-      dispatch(leaveConversation(conversation.id));
+      dispatch(leave(conversation));
     }
   }
 

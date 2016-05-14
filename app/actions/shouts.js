@@ -1,6 +1,6 @@
 
 import * as actionTypes from './actionTypes';
-import { SHOUT, SHOUTS } from '../schemas';
+import { SHOUT, SHOUTS, CONVERSATION } from '../schemas';
 import { getUnixTime } from '../utils/DateUtils';
 
 export function loadShout(id) {
@@ -119,6 +119,51 @@ export function call(id) {
     service: {
       name: 'shoutCall',
       params: { id },
+    },
+  };
+}
+
+
+export function startShoutReply(loggedUser, shout) {
+  const conversation = {
+    id: `shout-reply-${shout.id}`,
+    isNew: true,
+    type: 'about_shout',
+    about: shout.id,
+    profiles: [
+      shout.profile.id,
+    ],
+  };
+  return {
+    type: actionTypes.OPEN_CONVERSATION,
+    payload: {
+      conversation,
+      entities: {
+        conversations: {
+          [conversation.id]: conversation,
+        },
+      },
+    },
+  };
+}
+
+export function replyToShout(conversation, text) {
+  const { about: shout } = conversation;
+  return {
+    types: [
+      actionTypes.CREATE_CONVERSATION_START,
+      actionTypes.CREATE_CONVERSATION_SUCCESS,
+      actionTypes.CREATE_CONVERSATION_FAILURE,
+    ],
+    payload: {
+      conversation,
+    },
+    service: {
+      name: 'shoutReply',
+      method: 'create',
+      params: { id: shout.id },
+      body: { text },
+      schema: CONVERSATION,
     },
   };
 }

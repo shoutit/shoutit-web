@@ -1,6 +1,6 @@
 
 import * as actionTypes from './actionTypes';
-import { PROFILE, PROFILES, SHOUTS } from '../schemas';
+import { PROFILE, PROFILES, SHOUTS, CONVERSATION } from '../schemas';
 
 export function loadUser(username) {
   return {
@@ -221,6 +221,27 @@ export function stopListeningToUser(loggedUser, user) {
         };
         return payload;
       },
+    },
+  };
+}
+
+export function chatWithProfile(conversation, text) {
+  const username = conversation.profiles.filter(profile => !profile.isOwner)[0].username;
+  return {
+    types: [
+      actionTypes.CREATE_CONVERSATION_START,
+      actionTypes.CREATE_CONVERSATION_SUCCESS,
+      actionTypes.CREATE_CONVERSATION_FAILURE,
+    ],
+    payload: {
+      conversation,
+    },
+    service: {
+      name: 'profileChat',
+      method: 'create',
+      params: { username },
+      body: { text },
+      schema: CONVERSATION,
     },
   };
 }

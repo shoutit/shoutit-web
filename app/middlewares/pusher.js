@@ -8,7 +8,9 @@ import { pusherAppKey } from '../config';
 import * as actionTypes from '../actions/actionTypes';
 
 import { MESSAGE } from '../schemas';
-import { addMessage, loadConversation, typingClientNotification, removeTypingClient } from '../actions/chat';
+import { typingClientNotification, removeTypingClient } from '../actions/chat';
+import { addMessage } from '../actions/messages';
+import { loadConversation } from '../actions/conversations';
 
 const log = debug('shoutit:pusherMiddleware');
 // Pusher.log = log;

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { listenToUser, stopListeningToUser } from '../actions/users';
-import { startConversation, openConversation } from '../actions/chat';
+import { startConversation, openConversation } from '../actions/conversations';
 import { Link } from 'react-router';
 
 import RequiresLogin from '../auth/RequiresLogin';

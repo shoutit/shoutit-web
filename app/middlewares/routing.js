@@ -1,7 +1,7 @@
 import { replace } from 'react-router-redux';
 
 import { closeModal } from '../actions/ui';
-import { closeConversation } from '../actions/chat';
+import { closeConversation } from '../actions/conversations';
 import * as actionTypes from '../actions/actionTypes';
 
 export default store => next => action => { // eslint-disable-line no-unused-vars
@@ -14,12 +14,13 @@ export default store => next => action => { // eslint-disable-line no-unused-var
         store.dispatch(closeModal());
       }
       if (pathname.match(/^\/messages/)) {
-        state.chat.openedConversations.map(id => store.dispatch(closeConversation(id)));
+        state.chat.openedConversations.map(id =>
+          store.dispatch(closeConversation({ id })));
       }
       break;
     case actionTypes.LEAVE_CONVERSATION_START:
-      const { id } = action.payload;
-      if (state.routing.currentUrl === `/messages/${id}`) {
+      const { conversation } = action.payload;
+      if (state.routing.currentUrl === `/messages/${conversation.id}`) {
         store.dispatch(replace('/messages'));
       }
       break;
@@ -27,5 +28,4 @@ export default store => next => action => { // eslint-disable-line no-unused-var
 
   }
   return next(action);
-
 };

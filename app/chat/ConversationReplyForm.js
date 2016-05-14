@@ -4,13 +4,15 @@ import trim from 'lodash/trim';
 
 import TextareaAutosize from 'react-textarea-autosize';
 
-// import Button from '../ui/Button';
-// import Icon from '../ui/Icon';
-
 import { saveDraft } from '../actions/forms';
-import { replyToConversation, replyToShout, notifyTypingUser, chatWithProfile, closeConversation, openConversation } from '../actions/chat';
-import { ENTER } from '../utils/keycodes';
 
+import { replyToConversation, closeConversation, openConversation } from '../actions/conversations';
+
+import { notifyTypingUser } from '../actions/chat';
+import { chatWithProfile } from '../actions/users';
+import { replyToShout } from '../actions/shouts';
+
+import { ENTER } from '../utils/keycodes';
 
 if (process.env.BROWSER) {
   require('./ConversationReplyForm.scss');
@@ -55,7 +57,7 @@ export class ConversationReplyForm extends Component {
     const { dispatch, name } = this.props;
 
     function onSuccess({ result }) {
-      dispatch(closeConversation(conversation.id));
+      dispatch(closeConversation(conversation));
       dispatch(openConversation({ id: result }));
       dispatch(saveDraft(name, { draft: '' }));
     }

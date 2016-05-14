@@ -8,7 +8,8 @@ import ConversationStart from '../chat/ConversationStart';
 import MessagesTypingUsers from '../chat/MessagesTypingUsers';
 import Scrollable from '../ui/Scrollable';
 
-import { loadMessages, setCurrentConversation, unsetCurrentConversation } from '../actions/chat';
+import { setCurrentConversation, unsetCurrentConversation } from '../actions/conversations';
+import { loadMessages } from '../actions/messages';
 import { denormalize } from '../schemas';
 
 import Progress from '../ui/Progress';
