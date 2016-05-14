@@ -137,93 +137,33 @@ export function loadProfileDetailsIfNeeded(profile, neededDetails) {
   };
 }
 
-export function listenToUser(loggedUser, user) {
-  const entities = {
-    users: {
-      [user.id]: {
-        ...user,
-        isListening: true,
-        listenersCount: user.listenersCount + 1,
-      },
-      [loggedUser.id]: {
-        ...loggedUser,
-        listeningCount: {
-          ...loggedUser.listeningCount,
-          users: loggedUser.listeningCount.users + 1,
-        },
-      },
-    },
-  };
-  return {
-    types: [
-      actionTypes.LISTEN_START,
-      actionTypes.LISTEN_SUCCESS,
-      actionTypes.LISTEN_FAILURE,
-    ],
-    payload: { user, loggedUser, result: user.id, entities },
-    service: {
-      name: 'listen',
-      method: 'create',
-      params: { username: user.username },
-      parsePayload: payload => {
-        payload = {
-          ...payload,
-          entities: payload.error ?
-            { users: {
-              [user.id]: user,   // restore original users
-              [loggedUser.id]: loggedUser,
-            } } :
-            entities,
-        };
-        return payload;
-      },
-    },
-  };
-}
+export const listenToUser = (loggedUser, user) => ({
+  types: [
+    actionTypes.LISTEN_START,
+    actionTypes.LISTEN_SUCCESS,
+    actionTypes.LISTEN_FAILURE,
+  ],
+  payload: { user, loggedUser, result: user.id },
+  service: {
+    name: 'listen',
+    method: 'create',
+    params: { username: user.username },
+  },
+});
 
-export function stopListeningToUser(loggedUser, user) {
-  const entities = {
-    users: {
-      [user.id]: {
-        ...user,
-        isListening: false,
-        listenersCount: user.listenersCount - 1,
-      },
-      [loggedUser.id]: {
-        ...loggedUser,
-        listeningCount: {
-          ...loggedUser.listeningCount,
-          users: loggedUser.listeningCount.users - 1,
-        },
-      },
-    },
-  };
-  return {
-    types: [
-      actionTypes.STOP_LISTEN_START,
-      actionTypes.STOP_LISTEN_SUCCESS,
-      actionTypes.STOP_LISTEN_FAILURE,
-    ],
-    payload: { user, loggedUser, result: user.id, entities },
-    service: {
-      name: 'listen',
-      method: 'delete',
-      params: { username: user.username },
-      parsePayload: payload => {
-        payload = {
-          ...payload,
-          entities: payload.error ?
-            { users: {
-              [user.id]: user,   // restore original users
-              [loggedUser.id]: loggedUser,
-            } } :
-            entities,
-        };
-        return payload;
-      },
-    },
-  };
-}
+export const stopListeningToUser = (loggedUser, user) => ({
+  types: [
+    actionTypes.STOP_LISTEN_START,
+    actionTypes.STOP_LISTEN_SUCCESS,
+    actionTypes.STOP_LISTEN_FAILURE,
+  ],
+  payload: { user, loggedUser, result: user.id },
+  service: {
+    name: 'listen',
+    method: 'delete',
+    params: { username: user.username },
+  },
+});
 
 export function chatWithProfile(conversation, text) {
   const username = conversation.profiles.filter(profile => !profile.isOwner)[0].username;
