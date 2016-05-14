@@ -3,39 +3,35 @@ import * as actionTypes from './actionTypes';
 import { SHOUT, SHOUTS, CONVERSATION } from '../schemas';
 import { getUnixTime } from '../utils/DateUtils';
 
-export function loadShout(id) {
-  return {
-    types: [
-      actionTypes.LOAD_SHOUT_START,
-      actionTypes.LOAD_SHOUT_SUCCESS,
-      actionTypes.LOAD_SHOUT_FAILURE,
-    ],
-    payload: { id },
-    service: {
-      name: 'shout',
-      params: { id },
-      schema: SHOUT,
-    },
-  };
-}
+export const loadShout = id => ({
+  types: [
+    actionTypes.LOAD_SHOUT_START,
+    actionTypes.LOAD_SHOUT_SUCCESS,
+    actionTypes.LOAD_SHOUT_FAILURE,
+  ],
+  payload: { id },
+  service: {
+    name: 'shout',
+    params: { id },
+    schema: SHOUT,
+  },
+});
 
-export function loadRelatedShouts(shoutId, query, endpoint) {
-  return {
-    types: [
-      actionTypes.LOAD_RELATED_SHOUTS_START,
-      actionTypes.LOAD_RELATED_SHOUTS_SUCCESS,
-      actionTypes.LOAD_RELATED_SHOUTS_FAILURE,
-    ],
-    payload: { shoutId, endpoint },
-    service: {
-      name: 'relatedShouts',
-      params: { shoutId },
-      schema: SHOUTS,
-    },
-  };
-}
+export const loadRelatedShouts = (shoutId, query, endpoint) => ({
+  types: [
+    actionTypes.LOAD_RELATED_SHOUTS_START,
+    actionTypes.LOAD_RELATED_SHOUTS_SUCCESS,
+    actionTypes.LOAD_RELATED_SHOUTS_FAILURE,
+  ],
+  payload: { shoutId, endpoint },
+  service: {
+    name: 'relatedShouts',
+    params: { shoutId },
+    schema: SHOUTS,
+  },
+});
 
-export function createShout(user, newShout) {
+export const createShout = (user, newShout) => {
   const shout = {
     ...newShout,
     createdAt: getUnixTime(),
@@ -54,43 +50,39 @@ export function createShout(user, newShout) {
       schema: SHOUT,
     },
   };
-}
+};
 
-export function updateShout(shout) {
-  return {
-    types: [
-      actionTypes.UPDATE_SHOUT_START,
-      actionTypes.UPDATE_SHOUT_SUCCESS,
-      actionTypes.UPDATE_SHOUT_FAILURE,
-    ],
-    payload: { shout },
-    service: {
-      method: 'update',
-      name: 'shout',
-      params: { id: shout.id },
-      body: shout,
-      schema: SHOUT,
-    },
-  };
-}
+export const updateShout = shout => ({
+  types: [
+    actionTypes.UPDATE_SHOUT_START,
+    actionTypes.UPDATE_SHOUT_SUCCESS,
+    actionTypes.UPDATE_SHOUT_FAILURE,
+  ],
+  payload: { shout },
+  service: {
+    method: 'update',
+    name: 'shout',
+    params: { id: shout.id },
+    body: shout,
+    schema: SHOUT,
+  },
+});
 
-export function deleteShout(shout) {
-  return {
-    types: [
-      actionTypes.DELETE_SHOUT_START,
-      actionTypes.DELETE_SHOUT_SUCCESS,
-      actionTypes.DELETE_SHOUT_FAILURE,
-    ],
-    payload: { shout },
-    service: {
-      method: 'delete',
-      name: 'shout',
-      params: { shout },
-      body: shout,
-      schema: SHOUT,
-    },
-  };
-}
+export const deleteShout = shout => ({
+  types: [
+    actionTypes.DELETE_SHOUT_START,
+    actionTypes.DELETE_SHOUT_SUCCESS,
+    actionTypes.DELETE_SHOUT_FAILURE,
+  ],
+  payload: { shout },
+  service: {
+    method: 'delete',
+    name: 'shout',
+    params: { shout },
+    body: shout,
+    schema: SHOUT,
+  },
+});
 
 export function amendShout(shout, data) {
   return {
@@ -108,23 +100,21 @@ export function amendShout(shout, data) {
   };
 }
 
-export function call(id) {
-  return {
-    types: [
-      actionTypes.CALL_SHOUT_START,
-      actionTypes.CALL_SHOUT_SUCCESS,
-      actionTypes.CALL_SHOUT_FAILURE,
-    ],
-    payload: { id },
-    service: {
-      name: 'shoutCall',
-      params: { id },
-    },
-  };
-}
+export const call = id => ({
+  types: [
+    actionTypes.CALL_SHOUT_START,
+    actionTypes.CALL_SHOUT_SUCCESS,
+    actionTypes.CALL_SHOUT_FAILURE,
+  ],
+  payload: { id },
+  service: {
+    name: 'shoutCall',
+    params: { id },
+  },
+});
 
 
-export function startShoutReply(loggedUser, shout) {
+export const startShoutReply = (loggedUser, shout) => {
   const conversation = {
     id: `shout-reply-${shout.id}`,
     isNew: true,
@@ -145,9 +135,9 @@ export function startShoutReply(loggedUser, shout) {
       },
     },
   };
-}
+};
 
-export function replyToShout(conversation, text) {
+export const replyToShout = (conversation, text) => {
   const { about: shout } = conversation;
   return {
     types: [
@@ -166,4 +156,4 @@ export function replyToShout(conversation, text) {
       schema: CONVERSATION,
     },
   };
-}
+};
