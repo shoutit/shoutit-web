@@ -122,10 +122,22 @@ export default store => next => action => { // eslint-disable-line no-unused-var
           log('Received new_read_by event', payload);
           store.dispatch(setMessageReadBy(camelizeKeys(payload)));
         });
+
       });
 
       conversationChannel.bind('pusher:subscription_error', state => {
         console.error("Error subscribing to channel %s", channelId, state); // eslint-disable-line
+      });
+
+
+      conversationChannel.bind('pusher:member_added', payload => {
+        log('Received pusher:member_added event', payload);
+                // store.dispatch(setMessageReadBy(camelizeKeys(payload)));
+      });
+
+      conversationChannel.bind('pusher:member_removed', payload => {
+        log('Received pusher:member_removed event', payload);
+                // store.dispatch(setMessageReadBy(camelizeKeys(payload)));
       });
 
       break;
