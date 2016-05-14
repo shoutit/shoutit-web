@@ -1,18 +1,17 @@
 import Pusher from 'pusher-js';
 import debug from 'debug';
+import { camelizeKeys } from 'humps';
 
 import { normalize } from 'normalizr';
-import { camelizeKeys } from 'humps';
+import { MESSAGE } from '../schemas';
 
 import { pusherAppKey } from '../config';
 import * as actionTypes from '../actions/actionTypes';
-
-import { MESSAGE } from '../schemas';
 import { typingClientNotification, removeTypingClient } from '../actions/chat';
-import { addMessage } from '../actions/messages';
 import { loadConversation } from '../actions/conversations';
+import { addNewMessage, readMessage } from '../actions/messages';
 
-const log = debug('shoutit:pusherMiddleware');
+const log = debug('shoutit:middlewares:pusher');
 // Pusher.log = log;
 
 const client = new Pusher(pusherAppKey, {
@@ -20,38 +19,11 @@ const client = new Pusher(pusherAppKey, {
   authEndpoint: '/api/pusher/auth',
 });
 
-const handleNewMessageNotification = (message, store) => {
-  const { chat: { currentConversation }, entities: { conversations } } = store.getState();
-  const { conversationId } = message;
-  const conversation = conversations[conversationId];
-  const payload = normalize(message, MESSAGE);
-
-  if (!conversation) {
-    store.dispatch(loadConversation({ id: conversationId }));
-  } else {
-    let unreadMessagesCount = conversation.unreadMessagesCount;
-    if (currentConversation !== conversationId) {
-      unreadMessagesCount += 1;
-    }
-    // Update existing conversation entity
-    payload.entities.conversations = {
-      [conversationId]: {
-        lastMessage: message.id,
-        modifiedAt: message.createdAt,
-        messagesCount: conversation.messagesCount + 1,
-        unreadMessagesCount,
-      },
-    };
-  }
-  payload.result = message.id;
-  payload.conversationId = conversationId;
-  store.dispatch(addMessage(payload));
-};
-
 const handleReadByNotification = () => {
 };
 
 const typingTimeouts = {};
+
 const handleClientIsTypingNotification = (conversationId, profile, store) => {
   log('Dispatching typing client...');
 
@@ -69,6 +41,10 @@ const handleClientIsTypingNotification = (conversationId, profile, store) => {
   }, 3000);
 };
 
+function getConversationChannelId(conversation) {
+  return `presence-v3-c-${conversation.id}`;
+}
+
 export default store => next => action => { // eslint-disable-line no-unused-vars
   let channelId;
 
@@ -77,23 +53,35 @@ export default store => next => action => { // eslint-disable-line no-unused-var
     case actionTypes.LOGIN_SUCCESS:
     case actionTypes.SIGNUP_SUCCESS:
       channelId = `presence-v3-p-${action.payload.result}`;
-
       log('Subscribing channel %s...', channelId);
-
       const presenceChannel = client.subscribe(channelId);
-      client.presenceChannel = presenceChannel;
-
       presenceChannel.bind('pusher:subscription_succeeded', () => {
         log('Channel %s subscribed and listening for events', channelId);
 
-        presenceChannel.bind('new_message', payload => handleNewMessageNotification(camelizeKeys(payload), store));
+        presenceChannel.bind('new_message', payload => {
+          log('Received new_message event', payload);
+          const message = camelizeKeys(payload);
+          const normalizedPayload = normalize(message, MESSAGE);
+          store.dispatch(addNewMessage(normalizedPayload));
 
-      // presenceChannel.bind("new_listen", payload => store.dispatch(newListen(payload)));
-      // presenceChannel.bind("profile_change", payload => store.dispatch(profileChange(payload)));
+          const { conversationId } = message;
+
+          if (!store.getState().entities.conversations[conversationId]) {
+            log('Loading conversation since it is not yet loaded...');
+            store.dispatch(loadConversation({ id: conversationId }));
+          }
+
+          if (store.getState().chat.activeConversations.includes(conversationId)) {
+            log('Marking message as read since its conversation is active');
+            store.dispatch(readMessage(message));
+          }
+
+        });
       });
       presenceChannel.bind('pusher:subscription_error', (state) => {
-      console.error("Error subscribing to channel %s", channelId, state); // eslint-disable-line
+        console.error("Error subscribing to channel %s", channelId, state); // eslint-disable-line
       });
+      client.presenceChannel = presenceChannel;
       break;
 
     case actionTypes.LOGOUT:
@@ -104,18 +92,9 @@ export default store => next => action => { // eslint-disable-line no-unused-var
       }
       break;
 
-    case actionTypes.SET_CURRENT_CONVERSATION:
-      if (client.conversationChannel) {
-        log('Unsubscribing channel %s for previous conversation', client.conversationChannel.name);
-        client.unsubscribe(client.conversationChannel.name);
-        client.conversationChannel = null;
-      }
-      const conversationId = action.payload;
-      if (!conversationId) {
-        return;
-      }
-      channelId = `presence-v3-c-${conversationId}`;
-
+    case actionTypes.SET_ACTIVE_CONVERSATION:
+      const { id } = action.payload;
+      channelId = getConversationChannelId(action.payload);
       log('Subscribing channel %s...', channelId);
 
       const conversationChannel = client.subscribe(channelId);
@@ -124,20 +103,26 @@ export default store => next => action => { // eslint-disable-line no-unused-var
       conversationChannel.bind('pusher:subscription_succeeded', () => {
         log('Channel %s subscribed and listening for events', channelId);
 
-        conversationChannel.bind('client-is_typing', typingClient =>
-          handleClientIsTypingNotification(conversationId, camelizeKeys(typingClient), store)
-      );
+        // conversationChannel.bind('client-is_typing', typingClient =>
+        //   handleClientIsTypingNotification(id, camelizeKeys(typingClient), store)
+      // );
 
         conversationChannel.bind('new_read_by', readBy =>
-          handleReadByNotification(conversationId, camelizeKeys(readBy), store)
+          handleReadByNotification(id, camelizeKeys(readBy), store)
         );
-      // conversationChannel.bind("joined_chat", payload => store.dispatch(profileChange(payload)));
       });
 
-      conversationChannel.bind('pusher:subscription_error', (state) => {
-      console.error("Error subscribing to channel %s", channelId, state); // eslint-disable-line
+      conversationChannel.bind('pusher:subscription_error', state => {
+        console.error("Error subscribing to channel %s", channelId, state); // eslint-disable-line
       });
 
+      break;
+
+    case actionTypes.LEAVE_CONVERSATION_SUCCESS:
+    case actionTypes.UNSET_ACTIVE_CONVERSATION:
+      channelId = getConversationChannelId(action.payload);
+      log('Unsubscribing channel %s', channelId);
+      client.unsubscribe(channelId);
       break;
 
     case actionTypes.NOTIFY_CLIENT_IS_TYPING:
@@ -145,6 +130,7 @@ export default store => next => action => { // eslint-disable-line no-unused-var
         log('Triggering `client-is_typing` for channel %s', client.conversationChannel.name, action.payload);
         client.conversationChannel.trigger('client-is_typing', action.payload);
       }
+      break;
   }
 
   next(action);
