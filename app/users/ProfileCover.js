@@ -162,7 +162,7 @@ export class ProfileCover extends Component {
                   action="inverted"
                   onChange={ this.handlePictureChange }
                   icon="camera">
-                  Choose another
+                  Upload image
                 </UploadButton>
               }
             </div>
