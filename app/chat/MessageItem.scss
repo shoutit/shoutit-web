@@ -4,7 +4,7 @@
 .MessageItem {
   font-size: 0.875em;
   margin: 1px 5px;
-
+  display: flex;
   .MessageItem-text {
     min-width: 120px;
     background-color: white;
@@ -12,6 +12,7 @@
   }
 
   &.is-me {
+    justify-content: flex-end;
     text-align: right;
     .MessageItem-text {
      background-color: $background-color-alt;
@@ -35,13 +36,14 @@
   min-width: 25%;
   max-width: 75%;
   .MessageItem.has-attachments & {
-    width: 90%;
+    width: 270px;
     max-width: 90%;
   }
 }
 
 .MessageItem-attachment {
   margin-top: 5px;
+  max-width: 300px;
 }
 
 .MessageItem-text {
@@ -60,9 +62,12 @@
   + .MessageItem-text {
     margin-top: 5px;
   }
-  .ShoutItem {
+  .ShoutPreview {
     border: 1px solid $border-color;
     box-shadow: none;
+  }
+  .ProfilePreview {
+    background-color: white;
   }
 }
 
