@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
 
-import ShoutLink from '../shouts/ShoutLink';
 import MessageReadByFlag from './MessageReadByFlag';
 import ShoutPreview from '../shouts/ShoutPreview';
+// import ProfilePreview from '../users/ProfilePreview';
 import GoogleStaticMap from '../location/GoogleStaticMap';
 import NewlineToBreak from '../ui/NewlineToBreak';
 
@@ -12,20 +12,28 @@ if (process.env.BROWSER) {
 }
 
 function MessageAttachment({ attachment }) {
-  const { shout, location } = attachment;
   let content;
-  if (shout) {
-    content = (
-      <ShoutLink shout={ shout }>
-        <ShoutPreview shout={ shout } thumbnailRatio={ 16 / 9 } showProfile={ false } />
-      </ShoutLink>
-    );
-  }
-  if (location) {
-    content = <GoogleStaticMap center={ location } markers={ [{ ...location }] } />;
-  }
-  if (!content) {
-    return <div className="MessageItem-attachment"></div>;
+  switch (attachment.type) {
+    case 'shout':
+      content = (
+        <ShoutPreview shout={ attachment.shout } thumbnailRatio={ 16 / 9 } showProfile={ false } />
+      );
+      break;
+    // case 'profile':
+    //   content = (
+    //     <ProfilePreview id={ attachment.profile.id } />
+    //   );
+    //   break;
+    case 'media':
+      if (attachment.videos) {
+        content = attachment.videos.map(video => <video src={ video.url } controls />);
+      }
+      break;
+    case 'location':
+      content = <GoogleStaticMap center={ attachment.location } markers={ [{ ...attachment.location }] } />;
+      break;
+    default:
+      break;
   }
   return <div className="MessageItem-attachment">{ content }</div>;
 }
@@ -85,10 +93,10 @@ export default function MessageItem({ message, readByProfiles = [] }) {
     <div className={ className }>
       <div className="MessageItem-wrapper">
         { hasAttachments &&
-          <div className="MessageItem-attachments">
+          <span className="MessageItem-attachments">
             { attachmentsContent }
             { !text && <MessageFooter message={ message } /> }
-          </div>
+          </span>
         }
         { text &&
           <div className="MessageItem-text">

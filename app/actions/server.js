@@ -8,22 +8,18 @@ const errorToPlainObject = err => {
   return plainObject;
 };
 
-export function getServerStatus() {
-  return {
-    types: [
-      actionTypes.SERVER_STATUS_START,
-      actionTypes.SERVER_STATUS_SUCCESS,
-      actionTypes.SERVER_STATUS_FAILURE,
-    ],
-    service: {
-      name: 'server',
-    },
-  };
-}
+export const getServerStatus = () => ({
+  types: [
+    actionTypes.SERVER_STATUS_START,
+    actionTypes.SERVER_STATUS_SUCCESS,
+    actionTypes.SERVER_STATUS_FAILURE,
+  ],
+  service: {
+    name: 'server',
+  },
+});
 
-export function routeError(error) {
-  return {
-    type: actionTypes.ROUTE_ERROR,
-    payload: errorToPlainObject(error),
-  };
-}
+export const routeError = error => ({
+  type: actionTypes.ROUTE_ERROR,
+  payload: errorToPlainObject(error),
+});

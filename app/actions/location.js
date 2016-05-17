@@ -6,7 +6,7 @@ import trim from 'lodash/trim';
 import * as actionTypes from './actionTypes';
 import { SUGGESTIONS, PROFILE } from '../schemas';
 
-export function updateCurrentLocation(location) {
+export const updateCurrentLocation = location => {
   Cookies.set('location', location, { expires: 365 });
   return {
     types: [
@@ -22,28 +22,24 @@ export function updateCurrentLocation(location) {
       schema: PROFILE,
     },
   };
-}
+};
 
-export function loadSuggestions(location) {
-  return {
-    types: [
-      actionTypes.LOAD_SUGGESTIONS_START,
-      actionTypes.LOAD_SUGGESTIONS_SUCCESS,
-      actionTypes.LOAD_SUGGESTIONS_FAILURE,
-    ],
-    service: {
-      name: 'suggestions',
-      params: { location },
-      schema: SUGGESTIONS,
-    },
-  };
-}
+export const loadSuggestions = location => ({
+  types: [
+    actionTypes.LOAD_SUGGESTIONS_START,
+    actionTypes.LOAD_SUGGESTIONS_SUCCESS,
+    actionTypes.LOAD_SUGGESTIONS_FAILURE,
+  ],
+  service: {
+    name: 'suggestions',
+    params: { location },
+    schema: SUGGESTIONS,
+  },
+});
 
-export function resetPlacePredictionsLastInput() {
-  return {
-    type: actionTypes.PLACE_PREDICTIONS_RESET_INPUT,
-  };
-}
+export const resetPlacePredictionsLastInput = () => ({
+  type: actionTypes.PLACE_PREDICTIONS_RESET_INPUT,
+});
 
 let autocompleteService;
 export function loadPlacePredictions(input, types = ['(cities)']) {
