@@ -63,10 +63,12 @@ export class LocationField extends Component {
       };
     }
     if (nextProps.location.slug !== this.props.location.slug) {
+      const value = formatLocation(nextProps.location);
       state = {
         ...state,
-        value: formatLocation(nextProps.location),
+        value,
       };
+      this.field.setValue(value);
     }
     if (state) {
       this.setState(state);
