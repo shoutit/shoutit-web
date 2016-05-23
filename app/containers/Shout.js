@@ -111,7 +111,7 @@ export class Shout extends Component {
     const { dispatch, params } = this.props;
     if (nextProps.params.id !== params.id) {
       fetchData(dispatch, {}, nextProps.params);
-      dispatch(loadRelatedShouts(params.id, { page_size: 8 })).catch(() => {});
+      dispatch(loadRelatedShouts(nextProps.params.id, { page_size: 8 })).catch(() => {});
     }
   }
 
