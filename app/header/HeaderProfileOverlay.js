@@ -11,13 +11,8 @@ export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
   return (
     <ul className="HeaderProfileOverlay">
       <li>
-        <Link onClick={ onItemClick } to="/">
-          Home Page
-        </Link>
-      </li>
-      <li>
         <Link onClick={ onItemClick } to={ `/user/${user.username}` }>
-          Your Profile
+          { user.name }
         </Link>
       </li>
       <li className="separe">
@@ -27,7 +22,7 @@ export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
       </li>
       <li>
         <Link to="/" onClick={ onLogoutClick }>
-          Logout
+          Log out
         </Link>
       </li>
     </ul>
