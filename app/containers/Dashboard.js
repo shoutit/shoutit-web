@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import Helmet from '../utils/Helmet';
 
 import ShoutsList from '../shouts/ShoutsList';
-import { denormalize } from '../schemas';
 
 import { loadHomeShouts, loadListening } from '../actions/users';
 import { routeError } from '../actions/server';
@@ -20,7 +19,7 @@ import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';
 import SuggestedShout from '../shouts/SuggestedShout';
 
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser, getHomepageShouts, getPaginationStatus } from '../selectors';
 
 if (process.env.BROWSER) {
   require('./Dashboard.scss');
@@ -146,10 +145,8 @@ export class Dashboard extends Component {
 
 const mapStateToProps = state => ({
   loggedProfile: getLoggedUser(state),
-  shouts: state.paginated.shoutsByHome.ids.map(id => denormalize(state.entities.shouts[id], state.entities, 'SHOUT')),
-  nextUrl: state.paginated.shoutsByHome.nextUrl,
-  isFetching: state.paginated.shoutsByHome.isFetching,
-  error: state.paginated.shoutsByHome.error,
+  shouts: getHomepageShouts(state),
+  ...getPaginationStatus(state, 'shoutsByHome'),
 });
 
 export default connect(mapStateToProps)(Dashboard);
