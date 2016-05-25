@@ -108,7 +108,7 @@ describe('MessagesUtils', () => {
       expect(readBy.some(profile => profile.id === 'sender')).to.be.false;
     });
 
-    it('should exclude a given profile', () => {
+    it('should exclude the profile\'s owner', () => {
       const message = {
         profile: { id: 'sender' },
         readBy: [
@@ -117,8 +117,8 @@ describe('MessagesUtils', () => {
           { profileId: 'sender' },
         ],
       };
-      const profiles = [{ id: 'foo' }, { id: 'bar', username: 'bar' }, { id: 'sender' }];
-      const readBy = getReadyBy(message, profiles, 'bar');
+      const profiles = [{ id: 'foo' }, { id: 'bar', username: 'bar', isOwner: true }, { id: 'sender' }];
+      const readBy = getReadyBy(message, profiles);
       expect(readBy.some(profile => profile.id === 'foo')).to.be.true;
       expect(readBy.some(profile => profile.id === 'bar')).to.be.false;
       expect(readBy.some(profile => profile.id === 'sender')).to.be.false;
