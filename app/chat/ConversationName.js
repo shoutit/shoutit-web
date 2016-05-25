@@ -10,8 +10,8 @@ export default function ConversationName({ conversation, link = true }) {
         {
           profiles.map((profile, i) => {
             return (
-              <span>
-                <Link key={ profile.username } to={ `/user/${profile.username}` }>{ profile.name }</Link>
+              <span key={ profile.username } >
+                <Link to={ `/user/${profile.username}` }>{ profile.name }</Link>
                 { i !== profiles.length - 1 && ', ' }
               </span>
             );
