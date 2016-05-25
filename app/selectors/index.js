@@ -30,3 +30,25 @@ export function getHomepageShouts(state) {
     id => denormalize(state.entities.shouts[id], state.entities, 'SHOUT')
   );
 }
+
+// Chat selectors
+export function getConversation(state, id) {
+  return denormalize(state.entities.conversations[id], state.entities, 'CONVERSATION');
+}
+
+export function getAllConversations(state) {
+  return state.paginated.chatConversations.ids.map(id =>
+    denormalize(state.entities.conversations[id], state.entities, 'CONVERSATION')
+  ).sort((a, b) => b.modifiedAt - a.modifiedAt);
+}
+
+export function getMessagesByConversation(state, id) {
+  const paginated = state.paginated.messagesByConversation[id];
+  if (!paginated) {
+    return [];
+  }
+  const messages = paginated.ids.map(id =>
+    denormalize(state.entities.messages[id], state.entities, 'MESSAGE')
+  ).sort((a, b) => a.createdAt - b.createdAt);
+  return messages;
+}
