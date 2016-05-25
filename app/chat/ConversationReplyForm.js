@@ -13,6 +13,9 @@ import { chatWithProfile } from '../actions/users';
 import { replyToShout } from '../actions/shouts';
 
 import { ENTER } from '../utils/keycodes';
+import { getLoggedUser } from '../selectors';
+
+import ReplyFormToolbar from '../chat/ReplyFormToolbar';
 
 if (process.env.BROWSER) {
   require('./ConversationReplyForm.scss');
@@ -131,6 +134,9 @@ export class ConversationReplyForm extends Component {
           } }
           onChange={ e => this.handleTextChange(e) }
         />
+        <div className="ConversationReplyForm-toolbar">
+          <ReplyFormToolbar />
+        </div>
       </form>
     );
   }
@@ -140,7 +146,7 @@ const mapStateToProps = (state, ownProps) => {
   const name = `conversationReply-${ownProps.conversation.id}`;
   return {
     name,
-    loggedUser: state.entities.users[state.session.user],
+    loggedUser: getLoggedUser(state),
     fields: state.forms[name] || { draft: '' },
   };
 };
