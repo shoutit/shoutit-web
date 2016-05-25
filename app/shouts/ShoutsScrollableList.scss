@@ -1,0 +1,24 @@
+@import '../styles/constants.scss';
+
+.ShoutsScrollableList-items {
+  margin: .5rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  > * {
+    width: 50%;
+    padding-bottom: .5rem;
+    &:nth-child(odd) {
+      padding-right: .25rem;
+    }
+    &:nth-child(even) {
+      padding-left: .25rem;
+    }
+  }
+  .ProfileListItem {
+    padding: .25rem;
+    border-radius: $border-radius-small;
+    &:hover {
+      background-color: $background-color;
+    }
+  }
+}

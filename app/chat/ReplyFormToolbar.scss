@@ -1,0 +1,13 @@
+.ReplyFormToolbar {
+  display: flex;
+  width: 100%;
+}
+
+.ReplyFormToolbar-item {
+  padding: .25em;
+  cursor: pointer;
+}
+
+.ReplyFormToolbar-start {
+  flex: 1;
+}
