@@ -5,6 +5,12 @@
   font-size: 0.875em;
   margin: 1px 5px;
   display: flex;
+
+  .MessageAttachment {
+    margin-top: 5px;
+    max-width: 300px;
+  }
+
   .MessageItem-text {
     min-width: 120px;
     background-color: white;
@@ -41,10 +47,6 @@
   }
 }
 
-.MessageItem-attachment {
-  margin-top: 5px;
-  max-width: 300px;
-}
 
 .MessageItem-text {
   padding: 5px 10px;
