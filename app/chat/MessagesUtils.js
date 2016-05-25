@@ -17,10 +17,10 @@ export function groupByProfile(messages) {
     const lastResult = last(result);
 
     const shouldAddNewGroup = (
-      result.length === 0 ||
-      !lastResult.profile && message.profile ||
-      lastResult.profile && !message.profile ||
-      lastResult.profile.id !== message.profile.id
+      (result.length === 0) ||
+      (!lastResult.profile && message.profile) ||
+      (lastResult.profile && !message.profile) ||
+      (lastResult.profile && lastResult.profile.id !== message.profile.id)
     );
 
     if (shouldAddNewGroup) {
