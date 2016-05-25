@@ -35,21 +35,18 @@ export function groupByProfile(messages) {
   return groupedByProfile;
 }
 
-export function getReadyBy(message, profiles, excludeUsername) {
+export function getReadyBy(message, profiles) {
   if (!message.readBy) {
     return [];
   }
 
   // Map each profile_id to profiles
   let readBy = profiles.filter(profile =>
-    message.readBy.some(reader => reader.profileId === profile.id)
+    !profile.isOwner && message.readBy.some(reader => reader.profileId === profile.id)
   );
 
   // exclude message's author
   readBy = readBy.filter(profile => profile.id !== message.profile.id);
 
-  if (excludeUsername) {
-    readBy = readBy.filter(profile => profile.username !== excludeUsername);
-  }
   return readBy;
 }
