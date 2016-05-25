@@ -4,7 +4,7 @@ import find from 'lodash/find';
 import Helmet from '../utils/Helmet';
 
 import { denormalize } from '../schemas';
-import { loadProfileDetailsIfNeeded, loadUserShouts } from '../actions/users';
+import { loadProfileDetailsIfNeeded, loadShoutsByUsername } from '../actions/users';
 import { routeError } from '../actions/server';
 
 import Page from '../layout/Page';
@@ -32,7 +32,7 @@ const fetchData = (dispatch, state, params) => {
   const profile = dispatch(loadProfileDetailsIfNeeded({ username }, requiredDetails))
     .catch(err => dispatch(routeError(err)));
 
-  const shouts = dispatch(loadUserShouts(username)).catch(() => {});
+  const shouts = dispatch(loadShoutsByUsername(username)).catch(() => {});
   return Promise.all([shouts, profile]);
 };
 
@@ -72,7 +72,7 @@ export class Profile extends Component {
         scrollElement={ () => window }
         onScrollBottom={ () => {
           if (nextShoutsUrl && !isFetchingShouts) {
-            dispatch(loadUserShouts(profile.username, nextShoutsUrl));
+            dispatch(loadShoutsByUsername(profile.username, nextShoutsUrl));
           }
         } }
         triggerOffset={ 400 }

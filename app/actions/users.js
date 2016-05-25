@@ -98,7 +98,7 @@ export function loadHomeShouts(endpoint) {
   };
 }
 
-export function loadUserShouts(username, endpoint) {
+export function loadShoutsByUsername(username, endpoint) {
   return {
     types: [
       actionTypes.LOAD_USER_SHOUTS_START,
