@@ -7,7 +7,7 @@ import { loadShoutsByUsername } from '../actions/users';
 
 import Progress from '../ui/Progress';
 import Scrollable from '../ui/Scrollable';
-import ShoutListItem from '../shouts/ShoutListItem';
+// import ShoutListItem from '../shouts/ShoutListItem';
 
 if (process.env.BROWSER) {
   require('./ShoutsScrollableList.scss');

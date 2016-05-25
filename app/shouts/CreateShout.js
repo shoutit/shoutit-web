@@ -122,7 +122,7 @@ export class CreateShout extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { entities, session } = state;
+  const { entities } = state;
   const loggedUser = getLoggedUser(state);
   const shout = { ...ownProps.shout, ...entities.shouts[ownProps.shout.id] };
   return {
