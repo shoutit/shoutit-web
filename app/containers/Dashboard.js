@@ -20,6 +20,8 @@ import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';
 import SuggestedShout from '../shouts/SuggestedShout';
 
+import { getLoggedUser } from '../selectors';
+
 if (process.env.BROWSER) {
   require('./Dashboard.scss');
 }
@@ -143,7 +145,7 @@ export class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  loggedProfile: state.entities.users[state.session.user],
+  loggedProfile: getLoggedUser(state),
   shouts: state.paginated.shoutsByHome.ids.map(id => denormalize(state.entities.shouts[id], state.entities, 'SHOUT')),
   nextUrl: state.paginated.shoutsByHome.nextUrl,
   isFetching: state.paginated.shoutsByHome.isFetching,

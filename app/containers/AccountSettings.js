@@ -13,6 +13,7 @@ import Button from '../ui/Button';
 
 import { updateProfile, updatePassword } from '../actions/users';
 import { resetErrors } from '../actions/session';
+import { getLoggedUser } from '../selectors';
 
 if (process.env.BROWSER) {
   require('./Settings.scss');
@@ -192,7 +193,7 @@ export class AccountSettings extends Component {
 }
 
 const mapStateToProps = state => ({
-  profile: state.entities.users[state.session.user],
+  profile: getLoggedUser(state),
   session: state.session,
 });
 

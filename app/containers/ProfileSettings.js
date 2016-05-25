@@ -15,7 +15,7 @@ import CardWithList from '../ui/CardWithList';
 import Picker from '../ui/Picker';
 import LocationField from '../ui/LocationField';
 import { updateProfile } from '../actions/users';
-
+import { getLoggedUser } from '../selectors';
 if (process.env.BROWSER) {
   require('./Settings.scss');
 }
@@ -188,7 +188,7 @@ export class ProfileSettings extends Component {
 }
 
 const mapStateToProps = state => ({
-  profile: state.entities.users[state.session.user],
+  profile: getLoggedUser(state),
 });
 
 const mapDispatchToProps = dispatch => ({

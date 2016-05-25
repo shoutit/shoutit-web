@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import ReactHelmet from 'react-helmet';
 import union from 'lodash/union';
 import { connect } from 'react-redux';
-
+import { getLoggedUser } from '../selectors';
 import { getVariation } from '../utils/APIUtils';
 
 export function Helmet({ title, badge = 0, description = '', images = [], meta, ...props }) {
@@ -38,7 +38,7 @@ Helmet.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  badge: state.session.user ? state.entities.users[state.session.user].stats.unreadConversationsCount : 0,
+  badge: state.session.user ? getLoggedUser(state).stats.unreadConversationsCount : 0,
 });
 
 const ConnectedHelmet = connect(mapStateToProps)(Helmet);
