@@ -1,46 +1,13 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment';
 
+import MessageAttachment from './MessageAttachment';
 import MessageReadByFlag from './MessageReadByFlag';
-import ShoutPreview from '../shouts/ShoutPreview';
-// import ProfilePreview from '../users/ProfilePreview';
-import GoogleStaticMap from '../location/GoogleStaticMap';
 import NewlineToBreak from '../ui/NewlineToBreak';
 
 if (process.env.BROWSER) {
   require('./MessageItem.scss');
 }
-
-function MessageAttachment({ attachment }) {
-  let content;
-  switch (attachment.type) {
-    case 'shout':
-      content = (
-        <ShoutPreview shout={ attachment.shout } thumbnailRatio={ 16 / 9 } showProfile={ false } />
-      );
-      break;
-    // case 'profile':
-    //   content = (
-    //     <ProfilePreview id={ attachment.profile.id } />
-    //   );
-    //   break;
-    case 'media':
-      if (attachment.videos) {
-        content = attachment.videos.map(video => <video src={ video.url } controls />);
-      }
-      break;
-    case 'location':
-      content = <GoogleStaticMap center={ attachment.location } markers={ [{ ...attachment.location }] } />;
-      break;
-    default:
-      break;
-  }
-  return <div className="MessageItem-attachment">{ content }</div>;
-}
-
-MessageAttachment.propTypes = {
-  attachment: PropTypes.object.isRequired,
-};
 
 function MessageFooter({ message, readByProfiles = [] }) {
   const { isCreating, createError, createdAt } = message;
@@ -69,10 +36,6 @@ MessageFooter.propTypes = {
 
 export default function MessageItem({ message, readByProfiles = [] }) {
   const { isCreating, text, createError, attachments = [] } = message;
-  const hasAttachments = attachments.length > 0;
-  const attachmentsContent = attachments.map((attachment, i) =>
-    <MessageAttachment key={ i } attachment={ attachment } />
-  );
 
   let className = 'MessageItem';
 
@@ -85,16 +48,18 @@ export default function MessageItem({ message, readByProfiles = [] }) {
   if (isCreating) {
     className += ' sending';
   }
-  if (hasAttachments) {
+  if (attachments.length > 0) {
     className += ' has-attachments';
   }
 
   return (
     <div className={ className }>
       <div className="MessageItem-wrapper">
-        { hasAttachments &&
+        { attachments.length > 0 &&
           <span className="MessageItem-attachments">
-            { attachmentsContent }
+            { attachments.map((attachment, i) =>
+              <MessageAttachment key={ i } attachment={ attachment } />
+            ) }
             { !text && <MessageFooter message={ message } /> }
           </span>
         }
