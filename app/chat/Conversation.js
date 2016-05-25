@@ -12,6 +12,8 @@ import { setActiveConversation, unsetActiveConversation, readConversation } from
 import { loadMessages } from '../actions/messages';
 import { denormalize } from '../schemas';
 
+import { getLoggedUser } from '../selectors';
+
 import Progress from '../ui/Progress';
 
 if (process.env.BROWSER) {
@@ -170,7 +172,7 @@ const mapStateToProps = (state, ownProps) => {
   const { entities, paginated } = state;
   const { id } = ownProps;
   const conversation = denormalize(entities.conversations[id], entities, 'CONVERSATION');
-
+  const loggedUser = getLoggedUser(state);
   const messagesByConversation = paginated.messagesByConversation[id];
 
   let messages = [];
@@ -191,7 +193,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return {
-    loggedUser: entities.users[state.session.user],
+    loggedUser,
     conversation,
     messages,
     isFetchingMessages,

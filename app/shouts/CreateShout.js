@@ -9,7 +9,7 @@ import { openModal } from '../actions/ui';
 
 import ShoutForm from './ShoutForm';
 import CreateShoutSuccess from './CreateShoutSuccess';
-
+import { getLoggedUser } from '../selectors';
 
 if (process.env.BROWSER) {
   require('./CreateShout.scss');
@@ -123,7 +123,7 @@ export class CreateShout extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { entities, session } = state;
-  const loggedUser = entities.users[session.user];
+  const loggedUser = getLoggedUser(state);
   const shout = { ...ownProps.shout, ...entities.shouts[ownProps.shout.id] };
   return {
     shout,
