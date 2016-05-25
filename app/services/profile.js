@@ -11,7 +11,7 @@ import {
 export default {
   name: 'profile',
   create: (req, resource, params, body, config, callback) => {
-    const { firstName, lastName, email, password } = body;
+    const { firstName, lastName, email, password, location } = body;
 
     if (!firstName) {
       const firstNameError = new Error('First name is required');
@@ -34,9 +34,8 @@ export default {
     }
 
     const name = `${firstName} ${lastName}`;
-
     const data = {
-      name, email, password,
+      name, email, password, profile: { location },
       client_id: clientId,
       client_secret: clientSecret,
       grant_type: 'shoutit_signup',
