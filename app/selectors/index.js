@@ -9,7 +9,7 @@ export function getLoggedUser(state) {
 
 // Misc selector
 
-export function getPaginationStatus(state, selector) {
+export function getPaginationState(state, selector) {
   return omit(get(state.paginated, selector), 'ids');
 }
 
