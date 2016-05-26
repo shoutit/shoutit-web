@@ -3,8 +3,8 @@
 
 .ConversationItem {
   position: relative;
-  border-bottom: 1px solid $border-color-dark;
   cursor: pointer;
+  display: block;
 }
 
 .ConversationItem.is-selected {
@@ -41,6 +41,10 @@
 }
 
 .ConversationItem-image {
+  border-radius: $border-radius-small;
+  width: 3em;
+  height: 3em;
+  display: inline-block;
 }
 
 .ConversationItem-content {
@@ -59,35 +63,26 @@
   font-size: .75em;
 }
 
-.ConversationItem-head {
+.ConversationItem-title {
   font-size: .875em;
   font-weight: bold;
 }
-
+.ConversationItem-subtitle {
+  font-size: .75em;
+  margin: .25em 0;
+}
+.ConversationItem-last {
+  margin-top: .25em;
+  color: $color-light;
+  font-size: .75em;
+  @include ellipsis();
+}
 .ConversationItem-date {
   color: $color-light;
   line-height: 1rem;
 }
-.ConversationItem-about {
-  font-size: .75em;
-  margin: .25em 0;
-}
 
-.ConversationItem-last {
-  display: flex;
-  margin-top: .25em;
-  align-items: flex-start;
-  color: $color-light;
-  font-size: .75em;
-  min-width: 0;
-  > span {
 
-    @include ellipsis();
-  }
-  .Icon {
-    margin-right: .25em;
-  }
-}
 
 .ConversationItem-user-avatar {
   padding: .625em .25em;
