@@ -5,7 +5,6 @@ import Helmet from '../utils/Helmet';
 import FixedHeightPage from '../layout/FixedHeightPage';
 import Page from '../layout/Page';
 import ConversationsList from '../chat/ConversationsList';
-// import ConversationName from '../chat/ConversationName';
 import Conversation from '../chat/Conversation';
 
 import SuggestedShout from '../shouts/SuggestedShout';
