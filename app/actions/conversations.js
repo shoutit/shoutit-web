@@ -66,6 +66,9 @@ export function startConversation(loggedUser, user) {
     id: `new-conversation-with-${user.id}`,
     isNew: true,
     type: 'chat',
+    display: {
+      title: user.name,
+    },
     profiles: [
       loggedUser.id,
       user.id,
