@@ -44,6 +44,9 @@ export default (state, action) => {
     case actionTypes.REPLY_CONVERSATION_SUCCESS:
       state = merge({}, state, {
         [payload.conversation.id]: {
+          display: {
+            lastMessageSummary: `You: ${payload.entities.messages[payload.result].text}`,
+          },
           lastMessage: payload.result,
           modifiedAt: payload.entities.messages[payload.result].createdAt,
         },
@@ -60,6 +63,9 @@ export default (state, action) => {
         // payload may have not beene loaded yet
         state = merge({}, state, {
           [conversationId]: {
+            display: {
+              lastMessageSummary: text,
+            },
             lastMessage: id,
             modifiedAt: createdAt,
             messagesCount: state[conversationId].messagesCount + 1,
