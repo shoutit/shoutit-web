@@ -123,3 +123,10 @@ export function unreadConversation(conversation) {
     },
   };
 }
+
+export function replaceConversation(normalizedPayload) {
+  return {
+    type: actionTypes.REPLACE_CONVERSATION,
+    payload: normalizedPayload,
+  };
+}
