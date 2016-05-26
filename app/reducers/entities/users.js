@@ -64,7 +64,7 @@ export default (state, action) => {
       break;
     case actionTypes.REPLACE_PROFILE:
       state = merge({}, state, {
-        [payload.id]: payload,
+        [payload.profile.id]: payload.profile,
       });
       break;
   }
