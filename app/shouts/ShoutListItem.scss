@@ -1,0 +1,27 @@
+@import '../styles/constants';
+
+.ShoutListItem {
+
+}
+
+.ShoutListItem-thumbnail {
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  border-radius: $border-radius-small;
+}
+
+.ShoutListItem-child {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ShoutListItem-title {
+  font-weight: bold;
+}
+
+.ShoutListItem-details {
+  margin-top: .25em;
+  font-size: .875em;
+}
