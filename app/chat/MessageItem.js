@@ -40,7 +40,10 @@ export default function MessageItem({ message, readByProfiles = [] }) {
   let className = 'MessageItem';
 
   if (message.profile && message.profile.isOwner) {
-    className += ' is-me';
+    className += ' is-owner';
+  }
+  if (!message.profile) {
+    className += ' no-profile';
   }
   if (createError) {
     className += ' did-error';
