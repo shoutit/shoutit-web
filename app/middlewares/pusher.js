@@ -49,7 +49,7 @@ export default store => next => action => { // eslint-disable-line no-unused-var
 
     const message = camelizeKeys(payload);
     const normalizedPayload = normalize(message, MESSAGE);
-    if (store.getState().session.user === message.profile.id) {
+    if (message.profile && store.getState().session.user === message.profile.id) {
       // As pusher will always send the profile as "not owner"
       delete normalizedPayload.entities.users;
     }
