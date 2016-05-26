@@ -19,7 +19,7 @@ import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';
 import SuggestedShout from '../shouts/SuggestedShout';
 
-import { getLoggedUser, getHomepageShouts, getPaginationStatus } from '../selectors';
+import { getLoggedUser, getHomepageShouts, getPaginationState } from '../selectors';
 
 if (process.env.BROWSER) {
   require('./Dashboard.scss');
@@ -146,7 +146,7 @@ export class Dashboard extends Component {
 const mapStateToProps = state => ({
   loggedProfile: getLoggedUser(state),
   shouts: getHomepageShouts(state),
-  ...getPaginationStatus(state, 'shoutsByHome'),
+  ...getPaginationState(state, 'shoutsByHome'),
 });
 
 export default connect(mapStateToProps)(Dashboard);
