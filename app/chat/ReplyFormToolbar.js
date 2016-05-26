@@ -3,7 +3,7 @@ import Icon from '../ui/Icon';
 import Tooltip from '../ui/Tooltip';
 import { connect } from 'react-redux';
 
-import { openModal } from '../actions/ui';
+import { openModal, closeModal } from '../actions/ui';
 import LoggedUserShoutsScrollableList from '../shouts/LoggedUserShoutsScrollableList';
 
 if (process.env.BROWSER) {
@@ -43,15 +43,23 @@ export function ReplyFormToolbar({ openModal }) {
 
 ReplyFormToolbar.propTypes = {
   openModal: PropTypes.func.isRequired,
+  onAttachment: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   openModal: (type, title) => {
     const options = { title, scrollableBody: true, bsSize: 'small' };
     let modal;
     switch (type) {
       case 'shout':
-        modal = <LoggedUserShoutsScrollableList />;
+        modal = (
+          <LoggedUserShoutsScrollableList
+            onShoutClick={ shout => {
+              dispatch(closeModal());
+              ownProps.onAttachment('shout', shout);
+            } }
+          />
+        );
         break;
       case 'picture':
         modal = <p>Send a picture</p>;
