@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Conversation from './Conversation';
-import ConversationName from './ConversationName';
 import { closeConversation } from '../actions/conversations';
-import { denormalize } from '../schemas';
+import { getConversation } from '../selectors';
 
 import ConversationDropdown from '../chat/ConversationDropdown';
 
@@ -26,7 +25,7 @@ export class HostedConversation extends Component {
       <div className="HostedConversation" onClick={ onClick }>
         <div className="HostedConversation-header">
           <h3>
-            <ConversationName conversation={ conversation } />
+            { conversation.display.title || conversation.display.subTitle }
           </h3>
           <div className="HostedConversation-toolbar">
             { !conversation.isNew && <ConversationDropdown
@@ -56,7 +55,7 @@ HostedConversation.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  conversation: denormalize(state.entities.conversations[ownProps.id], state.entities, 'CONVERSATION'),
+  conversation: getConversation(state, ownProps.id),
 });
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onCloseClick: () => dispatch(closeConversation({ id: ownProps.id })),
