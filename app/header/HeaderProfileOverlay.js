@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { logout } from '../actions/session';
-
+import { getLoggedUser } from '../selectors';
 if (process.env.BROWSER) {
   require('./HeaderProfileOverlay.scss');
 }
@@ -36,7 +36,7 @@ HeaderProfileOverlay.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: state.entities.users[state.session.user],
+  user: getLoggedUser(state),
 });
 
 const mapDispatchToProps = dispatch => ({

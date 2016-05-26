@@ -1,16 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import MessagesList from '../chat/MessagesList';
 import ConversationReplyForm from '../chat/ConversationReplyForm';
-import ConversationAbout from '../chat/ConversationAbout';
+import ConversationMessages from '../chat/ConversationMessages';
 import ConversationStart from '../chat/ConversationStart';
-import MessagesTypingUsers from '../chat/MessagesTypingUsers';
-import Scrollable from '../ui/Scrollable';
+import ConversationHead from '../chat/ConversationHead';
 
-import { setActiveConversation, unsetActiveConversation, readConversation } from '../actions/conversations';
-import { loadMessages } from '../actions/messages';
-import { denormalize } from '../schemas';
+import { loadConversation, setActiveConversation, unsetActiveConversation, readConversation } from '../actions/conversations';
+
+import { getConversation } from '../selectors';
 
 import Progress from '../ui/Progress';
 
@@ -22,19 +20,15 @@ export class Conversation extends Component {
 
   static propTypes = {
 
-    dispatch: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
-    loggedUser: PropTypes.object.isRequired,
+
+    loadConversation: PropTypes.func.isRequired,
+    unsetActive: PropTypes.func.isRequired,
+    setActive: PropTypes.func.isRequired,
+    markAsRead: PropTypes.func.isRequired,
 
     conversation: PropTypes.object,
     draft: PropTypes.string,
-    error: PropTypes.object,
-    isFetching: PropTypes.bool,
-    isFetchingMessages: PropTypes.bool,
-    messages: PropTypes.array,
-    messagesError: PropTypes.object,
-    previousUrl: PropTypes.string,
-    typingUsers: PropTypes.array,
 
     layout: PropTypes.oneOf(['hosted', 'full']),
   };
@@ -43,115 +37,98 @@ export class Conversation extends Component {
     layout: 'full',
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+      isFetching: false,
+    };
+  }
+
   state = {
     showDelete: false,
     showAttachShout: false,
-    typingUsers: [],
+    typingProfiles: [],
   };
 
   componentDidMount() {
-    const { dispatch, id, conversation } = this.props;
-    if (!conversation || !conversation.isNew) {
-      dispatch(setActiveConversation({ id }));
-      dispatch(loadMessages({ id }));
+    this.loadData();
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.draft === this.props.draft;
+  }
+
+  componentWillUpdate(nextProps) {
+    if (nextProps.id !== this.props.id) {
+      this.props.unsetActive();
     }
-    if (conversation && conversation.unreadMessagesCount > 0) {
-      dispatch(readConversation(conversation));
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.id !== this.props.id) {
+      this.loadData();
     }
+  }
+
+  componentWillUnmount() {
+    this.props.unsetActive();
+  }
+
+  loadData() {
+    if (this.props.conversation && this.props.conversation.isNew) {
+      return;
+    }
+    this.setState({ isFetching: true, error: null });
+    this.props.loadConversation()
+    .then(() => {
+      this.setState({ isFetching: false });
+      this.props.setActive();
+      this.props.markAsRead();
+    })
+    .catch(error => {
+      this.setState({ isFetching: false, error });
+    });
+
     if (this.form) {
       this.form.focus();
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    // Do not render all again if just draft changed
-    if (nextProps.draft !== this.props.draft) {
-      return false;
-    }
-    return true;
-  }
-
-  componentDidUpdate(prevProps) {
-    const { id, dispatch, conversation } = this.props;
-    if (prevProps.id !== id && !(conversation && conversation.isNew)) {
-      dispatch(unsetActiveConversation({ id: prevProps.id }));
-      dispatch(setActiveConversation({ id }));
-      dispatch(loadMessages({ id }));
-      if (conversation && conversation.unreadMessagesCount > 0) {
-        dispatch(readConversation(conversation));
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    const { dispatch, id } = this.props;
-    dispatch(unsetActiveConversation({ id }));
-  }
-
   form = null;
 
   render() {
-    const { error, messagesError, layout } = this.props;
-    const { loggedUser, isFetchingMessages, conversation, messages = [], typingUsers } = this.props;
-    const { previousUrl, dispatch, id } = this.props;
+    const { layout, conversation } = this.props;
     return (
       <div className={ `Conversation layout-${layout}` }>
-        { conversation && conversation.type === 'about_shout' &&
-          <ConversationAbout shout={ conversation.about } /> }
-
-        <Scrollable
-          preventDocumentScroll
-          uniqueId={ messages.length > 0 ? messages[messages.length - 1].id : 'empty' }
-          initialScroll="bottom"
-          className="Conversation-scrollable"
-          ref="scrollable"
-          onScrollTop={ previousUrl ? () => dispatch(loadMessages({ id }, previousUrl)) : null }>
-          <div className="Conversation-messagesList" onClick={ () => this.form && this.form.focus() }>
-
-            { error &&
-              <div className="Conversation-error">
-                Could not load conversation - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages({ id }, previousUrl)); } }>retry?</a>
-              </div>
-            }
-
-            { messagesError &&
-              <div className="Conversation-error">
-                Could not load messages - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages({ id }, previousUrl)); } }>retry?</a>
-              </div>
-            }
-
-            { conversation && conversation.createError &&
-              <div className="Conversation-error">
-                { conversation.createError.message }
-              </div>
-            }
-
-            { (!conversation || !conversation.isNew) &&
-              <Progress animate={ !conversation || isFetchingMessages } />
-            }
-            { conversation && messages.length > 0 &&
-              <MessagesList
-                loggedUser={ loggedUser }
-                messages={ messages }
-                partecipants={ conversation.profiles }
-              />
-            }
-
-            { conversation && conversation.isNew && !conversation.isCreating &&
-              <ConversationStart conversation={ conversation } />
-            }
-            { conversation && conversation.isNew && conversation.isCreating &&
-              <Progress animate label="Sending message…" />
-            }
-
-            <MessagesTypingUsers users={ typingUsers } />
-
-          </div>
-
-        </Scrollable>
 
         { conversation &&
-          <div className="Conversation-replyFormContainer">
+          <div className="Conversation-head">
+            <ConversationHead showTitle={ layout === 'full' } conversation={ conversation } />
+          </div>
+        }
+
+        <div className="Conversation-body">
+
+          { !conversation && this.state.error &&
+            <div className="Conversation-error">
+              Could not load conversation
+            </div>
+          }
+
+          { !conversation && this.state.isFetching && <Progress animate /> }
+          { conversation && conversation.isCreating && <Progress animate /> }
+
+          { conversation && conversation.isNew && !conversation.isCreating &&
+            <ConversationStart conversation={ conversation } />
+          }
+          { conversation && !conversation.isNew &&
+            <ConversationMessages conversation={ conversation } />
+          }
+        </div>
+
+        { conversation &&
+          <div className="Conversation-footer">
             <ConversationReplyForm
               inputRef={ form => { this.form = form; } }
               ref="replyForm"
@@ -166,40 +143,15 @@ export class Conversation extends Component {
 
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { entities, paginated } = state;
-  const { id } = ownProps;
-  const conversation = denormalize(entities.conversations[id], entities, 'CONVERSATION');
+const mapStateToProps = (state, ownProps) => ({
+  conversation: getConversation(state, ownProps.id),
+});
 
-  const messagesByConversation = paginated.messagesByConversation[id];
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  loadConversation: () => dispatch(loadConversation({ id: ownProps.id })),
+  setActive: () => dispatch(setActiveConversation({ id: ownProps.id })),
+  unsetActive: () => dispatch(unsetActiveConversation({ id: ownProps.id })),
+  markAsRead: () => dispatch(readConversation({ id: ownProps.id })),
+});
 
-  let messages = [];
-  let messagesError;
-  let isFetchingMessages = false;
-  let previousUrl;
-  let typingUsers = [];
-
-  if (messagesByConversation) {
-    messages = messagesByConversation.ids.map(messageId => denormalize(entities.messages[messageId], entities, 'MESSAGE'));
-    messages = messages.sort((a, b) => a.createdAt - b.createdAt); // show most recent messages last
-    isFetchingMessages = messagesByConversation.isFetching;
-    previousUrl = messagesByConversation.previousUrl;
-    messagesError = messagesByConversation.error;
-    if (state.chat.typingUsers[id]) {
-      typingUsers = state.chat.typingUsers[id].map(profileId => entities.users[profileId]);
-    }
-  }
-
-  return {
-    loggedUser: entities.users[state.session.user],
-    conversation,
-    messages,
-    isFetchingMessages,
-    previousUrl,
-    messagesError,
-    typingUsers,
-  };
-};
-
-
-export default connect(mapStateToProps)(Conversation);
+export default connect(mapStateToProps, mapDispatchToProps)(Conversation);

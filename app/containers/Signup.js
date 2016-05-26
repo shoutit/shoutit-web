@@ -14,7 +14,7 @@ import Frame from '../layout/Frame';
 
 import SocialLoginForm from '../auth/SocialLoginForm';
 import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
-
+import { getLoggedUser } from '../selectors';
 
 if (process.env.BROWSER) {
   require('./Signup.scss');
@@ -232,7 +232,7 @@ export class Signup extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedUser: state.entities.users[state.session.user],
+    loggedUser: getLoggedUser(state),
     isSigningUp: state.session.isSigningUp,
     error: state.session.signupError,
     currentLocation: state.currentLocation,

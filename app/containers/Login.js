@@ -14,6 +14,7 @@ import Frame from '../layout/Frame';
 
 import SocialLoginForm from '../auth/SocialLoginForm';
 import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
+import { getLoggedUser } from '../selectors';
 
 if (process.env.BROWSER) {
   require('./Login.scss');
@@ -176,7 +177,7 @@ export class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedUser: state.entities.users[state.session.user],
+    loggedUser: getLoggedUser(state),
     isLoggingIn: state.session.isLoggingIn,
     error: state.session.loginError,
   };

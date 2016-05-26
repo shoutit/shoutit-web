@@ -36,25 +36,36 @@ export default (state, action) => {
         [payload.conversation.id]: { unreadMessagesCount: 1 },
       });
       break;
-    case actionTypes.REPLY_CONVERSATION_SUCCESS:
-      state = merge({}, state, {
-        [payload.conversation.id]: {
-          lastMessage: payload.result,
-          modifiedAt: payload.entities.messages[payload.result].createdAt,
-        },
-      });
-      break;
     case actionTypes.START_CONVERSATION:
       state = merge({}, state, {
         [payload.conversation.id]: payload.conversation,
       });
       break;
+    case actionTypes.REPLACE_CONVERSATION:
+      state = merge({}, state, {
+        [payload.conversation.id]: payload.conversation,
+      });
+      break;
+    case actionTypes.REPLY_CONVERSATION_SUCCESS:
+      state = merge({}, state, {
+        [payload.conversation.id]: {
+          display: {
+            lastMessageSummary: `You: ${payload.entities.messages[payload.result].text}`,
+          },
+          lastMessage: payload.result,
+          modifiedAt: payload.entities.messages[payload.result].createdAt,
+        },
+      });
+      break;
     case actionTypes.ADD_NEW_MESSAGE:
-      const { conversationId, createdAt, id } = payload.message;
+      const { conversationId, createdAt, id, text } = payload.message;
       if (state[conversationId]) {
-        // payload may have not beene loaded yet
+        // check if conversation exists as payload may have not beene loaded yet
         state = merge({}, state, {
           [conversationId]: {
+            display: {
+              lastMessageSummary: text,
+            },
             lastMessage: id,
             modifiedAt: createdAt,
             messagesCount: state[conversationId].messagesCount + 1,

@@ -7,7 +7,7 @@ import ProfileAvatar from '../users/ProfileAvatar';
 import Overlay from '../ui/Overlay';
 
 import HeaderProfileOverlay from './HeaderProfileOverlay';
-
+import { getLoggedUser } from '../selectors';
 export class HeaderProfileButton extends Component {
 
   static propTypes = {
@@ -63,7 +63,7 @@ export class HeaderProfileButton extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.entities.users[state.session.user],
+  user: getLoggedUser(state),
 });
 
 export default connect(mapStateToProps)(HeaderProfileButton);

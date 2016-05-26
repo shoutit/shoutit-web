@@ -13,6 +13,9 @@ import { chatWithProfile } from '../actions/users';
 import { replyToShout } from '../actions/shouts';
 
 import { ENTER } from '../utils/keycodes';
+import { getLoggedUser } from '../selectors';
+
+// import ReplyFormToolbar from '../chat/ReplyFormToolbar';
 
 if (process.env.BROWSER) {
   require('./ConversationReplyForm.scss');
@@ -40,6 +43,14 @@ export class ConversationReplyForm extends Component {
     disabled: false,
     placeholder: 'Type a message…',
     typingTimeout: 3000,
+  }
+
+  constructor(props) {
+    super(props);
+    this.handleAttachment = this.handleAttachment.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this);
   }
 
   componentWillUnmount() {
@@ -86,6 +97,11 @@ export class ConversationReplyForm extends Component {
     }
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    this.submit();
+  }
+
   handleTextChange(e) {
     const text = e.target.value;
     const { typingTimeout, dispatch, name, loggedUser } = this.props;
@@ -102,12 +118,23 @@ export class ConversationReplyForm extends Component {
     }
   }
 
+  handleAttachment() {
+    // console.log(type, content);
+  }
+
+  handleKeyDown(e) {
+    if (e.keyCode === ENTER && !e.shiftKey) {
+      e.preventDefault();
+      this.submit();
+    }
+  }
+
   render() {
     const { fields, name, conversation, ...attributes } = this.props;
     return (
       <form name={ name }
         className="ConversationReplyForm"
-        onSubmit={ e => { e.preventDefault(); this.submit(); } }
+        onSubmit={ this.handleSubmit }
       >
         <TextareaAutosize
           { ...attributes }
@@ -123,14 +150,12 @@ export class ConversationReplyForm extends Component {
           name="draft"
           value={ fields.draft }
           autoComplete="off"
-          onKeyDown={ e => {
-            if (e.keyCode === ENTER && !e.shiftKey) {
-              e.preventDefault();
-              this.submit();
-            }
-          } }
-          onChange={ e => this.handleTextChange(e) }
+          onKeyDown={ this.handleKeyDown }
+          onChange={ this.handleTextChange }
         />
+        {/* <div className="ConversationReplyForm-toolbar">
+          <ReplyFormToolbar onAttachment={ this.handleAttachment } />
+        </div>*/}
       </form>
     );
   }
@@ -140,7 +165,7 @@ const mapStateToProps = (state, ownProps) => {
   const name = `conversationReply-${ownProps.conversation.id}`;
   return {
     name,
-    loggedUser: state.entities.users[state.session.user],
+    loggedUser: getLoggedUser(state),
     fields: state.forms[name] || { draft: '' },
   };
 };

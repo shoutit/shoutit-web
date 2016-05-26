@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { Component, PropTypes } from 'react';
 
 import { preventBodyScroll } from '../utils/DOMUtils';
@@ -114,10 +115,23 @@ export default class Scrollable extends Component {
     return scrollElement.offsetHeight;
   }
 
+  getScrollTop() {
+    const scrollElement = this.getScrollElement();
+    if (scrollElement === window) {
+      return window.pageYOffset !== 'undefined' ?
+        window.pageYOffset :
+        document.documentElement.scrollTop ?
+        document.documentElement.scrollTop :
+        document.body.scrollTop ?
+        document.body.scrollTop :
+        0;
+    }
+    return scrollElement.scrollTop;
+  }
+
   canScroll() {
     return this.getScrollHeight() > this.getOffsetHeight();
   }
-
 
   handleMouseEnter() {
     preventBodyScroll(this.getScrollable()).on();
@@ -136,7 +150,7 @@ export default class Scrollable extends Component {
   }
 
   handleScroll(e) {
-    const { scrollTop } = this.getScrollable();
+    const scrollTop = this.getScrollTop();
     const offsetHeight = this.getOffsetHeight();
     const { scrollHeight, didScrollToBottom } = this.state;
     const { onScroll, onScrollTop, onScrollBottom, triggerOffset } = this.props;

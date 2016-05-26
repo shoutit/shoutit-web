@@ -18,40 +18,21 @@ export function getStyleBackgroundImage(path, variation) {
   };
 }
 
-export function preventBodyScroll(scrollable) {
+let scrollTop;
+export function preventBodyScroll() {
   const log = debug('shoutit:preventBodyScroll');
-
-  function onWheel(scrollable) {
-    return e => {
-      let preventScroll = false;
-      const isScrollingDown = e.deltaY > 0;
-      if (isScrollingDown) {
-        const isAtBottom = scrollable.scrollTop + scrollable.offsetHeight === scrollable.scrollHeight;
-        if (isAtBottom) {
-          log('Scrollable is scrolling down and at bottom, prevent scrolling');
-          preventScroll = true;
-        }
-      } else {
-        const isAtTop = scrollable.scrollTop === 0;
-        if (isAtTop) {
-          log('Scrollable is at top, prevent scrolling');
-          preventScroll = true;
-        }
-      }
-      if (preventScroll) {
-        e.preventDefault();
-      }
-    };
-  }
   function on() {
-    log('Prevent body scroll is enabled');
-    document.body.onmousewheel = onWheel(scrollable);
-    document.body.onwheel = onWheel(scrollable);
+    scrollTop = document.body.scrollTop;
+    log('Prevent body scroll is enabled, scrolltop is %s', scrollTop);
+    document.body.style.top = `${-scrollTop}px`;
+    document.body.classList.add('no-scroll');
   }
   function off() {
-    log('Prevent body scroll is disabled');
-    document.body.onmousewheel = null;
-    document.body.onwheel = null;
+    log('Prevent body scroll is disabled, restoring scrollTop to %s', scrollTop);
+    document.body.style.top = '';
+    document.body.scrollTop = scrollTop;
+    document.body.classList.remove('no-scroll');
+    window.scroll(0, scrollTop);
   }
   return { on, off };
 }

@@ -66,6 +66,9 @@ export function startConversation(loggedUser, user) {
     id: `new-conversation-with-${user.id}`,
     isNew: true,
     type: 'chat',
+    display: {
+      title: user.name,
+    },
     profiles: [
       loggedUser.id,
       user.id,
@@ -118,5 +121,12 @@ export function unreadConversation(conversation) {
       method: 'delete',
       params: { id: conversation.id },
     },
+  };
+}
+
+export function replaceConversation(normalizedPayload) {
+  return {
+    type: actionTypes.REPLACE_CONVERSATION,
+    payload: normalizedPayload,
   };
 }
