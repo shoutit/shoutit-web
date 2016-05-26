@@ -7,7 +7,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
   openedConversations: [],
   activeConversations: [],
-  typingUsers: {},
+  typingProfiles: {},
 };
 
 export default function (state = initialState, action) {
@@ -23,13 +23,13 @@ export default function (state = initialState, action) {
         activeConversations: without(state.activeConversations, payload.id),
       });
     case actionTypes.RECEIVE_CLIENT_IS_TYPING:
-      if (state.typingUsers[payload.conversationId] &&
-        state.typingUsers[payload.conversationId].indexOf(payload.userId) > -1) {
+      if (state.typingProfiles[payload.conversationId] &&
+        state.typingProfiles[payload.conversationId].indexOf(payload.userId) > -1) {
         // ignore if already typing
         return state;
       }
       return merge({}, state, {
-        typingUsers: {
+        typingProfiles: {
           [payload.conversationId]: [payload.userId],
         },
       });
@@ -37,9 +37,9 @@ export default function (state = initialState, action) {
     case actionTypes.REMOVE_CLIENT_IS_TYPING:
       const newState = {
         ...state,
-        typingUsers: {
-          ...state.typingUsers,
-          [payload.conversationId]: without(state.typingUsers[payload.conversationId], payload.userId),
+        typingProfiles: {
+          ...state.typingProfiles,
+          [payload.conversationId]: without(state.typingProfiles[payload.conversationId], payload.userId),
         },
       };
       return newState;
