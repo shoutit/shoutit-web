@@ -14,7 +14,7 @@ export function MessagesByDay({ day, messages, partecipants }) {
       const { profile, messages: profileMessages } = byProfile;
       let className = 'MessagesList';
       if (profile && profile.isOwner) {
-        className += ' is-me';
+        className += ' is-owner';
       }
       return (
         <div key={ i } className={ className }>
