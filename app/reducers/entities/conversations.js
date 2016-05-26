@@ -36,6 +36,11 @@ export default (state, action) => {
         [payload.conversation.id]: { unreadMessagesCount: 1 },
       });
       break;
+    case actionTypes.REPLACE_CONVERSATION:
+      state = merge({}, state, {
+        [payload.conversation.id]: payload.conversation,
+      });
+      break;
     case actionTypes.REPLY_CONVERSATION_SUCCESS:
       state = merge({}, state, {
         [payload.conversation.id]: {

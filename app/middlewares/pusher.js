@@ -3,12 +3,12 @@ import debug from 'debug';
 import { camelizeKeys } from 'humps';
 
 import { normalize } from 'normalizr';
-import { MESSAGE } from '../schemas';
+import { MESSAGE, CONVERSATION } from '../schemas';
 
 import { pusherAppKey } from '../config';
 import * as actionTypes from '../actions/actionTypes';
 import { typingClientNotification, removeTypingClient } from '../actions/chat';
-import { loadConversation } from '../actions/conversations';
+import { loadConversation, replaceConversation } from '../actions/conversations';
 import { addNewMessage, readMessage, setMessageReadBy } from '../actions/messages';
 import { updateProfileStats, replaceProfile } from '../actions/users';
 
@@ -45,60 +45,76 @@ function getConversationChannelId(conversation) {
 export default store => next => action => { // eslint-disable-line no-unused-vars
   let channelId;
 
+  function handleNewMessageEvent(payload) {
+
+    const message = camelizeKeys(payload);
+    const normalizedPayload = normalize(message, MESSAGE);
+    if (store.getState().session.user === message.profile.id) {
+      // As pusher will always send the profile as "not owner"
+      delete normalizedPayload.entities.users;
+    }
+    store.dispatch(addNewMessage(normalizedPayload));
+
+    const { conversationId } = message;
+
+    if (!store.getState().entities.conversations[conversationId]) {
+      log('Loading conversation since it is not yet loaded...');
+      store.dispatch(loadConversation({ id: conversationId }));
+    }
+
+    if (store.getState().chat.activeConversations.includes(conversationId)) {
+      log('Marking message as read since its conversation is active');
+      store.dispatch(readMessage(message));
+    }
+
+  }
+
   switch (action.type) {
 
     case actionTypes.LOGIN_SUCCESS:
     case actionTypes.SIGNUP_SUCCESS:
       channelId = `presence-v3-p-${action.payload.result}`;
       log('Subscribing channel %s...', channelId);
-      const presenceChannel = client.subscribe(channelId);
-      presenceChannel.bind('pusher:subscription_succeeded', () => {
+      const profileChannel = client.subscribe(channelId);
+      profileChannel.bind('pusher:subscription_succeeded', () => {
         log('Channel %s subscribed and listening for events', channelId);
 
-        presenceChannel.bind('new_message', payload => {
-          log('Received new_message event', payload);
-          const message = camelizeKeys(payload);
-          const normalizedPayload = normalize(message, MESSAGE);
-          store.dispatch(addNewMessage(normalizedPayload));
-
-          const { conversationId } = message;
-
-          if (!store.getState().entities.conversations[conversationId]) {
-            log('Loading conversation since it is not yet loaded...');
-            store.dispatch(loadConversation({ id: conversationId }));
-          }
-
-          if (store.getState().chat.activeConversations.includes(conversationId)) {
-            log('Marking message as read since its conversation is active');
-            store.dispatch(readMessage(message));
-          }
-
+        profileChannel.bind('new_message', payload => {
+          log('profileChannel received new_message event', payload);
+          handleNewMessageEvent(payload);
         });
 
-        presenceChannel.bind('stats_update', payload => {
-          log('Received stats_update event', payload);
+        profileChannel.bind('stats_update', payload => {
+          log('profileChannel received stats_update event', payload);
           store.dispatch(updateProfileStats(store.getState().session.user, camelizeKeys(payload)));
         });
 
-        presenceChannel.bind('profile_update', payload => {
-          log('Received profile_update event', payload);
+        profileChannel.bind('profile_update', payload => {
+          log('profileChannel received profile_update event', payload);
           store.dispatch(replaceProfile(camelizeKeys(payload)));
         });
 
+        profileChannel.bind('conversation_update', conversation => {
+          log('profileChannel received conversation_update event', conversation);
+          const normalizedPayload = normalize(conversation, CONVERSATION);
+          store.dispatch(replaceConversation(camelizeKeys(normalizedPayload)));
+        });
+
+
       });
 
-      presenceChannel.bind('pusher:subscription_error', (state) => {
+      profileChannel.bind('pusher:subscription_error', (state) => {
         console.error("Error subscribing to channel %s", channelId, state); // eslint-disable-line
       });
 
-      client.presenceChannel = presenceChannel;
+      client.profileChannel = profileChannel;
       break;
 
     case actionTypes.LOGOUT:
-      if (client.presenceChannel) {
-        log('Unsubscribing channel %s for logout', client.presenceChannel.name);
-        client.unsubscribe(client.presenceChannel.name);
-        client.presenceChannel = null;
+      if (client.profileChannel) {
+        log('Unsubscribing channel %s for logout', client.profileChannel.name);
+        client.unsubscribe(client.profileChannel.name);
+        client.profileChannel = null;
       }
       break;
 
@@ -114,13 +130,24 @@ export default store => next => action => { // eslint-disable-line no-unused-var
         log('Channel %s subscribed and listening for events', channelId);
       //
         conversationChannel.bind('client-is_typing', payload => {
-          log('Received client-is_typing event', payload);
+          log('conversationChannel received client-is_typing event', payload);
           handleClientIsTypingNotification(conversation.id, camelizeKeys(payload), store);
         });
 
+        conversationChannel.bind('new_message', payload => {
+          log('conversationChannel received new_message event', payload);
+          handleNewMessageEvent(payload);
+        });
+
         conversationChannel.bind('new_read_by', payload => {
-          log('Received new_read_by event', payload);
+          log('conversationChannel received new_read_by event', payload);
           store.dispatch(setMessageReadBy(camelizeKeys(payload)));
+        });
+
+        conversationChannel.bind('conversation_update', conversation => {
+          log('conversationChannel received conversation_update event', conversation);
+          const normalizedPayload = normalize(conversation, CONVERSATION);
+          store.dispatch(replaceConversation(camelizeKeys(normalizedPayload)));
         });
 
       });
