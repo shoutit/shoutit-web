@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import ConversationReplyForm from '../chat/ConversationReplyForm';
 import ConversationMessages from '../chat/ConversationMessages';
-import ConversationAbout from '../chat/ConversationAbout';
 import ConversationStart from '../chat/ConversationStart';
 import ConversationHead from '../chat/ConversationHead';
 
@@ -110,8 +109,6 @@ export class Conversation extends Component {
         }
 
         <div className="Conversation-body">
-          {/* { conversation && conversation.type === 'about_shout' &&
-            <ConversationAbout shout={ conversation.about } /> }*/}
 
           { !conversation && this.state.error &&
             <div className="Conversation-error">

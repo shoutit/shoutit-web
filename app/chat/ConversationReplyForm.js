@@ -15,7 +15,7 @@ import { replyToShout } from '../actions/shouts';
 import { ENTER } from '../utils/keycodes';
 import { getLoggedUser } from '../selectors';
 
-import ReplyFormToolbar from '../chat/ReplyFormToolbar';
+// import ReplyFormToolbar from '../chat/ReplyFormToolbar';
 
 if (process.env.BROWSER) {
   require('./ConversationReplyForm.scss');
@@ -118,7 +118,7 @@ export class ConversationReplyForm extends Component {
     }
   }
 
-  handleAttachment(type, content) {
+  handleAttachment() {
     // console.log(type, content);
   }
 
