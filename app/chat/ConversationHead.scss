@@ -1,0 +1,22 @@
+@import '../styles/constants.scss';
+
+.ConversationHead {
+  display: flex;
+  align-items: center;
+}
+
+.ConversationHead-title {
+  font-weight: bold;
+  a {
+    color: $color;
+  }
+}
+
+.ConversationHead-about + .ConversationHead-title {
+  margin-left: 1em;
+}
+
+.ConversationHead-about {
+  padding-right: 1em;
+  border-right: 1px solid $border-color;
+}

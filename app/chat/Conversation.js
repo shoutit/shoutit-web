@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import ConversationReplyForm from '../chat/ConversationReplyForm';
 import ConversationMessages from '../chat/ConversationMessages';
 import ConversationAbout from '../chat/ConversationAbout';
-import ConversationName from '../chat/ConversationName';
+import ConversationStart from '../chat/ConversationStart';
+import ConversationHead from '../chat/ConversationHead';
 
 import { loadConversation, setActiveConversation, unsetActiveConversation, readConversation } from '../actions/conversations';
 
@@ -48,7 +49,7 @@ export class Conversation extends Component {
   state = {
     showDelete: false,
     showAttachShout: false,
-    typingUsers: [],
+    typingProfiles: [],
   };
 
   componentDidMount() {
@@ -102,80 +103,35 @@ export class Conversation extends Component {
     return (
       <div className={ `Conversation layout-${layout}` }>
 
-        { layout === 'full' && conversation &&
-          <h1>
-            <ConversationName conversation={ conversation } />
-          </h1>
-        }
-
-        { conversation && conversation.type === 'about_shout' &&
-          <ConversationAbout shout={ conversation.about } /> }
-
-        { !conversation && this.state.error &&
-          <div className="Conversation-error">
-            Could not load conversation
-          </div>
-        }
-
-        { !conversation && this.state.isFetching && <Progress animate /> }
-
-        { conversation && <ConversationMessages conversation={ conversation } /> }
-
-{/*
-        <Scrollable
-          preventDocumentScroll
-          uniqueId={ messages.length > 0 ? messages[messages.length - 1].id : 'empty' }
-          initialScroll="bottom"
-          className="Conversation-scrollable"
-          ref="scrollable"
-          onScrollTop={ previousUrl ? () => dispatch(loadMessages({ id }, previousUrl)) : null }>
-          <div className="Conversation-messagesList" onClick={ () => this.form && this.form.focus() }>
-
-            { error &&
-              <div className="Conversation-error">
-                Could not load conversation - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages({ id }, previousUrl)); } }>retry?</a>
-              </div>
-            }
-
-            { messagesError &&
-              <div className="Conversation-error">
-                Could not load messages - <a href="#" onClick={ e => { e.preventDefault(); dispatch(loadMessages({ id }, previousUrl)); } }>retry?</a>
-              </div>
-            }
-
-            { conversation && conversation.createError &&
-              <div className="Conversation-error">
-                { conversation.createError.message }
-              </div>
-            }
-
-            { (!conversation || !conversation.isNew) &&
-              <Progress animate={ !conversation || isFetchingMessages } />
-            }
-            { conversation && messages.length > 0 &&
-              <MessagesList
-                loggedUser={ loggedUser }
-                messages={ messages }
-                partecipants={ conversation.profiles }
-              />
-            }
-
-            { conversation && conversation.isNew && !conversation.isCreating &&
-              <ConversationStart conversation={ conversation } />
-            }
-            { conversation && conversation.isNew && conversation.isCreating &&
-              <Progress animate label="Sending message…" />
-            }
-
-            <MessagesTypingUsers users={ typingUsers } />
-
-          </div>
-
-        </Scrollable>
-        */
-       }
         { conversation &&
-          <div className="Conversation-replyFormContainer">
+          <div className="Conversation-head">
+            <ConversationHead showTitle={ layout === 'full' } conversation={ conversation } />
+          </div>
+        }
+
+        <div className="Conversation-body">
+          {/* { conversation && conversation.type === 'about_shout' &&
+            <ConversationAbout shout={ conversation.about } /> }*/}
+
+          { !conversation && this.state.error &&
+            <div className="Conversation-error">
+              Could not load conversation
+            </div>
+          }
+
+          { !conversation && this.state.isFetching && <Progress animate /> }
+          { conversation && conversation.isCreating && <Progress animate /> }
+
+          { conversation && conversation.isNew && !conversation.isCreating &&
+            <ConversationStart conversation={ conversation } />
+          }
+          { conversation && !conversation.isNew &&
+            <ConversationMessages conversation={ conversation } />
+          }
+        </div>
+
+        { conversation &&
+          <div className="Conversation-footer">
             <ConversationReplyForm
               inputRef={ form => { this.form = form; } }
               ref="replyForm"

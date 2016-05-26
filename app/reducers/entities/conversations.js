@@ -36,6 +36,11 @@ export default (state, action) => {
         [payload.conversation.id]: { unreadMessagesCount: 1 },
       });
       break;
+    case actionTypes.START_CONVERSATION:
+      state = merge({}, state, {
+        [payload.conversation.id]: payload.conversation,
+      });
+      break;
     case actionTypes.REPLACE_CONVERSATION:
       state = merge({}, state, {
         [payload.conversation.id]: payload.conversation,
@@ -52,15 +57,10 @@ export default (state, action) => {
         },
       });
       break;
-    case actionTypes.START_CONVERSATION:
-      state = merge({}, state, {
-        [payload.conversation.id]: payload.conversation,
-      });
-      break;
     case actionTypes.ADD_NEW_MESSAGE:
-      const { conversationId, createdAt, id } = payload.message;
+      const { conversationId, createdAt, id, text } = payload.message;
       if (state[conversationId]) {
-        // payload may have not beene loaded yet
+        // check if conversation exists as payload may have not beene loaded yet
         state = merge({}, state, {
           [conversationId]: {
             display: {

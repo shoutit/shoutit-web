@@ -9,28 +9,42 @@
   display: flex;
   flex-direction: column;
   &.layout-hosted {
-    font-size: .875rem;
+    font-size: .875em;
   }
+}
 
-  .ConversationAbout {
-    box-shadow: $box-shadow-depth-0;
-    z-index: 0;
+.Conversation-head {
+  background-color: white;
+  margin: 0;
+  height: 3em;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid $border-color;
+  padding: 0 .75em;
+  .Conversation.layout-hosted & {
+    overflow: hidden;
   }
+}
+
+.Conversation-body {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  .ConversationMessages {
+    flex: 1 1 0;
+  }
+}
+
+.Conversation-footer {
+  margin: 1px;
+  border-top: 1px solid $border-color-dark;
+  background-color: $background-color;
 }
 
 .Conversation-error {
   padding: 10px;
   text-align: center;
   color: $si-error-color;
-}
-
-.Conversation-scrollable {
-  display: flex;
-  overflow: auto;
-  flex-direction: column;
-  transform: translateZ(0);
-
-  flex: 1 1 0;
 }
 
 .Conversation-messagesList {
@@ -46,10 +60,4 @@
 
 .Conversation-listTopSeparator {
   flex: 1 0 auto;
-}
-
-.Conversation-replyFormContainer {
-  margin: 1px;
-  border-top: 1px solid $border-color-dark;
-  background-color: $background-color;
 }

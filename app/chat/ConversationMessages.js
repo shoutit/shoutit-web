@@ -2,17 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import MessagesList from '../chat/MessagesList';
-import MessagesTypingUsers from '../chat/MessagesTypingUsers';
+import Typing from '../chat/Typing';
 import Scrollable from '../ui/Scrollable';
 
 import { loadMessages } from '../actions/messages';
 
-import { getPaginationStatus, getMessagesByConversation } from '../selectors';
+import { getPaginationState, getMessagesByConversation } from '../selectors';
 
 import Progress from '../ui/Progress';
 
 if (process.env.BROWSER) {
-  require('./Conversation.scss');
+  require('./ConversationMessages.scss');
 }
 
 export class ConversationMessages extends Component {
@@ -57,7 +57,7 @@ export class ConversationMessages extends Component {
         preventDocumentScroll
         uniqueId={ uniqueId }
         initialScroll="bottom"
-        className="Conversation-scrollable"
+        className="ConversationMessages"
         ref="scrollable"
         onScrollTop={ this.handleScrollTop }>
         <div className="Conversation-messagesList">
@@ -71,10 +71,13 @@ export class ConversationMessages extends Component {
           }
 
           { messages.length > 0 &&
-            <MessagesList messages={ messages } partecipants={ conversation.profiles } />
+            <MessagesList
+              messages={ messages }
+              partecipants={ conversation.profiles }
+            />
           }
 
-          { <MessagesTypingUsers users={ [] } /> }
+          <Typing conversationId={ conversation.id } />
 
         </div>
 
@@ -86,7 +89,7 @@ export class ConversationMessages extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   messages: getMessagesByConversation(state, ownProps.conversation.id),
-  ...getPaginationStatus(state, `messagesByConversation.${ownProps.conversation.id}`),
+  ...getPaginationState(state, `messagesByConversation.${ownProps.conversation.id}`),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

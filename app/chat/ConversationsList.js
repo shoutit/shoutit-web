@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { loadChat } from '../actions/chat';
 
-import { getAllConversations, getPaginationStatus } from '../selectors';
+import { getAllConversations, getPaginationState } from '../selectors';
 
 import ConversationItem from './ConversationItem';
 import Progress from '../ui/Progress';
@@ -64,16 +64,15 @@ export class ConversationsList extends Component {
         uniqueId={ conversations.length === 0 ? 'empty' : conversations[conversations.length - 1].id }>
 
           { conversations.length > 0 &&
-            <ul className="htmlNoList">
+            <ul>
               { conversations.map((conversation, i) =>
-                <li key={ i } >
-                  <ConversationItem
-                    showDropdown={ showConversationDropdown }
-                    onClick={ onConversationClick ? e => onConversationClick(conversation, e) : null }
-                    conversation={ conversation }
-                    selected={ conversation.id === selectedId }
-                  />
-                </li>
+                <ConversationItem
+                  key={ i }
+                  showDropdown={ showConversationDropdown }
+                  onClick={ onConversationClick ? e => onConversationClick(conversation, e) : null }
+                  conversation={ conversation }
+                  selected={ conversation.id === selectedId }
+                />
               ) }
             </ul>
           }
@@ -101,7 +100,7 @@ export class ConversationsList extends Component {
 
 const mapStateToProps = state => ({
   conversations: getAllConversations(state),
-  ...getPaginationStatus(state, 'chatConversations'),
+  ...getPaginationState(state, 'chatConversations'),
 });
 
 const mapDispatchToProps = dispatch => ({

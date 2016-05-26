@@ -45,6 +45,14 @@ export class ConversationReplyForm extends Component {
     typingTimeout: 3000,
   }
 
+  constructor(props) {
+    super(props);
+    this.handleAttachment = this.handleAttachment.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this);
+  }
+
   componentWillUnmount() {
     if (this.typingTimeout) {
       clearTimeout(this.typingInterval);
@@ -89,6 +97,11 @@ export class ConversationReplyForm extends Component {
     }
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    this.submit();
+  }
+
   handleTextChange(e) {
     const text = e.target.value;
     const { typingTimeout, dispatch, name, loggedUser } = this.props;
@@ -105,12 +118,23 @@ export class ConversationReplyForm extends Component {
     }
   }
 
+  handleAttachment(type, content) {
+    // console.log(type, content);
+  }
+
+  handleKeyDown(e) {
+    if (e.keyCode === ENTER && !e.shiftKey) {
+      e.preventDefault();
+      this.submit();
+    }
+  }
+
   render() {
     const { fields, name, conversation, ...attributes } = this.props;
     return (
       <form name={ name }
         className="ConversationReplyForm"
-        onSubmit={ e => { e.preventDefault(); this.submit(); } }
+        onSubmit={ this.handleSubmit }
       >
         <TextareaAutosize
           { ...attributes }
@@ -126,17 +150,12 @@ export class ConversationReplyForm extends Component {
           name="draft"
           value={ fields.draft }
           autoComplete="off"
-          onKeyDown={ e => {
-            if (e.keyCode === ENTER && !e.shiftKey) {
-              e.preventDefault();
-              this.submit();
-            }
-          } }
-          onChange={ e => this.handleTextChange(e) }
+          onKeyDown={ this.handleKeyDown }
+          onChange={ this.handleTextChange }
         />
-        <div className="ConversationReplyForm-toolbar">
-          <ReplyFormToolbar />
-        </div>
+        {/* <div className="ConversationReplyForm-toolbar">
+          <ReplyFormToolbar onAttachment={ this.handleAttachment } />
+        </div>*/}
       </form>
     );
   }
