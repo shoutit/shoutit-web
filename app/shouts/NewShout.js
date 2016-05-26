@@ -5,7 +5,7 @@ import Button from '../ui/Button';
 
 import { openModal, closeModal } from '../actions/ui';
 import CreateShout from '../shouts/CreateShout';
-
+import { getLoggedUser } from '../selectors';
 const NEW_SHOUT_ID = '__new__';
 
 export class NewShout extends Component {
@@ -41,12 +41,11 @@ export class NewShout extends Component {
 }
 
 const mapStateToProps = state => {
-  const loggedUser = state.entities.users[state.session.user];
   const { currentLocation } = state;
   return {
     newShout: {
       id: NEW_SHOUT_ID,
-      mobile: loggedUser.mobile,
+      mobile: getLoggedUser(state).mobile,
       location: currentLocation,
     },
   };

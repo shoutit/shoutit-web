@@ -3,20 +3,36 @@
 
 .MessageItem {
   font-size: 0.875em;
-  margin: 1px 5px;
-  display: flex;
+
+  margin: .25em .5em 0;
+  .MessageAttachment {
+    margin-top: 5px;
+    max-width: 300px;
+  }
+
   .MessageItem-text {
     min-width: 120px;
     background-color: white;
     border: 1px solid $border-color;
   }
 
-  &.is-me {
-    justify-content: flex-end;
+  &.is-owner {
     text-align: right;
     .MessageItem-text {
      background-color: $background-color-alt;
      border: 1px solid $border-color-alt;
+   }
+  }
+
+  &.no-profile {
+    margin: 1em 0;
+    .MessageItem-text {
+      p {
+        font-style: italic;
+        font-size: 0.875em;
+      }
+      background-color: transparent;
+      border: 1px solid transparent;
    }
   }
 
@@ -41,10 +57,6 @@
   }
 }
 
-.MessageItem-attachment {
-  margin-top: 5px;
-  max-width: 300px;
-}
 
 .MessageItem-text {
   padding: 5px 10px;
@@ -53,7 +65,12 @@
     font-size: 1em;
     margin: 0;
   }
+  .MessageItem.no-profile & {
+    padding: 0;
+  }
 }
+
+
 
 .MessageItem-attachments {
   > .MessageItem-footer {

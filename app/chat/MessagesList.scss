@@ -6,7 +6,7 @@
   padding-left: .5em;
 }
 
-.MessagesList.is-me {
+.MessagesList.is-owner {
   flex-direction: row-reverse;
   .MessagesList-user {
     display: none;

@@ -9,6 +9,7 @@ import { START_LISTENING, SEND_MESSAGE } from '../auth/loginActions';
 
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
+import { getLoggedUser } from '../selectors';
 
 if (process.env.BROWSER) {
   require('./ProfileActions.scss');
@@ -91,7 +92,7 @@ ProfileActions.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  loggedUser: state.entities.users[state.session.user],
+  loggedUser: getLoggedUser(state),
 });
 
 export default connect(mapStateToProps)(ProfileActions);

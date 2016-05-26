@@ -120,6 +120,9 @@ export const startShoutReply = (loggedUser, shout) => {
     isNew: true,
     type: 'about_shout',
     about: shout.id,
+    display: {
+      title: shout.title,
+    },
     profiles: [
       shout.profile.id,
     ],

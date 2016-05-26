@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { loadChat } from '../actions/chat';
-import { denormalize } from '../schemas';
+
+import { getAllConversations, getPaginationState } from '../selectors';
 
 import ConversationItem from './ConversationItem';
 import Progress from '../ui/Progress';
@@ -14,17 +15,24 @@ if (process.env.BROWSER) {
 export class ConversationsList extends Component {
 
   static propTypes = {
-    isFetching: PropTypes.bool,
-    conversations: PropTypes.array,
+    conversations: PropTypes.arrayOf(PropTypes.object),
     onConversationClick: PropTypes.func,
+    loadData: PropTypes.func,
+
     selectedId: PropTypes.string,
-    previousUrl: PropTypes.string,
     showConversationDropdown: PropTypes.bool,
-    dispatch: PropTypes.func.isRequired,
+
+    isFetching: PropTypes.bool,
+    previousUrl: PropTypes.string,
+  }
+
+  constructor(props) {
+    super(props);
+    this.handleScrollBottom = this.handleScrollBottom.bind(this);
   }
 
   componentDidMount() {
-    this.props.dispatch(loadChat());
+    this.props.loadData();
   }
 
   componentDidUpdate() {
@@ -32,37 +40,39 @@ export class ConversationsList extends Component {
   }
 
   loadMoreIfNeeded() {
-    const { dispatch, previousUrl, isFetching } = this.props;
+    const { previousUrl, isFetching, loadData } = this.props;
     const { scrollable } = this.refs;
     if (!isFetching && previousUrl && !scrollable.canScroll()) {
-      dispatch(loadChat(previousUrl));
+      loadData(previousUrl);
+    }
+  }
+
+  handleScrollBottom() {
+    if (this.props.previousUrl) {
+      this.props.loadData(this.props.previousUrl);
     }
   }
 
   render() {
-    const { isFetching, conversations, selectedId, onConversationClick, dispatch, previousUrl, showConversationDropdown } = this.props;
+    const { isFetching, conversations, selectedId, onConversationClick, previousUrl, showConversationDropdown } = this.props;
     return (
       <Scrollable
         ref="scrollable"
         preventDocumentScroll
         className="ConversationsList"
-        onScrollBottom={ previousUrl ? () => dispatch(loadChat(previousUrl)) : null }
+        onScrollBottom={ this.handleScrollBottom }
         uniqueId={ conversations.length === 0 ? 'empty' : conversations[conversations.length - 1].id }>
 
-
           { conversations.length > 0 &&
-            <ul className="htmlNoList">
-              { conversations
-                  .sort((a, b) => b.modifiedAt - a.modifiedAt)
-                  .map(conversation =>
-                    <li key={ conversation.id } >
-                      <ConversationItem
-                        showDropdown={ showConversationDropdown }
-                        onClick={ onConversationClick ? e => onConversationClick(conversation, e) : null }
-                        conversation={ conversation }
-                        selected={ conversation.id === selectedId }
-                      />
-                    </li>
+            <ul>
+              { conversations.map((conversation, i) =>
+                <ConversationItem
+                  key={ i }
+                  showDropdown={ showConversationDropdown }
+                  onClick={ onConversationClick ? e => onConversationClick(conversation, e) : null }
+                  conversation={ conversation }
+                  selected={ conversation.id === selectedId }
+                />
               ) }
             </ul>
           }
@@ -72,7 +82,8 @@ export class ConversationsList extends Component {
               <p>No messages</p>
             </div>
           }
-          { (previousUrl || conversations.length === 0) && isFetching &&
+
+          { isFetching && (previousUrl || conversations.length === 0) &&
             <Progress
               size="small"
               animate={ isFetching }
@@ -87,15 +98,13 @@ export class ConversationsList extends Component {
 
 }
 
-const mapStateToProps = state => {
-  const { entities, paginated } = state;
-  return {
-    isFetching: paginated.chatConversations.isFetching,
-    previousUrl: paginated.chatConversations.previousUrl,
-    conversations: paginated.chatConversations.ids.map(
-      id => denormalize(entities.conversations[id], entities, 'CONVERSATION'))
-        .filter(conversation => !conversation.isNew),
-  };
-};
+const mapStateToProps = state => ({
+  conversations: getAllConversations(state),
+  ...getPaginationState(state, 'chatConversations'),
+});
 
-export default connect(mapStateToProps)(ConversationsList);
+const mapDispatchToProps = dispatch => ({
+  loadData: endpoint => dispatch(loadChat(endpoint)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConversationsList);

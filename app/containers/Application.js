@@ -16,6 +16,8 @@ import { loadSuggestions } from '../actions/location';
 import { loadListening } from '../actions/users';
 import { loginUser } from '../actions/session';
 
+import { getLoggedUser } from '../selectors';
+
 import * as config from '../config';
 
 if (process.env.BROWSER) {
@@ -26,7 +28,7 @@ const fetchData = (dispatch, state) => {
   const promises = [];
   promises.push(dispatch(loadCategories()));
   promises.push(dispatch(loadCurrencies()));
-  const loggedUser = state.entities.users[state.session.user]; // logged user comes from rehydrated state
+  const loggedUser = getLoggedUser(state); // logged user comes from rehydrated state
   if (loggedUser) {
     promises.push(dispatch(loadListening(loggedUser)));
   }
@@ -162,7 +164,7 @@ Application.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    loggedUser: state.entities.users[state.session.user],
+    loggedUser: getLoggedUser(state),
     currentLocation: state.currentLocation,
     currentUrl: state.routing.currentUrl,
     error: state.routing.error,

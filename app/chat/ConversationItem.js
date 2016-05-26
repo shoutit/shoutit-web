@@ -1,10 +1,11 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 
-import ProfileAvatar from '../users/ProfileAvatar.js';
 import Icon from '../ui/Icon.js';
 
 import { formatCreatedAt } from '../utils/DateUtils';
+import { getStyleBackgroundImage } from '../utils/DOMUtils';
+
 import ConversationDropdown from '../chat/ConversationDropdown';
 
 if (process.env.BROWSER) {
@@ -55,9 +56,6 @@ export default class ConversationItem extends Component {
 
     const { hover } = this.state;
 
-    const { id, profiles, lastMessage, unreadMessagesCount } = conversation;
-
-    const partecipants = profiles.filter(profile => !profile.isOwner);
     let className = 'ConversationItem';
     if (selected) {
       className = `${className} is-selected`;
@@ -65,53 +63,42 @@ export default class ConversationItem extends Component {
     if (hover) {
       className = `${className} hover`;
     }
-    if (unreadMessagesCount > 0) {
+    if (conversation.unreadMessagesCount > 0) {
       className = `${className} is-unread`;
     }
 
-    const head = conversation.profiles.filter(profile => !profile.isOwner)
-        .map(profile => profile.name).join(', ');
     return (
-      <div
+      <li
         className={ className }
         onMouseEnter={ this.handleMouseEnter.bind(this) }
         onMouseLeave={ this.handleMouseLeave.bind(this) }
       >
-        <Link onClick={ onClick } to={ `/messages/${id}` }>
-          <div className="ConversationItem-image">
-            <ProfileAvatar profile={ partecipants[0] } size="large" />
-          </div>
+        <Link onClick={ onClick } to={ `/messages/${conversation.id}` }>
+          <div className="ConversationItem-image" style={ getStyleBackgroundImage(conversation.display.image) } />
           <div className="ConversationItem-content">
-            <div className="ConversationItem-head">
-              { head }
-            </div>
-            { conversation.type === 'about_shout' &&
-              <div className="ConversationItem-about">
-                { conversation.about.title }
+            { conversation.display.title &&
+              <div className="ConversationItem-title">
+              { conversation.display.title }
               </div>
             }
-            { lastMessage &&
-              <div className="ConversationItem-last" title={ lastMessage.text }>
-                { lastMessage.profile && lastMessage.profile.isOwner &&
-                  <Icon name={ lastMessage.readBy.filter(({ profileId }) => profileId !== lastMessage.profile.id).length > 0 ? 'ok' : 'reply' }
-                    size="x-small"
-                  /> }
-                { lastMessage.text &&
-                  <span>{ lastMessage.text }</span> }
-                { !lastMessage.text && lastMessage.attachments &&
-                  <span className="htmlAncillary">Sent an attachment</span> }
+            { conversation.display.subTitle &&
+              <div className="ConversationItem-subtitle">
+                { conversation.display.subTitle }
+              </div>
+            }
+            { conversation.display.lastMessageSummary &&
+              <div className="ConversationItem-last" title={ conversation.display.lastMessageSummary }>
+                { conversation.display.lastMessageSummary }
               </div>
             }
           </div>
           <div className="ConversationItem-tools">
-            { lastMessage &&
-              <div className="ConversationItem-date">
-                { formatCreatedAt(lastMessage.createdAt) }
-              </div>
-            }
-            { showDropdown && !hover && unreadMessagesCount > 0 &&
+            <div className="ConversationItem-date">
+              { formatCreatedAt(conversation.modifiedAt) }
+            </div>
+            { showDropdown && !hover && conversation.unreadMessagesCount > 0 &&
               <div className="ConversationItem-unread-count">
-                { unreadMessagesCount } new
+                { conversation.unreadMessagesCount } new
               </div>
             }
           </div>
@@ -126,7 +113,7 @@ export default class ConversationItem extends Component {
             pullRight
           />
         }
-      </div>
+      </li>
     );
   }
 }
