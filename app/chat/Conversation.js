@@ -76,6 +76,9 @@ export class Conversation extends Component {
   }
 
   loadData() {
+    if (this.props.conversation && this.props.conversation.isNew) {
+      return;
+    }
     this.setState({ isFetching: true, error: null });
     this.props.loadConversation()
     .then(() => {
