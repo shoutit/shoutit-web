@@ -52,3 +52,10 @@ export function getMessagesByConversation(state, id) {
   ).sort((a, b) => a.createdAt - b.createdAt);
   return messages;
 }
+
+export function getTypingProfiles(state, conversationId) {
+  if (!state.chat.typingProfiles[conversationId]) {
+    return [];
+  }
+  return state.chat.typingProfiles[conversationId].map(id => state.entities.users[id]);
+}
