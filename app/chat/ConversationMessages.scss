@@ -1,6 +1,7 @@
 .ConversationMessages {
   display: flex;
   overflow: auto;
+  overflow-x: hidden;
   flex-direction: column;
   transform: translateZ(0);
 }
