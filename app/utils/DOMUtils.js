@@ -2,6 +2,19 @@ import { getVariation } from './APIUtils';
 import { imagesPath } from '../config';
 import debug from 'debug';
 
+export function getDocumentScrollTop() {
+  if (window.pageYOffset !== 'undefined') {
+    return window.pageYOffset;
+  }
+  if (document.documentElement.scrollTop) {
+    return document.documentElement.scrollTop;
+  }
+  if (document.body.scrollTop) {
+    return document.body.scrollTop;
+  }
+  return 0;
+}
+
 export function getStyleBackgroundImage(path, variation) {
   if (!path) {
     return {

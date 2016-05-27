@@ -1,7 +1,6 @@
-/* eslint-disable no-nested-ternary */
 import React, { Component, PropTypes } from 'react';
 
-import { preventBodyScroll } from '../utils/DOMUtils';
+import { preventBodyScroll, getDocumentScrollTop } from '../utils/DOMUtils';
 import debug from 'debug';
 
 const log = debug('shoutit:ui:Scrollable');
@@ -118,13 +117,7 @@ export default class Scrollable extends Component {
   getScrollTop() {
     const scrollElement = this.getScrollElement();
     if (scrollElement === window) {
-      return window.pageYOffset !== 'undefined' ?
-        window.pageYOffset :
-        document.documentElement.scrollTop ?
-        document.documentElement.scrollTop :
-        document.body.scrollTop ?
-        document.body.scrollTop :
-        0;
+      return getDocumentScrollTop();
     }
     return scrollElement.scrollTop;
   }
