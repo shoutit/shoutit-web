@@ -13,14 +13,11 @@
 
 .FileUploadField-dropzone {
   display: block;
-  padding: .5em;
-  border-radius: $border-radius-small;
-  background-color: $background-color-light;
-  box-shadow: inset $box-shadow-depth-0;
-  border: 1px solid $border-color-dark;
-
   &.active {
     background-color: $background-color;
+  }
+  .FileUploadField.dragging & {
+    background-color: $background-color-alt;
   }
 }
 
@@ -28,8 +25,7 @@
   color: $color-lighter;
   font-size: 0.875rem;
   text-align: center;
-  margin: .5rem 0;
-  margin-bottom: 1rem;
+  padding: .5rem 0;
 }
 
 .FileUploadField-file,
@@ -39,6 +35,7 @@
   height: 4em;
   margin: 0 .25em;
   border: 1px solid $border-color-darker;
+  border-radius: $border-radius-small;
   &:first-child {
     margin-left: 0;
   }
@@ -98,12 +95,14 @@
 .FileUploadField-add {
   cursor: pointer;
   border: 1px dashed $border-color-darker;
-  background-color: $background-color-alt;
-  background-image: url('../../assets/icons/add-active.svg');
+  background-color: $background-color-light;
+  background-image: url('../../assets/icons/camera.svg');
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50%;
   &:hover {
-    background-color: darken($background-color-alt, 5);
+    background-image: url('../../assets/icons/camera-active.svg');
+    background-color: $background-color-alt;
+    border-color: $border-color-alt;
   }
 }
