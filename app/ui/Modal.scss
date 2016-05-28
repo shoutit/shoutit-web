@@ -17,10 +17,13 @@
   height: 100vh;
   margin: 0 auto;
   .Modal.size-medium & {
-    width: 650px;
+    width: 550px;
   }
   .Modal.size-small & {
     width: 450px;
+  }
+  .Modal.size-x-small & {
+    width: 385px;
   }
   &:focus {
     border: 1px solid red;

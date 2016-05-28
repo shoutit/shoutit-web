@@ -71,7 +71,7 @@ export default class Modal extends Component {
   }
 
   static propTypes = {
-    size: PropTypes.oneOf(['medium', 'small', 'large']),
+    size: PropTypes.oneOf(['medium', 'small', 'x-small', 'large']),
     scrollableBody: PropTypes.bool,
     children: PropTypes.node,
     title: PropTypes.node,
