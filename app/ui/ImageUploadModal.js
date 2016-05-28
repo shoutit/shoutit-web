@@ -21,6 +21,7 @@ export default class ImageUploadModal extends Component {
 
   constructor(props) {
     super(props);
+    this.hide = this.hide.bind(this);
     this.submit = this.submit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleUploadStart = this.handleUploadStart.bind(this);
@@ -47,7 +48,12 @@ export default class ImageUploadModal extends Component {
   }
 
   submit() {
+    this.hide();
     this.props.onSubmit(this.fileUploadField.getValue());
+  }
+
+  hide() {
+    this.refs.modal.hide();
   }
 
   render() {
@@ -85,7 +91,7 @@ export default class ImageUploadModal extends Component {
         </Body>
         <Footer>
           <span style={ { marginRight: '.5rem' } }>
-            <Button size="small" key="cancel" type="button" onClick={ () => this.refs.modal.hide() }>
+            <Button size="small" key="cancel" type="button" onClick={ this.hide }>
               Cancel
             </Button>
           </span>
