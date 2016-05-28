@@ -119,15 +119,18 @@ export class ConversationReplyForm extends Component {
 
   handleAttachment(type, content) {
     const attachments = [];
-    const attachment = { type };
+    const attachment = { };
     switch (type) {
       case 'shout':
+        attachment.type = 'shout';
         attachment.shout = content.id;
         break;
       case 'profile':
+        attachment.type = 'profile';
         attachment.profile = content.id;
         break;
       case 'images':
+        attachment.type = 'media';
         attachment.images = content;
         break;
       default:
