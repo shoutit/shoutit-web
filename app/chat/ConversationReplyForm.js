@@ -34,7 +34,6 @@ export class ConversationReplyForm extends Component {
     focus: PropTypes.bool,
     disabled: PropTypes.bool,
     inputRef: PropTypes.func,
-    onAttachShoutClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -127,6 +126,9 @@ export class ConversationReplyForm extends Component {
         break;
       case 'profile':
         attachment.profile = content.id;
+        break;
+      case 'images':
+        attachment.images = content;
         break;
       default:
         break;
