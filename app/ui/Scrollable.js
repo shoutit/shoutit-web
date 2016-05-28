@@ -83,7 +83,7 @@ export default class Scrollable extends Component {
     if (this.props.preventDocumentScroll) {
       this.getScrollElement().removeEventListener('mouseenter', this.handleMouseEnter);
       this.getScrollElement().removeEventListener('mouseleave', this.handleMouseLeave);
-      preventBodyScroll(this.getScrollable()).off();
+      preventBodyScroll().off();
     }
   }
 
@@ -127,11 +127,11 @@ export default class Scrollable extends Component {
   }
 
   handleMouseEnter() {
-    preventBodyScroll(this.getScrollable()).on();
+    preventBodyScroll().on();
   }
 
   handleMouseLeave() {
-    preventBodyScroll(this.getScrollable()).off();
+    preventBodyScroll().off();
   }
 
   scrollToInitialPosition() {
