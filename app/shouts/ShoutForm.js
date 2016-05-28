@@ -14,11 +14,10 @@ if (process.env.BROWSER) {
   require('./ShoutForm.scss');
 }
 
-export class ShoutModal extends Component {
+export class ShoutForm extends Component {
 
   static propTypes = {
     shout: PropTypes.object.isRequired,
-    actions: PropTypes.node.isRequired,
     currencies: PropTypes.array.isRequired,
     mode: PropTypes.oneOf(['update', 'create']),
     onSubmit: PropTypes.func,
@@ -39,7 +38,7 @@ export class ShoutModal extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.submit = this.submit.bind(this);
     this.handleUploadStart = this.handleUploadStart.bind(this);
     this.handleUploadEnd = this.handleUploadEnd.bind(this);
   }
@@ -75,7 +74,7 @@ export class ShoutModal extends Component {
   textField = null;
   titleField = null;
 
-  handleSubmit() {
+  submit() {
     this.props.onSubmit(this.getShout());
   }
 
@@ -100,15 +99,13 @@ export class ShoutModal extends Component {
   }
 
   render() {
-    const { currencies, error, shout, disabled, actions, inputRef, mode } = this.props;
+    const { currencies, error, shout, disabled, inputRef, mode } = this.props;
     return (
       <Form
         className="ShoutForm"
-        ref={ el => {
-          if (inputRef) {
-            inputRef(el);
-          }
-        } } onSubmit={ this.handleSubmit } error={ error } actions={ actions }>
+        ref={ inputRef ? () => inputRef(this) : null }
+        onSubmit={ this.submit }
+        error={ error }>
 
         <FileUploadField
           ref={ el => { this.imageFileUploadField = el; } }
@@ -230,4 +227,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(ShoutModal);
+export default connect(mapStateToProps)(ShoutForm);

@@ -7,7 +7,7 @@ import Button from '../ui/Button';
 import HeaderMessagesButton from '../header/HeaderMessagesButton';
 // import HeaderNotificationsButton from '../header/HeaderNotificationsButton';
 import HeaderProfileButton from '../header/HeaderProfileButton';
-import NewShout from '../shouts/NewShout';
+import NewShoutModal from '../shouts/NewShoutModal';
 import Searchbar from '../search/Searchbar';
 
 import { imagesPath } from '../config';
@@ -43,10 +43,7 @@ export class Header extends Component {
 
   handleNewShoutClick() {
     const { dispatch } = this.props;
-    dispatch(openModal(<NewShout />, {
-      title: 'What are you posting?',
-      bsSize: 'small',
-    }));
+    dispatch(openModal(<NewShoutModal />));
   }
 
   render() {

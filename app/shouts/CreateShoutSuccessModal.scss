@@ -1,7 +1,9 @@
 @import '../styles/constants.scss';
 
 
-.CreateShoutSuccess {
+.CreateShoutSuccessModal {
+
+  padding: 1rem 0;
   h2 {
     margin-top: 0;
     background-image: url('../../assets/icons/sparkle-active.svg');
@@ -21,7 +23,7 @@
   }
 }
 
-.CreateShoutSuccess-buttons {
+.CreateShoutSuccessModal-buttons {
   width: 200px;
   margin: 0 auto;
 }
