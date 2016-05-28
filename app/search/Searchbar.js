@@ -15,7 +15,7 @@ import SearchbarResults from './SearchbarResults';
 import Overlay from '../ui/Overlay';
 import Progress from '../ui/Progress';
 import Button from '../ui/Button';
-import SearchLocation from '../location/SearchLocation';
+import LocationModal from '../location/LocationModal';
 
 if (process.env.BROWSER) {
   require('./Searchbar.scss');
@@ -114,16 +114,13 @@ export class Searchbar extends Component {
   handleLocationClick(e) {
     e.preventDefault();
     e.target.blur();
-    const { dispatch } = this.props;
-    const modal = (
-      <SearchLocation
-        onLocationSelect={ location => {
-          dispatch(closeModal());
-          dispatch(updateCurrentLocation(location));
-        } }
+    this.props.dispatch(openModal(
+      <LocationModal
+        onLocationSelect={
+          location => this.props.dispatch(updateCurrentLocation(location))
+        }
       />
-    );
-    this.props.dispatch(openModal(modal, { title: 'Change Your Location', bsSize: 'small' }));
+    ));
   }
 
   render() {
