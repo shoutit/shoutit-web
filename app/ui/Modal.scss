@@ -1,0 +1,113 @@
+@import '../styles/constants';
+.Modal {
+  position: fixed;
+  z-index: $z-index-modal;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  &.in {
+    opacity: 1;
+  }
+}
+
+.Modal-dialog {
+  height: 100vh;
+  margin: 0 auto;
+  .Modal.size-medium & {
+    width: 550px;
+  }
+  .Modal.size-small & {
+    width: 450px;
+  }
+  .Modal.size-x-small & {
+    width: 385px;
+  }
+  &:focus {
+    border: 1px solid red;
+  }
+}
+
+.Modal-content {
+  position: relative;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  box-shadow: $box-shadow-depth-2;
+}
+
+.ModalHeader {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  padding: .75rem 1rem;
+  align-items: center;
+  background-color: $background-color;
+  border-bottom: 1px solid $border-color;
+}
+
+.ModalHeader-close {
+  span {
+    cursor: pointer;
+    opacity: 0.4;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.ModalHeader-content {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+}
+
+.ModalFooter {
+  border-top: 1px solid $border-color;
+  background-color: $background-color-light;
+  padding: .5rem 1rem;
+
+  text-align: right;
+}
+
+
+.Modal-body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(80vh - 100px);
+  padding: .75rem;
+}
+
+.Modal-backdrop {
+  position: fixed;
+  z-index: $z-index-modal-backdrop;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: .4;
+  background-color: #000;
+}
+
+.Modal-animation-leave {
+  .Modal-backdrop {
+    opacity: .4;
+  }
+  .Modal-dialog {
+    opacity: 1;
+  }
+}
+
+.Modal-animation-leave.Modal-animation-leave-active {
+  .Modal-backdrop {
+    transition: opacity 300ms;
+    opacity: 0;
+  }
+  .Modal-dialog {
+    transition: opacity 250ms;
+    opacity: 0;
+  }
+}

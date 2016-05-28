@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 
 import Button from '../ui/Button';
 
-import UpdateShout from './UpdateShout';
+import UpdateShoutModal from './UpdateShoutModal';
 
-import { openModal, closeModal } from '../actions/ui';
+import { openModal } from '../actions/ui';
 
 export function UpdateShoutButton({ onClick, ...props }) {
   return (
@@ -22,10 +22,7 @@ UpdateShoutButton.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onClick: () => dispatch(openModal(
-    <UpdateShout shoutId={ ownProps.shoutId } onCancel={ () => dispatch(closeModal()) } onSuccess={ () => dispatch(closeModal()) } />,
-    { title: 'Edit this Shout' }
-  )),
+  onClick: () => dispatch(openModal(<UpdateShoutModal shoutId={ ownProps.shoutId } />)),
 });
 
 export default connect(null, mapDispatchToProps)(UpdateShoutButton);

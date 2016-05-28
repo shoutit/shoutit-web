@@ -3,73 +3,84 @@ import Icon from '../ui/Icon';
 import Tooltip from '../ui/Tooltip';
 import { connect } from 'react-redux';
 
-import { openModal, closeModal } from '../actions/ui';
-import LoggedUserShoutsScrollableList from '../shouts/LoggedUserShoutsScrollableList';
+import { openModal } from '../actions/ui';
+import UserShoutsModal from '../shouts/UserShoutsModal';
+import ImageUploadModal from '../ui/ImageUploadModal';
+import FileInput from '../ui/FileInput';
 
 if (process.env.BROWSER) {
   require('./ReplyFormToolbar.scss');
 }
 
-export function ReplyFormToolbar({ openModal }) {
+export function ReplyFormToolbar({ openShoutModal, openImageUpload }) {
   return (
     <span className="ReplyFormToolbar">
       <span className="ReplyFormToolbar-start">
-        <Tooltip overlay="Send Shout">
-          <span className="ReplyFormToolbar-item" onClick={ openModal.bind(null, 'shout', 'Send a Shout') }>
-            <Icon name="sparkle" size="x-small" />
+        <Tooltip overlay="Send a shout">
+          <span className="ReplyFormToolbar-item" onClick={ () => openShoutModal() }>
+            <Icon name="sparkle" size="x-small" hover />
           </span>
         </Tooltip>
-        <Tooltip overlay="Send Picture">
-          <span className="ReplyFormToolbar-item" onClick={ openModal.bind(null, 'picture', 'Send a Picture') }>
-            <Icon name="camera" size="x-small" />
-          </span>
+        <Tooltip overlay="Send pictures">
+          <FileInput
+            multiple
+            accept="image/x-png, image/jpeg"
+            name="image-modal"
+            onChange={ e => openImageUpload([...e.target.files]) }>
+            <span className="ReplyFormToolbar-item">
+              <Icon name="camera" size="x-small" hover />
+            </span>
+          </FileInput>
         </Tooltip>
-        <Tooltip overlay="Send Profile">
-          <span className="ReplyFormToolbar-item" onClick={ openModal.bind(null, 'profile', 'Send a Profile') }>
+        {/* <Tooltip overlay="Send a profile">
+          <span className="ReplyFormToolbar-item" onClick={ openShoutModal.bind(null, 'profile', 'Send a Profile') }>
             <Icon name="profile" size="x-small" />
           </span>
-        </Tooltip>
+        </Tooltip>*/}
       </span>
-      <span className="ReplyFormToolbar-end">
+      {/* <span className="ReplyFormToolbar-end">
         <Tooltip overlay="Start video call">
-          <span className="ReplyFormToolbar-item" onClick={ openModal.bind(null, 'videocall') }>
+          <span className="ReplyFormToolbar-item" onClick={ openShoutModal.bind(null, 'videocall') }>
             <Icon name="video" active size="small" />
           </span>
         </Tooltip>
-      </span>
+      </span>*/}
     </span>
   );
 }
 
 ReplyFormToolbar.propTypes = {
-  openModal: PropTypes.func.isRequired,
+  openShoutModal: PropTypes.func.isRequired,
   onAttachment: PropTypes.func.isRequired,
+  openImageUpload: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  openModal: (type, title) => {
-    const options = { title, scrollableBody: true, bsSize: 'small' };
-    let modal;
-    switch (type) {
-      case 'shout':
-        modal = (
-          <LoggedUserShoutsScrollableList
-            onShoutClick={ shout => {
-              dispatch(closeModal());
-              ownProps.onAttachment('shout', shout);
-            } }
-          />
-        );
-        break;
-      case 'picture':
-        modal = <p>Send a picture</p>;
-        break;
-      case 'profile':
-        modal = <p>Send a profile</p>;
-        break;
+
+  openImageUpload: (initialImages) => {
+    if (!initialImages || initialImages.length === 0) {
+      return;
     }
-    dispatch(openModal(modal, options));
+    dispatch(openModal(
+      <ImageUploadModal
+        initialImages={ initialImages }
+        openOnMount
+        submitLabel="Send"
+        onSubmit={ images =>
+          images.length > 0 && ownProps.onAttachment('images', images) }
+      />
+    ));
   },
+
+  openShoutModal: () => {
+    dispatch(openModal(
+      <UserShoutsModal
+        title="Send a Shout"
+        onShoutClick={ shout => ownProps.onAttachment('shout', shout) }
+      />
+    ));
+  },
+
 });
 
 export default connect(null, mapDispatchToProps)(ReplyFormToolbar);

@@ -8,20 +8,21 @@ export default class FileInput extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     disabled: PropTypes.bool,
+    multiple: PropTypes.bool,
     accept: PropTypes.string,
     className: PropTypes.string,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func,
   }
   render() {
-    const { accept, children, name, onChange, className, disabled } = this.props;
+    const { accept, children, name, onChange, className, disabled, multiple } = this.props;
     let cssClass = 'FileInput';
     if (className) {
       cssClass += ` ${className}`;
     }
     return (
       <span className={ cssClass }>
-        <input id={ name } type="file" accept={ accept } onChange={ onChange } disabled={ disabled } />
+        <input id={ name } type="file" accept={ accept } onChange={ onChange } disabled={ disabled } multiple={ multiple } />
         <label htmlFor={ name } zIndex={ 0 }>
           { children }
         </label>

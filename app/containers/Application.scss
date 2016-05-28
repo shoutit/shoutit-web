@@ -22,6 +22,7 @@
 
   .App.stickyHeader & {
     position: fixed;
+    top: 0;
   }
   .Header {
     height: $header-height;

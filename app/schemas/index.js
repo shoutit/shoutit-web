@@ -23,7 +23,10 @@ export const SUGGESTIONS = {
   tags: arrayOf(TAG),
   shout: SHOUT,
 };
-
+export const ATTACHMENT = {
+  shout: SHOUT,
+  profile: PROFILE,
+};
 export const Schemas = {
   CATEGORY,
   CATEGORIES,
@@ -54,6 +57,7 @@ SHOUT.define({
 MESSAGE.define({
   user: PROFILE,
   profile: PROFILE,
+  attachments: arrayOf(ATTACHMENT),
 });
 
 PROFILE.define({

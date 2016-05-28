@@ -13,9 +13,9 @@ export function closeModal() {
   };
 }
 
-export function openModal(body, options) {
+export function openModal(modal) {
   return {
     type: actionTypes.OPEN_MODAL,
-    payload: { body, ...options, show: true },
+    payload: { modal },
   };
 }
