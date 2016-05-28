@@ -18,7 +18,7 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload }) {
       <span className="ReplyFormToolbar-start">
         <Tooltip overlay="Send a shout">
           <span className="ReplyFormToolbar-item" onClick={ () => openShoutModal() }>
-            <Icon name="sparkle" size="x-small" />
+            <Icon name="sparkle" size="x-small" hover />
           </span>
         </Tooltip>
         <Tooltip overlay="Send pictures">
@@ -28,7 +28,7 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload }) {
             name="image-modal"
             onChange={ e => openImageUpload([...e.target.files]) }>
             <span className="ReplyFormToolbar-item">
-              <Icon name="camera" size="x-small" />
+              <Icon name="camera" size="x-small" hover />
             </span>
           </FileInput>
         </Tooltip>
