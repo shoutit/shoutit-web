@@ -35,7 +35,11 @@ let scrollTop;
 export function preventBodyScroll() {
   const log = debug('shoutit:preventBodyScroll');
   function on() {
-    scrollTop = document.body.scrollTop;
+    scrollTop = getDocumentScrollTop();
+    if (document.documentElement.clientHeight === document.documentElement.scrollHeight) {
+      log('Skip preventing body scroll as documentElement is not scrollable');
+      return;
+    }
     log('Prevent body scroll is enabled, scrolltop is %s', scrollTop);
     document.body.style.top = `${-scrollTop}px`;
     document.body.classList.add('no-scroll');
