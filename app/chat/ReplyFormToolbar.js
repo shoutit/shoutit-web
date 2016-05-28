@@ -4,7 +4,8 @@ import Tooltip from '../ui/Tooltip';
 import { connect } from 'react-redux';
 
 import { openModal, closeModal } from '../actions/ui';
-import LoggedUserShoutsScrollableList from '../shouts/LoggedUserShoutsScrollableList';
+import UserShoutsModal from '../shouts/UserShoutsModal';
+import ImageUploadModal from '../ui/ImageUploadModal';
 
 if (process.env.BROWSER) {
   require('./ReplyFormToolbar.scss');
@@ -14,17 +15,17 @@ export function ReplyFormToolbar({ openModal }) {
   return (
     <span className="ReplyFormToolbar">
       <span className="ReplyFormToolbar-start">
-        <Tooltip overlay="Send Shout">
+        <Tooltip overlay="Send a shout">
           <span className="ReplyFormToolbar-item" onClick={ openModal.bind(null, 'shout', 'Send a Shout') }>
             <Icon name="sparkle" size="x-small" />
           </span>
         </Tooltip>
-        <Tooltip overlay="Send Picture">
-          <span className="ReplyFormToolbar-item" onClick={ openModal.bind(null, 'picture', 'Send a Picture') }>
+        <Tooltip overlay="Send pictures">
+          <span className="ReplyFormToolbar-item" onClick={ openModal.bind(null, 'picture', 'Send Pictures') }>
             <Icon name="camera" size="x-small" />
           </span>
         </Tooltip>
-        <Tooltip overlay="Send Profile">
+        <Tooltip overlay="Send a profile">
           <span className="ReplyFormToolbar-item" onClick={ openModal.bind(null, 'profile', 'Send a Profile') }>
             <Icon name="profile" size="x-small" />
           </span>
@@ -53,16 +54,20 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     switch (type) {
       case 'shout':
         modal = (
-          <LoggedUserShoutsScrollableList
-            onShoutClick={ shout => {
-              dispatch(closeModal());
-              ownProps.onAttachment('shout', shout);
-            } }
+          <UserShoutsModal
+            title="Send a Shout"
+            onShoutClick={ shout => ownProps.onAttachment('shout', shout) }
           />
         );
         break;
       case 'picture':
-        modal = <p>Send a picture</p>;
+        modal = (
+          <ImageUploadModal
+            openOnMount
+            submitLabel="Send"
+            onSubmit={ images => images.length > 0 && ownProps.onAttachment('images', images) }
+          />
+        );
         break;
       case 'profile':
         modal = <p>Send a profile</p>;
