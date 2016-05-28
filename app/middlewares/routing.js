@@ -10,7 +10,7 @@ export default store => next => action => { // eslint-disable-line no-unused-var
   switch (action.type) {
     case '@@router/LOCATION_CHANGE':
       const { pathname } = action.payload;
-      if (state.modals.show) {
+      if (state.modals.modal) {
         store.dispatch(closeModal());
       }
       if (pathname.match(/^\/messages/)) {
