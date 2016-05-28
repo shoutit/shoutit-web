@@ -7,16 +7,17 @@ import Modal, { Header, Footer, Body } from '../ui/Modal';
 export default class ImageUploadModal extends Component {
 
   static propTypes = {
-    onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     openOnMount: PropTypes.bool,
     max: PropTypes.number,
+    initialImages: PropTypes.array,
   }
 
   static defaultProps = {
     submitLabel: 'Upload',
     openOnMount: false,
     max: 5,
+    initialImages: [],
   }
 
   constructor(props) {
@@ -31,6 +32,33 @@ export default class ImageUploadModal extends Component {
   state = {
     isUploading: false,
     images: [],
+  }
+
+  componentDidMount() {
+    if (this.props.initialImages.length > 0) {
+
+      const files = [...this.props.initialImages];
+
+      const promises = [];
+      files.forEach(file => {
+        if (file.preview) {
+          return;
+        }
+        promises.push(new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = e => {
+            file.preview = e.target.result;
+            resolve();
+          };
+          reader.readAsDataURL(file);
+        }));
+      });
+
+      Promise.all(promises).then(() => {
+        this.fileUploadField.handleDrop(this.props.initialImages);
+      });
+
+    }
   }
 
   fileUploadField = null
@@ -85,6 +113,7 @@ export default class ImageUploadModal extends Component {
               onUploadStart={ this.handleUploadStart }
               onUploadEnd={ this.handleUploadEnd }
               error={ null }
+              accept="image/x-png, image/jpeg"
               max={ this.props.max }
             />
           </Form>

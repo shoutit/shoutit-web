@@ -3,9 +3,10 @@ import Icon from '../ui/Icon';
 import Tooltip from '../ui/Tooltip';
 import { connect } from 'react-redux';
 
-import { openModal, closeModal } from '../actions/ui';
+import { openModal } from '../actions/ui';
 import UserShoutsModal from '../shouts/UserShoutsModal';
 import ImageUploadModal from '../ui/ImageUploadModal';
+import FileInput from '../ui/FileInput';
 
 if (process.env.BROWSER) {
   require('./ReplyFormToolbar.scss');
@@ -21,15 +22,23 @@ export function ReplyFormToolbar({ openModal }) {
           </span>
         </Tooltip>
         <Tooltip overlay="Send pictures">
-          <span className="ReplyFormToolbar-item" onClick={ openModal.bind(null, 'picture', 'Send Pictures') }>
-            <Icon name="camera" size="x-small" />
-          </span>
+          <FileInput
+            multiple
+            accept="image/x-png, image/jpeg"
+            name="image-modal"
+            onChange={ e => {
+              openModal('image', 'Send Pictures', { initialImages: [...e.target.files] });
+            } }>
+            <span className="ReplyFormToolbar-item">
+              <Icon name="camera" size="x-small" />
+            </span>
+          </FileInput>
         </Tooltip>
-        <Tooltip overlay="Send a profile">
+        {/* <Tooltip overlay="Send a profile">
           <span className="ReplyFormToolbar-item" onClick={ openModal.bind(null, 'profile', 'Send a Profile') }>
             <Icon name="profile" size="x-small" />
           </span>
-        </Tooltip>
+        </Tooltip>*/}
       </span>
       <span className="ReplyFormToolbar-end">
         <Tooltip overlay="Start video call">
@@ -48,7 +57,7 @@ ReplyFormToolbar.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  openModal: (type, title) => {
+  openModal: (type, title, props) => {
     const options = { title, scrollableBody: true, bsSize: 'small' };
     let modal;
     switch (type) {
@@ -60,9 +69,13 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
           />
         );
         break;
-      case 'picture':
+      case 'image':
+        if (!props.initialImages.length === 0) {
+          return;
+        }
         modal = (
           <ImageUploadModal
+            { ...props }
             openOnMount
             submitLabel="Send"
             onSubmit={ images => images.length > 0 && ownProps.onAttachment('images', images) }
