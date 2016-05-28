@@ -70,7 +70,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         );
         break;
       case 'image':
-        if (!props.initialImages.length === 0) {
+        if (props.initialImages.length === 0) {
           return;
         }
         modal = (
