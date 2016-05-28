@@ -57,6 +57,7 @@ export default class FileUploadField extends Component {
     deleteTooltip: PropTypes.string,
     disabled: PropTypes.bool,
     accept: PropTypes.string,
+    initialFileUrls: PropTypes.array,
     label: PropTypes.string,
     max: PropTypes.number,
     onChange: PropTypes.func,

@@ -57,19 +57,6 @@ Footer.propTypes = {
 
 export default class Modal extends Component {
 
-  static defaultProps = {
-    size: 'medium',
-    scrollableBody: false,
-    backdrop: true,
-    closeButton: true,
-    show: true,
-    preventClose: false,
-    buttons: [],
-
-    leaveTimeout: 250,
-    enterTimeout: 0,
-  }
-
   static propTypes = {
     size: PropTypes.oneOf(['medium', 'small', 'x-small', 'large']),
     scrollableBody: PropTypes.bool,
@@ -86,6 +73,19 @@ export default class Modal extends Component {
         close: PropTypes.bool,
       })
     ),
+  }
+
+  static defaultProps = {
+    size: 'medium',
+    scrollableBody: false,
+    backdrop: true,
+    closeButton: true,
+    show: true,
+    preventClose: false,
+    buttons: [],
+
+    leaveTimeout: 250,
+    enterTimeout: 0,
   }
 
   constructor(props) {

@@ -5,7 +5,7 @@ import trim from 'lodash/trim';
 import throttle from 'lodash/throttle';
 
 import { searchShouts, searchTags, searchProfiles } from '../actions/search';
-import { openModal, closeModal } from '../actions/ui';
+import { openModal } from '../actions/ui';
 import { updateCurrentLocation } from '../actions/location';
 
 import { stringifySearchParams } from '../utils/SearchUtils';
