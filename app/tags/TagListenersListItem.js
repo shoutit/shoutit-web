@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
-import TagListenersScrollableList from '../tags/TagListenersScrollableList';
+import TagListenersModal from '../tags/TagListenersModal';
 
 import { openModal } from '../actions/ui';
 
@@ -29,11 +29,7 @@ TagListenersListItem.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onClick: () =>
-    dispatch(openModal(
-      <TagListenersScrollableList tag={ ownProps.tag } />,
-      { title: `Listening to ${ownProps.category ? ownProps.category.name : ownProps.tag.name}`, scrollableBody: true, bsSize: 'small' }
-    )),
+  onClick: () => dispatch(openModal(<TagListenersModal tag={ ownProps.tag } category={ ownProps.category } />)),
 });
 
 export default connect(null, mapDispatchToProps)(TagListenersListItem);
