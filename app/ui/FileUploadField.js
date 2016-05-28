@@ -56,7 +56,7 @@ export default class FileUploadField extends Component {
     name: PropTypes.string.isRequired,
     deleteTooltip: PropTypes.string,
     disabled: PropTypes.bool,
-    initialFileUrls: PropTypes.array, // existing files to delete
+    accept: PropTypes.string,
     label: PropTypes.string,
     max: PropTypes.number,
     onChange: PropTypes.func,
@@ -71,6 +71,7 @@ export default class FileUploadField extends Component {
     uploadingLabel: 'Uploading…',
     max: 10,
     initialFileUrls: [],
+    accept: 'image/x-png, image/jpeg',
   }
 
   constructor(props) {
@@ -264,7 +265,7 @@ export default class FileUploadField extends Component {
     return (
       <div className={ className }>
         <Dropzone
-          accept="image/x-png, image/jpeg"
+          accept={ this.props.accept }
           disableClick
           onDrop={ this.handleDrop }
           onDragEnter={ this.handleDragEnter }
