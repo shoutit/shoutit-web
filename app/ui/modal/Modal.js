@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import debug from 'debug';
 
@@ -11,6 +12,14 @@ import { preventBodyScroll } from '../../utils/DOMUtils';
 import { ESCAPE } from '../../utils/keycodes';
 
 const log = debug('shoutit:ui:Modal');
+
+const CONTENT_TOP_SMALL = 40;
+const CONTENT_TOP_SMALL_TRIGGER = 650; // how much should window be small to use small content's top
+const CONTENT_TOP_DEFAULT = 100;
+const CONTENT_TOP_LARGE = 200;
+const CONTENT_TOP_LARGE_TRIGGER = 1050; // how much should window be small to use small content's top
+const MARGIN_BOTTOM = 75;
+const BODY_MAX_HEIGHT = 600;
 
 export default class Modal extends Component {
 
@@ -25,6 +34,7 @@ export default class Modal extends Component {
     preventClose: PropTypes.bool,
     leaveTimeout: PropTypes.number,
     enterTimeout: PropTypes.number,
+    autoSize: PropTypes.bool,
     buttons: PropTypes.arrayOf(
       PropTypes.shape({
         close: PropTypes.bool,
@@ -40,6 +50,7 @@ export default class Modal extends Component {
     show: true,
     preventClose: false,
     buttons: [],
+    autoSize: true,
 
     leaveTimeout: 250,
     enterTimeout: 0,
@@ -49,21 +60,27 @@ export default class Modal extends Component {
     super(props);
     this.hide = this.hide.bind(this);
     this.handleWindowKeyup = this.handleWindowKeyup.bind(this);
+    this.handleWindowResize = this.handleWindowResize.bind(this);
     this.handleBackdropClick = this.handleBackdropClick.bind(this);
     this.state = {
       show: props.show,
+      contentTop: CONTENT_TOP_DEFAULT,
+      bodyStyle: null,
     };
   }
 
   componentDidMount() {
     preventBodyScroll().on();
     window.addEventListener('keyup', this.handleWindowKeyup);
+    window.addEventListener('resize', this.handleWindowResize);
+    this.setSize();
   }
 
   componentWillUnmount() {
     preventBodyScroll().off();
     clearTimeout(this.leaveTimeoutId);
     window.removeEventListener('keyup', this.handleWindowKeyup);
+    window.removeEventListener('resize', this.handleWindowResize);
   }
 
   getHeader() {
@@ -72,6 +89,7 @@ export default class Modal extends Component {
       return undefined;
     }
     const props = {
+      ref: 'header',
       onCloseClick: this.hide,
     };
     if (this.props.preventClose) {
@@ -80,16 +98,73 @@ export default class Modal extends Component {
     return React.cloneElement(header, props);
   }
 
+  getHeaderHeight() {
+    if (!this.refs.header) {
+      return 0;
+    }
+    return ReactDOM.findDOMNode(this.refs.header).offsetHeight;
+  }
+
   getBodyFixed() {
-    return React.Children.toArray(this.props.children).find(child => child.type === BodyFixed);
+    const bodyFixed = React.Children.toArray(this.props.children).find(child => child.type === BodyFixed);
+    if (!bodyFixed) {
+      return null;
+    }
+    return React.cloneElement(bodyFixed, { ref: 'bodyFixed' });
+  }
+
+  getBodyFixedHeight() {
+    if (!this.refs.bodyFixed) {
+      return 0;
+    }
+    return ReactDOM.findDOMNode(this.refs.bodyFixed).offsetHeight;
   }
 
   getBody() {
-    return React.Children.toArray(this.props.children).find(child => child.type === Body);
+    let body = React.Children.toArray(this.props.children).find(child => child.type === Body);
+    if (body && this.props.autoSize) {
+      body = React.cloneElement(body, {
+        style: this.state.bodyStyle,
+      });
+    }
+    return body;
   }
 
   getFooter() {
-    return React.Children.toArray(this.props.children).find(child => child.type === Footer);
+    const footer = React.Children.toArray(this.props.children).find(child => child.type === Footer);
+    if (!footer) {
+      return null;
+    }
+    return React.cloneElement(footer, { ref: 'footer' });
+  }
+
+  getFooterHeight() {
+    if (!this.refs.footer) {
+      return 0;
+    }
+    return ReactDOM.findDOMNode(this.refs.footer).offsetHeight;
+  }
+
+  setSize() {
+    const newState = {};
+    const documentHeight = document.documentElement.offsetHeight;
+    if (documentHeight < CONTENT_TOP_SMALL_TRIGGER) {
+      newState.contentTop = CONTENT_TOP_SMALL;
+    } else if (documentHeight > CONTENT_TOP_LARGE_TRIGGER) {
+      newState.contentTop = CONTENT_TOP_LARGE;
+    } else {
+      newState.contentTop = CONTENT_TOP_DEFAULT;
+    }
+    if (this.props.autoSize) {
+      let maxHeight = documentHeight - newState.contentTop - MARGIN_BOTTOM - this.getHeaderHeight() - this.getBodyFixedHeight() - this.getFooterHeight();
+      if (maxHeight > BODY_MAX_HEIGHT) {
+        maxHeight = BODY_MAX_HEIGHT;
+      }
+      newState.bodyStyle = { maxHeight };
+    }
+    if (Object.keys(newState).length > 0) {
+      this.setState(newState);
+    }
   }
 
   leaveTimeoutId = null
@@ -118,6 +193,11 @@ export default class Modal extends Component {
       this.hide();
     }
   }
+
+  handleWindowResize() {
+    this.setSize();
+  }
+
   handleBackdropClick(e) {
     if (this.refs.content.contains(e.target)) {
       log('Ignoring backdrop click since the clicked element is the modal content');
@@ -153,7 +233,11 @@ export default class Modal extends Component {
               role="dialog"
               onClick={ this.handleBackdropClick }>
               <div className="Modal-dialog">
-                <div className="Modal-content" ref="content" tabIndex={ 0 }>
+                <div
+                  ref="content"
+                  className="Modal-content"
+                  tabIndex={ 0 }
+                  style={ { top: this.state.contentTop } }>
                   { this.getHeader() }
                   { this.getBodyFixed() }
                   { this.getBody() }
