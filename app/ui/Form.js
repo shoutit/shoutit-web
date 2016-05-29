@@ -66,6 +66,8 @@ export default class Form extends Component {
           </div>
         }
 
+        <button type="submit" style={ { display: 'none' } } />
+
       </form>
     );
   }
