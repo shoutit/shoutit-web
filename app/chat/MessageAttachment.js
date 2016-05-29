@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { getVariation } from '../utils/APIUtils';
 import ShoutPreview from '../shouts/ShoutPreview';
-// import ProfilePreview from '../users/ProfilePreview';
+import ProfilePreview from '../users/ProfilePreview';
 import GoogleStaticMap from '../location/GoogleStaticMap';
 
 if (process.env.BROWSER) {
@@ -20,11 +20,11 @@ function MessageAttachment({ attachment }) {
         />
       );
       break;
-    // case 'profile':
-    //   content = (
-    //     <ProfilePreview id={ attachment.profile.id } />
-    //   );
-    //   break;
+    case 'profile':
+      content = (
+        <ProfilePreview id={ attachment.profile.id } />
+      );
+      break;
     case 'media':
       if (attachment.videos) {
         content = attachment.videos.map(video => <video src={ video.url } controls />);

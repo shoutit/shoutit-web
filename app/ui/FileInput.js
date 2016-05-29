@@ -1,5 +1,5 @@
+import uuid from 'uuid';
 import React, { PropTypes, Component } from 'react';
-
 if (process.env.BROWSER) {
   require('./FileInput.scss');
 }
@@ -7,24 +7,44 @@ if (process.env.BROWSER) {
 export default class FileInput extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    disabled: PropTypes.bool,
-    multiple: PropTypes.bool,
+    name: PropTypes.string,
     accept: PropTypes.string,
     className: PropTypes.string,
-    name: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
+    multiple: PropTypes.bool,
     onChange: PropTypes.func,
+    onClick: PropTypes.func,
+  }
+
+  id = uuid.v1()
+
+  handleClick(e) {
+    // prevent missing onchange event, see http://stackoverflow.com/questions/2133807
+    e.target.value = null;
+    if (this.props.onClick) {
+      this.props.onClick(e);
+    }
   }
   render() {
-    const { accept, children, name, onChange, className, disabled, multiple } = this.props;
     let cssClass = 'FileInput';
-    if (className) {
-      cssClass += ` ${className}`;
+    if (this.props.className) {
+      cssClass += ` ${this.props.className}`;
     }
     return (
       <span className={ cssClass }>
-        <input id={ name } type="file" accept={ accept } onChange={ onChange } disabled={ disabled } multiple={ multiple } />
-        <label htmlFor={ name } zIndex={ 0 }>
-          { children }
+        <input
+          ref="input"
+          id={ this.id }
+          type="file"
+          accept={ this.props.accept }
+          onClick={ this.handleClick.bind(this) }
+          onChange={ this.props.onChange }
+          disabled={ this.props.disabled }
+          multiple={ this.props.multiple }
+          name={ this.props.name }
+        />
+        <label htmlFor={ this.id } zIndex={ 0 }>
+          { this.props.children }
         </label>
       </span>
     );

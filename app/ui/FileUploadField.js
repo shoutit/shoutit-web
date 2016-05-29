@@ -260,6 +260,9 @@ export default class FileUploadField extends Component {
     if (this.state.dragging) {
       className += ' dragging';
     }
+    if (this.props.disabled) {
+      className += ' disabled';
+    }
     if (this.state.uploads.length === 0) {
       className += ' no-files';
     }

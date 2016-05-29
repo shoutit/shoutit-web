@@ -33,7 +33,7 @@ export class UpdateShout extends Component {
   }
 
   componentDidMount() {
-    this.refs.cancel.focus();
+    this.refs.submit.focus();
   }
 
   componentWillUnmount() {
@@ -111,7 +111,7 @@ export class UpdateShout extends Component {
               Cancel
             </Button>
           </span>
-          <Button key="submit" size="small" action="primary" onClick={ () => this.form.submit() } disabled={ shout.isUpdating || isUploading || shout.isDeleting }>
+          <Button ref="submit" key="submit" size="small" action="primary" onClick={ () => this.form.submit() } disabled={ shout.isUpdating || isUploading || shout.isDeleting }>
             { submitLabel }
           </Button>
         </Footer>

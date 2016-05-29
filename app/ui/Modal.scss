@@ -6,8 +6,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   &.in {
     opacity: 1;
   }
@@ -25,9 +24,6 @@
   .Modal.size-x-small & {
     width: 385px;
   }
-  &:focus {
-    border: 1px solid red;
-  }
 }
 
 .Modal-content {
@@ -35,24 +31,30 @@
   top: 100px;
   display: flex;
   flex-direction: column;
+  border-radius: $border-radius-small;
   background: white;
   box-shadow: $box-shadow-depth-2;
+  &:focus {
+    outline: none;
+  }
 }
 
 .ModalHeader {
   position: relative;
   z-index: 1;
   display: flex;
-  padding: .75rem 1rem;
   align-items: center;
-  background-color: $background-color;
+  padding: .75rem 1rem;
   border-bottom: 1px solid $border-color;
+  border-top-left-radius: $border-radius-small;
+  border-top-right-radius: $border-radius-small;
+  background-color: $background-color;
 }
 
 .ModalHeader-close {
   span {
     cursor: pointer;
-    opacity: 0.4;
+    opacity: .7;
     &:hover {
       opacity: 1;
     }
@@ -60,24 +62,30 @@
 }
 
 .ModalHeader-content {
-  flex: 1;
   margin: 0;
   padding: 0;
+
+  flex: 1;
 }
 
 .ModalFooter {
-  border-top: 1px solid $border-color;
-  background-color: $background-color-light;
   padding: .5rem 1rem;
-
   text-align: right;
+  border-top: 1px solid $border-color;
+  border-bottom-right-radius: $border-radius-small;
+  border-bottom-left-radius: $border-radius-small;
+  background-color: $background-color-light;
 }
 
 
-.Modal-body {
+.ModalBody {
+  position: relative;
   overflow-x: hidden;
   overflow-y: auto;
-  max-height: calc(80vh - 100px);
+  padding: .75rem;
+}
+
+.ModalBodyFixed {
   padding: .75rem;
 }
 
