@@ -47,7 +47,6 @@ export default class ProfilesScrollableList extends Component {
   }
 
   render() {
-    const { isFetching, profiles } = this.props;
     return (
       <Scrollable
         ref="scrollable"
@@ -56,10 +55,13 @@ export default class ProfilesScrollableList extends Component {
         onScrollBottom={ this.handleScrollBottom }
       >
         <div className="ProfilesScrollableList-items">
-          { profiles.map(profile =>
-            <span key={ profile.id }><ProfileListItem popover={ false } size="large" profile={ profile } /></span>) }
+          { this.props.profiles.map(profile =>
+            <span key={ profile.id }>
+              <ProfileListItem popover={ false } size="large" profile={ profile } />
+            </span>
+          ) }
         </div>
-        <Progress animate={ isFetching } size="small" />
+        <Progress animate={ this.props.isFetching } size="small" />
       </Scrollable>
     );
   }
