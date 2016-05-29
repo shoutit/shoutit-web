@@ -31,6 +31,13 @@ export function getStyleBackgroundImage(path, variation) {
   };
 }
 
+export function blurActiveElement() {
+  if (!document || !document.activeElement || !document.activeElement.blur) {
+    return;
+  }
+  document.activeElement.blur();
+}
+
 let scrollTop;
 export function preventBodyScroll() {
   const log = debug('shoutit:preventBodyScroll');
