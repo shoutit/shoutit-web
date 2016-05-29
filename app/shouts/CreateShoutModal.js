@@ -88,7 +88,7 @@ export class CreateShoutModal extends Component {
       submitLabel = 'Publishing…';
     }
     return (
-      <Modal { ...this.props} ref="modal">
+      <Modal { ...this.props} ref="modal" preventClose>
         <Header>
           Post a new { shout.type }
         </Header>
