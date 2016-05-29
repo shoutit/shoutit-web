@@ -1,5 +1,5 @@
+import uuid from 'uuid';
 import React, { PropTypes, Component } from 'react';
-
 if (process.env.BROWSER) {
   require('./FileInput.scss');
 }
@@ -7,17 +7,20 @@ if (process.env.BROWSER) {
 export default class FileInput extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    disabled: PropTypes.bool,
-    multiple: PropTypes.bool,
+    name: PropTypes.string,
     accept: PropTypes.string,
     className: PropTypes.string,
-    name: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
+    multiple: PropTypes.bool,
     onChange: PropTypes.func,
     onClick: PropTypes.func,
   }
+
+  id = uuid.v1()
+
   handleClick(e) {
     // prevent missing onchange event, see http://stackoverflow.com/questions/2133807
-    this.refs.input.value = null;
+    e.target.value = null;
     if (this.props.onClick) {
       this.props.onClick(e);
     }
@@ -31,15 +34,16 @@ export default class FileInput extends Component {
       <span className={ cssClass }>
         <input
           ref="input"
-          id={ name }
+          id={ this.id }
           type="file"
           accept={ this.props.accept }
           onClick={ this.handleClick.bind(this) }
           onChange={ this.props.onChange }
           disabled={ this.props.disabled }
           multiple={ this.props.multiple }
+          name={ this.props.name }
         />
-        <label htmlFor={ name } zIndex={ 0 }>
+        <label htmlFor={ this.id } zIndex={ 0 }>
           { this.props.children }
         </label>
       </span>
