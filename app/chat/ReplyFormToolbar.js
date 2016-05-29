@@ -1,18 +1,21 @@
 import React, { PropTypes } from 'react';
-import Icon from '../ui/Icon';
-import Tooltip from '../ui/Tooltip';
 import { connect } from 'react-redux';
 
+import { getLoggedUser } from '../selectors';
+
 import { openModal } from '../actions/ui';
+import ProfilesModal from '../users/ProfilesModal';
 import UserShoutsModal from '../shouts/UserShoutsModal';
 import ImageUploadModal from '../ui/ImageUploadModal';
+import Icon from '../ui/Icon';
+import Tooltip from '../ui/Tooltip';
 import FileInput from '../ui/FileInput';
 
 if (process.env.BROWSER) {
   require('./ReplyFormToolbar.scss');
 }
 
-export function ReplyFormToolbar({ openShoutModal, openImageUpload }) {
+export function ReplyFormToolbar({ openShoutModal, openImageUpload, openProfilesModal, loggedUser }) {
   return (
     <span className="ReplyFormToolbar">
       <span className="ReplyFormToolbar-start">
@@ -32,11 +35,13 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload }) {
             </span>
           </FileInput>
         </Tooltip>
-        {/* <Tooltip overlay="Send a profile">
-          <span className="ReplyFormToolbar-item" onClick={ openShoutModal.bind(null, 'profile', 'Send a Profile') }>
-            <Icon name="profile" size="x-small" />
-          </span>
-        </Tooltip>*/}
+        { (loggedUser.listeningCount.users > 0 || loggedUser.listenersCount > 0) &&
+          <Tooltip overlay="Send a profile">
+            <span className="ReplyFormToolbar-item" onClick={ () => openProfilesModal() }>
+              <Icon name="profile" size="x-small" />
+            </span>
+          </Tooltip>
+        }
       </span>
       {/* <span className="ReplyFormToolbar-end">
         <Tooltip overlay="Start video call">
@@ -50,14 +55,20 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload }) {
 }
 
 ReplyFormToolbar.propTypes = {
-  openShoutModal: PropTypes.func.isRequired,
+  loggedUser: PropTypes.object.isRequired,
   onAttachment: PropTypes.func.isRequired,
+  openProfilesModal: PropTypes.func.isRequired,
+  openShoutModal: PropTypes.func.isRequired,
   openImageUpload: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = state => ({
+  loggedUser: getLoggedUser(state),
+});
+
 const mapDispatchToProps = (dispatch, ownProps) => ({
 
-  openImageUpload: (initialImages) => {
+  openImageUpload: initialImages => {
     if (!initialImages || initialImages.length === 0) {
       return;
     }
@@ -81,6 +92,15 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ));
   },
 
+  openProfilesModal: () => {
+    dispatch(openModal(
+      <ProfilesModal
+        title="Send a Profile"
+        onProfileClick={ profile => ownProps.onAttachment('profile', profile) }
+      />
+    ));
+  },
+
 });
 
-export default connect(null, mapDispatchToProps)(ReplyFormToolbar);
+export default connect(mapStateToProps, mapDispatchToProps)(ReplyFormToolbar);
