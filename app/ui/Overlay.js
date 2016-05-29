@@ -38,9 +38,6 @@ OverlayWrapper.propTypes = {
  *
  */
 export default function Overlay({ arrow, inverted, placement = 'bottom', children, style, className, ...overlayProps }) {
-  if (!process.env.BROWSER) {
-    return <span />;
-  }
   let overlayClassName = `Overlay ${placement}`;
   if (arrow) {
     overlayClassName += ' arrow';
