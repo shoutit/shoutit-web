@@ -38,7 +38,7 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload, openProfiles
         { (loggedUser.listeningCount.users > 0 || loggedUser.listenersCount > 0) &&
           <Tooltip overlay="Send a profile">
             <span className="ReplyFormToolbar-item" onClick={ () => openProfilesModal() }>
-              <Icon name="profile" size="x-small" />
+              <Icon name="profile" size="x-small" hover />
             </span>
           </Tooltip>
         }
