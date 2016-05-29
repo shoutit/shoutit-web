@@ -37,6 +37,7 @@
   flex-direction: column;
   background: white;
   box-shadow: $box-shadow-depth-2;
+  border-radius: $border-radius-small;
 }
 
 .ModalHeader {
@@ -47,6 +48,8 @@
   align-items: center;
   background-color: $background-color;
   border-bottom: 1px solid $border-color;
+  border-top-left-radius: $border-radius-small;
+  border-top-right-radius: $border-radius-small;
 }
 
 .ModalHeader-close {
@@ -68,6 +71,8 @@
 .ModalFooter {
   border-top: 1px solid $border-color;
   background-color: $background-color-light;
+  border-bottom-left-radius: $border-radius-small;
+  border-bottom-right-radius: $border-radius-small;
   padding: .5rem 1rem;
 
   text-align: right;
