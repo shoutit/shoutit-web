@@ -161,7 +161,7 @@ export class Searchbar extends Component {
       isFetchingProfiles = profilesBySearch[profilesSearchSlug].isFetching;
     }
 
-    const locationLabel = formatLocation(currentLocation) || 'Anywhere';
+    const locationLabel = formatLocation(currentLocation, { showCountry: false }) || 'Anywhere';
     const hasResults = foundTags.length > 0 || foundShouts.length > 0 || foundProfiles.length > 0;
     const isFetching = isFetchingShouts || isFetchingProfiles || isFetchingTags;
 
