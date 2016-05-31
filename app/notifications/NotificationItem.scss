@@ -1,0 +1,47 @@
+@import '../styles/constants.scss';
+
+.NotificationItem {
+  position: relative;
+  cursor: pointer;
+  display: block;
+  font-size: 0.875rem;
+}
+
+.NotificationItem.is-unread {
+  background-color: $background-color;
+
+}
+.NotificationItem:hover:not(.is-unread) {
+  background-color: $background-color-light;
+}
+.NotificationItem:hover.is-unread {
+  background-color: darken($background-color, 1);
+}
+
+.NotificationItem a {
+  padding: .75em;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: $color;
+  &:hover {
+    color: $color;
+  }
+}
+.NotificationItem-image {
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: $border-radius-small;
+  margin-right: .5em;
+}
+.NotificationItem-text .highlight {
+  font-weight: bold;
+}
+.NotificationItem-date {
+  color: $color-light;
+  margin-top: .25em;
+  font-size: 0.875em;
+  .NotificationItem.is-unread & {
+    font-weight: bold;
+  }
+}

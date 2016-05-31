@@ -95,3 +95,14 @@ export function getTypingProfiles(state, conversationId) {
   }
   return state.chat.typingProfiles[conversationId].map(id => state.entities.users[id]);
 }
+
+// Notifications
+
+export function getNotifications(state) {
+  if (!state.paginated.notifications.ids) {
+    return [];
+  }
+  return state.paginated.notifications.ids
+    .map(id => state.entities.notifications[id])
+    .sort((a, b) => b.createdAt - a.createdAt);
+}
