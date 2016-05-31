@@ -1,9 +1,13 @@
 @import "../styles/constants.scss";
 
 .MessagesList {
-  display: flex;
-  align-items: flex-end;
-  padding-left: .5em;
+
+  .MessageReadBy {
+    text-align: right;
+    margin-right: 1em;
+    font-size: 0.625em;
+    margin-top: -1em;
+  }
 }
 
 .MessagesList.is-owner {
@@ -13,21 +17,13 @@
   }
 }
 
-  .MessagesList-day {
-    margin: 10px 0;
-    text-align: center;
-    color: $color-lighter;
-    display: flex;
-    align-items: center;
-    font-size: 12px;
-    span:first-child,
-    span:last-child {
-      flex: 1;
-      height: 1px;
-      background-color: $border-color;
-      margin: 0 10px;
-    }
-  }
+.MessagesList-day {
+  text-transform: uppercase;
+  text-align: center;
+  color: $color-lighter;
+  align-items: center;
+  font-size: 0.75em;
+}
 
   .MessagesList-messages {
     flex: 1;

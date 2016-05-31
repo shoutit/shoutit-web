@@ -1,6 +1,5 @@
 import omit from 'lodash/omit';
 import get from 'lodash/get';
-import findLast from 'lodash/findLast';
 
 import { denormalize } from '../schemas';
 

@@ -193,11 +193,10 @@ export class Shout extends Component {
 
         <div className="Shout-body">
           <div className="Shout-text">
-            { shout.text && <p>
+            { shout.text &&
               <NewlineToBreak>
                 { shout.text }
               </NewlineToBreak>
-            </p>
             }
           </div>
         </div>

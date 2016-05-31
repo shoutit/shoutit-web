@@ -102,7 +102,7 @@ export class Conversation extends Component {
     return (
       <div className={ `Conversation layout-${layout}` }>
 
-        { conversation &&
+        { conversation && (layout === 'full' || conversation.about) &&
           <div className="Conversation-head">
             <ConversationHead showTitle={ layout === 'full' } conversation={ conversation } />
           </div>
