@@ -93,6 +93,14 @@
   .MessageItem.is-owner & {
      background-color: $background-color-alt;
   }
+
+  .MessageItem:not(.has-attachments) & {
+    max-width: 200px;
+    .Conversation.layout-full & {
+      max-width: 400px;
+    }
+  }
+
   .MessageItem.has-attachments & {
     padding: 0 !important;
     overflow: hidden;
