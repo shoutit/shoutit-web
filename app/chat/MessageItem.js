@@ -1,92 +1,112 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 
+import ProfileAvatar from '../users/ProfileAvatar';
 import MessageAttachment from './MessageAttachment';
-import MessageReadByFlag from './MessageReadByFlag';
 import NewlineToBreak from '../ui/NewlineToBreak';
+import Tooltip from '../ui/Tooltip';
 
 if (process.env.BROWSER) {
   require('./MessageItem.scss');
 }
+export default class MessageItem extends Component {
 
-function MessageFooter({ message, readByProfiles = [] }) {
-  const { isCreating, createError, createdAt } = message;
-  const created = moment.unix(createdAt);
-  return (
-    <div className="MessageItem-footer">
-      { !isCreating && !createError &&
-        <span>
-          { readByProfiles.length > 0 && <MessageReadByFlag profiles={ readByProfiles } /> }
-        </span>
+  static propTypes = {
+    message: PropTypes.object.isRequired,
+    previousMessage: PropTypes.object,
+    readByProfiles: PropTypes.array,
+    showSender: PropTypes.bool,
+    isFirstOfGroup: PropTypes.bool,
+    isLastOfGroup: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    readByProfiles: [],
+    showSender: true,
+  }
+
+  render() {
+    const { message } = this.props;
+    const { isCreating, text, createError, attachments = [] } = message;
+    const isOwner = message.profile && message.profile.isOwner;
+    let className = 'MessageItem';
+
+    if (this.props.isFirstOfGroup) {
+      className += ' is-first';
+    }
+    if (this.props.isLastOfGroup) {
+      className += ' is-last';
+    }
+    if (message.readBy.length > 0) {
+      className += ' is-read';
+    }
+    if (isOwner) {
+      className += ' is-owner';
+    }
+    if (!message.profile) {
+      className += ' no-profile';
+    }
+    if (createError) {
+      className += ' did-error';
+    }
+    if (isCreating) {
+      className += ' sending';
+    }
+    if (attachments.length > 0) {
+      className += ' has-attachments';
+      if (attachments.some(attachment => attachment.type === 'media')) {
+        className += ' has-media-attachments';
       }
-      { !isCreating && !createError &&
-        <span title={ created.format('LLLL') }>
-          { created.format('LT') }
-        </span>
+      if (attachments.some(attachment => attachment.type === 'location')) {
+        className += ' has-location-attachments';
       }
-      { isCreating && <span>Sending…</span> }
-    </div>
-  );
-}
+    }
 
-MessageFooter.propTypes = {
-  message: PropTypes.object.isRequired,
-  readByProfiles: PropTypes.array,
-};
+    const sender = !isOwner && this.props.showSender && message.profile &&
+      <div className="MessageItem-sender-wrapper">
+        <Tooltip placement="left" overlay={ `${message.profile.name} at ${moment.unix(message.createdAt).format('LT')}` }><span>
+          <ProfileAvatar profile={ message.profile } linkToProfilePage />
+        </span>
+        </Tooltip>
+      </div>;
 
-export default function MessageItem({ message, readByProfiles = [] }) {
-  const { isCreating, text, createError, attachments = [] } = message;
-
-  let className = 'MessageItem';
-
-  if (message.profile && message.profile.isOwner) {
-    className += ' is-owner';
-  }
-  if (!message.profile) {
-    className += ' no-profile';
-  }
-  if (createError) {
-    className += ' did-error';
-  }
-  if (isCreating) {
-    className += ' sending';
-  }
-  if (attachments.length > 0) {
-    className += ' has-attachments';
-  }
-
-  return (
-    <div className={ className }>
-      <div className="MessageItem-wrapper">
-        { attachments.length > 0 &&
-          <span className="MessageItem-attachments">
-            { attachments.map((attachment, i) =>
-              <MessageAttachment key={ i } attachment={ attachment } />
-            ) }
-            { !text && <MessageFooter message={ message } /> }
-          </span>
-        }
-        { text &&
-          <div className="MessageItem-text">
-            <p>
-              <NewlineToBreak>{ text }</NewlineToBreak>
-            </p>
-            <MessageFooter message={ message } readByProfiles={ readByProfiles } />
+    return (
+      <div className={ className }>
+        { !isOwner && message.profile &&
+          <div className="MessageItem-sender">
+            { sender }
           </div>
         }
 
-      </div>
-
-      { !isCreating && createError &&
-        <div className="MessageItem-retry" title={ createError.message }>
-          ⚠️ This message could not be sent
+        <div className="MessageItem-message">
+          { attachments.length > 0 &&
+            <span className="MessageItem-attachments">
+              { attachments.map((attachment, i) =>
+                <MessageAttachment key={ i } attachment={ attachment } />
+              ) }
+            </span>
+          }
+          { text &&
+            <div className="MessageItem-text">
+              <NewlineToBreak>{ text }</NewlineToBreak>
+            </div>
+          }
         </div>
-      }
-    </div>
-  );
-}
 
-MessageItem.propTypes = {
-  message: PropTypes.object.isRequired,
-  readByProfiles: PropTypes.array,
-};
+        { false && isOwner &&
+          <div className="MessageItem-sender">
+            { sender }
+          </div>
+        }
+{/*
+        { !isCreating && createError &&
+          <div className="MessageItem-retry" title={ createError.message }>
+            ⚠️ This message could not be sent
+          </div>
+        }*/}
+      </div>
+    );
+
+  }
+
+}
