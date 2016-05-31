@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import Button from '../ui/Button';
 
 import HeaderMessagesButton from '../header/HeaderMessagesButton';
-// import HeaderNotificationsButton from '../header/HeaderNotificationsButton';
+import HeaderNotificationsButton from '../header/HeaderNotificationsButton';
 import HeaderProfileButton from '../header/HeaderProfileButton';
 import NewShoutModal from '../shouts/NewShoutModal';
 import Searchbar from '../search/Searchbar';
@@ -68,7 +68,7 @@ export class Header extends Component {
         { isLoggedIn ?
           <div className="Header-tools loggedIn">
             <HeaderMessagesButton overlayContainer={ this } />
-            { /* <HeaderNotificationsButton overlayContainer={ this } />*/ }
+            <HeaderNotificationsButton overlayContainer={ this } />
             <Button action="primary" size="small" icon="sparkle" onClick={ this.handleNewShoutClick }>
               Create Shout
             </Button>

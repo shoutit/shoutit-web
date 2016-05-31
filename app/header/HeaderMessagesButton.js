@@ -7,7 +7,7 @@ import Icon from '../ui/Icon';
 import Overlay from '../ui/Overlay';
 
 import HeaderMessagesOverlay from './HeaderMessagesOverlay';
-import { getLoggedUser } from '../selectors';
+import { getUnreadConversationsCount } from '../selectors';
 
 export class HeaderMessagesButton extends Component {
 
@@ -60,7 +60,7 @@ export class HeaderMessagesButton extends Component {
 }
 
 const mapStateToProps = state => ({
-  badge: getLoggedUser(state).stats.unreadConversationsCount,
+  badge: getUnreadConversationsCount(state),
 });
 
 export default connect(mapStateToProps)(HeaderMessagesButton);

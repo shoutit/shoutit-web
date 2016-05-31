@@ -7,6 +7,20 @@ export function getLoggedUser(state) {
   return denormalize(state.entities.users[state.session.user], state.entities, 'PROFILE');
 }
 
+export function getUnreadNotificationsCount(state) {
+  if (!state.session.user) {
+    return 0;
+  }
+  return state.entities.users[state.session.user].stats.unreadNotificationsCount;
+}
+
+export function getUnreadConversationsCount(state) {
+  if (!state.session.user) {
+    return 0;
+  }
+  return state.entities.users[state.session.user].stats.unreadConversationsCount;
+}
+
 // Misc selector
 
 export function getPaginationState(state, selector) {

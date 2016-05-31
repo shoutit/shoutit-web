@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
-
+import { getUnreadNotificationsCount } from '../selectors';
 import Icon from '../ui/Icon';
 import Overlay from '../ui/Overlay';
 
@@ -54,8 +54,8 @@ export class HeaderNotificationsButton extends Component {
   }
 }
 
-const mapStateToProps = () => ({
-  badge: 0, // state.entities.users[state.session.user].stats.unreadNotificationsCount,
+const mapStateToProps = state => ({
+  badge: getUnreadNotificationsCount(state),
 });
 
 export default connect(mapStateToProps)(HeaderNotificationsButton);
