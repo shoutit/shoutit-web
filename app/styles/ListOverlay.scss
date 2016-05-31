@@ -1,40 +1,51 @@
-@import "./constants/colors.scss";
+@import './constants/colors.scss';
 
 .ListOverlay {
   display: flex;
   flex-direction: column;
-
   transform: translateZ(0); // fix issue with scrollbars on chrome
 }
 
 .ListOverlay-header {
-  padding: 10px;
-  font-size: 14px;
-  overflow: auto;
-  border-bottom: 1px solid $border-color-dark;
+  display: flex;
+  align-items: center;
+  padding: .75em 1em;
+  border-bottom: 1px solid $border-color;
+  .ListOverlay-title {
+    flex: 1;
+  }
+  .ListOverlay-action {
+    cursor: pointer;
+    color: $si-green;
+    font-size: .75em;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .ListOverlay-body {
   position: relative;
-  flex: 0 1 400px;
   overflow: auto;
+
+  flex: 0 1 400px;
 }
 
 .ListOverlay-empty > p {
   padding: 20px 10px;
-  color: $color-light;
   text-align: center;
+  color: $color-light;
   font-weight: bold;
 }
 
 .ListOverlay-footer {
   text-align: center;
   a {
-    background-color: $green;
-    font-size: 0.875rem;
     display: block;
-    padding: .5rem;
+    padding: .5em;
     color: white;
+    background-color: $green;
+    font-size: .875em;
     &:hover {
       color: white;
       background-color: $green-dark;

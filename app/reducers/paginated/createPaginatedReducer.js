@@ -2,7 +2,7 @@ import merge from 'lodash/merge';
 import union from 'lodash/union';
 import without from 'lodash/without';
 
-export default function paginate({
+export default function createPaginatedReducer({
   fetchTypes,
   mapActionToKey,
 

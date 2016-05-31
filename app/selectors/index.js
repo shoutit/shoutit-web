@@ -7,6 +7,20 @@ export function getLoggedUser(state) {
   return denormalize(state.entities.users[state.session.user], state.entities, 'PROFILE');
 }
 
+export function getUnreadNotificationsCount(state) {
+  if (!state.session.user) {
+    return 0;
+  }
+  return state.entities.users[state.session.user].stats.unreadNotificationsCount;
+}
+
+export function getUnreadConversationsCount(state) {
+  if (!state.session.user) {
+    return 0;
+  }
+  return state.entities.users[state.session.user].stats.unreadConversationsCount;
+}
+
 // Misc selector
 
 export function getPaginationState(state, selector) {
@@ -80,4 +94,15 @@ export function getTypingProfiles(state, conversationId) {
     return [];
   }
   return state.chat.typingProfiles[conversationId].map(id => state.entities.users[id]);
+}
+
+// Notifications
+
+export function getNotifications(state) {
+  if (!state.paginated.notifications.ids) {
+    return [];
+  }
+  return state.paginated.notifications.ids
+    .map(id => state.entities.notifications[id])
+    .sort((a, b) => b.createdAt - a.createdAt);
 }

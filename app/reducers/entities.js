@@ -5,6 +5,7 @@ import conversations from './entities/conversations';
 import currencies from './entities/currencies';
 import discoverItems from './entities/discoverItems';
 import messages from './entities/messages';
+import notifications from './entities/notifications';
 import shouts from './entities/shouts';
 import tags from './entities/tags';
 import users from './entities/users';
@@ -15,6 +16,7 @@ export default combineReducers({
   currencies,
   discoverItems,
   messages,
+  notifications,
   shouts,
   tags,
   users,

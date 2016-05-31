@@ -1,8 +1,8 @@
 import without from 'lodash/without';
 import union from 'lodash/union';
 
-import * as actionTypes from '../actions/actionTypes';
-import paginate from './paginate';
+import * as actionTypes from '../../actions/actionTypes';
+import createPaginatedReducer from './createPaginatedReducer';
 
 function listeningByUser(state = {}, action) {
   const { type, payload } = action;
@@ -63,7 +63,7 @@ function listeningByUser(state = {}, action) {
 }
 
 export default function (state = {}, action) {
-  let newState = paginate({
+  let newState = createPaginatedReducer({
     mapActionToKey: action => action.payload.user.id,
     fetchTypes: [
       actionTypes.LOAD_LISTENING_START,

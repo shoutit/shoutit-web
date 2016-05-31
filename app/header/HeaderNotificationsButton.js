@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
-
+import { getUnreadNotificationsCount } from '../selectors';
 import Icon from '../ui/Icon';
 import Overlay from '../ui/Overlay';
 
@@ -11,7 +11,7 @@ export class HeaderNotificationsButton extends Component {
 
   static propTypes = {
     badge: PropTypes.number,
-    overlayContainer: PropTypes.node,
+    overlayContainer: PropTypes.oneOfType([PropTypes.object, PropTypes.element, PropTypes.func]),
   }
 
   constructor(props) {
@@ -47,15 +47,15 @@ export class HeaderNotificationsButton extends Component {
           onHide={ this.hideOverlay }
           target={ () => this.refs.icon.getIconNode() }
         >
-          <HeaderNotificationsOverlay />
+          <HeaderNotificationsOverlay closeOverlay={ this.hideOverlay } />
         </Overlay>
       </span>
     );
   }
 }
 
-const mapStateToProps = () => ({
-  badge: 0, // state.entities.users[state.session.user].stats.unreadNotificationsCount,
+const mapStateToProps = state => ({
+  badge: getUnreadNotificationsCount(state),
 });
 
 export default connect(mapStateToProps)(HeaderNotificationsButton);

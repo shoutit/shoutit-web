@@ -1,7 +1,7 @@
-import * as actionTypes from '../actions/actionTypes';
-import paginate from './paginate';
+import * as actionTypes from '../../actions/actionTypes';
+import createPaginatedReducer from './createPaginatedReducer';
 
-export default paginate({
+export default createPaginatedReducer({
   mapActionToKey: action => action.payload.username,
   mapActionToTempId: action => action.payload.shout.id,
   fetchTypes: [

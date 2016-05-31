@@ -11,6 +11,8 @@ export const DISCOVERITEM = new Schema('discoverItems');
 export const DISCOVERITEMS = arrayOf(DISCOVERITEM);
 export const MESSAGE = new Schema('messages');
 export const MESSAGES = arrayOf(MESSAGE);
+export const NOTIFICATION = new Schema('notifications');
+export const NOTIFICATIONS = arrayOf(NOTIFICATION);
 export const SHOUT = new Schema('shouts');
 export const SHOUTS = arrayOf(SHOUT);
 export const TAG = new Schema('tags');
@@ -38,6 +40,8 @@ export const Schemas = {
   DISCOVERITEMS,
   MESSAGE,
   MESSAGES,
+  NOTIFICATION,
+  NOTIFICATIONS,
   SHOUT,
   SHOUTS,
   SUGGESTIONS,

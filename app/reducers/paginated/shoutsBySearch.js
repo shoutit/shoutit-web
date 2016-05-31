@@ -1,9 +1,9 @@
 import omit from 'lodash/omit';
 
-import * as actionTypes from '../actions/actionTypes';
-import { stringifySearchParams } from '../utils/SearchUtils';
+import * as actionTypes from '../../actions/actionTypes';
+import { stringifySearchParams } from '../../utils/SearchUtils';
 
-import paginate from './paginate';
+import createPaginatedReducer from './createPaginatedReducer';
 
 function shoutsBySearch(state = {}, action) {
   switch (action.type) {
@@ -14,7 +14,7 @@ function shoutsBySearch(state = {}, action) {
 }
 
 export default function (state = {}, action) {
-  let newState = paginate({
+  let newState = createPaginatedReducer({
     mapActionToKey: action => stringifySearchParams(action.payload.searchParams),
     fetchTypes: [
       actionTypes.SEARCH_SHOUTS_START,

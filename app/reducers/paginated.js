@@ -1,21 +1,22 @@
 import { combineReducers } from 'redux';
 
-import chatConversations from './chatConversations';
-import discoverItemsByCountry from './discoverItemsByCountry';
-import listenersByUser from './listenersByUser';
-import listenersByTag from './listenersByTag';
-import listeningByUser from './listeningByUser';
-import messagesByConversation from './messagesByConversation';
-import profilesBySearch from './profilesBySearch';
-import relatedShoutsByShout from './relatedShoutsByShout';
-import relatedTagsByTag from './relatedTagsByTag';
-import shoutsByDiscoverItem from './shoutsByDiscoverItem';
-import shoutsByHome from './shoutsByHome';
-import shoutsBySearch from './shoutsBySearch';
-import shoutsByTagname from './shoutsByTagname';
-import shoutsByUsername from './shoutsByUsername';
-import suggestions from './suggestions-paginated';
-import tagsBySearch from './tagsBySearch';
+import chatConversations from './paginated/chatConversations';
+import discoverItemsByCountry from './paginated/discoverItemsByCountry';
+import listenersByTag from './paginated/listenersByTag';
+import listenersByUser from './paginated/listenersByUser';
+import listeningByUser from './paginated/listeningByUser';
+import messagesByConversation from './paginated/messagesByConversation';
+import notifications from './paginated/notifications';
+import profilesBySearch from './paginated/profilesBySearch';
+import relatedShoutsByShout from './paginated/relatedShoutsByShout';
+import relatedTagsByTag from './paginated/relatedTagsByTag';
+import shoutsByDiscoverItem from './paginated/shoutsByDiscoverItem';
+import shoutsByHome from './paginated/shoutsByHome';
+import shoutsBySearch from './paginated/shoutsBySearch';
+import shoutsByTagname from './paginated/shoutsByTagname';
+import shoutsByUsername from './paginated/shoutsByUsername';
+import suggestions from './paginated/suggestions';
+import tagsBySearch from './paginated/tagsBySearch';
 
 export default combineReducers({
   chatConversations,
@@ -24,6 +25,7 @@ export default combineReducers({
   listenersByTag,
   listeningByUser,
   messagesByConversation,
+  notifications,
   profilesBySearch,
   relatedShoutsByShout,
   relatedTagsByTag,
