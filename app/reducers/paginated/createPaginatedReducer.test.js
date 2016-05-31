@@ -1,12 +1,12 @@
 import { expect } from 'chai';
-import paginate from './paginate';
+import createPaginatedReducer from './createPaginatedReducer';
 
-describe('reducer/paginate', () => {
+describe('reducer/createPaginatedReducer', () => {
 
   describe('update pagination when fetching', () => {
     describe('without mapping the action by key', () => {
 
-      const reduce = paginate({
+      const reduce = createPaginatedReducer({
         fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE'],
       });
 
@@ -103,7 +103,7 @@ describe('reducer/paginate', () => {
     });
     describe('mapping an action by key', () => {
 
-      const reduce = paginate({
+      const reduce = createPaginatedReducer({
         mapActionToKey: action => action.payload.fooId,
         fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE'],
       });
@@ -204,7 +204,7 @@ describe('reducer/paginate', () => {
 
   describe('updates pagination when create action types are dispatched', () => {
     describe('without mapping the action by key', () => {
-      const reduce = paginate({
+      const reduce = createPaginatedReducer({
         mapActionToTempId: action => action.tempId,
 
         fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE'],
@@ -247,7 +247,7 @@ describe('reducer/paginate', () => {
     });
     describe('mapping an action by key', () => {
 
-      const reduce = paginate({
+      const reduce = createPaginatedReducer({
         mapActionToTempId: action => action.tempId,
         mapActionToKey: action => action.payload.id,
         fetchTypes: ['FETCH_START', 'FETCH_SUCCESS', 'FETCH_FAILURE'],
@@ -295,7 +295,7 @@ describe('reducer/paginate', () => {
   describe('updates pagination when add action type is dispatched', () => {
 
     describe('without mapping the action by key', () => {
-      const reduce = paginate({
+      const reduce = createPaginatedReducer({
         addType: 'ADD',
       });
 
@@ -318,7 +318,7 @@ describe('reducer/paginate', () => {
   describe('updates pagination when delete action type is dispatched', () => {
 
     describe('without mapping the action by key', () => {
-      const reduce = paginate({
+      const reduce = createPaginatedReducer({
         deleteType: 'DELETE',
       });
 

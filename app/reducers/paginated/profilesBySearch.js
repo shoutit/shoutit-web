@@ -1,9 +1,9 @@
-import * as actionTypes from '../actions/actionTypes';
-import { stringifySearchParams } from '../utils/SearchUtils';
+import * as actionTypes from '../../actions/actionTypes';
+import { stringifySearchParams } from '../../utils/SearchUtils';
 
-import paginate from './paginate';
+import createPaginatedReducer from './createPaginatedReducer';
 
-export default paginate({
+export default createPaginatedReducer({
   mapActionToKey: action => stringifySearchParams(action.payload.searchParams),
   fetchTypes: [
     actionTypes.SEARCH_PROFILES_START,

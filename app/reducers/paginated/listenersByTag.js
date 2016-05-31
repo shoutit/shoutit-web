@@ -1,8 +1,8 @@
 import without from 'lodash/without';
 import union from 'lodash/union';
 
-import * as actionTypes from '../actions/actionTypes';
-import paginate from './paginate';
+import * as actionTypes from '../../actions/actionTypes';
+import createPaginatedReducer from './createPaginatedReducer';
 
 function listenersByTag(state = {}, action) {
   const { type, payload } = action;
@@ -62,7 +62,7 @@ function listenersByTag(state = {}, action) {
 }
 
 export default function (state = {}, action) {
-  let newState = paginate({
+  let newState = createPaginatedReducer({
     mapActionToKey: action => action.payload.tag.id,
     fetchTypes: [
       actionTypes.LOAD_TAG_LISTENERS_START,
