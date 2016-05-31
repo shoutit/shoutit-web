@@ -4,14 +4,14 @@ import React, { PropTypes } from 'react';
 
 export default function NewlineToBreak({ children }) {
   return (
-    <span>
+    <p>
       { children.split(/\n/).map((item, i) => {
         if (i === 0) {
           return item;
         }
         return [<br />, item];
       }) }
-    </span>
+    </p>
   );
 }
 
