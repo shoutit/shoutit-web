@@ -3,7 +3,7 @@ import debug from 'debug';
 import { camelizeKeys } from 'humps';
 
 import { normalize } from 'normalizr';
-import { MESSAGE, CONVERSATION } from '../schemas';
+import { MESSAGE, CONVERSATION, NOTIFICATION } from '../schemas';
 
 import { pusherAppKey } from '../config';
 import * as actionTypes from '../actions/actionTypes';
@@ -11,6 +11,7 @@ import { typingClientNotification, removeTypingClient } from '../actions/chat';
 import { loadConversation, replaceConversation } from '../actions/conversations';
 import { addNewMessage, readMessage, setMessageReadBy } from '../actions/messages';
 import { updateProfileStats, replaceProfile } from '../actions/users';
+import { addNotification } from '../actions/notifications';
 
 const log = debug('shoutit:middlewares:pusher');
 // Pusher.log = log;
@@ -96,8 +97,14 @@ export default store => next => action => { // eslint-disable-line no-unused-var
 
         profileChannel.bind('conversation_update', conversation => {
           log('profileChannel received conversation_update event', conversation);
-          const normalizedPayload = normalize(conversation, CONVERSATION);
-          store.dispatch(replaceConversation(camelizeKeys(normalizedPayload)));
+          const normalizedPayload = normalize(camelizeKeys(conversation), CONVERSATION);
+          store.dispatch(replaceConversation(normalizedPayload));
+        });
+
+        profileChannel.bind('new_notification', notification => {
+          log('profileChannel received new_notification event', notification);
+          const normalizedPayload = normalize(camelizeKeys(notification), NOTIFICATION);
+          store.dispatch(addNotification(normalizedPayload));
         });
 
 
