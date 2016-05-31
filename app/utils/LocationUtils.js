@@ -96,6 +96,7 @@ export function getLocationPath(location) {
 export function formatLocation(location, options) {
   options = {
     useAddress: false,
+    showCountry: true,
     ...options,
   };
   const values = [];
@@ -113,7 +114,7 @@ export function formatLocation(location, options) {
   if (location.state && location.state !== location.city) {
     values.push(location.state);
   }
-  if (location.country) {
+  if ((options.showCountry || options.useAddress) && location.country) {
     values.push(getCountryName(location.country));
   }
   return values.join(', ');

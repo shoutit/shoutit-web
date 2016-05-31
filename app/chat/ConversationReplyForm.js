@@ -15,7 +15,7 @@ import { replyToShout } from '../actions/shouts';
 import { ENTER } from '../utils/keycodes';
 import { getLoggedUser } from '../selectors';
 
-// import ReplyFormToolbar from '../chat/ReplyFormToolbar';
+import ReplyFormToolbar from '../chat/ReplyFormToolbar';
 
 if (process.env.BROWSER) {
   require('./ConversationReplyForm.scss');
@@ -34,7 +34,6 @@ export class ConversationReplyForm extends Component {
     focus: PropTypes.bool,
     disabled: PropTypes.bool,
     inputRef: PropTypes.func,
-    // onAttachShoutClick: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -118,8 +117,31 @@ export class ConversationReplyForm extends Component {
     }
   }
 
-  handleAttachment() {
-    // console.log(type, content);
+  handleAttachment(type, content) {
+    const attachments = [];
+    const attachment = { };
+    switch (type) {
+      case 'shout':
+        attachment.type = 'shout';
+        attachment.shout = content.id;
+        break;
+      case 'profile':
+        attachment.type = 'profile';
+        attachment.profile = content.id;
+        break;
+      case 'images':
+        attachment.type = 'media';
+        attachment.images = content;
+        break;
+      default:
+        break;
+    }
+    attachments.push(attachment);
+    this.props.dispatch(replyToConversation(
+      this.props.conversation,
+      this.props.loggedUser,
+      { attachments }
+    ));
   }
 
   handleKeyDown(e) {
@@ -153,9 +175,9 @@ export class ConversationReplyForm extends Component {
           onKeyDown={ this.handleKeyDown }
           onChange={ this.handleTextChange }
         />
-        {/* <div className="ConversationReplyForm-toolbar">
+        <div className="ConversationReplyForm-toolbar">
           <ReplyFormToolbar onAttachment={ this.handleAttachment } />
-        </div>*/}
+        </div>
       </form>
     );
   }

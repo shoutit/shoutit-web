@@ -1,27 +1,18 @@
 import * as actionTypes from '../actions/actionTypes';
+import { blurActiveElement } from '../utils/DOMUtils';
 
 const initialState = {
-  show: false,
-  body: null,
-
-  // Header options
-  closeButton: false,
-  title: null,
-
-  backdrop: true,
-  bsSize: null,
-
-  scrollableBody: false,
-
-  // Footer options
-
+  modal: null,
 };
 export default function modalsReducer(state = initialState, action) {
   switch (action.type) {
+    case '@@router/LOCATION_CHANGE':
     case actionTypes.CLOSE_MODAL:
-      return { ...state, show: false };
+      return { modal: null };
     case actionTypes.OPEN_MODAL:
-      return { ...initialState, ...action.payload };
+      blurActiveElement();
+      return { modal: action.payload.modal };
+
   }
   return state;
 }

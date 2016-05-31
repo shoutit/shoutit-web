@@ -55,7 +55,6 @@ export class SearchLocation extends Component {
       if (location && onLocationSelect) {
         onLocationSelect(location, prediction);
       }
-      // this.setState({ isGeocoding: false });
     });
   }
 
@@ -67,7 +66,6 @@ export class SearchLocation extends Component {
     return (
       <div>
         <input
-          autoFocus
           className="htmlInput block"
           type="text"
           ref="input"

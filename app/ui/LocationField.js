@@ -50,7 +50,7 @@ export class LocationField extends Component {
     };
 
     if (props.location) {
-      this.state.value = formatLocation(props.location);
+      this.state.value = formatLocation(props.location, { showCountry: false });
       this.state.location = props.location;
     }
   }
@@ -63,7 +63,7 @@ export class LocationField extends Component {
       };
     }
     if (nextProps.location.slug !== this.props.location.slug) {
-      const value = formatLocation(nextProps.location);
+      const value = formatLocation(nextProps.location, { showCountry: false });
       state = {
         ...state,
         value,
@@ -162,7 +162,7 @@ export class LocationField extends Component {
       this.setState({ isGeocoding: false }, () => {
         if (location && location.city) {
           log('Found location geocoding %s', prediction.placeId, location);
-          const value = formatLocation(location);
+          const value = formatLocation(location, { showCountry: false });
           this.setState({ value, location });
           this.field.setValue(value);
           this.handleGeocodeSuccess(location);

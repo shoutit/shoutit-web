@@ -7,6 +7,20 @@ export function getLoggedUser(state) {
   return denormalize(state.entities.users[state.session.user], state.entities, 'PROFILE');
 }
 
+export function getUnreadNotificationsCount(state) {
+  if (!state.session.user) {
+    return 0;
+  }
+  return state.entities.users[state.session.user].stats.unreadNotificationsCount;
+}
+
+export function getUnreadConversationsCount(state) {
+  if (!state.session.user) {
+    return 0;
+  }
+  return state.entities.users[state.session.user].stats.unreadConversationsCount;
+}
+
 // Misc selector
 
 export function getPaginationState(state, selector) {
@@ -42,14 +56,36 @@ export function getAllConversations(state) {
   ).sort((a, b) => b.modifiedAt - a.modifiedAt);
 }
 
+export function getMessageReadBy(state, message) {
+  if (!message.readBy) {
+    return [];
+  }
+  return message.readBy
+    .filter(readBy =>
+      message.profile && readBy.profileId !== message.profile.id && readBy.profileId !== state.session.user && state.entities.users[readBy.profileId]
+    )
+    .map(readBy => {
+      return {
+        ...readBy,
+        profile: state.entities.users[readBy.profileId],
+      };
+    });
+}
+
 export function getMessagesByConversation(state, id) {
   const paginated = state.paginated.messagesByConversation[id];
   if (!paginated) {
     return [];
   }
-  const messages = paginated.ids.map(id =>
+  const messages = paginated.ids
+  .map(id =>
     denormalize(state.entities.messages[id], state.entities, 'MESSAGE')
-  ).sort((a, b) => a.createdAt - b.createdAt);
+  )
+  .sort((a, b) => a.createdAt - b.createdAt)
+  .map(message => ({
+    ...message,
+    readBy: getMessageReadBy(state, message),
+  }));
   return messages;
 }
 
@@ -58,4 +94,15 @@ export function getTypingProfiles(state, conversationId) {
     return [];
   }
   return state.chat.typingProfiles[conversationId].map(id => state.entities.users[id]);
+}
+
+// Notifications
+
+export function getNotifications(state) {
+  if (!state.paginated.notifications.ids) {
+    return [];
+  }
+  return state.paginated.notifications.ids
+    .map(id => state.entities.notifications[id])
+    .sort((a, b) => b.createdAt - a.createdAt);
 }

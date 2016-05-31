@@ -3,112 +3,116 @@
 
 .MessageItem {
   font-size: 0.875em;
-
-  margin: .25em .5em 0;
-  .MessageAttachment {
-    margin-top: 5px;
-    max-width: 300px;
-  }
-
-  .MessageItem-text {
-    min-width: 120px;
-    background-color: white;
-    border: 1px solid $border-color;
-  }
-
+  margin: .075em .5em 0;
+  align-items: flex-end;
+  display: flex;
+  position: relative;
   &.is-owner {
-    text-align: right;
-    .MessageItem-text {
-     background-color: $background-color-alt;
-     border: 1px solid $border-color-alt;
-   }
+    justify-content: flex-end;
   }
-
-  &.no-profile {
-    margin: 1em 0;
-    .MessageItem-text {
-      p {
-        font-style: italic;
-        font-size: 0.875em;
-      }
-      background-color: transparent;
-      border: 1px solid transparent;
-   }
+  &.is-first {
+    margin-top: .75em;
   }
-
-  &.did-error .MessageItem-wrapper {
-    opacity: 0.4;
-  }
-
-  &.sending .MessageItem-wrapper {
-    opacity: 0.6;
-  }
-
-}
-
-.MessageItem-wrapper {
-  text-align: left;
-  display: inline-block;
-  min-width: 25%;
-  max-width: 75%;
-  .MessageItem.has-attachments & {
-    width: 270px;
-    max-width: 90%;
+  &.is-last {
+    margin-bottom: .75em;
   }
 }
 
+.MessageItem-sender {
+  width: 2.6em;
+  text-align: center;
+  .MessageItem-sender-wrapper {
+    position: absolute;
+    bottom: 0;
+    .MessageItem.is-owner & {
+      right: 0;
+    }
+    .MessageItem:not(.is-owner) & {
+      left: 0;
+    }
+  }
+  .ProfileAvatar {
+    width: 2.35em;
+    height: 2.35em;
+    border-radius: $border-radius-small;
+  }
+}
 
-.MessageItem-text {
-  padding: 5px 10px;
-  border-radius: $border-radius;
+.MessageItem-message {
+  background-color: white;
+  border: 1px solid $border-color-dark;
+  padding: .5em .75em;
+
+  .MessageItem.no-profile & {
+    padding: .5em 0;
+    background-color: transparent;
+    border: 0;
+    font-style: italic;
+  }
+
+  .MessageItem:not(.is-owner) & {
+    border-top-right-radius: 1.1em;
+    border-bottom-right-radius: 1.1em;
+  }
+  .MessageItem:not(.is-owner).is-first:not(.is-last) & {
+    border-top-left-radius: 1.1em;
+  }
+  .MessageItem:not(.is-owner).is-last:not(.is-first) & {
+    border-bottom-left-radius: 1.1em;
+  }
+  .MessageItem:not(.is-owner).is-first.is-last & {
+    border-top-left-radius: 1.1em;
+    border-bottom-left-radius: 1.1em;
+  }
+  .MessageItem:not(.is-owner):not(.is-first):not(.is-last) & {
+    padding-right: 1.1em;
+  }
+
+  .MessageItem.is-owner & {
+    border-top-left-radius: 1.1em;
+    border-bottom-left-radius: 1.1em;
+  }
+  .MessageItem.is-owner.is-first:not(.is-last) & {
+    border-top-right-radius: 1.1em;
+  }
+  .MessageItem.is-owner.is-last:not(.is-first) & {
+    border-bottom-right-radius: 1.1em;
+  }
+  .MessageItem.is-owner.is-first.is-last & {
+    border-top-right-radius: 1.1em;
+    border-bottom-right-radius: 1.1em;
+  }
+  .MessageItem.is-owner:not(.is-first):not(.is-last) & {
+    padding-left: 1.1em;
+  }
+
   p {
     font-size: 1em;
     margin: 0;
   }
-  .MessageItem.no-profile & {
-    padding: 0;
+  .MessageItem.is-owner & {
+     background-color: $background-color-alt;
   }
-}
 
-
-
-.MessageItem-attachments {
-  > .MessageItem-footer {
-    margin: 5px 10px;
+  .MessageItem:not(.has-attachments) & {
+    max-width: 200px;
+    .Conversation.layout-full & {
+      max-width: 400px;
+    }
   }
-  + .MessageItem-text {
-    margin-top: 5px;
+
+  .MessageItem.has-attachments & {
+    padding: 0 !important;
+    overflow: hidden;
+
+    .MessageAttachment.type-shout,
+    .MessageAttachment.type-profile {
+      margin: .5em .75em;
+    }
   }
-  .ShoutPreview {
-    border: 1px solid $border-color;
-    box-shadow: none;
+  .MessageItem.has-location-attachments &,
+  .MessageItem.has-media-attachments & {
+     border: none;
+     background-color: transparent;
   }
-  .ProfilePreview {
-    background-color: white;
-  }
-}
-
-.MessageItem-day {
-  text-align: center;
-  font-weight: bold;
-  font-size: 0.875em;
-  color: #999;
-  margin: 1em;
-}
-
-
-.MessageItem-footer {
-  height: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  font-size: 0.65em;
-  color: #999;
-}
-
-.MessageItem-retry {
-  font-size: 0.65em;
-  margin-bottom: 1em;
-  padding: 0.25em;
-  color: $si-error-color;
 }

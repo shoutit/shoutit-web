@@ -1,0 +1,23 @@
+@import "../styles/constants.scss";
+
+.AvatarEditorModal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  canvas {
+    border-radius: 50%;
+  }
+  input[type="range"] {
+    width: 200px;
+  }
+}
+
+.AvatarEditorModal-placeholder {
+  display: inline-block;
+  background-color: $background-color-dark;
+  background-image: url("../../assets/icons/profile-fill.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  border-radius: 50%;
+}

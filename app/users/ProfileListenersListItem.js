@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
-import ListenersScrollableList from '../users/ListenersScrollableList';
+import ListenersModal from '../users/ListenersModal';
 
 import { openModal } from '../actions/ui';
 
@@ -37,17 +37,8 @@ ProfileListenersListItem.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch, { profile, type = 'listeners' }) => ({
-  onClick: () => {
-    let title;
-    if (type === 'listeners') {
-      title = `Listening to ${profile.firstName}`;
-    } else {
-      title = `${profile.firstName} is listening to`;
-    }
-    dispatch(openModal(
-      <ListenersScrollableList type={ type } profile={ profile } />,
-      { title, scrollableBody: true, bsSize: 'small' }
-    ));
-  },
+  onClick: () => dispatch(openModal(
+    <ListenersModal type={ type } profile={ profile } />
+  )),
 });
 export default connect(null, mapDispatchToProps)(ProfileListenersListItem);

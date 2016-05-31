@@ -23,12 +23,13 @@ const mapDispatchToProps = (dispatch, { profile, type = 'listeners' }) => ({
   ),
 });
 
-const mergeProps = (stateProps, dispatchProps) => {
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
   let profiles = [];
   if (stateProps.ids) {
     profiles = stateProps.ids.map(id => stateProps.profiles[id]);
   }
   return {
+    ...ownProps,
     ...stateProps,
     ...dispatchProps,
     profiles,

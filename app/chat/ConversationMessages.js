@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import MessagesList from '../chat/MessagesList';
 import Typing from '../chat/Typing';
 import Scrollable from '../ui/Scrollable';
-
 import { loadMessages } from '../actions/messages';
 
 import { getPaginationState, getMessagesByConversation } from '../selectors';
@@ -71,10 +70,7 @@ export class ConversationMessages extends Component {
           }
 
           { messages.length > 0 &&
-            <MessagesList
-              messages={ messages }
-              partecipants={ conversation.profiles }
-            />
+            <MessagesList messages={ messages } />
           }
 
           <Typing conversationId={ conversation.id } />

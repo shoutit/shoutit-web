@@ -1,37 +1,39 @@
 import React, { PropTypes } from 'react';
-
-import ShoutPreview from '../shouts/ShoutPreview';
-// import ProfilePreview from '../users/ProfilePreview';
+import ShoutListItem from '../shouts/ShoutListItem';
+import ProfileListItem from '../users/ProfileListItem';
 import GoogleStaticMap from '../location/GoogleStaticMap';
+import MessageAttachedImages from './MessageAttachedImages';
+
+if (process.env.BROWSER) {
+  require('./MessageAttachment.scss');
+}
 
 function MessageAttachment({ attachment }) {
   let content;
   switch (attachment.type) {
     case 'shout':
       content = (
-        <ShoutPreview
-          shout={ attachment.shout }
-          thumbnailRatio={ 16 / 9 }
-          showProfile={ false }
-        />
+        <ShoutListItem shout={ attachment.shout } />
       );
       break;
-    // case 'profile':
-    //   content = (
-    //     <ProfilePreview id={ attachment.profile.id } />
-    //   );
-    //   break;
+    case 'profile':
+      content = (
+        <ProfileListItem profile={ attachment.profile } linkToProfilePage popover={ false } />
+      );
+      break;
     case 'media':
-      if (attachment.videos) {
+      if (attachment.videos && attachment.videos.length > 0) {
         content = attachment.videos.map(video => <video src={ video.url } controls />);
       }
-      if (attachment.images) {
-        // content = <p>Images</p>;
+      if (attachment.images && attachment.images.length > 0) {
+        content = <MessageAttachedImages images={ attachment.images } />;
       }
       break;
     case 'location':
       content = (
         <GoogleStaticMap
+          width={ 200 }
+          height={ 150 }
           center={ attachment.location }
           markers={ [{ ...attachment.location }] }
         />
@@ -41,7 +43,7 @@ function MessageAttachment({ attachment }) {
       // content = <p>{ attachment.type }</p>;
       break;
   }
-  return <div className="MessageAttachment">{ content }</div>;
+  return <div className={ `MessageAttachment type-${attachment.type}` }>{ content }</div>;
 }
 
 MessageAttachment.propTypes = {

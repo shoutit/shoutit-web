@@ -16,7 +16,7 @@ export default class ConversationItem extends Component {
 
   static propTypes = {
     conversation: PropTypes.object.isRequired,
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
     selected: PropTypes.bool,

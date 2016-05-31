@@ -1,0 +1,21 @@
+.MessageAttachment {
+  video {
+    max-width: 200px;
+    border-radius: .75em;
+    .Conversation.layout-full & {
+      max-width: 280px;
+    }
+  }
+
+  &.type-location {
+    width: 200px;
+    height: 150px;
+    .GoogleStaticMap span {
+      border-radius: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+}

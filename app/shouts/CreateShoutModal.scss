@@ -1,0 +1,19 @@
+@import '../styles/constants.scss';
+
+.CreateShoutModal {
+
+  h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: lighter;
+  }
+
+}
+
+.CreateShoutModal-delete {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid $border-color;
+}

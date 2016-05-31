@@ -50,7 +50,7 @@ export default (state, action) => {
       state = merge({}, state, {
         [payload.conversation.id]: {
           display: {
-            lastMessageSummary: `You: ${payload.entities.messages[payload.result].text}`,
+            lastMessageSummary: payload.entities.messages[payload.result].text,
           },
           lastMessage: payload.result,
           modifiedAt: payload.entities.messages[payload.result].createdAt,
