@@ -7,4 +7,5 @@ export default createPaginatedReducer({
     actionTypes.LOAD_NOTIFICATIONS_SUCCESS,
     actionTypes.LOAD_NOTIFICATIONS_FAILURE,
   ],
+  addType: actionTypes.ADD_NOTIFICATION,
 });
