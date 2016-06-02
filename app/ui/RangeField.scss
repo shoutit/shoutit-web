@@ -1,0 +1,82 @@
+@import '../styles/constants.scss';
+$thumb-size: 1.3em;
+$track-height: 2px;
+$thumb-border: 1px solid $border-color-darker;
+
+.RangeField {
+  width: 100%;
+  margin: $thumb-size/2 0;
+
+  -webkit-appearance: none;
+}
+.RangeField:focus {
+  outline: none;
+}
+.RangeField::-webkit-slider-runnable-track {
+  width: 100%;
+  height: $track-height;
+  cursor: pointer;
+  background: $si-green;
+}
+.RangeField::-webkit-slider-thumb {
+  width: $thumb-size;
+  height: $thumb-size;
+  margin-top: -$thumb-size/2;
+  cursor: pointer;
+  border: $thumb-border;
+  border-radius: 100%;
+  background: white;
+  -webkit-appearance: none;
+  position: relative;
+}
+.RangeField::-moz-range-track {
+  width: 100%;
+  height: $track-height;
+  cursor: pointer;
+  background: $si-green;
+  outline: none;
+}
+.RangeField::-moz-range-thumb {
+  width: $thumb-size;
+  height: $thumb-size;
+  cursor: pointer;
+  border: $thumb-border;
+  border-radius: 100%;
+  background: white;
+}
+.RangeField:focus::-moz-range-thumb {
+  box-shadow: 0 0 0 3px rgba($si-green, .25);
+}
+.RangeField::-ms-track {
+  width: 100%;
+  height: $track-height;
+  cursor: pointer;
+  color: transparent;
+  border-color: transparent;
+  background: transparent;
+}
+.RangeField::-ms-fill-lower {
+  background: $si-green;
+}
+.RangeField::-ms-fill-upper {
+  background: $si-green;
+}
+.RangeField::-ms-thumb {
+  width: $thumb-size;
+  height: $thumb-size;
+  height: $track-height;
+  cursor: pointer;
+  border: $thumb-border;
+  border-radius: 100%;
+  background: white;
+}
+.RangeField:focus::-ms-thumb {
+  box-shadow: 0 0 0 3px rgba($si-green, .25);
+}
+
+.RangeField:focus::-ms-fill-lower {
+  background: $si-green;
+}
+.RangeField:focus::-ms-fill-upper {
+  background: $si-green;
+}
