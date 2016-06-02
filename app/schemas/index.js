@@ -29,6 +29,10 @@ export const ATTACHMENT = {
   shout: SHOUT,
   profile: PROFILE,
 };
+export const EMAIL_VERIFICATION = {
+  profile: PROFILE,
+  user: PROFILE,
+};
 export const Schemas = {
   CATEGORY,
   CATEGORIES,

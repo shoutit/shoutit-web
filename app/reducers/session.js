@@ -36,7 +36,6 @@ export default function (state = initialState, action) {
 
     case actionTypes.LOGIN_SUCCESS:
     case actionTypes.SIGNUP_SUCCESS:
-    case actionTypes.VERIFY_EMAIL_SUCCESS:
       return {
         ...state,
         user: payload.result,
@@ -70,6 +69,12 @@ export default function (state = initialState, action) {
         ...state,
         verifyEmailError: null,
         isVerifyingEmail: true,
+      };
+    case actionTypes.VERIFY_EMAIL_SUCCESS:
+      console.log(actionTypes.VERIFY_EMAIL_SUCCESS, payload);
+      return {
+        ...state,
+        user: payload.result.profile,
       };
     case actionTypes.VERIFY_EMAIL_FAILURE:
       return {
