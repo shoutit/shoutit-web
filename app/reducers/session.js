@@ -71,7 +71,6 @@ export default function (state = initialState, action) {
         isVerifyingEmail: true,
       };
     case actionTypes.VERIFY_EMAIL_SUCCESS:
-      console.log(actionTypes.VERIFY_EMAIL_SUCCESS, payload);
       return {
         ...state,
         user: payload.result.profile,

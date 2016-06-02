@@ -158,7 +158,7 @@ export class LocationField extends Component {
     });
     this.blur();
     log('Start geocoding place with id %s', prediction.placeId);
-    const request = geocodePlace(prediction.placeId, (err, location) => {
+    geocodePlace(prediction.placeId, (err, location) => {
       this.setState({ isGeocoding: false }, () => {
         if (location && location.city) {
           log('Found location geocoding %s', prediction.placeId, location);
@@ -184,7 +184,6 @@ export class LocationField extends Component {
         }, this.select);
       });
     });
-    console.log('geocode request', request);
   }
   handleGeocodeSuccess(location) {
     const { disabled, onChange, dispatch, updatesUserLocation } = this.props;
