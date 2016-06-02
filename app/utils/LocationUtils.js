@@ -114,7 +114,7 @@ export function formatLocation(location, options) {
   if (location.state && location.state !== location.city) {
     values.push(location.state);
   }
-  if ((options.showCountry || options.useAddress) && location.country) {
+  if ((options.showCountry || options.useAddress || !location.state || !location.city) && location.country) {
     values.push(getCountryName(location.country));
   }
   return values.join(', ');
