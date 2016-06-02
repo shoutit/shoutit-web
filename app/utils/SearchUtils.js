@@ -64,20 +64,22 @@ export function getSearchParamsFromQuery(query) {
   if (query.filters) {
     filters = uriComponentToFiltersObject(query.filters);
   }
-  let within;
-  if (query.within && query.within !== 'city') {
-    within = isNaN(parseInt(query.within, 10)) ? query.within : parseInt(query.within, 10);
-  }
-
   const searchParams = {
     shout_type,
     category,
-    within,
     search: search ? decodeURIComponent(search) : undefined,
     min_price: min_price ? parseInt(min_price, 10) : undefined,
     max_price: max_price ? parseInt(max_price, 10) : undefined,
     ...filters,
   };
+
+  if (query.within && query.within !== 'city') {
+    searchParams.within = isNaN(parseInt(query.within, 10)) ?
+      query.within :
+      parseInt(query.within, 10);
+  }
+
+
   return searchParams;
 }
 
