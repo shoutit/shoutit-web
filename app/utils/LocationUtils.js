@@ -30,9 +30,9 @@ export function parseGeocoderResult(result) {
       if (address.types.indexOf('country') > -1) {
         location.country = address.shortName;
       } else if (address.types.indexOf('locality') > -1) {
-        location.city = address.shortName;
+        location.city = address.longName;
       } else if (address.types.indexOf('administrative_area_level_1') > -1) {
-        location.state = address.shortName;
+        location.state = address.longName;
       }
     });
   }
