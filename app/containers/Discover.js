@@ -20,9 +20,8 @@ import { getCountryName, getLocationPath } from '../utils/LocationUtils';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import { denormalize } from '../schemas';
 
-import SearchLocation from '../location/SearchLocation';
-
-import { openModal, closeModal } from '../actions/ui';
+import LocationModal from '../location/LocationModal';
+import { openModal } from '../actions/ui';
 import { updateCurrentLocation } from '../actions/location';
 import { routeError } from '../actions/server';
 
@@ -106,17 +105,13 @@ export class Discover extends Component {
   showLocationModal(e) {
     e.preventDefault();
     e.target.blur();
-    const { dispatch } = this.props;
-    const body = (
-      <SearchLocation
-        onLocationSelect={ location => {
-          dispatch(push(getDiscoverLink(location.country)));
-          dispatch(closeModal());
-          dispatch(updateCurrentLocation(location));
-        } }
+    this.props.dispatch(openModal(
+      <LocationModal
+        onLocationSelect={
+          location => this.props.dispatch(updateCurrentLocation(location))
+        }
       />
-    );
-    this.props.dispatch(openModal(body, { bsSize: 'small', title: 'Change Your Location' }));
+    ));
   }
 
   render() {
