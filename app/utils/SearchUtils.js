@@ -23,7 +23,7 @@ export function uriComponentToFiltersObject(component) {
 }
 
 export function getQuerystringFromSearchParams(params) {
-  const { shout_type, category, min_price, max_price, search, filters } = params;
+  const { shout_type, category, min_price, max_price, search, filters, within } = params;
   let queryAsString = '';
   const query = [];
   if (shout_type && ['request', 'offer'].indexOf(shout_type) > -1) {
@@ -40,6 +40,9 @@ export function getQuerystringFromSearchParams(params) {
   }
   if (max_price) {
     query.push(`max_price=${max_price}`);
+  }
+  if (within && within !== 'city') {
+    query.push(`within=${within}`);
   }
 
   if (filters) {
@@ -61,7 +64,6 @@ export function getSearchParamsFromQuery(query) {
   if (query.filters) {
     filters = uriComponentToFiltersObject(query.filters);
   }
-
   const searchParams = {
     shout_type,
     category,
@@ -70,6 +72,14 @@ export function getSearchParamsFromQuery(query) {
     max_price: max_price ? parseInt(max_price, 10) : undefined,
     ...filters,
   };
+
+  if (query.within && query.within !== 'city') {
+    searchParams.within = isNaN(parseInt(query.within, 10)) ?
+      query.within :
+      parseInt(query.within, 10);
+  }
+
+
   return searchParams;
 }
 

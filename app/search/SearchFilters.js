@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual';
 import Button from '../ui/Button';
 import Form from '../ui/Form';
 import LocationField from '../ui/LocationField';
+import LocationRange from '../ui/LocationRange';
 import CategoryPicker from '../ui/CategoryPicker';
 import SegmentedControl from '../ui/SegmentedControl';
 import CurrencyField from '../ui/CurrencyField';
@@ -20,6 +21,7 @@ export class SearchFilters extends Component {
     onSubmit: PropTypes.func.isRequired,
     categories: PropTypes.array.isRequired,
     searchParams: PropTypes.object,
+    currentLocation: PropTypes.object,
   }
 
   static defaultProps = {
@@ -41,7 +43,7 @@ export class SearchFilters extends Component {
   }
 
   getSearchParams() {
-    const searchParams = {
+    let searchParams = {
       search: this.refs.search.getValue() || undefined,
       shout_type: this.refs.shout_type.getValue(),
       category: this.state.category,
@@ -49,6 +51,9 @@ export class SearchFilters extends Component {
       min_price: parseInt(this.refs.min_price.getValue(), 10) || undefined,
       max_price: parseInt(this.refs.max_price.getValue(), 10) || undefined,
     };
+    if (this.refs.within) {
+      searchParams = { ...searchParams, within: this.refs.within.getValue() };
+    }
     if (Object.keys(searchParams).length === 0) {
       return null;
     }
@@ -62,6 +67,7 @@ export class SearchFilters extends Component {
       min_price: props.searchParams.min_price || '',
       max_price: props.searchParams.max_price || '',
       search: props.searchParams.search || '',
+      within: props.searchParams.within,
       filters: props.searchParams.filters || {},
     };
   }
@@ -75,8 +81,8 @@ export class SearchFilters extends Component {
   }
 
   render() {
-    const { disabled } = this.props;
-    const { category, shout_type, min_price, max_price, search, filters } = this.state;
+    const { disabled, currentLocation } = this.props;
+    const { category, shout_type, min_price, max_price, search, filters, within } = this.state;
 
     return (
       <div className="SearchFilters">
@@ -89,6 +95,14 @@ export class SearchFilters extends Component {
           ] } onChange={ shout_type => this.setState({ shout_type }) } />
 
           <LocationField name="location" />
+
+          { currentLocation && currentLocation.city &&
+            <LocationRange
+              ref="within"
+              name="within"
+              initialValue={ within }
+              location={ currentLocation }
+            /> }
 
           <TextField
             placeholder="Search by keyword"
@@ -155,6 +169,7 @@ SearchFilters.propTypes = {
 const mapStateToProps = state => ({
   categories: state.categories.ids.map(id => state.entities.categories[id]),
   isLoggedIn: !!state.session.user,
+  currentLocation: state.currentLocation,
 });
 
 export default connect(mapStateToProps)(SearchFilters);

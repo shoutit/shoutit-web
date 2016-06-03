@@ -163,9 +163,10 @@ export class LocationField extends Component {
         if (location && location.city) {
           log('Found location geocoding %s', prediction.placeId, location);
           const value = formatLocation(location, { showCountry: false });
-          this.setState({ value, location });
+          this.setState({ value, location }, () => {
+            this.handleGeocodeSuccess(location);
+          });
           this.field.setValue(value);
-          this.handleGeocodeSuccess(location);
           return;
         }
         log('Could not geocode %s, showing error', prediction.placeId);

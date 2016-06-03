@@ -79,7 +79,10 @@ export class Search extends Component {
     const { dispatch, currentLocation } = this.props;
     let path = `/search${getLocationPath(currentLocation)}`;
     if (searchParams) {
-      path += `?${getQuerystringFromSearchParams(searchParams)}`;
+      const qs = getQuerystringFromSearchParams(searchParams);
+      if (qs) {
+        path += `?${qs}`;
+      }
     }
     dispatch(push(path));
   }

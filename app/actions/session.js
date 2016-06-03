@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import { PROFILE } from '../schemas';
+import { PROFILE, EMAIL_VERIFICATION } from '../schemas';
 import set from 'lodash/set';
 
 export function login({ grant_type = 'shoutit_login', ...loginData }) {
@@ -124,6 +124,7 @@ export function verifyEmail(token) {
     service: {
       name: 'emailVerification',
       params: { token },
+      schema: EMAIL_VERIFICATION,
     },
   };
 }
