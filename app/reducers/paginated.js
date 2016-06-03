@@ -12,7 +12,7 @@ import relatedShoutsByShout from './paginated/relatedShoutsByShout';
 import relatedTagsByTag from './paginated/relatedTagsByTag';
 import shoutsByDiscoverItem from './paginated/shoutsByDiscoverItem';
 import shoutsByHome from './paginated/shoutsByHome';
-import shoutsBySearch from './paginated/shoutsBySearch';
+import shouts from './paginated/shouts';
 import shoutsByTagname from './paginated/shoutsByTagname';
 import shoutsByUsername from './paginated/shoutsByUsername';
 import suggestions from './paginated/suggestions';
@@ -31,7 +31,7 @@ export default combineReducers({
   relatedTagsByTag,
   shoutsByDiscoverItem,
   shoutsByHome,
-  shoutsBySearch,
+  shouts,
   shoutsByTagname,
   shoutsByUsername,
   suggestions,

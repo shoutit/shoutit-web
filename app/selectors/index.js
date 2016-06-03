@@ -27,7 +27,17 @@ export function getPaginationState(state, selector) {
   return omit(get(state.paginated, selector), 'ids');
 }
 
+export function getCategory(state, name) {
+  return state.entities.categories[name];
+}
+
 // Shouts selectors
+
+export function getShouts(state) {
+  return state.paginated.shouts.ids.map(id =>
+    denormalize(state.entities.shouts[id], state.entities, 'SHOUT')
+  );
+}
 
 export function getShoutsByUsername(state, username) {
   const paginated = state.paginated.shoutsByUsername[username];
