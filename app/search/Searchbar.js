@@ -30,7 +30,7 @@ export class Searchbar extends Component {
     tagsBySearch: PropTypes.object,
     shouts: PropTypes.object,
     foundShouts: PropTypes.array,
-    shoutsBySearch: PropTypes.object,
+    shoutsSearch: PropTypes.object,
     profiles: PropTypes.object,
     foundProfiles: PropTypes.array,
     profilesBySearch: PropTypes.object,
@@ -129,7 +129,7 @@ export class Searchbar extends Component {
       shouts,
       tags,
       profiles,
-      shoutsBySearch,
+      shoutsSearch,
       tagsBySearch,
       profilesBySearch,
       currentLocation,
@@ -146,11 +146,11 @@ export class Searchbar extends Component {
     let isFetchingProfiles = false;
     let isFetchingTags = false;
 
-    if (shoutsSearchSlug && shoutsBySearch[shoutsSearchSlug]) {
-      foundShouts = shoutsBySearch[shoutsSearchSlug].ids.map(id => shouts[id]);
-      isFetchingShouts = shoutsBySearch[shoutsSearchSlug].isFetching;
-      hasMoreShouts = shoutsBySearch[shoutsSearchSlug].nextUrl;
-      shoutsCount = shoutsBySearch[shoutsSearchSlug].count;
+    if (shoutsSearchSlug && shoutsSearch[shoutsSearchSlug]) {
+      foundShouts = shoutsSearch[shoutsSearchSlug].ids.map(id => shouts[id]);
+      isFetchingShouts = shoutsSearch[shoutsSearchSlug].isFetching;
+      hasMoreShouts = shoutsSearch[shoutsSearchSlug].nextUrl;
+      shoutsCount = shoutsSearch[shoutsSearchSlug].count;
     }
     if (tagsSearchSlug && tagsBySearch[tagsSearchSlug]) {
       foundTags = tagsBySearch[tagsSearchSlug].ids.map(id => tags[id]);
@@ -234,8 +234,8 @@ export class Searchbar extends Component {
 const mapStateToProps = state => ({
   currentLocation: state.currentLocation,
 
-  shoutsBySearch: state.paginated.shoutsBySearch,
-  isFetchingShouts: state.paginated.shoutsBySearch.isFetching,
+  shoutsSearch: state.paginated.shouts,
+  isFetchingShouts: state.paginated.shouts.isFetching,
   shouts: state.entities.shouts,
 
   tagsBySearch: state.paginated.tagsBySearch,
@@ -246,7 +246,7 @@ const mapStateToProps = state => ({
   profiles: state.entities.users,
   isFetchingProfiles: state.paginated.profilesBySearch.isFetching,
 
-  error: state.paginated.profilesBySearch.error || state.paginated.tagsBySearch.error || state.paginated.shoutsBySearch.error,
+  error: state.paginated.profilesBySearch.error || state.paginated.tagsBySearch.error || state.paginated.shouts.error,
 
 });
 
