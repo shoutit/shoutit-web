@@ -49,7 +49,7 @@ describe('utils/LocationUtils', () => {
     it('should include the city', () => {
       const result = {
         addressComponents: [
-          { shortName: 'Rome', types: ['locality'] },
+          { longName: 'Rome', types: ['locality'] },
         ],
       };
       expect(LocationUtils.parseGeocoderResult(result)).to.have.property('city', 'Rome');
@@ -57,7 +57,7 @@ describe('utils/LocationUtils', () => {
     it('should include the state', () => {
       const result = {
         addressComponents: [
-          { shortName: 'Lazio', types: ['administrative_area_level_1'] },
+          { longName: 'Lazio', types: ['administrative_area_level_1'] },
         ],
       };
       expect(LocationUtils.parseGeocoderResult(result)).to.have.property('state', 'Lazio');
@@ -73,8 +73,8 @@ describe('utils/LocationUtils', () => {
           status: 'OK',
           results: [
             { addressComponents: [
-              { shortName: 'Lazio', types: ['administrative_area_level_1'] },
-              { shortName: 'Rome', types: ['locality'] },
+              { longName: 'Lazio', types: ['administrative_area_level_1'] },
+              { longName: 'Rome', types: ['locality'] },
               { shortName: 'IT', types: ['country'] },
             ] },
             { abc: 'xyz' }] },

@@ -34,7 +34,6 @@ export function parseApiError(err, info) {
       statusCode: err.status || 500,
       message: err.message,
     };
-    parsedError.body = parsedError.output;
   }
   errorParserLog('Error has been parsed', parsedError);
   return parsedError;
