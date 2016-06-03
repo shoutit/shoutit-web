@@ -35,6 +35,10 @@ export class SearchLocation extends Component {
     isGeocoding: false,
   };
 
+  componentDidMount() {
+    this.refs.input.focus();
+  }
+
   handleChange() {
     const input = trim(this.refs.input.value).toLowerCase();
     this.setState({ input });
