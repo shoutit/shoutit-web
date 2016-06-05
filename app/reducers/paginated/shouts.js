@@ -5,7 +5,7 @@ const initialState = { ids: [] }
 ;
 function shouts(state = {}, action) {
   switch (action.type) {
-    case actionTypes.INVALIDATE_SHOUTS_SEARCH:
+    case actionTypes.INVALIDATE_SHOUTS:
       return initialState;
   }
   return state;
@@ -14,9 +14,9 @@ function shouts(state = {}, action) {
 export default function (state = initialState, action) {
   let newState = createPaginatedReducer({
     fetchTypes: [
-      actionTypes.SEARCH_SHOUTS_START,
-      actionTypes.SEARCH_SHOUTS_SUCCESS,
-      actionTypes.SEARCH_SHOUTS_FAILURE,
+      actionTypes.LOAD_SHOUTS_START,
+      actionTypes.LOAD_SHOUTS_SUCCESS,
+      actionTypes.LOAD_SHOUTS_FAILURE,
     ],
   })(state, action);
 

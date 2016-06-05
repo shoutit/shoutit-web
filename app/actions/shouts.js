@@ -1,3 +1,5 @@
+import omit from 'lodash/omit';
+import omitBy from 'lodash/omitBy';
 
 import * as actionTypes from './actionTypes';
 import { SHOUT, SHOUTS, CONVERSATION } from '../schemas';
@@ -15,6 +17,49 @@ export const loadShout = id => ({
     params: { id },
     schema: SHOUT,
   },
+});
+
+
+export const loadShouts = (location, params, endpoint) => {
+  location = omitBy(location, i => !i);
+  let searchLocation = omit(location, ['slug', 'name', 'postalCode']);
+  searchLocation.postal_code = location.postalCode;
+  let searchParams = { ...params };
+  switch (searchParams.within) {
+    case 'country':
+      searchParams = omit(searchParams, ['within']);
+      searchLocation = omit(searchLocation, ['latitude', 'longitude', 'postal_code', 'address', 'city', 'state']);
+      break;
+    case 'state':
+      searchParams = omit(searchParams, ['within']);
+      searchLocation = omit(searchLocation, ['latitude', 'longitude', 'postal_code', 'address', 'city']);
+      break;
+    default:
+      break;
+  }
+  return {
+    types: [
+      actionTypes.LOAD_SHOUTS_START,
+      actionTypes.LOAD_SHOUTS_SUCCESS,
+      actionTypes.LOAD_SHOUTS_FAILURE,
+    ],
+    service: {
+      name: 'shouts',
+      schema: SHOUTS,
+      params: {
+        searchParams,
+        location: searchLocation,
+        endpoint,
+      },
+    },
+    payload: { searchParams, endpoint },
+  };
+
+};
+
+export const invalidateShouts = (searchParams) => ({
+  type: actionTypes.INVALIDATE_SHOUTS,
+  payload: { searchParams },
 });
 
 export const loadRelatedShouts = (shoutId, query, endpoint) => ({

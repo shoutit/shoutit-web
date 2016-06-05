@@ -7,7 +7,7 @@ import { getLocationPath } from '../utils/LocationUtils';
 import { getPaginationState, getShouts, getCategory } from '../selectors';
 import { getSearchParamsFromQuery, getQuerystringFromSearchParams } from '../utils/SearchUtils';
 
-import { searchShouts, invalidateShoutsSearch } from '../actions/search';
+import { loadShouts, invalidateShouts } from '../actions/shouts';
 
 import Page from '../layout/Page';
 
@@ -24,8 +24,8 @@ import SearchFilters from '../search/SearchFilters';
 
 const fetchData = (dispatch, state, params, query) => {
   const searchParams = getSearchParamsFromQuery(query);
-  dispatch(invalidateShoutsSearch(searchParams));
-  return dispatch(searchShouts(state.currentLocation, searchParams));
+  dispatch(invalidateShouts(searchParams));
+  return dispatch(loadShouts(state.currentLocation, searchParams));
 };
 
 export class Search extends Component {
@@ -94,7 +94,7 @@ export class Search extends Component {
         scrollElement={ () => window }
         onScrollBottom={ () => {
           if (nextUrl && !isFetching) {
-            dispatch(searchShouts(currentLocation, searchParams, nextUrl));
+            dispatch(loadShouts(currentLocation, searchParams, nextUrl));
           }
         } }
         triggerOffset={ 400 }
@@ -122,7 +122,7 @@ export class Search extends Component {
               title="There was an error"
               details="Cannot load shouts right now."
               type="error"
-              retryAction={ () => dispatch(searchShouts(currentLocation, searchParams, nextUrl)) }
+              retryAction={ () => dispatch(loadShouts(currentLocation, searchParams, nextUrl)) }
             />
           }
 
