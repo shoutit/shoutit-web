@@ -1,4 +1,4 @@
-FROM node:4
+FROM gpbl/node-4-intl
 
 ARG SHOUTIT_ENV
 
