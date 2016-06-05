@@ -92,7 +92,7 @@ export class Application extends React.Component {
     return (
       <div className={ className }>
         <Helmet
-          htmlAttributes={ { lang: 'en' } }
+          htmlAttributes={ { lang: props.locale } }
           titleTemplate="%s - Shoutit"
           title="Buy and sell while chatting! - Shoutit"
           defaultTitle="Buy and sell while chatting! - Shoutit"
@@ -168,6 +168,7 @@ function mapStateToProps(state) {
     currentLocation: state.currentLocation,
     currentUrl: state.routing.currentUrl,
     error: state.routing.error,
+    locale: state.locale,
   };
 }
 
