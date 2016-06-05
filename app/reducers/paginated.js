@@ -7,7 +7,6 @@ import listenersByUser from './paginated/listenersByUser';
 import listeningByUser from './paginated/listeningByUser';
 import messagesByConversation from './paginated/messagesByConversation';
 import notifications from './paginated/notifications';
-import profilesBySearch from './paginated/profilesBySearch';
 import relatedShoutsByShout from './paginated/relatedShoutsByShout';
 import relatedTagsByTag from './paginated/relatedTagsByTag';
 import shoutsByDiscoverItem from './paginated/shoutsByDiscoverItem';
@@ -16,7 +15,6 @@ import shouts from './paginated/shouts';
 import shoutsByTagname from './paginated/shoutsByTagname';
 import shoutsByUsername from './paginated/shoutsByUsername';
 import suggestions from './paginated/suggestions';
-import tagsBySearch from './paginated/tagsBySearch';
 
 export default combineReducers({
   chatConversations,
@@ -26,7 +24,6 @@ export default combineReducers({
   listeningByUser,
   messagesByConversation,
   notifications,
-  profilesBySearch,
   relatedShoutsByShout,
   relatedTagsByTag,
   shoutsByDiscoverItem,
@@ -35,5 +32,4 @@ export default combineReducers({
   shoutsByTagname,
   shoutsByUsername,
   suggestions,
-  tagsBySearch,
 });

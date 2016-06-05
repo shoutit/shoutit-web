@@ -22,7 +22,6 @@ import { denormalize } from '../schemas';
 
 import LocationModal from '../location/LocationModal';
 import { openModal } from '../actions/ui';
-import { updateCurrentLocation } from '../actions/location';
 import { routeError } from '../actions/server';
 
 if (process.env.BROWSER) {
@@ -106,11 +105,7 @@ export class Discover extends Component {
     e.preventDefault();
     e.target.blur();
     this.props.dispatch(openModal(
-      <LocationModal
-        onLocationSelect={
-          location => this.props.dispatch(updateCurrentLocation(location))
-        }
-      />
+      <LocationModal />
     ));
   }
 

@@ -35,7 +35,7 @@ const StartColumn = ({ profile }) =>
       Welcome back, { profile.firstName }
     </h1>
 
-    <ul className="htmlNoList" style={ { padding: '0 .5rem' } }>
+    <ul className="htmlNoList Dashboard-shortcuts" style={ { padding: '0 .5rem' } }>
       <li>
         <Link to={ `/user/${profile.username}` }>
           <ListItem start={ <Icon active name="profile" size="small" /> }>Your Profile</ListItem>

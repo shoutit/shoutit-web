@@ -1,0 +1,33 @@
+@import "../styles/constants.scss";
+
+.SearchOverlay.has-results {
+  padding-bottom: .5rem;
+}
+
+.SearchOverlay-placeholder {
+  color: $color-light;
+  text-align: center;
+  font-size: 0.75rem;
+  padding: 1rem;
+}
+
+.SearchOverlay-results {
+  .List h3 {
+    background-color: $background-color;
+  }
+  .List:not(:first-child) h3 {
+    margin-top: .75rem;
+  }
+}
+
+.SearchOverlay-more {
+  display: block;
+  margin-top: .5rem;
+  font-size: 0.875em;
+  cursor: pointer;
+  text-align: center;
+  color: $si-green;
+  &:hover {
+    text-decoration: underline;
+  }
+}
