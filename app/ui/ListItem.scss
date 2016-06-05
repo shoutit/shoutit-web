@@ -23,7 +23,7 @@
     color: $color
   }
 
-  ul & {
+  ul > & {
     margin: .25rem 0;
     color: $color;
     &.size-small {

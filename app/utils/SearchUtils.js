@@ -1,4 +1,3 @@
-import stringify from 'json-stable-stringify';
 
 export function filtersObjectToUriComponent(filters) {
   const arr = [];
@@ -79,10 +78,5 @@ export function getSearchParamsFromQuery(query) {
       parseInt(query.within, 10);
   }
 
-
   return searchParams;
-}
-
-export function stringifySearchParams(params) {
-  return stringify(params);
 }

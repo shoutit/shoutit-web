@@ -7,9 +7,8 @@ import Popover from '../ui/Popover';
 import TagPreview from '../tags/TagPreview';
 import CategoryIcon from '../shouts/CategoryIcon';
 
-export function TagListItem({ tag, size = 'medium', link = true, category }) {
+export function TagListItem({ tag, size = 'medium', link = true, category, popover, onClick }) {
 
-  const overlay = <TagPreview id={ tag.id } />;
   let icon;
   if (category) {
     icon = <CategoryIcon category={ category } size={ size } />;
@@ -17,26 +16,35 @@ export function TagListItem({ tag, size = 'medium', link = true, category }) {
     icon = <Icon size={ size } name="tag" active />;
   }
   const item = (
-    <ListItem className="TagListItem" size={ size } nowrap start={ icon }>
+    <ListItem className="TagListItem" size={ size } nowrap start={ icon } onClick={ onClick }>
       { category ? category.name : tag.name }
     </ListItem>
   );
-  return (
-    <Popover overlay={ overlay } placement="right">
-      { link ?
-        <Link to={ `/interest/${tag.slug || tag.name}` }>
-          { item }
-        </Link>
-        : item
-      }
-    </Popover>
-  );
+
+  let content = link ?
+    <Link to={ `/interest/${tag.slug || tag.name}` }>
+      { item }
+    </Link>
+    : item;
+
+  if (popover) {
+    const overlay = <TagPreview id={ tag.id } />;
+    content = (
+      <Popover overlay={ overlay } placement="right">
+        { content }
+      </Popover>
+    );
+  }
+
+  return content;
+
 }
 
 TagListItem.propTypes = {
   link: PropTypes.bool,
   tag: PropTypes.object.isRequired,
   category: PropTypes.object,
+  onClick: PropTypes.func,
   tooltipPlacement: PropTypes.string,
   size: PropTypes.oneOf(['medium', 'small']),
 };

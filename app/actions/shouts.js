@@ -20,7 +20,11 @@ export const loadShout = id => ({
 });
 
 
-export const loadShouts = (location, params, endpoint) => {
+export const loadShouts = (location, params, endpoint, types = [
+  actionTypes.LOAD_SHOUTS_START,
+  actionTypes.LOAD_SHOUTS_SUCCESS,
+  actionTypes.LOAD_SHOUTS_FAILURE,
+]) => {
   location = omitBy(location, i => !i);
   let searchLocation = omit(location, ['slug', 'name', 'postalCode']);
   searchLocation.postal_code = location.postalCode;
@@ -38,11 +42,7 @@ export const loadShouts = (location, params, endpoint) => {
       break;
   }
   return {
-    types: [
-      actionTypes.LOAD_SHOUTS_START,
-      actionTypes.LOAD_SHOUTS_SUCCESS,
-      actionTypes.LOAD_SHOUTS_FAILURE,
-    ],
+    types,
     service: {
       name: 'shouts',
       schema: SHOUTS,

@@ -14,3 +14,12 @@
     margin-top: 1.5rem;
   }
 }
+
+.Dashboard-shortcuts {
+  .ListItem {
+    margin: .5em;
+    &:hover {
+      opacity: .75;
+    }
+  }
+}
