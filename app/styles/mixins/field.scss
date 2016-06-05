@@ -70,8 +70,7 @@
 
 @mixin field() {
   appearance: none;
-  display: inline-block;
-  width: 100%;
+  display: block;
   border: 0;
   padding: .625em;
   color: $color;
