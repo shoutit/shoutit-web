@@ -48,14 +48,21 @@ export function preventBodyScroll() {
       return;
     }
     log('Prevent body scroll is enabled, scrolltop is %s', scrollTop);
-    document.body.style.top = `${-scrollTop}px`;
-    document.body.classList.add('no-scroll');
+    document.documentElement.style.position = 'fixed';
+    document.documentElement.style.width = '100%';
+    document.documentElement.style.overflowY = 'scroll';
+    document.documentElement.style.top = `${-scrollTop}px`;
+    document.documentElement.style.height = `${document.documentElement.clientHeight + scrollTop}px`;
   }
   function off() {
     log('Prevent body scroll is disabled, restoring scrollTop to %s', scrollTop);
-    document.body.style.top = '';
-    document.body.scrollTop = scrollTop;
-    document.body.classList.remove('no-scroll');
+    document.documentElement.style.position = '';
+    document.documentElement.style.width = '';
+    document.documentElement.style.overflowY = '';
+    document.documentElement.style.top = '';
+    document.documentElement.style.height = '';
+    document.documentElement.scrollTop = scrollTop;
+    document.documentElement.classList.remove('no-scroll');
     window.scroll(0, scrollTop);
   }
   return { on, off };

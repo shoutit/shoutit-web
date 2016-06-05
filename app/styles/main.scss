@@ -36,11 +36,6 @@ body {
   background-color: $background-color;
   color: $color;
   -webkit-font-smoothing: subpixel-antialiased;
-  &.no-scroll {
-    position: fixed;
-    overflow-y: scroll;
-    width: 100%;
-  }
 }
 
 a {
