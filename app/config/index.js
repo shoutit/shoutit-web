@@ -36,6 +36,7 @@ export const facebookId = envConfig.facebookId;
 export const ga = envConfig.ga;
 export const googleMapsKey = 'AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc';
 export const imagesPath = `${envConfig.publicUrl}/images`;
+export const locales = ['en', 'ar'];
 export const publicUrl = envConfig.publicUrl;
 export const pusherAppKey = envConfig.pusherAppKey;
 export const shoutitEnv = process.env.SHOUTIT_ENV;
@@ -63,6 +64,7 @@ export function getSummary() {
   summary.push(`  Site URL:             ${siteUrl}`);
   summary.push(`  Public assets URL:    ${publicUrl}`);
   summary.push(`  API URL:              ${apiUrl}`);
+  summary.push(`  Supported locales:    ${locales.join(', ')}`);
   summary.push(`  Google Analytics:     ${ga}`);
   summary.push(`  Images path:          ${imagesPath}`);
   summary.push(`  Facebook ID:          ${facebookId}`);
