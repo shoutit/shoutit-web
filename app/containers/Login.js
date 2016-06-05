@@ -70,7 +70,7 @@ export class Login extends Component {
     const form = e.target;
     const email = this.refs.email.getValue();
     const password = this.refs.password.getValue();
-    const keepSession = this.refs.keep_session.checked;
+    // const keepSession = this.refs.keep_session.checked;
 
     if (!email) {
       form.email.focus();
@@ -83,7 +83,7 @@ export class Login extends Component {
     if (email && password) {
       form.email.blur();
       form.password.blur();
-      dispatch(login({ email, password, keepSession })).then(() => {
+      dispatch(login({ email, password })).then(() => {
         this.redirectToNextPage();
       });
     }
@@ -152,10 +152,10 @@ export class Login extends Component {
               </Button>
 
               <div className="Frame-form-horizontal-group" style={ { fontSize: '0.875rem' } }>
-                <span>
+                {/* <span>
                   <input ref="keep_session" name="keep_session" disabled={ isLoggingIn } type="checkbox" defaultChecked id="login-keep-session" />
                   <label htmlFor="login-keep-session"> Keep me logged in</label>
-                </span>
+                </span>*/}
                 <span>
                   <Link to={ { pathname: '/login/password', query } } className="forgot-btn">
                     Recover your password

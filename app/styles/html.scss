@@ -19,11 +19,6 @@
   padding: 0.625rem;
 }
 
-.htmlInput:not([type="checkbox"]) {
-  padding: 0 0.625rem;
-  line-height: 34px;
-}
-
 .htmlContentWidth {
   width: $content-width;
   margin: 0 auto;
