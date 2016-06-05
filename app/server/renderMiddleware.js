@@ -34,6 +34,7 @@ export default function renderMiddleware(req, res, next) {
     const storeState = {
       routing: { currentUrl: req.url },
       currentLocation: req.geolocation,
+      locale: req.locale,
     };
     if (user) {
       req.session.user = user;
