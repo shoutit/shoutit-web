@@ -11,6 +11,7 @@ import placePredictions from './placePredictions';
 import routing from './routing';
 import paginated from './paginated';
 import server from './server';
+import search from './search';
 import session from './session';
 import suggestions from './suggestions';
 import videocalls from './videocalls';
@@ -26,6 +27,7 @@ const appReducer = combineReducers({
   paginated,
   placePredictions,
   routing,
+  search,
   server,
   session,
   suggestions,

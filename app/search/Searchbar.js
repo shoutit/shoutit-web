@@ -3,19 +3,14 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import trim from 'lodash/trim';
 import throttle from 'lodash/throttle';
+import { invalidateSearch, searchShouts, searchTags, searchProfiles } from '../actions/search';
 
-import { searchShouts, searchTags, searchProfiles } from '../actions/search';
 import { openModal } from '../actions/ui';
-import { updateCurrentLocation } from '../actions/location';
 
-import { stringifySearchParams } from '../utils/SearchUtils';
 import { formatLocation } from '../utils/LocationUtils';
-import SearchbarResults from './SearchbarResults';
-
-import Overlay from '../ui/Overlay';
-import Progress from '../ui/Progress';
 import Button from '../ui/Button';
 import LocationModal from '../location/LocationModal';
+import SearchOverlay from '../search/SearchOverlay';
 
 if (process.env.BROWSER) {
   require('./Searchbar.scss');
@@ -24,147 +19,71 @@ if (process.env.BROWSER) {
 export class Searchbar extends Component {
 
   static propTypes = {
-    currentLocation: PropTypes.object,
-    tags: PropTypes.object,
-    foundTags: PropTypes.array,
-    tagsBySearch: PropTypes.object,
-    shouts: PropTypes.object,
-    foundShouts: PropTypes.array,
-    shoutsBySearch: PropTypes.object,
-    profiles: PropTypes.object,
-    foundProfiles: PropTypes.array,
-    profilesBySearch: PropTypes.object,
-    dispatch: PropTypes.func.isRequired,
-    error: PropTypes.object,
-  };
-
-  static defaultProps = {
-    foundTags: [],
-    foundShouts: [],
-    foundProfiles: [],
+    currentLocation: PropTypes.object.isRequired,
+    searchTags: PropTypes.func.isRequired,
+    searchProfiles: PropTypes.func.isRequired,
+    searchShouts: PropTypes.func.isRequired,
+    invalidateSearch: PropTypes.func.isRequired,
+    onLocationClick: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
     this.submit = this.submit.bind(this);
-    this.handleChange = throttle(this.handleChange, 1000).bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.startSearch = throttle(this.startSearch, 1000).bind(this);
   }
 
   state = {
-
-    shoutsSearchSlug: null,
-    profilesSearchSlug: null,
-    tagsSearchSlug: null,
-
     showOverlay: false,
     isFocused: false,
-
+    query: '',
   };
 
   submit(e) {
     e.preventDefault();
-    const search = trim(this.refs.search.value).toLowerCase();
-    if (search) {
+    const query = trim(this.refs.searchField.value).toLowerCase();
+    if (query) {
       this.setState({
         showOverlay: false,
       });
-      this.refs.search.blur();
-      this.props.dispatch(push(`/search?search=${encodeURIComponent(search)}`));
+      this.refs.searchField.blur();
+      this.props.onSubmit(query);
     }
   }
 
   handleChange() {
-    const { dispatch, currentLocation } = this.props;
-    const search = trim(this.refs.search.value);
-    if (search.length < 2) {
-      this.setState({
-        shoutsSearchSlug: false,
-        searchString: '',
-      });
-      return;
+    const query = this.refs.searchField.value;
+    if (query.length <= 2) {
+      this.props.invalidateSearch();
+    } else {
+      this.startSearch(trim(query));
     }
+    this.setState({ query });
+  }
 
-    const searchParams = {
-      search,
+  startSearch(query) {
+    this.setState({
+      showOverlay: true,
+    });
+    const params = {
+      search: query,
       page_size: 5,
     };
-
-    const shoutsSearchParams = {
-      ...searchParams,
-      country: currentLocation.country,
-      city: currentLocation.city,
-    };
-
-    const tagsSearchParams = searchParams;
-    const profilesSearchParams = searchParams;
-
-    this.setState({
-      searchString: search,
-      showOverlay: true,
-      shoutsSearchSlug: stringifySearchParams(shoutsSearchParams),
-      tagsSearchSlug: stringifySearchParams(tagsSearchParams),
-      profilesSearchSlug: stringifySearchParams(profilesSearchParams),
-    });
-
-    dispatch(searchShouts(currentLocation, shoutsSearchParams));
-    dispatch(searchTags(tagsSearchParams));
-    dispatch(searchProfiles(profilesSearchParams));
+    this.props.searchShouts(this.props.currentLocation, params);
+    this.props.searchTags(params);
+    this.props.searchProfiles(params);
   }
 
   handleLocationClick(e) {
     e.preventDefault();
     e.target.blur();
-    this.props.dispatch(openModal(
-      <LocationModal
-        onLocationSelect={
-          location => this.props.dispatch(updateCurrentLocation(location))
-        }
-      />
-    ));
+    this.props.onLocationClick();
   }
 
   render() {
-    const { searchString, showOverlay, shoutsSearchSlug, tagsSearchSlug, profilesSearchSlug, hasFocus } = this.state;
-    const {
-      shouts,
-      tags,
-      profiles,
-      shoutsBySearch,
-      tagsBySearch,
-      profilesBySearch,
-      currentLocation,
-      error,
-    } = this.props;
-
-    let foundShouts = [];
-    let foundTags = [];
-    let foundProfiles = [];
-
-    let hasMoreShouts = false;
-    let shoutsCount = 0;
-    let isFetchingShouts = false;
-    let isFetchingProfiles = false;
-    let isFetchingTags = false;
-
-    if (shoutsSearchSlug && shoutsBySearch[shoutsSearchSlug]) {
-      foundShouts = shoutsBySearch[shoutsSearchSlug].ids.map(id => shouts[id]);
-      isFetchingShouts = shoutsBySearch[shoutsSearchSlug].isFetching;
-      hasMoreShouts = shoutsBySearch[shoutsSearchSlug].nextUrl;
-      shoutsCount = shoutsBySearch[shoutsSearchSlug].count;
-    }
-    if (tagsSearchSlug && tagsBySearch[tagsSearchSlug]) {
-      foundTags = tagsBySearch[tagsSearchSlug].ids.map(id => tags[id]);
-      isFetchingTags = tagsBySearch[tagsSearchSlug].isFetching;
-    }
-    if (profilesSearchSlug && profilesBySearch[profilesSearchSlug]) {
-      foundProfiles = profilesBySearch[profilesSearchSlug].ids.map(id => profiles[id]);
-      isFetchingProfiles = profilesBySearch[profilesSearchSlug].isFetching;
-    }
-
-    const locationLabel = formatLocation(currentLocation, { showCountry: false }) || 'Anywhere';
-    const hasResults = foundTags.length > 0 || foundShouts.length > 0 || foundProfiles.length > 0;
-    const isFetching = isFetchingShouts || isFetchingProfiles || isFetchingTags;
-
+    const locationLabel = formatLocation(this.props.currentLocation, { showCountry: false }) || 'Anywhere';
     return (
       <form ref="form" onSubmit={ this.submit } className="Searchbar">
         <Button
@@ -175,32 +94,39 @@ export class Searchbar extends Component {
         </Button>
         <input
           autoComplete="off"
-          ref="search"
-          name="search"
+          ref="searchField"
+          name="query"
           placeholder="Search Shoutit"
           className="htmlInput"
+          value={ this.state.query }
           type="text"
           onChange={ this.handleChange }
           onBlur={ () => this.setState({ isFocused: false }) }
           onFocus={ () => this.setState({ isFocused: true, showOverlay: true }) }
         />
-        <Overlay
+        <SearchOverlay
+          query={ this.state.query.length <= 2 ? '' : this.state.query }
           rootClose
+          show={ this.state.hasFocus || this.state.showOverlay }
           onHide={ () => {
             if (!this.state.isFocused) {
               this.setState({ showOverlay: false });
             }
           } }
           style={ { width: '100%', borderTopLeftRadius: 0, borderTopRightRadius: 0 } }
-          show={ hasFocus || showOverlay }
           placement="bottom"
           container={ this }
-          target={ () => this.refs.search }
+          onMoreShoutsClick={ this.submit }
+          target={ () => this.refs.searchField }
+         />
+        {/* <Overlay
+          rootClose
+
         >
 
           { !hasResults && !isFetching &&
             <p style={ { margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' } }>
-              { searchString ? 'Nothing found' : 'Type something to start search' }
+              { q ? 'Nothing found' : 'Type something to start search' }
             </p>
           }
 
@@ -210,22 +136,19 @@ export class Searchbar extends Component {
             </div>
           }
 
-          { error && <p className="htmlError">Can't load results right now</p> }
-
           { hasResults &&
             <SearchbarResults
-              search={ searchString }
+              search={ q }
               onShowMoreShoutsClick={ this.submit }
-              shoutsCount={ shoutsCount }
-              hasMoreShouts={ hasMoreShouts }
+              hasMoreShouts={ false }
               onResultClick={ () => this.setState({ showOverlay: false }) }
-              tags={ foundTags }
-              shouts={ foundShouts }
-              profiles={ foundProfiles }
+              tags={ tags }
+              shouts={ shouts }
+              profiles={ profiles }
             />
           }
 
-        </Overlay>
+        </Overlay>*/}
       </form>
     );
   }
@@ -233,21 +156,15 @@ export class Searchbar extends Component {
 
 const mapStateToProps = state => ({
   currentLocation: state.currentLocation,
-
-  shoutsBySearch: state.paginated.shoutsBySearch,
-  isFetchingShouts: state.paginated.shoutsBySearch.isFetching,
-  shouts: state.entities.shouts,
-
-  tagsBySearch: state.paginated.tagsBySearch,
-  tags: state.entities.tags,
-  isFetchingTags: state.paginated.tagsBySearch.isFetching,
-
-  profilesBySearch: state.paginated.profilesBySearch,
-  profiles: state.entities.users,
-  isFetchingProfiles: state.paginated.profilesBySearch.isFetching,
-
-  error: state.paginated.profilesBySearch.error || state.paginated.tagsBySearch.error || state.paginated.shoutsBySearch.error,
-
 });
 
-export default connect(mapStateToProps)(Searchbar);
+const mapDispatchToProps = dispatch => ({
+  invalidateSearch: () => dispatch(invalidateSearch()),
+  searchTags: params => dispatch(searchTags(params)),
+  searchProfiles: params => dispatch(searchProfiles(params)),
+  searchShouts: (location, params) => dispatch(searchShouts(location, params)),
+  onSubmit: query => dispatch(push(`/search?search=${encodeURIComponent(query)}`)),
+  onLocationClick: () => dispatch(openModal(<LocationModal />)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Searchbar);

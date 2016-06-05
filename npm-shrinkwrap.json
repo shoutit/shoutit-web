@@ -5459,18 +5459,6 @@
       "from": "js-cookie@2.1.2",
       "resolved": "https://registry.npmjs.org/js-cookie/-/js-cookie-2.1.2.tgz"
     },
-    "json-stable-stringify": {
-      "version": "1.0.1",
-      "from": "https://registry.npmjs.org/json-stable-stringify/-/json-stable-stringify-1.0.1.tgz",
-      "resolved": "https://registry.npmjs.org/json-stable-stringify/-/json-stable-stringify-1.0.1.tgz",
-      "dependencies": {
-        "jsonify": {
-          "version": "0.0.0",
-          "from": "https://registry.npmjs.org/jsonify/-/jsonify-0.0.0.tgz",
-          "resolved": "https://registry.npmjs.org/jsonify/-/jsonify-0.0.0.tgz"
-        }
-      }
-    },
     "lodash": {
       "version": "4.13.1",
       "from": "lodash@4.13.1",

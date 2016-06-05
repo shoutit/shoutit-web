@@ -1,12 +1,15 @@
 import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
+
 import Modal, { Header, Body, Footer } from '../ui/Modal';
 import Button from '../ui/Button';
 
 import SearchLocation from '../location/SearchLocation';
+import { updateCurrentLocation } from '../actions/location';
 
-export default class LocationModal extends Component {
+export class LocationModal extends Component {
   static propTypes = {
-    onLocationSelect: PropTypes.func,
+    onLocationSelect: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -16,9 +19,7 @@ export default class LocationModal extends Component {
 
   handleLocationSelect(location) {
     this.refs.modal.hide();
-    if (this.props.onLocationSelect) {
-      this.props.onLocationSelect(location);
-    }
+    this.props.onLocationSelect(location);
   }
 
   render() {
@@ -40,3 +41,8 @@ export default class LocationModal extends Component {
   }
 
 }
+
+const mapDispatchToProps = dispatch => ({
+  onLocationSelect: location => dispatch(updateCurrentLocation(location)),
+});
+export default connect(null, mapDispatchToProps)(LocationModal);

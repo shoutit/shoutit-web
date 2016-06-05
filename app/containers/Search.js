@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import Helmet from '../utils/Helmet';
 import { getLocationPath } from '../utils/LocationUtils';
-import { getSearchParamsFromQuery, getQuerystringFromSearchParams, stringifySearchParams } from '../utils/SearchUtils';
+import { getPaginationState, getShouts, getCategory } from '../selectors';
+import { getSearchParamsFromQuery, getQuerystringFromSearchParams } from '../utils/SearchUtils';
 
-import { searchShouts, invalidateShoutsSearch } from '../actions/search';
-
-import { denormalize } from '../schemas';
+import { loadShouts, invalidateShouts } from '../actions/shouts';
 
 import Page from '../layout/Page';
 
@@ -25,8 +24,8 @@ import SearchFilters from '../search/SearchFilters';
 
 const fetchData = (dispatch, state, params, query) => {
   const searchParams = getSearchParamsFromQuery(query);
-  dispatch(invalidateShoutsSearch(searchParams));
-  return dispatch(searchShouts(state.currentLocation, searchParams));
+  dispatch(invalidateShouts(searchParams));
+  return dispatch(loadShouts(state.currentLocation, searchParams));
 };
 
 export class Search extends Component {
@@ -95,7 +94,7 @@ export class Search extends Component {
         scrollElement={ () => window }
         onScrollBottom={ () => {
           if (nextUrl && !isFetching) {
-            dispatch(searchShouts(currentLocation, searchParams, nextUrl));
+            dispatch(loadShouts(currentLocation, searchParams, nextUrl));
           }
         } }
         triggerOffset={ 400 }
@@ -123,7 +122,7 @@ export class Search extends Component {
               title="There was an error"
               details="Cannot load shouts right now."
               type="error"
-              retryAction={ () => dispatch(searchShouts(currentLocation, searchParams, nextUrl)) }
+              retryAction={ () => dispatch(loadShouts(currentLocation, searchParams, nextUrl)) }
             />
           }
 
@@ -142,33 +141,16 @@ export class Search extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { routing, currentLocation, paginated: { shoutsBySearch }, entities } = state;
-
+  const { routing, currentLocation } = state;
   const searchParams = getSearchParamsFromQuery(ownProps.location.query);
-  const searchResults = shoutsBySearch[stringifySearchParams(searchParams)];
-
-  let isFetching = false;
-  let nextUrl;
-  let error;
-  let shouts = [];
-
-  if (searchResults) {
-    isFetching = searchResults.isFetching;
-    nextUrl = searchResults.nextUrl;
-    error = searchResults.error;
-    shouts = searchResults.ids.map(id => denormalize(entities.shouts[id], entities, 'SHOUT'));
-  }
-
   let title = 'Search';
 
   if (searchParams.category) {
-    title = ` ${state.entities.categories[searchParams.category].name}`;
+    title = ` ${getCategory(state, searchParams.category).name}`;
   }
-
   if (searchParams.shout_type && searchParams.shout_type !== 'all') {
     title += ` ${searchParams.shout_type}s`;
   }
-
   if (searchParams.city) {
     title += ` in ${searchParams.city}`;
   }
@@ -176,13 +158,11 @@ const mapStateToProps = (state, ownProps) => {
   return {
     currentUrl: routing.currentUrl,
     searchParams,
-    shouts,
-    nextUrl,
-    isFetching,
-    error,
     currentLocation,
     title,
     location: ownProps.location,
+    shouts: getShouts(state),
+    ...getPaginationState(state, 'shouts'),
   };
 };
 

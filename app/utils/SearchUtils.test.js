@@ -80,20 +80,4 @@ describe('utils/SearchUtils', () => {
 
   });
 
-  describe('stringifySearchParams', () => {
-
-    it('should stringify the search params', () => {
-      const stringified = SearchUtils.stringifySearchParams({
-        shout_type: 'request',
-        category: 'foo-category',
-        min_price: '1',
-        max_price: '2',
-      });
-      expect(stringified).to.equal('{"category":"foo-category","max_price":"2","min_price":"1","shout_type":"request"}');
-
-    });
-
-  });
-
-
 });
