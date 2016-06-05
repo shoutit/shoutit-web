@@ -154,7 +154,7 @@ export class Login extends Component {
               <div className="Frame-form-horizontal-group" style={ { fontSize: '0.875rem' } }>
                 <span>
                   <input ref="keep_session" name="keep_session" disabled={ isLoggingIn } type="checkbox" defaultChecked id="login-keep-session" />
-                  <label htmlFor="login-keep-session"> Keep me logged in</label>
+                  { /* <label htmlFor="login-keep-session"> Keep me logged in</label>*/ }
                 </span>
                 <span>
                   <Link to={ { pathname: '/login/password', query } } className="forgot-btn">
