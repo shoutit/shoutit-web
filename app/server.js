@@ -18,6 +18,7 @@ import basicAuthMiddleware from './server/basicAuthMiddleware';
 import geolocationMiddleware from './server/geolocationMiddleware';
 import errorMiddleware from './server/errorMiddleware';
 import pusherMiddleware from './server/pusherMiddleware';
+import localeMiddleware from './server/localeMiddleware';
 import redirects from './server/redirects';
 import renderMiddleware from './server/renderMiddleware';
 import slashMiddleware from './server/slashMiddleware';
@@ -72,6 +73,9 @@ export function start(app) {
 
   // Remove trailing slashes from urls
   app.use(slashMiddleware);
+
+  // Get the client's locale in req.locale
+  app.use(localeMiddleware);
 
   // Get the client's geo location
   app.use(geolocationMiddleware);
