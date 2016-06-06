@@ -8,8 +8,11 @@
     "url": "https://bitbucket.org/shoutitcom/shoutit_webapp.git"
   },
   "scripts": {
-    "start": "node index.js",
-    "build": "NODE_ENV=production webpack -p --bail",
+    "start": "node built/index.js",
+    "prebuild": "rimraf built",
+    "build": "npm run build:server && npm run build:client && cp -r assets built/assets",
+    "build:server": "babel index.js app.js -d built && babel app -d built/app",
+    "build:client": "NODE_ENV=production webpack -p --bail",
     "build:translations": "babel-node ./scripts/translations.js",
     "dev": "DEBUG=shoutit,shoutit:* NODE_ENV=development babel-watch -D -w app/server -w app/services -w app/server.js -w assets/intl/translations/*.json app.js",
     "dev:built": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=production npm start",
