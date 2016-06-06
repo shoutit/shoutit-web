@@ -1,14 +1,12 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { IntlProvider, FormattedDate } from 'react-intl';
+import { IntlProvider } from 'react-intl';
 
 import Helmet from '../utils/Helmet';
 
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
-// import UINotificationsHost from '../ui/UINotificationsHost';
 import ModalHost from '../ui/ModalHost';
-// import VideoCallHost from '../videoCalls/VideoCallHost';
 import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
 import NotFound from './NotFound';
@@ -92,16 +90,8 @@ export class Application extends React.Component {
 
 
     return (
-      <IntlProvider locale={ this.props.locale }>
       <IntlProvider locale={ this.props.locale } messages={ this.props.messages }>
         <div className={ className }>
-          <FormattedDate
-            value={ new Date(1459913574887) }
-            year="numeric"
-            month="long"
-            day="numeric"
-            weekday="long"
-          />
           <Helmet
             htmlAttributes={ { lang: props.locale, dir: props.locale === 'ar' ? 'rtl' : 'ltr' } }
             meta={ [
@@ -150,10 +140,8 @@ export class Application extends React.Component {
               <Footer />
             </div>
           }
+
           <ModalHost />
-          { /* <UINotificationsHost />*/ }
-          { /* { props.videoCallState && props.videoCallState.currentConversation &&*/ }
-            { /* <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }*/ }
           <ConversationsHost />
 
         </div>
