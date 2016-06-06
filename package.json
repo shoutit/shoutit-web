@@ -8,7 +8,6 @@
     "url": "https://bitbucket.org/shoutitcom/shoutit_webapp.git"
   },
   "scripts": {
-    "storybook": "start-storybook -p 9001",
     "start": "node index.js",
     "build": "NODE_ENV=production webpack -p --bail",
     "dev": "DEBUG=shoutit,shoutit:* NODE_ENV=development babel-watch -D -w app/server -w app/services -w app/server.js app.js",
@@ -90,7 +89,6 @@
     "webrtcsupport": "2.2.0"
   },
   "devDependencies": {
-    "@kadira/storybook": "1.25.0",
     "autoprefixer": "6.3.6",
     "babel-cli": "6.9.0",
     "babel-eslint": "6.0.4",
