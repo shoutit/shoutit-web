@@ -19,7 +19,7 @@ import configureStore from './store/configureStore';
 
 import './client/initFacebook';
 import initGoogleAnalytics from './client/initGoogleAnalytics';
-import { loadIntlPolyfill } from './utils/IntlUtils';
+import { loadIntlPolyfill, loadLocaleData } from './utils/IntlUtils';
 
 import './styles/main.scss';
 
@@ -45,9 +45,10 @@ const logRouter = debug('shoutit:router');
 
 let firstRender = true;
 
-const renderApp = () => {
+const renderApp = messages => {
   const configureRoutes = require('./routes').default;
   const routes = configureRoutes(store);
+  console.log(messages);
   return (
     <Router
       history={ history }
@@ -80,10 +81,9 @@ const renderApp = () => {
 
 const locale = document.documentElement.getAttribute('lang');
 
-loadIntlPolyfill(locale).then(() => {
-  ReactDOM.render(
-    renderApp(),
-    document.getElementById('content'),
-    () => log('App has been mounted 🎉')
+loadIntlPolyfill(locale)
+  .then(() => loadLocaleData(locale))
+  .then(messages => ReactDOM.render(
+    renderApp(messages),
+    document.getElementById('content'))
   );
-});
