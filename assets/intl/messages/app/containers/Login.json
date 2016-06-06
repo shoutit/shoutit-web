@@ -1,0 +1,10 @@
+[
+  {
+    "id": "login.title",
+    "defaultMessage": "Login"
+  },
+  {
+    "id": "login.titleWithAction",
+    "defaultMessage": "Please login to continue"
+  }
+]
