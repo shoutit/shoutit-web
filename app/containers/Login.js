@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 import { Link } from 'react-router';
+import { injectIntl, defineMessages } from 'react-intl';
 import Helmet from '../utils/Helmet';
 
 import { login, resetErrors } from '../actions/session';
@@ -27,6 +28,7 @@ export class Login extends Component {
     isLoggingIn: PropTypes.bool,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -102,10 +104,23 @@ export class Login extends Component {
 
   render() {
     const { isLoggingIn, location: { query }, error } = this.props;
+
+    const messages = defineMessages({
+      title: {
+        id: 'login.title',
+        defaultMessage: 'Login',
+      },
+      titleWithAction: {
+        id: 'login.titleWithAction',
+        defaultMessage: 'Please login to continue',
+      },
+    });
+
+    const title = this.props.intl.formatMessage(query.login_action ? messages.titleWithAction : messages.title);
     return (
       <Page className="Login">
-        <Helmet title="Login" />
-        <Frame title={ query.login_action ? 'Please login to continue' : 'Login' }>
+        <Helmet title={ title } />
+        <Frame title={ title }>
 
           <div className="Frame-body">
 
@@ -183,4 +198,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(injectIntl(Login));
