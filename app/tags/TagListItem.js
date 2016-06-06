@@ -7,7 +7,7 @@ import Popover from '../ui/Popover';
 import TagPreview from '../tags/TagPreview';
 import CategoryIcon from '../shouts/CategoryIcon';
 
-export function TagListItem({ tag, size = 'medium', link = true, category, popover, onClick }) {
+export function TagListItem({ tag, size = 'medium', link = true, category, popover = true, onClick }) {
 
   let icon;
   if (category) {
