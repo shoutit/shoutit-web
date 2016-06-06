@@ -93,6 +93,7 @@ export class Application extends React.Component {
 
     return (
       <IntlProvider locale={ this.props.locale }>
+      <IntlProvider locale={ this.props.locale } messages={ this.props.messages }>
         <div className={ className }>
           <FormattedDate
             value={ new Date(1459913574887) }
@@ -168,6 +169,7 @@ Application.propTypes = {
   children: PropTypes.element.isRequired,
   dispatch: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
+  messages: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -177,6 +179,7 @@ function mapStateToProps(state) {
     currentUrl: state.routing.currentUrl,
     error: state.routing.error,
     locale: state.i18n.locale,
+    messages: state.i18n.messages,
   };
 }
 
