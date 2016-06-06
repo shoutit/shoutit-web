@@ -54,7 +54,7 @@ deployment:
         SHOUTIT_ENV=beta
         npm run build
       - pip install awscli
-      - aws s3 sync public s3://shoutit-web-static/beta
+      - aws s3 sync built/public s3://shoutit-web-static/beta
       - >
         docker build
         --build-arg SHOUTIT_ENV=beta
@@ -68,7 +68,7 @@ deployment:
         SHOUTIT_ENV=stage
         npm run build
       - pip install awscli
-      - aws s3 sync public s3://shoutit-web-static/stage
+      - aws s3 sync built/public s3://shoutit-web-static/stage
       - >
         docker build
         --build-arg SHOUTIT_ENV=stage
