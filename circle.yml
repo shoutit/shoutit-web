@@ -40,7 +40,7 @@ deployment:
         SHOUTIT_ENV=live
         npm run build
       - pip install awscli
-      - aws s3 sync public s3://shoutit-web-static/prod
+      - aws s3 sync built/public s3://shoutit-web-static/prod
       - >
         docker build
         --build-arg SHOUTIT_ENV=live
