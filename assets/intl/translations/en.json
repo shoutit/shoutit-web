@@ -1,0 +1,12 @@
+{
+  "login.title": "Login",
+  "login.titleWithAction": "Please login to continue",
+  "login.emailPlaceholder": "E-mail or username",
+  "login.passwordPlaceholder": "Password",
+  "login.recoverPassword": "Recover your password",
+  "login.loggingInButton": "Logging in…",
+  "login.loginButton": "Login",
+  "app.meta.title": "Buy and sell while chatting! - Shoutit",
+  "app.meta.description": "The fastest way to share and offer what you want to sell or buy. Take photos and videos and chat with buyers or sellers.",
+  "app.meta.titleTemplate": "%s - Shoutit"
+}

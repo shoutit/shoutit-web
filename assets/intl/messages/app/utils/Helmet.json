@@ -1,0 +1,14 @@
+[
+  {
+    "id": "app.meta.title",
+    "defaultMessage": "Buy and sell while chatting! - Shoutit"
+  },
+  {
+    "id": "app.meta.description",
+    "defaultMessage": "The fastest way to share and offer what you want to sell or buy. Take photos and videos and chat with buyers or sellers."
+  },
+  {
+    "id": "app.meta.titleTemplate",
+    "defaultMessage": "%s - Shoutit"
+  }
+]

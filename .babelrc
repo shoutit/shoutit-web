@@ -3,5 +3,10 @@
      "es2015",
      "stage-1",
      "react"
-   ]
+   ],
+   "plugins": [
+      ["react-intl", {
+        "messagesDir": "./assets/intl/messages/"
+      }]
+    ]
 }

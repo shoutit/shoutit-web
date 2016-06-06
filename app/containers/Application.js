@@ -1,14 +1,12 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { IntlProvider, FormattedDate } from 'react-intl';
+import { IntlProvider } from 'react-intl';
 
 import Helmet from '../utils/Helmet';
 
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
-// import UINotificationsHost from '../ui/UINotificationsHost';
 import ModalHost from '../ui/ModalHost';
-// import VideoCallHost from '../videoCalls/VideoCallHost';
 import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
 import NotFound from './NotFound';
@@ -92,21 +90,10 @@ export class Application extends React.Component {
 
 
     return (
-      <IntlProvider locale={ this.props.locale }>
+      <IntlProvider locale={ this.props.locale } messages={ this.props.messages }>
         <div className={ className }>
-          <FormattedDate
-            value={ new Date(1459913574887) }
-            year="numeric"
-            month="long"
-            day="numeric"
-            weekday="long"
-          />
           <Helmet
-            htmlAttributes={ { lang: props.locale } }
-            titleTemplate="%s - Shoutit"
-            title="Buy and sell while chatting! - Shoutit"
-            defaultTitle="Buy and sell while chatting! - Shoutit"
-            description="The fastest way to share and offer what you want to sell or buy. Take photos and videos and chat with buyers or sellers"
+            htmlAttributes={ { lang: props.locale, dir: props.locale === 'ar' ? 'rtl' : 'ltr' } }
             meta={ [
               { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
               { name: 'keywords', content: 'shoutit' },
@@ -153,10 +140,8 @@ export class Application extends React.Component {
               <Footer />
             </div>
           }
+
           <ModalHost />
-          { /* <UINotificationsHost />*/ }
-          { /* { props.videoCallState && props.videoCallState.currentConversation &&*/ }
-            { /* <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }*/ }
           <ConversationsHost />
 
         </div>
@@ -172,6 +157,7 @@ Application.propTypes = {
   children: PropTypes.element.isRequired,
   dispatch: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
+  messages: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -180,7 +166,8 @@ function mapStateToProps(state) {
     currentLocation: state.currentLocation,
     currentUrl: state.routing.currentUrl,
     error: state.routing.error,
-    locale: state.locale,
+    locale: state.i18n.locale,
+    messages: state.i18n.messages,
   };
 }
 

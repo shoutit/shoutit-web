@@ -45,10 +45,9 @@ const logRouter = debug('shoutit:router');
 
 let firstRender = true;
 
-const renderApp = messages => {
+const renderApp = () => {
   const configureRoutes = require('./routes').default;
   const routes = configureRoutes(store);
-  console.log(messages);
   return (
     <Router
       history={ history }
