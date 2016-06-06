@@ -102,11 +102,6 @@ export class Application extends React.Component {
             weekday="long"
           />
           <Helmet
-            htmlAttributes={ { lang: props.locale } }
-            titleTemplate="%s - Shoutit"
-            title="Buy and sell while chatting! - Shoutit"
-            defaultTitle="Buy and sell while chatting! - Shoutit"
-            description="The fastest way to share and offer what you want to sell or buy. Take photos and videos and chat with buyers or sellers"
             htmlAttributes={ { lang: props.locale, dir: props.locale === 'ar' ? 'rtl' : 'ltr' } }
             meta={ [
               { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
