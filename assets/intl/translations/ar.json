@@ -1,12 +1,12 @@
 {
-  "login.title": "دخول",
-  "login.titleWithAction": "الرجاء تسجيل الدخول للمتابعة",
-  "login.emailPlaceholder": "البريد الإلكتروني أو اسم المستخدم",
-  "login.passwordPlaceholder": "كلمه السر",
-  "login.recoverPassword": "استعادة كلمة المرور",
-  "login.loggingInButton": "…دخول",
-  "login.loginButton": "دخول",
-  "app.meta.title": "Buy and sell while chatting! - Shoutit",
-  "app.meta.description": "The fastest way to share and offer what you want to sell or buy. Take photos and videos and chat with buyers or sellers.",
-  "app.meta.titleTemplate": "%s - Shoutit"
+    "login.title": "تسجيل الدخول",
+    "login.titleWithAction": "الرجاء تسجيل الدخول للمتابعة",
+    "login.emailPlaceholder": "البريد الإلكتروني أو اسم المستخدم",
+    "login.passwordPlaceholder": "كلمه المرور",
+    "login.recoverPassword": "هل نسيت كلمة المرور؟",
+    "login.loggingInButton": "جاري تسجيل الدخول...",
+    "login.loginButton": "تسجيل الدخول",
+    "app.meta.title": "بيع و اشتري وانت تدردش! - شاوت ات",
+    "app.meta.description": "أسرع طريقة للإعلان عن ما تريد بيعه أو شراءه. التقط صور و فيديو لإعلاناتك ودردش مع الباعة و المشترين.",
+    "app.meta.titleTemplate": "%s - شاوت ات"
 }
