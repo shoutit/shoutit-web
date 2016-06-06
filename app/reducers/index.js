@@ -7,7 +7,7 @@ import currentLocation from './currentLocation';
 import entities from './entities';
 import forms from './forms';
 import modals from './modals';
-import locale from './locale';
+import i18n from './i18n';
 import placePredictions from './placePredictions';
 import routing from './routing';
 import paginated from './paginated';
@@ -25,7 +25,7 @@ const appReducer = combineReducers({
   entities,
   forms,
   modals,
-  locale,
+  i18n,
   paginated,
   placePredictions,
   routing,

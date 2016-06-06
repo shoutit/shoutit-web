@@ -180,7 +180,7 @@ function mapStateToProps(state) {
     currentLocation: state.currentLocation,
     currentUrl: state.routing.currentUrl,
     error: state.routing.error,
-    locale: state.locale,
+    locale: state.i18n.locale,
   };
 }
 
