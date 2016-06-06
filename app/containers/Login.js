@@ -105,7 +105,7 @@ export class Login extends Component {
   render() {
     const { isLoggingIn, location: { query }, error } = this.props;
 
-    const messages = defineMessages({
+    const MESSAGES = defineMessages({
       title: {
         id: 'login.title',
         defaultMessage: 'Login',
@@ -114,9 +114,30 @@ export class Login extends Component {
         id: 'login.titleWithAction',
         defaultMessage: 'Please login to continue',
       },
+      emailPlaceholder: {
+        id: 'login.emailPlaceholder',
+        defaultMessage: 'E-mail or username',
+      },
+      passwordPlaceholder: {
+        id: 'login.passwordPlaceholder',
+        defaultMessage: 'Password',
+      },
+      recoverPassword: {
+        id: 'login.recoverPassword',
+        defaultMessage: 'Recover your password',
+      },
+      loggingInButton: {
+        id: 'login.loggingInButton',
+        defaultMessage: 'Logging in…',
+        description: 'Label of login button while logging in',
+      },
+      loginButton: {
+        id: 'login.loginButton',
+        defaultMessage: 'Login',
+      },
     });
-
-    const title = this.props.intl.formatMessage(query.login_action ? messages.titleWithAction : messages.title);
+    const { formatMessage } = this.props.intl;
+    const title = formatMessage(query.login_action ? MESSAGES.titleWithAction : MESSAGES.title);
     return (
       <Page className="Login">
         <Helmet title={ title } />
@@ -147,7 +168,7 @@ export class Login extends Component {
                 name="email"
                 type="text"
                 error={ error }
-                placeholder="E-mail or username"
+                placeholder={ formatMessage(MESSAGES.emailPlaceholder) }
               />
               <TextField
                 error={ error }
@@ -155,7 +176,7 @@ export class Login extends Component {
                 disabled={ isLoggingIn }
                 name="password"
                 type="password"
-                placeholder="Password"
+                placeholder={ formatMessage(MESSAGES.passwordPlaceholder) }
               />
 
               <Button
@@ -163,7 +184,7 @@ export class Login extends Component {
                 action="primary"
                 block
                 disabled={ isLoggingIn }>
-                { isLoggingIn ? 'Logging in…' : 'Log in' }
+                { formatMessage(isLoggingIn ? MESSAGES.loggingInButton : MESSAGES.loginButton) }
               </Button>
 
               <div className="Frame-form-horizontal-group" style={ { fontSize: '0.875rem' } }>
@@ -173,7 +194,7 @@ export class Login extends Component {
                 </span>*/}
                 <span>
                   <Link to={ { pathname: '/login/password', query } } className="forgot-btn">
-                    Recover your password
+                    { formatMessage(MESSAGES.recoverPassword) }
                   </Link>
                 </span>
               </div>

@@ -1,6 +1,11 @@
 {
   "login.title": "دخول",
-  "login.titleWithAction": "Please login to continue",
+  "login.titleWithAction": "الرجاء تسجيل الدخول للمتابعة",
+  "login.emailPlaceholder": "البريد الإلكتروني أو اسم المستخدم",
+  "login.passwordPlaceholder": "كلمه السر",
+  "login.recoverPassword": "استعادة كلمة المرور",
+  "login.loggingInButton": "…دخول",
+  "login.loginButton": "دخول",
   "app.meta.title": "Buy and sell while chatting! - Shoutit",
   "app.meta.description": "The fastest way to share and offer what you want to sell or buy. Take photos and videos and chat with buyers or sellers.",
   "app.meta.titleTemplate": "%s - Shoutit"

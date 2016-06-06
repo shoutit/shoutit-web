@@ -1,6 +1,11 @@
 {
   "login.title": "Accedi",
   "login.titleWithAction": "Please login to continue",
+  "login.emailPlaceholder": "E-mail or username",
+  "login.passwordPlaceholder": "Password",
+  "login.recoverPassword": "Recover your password",
+  "login.loggingInButton": "Logging in…",
+  "login.loginButton": "Login",
   "app.meta.title": "Compra e vendi mentre chatti! - Shoutit",
   "app.meta.description": "Il modo più veloce per condividere e offrire ciò che vuoi vendere o comprare. Scatta foto, registra video e chatta con compratori e venditori",
   "app.meta.titleTemplate": "%s - Shoutit in italiano"
