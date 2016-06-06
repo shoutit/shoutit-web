@@ -10,7 +10,7 @@
   "scripts": {
     "storybook": "start-storybook -p 9001",
     "start": "node index.js",
-    "build": "NODE_ENV=production webpack --bail",
+    "build": "NODE_ENV=production webpack -p --bail",
     "dev": "DEBUG=shoutit,shoutit:* NODE_ENV=development babel-watch -D -w app/server -w app/services -w app/server.js app.js",
     "dev:built": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=production npm start",
     "lint": "eslint app",
