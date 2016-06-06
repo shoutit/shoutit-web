@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { IntlProvider, FormattedDate } from 'react-intl';
+
 import Helmet from '../utils/Helmet';
 
 import Header from '../layout/Header';
@@ -90,66 +92,75 @@ export class Application extends React.Component {
 
 
     return (
-      <div className={ className }>
-        <Helmet
-          htmlAttributes={ { lang: props.locale } }
-          titleTemplate="%s - Shoutit"
-          title="Buy and sell while chatting! - Shoutit"
-          defaultTitle="Buy and sell while chatting! - Shoutit"
-          description="The fastest way to share and offer what you want to sell or buy. Take photos and videos and chat with buyers or sellers"
-          meta={ [
-            { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
-            { name: 'keywords', content: 'shoutit' },
-            { property: 'fb:app_id', content: config.facebookId },
-            { property: 'og:url', content: `${config.siteUrl}${props.currentUrl}` },
-            { property: 'og:locale', content: 'en_US' },
-            { property: 'og:site_name', content: 'Shoutit' },
-            { property: 'og:type', content: 'website' },
-            { name: 'twitter:site', content: '@Shoutitcom' },
-            { name: 'twitter:card', content: 'summary' },
-            { name: 'twitter:app:name:iphone', content: 'Shoutit' },
-            { name: 'twitter:app:name:ipad', content: 'Shoutit' },
-            { name: 'twitter:app:name:googleplay', content: 'Shoutit' },
-            { name: 'twitter:app:id:iphone', content: '947017118' },
-            { name: 'twitter:app:id:ipad', content: '947017118' },
-            { name: 'twitter:app:id:googleplay', content: 'com.shoutit.app.android' },
-          ] }
-          link={ [
-            { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
-            { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
-          ] }
-        />
-        { layout.showHeader &&
-          <div className="App-header">
-            <Header
-              history={ props.history }
-              flux={ props.flux }
-              chat={ props.chat }
-              conversations={ props.conversations }
-              location={ props.location }
-            />
-          </div>
-        }
-        <div className="App-content">
-          { !error ? // eslint-disable-line
-            React.cloneElement(children, props) :
-            (error.statusCode === 404 ?
-              <NotFound /> :
-              <ServerError error={ error } />)
+      <IntlProvider locale={ this.props.locale }>
+        <div className={ className }>
+          <FormattedDate
+            value={ new Date(1459913574887) }
+            year="numeric"
+            month="long"
+            day="numeric"
+            weekday="long"
+          />
+          <Helmet
+            htmlAttributes={ { lang: props.locale } }
+            titleTemplate="%s - Shoutit"
+            title="Buy and sell while chatting! - Shoutit"
+            defaultTitle="Buy and sell while chatting! - Shoutit"
+            description="The fastest way to share and offer what you want to sell or buy. Take photos and videos and chat with buyers or sellers"
+            meta={ [
+              { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
+              { name: 'keywords', content: 'shoutit' },
+              { property: 'fb:app_id', content: config.facebookId },
+              { property: 'og:url', content: `${config.siteUrl}${props.currentUrl}` },
+              { property: 'og:locale', content: 'en_US' },
+              { property: 'og:site_name', content: 'Shoutit' },
+              { property: 'og:type', content: 'website' },
+              { name: 'twitter:site', content: '@Shoutitcom' },
+              { name: 'twitter:card', content: 'summary' },
+              { name: 'twitter:app:name:iphone', content: 'Shoutit' },
+              { name: 'twitter:app:name:ipad', content: 'Shoutit' },
+              { name: 'twitter:app:name:googleplay', content: 'Shoutit' },
+              { name: 'twitter:app:id:iphone', content: '947017118' },
+              { name: 'twitter:app:id:ipad', content: '947017118' },
+              { name: 'twitter:app:id:googleplay', content: 'com.shoutit.app.android' },
+            ] }
+            link={ [
+              { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
+              { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
+            ] }
+          />
+          { layout.showHeader &&
+            <div className="App-header">
+              <Header
+                history={ props.history }
+                flux={ props.flux }
+                chat={ props.chat }
+                conversations={ props.conversations }
+                location={ props.location }
+              />
+            </div>
           }
-        </div>
-        { layout.showFooter &&
-          <div className="App-footer">
-            <Footer />
+          <div className="App-content">
+            { !error ? // eslint-disable-line
+              React.cloneElement(children, props) :
+              (error.statusCode === 404 ?
+                <NotFound /> :
+                <ServerError error={ error } />)
+            }
           </div>
-        }
-        <ModalHost />
-        { /* <UINotificationsHost />*/ }
-        { /* { props.videoCallState && props.videoCallState.currentConversation &&*/ }
-          { /* <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }*/ }
-        <ConversationsHost />
+          { layout.showFooter &&
+            <div className="App-footer">
+              <Footer />
+            </div>
+          }
+          <ModalHost />
+          { /* <UINotificationsHost />*/ }
+          { /* { props.videoCallState && props.videoCallState.currentConversation &&*/ }
+            { /* <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }*/ }
+          <ConversationsHost />
 
-      </div>
+        </div>
+      </IntlProvider>
     );
   }
 }
@@ -160,6 +171,7 @@ Application.propTypes = {
   error: PropTypes.object,
   children: PropTypes.element.isRequired,
   dispatch: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
