@@ -35,7 +35,8 @@ module.exports = {
   entry: entries,
   output: {
     path: path.join(__dirname, 'public/'),
-    filename: isDevelopment ? 'main.js' : '/scripts/main-[hash].js',
+    filename: isDevelopment ? 'main.js' : '/scripts/[name]-[hash].js',
+    chunkFilename: isDevelopment ? '[name].js' : '/scripts/[name]-[chunkhash].js',
     publicPath: isDevelopment ? config.publicUrl + '/assets/' : `${config.publicUrl}`,
   },
   resolve: {

@@ -10,7 +10,7 @@
   "scripts": {
     "storybook": "start-storybook -p 9001",
     "start": "node index.js",
-    "build": "NODE_ENV=production webpack -p --bail",
+    "build": "NODE_ENV=production webpack --bail",
     "dev": "DEBUG=shoutit,shoutit:* NODE_ENV=development babel-watch -D -w app/server -w app/services -w app/server.js app.js",
     "dev:built": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=production npm start",
     "lint": "eslint app",
@@ -122,6 +122,7 @@
     "node-sass": "3.7.0",
     "postcss-loader": "0.9.1",
     "react-addons-test-utils": "15.1.0",
+    "react-intl-loader": "1.0.2",
     "react-transform-catch-errors": "1.0.2",
     "react-transform-hmr": "1.0.4",
     "redbox-react": "1.2.6",
