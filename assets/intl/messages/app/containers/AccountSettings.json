@@ -1,0 +1,66 @@
+[
+  {
+    "id": "accountSettings.page.title",
+    "defaultMessage": "Settings"
+  },
+  {
+    "id": "accountSettings.oldPassword.placeholder",
+    "defaultMessage": "Old password"
+  },
+  {
+    "id": "accountSettings.newPassword.placeholder",
+    "defaultMessage": "New password"
+  },
+  {
+    "id": "accountSettings.repeatPassword.placeholder",
+    "defaultMessage": "Repeat the new password"
+  },
+  {
+    "id": "accountSettings.account.email.label",
+    "defaultMessage": "E-mail"
+  },
+  {
+    "id": "accountSettings.account.mobile.label",
+    "defaultMessage": "Mobile"
+  },
+  {
+    "id": "accountSettings.account.username.label",
+    "defaultMessage": "Username"
+  },
+  {
+    "id": "accountSettings.menu.profile",
+    "defaultMessage": "Public Profile"
+  },
+  {
+    "id": "accountSettings.menu.account",
+    "defaultMessage": "Your Account"
+  },
+  {
+    "id": "accountSettings.password.formTitle",
+    "defaultMessage": "Change your password"
+  },
+  {
+    "id": "accountSettings.oldPassword.recoverLink",
+    "defaultMessage": "Recover your password"
+  },
+  {
+    "id": "accountSettings.password.submit",
+    "defaultMessage": "Change password"
+  },
+  {
+    "id": "accountSettings.account.formTitle",
+    "defaultMessage": "Your Account"
+  },
+  {
+    "id": "accountSettings.account.updatingLabel",
+    "defaultMessage": "Updating…"
+  },
+  {
+    "id": "accountSettings.account.updateLabel",
+    "defaultMessage": "Update account"
+  },
+  {
+    "id": "accountSettings.account.updatedLabel",
+    "defaultMessage": "Account updated"
+  }
+]

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 
 import Page from '../layout/Page';
 import Helmet from '../utils/Helmet';
@@ -18,6 +19,38 @@ import { getLoggedUser } from '../selectors';
 if (process.env.BROWSER) {
   require('./Settings.scss');
 }
+
+const MESSAGES = defineMessages({
+  title: {
+    id: 'accountSettings.page.title',
+    defaultMessage: 'Settings',
+  },
+  oldPasswordPlaceholder: {
+    id: 'accountSettings.oldPassword.placeholder',
+    defaultMessage: 'Old password',
+  },
+  newPasswordPlaceholder: {
+    id: 'accountSettings.newPassword.placeholder',
+    defaultMessage: 'New password',
+  },
+  repeatPasswordPlaceholder: {
+    id: 'accountSettings.repeatPassword.placeholder',
+    defaultMessage: 'Repeat the new password',
+  },
+  emailLabel: {
+    id: 'accountSettings.account.email.label',
+    defaultMessage: 'E-mail',
+  },
+  mobileLabel: {
+    id: 'accountSettings.account.mobile.label',
+    defaultMessage: 'Mobile',
+  },
+  usernameLabel: {
+    id: 'accountSettings.account.username.label',
+    defaultMessage: 'Username',
+  },
+});
+
 export class AccountSettings extends Component {
 
   static propTypes = {
@@ -95,33 +128,42 @@ export class AccountSettings extends Component {
 
   render() {
     const { profile, session } = this.props;
+    const { formatMessage } = this.props.intl;
+
     const error = profile.updateError;
     const navigation = (
       <CardWithList title="Profile Settings">
         <Link to="/settings/profile" activeClassName="active">
-          Public Profile
+          <FormattedMessage id="accountSettings.menu.profile" defaultMessage="Public Profile" />
         </Link>
         <Link to="/settings/account" activeClassName="active">
-          Your Account
+          <FormattedMessage id="accountSettings.menu.account" defaultMessage="Your Account" />
         </Link>
       </CardWithList>
     );
+
     return (
       <RequiresLogin>
         <Page className="Settings" startColumn={ navigation }>
-          <Helmet title="Account settings" />
+          <Helmet title={ formatMessage(MESSAGES.title) } />
 
           <div className="Settings-layout">
             <Form onSubmit={ this.handlePasswordFormSubmit }>
-              <h3>Change Password</h3>
+              <h3>
+                <FormattedMessage id="accountSettings.password.formTitle" defaultMessage="Change your password" />
+              </h3>
               { this.state.isPasswordSet &&
                 <TextField
                   ref="old_password"
                   name="old_password"
-                  placeholder="Old password"
+                  placeholder={ formatMessage(MESSAGES.oldPasswordPlaceholder) }
                   type="password"
                   onChange={ old_password => this.setState({ old_password }) }
-                  ancillary={ <Link to="/login/password">Recover your password</Link> }
+                  ancillary={
+                    <Link to="/login/password">
+                      <FormattedMessage id="accountSettings.oldPassword.recoverLink" defaultMessage="Recover your password" />
+                    </Link>
+                  }
                   error={ session.updatePasswordError }
                 />
                }
@@ -129,31 +171,33 @@ export class AccountSettings extends Component {
                 <TextField
                   ref="new_password"
                   name="new_password"
-                  placeholder="New password"
+                  placeholder={ formatMessage(MESSAGES.newPasswordPlaceholder) }
                   type="password"
                   onChange={ new_password => this.setState({ new_password }) }
                   error={ session.updatePasswordError } />
                 <TextField
                   ref="new_password2"
                   name="new_password2"
-                  placeholder="Repeat the new password"
+                  placeholder={ formatMessage(MESSAGES.repeatPasswordPlaceholder) }
                   type="password"
                   onChange={ new_password2 => this.setState({ new_password2 }) }
                   error={ session.updatePasswordError } />
               </div>
               <div className="Settings-actions">
                 <Button action="primary" disabled={ session.isUpdatingPassword || !this.isChangingPassword() }>
-                  Change password
+                  <FormattedMessage id="accountSettings.password.submit" defaultMessage="Change password" />
                 </Button>
               </div>
             </Form>
           </div>
           <div className="Settings-layout">
             <Form onSubmit={ this.handleAccountFormSubmit }>
-              <h3>Your Account</h3>
+              <h3>
+                <FormattedMessage id="accountSettings.account.formTitle" defaultMessage="Your Account" />
+              </h3>
               <TextField
                 name="email"
-                label="E-mail"
+                label={ formatMessage(MESSAGES.emailLabel) }
                 value={ profile.email }
                 onChange={ email => this.setState({ email }) }
                 error={ error }
@@ -161,7 +205,7 @@ export class AccountSettings extends Component {
               />
               <TextField
                 name="mobile"
-                label="Mobile"
+                label={ formatMessage(MESSAGES.mobileLabel) }
                 value={ profile.mobile }
                 onChange={ mobile => this.setState({ mobile }) }
                 error={ error }
@@ -169,7 +213,7 @@ export class AccountSettings extends Component {
               />
               <TextField
                 name="username"
-                label="Username"
+                label={ formatMessage(MESSAGES.usernameLabel) }
                 value={ profile.username }
                 onChange={ username => this.setState({ username }) }
                 error={ error }
@@ -177,9 +221,12 @@ export class AccountSettings extends Component {
               />
               <div className="Settings-actions">
                 <Button action="primary" disabled={ !this.didAccountChange() || profile.isUpdating }>
-                  { profile.isUpdating && 'Updating…' }
-                  { this.didAccountChange() && !profile.isUpdating && 'Update account' }
-                  { !this.didAccountChange() && !profile.isUpdating && 'Account updated' }
+                  { profile.isUpdating &&
+                    <FormattedMessage id="accountSettings.account.updatingLabel" defaultMessage="Updating…" /> }
+                  { this.didAccountChange() && !profile.isUpdating &&
+                    <FormattedMessage id="accountSettings.account.updateLabel" defaultMessage="Update account" /> }
+                  { !this.didAccountChange() && !profile.isUpdating &&
+                    <FormattedMessage id="accountSettings.account.updatedLabel" defaultMessage="Account updated" /> }
                 </Button>
               </div>
 
@@ -205,4 +252,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(AccountSettings));
