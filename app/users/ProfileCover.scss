@@ -62,11 +62,12 @@ $profile-cover-header-height: 128px;
 
 .ProfileCover-header {
   position: relative;
+  z-index: 1;
   display: flex;
   align-items: flex-end;
   margin-top: -50px;
   .ProfileCover-avatar {
-    z-index: 10001;
+    z-index: 2;
     position: relative;
     margin-left: 3.875rem;
     margin-right: 1rem;
