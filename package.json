@@ -14,7 +14,7 @@
     "build:server": "babel index.js app.js -d built && babel app -d built/app",
     "build:client": "NODE_ENV=production webpack -p --bail",
     "build:translations": "babel-node ./scripts/translations.js",
-    "dev": "DEBUG=shoutit,shoutit:* NODE_ENV=development babel-watch -D -w app/server -w app/services -w app/server.js -w assets/intl/translations/*.json app.js",
+    "dev": "DEBUG=shoutit,shoutit:* NODE_ENV=development babel-watch -D -w app/server -w app/services -w app/server.js app.js",
     "dev:built": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=production npm start",
     "lint": "eslint app",
     "test": "npm run lint && npm run test:mocha",
@@ -90,6 +90,7 @@
     "serve-favicon": "2.3.0",
     "serve-static": "1.10.3",
     "superagent": "1.8.3",
+    "unix-timestamp": "0.2.0",
     "uuid": "2.0.2",
     "webrtcsupport": "2.2.0"
   },

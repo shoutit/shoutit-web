@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
 import { getLoggedUser } from '../selectors';
 
@@ -19,12 +20,22 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload, openProfiles
   return (
     <span className="ReplyFormToolbar">
       <span className="ReplyFormToolbar-start">
-        <Tooltip overlay="Send a shout">
+        <Tooltip
+          overlay={
+            <FormattedMessage
+              id="chat.replyFormToolbar.attachShout.buttonTooltip"
+              defaultMessage="Send a Shout" />
+          }>
           <span className="ReplyFormToolbar-item" onClick={ () => openShoutModal() }>
             <Icon name="sparkle" size="x-small" hover />
           </span>
         </Tooltip>
-        <Tooltip overlay="Send pictures">
+        <Tooltip
+          overlay={
+            <FormattedMessage
+              id="chat.replyFormToolbar.attachPictures.buttonTooltip"
+              defaultMessage="Send pictures" />
+          }>
           <FileInput
             multiple
             accept="image/x-png, image/jpeg"
@@ -36,7 +47,12 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload, openProfiles
           </FileInput>
         </Tooltip>
         { (loggedUser.listeningCount.users > 0 || loggedUser.listenersCount > 0) &&
-          <Tooltip overlay="Send a profile">
+          <Tooltip
+            overlay={
+              <FormattedMessage
+                id="chat.replyFormToolbar.attachProfile.buttonTooltip"
+                defaultMessage="Send a profile" />
+            }>
             <span className="ReplyFormToolbar-item" onClick={ () => openProfilesModal() }>
               <Icon name="profile" size="x-small" hover />
             </span>
@@ -76,7 +92,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       <ImageUploadModal
         initialImages={ initialImages }
         openOnMount
-        submitLabel="Send"
+        submitLabel={
+          <FormattedMessage
+            id="chat.replyFormToolbar.attachPictures.submitLabel"
+            defaultMessage="Send"
+          />
+        }
         onSubmit={ images =>
           images.length > 0 && ownProps.onAttachment('images', images) }
       />
@@ -86,7 +107,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   openShoutModal: () => {
     dispatch(openModal(
       <UserShoutsModal
-        title="Send a Shout"
+        title={
+          <FormattedMessage
+            id="chat.replyFormToolbar.attachShout.modalTitle"
+            defaultMessage="Send a Shout"
+          />
+        }
         onShoutClick={ shout => ownProps.onAttachment('shout', shout) }
       />
     ));
@@ -95,7 +121,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   openProfilesModal: () => {
     dispatch(openModal(
       <ProfilesModal
-        title="Send a Profile"
+        title={
+          <FormattedMessage
+            id="chat.replyFormToolbar.attachProfile.modalTitle"
+            defaultMessage="Send a profile"
+          />
+        }
         onProfileClick={ profile => ownProps.onAttachment('profile', profile) }
       />
     ));

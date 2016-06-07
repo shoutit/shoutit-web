@@ -1,0 +1,18 @@
+[
+  {
+    "id": "chat.conversation.dropdown.fullConversation",
+    "defaultMessage": "See full conversation."
+  },
+  {
+    "id": "chat.conversation.dropdown.read",
+    "defaultMessage": "Mark as read."
+  },
+  {
+    "id": "chat.conversation.dropdown.unread",
+    "defaultMessage": "Mark as unread."
+  },
+  {
+    "id": "chat.conversation.dropdown.leaveConversation",
+    "defaultMessage": "Leave this conversation."
+  }
+]

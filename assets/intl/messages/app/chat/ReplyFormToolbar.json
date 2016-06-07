@@ -1,0 +1,26 @@
+[
+  {
+    "id": "chat.replyFormToolbar.attachShout.buttonTooltip",
+    "defaultMessage": "Send a Shout"
+  },
+  {
+    "id": "chat.replyFormToolbar.attachPictures.buttonTooltip",
+    "defaultMessage": "Send pictures"
+  },
+  {
+    "id": "chat.replyFormToolbar.attachProfile.buttonTooltip",
+    "defaultMessage": "Send a profile"
+  },
+  {
+    "id": "chat.replyFormToolbar.attachPictures.submitLabel",
+    "defaultMessage": "Send"
+  },
+  {
+    "id": "chat.replyFormToolbar.attachShout.modalTitle",
+    "defaultMessage": "Send a Shout"
+  },
+  {
+    "id": "chat.replyFormToolbar.attachProfile.modalTitle",
+    "defaultMessage": "Send a profile"
+  }
+]

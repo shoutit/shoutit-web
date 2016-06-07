@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import ProfileAvatar from '../users/ProfileAvatar';
-// import ShoutPreview from '../shouts/ShoutPreview';
+import { FormattedMessage } from 'react-intl';
 
 if (process.env.BROWSER) {
   require('./ConversationStart.scss');
@@ -18,14 +18,22 @@ export default function ConversationStart({ conversation }) {
         <div className="ConversationStart-chat">
           <ProfileAvatar profile={ profile } size="large" style={ { marginBottom: '1rem' } } />
           <p className="htmlAncillary">
-            To start chatting, write { profile.firstName } a message.
+            <FormattedMessage
+              id="chat.newConversation.welcome"
+              defaultMessage="To start chatting, write {firstName} a message."
+              values={ { firstName: profile.firstName } }
+            />
           </p>
         </div>
         :
         <div className="ConversationStart-shout">
           { /* <ShoutPreview shout={ conversation.about } />*/ }
           <p className="htmlAncillary">
-            If you are interested in this, write { profile.firstName } a message.
+            <FormattedMessage
+              id="chat.replyForm.welcome"
+              defaultMessage="To start chatting about this Shout, write {firstName} a message."
+              values={ { firstName: profile.firstName } }
+            />
           </p>
         </div>
       }

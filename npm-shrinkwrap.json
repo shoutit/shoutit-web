@@ -7409,6 +7409,11 @@
         }
       }
     },
+    "unix-timestamp": {
+      "version": "0.2.0",
+      "from": "unix-timestamp@latest",
+      "resolved": "https://registry.npmjs.org/unix-timestamp/-/unix-timestamp-0.2.0.tgz"
+    },
     "uuid": {
       "version": "2.0.2",
       "from": "https://registry.npmjs.org/uuid/-/uuid-2.0.2.tgz",

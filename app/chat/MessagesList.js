@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import moment from 'moment';
+import { FormattedDate } from 'react-intl';
+import { toDate } from 'unix-timestamp';
+
+import { isSameDay } from '../utils/DateUtils';
 import MessageItem from './MessageItem';
 import MessageReadBy from './MessageReadBy';
 
 import last from 'lodash/last';
-
-function isSameDay(date1, date2) {
-  return moment.unix(date1).isSame(moment.unix(date2), 'day');
-}
 
 if (process.env.BROWSER) {
   require('./MessagesList.scss');
@@ -38,7 +37,7 @@ export default class MessagesList extends Component {
       <div key={ message.id } className="MessageList-item">
         { (!prevMessage || !isPreviousInSameDay) &&
           <div className="MessagesList-day">
-            { moment.unix(message.createdAt).format('ll') }
+            <FormattedDate value={ toDate(message.createdAt) } month="long" day="numeric" year="numeric" />
           </div>
         }
 

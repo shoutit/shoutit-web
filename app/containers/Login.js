@@ -21,6 +21,38 @@ if (process.env.BROWSER) {
   require('./Login.scss');
 }
 
+const MESSAGES = defineMessages({
+  title: {
+    id: 'login.title',
+    defaultMessage: 'Login',
+  },
+  titleWithAction: {
+    id: 'login.titleWithAction',
+    defaultMessage: 'Please login to continue',
+  },
+  emailPlaceholder: {
+    id: 'login.emailPlaceholder',
+    defaultMessage: 'E-mail or username',
+  },
+  passwordPlaceholder: {
+    id: 'login.passwordPlaceholder',
+    defaultMessage: 'Password',
+  },
+  recoverPassword: {
+    id: 'login.recoverPassword',
+    defaultMessage: 'Recover your password',
+  },
+  loggingInButton: {
+    id: 'login.loggingInButton',
+    defaultMessage: 'Logging in…',
+    description: 'Label of login button while logging in',
+  },
+  loginButton: {
+    id: 'login.loginButton',
+    defaultMessage: 'Login',
+  },
+});
+
 export class Login extends Component {
 
   static propTypes = {
@@ -105,37 +137,6 @@ export class Login extends Component {
   render() {
     const { isLoggingIn, location: { query }, error } = this.props;
 
-    const MESSAGES = defineMessages({
-      title: {
-        id: 'login.title',
-        defaultMessage: 'Login',
-      },
-      titleWithAction: {
-        id: 'login.titleWithAction',
-        defaultMessage: 'Please login to continue',
-      },
-      emailPlaceholder: {
-        id: 'login.emailPlaceholder',
-        defaultMessage: 'E-mail or username',
-      },
-      passwordPlaceholder: {
-        id: 'login.passwordPlaceholder',
-        defaultMessage: 'Password',
-      },
-      recoverPassword: {
-        id: 'login.recoverPassword',
-        defaultMessage: 'Recover your password',
-      },
-      loggingInButton: {
-        id: 'login.loggingInButton',
-        defaultMessage: 'Logging in…',
-        description: 'Label of login button while logging in',
-      },
-      loginButton: {
-        id: 'login.loginButton',
-        defaultMessage: 'Login',
-      },
-    });
     const { formatMessage } = this.props.intl;
     const title = formatMessage(query.login_action ? MESSAGES.titleWithAction : MESSAGES.title);
     return (
