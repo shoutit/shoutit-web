@@ -4,11 +4,17 @@ import { camelizeKeys } from 'humps';
 import round from 'lodash/round';
 
 import { googleMapsKey } from '../config';
-import { countries } from '../../assets/countries/countries-en.json';
+import { countries as countriesEn } from '../../assets/countries/countries-en.json';
+import { countries as countriesAr } from '../../assets/countries/countries-ar.json';
 
 export function createLocationSlug({ country = 'no-country', state = 'no-state', city = 'no-city' }) {
   return `${kebabCase(country)}_${kebabCase(state)}_${kebabCase(city)}`;
 }
+
+const countries = {
+  en: countriesEn,
+  ar: countriesAr,
+};
 
 export function parseGeocoderResult(result) {
   let location = {
@@ -65,8 +71,11 @@ export function geocodePlace(placeId, callback) {
     });
 }
 
-export function getCountryName(code) {
-  return countries[code.toUpperCase()];
+export function getCountryName(code, locale = 'en') {
+  if (!(locale in countries)) {
+    locale = 'en';
+  }
+  return countries[locale][code.toUpperCase()];
 }
 
 export function getCountryCode(name) {
