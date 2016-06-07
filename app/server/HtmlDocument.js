@@ -9,8 +9,9 @@ import Helmet from '../utils/Helmet';
 import * as config from '../config';
 
 let chunkNames = { main: '/assets/main.js', css: '/assets/main.css' };
+
 if (process.env.NODE_ENV === 'production') {
-  chunkNames = require('../../public/stats.json');
+  chunkNames = require('../../built/public/stats.json'); // eslint-disable-line import/no-unresolved
 }
 
 export default function HtmlDocument({
