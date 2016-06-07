@@ -78,9 +78,12 @@ export function getCountryName(code, locale = 'en') {
   return countries[locale][code.toUpperCase()];
 }
 
-export function getCountryCode(name) {
-  const code = Object.keys(countries).find(code =>
-    countries[code].toLowerCase() === name.toLowerCase()
+export function getCountryCode(name, locale = 'en') {
+  if (!(locale in countries)) {
+    locale = 'en';
+  }
+  const code = Object.keys(countries[locale]).find(code =>
+    countries[locale][code].toLowerCase() === name.toLowerCase()
   );
   if (!code) {
     return null;
