@@ -3,6 +3,8 @@ import noop from 'lodash/noop';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
+import { FormattedMessage } from 'react-intl';
+
 import * as loginActions from '../auth/loginActions';
 
 if (process.env.BROWSER) {
@@ -59,7 +61,16 @@ export class RequiresLogin extends Component {
     if (!isLoggedIn) {
       return (
         <div className="RequiresLogin">
-          Please <Link to={ redirect }>login</Link> to access this page.
+          <FormattedMessage
+            id="requiresLogin.message"
+            defaultMessage="Please {linkLabel} to access this page."
+            values={ {
+              linkLabel: (
+                <Link to={ redirect }>
+                  <FormattedMessage id="requiresLogin.linkLabel" defaultMessage="login" />
+                </Link>),
+            } }
+          />
         </div>
       );
     }

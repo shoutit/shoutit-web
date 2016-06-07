@@ -3,6 +3,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import debug from 'debug';
+import { FormattedMessage } from 'react-intl';
 
 import { FacebookButton, GoogleButton } from '../ui/SocialButtons';
 import { loginWithGoogle, loginWithFacebook } from '../actions/session';
@@ -90,13 +91,15 @@ export class SocialLoginForm extends Component {
 
   render() {
     const { disabled } = this.props;
-    const { error, waitingForGoogle, waitingForFacebook } = this.state;
+    const { error } = this.state;
     return (
       <div className="SocialLoginForm">
         { error === 'NO_FACEBOOK_EMAIL_PERMISSION' &&
           <p className="htmlErrorParagraph">
-            In order to use your Facebook account, you should allow us access to your e-mail address.<br />
-            Please try again to request the permission to use your e-mail address.
+            <FormattedMessage
+              id="socialLogin.facebook.emailPermission"
+              defaultMessage="In order to use your Facebook account, you should allow us access to your e-mail address. Please try again to request the permission to use your e-mail address."
+            />
           </p>
         }
         <FacebookButton
@@ -104,13 +107,19 @@ export class SocialLoginForm extends Component {
           style={ { marginBottom: '.5rem' } }
           block
           onClick={ e => this.handleFacebookLoginClick(e) }>
-          { waitingForFacebook ? 'Waiting for Facebook…' : 'Facebook' }
+          <FormattedMessage
+            id="socialLogin.facebook.buttonLabel"
+            defaultMessage="Facebook"
+          />
         </FacebookButton>
         <GoogleButton
           disabled={ disabled }
           block
           onClick={ e => this.handleGoogleLoginClick(e) }>
-          { waitingForGoogle ? 'Waiting for Google…' : 'Google+' }
+          <FormattedMessage
+            id="socialLogin.google.buttonLabel"
+            defaultMessage="Google+"
+          />
         </GoogleButton>
       </div>
     );
