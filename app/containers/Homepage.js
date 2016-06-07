@@ -1,12 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import { FormattedMessage, injectIntl } from 'react-intl';
+
 import { Link as ScrollLink, Element } from 'react-scroll';
 import Card from '../ui/Card';
+import AppBadge from '../ui/AppBadge';
 import { getVariation } from '../utils/APIUtils';
 import Helmet from '../utils/Helmet';
 
-import { imagesPath, appStoreLink, playStoreLink } from '../config';
+import { imagesPath } from '../config';
 
 if (process.env.BROWSER) {
   require('./Homepage.scss');
@@ -16,6 +19,7 @@ export class Homepage extends Component {
 
   static propTypes = {
     categories: PropTypes.array.isRequired,
+    intl: PropTypes.object.isRequired,
   };
 
   static layoutSettings = {
@@ -34,51 +38,70 @@ export class Homepage extends Component {
           <div className="Homepage-hero-bg" />
 
           <div className="Homepage-hero-copy">
-            <h1>Buy and Sell while Chatting!</h1>
-            <h2>Chat with buyers and sellers in your area or anywhere in the world!
+            <h1>
+              <FormattedMessage
+                id="homepage.header-1"
+                defaultMessage="Buy and Sell while Chatting!"
+              />
+            </h1>
+            <h2>
+              <FormattedMessage
+                id="homepage.header-2"
+                defaultMessage="Chat with buyers and sellers in your area or anywhere in the world!"
+              />
             </h2>
-            <ScrollLink to="explore" className="Button action-primary-alt size-huge" smooth duration={ 800 } offset={ 0 }>
-              <span className="Button-label">Explore</span>
+            <ScrollLink
+              to="explore"
+              className="Button action-primary-alt size-huge"
+              smooth
+              duration={ 800 }
+              offset={ 0 }>
+              <span className="Button-label">
+                <FormattedMessage
+                  id="homepage.exploreButton"
+                  defaultMessage="Explore"
+                />
+              </span>
             </ScrollLink>
             <ScrollLink to="how-it-works" className="Button action-primary size-huge" smooth duration={ 800 } offset={ 0 } style={ { marginLeft: '1rem' } }>
-              <span className="Button-label">How it works</span>
+              <span className="Button-label">
+                <FormattedMessage
+                  id="homepage.howItWorksButton"
+                  defaultMessage="How it works"
+                />
+              </span>
             </ScrollLink>
           </div>
 
           <div className="Homepage-hero-apps">
             <div className="Homepage-hero-download-copy">
               <img alt="App Icon" src={ `${imagesPath}/app-icon.png` } height="50" />
-              <h3>Download the App now<br />
-              Shoutit for Android or iOS</h3>
+              <h3>
+                <FormattedMessage
+                  id="homepage.app.download-1"
+                  defaultMessage="Download the App now"
+                />
+                <br />
+                <FormattedMessage
+                  id="homepage.app.download-2"
+                  defaultMessage="Shoutit for Android or iOS"
+                />
+              </h3>
             </div>
             <div>
-              <a href={ appStoreLink } target="_blank">
-                <img alt="App Store" src={ `${imagesPath}/app-store-badge.png` } height="50" />
-              </a>
-              <a href={ playStoreLink } target="_blank">
-                <img alt="Google Play" src={ `${imagesPath}/google-play-badge.png` } height="50" />
-              </a>
+              <AppBadge store="appStore" height={ 50 } />
+              <AppBadge store="googlePlay" height={ 50 } />
             </div>
           </div>
-{/*
-          <div className="Homepage-hero-buttons">
-            <ScrollLink to="explore" className="Button action="primary" size-huge" smooth duration={ 800 } offset={ 0 }>
-              <span className="Button-label">Explore</span>
-            </ScrollLink>
-            <ScrollLink to="how-it-works" className="Button inverted size-huge" smooth duration={ 800 } offset={ 0 }>
-              <span className="Button-label">How it works</span>
-            </ScrollLink>
-          </div>*/}
-{/*
-          <div className="Homepage-hero-download-copy">
-            <h2>Download the apps now<br />
-            Shoutit for Android or iOS</h2>
-          </div>*/}
-
         </div>
 
         <Element name="explore" className="Homepage-explore htmlContentWidth">
-          <h2>Explore shouts</h2>
+          <h2>
+            <FormattedMessage
+              id="homepage.header-explore"
+              defaultMessage="Explore shouts"
+            />
+          </h2>
           <div className="Homepage-cards">
           { categories.slice(0, 8).map(category =>
             <Link key={ category.slug } to={ `/interest/${category.slug}` }>
@@ -89,8 +112,13 @@ export class Homepage extends Component {
         </Element>
 
         <Element name="how-it-works" className="Homepage-how-it-works">
-          <h2>How it works</h2>
-          <img alt="How it works" src={ `${imagesPath}/home-how-it-works.png` } height="500" width="1000" />
+          <h2>
+            <FormattedMessage
+              id="homepage.header-howItWorks"
+              defaultMessage="How it works"
+            />
+          </h2>
+          <img alt="How it works" src={ `${imagesPath}/home-how-it-works-${this.props.intl.locale}.png` } height="500" width="1000" />
         </Element>
       </div>
     );
@@ -101,4 +129,4 @@ const mapStateToProps = state => ({
   categories: state.categories.shuffled.map(id => state.entities.categories[id]),
 });
 
-export default connect(mapStateToProps)(Homepage);
+export default connect(mapStateToProps)(injectIntl(Homepage));
