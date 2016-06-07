@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import { injectIntl } from 'react-intl';
+
 import Tooltip from '../ui/Tooltip';
 
 import { imagesPath } from '../config';
@@ -10,7 +12,7 @@ if (process.env.BROWSER) {
   require('./CountryFlag.scss');
 }
 
-export default function CountryFlag({ code, size = 'medium', rounded = true, style }) {
+export function CountryFlag({ code, size = 'medium', rounded = true, style, intl }) {
   code = code.toUpperCase();
   let className = 'CountryFlag';
   if (size) {
@@ -19,7 +21,7 @@ export default function CountryFlag({ code, size = 'medium', rounded = true, sty
   if (rounded) {
     className += ' rounded';
   }
-  const countryName = getCountryName(code);
+  const countryName = getCountryName(code, intl.locale);
   return (
     <Tooltip position="top" overlay={ countryName }>
       <img alt={ countryName } className={ className } style={ style } src={ `${imagesPath}/flags/${code}.png?v${VERSION}` } />
@@ -32,5 +34,8 @@ CountryFlag.propTypes = {
   size: PropTypes.string,
   rounded: PropTypes.bool,
   style: PropTypes.object,
+  intl: PropTypes.object.isRequired,
   showTooltip: PropTypes.bool,
 };
+
+export default injectIntl(CountryFlag);
