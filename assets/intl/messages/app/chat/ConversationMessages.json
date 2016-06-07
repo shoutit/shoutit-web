@@ -1,0 +1,6 @@
+[
+  {
+    "id": "chat.messages.loadError",
+    "defaultMessage": "Error while loading messages."
+  }
+]

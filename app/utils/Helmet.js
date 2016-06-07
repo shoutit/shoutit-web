@@ -12,7 +12,7 @@ class Helmet extends Component {
   static propTypes = {
     ...ReactHelmet.propTypes,
     title: PropTypes.string,
-    meta: PropTypes.object,
+    meta: PropTypes.array,
     description: PropTypes.string,
     badge: PropTypes.number,
     images: PropTypes.arrayOf(PropTypes.string),

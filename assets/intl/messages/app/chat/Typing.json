@@ -1,0 +1,10 @@
+[
+  {
+    "id": "chat.typing.profiles.one",
+    "defaultMessage": "{name} is typing…"
+  },
+  {
+    "id": "chat.typing.profiles.many",
+    "defaultMessage": "{namesAsList} are typing…"
+  }
+]

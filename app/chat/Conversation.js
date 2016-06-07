@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import { FormattedMessage } from 'react-intl';
+
 import ConversationReplyForm from '../chat/ConversationReplyForm';
 import ConversationMessages from '../chat/ConversationMessages';
 import ConversationStart from '../chat/ConversationStart';
@@ -112,7 +114,7 @@ export class Conversation extends Component {
 
           { !conversation && this.state.error &&
             <div className="Conversation-error">
-              Could not load conversation
+              <FormattedMessage id="chat.conversation.loadError" defaultMessage="Error while loading this conversation." />
             </div>
           }
 

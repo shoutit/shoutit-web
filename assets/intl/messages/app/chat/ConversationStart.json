@@ -1,0 +1,10 @@
+[
+  {
+    "id": "chat.newConversation.welcome",
+    "defaultMessage": "To start chatting, write {firstName} a message."
+  },
+  {
+    "id": "chat.replyForm.welcome",
+    "defaultMessage": "To start chatting about this Shout, write {firstName} a message."
+  }
+]
