@@ -160,7 +160,7 @@ export class Login extends Component {
               <p className="htmlErrorParagraph">
                 Login did not work for an unknown error. Please try again later or contact support.
               </p>
-          }
+            }
 
             <form onSubmit={ this.submit } className="Form Frame-form" noValidate>
               <TextField

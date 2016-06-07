@@ -67,6 +67,7 @@
   "login.recoverPassword": "هل نسيت كلمة المرور؟",
   "login.loggingInButton": "جاري تسجيل الدخول...",
   "login.loginButton": "تسجيل الدخول",
+  "notfound.title": "Page not found",
   "app.meta.title": "بيع و اشتري وانت تدردش! - شاوت ات",
   "app.meta.description": "أسرع طريقة للإعلان عن ما تريد بيعه أو شراءه. التقط صور و فيديو لإعلاناتك ودردش مع الباعة و المشترين.",
   "app.meta.titleTemplate": "%s - شاوت ات",
