@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
+import AppBadge from '../ui/AppBadge';
 
-import { imagesPath, facebookLink, twitterLink, instagramLink, appStoreLink, playStoreLink } from '../config';
+import { imagesPath, facebookLink, twitterLink, instagramLink } from '../config';
 
 if (process.env.BROWSER) {
   require('./Footer.scss');
@@ -22,12 +23,8 @@ export default function Footer() {
           <a target="_blank" href={ instagramLink }>Instagram</a>
         </div>
         <div className="Footer-apps">
-          <a href={ appStoreLink } target="_blank">
-            <img alt="App Store" src={ `${imagesPath}/app-store-badge.png` } height="40" />
-          </a>
-          <a href={ playStoreLink } target="_blank">
-            <img alt="Google Play" src={ `${imagesPath}/google-play-badge.png` } height="40" />
-          </a>
+          <AppBadge store="appStore" height={ 40 } />
+          <AppBadge store="googlePlay" height={ 40 } />
         </div>
       </div>
       <div className="Footer-copyright">

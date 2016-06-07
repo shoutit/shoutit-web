@@ -1,6 +1,6 @@
 import React from 'react';
-
-import { imagesPath, facebookLink, twitterLink, instagramLink, appStoreLink, playStoreLink } from '../config';
+import AppBadge from '../ui/AppBadge';
+import { facebookLink, twitterLink, instagramLink } from '../config';
 
 if (process.env.BROWSER) {
   require('./MiniFooter.scss');
@@ -12,12 +12,8 @@ export default function MiniFooter() {
       <h3>Shoutit app</h3>
 
       <div className="MiniFooter-apps">
-        <a href={ appStoreLink } target="_blank">
-          <img alt="App Store" src={ `${imagesPath}/app-store-badge.png` } height={ 32 } />
-        </a>
-        <a href={ playStoreLink } target="_blank">
-          <img alt="Goolge Play" src={ `${imagesPath}/google-play-badge.png` } height={ 32 } />
-        </a>
+        <AppBadge store="appStore" height={ 32 } />
+        <AppBadge store="googlePlay" height={ 32 } />
       </div>
 
       <h3>Follow us</h3>

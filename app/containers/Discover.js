@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
+import { injectIntl } from 'react-intl';
 import Helmet from '../utils/Helmet';
 
 import Page from '../layout/Page';
@@ -71,8 +72,11 @@ export class Discover extends Component {
     isFetching: PropTypes.bool,
     isFetchingShouts: PropTypes.bool,
     nextShoutsUrl: PropTypes.string,
+    locale: PropTypes.string,
     shouts: PropTypes.array,
     shoutsCount: PropTypes.number,
+
+    intl: PropTypes.object.isRequired,
   };
   static fetchData = fetchData;
 
@@ -136,7 +140,7 @@ export class Discover extends Component {
               { country &&
                 <div className="Discover-country" onClick={ e => this.showLocationModal(e) }>
                   <CountryFlag code={ country } rounded size="medium" showTooltip={ false } />
-                  { getCountryName(country) }
+                  { getCountryName(country, this.props.intl.locale) }
                 </div>
               }
               <div className="Discover-hero-content">
@@ -163,8 +167,8 @@ export class Discover extends Component {
             </div>
           }
 
-          <Progress animate={ isFetchingShouts } label="Loading shouts…" />
-          <Progress animate={ isFetching && !discoverItem } label="Loading…" />
+          <Progress animate={ isFetchingShouts } />
+          <Progress animate={ isFetching && !discoverItem } />
 
         </Page>
       </Scrollable>
@@ -222,4 +226,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(Discover);
+export default connect(mapStateToProps)(injectIntl(Discover));

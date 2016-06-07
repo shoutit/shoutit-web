@@ -56,6 +56,7 @@ export class AccountSettings extends Component {
   static propTypes = {
     session: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
     updatePassword: PropTypes.func.isRequired,
     resetErrors: PropTypes.func.isRequired,
     updateAccount: PropTypes.func.isRequired,

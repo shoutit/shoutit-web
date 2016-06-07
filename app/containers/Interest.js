@@ -100,9 +100,7 @@ export class Interest extends Component {
               { shouts.length > 0 &&
                 <ShoutsList shouts={ shouts } />
               }
-              <Progress
-                animate={ isFetchingShouts }
-                label={ shouts.length === 0 ? 'Loading shouts…' : 'Loading more shouts…' } />
+              <Progress animate={ isFetchingShouts } />
             </div>
           }
         </Page>

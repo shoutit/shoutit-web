@@ -1,6 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import find from 'lodash/find';
+import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
+
 import Helmet from '../utils/Helmet';
 
 import { denormalize } from '../schemas';
@@ -15,10 +17,8 @@ import ProfileBiography from '../users/ProfileBiography';
 import SuggestedShout from '../shouts/SuggestedShout';
 import ShoutsList from '../shouts/ShoutsList';
 
-
 import Progress from '../ui/Progress';
 import Scrollable from '../ui/Scrollable';
-
 
 if (process.env.BROWSER) {
   require('./Profile.scss');
@@ -36,6 +36,13 @@ const fetchData = (dispatch, state, params) => {
   return Promise.all([shouts, profile]);
 };
 
+const MESSAGES = defineMessages({
+  title: {
+    id: 'profile.page.title',
+    defaultMessage: 'Shouts by {name}',
+  },
+});
+
 export class Profile extends Component {
 
   static propTypes = {
@@ -43,6 +50,7 @@ export class Profile extends Component {
     firstRender: PropTypes.bool,
     dispatch: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
     profile: PropTypes.object,
     isFetchingShouts: PropTypes.bool,
     shoutsCount: PropTypes.number,
@@ -67,6 +75,7 @@ export class Profile extends Component {
 
   render() {
     const { profile, shouts, isFetchingShouts, shoutsCount, nextShoutsUrl, dispatch } = this.props;
+    const { formatMessage } = this.props.intl;
     return (
       <Scrollable
         scrollElement={ () => window }
@@ -87,7 +96,7 @@ export class Profile extends Component {
 
           { profile &&
             <Helmet
-              title={ `Shouts by ${profile.name}` }
+              title={ formatMessage(MESSAGES.title, { ...profile }) }
               description={ profile.bio }
               images={ [profile.image] }
               meta={ [
@@ -110,17 +119,34 @@ export class Profile extends Component {
 
                 <div className="Profile-shouts">
                   <div>
-                    { (shoutsCount && shouts.length) > 0 &&
-                      <h2>{ `${profile.isOwner ? 'Your' : `${profile.firstName}’s`} shouts (${shoutsCount})` }</h2>
-                    }
                     { shouts.length > 0 &&
-                      <ShoutsList shouts={ shouts } showProfile={ false } /> }
-                    <Progress
-                      animate={ isFetchingShouts }
-                      label={ shouts.length === 0 ? 'Loading shouts…' : 'Loading more shouts…' } />
+                      <h2>
+                        { profile.isOwner ?
+                          <FormattedMessage
+                            id="profile.me.shoutsList.header"
+                            defaultMessage="Your shouts ({count})"
+                            values={ { count: shoutsCount } }
+                          /> :
+                          <FormattedMessage
+                            id="profile.others.shoutsList.header"
+                            defaultMessage="{firstName}’s shouts ({count})"
+                            values={ { firstName: profile.firstName, count: shoutsCount } }
+                          />
+                        }
+                      </h2>
+                    }
+                    { shouts.length > 0 && <ShoutsList shouts={ shouts } showProfile={ false } /> }
+
+                    <Progress animate={ isFetchingShouts } />
                   </div>
                   { !isFetchingShouts && shouts.length === 0 &&
-                    <h2>{ `${profile.firstName} has no shouts, yet!` }</h2>
+                    <h2>
+                      <FormattedMessage
+                        id="profile.others.shoutsList.noshouts"
+                        defaultMessage="{firstName} has no shouts, yet!"
+                        values={ { ...profile } }
+                      />
+                    </h2>
                   }
 
                 </div>
@@ -159,4 +185,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(Profile);
+export default injectIntl(connect(mapStateToProps)(Profile));
