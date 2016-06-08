@@ -1,0 +1,14 @@
+[
+  {
+    "id": "setting.navigation.title",
+    "defaultMessage": "Profile Setting"
+  },
+  {
+    "id": "settings.navigation.profile",
+    "defaultMessage": "Public Profile"
+  },
+  {
+    "id": "settings.navigation.menu.account",
+    "defaultMessage": "Your Account"
+  }
+]

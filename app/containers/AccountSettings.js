@@ -7,10 +7,10 @@ import Page from '../layout/Page';
 import Helmet from '../utils/Helmet';
 import RequiresLogin from '../auth/RequiresLogin';
 
-import CardWithList from '../ui/CardWithList';
 import TextField from '../ui/TextField';
 import Form from '../ui/Form';
 import Button from '../ui/Button';
+import SettingsNavigation from '../settings/SettingsNavigation';
 
 import { updateProfile, updatePassword } from '../actions/users';
 import { resetErrors } from '../actions/session';
@@ -87,7 +87,7 @@ export class AccountSettings extends Component {
   }
 
   handleAccountFormSubmit() {
-    if (!this.didAccountChange()) {
+    if (!this.didChange()) {
       return;
     }
     const { updateAccount, profile } = this.props;
@@ -116,7 +116,7 @@ export class AccountSettings extends Component {
     });
   }
 
-  didAccountChange() {
+  didChange() {
     const { profile } = this.props;
     return this.state.email !== profile.email ||
       this.state.username !== profile.username ||
@@ -130,22 +130,9 @@ export class AccountSettings extends Component {
   render() {
     const { profile, session } = this.props;
     const { formatMessage } = this.props.intl;
-
-    const error = profile.updateError;
-    const navigation = (
-      <CardWithList title="Profile Settings">
-        <Link to="/settings/profile" activeClassName="active">
-          <FormattedMessage id="accountSettings.menu.profile" defaultMessage="Public Profile" />
-        </Link>
-        <Link to="/settings/account" activeClassName="active">
-          <FormattedMessage id="accountSettings.menu.account" defaultMessage="Your Account" />
-        </Link>
-      </CardWithList>
-    );
-
     return (
       <RequiresLogin>
-        <Page className="Settings" startColumn={ navigation }>
+        <Page className="Settings" startColumn={ <SettingsNavigation /> }>
           <Helmet title={ formatMessage(MESSAGES.title) } />
 
           <div className="Settings-layout">
@@ -201,7 +188,7 @@ export class AccountSettings extends Component {
                 label={ formatMessage(MESSAGES.emailLabel) }
                 value={ profile.email }
                 onChange={ email => this.setState({ email }) }
-                error={ error }
+                error={ profile.updateError }
                 disabled={ profile.isUpdating }
               />
               <TextField
@@ -209,7 +196,7 @@ export class AccountSettings extends Component {
                 label={ formatMessage(MESSAGES.mobileLabel) }
                 value={ profile.mobile }
                 onChange={ mobile => this.setState({ mobile }) }
-                error={ error }
+                error={ profile.updateError }
                 disabled={ profile.isUpdating }
               />
               <TextField
@@ -217,16 +204,16 @@ export class AccountSettings extends Component {
                 label={ formatMessage(MESSAGES.usernameLabel) }
                 value={ profile.username }
                 onChange={ username => this.setState({ username }) }
-                error={ error }
+                error={ profile.updateError }
                 disabled={ profile.isUpdating }
               />
               <div className="Settings-actions">
-                <Button action="primary" disabled={ !this.didAccountChange() || profile.isUpdating }>
+                <Button action="primary" disabled={ !this.didChange() || profile.isUpdating }>
                   { profile.isUpdating &&
                     <FormattedMessage id="accountSettings.account.updatingLabel" defaultMessage="Updating…" /> }
-                  { this.didAccountChange() && !profile.isUpdating &&
+                  { this.didChange() && !profile.isUpdating &&
                     <FormattedMessage id="accountSettings.account.updateLabel" defaultMessage="Update account" /> }
-                  { !this.didAccountChange() && !profile.isUpdating &&
+                  { !this.didChange() && !profile.isUpdating &&
                     <FormattedMessage id="accountSettings.account.updatedLabel" defaultMessage="Account updated" /> }
                 </Button>
               </div>

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "profileSettings.page.title",
+    "defaultMessage": "Your profile"
+  },
+  {
+    "id": "profileSettings.profileForm.firstName.label",
+    "defaultMessage": "First Name"
+  },
+  {
+    "id": "profileSettings.profileForm.lastName.label",
+    "defaultMessage": "Last Name"
+  },
+  {
+    "id": "profileSettings.profileForm.gender.label",
+    "defaultMessage": "Gender"
+  },
+  {
+    "id": "profileSettings.profileForm.gender.male",
+    "defaultMessage": "Male"
+  },
+  {
+    "id": "profileSettings.profileForm.gender.female",
+    "defaultMessage": "Female"
+  },
+  {
+    "id": "profileSettings.profileForm.about.label",
+    "defaultMessage": "About You"
+  },
+  {
+    "id": "profileSettings.profileForm.website.label",
+    "defaultMessage": "Website"
+  },
+  {
+    "id": "profileSettings.profileForm.location.label",
+    "defaultMessage": "Default Location"
+  },
+  {
+    "id": "profileSettings.profile.formTitle",
+    "defaultMessage": "Public Profile"
+  },
+  {
+    "id": "ProfileSettings.profileForm.updatingLabel",
+    "defaultMessage": "Updating…"
+  },
+  {
+    "id": "ProfileSettings.profileForm.updateLabel",
+    "defaultMessage": "Update profile"
+  },
+  {
+    "id": "ProfileSettings.profileForm.updatedLabel",
+    "defaultMessage": "Profile updated"
+  }
+]
