@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 
 import { connect } from 'react-redux';
 import Page from '../layout/Page';
@@ -11,19 +11,63 @@ import TextField from '../ui/TextField';
 import TextArea from '../ui/TextArea';
 import Form from '../ui/Form';
 import Button from '../ui/Button';
-import CardWithList from '../ui/CardWithList';
 import Picker from '../ui/Picker';
 import LocationField from '../ui/LocationField';
+
+import SettingsNavigation from '../settings/SettingsNavigation';
+
 import { updateProfile } from '../actions/users';
 import { getLoggedUser } from '../selectors';
+
 if (process.env.BROWSER) {
   require('./Settings.scss');
 }
+
+const MESSAGES = defineMessages({
+  title: {
+    id: 'profileSettings.page.title',
+    defaultMessage: 'Your profile',
+  },
+  firstNameLabel: {
+    id: 'profileSettings.profileForm.firstName.label',
+    defaultMessage: 'First Name',
+  },
+  lastNameLabel: {
+    id: 'profileSettings.profileForm.lastName.label',
+    defaultMessage: 'Last Name',
+  },
+  genderLabel: {
+    id: 'profileSettings.profileForm.gender.label',
+    defaultMessage: 'Gender',
+  },
+  maleValue: {
+    id: 'profileSettings.profileForm.gender.male',
+    defaultMessage: 'Male',
+  },
+  femaleValue: {
+    id: 'profileSettings.profileForm.gender.female',
+    defaultMessage: 'Female',
+  },
+  aboutLabel: {
+    id: 'profileSettings.profileForm.about.label',
+    defaultMessage: 'About You',
+  },
+  websiteLabel: {
+    id: 'profileSettings.profileForm.website.label',
+    defaultMessage: 'Website',
+  },
+  locationLabel: {
+    id: 'profileSettings.profileForm.location.label',
+    defaultMessage: 'Default Location',
+  },
+});
+
 export class ProfileSettings extends Component {
 
   static propTypes = {
     profile: PropTypes.object.isRequired,
     updateProfile: PropTypes.func.isRequired,
+    intl: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -78,25 +122,22 @@ export class ProfileSettings extends Component {
 
   render() {
     const { profile } = this.props;
+    const { formatMessage } = this.props.intl;
     const error = profile.updateError;
-    const navigation = (
-      <CardWithList title="Profile Settings">
-        <Link to="/settings/profile" activeClassName="active">
-          Public Profile
-        </Link>
-        <Link to="/settings/account" activeClassName="active">
-          Your Account
-        </Link>
-      </CardWithList>
-    );
+
     return (
       <RequiresLogin>
-        <Page className="Settings" startColumn={ navigation }>
-          <Helmet title="Your Profile" />
+        <Page className="Settings" startColumn={ <SettingsNavigation /> }>
+          <Helmet title={ formatMessage(MESSAGES.title) } />
           <div className="Settings-layout">
             <Form onSubmit={ this.handleSubmit }>
 
-              <h3>Public Profile</h3>
+              <h3>
+                <FormattedMessage
+                  id="profileSettings.profile.formTitle"
+                  defaultMessage="Public Profile"
+                />
+              </h3>
 
               <div className="Settings-profile-avatar">
                 <ProfileAvatarEditable profile={ profile } size="huge" />
@@ -106,7 +147,7 @@ export class ProfileSettings extends Component {
 
                 <TextField
                   name="first_name"
-                  label="First Name"
+                  label={ formatMessage(MESSAGES.firstNameLabel) }
                   value={ profile.firstName }
                   onChange={ first_name => this.setState({ first_name }) }
                   error={ error }
@@ -115,7 +156,7 @@ export class ProfileSettings extends Component {
 
                 <TextField
                   name="last_name"
-                  label="Last Name"
+                  label={ formatMessage(MESSAGES.lastNameLabel) }
                   value={ profile.lastName }
                   onChange={ last_name => this.setState({ last_name }) }
                   error={ error }
@@ -124,15 +165,19 @@ export class ProfileSettings extends Component {
 
                 <Picker
                   name="gender"
-                  label="Gender"
+                  label={ formatMessage(MESSAGES.genderLabel) }
                   value={ profile.gender }
                   onChange={ gender => this.setState({ gender }) }
                   error={ error }
                   disabled={ profile.isUpdating }
                   >
                   <option value=""></option>
-                  <option value="female">Female</option>
-                  <option value="male">Male</option>
+                  <option value="female">
+                    { formatMessage(MESSAGES.femaleValue) }
+                  </option>
+                  <option value="male">
+                    { formatMessage(MESSAGES.maleValue) }
+                  </option>
                 </Picker>
 
 
@@ -140,7 +185,7 @@ export class ProfileSettings extends Component {
 
               <TextArea
                 name="bio"
-                label="About you"
+                label={ formatMessage(MESSAGES.aboutLabel) }
                 autosize
                 rows={ 1 }
                 maxLength={ 160 }
@@ -157,7 +202,7 @@ export class ProfileSettings extends Component {
                 type="url"
                 placeholder="http://"
                 name="website"
-                label="Website"
+                label={ formatMessage(MESSAGES.websiteLabel) }
                 value={ this.state.website }
                 onChange={ website => this.setState({ website }) }
                 error={ error }
@@ -167,14 +212,17 @@ export class ProfileSettings extends Component {
               <LocationField
                 name="location"
                 location={ profile.location }
-                label="Your Location"
+                label={ formatMessage(MESSAGES.locationLabel) }
               />
 
               <div className="Settings-actions">
                 <Button action="primary" disabled={ !this.didChange() || profile.isUpdating }>
-                  { profile.isUpdating && 'Updating…' }
-                  { this.didChange() && !profile.isUpdating && 'Update profile' }
-                  { !this.didChange() && !profile.isUpdating && 'Profile updated' }
+                { profile.isUpdating &&
+                  <FormattedMessage id="ProfileSettings.profileForm.updatingLabel" defaultMessage="Updating…" /> }
+                { this.didChange() && !profile.isUpdating &&
+                  <FormattedMessage id="ProfileSettings.profileForm.updateLabel" defaultMessage="Update profile" /> }
+                { !this.didChange() && !profile.isUpdating &&
+                  <FormattedMessage id="ProfileSettings.profileForm.updatedLabel" defaultMessage="Profile updated" /> }
                 </Button>
               </div>
             </Form>
@@ -195,4 +243,4 @@ const mapDispatchToProps = dispatch => ({
   updateProfile: data => dispatch(updateProfile(data)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ProfileSettings));

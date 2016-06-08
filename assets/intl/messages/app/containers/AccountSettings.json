@@ -28,14 +28,6 @@
     "defaultMessage": "Username"
   },
   {
-    "id": "accountSettings.menu.profile",
-    "defaultMessage": "Public Profile"
-  },
-  {
-    "id": "accountSettings.menu.account",
-    "defaultMessage": "Your Account"
-  },
-  {
     "id": "accountSettings.password.formTitle",
     "defaultMessage": "Change your password"
   },
