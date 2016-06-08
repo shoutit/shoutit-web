@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage, FormattedPlural } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import { getTypingProfiles } from '../selectors';
 
@@ -13,27 +13,17 @@ export function Typing({ profiles }) {
   let content = '';
   if (profiles.length > 0) {
     content = (
-      <FormattedPlural
-        value={ profiles.length }
-        one={
-          <FormattedMessage
-            id="chat.typing.profiles.one"
-            defaultMessage="{name} is typing…"
-            values={ {
-              name: profiles.map(user => user.name).join(', '),
-            } }
-          />
-        }
-        other={
-          <FormattedMessage
-            id="chat.typing.profiles.many"
-            defaultMessage="{namesAsList} are typing…"
-            values={ {
-              namesAsList: profiles.map(user => user.name).join(', '),
-              profilesCount: profiles.length,
-            } }
-          />
-        }
+      <FormattedMessage
+        id="chat.typing.profiles"
+        defaultMessage="{count, plural,
+            one {{names} is typing…}
+            two {{names} are typing…}
+            other {{names} are typing…}
+        }"
+        values={ {
+          count: profiles.length,
+          names: profiles.map(user => user.name).join(', '),
+        } }
       />
     );
   }
