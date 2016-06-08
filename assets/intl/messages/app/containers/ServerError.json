@@ -1,0 +1,14 @@
+[
+  {
+    "id": "serverError.page.title",
+    "defaultMessage": "Cannot display this page"
+  },
+  {
+    "id": "serverError.title",
+    "defaultMessage": "Cannot display this page"
+  },
+  {
+    "id": "serverError.details",
+    "defaultMessage": "This page is not available right now. Please try again later."
+  }
+]
