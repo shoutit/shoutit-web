@@ -1,0 +1,34 @@
+[
+  {
+    "id": "search.page.title",
+    "defaultMessage": "Search Shouts"
+  },
+  {
+    "id": "search.page.title.with-category",
+    "defaultMessage": "Search {category}"
+  },
+  {
+    "id": "search.page.title.with-city",
+    "defaultMessage": "Search Shouts in {city}"
+  },
+  {
+    "id": "search.page.title.with-city-and-category",
+    "defaultMessage": "Search {category} in {city}"
+  },
+  {
+    "id": "search.shouts.error.title",
+    "defaultMessage": "There was an error"
+  },
+  {
+    "id": "search.shouts.error.details",
+    "defaultMessage": "Cannot load shouts right now. Please try again."
+  },
+  {
+    "id": "search.shouts.notFound.title",
+    "defaultMessage": "Nothing found"
+  },
+  {
+    "id": "search.shouts.notFound.details",
+    "defaultMessage": "There are no Shouts for this search. Please refine your filters."
+  }
+]
