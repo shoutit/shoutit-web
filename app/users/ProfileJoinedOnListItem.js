@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import moment from 'moment';
+import { toDate } from 'unix-timestamp';
+import { FormattedDate, FormattedMessage } from 'react-intl';
 
 import ListItem from '../ui/ListItem';
 import Icon from '../ui/Icon';
@@ -11,7 +12,17 @@ export default function ProfileJoinedOnListItem({ profile, size = 'medium' }) {
       size={ size }
       start={ <Icon name="clock" active size={ size } /> }
     >
-      Joined on { moment.unix(profile.dateJoined).format('ll') }
+      <FormattedMessage
+        id="profileJoined.text"
+        defaultMessage="Joined on {date}"
+        values={ {
+          date: <FormattedDate
+            value={ toDate(profile.dateJoined) }
+            year="numeric"
+            month="short"
+            day="numeric" />,
+        } }
+      />
     </ListItem>
   );
 }

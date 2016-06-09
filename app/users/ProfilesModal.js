@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { injectIntl, defineMessages } from 'react-intl';
 import { getLoggedUser } from '../selectors';
 import ListenersScrollableList from './ListenersScrollableList';
 import Modal, { Header, Footer, Body, BodyFixed } from '../ui/Modal';
@@ -9,11 +10,27 @@ import SegmentedControl from '../ui/SegmentedControl';
 if (process.env.BROWSER) {
   require('./ProfilesModal.scss');
 }
+
+const MESSAGES = defineMessages({
+  listeners: {
+    id: 'profilesModal.segmentedControl.listeners',
+    defaultMessage: 'Listeners',
+  },
+  listening: {
+    id: 'profilesModal.segmentedControl.listening',
+    defaultMessage: 'Listening',
+  },
+  hide: {
+    id: 'profilesModal.segmentedControl.hideButton',
+    defaultMessage: 'Close',
+  },
+});
 export class ProfilesModal extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
     onProfileClick: PropTypes.func.isRequired,
     title: PropTypes.string,
   }
@@ -46,7 +63,7 @@ export class ProfilesModal extends Component {
   }
 
   render() {
-    const { title, ...modalProps } = this.props;
+    const { title, intl, ...modalProps } = this.props;
     return (
       <Modal {...modalProps} size="small" ref="modal">
         <Header closeButton>
@@ -55,8 +72,8 @@ export class ProfilesModal extends Component {
         <BodyFixed>
           <div className="ProfilesModal-selectedControl">
             <SegmentedControl value={ this.state.type } ref="type" name="type" options={ [
-              { label: 'Listeners', value: 'listeners' },
-              { label: 'Listening', value: 'listening' },
+              { label: intl.formatMessage(MESSAGES.listeners), value: 'listeners' },
+              { label: intl.formatMessage(MESSAGES.listening), value: 'listening' },
             ] } onChange={ type => this.setState({ type }) } />
           </div>
         </BodyFixed>
@@ -68,7 +85,9 @@ export class ProfilesModal extends Component {
           />
         </Body>
         <Footer>
-          <Button ref="close" size="small" action="primary" onClick={ this.hide }>Close</Button>
+          <Button ref="close" size="small" action="primary" onClick={ this.hide }>
+            { intl.formatMessage(MESSAGES.hide) }
+          </Button>
         </Footer>
       </Modal>
     );
@@ -79,4 +98,4 @@ const mapStateToProps = state => ({
   profile: getLoggedUser(state),
 });
 
-export default connect(mapStateToProps)(ProfilesModal);
+export default connect(mapStateToProps)(injectIntl(ProfilesModal));

@@ -2,6 +2,8 @@
 
 import React, { PropTypes, Component } from 'react';
 import ReactAvatarEditor from 'react-avatar-editor';
+import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
+
 import { connect } from 'react-redux';
 import { updateProfile } from '../actions/users';
 import { getFilename } from '../utils/StringUtils';
@@ -19,12 +21,20 @@ if (process.env.BROWSER) {
   require('./AvatarEditorModal.scss');
 }
 
+const MESSAGES = defineMessages({
+  deleteConfirm: {
+    id: 'avatarEditor.deleteConfirmMessage',
+    defaultMessage: 'Delete your profile picture?',
+  },
+});
+
 export class AvatarEditorModal extends Component {
 
   static propTypes = {
     initialImage: PropTypes.string.isRequired,
     profile: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
+    intl: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -80,7 +90,7 @@ export class AvatarEditorModal extends Component {
 
   handleDeleteClick() {
     const { profile, dispatch } = this.props;
-    if (!confirm('Delete your profile picture?')) {
+    if (!confirm(this.props.intl.formatMessage(MESSAGES.deleteConfirm))) {
       return;
     }
     this.setState({ isLoading: true });
@@ -136,7 +146,10 @@ export class AvatarEditorModal extends Component {
             disabled={ this.state.isLoading }
             action="destructive"
             onClick={ this.handleDeleteClick }>
-            Delete
+            <FormattedMessage
+              id="avatarEditor.deleteButton"
+              defaultMessage="Delete"
+            />
           </Button>
         </span>
       );
@@ -152,7 +165,10 @@ export class AvatarEditorModal extends Component {
           icon="camera"
           disabled={ this.state.isLoading }
           onChange={ this.handlePictureChange }>
-            Upload image
+          <FormattedMessage
+            id="avatarEditor.uploadButton"
+            defaultMessage="Upload image"
+          />
         </UploadButton>
       </span>
     );
@@ -166,7 +182,10 @@ export class AvatarEditorModal extends Component {
             size="small"
             disabled={ this.props.profile.image === this.state.image || this.state.isLoading }
             style={ { minWidth: 120 } }>
-              Save changes
+            <FormattedMessage
+              id="avatarEditor.saveButton"
+              defaultMessage="Save changes"
+            />
           </Button>
         </span>
       );
@@ -174,7 +193,10 @@ export class AvatarEditorModal extends Component {
 
     actions.push(
       <Button key="cancel" ref="cancelButton" onClick={ this.hide } size="small" disabled={ this.state.isLoading }>
-        Cancel
+        <FormattedMessage
+          id="avatarEditor.cancelButton"
+          defaultMessage="Cancel"
+        />
       </Button>
       );
     return actions;
@@ -182,8 +204,13 @@ export class AvatarEditorModal extends Component {
 
   render() {
     return (
-      <Modal {...this.props} ref="modal" title="Change picture" preventClose={ this.state.isLoading }>
-        <Header closeButton>Change Picture</Header>
+      <Modal {...this.props} ref="modal" preventClose={ this.state.isLoading }>
+        <Header closeButton>
+          <FormattedMessage
+            id="avatarEditor.title"
+            defaultMessage="Change Your Picture"
+          />
+        </Header>
         <Body>
           <Form className="AvatarEditorModal">
             <div>
@@ -220,4 +247,4 @@ export class AvatarEditorModal extends Component {
   }
 }
 
-export default connect()(AvatarEditorModal);
+export default connect()(injectIntl(AvatarEditorModal));

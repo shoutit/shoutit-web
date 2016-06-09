@@ -1,0 +1,26 @@
+[
+  {
+    "id": "avatarEditor.deleteConfirmMessage",
+    "defaultMessage": "Delete your profile picture?"
+  },
+  {
+    "id": "avatarEditor.deleteButton",
+    "defaultMessage": "Delete"
+  },
+  {
+    "id": "avatarEditor.uploadButton",
+    "defaultMessage": "Upload image"
+  },
+  {
+    "id": "avatarEditor.saveButton",
+    "defaultMessage": "Save changes"
+  },
+  {
+    "id": "avatarEditor.cancelButton",
+    "defaultMessage": "Cancel"
+  },
+  {
+    "id": "avatarEditor.title",
+    "defaultMessage": "Change Your Picture"
+  }
+]
