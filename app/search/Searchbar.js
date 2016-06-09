@@ -1,6 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { injectIntl } from 'react-intl';
+
 import trim from 'lodash/trim';
 import throttle from 'lodash/throttle';
 import { invalidateSearch, searchShouts, searchTags, searchProfiles } from '../actions/search';
@@ -20,6 +22,7 @@ export class Searchbar extends Component {
 
   static propTypes = {
     currentLocation: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
     searchTags: PropTypes.func.isRequired,
     searchProfiles: PropTypes.func.isRequired,
     searchShouts: PropTypes.func.isRequired,
@@ -83,7 +86,7 @@ export class Searchbar extends Component {
   }
 
   render() {
-    const locationLabel = formatLocation(this.props.currentLocation, { showCountry: false }) || 'Anywhere';
+    const locationLabel = formatLocation(this.props.currentLocation, { showCountry: false, locale: this.props.intl.locale }) || 'Anywhere';
     return (
       <form ref="form" onSubmit={ this.submit } className="Searchbar">
         <Button
@@ -167,4 +170,4 @@ const mapDispatchToProps = dispatch => ({
   onLocationClick: () => dispatch(openModal(<LocationModal />)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Searchbar);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(Searchbar));

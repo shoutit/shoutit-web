@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import capitalize from 'lodash/capitalize';
+import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import { Link } from 'react-router';
 import { loadShout, loadRelatedShouts, startShoutReply } from '../actions/shouts';
 import { openConversation } from '../actions/conversations';
@@ -8,7 +9,6 @@ import { routeError } from '../actions/server';
 
 import { formatPrice } from '../utils/CurrencyUtils';
 import { formatLocation } from '../utils/LocationUtils';
-
 import Helmet from '../utils/Helmet';
 
 import RequiresLogin from '../auth/RequiresLogin';
@@ -96,6 +96,7 @@ export class Shout extends Component {
     relatedShouts: PropTypes.array,
     params: PropTypes.object,
     loggedUser: PropTypes.object,
+    intl: PropTypes.object.isRequired,
   };
 
   static fetchData = fetchData;
@@ -235,7 +236,7 @@ export class Shout extends Component {
                 { name: 'twitter:label1', content: capitalize(shout.type) },
                 { name: 'twitter:data1', content: formatPrice(shout.price, shout.currency) },
                 { name: 'twitter:label2', content: 'Location' },
-                { name: 'twitter:data2', content: formatLocation(shout.location) },
+                { name: 'twitter:data2', content: formatLocation(shout.location, { locale: this.props.intl.locale }) },
               ] }
             />
           }
@@ -259,4 +260,4 @@ const mapStateToProps = (state, ownProps) => ({
     undefined,
 });
 
-export default connect(mapStateToProps)(Shout);
+export default connect(mapStateToProps)(injectIntl(Shout));

@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import throttle from 'lodash/throttle';
 import debug from 'debug';
 
@@ -19,6 +20,7 @@ export class LocationField extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
     error: PropTypes.object,
     inputRef: PropTypes.func,
     disabled: PropTypes.bool,
@@ -50,7 +52,10 @@ export class LocationField extends Component {
     };
 
     if (props.location) {
-      this.state.value = formatLocation(props.location, { showCountry: false });
+      this.state.value = formatLocation(props.location, {
+        showCountry: false,
+        locale: props.intl.locale,
+      });
       this.state.location = props.location;
     }
   }
@@ -63,7 +68,10 @@ export class LocationField extends Component {
       };
     }
     if (nextProps.location.slug !== this.props.location.slug) {
-      const value = formatLocation(nextProps.location, { showCountry: false });
+      const value = formatLocation(nextProps.location, {
+        showCountry: false,
+        locale: this.props.intl.locale,
+      });
       state = {
         ...state,
         value,
@@ -162,7 +170,10 @@ export class LocationField extends Component {
       this.setState({ isGeocoding: false }, () => {
         if (location && location.city) {
           log('Found location geocoding %s', prediction.placeId, location);
-          const value = formatLocation(location, { showCountry: false });
+          const value = formatLocation(location, {
+            showCountry: false,
+            locale: this.props.intl.locale,
+          });
           this.setState({ value, location }, () => {
             this.handleGeocodeSuccess(location);
           });
@@ -272,4 +283,4 @@ const mapStateToProps = (state, ownProps) => ({
   location: ownProps.location || state.currentLocation,
 });
 
-export default connect(mapStateToProps)(LocationField);
+export default connect(mapStateToProps)(injectIntl(LocationField));

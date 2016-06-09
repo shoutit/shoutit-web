@@ -109,6 +109,7 @@ export function formatLocation(location, options) {
   options = {
     useAddress: false,
     showCountry: true,
+    locale: 'en',
     ...options,
   };
   const values = [];
@@ -127,7 +128,7 @@ export function formatLocation(location, options) {
     values.push(location.state);
   }
   if ((options.showCountry || options.useAddress || !location.state || !location.city) && location.country) {
-    values.push(getCountryName(location.country));
+    values.push(getCountryName(location.country, options.locale));
   }
   return values.join(', ');
 }
