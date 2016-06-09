@@ -19,7 +19,7 @@ export default function ProfileJoinedOnListItem({ profile, size = 'medium' }) {
           date: <FormattedDate
             value={ toDate(profile.dateJoined) }
             year="numeric"
-            month="numeric"
+            month="short"
             day="numeric" />,
         } }
       />

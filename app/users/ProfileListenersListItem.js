@@ -27,7 +27,7 @@ export function ProfileListenersListItem({ type = 'listeners', profile, onClick,
       start={ <Icon name={ type } size={ size } active={ count > 0 } /> }>
       { type === 'listeners' ?
         <FormattedMessage id="profile.listeners"
-          defaultMessage="{count, select,
+          defaultMessage="{count, plural,
             =0 {No listeners}
             one {# listener}
             two {# listeners}
@@ -36,7 +36,7 @@ export function ProfileListenersListItem({ type = 'listeners', profile, onClick,
           values={ { count } }
         /> :
         <FormattedMessage id="profile.listening"
-          defaultMessage="{count, select,
+          defaultMessage="{count, plural,
             =0 {No listening}
             one {# listening}
             two {# listening}
