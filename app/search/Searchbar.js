@@ -46,18 +46,18 @@ export class Searchbar extends Component {
 
   submit(e) {
     e.preventDefault();
-    const query = trim(this.refs.searchField.value).toLowerCase();
+    const query = trim(this.searchField.value).toLowerCase();
     if (query) {
       this.setState({
         showOverlay: false,
       });
-      this.refs.searchField.blur();
+      this.searchField.blur();
       this.props.onSubmit(query);
     }
   }
 
   handleChange() {
-    const query = this.refs.searchField.value;
+    const query = this.searchField.value;
     if (query.length <= 2) {
       this.props.invalidateSearch();
     } else {
@@ -104,7 +104,7 @@ export class Searchbar extends Component {
           { message =>
             <input
               autoComplete="off"
-              ref="searchField"
+              ref={ el => this.searchField = el }
               name="query"
               placeholder={ message }
               className="htmlInput"
@@ -130,7 +130,7 @@ export class Searchbar extends Component {
           placement="bottom"
           container={ this }
           onMoreShoutsClick={ this.submit }
-          target={ () => this.refs.searchField }
+          target={ () => this.searchField }
          />
       </form>
     );
