@@ -166,7 +166,7 @@ export class LocationField extends Component {
     });
     this.blur();
     log('Start geocoding place with id %s', prediction.placeId);
-    geocodePlace(prediction.placeId, (err, location) => {
+    geocodePlace(prediction.placeId, this.props.intl.locale, (err, location) => {
       this.setState({ isGeocoding: false }, () => {
         if (location && location.city) {
           log('Found location geocoding %s', prediction.placeId, location);

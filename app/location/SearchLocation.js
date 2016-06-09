@@ -16,6 +16,7 @@ export class SearchLocation extends Component {
     error: PropTypes.object,
     isFetching: PropTypes.bool,
     lastInput: PropTypes.string,
+    locale: PropTypes.string.isRequired,
     onLocationSelect: PropTypes.func,
   };
 
@@ -54,11 +55,10 @@ export class SearchLocation extends Component {
 
   handlePredictionClick(e, prediction) {
     e.preventDefault();
-    const { onLocationSelect } = this.props;
     this.setState({ isGeocoding: true });
-    geocodePlace(prediction.placeId, (err, location) => {
-      if (location && onLocationSelect) {
-        onLocationSelect(location, prediction);
+    geocodePlace(prediction.placeId, this.props.locale, (err, location) => {
+      if (location && this.props.onLocationSelect) {
+        this.props.onLocationSelect(location, prediction);
       }
     });
   }
@@ -105,6 +105,9 @@ export class SearchLocation extends Component {
   }
 }
 
-const mapStateToProps = state => state.placePredictions;
+const mapStateToProps = state => ({
+  ...state.placePredictions,
+  locale: state.i18n.locale,
+});
 
 export default connect(mapStateToProps)(SearchLocation);

@@ -82,7 +82,7 @@ describe('utils/LocationUtils', () => {
 
       const callback = sinon.spy();
 
-      LocationUtils.geocodePlace('AB', callback);
+      LocationUtils.geocodePlace('AB', 'en', callback);
 
       expect(callback).to.have.been.calledWith(null, {
         city: 'Rome', country: 'IT', latitude: null, longitude: null, state: 'Lazio', slug: 'it_lazio_rome',

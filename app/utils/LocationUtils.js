@@ -49,11 +49,11 @@ export function parseGeocoderResult(result) {
   return location;
 }
 
-export function geocodePlace(placeId, callback) {
+export function geocodePlace(placeId, language, callback) {
   request.get('https://maps.googleapis.com/maps/api/geocode/json')
     .query({
+      language,
       place_id: placeId,
-      language: 'en',
       key: googleMapsKey,
     })
     .end((err, res) => {
