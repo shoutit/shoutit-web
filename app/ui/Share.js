@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { ShareButtons, ShareCounts, generateShareIcon } from 'react-share';
+import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 import { getVariation } from '../utils/APIUtils';
 
 import Tooltip from '../ui/Tooltip';
@@ -14,14 +15,22 @@ const GooglePlusIcon = generateShareIcon('google');
 const PinterestIcon = generateShareIcon('pinterest');
 
 const DEFAULT_TITLE = 'Shoutit - Buy and sell while chatting';
+
 if (process.env.BROWSER) {
   require('./Share.scss');
 }
 
-export default class Share extends Component {
+const MESSAGES = defineMessages({
+  defaultTitle: {
+    id: 'share.defaultTitle',
+    defaultMessage: 'Shoutit - Buy and sell while chatting',
+  },
+});
+export class Share extends Component {
 
   static propTypes = {
     shareUrl: PropTypes.string.isRequired,
+    intl: PropTypes.object.isRequired,
     title: PropTypes.string,
     image: PropTypes.string,
     iconSize: PropTypes.number,
@@ -35,15 +44,16 @@ export default class Share extends Component {
 
   render() {
     const { shareUrl, title, image, iconSize } = this.props;
+    const { formatMessage } = this.props.intl;
     const url = `${siteUrl}${shareUrl}`;
     return (
       <div className="Share">
         <div className="Share-network">
 
-          <Tooltip overlay="Share on Facebook">
+          <Tooltip overlay={ <FormattedMessage id="share.facebook.tooltip" defaultMessage="Share on Facebook" /> }>
             <FacebookShareButton
               url={ url }
-              title={ title || DEFAULT_TITLE }
+              title={ title || formatMessage(MESSAGES.defaultTitle) }
               className="Share-network-button">
               <FacebookIcon size={ iconSize } round />
             </FacebookShareButton>
@@ -55,8 +65,7 @@ export default class Share extends Component {
         </div>
 
         <div className="Share-network">
-
-          <Tooltip overlay="Share on Twitter">
+          <Tooltip overlay={ <FormattedMessage id="share.twitter.tooltip" defaultMessage="Share on Twitter" /> }>
             <TwitterShareButton
               url={ url }
               title={ title || DEFAULT_TITLE }
@@ -68,7 +77,7 @@ export default class Share extends Component {
         </div>
 
         <div className="Share-network">
-          <Tooltip overlay="Share on Google+">
+          <Tooltip overlay={ <FormattedMessage id="share.google.tooltip" defaultMessage="Share on Google+" /> }>
             <GooglePlusShareButton
               url={ url }
               className="Share-network-button">
@@ -82,7 +91,7 @@ export default class Share extends Component {
 
         { image &&
           <div className="Share-network">
-            <Tooltip overlay="Share on Pininterest">
+            <Tooltip overlay={ <FormattedMessage id="share.pininterest.tooltip" defaultMessage="Share on Pininterest+" /> }>
               <PinterestShareButton
                 url={ url }
                 media={ getVariation(image, 'large') }
@@ -97,3 +106,5 @@ export default class Share extends Component {
     );
   }
 }
+
+export default injectIntl(Share);

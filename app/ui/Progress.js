@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 if (process.env.BROWSER) {
   require('./Progress.scss');
 }
 
-export default function Progress({ label = 'Loading…', animate = false, spaced = true, style, size }) {
+export default function Progress({ animate = false, spaced = true, style, size }) {
   let className = 'Progress';
   if (animate) {
     className += ' animated';
@@ -20,7 +21,10 @@ export default function Progress({ label = 'Loading…', animate = false, spaced
       <div className="Progress-wrapper">
         <div className="Progress-label">
           <div className="Progress-animation" />
-          { label }
+          <FormattedMessage
+            id="ui.progress.label"
+            defaultMessage="Loading…"
+            />
         </div>
       </div>
     </div>
@@ -28,7 +32,6 @@ export default function Progress({ label = 'Loading…', animate = false, spaced
 }
 
 Progress.propTypes = {
-  label: PropTypes.string,
   animate: PropTypes.bool,
   spaced: PropTypes.bool,
   style: PropTypes.object,
