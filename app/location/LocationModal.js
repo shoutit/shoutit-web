@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
 import Modal, { Header, Body, Footer } from '../ui/Modal';
 import Button from '../ui/Button';
@@ -26,14 +27,20 @@ export class LocationModal extends Component {
     return (
       <Modal {...this.props} ref="modal" size="small">
         <Header closeButton>
-          Change your Location
+          <FormattedMessage
+            id="locationModal.title"
+            defaultMessage="Change your location"
+          />
         </Header>
         <Body>
           <SearchLocation ref="search" onLocationSelect={ this.handleLocationSelect } />
         </Body>
         <Footer>
           <Button ref="close" size="small" action="primary" onClick={ () => this.refs.modal.hide() }>
-            Close
+            <FormattedMessage
+              id="locationModal.closeButton"
+              defaultMessage="Close"
+            />
           </Button>
         </Footer>
       </Modal>
