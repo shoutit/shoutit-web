@@ -43,9 +43,10 @@ export default function HtmlDocument({
 
         <script dangerouslySetInnerHTML={ { __html: `window.__INITIAL_STATE__=${serialize(initialState)}` } } />
 
+        <script dangerouslySetInnerHTML={ { __html: `window.___gcfg = {lang: '${this.props.locale}}` } } />
         <script async src="https://apis.google.com/js/client:platform.js" />
         { config.googleMapsKey &&
-          <script async src={ `https://maps.googleapis.com/maps/api/js?key=${config.googleMapsKey}&libraries=places&language=en-us` } /> }
+          <script async src={ `https://maps.googleapis.com/maps/api/js?key=${config.googleMapsKey}&libraries=places&language=${this.props.locale}` } /> }
         { config.ga &&
           <script async src="https://www.google-analytics.com/analytics.js" /> }
 
@@ -62,6 +63,7 @@ export default function HtmlDocument({
 }
 
 HtmlDocument.propTypes = {
+  locale: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   initialState: PropTypes.object.isRequired,
 };
