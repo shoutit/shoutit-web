@@ -1,0 +1,10 @@
+[
+  {
+    "id": "header.notificationsPopover.title",
+    "defaultMessage": "Notifications"
+  },
+  {
+    "id": "header.notificationsPopover.read",
+    "defaultMessage": "Mark all as read"
+  }
+]

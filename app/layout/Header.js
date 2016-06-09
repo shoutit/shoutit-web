@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { FormattedMessage } from 'react-intl';
 
 import Button from '../ui/Button';
 
@@ -52,13 +53,17 @@ export class Header extends Component {
       <header className="Header" style={ { position: 'relative' } }>
         <div className="Header-logo">
           <Link to="/">
-            <img alt="To home page" height="36" width="132" src={ `${imagesPath}/logo.png` } />
+            <img alt="" height="36" width="132" src={ `${imagesPath}/logo.png` } />
           </Link>
         </div>
 
         <div className="Header-links">
-          <Link to={ `/search${getLocationPath(currentLocation)}` } activeClassName="Header-link-active">Browse</Link>
-          <Link to={ getDiscoverLink(currentLocation) } activeClassName="Header-link-active">Discover</Link>
+          <Link to={ `/search${getLocationPath(currentLocation)}` } activeClassName="Header-link-active">
+            <FormattedMessage id="header.navbar.search" defaultMessage="Browse" />
+          </Link>
+          <Link to={ getDiscoverLink(currentLocation) } activeClassName="Header-link-active">
+            <FormattedMessage id="header.navbar.discover" defaultMessage="Discover" />
+          </Link>
         </div>
 
         <div className="Header-search">
@@ -70,13 +75,17 @@ export class Header extends Component {
             <HeaderMessagesButton overlayContainer={ this } />
             <HeaderNotificationsButton overlayContainer={ this } />
             <Button action="primary" size="small" icon="sparkle" onClick={ this.handleNewShoutClick }>
-              Create Shout
+              <FormattedMessage id="header.createShoutButton" defaultMessage="Create Shout" />
             </Button>
             <HeaderProfileButton overlayContainer={ this } />
           </div> :
           <div className="Header-tools loggedOut">
-            <Button to="/login">Log in</Button>
-            <Button action="primary" to="/signup">Sign up</Button>
+            <Button to="/login">
+              <FormattedMessage id="header.loginButton" defaultMessage="Login" />
+            </Button>
+            <Button action="primary" to="/signup">
+              <FormattedMessage id="header.signupButton" defaultMessage="Sign up" />
+            </Button>
           </div>
         }
 

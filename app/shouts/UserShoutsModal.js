@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+
 import { getLoggedUser } from '../selectors';
 import ShoutsScrollableList from './ShoutsScrollableList';
 import Modal, { Header, Footer, Body } from '../ui/Modal';
@@ -41,13 +43,15 @@ export class UserShoutsModal extends Component {
     return (
       <Modal {...modalProps} size="small" ref="modal">
         <Header closeButton>
-          { title }
+          { title || <FormattedMessage id="userShoutsModal.title" defaultMessage="Your Shouts" /> }
         </Header>
         <Body>
           <ShoutsScrollableList profile={ loggedUser } onShoutClick={ this.handleShoutClick } />
         </Body>
         <Footer>
-          <Button ref="close" size="small" action="primary" onClick={ this.hide }>Close</Button>
+          <Button ref="close" size="small" action="primary" onClick={ this.hide }>
+            <FormattedMessage id="userShoutsModal.closeButton" defaultMessage="Close" />
+          </Button>
         </Footer>
       </Modal>
     );

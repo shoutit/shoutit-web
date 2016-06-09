@@ -17,6 +17,7 @@ if (process.env.NODE_ENV === 'production') {
 export default function HtmlDocument({
   content,
   initialState,
+  locale,
 }) {
   const head = Helmet.rewind();
   const attrs = head.htmlAttributes.toComponent();
@@ -43,16 +44,17 @@ export default function HtmlDocument({
 
         <script dangerouslySetInnerHTML={ { __html: `window.__INITIAL_STATE__=${serialize(initialState)}` } } />
 
+        <script dangerouslySetInnerHTML={ { __html: `window.___gcfg = {lang: '${locale}'}` } } />
         <script async src="https://apis.google.com/js/client:platform.js" />
         { config.googleMapsKey &&
-          <script async src={ `https://maps.googleapis.com/maps/api/js?key=${config.googleMapsKey}&libraries=places&language=en-us` } /> }
+          <script async src={ `https://maps.googleapis.com/maps/api/js?key=${config.googleMapsKey}&libraries=places&language=${locale}` } /> }
         { config.ga &&
           <script async src="https://www.google-analytics.com/analytics.js" /> }
 
         <script src="https://media.twiliocdn.com/sdk/js/common/v0.1/twilio-common.min.js" />
         <script src="https://media.twiliocdn.com/sdk/js/conversations/v0.13/twilio-conversations.min.js" />
 
-        <script dangerouslySetInnerHTML={ { __html: uservoice } } />
+        <script dangerouslySetInnerHTML={ { __html: uservoice.replace('{locale}', locale) } } />
 
         <script src={ `${config.publicUrl}${chunkNames.main}` } />
 
@@ -62,6 +64,7 @@ export default function HtmlDocument({
 }
 
 HtmlDocument.propTypes = {
+  locale: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   initialState: PropTypes.object.isRequired,
 };

@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
-import Modal, { Body } from '../ui/Modal';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
+import Modal, { Body } from '../ui/Modal';
 import Button from '../ui/Button';
 import HorizontalRule from '../ui/HorizontalRule';
 import NewShoutModal from '../shouts/NewShoutModal';
@@ -19,13 +20,26 @@ export function CreateShoutSuccessModal({ shoutId, onNewClick, ...modalProps }) 
       <Body>
         <div className="CreateShoutSuccessModal">
 
-          <h2>Congratulations!</h2>
+          <h2>
+            <FormattedMessage
+              id="createShoutSuccessModal.title"
+              defaultMessage="Congratulations!"
+            />
+          </h2>
 
-          <h3>Your shout has been published.</h3>
+          <h3>
+            <FormattedMessage
+              id="createShoutSuccessModal.subtitle"
+              defaultMessage="Your shout has been published."
+            />
+          </h3>
 
           <div className="CreateShoutSuccessModal-buttons">
             <UpdateShoutButton shoutId={ shoutId } block size="small" action="primary" icon={ null }>
-              Add more details
+              <FormattedMessage
+                id="createShoutSuccessModal.editButton"
+                defaultMessage="Add more details"
+              />
             </UpdateShoutButton>
           </div>
 
@@ -33,10 +47,12 @@ export function CreateShoutSuccessModal({ shoutId, onNewClick, ...modalProps }) 
 
           <div className="CreateShoutSuccessModal-buttons">
             <Button block size="small" action="primary-alt" onClick={ onNewClick }>
-              Create another shout
+              <FormattedMessage
+                id="createShoutSuccessModal.createButton"
+                defaultMessage="Create another shout"
+              />
             </Button>
           </div>
-
 
         </div>
       </Body>

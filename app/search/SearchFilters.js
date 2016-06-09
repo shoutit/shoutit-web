@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
+import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 
 import Button from '../ui/Button';
 import Form from '../ui/Form';
@@ -15,10 +16,26 @@ if (process.env.BROWSER) {
   require('./SearchFilters.scss');
 }
 
+const MESSAGES = defineMessages({
+  offers: {
+    id: 'searchFilters.shoutType.offer',
+    defaultMessage: 'Offers',
+  },
+  requests: {
+    id: 'searchFilters.shoutType.request',
+    defaultMessage: 'Requests',
+  },
+  all: {
+    id: 'searchFilters.shoutType.all',
+    defaultMessage: 'All',
+  },
+});
+
 export class SearchFilters extends Component {
 
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
+    intl: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
     searchParams: PropTypes.object,
     currentLocation: PropTypes.object,
@@ -44,7 +61,7 @@ export class SearchFilters extends Component {
 
   getSearchParams() {
     let searchParams = {
-      search: this.refs.search.getValue() || undefined,
+      search: this.searchInput.getValue() || undefined,
       shout_type: this.refs.shout_type.getValue(),
       category: this.state.category,
       filters: this.state.filters,
@@ -82,6 +99,7 @@ export class SearchFilters extends Component {
 
   render() {
     const { disabled, currentLocation } = this.props;
+    const { formatMessage } = this.props.intl;
     const { category, shout_type, min_price, max_price, search, filters, within } = this.state;
 
     return (
@@ -89,9 +107,9 @@ export class SearchFilters extends Component {
         <Form onSubmit={ this.handleSubmit }>
 
           <SegmentedControl value={ shout_type } disabled={ disabled } ref="shout_type" name="shout_type" options={ [
-            { label: 'All', value: 'all' },
-            { label: 'Offers', value: 'offer' },
-            { label: 'Requests', value: 'request' },
+            { label: formatMessage(MESSAGES.all), value: 'all' },
+            { label: formatMessage(MESSAGES.offers), value: 'offer' },
+            { label: formatMessage(MESSAGES.requests), value: 'request' },
           ] } onChange={ shout_type => this.setState({ shout_type }) } />
 
           <LocationField name="location" />
@@ -104,14 +122,21 @@ export class SearchFilters extends Component {
               location={ currentLocation }
             /> }
 
-          <TextField
-            placeholder="Search by keyword"
-            disabled={ disabled }
-            name="search"
-            ref="search"
-            value={ search }
-            onChange={ search => this.setState({ search }) }
-          />
+          <FormattedMessage
+            id="searchFilters.search.placeholder"
+            defaultMessage="Search by keyword"
+          >
+            { message =>
+              <TextField
+                placeholder={ message }
+                disabled={ disabled }
+                name="search"
+                ref={ el => { this.searchInput = el; } }
+                value={ search }
+                onChange={ search => this.setState({ search }) }
+              />
+            }
+          </FormattedMessage>
 
           <CategoryPicker
             filtersClassName="Form-inset-small"
@@ -127,31 +152,55 @@ export class SearchFilters extends Component {
           />
 
           <div className="SearchFilters-price">
-            <CurrencyField
-              autoComplete="off"
-              className="SearchFilters-input"
-              placeholder="Min price"
-              disabled={ disabled }
-              name="min_price"
-              ref="min_price"
-              value={ min_price }
-              onChange={ min_price => this.setState({ min_price }) }
-            />
-            <CurrencyField
-              autoComplete="off"
-              className="SearchFilters-input"
-              placeholder="Max price"
-              disabled={ disabled }
-              name="max_price"
-              ref="max_price"
-              value={ max_price }
-              onChange={ max_price => this.setState({ max_price }) }
-            />
+            <FormattedMessage
+              id="searchFilters.minPrice.placeholder"
+              defaultMessage="Min price"
+            >
+              { message =>
+                <CurrencyField
+                  autoComplete="off"
+                  className="SearchFilters-input"
+                  placeholder={ message }
+                  disabled={ disabled }
+                  name="min_price"
+                  ref="min_price"
+                  value={ min_price }
+                  onChange={ min_price => this.setState({ min_price }) }
+                />
+              }
+            </FormattedMessage>
+            <FormattedMessage
+              id="searchFilters.maxPrice.placeholder"
+              defaultMessage="Max price"
+            >
+              { message =>
+                <CurrencyField
+                  autoComplete="off"
+                  className="SearchFilters-input"
+                  placeholder={ message }
+                  disabled={ disabled }
+                  name="max_price"
+                  ref="max_price"
+                  value={ max_price }
+                  onChange={ max_price => this.setState({ max_price }) }
+                />
+              }
+            </FormattedMessage>
+
           </div>
 
           <div className="SearchFilters-buttons">
-            <Button ref="submitButton" block action="primary" size="small" disabled={ disabled || isEqual(this.state, this.props.searchParams) } type="submit">
-              Search
+            <Button
+              ref="submitButton"
+              block
+              action="primary"
+              size="small"
+              disabled={ disabled || isEqual(this.state, this.props.searchParams) }
+              type="submit">
+              <FormattedMessage
+                id="searchFilters.submitButton.label"
+                defaultMessage="Search"
+              />
             </Button>
           </div>
         </Form>
@@ -172,4 +221,4 @@ const mapStateToProps = state => ({
   currentLocation: state.currentLocation,
 });
 
-export default connect(mapStateToProps)(SearchFilters);
+export default connect(mapStateToProps)(injectIntl(SearchFilters));

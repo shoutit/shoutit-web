@@ -121,7 +121,7 @@ export default function renderMiddleware(req, res, next) {
           }
 
           const html = ReactDOMServer.renderToStaticMarkup(
-            <HtmlDocument content={ content } initialState={ initialState } />
+            <HtmlDocument content={ content } initialState={ initialState } locale={ req.locale } />
           );
           res.status(status).send(`<!doctype html>${html}`);
         });

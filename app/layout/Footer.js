@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { FormattedMessage, FormattedDate } from 'react-intl';
 import AppBadge from '../ui/AppBadge';
 
 import { imagesPath, facebookLink, twitterLink, instagramLink } from '../config';
@@ -13,14 +14,34 @@ export default function Footer() {
       <div className="htmlContentWidth Footer-wrapper">
         <div className="Footer-logo">
           <Link to="/">
-            <img alt="To home page" src={ `${imagesPath}/logo-mark-inverted.png` } height="40" />
+            <img alt="" src={ `${imagesPath}/logo-mark-inverted.png` } height="40" />
           </Link>
         </div>
         <div className="Footer-links">
-          <h3>Follow us</h3>
-          <a target="_blank" href={ facebookLink }>Facebook</a>
-          <a target="_blank" href={ twitterLink }>Twitter</a>
-          <a target="_blank" href={ instagramLink }>Instagram</a>
+          <h3>
+            <FormattedMessage
+              id="footer.social.title"
+              defaultMessage="Follow us"
+            />
+          </h3>
+          <a target="_blank" href={ facebookLink }>
+            <FormattedMessage
+              id="footer.social.facebook"
+              defaultMessage="Facebook"
+            />
+          </a>
+          <a target="_blank" href={ twitterLink }>
+            <FormattedMessage
+              id="footer.social.twitter"
+              defaultMessage="Twitter"
+            />
+          </a>
+          <a target="_blank" href={ instagramLink }>
+            <FormattedMessage
+              id="footer.social.instagram"
+              defaultMessage="Instagram"
+            />
+          </a>
         </div>
         <div className="Footer-apps">
           <AppBadge store="appStore" height={ 40 } />
@@ -28,7 +49,11 @@ export default function Footer() {
         </div>
       </div>
       <div className="Footer-copyright">
-        Copyright © { (new Date().getFullYear()) } Shoutit – All Rights Reserved.
+        <FormattedMessage
+          id="footer.copyright"
+          defaultMessage="Copyright © {year} Shoutit – All Rights Reserved."
+          values={ { year: <FormattedDate value={ new Date() } year="numeric" /> } }
+        />
       </div>
     </div>
   );

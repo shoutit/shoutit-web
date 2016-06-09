@@ -1,0 +1,6 @@
+[
+  {
+    "id": "shoutType",
+    "defaultMessage": "{type, select, offer {Offer} request {Request}}"
+  }
+]

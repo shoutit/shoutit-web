@@ -11,4 +11,5 @@ UserVoice=window.UserVoice||[];
   s.parentNode.insertBefore(uv,s)
 })();
 UserVoice.push(['addTrigger', {}]);
+UserVoice.push(["set", "locale", "{locale}"]);
 `;

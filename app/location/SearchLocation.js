@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import trim from 'lodash/trim';
 import throttle from 'lodash/throttle';
 import { geocodePlace } from '../utils/LocationUtils';
@@ -15,6 +16,7 @@ export class SearchLocation extends Component {
     error: PropTypes.object,
     isFetching: PropTypes.bool,
     lastInput: PropTypes.string,
+    locale: PropTypes.string.isRequired,
     onLocationSelect: PropTypes.func,
   };
 
@@ -36,11 +38,11 @@ export class SearchLocation extends Component {
   };
 
   componentDidMount() {
-    this.refs.input.focus();
+    this.input.focus();
   }
 
   handleChange() {
-    const input = trim(this.refs.input.value).toLowerCase();
+    const input = trim(this.input.value).toLowerCase();
     this.setState({ input });
     if (input.length < 2) {
       return;
@@ -53,11 +55,10 @@ export class SearchLocation extends Component {
 
   handlePredictionClick(e, prediction) {
     e.preventDefault();
-    const { onLocationSelect } = this.props;
     this.setState({ isGeocoding: true });
-    geocodePlace(prediction.placeId, (err, location) => {
-      if (location && onLocationSelect) {
-        onLocationSelect(location, prediction);
+    geocodePlace(prediction.placeId, this.props.locale, (err, location) => {
+      if (location && this.props.onLocationSelect) {
+        this.props.onLocationSelect(location, prediction);
       }
     });
   }
@@ -69,18 +70,23 @@ export class SearchLocation extends Component {
 
     return (
       <div>
-        <input
-          className="htmlInput block"
-          type="text"
-          ref="input"
-          disabled={ isGeocoding }
-          placeholder="Search for a location"
-          onChange={ this.handleChange }
-        />
 
-        { (isFetching || isGeocoding) &&
-          <Progress animate label={ isGeocoding ? 'Setting location…' : 'Searching for locations…' } />
-        }
+        <FormattedMessage
+          id="searchLocation.input.placeholder"
+          defaultMessage="Search for a location">
+          { message =>
+            <input
+              className="htmlInput block"
+              type="text"
+              ref={ el => { this.input = el; } }
+              disabled={ isGeocoding }
+              placeholder={ message }
+              onChange={ this.handleChange }
+            />
+          }
+        </FormattedMessage>
+
+        { (isFetching || isGeocoding) && <Progress animate /> }
 
         { !isGeocoding && input && lastPredictions.length > 0 &&
           <ul className="htmlSelectableList">
@@ -99,6 +105,9 @@ export class SearchLocation extends Component {
   }
 }
 
-const mapStateToProps = state => state.placePredictions;
+const mapStateToProps = state => ({
+  ...state.placePredictions,
+  locale: state.i18n.locale,
+});
 
 export default connect(mapStateToProps)(SearchLocation);

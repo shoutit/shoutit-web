@@ -5,8 +5,8 @@ const initialState = {
   isSigningUp: false,
   isLoggingIn: false,
 
-  loginError: false,
-  signupError: false,
+  loginError: null,
+  signupError: null,
 
   isVerifyingEmail: false,
   verifyEmailError: null,

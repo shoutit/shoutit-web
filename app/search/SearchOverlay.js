@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+
 import Overlay from '../ui/Overlay';
 import ShoutListItem from '../shouts/ShoutListItem';
 import TagListItem from '../tags/TagListItem';
@@ -43,12 +45,18 @@ export class SearchOverlay extends Component {
         <div className={ className }>
           { !query &&
             <div className="SearchOverlay-placeholder">
-              Type something to start search.
+              <FormattedMessage
+                id="searchPopover.hint"
+                defaultMessage="Type something to start search."
+              />
             </div>
           }
           { query && !hasResults && !isFetching &&
             <div className="SearchOverlay-placeholder">
-              Nothing found.
+              <FormattedMessage
+                id="searchPopover.nothingFound"
+                defaultMessage="Nothing found."
+              />
             </div>
           }
           { query && !hasResults && isFetching &&
@@ -57,17 +65,26 @@ export class SearchOverlay extends Component {
           { query && hasResults &&
             <div className="SearchOverlay-results">
               { shouts.length > 0 &&
-                <List title="Shouts">
+                <List title={ <FormattedMessage
+                  id="searchPopover.shouts.title"
+                  defaultMessage="Shouts"
+                /> }>
                   { shouts.map(shout => <ShoutListItem onClick={ this.props.onHide } shout={ shout } key={ shout.id } />) }
                 </List>
               }
               { shouts.length > 0 && hasMoreShouts &&
                 <span className="SearchOverlay-more" onClick={ this.props.onMoreShoutsClick }>
-                  See more…
+                  <FormattedMessage
+                    id="searchPopover.shouts.seeMore"
+                    defaultMessage="See more…"
+                  />
                 </span>
               }
               { profiles.length > 0 &&
-                <List title="Profiles">
+                <List title={ <FormattedMessage
+                  id="searchPopover.profiles.title"
+                  defaultMessage="Profiles"
+                /> }>
                   { profiles.map(profile => (
                     <ProfileListItem
                       size="medium"
@@ -79,7 +96,10 @@ export class SearchOverlay extends Component {
                 </List>
               }
               { tags.length > 0 &&
-                <List title="Interests">
+                <List title={ <FormattedMessage
+                  id="searchPopover.interests.title"
+                  defaultMessage="Interests"
+                /> }>
                 { tags.map(tag => (
                   <TagListItem
                     block

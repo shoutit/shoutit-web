@@ -1,0 +1,22 @@
+[
+  {
+    "id": "header.navbar.search",
+    "defaultMessage": "Browse"
+  },
+  {
+    "id": "header.navbar.discover",
+    "defaultMessage": "Discover"
+  },
+  {
+    "id": "header.createShoutButton",
+    "defaultMessage": "Create Shout"
+  },
+  {
+    "id": "header.loginButton",
+    "defaultMessage": "Login"
+  },
+  {
+    "id": "header.signupButton",
+    "defaultMessage": "Sign up"
+  }
+]

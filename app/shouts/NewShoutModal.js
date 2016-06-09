@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
 import Modal, { Header, Body } from '../ui/Modal';
 import Button from '../ui/Button';
@@ -21,7 +22,10 @@ export class NewShoutModal extends Component {
     return (
       <Modal {...modalProps} size="small">
         <Header closeButton>
-          What are you posting?
+          <FormattedMessage
+            id="newShoutModal.title"
+            defaultMessage="What are you posting?"
+          />
         </Header>
         <Body>
           <div>
@@ -31,14 +35,20 @@ export class NewShoutModal extends Component {
                 action="primary"
                 style={ { margin: '0 .5rem .5rem .5rem' } }
                 onClick={ () => this.props.openCreateModal({ ...newShout, type: 'offer' }) }>
-                Offer
+                <FormattedMessage
+                  id="newShoutModal.offerButton"
+                  defaultMessage="Offer"
+                />
               </Button>
               <Button
                 block
                 action="primary-alt"
                 style={ { margin: '.5rem .5rem 0 .5rem' } }
                 onClick={ () => this.props.openCreateModal({ ...newShout, type: 'request' }) }>
-                Request
+                <FormattedMessage
+                  id="newShoutModal.requestButton"
+                  defaultMessage="Request"
+                />
               </Button>
             </div>
           </div>

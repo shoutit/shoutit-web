@@ -49,11 +49,11 @@ export function parseGeocoderResult(result) {
   return location;
 }
 
-export function geocodePlace(placeId, callback) {
+export function geocodePlace(placeId, language, callback) {
   request.get('https://maps.googleapis.com/maps/api/geocode/json')
     .query({
+      language,
       place_id: placeId,
-      language: 'en',
       key: googleMapsKey,
     })
     .end((err, res) => {
@@ -109,6 +109,7 @@ export function formatLocation(location, options) {
   options = {
     useAddress: false,
     showCountry: true,
+    locale: 'en',
     ...options,
   };
   const values = [];
@@ -127,7 +128,7 @@ export function formatLocation(location, options) {
     values.push(location.state);
   }
   if ((options.showCountry || options.useAddress || !location.state || !location.city) && location.country) {
-    values.push(getCountryName(location.country));
+    values.push(getCountryName(location.country, options.locale));
   }
   return values.join(', ');
 }

@@ -1,0 +1,6 @@
+[
+  {
+    "id": "tagListeners.count",
+    "defaultMessage": "{listenersCount, plural, zero {No listeners} one {# listener} two {# listeners} other {# listeners}}"
+  }
+]

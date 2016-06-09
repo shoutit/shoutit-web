@@ -16,7 +16,6 @@ export class UpdateShout extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
     shout: PropTypes.object.isRequired,
     shoutId: PropTypes.string.isRequired,
   };

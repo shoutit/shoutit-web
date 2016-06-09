@@ -1,0 +1,10 @@
+[
+  {
+    "id": "tagActions.listen",
+    "defaultMessage": "{isListening, select, true {Stop listening to {tagName}} false {Listen to {tagName}}}"
+  },
+  {
+    "id": "tagActions.viewShouts",
+    "defaultMessage": "View Shouts"
+  }
+]

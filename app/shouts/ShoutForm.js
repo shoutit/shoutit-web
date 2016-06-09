@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { defineMessages, injectIntl } from 'react-intl';
 
 import CategoryPicker from '../ui/CategoryPicker';
 import CurrencyField from '../ui/CurrencyField';
@@ -14,6 +15,49 @@ if (process.env.BROWSER) {
   require('./ShoutForm.scss');
 }
 
+const MESSAGES = defineMessages({
+  editPhotos: {
+    id: 'shoutForm.editPhotos.label',
+    defaultMessage: 'Edit photos',
+  },
+  addPhotos: {
+    id: 'shoutForm.addPhotos.label',
+    defaultMessage: 'Add photos',
+  },
+  title: {
+    id: 'shoutForm.title.placeholder',
+    defaultMessage: 'Title',
+  },
+  description: {
+    id: 'shoutForm.description.placeholder',
+    defaultMessage: 'Description',
+  },
+  price: {
+    id: 'shoutForm.price.placeholder',
+    defaultMessage: 'Type a price',
+  },
+  location: {
+    id: 'shoutForm.location.label',
+    defaultMessage: 'Shout location',
+  },
+  category: {
+    id: 'shoutForm.category.placeholder',
+    defaultMessage: 'Category',
+  },
+  mobilePlaceholder: {
+    id: 'shoutForm.mobile.placeholder',
+    defaultMessage: 'Enter your mobile number',
+  },
+  mobileLabel: {
+    id: 'shoutForm.mobile.label',
+    defaultMessage: 'Let people contact you',
+  },
+  currency: {
+    id: 'shoutForm.currency',
+    defaultMessage: 'Currency',
+  },
+});
+
 export class ShoutForm extends Component {
 
   static propTypes = {
@@ -26,6 +70,7 @@ export class ShoutForm extends Component {
     onUploadEnd: PropTypes.func,
     inputRef: PropTypes.func,
     currentLocation: PropTypes.object,
+    intl: PropTypes.object.isRequired,
     disabled: PropTypes.bool,
     error: PropTypes.object,
   };
@@ -100,6 +145,7 @@ export class ShoutForm extends Component {
 
   render() {
     const { currencies, error, shout, disabled, inputRef, mode } = this.props;
+    const { formatMessage } = this.props.intl;
     return (
       <Form
         className="ShoutForm"
@@ -111,7 +157,10 @@ export class ShoutForm extends Component {
           ref={ el => { this.imageFileUploadField = el; } }
           name="images"
           resourceType="shout"
-          label={ mode === 'update' ? 'Edit photos' : 'Add photos' }
+          label={ mode === 'update' ?
+            formatMessage(MESSAGES.editPhotos) :
+            formatMessage(MESSAGES.addPhotos)
+          }
           disabled={ disabled }
           initialFileUrls={ shout.images }
           onChange={ images => this.handleChange({ images }) }
@@ -124,7 +173,7 @@ export class ShoutForm extends Component {
           ref={ el => { this.titleField = el; } }
           type="text"
           name="title"
-          placeholder="Title"
+          placeholder={ formatMessage(MESSAGES.title) }
           disabled={ disabled }
           style={ { fontSize: '1.25rem' } }
           value={ shout.title }
@@ -139,7 +188,7 @@ export class ShoutForm extends Component {
             maxRows={ 10 }
             ref={ el => { this.textField = el; } }
             name="text"
-            placeholder="Description"
+            placeholder={ formatMessage(MESSAGES.description) }
             disabled={ disabled }
             value={ shout.text }
             onChange={ text => this.handleChange({ text }) }
@@ -151,7 +200,7 @@ export class ShoutForm extends Component {
           ref={ el => { this.priceField = el; } }
           type="text"
           name="price"
-          placeholder="Type a price"
+          placeholder={ formatMessage(MESSAGES.price) }
           disabled={ disabled }
           value={ shout.price }
           onChange={ price => {
@@ -166,7 +215,9 @@ export class ShoutForm extends Component {
               value={ shout.currency }
               onChange={ currency => this.handleChange({ currency }) }
               error={ error }>
-              <option value="">Currency</option>
+              <option value="">
+                { formatMessage(MESSAGES.currency) }
+              </option>
               { currencies.map(currency =>
                 <option key={ currency.code } value={ currency.code }>
                   { currency.code } { currency.name }
@@ -178,7 +229,7 @@ export class ShoutForm extends Component {
         <CategoryPicker
           inputRef={ el => { this.categoryPicker = el; } }
           showFilters={ mode === 'update' }
-          label="Category"
+          label={ formatMessage(MESSAGES.category) }
           filtersClassName="Form-inset-small"
           name="category.slug"
           disabled={ disabled }
@@ -196,7 +247,7 @@ export class ShoutForm extends Component {
           error={ error }
           disabled={ disabled }
           inputRef={ el => { this.locationField = el; } }
-          placeholder="Location"
+          placeholder={ formatMessage(MESSAGES.location) }
           location={ shout.location }
           name="location"
           type="text"
@@ -206,8 +257,8 @@ export class ShoutForm extends Component {
           ref={ el => { this.mobileField = el; } }
           type="text"
           name="mobile"
-          label="Let people contact you"
-          placeholder="Enter your mobile number"
+          label={ formatMessage(MESSAGES.mobileLabel) }
+          placeholder={ formatMessage(MESSAGES.mobilePlaceholder) }
           disabled={ disabled }
           value={ shout.mobile }
           onChange={ mobile => this.handleChange({ mobile }) }
@@ -227,4 +278,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(ShoutForm);
+export default connect(mapStateToProps)(injectIntl(ShoutForm));

@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+
 import CardWithList from '../ui/CardWithList';
 import TagListItem from '../tags/TagListItem';
 
@@ -8,7 +10,8 @@ export function RelatedTags({ tags }) {
     return null;
   }
   return (
-    <CardWithList title="Related Interests">
+    <CardWithList
+      title={ <FormattedMessage id="relatedTags.title" defaultMessage="Related interests" /> }>
       { tags.map((tag, i) => <TagListItem key={ i } tag={ tag } />) }
     </CardWithList>
   );
