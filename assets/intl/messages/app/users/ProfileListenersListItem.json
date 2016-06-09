@@ -1,0 +1,10 @@
+[
+  {
+    "id": "profile.listeners",
+    "defaultMessage": "{count, select, =0 {No listeners} one {# listener} two {# listeners} other {# listening}}"
+  },
+  {
+    "id": "profile.listening",
+    "defaultMessage": "{count, select, =0 {No listening} one {# listening} two {# listening} other {# listening}}"
+  }
+]

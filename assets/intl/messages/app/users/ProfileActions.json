@@ -1,0 +1,18 @@
+[
+  {
+    "id": "profileActions.userIsListening",
+    "defaultMessage": "{firstName} is listening to you"
+  },
+  {
+    "id": "profileActions.sendMessage",
+    "defaultMessage": "Send {firstName} a message"
+  },
+  {
+    "id": "profileActions.listen",
+    "defaultMessage": "{isListening, select, true {Stop listening to {firstName}} false {Listen to {firstName}}}"
+  },
+  {
+    "id": "profileActions.viewProfile",
+    "defaultMessage": "View profile"
+  }
+]
