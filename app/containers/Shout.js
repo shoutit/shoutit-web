@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import capitalize from 'lodash/capitalize';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
 import { Link } from 'react-router';
 import { loadShout, loadRelatedShouts, startShoutReply } from '../actions/shouts';
 import { openConversation } from '../actions/conversations';

@@ -70,6 +70,7 @@ export class ShoutForm extends Component {
     onUploadEnd: PropTypes.func,
     inputRef: PropTypes.func,
     currentLocation: PropTypes.object,
+    intl: PropTypes.object.isRequired,
     disabled: PropTypes.bool,
     error: PropTypes.object,
   };
