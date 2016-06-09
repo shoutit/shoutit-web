@@ -38,11 +38,11 @@ export class SearchLocation extends Component {
   };
 
   componentDidMount() {
-    this.refs.input.focus();
+    this.input.focus();
   }
 
   handleChange() {
-    const input = trim(this.refs.input.value).toLowerCase();
+    const input = trim(this.input.value).toLowerCase();
     this.setState({ input });
     if (input.length < 2) {
       return;
@@ -78,7 +78,7 @@ export class SearchLocation extends Component {
             <input
               className="htmlInput block"
               type="text"
-              ref="input"
+              ref={ el => { this.input = el; } }
               disabled={ isGeocoding }
               placeholder={ message }
               onChange={ this.handleChange }
