@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import trim from 'lodash/trim';
 import throttle from 'lodash/throttle';
 import { geocodePlace } from '../utils/LocationUtils';
@@ -69,18 +70,23 @@ export class SearchLocation extends Component {
 
     return (
       <div>
-        <input
-          className="htmlInput block"
-          type="text"
-          ref="input"
-          disabled={ isGeocoding }
-          placeholder="Search for a location"
-          onChange={ this.handleChange }
-        />
 
-        { (isFetching || isGeocoding) &&
-          <Progress animate label={ isGeocoding ? 'Setting location…' : 'Searching for locations…' } />
-        }
+        <FormattedMessage
+          id="searchLocation.input.placeholder"
+          defaultMessage="Search for a location">
+          { message =>
+            <input
+              className="htmlInput block"
+              type="text"
+              ref="input"
+              disabled={ isGeocoding }
+              placeholder={ message }
+              onChange={ this.handleChange }
+            />
+          }
+        </FormattedMessage>
+
+        { (isFetching || isGeocoding) && <Progress animate /> }
 
         { !isGeocoding && input && lastPredictions.length > 0 &&
           <ul className="htmlSelectableList">
