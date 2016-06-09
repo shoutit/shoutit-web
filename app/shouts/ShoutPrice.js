@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
-import { formatPrice } from '../utils/CurrencyUtils';
+import { FormattedNumber, FormattedMessage } from 'react-intl';
 
 if (process.env.BROWSER) {
   require('./ShoutPrice.scss');
 }
-export default function ShoutPrice({ shout, layout = 'badge' }) {
+export default function ShoutPrice({ shout, layout = 'plain' }) {
   const isFree = !shout.price;
   let className = `ShoutPrice ${layout}`;
   if (isFree) {
@@ -12,7 +12,18 @@ export default function ShoutPrice({ shout, layout = 'badge' }) {
   }
   return (
     <span className={ className }>
-      { formatPrice(shout.price, shout.currency) }
+      { isFree ?
+        <FormattedMessage
+          id="shoutPrice.free"
+          defaultMessage="Free"
+        /> :
+        <FormattedNumber
+          style="currency"
+          currencyDisplay="symbol"
+          currency={ shout.currency }
+          value={ shout.price }
+        />
+      }
     </span>
   );
 }

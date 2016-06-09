@@ -62,7 +62,7 @@ function ShoutActions({ shout, onReplyClick }) {
   return (
     <div className="ShoutActions">
       { shout.type === 'request' && <ShoutType shout={ shout } layout="plain" /> }
-      <ShoutPrice shout={ shout } layout="plain" />
+      <ShoutPrice shout={ shout } />
       { shout.profile.isOwner ?
         <div>
           <UpdateShoutButton style={ buttonStyle } block shoutId={ shout.id } />

@@ -1,0 +1,10 @@
+[
+  {
+    "id": "userShoutsModal.title",
+    "defaultMessage": "Your Shouts"
+  },
+  {
+    "id": "userShoutsModal.closeButton",
+    "defaultMessage": "Close"
+  }
+]

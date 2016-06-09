@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+
 import Button from '../ui/Button';
 import Tooltip from '../ui/Tooltip';
 import RequiresLogin from '../auth/RequiresLogin';
@@ -30,9 +32,14 @@ export class ShoutCallButton extends Component {
 
   render() {
     const { shout } = this.props;
-    let label = `Call ${shout.mobileHint.replace('...', '…')}`;
+    let label =
+      (<FormattedMessage
+        id="shoutCallButton.hint"
+        defaultMessage="Call {mobileHint}"
+        values={ { mobileHint: shout.mobileHint.replace('...', '…') } }
+      />);
     if (shout.isCalling) {
-      label = 'Please wait…';
+      label = <FormattedMessage id="shoutCallButton.loading" defaultMessage="Please wait…" />;
     }
     if (shout.mobile) {
       label = <a href={ `tel://${shout.mobile}` }>{ shout.mobile }</a>;
@@ -54,7 +61,7 @@ export class ShoutCallButton extends Component {
 
     if (!shout.mobile && !shout.isCalling) {
       return (
-        <Tooltip overlay="Click to reveal">
+        <Tooltip overlay={ <FormattedMessage id="shoutCallButton.tooltip" defaultMessage="Click to reveal" /> }>
           { button }
         </Tooltip>
       );

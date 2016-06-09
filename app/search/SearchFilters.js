@@ -61,7 +61,7 @@ export class SearchFilters extends Component {
 
   getSearchParams() {
     let searchParams = {
-      search: this.refs.search.getValue() || undefined,
+      search: this.searchInput.getValue() || undefined,
       shout_type: this.refs.shout_type.getValue(),
       category: this.state.category,
       filters: this.state.filters,
@@ -131,7 +131,7 @@ export class SearchFilters extends Component {
                 placeholder={ message }
                 disabled={ disabled }
                 name="search"
-                ref="search"
+                ref={ el => { this.searchInput = el; } }
                 value={ search }
                 onChange={ search => this.setState({ search }) }
               />
