@@ -1,4 +1,6 @@
 import React, { PropTypes, Component } from 'react';
+import { FormattedMessage } from 'react-intl';
+
 import Modal, { Header, Body, Footer } from '../ui/Modal';
 import Button from '../ui/Button';
 import TagListenersScrollableList from '../tags/TagListenersScrollableList';
@@ -19,7 +21,11 @@ export default class ListenersModal extends Component {
     return (
       <Modal {...modalProps} ref="modal" size="small">
         <Header closeButton>
-          { `Listening to ${category ? category.name : tag.name}` }
+          <FormattedMessage
+            id="tagListenersModal"
+            defaultMessage="Listening to {name}"
+            values={ { name: category ? category.name : tag.name } }
+          />
         </Header>
         <Body>
           <TagListenersScrollableList tag={ tag } />
