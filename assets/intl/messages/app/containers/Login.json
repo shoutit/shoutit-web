@@ -27,5 +27,13 @@
   {
     "id": "login.loginButton",
     "defaultMessage": "Login"
+  },
+  {
+    "id": "login.separatorLabel.with",
+    "defaultMessage": "with"
+  },
+  {
+    "id": "login.separatorLabel.or",
+    "defaultMessage": "or"
   }
 ]

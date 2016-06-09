@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { injectIntl, defineMessages } from 'react-intl';
 import Helmet from '../utils/Helmet';
 
 import Button from '../ui/Button';
@@ -12,21 +13,50 @@ const fetchData = (dispatch, state, params) =>
     .then(() => {})
     .catch(() => {});
 
+const MESSAGES = defineMessages({
+  pageTitleSuccess: {
+    id: 'verifyEmail.page.success.title',
+    defaultMessage: 'Your e-mail has been verified',
+  },
+  pageTitleFailure: {
+    id: 'verifyEmail.page.error.title',
+    defaultMessage: 'Error verifying your e-mail',
+  },
+  titleError: {
+    id: 'verifyEmail.error.title',
+    defaultMessage: 'Verify your e-mail',
+  },
+  titleSuccess: {
+    id: 'verifyEmail.success.title',
+    defaultMessage: 'All done',
+  },
+  successMessage: {
+    id: 'verifyEmail.success.message',
+    defaultMessage: 'Thanks, your e-mail has been verified!',
+  },
+  successButton: {
+    id: 'verifyEmail.success.button',
+    defaultMessage: 'Go to your home page',
+  },
+});
+
 export class VerifyEmail extends Component {
 
   static fetchData = fetchData;
 
   static propTypes = {
     error: PropTypes.object,
+    intl: PropTypes.object.isRequired,
   }
 
   render() {
     const { error } = this.props;
+    const { formatMessage } = this.props.intl;
     return (
       <Page>
-        <Helmet title={ error ? 'Error verifying your e-mail' : 'E-mail has been verified' } />
+        <Helmet title={ error ? formatMessage(MESSAGES.pageTitleFailure) : formatMessage(MESSAGES.pageTitleSuccess) } />
         { error &&
-          <Frame title="Verify your e-mail">
+          <Frame title={ formatMessage(MESSAGES.titleError) }>
             <div className="Frame-body">
               <p className="htmlErrorParagraph">
                 { error.message }
@@ -35,13 +65,15 @@ export class VerifyEmail extends Component {
           </Frame>
         }
         { !error &&
-          <Frame title="All done">
+          <Frame title={ formatMessage(MESSAGES.titleSuccess) }>
             <div className="Frame-body">
               <p style={ { textAlign: 'center' } }>
-                Thanks, your e-mail has been verified!
+                { formatMessage(MESSAGES.successMessage) }
               </p>
               <div className="Frame-form" style={ { textAlign: 'center' } }>
-                <Button action="primary" to="/">Go to your home page</Button>
+                <Button action="primary" to="/">
+                  { formatMessage(MESSAGES.successButton) }
+                </Button>
               </div>
             </div>
           </Frame>
@@ -50,7 +82,6 @@ export class VerifyEmail extends Component {
       </Page>
     );
   }
-
 }
 
 const mapStateToProps = state => {
@@ -59,4 +90,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(VerifyEmail);
+export default connect(mapStateToProps)(injectIntl(VerifyEmail));

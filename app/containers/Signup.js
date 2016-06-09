@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 import { Link } from 'react-router';
+import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
+
 import Helmet from '../utils/Helmet';
 
 import { signup, resetErrors } from '../actions/session';
@@ -20,6 +22,37 @@ if (process.env.BROWSER) {
   require('./Signup.scss');
 }
 
+const MESSAGES = defineMessages({
+  pageTitle: {
+    id: 'signup.page.title',
+    defaultMessage: 'Sign Up',
+  },
+  separatorLabelWith: {
+    id: 'signup.separatorLabel.with',
+    defaultMessage: 'with',
+  },
+  separatorLabelOr: {
+    id: 'signup.separatorLabel.or',
+    defaultMessage: 'or',
+  },
+  firstNamePlaceholder: {
+    id: 'signup.form.firstName.placeholder',
+    defaultMessage: 'First name',
+  },
+  lastNamePlaceholder: {
+    id: 'signup.form.lastName.placeholder',
+    defaultMessage: 'Last name',
+  },
+  emailPlaceholder: {
+    id: 'signup.form.email.placeholder',
+    defaultMessage: 'E-mail address',
+  },
+  passwordPlaceholder: {
+    id: 'signup.form.password.placeholder',
+    defaultMessage: 'Choose a password',
+  },
+});
+
 export class Signup extends Component {
 
   static propTypes = {
@@ -28,6 +61,7 @@ export class Signup extends Component {
     dispatch: PropTypes.func.isRequired,
     currentLocation: PropTypes.object,
     location: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
     loggedUser: PropTypes.object,
   };
 
@@ -114,18 +148,23 @@ export class Signup extends Component {
 
   renderForm() {
     const { isSigningUp, location: { query }, error, currentLocation } = this.props;
+    const { formatMessage } = this.props.intl;
     return (
-      <Frame title="Sign up">
+      <Frame title={ formatMessage(MESSAGES.pageTitle) }>
 
         <div className="Frame-body">
 
-          <HorizontalRule label="with" />
+          <HorizontalRule label={ formatMessage(MESSAGES.separatorLabelWith) } />
 
           <div className="Frame-form">
-            <SocialLoginForm disabled={ isSigningUp } onLoginSuccess={ () => this.redirectToNextPage() } currentLocation={ currentLocation } />
+            <SocialLoginForm
+              disabled={ isSigningUp }
+              onLoginSuccess={ () => this.redirectToNextPage() }
+              currentLocation={ currentLocation }
+            />
           </div>
 
-          <HorizontalRule label="or" />
+          <HorizontalRule label={ formatMessage(MESSAGES.separatorLabelOr) } />
 
           { error &&
             !getErrorsByLocation(error, 'email') &&
@@ -133,7 +172,10 @@ export class Signup extends Component {
             !getErrorsByLocation(error, 'first_name') &&
             !getErrorsByLocation(error, 'last_name') &&
             <p className="htmlErrorParagraph">
-              Sign up did not work for an unknown error. Please try again later or contact support.
+              <FormattedMessage
+                defaultMessage="Sign up did not work for an unknown error. Please try again later or contact support."
+                id="signup.form.error.unknown"
+              />
             </p>
         }
 
@@ -147,7 +189,7 @@ export class Signup extends Component {
                 name="first_name"
                 type="text"
                 error={ error }
-                placeholder="First name"
+                placeholder={ formatMessage(MESSAGES.firstNamePlaceholder) }
               />
               <TextField
                 error={ error }
@@ -155,7 +197,7 @@ export class Signup extends Component {
                 disabled={ isSigningUp }
                 name="last_name"
                 type="text"
-                placeholder="Last name"
+                placeholder={ formatMessage(MESSAGES.lastNamePlaceholder) }
               />
             </div>
 
@@ -165,7 +207,7 @@ export class Signup extends Component {
               name="email"
               type="email"
               error={ error }
-              placeholder="E-mail address"
+              placeholder={ formatMessage(MESSAGES.emailPlaceholder) }
             />
 
             <TextField
@@ -174,11 +216,14 @@ export class Signup extends Component {
               disabled={ isSigningUp }
               name="password"
               type="password"
-              placeholder="Choose a password"
+              placeholder={ formatMessage(MESSAGES.passwordPlaceholder) }
             />
 
             <p style={ { fontSize: '0.875rem' } }>
-              By signing up, you agree to our Terms of Service and to our Privacy Policy.
+              <FormattedMessage
+                defaultMessage="By signing up, you agree to our Terms of Service and to our Privacy Policy."
+                id="signup.form.tos"
+              />
             </p>
 
             <Button
@@ -186,13 +231,33 @@ export class Signup extends Component {
               action="primary"
               block
               disabled={ isSigningUp }>
-              { isSigningUp ? 'Creating account…' : 'Sign up' }
+              { isSigningUp ?
+                <FormattedMessage
+                  defaultMessage="Creating account…"
+                  id="signup.form.buttonLabel.loading"
+                /> :
+                <FormattedMessage
+                  defaultMessage="Sign up"
+                  id="signup.form.buttonLabel.submit"
+                />
+               }
             </Button>
           </form>
         </div>
         <div className="Frame-footer" style={ { textAlign: 'center' } }>
-          Already have an account? { ' ' }
-          <Link to={ { pathname: '/login', query } }>Log in</Link>
+          <FormattedMessage
+            id="signup.form.toSignup"
+            defaultMessage="Already have an account? {loginLink}"
+            values={ {
+              loginLink: (
+                <Link to={ { pathname: '/login', query } }>
+                  <FormattedMessage
+                    id="signup.form.loginLink"
+                    defaultMessage="Log in" />
+                </Link>
+              ),
+            } }
+          />
         </div>
       </Frame>
     );
@@ -204,14 +269,27 @@ export class Signup extends Component {
       <Frame title="Welcome to shoutit">
         <div className="Frame-body">
           <p>
-            Hi { loggedUser.firstName }, thanks for signing up!
+            <FormattedMessage
+              defaultMessage="Hi {firstName}, thanks for signing up!"
+              values={ { firstName: loggedUser.firstName } }
+              id="signup.success.welcomeMessage-1"
+            />
+
             <br /><br />
-            Please verify your e-mail address by clicking on the link we just sent to { loggedUser.email }.
+            <FormattedMessage
+              defaultMessage="Please verify your e-mail address by clicking on the link we just sent to { email }."
+              values={ { email: loggedUser.email } }
+              id="signup.success.welcomeMessage-2"
+            />
           </p>
         </div>
         <div className="Frame-footer" style={ { textAlign: 'center' } }>
           <Link to={ { pathname: '/', query } }>
-            Go to your home page
+            <FormattedMessage
+              defaultMessage="To your home page"
+              values={ { email: loggedUser.email } }
+              id="signup.success.homeLink"
+              />
           </Link>
         </div>
       </Frame>
@@ -220,9 +298,10 @@ export class Signup extends Component {
 
   render() {
     const { success } = this.state;
+
     return (
       <Page className="Signup">
-        <Helmet title="Sign up" />
+        <Helmet title={ this.props.intl.formatMessage(MESSAGES.pageTitle) } />
         { !success ? this.renderForm() : this.renderSuccessMessage() }
       </Page>
     );
@@ -239,4 +318,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Signup);
+export default connect(mapStateToProps)(injectIntl(Signup));

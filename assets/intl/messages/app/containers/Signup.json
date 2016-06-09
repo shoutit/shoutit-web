@@ -1,0 +1,66 @@
+[
+  {
+    "id": "signup.page.title",
+    "defaultMessage": "Sign Up"
+  },
+  {
+    "id": "signup.separatorLabel.with",
+    "defaultMessage": "with"
+  },
+  {
+    "id": "signup.separatorLabel.or",
+    "defaultMessage": "or"
+  },
+  {
+    "id": "signup.form.firstName.placeholder",
+    "defaultMessage": "First name"
+  },
+  {
+    "id": "signup.form.lastName.placeholder",
+    "defaultMessage": "Last name"
+  },
+  {
+    "id": "signup.form.email.placeholder",
+    "defaultMessage": "E-mail address"
+  },
+  {
+    "id": "signup.form.password.placeholder",
+    "defaultMessage": "Choose a password"
+  },
+  {
+    "id": "signup.form.error.unknown",
+    "defaultMessage": "Sign up did not work for an unknown error. Please try again later or contact support."
+  },
+  {
+    "id": "signup.form.tos",
+    "defaultMessage": "By signing up, you agree to our Terms of Service and to our Privacy Policy."
+  },
+  {
+    "id": "signup.form.buttonLabel.loading",
+    "defaultMessage": "Creating account…"
+  },
+  {
+    "id": "signup.form.buttonLabel.submit",
+    "defaultMessage": "Sign up"
+  },
+  {
+    "id": "signup.form.toSignup",
+    "defaultMessage": "Already have an account? {loginLink}"
+  },
+  {
+    "id": "signup.form.loginLink",
+    "defaultMessage": "Log in"
+  },
+  {
+    "id": "signup.success.welcomeMessage-1",
+    "defaultMessage": "Hi {firstName}, thanks for signing up!"
+  },
+  {
+    "id": "signup.success.welcomeMessage-2",
+    "defaultMessage": "Please verify your e-mail address by clicking on the link we just sent to {email}."
+  },
+  {
+    "id": "signup.success.homeLink",
+    "defaultMessage": "To your home page"
+  }
+]

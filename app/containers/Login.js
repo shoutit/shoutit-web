@@ -51,6 +51,14 @@ const MESSAGES = defineMessages({
     id: 'login.loginButton',
     defaultMessage: 'Login',
   },
+  separatorLabelWith: {
+    id: 'login.separatorLabel.with',
+    defaultMessage: 'with',
+  },
+  separatorLabelOr: {
+    id: 'login.separatorLabel.or',
+    defaultMessage: 'or',
+  },
 });
 
 export class Login extends Component {
@@ -146,13 +154,13 @@ export class Login extends Component {
 
           <div className="Frame-body">
 
-            <HorizontalRule label="with" />
+            <HorizontalRule label={ formatMessage('separatorLabelWith') } />
 
             <div className="Frame-form">
               <SocialLoginForm disabled={ isLoggingIn } onLoginSuccess={ () => this.redirectToNextPage() } />
             </div>
 
-            <HorizontalRule label="or" />
+            <HorizontalRule label={ formatMessage('separatorLabelOr') } />
 
             { error &&
               !getErrorsByLocation(error, 'email') &&
