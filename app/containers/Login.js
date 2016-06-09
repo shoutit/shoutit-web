@@ -154,13 +154,13 @@ export class Login extends Component {
 
           <div className="Frame-body">
 
-            <HorizontalRule label={ formatMessage('separatorLabelWith') } />
+            <HorizontalRule label={ formatMessage(MESSAGES.separatorLabelWith) } />
 
             <div className="Frame-form">
               <SocialLoginForm disabled={ isLoggingIn } onLoginSuccess={ () => this.redirectToNextPage() } />
             </div>
 
-            <HorizontalRule label={ formatMessage('separatorLabelOr') } />
+            <HorizontalRule label={ formatMessage(MESSAGES.separatorLabelOr) } />
 
             { error &&
               !getErrorsByLocation(error, 'email') &&

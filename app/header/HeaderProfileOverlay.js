@@ -1,28 +1,41 @@
 import React, { PropTypes } from 'react';
+import { FormattedMessage } from 'react-intl';
+
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { logout } from '../actions/session';
 import { getLoggedUser } from '../selectors';
+
 if (process.env.BROWSER) {
   require('./HeaderProfileOverlay.scss');
 }
 
-export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
+export function HeaderProfileOverlay({ profile, onLogoutClick, onItemClick }) {
   return (
     <ul className="HeaderProfileOverlay">
       <li>
-        <Link onClick={ onItemClick } to={ `/user/${user.username}` }>
-          { user.name }
+        <Link onClick={ onItemClick } to={ `/user/${profile.username}` }>
+          <FormattedMessage
+            id="header.profilePopover.menu.profile"
+            defaultMessage="{name}"
+            values={ { ...profile } }
+          />
         </Link>
       </li>
       <li className="separe">
         <Link onClick={ onItemClick } to="/settings">
-          Settings
+          <FormattedMessage
+            id="header.profilePopover.menu.setting"
+            defaultMessage="Settings"
+          />
         </Link>
       </li>
       <li>
         <Link to="/" onClick={ onLogoutClick }>
-          Log out
+          <FormattedMessage
+            id="header.profilePopover.menu.logout"
+            defaultMessage="Logout"
+          />
         </Link>
       </li>
     </ul>
@@ -30,13 +43,13 @@ export function HeaderProfileOverlay({ user, onLogoutClick, onItemClick }) {
 }
 
 HeaderProfileOverlay.propTypes = {
-  user: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   onLogoutClick: PropTypes.func.isRequired,
   onItemClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  user: getLoggedUser(state),
+  profile: getLoggedUser(state),
 });
 
 const mapDispatchToProps = dispatch => ({
