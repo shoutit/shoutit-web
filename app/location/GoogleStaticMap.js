@@ -50,7 +50,7 @@ export function GoogleStaticMap({
     imageUrl.push(`markers=size:${size}%7Ccolor:${color}%7Clabel:A%7C${latitude},${longitude}`);
   });
 
-  const href = createLinkToGoogleMaps(location || center);
+  const href = createLinkToGoogleMaps(location || center, intl.locale);
 
   const style = {
     backgroundImage: `url("${imageUrl.join('&')}")`,

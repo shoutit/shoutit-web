@@ -1,4 +1,4 @@
-export function createLinkToGoogleMaps(location) {
+export function createLinkToGoogleMaps(location, locale) {
   let ll = '';
   let q = [];
   let search = '';
@@ -31,6 +31,10 @@ export function createLinkToGoogleMaps(location) {
     search += `&q=${q}`;
   } else {
     search += `&q=loc:${location.latitude},${location.longitude}`;
+  }
+
+  if (locale) {
+    search += `&hl=${locale}`;
   }
 
   return `https://www.google.com/maps?${search}`;
