@@ -96,7 +96,7 @@ export class Shout extends Component {
     relatedShouts: PropTypes.array,
     params: PropTypes.object,
     loggedUser: PropTypes.object,
-    intl: PropTypes.object.isRequired,
+    locale: PropTypes.string.isRequired,
   };
 
   static fetchData = fetchData;
@@ -236,7 +236,7 @@ export class Shout extends Component {
                 { name: 'twitter:label1', content: capitalize(shout.type) },
                 { name: 'twitter:data1', content: formatPrice(shout.price, shout.currency) },
                 { name: 'twitter:label2', content: 'Location' },
-                { name: 'twitter:data2', content: formatLocation(shout.location, { locale: this.props.intl.locale }) },
+                { name: 'twitter:data2', content: formatLocation(shout.location, { locale: this.props.locale }) },
               ] }
             />
           }
@@ -251,6 +251,7 @@ export class Shout extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  locale: state.i18n.locale,
   loggedUser: getLoggedUser(state),
   shout: state.entities.shouts[ownProps.params.id] ?
     denormalize(state.entities.shouts[ownProps.params.id], state.entities, 'SHOUT') :
@@ -260,4 +261,4 @@ const mapStateToProps = (state, ownProps) => ({
     undefined,
 });
 
-export default connect(mapStateToProps)(injectIntl(Shout));
+export default connect(mapStateToProps)(Shout);
