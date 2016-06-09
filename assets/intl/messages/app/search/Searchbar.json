@@ -1,0 +1,10 @@
+[
+  {
+    "id": "searchbar.locationButton.withoutLocation",
+    "defaultMessage": "Anywhere"
+  },
+  {
+    "id": "searchbar.input.placeholder",
+    "defaultMessage": "Search Shoutit"
+  }
+]

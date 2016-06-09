@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import trim from 'lodash/trim';
 import throttle from 'lodash/throttle';
@@ -86,7 +86,10 @@ export class Searchbar extends Component {
   }
 
   render() {
-    const locationLabel = formatLocation(this.props.currentLocation, { showCountry: false, locale: this.props.intl.locale }) || 'Anywhere';
+    const locationLabel = formatLocation(this.props.currentLocation, {
+      showCountry: false,
+      locale: this.props.intl.locale }) ||
+      <FormattedMessage id="searchbar.locationButton.withoutLocation" defaultMessage="Anywhere" />;
     return (
       <form ref="form" onSubmit={ this.submit } className="Searchbar">
         <Button
@@ -95,18 +98,25 @@ export class Searchbar extends Component {
           onClick={ e => this.handleLocationClick(e) }>
           { locationLabel }
         </Button>
-        <input
-          autoComplete="off"
-          ref="searchField"
-          name="query"
-          placeholder="Search Shoutit"
-          className="htmlInput"
-          value={ this.state.query }
-          type="text"
-          onChange={ this.handleChange }
-          onBlur={ () => this.setState({ isFocused: false }) }
-          onFocus={ () => this.setState({ isFocused: true, showOverlay: true }) }
-        />
+        <FormattedMessage
+          id="searchbar.input.placeholder"
+          defaultMessage="Search Shoutit">
+          { message =>
+            <input
+              autoComplete="off"
+              ref="searchField"
+              name="query"
+              placeholder={ message }
+              className="htmlInput"
+              value={ this.state.query }
+              type="text"
+              onChange={ this.handleChange }
+              onBlur={ () => this.setState({ isFocused: false }) }
+              onFocus={ () => this.setState({ isFocused: true, showOverlay: true }) }
+            />
+          }
+        </FormattedMessage>
+
         <SearchOverlay
           query={ this.state.query.length <= 2 ? '' : this.state.query }
           rootClose
@@ -122,36 +132,6 @@ export class Searchbar extends Component {
           onMoreShoutsClick={ this.submit }
           target={ () => this.refs.searchField }
          />
-        {/* <Overlay
-          rootClose
-
-        >
-
-          { !hasResults && !isFetching &&
-            <p style={ { margin: 0, padding: '1rem', fontSize: '0.875rem', textAlign: 'center' } }>
-              { q ? 'Nothing found' : 'Type something to start search' }
-            </p>
-          }
-
-          { !hasResults && isFetching &&
-            <div style={ { margin: '.5rem' } }>
-              <Progress spaced={ false } animate label="Searching…" />
-            </div>
-          }
-
-          { hasResults &&
-            <SearchbarResults
-              search={ q }
-              onShowMoreShoutsClick={ this.submit }
-              hasMoreShouts={ false }
-              onResultClick={ () => this.setState({ showOverlay: false }) }
-              tags={ tags }
-              shouts={ shouts }
-              profiles={ profiles }
-            />
-          }
-
-        </Overlay>*/}
       </form>
     );
   }
