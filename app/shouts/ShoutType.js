@@ -13,9 +13,7 @@ export default function ShoutType({ shout, layout = 'badge' }) {
             offer {Offer}
             request {Request}
         }"
-        values={ { type: shout.type } }>
-      { shout.type }
-      </FormattedMessage>
+        values={ { type: shout.type } } />
     </span>
   );
 }
