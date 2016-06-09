@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
+import { injectIntl } from 'react-intl';
 import { googleMapsKey } from '../config';
 import { createLinkToGoogleMaps } from '../utils/GoogleMapsUtils';
 
 if (process.env.BROWSER) {
   require('./GoogleStaticMap.scss');
 }
-export default function GoogleStaticMap({
+export function GoogleStaticMap({
   // pass location
   location,
 
@@ -16,8 +17,9 @@ export default function GoogleStaticMap({
   zoom = 13,
   width = 300,
   height = 200,
-  language = 'en-us',
   mapType = 'roadmap',
+
+  intl,
 
 }) {
 
@@ -35,7 +37,7 @@ export default function GoogleStaticMap({
   imageUrl.push(`zoom=${zoom}`);
   imageUrl.push(`size=${width}x${height}`);
   imageUrl.push(`maptype=${mapType}`);
-  imageUrl.push(`language=${language}`);
+  imageUrl.push(`language=${intl.locale}`);
 
   markers.forEach(marker => {
     const {
@@ -65,6 +67,7 @@ export default function GoogleStaticMap({
 GoogleStaticMap.propTypes = {
   zoom: PropTypes.number,
   location: PropTypes.object.isRequired,
+  intl: PropTypes.object.isRequired,
   center: PropTypes.shape({
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
@@ -72,6 +75,7 @@ GoogleStaticMap.propTypes = {
   markers: PropTypes.array,
   width: PropTypes.number,
   height: PropTypes.number,
-  language: PropTypes.string,
   mapType: PropTypes.string,
 };
+
+export default injectIntl(GoogleStaticMap);

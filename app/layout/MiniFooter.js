@@ -34,7 +34,6 @@ export default function MiniFooter() {
         <a target="_blank" href={ twitterLink }>Twitter</a>
         <a target="_blank" href={ instagramLink }>Instagram</a>
       </div>
-
     </div>
   );
 }
