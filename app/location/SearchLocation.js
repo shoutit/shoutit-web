@@ -5,6 +5,7 @@ import trim from 'lodash/trim';
 import throttle from 'lodash/throttle';
 import { geocodePlace } from '../utils/LocationUtils';
 import { loadPlacePredictions } from '../actions/location';
+import { getCurrentLocale } from '../reducers/i18n';
 
 import Progress from '../ui/Progress';
 
@@ -107,7 +108,7 @@ export class SearchLocation extends Component {
 
 const mapStateToProps = state => ({
   ...state.placePredictions,
-  locale: state.i18n.locale,
+  locale: getCurrentLocale(state),
 });
 
 export default connect(mapStateToProps)(SearchLocation);
