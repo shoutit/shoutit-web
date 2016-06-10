@@ -342,18 +342,6 @@
         }
       }
     },
-    "currency-formatter": {
-      "version": "1.0.2",
-      "from": "currency-formatter@1.0.2",
-      "resolved": "https://registry.npmjs.org/currency-formatter/-/currency-formatter-1.0.2.tgz",
-      "dependencies": {
-        "accounting": {
-          "version": "0.4.1",
-          "from": "accounting@>=0.4.1 <0.5.0",
-          "resolved": "https://registry.npmjs.org/accounting/-/accounting-0.4.1.tgz"
-        }
-      }
-    },
     "debug": {
       "version": "2.2.0",
       "from": "debug@2.2.0",

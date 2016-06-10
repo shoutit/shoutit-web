@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import capitalize from 'lodash/capitalize';
 import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
+
 import { Link } from 'react-router';
 import { loadShout, loadRelatedShouts, startShoutReply } from '../actions/shouts';
 import { openConversation } from '../actions/conversations';
 import { routeError } from '../actions/server';
 
-import { formatPrice } from '../utils/CurrencyUtils';
 import { formatLocation } from '../utils/LocationUtils';
 import Helmet from '../utils/Helmet';
 
@@ -39,7 +40,6 @@ import LocationListItem from '../location/LocationListItem';
 
 import { denormalize } from '../schemas';
 import { getLoggedUser } from '../selectors';
-import { getCurrentLocale } from '../reducers/i18n';
 
 if (process.env.BROWSER) {
   require('./Shout.scss');
@@ -96,7 +96,7 @@ export class Shout extends Component {
     relatedShouts: PropTypes.array,
     params: PropTypes.object,
     loggedUser: PropTypes.object,
-    locale: PropTypes.string.isRequired,
+    intl: PropTypes.object.isRequired,
   };
 
   static fetchData = fetchData;
@@ -215,6 +215,13 @@ export class Shout extends Component {
 
   render() {
     const { shout } = this.props;
+    const { locale, formatNumber } = this.props.intl;
+    const price = shout.price ?
+      formatNumber(shout.price, {
+        style: 'currency',
+        currencyDisplay: 'symbol',
+        currency: shout.currency,
+      }) : 0;
     return (
       <div>
         <Page
@@ -230,13 +237,13 @@ export class Shout extends Component {
               images={ shout.images }
               meta={ [
                 { property: 'og:type', content: `shoutitcom:${shout.type}` },
-                { property: 'shoutitcom:price', content: formatPrice(shout.price, shout.currency) },
+                { property: 'shoutitcom:price', content: price },
                 { property: 'shoutitcom:username', content: shout.profile.username },
                 { name: 'twitter:card', content: 'product' },
                 { name: 'twitter:label1', content: capitalize(shout.type) },
-                { name: 'twitter:data1', content: formatPrice(shout.price, shout.currency) },
+                { name: 'twitter:data1', content: price },
                 { name: 'twitter:label2', content: 'Location' },
-                { name: 'twitter:data2', content: formatLocation(shout.location, { locale: this.props.locale }) },
+                { name: 'twitter:data2', content: formatLocation(shout.location, { locale }) },
               ] }
             />
           }
@@ -251,7 +258,6 @@ export class Shout extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  locale: getCurrentLocale(state),
   loggedUser: getLoggedUser(state),
   shout: state.entities.shouts[ownProps.params.id] ?
     denormalize(state.entities.shouts[ownProps.params.id], state.entities, 'SHOUT') :
@@ -261,4 +267,7 @@ const mapStateToProps = (state, ownProps) => ({
     undefined,
 });
 
-export default connect(mapStateToProps)(Shout);
+const WrappedShout = connect(mapStateToProps)(injectIntl(Shout));
+WrappedShout.fetchData = Shout.fetchData;
+
+export default WrappedShout;
