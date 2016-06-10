@@ -145,6 +145,7 @@
     "webpack-dev-middleware": "1.6.1",
     "webpack-error-notification": "0.1.6",
     "webpack-hot-middleware": "2.10.0",
+    "webpack-rtl-plugin": "1.1.1",
     "webpack-stats-plugin": "0.1.1"
   }
 }

@@ -38,6 +38,7 @@ export default function renderMiddleware(req, res, next) {
       currentLocation: req.geolocation,
       i18n: {
         locale: req.locale,
+        rtl: req.locale === 'ar',
         messages: require(`${translationsPath}/${req.locale}.json`),
       },
     };
@@ -121,7 +122,7 @@ export default function renderMiddleware(req, res, next) {
           }
 
           const html = ReactDOMServer.renderToStaticMarkup(
-            <HtmlDocument content={ content } initialState={ initialState } locale={ req.locale } />
+            <HtmlDocument content={ content } initialState={ initialState } />
           );
           res.status(status).send(`<!doctype html>${html}`);
         });

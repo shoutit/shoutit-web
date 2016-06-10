@@ -5,10 +5,15 @@ import serialize from 'serialize-javascript';
 import newrelic, { newrelicEnabled } from './newrelic';
 import uservoice from './uservoice';
 import Helmet from '../utils/Helmet';
+import { getCurrentLocale, isRtl } from '../reducers/i18n';
 
 import * as config from '../config';
 
-let chunkNames = { main: '/assets/main.js', css: '/assets/main.css' };
+let chunkNames = {
+  main: '/assets/main.js',
+  css: '/assets/main.css',
+  cssRtl: '/assets/main-rtl.css',
+};
 
 if (process.env.NODE_ENV === 'production') {
   chunkNames = require('../../public/stats.json'); // eslint-disable-line import/no-unresolved
@@ -17,10 +22,11 @@ if (process.env.NODE_ENV === 'production') {
 export default function HtmlDocument({
   content,
   initialState,
-  locale,
 }) {
   const head = Helmet.rewind();
   const attrs = head.htmlAttributes.toComponent();
+  const locale = getCurrentLocale(initialState);
+  const rtl = isRtl(initialState);
   return (
     <html {...attrs}>
       <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# shoutitcom: http://ogp.me/ns/fb/shoutitcom#">
@@ -30,7 +36,7 @@ export default function HtmlDocument({
         { head.link.toComponent() }
 
         { process.env.NODE_ENV === 'production' &&
-          <link rel="stylesheet" type="text/css" href={ `${config.publicUrl}${chunkNames.css}` } /> }
+          <link rel="stylesheet" type="text/css" href={ `${config.publicUrl}${chunkNames[rtl ? 'cssRtl' : 'css']}` } /> }
 
         { newrelicEnabled &&
           <script type="text/javascript" dangerouslySetInnerHTML={ {
@@ -64,7 +70,6 @@ export default function HtmlDocument({
 }
 
 HtmlDocument.propTypes = {
-  locale: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   initialState: PropTypes.object.isRequired,
 };
