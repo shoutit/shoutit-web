@@ -12,7 +12,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var WebpackErrorNotificationPlugin = require('webpack-error-notification');
 var StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 var CopyPlugin = require('copy-webpack-plugin');
-
+var WebpackRTLPlugin = require('webpack-rtl-plugin');
 var isDevelopment = process.env.NODE_ENV === 'development';
 
 var context = path.join(__dirname, './app');
@@ -69,7 +69,7 @@ module.exports = {
       {
         test: /\.s?css$/,
         loader: isDevelopment ?
-          'style!css?sourceMap!postcss!sass?sourceMap&sourceMapContents' :
+          'style!rtl-css?sourceMap!postcss!sass?sourceMap&sourceMapContents' :
            ExtractTextPlugin.extract('style', 'css?sourceMap!postcss!sass?sourceMap'),
       },
       {
@@ -104,19 +104,24 @@ module.exports = {
         BROWSER: JSON.stringify(true),
       },
     }),
-    // new webpack.ContextReplacementPlugin(/buffer/, require('buffer')),
     new webpack.optimize.OccurenceOrderPlugin(),
     new ExtractTextPlugin(isDevelopment ? 'main.css' : '/styles/main-[contenthash].css'),
+    !isDevelopment ? new WebpackRTLPlugin({ filename: '/styles/main-[contenthash]-rtl.css' }) : noop,
     isDevelopment ? new webpack.HotModuleReplacementPlugin() : noop,
     isDevelopment ? new webpack.NoErrorsPlugin() : noop,
     isDevelopment ? new WebpackErrorNotificationPlugin() : noop,
 
     !isDevelopment ? // Write out stats.json file to build directory.
       new StatsWriterPlugin({
+        fields: ['assetsByChunkName', 'assets'],
         transform: function transform(data) {
+          const cssRtl = data.assets.find(function findRtlCss(asset) {
+            return asset.name.split('-').slice(-1)[0] === 'rtl.css';
+          });
           return JSON.stringify({
             main: data.assetsByChunkName.main[0],
             css: data.assetsByChunkName.main[1],
+            cssRtl: cssRtl.name,
           }, null, 2);
         },
       }) : noop,

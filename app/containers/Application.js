@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 
+import { getCurrentLocale, isRtl, getIntlMessages } from '../reducers/i18n';
+
 import Helmet from '../utils/Helmet';
 
 import Header from '../layout/Header';
@@ -88,12 +90,11 @@ export class Application extends React.Component {
       className += ` ${layout.className}`;
     }
 
-
     return (
       <IntlProvider locale={ this.props.locale } messages={ this.props.messages }>
         <div className={ className }>
           <Helmet
-            htmlAttributes={ { lang: props.locale, dir: props.locale === 'ar' ? 'rtl' : 'ltr' } }
+            htmlAttributes={ { lang: props.locale, dir: props.rtl ? 'rtl' : 'ltr' } }
             meta={ [
               { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
               { name: 'keywords', content: 'shoutit' },
@@ -157,17 +158,19 @@ Application.propTypes = {
   children: PropTypes.element.isRequired,
   dispatch: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
+  rtl: PropTypes.bool.isRequired,
   messages: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    loggedUser: getLoggedUser(state),
     currentLocation: state.currentLocation,
     currentUrl: state.routing.currentUrl,
     error: state.routing.error,
-    locale: state.i18n.locale,
-    messages: state.i18n.messages,
+    locale: getCurrentLocale(state),
+    loggedUser: getLoggedUser(state),
+    messages: getIntlMessages(state),
+    rtl: isRtl(state),
   };
 }
 

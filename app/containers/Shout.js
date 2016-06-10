@@ -39,6 +39,7 @@ import LocationListItem from '../location/LocationListItem';
 
 import { denormalize } from '../schemas';
 import { getLoggedUser } from '../selectors';
+import { getCurrentLocale } from '../reducers/i18n';
 
 if (process.env.BROWSER) {
   require('./Shout.scss');
@@ -250,7 +251,7 @@ export class Shout extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  locale: state.i18n.locale,
+  locale: getCurrentLocale(state),
   loggedUser: getLoggedUser(state),
   shout: state.entities.shouts[ownProps.params.id] ?
     denormalize(state.entities.shouts[ownProps.params.id], state.entities, 'SHOUT') :

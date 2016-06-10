@@ -64,6 +64,7 @@ export class TagActions extends Component {
                       false {Listen to {tagName}}
                   }"
                   values={ {
+                    isListening: tag.isListening,
                     tagName: name,
                   } }
                 />
