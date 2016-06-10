@@ -1,6 +1,5 @@
 @import '../styles/constants.scss';
 @import '../styles/mixins/ellipsis.scss';
-@import '../styles/mixins/intl.scss';
 
 .Button {
   display: inline-block;
@@ -25,14 +24,14 @@
     width: 100%;
   }
   &.with-icon {
-    @include start(padding, .5rem);
+    padding-left: .5rem;
   }
   &.size-small {
     padding: .3rem .75rem;
     border-radius: .2rem;
     font-size: .875rem;
     &.with-icon {
-      @include start(padding, .5rem);
+      padding-left: .5rem;
     }
   }
 }
@@ -43,9 +42,8 @@
   justify-content: center;
 }
 
-
 .Button-icon {
-  @include end(padding, .35rem);
+  padding-right: .35rem;
 }
 
 .Button-label {
@@ -164,11 +162,11 @@ $facebook-base-color: #395185;
   border-color: transparent;
   .Button-label {
     color: white;
-    @include start(padding, .5rem);
+    padding-left: .5rem;
   }
   .Button-icon {
-    @include end(padding, .5rem);
-    @include end(border, 1px solid rgba(white, .5));
+    padding-right: .5rem;
+    border-right:  1px solid rgba(white, .5);
   }
   &:not(.disabled):hover {
     color: white;
