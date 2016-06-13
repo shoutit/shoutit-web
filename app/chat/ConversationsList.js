@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { loadChat } from '../actions/chat';
 
-import { getAllConversations, getPaginationState } from '../selectors';
+import { getAllConversations, getPaginationState } from '../reducers/paginated/chatConversations';
 
 import ConversationItem from './ConversationItem';
 import Progress from '../ui/Progress';
@@ -100,7 +100,7 @@ export class ConversationsList extends Component {
 
 const mapStateToProps = state => ({
   conversations: getAllConversations(state),
-  ...getPaginationState(state, 'chatConversations'),
+  ...getPaginationState(state),
 });
 
 const mapDispatchToProps = dispatch => ({

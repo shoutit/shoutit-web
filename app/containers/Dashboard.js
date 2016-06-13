@@ -23,7 +23,8 @@ import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';
 import SuggestedShout from '../shouts/SuggestedShout';
 
-import { getLoggedUser, getHomepageShouts, getPaginationState } from '../selectors';
+import { getHomepageShouts, getPaginationState } from '../reducers/paginated/shoutsByHome';
+import { getLoggedUser } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./Dashboard.scss');
@@ -204,7 +205,7 @@ export class Dashboard extends Component {
 const mapStateToProps = state => ({
   profile: getLoggedUser(state),
   shouts: getHomepageShouts(state),
-  ...getPaginationState(state, 'shoutsByHome'),
+  ...getPaginationState(state),
 });
 
 const Wrapped = connect(mapStateToProps)(injectIntl(Dashboard));

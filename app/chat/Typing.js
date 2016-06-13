@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import { getTypingProfiles } from '../selectors';
+import { getTypingProfiles } from '../reducers/chat';
 
 if (process.env.BROWSER) {
   require('./Typing.scss');

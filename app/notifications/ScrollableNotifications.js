@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import Scrollable from '../ui/Scrollable';
 import { loadNotifications, readNotification } from '../actions/notifications';
 
-import { getPaginationState, getNotifications } from '../selectors';
+import { getPaginationState, getNotifications } from '../reducers/paginated/notifications';
 import NotificationItem from './NotificationItem';
 import Progress from '../ui/Progress';
 

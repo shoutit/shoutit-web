@@ -17,7 +17,7 @@ import LocationField from '../ui/LocationField';
 import SettingsNavigation from '../settings/SettingsNavigation';
 
 import { updateProfile } from '../actions/users';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./Settings.scss');

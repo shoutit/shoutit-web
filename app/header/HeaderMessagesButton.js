@@ -7,7 +7,7 @@ import Icon from '../ui/Icon';
 import Overlay from '../ui/Overlay';
 
 import HeaderMessagesOverlay from './HeaderMessagesOverlay';
-import { getUnreadConversationsCount } from '../selectors';
+import { getUnreadConversationsCount } from '../reducers/session';
 
 export class HeaderMessagesButton extends Component {
 

@@ -1,10 +1,12 @@
+/* eslint-env browser */
+
 import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { logout } from '../actions/session';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./HeaderProfileOverlay.scss');

@@ -1,4 +1,5 @@
 import merge from 'lodash/merge';
+import find from 'lodash/find';
 import * as actionTypes from '../../actions/actionTypes';
 import createEntityReducer from './createEntityReducer';
 
@@ -26,3 +27,7 @@ export default (state, action) => {
   }
   return state;
 };
+
+export function getTagByName(state, name) {
+  return find(state.entities.tags, { name });
+}

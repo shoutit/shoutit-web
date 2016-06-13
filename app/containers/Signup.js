@@ -16,7 +16,7 @@ import Frame from '../layout/Frame';
 
 import SocialLoginForm from '../auth/SocialLoginForm';
 import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./Signup.scss');

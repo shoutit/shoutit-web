@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 import ShoutsScrollableList from './ShoutsScrollableList';
 import Modal, { Header, Footer, Body } from '../ui/Modal';
 import Button from '../ui/Button';

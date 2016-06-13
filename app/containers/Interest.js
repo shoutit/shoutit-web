@@ -2,12 +2,14 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import find from 'lodash/find';
 import Helmet from '../utils/Helmet';
 
-import { denormalize } from '../schemas';
-import { loadTagIfNeeded, loadTagShouts, loadRelatedTags, invalidateTagShouts } from '../actions/tags';
+import { loadTag, loadTagShouts, loadRelatedTags, invalidateTagShouts } from '../actions/tags';
 import { routeError } from '../actions/server';
+
+import { getTagByName } from '../reducers/entities/tags';
+import { getCategory } from '../reducers/categories';
+import { getShoutsByTagname, getPaginationState } from '../reducers/paginated/shoutsByTagname';
 
 import Page from '../layout/Page';
 import RelatedTags from '../tags/RelatedTags';
@@ -23,19 +25,16 @@ if (process.env.BROWSER) {
   require('./Interest.scss');
 }
 
-const properties = ['listenersCount', 'isListening'];
-
-const fetchData = (dispatch, state, params) => {
-  return Promise.all([
-    dispatch(loadTagIfNeeded({ name: params.name }, properties))
+const fetchData = (dispatch, state, params) =>
+  Promise.all([
+    dispatch(loadTag(params.name))
       .then(payload =>
         dispatch(loadRelatedTags({ id: payload.result, name: params.name })).catch(() => {}),
         err => dispatch(routeError(err))
       ),
     dispatch(loadTagShouts(params.name, state.currentLocation)).catch(() => {}),
   ]);
-}
-;
+
 export class Interest extends Component {
 
   static propTypes = {
@@ -43,10 +42,10 @@ export class Interest extends Component {
     params: PropTypes.object.isRequired,
     currentLocation: PropTypes.object.isRequired,
     firstRender: PropTypes.bool,
-    isFetchingShouts: PropTypes.bool,
-    nextShoutsUrl: PropTypes.string,
+    isFetching: PropTypes.bool,
+    nextUrl: PropTypes.string,
     shouts: PropTypes.array,
-    shoutsCount: PropTypes.number,
+    count: PropTypes.number,
     tag: PropTypes.object,
     category: PropTypes.object,
   };
@@ -69,14 +68,14 @@ export class Interest extends Component {
   }
 
   render() {
-    const { tag, category, shouts, isFetchingShouts, nextShoutsUrl, dispatch } = this.props;
+    const { tag, category, shouts, isFetching, nextUrl, dispatch } = this.props;
     return (
       <Scrollable
         triggerOffset={ 400 }
         scrollElement={ () => window }
         onScrollBottom={ () => {
-          if (nextShoutsUrl && !isFetchingShouts) {
-            dispatch(loadTagShouts(tag.name, {}, nextShoutsUrl));
+          if (nextUrl && !isFetching) {
+            dispatch(loadTagShouts(tag.name, {}, nextUrl));
           }
         } }
       >
@@ -88,7 +87,7 @@ export class Interest extends Component {
             </Card>,
           ] }
           endColumn={ [
-            <RelatedTags key="related" tag={ tag } />,
+            tag && <RelatedTags key="related" tag={ tag } />,
             <SuggestedProfiles key="profiles" />,
             <SuggestedShout key="shout" />,
           ] }
@@ -102,7 +101,7 @@ export class Interest extends Component {
               { shouts.length > 0 &&
                 <ShoutsList shouts={ shouts } />
               }
-              <Progress animate={ isFetchingShouts } />
+              <Progress animate={ isFetching } />
             </div>
           }
         </Page>
@@ -113,29 +112,14 @@ export class Interest extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { params: { name } } = ownProps;
-  const { paginated, entities, currentLocation } = state;
-  const tag = find(entities.tags, { name });
-  const category = entities.categories[tag.name];
-  let shouts = [];
-  let isFetchingShouts = false;
-  let shoutsCount = 0;
-  let nextShoutsUrl;
-  const shoutsByTagname = paginated.shoutsByTagname[name];
-  if (shoutsByTagname) {
-    isFetchingShouts = shoutsByTagname.isFetching;
-    shoutsCount = shoutsByTagname.count;
-    nextShoutsUrl = shoutsByTagname.nextUrl;
-    shouts = shoutsByTagname.ids.map(id => denormalize(entities.shouts[id], entities, 'SHOUT'));
-  }
+  const tagName = ownProps.params.name;
+  const tag = getTagByName(state, tagName);
   return {
     tag,
-    category,
-    shouts,
-    shoutsCount,
-    currentLocation,
-    isFetchingShouts,
-    nextShoutsUrl,
+    category: getCategory(state, tagName),
+    shouts: getShoutsByTagname(state, tagName),
+    currentLocation: state.currentLocation,
+    ...getPaginationState(state, tagName),
   };
 };
 

@@ -13,7 +13,7 @@ import { chatWithProfile } from '../actions/users';
 import { replyToShout } from '../actions/shouts';
 
 import { ENTER } from '../utils/keycodes';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 import ReplyFormToolbar from '../chat/ReplyFormToolbar';
 

@@ -7,7 +7,8 @@ import { injectIntl, defineMessages } from 'react-intl';
 import { push } from 'react-router-redux';
 import Helmet from '../utils/Helmet';
 import { getLocationPath } from '../utils/LocationUtils';
-import { getPaginationState, getShouts, getCategory } from '../selectors';
+import { getShouts, getPaginationState } from '../reducers/paginated/shouts';
+import { getCategory } from '../reducers/categories';
 import { getSearchParamsFromQuery, getQuerystringFromSearchParams } from '../utils/SearchUtils';
 
 import { loadShouts, invalidateShouts } from '../actions/shouts';
@@ -210,7 +211,7 @@ const mapStateToProps = (state, ownProps) => {
     title,
     location: ownProps.location,
     shouts: getShouts(state),
-    ...getPaginationState(state, 'shouts'),
+    ...getPaginationState(state),
   };
 };
 

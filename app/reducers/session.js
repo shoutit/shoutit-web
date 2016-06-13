@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { denormalize } from '../schemas';
 
 const initialState = {
 
@@ -153,4 +154,23 @@ export default function (state = initialState, action) {
     default: return state;
 
   }
+}
+
+export const getLoggedUser = state =>
+  denormalize(state.entities.users[state.session.user], state.entities, 'PROFILE');
+
+
+export function getUnreadNotificationsCount(state) {
+  if (!state.session.user) {
+    return 0;
+  }
+  return state.entities.users[state.session.user].stats.unreadNotificationsCount;
+}
+
+
+export function getUnreadConversationsCount(state) {
+  if (!state.session.user) {
+    return 0;
+  }
+  return state.entities.users[state.session.user].stats.unreadConversationsCount;
 }

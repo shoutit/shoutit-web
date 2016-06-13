@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-
+import { denormalize } from '../../schemas';
 import createEntityReducer from './createEntityReducer';
 import * as actionTypes from '../../actions/actionTypes';
 
@@ -77,3 +77,8 @@ export default (state, action) => {
   }
   return state;
 };
+
+export function getConversation(state, id) {
+  return denormalize(state.entities.conversations[id], state.entities, 'CONVERSATION');
+}
+

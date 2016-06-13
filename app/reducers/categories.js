@@ -19,3 +19,7 @@ export default function (state = initialState, action) {
     default: return state;
   }
 }
+
+export function getCategory(state, name) {
+  return state.entities.categories[name];
+}

@@ -80,6 +80,7 @@ export class Discover extends Component {
 
     intl: PropTypes.object.isRequired,
   };
+
   static fetchData = fetchData;
 
   componentDidMount() {

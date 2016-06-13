@@ -39,14 +39,15 @@ import TimeAgo from '../ui/TimeAgo';
 import LocationListItem from '../location/LocationListItem';
 
 import { denormalize } from '../schemas';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./Shout.scss');
 }
 
 const fetchData = (dispatch, state, params) =>
-  dispatch(loadShout(params.id)).catch(err => dispatch(routeError(err)));
+  dispatch(loadShout(params.id))
+    .catch(err => dispatch(routeError(err)));
 
 function ShoutActions({ shout, onReplyClick }) {
   const buttonStyle = {
@@ -269,5 +270,4 @@ const mapStateToProps = (state, ownProps) => ({
 
 const WrappedShout = connect(mapStateToProps)(injectIntl(Shout));
 WrappedShout.fetchData = Shout.fetchData;
-
 export default WrappedShout;
