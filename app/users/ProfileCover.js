@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import React, { PropTypes, Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 
