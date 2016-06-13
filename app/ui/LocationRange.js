@@ -19,8 +19,9 @@ export class LocationRange extends Component {
       country: PropTypes.string.isRequired,
     }).isRequired,
     name: PropTypes.string,
-    initialValue: PropTypes.oneOf(VALUES),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     intl: PropTypes.object.isRequired,
+    onChange: PropTypes.func,
   };
   static defaultProps = {
     name: 'location_range',
@@ -28,8 +29,24 @@ export class LocationRange extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.state = {
-      index: props.initialValue ? VALUES.indexOf(props.initialValue) : 0,
+    this.state = this.getStateFromProps(props);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.value !== nextProps.value) {
+      return;
+    }
+    this.setState(this.getStateFromProps(nextProps), () => {
+      const index = VALUES.indexOf(this.getValue());
+      const currentStep = STEPS[index];
+      const range = this.refs.rangeField.getValue();
+      if (range >= currentStep || range <= STEPS[index - 1]) {
+        this.refs.rangeField.setValue(currentStep);
+      }
+    });
+  }
+  getStateFromProps(props) {
+    return {
+      index: props.value ? VALUES.indexOf(props.value) : 0,
     };
   }
   getLabel() {
@@ -73,24 +90,29 @@ export class LocationRange extends Component {
     const value = VALUES[this.state.index];
     return typeof value === 'string' ? value : parseInt(value, 10);
   }
-  handleChange(e) {
-    const value = e.target.value;
+  handleChange(value) {
     let index = 0;
     if (value > STEPS[0]) {
       for (let i = 0; i < STEPS.length; i++) {
         const step = STEPS[i];
-        if (value < step) {
+        if (value <= step) {
           index = i;
           break;
         }
       }
     }
-    this.setState({ index });
+    this.setState({ index }, () => {
+      if (this.props.onChange) {
+        this.props.onChange(this.getValue());
+      }
+    });
+
   }
   render() {
     return (
       <div className="LocationRange">
         <RangeField
+          ref="rangeField"
           id={ this.props.name }
           type="range"
           onChange={ this.handleChange }

@@ -13,9 +13,11 @@ export default class CurrencyField extends Component {
     };
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.value) {
+    if (nextProps.value !== this.props.value) {
       this.setState({
         value: nextProps.value / 100,
+      }, () => {
+        this.field.setValue(this.state.value || '');
       });
     }
   }

@@ -4,6 +4,12 @@ import FormField from './FormField';
 export default class TextField extends Component {
   static propTypes = {
     type: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.value !== nextProps.value) {
+      this.setValue(nextProps.value);
+    }
   }
   getValue() {
     let fieldValue = this.refs.field.getValue();
