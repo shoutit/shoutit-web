@@ -1,4 +1,3 @@
-import uuid from 'uuid';
 import React, { PropTypes, Component } from 'react';
 if (process.env.BROWSER) {
   require('./FileInput.scss');
@@ -16,8 +15,6 @@ export default class FileInput extends Component {
     onClick: PropTypes.func,
   }
 
-  id = uuid.v1()
-
   handleClick(e) {
     // prevent missing onchange event, see http://stackoverflow.com/questions/2133807
     e.target.value = null;
@@ -34,7 +31,7 @@ export default class FileInput extends Component {
       <span className={ cssClass }>
         <input
           ref="input"
-          id={ this.id }
+          id={ this.props.name }
           type="file"
           accept={ this.props.accept }
           onClick={ this.handleClick.bind(this) }
@@ -43,7 +40,7 @@ export default class FileInput extends Component {
           multiple={ this.props.multiple }
           name={ this.props.name }
         />
-        <label htmlFor={ this.id } zIndex={ 0 }>
+        <label htmlFor={ this.props.name } zIndex={ 0 }>
           { this.props.children }
         </label>
       </span>
