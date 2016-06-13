@@ -1,8 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
-
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
-import { formatCreatedAt } from '../utils/DateUtils';
+import FormattedCreatedAt from '../utils/FormattedCreatedAt';
 
 if (process.env.BROWSER) {
   require('./NotificationItem.scss');
@@ -72,7 +71,7 @@ export default class NotificationItem extends Component {
               }) }
             </div>
             <div className="NotificationItem-date">
-              { formatCreatedAt(notification.createdAt) }
+              <FormattedCreatedAt value={ notification.createdAt } />
             </div>
           </div>
         </Link>

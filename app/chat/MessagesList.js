@@ -23,9 +23,9 @@ export default class MessagesList extends Component {
     const prevMessage = i > 0 ? messages[i - 1] : null;
     const nextMessage = i < messages.length - 1 ? messages[i + 1] : null;
 
-    const isPreviousInSameDay = prevMessage && isSameDay(prevMessage.createdAt, message.createdAt);
+    const isPreviousInSameDay = prevMessage && isSameDay(toDate(prevMessage.createdAt), toDate(message.createdAt));
     const hasPreviousSameSender = prevMessage && prevMessage.profile && message.profile && prevMessage.profile.id === message.profile.id;
-    const isNextInSameDay = nextMessage && isSameDay(nextMessage.createdAt, message.createdAt);
+    const isNextInSameDay = nextMessage && isSameDay(toDate(nextMessage.createdAt), toDate(message.createdAt));
     const hasNextSameSender = nextMessage && nextMessage.profile && message.profile && nextMessage.profile.id === message.profile.id;
     const isNextAfterSomeTime = nextMessage && hasNextSameSender && ((nextMessage.createdAt - message.createdAt) > 5 * 60);
     const isPreviousBeforeSomeTime = prevMessage && hasPreviousSameSender && ((message.createdAt - prevMessage.createdAt) > 5 * 60);

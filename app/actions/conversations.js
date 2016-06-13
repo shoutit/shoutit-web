@@ -1,6 +1,6 @@
 import uuid from 'uuid';
+import { now } from 'unix-timestamp';
 
-import { getUnixTime } from '../utils/DateUtils';
 import * as actionTypes from './actionTypes';
 import { CONVERSATION, MESSAGE } from '../schemas';
 
@@ -32,7 +32,7 @@ export const replyToConversation = (conversation, sender, message) => {
     ...message,
     profile: sender.id,
     id: `temp-${uuid.v1()}`,
-    createdAt: getUnixTime(),
+    createdAt: now(),
   };
   return {
     types: [
