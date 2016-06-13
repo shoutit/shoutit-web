@@ -10,13 +10,10 @@ import { openModal } from '../actions/ui';
 
 export function ProfileListenersListItem({ type = 'listeners', profile, onClick, size = 'small' }) {
   let count;
-  let label;
   if (type === 'listeners') {
     count = profile.listenersCount;
-    label = `${count === 0 ? 'No ' : count} listener${count > 1 ? 's' : ''}`;
   } else {
     count = profile.listeningCount.users;
-    label = `${count === 0 ? 'No ' : count} listening`;
   }
   return (
     <ListItem

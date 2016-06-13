@@ -1,8 +1,7 @@
 import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
+const initialState = { ids: [] };
 
-const initialState = { ids: [] }
-;
 function shouts(state = {}, action) {
   switch (action.type) {
     case actionTypes.INVALIDATE_SHOUTS:
