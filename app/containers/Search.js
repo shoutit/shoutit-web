@@ -214,4 +214,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default injectIntl(connect(mapStateToProps)(Search));
+const Wrapped = injectIntl(connect(mapStateToProps)(Search));
+Wrapped.fetchData = Search.fetchData;
+export default Wrapped;

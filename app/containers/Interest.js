@@ -139,4 +139,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(Interest);
+const Wrapped = connect(mapStateToProps)(Interest);
+Wrapped.fetchData = Interest.fetchData;
+
+export default Wrapped;

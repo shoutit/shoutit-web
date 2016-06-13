@@ -207,4 +207,6 @@ const mapStateToProps = state => ({
   ...getPaginationState(state, 'shoutsByHome'),
 });
 
-export default connect(mapStateToProps)(injectIntl(Dashboard));
+const Wrapped = connect(mapStateToProps)(injectIntl(Dashboard));
+Wrapped.fetchData = Dashboard.fetchData;
+export default Wrapped;

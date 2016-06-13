@@ -174,4 +174,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Application);
+const Wrapped = connect(mapStateToProps)(Application);
+Wrapped.fetchData = Application.fetchData;
+
+export default Wrapped;

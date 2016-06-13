@@ -240,4 +240,5 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(AccountSettings));
+const Wrapped = connect(mapStateToProps, mapDispatchToProps)(injectIntl(AccountSettings));
+export default Wrapped;

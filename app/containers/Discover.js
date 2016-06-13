@@ -228,4 +228,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(injectIntl(Discover));
+const Wrapped = connect(mapStateToProps)(injectIntl(Discover));
+Wrapped.fetchData = Discover.fetchData;
+export default Wrapped;
