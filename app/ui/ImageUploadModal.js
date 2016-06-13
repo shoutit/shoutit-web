@@ -90,6 +90,9 @@ export default class ImageUploadModal extends Component {
     let submitLabel = (
       <FormattedMessage
         id="ui.imageUploadModal.submitLabel"
+        values={ {
+          imagesCount: this.state.images.length,
+        } }
         defaultMessage="{imagesCount, plural,
           one {Send image}
           two {Send # images}
