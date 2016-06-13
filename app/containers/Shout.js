@@ -218,7 +218,7 @@ export class Shout extends Component {
     const { shout } = this.props;
     const { locale, formatNumber } = this.props.intl;
     const price = shout.price ?
-      formatNumber(shout.price, {
+      formatNumber(shout.price / 100, {
         style: 'currency',
         currencyDisplay: 'symbol',
         currency: shout.currency,

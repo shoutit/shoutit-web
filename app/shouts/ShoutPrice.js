@@ -6,9 +6,12 @@ if (process.env.BROWSER) {
 }
 export default function ShoutPrice({ shout, layout = 'plain' }) {
   const isFree = !shout.price;
+  let { price } = shout;
   let className = `ShoutPrice ${layout}`;
   if (isFree) {
     className += ' free';
+  } else {
+    price = price / 100;
   }
   return (
     <span className={ className }>
@@ -21,7 +24,8 @@ export default function ShoutPrice({ shout, layout = 'plain' }) {
           style="currency"
           currencyDisplay="symbol"
           currency={ shout.currency }
-          value={ shout.price }
+          value={ price }
+          maximumFractionDigits={ Number.isInteger(price) ? 0 : undefined }
         />
       }
     </span>
