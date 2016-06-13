@@ -1,17 +1,5 @@
 [
   {
-    "id": "searchFilters.shoutType.offer",
-    "defaultMessage": "Offers"
-  },
-  {
-    "id": "searchFilters.shoutType.request",
-    "defaultMessage": "Requests"
-  },
-  {
-    "id": "searchFilters.shoutType.all",
-    "defaultMessage": "All"
-  },
-  {
     "id": "searchFilters.search.placeholder",
     "defaultMessage": "Search by keyword"
   },

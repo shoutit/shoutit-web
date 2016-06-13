@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import React, { PropTypes, Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -5,10 +6,8 @@ import ReactAvatarEditor from 'react-avatar-editor';
 import { connect } from 'react-redux';
 
 import request from '../utils/request';
-// import { getVariation } from '../utils/APIUtils';
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
+import { getStyleBackgroundImage, preventBodyScroll } from '../utils/DOMUtils';
 import { getFilename } from '../utils/StringUtils';
-
 import { updateProfile } from '../actions/users';
 
 import ProfileAvatar from '../users/ProfileAvatar';
@@ -33,6 +32,7 @@ export class ProfileCover extends Component {
   constructor(props) {
     super(props);
     this.handlePictureChange = this.handlePictureChange.bind(this);
+    this.startEditing = this.startEditing.bind(this);
     this.cancelEditing = this.cancelEditing.bind(this);
     this.handleSaveClick = this.handleSaveClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
@@ -56,10 +56,16 @@ export class ProfileCover extends Component {
     }
   }
 
+  startEditing() {
+    preventBodyScroll().on();
+    this.setState({ isEditing: true });
+  }
+
   cancelEditing() {
     if (this.state.uploadRequest) {
       this.state.uploadRequest.abort();
     }
+    preventBodyScroll().off();
     this.setState({
       isEditing: false,
       isLoading: false,
@@ -154,7 +160,7 @@ export class ProfileCover extends Component {
                   block
                   action="inverted"
                   icon={ profile.cover ? 'pencil' : 'camera' }
-                  onClick={ () => this.setState({ isEditing: true }) }>
+                  onClick={ this.startEditing }>
                   <FormattedMessage
                     id="profileCover.editButton"
                     defaultMessage="Edit Cover"

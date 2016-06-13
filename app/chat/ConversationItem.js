@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import Icon from '../ui/Icon.js';
 
-import { formatCreatedAt } from '../utils/DateUtils';
+import FormattedCreatedAt from '../utils/FormattedCreatedAt';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
 import ConversationDropdown from '../chat/ConversationDropdown';
@@ -94,7 +94,7 @@ export default class ConversationItem extends Component {
           </div>
           <div className="ConversationItem-tools">
             <div className="ConversationItem-date">
-              { formatCreatedAt(conversation.modifiedAt) }
+              <FormattedCreatedAt value={ conversation.modifiedAt } />
             </div>
             { showDropdown && !hover && conversation.unreadMessagesCount > 0 &&
               <div className="ConversationItem-unread-count">

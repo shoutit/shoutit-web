@@ -2,8 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Conversation from './Conversation';
 import { closeConversation } from '../actions/conversations';
-import { getConversation } from '../selectors';
-
+import { getConversation } from '../reducers/entities/conversations';
 import ConversationDropdown from '../chat/ConversationDropdown';
 
 import Icon from '../ui/Icon';

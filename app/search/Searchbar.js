@@ -104,7 +104,7 @@ export class Searchbar extends Component {
           { message =>
             <input
               autoComplete="off"
-              ref={ el => this.searchField = el }
+              ref={ el => { this.searchField = el; } }
               name="query"
               placeholder={ message }
               className="htmlInput"

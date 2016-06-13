@@ -3,11 +3,8 @@ import noop from 'lodash/noop';
 import * as actionTypes from './actionTypes';
 import { TAG, SHOUTS, TAGS, PROFILES } from '../schemas';
 
-export function loadTagIfNeeded(tag, properties = []) {
-  if (properties.every(property => tag.hasOwnProperty(property))) {
-    return noop;
-  }
-  const { name } = tag;
+
+export function loadTag(name) {
   return {
     types: [
       actionTypes.LOAD_TAG_START,
@@ -20,6 +17,13 @@ export function loadTagIfNeeded(tag, properties = []) {
       schema: TAG,
     },
   };
+}
+
+export function loadTagIfNeeded(tag, properties = []) {
+  if (properties.every(property => tag.hasOwnProperty(property))) {
+    return noop;
+  }
+  return loadTag(tag.name);
 }
 
 export function loadTagShouts(name, location, endpoint) {

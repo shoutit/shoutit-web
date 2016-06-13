@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
@@ -78,6 +80,7 @@ export class Discover extends Component {
 
     intl: PropTypes.object.isRequired,
   };
+
   static fetchData = fetchData;
 
   componentDidMount() {
@@ -226,4 +229,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(injectIntl(Discover));
+const Wrapped = connect(mapStateToProps)(injectIntl(Discover));
+Wrapped.fetchData = Discover.fetchData;
+export default Wrapped;

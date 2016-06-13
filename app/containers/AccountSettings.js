@@ -14,7 +14,7 @@ import SettingsNavigation from '../settings/SettingsNavigation';
 
 import { updateProfile, updatePassword } from '../actions/users';
 import { resetErrors } from '../actions/session';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./Settings.scss');
@@ -240,4 +240,5 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(AccountSettings));
+const Wrapped = connect(mapStateToProps, mapDispatchToProps)(injectIntl(AccountSettings));
+export default Wrapped;

@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, defineMessages } from 'react-intl';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 import ListenersScrollableList from './ListenersScrollableList';
 import Modal, { Header, Footer, Body, BodyFixed } from '../ui/Modal';
 import Button from '../ui/Button';

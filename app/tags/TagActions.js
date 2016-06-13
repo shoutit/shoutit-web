@@ -10,7 +10,7 @@ import { LISTEN_TAG } from '../auth/loginActions';
 
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 export class TagActions extends Component {
 

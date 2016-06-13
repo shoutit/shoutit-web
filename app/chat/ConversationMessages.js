@@ -7,8 +7,7 @@ import Typing from '../chat/Typing';
 import Scrollable from '../ui/Scrollable';
 import { loadMessages } from '../actions/messages';
 
-import { getPaginationState, getMessagesByConversation } from '../selectors';
-
+import { getMessagesByConversation, getPaginationState } from '../reducers/paginated/messagesByConversation';
 import Progress from '../ui/Progress';
 
 if (process.env.BROWSER) {
@@ -86,7 +85,7 @@ export class ConversationMessages extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   messages: getMessagesByConversation(state, ownProps.conversation.id),
-  ...getPaginationState(state, `messagesByConversation.${ownProps.conversation.id}`),
+  ...getPaginationState(state, ownProps.conversation.id),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

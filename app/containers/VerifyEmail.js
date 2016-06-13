@@ -90,4 +90,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(injectIntl(VerifyEmail));
+const Wrapped = connect(mapStateToProps)(injectIntl(VerifyEmail));
+Wrapped.fetchData = VerifyEmail.fetchData;
+export default Wrapped;

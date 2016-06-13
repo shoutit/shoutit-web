@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 import { openModal } from '../actions/ui';
 import ProfilesModal from '../users/ProfilesModal';

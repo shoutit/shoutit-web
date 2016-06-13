@@ -12,7 +12,7 @@ import { openModal } from '../actions/ui';
 
 import ShoutForm from './ShoutForm';
 import CreateShoutSuccessModal from './CreateShoutSuccessModal';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./CreateShoutModal.scss');

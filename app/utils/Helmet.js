@@ -4,7 +4,7 @@ import { injectIntl, defineMessages } from 'react-intl';
 import union from 'lodash/union';
 import { connect } from 'react-redux';
 
-import { getUnreadNotificationsCount, getUnreadConversationsCount } from '../selectors';
+import { getUnreadNotificationsCount, getUnreadConversationsCount } from '../reducers/session';
 import { getVariation } from '../utils/APIUtils';
 
 class Helmet extends Component {

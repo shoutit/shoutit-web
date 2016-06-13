@@ -27,8 +27,8 @@
     ]
   },
   "env": {
-    "node": true,
     "es6": true,
-    "mocha": true
+    "mocha": true,
+    "browser": false,
   }
 }

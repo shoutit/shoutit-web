@@ -10,7 +10,7 @@ import ConversationHead from '../chat/ConversationHead';
 
 import { loadConversation, setActiveConversation, unsetActiveConversation, readConversation } from '../actions/conversations';
 
-import { getConversation } from '../selectors';
+import { getConversation } from '../reducers/entities/conversations';
 
 import Progress from '../ui/Progress';
 

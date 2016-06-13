@@ -1,4 +1,5 @@
 /* eslint-disable no-alert */
+/* eslint-env browser */
 
 import React, { PropTypes, Component } from 'react';
 import ReactAvatarEditor from 'react-avatar-editor';

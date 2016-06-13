@@ -10,7 +10,7 @@ import { START_LISTENING, SEND_MESSAGE } from '../auth/loginActions';
 
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./ProfileActions.scss');

@@ -1,9 +1,9 @@
 import omit from 'lodash/omit';
 import omitBy from 'lodash/omitBy';
+import { now } from 'unix-timestamp';
 
 import * as actionTypes from './actionTypes';
 import { SHOUT, SHOUTS, CONVERSATION } from '../schemas';
-import { getUnixTime } from '../utils/DateUtils';
 
 export const loadShout = id => ({
   types: [
@@ -79,7 +79,7 @@ export const loadRelatedShouts = (shoutId, query, endpoint) => ({
 export const createShout = (user, newShout) => {
   const shout = {
     ...newShout,
-    createdAt: getUnixTime(),
+    createdAt: now(),
   };
   return {
     types: [

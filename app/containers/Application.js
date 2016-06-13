@@ -18,7 +18,7 @@ import { loadSuggestions } from '../actions/location';
 import { loadListening } from '../actions/users';
 import { loginUser } from '../actions/session';
 
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 import * as config from '../config';
 
@@ -174,4 +174,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Application);
+const Wrapped = connect(mapStateToProps)(Application);
+Wrapped.fetchData = Application.fetchData;
+
+export default Wrapped;

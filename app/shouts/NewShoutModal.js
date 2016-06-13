@@ -7,7 +7,7 @@ import Button from '../ui/Button';
 
 import { openModal } from '../actions/ui';
 import CreateShoutModal from '../shouts/CreateShoutModal';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 const NEW_SHOUT_ID = '__new__';
 
 export class NewShoutModal extends Component {

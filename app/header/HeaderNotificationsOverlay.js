@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
 import ScrollableNotifications from '../notifications/ScrollableNotifications';
-import { getNotifications } from '../selectors';
+import { getNotifications } from '../reducers/paginated/notifications';
 import { resetNotifications } from '../actions/notifications';
 
 if (process.env.BROWSER) {

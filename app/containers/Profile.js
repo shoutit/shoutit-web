@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import find from 'lodash/find';
@@ -185,4 +187,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default injectIntl(connect(mapStateToProps)(Profile));
+const Wrapped = injectIntl(connect(mapStateToProps)(Profile));
+Wrapped.fetchData = Profile.fetchData;
+export default Wrapped;

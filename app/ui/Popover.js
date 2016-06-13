@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import React, { PropTypes, Component } from 'react';
 
 import Overlay from 'react-bootstrap/lib/Overlay';

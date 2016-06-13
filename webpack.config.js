@@ -94,7 +94,6 @@ module.exports = {
 
     !isDevelopment ? new NotifyConfigPlugin() : noop,
 
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       'process.env': {
         SHOUTIT_ENV: JSON.stringify(process.env.SHOUTIT_ENV),

@@ -1,4 +1,5 @@
 /* eslint-disable import/no-unresolved */
+/* eslint-env browser */
 import debug from 'debug';
 import isIntlLocaleSupported from 'intl-locales-supported';
 
