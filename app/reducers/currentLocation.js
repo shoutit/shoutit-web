@@ -10,7 +10,7 @@ export default function (state = {}, action) {
       const loggedUser = action.payload.entities.users[action.payload.result];
       return {
         ...loggedUser.location,
-        slug: createLocationSlug(location),
+        slug: createLocationSlug(loggedUser.location),
       };
     default: return state;
   }
