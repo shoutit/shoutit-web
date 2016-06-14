@@ -38,6 +38,9 @@ export default function HtmlDocument({
         { process.env.NODE_ENV === 'production' &&
           <link rel="stylesheet" type="text/css" href={ `${config.publicUrl}${chunkNames[rtl ? 'cssRtl' : 'css']}` } /> }
 
+        { locale === 'ar' &&
+          <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/earlyaccess/droidarabickufi.css" /> }
+
         { newrelicEnabled &&
           <script type="text/javascript" dangerouslySetInnerHTML={ {
             __html: newrelic.getBrowserTimingHeader().replace(/<\/?script[^>]*>/g, '') } }
