@@ -8,10 +8,13 @@
   }
   select {
     @include field();
-    padding-right: 24px;
     background-image: url('../../assets/ui-elements/dropdown-caret-big.svg');
     background-repeat: no-repeat;
     background-position: 100%;
+    /*rtl:ignore*/
+    html[dir="rtl"] & {
+      background-position: 7px;
+    }
   }
   textarea {
     @include field();
