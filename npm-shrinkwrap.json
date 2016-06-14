@@ -1820,6 +1820,23 @@
         }
       }
     },
+    "query-string": {
+      "version": "4.2.2",
+      "from": "query-string@latest",
+      "resolved": "https://registry.npmjs.org/query-string/-/query-string-4.2.2.tgz",
+      "dependencies": {
+        "object-assign": {
+          "version": "4.1.0",
+          "from": "object-assign@>=4.1.0 <5.0.0",
+          "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-4.1.0.tgz"
+        },
+        "strict-uri-encode": {
+          "version": "1.1.0",
+          "from": "strict-uri-encode@>=1.0.0 <2.0.0",
+          "resolved": "https://registry.npmjs.org/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz"
+        }
+      }
+    },
     "react": {
       "version": "15.1.0",
       "from": "react@15.1.0",
