@@ -1,10 +1,13 @@
 import { routerReducer } from 'react-router-redux';
+import queryString from 'query-string';
+import _omit from 'lodash/omit';
 
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
   currentUrl: undefined,
   error: null,
+  query: null,
 };
 
 export function routing(state = initialState, action) {
@@ -12,8 +15,10 @@ export function routing(state = initialState, action) {
     case '@@router/LOCATION_CHANGE':
       // set the current url and reset the routing error if it changed
       const currentUrl = `${action.payload.pathname}${action.payload.search}`;
+      const query = action.payload.query;
       return {
         ...state,
+        query,
         currentUrl,
         error: state.currentUrl !== currentUrl ? null : state.error,
       };
@@ -31,4 +36,8 @@ export default function (state, action) {
   let newState = routing(state, action);
   newState = routerReducer(newState, action);
   return newState;
+}
+
+export function getQueryAsString(state, omit = []) {
+  return queryString.stringify(_omit(state.routing.query, omit));
 }
