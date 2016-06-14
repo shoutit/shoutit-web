@@ -1,5 +1,5 @@
 @import "../styles/constants.scss";
-
+/*rtl:begin:ignore*/
 .Overlay {
   position: absolute;
   z-index: 1000;
@@ -35,3 +35,4 @@
     background-image: url("../../assets/ui-elements/overlays/arrow-bottom-inverted.png");
   }
 }
+/*rtl:end:ignore*/

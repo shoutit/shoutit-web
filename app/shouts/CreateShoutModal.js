@@ -120,20 +120,18 @@ export class CreateShoutModal extends Component {
           </div>
         </Body>
         <Footer>
-          <span style={ { marginRight: '.5rem' } }>
-            <Button
-              ref="cancel"
-              size="small"
-              key="cancel"
-              type="button"
-              onClick={ this.hide }
-              disabled={ shout.isCreating }>
-              <FormattedMessage
-                id="createShoutModal.cancelButton"
-                defaultMessage="Cancel"
-              />
-            </Button>
-          </span>
+          <Button
+            ref="cancel"
+            size="small"
+            key="cancel"
+            type="button"
+            onClick={ this.hide }
+            disabled={ shout.isCreating }>
+            <FormattedMessage
+              id="createShoutModal.cancelButton"
+              defaultMessage="Cancel"
+            />
+          </Button>
 
           <Button
             onClick={ () => this.form.submit() }

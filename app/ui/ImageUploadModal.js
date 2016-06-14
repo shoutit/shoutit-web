@@ -140,14 +140,12 @@ export default class ImageUploadModal extends Component {
           </Form>
         </Body>
         <Footer>
-          <span style={ { marginRight: '.5rem' } }>
-            <Button size="small" key="cancel" type="button" onClick={ this.hide }>
-              <FormattedMessage
-                id="ui.imageUploadModal.CancelButton"
-                defaultMessage="Cancel"
-              />
-            </Button>
-          </span>
+          <Button size="small" key="cancel" type="button" onClick={ this.hide }>
+            <FormattedMessage
+              id="ui.imageUploadModal.CancelButton"
+              defaultMessage="Cancel"
+            />
+          </Button>
           <Button onClick={ this.submit } size="small" key="submit" action="primary" disabled={ this.state.isUploading || this.state.images.length === 0 }>
             { submitLabel }
           </Button>
