@@ -35,7 +35,7 @@ export default function renderMiddleware(req, res, next) {
   fetchr.read('session').end((err, user) => {
     const storeState = {
       routing: {
-        currentUrl: req.url, 
+        currentUrl: req.url,
         query: req.query,
       },
       currentLocation: req.geolocation,
