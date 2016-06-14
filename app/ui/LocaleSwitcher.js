@@ -2,16 +2,21 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getCurrentLocale } from '../reducers/i18n';
 import { getQueryAsString } from '../reducers/routing';
+
+const LOCALES = [
+  { code: 'en', name: 'English' },
+  { code: 'ar', name: 'العربية' },
+];
+
 export function LocaleSwitcher({ search, currentLocale }) {
 
   return (
     <div className="LocaleSwitcher">
-      <a className={ currentLocale === 'en' ? 'selected ' : '' } href={ `?${search}&hl=en&set` }>
-        English
-      </a>
-      <a className={ currentLocale === 'ar' ? 'selected ' : '' } href={ `?${search}&hl=ar&set` }>
-        العربية
-      </a>
+      { LOCALES.map(locale =>
+        <a className={ currentLocale === locale.code ? 'selected ' : '' } href={ `?${search}&hl=${locale.code}&set` }>
+          { locale.name }
+        </a>
+        ) }
     </div>
   );
 }
