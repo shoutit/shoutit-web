@@ -141,7 +141,7 @@ export class AvatarEditorModal extends Component {
     const actions = [];
     if (this.props.profile.image && this.props.profile.image === this.state.image) {
       actions.push(
-        <span key="delete" style={ { float: 'left', marginRight: '.5rem' } }>
+        <span key="delete" style={ { float: 'left' } }>
           <Button
             size="small"
             disabled={ this.state.isLoading }
@@ -176,19 +176,17 @@ export class AvatarEditorModal extends Component {
 
     if (this.state.image && this.props.profile.image !== this.state.image) {
       actions.push(
-        <span key="submit" style={ { marginRight: '.5rem' } }>
-          <Button
-            onClick={ this.handleSaveClick }
-            action="primary"
-            size="small"
-            disabled={ this.props.profile.image === this.state.image || this.state.isLoading }
-            style={ { minWidth: 120 } }>
-            <FormattedMessage
-              id="avatarEditor.saveButton"
-              defaultMessage="Save changes"
-            />
-          </Button>
-        </span>
+        <Button
+          onClick={ this.handleSaveClick }
+          action="primary"
+          size="small"
+          disabled={ this.props.profile.image === this.state.image || this.state.isLoading }
+          style={ { minWidth: 120 } }>
+          <FormattedMessage
+            id="avatarEditor.saveButton"
+            defaultMessage="Save changes"
+          />
+        </Button>
       );
     }
 

@@ -107,11 +107,9 @@ export class UpdateShout extends Component {
               Delete
             </Button>
           </span>
-          <span style={ { marginRight: '.5rem' } }>
-            <Button key="cancel" size="small" type="button" onClick={ this.hide } disabled={ shout.isUpdating || shout.isDeleting }>
-              Cancel
-            </Button>
-          </span>
+          <Button key="cancel" size="small" type="button" onClick={ this.hide } disabled={ shout.isUpdating || shout.isDeleting }>
+            Cancel
+          </Button>
           <Button ref="submit" key="submit" size="small" action="primary" onClick={ () => this.form.submit() } disabled={ shout.isUpdating || isUploading || shout.isDeleting }>
             { submitLabel }
           </Button>
