@@ -16,6 +16,10 @@
     "defaultMessage": "Instagram"
   },
   {
+    "id": "footer.language.title",
+    "defaultMessage": "Language"
+  },
+  {
     "id": "footer.copyright",
     "defaultMessage": "Copyright © {year} Shoutit – All Rights Reserved."
   }
