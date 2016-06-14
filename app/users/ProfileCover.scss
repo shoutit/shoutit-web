@@ -73,10 +73,8 @@ $profile-cover-header-height: 128px;
     position: relative;
     margin-left: 3.875rem;
     margin-right: 1rem;
-
   }
   .ProfileCover-name {
-    transform: translateY(-10px);
     .ProfileCover.is-editing & {
       visibility: hidden;
     }
@@ -84,7 +82,7 @@ $profile-cover-header-height: 128px;
   h1 {
     margin: 0;
     font-weight: lighter;
-    height: 1.2em;
+    line-height: 1.2em;
     overflow: hidden;
   }
   h3 {
