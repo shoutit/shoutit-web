@@ -39,7 +39,7 @@ export default function HtmlDocument({
           <link rel="stylesheet" type="text/css" href={ `${config.publicUrl}${chunkNames[rtl ? 'cssRtl' : 'css']}` } /> }
 
         { locale === 'ar' &&
-          <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/earlyaccess/droidarabickufi.css" /> }
+          <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/earlyaccess/droidarabickufi.css" /> }
 
         { newrelicEnabled &&
           <script type="text/javascript" dangerouslySetInnerHTML={ {
