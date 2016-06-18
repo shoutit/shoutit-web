@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import CardWithList from '../ui/CardWithList';
 import ProfileListItem from '../users/ProfileListItem';
@@ -9,7 +10,12 @@ export function Listening({ profiles }) {
     return <span />;
   }
   return (
-    <CardWithList title="Listening to">
+    <CardWithList title={
+      <FormattedMessage
+        id="userListeningCard.title"
+        defaultMessage="Listening to"
+      />
+    }>
       { profiles.map(profile => <ProfileListItem key={ profile.id } profile={ profile } />
     ) }
     </CardWithList>
