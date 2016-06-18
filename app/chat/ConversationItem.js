@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { isRtl } from '../reducers/i18n';
 
 import Icon from '../ui/Icon.js';
 
@@ -12,7 +14,7 @@ if (process.env.BROWSER) {
   require('./ConversationItem.scss');
 }
 
-export default class ConversationItem extends Component {
+export class ConversationItem extends Component {
 
   static propTypes = {
     conversation: PropTypes.object.isRequired,
@@ -22,6 +24,7 @@ export default class ConversationItem extends Component {
     selected: PropTypes.bool,
     unread: PropTypes.bool,
     showDropdown: PropTypes.bool,
+    isRtl: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -110,10 +113,16 @@ export default class ConversationItem extends Component {
             conversation={ conversation }
             size="small"
             toggle={ <Icon name="cog" hover size="x-small" /> }
-            pullRight
+            pullRight={ !this.props.isRtl }
           />
         }
       </li>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  isRtl: isRtl(state),
+});
+
+export default connect(mapStateToProps)(ConversationItem);
