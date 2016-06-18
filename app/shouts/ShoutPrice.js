@@ -26,6 +26,7 @@ export default function ShoutPrice({ shout, layout = 'plain' }) {
           currency={ shout.currency }
           value={ price }
           maximumFractionDigits={ Number.isInteger(price) ? 0 : undefined }
+          minimumFractionDigits={ Number.isInteger(price) ? 0 : undefined }
         />
       }
     </span>
