@@ -113,6 +113,7 @@
   "setPassword.confirmMessage": "Your password has been updated. Now you can login again!",
   "setPassword.confirmMessage.toLogin": "To Login",
   "shoutActions.reply": "Reply to this Shout",
+  "shout.share": "Share this Shout",
   "signup.page.title": "Sign Up",
   "signup.separatorLabel.with": "with",
   "signup.separatorLabel.or": "or",

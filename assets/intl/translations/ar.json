@@ -113,6 +113,7 @@
   "setPassword.confirmMessage": "تم تعديل كلمة المرور, تستطيع تسجيل الدخول الآن!",
   "setPassword.confirmMessage.toLogin": "إلى تسجيل الدخول",
   "shoutActions.reply": "Reply to this Shout",
+  "shout.share": "Share this Shout",
   "signup.page.title": "التسجيل",
   "signup.separatorLabel.with": "بواسطة",
   "signup.separatorLabel.or": "أو",
