@@ -5,11 +5,13 @@
 
   textarea {
     width: 100%;
-    display: inline-block;
+    display: block;
     margin: 0;
     border: 0;
     padding: .5rem .5rem .5rem;
     border-radius: 0;
+    line-height: 1.2em;
+    overflow-x: hidden;
   }
 }
 
