@@ -1,32 +1,22 @@
 @import '../styles/constants.scss';
 
-.ShoutPrice {
-  &.badge {
-    position: relative;
-    padding: .35rem .7rem;
-    color: white;
-    background: $si-green;
-    box-shadow: -1px 1px 3px rgba(0,0,0,.4);
-    &:before {
-      position: absolute;
-      z-index: 1;
-      right: 0;
-      bottom: -8px;
-      width: 0;
-      height: 0;
-      content: '';
-      transform: rotate(-180deg);
-      border-right: 0 solid transparent;
-      border-bottom: 8px solid darken($si-green, 20);
-      border-left: 8px solid transparent;
-    }
-  }
-  &.plain {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  &.free {
-    text-transform: uppercase;
-    // background-color: $si-blue;
+.ShoutPrice.badge {
+  position: relative;
+  padding: .35rem .7rem;
+  color: white;
+  background: $si-green;
+  box-shadow: -1px 1px 3px rgba(0,0,0,.4);
+  &:before {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: -8px;
+    width: 0;
+    height: 0;
+    content: '';
+    transform: rotate(-180deg);
+    border-right: 0 solid transparent;
+    border-bottom: 8px solid darken($si-green, 20);
+    border-left: 8px solid transparent;
   }
 }

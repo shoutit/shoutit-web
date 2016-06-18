@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import Helmet from '../utils/Helmet';
 
 import { setPassword } from '../actions/session';
@@ -12,6 +13,16 @@ import Frame from '../layout/Frame';
 
 import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
 
+const MESSAGES = defineMessages({
+  pageTitle: {
+    id: 'setPassword.page.title',
+    defaultMessage: 'Set a new password',
+  },
+  passwordPlaceholder: {
+    id: 'setPassword.form.passwordPlaceholder',
+    defaultMessage: 'Enter a password',
+  },
+});
 export class SetPassword extends Component {
 
   static propTypes = {
@@ -19,6 +30,7 @@ export class SetPassword extends Component {
     isSettingPassword: PropTypes.bool,
     dispatch: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
   };
 
   state = {
@@ -60,19 +72,33 @@ export class SetPassword extends Component {
   renderForm() {
     const { isSettingPassword, error } = this.props;
     return (
-      <Frame title="Set a new password">
+      <Frame title={ this.props.intl.formatMessage(MESSAGES.pageTitle) }>
 
         <div className="Frame-body">
 
           { error && !getErrorsByLocation(error, 'new_password') &&
             <p className="htmlErrorParagraph">
-              Could not set your password because of an unknown error. Please try again later or contact support.
+              <FormattedMessage
+                id="setPassword.error.unknown"
+                defaultMessage="Could not set your password because of an unknown error. Please try again later or contact support."
+              />
             </p>
           }
 
           { error && getErrorsByLocation(error, 'reset_token') &&
             <p className="htmlErrorParagraph">
-              Could not set your password because this link is wrong. <Link to="/login/password">Click here to request a new link</Link>.
+              <FormattedMessage
+                id="setPassword.error.wrongLink"
+                defaultMessage="Could not set your password because this link is wrong. {linkToPasswordRecovery}"
+                values={ {
+                  linkToPasswordRecovery: (
+                    <Link to="/login/password">
+                      <FormattedMessage id="setPassword.error.linkToPasswordRecovery" defaultMessage="Click here to request a new link" />
+                    </Link>
+                    ),
+                } }
+              />
+              .
             </p>
           }
 
@@ -85,7 +111,7 @@ export class SetPassword extends Component {
               name="newPassword"
               type="password"
               error={ error }
-              placeholder="Enter a password"
+              placeholder={ this.props.intl.formatMessage(MESSAGES.passwordPlaceholder) }
               onChange={ password => this.setState({ password }) }
             />
 
@@ -95,7 +121,15 @@ export class SetPassword extends Component {
               block
               disabled={ isSettingPassword }
             >
-              { isSettingPassword ? 'Please wait…' : 'Continue' }
+              { isSettingPassword ?
+                <FormattedMessage
+                  id="setPassword.form.button.waiting"
+                  defaultMessage="Please wait…"
+                /> :
+                <FormattedMessage
+                  id="setPassword.form.button"
+                  defaultMessage="Save password"
+                /> }
             </Button>
 
           </form>
@@ -109,10 +143,18 @@ export class SetPassword extends Component {
       <Frame title="All done">
         <div className="Frame-body">
           <p>
-            Your password has been updated. Now you can login again!
+            <FormattedMessage
+              id="setPassword.confirmMessage"
+              defaultMessage="Your password has been updated. Now you can login again!"
+            />
           </p>
           <div className="Frame-form" style={ { textAlign: 'center' } }>
-            <Button action="primary" to="/login">To login</Button>
+            <Button action="primary" to="/login">
+              <FormattedMessage
+                id="setPassword.confirmMessage.toLogin"
+                defaultMessage="To Login"
+              />
+            </Button>
           </div>
         </div>
       </Frame>
@@ -123,7 +165,7 @@ export class SetPassword extends Component {
     const { sent } = this.state;
     return (
       <Page>
-        <Helmet title="Set a new password" />
+        <Helmet title={ this.props.intl.formatMessage(MESSAGES.pageTitle) } />
         { !sent ? this.renderForm() : this.renderSuccessMessage() }
       </Page>
     );
@@ -138,4 +180,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(SetPassword);
+export default connect(mapStateToProps)(injectIntl(SetPassword));

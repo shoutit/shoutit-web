@@ -27,8 +27,8 @@ const UIMessage = ({
 export default UIMessage;
 
 UIMessage.propTypes = {
-  title: PropTypes.string.isRequired,
-  details: PropTypes.string.isRequired,
+  title: PropTypes.node.isRequired,
+  details: PropTypes.node.isRequired,
   retryAction: PropTypes.func,
   type: PropTypes.oneOf(['info', 'error']),
 };

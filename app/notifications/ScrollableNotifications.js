@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
 import Scrollable from '../ui/Scrollable';
 import { loadNotifications, readNotification } from '../actions/notifications';
 
-import { getPaginationState, getNotifications } from '../selectors';
+import { getPaginationState, getNotifications } from '../reducers/paginated/notifications';
 import NotificationItem from './NotificationItem';
 import Progress from '../ui/Progress';
 
@@ -71,7 +72,12 @@ export class ScrollableNotifications extends Component {
             ) }
             { !isFetching && notifications.length === 0 &&
               <div className="ListOverlay-empty">
-                <p>No notifications</p>
+                <p>
+                  <FormattedMessage
+                    id="scrollableNotifications.empty"
+                    defaultMessage="No notifications"
+                  />
+                </p>
               </div>
             }
           <Progress animate={ isFetching } size="small" />

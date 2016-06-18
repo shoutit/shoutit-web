@@ -1,0 +1,14 @@
+[
+  {
+    "id": "newShoutModal.title",
+    "defaultMessage": "What are you posting?"
+  },
+  {
+    "id": "newShoutModal.offerButton",
+    "defaultMessage": "Offer"
+  },
+  {
+    "id": "newShoutModal.requestButton",
+    "defaultMessage": "Request"
+  }
+]

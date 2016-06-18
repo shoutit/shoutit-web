@@ -2,6 +2,7 @@
 import express from 'express';
 import { getSummary } from './app/config';
 import { start } from './app/server';
+import './app/server/intl-polyfill';
 
 const port = process.env.PORT || 3000;
 const app = express();

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "createShoutModal.publishButton.defaultLabel",
+    "defaultMessage": "Publish"
+  },
+  {
+    "id": "createShoutModal.publishButton.uploadingImages",
+    "defaultMessage": "Uploading…"
+  },
+  {
+    "id": "createShoutModal.publishButton.publishing",
+    "defaultMessage": "Publishing…"
+  },
+  {
+    "id": "createShoutModal.cancelButton",
+    "defaultMessage": "Cancel"
+  }
+]

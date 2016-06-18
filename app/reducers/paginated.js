@@ -1,3 +1,5 @@
+import omit from 'lodash/omit';
+import get from 'lodash/get';
 import { combineReducers } from 'redux';
 
 import chatConversations from './paginated/chatConversations';
@@ -33,3 +35,7 @@ export default combineReducers({
   shoutsByUsername,
   suggestions,
 });
+
+export function getState(state, selector) {
+  return omit(get(state.paginated, selector), 'ids');
+}

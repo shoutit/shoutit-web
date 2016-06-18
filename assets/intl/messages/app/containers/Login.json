@@ -1,0 +1,39 @@
+[
+  {
+    "id": "login.title",
+    "defaultMessage": "Login"
+  },
+  {
+    "id": "login.titleWithAction",
+    "defaultMessage": "Please login to continue"
+  },
+  {
+    "id": "login.emailPlaceholder",
+    "defaultMessage": "E-mail or username"
+  },
+  {
+    "id": "login.passwordPlaceholder",
+    "defaultMessage": "Password"
+  },
+  {
+    "id": "login.recoverPassword",
+    "defaultMessage": "Recover your password"
+  },
+  {
+    "id": "login.loggingInButton",
+    "description": "Label of login button while logging in",
+    "defaultMessage": "Logging in…"
+  },
+  {
+    "id": "login.loginButton",
+    "defaultMessage": "Login"
+  },
+  {
+    "id": "login.separatorLabel.with",
+    "defaultMessage": "with"
+  },
+  {
+    "id": "login.separatorLabel.or",
+    "defaultMessage": "or"
+  }
+]

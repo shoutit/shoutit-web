@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+
 import { loadChat } from '../actions/chat';
 
-import { getAllConversations, getPaginationState } from '../selectors';
+import { getAllConversations, getPaginationState } from '../reducers/paginated/chatConversations';
 
 import ConversationItem from './ConversationItem';
 import Progress from '../ui/Progress';
@@ -79,16 +81,14 @@ export class ConversationsList extends Component {
 
           { !isFetching && conversations.length === 0 &&
             <div className="ListOverlay-empty">
-              <p>No messages</p>
+              <p>
+                <FormattedMessage id="chat.conversation.noMessages" defaultMessage="No messages." />
+              </p>
             </div>
           }
 
           { isFetching && (previousUrl || conversations.length === 0) &&
-            <Progress
-              size="small"
-              animate={ isFetching }
-              label={ conversations.length === 0 ? 'Loading messages…' : 'Loading next messages…' }
-            />
+            <Progress size="small" animate={ isFetching } />
           }
 
       </Scrollable>
@@ -100,7 +100,7 @@ export class ConversationsList extends Component {
 
 const mapStateToProps = state => ({
   conversations: getAllConversations(state),
-  ...getPaginationState(state, 'chatConversations'),
+  ...getPaginationState(state),
 });
 
 const mapDispatchToProps = dispatch => ({

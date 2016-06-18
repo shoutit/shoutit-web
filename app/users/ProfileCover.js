@@ -1,12 +1,13 @@
+/* eslint-env browser */
 import React, { PropTypes, Component } from 'react';
+import { FormattedMessage } from 'react-intl';
+
 import ReactAvatarEditor from 'react-avatar-editor';
 import { connect } from 'react-redux';
 
 import request from '../utils/request';
-// import { getVariation } from '../utils/APIUtils';
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
+import { getStyleBackgroundImage, preventBodyScroll } from '../utils/DOMUtils';
 import { getFilename } from '../utils/StringUtils';
-
 import { updateProfile } from '../actions/users';
 
 import ProfileAvatar from '../users/ProfileAvatar';
@@ -31,6 +32,7 @@ export class ProfileCover extends Component {
   constructor(props) {
     super(props);
     this.handlePictureChange = this.handlePictureChange.bind(this);
+    this.startEditing = this.startEditing.bind(this);
     this.cancelEditing = this.cancelEditing.bind(this);
     this.handleSaveClick = this.handleSaveClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
@@ -54,10 +56,16 @@ export class ProfileCover extends Component {
     }
   }
 
+  startEditing() {
+    preventBodyScroll().on();
+    this.setState({ isEditing: true });
+  }
+
   cancelEditing() {
     if (this.state.uploadRequest) {
       this.state.uploadRequest.abort();
     }
+    preventBodyScroll().off();
     this.setState({
       isEditing: false,
       isLoading: false,
@@ -135,7 +143,10 @@ export class ProfileCover extends Component {
               />
               { profile.cover !== image && !isLoading &&
                 <div className="ProfileCover-instructions">
-                  Drag to reposition
+                  <FormattedMessage
+                    id="profileCover.dragInstructions"
+                    defaultMessage="Drag to reposition"
+                  />
                 </div>
               }
             </div>
@@ -149,8 +160,11 @@ export class ProfileCover extends Component {
                   block
                   action="inverted"
                   icon={ profile.cover ? 'pencil' : 'camera' }
-                  onClick={ () => this.setState({ isEditing: true }) }>
-                  Edit cover
+                  onClick={ this.startEditing }>
+                  <FormattedMessage
+                    id="profileCover.editButton"
+                    defaultMessage="Edit Cover"
+                  />
                 </Button>
               }
               { isEditing && !isLoading && profile.cover !== image &&
@@ -162,7 +176,10 @@ export class ProfileCover extends Component {
                   action="inverted"
                   onChange={ this.handlePictureChange }
                   icon="camera">
-                  Upload image
+                  <FormattedMessage
+                    id="profileCover.uploadButton"
+                    defaultMessage="Upload Image"
+                  />
                 </UploadButton>
               }
             </div>
@@ -178,7 +195,10 @@ export class ProfileCover extends Component {
                 action="inverted"
                 onChange={ this.handlePictureChange }
                 icon="camera">
-                Add cover
+                <FormattedMessage
+                  id="profileCover.addButton"
+                  defaultMessage="Add Cover"
+                />
               </UploadButton>
             </div>
           }
@@ -188,11 +208,17 @@ export class ProfileCover extends Component {
         { isEditing &&
           <div className="ProfileCover-actions">
             <Button onClick={ this.cancelEditing } size="small" disabled={ isLoading }>
-              Cancel
+              <FormattedMessage
+                id="profileCover.cancelButton"
+                defaultMessage="Cancel"
+              />
             </Button>
             { profile.cover && profile.cover === image &&
               <Button name="upload-cover" size="small" disabled={ isLoading } action="destructive" onClick={ this.handleDeleteClick }>
-                Delete
+                <FormattedMessage
+                  id="profileCover.deleteButton"
+                  defaultMessage="Delete"
+                />
               </Button>
             }
             { profile.cover === image &&
@@ -205,12 +231,22 @@ export class ProfileCover extends Component {
                 icon="camera"
                 disabled={ isLoading }
                 onChange={ this.handlePictureChange }>
-                  Upload image
+                <FormattedMessage
+                  id="profileCover.uploadButton"
+                  defaultMessage="Upload Image"
+                />
               </UploadButton>
             }
             { profile.cover !== image &&
               <Button onClick={ this.handleSaveClick } action="primary" size="small" disabled={ profile.cover === image || isLoading } style={ { minWidth: 120 } }>
-                { isLoading ? 'Saving…' : 'Save changes' }
+                <FormattedMessage
+                  id="profileCover.saveButton"
+                  defaultMessage="{isLoading, select,
+                  true {Saving…}
+                  false {Save changes}
+                 }"
+                  values={ { isLoading } }
+                />
               </Button>
             }
           </div>

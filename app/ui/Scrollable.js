@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import React, { Component, PropTypes } from 'react';
 
 import { preventBodyScroll, getDocumentScrollTop } from '../utils/DOMUtils';

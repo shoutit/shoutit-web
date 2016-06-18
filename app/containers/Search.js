@@ -1,10 +1,14 @@
+/* eslint-env browser */
+
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { injectIntl, defineMessages } from 'react-intl';
 
 import { push } from 'react-router-redux';
 import Helmet from '../utils/Helmet';
 import { getLocationPath } from '../utils/LocationUtils';
-import { getPaginationState, getShouts, getCategory } from '../selectors';
+import { getShouts, getPaginationState } from '../reducers/paginated/shouts';
+import { getCategory } from '../reducers/categories';
 import { getSearchParamsFromQuery, getQuerystringFromSearchParams } from '../utils/SearchUtils';
 
 import { loadShouts, invalidateShouts } from '../actions/shouts';
@@ -28,12 +32,48 @@ const fetchData = (dispatch, state, params, query) => {
   return dispatch(loadShouts(state.currentLocation, searchParams));
 };
 
+const MESSAGES = defineMessages({
+  title: {
+    id: 'search.page.title',
+    defaultMessage: 'Search Shouts',
+  },
+  titleWithCategory: {
+    id: 'search.page.title.with-category',
+    defaultMessage: 'Search {category}',
+  },
+  titleWithCity: {
+    id: 'search.page.title.with-city',
+    defaultMessage: 'Search Shouts in {city}',
+  },
+  titleWithCityAndCategory: {
+    id: 'search.page.title.with-city-and-category',
+    defaultMessage: 'Search {category} in {city}',
+  },
+  errorTitle: {
+    id: 'search.shouts.error.title',
+    defaultMessage: 'There was an error',
+  },
+  errorDetails: {
+    id: 'search.shouts.error.details',
+    defaultMessage: 'Cannot load shouts right now. Please try again.',
+  },
+  notFoundTitle: {
+    id: 'search.shouts.notFound.title',
+    defaultMessage: 'Nothing found',
+  },
+  notFoundDetails: {
+    id: 'search.shouts.notFound.details',
+    defaultMessage: 'There are no Shouts for this search. Please refine your filters.',
+  },
+});
+
 export class Search extends Component {
 
   static propTypes = {
     currentUrl: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
     currentLocation: PropTypes.object,
     error: PropTypes.object,
     firstRender: PropTypes.bool,
@@ -88,7 +128,7 @@ export class Search extends Component {
 
   render() {
     const { shouts, nextUrl, isFetching, dispatch, error, searchParams, currentLocation, title } = this.props;
-
+    const { formatMessage } = this.props.intl;
     return (
       <Scrollable
         scrollElement={ () => window }
@@ -112,15 +152,12 @@ export class Search extends Component {
           <Helmet title={ title } />
           <ShoutsList shouts={ shouts } />
 
-          <Progress
-            animate={ isFetching }
-            label={ shouts.length === 0 ? 'Searching for shouts…' : 'Searching for more shouts…' }
-          />
+          <Progress animate={ isFetching } />
 
           { !isFetching && error &&
             <UIMessage
-              title="There was an error"
-              details="Cannot load shouts right now."
+              title={ formatMessage(MESSAGES.errorTitle) }
+              details={ formatMessage(MESSAGES.errorDetails) }
               type="error"
               retryAction={ () => dispatch(loadShouts(currentLocation, searchParams, nextUrl)) }
             />
@@ -128,8 +165,8 @@ export class Search extends Component {
 
           { !isFetching && !error && shouts.length === 0 &&
             <UIMessage
-              title="Nothing found"
-              details="There are no shouts for this search. Try with other filters."
+              title={ formatMessage(MESSAGES.notFoundTitle) }
+              details={ formatMessage(MESSAGES.notFoundDetails) }
             />
           }
 
@@ -143,16 +180,28 @@ export class Search extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { routing, currentLocation } = state;
   const searchParams = getSearchParamsFromQuery(ownProps.location.query);
-  let title = 'Search';
+  let title;
 
   if (searchParams.category) {
-    title = ` ${getCategory(state, searchParams.category).name}`;
-  }
-  if (searchParams.shout_type && searchParams.shout_type !== 'all') {
-    title += ` ${searchParams.shout_type}s`;
-  }
-  if (searchParams.city) {
-    title += ` in ${searchParams.city}`;
+    const category = getCategory(state, searchParams.category).name;
+    if (currentLocation && currentLocation.city) {
+      title = ownProps.intl.formatMessage(MESSAGES.titleWithCityAndCategory, {
+        city: currentLocation.city,
+        category,
+      });
+    } else {
+      title = ownProps.intl.formatMessage(MESSAGES.titleWithCategory, {
+        category,
+      });
+    }
+  } else {
+    if (currentLocation && currentLocation.city) {
+      title = ownProps.intl.formatMessage(MESSAGES.titleWithCity, {
+        city: currentLocation.city,
+      });
+    } else {
+      title = ownProps.intl.formatMessage(MESSAGES.title);
+    }
   }
 
   return {
@@ -162,8 +211,10 @@ const mapStateToProps = (state, ownProps) => {
     title,
     location: ownProps.location,
     shouts: getShouts(state),
-    ...getPaginationState(state, 'shouts'),
+    ...getPaginationState(state),
   };
 };
 
-export default connect(mapStateToProps)(Search);
+const Wrapped = injectIntl(connect(mapStateToProps)(Search));
+Wrapped.fetchData = Search.fetchData;
+export default Wrapped;

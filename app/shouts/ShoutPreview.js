@@ -26,7 +26,7 @@ function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfil
 
     <ShoutLink className="Card ShoutPreview" shout={ shout }>
       <div className="ShoutPreview-price">
-        <ShoutPrice shout={ shout } />
+        <ShoutPrice shout={ shout } layout="badge" />
         { shout.type === 'request' && <ShoutType shout={ shout } /> }
       </div>
       <div className="Card-image-wrapper">

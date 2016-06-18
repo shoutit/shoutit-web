@@ -1,0 +1,10 @@
+[
+  {
+    "id": "header.messagesPopover.title",
+    "defaultMessage": "Messages"
+  },
+  {
+    "id": "header.messagesPopover.seeAllButton",
+    "defaultMessage": "See All"
+  }
+]

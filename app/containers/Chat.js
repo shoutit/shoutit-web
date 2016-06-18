@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
+import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
+
 import Helmet from '../utils/Helmet';
 
 import FixedHeightPage from '../layout/FixedHeightPage';
@@ -15,10 +17,18 @@ if (process.env.BROWSER) {
   require('./Chat.scss');
 }
 
-export default class Chat extends Component {
+const MESSAGES = defineMessages({
+  title: {
+    id: 'chat.page.title',
+    defaultMessage: 'Messages',
+  },
+});
+
+export class Chat extends Component {
 
   static propTypes = {
     params: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
   }
 
   render() {
@@ -26,12 +36,14 @@ export default class Chat extends Component {
       <RequiresLogin>
         <FixedHeightPage>
           <Page endColumn={ <SuggestedShout /> }>
-            <Helmet title="Messages" />
+            <Helmet title={ this.props.intl.formatMessage(MESSAGES.title) } />
             <div className="Chat">
               <div className="Chat-conversations">
                 <div className="Chat-conversations-title">
                   <Link to="/messages">
-                    <h1>Conversations</h1>
+                    <h1>
+                      <FormattedMessage id="chat.conversations.title" defaultMessage="Conversations" />
+                    </h1>
                   </Link>
                 </div>
                 <div className="Chat-conversations-list">
@@ -52,7 +64,7 @@ export default class Chat extends Component {
 
               { !this.props.params.conversationId &&
                 <div className="Chat-conversation Chat-placeholder htmlAncillary">
-                  Pick a conversation from the left.
+                  <FormattedMessage id="chat.conversations.notSelected" defaultMessage="Pick a conversation from the left." />
                 </div>
               }
 
@@ -63,3 +75,5 @@ export default class Chat extends Component {
     );
   }
 }
+
+export default injectIntl(Chat);

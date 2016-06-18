@@ -1,0 +1,6 @@
+[
+  {
+    "id": "profileAvatar.editButton",
+    "defaultMessage": "{hasImage, select, true {Change picture} false {Set profile picture}}"
+  }
+]

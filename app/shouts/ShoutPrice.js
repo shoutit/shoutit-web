@@ -1,18 +1,33 @@
 import React, { PropTypes } from 'react';
-import { formatPrice } from '../utils/CurrencyUtils';
+import { FormattedNumber, FormattedMessage } from 'react-intl';
 
 if (process.env.BROWSER) {
   require('./ShoutPrice.scss');
 }
-export default function ShoutPrice({ shout, layout = 'badge' }) {
+export default function ShoutPrice({ shout, layout = 'plain' }) {
   const isFree = !shout.price;
+  let { price } = shout;
   let className = `ShoutPrice ${layout}`;
   if (isFree) {
     className += ' free';
+  } else {
+    price = price / 100;
   }
   return (
     <span className={ className }>
-      { formatPrice(shout.price, shout.currency) }
+      { isFree ?
+        <FormattedMessage
+          id="shoutPrice.free"
+          defaultMessage="Free"
+        /> :
+        <FormattedNumber
+          style="currency"
+          currencyDisplay="symbol"
+          currency={ shout.currency }
+          value={ price }
+          maximumFractionDigits={ Number.isInteger(price) ? 0 : undefined }
+        />
+      }
     </span>
   );
 }

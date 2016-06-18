@@ -1,0 +1,30 @@
+[
+  {
+    "id": "profileCover.dragInstructions",
+    "defaultMessage": "Drag to reposition"
+  },
+  {
+    "id": "profileCover.editButton",
+    "defaultMessage": "Edit Cover"
+  },
+  {
+    "id": "profileCover.uploadButton",
+    "defaultMessage": "Upload Image"
+  },
+  {
+    "id": "profileCover.addButton",
+    "defaultMessage": "Add Cover"
+  },
+  {
+    "id": "profileCover.cancelButton",
+    "defaultMessage": "Cancel"
+  },
+  {
+    "id": "profileCover.deleteButton",
+    "defaultMessage": "Delete"
+  },
+  {
+    "id": "profileCover.saveButton",
+    "defaultMessage": "{isLoading, select, true {Saving…} false {Save changes}}"
+  }
+]

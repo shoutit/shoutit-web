@@ -1,0 +1,14 @@
+[
+  {
+    "id": "header.profilePopover.menu.profile",
+    "defaultMessage": "{name}"
+  },
+  {
+    "id": "header.profilePopover.menu.setting",
+    "defaultMessage": "Settings"
+  },
+  {
+    "id": "header.profilePopover.menu.logout",
+    "defaultMessage": "Logout"
+  }
+]

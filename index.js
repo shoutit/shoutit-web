@@ -6,10 +6,6 @@ if (process.env.NODE_ENV === 'production' &&
   require('newrelic');
 }
 
-if (process.env.NODE_ENV === 'production') {
-  require('babel-register');
-}
-
 // Prevent issues with libraries using this var (see http://tinyurl.com/pcockwk)
 delete process.env.BROWSER;
 require('./app.js');

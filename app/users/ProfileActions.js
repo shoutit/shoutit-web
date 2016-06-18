@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import { listenToUser, stopListeningToUser } from '../actions/users';
 import { startConversation, openConversation } from '../actions/conversations';
 import { Link } from 'react-router';
@@ -9,7 +10,7 @@ import { START_LISTENING, SEND_MESSAGE } from '../auth/loginActions';
 
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./ProfileActions.scss');
@@ -40,7 +41,11 @@ export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium',
     <div className="ProfileActions">
       { profile.isListener &&
         <p className="ProfileActions-is-listener">
-          { profile.firstName } is listening to you.
+          <FormattedMessage
+            id="profileActions.userIsListening"
+            defaultMessage="{firstName} is listening to you"
+            values={ { ...profile } }
+          />
         </p>
       }
       <ul className="htmlNoList">
@@ -51,7 +56,11 @@ export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium',
                 size={ size }
                 onClick={ onSendMessageClick }
                 start={ <Icon size={ size } active name="balloon-dots" /> }>
-                Send { profile.firstName } a message
+                <FormattedMessage
+                  id="profileActions.sendMessage"
+                  defaultMessage="Send {firstName} a message"
+                  values={ { ...profile } }
+                />
               </ListItem>
             </RequiresLogin>
           </li>
@@ -64,7 +73,14 @@ export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium',
                 onClick={ onListenClick }
                 start={ <Icon size={ size } name="listen" active={ !profile.isListening } on={ profile.isListening } /> }
               >
-                { profile.isListening ? `Stop listening to ${profile.firstName}` : `Listen to ${profile.firstName}` }
+                <FormattedMessage
+                  id="profileActions.listen"
+                  defaultMessage="{isListening, select,
+                    true {Stop listening to {firstName}}
+                    false {Listen to {firstName}}
+                  }"
+                  values={ { ...profile } }
+                />
               </ListItem>
             </RequiresLogin>
           </li>
@@ -73,7 +89,10 @@ export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium',
           <li>
             <Link to={ `/user/${profile.username}` }>
               <ListItem size={ size } start={ <Icon active size={ size } name="profile" /> }>
-                View Profile
+                <FormattedMessage
+                  id="profileActions.viewProfile"
+                  defaultMessage="View profile"
+                />
               </ListItem>
             </Link>
           </li>

@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import { FormattedMessage, FormattedNumber, injectIntl } from 'react-intl';
 import last from 'lodash/last';
 import { getCountryName } from '../utils/LocationUtils';
 import RangeField from '../ui/RangeField';
@@ -10,7 +11,7 @@ if (process.env.BROWSER) {
   require('./LocationRange.scss');
 }
 
-export default class LocationRange extends Component {
+export class LocationRange extends Component {
   static propTypes = {
     location: PropTypes.shape({
       city: PropTypes.string.isRequired,
@@ -18,7 +19,9 @@ export default class LocationRange extends Component {
       country: PropTypes.string.isRequired,
     }).isRequired,
     name: PropTypes.string,
-    initialValue: PropTypes.oneOf(VALUES),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    intl: PropTypes.object.isRequired,
+    onChange: PropTypes.func,
   };
   static defaultProps = {
     name: 'location_range',
@@ -26,43 +29,90 @@ export default class LocationRange extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.state = {
-      index: props.initialValue ? VALUES.indexOf(props.initialValue) : 0,
+    this.state = this.getStateFromProps(props);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.value !== nextProps.value) {
+      return;
+    }
+    this.setState(this.getStateFromProps(nextProps), () => {
+      const index = VALUES.indexOf(this.getValue());
+      const currentStep = STEPS[index];
+      const range = this.refs.rangeField.getValue();
+      if (range >= currentStep || range <= STEPS[index - 1]) {
+        this.refs.rangeField.setValue(currentStep);
+      }
+    });
+  }
+  getStateFromProps(props) {
+    return {
+      index: props.value ? VALUES.indexOf(props.value) : 0,
     };
   }
   getLabel() {
     const value = this.getValue();
     if (value === 'city') {
-      return `Within ${this.props.location.city}`;
+      return (
+        <FormattedMessage
+          id="ui.locationRange.city"
+          defaultMessage="Within {city}"
+          values={ { city: this.props.location.city } }
+        />
+      );
     } else if (value === 'country') {
-      return `Entire ${getCountryName(this.props.location.country)}`;
+      return (
+        <FormattedMessage
+          id="ui.locationRange.country"
+          defaultMessage="Entire {country}"
+          values={ {
+            country: getCountryName(this.props.location.country, this.props.intl.locale),
+          } }
+        />
+      );
     } else if (value === 'state') {
-      return `Entire ${this.props.location.state}`;
+      return (
+        <FormattedMessage
+          id="ui.locationRange.state"
+          defaultMessage="Entire {state}"
+          values={ { state: this.props.location.state } }
+        />
+      );
     }
-    return `Within ${value} km`;
+    return (
+      <FormattedMessage
+        id="ui.locationRange.distance"
+        defaultMessage="Within {distance}km"
+        values={ { distance: <FormattedNumber value={ value } /> } }
+      />
+    );
   }
   getValue() {
     const value = VALUES[this.state.index];
     return typeof value === 'string' ? value : parseInt(value, 10);
   }
-  handleChange(e) {
-    const value = e.target.value;
+  handleChange(value) {
     let index = 0;
     if (value > STEPS[0]) {
       for (let i = 0; i < STEPS.length; i++) {
         const step = STEPS[i];
-        if (value < step) {
+        if (value <= step) {
           index = i;
           break;
         }
       }
     }
-    this.setState({ index });
+    this.setState({ index }, () => {
+      if (this.props.onChange) {
+        this.props.onChange(this.getValue());
+      }
+    });
+
   }
   render() {
     return (
       <div className="LocationRange">
         <RangeField
+          ref="rangeField"
           id={ this.props.name }
           type="range"
           onChange={ this.handleChange }
@@ -77,3 +127,5 @@ export default class LocationRange extends Component {
     );
   }
 }
+
+export default injectIntl(LocationRange);

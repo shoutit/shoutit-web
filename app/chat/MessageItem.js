@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import moment from 'moment';
+import { FormattedDate } from 'react-intl';
+import { toDate } from 'unix-timestamp';
 
 import ProfileAvatar from '../users/ProfileAvatar';
 import MessageAttachment from './MessageAttachment';
@@ -62,13 +63,34 @@ export default class MessageItem extends Component {
       }
     }
 
-    const sender = !isOwner && this.props.showSender && message.profile &&
-      <div className="MessageItem-sender-wrapper">
-        <Tooltip placement="left" overlay={ `${message.profile.name} at ${moment.unix(message.createdAt).format('LT')}` }><span>
-          <ProfileAvatar profile={ message.profile } linkToProfilePage />
+    let sender;
+    if (!isOwner && this.props.showSender && message.profile) {
+      let tooltip = (
+        <span>
+          { message.profile.name }
+          { ' ' }
+          (<FormattedDate
+            value={ toDate(message.createdAt) }
+            formatMatcher="basic"
+            hour="numeric"
+            minute="numeric"
+            day="numeric"
+            month="numeric"
+            weekday="short" />
+          )
         </span>
-        </Tooltip>
-      </div>;
+
+      );
+      sender = (
+        <div className="MessageItem-sender-wrapper">
+          <Tooltip placement="left" overlay={ tooltip }>
+            <span>
+              <ProfileAvatar profile={ message.profile } linkToProfilePage />
+            </span>
+          </Tooltip>
+        </div>
+      );
+    }
 
     return (
       <div className={ className }>

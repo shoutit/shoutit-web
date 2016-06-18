@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
+import { FormattedMessage } from 'react-intl';
 
 import { leaveConversation, readConversation, unreadConversation } from '../actions/conversations';
 
@@ -43,17 +44,20 @@ export class ConversationDropdown extends Component {
         { !skipItems.includes('linkToConversation') &&
           <LinkContainer to={ `/messages/${conversation.id}` }>
             <MenuItem>
-              See full conversation
+              <FormattedMessage id="chat.conversation.dropdown.fullConversation" defaultMessage="See full conversation." />
             </MenuItem>
           </LinkContainer>
         }
         { !skipItems.includes('toggleRead') &&
           <MenuItem onSelect={ this.handleToggleReadClick.bind(this) }>
-            { conversation.unreadMessagesCount > 0 ? 'Mark as read' : 'Mark as unread' }
+            { conversation.unreadMessagesCount > 0 ?
+              <FormattedMessage id="chat.conversation.dropdown.read" defaultMessage="Mark as read." /> :
+              <FormattedMessage id="chat.conversation.dropdown.unread" defaultMessage="Mark as unread." />
+            }
           </MenuItem>
         }
         <MenuItem onSelect={ this.handleLeaveClick.bind(this) }>
-          Leave conversation
+          <FormattedMessage id="chat.conversation.dropdown.leaveConversation" defaultMessage="Leave this conversation." />
         </MenuItem>
       </Dropdown>
     );

@@ -1,28 +1,62 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 
 import Page from '../layout/Page';
 import Helmet from '../utils/Helmet';
 import RequiresLogin from '../auth/RequiresLogin';
 
-import CardWithList from '../ui/CardWithList';
 import TextField from '../ui/TextField';
 import Form from '../ui/Form';
 import Button from '../ui/Button';
+import SettingsNavigation from '../settings/SettingsNavigation';
 
 import { updateProfile, updatePassword } from '../actions/users';
 import { resetErrors } from '../actions/session';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./Settings.scss');
 }
+
+const MESSAGES = defineMessages({
+  title: {
+    id: 'accountSettings.page.title',
+    defaultMessage: 'Settings',
+  },
+  oldPasswordPlaceholder: {
+    id: 'accountSettings.oldPassword.placeholder',
+    defaultMessage: 'Old password',
+  },
+  newPasswordPlaceholder: {
+    id: 'accountSettings.newPassword.placeholder',
+    defaultMessage: 'New password',
+  },
+  repeatPasswordPlaceholder: {
+    id: 'accountSettings.repeatPassword.placeholder',
+    defaultMessage: 'Repeat the new password',
+  },
+  emailLabel: {
+    id: 'accountSettings.account.email.label',
+    defaultMessage: 'E-mail',
+  },
+  mobileLabel: {
+    id: 'accountSettings.account.mobile.label',
+    defaultMessage: 'Mobile',
+  },
+  usernameLabel: {
+    id: 'accountSettings.account.username.label',
+    defaultMessage: 'Username',
+  },
+});
+
 export class AccountSettings extends Component {
 
   static propTypes = {
     session: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
     updatePassword: PropTypes.func.isRequired,
     resetErrors: PropTypes.func.isRequired,
     updateAccount: PropTypes.func.isRequired,
@@ -53,7 +87,7 @@ export class AccountSettings extends Component {
   }
 
   handleAccountFormSubmit() {
-    if (!this.didAccountChange()) {
+    if (!this.didChange()) {
       return;
     }
     const { updateAccount, profile } = this.props;
@@ -82,7 +116,7 @@ export class AccountSettings extends Component {
     });
   }
 
-  didAccountChange() {
+  didChange() {
     const { profile } = this.props;
     return this.state.email !== profile.email ||
       this.state.username !== profile.username ||
@@ -95,33 +129,29 @@ export class AccountSettings extends Component {
 
   render() {
     const { profile, session } = this.props;
-    const error = profile.updateError;
-    const navigation = (
-      <CardWithList title="Profile Settings">
-        <Link to="/settings/profile" activeClassName="active">
-          Public Profile
-        </Link>
-        <Link to="/settings/account" activeClassName="active">
-          Your Account
-        </Link>
-      </CardWithList>
-    );
+    const { formatMessage } = this.props.intl;
     return (
       <RequiresLogin>
-        <Page className="Settings" startColumn={ navigation }>
-          <Helmet title="Account settings" />
+        <Page className="Settings" startColumn={ <SettingsNavigation /> }>
+          <Helmet title={ formatMessage(MESSAGES.title) } />
 
           <div className="Settings-layout">
             <Form onSubmit={ this.handlePasswordFormSubmit }>
-              <h3>Change Password</h3>
+              <h3>
+                <FormattedMessage id="accountSettings.password.formTitle" defaultMessage="Change your password" />
+              </h3>
               { this.state.isPasswordSet &&
                 <TextField
                   ref="old_password"
                   name="old_password"
-                  placeholder="Old password"
+                  placeholder={ formatMessage(MESSAGES.oldPasswordPlaceholder) }
                   type="password"
                   onChange={ old_password => this.setState({ old_password }) }
-                  ancillary={ <Link to="/login/password">Recover your password</Link> }
+                  ancillary={
+                    <Link to="/login/password">
+                      <FormattedMessage id="accountSettings.oldPassword.recoverLink" defaultMessage="Recover your password" />
+                    </Link>
+                  }
                   error={ session.updatePasswordError }
                 />
                }
@@ -129,57 +159,62 @@ export class AccountSettings extends Component {
                 <TextField
                   ref="new_password"
                   name="new_password"
-                  placeholder="New password"
+                  placeholder={ formatMessage(MESSAGES.newPasswordPlaceholder) }
                   type="password"
                   onChange={ new_password => this.setState({ new_password }) }
                   error={ session.updatePasswordError } />
                 <TextField
                   ref="new_password2"
                   name="new_password2"
-                  placeholder="Repeat the new password"
+                  placeholder={ formatMessage(MESSAGES.repeatPasswordPlaceholder) }
                   type="password"
                   onChange={ new_password2 => this.setState({ new_password2 }) }
                   error={ session.updatePasswordError } />
               </div>
               <div className="Settings-actions">
                 <Button action="primary" disabled={ session.isUpdatingPassword || !this.isChangingPassword() }>
-                  Change password
+                  <FormattedMessage id="accountSettings.password.submit" defaultMessage="Change password" />
                 </Button>
               </div>
             </Form>
           </div>
           <div className="Settings-layout">
             <Form onSubmit={ this.handleAccountFormSubmit }>
-              <h3>Your Account</h3>
+              <h3>
+                <FormattedMessage id="accountSettings.account.formTitle" defaultMessage="Your Account" />
+              </h3>
               <TextField
                 name="email"
-                label="E-mail"
+                label={ formatMessage(MESSAGES.emailLabel) }
                 value={ profile.email }
                 onChange={ email => this.setState({ email }) }
-                error={ error }
+                error={ profile.updateError }
                 disabled={ profile.isUpdating }
               />
               <TextField
                 name="mobile"
-                label="Mobile"
+                label={ formatMessage(MESSAGES.mobileLabel) }
                 value={ profile.mobile }
                 onChange={ mobile => this.setState({ mobile }) }
-                error={ error }
+                error={ profile.updateError }
                 disabled={ profile.isUpdating }
               />
               <TextField
                 name="username"
-                label="Username"
+                label={ formatMessage(MESSAGES.usernameLabel) }
                 value={ profile.username }
                 onChange={ username => this.setState({ username }) }
-                error={ error }
+                error={ profile.updateError }
                 disabled={ profile.isUpdating }
               />
               <div className="Settings-actions">
-                <Button action="primary" disabled={ !this.didAccountChange() || profile.isUpdating }>
-                  { profile.isUpdating && 'Updating…' }
-                  { this.didAccountChange() && !profile.isUpdating && 'Update account' }
-                  { !this.didAccountChange() && !profile.isUpdating && 'Account updated' }
+                <Button action="primary" disabled={ !this.didChange() || profile.isUpdating }>
+                  { profile.isUpdating &&
+                    <FormattedMessage id="accountSettings.account.updatingLabel" defaultMessage="Updating…" /> }
+                  { this.didChange() && !profile.isUpdating &&
+                    <FormattedMessage id="accountSettings.account.updateLabel" defaultMessage="Update account" /> }
+                  { !this.didChange() && !profile.isUpdating &&
+                    <FormattedMessage id="accountSettings.account.updatedLabel" defaultMessage="Account updated" /> }
                 </Button>
               </div>
 
@@ -205,4 +240,5 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccountSettings);
+const Wrapped = connect(mapStateToProps, mapDispatchToProps)(injectIntl(AccountSettings));
+export default Wrapped;

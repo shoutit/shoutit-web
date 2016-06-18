@@ -1,5 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import Dropzone from 'react-dropzone';
+import { FormattedMessage } from 'react-intl';
+
 import debug from 'debug';
 import without from 'lodash/without';
 import union from 'lodash/union';
@@ -54,7 +56,6 @@ export default class FileUploadField extends Component {
   static propTypes = {
     resourceType: PropTypes.oneOf(['shout', 'user', 'tag']).isRequired,
     name: PropTypes.string.isRequired,
-    deleteTooltip: PropTypes.string,
     disabled: PropTypes.bool,
     accept: PropTypes.string,
     initialFileUrls: PropTypes.array,
@@ -68,8 +69,6 @@ export default class FileUploadField extends Component {
 
   static defaultProps = {
     label: 'Upload files',
-    deleteTooltip: 'Click to remove',
-    uploadingLabel: 'Uploading…',
     max: 10,
     initialFileUrls: [],
     accept: 'image/x-png, image/jpeg',
@@ -278,7 +277,11 @@ export default class FileUploadField extends Component {
           activeClassName="FileUploadField-dropzone active"
           ref="dropzone">
           <div className="FileUploadField-instructions">
-            To upload files, click on <Icon name="camera" size="small" hover onClick={ this.open } /> or drop them here.
+            <FormattedMessage
+              id="ui.fileUpload.instrutions"
+              defaultMessage="To upload files, click on {icon} or drop them here"
+              values={ { icon: <Icon name="camera" size="small" hover onClick={ this.open } /> } }
+            />
           </div>
 
           { this.state.uploads.map((upload, i) =>

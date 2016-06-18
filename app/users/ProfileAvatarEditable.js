@@ -1,5 +1,7 @@
+/* eslint-env browser */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
 import { openModal } from '../actions/ui';
 
@@ -49,7 +51,14 @@ export class ProfileAvatarEditable extends Component {
           onChange={ this.handleFileInputChange }>
           <ProfileAvatar {...this.props} />
           <span className="ProfileAvatarEditable-instructions">
-            { profile.image ? 'Change picture' : 'Set profile picture' }
+            <FormattedMessage
+              id="profileAvatar.editButton"
+              defaultMessage="{hasImage, select,
+                true {Change picture}
+                false {Set profile picture}
+              }"
+              values={ { hasImage: !!profile.image } }
+            />
           </span>
         </FileInput>
       </span>

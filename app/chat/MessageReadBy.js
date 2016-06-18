@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import Icon from '../ui/Icon';
 
@@ -12,7 +13,11 @@ export default function MessageReadBy({ message }) {
   return (
     <div className="MessageReadBy">
       <Icon name="seen" active size="small" />
-      Read by { profiles.map(profile => profile.firstName).join(', ') }
+      <FormattedMessage id="chat.message.readBy"
+        defaultMessage="Read by {namesAsList}"
+        values={ {
+          namesAsList: profiles.map(profile => profile.firstName).join(', '),
+        } } />
     </div>
   );
 }

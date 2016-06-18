@@ -21,6 +21,6 @@ export default function CardWithList({ children = [], title, style }) {
 
 CardWithList.propTypes = {
   children: PropTypes.node,
-  title: PropTypes.string,
+  title: PropTypes.node,
   style: PropTypes.object,
 };

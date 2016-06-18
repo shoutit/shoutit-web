@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+
 import { listenToTag, stopListeningToTag } from '../actions/tags';
 import { Link } from 'react-router';
 
@@ -8,7 +10,7 @@ import { LISTEN_TAG } from '../auth/loginActions';
 
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 export class TagActions extends Component {
 
@@ -55,7 +57,17 @@ export class TagActions extends Component {
                 onClick={ this.handleListenClick }
                 start={ <Icon size={ size } name="listen" active={ !tag.isListening } on={ tag.isListening } /> }
               >
-                { tag.isListening ? `Stop listening to ${name}` : `Listen to ${name}` }
+                <FormattedMessage
+                  id="tagActions.listen"
+                  defaultMessage="{isListening, select,
+                      true {Stop listening to {tagName}}
+                      false {Listen to {tagName}}
+                  }"
+                  values={ {
+                    isListening: tag.isListening,
+                    tagName: name,
+                  } }
+                />
               </ListItem>
             </RequiresLogin>
           </li>
@@ -65,7 +77,10 @@ export class TagActions extends Component {
                 size={ size }
                 start={ <Icon active size={ size } name="tag" /> }
               >
-                View Shouts
+                <FormattedMessage
+                  id="tagActions.viewShouts"
+                  defaultMessage="View Shouts"
+                />
               </ListItem>
             </Link>
           </li>

@@ -1,12 +1,14 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { IntlProvider } from 'react-intl';
+
+import { getCurrentLocale, isRtl, getIntlMessages } from '../reducers/i18n';
+
 import Helmet from '../utils/Helmet';
 
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
-// import UINotificationsHost from '../ui/UINotificationsHost';
 import ModalHost from '../ui/ModalHost';
-// import VideoCallHost from '../videoCalls/VideoCallHost';
 import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
 import NotFound from './NotFound';
@@ -16,7 +18,7 @@ import { loadSuggestions } from '../actions/location';
 import { loadListening } from '../actions/users';
 import { loginUser } from '../actions/session';
 
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 import * as config from '../config';
 
@@ -88,68 +90,63 @@ export class Application extends React.Component {
       className += ` ${layout.className}`;
     }
 
-
     return (
-      <div className={ className }>
-        <Helmet
-          htmlAttributes={ { lang: 'en' } }
-          titleTemplate="%s - Shoutit"
-          title="Buy and sell while chatting! - Shoutit"
-          defaultTitle="Buy and sell while chatting! - Shoutit"
-          description="The fastest way to share and offer what you want to sell or buy. Take photos and videos and chat with buyers or sellers"
-          meta={ [
-            { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
-            { name: 'keywords', content: 'shoutit' },
-            { property: 'fb:app_id', content: config.facebookId },
-            { property: 'og:url', content: `${config.siteUrl}${props.currentUrl}` },
-            { property: 'og:locale', content: 'en_US' },
-            { property: 'og:site_name', content: 'Shoutit' },
-            { property: 'og:type', content: 'website' },
-            { name: 'twitter:site', content: '@Shoutitcom' },
-            { name: 'twitter:card', content: 'summary' },
-            { name: 'twitter:app:name:iphone', content: 'Shoutit' },
-            { name: 'twitter:app:name:ipad', content: 'Shoutit' },
-            { name: 'twitter:app:name:googleplay', content: 'Shoutit' },
-            { name: 'twitter:app:id:iphone', content: '947017118' },
-            { name: 'twitter:app:id:ipad', content: '947017118' },
-            { name: 'twitter:app:id:googleplay', content: 'com.shoutit.app.android' },
-          ] }
-          link={ [
-            { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
-            { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
-          ] }
-        />
-        { layout.showHeader &&
-          <div className="App-header">
-            <Header
-              history={ props.history }
-              flux={ props.flux }
-              chat={ props.chat }
-              conversations={ props.conversations }
-              location={ props.location }
-            />
-          </div>
-        }
-        <div className="App-content">
-          { !error ? // eslint-disable-line
-            React.cloneElement(children, props) :
-            (error.statusCode === 404 ?
-              <NotFound /> :
-              <ServerError error={ error } />)
+      <IntlProvider locale={ this.props.locale } messages={ this.props.messages }>
+        <div className={ className }>
+          <Helmet
+            htmlAttributes={ { lang: props.locale, dir: props.rtl ? 'rtl' : 'ltr' } }
+            meta={ [
+              { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
+              { name: 'keywords', content: 'shoutit' },
+              { property: 'fb:app_id', content: config.facebookId },
+              { property: 'og:url', content: `${config.siteUrl}${props.currentUrl}` },
+              { property: 'og:locale', content: 'en_US' },
+              { property: 'og:site_name', content: 'Shoutit' },
+              { property: 'og:type', content: 'website' },
+              { name: 'twitter:site', content: '@Shoutitcom' },
+              { name: 'twitter:card', content: 'summary' },
+              { name: 'twitter:app:name:iphone', content: 'Shoutit' },
+              { name: 'twitter:app:name:ipad', content: 'Shoutit' },
+              { name: 'twitter:app:name:googleplay', content: 'Shoutit' },
+              { name: 'twitter:app:id:iphone', content: '947017118' },
+              { name: 'twitter:app:id:ipad', content: '947017118' },
+              { name: 'twitter:app:id:googleplay', content: 'com.shoutit.app.android' },
+            ] }
+            link={ [
+              { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
+              { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
+            ] }
+          />
+          { layout.showHeader &&
+            <div className="App-header">
+              <Header
+                history={ props.history }
+                flux={ props.flux }
+                chat={ props.chat }
+                conversations={ props.conversations }
+                location={ props.location }
+              />
+            </div>
           }
-        </div>
-        { layout.showFooter &&
-          <div className="App-footer">
-            <Footer />
+          <div className="App-content">
+            { !error ? // eslint-disable-line
+              React.cloneElement(children, props) :
+              (error.statusCode === 404 ?
+                <NotFound /> :
+                <ServerError error={ error } />)
+            }
           </div>
-        }
-        <ModalHost />
-        { /* <UINotificationsHost />*/ }
-        { /* { props.videoCallState && props.videoCallState.currentConversation &&*/ }
-          { /* <VideoCallHost conversation={ props.videoCallState.currentConversation } /> }*/ }
-        <ConversationsHost />
+          { layout.showFooter &&
+            <div className="App-footer">
+              <Footer />
+            </div>
+          }
 
-      </div>
+          <ModalHost />
+          <ConversationsHost />
+
+        </div>
+      </IntlProvider>
     );
   }
 }
@@ -160,15 +157,24 @@ Application.propTypes = {
   error: PropTypes.object,
   children: PropTypes.element.isRequired,
   dispatch: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
+  rtl: PropTypes.bool.isRequired,
+  messages: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    loggedUser: getLoggedUser(state),
     currentLocation: state.currentLocation,
     currentUrl: state.routing.currentUrl,
     error: state.routing.error,
+    locale: getCurrentLocale(state),
+    loggedUser: getLoggedUser(state),
+    messages: getIntlMessages(state),
+    rtl: isRtl(state),
   };
 }
 
-export default connect(mapStateToProps)(Application);
+const Wrapped = connect(mapStateToProps)(Application);
+Wrapped.fetchData = Application.fetchData;
+
+export default Wrapped;

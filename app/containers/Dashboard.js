@@ -1,6 +1,10 @@
+/* eslint-env browser */
+
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
+
 import Helmet from '../utils/Helmet';
 
 import ShoutsList from '../shouts/ShoutsList';
@@ -19,11 +23,19 @@ import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';
 import SuggestedShout from '../shouts/SuggestedShout';
 
-import { getLoggedUser, getHomepageShouts, getPaginationState } from '../selectors';
+import { getHomepageShouts, getPaginationState } from '../reducers/paginated/shoutsByHome';
+import { getLoggedUser } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./Dashboard.scss');
 }
+
+const MESSAGES = defineMessages({
+  title: {
+    id: 'dashboard.page.title',
+    defaultMessage: '{firstName}’s Home Page',
+  },
+});
 
 const fetchData = dispatch =>
   dispatch(loadHomeShouts())
@@ -32,33 +44,58 @@ const fetchData = dispatch =>
 const StartColumn = ({ profile }) =>
   <div className="Dashboard-start-column">
     <h1>
-      Welcome back, { profile.firstName }
+      <FormattedMessage
+        id="dashboard.welcome"
+        defaultMessage="Welcome back, {firstName}"
+        values={ { firstName: profile.firstName } }
+      />
     </h1>
 
     <ul className="htmlNoList Dashboard-shortcuts" style={ { padding: '0 .5rem' } }>
       <li>
         <Link to={ `/user/${profile.username}` }>
-          <ListItem start={ <Icon active name="profile" size="small" /> }>Your Profile</ListItem>
+          <ListItem start={ <Icon active name="profile" size="small" /> }>
+            <FormattedMessage
+              id="dashboard.menu.profile"
+              defaultMessage="Your Profile"
+            />
+          </ListItem>
         </Link>
       </li>
       <li>
         <Link to="/settings">
-          <ListItem start={ <Icon active name="pencil" size="small" /> }>Edit Your Profile</ListItem>
+          <ListItem start={ <Icon active name="pencil" size="small" /> }>
+            <FormattedMessage
+              id="dashboard.menu.editProfile"
+              defaultMessage="Edit Your Profile"
+            />
+          </ListItem>
         </Link>
       </li>
       <li>
         <Link to="/messages">
-          <ListItem start={ <Icon active name="balloon-dots" size="small" /> }>Messages</ListItem>
+          <ListItem start={ <Icon active name="balloon-dots" size="small" /> }>
+            <FormattedMessage
+              id="dashboard.menu.chat"
+              defaultMessage="Messages"
+            />
+          </ListItem>
         </Link>
       </li>
       <li>
         <Link to="/search">
-          <ListItem start={ <Icon active name="world-west" size="small" /> }>Browse shouts</ListItem>
+          <ListItem start={ <Icon active name="world-west" size="small" /> }>
+            <FormattedMessage
+              id="dashboard.menu.search"
+              defaultMessage="Browse shouts"
+            />
+          </ListItem>
         </Link>
       </li>
     </ul>
 
     <Listening byProfile={ profile } />
+
   </div>;
 
 StartColumn.propTypes = {
@@ -76,18 +113,18 @@ export class Dashboard extends Component {
     isFetching: PropTypes.bool,
     searchParams: PropTypes.array,
     error: PropTypes.object,
-    profile: PropTypes.object,
-    loggedProfile: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
   };
 
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { firstRender, dispatch, loggedProfile, shouts } = this.props;
+    const { firstRender, dispatch, profile, shouts } = this.props;
     if (!firstRender && shouts.length === 0) {
       fetchData(dispatch);
     }
-    dispatch(loadListening(loggedProfile));
+    dispatch(loadListening(profile));
   }
 
   shouldComponentUpdate(nextProps) {
@@ -100,7 +137,9 @@ export class Dashboard extends Component {
   }
 
   render() {
-    const { shouts, nextUrl, dispatch, isFetching, loggedProfile, error } = this.props;
+    const { shouts, nextUrl, dispatch, isFetching, profile, error } = this.props;
+    const { formatMessage } = this.props.intl;
+    const title = formatMessage(MESSAGES.title, { firstName: profile.firstName });
     return (
       <Scrollable
         scrollElement={ () => window }
@@ -111,27 +150,47 @@ export class Dashboard extends Component {
         } }
         triggerOffset={ 400 }>
         <Page
-          startColumn={ <StartColumn profile={ loggedProfile } /> }
+          startColumn={ <StartColumn profile={ profile } /> }
           stickyStartColumn
           endColumn={ [<SuggestedTags />, <SuggestedProfiles />, <SuggestedShout />] }>
 
-          <Helmet title={ `${loggedProfile.firstName}’s Home Page` } />
+          <Helmet title={ title } />
 
           <ShoutsList shouts={ shouts } />
 
           { !isFetching && shouts.length === 0 &&
-            <UIMessage title="No suggestions, yet" details="After some while, you will see some more suggested shouts here." />
+            <UIMessage
+              title={
+                <FormattedMessage
+                  id="dashboard.shouts.noShoutsTitle"
+                  defaultMessage="No suggestions, yet."
+                />
+              }
+              details={
+                <FormattedMessage
+                  id="dashboard.shouts.noShoutsDetails"
+                  defaultMessage="After some while, you will see some more suggested shouts here."
+                />
+              }
+            />
            }
 
-          <Progress
-            animate={ isFetching }
-            label={ shouts.length === 0 ? 'Loading shouts…' : 'Loading more shouts…' }
-          />
+          <Progress animate={ isFetching } />
 
           { !isFetching && error &&
             <UIMessage
-              title="There was an error"
-              details="Cannot load shouts right now."
+              title={
+                <FormattedMessage
+                  id="dashboard.shouts.errorTitle"
+                  defaultMessage="There was an error"
+                />
+              }
+              details={
+                <FormattedMessage
+                  id="dashboard.shouts.errorDetails"
+                  defaultMessage="Cannot load shouts right now – please try again."
+                />
+              }
               type="error"
               retryAction={ () => dispatch(loadHomeShouts(nextUrl)) }
             />
@@ -144,9 +203,11 @@ export class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  loggedProfile: getLoggedUser(state),
+  profile: getLoggedUser(state),
   shouts: getHomepageShouts(state),
-  ...getPaginationState(state, 'shoutsByHome'),
+  ...getPaginationState(state),
 });
 
-export default connect(mapStateToProps)(Dashboard);
+const Wrapped = connect(mapStateToProps)(injectIntl(Dashboard));
+Wrapped.fetchData = Dashboard.fetchData;
+export default Wrapped;

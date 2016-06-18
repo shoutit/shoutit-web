@@ -1,0 +1,6 @@
+[
+  {
+    "id": "chat.typing.profiles",
+    "defaultMessage": "{count, plural, one {{names} is typing…} two {{names} are typing…} other {{names} are typing…}}"
+  }
+]

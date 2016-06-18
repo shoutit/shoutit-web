@@ -4,11 +4,17 @@ import { camelizeKeys } from 'humps';
 import round from 'lodash/round';
 
 import { googleMapsKey } from '../config';
-import { countries } from '../../assets/countries/countries-en.json';
+import { countries as countriesEn } from '../../assets/countries/countries-en.json';
+import { countries as countriesAr } from '../../assets/countries/countries-ar.json';
 
 export function createLocationSlug({ country = 'no-country', state = 'no-state', city = 'no-city' }) {
   return `${kebabCase(country)}_${kebabCase(state)}_${kebabCase(city)}`;
 }
+
+const countries = {
+  en: countriesEn,
+  ar: countriesAr,
+};
 
 export function parseGeocoderResult(result) {
   let location = {
@@ -43,11 +49,11 @@ export function parseGeocoderResult(result) {
   return location;
 }
 
-export function geocodePlace(placeId, callback) {
+export function geocodePlace(placeId, language, callback) {
   request.get('https://maps.googleapis.com/maps/api/geocode/json')
     .query({
+      language,
       place_id: placeId,
-      language: 'en',
       key: googleMapsKey,
     })
     .end((err, res) => {
@@ -65,13 +71,19 @@ export function geocodePlace(placeId, callback) {
     });
 }
 
-export function getCountryName(code) {
-  return countries[code.toUpperCase()];
+export function getCountryName(code, locale = 'en') {
+  if (!(locale in countries)) {
+    locale = 'en';
+  }
+  return countries[locale][code.toUpperCase()];
 }
 
-export function getCountryCode(name) {
-  const code = Object.keys(countries).find(code =>
-    countries[code].toLowerCase() === name.toLowerCase()
+export function getCountryCode(name, locale = 'en') {
+  if (!(locale in countries)) {
+    locale = 'en';
+  }
+  const code = Object.keys(countries[locale]).find(code =>
+    countries[locale][code].toLowerCase() === name.toLowerCase()
   );
   if (!code) {
     return null;
@@ -97,6 +109,7 @@ export function formatLocation(location, options) {
   options = {
     useAddress: false,
     showCountry: true,
+    locale: 'en',
     ...options,
   };
   const values = [];
@@ -115,7 +128,7 @@ export function formatLocation(location, options) {
     values.push(location.state);
   }
   if ((options.showCountry || options.useAddress || !location.state || !location.city) && location.country) {
-    values.push(getCountryName(location.country));
+    values.push(getCountryName(location.country, options.locale));
   }
   return values.join(', ');
 }

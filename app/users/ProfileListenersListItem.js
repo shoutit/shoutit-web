@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
@@ -9,13 +10,10 @@ import { openModal } from '../actions/ui';
 
 export function ProfileListenersListItem({ type = 'listeners', profile, onClick, size = 'small' }) {
   let count;
-  let label;
   if (type === 'listeners') {
     count = profile.listenersCount;
-    label = `${count === 0 ? 'No ' : count} listener${count > 1 ? 's' : ''}`;
   } else {
     count = profile.listeningCount.users;
-    label = `${count === 0 ? 'No ' : count} listening`;
   }
   return (
     <ListItem
@@ -24,7 +22,26 @@ export function ProfileListenersListItem({ type = 'listeners', profile, onClick,
       nowrap
       onClick={ count > 0 ? onClick : undefined }
       start={ <Icon name={ type } size={ size } active={ count > 0 } /> }>
-      { label }
+      { type === 'listeners' ?
+        <FormattedMessage id="profile.listeners"
+          defaultMessage="{count, plural,
+            =0 {No listeners}
+            one {# listener}
+            two {# listeners}
+            other {# listening}
+          }"
+          values={ { count } }
+        /> :
+        <FormattedMessage id="profile.listening"
+          defaultMessage="{count, plural,
+            =0 {No listening}
+            one {# listening}
+            two {# listening}
+            other {# listening}
+          }"
+          values={ { count } }
+        />
+      }
     </ListItem>
   );
 }

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "searchPopover.hint",
+    "defaultMessage": "Type something to start search."
+  },
+  {
+    "id": "searchPopover.nothingFound",
+    "defaultMessage": "Nothing found."
+  },
+  {
+    "id": "searchPopover.shouts.title",
+    "defaultMessage": "Shouts"
+  },
+  {
+    "id": "searchPopover.shouts.seeMore",
+    "defaultMessage": "See more…"
+  },
+  {
+    "id": "searchPopover.profiles.title",
+    "defaultMessage": "Profiles"
+  },
+  {
+    "id": "searchPopover.interests.title",
+    "defaultMessage": "Interests"
+  }
+]

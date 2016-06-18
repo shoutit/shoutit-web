@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import { push } from 'react-router-redux';
 
 import Modal, { Header, Body, Footer } from '../ui/Modal';
@@ -11,7 +12,7 @@ import { openModal } from '../actions/ui';
 
 import ShoutForm from './ShoutForm';
 import CreateShoutSuccessModal from './CreateShoutSuccessModal';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./CreateShoutModal.scss');
@@ -80,12 +81,21 @@ export class CreateShoutModal extends Component {
   render() {
     const { shout, error } = this.props;
     const { isUploading } = this.state;
-    let submitLabel = 'Publish';
+    let submitLabel = (<FormattedMessage
+      id="createShoutModal.publishButton.defaultLabel"
+      defaultMessage="Publish"
+    />);
     if (isUploading) {
-      submitLabel = 'Uploading…';
+      submitLabel = (<FormattedMessage
+        id="createShoutModal.publishButton.uploadingImages"
+        defaultMessage="Uploading…"
+      />);
     }
     if (shout.isCreating) {
-      submitLabel = 'Publishing…';
+      submitLabel = (<FormattedMessage
+        id="createShoutModal.publishButton.publishing"
+        defaultMessage="Publishing…"
+      />);
     }
     return (
       <Modal { ...this.props} ref="modal" preventClose>
@@ -110,15 +120,28 @@ export class CreateShoutModal extends Component {
           </div>
         </Body>
         <Footer>
-          <span style={ { marginRight: '.5rem' } }>
-            <Button ref="cancel" size="small" key="cancel" type="button" onClick={ this.hide } disabled={ shout.isCreating }>
-              Cancel
-            </Button>
-          </span>
+          <Button
+            ref="cancel"
+            size="small"
+            key="cancel"
+            type="button"
+            onClick={ this.hide }
+            disabled={ shout.isCreating }>
+            <FormattedMessage
+              id="createShoutModal.cancelButton"
+              defaultMessage="Cancel"
+            />
+          </Button>
 
-          <Button onClick={ () => this.form.submit() } size="small" key="submit" action="primary" disabled={ shout.isCreating || isUploading }>
+          <Button
+            onClick={ () => this.form.submit() }
+            size="small"
+            key="submit"
+            action="primary"
+            disabled={ shout.isCreating || isUploading }>
             { submitLabel }
           </Button>
+
         </Footer>
       </Modal>
 

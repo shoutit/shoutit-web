@@ -1,18 +1,29 @@
 import React, { PropTypes, Component } from 'react';
-import moment from 'moment';
+import { toDate } from 'unix-timestamp';
+import { FormattedRelative, injectIntl } from 'react-intl';
 
-export default class TimeAgo extends Component {
+export class TimeAgo extends Component {
 
   static propTypes = {
     date: PropTypes.number.isRequired,
+    intl: PropTypes.object.isRequired,
   };
 
   render() {
-    const m = moment.unix(this.props.date);
+    const date = toDate(this.props.date);
+    const titleOptions = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    };
     return (
-      <span className="TimeAgo" title={ m.format('llll') }>
-        { m.fromNow() }
+      <span className="TimeAgo" title={ this.props.intl.formatDate(date, titleOptions) }>
+        <FormattedRelative value={ date } />
       </span>
     );
   }
 }
+
+export default injectIntl(TimeAgo);

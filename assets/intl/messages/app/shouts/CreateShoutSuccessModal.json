@@ -1,0 +1,18 @@
+[
+  {
+    "id": "createShoutSuccessModal.title",
+    "defaultMessage": "Congratulations!"
+  },
+  {
+    "id": "createShoutSuccessModal.subtitle",
+    "defaultMessage": "Your shout has been published."
+  },
+  {
+    "id": "createShoutSuccessModal.editButton",
+    "defaultMessage": "Add more details"
+  },
+  {
+    "id": "createShoutSuccessModal.createButton",
+    "defaultMessage": "Create another shout"
+  }
+]

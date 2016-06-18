@@ -1,14 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import capitalize from 'lodash/capitalize';
+import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
+
 import { Link } from 'react-router';
 import { loadShout, loadRelatedShouts, startShoutReply } from '../actions/shouts';
 import { openConversation } from '../actions/conversations';
 import { routeError } from '../actions/server';
 
-import { formatPrice } from '../utils/CurrencyUtils';
 import { formatLocation } from '../utils/LocationUtils';
-
 import Helmet from '../utils/Helmet';
 
 import RequiresLogin from '../auth/RequiresLogin';
@@ -39,14 +39,15 @@ import TimeAgo from '../ui/TimeAgo';
 import LocationListItem from '../location/LocationListItem';
 
 import { denormalize } from '../schemas';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./Shout.scss');
 }
 
 const fetchData = (dispatch, state, params) =>
-  dispatch(loadShout(params.id)).catch(err => dispatch(routeError(err)));
+  dispatch(loadShout(params.id))
+    .catch(err => dispatch(routeError(err)));
 
 function ShoutActions({ shout, onReplyClick }) {
   const buttonStyle = {
@@ -62,7 +63,7 @@ function ShoutActions({ shout, onReplyClick }) {
   return (
     <div className="ShoutActions">
       { shout.type === 'request' && <ShoutType shout={ shout } layout="plain" /> }
-      <ShoutPrice shout={ shout } layout="plain" />
+      <ShoutPrice shout={ shout } />
       { shout.profile.isOwner ?
         <div>
           <UpdateShoutButton style={ buttonStyle } block shoutId={ shout.id } />
@@ -96,6 +97,7 @@ export class Shout extends Component {
     relatedShouts: PropTypes.array,
     params: PropTypes.object,
     loggedUser: PropTypes.object,
+    intl: PropTypes.object.isRequired,
   };
 
   static fetchData = fetchData;
@@ -130,8 +132,16 @@ export class Shout extends Component {
 
     const categoryWithFilters = (
       <CardWithList key="filters" block style={ { padding: '.5rem' } }>
-        <Link to={ `/search?category=${shout.category.slug}` }><CategoryListItem category={ shout.category } /></Link>
-        { shout.filters.map((filter) => <FilterListItem key={ filter.slug } filter={ filter } category={ shout.category } />) }
+        <Link to={ `/search?category=${shout.category.slug}` }>
+          <CategoryListItem category={ shout.category } />
+        </Link>
+        { shout.filters.map((filter) =>
+          <FilterListItem
+            key={ filter.slug }
+            filter={ filter }
+            category={ shout.category }
+          />
+        ) }
       </CardWithList>
     );
 
@@ -206,6 +216,13 @@ export class Shout extends Component {
 
   render() {
     const { shout } = this.props;
+    const { locale, formatNumber } = this.props.intl;
+    const price = shout.price ?
+      formatNumber(shout.price / 100, {
+        style: 'currency',
+        currencyDisplay: 'symbol',
+        currency: shout.currency,
+      }) : 0;
     return (
       <div>
         <Page
@@ -221,13 +238,13 @@ export class Shout extends Component {
               images={ shout.images }
               meta={ [
                 { property: 'og:type', content: `shoutitcom:${shout.type}` },
-                { property: 'shoutitcom:price', content: formatPrice(shout.price, shout.currency) },
+                { property: 'shoutitcom:price', content: price },
                 { property: 'shoutitcom:username', content: shout.profile.username },
                 { name: 'twitter:card', content: 'product' },
                 { name: 'twitter:label1', content: capitalize(shout.type) },
-                { name: 'twitter:data1', content: formatPrice(shout.price, shout.currency) },
+                { name: 'twitter:data1', content: price },
                 { name: 'twitter:label2', content: 'Location' },
-                { name: 'twitter:data2', content: formatLocation(shout.location) },
+                { name: 'twitter:data2', content: formatLocation(shout.location, { locale }) },
               ] }
             />
           }
@@ -251,4 +268,6 @@ const mapStateToProps = (state, ownProps) => ({
     undefined,
 });
 
-export default connect(mapStateToProps)(Shout);
+const WrappedShout = connect(mapStateToProps)(injectIntl(Shout));
+WrappedShout.fetchData = Shout.fetchData;
+export default WrappedShout;

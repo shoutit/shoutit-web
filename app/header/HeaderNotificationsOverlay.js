@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
-import ScrollableNotifications from '../notifications/ScrollableNotifications';
 import { connect } from 'react-redux';
-import { getNotifications } from '../selectors';
+import { FormattedMessage } from 'react-intl';
+
+import ScrollableNotifications from '../notifications/ScrollableNotifications';
+import { getNotifications } from '../reducers/paginated/notifications';
 import { resetNotifications } from '../actions/notifications';
 
 if (process.env.BROWSER) {
@@ -13,11 +15,17 @@ export function HeaderNotificationsOverlay({ reset, closeOverlay, unreadCount = 
     <div className="ListOverlay">
       <div className="ListOverlay-header">
         <span className="ListOverlay-title">
-          Notifications
+          <FormattedMessage
+            id="header.notificationsPopover.title"
+            defaultMessage="Notifications"
+          />
         </span>
         { unreadCount > 0 &&
           <span tabIndex={ 0 } className="ListOverlay-action" onClick={ () => reset() && closeOverlay() }>
-            Mark all as read
+            <FormattedMessage
+              id="header.notificationsPopover.read"
+              defaultMessage="Mark all as read"
+            />
           </span>
         }
       </div>

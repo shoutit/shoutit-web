@@ -1,0 +1,42 @@
+[
+  {
+    "id": "shoutForm.editPhotos.label",
+    "defaultMessage": "Edit photos"
+  },
+  {
+    "id": "shoutForm.addPhotos.label",
+    "defaultMessage": "Add photos"
+  },
+  {
+    "id": "shoutForm.title.placeholder",
+    "defaultMessage": "Title"
+  },
+  {
+    "id": "shoutForm.description.placeholder",
+    "defaultMessage": "Description"
+  },
+  {
+    "id": "shoutForm.price.placeholder",
+    "defaultMessage": "Type a price"
+  },
+  {
+    "id": "shoutForm.location.label",
+    "defaultMessage": "Shout location"
+  },
+  {
+    "id": "shoutForm.category.placeholder",
+    "defaultMessage": "Category"
+  },
+  {
+    "id": "shoutForm.mobile.placeholder",
+    "defaultMessage": "Enter your mobile number"
+  },
+  {
+    "id": "shoutForm.mobile.label",
+    "defaultMessage": "Let people contact you"
+  },
+  {
+    "id": "shoutForm.currency",
+    "defaultMessage": "Currency"
+  }
+]

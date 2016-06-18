@@ -1,29 +1,23 @@
-import moment from 'moment';
-
-/**
- * Properly format a `created_date` date.
- */
-export function formatCreatedAt(m, now = moment()) {
-
-  if (typeof m !== 'object') {
-    m = moment.unix(m);
+export function isSameDay(d1, d2) {
+  if (!d1 || !d2) {
+    return false;
   }
-
-  if (m.isSame(now, 'day')) {
-    return m.format('LT');
-  }
-
-  if (m.isSame(now, 'week')) {
-    return m.format('ddd');
-  }
-
-  if (m.isSame(now, 'year')) {
-    return m.format('ll').replace(m.format('YYYY'), '').replace(/[^\w\d ]*/ig, '').trim();
-  }
-
-  return m.format('l');
+  return d1.getDate() === d2.getDate() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getFullYear() === d2.getFullYear();
 }
 
-export function getUnixTime(date = Date.now()) {
-  return Math.floor(date / 1000);
+export function isSameWeek(d1, d2) {
+  if (!d1 || !d2) {
+    return false;
+  }
+  const timeDiff = Math.abs(d2.getTime() - d1.getTime());
+  return Math.ceil(timeDiff / (1000 * 3600 * 24)) < 7;
+}
+
+export function isSameYear(d1, d2) {
+  if (!d1 || !d2) {
+    return false;
+  }
+  return d1.getFullYear() === d2.getFullYear();
 }

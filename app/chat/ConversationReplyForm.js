@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import trim from 'lodash/trim';
-
+import { FormattedMessage } from 'react-intl';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { saveDraft } from '../actions/forms';
@@ -13,7 +13,7 @@ import { chatWithProfile } from '../actions/users';
 import { replyToShout } from '../actions/shouts';
 
 import { ENTER } from '../utils/keycodes';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 
 import ReplyFormToolbar from '../chat/ReplyFormToolbar';
 
@@ -166,6 +166,9 @@ export class ConversationReplyForm extends Component {
               this.props.inputRef(el);
             }
           } }
+          placeholder={ attributes.placeholder ||
+            <FormattedMessage id="chat.replyForm.placeholder" defaultMessage="Type a message…" />
+          }
           className="htmlTextarea"
           maxRows={ 5 }
           disabled={ conversation.isCreating }

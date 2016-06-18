@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { injectIntl, FormattedMessage, defineMessages } from 'react-intl';
 import Helmet from '../utils/Helmet';
 
 import { resetPassword } from '../actions/session';
@@ -12,6 +13,17 @@ import Frame from '../layout/Frame';
 
 import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
 
+const MESSAGES = defineMessages({
+  title: {
+    id: 'resetPassword.title',
+    defaultMessage: 'Reset your password',
+  },
+  emailPlaceholder: {
+    id: 'resetPassword.form.email.placeholder',
+    defaultMessage: 'Enter your e-mail or username',
+  },
+});
+
 export class ResetPassword extends Component {
 
   static propTypes = {
@@ -19,6 +31,7 @@ export class ResetPassword extends Component {
     isResettingPassword: PropTypes.bool,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
   };
 
   state = {
@@ -59,15 +72,18 @@ export class ResetPassword extends Component {
   }
 
   renderForm() {
-    const { isResettingPassword, location: { query }, error } = this.props;
+    const { formatMessage } = this.props.intl;
     return (
-      <Frame title="Reset your password">
+      <Frame title={ formatMessage(MESSAGES.title) }>
 
         <div className="Frame-body">
 
-          { error && !getErrorsByLocation(error, 'email') &&
+          { this.props.error && !getErrorsByLocation(this.props.error, 'email') &&
             <p className="htmlErrorParagraph">
-              Could not reset your password because of an unknown error. Please try again later or contact support.
+              <FormattedMessage
+                id="resetPassword.unknownError"
+                defaultMessage="Could not reset your password because of an unknown error. Please try again later or contact support."
+              />
             </p>
         }
 
@@ -75,11 +91,11 @@ export class ResetPassword extends Component {
             <TextField
               autoFocus
               ref="email"
-              disabled={ isResettingPassword }
+              disabled={ this.props.isResettingPassword }
               name="email"
               type="email"
-              error={ error }
-              placeholder="Enter your e-mail or username"
+              error={ this.props.error }
+              placeholder={ formatMessage(MESSAGES.emailPlaceholder) }
               onChange={ email => this.setState({ email }) }
             />
 
@@ -87,18 +103,36 @@ export class ResetPassword extends Component {
               style={ { marginTop: '1rem' } }
               action="primary"
               block
-              disabled={ isResettingPassword }>
-              { isResettingPassword ? 'Please wait…' : 'Send link' }
+              disabled={ this.props.isResettingPassword }>
+              { this.props.isResettingPassword ?
+                <FormattedMessage
+                  id="resetPassword.submit.loadingLabel"
+                  defaultMessage="Please wait…"
+                />
+                :
+                <FormattedMessage
+                  id="resetPassword.submit.buttonLabel"
+                  defaultMessage="Send link"
+                />
+              }
             </Button>
 
             <p className="htmlAncillary">
-              You will receive a link to change the password.
+              <FormattedMessage
+                id="resetPassword.submit.instructions"
+                defaultMessage="You will receive a link to change the password."
+              />
             </p>
 
           </form>
         </div>
         <div className="Frame-footer" style={ { textAlign: 'center' } }>
-          <Link to={ { pathname: '/login', query } }>Back to login</Link>
+          <Link to={ { pathname: '/login', query: this.props.location.query } }>
+            <FormattedMessage
+              id="resetPassword.back"
+              defaultMessage="Back to login"
+            />
+          </Link>
         </div>
       </Frame>
     );
@@ -110,12 +144,18 @@ export class ResetPassword extends Component {
       <Frame title="Check your e-mail">
         <div className="Frame-body">
           <p>
-            We just sent you the link to set a new password. It should arrive in the next few minutes!
+            <FormattedMessage
+              id="resetPassword.confirmationMessage"
+              defaultMessage="We just sent you the link to set a new password. It should arrive in the next few minutes!"
+            />
           </p>
         </div>
         <div className="Frame-footer" style={ { textAlign: 'center' } }>
           <Link to={ { pathname: '/login', query } }>
-            Back to login
+            <FormattedMessage
+              id="resetPassword.back"
+              defaultMessage="Back to login"
+            />
           </Link>
         </div>
       </Frame>
@@ -126,7 +166,7 @@ export class ResetPassword extends Component {
     const { sent } = this.state;
     return (
       <Page>
-        <Helmet title="Reset your password" />
+        <Helmet title={ 'x' } />
         { !sent ? this.renderForm() : this.renderSuccessMessage() }
       </Page>
     );
@@ -141,4 +181,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(ResetPassword);
+export default connect(mapStateToProps)(injectIntl(ResetPassword));

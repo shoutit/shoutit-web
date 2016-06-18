@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 
 import { connect } from 'react-redux';
-import { getShoutsByUsername, getPaginationState } from '../selectors';
+import { getShoutsByUsername, getPaginationState } from '../reducers/paginated/shoutsByUsername';
 import { loadShoutsByUsername } from '../actions/users';
 
 import Progress from '../ui/Progress';
@@ -84,7 +84,7 @@ export class ShoutsScrollableList extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   shouts: getShoutsByUsername(state, ownProps.profile.username),
-  ...getPaginationState(state, `shoutsByUsername.${ownProps.profile.username}`),
+  ...getPaginationState(state, ownProps.profile.username),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

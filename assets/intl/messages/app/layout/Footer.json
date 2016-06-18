@@ -1,0 +1,26 @@
+[
+  {
+    "id": "footer.social.title",
+    "defaultMessage": "Follow us"
+  },
+  {
+    "id": "footer.social.facebook",
+    "defaultMessage": "Facebook"
+  },
+  {
+    "id": "footer.social.twitter",
+    "defaultMessage": "Twitter"
+  },
+  {
+    "id": "footer.social.instagram",
+    "defaultMessage": "Instagram"
+  },
+  {
+    "id": "footer.language.title",
+    "defaultMessage": "Language"
+  },
+  {
+    "id": "footer.copyright",
+    "defaultMessage": "Copyright © {year} Shoutit – All Rights Reserved."
+  }
+]

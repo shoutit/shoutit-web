@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-
+import { FormattedMessage } from 'react-intl';
 import ShoutPreview from './ShoutPreview';
 import { denormalize } from '../schemas/index';
 
@@ -14,7 +14,9 @@ export function SuggestedShout({ shout }) {
   }
   return (
     <div className="SuggestedShout">
-      <h3>Suggested shout</h3>
+      <h3>
+        <FormattedMessage id="suggestedShout.title" defaultMessage="Suggested shout" />
+      </h3>
       <ShoutPreview shout={ shout } />
     </div>
   );

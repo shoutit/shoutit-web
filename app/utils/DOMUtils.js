@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import { getVariation } from './APIUtils';
 import { imagesPath } from '../config';
 import debug from 'debug';

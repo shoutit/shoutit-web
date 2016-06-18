@@ -59,3 +59,10 @@ export default function (state = initialState, action) {
     default: return state;
   }
 }
+
+export function getTypingProfiles(state, conversationId) {
+  if (!state.chat.typingProfiles[conversationId]) {
+    return [];
+  }
+  return state.chat.typingProfiles[conversationId].map(id => state.entities.users[id]);
+}

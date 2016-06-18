@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import moment from 'moment';
+import { FormattedDate } from 'react-intl';
+import { toDate } from 'unix-timestamp';
+
+import { isSameDay } from '../utils/DateUtils';
 import MessageItem from './MessageItem';
 import MessageReadBy from './MessageReadBy';
 
 import last from 'lodash/last';
-
-function isSameDay(date1, date2) {
-  return moment.unix(date1).isSame(moment.unix(date2), 'day');
-}
 
 if (process.env.BROWSER) {
   require('./MessagesList.scss');
@@ -24,9 +23,9 @@ export default class MessagesList extends Component {
     const prevMessage = i > 0 ? messages[i - 1] : null;
     const nextMessage = i < messages.length - 1 ? messages[i + 1] : null;
 
-    const isPreviousInSameDay = prevMessage && isSameDay(prevMessage.createdAt, message.createdAt);
+    const isPreviousInSameDay = prevMessage && isSameDay(toDate(prevMessage.createdAt), toDate(message.createdAt));
     const hasPreviousSameSender = prevMessage && prevMessage.profile && message.profile && prevMessage.profile.id === message.profile.id;
-    const isNextInSameDay = nextMessage && isSameDay(nextMessage.createdAt, message.createdAt);
+    const isNextInSameDay = nextMessage && isSameDay(toDate(nextMessage.createdAt), toDate(message.createdAt));
     const hasNextSameSender = nextMessage && nextMessage.profile && message.profile && nextMessage.profile.id === message.profile.id;
     const isNextAfterSomeTime = nextMessage && hasNextSameSender && ((nextMessage.createdAt - message.createdAt) > 5 * 60);
     const isPreviousBeforeSomeTime = prevMessage && hasPreviousSameSender && ((message.createdAt - prevMessage.createdAt) > 5 * 60);
@@ -38,7 +37,7 @@ export default class MessagesList extends Component {
       <div key={ message.id } className="MessageList-item">
         { (!prevMessage || !isPreviousInSameDay) &&
           <div className="MessagesList-day">
-            { moment.unix(message.createdAt).format('ll') }
+            <FormattedDate value={ toDate(message.createdAt) } month="long" day="numeric" year="numeric" />
           </div>
         }
 

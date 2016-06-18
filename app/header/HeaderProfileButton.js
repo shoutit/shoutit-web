@@ -7,7 +7,7 @@ import ProfileAvatar from '../users/ProfileAvatar';
 import Overlay from '../ui/Overlay';
 
 import HeaderProfileOverlay from './HeaderProfileOverlay';
-import { getLoggedUser } from '../selectors';
+import { getLoggedUser } from '../reducers/session';
 export class HeaderProfileButton extends Component {
 
   static propTypes = {

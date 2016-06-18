@@ -44,7 +44,7 @@ export default function geoLocationMiddleware(req, res, next) {
     req.geolocation = {
       ...req.geolocation,
       slug: createLocationSlug(req.geolocation),
-      name: formatLocation(req.geolocation),
+      name: formatLocation(req.geolocation, { locale: req.locale }),
     };
     return next();
   }
@@ -67,7 +67,7 @@ export default function geoLocationMiddleware(req, res, next) {
         req.geolocation = {
           ...geolocation,
           slug: createLocationSlug(geolocation),
-          name: formatLocation(geolocation),
+          name: formatLocation(geolocation, { locale: req.locale }),
         };
         console.log('Got geolocation from ip address', ip, req.geolocation.slug);
       } else {

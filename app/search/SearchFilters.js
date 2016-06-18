@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
+import { FormattedMessage } from 'react-intl';
 
+import ShoutTypeSegmentedControl from '../shouts/ShoutTypeSegmentedControl';
 import Button from '../ui/Button';
 import Form from '../ui/Form';
 import LocationField from '../ui/LocationField';
 import LocationRange from '../ui/LocationRange';
 import CategoryPicker from '../ui/CategoryPicker';
-import SegmentedControl from '../ui/SegmentedControl';
 import CurrencyField from '../ui/CurrencyField';
 import TextField from '../ui/TextField';
 
@@ -19,6 +20,7 @@ export class SearchFilters extends Component {
 
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
+    intl: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
     searchParams: PropTypes.object,
     currentLocation: PropTypes.object,
@@ -39,24 +41,22 @@ export class SearchFilters extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (isEqual(nextProps.searchParams, this.props.searchParams)) {
+      return;
+    }
     this.setState(this.getStateFromProps(nextProps));
   }
 
   getSearchParams() {
-    let searchParams = {
-      search: this.refs.search.getValue() || undefined,
-      shout_type: this.refs.shout_type.getValue(),
+    const searchParams = {
+      search: this.state.search || undefined,
+      shout_type: this.state.shout_type,
       category: this.state.category,
       filters: this.state.filters,
-      min_price: parseInt(this.refs.min_price.getValue(), 10) || undefined,
-      max_price: parseInt(this.refs.max_price.getValue(), 10) || undefined,
+      min_price: parseInt(this.state.min_price, 10) || undefined,
+      max_price: parseInt(this.state.max_price, 10) || undefined,
+      within: this.state.within || undefined,
     };
-    if (this.refs.within) {
-      searchParams = { ...searchParams, within: this.refs.within.getValue() };
-    }
-    if (Object.keys(searchParams).length === 0) {
-      return null;
-    }
     return searchParams;
   }
 
@@ -82,36 +82,42 @@ export class SearchFilters extends Component {
 
   render() {
     const { disabled, currentLocation } = this.props;
-    const { category, shout_type, min_price, max_price, search, filters, within } = this.state;
-
+    const { category, shout_type, min_price, max_price, search, filters } = this.state;
     return (
       <div className="SearchFilters">
         <Form onSubmit={ this.handleSubmit }>
 
-          <SegmentedControl value={ shout_type } disabled={ disabled } ref="shout_type" name="shout_type" options={ [
-            { label: 'All', value: 'all' },
-            { label: 'Offers', value: 'offer' },
-            { label: 'Requests', value: 'request' },
-          ] } onChange={ shout_type => this.setState({ shout_type }) } />
+          <ShoutTypeSegmentedControl
+            value={ shout_type }
+            disabled={ disabled }
+            name="shout_type"
+            onChange={ shout_type => this.setState({ shout_type }) }
+          />
 
           <LocationField name="location" />
 
           { currentLocation && currentLocation.city &&
             <LocationRange
-              ref="within"
+              onChange={ within => this.setState({ within }) }
               name="within"
-              initialValue={ within }
+              value={ this.state.within }
               location={ currentLocation }
             /> }
 
-          <TextField
-            placeholder="Search by keyword"
-            disabled={ disabled }
-            name="search"
-            ref="search"
-            value={ search }
-            onChange={ search => this.setState({ search }) }
-          />
+          <FormattedMessage
+            id="searchFilters.search.placeholder"
+            defaultMessage="Search by keyword"
+          >
+            { message =>
+              <TextField
+                placeholder={ message }
+                disabled={ disabled }
+                name="search"
+                value={ search }
+                onChange={ search => this.setState({ search }) }
+              />
+            }
+          </FormattedMessage>
 
           <CategoryPicker
             filtersClassName="Form-inset-small"
@@ -127,31 +133,52 @@ export class SearchFilters extends Component {
           />
 
           <div className="SearchFilters-price">
-            <CurrencyField
-              autoComplete="off"
-              className="SearchFilters-input"
-              placeholder="Min price"
-              disabled={ disabled }
-              name="min_price"
-              ref="min_price"
-              value={ min_price }
-              onChange={ min_price => this.setState({ min_price }) }
-            />
-            <CurrencyField
-              autoComplete="off"
-              className="SearchFilters-input"
-              placeholder="Max price"
-              disabled={ disabled }
-              name="max_price"
-              ref="max_price"
-              value={ max_price }
-              onChange={ max_price => this.setState({ max_price }) }
-            />
+            <FormattedMessage
+              id="searchFilters.minPrice.placeholder"
+              defaultMessage="Min price"
+            >
+              { message =>
+                <CurrencyField
+                  autoComplete="off"
+                  className="SearchFilters-input"
+                  placeholder={ message }
+                  disabled={ disabled }
+                  name="min_price"
+                  value={ min_price }
+                  onChange={ min_price => this.setState({ min_price }) }
+                />
+              }
+            </FormattedMessage>
+            <FormattedMessage
+              id="searchFilters.maxPrice.placeholder"
+              defaultMessage="Max price"
+            >
+              { message =>
+                <CurrencyField
+                  autoComplete="off"
+                  className="SearchFilters-input"
+                  placeholder={ message }
+                  disabled={ disabled }
+                  name="max_price"
+                  value={ max_price }
+                  onChange={ max_price => this.setState({ max_price }) }
+                />
+              }
+            </FormattedMessage>
+
           </div>
 
           <div className="SearchFilters-buttons">
-            <Button ref="submitButton" block action="primary" size="small" disabled={ disabled || isEqual(this.state, this.props.searchParams) } type="submit">
-              Search
+            <Button
+              block
+              action="primary"
+              size="small"
+              disabled={ disabled || isEqual(this.state, this.props.searchParams) }
+              type="submit">
+              <FormattedMessage
+                id="searchFilters.submitButton.label"
+                defaultMessage="Search"
+              />
             </Button>
           </div>
         </Form>

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import { openConversation } from '../actions/conversations';
 
 import ConversationsList from '../chat/ConversationsList.js';
@@ -15,7 +16,10 @@ export class HeaderMessagesOverlay extends Component {
       <div className="ListOverlay">
         <div className="ListOverlay-header">
           <span className="ListOverlay-title">
-            Messages
+            <FormattedMessage
+              id="header.messagesPopover.title"
+              defaultMessage="Messages"
+            />
           </span>
         </div>
         <div className="ListOverlay-body">
@@ -23,7 +27,10 @@ export class HeaderMessagesOverlay extends Component {
         </div>
         <div className="ListOverlay-footer">
           <Link to="/messages" onClick={ () => closeOverlay() }>
-            See All
+            <FormattedMessage
+              id="header.messagesPopover.seeAllButton"
+              defaultMessage="See All"
+            />
           </Link>
         </div>
       </div>

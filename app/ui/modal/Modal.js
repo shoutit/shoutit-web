@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -147,7 +149,7 @@ export default class Modal extends Component {
 
   setSize() {
     const newState = {};
-    const documentHeight = document.documentElement.offsetHeight;
+    const documentHeight = window.innerHeight;
     if (documentHeight < CONTENT_TOP_SMALL_TRIGGER) {
       newState.contentTop = CONTENT_TOP_SMALL;
     } else if (documentHeight > CONTENT_TOP_LARGE_TRIGGER) {

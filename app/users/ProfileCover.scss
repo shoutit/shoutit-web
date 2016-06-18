@@ -18,7 +18,7 @@ $profile-cover-header-height: 128px;
   }
   .ProfileCover.is-editing & {
     outline: 20000px solid rgba(black, .4);
-    z-index: 10000;
+    z-index: $z-index-profile-cover-editing;
     position: relative;
   }
 }
@@ -35,7 +35,7 @@ $profile-cover-header-height: 128px;
 
 .ProfileCover-instructions {
   position: absolute;
-  z-index: 10001;
+  z-index: $z-index-profile-cover-editing;
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
@@ -54,7 +54,7 @@ $profile-cover-header-height: 128px;
   padding: .5rem 1rem;
   background-color: white;
   border-radius: $border-radius;
-  z-index: 10001;
+  z-index: $z-index-profile-cover-editing+1;
   > *:not(:first-child) {
     margin-left: 1rem;
   }
@@ -62,26 +62,27 @@ $profile-cover-header-height: 128px;
 
 .ProfileCover-header {
   position: relative;
+  z-index: $z-index-profile-cover;
   display: flex;
   align-items: flex-end;
   margin-top: -50px;
+  .ProfileCover.is-editing & {
+    z-index: $z-index-profile-cover-editing;
+  }
   .ProfileCover-avatar {
-    z-index: 10001;
     position: relative;
     margin-left: 3.875rem;
     margin-right: 1rem;
-
   }
   .ProfileCover-name {
     .ProfileCover.is-editing & {
       visibility: hidden;
     }
-    transform: translateY(-10px);
   }
   h1 {
     margin: 0;
     font-weight: lighter;
-    height: 1.2em;
+    line-height: 1.2em;
     overflow: hidden;
   }
   h3 {

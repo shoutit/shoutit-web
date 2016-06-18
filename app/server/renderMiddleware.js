@@ -1,3 +1,4 @@
+import path from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
@@ -19,6 +20,7 @@ import fetchDataForRoutes from '../utils/fetchDataForRoutes';
 
 const log = debug('shoutit:server:renderMiddleware');
 
+const translationsPath = path.resolve(__dirname, '../../assets/intl/translations');
 const noticeError = (e, params) => {
   if (!newrelicEnabled) {
     return;
@@ -32,8 +34,16 @@ export default function renderMiddleware(req, res, next) {
 
   fetchr.read('session').end((err, user) => {
     const storeState = {
-      routing: { currentUrl: req.url },
+      routing: {
+        currentUrl: req.url,
+        query: req.query,
+      },
       currentLocation: req.geolocation,
+      i18n: {
+        locale: req.locale,
+        rtl: req.locale === 'ar',
+        messages: require(`${translationsPath}/${req.locale}.json`),
+      },
     };
     if (user) {
       req.session.user = user;

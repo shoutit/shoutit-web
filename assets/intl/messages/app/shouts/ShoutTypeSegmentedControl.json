@@ -1,0 +1,14 @@
+[
+  {
+    "id": "shoutTypeControl.offer",
+    "defaultMessage": "Offers"
+  },
+  {
+    "id": "shoutTypeControl.request",
+    "defaultMessage": "Requests"
+  },
+  {
+    "id": "shoutTypeControl.all",
+    "defaultMessage": "All"
+  }
+]
