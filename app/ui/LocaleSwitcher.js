@@ -13,7 +13,7 @@ export function LocaleSwitcher({ search, currentLocale }) {
   return (
     <div className="LocaleSwitcher">
       { LOCALES.map(locale =>
-        <a className={ currentLocale === locale.code ? 'selected ' : '' } href={ `?${search}&hl=${locale.code}&set` }>
+        <a key={ locale.code } className={ currentLocale === locale.code ? 'selected ' : '' } href={ `?${search}&hl=${locale.code}&set` }>
           { locale.name }
         </a>
         ) }
