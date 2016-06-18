@@ -11,7 +11,7 @@
     background-image: url('../../assets/ui-elements/dropdown-caret-big.svg');
     background-repeat: no-repeat;
     background-position: 100%;
-    /*rtl:ignore*/
+    /*!rtl:ignore*/
     html[dir="rtl"] & {
       background-position: 7px;
     }
