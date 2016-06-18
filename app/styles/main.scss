@@ -14,10 +14,10 @@ $font-family-sans-serif:  $font-family;
 $font-size-base: $base-font-size;
 $tooltip-bg: rgba(black, .8);
 
-/*rtl:begin:ignore*/
+/*!rtl:begin:ignore*/
 @import "./bootstrap-custom.scss";
 @import "./bootstrap-theme.scss";
-/*rtl:end:ignore*/
+/*!rtl:end:ignore*/
 
 #content {
   height: 100%;
