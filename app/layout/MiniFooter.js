@@ -30,9 +30,24 @@ export default function MiniFooter() {
         />
       </h3>
       <div className="MiniFooter-follow">
-        <a target="_blank" href={ facebookLink }>Facebook</a>
-        <a target="_blank" href={ twitterLink }>Twitter</a>
-        <a target="_blank" href={ instagramLink }>Instagram</a>
+        <a target="_blank" href={ facebookLink }>
+          <FormattedMessage
+            id="minifooter.social.facebook"
+            defaultMessage="Facebook"
+          />
+        </a>
+        <a target="_blank" href={ twitterLink }>
+          <FormattedMessage
+            id="minifooter.social.twitter"
+            defaultMessage="Twitter"
+          />
+        </a>
+        <a target="_blank" href={ instagramLink }>
+          <FormattedMessage
+            id="minifooter.social.instagram"
+            defaultMessage="Instagram"
+          />
+        </a>
       </div>
     </div>
   );

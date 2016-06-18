@@ -6,5 +6,17 @@
   {
     "id": "minifooter.social.title",
     "defaultMessage": "Follow us"
+  },
+  {
+    "id": "minifooter.social.facebook",
+    "defaultMessage": "Facebook"
+  },
+  {
+    "id": "minifooter.social.twitter",
+    "defaultMessage": "Twitter"
+  },
+  {
+    "id": "minifooter.social.instagram",
+    "defaultMessage": "Instagram"
   }
 ]
