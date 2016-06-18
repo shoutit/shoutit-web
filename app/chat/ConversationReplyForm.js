@@ -40,7 +40,6 @@ export class ConversationReplyForm extends Component {
     draft: '',
     focus: true,
     disabled: false,
-    placeholder: 'Type a message…',
     typingTimeout: 3000,
   }
 
@@ -158,26 +157,30 @@ export class ConversationReplyForm extends Component {
         className="ConversationReplyForm"
         onSubmit={ this.handleSubmit }
       >
-        <TextareaAutosize
-          { ...attributes }
-          ref={ el => {
-            this.textarea = el;
-            if (this.props.inputRef) {
-              this.props.inputRef(el);
-            }
-          } }
-          placeholder={ attributes.placeholder ||
-            <FormattedMessage id="chat.replyForm.placeholder" defaultMessage="Type a message…" />
+        <FormattedMessage id="chat.replyForm.placeholder" defaultMessage="Type a message…">
+          {
+            placeholder =>
+              <TextareaAutosize
+                { ...attributes }
+                ref={ el => {
+                  this.textarea = el;
+                  if (this.props.inputRef) {
+                    this.props.inputRef(el);
+                  }
+                } }
+                placeholder={ placeholder }
+                className="htmlTextarea"
+                maxRows={ 5 }
+                disabled={ conversation.isCreating }
+                name="draft"
+                value={ fields.draft }
+                autoComplete="off"
+                onKeyDown={ this.handleKeyDown }
+                onChange={ this.handleTextChange }
+              />
           }
-          className="htmlTextarea"
-          maxRows={ 5 }
-          disabled={ conversation.isCreating }
-          name="draft"
-          value={ fields.draft }
-          autoComplete="off"
-          onKeyDown={ this.handleKeyDown }
-          onChange={ this.handleTextChange }
-        />
+        </FormattedMessage>
+
         <div className="ConversationReplyForm-toolbar">
           <ReplyFormToolbar onAttachment={ this.handleAttachment } />
         </div>
