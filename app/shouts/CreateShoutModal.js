@@ -98,9 +98,13 @@ export class CreateShoutModal extends Component {
       />);
     }
     return (
-      <Modal { ...this.props} ref="modal" preventClose>
+      <Modal { ...this.props } ref="modal" preventClose>
         <Header>
-          Post a new { shout.type }
+          <FormattedMessage
+            id="createShoutModal.title"
+            defaultMessage="{type, select, offer {Post a new offer} request {Post a new request}}"
+            values={ { type: shout.type } }
+          />
         </Header>
         <Body>
           <div className="CreateShoutModal">
