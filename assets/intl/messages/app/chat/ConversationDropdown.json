@@ -1,5 +1,9 @@
 [
   {
+    "id": "chat.conversation.dropdown.deleteConfirm",
+    "defaultMessage": "Do you really want to leave this conversation?"
+  },
+  {
     "id": "chat.conversation.dropdown.fullConversation",
     "defaultMessage": "See full conversation."
   },
