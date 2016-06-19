@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import { isRtl } from '../reducers/i18n';
 
 import Icon from '../ui/Icon.js';
@@ -101,7 +102,11 @@ export class ConversationItem extends Component {
             </div>
             { showDropdown && !hover && conversation.unreadMessagesCount > 0 &&
               <div className="ConversationItem-unread-count">
-                { conversation.unreadMessagesCount } new
+                <FormattedMessage
+                  id="conversation.unreadCount"
+                  defaultMessage="{count, number} new"
+                  values={ { count: conversation.unreadMessagesCount } }
+                />
               </div>
             }
           </div>

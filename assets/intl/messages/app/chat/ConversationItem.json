@@ -1,0 +1,6 @@
+[
+  {
+    "id": "conversation.unreadCount",
+    "defaultMessage": "{count, number} new"
+  }
+]
