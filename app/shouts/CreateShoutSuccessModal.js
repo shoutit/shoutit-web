@@ -16,7 +16,7 @@ if (process.env.BROWSER) {
 
 export function CreateShoutSuccessModal({ shoutId, onNewClick, ...modalProps }) {
   return (
-    <Modal {...modalProps} size="small">
+    <Modal { ...modalProps } size="small">
       <Body>
         <div className="CreateShoutSuccessModal">
 

@@ -31,7 +31,7 @@ export default class RangeField extends Component {
   render() {
     return (
       <input
-        {...this.props}
+        { ...this.props }
         value={ this.state.value }
         onChange={ this.handleChange.bind(this) }
         className="RangeField"

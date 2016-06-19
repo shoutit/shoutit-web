@@ -49,7 +49,7 @@ export default function Overlay({ arrow, inverted, placement = 'bottom', childre
     overlayClassName += ' inverted';
   }
   return (
-    <ReactOverlay placement={ placement } {...overlayProps}>
+    <ReactOverlay placement={ placement } { ...overlayProps }>
       <OverlayWrapper arrow={ arrow } style={ style } className={ overlayClassName }>
         { children }
       </OverlayWrapper>

@@ -60,12 +60,12 @@ const renderApp = () => {
         const _firstRender = firstRender;
         const routerContext = (
           <Provider store={ store }>
-            <RouterContext {...renderProps}
+            <RouterContext { ...renderProps }
               createElement={ (Component, elProps) => {
                 logRouter('Creating element for %s %s, first render? %s',
                   Component.displayName || Component.name, elProps.location.pathname, _firstRender
                 );
-                return <Component {...elProps} firstRender={ _firstRender } />;
+                return <Component { ...elProps } firstRender={ _firstRender } />;
               } }
             />
           </Provider>

@@ -22,7 +22,7 @@ export default class DropDown extends Component {
     }
     return (
       <span className={ cssClass }>
-        <Dropdown id={ uuid.v1() } {...props}>
+        <Dropdown id={ uuid.v1() } { ...props }>
           <Dropdown.Toggle useAnchor disabled={ props.disabled } noCaret >
             { toggle }
           </Dropdown.Toggle>

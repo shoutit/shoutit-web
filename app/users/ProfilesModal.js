@@ -65,7 +65,7 @@ export class ProfilesModal extends Component {
   render() {
     const { title, intl, ...modalProps } = this.props;
     return (
-      <Modal {...modalProps} size="small" ref="modal">
+      <Modal { ...modalProps } size="small" ref="modal">
         <Header closeButton>
           { title }
         </Header>

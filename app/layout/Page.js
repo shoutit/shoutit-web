@@ -25,7 +25,7 @@ export default function Page({ children, className, startColumn, stickyStartColu
       { startColumn &&
         <div className="Page-column">
           { stickyStartColumn ?
-            <Sticky {...stickyProps}>
+            <Sticky { ...stickyProps }>
               <div>
                 { startColumn }
               </div>
@@ -40,7 +40,7 @@ export default function Page({ children, className, startColumn, stickyStartColu
       { endColumn &&
         <div className="Page-column">
           { stickyEndColumn ?
-            <Sticky {...stickyProps}>
+            <Sticky { ...stickyProps }>
               <div>
                 { endColumn }
               </div>

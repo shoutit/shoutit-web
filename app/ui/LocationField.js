@@ -238,7 +238,7 @@ export class LocationField extends Component {
     return (
       <div className="LocationField" style={ { position: 'relative' } }>
         <FormField
-          {...props}
+          { ...props }
           name={ name }
           error={ error }
           autoComplete="off"

@@ -108,7 +108,7 @@ export default class ImageUploadModal extends Component {
     }
 
     return (
-      <Modal {...this.props} ref="modal" size="x-small">
+      <Modal { ...this.props } ref="modal" size="x-small">
         <Header closeButton>
           <FormattedMessage
             id="ui.imageUploadModal.title"

@@ -19,7 +19,7 @@ export default function FormattedCreatedAt({ value }) {
     formattingProps.day = 'numeric';
     formattingProps.month = 'short';
   }
-  return <FormattedDate {...formattingProps} />;
+  return <FormattedDate { ...formattingProps } />;
 }
 FormattedCreatedAt.propTypes = {
   value: PropTypes.number.isRequired,
