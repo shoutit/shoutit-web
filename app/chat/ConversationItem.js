@@ -78,7 +78,7 @@ export class ConversationItem extends Component {
         onMouseLeave={ this.handleMouseLeave.bind(this) }
       >
         <Link onClick={ onClick } to={ `/messages/${conversation.id}` }>
-          <div className="ConversationItem-image" style={ getStyleBackgroundImage(conversation.display.image) } />
+          <div className="ConversationItem-image" style={ getStyleBackgroundImage(conversation.display.image, 'small', false) } />
           <div className="ConversationItem-content">
             { conversation.display.title &&
               <div className="ConversationItem-title">
