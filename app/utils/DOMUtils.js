@@ -17,8 +17,11 @@ export function getDocumentScrollTop() {
   return 0;
 }
 
-export function getStyleBackgroundImage(path, variation) {
+export function getStyleBackgroundImage(path, variation, usePlaceholder = true) {
   if (!path) {
+    if (!usePlaceholder) {
+      return null;
+    }
     return {
       backgroundImage: `url("${imagesPath}/pattern@2x.png")`,
       backgroundSize: '250px 409px',

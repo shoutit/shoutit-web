@@ -28,7 +28,7 @@ export default function HtmlDocument({
   const locale = getCurrentLocale(initialState);
   const rtl = isRtl(initialState);
   return (
-    <html {...attrs}>
+    <html { ...attrs }>
       <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# shoutitcom: http://ogp.me/ns/fb/shoutitcom#">
 
         { head.title.toComponent() }

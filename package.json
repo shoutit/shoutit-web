@@ -13,7 +13,7 @@
     "build": "npm run build:server && npm run build:client && cp -r assets built/assets",
     "build:server": "babel index.js app.js -d built && babel app -d built/app",
     "build:client": "NODE_ENV=production webpack -p --bail",
-    "build:translations": "babel-node ./scripts/translations.js",
+    "build:translations": "babel-node ./scripts/translations.js && git add assets/intl",
     "dev": "DEBUG=shoutit,shoutit:* NODE_ENV=development babel-watch -D -w app/server -w app/services -w app/server.js app.js",
     "dev:built": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=production npm start",
     "lint": "eslint app",
@@ -127,6 +127,7 @@
     "node-sass": "3.8.0",
     "path-exists": "3.0.0",
     "postcss-loader": "0.9.1",
+    "pre-commit": "1.1.3",
     "react-addons-test-utils": "15.1.0",
     "react-intl-loader": "1.0.2",
     "react-transform-catch-errors": "1.0.2",
@@ -146,5 +147,7 @@
     "webpack-hot-middleware": "2.10.0",
     "webpack-rtl-plugin": "1.3.0",
     "webpack-stats-plugin": "0.1.1"
-  }
+  },
+  "pre-commit": [
+  ]
 }

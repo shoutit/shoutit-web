@@ -4,7 +4,7 @@ import Button from './Button';
 export function FacebookButton(props) {
   return (
     <Button
-      {...props}
+      { ...props }
       icon="facebook"
       className="facebook"
     />
@@ -14,7 +14,7 @@ export function FacebookButton(props) {
 export function GoogleButton(props) {
   return (
     <Button
-      {...props}
+      { ...props }
       icon="google-plus"
       className="google"
     />

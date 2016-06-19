@@ -21,7 +21,7 @@ export default class ListenersModal extends Component {
   render() {
     const { type, profile, ...modalProps } = this.props;
     return (
-      <Modal {...modalProps} ref="modal" size="small">
+      <Modal { ...modalProps } ref="modal" size="small">
         <Header closeButton>
           <FormattedMessage
             id="listenersModal.title"

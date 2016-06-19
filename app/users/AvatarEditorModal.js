@@ -203,7 +203,7 @@ export class AvatarEditorModal extends Component {
 
   render() {
     return (
-      <Modal {...this.props} ref="modal" preventClose={ this.state.isLoading }>
+      <Modal { ...this.props } ref="modal" preventClose={ this.state.isLoading }>
         <Header closeButton>
           <FormattedMessage
             id="avatarEditor.title"

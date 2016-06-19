@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { openConversation } from '../actions/conversations';
 
-import ConversationsList from '../chat/ConversationsList.js';
+let ConversationsList;
 
 if (process.env.BROWSER) {
+  ConversationsList = require('../chat/ConversationsList.js').default;
   require('../styles/ListOverlay.scss');
 }
+
 export class HeaderMessagesOverlay extends Component {
   render() {
     const { onConversationClick, closeOverlay } = this.props;
@@ -23,7 +25,7 @@ export class HeaderMessagesOverlay extends Component {
           </span>
         </div>
         <div className="ListOverlay-body">
-          <ConversationsList onConversationClick={ onConversationClick } />
+          { ConversationsList && <ConversationsList onConversationClick={ onConversationClick } /> }
         </div>
         <div className="ListOverlay-footer">
           <Link to="/messages" onClick={ () => closeOverlay() }>

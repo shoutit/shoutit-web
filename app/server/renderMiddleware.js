@@ -112,9 +112,9 @@ export default function renderMiddleware(req, res, next) {
               <Provider store={ store }>
                 <RouterContext
                   createElement={ (Component, props) =>
-                    <Component {...props} location={ location } />
+                    <Component { ...props } location={ location } />
                   }
-                  {...renderProps}
+                  { ...renderProps }
                 />
               </Provider>
             );

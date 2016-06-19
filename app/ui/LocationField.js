@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import throttle from 'lodash/throttle';
 import debug from 'debug';
 
@@ -218,7 +218,14 @@ export class LocationField extends Component {
     const { previousPredictions } = this.state;
     const results = predictions || previousPredictions || [];
     if (results.length === 0 || !lastInput || !this.state.value) {
-      return <p style={ { margin: '.5rem 0.5rem', fontSize: '0.75rem' } }>Start typing to search.</p>;
+      return (
+        <p style={ { margin: '.5rem 0.5rem', fontSize: '0.75rem' } }>
+          <FormattedMessage
+            defaultMessage="Start typing to search."
+            id="locationField.instructions"
+          />
+        </p>
+      );
     }
     return (
       <ul className="htmlSelectableList">
@@ -238,7 +245,7 @@ export class LocationField extends Component {
     return (
       <div className="LocationField" style={ { position: 'relative' } }>
         <FormField
-          {...props}
+          { ...props }
           name={ name }
           error={ error }
           autoComplete="off"

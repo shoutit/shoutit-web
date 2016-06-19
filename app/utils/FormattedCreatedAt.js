@@ -14,12 +14,12 @@ export default function FormattedCreatedAt({ value }) {
     formattingProps.minute = 'numeric';
     formattingProps.hour = 'numeric';
   } else if (isSameWeek(date, today)) {
-    formattingProps.week = 'short';
+    formattingProps.weekday = 'short';
   } else if (isSameYear(date, today)) {
     formattingProps.day = 'numeric';
     formattingProps.month = 'short';
   }
-  return <FormattedDate {...formattingProps} />;
+  return <FormattedDate { ...formattingProps } />;
 }
 FormattedCreatedAt.propTypes = {
   value: PropTypes.number.isRequired,

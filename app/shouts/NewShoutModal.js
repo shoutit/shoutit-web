@@ -20,7 +20,7 @@ export class NewShoutModal extends Component {
   render() {
     const { newShout, ...modalProps } = this.props;
     return (
-      <Modal {...modalProps} size="small">
+      <Modal { ...modalProps } size="small">
         <Header closeButton>
           <FormattedMessage
             id="newShoutModal.title"

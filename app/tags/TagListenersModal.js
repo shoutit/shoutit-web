@@ -19,7 +19,7 @@ export default class ListenersModal extends Component {
     const { tag, category, ...modalProps } = this.props;
 
     return (
-      <Modal {...modalProps} ref="modal" size="small">
+      <Modal { ...modalProps } ref="modal" size="small">
         <Header closeButton>
           <FormattedMessage
             id="tagListenersModal"
