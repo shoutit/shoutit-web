@@ -149,7 +149,6 @@
     "webpack-stats-plugin": "0.1.1"
   },
   "pre-commit": [
-    "build:translations",
     "test"
   ]
 }
