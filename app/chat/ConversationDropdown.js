@@ -1,19 +1,26 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 
 import { leaveConversation, readConversation, unreadConversation } from '../actions/conversations';
 
 import Icon from '../ui/Icon';
 import Dropdown, { MenuItem } from '../ui/Dropdown';
 
+const MESSAGES = defineMessages({
+  deleteConfirm: {
+    id: 'chat.conversation.dropdown.deleteConfirm',
+    defaultMessage: 'Do you really want to leave this conversation?',
+  },
+});
 export class ConversationDropdown extends Component {
 
   static propTypes = {
     size: PropTypes.oneOf(['small']),
     skipItems: PropTypes.arrayOf(PropTypes.oneOf(['linkToConversation', 'toggleRead'])),
     conversation: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
   }
 
@@ -32,7 +39,8 @@ export class ConversationDropdown extends Component {
 
   handleLeaveClick() {
     const { conversation, dispatch } = this.props;
-    if (confirm('Do you really want to leave this conversation?')) { // eslint-disable-line
+    const { formatMessage } = this.props.intl;
+    if (confirm(formatMessage(MESSAGES.deleteConfirm))) { // eslint-disable-line
       dispatch(leaveConversation(conversation));
     }
   }
@@ -40,7 +48,7 @@ export class ConversationDropdown extends Component {
   render() {
     const { conversation, skipItems } = this.props;
     return (
-      <Dropdown toggle={ <Icon name="cog" hover size={ this.props.size } /> } {...this.props}>
+      <Dropdown toggle={ <Icon name="cog" hover size={ this.props.size } /> } { ...this.props }>
         { !skipItems.includes('linkToConversation') &&
           <LinkContainer to={ `/messages/${conversation.id}` }>
             <MenuItem>
@@ -65,4 +73,4 @@ export class ConversationDropdown extends Component {
 
 }
 
-export default connect()(ConversationDropdown);
+export default connect()(injectIntl(ConversationDropdown));

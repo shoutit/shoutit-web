@@ -51,7 +51,7 @@ export default class Form extends Component {
     }
 
     return (
-      <form {...props} noValidate className={ cssClass } onSubmit={ this.handleSubmit } ref="form">
+      <form { ...props } noValidate className={ cssClass } onSubmit={ this.handleSubmit } ref="form">
         { children }
 
         { errorMessages.length > 0 &&

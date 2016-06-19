@@ -49,7 +49,7 @@ export class ProfileAvatarEditable extends Component {
           name="avatar"
           disabled={ !!profile.image }
           onChange={ this.handleFileInputChange }>
-          <ProfileAvatar {...this.props} />
+          <ProfileAvatar { ...this.props } />
           <span className="ProfileAvatarEditable-instructions">
             <FormattedMessage
               id="profileAvatar.editButton"

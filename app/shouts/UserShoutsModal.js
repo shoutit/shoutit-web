@@ -41,7 +41,7 @@ export class UserShoutsModal extends Component {
   render() {
     const { loggedUser, title, ...modalProps } = this.props;
     return (
-      <Modal {...modalProps} size="small" ref="modal">
+      <Modal { ...modalProps } size="small" ref="modal">
         <Header closeButton>
           { title || <FormattedMessage id="userShoutsModal.title" defaultMessage="Your Shouts" /> }
         </Header>

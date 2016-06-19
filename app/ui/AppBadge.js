@@ -19,7 +19,7 @@ export function AppBadge({ store, intl, ...props }) {
   return (
     <a href={ href } target="_blank" className="AppBadge">
       <img
-        {...props}
+        { ...props }
         src={ `${imagesPath}/${image}-${intl.locale}.png` }
         alt=""
       />

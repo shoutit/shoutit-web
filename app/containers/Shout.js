@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import capitalize from 'lodash/capitalize';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 import { Link } from 'react-router';
 import { loadShout, loadRelatedShouts, startShoutReply } from '../actions/shouts';
@@ -72,7 +72,7 @@ function ShoutActions({ shout, onReplyClick }) {
         <div>
           <RequiresLogin event="onClick" loginAction={ REPLY_SHOUT }>
             <Button style={ buttonStyle } block onClick={ onReplyClick } size="small" action="primary" icon="balloon-dots">
-              Reply to this Shout
+              <FormattedMessage id="shoutActions.reply" defaultMessage="Reply to this Shout" />
             </Button>
           </RequiresLogin>
           { callButton }
@@ -146,7 +146,17 @@ export class Shout extends Component {
     );
 
     const share = (
-      <CardWithList title="Share this shout" block key="share" style={ { padding: '.5rem' } }>
+      <CardWithList
+        title={
+          <FormattedMessage
+            id="shout.share"
+            defaultMessage="Share this Shout"
+          />
+        }
+        block
+        key="share"
+        style={ { padding: '.5rem' } }
+      >
         <Share shareUrl={ `/shout/${shout.id}` } title={ shout.title } image={ shout.thumbnail } />
       </CardWithList>
     );
@@ -177,7 +187,12 @@ export class Shout extends Component {
 
     return (
       <div className="Shouts-related">
-        <h2>Related shouts</h2>
+        <h2>
+          <FormattedMessage
+            id="shout.related"
+            defaultMessage="Related Shouts"
+          />
+        </h2>
         <div className="Shouts-related-wrapper">
           { relatedShouts.map(shout => <ShoutPreview key={ shout.id } shout={ shout } />) }
         </div>

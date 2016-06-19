@@ -141,7 +141,7 @@ export default class Popover extends Component {
         onMouseLeave={ this.handleMouseLeave }>
         { children }
         <Overlay
-          {...props }
+          { ...props }
           onHide={ this.handleOverlayHide }
           onEnter={ this.handleOverlayEnter }
           show={ this.state.show }

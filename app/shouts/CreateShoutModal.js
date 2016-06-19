@@ -98,9 +98,13 @@ export class CreateShoutModal extends Component {
       />);
     }
     return (
-      <Modal { ...this.props} ref="modal" preventClose>
+      <Modal { ...this.props } ref="modal" preventClose>
         <Header>
-          Post a new { shout.type }
+          <FormattedMessage
+            id="createShoutModal.title"
+            defaultMessage="{type, select, offer {Post a new offer} request {Post a new request}}"
+            values={ { type: shout.type } }
+          />
         </Header>
         <Body>
           <div className="CreateShoutModal">
@@ -152,7 +156,10 @@ export class CreateShoutModal extends Component {
 const mapStateToProps = (state, ownProps) => {
   const { entities } = state;
   const loggedUser = getLoggedUser(state);
-  const shout = { ...ownProps.shout, ...entities.shouts[ownProps.shout.id] };
+  const shout = {
+    ...entities.shouts[ownProps.shout.id],
+    ...ownProps.shout,
+  };
   return {
     shout,
     loggedUser,

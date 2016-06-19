@@ -243,11 +243,10 @@ export class ShoutForm extends Component {
         <LocationField
           updatesUserLocation={ false }
           onChange={ location => this.handleChange({ location }) }
-          label="Location"
           error={ error }
           disabled={ disabled }
           inputRef={ el => { this.locationField = el; } }
-          placeholder={ formatMessage(MESSAGES.location) }
+          label={ formatMessage(MESSAGES.location) }
           location={ shout.location }
           name="location"
           type="text"

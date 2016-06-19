@@ -1,6 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import LocaleSwitcher from '../ui/LocaleSwitcher';
+
 import AppBadge from '../ui/AppBadge';
 import { facebookLink, twitterLink, instagramLink } from '../config';
 
@@ -25,14 +27,38 @@ export default function MiniFooter() {
 
       <h3>
         <FormattedMessage
+          id="minifooter.language.title"
+          defaultMessage="Language"
+        />
+      </h3>
+      <div className="MiniFooter-language">
+        <LocaleSwitcher />
+      </div>
+      <h3>
+        <FormattedMessage
           id="minifooter.social.title"
           defaultMessage="Follow us"
         />
       </h3>
       <div className="MiniFooter-follow">
-        <a target="_blank" href={ facebookLink }>Facebook</a>
-        <a target="_blank" href={ twitterLink }>Twitter</a>
-        <a target="_blank" href={ instagramLink }>Instagram</a>
+        <a target="_blank" href={ facebookLink }>
+          <FormattedMessage
+            id="minifooter.social.facebook"
+            defaultMessage="Facebook"
+          />
+        </a>
+        <a target="_blank" href={ twitterLink }>
+          <FormattedMessage
+            id="minifooter.social.twitter"
+            defaultMessage="Twitter"
+          />
+        </a>
+        <a target="_blank" href={ instagramLink }>
+          <FormattedMessage
+            id="minifooter.social.instagram"
+            defaultMessage="Instagram"
+          />
+        </a>
       </div>
     </div>
   );

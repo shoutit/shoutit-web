@@ -43,7 +43,7 @@ class Helmet extends Component {
       );
 
     const meta = union(this.props.meta, otherMeta, imagesMeta);
-    return <ReactHelmet {...this.props} title={ title } meta={ meta } />;
+    return <ReactHelmet { ...this.props } title={ title } meta={ meta } />;
   }
 }
 

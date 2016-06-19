@@ -31,12 +31,16 @@
   }
 }
 
-.MiniFooter-follow {
+.MiniFooter-follow,
+.MiniFooter-language {
   a {
     font-size: .875rem;
     color: $color;
     display: inline-block;
     margin-right: 1rem;
+    &:hover {
+      color: $si-green;
+    }
   }
 }
 

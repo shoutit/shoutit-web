@@ -1,5 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+import { isRtl } from '../reducers/i18n';
 
 import Icon from '../ui/Icon.js';
 
@@ -12,7 +15,7 @@ if (process.env.BROWSER) {
   require('./ConversationItem.scss');
 }
 
-export default class ConversationItem extends Component {
+export class ConversationItem extends Component {
 
   static propTypes = {
     conversation: PropTypes.object.isRequired,
@@ -22,6 +25,7 @@ export default class ConversationItem extends Component {
     selected: PropTypes.bool,
     unread: PropTypes.bool,
     showDropdown: PropTypes.bool,
+    isRtl: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -74,7 +78,7 @@ export default class ConversationItem extends Component {
         onMouseLeave={ this.handleMouseLeave.bind(this) }
       >
         <Link onClick={ onClick } to={ `/messages/${conversation.id}` }>
-          <div className="ConversationItem-image" style={ getStyleBackgroundImage(conversation.display.image) } />
+          <div className="ConversationItem-image" style={ getStyleBackgroundImage(conversation.display.image, 'small', false) } />
           <div className="ConversationItem-content">
             { conversation.display.title &&
               <div className="ConversationItem-title">
@@ -98,7 +102,11 @@ export default class ConversationItem extends Component {
             </div>
             { showDropdown && !hover && conversation.unreadMessagesCount > 0 &&
               <div className="ConversationItem-unread-count">
-                { conversation.unreadMessagesCount } new
+                <FormattedMessage
+                  id="conversation.unreadCount"
+                  defaultMessage="{count, number} new"
+                  values={ { count: conversation.unreadMessagesCount } }
+                />
               </div>
             }
           </div>
@@ -110,10 +118,16 @@ export default class ConversationItem extends Component {
             conversation={ conversation }
             size="small"
             toggle={ <Icon name="cog" hover size="x-small" /> }
-            pullRight
+            pullRight={ !this.props.isRtl }
           />
         }
       </li>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  isRtl: isRtl(state),
+});
+
+export default connect(mapStateToProps)(ConversationItem);
