@@ -1,6 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import LocaleSwitcher from '../ui/LocaleSwitcher';
+
 import AppBadge from '../ui/AppBadge';
 import { facebookLink, twitterLink, instagramLink } from '../config';
 
@@ -23,6 +25,15 @@ export default function MiniFooter() {
         <AppBadge store="googlePlay" height={ 32 } />
       </div>
 
+      <h3>
+        <FormattedMessage
+          id="minifooter.language.title"
+          defaultMessage="Language"
+        />
+      </h3>
+      <div className="MiniFooter-language">
+        <LocaleSwitcher />
+      </div>
       <h3>
         <FormattedMessage
           id="minifooter.social.title"

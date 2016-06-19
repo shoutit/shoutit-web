@@ -4,6 +4,10 @@
     "defaultMessage": "Shoutit apps"
   },
   {
+    "id": "minifooter.language.title",
+    "defaultMessage": "Language"
+  },
+  {
     "id": "minifooter.social.title",
     "defaultMessage": "Follow us"
   },
