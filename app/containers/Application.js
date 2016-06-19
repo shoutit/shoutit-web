@@ -91,7 +91,7 @@ export class Application extends React.Component {
     }
 
     return (
-      <IntlProvider locale={ this.props.locale } messages={ this.props.messages }>
+      <IntlProvider locale={ `${this.props.locale}-u-nu-latn` } messages={ this.props.messages }>
         <div className={ className }>
           <Helmet
             htmlAttributes={ { lang: props.locale, dir: props.rtl ? 'rtl' : 'ltr' } }
