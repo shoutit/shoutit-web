@@ -228,6 +228,7 @@
   "ui.imageUploadModal.title": "رفع الصور",
   "ui.imageUploadModal.fieldLabel": "رفع الصور",
   "ui.imageUploadModal.CancelButton": "إلغاء",
+  "locationField.instructions": "Start typing to search.",
   "ui.locationRange.city": "ضمن {city}",
   "ui.locationRange.country": "كامل {country}",
   "ui.locationRange.state": "كامل {state}",

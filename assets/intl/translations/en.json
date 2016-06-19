@@ -228,6 +228,7 @@
   "ui.imageUploadModal.title": "Upload images",
   "ui.imageUploadModal.fieldLabel": "Upload images",
   "ui.imageUploadModal.CancelButton": "Cancel",
+  "locationField.instructions": "Start typing to search.",
   "ui.locationRange.city": "Within {city}",
   "ui.locationRange.country": "Entire {country}",
   "ui.locationRange.state": "Entire {state}",
