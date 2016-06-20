@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import Helmet from '../utils/Helmet';
 
 import Page from '../layout/Page';
@@ -165,7 +165,13 @@ export class Discover extends Component {
 
           { discoverItem && discoverItem.showShouts && shouts.length > 0 &&
             <div className="Discover-shouts">
-              <h2>{ discoverItem.title } Shouts</h2>
+              <h2>
+                <FormattedMessage
+                  defaultMessage="{discoverItemTitle} Shouts"
+                  id="discover.shouts.title"
+                  values={ { discoverItemTitle: discoverItem.title } }
+                />
+              </h2>
               <ShoutsList columns={ 3 } shouts={ shouts } />
             </div>
           }
