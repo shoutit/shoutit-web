@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { injectIntl } from 'react-intl';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import ReactBootstrapTooltip from 'react-bootstrap/lib/Tooltip';
 import { connect } from 'react-redux';

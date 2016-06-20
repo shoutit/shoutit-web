@@ -9,6 +9,7 @@ import { imagesPath, facebookLink, twitterLink, instagramLink } from '../config'
 if (process.env.BROWSER) {
   require('./Footer.scss');
 }
+
 export default function Footer() {
   return (
     <div className="Footer">
@@ -54,8 +55,8 @@ export default function Footer() {
           <LocaleSwitcher />
         </div>
         <div className="Footer-apps">
-          <AppBadge store="appStore" height={ 40 } />
-          <AppBadge store="googlePlay" height={ 40 } />
+          <AppBadge appstore="appStore" height={ 40 } />
+          <AppBadge appstore="googlePlay" height={ 40 } />
         </div>
       </div>
       <div className="Footer-copyright">

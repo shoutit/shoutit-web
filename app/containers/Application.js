@@ -94,7 +94,7 @@ export class Application extends React.Component {
     if (locale === 'ar') {
       locale = 'ar-u-nu-latn';
     }
-    
+
     return (
       <IntlProvider locale={ locale } messages={ this.props.messages }>
         <div className={ className }>

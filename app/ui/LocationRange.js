@@ -22,7 +22,7 @@ export class LocationRange extends Component {
     }).isRequired,
     name: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    intl: PropTypes.object.isRequired,
+    locale: PropTypes.string.isRequired,
     onChange: PropTypes.func,
   };
   static defaultProps = {
