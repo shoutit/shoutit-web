@@ -70,7 +70,7 @@ deployment:
       - pip install awscli
       - aws s3 sync built/public s3://shoutit-web-static/stage
       - >
-        docker build
+        docker-compose build
         --build-arg SHOUTIT_ENV=stage
         -t shoutit/shoutit-web:develop .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
