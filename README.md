@@ -39,6 +39,8 @@ $ npm start     # start the server
 
 ### Starting the docker container
 
+#### Pulling the container from Docker Hub
+
 ```bash
 # Pull the container from Docker Hub
 $ docker pull shoutit/shoutit-web:develop
@@ -49,24 +51,28 @@ $ docker run -e PORT=8080 -p 8080:8080 -it shoutit/shoutit-web:develop
 
 Then open [http://localhost:8080](http://localhost:8080).
 
-**On OS X** you should use the docker machine ip instead of `localhost`, e.g.:
+#### Using the container from the current machine
+
+```bash
+# Build the container
+$ docker build .
+
+# Run the container
+$ docker run -e PORT=8080 -p 8080:8080 <ContainerID>
+```
+
+#### On OS X
+
+On **OS X**, use the docker machine IP instead of `localhost`: to get the IP of the docker machine, run `docker-machine ip`.
+
+Example:
 
 ```bash
 # Run the container
-$ docker run -e SHOUTIT_PUBLIC_URL=http://192.168.99.100:8080 -e PORT=8080 -p 8080:8080 -it shoutit/shoutit-web:develop
+$ docker run -e HOST=http://192.168.99.100:8080 -e PORT=8080 -p 8080:8080 -it shoutit/shoutit-web:develop
 ```
 
 and then open [http://192.168.99.100:8080](http://192.168.99.100:8080).
-
-To get the IP of the docker machine, run `docker-machine ip`.
-
-### Building the docker container
-
-Run this command from the project root:
-
-```bash
-$ docker build .
-```
 
 ## Building
 

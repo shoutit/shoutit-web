@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { injectIntl, FormattedMessage } from 'react-intl';
 
 import { Link } from 'react-router';
+
+import { getCurrentLocale } from '../reducers/i18n';
 import { loadShout, loadRelatedShouts, startShoutReply } from '../actions/shouts';
 import { openConversation } from '../actions/conversations';
 import { routeError } from '../actions/server';
@@ -98,6 +100,7 @@ export class Shout extends Component {
     params: PropTypes.object,
     loggedUser: PropTypes.object,
     intl: PropTypes.object.isRequired,
+    locale: PropTypes.string.isRequired,
   };
 
   static fetchData = fetchData;
@@ -230,8 +233,8 @@ export class Shout extends Component {
   }
 
   render() {
-    const { shout } = this.props;
-    const { locale, formatNumber } = this.props.intl;
+    const { shout, locale } = this.props;
+    const { formatNumber } = this.props.intl;
     const price = shout.price ?
       formatNumber(shout.price / 100, {
         style: 'currency',
@@ -275,6 +278,7 @@ export class Shout extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   loggedUser: getLoggedUser(state),
+  locale: getCurrentLocale(state),
   shout: state.entities.shouts[ownProps.params.id] ?
     denormalize(state.entities.shouts[ownProps.params.id], state.entities, 'SHOUT') :
     undefined,

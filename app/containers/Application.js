@@ -90,8 +90,13 @@ export class Application extends React.Component {
       className += ` ${layout.className}`;
     }
 
+    let { locale } = this.props;
+    if (locale === 'ar') {
+      locale = 'ar-u-nu-latn';
+    }
+
     return (
-      <IntlProvider locale={ this.props.locale } messages={ this.props.messages }>
+      <IntlProvider locale={ locale } messages={ this.props.messages }>
         <div className={ className }>
           <Helmet
             htmlAttributes={ { lang: props.locale, dir: props.rtl ? 'rtl' : 'ltr' } }
@@ -175,6 +180,7 @@ function mapStateToProps(state) {
 }
 
 const Wrapped = connect(mapStateToProps)(Application);
+
 Wrapped.fetchData = Application.fetchData;
 
 export default Wrapped;

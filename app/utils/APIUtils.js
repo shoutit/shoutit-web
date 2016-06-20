@@ -18,17 +18,17 @@ export function parseApiError(err, info) {
     errorParserLog('Found a response error from API');
     parsedError = new Error(err.response.body.error.message);
     const apiError = err.response.body.error;
+    parsedError.statusCode = apiError.code || 500;
     // This is what will be actually sent to clients
     parsedError.output = {
       ...info,
       statusCode: apiError.code,
       ...apiError,
     };
-    parsedError.body = parsedError.output;
   } else if (err.response && err.response.error) {
     errorParserLog('Found a generic response error', err);
     parsedError = new Error(err.message);
-    parsedError.statusCode = err.status || 400;
+    parsedError.statusCode = err.status || 500;
     parsedError.output = {
       ...info,
       statusCode: err.status || 500,

@@ -4,7 +4,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
-import { injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
+import { getCurrentLocale } from '../reducers/i18n';
 import Helmet from '../utils/Helmet';
 
 import Page from '../layout/Page';
@@ -74,11 +75,9 @@ export class Discover extends Component {
     isFetching: PropTypes.bool,
     isFetchingShouts: PropTypes.bool,
     nextShoutsUrl: PropTypes.string,
-    locale: PropTypes.string,
+    locale: PropTypes.string.isRequired,
     shouts: PropTypes.array,
     shoutsCount: PropTypes.number,
-
-    intl: PropTypes.object.isRequired,
   };
 
   static fetchData = fetchData;
@@ -143,7 +142,7 @@ export class Discover extends Component {
               { country &&
                 <div className="Discover-country" onClick={ e => this.showLocationModal(e) }>
                   <CountryFlag code={ country } rounded size="medium" showTooltip={ false } />
-                  { getCountryName(country, this.props.intl.locale) }
+                  { getCountryName(country, this.props.locale) }
                 </div>
               }
               <div className="Discover-hero-content">
@@ -165,7 +164,13 @@ export class Discover extends Component {
 
           { discoverItem && discoverItem.showShouts && shouts.length > 0 &&
             <div className="Discover-shouts">
-              <h2>{ discoverItem.title } Shouts</h2>
+              <h2>
+                <FormattedMessage
+                  defaultMessage="{discoverItemTitle} Shouts"
+                  id="discover.shouts.title"
+                  values={ { discoverItemTitle: discoverItem.title } }
+                />
+              </h2>
               <ShoutsList columns={ 3 } shouts={ shouts } />
             </div>
           }
@@ -217,6 +222,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return {
+    locale: getCurrentLocale(state),
     country,
     currentUrl: routing.currentUrl,
     currentLocation,
@@ -229,6 +235,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const Wrapped = connect(mapStateToProps)(injectIntl(Discover));
+const Wrapped = connect(mapStateToProps)(Discover);
 Wrapped.fetchData = Discover.fetchData;
 export default Wrapped;

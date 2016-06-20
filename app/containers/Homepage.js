@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { FormattedMessage, injectIntl } from 'react-intl';
-
+import { FormattedMessage } from 'react-intl';
 import { Link as ScrollLink, Element } from 'react-scroll';
+import { getCurrentLocale } from '../reducers/i18n';
+
 import Card from '../ui/Card';
 import AppBadge from '../ui/AppBadge';
 import { getVariation } from '../utils/APIUtils';
@@ -19,7 +20,7 @@ export class Homepage extends Component {
 
   static propTypes = {
     categories: PropTypes.array.isRequired,
-    intl: PropTypes.object.isRequired,
+    locale: PropTypes.string.isRequired,
   };
 
   static layoutSettings = {
@@ -27,8 +28,6 @@ export class Homepage extends Component {
   };
 
   render() {
-    const { categories } = this.props;
-
     return (
       <div className="Homepage">
         <Helmet meta={ [
@@ -89,8 +88,8 @@ export class Homepage extends Component {
               </h3>
             </div>
             <div>
-              <AppBadge store="appStore" height={ 50 } />
-              <AppBadge store="googlePlay" height={ 50 } />
+              <AppBadge appstore="appStore" height={ 50 } />
+              <AppBadge appstore="googlePlay" height={ 50 } />
             </div>
           </div>
         </div>
@@ -103,7 +102,7 @@ export class Homepage extends Component {
             />
           </h2>
           <div className="Homepage-cards">
-          { categories.slice(0, 8).map(category =>
+          { this.props.categories.slice(0, 8).map(category =>
             <Link key={ category.slug } to={ `/interest/${category.slug}` }>
               <Card size="small" title={ category.name } image={ category.image ? getVariation(category.image, 'small') : null } />
             </Link>
@@ -118,7 +117,7 @@ export class Homepage extends Component {
               defaultMessage="How it works"
             />
           </h2>
-          <img alt="How it works" src={ `${imagesPath}/home-how-it-works-${this.props.intl.locale}.png` } height="500" width="1000" />
+          <img alt="" src={ `${imagesPath}/home-how-it-works-${this.props.locale}.png` } height="500" width="1000" />
         </Element>
       </div>
     );
@@ -127,6 +126,7 @@ export class Homepage extends Component {
 
 const mapStateToProps = state => ({
   categories: state.categories.shuffled.map(id => state.entities.categories[id]),
+  locale: getCurrentLocale(state),
 });
 
-export default connect(mapStateToProps)(injectIntl(Homepage));
+export default connect(mapStateToProps)(Homepage);
