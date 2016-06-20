@@ -88,8 +88,8 @@ export class Homepage extends Component {
               </h3>
             </div>
             <div>
-              <AppBadge store="appStore" height={ 50 } />
-              <AppBadge store="googlePlay" height={ 50 } />
+              <AppBadge appstore="appStore" height={ 50 } />
+              <AppBadge appstore="googlePlay" height={ 50 } />
             </div>
           </div>
         </div>
