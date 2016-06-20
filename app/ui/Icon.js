@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-
+import { FormattedNumber } from 'react-intl';
 if (process.env.BROWSER) {
   require('./Icon.scss');
 }
@@ -51,7 +51,7 @@ export default class Icon extends Component {
       // Set visibility hidden to leave the space once the badge get a value
       badgeEl = (
         <span className={ `Icon-badge ${badge === 0 ? ' isHidden' : ''}` }>
-          { badge }
+          <FormattedNumber value={ badge } />
         </span>
       );
     }

@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
-import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
+import { getCurrentLocale } from '../reducers/i18n';
 import { imagesPath, appStoreLink, playStoreLink } from '../config';
 
-export function AppBadge({ store, intl, ...props }) {
+export function AppBadge({ appstore, locale, ...props }) {
   let href;
   let image;
-  switch (store) {
+  switch (appstore) {
     case 'appStore':
       href = appStoreLink;
       image = 'app-store-badge';
@@ -20,7 +21,7 @@ export function AppBadge({ store, intl, ...props }) {
     <a href={ href } target="_blank" className="AppBadge">
       <img
         { ...props }
-        src={ `${imagesPath}/${image}-${intl.locale}.png` }
+        src={ `${imagesPath}/${image}-${locale}.png` }
         alt=""
       />
     </a>
@@ -28,8 +29,12 @@ export function AppBadge({ store, intl, ...props }) {
 }
 
 AppBadge.propTypes = {
-  store: PropTypes.oneOf(['appStore', 'googlePlay']).isRequired,
-  intl: PropTypes.object.isRequired,
+  appstore: PropTypes.oneOf(['appStore', 'googlePlay']).isRequired,
+  locale: PropTypes.string.isRequired,
 };
 
-export default injectIntl(AppBadge);
+const mapStateToProps = state => ({
+  locale: getCurrentLocale(state),
+});
+
+export default connect(mapStateToProps)(AppBadge);

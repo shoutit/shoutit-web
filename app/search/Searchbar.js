@@ -1,7 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { getCurrentLocale } from '../reducers/i18n';
+import { FormattedMessage } from 'react-intl';
 
 import trim from 'lodash/trim';
 import throttle from 'lodash/throttle';
@@ -22,7 +23,7 @@ export class Searchbar extends Component {
 
   static propTypes = {
     currentLocation: PropTypes.object.isRequired,
-    intl: PropTypes.object.isRequired,
+    locale: PropTypes.string.isRequired,
     searchTags: PropTypes.func.isRequired,
     searchProfiles: PropTypes.func.isRequired,
     searchShouts: PropTypes.func.isRequired,
@@ -88,7 +89,7 @@ export class Searchbar extends Component {
   render() {
     const locationLabel = formatLocation(this.props.currentLocation, {
       showCountry: false,
-      locale: this.props.intl.locale }) ||
+      locale: this.props.locale }) ||
       <FormattedMessage id="searchbar.locationButton.withoutLocation" defaultMessage="Anywhere" />;
     return (
       <form ref="form" onSubmit={ this.submit } className="Searchbar">
@@ -139,6 +140,7 @@ export class Searchbar extends Component {
 
 const mapStateToProps = state => ({
   currentLocation: state.currentLocation,
+  locale: getCurrentLocale(state),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -150,4 +152,4 @@ const mapDispatchToProps = dispatch => ({
   onLocationClick: () => dispatch(openModal(<LocationModal />)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(Searchbar));
+export default connect(mapStateToProps, mapDispatchToProps)(Searchbar);
