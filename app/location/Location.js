@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
+import { getCurrentLocale } from '../reducers/i18n';
 import Card from '../ui/Card';
 import GoogleStaticMap from '../location/GoogleStaticMap';
 import { formatLocation } from '../utils/LocationUtils';
@@ -8,12 +9,12 @@ if (process.env.BROWSER) {
   require('./Location.scss');
 }
 
-export function Location({ location, style, zoom = 11, intl }) {
+export function Location({ location, style, zoom = 11, locale }) {
   return (
     <Card block className="Location" style={ style }>
       <GoogleStaticMap zoom={ zoom } location={ location } />
       <div className="Location-body">
-        { formatLocation(location, { useAddress: true, locale: intl.locale }) }
+        { formatLocation(location, { useAddress: true, locale }) }
       </div>
     </Card>
   );
@@ -21,9 +22,13 @@ export function Location({ location, style, zoom = 11, intl }) {
 
 Location.propTypes = {
   location: PropTypes.object.isRequired,
-  intl: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,
   style: PropTypes.object,
   zoom: PropTypes.number,
 };
 
-export default injectIntl(Location);
+const mapStateToProps = state => ({
+  locale: getCurrentLocale(state),
+});
+
+export default connect(mapStateToProps)(Location);

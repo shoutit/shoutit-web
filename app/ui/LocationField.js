@@ -1,10 +1,10 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import throttle from 'lodash/throttle';
 import debug from 'debug';
-
+import { getCurrentLocale } from '../reducers/i18n';
 import CountryFlag from '../ui/CountryFlag';
 
 import { ESCAPE, ENTER } from '../utils/keycodes';
@@ -20,7 +20,7 @@ export class LocationField extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
-    intl: PropTypes.object.isRequired,
+    locale: PropTypes.string.isRequired,
     error: PropTypes.object,
     inputRef: PropTypes.func,
     disabled: PropTypes.bool,
@@ -54,7 +54,7 @@ export class LocationField extends Component {
     if (props.location) {
       this.state.value = formatLocation(props.location, {
         showCountry: false,
-        locale: props.intl.locale,
+        locale: props.locale,
       });
       this.state.location = props.location;
     }
@@ -70,7 +70,7 @@ export class LocationField extends Component {
     if (nextProps.location.slug !== this.props.location.slug) {
       const value = formatLocation(nextProps.location, {
         showCountry: false,
-        locale: this.props.intl.locale,
+        locale: this.props.locale,
       });
       state = {
         ...state,
@@ -166,13 +166,13 @@ export class LocationField extends Component {
     });
     this.blur();
     log('Start geocoding place with id %s', prediction.placeId);
-    geocodePlace(prediction.placeId, this.props.intl.locale, (err, location) => {
+    geocodePlace(prediction.placeId, this.props.locale, (err, location) => {
       this.setState({ isGeocoding: false }, () => {
         if (location && location.city) {
           log('Found location geocoding %s', prediction.placeId, location);
           const value = formatLocation(location, {
             showCountry: false,
-            locale: this.props.intl.locale,
+            locale: this.props.locale,
           });
           this.setState({ value, location }, () => {
             this.handleGeocodeSuccess(location);
@@ -284,10 +284,11 @@ export class LocationField extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  locale: getCurrentLocale(state),
   isFetching: state.placePredictions.isFetching,
   predictions: state.placePredictions.predictions[state.placePredictions.lastInput],
   lastInput: state.placePredictions.lastInput,
   location: ownProps.location || state.currentLocation,
 });
 
-export default connect(mapStateToProps)(injectIntl(LocationField));
+export default connect(mapStateToProps)(LocationField);

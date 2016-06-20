@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import { injectIntl } from 'react-intl';
-
+import { connect } from 'react-redux';
+import { getCurrentLocale } from '../reducers/i18n';
 import Tooltip from '../ui/Tooltip';
 
 import { imagesPath } from '../config';
@@ -12,7 +12,7 @@ if (process.env.BROWSER) {
   require('./CountryFlag.scss');
 }
 
-export function CountryFlag({ code, size = 'medium', rounded = true, style, intl }) {
+export function CountryFlag({ code, size = 'medium', rounded = true, style, locale }) {
   code = code.toUpperCase();
   let className = 'CountryFlag';
   if (size) {
@@ -21,7 +21,7 @@ export function CountryFlag({ code, size = 'medium', rounded = true, style, intl
   if (rounded) {
     className += ' rounded';
   }
-  const countryName = getCountryName(code, intl.locale);
+  const countryName = getCountryName(code, locale);
   return (
     <Tooltip position="top" overlay={ countryName }>
       <img alt={ countryName } className={ className } style={ style } src={ `${imagesPath}/flags/${code}.png?v${VERSION}` } />
@@ -34,8 +34,12 @@ CountryFlag.propTypes = {
   size: PropTypes.string,
   rounded: PropTypes.bool,
   style: PropTypes.object,
-  intl: PropTypes.object.isRequired,
   showTooltip: PropTypes.bool,
+  locale: PropTypes.string.isRequired,
 };
 
-export default injectIntl(CountryFlag);
+const mapStateToProps = state => ({
+  locale: getCurrentLocale(state),
+});
+
+export default connect(mapStateToProps)(CountryFlag);

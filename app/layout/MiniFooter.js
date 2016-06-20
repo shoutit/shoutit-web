@@ -21,8 +21,8 @@ export default function MiniFooter() {
       </h3>
 
       <div className="MiniFooter-apps">
-        <AppBadge store="appStore" height={ 32 } />
-        <AppBadge store="googlePlay" height={ 32 } />
+        <AppBadge appstore="appStore" height={ 32 } />
+        <AppBadge appstore="googlePlay" height={ 32 } />
       </div>
 
       <h3>

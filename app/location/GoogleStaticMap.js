@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
+import { getCurrentLocale } from '../reducers/i18n';
 import { googleMapsKey } from '../config';
 import { createLinkToGoogleMaps } from '../utils/GoogleMapsUtils';
 
@@ -19,7 +20,7 @@ export function GoogleStaticMap({
   height = 200,
   mapType = 'roadmap',
 
-  intl,
+  locale,
 
 }) {
 
@@ -37,7 +38,7 @@ export function GoogleStaticMap({
   imageUrl.push(`zoom=${zoom}`);
   imageUrl.push(`size=${width}x${height}`);
   imageUrl.push(`maptype=${mapType}`);
-  imageUrl.push(`language=${intl.locale}`);
+  imageUrl.push(`language=${locale}`);
 
   markers.forEach(marker => {
     const {
@@ -50,7 +51,7 @@ export function GoogleStaticMap({
     imageUrl.push(`markers=size:${size}%7Ccolor:${color}%7Clabel:A%7C${latitude},${longitude}`);
   });
 
-  const href = createLinkToGoogleMaps(location || center, intl.locale);
+  const href = createLinkToGoogleMaps(location || center, locale);
 
   const style = {
     backgroundImage: `url("${imageUrl.join('&')}")`,
@@ -67,7 +68,7 @@ export function GoogleStaticMap({
 GoogleStaticMap.propTypes = {
   zoom: PropTypes.number,
   location: PropTypes.object.isRequired,
-  intl: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,
   center: PropTypes.shape({
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
@@ -78,4 +79,8 @@ GoogleStaticMap.propTypes = {
   mapType: PropTypes.string,
 };
 
-export default injectIntl(GoogleStaticMap);
+const mapStateToProps = state => ({
+  locale: getCurrentLocale(state),
+});
+
+export default connect(mapStateToProps)(GoogleStaticMap);
