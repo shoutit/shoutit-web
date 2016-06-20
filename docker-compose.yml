@@ -2,3 +2,8 @@ www:
   build: .
   ports:
     - "80:3000"
+  working_dir: /src
+  volumes:
+    - .:/src
+  environment:
+    NODE_PATH: /install

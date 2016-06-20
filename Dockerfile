@@ -3,9 +3,12 @@ FROM gpbl/node-4-intl:4.4.5
 ARG SHOUTIT_ENV
 
 # Provides cached layer for node_modules
-ADD package.json /tmp/package.json
-RUN cd /tmp && npm install --production
-RUN mkdir -p /src && cp -a /tmp/node_modules /src/
+# ADD package.json /tmp/package.json
+# RUN cd /tmp && npm install --production
+# RUN mkdir -p /src && cp -a /tmp/node_modules /src/
+ADD package.json /install/package.json
+WORKDIR /install
+RUN npm install --production
 
 # Define working directory
 WORKDIR /src
