@@ -17,6 +17,7 @@ export notificationsRead from './notificationsRead';
 export notificationsReset from './notificationsReset';
 export password from './password';
 export profile from './profile';
+export profileLink from './profileLink';
 export profileChat from './profileChat';
 export profiles from './profiles';
 export relatedShouts from './relatedShouts';

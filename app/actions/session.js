@@ -134,3 +134,18 @@ export function resetErrors() {
     type: actionTypes.RESET_SESSION_ERRORS,
   };
 }
+
+export function updateLinkedAccount(body) {
+  return {
+    types: [
+      actionTypes.UPDATE_LINKED_ACCOUNT_START,
+      actionTypes.UPDATE_LINKED_ACCOUNT_SUCCESS,
+      actionTypes.UPDATE_LINKED_ACCOUNT_FAILURE,
+    ],
+    service: {
+      name: 'profileLink',
+      method: 'update',
+      body,
+    },
+  };
+}
