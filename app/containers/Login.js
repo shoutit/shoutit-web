@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { replace } from 'react-router-redux';
 import { Link } from 'react-router';
-import { injectIntl, defineMessages } from 'react-intl';
+import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 import Helmet from '../utils/Helmet';
 
 import { login, resetErrors } from '../actions/session';
@@ -211,8 +211,19 @@ export class Login extends Component {
             </form>
           </div>
           <div className="Frame-footer" style={ { textAlign: 'center' } }>
-            New to shoutit? { ' ' }
-            <Link to={ { pathname: '/signup', query } }>Sign up</Link>
+            <FormattedMessage
+              id="login.form.toSignup"
+              defaultMessage="New to shoutit? {signupLink}"
+              values={ {
+                signupLink: (
+                  <Link to={ { pathname: '/signup', query } }>
+                    <FormattedMessage
+                      id="login.form.signupLink"
+                      defaultMessage="Sign up" />
+                  </Link>
+                ),
+              } }
+            />
           </div>
         </Frame>
       </Page>

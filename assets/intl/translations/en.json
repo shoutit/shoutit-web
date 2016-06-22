@@ -69,6 +69,8 @@
   "login.loginButton": "Login",
   "login.separatorLabel.with": "with",
   "login.separatorLabel.or": "or",
+  "login.form.toSignup": "New to shoutit? {signupLink}",
+  "login.form.signupLink": "Sign up",
   "notfound.title": "Page not found",
   "profile.page.title": "Shouts by {name}",
   "profile.me.shoutsList.header": "Your shouts ({count})",
