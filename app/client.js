@@ -17,7 +17,8 @@ import * as config from './config';
 
 import configureStore from './store/configureStore';
 
-import './client/initFacebook';
+import { initFacebook } from './utils/FacebookUtils';
+
 import initGoogleAnalytics from './client/initGoogleAnalytics';
 import { loadIntlPolyfill, loadLocaleData } from './utils/IntlUtils';
 
@@ -40,6 +41,8 @@ if (config.ga) {
   history.listen(location => ga('send', 'pageview', location.pathname));
 }
 log('Rehydrating store with initial state', window.__INITIAL_STATE__);
+
+initFacebook();
 
 const logRouter = debug('shoutit:router');
 

@@ -2,13 +2,11 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import debug from 'debug';
 import { FormattedMessage } from 'react-intl';
+import * as FacebookUtils from '../utils/FacebookUtils';
 
 import { FacebookButton, GoogleButton } from '../ui/SocialButtons';
 import { loginWithGoogle, loginWithFacebook } from '../actions/session';
-
-const logFacebook = debug('shoutit:facebook');
 
 export class SocialLoginForm extends Component {
 
@@ -60,33 +58,27 @@ export class SocialLoginForm extends Component {
     const { error } = this.state;
     const { dispatch, onLoginSuccess, currentLocation } = this.props;
 
-    const options = { scope: 'email', return_scopes: true };
-
-    if (error === 'NO_FACEBOOK_EMAIL_PERMISSION') {
+    const options = {};
+    if (error === 'FACEBOOK_INVALID_SCOPE') {
       options.auth_type = 'rerequest';
     }
 
     this.setState({ error: null, waitingForFacebook: true });
 
-    window.FB.login(facebookResponse => {
-      const { authResponse } = facebookResponse;
-
-      logFacebook('Login response', facebookResponse);
-
-      if (!authResponse) {
-        this.setState({ waitingForFacebook: false });
-        return;
-      }
-      if (authResponse.grantedScopes.split(',').indexOf('email') === -1) {
-        logFacebook('Missing permission scope');
-        this.setState({ error: 'NO_FACEBOOK_EMAIL_PERMISSION', waitingForFacebook: false });
+    FacebookUtils.login(options, (error, response) => {
+      if (error) {
+        this.setState({
+          waitingForFacebook: false,
+          error,
+        });
         return;
       }
       dispatch(loginWithFacebook(
-        { facebook_access_token: authResponse.accessToken },
-        { location: currentLocation }
-      )).then(() => onLoginSuccess());
-    }, options);
+          { facebook_access_token: response.authResponse.accessToken },
+          { location: currentLocation }
+        )).then(() => onLoginSuccess());
+    });
+
   }
 
   render() {
@@ -94,7 +86,7 @@ export class SocialLoginForm extends Component {
     const { error } = this.state;
     return (
       <div className="SocialLoginForm">
-        { error === 'NO_FACEBOOK_EMAIL_PERMISSION' &&
+        { error === 'FACEBOOK_INVALID_SCOPE' &&
           <p className="htmlErrorParagraph">
             <FormattedMessage
               id="socialLogin.facebook.emailPermission"
