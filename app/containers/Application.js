@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
@@ -16,9 +18,11 @@ import NotFound from './NotFound';
 import { loadCategories, loadCurrencies } from '../actions/misc';
 import { loadSuggestions } from '../actions/location';
 import { loadListening } from '../actions/users';
-import { loginUser } from '../actions/session';
+import { loginUser, updateLinkedAccount, logout } from '../actions/session';
 
 import { getLoggedUser } from '../reducers/session';
+
+import * as FacebookUtils from '../utils/FacebookUtils';
 
 import * as config from '../config';
 
@@ -43,9 +47,26 @@ export class Application extends React.Component {
 
   componentDidMount() {
     const { dispatch, currentLocation, loggedUser } = this.props;
+
     dispatch(loadSuggestions(currentLocation));
+
     if (loggedUser) {
+      // Login the user client-side
       dispatch(loginUser(loggedUser));
+
+      // Get a new Facebook token if it expired
+      if (FacebookUtils.didTokenExpire(loggedUser)) {
+        FacebookUtils.getLoginStatus(response => {
+          if (response.status === 'connected') {
+            dispatch(updateLinkedAccount({
+              account: 'facebook',
+              facebook_access_token: response.authResponse.accessToken,
+            }));
+            return;
+          }
+          dispatch(logout()).then(window.location.reload());
+        });
+      }
     }
   }
 

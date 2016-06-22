@@ -88,3 +88,13 @@ export function login(options, callback) {
 
   });
 }
+
+export function getLoginStatus(callback) {
+  log('Getting login status');
+  initFacebook(() => {
+    window.FB.getLoginStatus(response => {
+      log('Login status received', response);
+      callback(response);
+    });
+  });
+}
