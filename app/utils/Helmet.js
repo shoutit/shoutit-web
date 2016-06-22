@@ -3,6 +3,7 @@ import ReactHelmet from 'react-helmet';
 import { injectIntl, defineMessages } from 'react-intl';
 import union from 'lodash/union';
 import { connect } from 'react-redux';
+import { ogPrefix } from '../config';
 
 import { getUnreadNotificationsCount, getUnreadConversationsCount } from '../reducers/session';
 import { getVariation } from '../utils/APIUtils';
@@ -42,7 +43,15 @@ class Helmet extends Component {
         ({ property: 'og:image', content: getVariation(src, 'large') }),
       );
 
-    const meta = union(this.props.meta, otherMeta, imagesMeta);
+    const meta = union(this.props.meta, otherMeta, imagesMeta).map(tag => {
+      if (tag.property) {
+        tag.property = tag.property.replace('ogPrefix', ogPrefix);
+      }
+      if (tag.content) {
+        tag.content = tag.content.replace('ogPrefix', ogPrefix);
+      }
+      return tag;
+    });
     return <ReactHelmet { ...this.props } title={ title } meta={ meta } />;
   }
 }

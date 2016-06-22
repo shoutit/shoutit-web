@@ -29,7 +29,7 @@ export default function HtmlDocument({
   const rtl = isRtl(initialState);
   return (
     <html { ...attrs }>
-      <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# shoutitcom: http://ogp.me/ns/fb/shoutitcom#">
+      <head prefix={ `og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# ${config.ogPrefix}: http://ogp.me/ns/fb/${config.ogPrefix}#` }>
 
         { head.title.toComponent() }
         { head.meta.toComponent() }
