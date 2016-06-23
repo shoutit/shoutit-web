@@ -65,3 +65,7 @@ export default (state, action) => {
   }
   return state;
 };
+
+export function getShout(state, id) {
+  return state.entities.shouts[id];
+}
