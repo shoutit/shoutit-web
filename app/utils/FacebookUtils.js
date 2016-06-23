@@ -66,10 +66,11 @@ export function isScopeGranted(grantedScopes, requiredScopes) {
 
 export function login(options, callback) {
   options = {
-    scope: 'email',
+    scope: '',
     return_scopes: true,
     ...options,
   }
+  options.scope = options.scope + ',email';
   log('Login with options', options);
   initFacebook(() => {
     window.FB.login(response => {
