@@ -142,8 +142,6 @@ export function resetShoutDraft() {
   };
 }
 
-
-
 export const call = id => ({
   types: [
     actionTypes.CALL_SHOUT_START,

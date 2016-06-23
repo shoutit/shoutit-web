@@ -179,5 +179,5 @@ export function getUnreadConversationsCount(state) {
 export function canPublishToFacebook(state) {
   const loggedProfile = getLoggedUser(state);
   return isLinked(loggedProfile) &&
-      isScopeGranted('publish_actions', loggedProfile.linkedAccounts.facebook.scopes)
+      isScopeGranted('publish_actions', loggedProfile.linkedAccounts.facebook.scopes);
 }
