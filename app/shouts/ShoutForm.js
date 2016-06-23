@@ -10,6 +10,9 @@ import Picker from '../ui/Picker';
 import TextArea from '../ui/TextArea';
 import TextField from '../ui/TextField';
 import FileUploadField from '../ui/FileUploadField';
+import PublishToFacebook from '../ui/PublishToFacebook';
+
+import { canPublishToFacebook } from '../reducers/session';
 
 if (process.env.BROWSER) {
   require('./ShoutForm.scss');
@@ -72,6 +75,7 @@ export class ShoutForm extends Component {
     currentLocation: PropTypes.object,
     intl: PropTypes.object.isRequired,
     disabled: PropTypes.bool,
+    canPublishToFacebook: PropTypes.bool,
     error: PropTypes.object,
   };
 
@@ -86,6 +90,9 @@ export class ShoutForm extends Component {
     this.submit = this.submit.bind(this);
     this.handleUploadStart = this.handleUploadStart.bind(this);
     this.handleUploadEnd = this.handleUploadEnd.bind(this);
+    this.state = {
+      publish_to_facebook: props.canPublishToFacebook,
+    };
   }
 
   getShout() {
@@ -105,6 +112,7 @@ export class ShoutForm extends Component {
 
       images: this.imageFileUploadField.getValue(),
       removedImages: this.imageFileUploadField.getFilesToDelete(),
+      publish_to_facebook: this.state.publish_to_facebook,
     };
     return shout;
   }
@@ -123,9 +131,10 @@ export class ShoutForm extends Component {
     this.props.onSubmit(this.getShout());
   }
 
-  handleChange(data) {
+  handleChange(state) {
+    this.setState(state);
     if (this.props.onChange) {
-      this.props.onChange(data);
+      this.props.onChange(state);
     }
   }
 
@@ -264,6 +273,16 @@ export class ShoutForm extends Component {
           error={ error }
         />
 
+        { !shout.id &&
+          <div style={ { marginTop: '1em' } }>
+            <PublishToFacebook
+              disabled={ this.props.disabled }
+              defaultChecked={ this.props.canPublishToFacebook }
+              onChange={ publish_to_facebook => this.handleChange({ publish_to_facebook }) }
+            />
+          </div>
+        }
+
       </Form>
     );
   }
@@ -272,6 +291,7 @@ export class ShoutForm extends Component {
 const mapStateToProps = state => {
   const { currencies, entities, currentLocation } = state;
   return {
+    canPublishToFacebook: canPublishToFacebook(state),
     currentLocation,
     currencies: currencies.map(code => entities.currencies[code]),
   };
