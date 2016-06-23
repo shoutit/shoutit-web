@@ -41,7 +41,7 @@ export const publicUrl = envConfig.publicUrl;
 export const pusherAppKey = envConfig.pusherAppKey;
 export const shoutitEnv = process.env.SHOUTIT_ENV;
 export const siteUrl = envConfig.siteUrl;
-
+export const ogPrefix = (process.env.SHOUTIT_ENV === 'stage' || !process.env.SHOUTIT_ENV) ? 'shoutitcom-dev' : 'shoutitcom';
 export const uservoiceApiKey = 'NBlfnPFrkEttGeEqYUhA';
 
 export const appStoreLink = 'https://itunes.apple.com/app/shoutit-app/id947017118';
@@ -70,6 +70,7 @@ export function getSummary() {
   summary.push(`  Facebook ID:          ${facebookId}`);
   summary.push(`  Pusher App Key:       ${pusherAppKey}`);
   summary.push(`  Uservoice API Key:    ${uservoiceApiKey}`);
+  summary.push(`  OpenGraph Prefix:     ${ogPrefix}`);
   summary.push('');
   return summary.join('\n');
 }

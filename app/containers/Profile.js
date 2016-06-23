@@ -102,8 +102,8 @@ export class Profile extends Component {
               description={ profile.bio }
               images={ [profile.image] }
               meta={ [
-                { property: 'og:type', content: 'shoutitcom:user' },
-                { property: 'shoutitcom:username', content: profile.username },
+                { property: 'og:type', content: 'ogPrefix:user' },
+                { property: 'ogPrefix:username', content: profile.username },
               ] }
             />
           }
