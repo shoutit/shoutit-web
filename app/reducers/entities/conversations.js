@@ -27,6 +27,7 @@ export default (state, action) => {
       });
       break;
     case actionTypes.READ_CONVERSATION_START:
+    case actionTypes.MARK_CONVERSATION_AS_READ:
       state = merge({}, state, {
         [payload.conversation.id]: { unreadMessagesCount: 0 },
       });

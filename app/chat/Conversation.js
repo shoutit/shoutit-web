@@ -8,7 +8,7 @@ import ConversationMessages from '../chat/ConversationMessages';
 import ConversationStart from '../chat/ConversationStart';
 import ConversationHead from '../chat/ConversationHead';
 
-import { loadConversation, setActiveConversation, unsetActiveConversation, readConversation } from '../actions/conversations';
+import { loadConversation, setActiveConversation, unsetActiveConversation, markConversationAsRead } from '../actions/conversations';
 
 import { getConversation } from '../reducers/entities/conversations';
 
@@ -153,7 +153,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   loadConversation: () => dispatch(loadConversation({ id: ownProps.id })),
   setActive: () => dispatch(setActiveConversation({ id: ownProps.id })),
   unsetActive: () => dispatch(unsetActiveConversation({ id: ownProps.id })),
-  markAsRead: () => dispatch(readConversation({ id: ownProps.id })),
+  markAsRead: () => dispatch(markConversationAsRead({ id: ownProps.id })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Conversation);
