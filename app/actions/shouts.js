@@ -129,21 +129,20 @@ export const deleteShout = shout => ({
   },
 });
 
-export function amendShout(shout, data) {
+export function saveShoutDraft(draft) {
   return {
-    type: actionTypes.AMEND_SHOUT,
-    payload: {
-      entities: {
-        shouts: {
-          [shout.id]: {
-            ...shout,
-            ...data,
-          },
-        },
-      },
-    },
+    type: actionTypes.SAVE_SHOUT_DRAFT,
+    payload: draft,
   };
 }
+
+export function resetShoutDraft() {
+  return {
+    type: actionTypes.RESET_SHOUT_DRAFT,
+  };
+}
+
+
 
 export const call = id => ({
   types: [
