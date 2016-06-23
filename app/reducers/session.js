@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import { denormalize } from '../schemas';
+import { isLinked, isScopeGranted } from '../utils/FacebookUtils';
 
 const initialState = {
 
@@ -173,4 +174,10 @@ export function getUnreadConversationsCount(state) {
     return 0;
   }
   return state.entities.users[state.session.user].stats.unreadConversationsCount;
+}
+
+export function canPublishToFacebook(state) {
+  const loggedProfile = getLoggedUser(state);
+  return isLinked(loggedProfile) &&
+      isScopeGranted('publish_actions', loggedProfile.linkedAccounts.facebook.scopes);
 }

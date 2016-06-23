@@ -35,5 +35,13 @@
   {
     "id": "login.separatorLabel.or",
     "defaultMessage": "or"
+  },
+  {
+    "id": "login.form.toSignup",
+    "defaultMessage": "New to shoutit? {signupLink}"
+  },
+  {
+    "id": "login.form.signupLink",
+    "defaultMessage": "Sign up"
   }
 ]

@@ -255,9 +255,9 @@ export class Shout extends Component {
               description={ shout.text }
               images={ shout.images }
               meta={ [
-                { property: 'og:type', content: `shoutitcom:${shout.type}` },
-                { property: 'shoutitcom:price', content: price },
-                { property: 'shoutitcom:username', content: shout.profile.username },
+                { property: 'og:type', content: `ogPrefix:${shout.type}` },
+                { property: 'ogPrefix:price', content: price },
+                { property: 'ogPrefix:username', content: shout.profile.username },
                 { name: 'twitter:card', content: 'product' },
                 { name: 'twitter:label1', content: capitalize(shout.type) },
                 { name: 'twitter:data1', content: price },

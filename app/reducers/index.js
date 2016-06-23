@@ -14,6 +14,7 @@ import paginated from './paginated';
 import server from './server';
 import search from './search';
 import session from './session';
+import shoutDraft from './shoutDraft';
 import suggestions from './suggestions';
 import videocalls from './videocalls';
 
@@ -32,6 +33,7 @@ const appReducer = combineReducers({
   search,
   server,
   session,
+  shoutDraft,
   suggestions,
   videocalls,
 });

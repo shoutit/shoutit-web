@@ -46,7 +46,7 @@ export class CategoryPicker extends Component {
       value: {
         slug: selectedFilters[key],
       },
-    }));
+    })).filter(filter => !!filter.value.slug);
     return filterArray;
   }
   mapFiltersToObject(arr) {

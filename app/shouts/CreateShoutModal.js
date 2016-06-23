@@ -7,12 +7,13 @@ import Modal, { Header, Body, Footer } from '../ui/Modal';
 
 import Button from '../ui/Button';
 
-import { createShout, amendShout } from '../actions/shouts';
+import { createShout, saveShoutDraft, resetShoutDraft } from '../actions/shouts';
 import { openModal } from '../actions/ui';
 
 import ShoutForm from './ShoutForm';
 import CreateShoutSuccessModal from './CreateShoutSuccessModal';
 import { getLoggedUser } from '../reducers/session';
+import { getShoutDraft } from '../reducers/shoutDraft';
 
 if (process.env.BROWSER) {
   require('./CreateShoutModal.scss');
@@ -24,46 +25,58 @@ export class CreateShoutModal extends Component {
     dispatch: PropTypes.func.isRequired,
     loggedUser: PropTypes.object.isRequired,
     shout: PropTypes.object.isRequired,
-    error: PropTypes.object,
   };
 
   constructor(props) {
     super(props);
     this.createShout = this.createShout.bind(this);
+    this.handleFormChange = this.handleFormChange.bind(this);
     this.hide = this.hide.bind(this);
   }
 
   state = {
     isUploading: false,
+    isCreating: false,
+    error: null,
   }
 
   componentDidMount() {
     this.refs.cancel.focus();
   }
 
-  componentWillUnmount() {
-    this.amendShout({
-      createError: null,
-    });
-  }
-
-  amendShout(data) {
-    const { dispatch, shout } = this.props;
-    dispatch(amendShout(shout, data));
+  saveShoutDraft(data) {
+    const { dispatch } = this.props;
+    dispatch(saveShoutDraft(data));
   }
 
   createShout() {
     const { dispatch, shout, loggedUser } = this.props;
 
-    if (shout.isCreating || this.state.isUploading) {
+    if (this.state.isCreating || this.state.isUploading) {
       return;
     }
+    this.setState({ isCreating: true });
     dispatch(createShout(loggedUser, shout)).then(payload => {
+      dispatch(resetShoutDraft());
       const shoutId = payload.result;
       this.showNextSteps(shoutId);
       dispatch(push(`/shout/${shoutId}`));
-    });
+    }).catch(error => this.setState({
+      isCreating: false,
+      error,
+    }));
 
+  }
+
+  handleFormChange(data) {
+    this.saveShoutDraft({
+      ...this.props.shout,
+      ...data,
+    });
+    this.setState({
+      ...data,
+      error: null,
+    });
   }
 
   showNextSteps(shoutId) {
@@ -79,8 +92,7 @@ export class CreateShoutModal extends Component {
   }
 
   render() {
-    const { shout, error } = this.props;
-    const { isUploading } = this.state;
+    const { isUploading, isCreating, error } = this.state;
     let submitLabel = (<FormattedMessage
       id="createShoutModal.publishButton.defaultLabel"
       defaultMessage="Publish"
@@ -91,19 +103,13 @@ export class CreateShoutModal extends Component {
         defaultMessage="Uploading…"
       />);
     }
-    if (shout.isCreating) {
-      submitLabel = (<FormattedMessage
-        id="createShoutModal.publishButton.publishing"
-        defaultMessage="Publishing…"
-      />);
-    }
     return (
       <Modal { ...this.props } ref="modal" preventClose>
         <Header>
           <FormattedMessage
             id="createShoutModal.title"
             defaultMessage="{type, select, offer {Post a new offer} request {Post a new request}}"
-            values={ { type: shout.type } }
+            values={ { type: this.props.shout.type } }
           />
         </Header>
         <Body>
@@ -111,10 +117,10 @@ export class CreateShoutModal extends Component {
             <div style={ { marginBottom: '1rem' } }>
               <ShoutForm
                 inputRef={ form => { this.form = form; } }
-                disabled={ shout.isCreating }
-                shout={ shout }
+                disabled={ isCreating }
+                shout={ this.props.shout }
                 error={ error }
-                onChange={ data => this.amendShout({ ...data, createError: null }) }
+                onChange={ data => this.handleFormChange(data) }
                 onSubmit={ this.createShout }
                 onCancel={ this.hide }
                 onUploadStart={ () => this.setState({ isUploading: true }) }
@@ -124,13 +130,14 @@ export class CreateShoutModal extends Component {
           </div>
         </Body>
         <Footer>
+
           <Button
             ref="cancel"
             size="small"
             key="cancel"
             type="button"
             onClick={ this.hide }
-            disabled={ shout.isCreating }>
+            disabled={ isCreating }>
             <FormattedMessage
               id="createShoutModal.cancelButton"
               defaultMessage="Cancel"
@@ -142,7 +149,7 @@ export class CreateShoutModal extends Component {
             size="small"
             key="submit"
             action="primary"
-            disabled={ shout.isCreating || isUploading }>
+            disabled={ isCreating || isUploading }>
             { submitLabel }
           </Button>
 
@@ -154,16 +161,14 @@ export class CreateShoutModal extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { entities } = state;
   const loggedUser = getLoggedUser(state);
   const shout = {
-    ...entities.shouts[ownProps.shout.id],
+    ...getShoutDraft(state),
     ...ownProps.shout,
   };
   return {
     shout,
     loggedUser,
-    error: shout.createError,
   };
 };
 

@@ -278,5 +278,14 @@
     "createShoutModal.title": "{type, select, offer {انشاء عرض جديد} request {انشاء طلب جديد}}",
     "userListeningCard.title": "تستمع إلى",
     "locationField.instructions": "ابدا الكتابة للبحث عن مدينة",
-    "discover.shouts.title": "إعلانات {discoverItemTitle}"
+    "discover.shouts.title": "إعلانات {discoverItemTitle}",
+    "login.form.toSignup": "جديد على شاوت ات؟ {signupLink}",
+    "login.form.signupLink": "إنشاء حساب",
+    "updateShoutModal.publishButton.uploadingImages": "يتم التحميل…",
+    "updateShoutModal.publishButton.publishing": "يتم النشر…",
+    "updateShoutModal.publishButton.deleting": "يتم الحذف…",
+    "updateShoutModal.title": "تعديل الإعلان",
+    "updateShoutModal.publishButton.deleteButton": "حذف",
+    "updateShoutModal.publishButton.cancelButton": "إلغاء",
+    "ui.PublishToFacebook.label": "مشاركة على الفيسبوك"
 }

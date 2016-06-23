@@ -108,6 +108,11 @@ export const readConversation = conversation => ({
   },
 });
 
+export const markConversationAsRead = conversation => ({
+  type: actionTypes.MARK_CONVERSATION_AS_READ,
+  payload: { conversation },
+});
+
 export function unreadConversation(conversation) {
   return {
     types: [
