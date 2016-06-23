@@ -11,10 +11,6 @@ export default createPaginatedReducer({
     actionTypes.LOAD_USER_SHOUTS_SUCCESS,
     actionTypes.LOAD_USER_SHOUTS_FAILURE,
   ],
-  createTypes: [
-    actionTypes.CREATE_SHOUT_START,
-    actionTypes.CREATE_SHOUT_SUCCESS,
-  ],
 });
 
 export function getShoutsByUsername(state, username) {

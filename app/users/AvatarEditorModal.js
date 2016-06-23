@@ -139,39 +139,40 @@ export class AvatarEditorModal extends Component {
   renderFooter() {
 
     const actions = [];
+
+    const startButtons = [];
+
     if (this.props.profile.image && this.props.profile.image === this.state.image) {
-      actions.push(
-        <span key="delete" style={ { float: 'left' } }>
-          <Button
-            size="small"
-            disabled={ this.state.isLoading }
-            action="destructive"
-            onClick={ this.handleDeleteClick }>
-            <FormattedMessage
-              id="avatarEditor.deleteButton"
-              defaultMessage="Delete"
-            />
-          </Button>
-        </span>
+      startButtons.push(
+        <Button
+          key="delete"
+          size="small"
+          disabled={ this.state.isLoading }
+          action="destructive"
+          onClick={ this.handleDeleteClick }>
+          <FormattedMessage
+            id="avatarEditor.deleteButton"
+            defaultMessage="Delete"
+          />
+        </Button>
       );
     }
-    actions.push(
-      <span key="upload" style={ { float: 'left' } }>
-        <UploadButton
-          name="upload-image"
-          accept="image/jpeg,image/png"
-          size="small"
-          action="primary-alt"
-          style={ { minWidth: 120 } }
-          icon="camera"
-          disabled={ this.state.isLoading }
-          onChange={ this.handlePictureChange }>
-          <FormattedMessage
-            id="avatarEditor.uploadButton"
-            defaultMessage="Upload image"
-          />
-        </UploadButton>
-      </span>
+    startButtons.push(
+      <UploadButton
+        key="upload"
+        name="upload-image"
+        accept="image/jpeg,image/png"
+        size="small"
+        action="primary-alt"
+        style={ { minWidth: 120 } }
+        icon="camera"
+        disabled={ this.state.isLoading }
+        onChange={ this.handlePictureChange }>
+        <FormattedMessage
+          id="avatarEditor.uploadButton"
+          defaultMessage="Upload image"
+        />
+      </UploadButton>
     );
 
     if (this.state.image && this.props.profile.image !== this.state.image) {
@@ -198,7 +199,7 @@ export class AvatarEditorModal extends Component {
         />
       </Button>
       );
-    return actions;
+    return <Footer start={ startButtons }> { actions } </Footer>;
   }
 
   render() {
@@ -238,9 +239,7 @@ export class AvatarEditorModal extends Component {
             </div>
           </Form>
         </Body>
-        <Footer>
-          { this.renderFooter() }
-        </Footer>
+        { this.renderFooter() }
       </Modal>
     );
   }

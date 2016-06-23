@@ -8,10 +8,6 @@
     "defaultMessage": "Uploading…"
   },
   {
-    "id": "createShoutModal.publishButton.publishing",
-    "defaultMessage": "Publishing…"
-  },
-  {
     "id": "createShoutModal.title",
     "defaultMessage": "{type, select, offer {Post a new offer} request {Post a new request}}"
   },

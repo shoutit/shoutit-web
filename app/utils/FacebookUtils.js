@@ -44,31 +44,33 @@ export function initFacebook(callback) {
  
 }
 
-export function didTokenExpire(profile) {
-  if (!profile.linkedAccount || !profile.linkedAccount.facebook) {
-    return false;
-  }
-  if (now() < profile.linkedAccount.facebook.expiresAt) {
-    return false;
-  }
-  return true;
+export function isLinked(profile) {
+  return !!profile.linkedAccounts && !!profile.linkedAccounts.facebook;
 }
 
-export function isScopeGranted(requiredScope, receivedScope) {
-  requiredScope = requiredScope.split(',');
-  receivedScope = receivedScope.split(',');
+export function didTokenExpire(profile) {
+  return isLinked(profile) && profile.linkedAccounts.facebook.expiresAt < now();
+}
 
-  return requiredScope.every(
-    scope => receivedScope.indexOf(scope) > -1
+export function isScopeGranted(grantedScopes, requiredScopes) {
+  if (typeof grantedScopes === 'string') {
+    grantedScopes = grantedScopes.split(',');
+  }
+  if (typeof requiredScopes === 'string') {
+    requiredScopes = requiredScopes.split(',');
+  }
+  return grantedScopes.every(
+    scope => requiredScopes.indexOf(scope) > -1
   );
 }
 
 export function login(options, callback) {
   options = {
-    scope: 'email',
+    scope: '',
     return_scopes: true,
     ...options,
   }
+  options.scope = options.scope + ',email';
   log('Login with options', options);
   initFacebook(() => {
     window.FB.login(response => {
@@ -97,4 +99,11 @@ export function getLoginStatus(callback) {
       callback(response);
     });
   });
+}
+
+export function hasScope(profile, scope) {
+  if (!profile.linkedAccounts || !profile.linkedAccounts.facebook) {
+    return false;
+  }
+  return profile.linkedAccounts.facebook.scopes.indexOf(scope) > -1;
 }
