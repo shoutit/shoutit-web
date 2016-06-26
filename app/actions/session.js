@@ -26,6 +26,26 @@ export function login({ grant_type = 'shoutit_login', ...loginData }) {
   };
 }
 
+export function signup(body) {
+  body = {
+    ...body,
+    mixpanel_distinct_id: getMixpanelId(),
+  };
+  return {
+    types: [
+      actionTypes.SIGNUP_START,
+      actionTypes.SIGNUP_SUCCESS,
+      actionTypes.SIGNUP_FAILURE,
+    ],
+    service: {
+      name: 'profile',
+      method: 'create',
+      body,
+      schema: PROFILE,
+    },
+  };
+}
+
 export function clientLogin(user) {
   const payload = set({}, `entities.users.${user.id}`, user);
   set(payload, 'result', user.id);
@@ -59,25 +79,6 @@ export function logout() {
   };
 }
 
-export function signup(body) {
-  body = {
-    ...body,
-    mixpanel_distinct_id: getMixpanelId(),
-  };
-  return {
-    types: [
-      actionTypes.SIGNUP_START,
-      actionTypes.SIGNUP_SUCCESS,
-      actionTypes.SIGNUP_FAILURE,
-    ],
-    service: {
-      name: 'profile',
-      method: 'create',
-      body,
-      schema: PROFILE,
-    },
-  };
-}
 
 export function resetPassword(email) {
   return {
