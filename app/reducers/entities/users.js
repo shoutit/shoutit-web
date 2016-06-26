@@ -1,4 +1,7 @@
 import merge from 'lodash/merge';
+import find from 'lodash/find';
+
+import { denormalize } from '../../schemas';
 import * as actionTypes from '../../actions/actionTypes';
 import createEntityReducer from './createEntityReducer';
 
@@ -70,3 +73,7 @@ export default (state, action) => {
   }
   return state;
 };
+
+export function getProfile(state, username) {
+  return denormalize(find(state.entities.users, { username }), state.entities, 'PROFILE');
+}

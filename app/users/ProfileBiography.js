@@ -4,6 +4,7 @@ import LocationListItem from '../location/LocationListItem';
 import ProfileWebsiteListItem from './ProfileWebsiteListItem';
 import ProfileJoinedOnListItem from './ProfileJoinedOnListItem';
 import ProfileListenersListItem from './ProfileListenersListItem';
+import ProfileListeningTagsListItem from './ProfileListeningTagsListItem';
 import ProfileActions from '../users/ProfileActions';
 
 if (process.env.BROWSER) {
@@ -29,6 +30,7 @@ export default function ProfileBiography({ profile }) {
       <div className="ProfileBiography-connections">
         <ProfileListenersListItem profile={ profile } />
         { profile.listeningCount && <ProfileListenersListItem type="listening" profile={ profile } /> }
+        { profile.listeningCount && <ProfileListeningTagsListItem profile={ profile } /> }
       </div>
 
       { !profile.isOwner &&

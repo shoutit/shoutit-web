@@ -9,7 +9,7 @@ import Helmet from '../utils/Helmet';
 
 import ShoutsList from '../shouts/ShoutsList';
 
-import { loadHomeShouts, loadListening } from '../actions/users';
+import { loadHomeShouts, loadListeningProfiles } from '../actions/users';
 import { routeError } from '../actions/server';
 
 import Progress from '../ui/Progress';
@@ -124,7 +124,7 @@ export class Dashboard extends Component {
     if (!firstRender && shouts.length === 0) {
       fetchData(dispatch);
     }
-    dispatch(loadListening(profile));
+    dispatch(loadListeningProfiles(profile));
   }
 
   shouldComponentUpdate(nextProps) {

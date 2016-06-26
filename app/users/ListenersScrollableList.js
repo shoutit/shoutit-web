@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loadListeners, loadListening } from '../actions/users';
+import { loadListeners, loadListeningProfiles } from '../actions/users';
 
 import ProfilesScrollableList from '../users/ProfilesScrollableList';
 
@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch, { profile, type = 'listeners' }) => ({
   loadData: endpoint => dispatch(
     type === 'listeners' ?
       loadListeners(profile, endpoint) :
-      loadListening(profile, endpoint)
+      loadListeningProfiles(profile, endpoint)
   ),
 });
 
