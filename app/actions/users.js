@@ -1,7 +1,7 @@
 import noop from 'lodash/noop';
 
 import * as actionTypes from './actionTypes';
-import { PROFILE, PROFILES, SHOUTS, CONVERSATION } from '../schemas';
+import { PROFILE, PROFILES, SHOUTS, CONVERSATION, TAGS } from '../schemas';
 
 export function loadUser(username) {
   return {
@@ -50,6 +50,22 @@ export function loadListeningProfiles(user, endpoint) {
   };
 }
 
+export function loadListeningTags(user, endpoint) {
+  return {
+    types: [
+      actionTypes.LOAD_LISTENING_TAGS_START,
+      actionTypes.LOAD_LISTENING_TAGS_SUCCESS,
+      actionTypes.LOAD_LISTENING_TAGS_FAILURE,
+    ],
+    payload: { user },
+    service: {
+      name: 'listeningTags',
+      params: { username: user.username, endpoint },
+      schema: TAGS,
+    },
+  };
+}
+
 export function updateProfile(profile) {
   return {
     types: [
@@ -81,7 +97,6 @@ export function updatePassword(body) {
     },
   };
 }
-
 
 export function loadHomeShouts(endpoint) {
   return {

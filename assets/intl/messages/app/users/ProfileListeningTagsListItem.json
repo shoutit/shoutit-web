@@ -1,0 +1,6 @@
+[
+  {
+    "id": "profile.ListeningTagsListItem",
+    "defaultMessage": "{count, plural, one {# interest} other {# interests}}"
+  }
+]

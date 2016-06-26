@@ -17,6 +17,7 @@ import shouts from './paginated/shouts';
 import shoutsByTagname from './paginated/shoutsByTagname';
 import shoutsByUsername from './paginated/shoutsByUsername';
 import suggestions from './paginated/suggestions';
+import tagListeningByUser from './paginated/tagListeningByUser';
 
 export default combineReducers({
   chatConversations,
@@ -34,6 +35,7 @@ export default combineReducers({
   shoutsByTagname,
   shoutsByUsername,
   suggestions,
+  tagListeningByUser,
 });
 
 export function getState(state, selector) {

@@ -124,7 +124,7 @@ export class Dashboard extends Component {
     if (!firstRender && shouts.length === 0) {
       fetchData(dispatch);
     }
-    dispatch(loadListening(profile));
+    dispatch(loadListeningProfiles(profile));
   }
 
   shouldComponentUpdate(nextProps) {
