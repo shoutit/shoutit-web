@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import service from './profile';
 import { Request } from 'superagent';
-
+import { shoutit_signup } from '../constants/grantTypes';
 describe('services/profile', () => {
 
   let callback;
@@ -95,7 +95,7 @@ describe('services/profile', () => {
       sinon.stub(Request.prototype, 'end', function callback() {
         expect(this._data).to.have.property('client_id');
         expect(this._data).to.have.property('client_secret');
-        expect(this._data).to.have.property('grant_type', 'shoutit_signup');
+        expect(this._data).to.have.property('grant_type', shoutit_signup);
         expect(this._data).to.have.property('password', '123456');
         expect(this._data).to.have.property('mixpanel_distinct_id');
         expect(this._data).to.have.property('email', 'foo@example.com');

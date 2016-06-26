@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import * as session from './session';
 import { PROFILE } from '../schemas';
 import * as actionTypes from '../actions/actionTypes';
+import { shoutit_login, gplus_code, facebook_access_token } from '../constants/grantTypes';
 
 const MIXPANEL_ID = 'MIXPANEL_ID';
 
@@ -34,7 +35,7 @@ describe('actions/session', () => {
     });
     it('should use the default grant_type', () => {
       const action = session.login({ foo: 'bar' });
-      expect(action.payload).to.have.property('grant_type', 'shoutit_login');
+      expect(action.payload).to.have.property('grant_type', shoutit_login);
     });
     it('should use the given grant_type', () => {
       const action = session.login({ grant_type: 'foo', foo: 'bar' });
@@ -75,7 +76,7 @@ describe('actions/session', () => {
     it('should pass the right body to the service', () => {
       const params = { gplus_code: 'foo', user: 'ABC' };
       const action = session.loginWithGoogle(params);
-      expect(action.service.body).to.have.property('grant_type', 'gplus_code');
+      expect(action.service.body).to.have.property('grant_type', gplus_code);
       expect(action.service.body).to.have.property('gplus_code', 'foo');
       expect(action.service.body).to.have.property('user', 'ABC');
     });
@@ -85,7 +86,7 @@ describe('actions/session', () => {
     it('should pass the right body to the service', () => {
       const params = { facebook_access_token: 'foo', user: 'ABC' };
       const action = session.loginWithFacebook(params);
-      expect(action.service.body).to.have.property('grant_type', 'facebook_access_token');
+      expect(action.service.body).to.have.property('grant_type', facebook_access_token);
       expect(action.service.body).to.have.property('facebook_access_token', 'foo');
       expect(action.service.body).to.have.property('user', 'ABC');
     });

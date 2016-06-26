@@ -2,7 +2,7 @@ import { camelizeKeys } from 'humps';
 import request from '../utils/request';
 import { setRequestSession } from '../services/session';
 import { parseApiError } from '../utils/APIUtils';
-
+import { shoutit_signup } from '../constants/grantTypes';
 import {
   AUTH_CLIENT_ID as clientId,
   AUTH_CLIENT_SECRET as clientSecret,
@@ -41,7 +41,7 @@ export default {
     const data = {
       client_id: clientId,
       client_secret: clientSecret,
-      grant_type: 'shoutit_signup',
+      grant_type: shoutit_signup,
       name: `${body.firstName} ${body.lastName}`,
       email: body.email,
       password: body.password,

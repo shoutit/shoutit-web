@@ -3,8 +3,9 @@ import { getMixpanelId } from '../utils/mixpanel';
 
 import { PROFILE, EMAIL_VERIFICATION } from '../schemas';
 import set from 'lodash/set';
+import * as grantTypes from '../constants/grantTypes';
 
-export function login({ grant_type = 'shoutit_login', ...loginData }) {
+export function login({ grant_type = grantTypes.shoutit_login, ...loginData }) {
   const body = {
     ...loginData,
     grant_type,
@@ -56,12 +57,20 @@ export function clientLogin(user) {
 }
 
 export function loginWithGoogle({ gplus_code, user }) {
-  const loginData = { gplus_code, user, grant_type: 'gplus_code' };
+  const loginData = {
+    gplus_code,
+    user,
+    grant_type: grantTypes.gplus_code,
+  };
   return login(loginData);
 }
 
 export function loginWithFacebook({ facebook_access_token, user }) {
-  const loginData = { facebook_access_token, user, grant_type: 'facebook_access_token' };
+  const loginData = { 
+    facebook_access_token, 
+    user, 
+    grant_type: grantTypes.facebook_access_token 
+  };
   return login(loginData);
 }
 
