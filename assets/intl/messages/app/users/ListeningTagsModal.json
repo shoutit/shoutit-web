@@ -1,0 +1,10 @@
+[
+  {
+    "id": "users.ListeningTagsModal.title",
+    "defaultMessage": "{firstName}’s interests"
+  },
+  {
+    "id": "users.ListeningTagsModal.close",
+    "defaultMessage": "Close"
+  }
+]

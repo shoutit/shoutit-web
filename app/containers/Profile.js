@@ -2,12 +2,13 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import find from 'lodash/find';
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 
 import Helmet from '../utils/Helmet';
 
-import { denormalize } from '../schemas';
+import { getProfile } from '../reducers/entities/users';
+import { getShoutsByUsername, getPaginationState } from '../reducers/paginated/shoutsByUsername';
+
 import { loadProfileDetailsIfNeeded, loadShoutsByUsername } from '../actions/users';
 import { routeError } from '../actions/server';
 
@@ -33,7 +34,6 @@ const fetchData = (dispatch, state, params) => {
 
   const profile = dispatch(loadProfileDetailsIfNeeded({ username }, requiredDetails))
     .catch(err => dispatch(routeError(err)));
-
   const shouts = dispatch(loadShoutsByUsername(username)).catch(() => {});
   return Promise.all([shouts, profile]);
 };
@@ -54,9 +54,8 @@ export class Profile extends Component {
     params: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
     profile: PropTypes.object,
-    isFetchingShouts: PropTypes.bool,
-    shoutsCount: PropTypes.number,
-    nextShoutsUrl: PropTypes.string,
+    isFetching: PropTypes.bool,
+    nextUrl: PropTypes.string,
   };
 
   static fetchData = fetchData;
@@ -76,14 +75,14 @@ export class Profile extends Component {
   }
 
   render() {
-    const { profile, shouts, isFetchingShouts, shoutsCount, nextShoutsUrl, dispatch } = this.props;
+    const { profile, shouts, isFetching, nextUrl, dispatch } = this.props;
     const { formatMessage } = this.props.intl;
     return (
       <Scrollable
         scrollElement={ () => window }
         onScrollBottom={ () => {
-          if (nextShoutsUrl && !isFetchingShouts) {
-            dispatch(loadShoutsByUsername(profile.username, nextShoutsUrl));
+          if (nextUrl && !isFetching) {
+            dispatch(loadShoutsByUsername(profile.username, nextUrl));
           }
         } }
         triggerOffset={ 400 }
@@ -127,21 +126,24 @@ export class Profile extends Component {
                           <FormattedMessage
                             id="profile.me.shoutsList.header"
                             defaultMessage="Your shouts ({count})"
-                            values={ { count: shoutsCount } }
+                            values={ { count: this.props.shouts.length } }
                           /> :
                           <FormattedMessage
                             id="profile.others.shoutsList.header"
                             defaultMessage="{firstName}’s shouts ({count})"
-                            values={ { firstName: profile.firstName, count: shoutsCount } }
+                            values={ {
+                              firstName: profile.firstName,
+                              count: this.props.shouts.length,
+                            } }
                           />
                         }
                       </h2>
                     }
                     { shouts.length > 0 && <ShoutsList shouts={ shouts } showProfile={ false } /> }
 
-                    <Progress animate={ isFetchingShouts } />
+                    <Progress animate={ isFetching } />
                   </div>
-                  { !isFetchingShouts && shouts.length === 0 &&
+                  { !isFetching && shouts.length === 0 &&
                     <h2>
                       <FormattedMessage
                         id="profile.others.shoutsList.noshouts"
@@ -163,30 +165,12 @@ export class Profile extends Component {
 
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { params: { username } } = ownProps;
-  const { paginated, entities } = state;
-  const profile = denormalize(find(entities.users, { username }), entities, 'PROFILE');
-  let shouts = [];
-  let isFetchingShouts = false;
-  let shoutsCount = 0;
-  let nextShoutsUrl;
-  const shoutsByUsername = paginated.shoutsByUsername[username];
-  if (shoutsByUsername) {
-    isFetchingShouts = shoutsByUsername.isFetching;
-    shoutsCount = shoutsByUsername.count;
-    nextShoutsUrl = shoutsByUsername.nextUrl;
-    shouts = shoutsByUsername.ids.map(id => denormalize(entities.shouts[id], entities, 'SHOUT'));
-  }
-  return {
-    profile,
-    shouts,
-    shoutsCount,
-    isFetchingShouts,
-    nextShoutsUrl,
-  };
-};
+const mapStateToProps = (state, ownProps) => ({
+  profile: getProfile(state, ownProps.params.username),
+  shouts: getShoutsByUsername(state, ownProps.params.username),
+  ...getPaginationState(state, ownProps.params.username),
+});
 
-const Wrapped = injectIntl(connect(mapStateToProps)(Profile));
+const Wrapped = connect(mapStateToProps)(injectIntl(Profile));
 Wrapped.fetchData = Profile.fetchData;
 export default Wrapped;

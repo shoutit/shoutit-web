@@ -1,9 +1,16 @@
 import * as actionTypes from './actionTypes';
+import { getMixpanelId } from '../utils/mixpanel';
+
 import { PROFILE, EMAIL_VERIFICATION } from '../schemas';
 import set from 'lodash/set';
+import * as grantTypes from '../constants/grantTypes';
 
-export function login({ grant_type = 'shoutit_login', ...loginData }) {
-  const body = { ...loginData, grant_type };
+export function login({ grant_type = grantTypes.shoutit_login, ...loginData }) {
+  const body = {
+    ...loginData,
+    grant_type,
+    mixpanel_distinct_id: getMixpanelId(),
+  };
   return {
     payload: { grant_type },
     types: [
@@ -20,7 +27,27 @@ export function login({ grant_type = 'shoutit_login', ...loginData }) {
   };
 }
 
-export function loginUser(user) {
+export function signup(body) {
+  body = {
+    ...body,
+    mixpanel_distinct_id: getMixpanelId(),
+  };
+  return {
+    types: [
+      actionTypes.SIGNUP_START,
+      actionTypes.SIGNUP_SUCCESS,
+      actionTypes.SIGNUP_FAILURE,
+    ],
+    service: {
+      name: 'profile',
+      method: 'create',
+      body,
+      schema: PROFILE,
+    },
+  };
+}
+
+export function clientLogin(user) {
   const payload = set({}, `entities.users.${user.id}`, user);
   set(payload, 'result', user.id);
   return {
@@ -30,12 +57,20 @@ export function loginUser(user) {
 }
 
 export function loginWithGoogle({ gplus_code, user }) {
-  const loginData = { gplus_code, user, grant_type: 'gplus_code' };
+  const loginData = {
+    gplus_code,
+    user,
+    grant_type: grantTypes.gplus_code,
+  };
   return login(loginData);
 }
 
 export function loginWithFacebook({ facebook_access_token, user }) {
-  const loginData = { facebook_access_token, user, grant_type: 'facebook_access_token' };
+  const loginData = {
+    facebook_access_token,
+    user,
+    grant_type: grantTypes.facebook_access_token,
+  };
   return login(loginData);
 }
 
@@ -53,21 +88,6 @@ export function logout() {
   };
 }
 
-export function signup(body) {
-  return {
-    types: [
-      actionTypes.SIGNUP_START,
-      actionTypes.SIGNUP_SUCCESS,
-      actionTypes.SIGNUP_FAILURE,
-    ],
-    service: {
-      name: 'profile',
-      method: 'create',
-      body,
-      schema: PROFILE,
-    },
-  };
-}
 
 export function resetPassword(email) {
   return {

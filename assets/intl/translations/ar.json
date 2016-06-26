@@ -287,5 +287,8 @@
     "updateShoutModal.title": "تعديل الإعلان",
     "updateShoutModal.publishButton.deleteButton": "حذف",
     "updateShoutModal.publishButton.cancelButton": "إلغاء",
-    "ui.PublishToFacebook.label": "مشاركة على الفيسبوك"
+    "ui.PublishToFacebook.label": "مشاركة على الفيسبوك",
+    "users.ListeningTagsModal.title": "اهتمامات {firstName}",
+    "users.ListeningTagsModal.close": "إغلاق",
+    "profile.ListeningTagsListItem": "{count, plural, one {# اهتمامة} other {# اهتمامات}}"
 }

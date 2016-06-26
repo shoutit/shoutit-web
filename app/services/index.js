@@ -9,6 +9,7 @@ export home from './home';
 export listen from './listen';
 export listeners from './listeners';
 export listening from './listening';
+export listeningTags from './listeningTags';
 export location from './location';
 export messages from './messages';
 export messagesRead from './messagesRead';

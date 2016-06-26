@@ -66,9 +66,9 @@ export default function (state = {}, action) {
   let newState = createPaginatedReducer({
     mapActionToKey: action => action.payload.user.id,
     fetchTypes: [
-      actionTypes.LOAD_LISTENING_START,
-      actionTypes.LOAD_LISTENING_SUCCESS,
-      actionTypes.LOAD_LISTENING_FAILURE,
+      actionTypes.LOAD_LISTENING_PROFILES_START,
+      actionTypes.LOAD_LISTENING_PROFILES_SUCCESS,
+      actionTypes.LOAD_LISTENING_PROFILES_FAILURE,
     ],
   })(state, action);
 

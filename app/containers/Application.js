@@ -7,6 +7,7 @@ import { IntlProvider } from 'react-intl';
 import { getCurrentLocale, isRtl, getIntlMessages } from '../reducers/i18n';
 
 import Helmet from '../utils/Helmet';
+import { identifyOnMixpanel, trackWithMixpanel } from '../utils/mixpanel';
 
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
@@ -17,8 +18,8 @@ import NotFound from './NotFound';
 
 import { loadCategories, loadCurrencies } from '../actions/misc';
 import { loadSuggestions } from '../actions/location';
-import { loadListening } from '../actions/users';
-import { loginUser, updateLinkedAccount, logout } from '../actions/session';
+import { loadListeningProfiles } from '../actions/users';
+import { clientLogin, updateLinkedAccount, logout } from '../actions/session';
 
 import { getLoggedUser } from '../reducers/session';
 
@@ -36,7 +37,7 @@ const fetchData = (dispatch, state) => {
   promises.push(dispatch(loadCurrencies()));
   const loggedUser = getLoggedUser(state); // logged user comes from rehydrated state
   if (loggedUser) {
-    promises.push(dispatch(loadListening(loggedUser)));
+    promises.push(dispatch(loadListeningProfiles(loggedUser)));
   }
   return Promise.all(promises);
 };
@@ -52,8 +53,8 @@ export class Application extends React.Component {
 
     if (loggedUser) {
       // Login the user client-side
-      dispatch(loginUser(loggedUser));
-
+      dispatch(clientLogin(loggedUser));
+      identifyOnMixpanel(loggedUser);
       // Get a new Facebook token if it expired
       if (FacebookUtils.didTokenExpire(loggedUser)) {
         FacebookUtils.getLoginStatus(response => {
@@ -68,6 +69,7 @@ export class Application extends React.Component {
         });
       }
     }
+    trackWithMixpanel('app_open', { signed_user: !!loggedUser });
   }
 
   componentWillUpdate(nextProps) {
@@ -81,6 +83,9 @@ export class Application extends React.Component {
     if (!nextProps.loggedUser && loggedUser) {
       // Fetch application data again when logged user changed (e.g. has been logged out)
       fetchData(dispatch, { session: { user: undefined } });
+    }
+    if (!loggedUser && nextProps.loggedUser) {
+      identifyOnMixpanel(nextProps.loggedUser);
     }
   }
 

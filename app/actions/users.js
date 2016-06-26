@@ -1,7 +1,7 @@
 import noop from 'lodash/noop';
 
 import * as actionTypes from './actionTypes';
-import { PROFILE, PROFILES, SHOUTS, CONVERSATION } from '../schemas';
+import { PROFILE, PROFILES, SHOUTS, CONVERSATION, TAGS } from '../schemas';
 
 export function loadUser(username) {
   return {
@@ -34,18 +34,34 @@ export function loadListeners(user, endpoint) {
   };
 }
 
-export function loadListening(user, endpoint) {
+export function loadListeningProfiles(user, endpoint) {
   return {
     types: [
-      actionTypes.LOAD_LISTENING_START,
-      actionTypes.LOAD_LISTENING_SUCCESS,
-      actionTypes.LOAD_LISTENING_FAILURE,
+      actionTypes.LOAD_LISTENING_PROFILES_START,
+      actionTypes.LOAD_LISTENING_PROFILES_SUCCESS,
+      actionTypes.LOAD_LISTENING_PROFILES_FAILURE,
     ],
     payload: { user },
     service: {
       name: 'listening',
       params: { username: user.username, endpoint },
       schema: PROFILES,
+    },
+  };
+}
+
+export function loadListeningTags(user, endpoint) {
+  return {
+    types: [
+      actionTypes.LOAD_LISTENING_TAGS_START,
+      actionTypes.LOAD_LISTENING_TAGS_SUCCESS,
+      actionTypes.LOAD_LISTENING_TAGS_FAILURE,
+    ],
+    payload: { user },
+    service: {
+      name: 'listeningTags',
+      params: { username: user.username, endpoint },
+      schema: TAGS,
     },
   };
 }
@@ -81,7 +97,6 @@ export function updatePassword(body) {
     },
   };
 }
-
 
 export function loadHomeShouts(endpoint) {
   return {

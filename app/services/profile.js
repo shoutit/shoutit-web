@@ -2,7 +2,7 @@ import { camelizeKeys } from 'humps';
 import request from '../utils/request';
 import { setRequestSession } from '../services/session';
 import { parseApiError } from '../utils/APIUtils';
-
+import { shoutit_signup } from '../constants/grantTypes';
 import {
   AUTH_CLIENT_ID as clientId,
   AUTH_CLIENT_SECRET as clientSecret,
@@ -11,10 +11,8 @@ import {
 export default {
   name: 'profile',
   create: (req, resource, params, body, config, callback) => {
-    const { firstName, lastName, email, password, location } = body;
-
-    if (!firstName) {
-      const firstNameError = new Error('First name is required');
+    if (!body.firstName) {
+      const firstNameError = new Error('first_name');
       firstNameError.errors = [{
         location: 'first_name',
         message: 'Enter your first name',
@@ -23,7 +21,7 @@ export default {
       return;
     }
 
-    if (!lastName) {
+    if (!body.lastName) {
       const lastNameError = new Error('Last name is required');
       lastNameError.errors = [{
         location: 'last_name',
@@ -33,12 +31,22 @@ export default {
       return;
     }
 
-    const name = `${firstName} ${lastName}`;
+    let location = {};
+    if (body.location && body.location.latitude && body.location.longitude) {
+      location = {
+        latitude: body.location.latitude,
+        longitude: body.location.longitude,
+      };
+    }
     const data = {
-      name, email, password, profile: { location },
       client_id: clientId,
       client_secret: clientSecret,
-      grant_type: 'shoutit_signup',
+      grant_type: shoutit_signup,
+      name: `${body.firstName} ${body.lastName}`,
+      email: body.email,
+      password: body.password,
+      profile: { location },
+      mixpanel_distinct_id: body.mixpanel_distinct_id,
     };
     request
       .post('/oauth2/access_token')
@@ -53,9 +61,9 @@ export default {
         return callback(null, req.session.user);
       });
   },
-  read: (req, resource, { username }, config, callback) => {
+  read: (req, resource, params, config, callback) => {
     request
-      .get(`/profiles/${username}`)
+      .get(`/profiles/${params.username}`)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {
@@ -66,6 +74,11 @@ export default {
       });
   },
   update: (req, resource, params, body, config, callback) => {
+    if (body.location) {
+      delete body.location.city;
+      delete body.location.state;
+      delete body.location.country;
+    }
     request
       .patch('/profiles/me')
       .send(body)
@@ -75,7 +88,7 @@ export default {
         if (err) {
           return callback(parseApiError(err));
         }
-        req.session.user = res.body; // eslint-disable-line
+        req.session.user = res.body;
         return callback(null, res.body);
       });
   },

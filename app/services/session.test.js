@@ -9,6 +9,10 @@ import service, * as session from './session'; // eslint-disable-line
 
 describe('services/session', () => {
 
+  it('should have the right name', () => {
+    expect(service.name).to.equal('session');
+  });
+
   afterEach(() => {
     if (Request.prototype.end.restore) {
       Request.prototype.end.restore();
