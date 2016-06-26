@@ -47,8 +47,7 @@ export default function HtmlDocument({
             __html: newrelic.getBrowserTimingHeader().replace(/<\/?script[^>]*>/g, '') } }
           />
         }
-
-        <script type="text/javascript" dangerouslySetInnerHTML={ { mixpanel } } />
+        <script type="text/javascript" dangerouslySetInnerHTML={ { __html: mixpanel } } />
       </head>
 
       <body>
