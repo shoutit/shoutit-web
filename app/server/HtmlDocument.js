@@ -4,6 +4,7 @@ import React, { PropTypes } from 'react';
 import serialize from 'serialize-javascript';
 import newrelic, { newrelicEnabled } from './newrelic';
 import uservoice from './uservoice';
+import mixpanel from './mixpanel';
 import Helmet from '../utils/Helmet';
 import { getCurrentLocale, isRtl } from '../reducers/i18n';
 
@@ -46,6 +47,8 @@ export default function HtmlDocument({
             __html: newrelic.getBrowserTimingHeader().replace(/<\/?script[^>]*>/g, '') } }
           />
         }
+
+        <script type="text/javascript" dangerouslySetInnerHTML={ { mixpanel } } />
       </head>
 
       <body>
