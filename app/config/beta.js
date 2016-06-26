@@ -4,3 +4,4 @@ export const ga = 'UA-62656831-1';
 export const publicUrl = 'https://beta.web.static.shoutit.com';
 export const pusherAppKey = '86d676926d4afda44089';
 export const siteUrl = 'http://beta.www.shoutit.com';
+export const mixpanelToken = 'c9d0a1dc521ac1962840e565fa971574';

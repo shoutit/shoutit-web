@@ -7,3 +7,4 @@ export const ga = '';
 export const publicUrl = `http://${host}:${port}`;
 export const pusherAppKey = '7bee1e468fabb6287fc5';
 export const siteUrl = `http://${host}:${port}`;
+export const mixpanelToken = 'a5774a99b9068ae66129859421ade687';
