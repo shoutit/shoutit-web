@@ -84,6 +84,9 @@ export class Application extends React.Component {
       // Fetch application data again when logged user changed (e.g. has been logged out)
       fetchData(dispatch, { session: { user: undefined } });
     }
+    if (!loggedUser && nextProps.loggedUser) {
+      identifyOnMixpanel(nextProps.loggedUser);
+    }
   }
 
   render() {
