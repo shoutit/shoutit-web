@@ -31,23 +31,22 @@ export default {
       return;
     }
 
-    const name = `${body.firstName} ${body.lastName}`;
-    let profile = {};
+    let location = {};
     if (body.location && body.location.latitude && body.location.longitude) {
-      profile = {
-        location: {
-          latitude: body.location.latitude,
-          longitude: body.location.longitude,
-        },
+      location = {
+        latitude: body.location.latitude,
+        longitude: body.location.longitude,
       };
     }
     const data = {
-      ...body,
-      name,
-      profile,
       client_id: clientId,
       client_secret: clientSecret,
       grant_type: 'shoutit_signup',
+      name: `${body.firstName} ${body.lastName}`,
+      email: body.email,
+      password: body.password,
+      profile: { location },
+      mixpanel_distinct_id: body.mixpanel_distinct_id,
     };
     request
       .post('/oauth2/access_token')

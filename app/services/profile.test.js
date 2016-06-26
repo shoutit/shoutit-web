@@ -86,19 +86,19 @@ describe('services/profile', () => {
       service.create(req, resource, params, body, config, callback);
     });
 
-    it('should pass client_id, client_secret and grant_type', done => {
+    it('should send the right data to the request', done => {
+      body = {
+        ...body,
+        email: 'foo@example.com',
+        password: '123456',
+      };
       sinon.stub(Request.prototype, 'end', function callback() {
         expect(this._data).to.have.property('client_id');
         expect(this._data).to.have.property('client_secret');
         expect(this._data).to.have.property('grant_type', 'shoutit_signup');
-        done();
-      });
-      service.create(req, resource, params, body, config, callback);
-    });
-
-    it('should not pass a profile object if location is empty', done => {
-      sinon.stub(Request.prototype, 'end', function callback() {
-        expect(this._data.profile).to.be.empty;
+        expect(this._data).to.have.property('password', '123456');
+        expect(this._data).to.have.property('mixpanel_distinct_id');
+        expect(this._data).to.have.property('email', 'foo@example.com');
         done();
       });
       service.create(req, resource, params, body, config, callback);
@@ -112,7 +112,7 @@ describe('services/profile', () => {
         },
       };
       sinon.stub(Request.prototype, 'end', function callback() {
-        expect(this._data.profile).to.be.empty;
+        expect(this._data.profile.location).to.be.empty;
         done();
       });
       service.create(req, resource, params, body, config, callback);
