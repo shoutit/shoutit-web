@@ -11,10 +11,8 @@ import {
 export default {
   name: 'profile',
   create: (req, resource, params, body, config, callback) => {
-    // const { firstName, lastName, email, password, location, } = body;
-
     if (!body.firstName) {
-      const firstNameError = new Error('First name is required');
+      const firstNameError = new Error('first_name');
       firstNameError.errors = [{
         location: 'first_name',
         message: 'Enter your first name',
@@ -34,7 +32,15 @@ export default {
     }
 
     const name = `${body.firstName} ${body.lastName}`;
-    const profile = { location: body.location };
+    let profile = {};
+    if (body.location && body.location.latitude && body.location.longitude) {
+      profile = {
+        location: {
+          latitude: body.location.latitude,
+          longitude: body.location.longitude,
+        },
+      };
+    }
     const data = {
       ...body,
       name,
@@ -56,9 +62,9 @@ export default {
         return callback(null, req.session.user);
       });
   },
-  read: (req, resource, { username }, config, callback) => {
+  read: (req, resource, params, config, callback) => {
     request
-      .get(`/profiles/${username}`)
+      .get(`/profiles/${params.username}`)
       .setSession(req.session)
       .prefix()
       .end((err, res) => {
@@ -69,6 +75,11 @@ export default {
       });
   },
   update: (req, resource, params, body, config, callback) => {
+    if (body.location) {
+      delete body.location.city;
+      delete body.location.state;
+      delete body.location.country;
+    }
     request
       .patch('/profiles/me')
       .send(body)
@@ -78,7 +89,7 @@ export default {
         if (err) {
           return callback(parseApiError(err));
         }
-        req.session.user = res.body; // eslint-disable-line
+        req.session.user = res.body;
         return callback(null, res.body);
       });
   },
