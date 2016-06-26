@@ -125,9 +125,8 @@ export class Login extends Component {
     if (email && password) {
       form.email.blur();
       form.password.blur();
-      dispatch(login({ email, password })).then(() => {
-        this.redirectToNextPage();
-      });
+      dispatch(login({ email, password }))
+        .then(() => this.redirectToNextPage());
     }
   }
 

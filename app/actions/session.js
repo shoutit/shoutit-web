@@ -1,9 +1,15 @@
 import * as actionTypes from './actionTypes';
+import { getMixpanelId } from '../utils/mixpanel';
+
 import { PROFILE, EMAIL_VERIFICATION } from '../schemas';
 import set from 'lodash/set';
 
 export function login({ grant_type = 'shoutit_login', ...loginData }) {
-  const body = { ...loginData, grant_type };
+  const body = {
+    ...loginData,
+    grant_type,
+    mixpanel_distinct_id: getMixpanelId(),
+  };
   return {
     payload: { grant_type },
     types: [
@@ -20,7 +26,7 @@ export function login({ grant_type = 'shoutit_login', ...loginData }) {
   };
 }
 
-export function loginUser(user) {
+export function clientLogin(user) {
   const payload = set({}, `entities.users.${user.id}`, user);
   set(payload, 'result', user.id);
   return {
@@ -54,6 +60,10 @@ export function logout() {
 }
 
 export function signup(body) {
+  body = {
+    ...body,
+    mixpanel_distinct_id: getMixpanelId(),
+  };
   return {
     types: [
       actionTypes.SIGNUP_START,
