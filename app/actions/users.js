@@ -34,12 +34,12 @@ export function loadListeners(user, endpoint) {
   };
 }
 
-export function loadListening(user, endpoint) {
+export function loadListeningProfiles(user, endpoint) {
   return {
     types: [
-      actionTypes.LOAD_LISTENING_START,
-      actionTypes.LOAD_LISTENING_SUCCESS,
-      actionTypes.LOAD_LISTENING_FAILURE,
+      actionTypes.LOAD_LISTENING_PROFILES_START,
+      actionTypes.LOAD_LISTENING_PROFILES_SUCCESS,
+      actionTypes.LOAD_LISTENING_PROFILES_FAILURE,
     ],
     payload: { user },
     service: {

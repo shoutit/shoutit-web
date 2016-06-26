@@ -17,7 +17,7 @@ import NotFound from './NotFound';
 
 import { loadCategories, loadCurrencies } from '../actions/misc';
 import { loadSuggestions } from '../actions/location';
-import { loadListening } from '../actions/users';
+import { loadListeningProfiles } from '../actions/users';
 import { loginUser, updateLinkedAccount, logout } from '../actions/session';
 
 import { getLoggedUser } from '../reducers/session';
@@ -36,7 +36,7 @@ const fetchData = (dispatch, state) => {
   promises.push(dispatch(loadCurrencies()));
   const loggedUser = getLoggedUser(state); // logged user comes from rehydrated state
   if (loggedUser) {
-    promises.push(dispatch(loadListening(loggedUser)));
+    promises.push(dispatch(loadListeningProfiles(loggedUser)));
   }
   return Promise.all(promises);
 };
