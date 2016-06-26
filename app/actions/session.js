@@ -66,10 +66,10 @@ export function loginWithGoogle({ gplus_code, user }) {
 }
 
 export function loginWithFacebook({ facebook_access_token, user }) {
-  const loginData = { 
-    facebook_access_token, 
-    user, 
-    grant_type: grantTypes.facebook_access_token 
+  const loginData = {
+    facebook_access_token,
+    user,
+    grant_type: grantTypes.facebook_access_token,
   };
   return login(loginData);
 }
