@@ -5,15 +5,17 @@ $green: #36DD69;
 $green-light: #33E96B;
 $red: #FF4700;
 $blue: #40c4ff;
-$grey-light: #AFAFAF;
-$grey-lighter: #CCCCCC;
+
+$grey-light-1: #AFAFAF;
+$grey-light-2: #CCCCCC;
+$grey-light-3: #E1E1E1;
 
 $white: #FFFFFF;
 
 // Text colors
 $color-text: $black;
-$color-text-light: $grey-light;
-$color-text-lighter: $grey-lighter;
+$color-text-light: $grey-light-1;
+$color-text-lighter: $grey-light-2;
 
 // Alternate states colors
 $color-primary: $green;
@@ -24,7 +26,7 @@ $color-secondary-light: $blue;
 
 // Buttons colors
 $background-color-button-primary: $color-primary;
-$background-color-button-primary-hover: $color-primary;
+$background-color-button-primary-hover: $color-primary-light;
 
 $background-color-button-secondary: $color-secondary;
 $background-color-button-secondary-hover: $color-secondary;
@@ -37,8 +39,8 @@ $background-color-popup-header-hover: $color-primary-light;
 $background-color-badge: $red;
 
 // Fields
-$color-placeholder: $grey-light;
-$border-color-field: $grey-lighter;
+$color-placeholder: $grey-light-1;
+$border-color-field: $grey-light-2;
 $border-color-field-focus: $color-primary;
 
 $input-error: $red;
@@ -53,12 +55,12 @@ $color-link-hover: $color-primary-light;
 
 // Dropdowns
 
-$background-color-dropdown-menu-item: $grey-lighter;
+$background-color-dropdown-menu-item: $grey-light-3;
 $background-color-dropdown-menu-item-active: $color-primary;
 
-$border-color: #EDEFED;
-$border-color-dark: #DFDFDF;
-$border-color-darker: #bfbfbf;
+$border-color: $grey-light-3;
+$border-color-dark: $grey-light-2;
+$border-color-darker: $grey-light-1;
 $border-color-alt: #a7d281;
 
 $background-color-light: #FAFAFA;
@@ -67,4 +69,3 @@ $background-color-dark: #989899;
 $background-color-darker: #58585A;
 $background-color-alt-light: #F8FAFB;  // slightly green
 $background-color-alt: #EEF6E8;  // slightly green
-

@@ -100,9 +100,4 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50%;
-  &:hover {
-    background-image: url('../../assets/icons/camera-active.svg');
-    background-color: $background-color-alt;
-    border-color: $border-color-alt;
-  }
 }
