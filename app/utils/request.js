@@ -7,7 +7,7 @@
  * 		request
  * 			.get("/user/ABC")                  // will request https://api.shoutit.com/v2/user/ABC
  * 		 	.use({ session: { accessToken: "foo" }}) // set the authorization header using `accessToken` (optional)
- * 		 	.prefix()                          // prefix the endpoint with API URL
+ * 		 	.prefix()                                 // prefix the endpoint with API URL
  * 		  .end(callback)
  */
 
@@ -21,9 +21,11 @@ const log = debug('shoutit:request');
 request.Request.prototype.use = function use(req) {
   if (req.session && req.session.accessToken) {
     this.set('Authorization', `Bearer ${req.session.accessToken}`);
+    log('Set Authorization header');
   }
   if (req.locale) {
     this.set('Accept-Language', req.locale);
+    log('Set Accept-Language header to %s', req.locale);
   }
   return this;
 };
