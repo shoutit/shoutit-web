@@ -6,7 +6,7 @@ export default {
   read: (req, resource, { id }, config, callback) => {
     request
       .get(`/shouts/${id}/call`)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

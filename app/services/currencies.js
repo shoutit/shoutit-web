@@ -11,7 +11,7 @@ export default {
     }
     request
       .get('/misc/currencies')
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

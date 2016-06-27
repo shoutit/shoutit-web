@@ -7,7 +7,7 @@ export default {
     const url = '/notifications/reset';
     request
       .post(url)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

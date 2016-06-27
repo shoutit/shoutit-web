@@ -7,7 +7,7 @@ export default {
   create: (req, resource, { id }, body, config, callback) => {
     request
       .post(`/conversations/${id}/read`)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {
@@ -20,7 +20,7 @@ export default {
   delete: (req, resource, { id }, config, callback) => {
     request
       .delete(`/conversations/${id}/read`)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

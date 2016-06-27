@@ -6,7 +6,7 @@ export default {
   create: (req, resource, { username }, body, config, callback) => {
     request
       .post(`/profiles/${username}/listen`)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {
@@ -18,7 +18,7 @@ export default {
   delete: (req, resource, { username }, config, callback) => {
     request
       .del(`/profiles/${username}/listen`)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

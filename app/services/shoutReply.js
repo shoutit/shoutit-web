@@ -7,7 +7,7 @@ export default {
     request
       .post(`/shouts/${id}/reply`)
       .send(message)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {
@@ -19,7 +19,7 @@ export default {
         // Request the conversation data
         request
           .get(`/conversations/${message.conversation_id}`)
-          .setSession(req.session)
+          .use(req)
           .prefix()
           .end((err, res) => {
             if (err) {

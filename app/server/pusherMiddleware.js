@@ -2,7 +2,7 @@ import request from '../utils/request';
 export default function pusherMiddleware(req, res, next) { // eslint-disable-line
   request
     .post('/pusher/auth')
-    .setSession(req.session)
+    .use(req)
     .send(req.body)
     .prefix()
     .end((err, response) => {

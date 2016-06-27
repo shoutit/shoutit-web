@@ -6,7 +6,7 @@ export default {
   create: (req, resource, params, body, config, callback) => {
     request
       .post('/twilio/video_auth')
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

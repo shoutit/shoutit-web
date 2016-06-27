@@ -10,7 +10,7 @@ export default {
       request
         .patch('/profiles/me')
         .send({ location })
-        .setSession(req.session)
+        .use(req)
         .prefix()
         .end((err, res) => {
           if (err) {

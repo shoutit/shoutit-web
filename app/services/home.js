@@ -7,7 +7,7 @@ export default {
     const url = params.endpoint || '/profiles/me/home';
     request
       .get(url)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

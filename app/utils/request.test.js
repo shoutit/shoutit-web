@@ -6,8 +6,13 @@ import request from './request';
 
 describe('request', () => {
 
-  it('should set authorization header from session object', () => {
-    const req = request.get('/foo').setSession({ accessToken: 'foo' });
+  it('should set Accept-Language header from req object', () => {
+    const req = request.get('/foo').use({ locale: 'it' });
+    expect(req.header['Accept-Language']).to.equal('it');
+  });
+
+  it('should set Authorization header from req object', () => {
+    const req = request.get('/foo').use({ session: { accessToken: 'foo' } });
     expect(req.header.Authorization).to.equal('Bearer foo');
   });
 
