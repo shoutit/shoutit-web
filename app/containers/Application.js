@@ -27,9 +27,7 @@ import * as FacebookUtils from '../utils/FacebookUtils';
 
 import * as config from '../config';
 
-if (process.env.BROWSER) {
-  require('./Application.scss');
-}
+import './Application.scss';
 
 const fetchData = (dispatch, state) => {
   const promises = [];

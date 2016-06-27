@@ -6,6 +6,5 @@ if (process.env.NODE_ENV === 'production' &&
   require('newrelic');
 }
 
-// Prevent issues with libraries using this var (see http://tinyurl.com/pcockwk)
-delete process.env.BROWSER;
+require('ignore-styles');
 require('./app.js');
