@@ -1,10 +1,10 @@
 @import '../styles/constants';
 @import '../styles/mixins/ellipsis';
 
-.HostedConversation {
+.ConversationPopup {
 }
 
-.HostedConversation-header {
+.ConversationPopup-header {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -16,8 +16,8 @@
   height: 2rem;
   color: white;
   background-color: $background-color-popup-header;
-  .HostedConversation.has-focus &,
-  .HostedConversation:hover & {
+  .ConversationPopup.has-focus &,
+  .ConversationPopup:hover & {
     background-color: $background-color-popup-header-hover;
   }
 
@@ -37,7 +37,7 @@
     }
   }
 
-  .HostedConversation-toolbar {
+  .ConversationPopup-toolbar {
     z-index: 1;
     display: flex;
     align-items: center;
@@ -54,7 +54,7 @@
   }
 }
 
-.HostedConversation-conversation {
+.ConversationPopup-conversation {
   position: absolute;
   top: 32px;
   right: 0;
