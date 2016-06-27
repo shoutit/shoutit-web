@@ -44,11 +44,11 @@
     display: block;
     padding: .5em;
     color: white;
-    background-color: $green;
+    background-color: $background-color-button-primary;
     font-size: .875em;
     &:hover {
       color: white;
-      background-color: $green-dark;
+      background-color: $background-color-button-primary-hover;
     }
   }
 }

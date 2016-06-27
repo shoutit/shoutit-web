@@ -15,10 +15,10 @@
   flex-direction: row;
   height: 2rem;
   color: white;
-  background-color: $green;
+  background-color: $background-color-popup-header;
   .HostedConversation.has-focus &,
   .HostedConversation:hover & {
-    background-color: $green-dark;
+    background-color: $background-color-popup-header-hover;
   }
 
   h3 {

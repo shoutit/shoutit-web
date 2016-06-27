@@ -25,9 +25,18 @@ $si-footer-text: #e6e9ed;
 
 $si-error-color: #E73F3F;
 
-$green: #95cc69;
-$green-dark: #6bb542;
-$green-darkest: #559f43;
+$green-light: #33E96B;
+$green: #36DD69;
+
+$red: #FF4700;
+
+// Buttons colors
+$background-color-button-primary: $green; 
+$background-color-button-primary-hover: $green;
+
+// Popup colors
+$background-color-popup-header: $green;
+$background-color-popup-header-hover: $green-light;
 
 
 $border-color-field: $shoutit-grey-light;
@@ -42,7 +51,7 @@ $color-light: #989899;
 $color-lighter: #C8C8C9;
 $color-primary: #a7d281;
 $color-active: $green;
-$color-active-hover: $green-dark;
+$color-active-hover: $green-light;
 
 $background-color-light: #FAFAFA;
 $background-color: #F3F3F3;
