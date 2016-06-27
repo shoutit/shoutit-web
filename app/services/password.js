@@ -7,7 +7,7 @@ export default {
     request
       .post('/auth/change_password')
       .send(body)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end(err => {
         if (err) {

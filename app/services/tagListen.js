@@ -6,7 +6,7 @@ export default {
   create: (req, resource, { tag }, body, config, callback) => {
     request
       .post(`/tags/${tag.name}/listen`)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {
@@ -18,7 +18,7 @@ export default {
   delete: (req, resource, { tag }, config, callback) => {
     request
       .del(`/tags/${tag.name}/listen`)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

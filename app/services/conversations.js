@@ -11,7 +11,7 @@ export default {
     }
     request
       .get(url)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {
@@ -24,7 +24,7 @@ export default {
   delete: (req, resource, { id }, config, callback) => {
     request
       .del(`/conversations/${id}`)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

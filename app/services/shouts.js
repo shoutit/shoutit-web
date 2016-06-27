@@ -27,7 +27,7 @@ export default {
       .get(url)
       .query(query)
       .prefix()
-      .setSession(req.session)
+      .use(req)
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));

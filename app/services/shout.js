@@ -12,7 +12,7 @@ export default {
     request
       .post('/shouts')
       .prefix()
-      .setSession(req.session)
+      .use(req)
       .send(shout)
       .end((err, res) => {
         if (err) {
@@ -24,7 +24,7 @@ export default {
   read: (req, resource, params, config, callback) => {
     request
       .get(`/shouts/${params.id}`)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {
@@ -37,7 +37,7 @@ export default {
     request
       .patch(`/shouts/${id}`)
       .prefix()
-      .setSession(req.session)
+      .use(req)
       .send(shout)
       .end((err, res) => {
         if (err) {
@@ -55,7 +55,7 @@ export default {
     request
       .delete(`/shouts/${shout.id}`)
       .prefix()
-      .setSession(req.session)
+      .use(req)
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));

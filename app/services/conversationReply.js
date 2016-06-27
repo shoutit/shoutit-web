@@ -19,7 +19,7 @@ export default {
     request
       .post(`/conversations/${id}/reply`)
       .send(body)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

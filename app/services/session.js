@@ -40,7 +40,7 @@ export function readSessionProfile(req, callback) {
   log('Reading the current session\'s profile...');
   request
     .get('/profiles/me')
-    .setSession(req.session)
+    .use(req)
     .prefix()
     .end((err, res) => {
       if (err) {

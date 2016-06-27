@@ -8,7 +8,7 @@ export default {
     request
       .get(url)
       .query({ page_size: pageSize })
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

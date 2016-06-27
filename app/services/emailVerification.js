@@ -9,7 +9,7 @@ export default {
   create: (req, resource, params, { email }, config, callback) => {
     request
       .post('/auth/verify_email')
-      .setSession(req.session)
+      .use(req)
       .send({ email })
       .prefix()
       .end((err, res) => {
@@ -23,7 +23,7 @@ export default {
     request
       .get('/auth/verify_email')
       .query({ token })
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

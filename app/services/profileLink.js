@@ -7,7 +7,7 @@ export default {
     request
       .patch('/profiles/me/link')
       .send(body)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end(err => {
         if (err) {
