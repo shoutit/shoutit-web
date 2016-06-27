@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="44px" height="27px" viewBox="0 0 44 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
     <title>icons/video-active</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="icons/video-active" fill="#7EBE59">
+        <g id="icons/video-active" fill="#36DD69">
             <path d="M43.3044615,4.89753846 C42.8644615,4.54215385 42.2856923,4.39830769 41.7272308,4.51 L33,6.22769231 L33,2.70769231 C33,1.21169231 31.768,0 30.25,0 L2.75,0 C1.232,0 0,1.21169231 0,2.70769231 L0,24.3692308 C0,25.8652308 1.232,27.0769231 2.75,27.0769231 L30.25,27.0769231 C31.768,27.0769231 33,25.8652308 33,24.3692308 L33,20.8492308 L41.7272308,22.5669231 C42.2856923,22.6769231 42.8644615,22.5347692 43.3044615,22.1793846 C43.7444615,21.824 44,21.2926154 44,20.7307692 L44,6.34446154 C44,5.78430769 43.7444615,5.25292308 43.3044615,4.89753846 L43.3044615,4.89753846 Z" id="Shape"></path>
         </g>
     </g>

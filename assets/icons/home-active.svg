@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="39px" height="44px" viewBox="0 0 39 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
     <title>icons/home-active</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="icons/home-active" fill="#7EBE59">
+        <g id="icons/home-active" fill="#36DD69">
             <path d="M4.22834882,44 L12.2589794,44 C12.8951416,44 13.4108298,43.4710263 13.4108298,42.8184747 L13.4108298,26.7865032 L25.7888141,26.7865032 L25.7888141,42.8184747 C25.7888141,43.4710263 26.3045022,44 26.9406645,44 L34.598119,44 C35.2342813,44 35.7499694,43.4710263 35.7499694,42.8184747 L35.7499694,17.9084862 L38.8235294,17.9084862 L21.2945406,0.685947143 C20.3718849,-0.219788419 18.9203183,-0.230337751 17.9873783,0.664848477 L3.55271368e-15,17.9084862 L3.07649841,17.9084862 L3.07649841,42.8184747 C3.07649841,43.4710263 3.59218654,44 4.22834882,44 L4.22834882,44 Z" id="Shape"></path>
         </g>
     </g>
