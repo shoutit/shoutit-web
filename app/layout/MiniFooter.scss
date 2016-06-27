@@ -9,7 +9,7 @@
 
     text-transform: uppercase;
 
-    color: $color-light;
+    color: $color-text-light;
 
     font-size: .625rem;
     font-weight: normal;
@@ -35,11 +35,11 @@
 .MiniFooter-language {
   a {
     font-size: .875rem;
-    color: $color;
+    color: $color-text;
     display: inline-block;
     margin-right: 1rem;
     &:hover {
-      color: $si-green;
+      color: $color-link;
     }
   }
 }
@@ -48,6 +48,6 @@
   margin-top: 1.5rem;
   padding-top: .5rem;
   border-top: 1px solid $border-color-dark;
-  color: $color-light;
+  color: $color-text-light;
   font-size: .625rem;
 }

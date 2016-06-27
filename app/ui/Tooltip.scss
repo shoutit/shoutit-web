@@ -6,7 +6,7 @@
 @include Tooltip(
   $className: TooltipWhite,
   $tooltip-background-color: #fff,
-  $tooltip-color: $color,
+  $tooltip-color: $color-text,
   $tooltip-opacity: 1,
   $tooltip-border: 0,
   $tooltip-shadow: $box-shadow-depth-2,
@@ -44,9 +44,6 @@ $white-arrow-height: 16px;
   width: $white-arrow-height;
   margin-top: $white-arrow-width * (-0.5);
   left:  -1 * $white-arrow-height + 5;
-  // margin-top: -6px;
-  // border-width: 6px 6px 6px 0;
-  // border-right-color: #ffffff;
 }
 .TooltipWhite-placement-left .TooltipWhite-arrow-inner,
 .TooltipWhite-placement-leftTop .TooltipWhite-arrow-inner,

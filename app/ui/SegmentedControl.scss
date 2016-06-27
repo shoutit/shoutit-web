@@ -30,9 +30,9 @@
   }
 
   input:checked + label {
-    color: white;
-    background-color: $si-green;
-    border: 1px solid $si-green;
+    color: $white;
+    background-color: $color-primary;
+    border: 1px solid $color-primary;
   }
 
   + .SegmentedControl-option {

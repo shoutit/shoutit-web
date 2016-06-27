@@ -17,7 +17,7 @@
   }
 }
 .ConversationItem.hover {
-  color: $color;
+  color: $color-text;
 }
 .ConversationItem.hover:not(.is-selected) {
   background-color: $background-color-light;
@@ -27,9 +27,9 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: $color;
+  color: $color-text;
   &:hover {
-    color: $color;
+    color: $color-text;
   }
 }
 
@@ -73,12 +73,12 @@
 }
 .ConversationItem-last {
   margin-top: .25em;
-  color: $color-light;
+  color: $color-text-light;
   font-size: .75em;
   @include ellipsis();
 }
 .ConversationItem-date {
-  color: $color-light;
+  color: $color-text-light;
   line-height: 1rem;
 }
 
@@ -91,5 +91,5 @@
 
 .ConversationItem-unread-count {
   margin-top: .25em;
-  color: $si-green;
+  color: $color-primary;
 }

@@ -11,14 +11,14 @@
   }
 
   .CardWithList {
-    background-color: white;
+    background-color: $white;
     a {
       display: inline-block;
-      color: $color;
+      color: $color-text;
       font-size: 0.875rem;
       padding: .5rem 0;
       &.active {
-        color: $si-green;
+        color: $color-link-hover;
       }
     }
   }
@@ -28,7 +28,7 @@
   margin-top: .75rem;
   padding: 1rem 0;
   display: flex;
-  background: white;
+  background: $white;
   border-radius: $border-radius;
   box-shadow: $box-shadow-depth-0;
   justify-content: center;

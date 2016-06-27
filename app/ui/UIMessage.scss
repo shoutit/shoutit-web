@@ -4,10 +4,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: $white;
   font-size: 0.875rem;
   &.info {
-    color: $color;
+    color: $color-text;
   }
   h4 {
     margin: 0;
@@ -24,10 +24,10 @@
   border-radius: $border-radius;
   display: inline-block;
   .UIMessage.alert & {
-    background-color: $shoutit-blue;
+    background-color: $blue;
   }
   .UIMessage.error & {
-    background-color: $shoutit-red;
+    background-color: $red;
   }
 }
 
@@ -35,7 +35,7 @@
   padding: .5rem 1rem;
   font-weight: normal;;
   .UIMessage.error & {
-    background-color: lighten($shoutit-red, 10);
+    background-color: lighten($red, 10);
   }
   border-bottom-left-radius: $border-radius;
   border-bottom-right-radius: $border-radius;

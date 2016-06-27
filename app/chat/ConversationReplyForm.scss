@@ -1,7 +1,8 @@
 
+@import '../styles/constants';
 
 .ConversationReplyForm {
-  background-color: white;
+  background-color: $white;
 
   textarea {
     width: 100%;

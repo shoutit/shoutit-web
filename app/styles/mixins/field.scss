@@ -15,12 +15,12 @@
     justify-content: space-between;;
     .FormField-label {
       flex: 1;
-      color: $color-light;
+      color: $color-text-light;
       font-size: .875em;
     }
     .FormField-max-length {
       font-size: .625em;
-      color: $color-light;
+      color: $color-text-light;
     }
   }
 
@@ -31,7 +31,7 @@
     width: 100%;
     border: 1px solid $border-color-dark;
     border-radius: $border-radius-small;
-    background-color: white;
+    background-color: $white;
   }
 
   &.disabled .field-wrapper {
@@ -44,13 +44,13 @@
   }
 
   &.has-focus > .field-wrapper {
-    border-color: $si-green;
-    box-shadow: 0 0 0 3px rgba($si-green, .25);
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, .25);
   }
 
   &.has-error > .field-wrapper {
-    border-color: $shoutit-red;
-    box-shadow: 0 0 0 3px rgba($shoutit-red, .25);
+    border-color: $red;
+    box-shadow: 0 0 0 3px rgba($red, .25);
   }
 
   &.inset > .field-wrapper {
@@ -61,7 +61,7 @@
   }
 
   .FormField-ancillary {
-    color: $color-light;
+    color: $color-text-light;
     margin: .5em .25em;
     font-size: .75em;
   }
@@ -74,7 +74,7 @@
   width: 100%;
   border: 0;
   padding: .625em;
-  color: $color;
+  color: $color-text;
   outline: none;
   background-color: transparent;
   font-size: .875em;

@@ -38,15 +38,15 @@ html {
 body {
   height: 100%;
   background-color: $background-color;
-  color: $color;
+  color: $color-text;
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
 a {
   text-decoration: none;
-  color: $color-active;
+  color: $color-link;
   &:hover {
-    color: $color-active-hover;
+    color: $color-link-hover;
   }
 }
 

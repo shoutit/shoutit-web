@@ -1,10 +1,10 @@
 @import '../styles/constants';
 @import '../styles/mixins/ellipsis';
 
-.HostedConversation {
+.ConversationPopup {
 }
 
-.HostedConversation-header {
+.ConversationPopup-header {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -14,11 +14,11 @@
   align-items: stretch;
   flex-direction: row;
   height: 2rem;
-  color: white;
-  background-color: $green;
-  .HostedConversation.has-focus &,
-  .HostedConversation:hover & {
-    background-color: $green-dark;
+  color: $white;
+  background-color: $background-color-popup-header;
+  .ConversationPopup.has-focus &,
+  .ConversationPopup:hover & {
+    background-color: $background-color-popup-header-hover;
   }
 
   h3 {
@@ -29,15 +29,15 @@
     line-height: 2rem;
     flex: 1;
     a {
-      color: white;
+      color: $white;
       &:hover {
         text-decoration: underline;
-        color: white;;
+        color: $white;;
       }
     }
   }
 
-  .HostedConversation-toolbar {
+  .ConversationPopup-toolbar {
     z-index: 1;
     display: flex;
     align-items: center;
@@ -54,7 +54,7 @@
   }
 }
 
-.HostedConversation-conversation {
+.ConversationPopup-conversation {
   position: absolute;
   top: 32px;
   right: 0;

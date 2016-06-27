@@ -3,7 +3,7 @@
 .Overlay {
   position: absolute;
   z-index: 1000;
-  background-color: white;
+  background-color: $white;
   border-radius: $border-radius-small;
   // ⚠️ if you change the shadow remember to update the arrows-* PNG ui-elements
   // to match the new shadow!
@@ -16,7 +16,7 @@
     background-color: rgba(#535353, .97);
     a > .ListItem,
     a {
-      color: white;
+      color: $white;
     }
   }
 }

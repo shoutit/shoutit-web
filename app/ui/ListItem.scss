@@ -20,12 +20,12 @@
   }
 
   a > & {
-    color: $color
+    color: $color-text
   }
 
   ul > & {
     margin: .25rem 0;
-    color: $color;
+    color: $color-text;
     &.size-small {
       margin: .25rem 0;
     }

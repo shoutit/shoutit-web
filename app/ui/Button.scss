@@ -9,7 +9,7 @@
   text-align: center;
   vertical-align: middle;
   white-space: nowrap;
-  color: $color;
+  color: $color-text;
   border: 0;
   border: 1px solid transparent;
   border-radius: .25rem;
@@ -17,7 +17,7 @@
 
   -webkit-appearance: none;
   &:hover {
-    color: $color;
+    color: $color-text;
   }
   &.block {
     display: block;
@@ -56,10 +56,10 @@
 
 .Button.action-default {
   border-color: #DDD;
-  background-color: white;
+  background-color: $white;
   background-image: linear-gradient(rgba(black, 0), rgba(black, .05));
   &:hover {
-    background-color: white;
+    background-color: $white;
     background-image: linear-gradient(rgba(black, .025), rgba(black, .075));
   }
   &:disabled,
@@ -71,55 +71,50 @@
   }
   a,
   a:hover {
-    color: $color;
+    color: $color-text;
   }
 }
 
 .Button.action-primary {
-  color: white;
-  border-color: $si-green darken($si-green, 5) darken($si-green, 15);
-  background-color: $si-green;
-  background-image: linear-gradient($si-green, darken($si-green, 15));
-  &:hover {
-    background-color: darken($si-green, 5);
-    background-image: linear-gradient(darken($si-green, 5), darken(darken($si-green, 5), 15));
+  color: $white;
+  background-color: $background-color-button-primary;
+  &:hover:not(:active):not(.active) {
+    background-color: $background-color-button-primary-hover;
   }
-  &:disabled,
-  &.disabled {
-    border-color: transparent;
-    background-color: lighten($si-green, 20);
-    background-image: none;
+  &:active,
+  &.active {
+    box-shadow: inset 0 1px 5px 0 rgba(black, 0.1);
   }
   a,
   a:hover {
-    color: white;
+    color: $white;
   }
 }
 
 .Button.action-primary-alt {
-  color: white;
-  border-color: $shoutit-blue darken($shoutit-blue, 5) darken($shoutit-blue, 15);
-  background-color: $shoutit-blue;
-  background-image: linear-gradient($shoutit-blue, darken($shoutit-blue, 15));
+  color: $white;
+  border-color: $blue darken($blue, 5) darken($blue, 15);
+  background-color: $blue;
+  background-image: linear-gradient($blue, darken($blue, 15));
   &:hover {
-    background-color: darken($shoutit-blue, 5);
-    background-image: linear-gradient(darken($shoutit-blue, 5), darken(darken($shoutit-blue, 5), 15));
+    background-color: darken($blue, 5);
+    background-image: linear-gradient(darken($blue, 5), darken(darken($blue, 5), 15));
   }
   &:disabled,
   &.disabled {
     border-color: transparent;
-    background-color: lighten($shoutit-blue, 20);
+    background-color: lighten($blue, 20);
     background-image: none;
   }
   a,
   a:hover {
-    color: white;
+    color: $white;
   }
 }
 
 .Button.action-inverted {
-  color: white;
-  border-color: white;
+  color: $white;
+  border-color: $white;
   background-color: black;
   background-image: linear-gradient(lighten(black, 30), black);
   &:disabled,
@@ -129,28 +124,28 @@
   }
   a,
   a:hover {
-    color: white;
+    color: $white;
   }
 }
 
 .Button.action-destructive {
-  color: white;
-  border-color: $shoutit-red darken($shoutit-red, 5) darken($shoutit-red, 5);
-  background-color: $shoutit-red;
-  background-image: linear-gradient($shoutit-red, darken($shoutit-red, 5));
+  color: $white;
+  border-color: $red darken($red, 5) darken($red, 5);
+  background-color: $red;
+  background-image: linear-gradient($red, darken($red, 5));
   &:hover {
-    background-color: darken($shoutit-red, 5);
-    background-image: linear-gradient(darken($shoutit-red, 5), darken(darken($shoutit-red, 5), 5));
+    background-color: darken($red, 5);
+    background-image: linear-gradient(darken($red, 5), darken(darken($red, 5), 5));
   }
   &:disabled,
   &.disabled {
     border-color: transparent;
-    background-color: lighten($shoutit-red, 20);
+    background-color: lighten($red, 20);
     background-image: none;
   }
   a,
   a:hover {
-    color: white;
+    color: $white;
   }
 }
 
@@ -158,10 +153,10 @@ $facebook-base-color: #395185;
 
 .Button.facebook,
 .Button.google {
-  color: white;
+  color: $white;
   border-color: transparent;
   .Button-label {
-    color: white;
+    color: $white;
     padding-left: .5rem;
   }
   .Button-icon {
@@ -169,9 +164,9 @@ $facebook-base-color: #395185;
     border-right:  1px solid rgba(white, .5);
   }
   &:not(.disabled):hover {
-    color: white;
+    color: $white;
     .Button-label {
-      color: white;
+      color: $white;
     }
   }
   .Button-wrapper {
