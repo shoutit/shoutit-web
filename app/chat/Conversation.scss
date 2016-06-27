@@ -14,7 +14,7 @@
 }
 
 .Conversation-head {
-  background-color: white;
+  background-color: $white;
   margin: 0;
   height: 3em;
   display: flex;
@@ -44,7 +44,7 @@
 .Conversation-error {
   padding: 10px;
   text-align: center;
-  color: $si-error-color;
+  color: $input-error;
 }
 
 .Conversation-messagesList {

@@ -14,7 +14,7 @@
   align-items: stretch;
   flex-direction: row;
   height: 2rem;
-  color: white;
+  color: $white;
   background-color: $background-color-popup-header;
   .ConversationPopup.has-focus &,
   .ConversationPopup:hover & {
@@ -29,10 +29,10 @@
     line-height: 2rem;
     flex: 1;
     a {
-      color: white;
+      color: $white;
       &:hover {
         text-decoration: underline;
-        color: white;;
+        color: $white;;
       }
     }
   }

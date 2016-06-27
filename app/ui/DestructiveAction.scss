@@ -5,12 +5,12 @@
 }
 .DestructiveAction-label {
   font-size: 0.875em;
-  color: $shoutit-red;
+  color: $red;
   cursor: pointer;
 }
 .DestructiveAction-description {
   font-size: 0.75em;
-  color: $color-light;
+  color: $color-text-light;
   cursor: default;
   &:before {
     content: '–';

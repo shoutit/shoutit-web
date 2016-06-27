@@ -1,7 +1,7 @@
 @import '../styles/constants.scss';
 $thumb-size: 1.3em;
 $track-height: 2px;
-$thumb-border: 1px solid $border-color-darker;
+$thumb-border: 1px solid $range-field-thumb;
 
 .RangeField {
   width: 100%;
@@ -16,7 +16,7 @@ $thumb-border: 1px solid $border-color-darker;
   width: 100%;
   height: $track-height;
   cursor: pointer;
-  background: $si-green;
+  background: $range-field-track;
 }
 .RangeField::-webkit-slider-thumb {
   width: $thumb-size;
@@ -25,7 +25,7 @@ $thumb-border: 1px solid $border-color-darker;
   cursor: pointer;
   border: $thumb-border;
   border-radius: 100%;
-  background: white;
+  background: $white;
   -webkit-appearance: none;
   position: relative;
 }
@@ -33,7 +33,7 @@ $thumb-border: 1px solid $border-color-darker;
   width: 100%;
   height: $track-height;
   cursor: pointer;
-  background: $si-green;
+  background: $range-field-track;
   outline: none;
 }
 .RangeField::-moz-range-thumb {
@@ -42,10 +42,10 @@ $thumb-border: 1px solid $border-color-darker;
   cursor: pointer;
   border: $thumb-border;
   border-radius: 100%;
-  background: white;
+  background: $white;
 }
 .RangeField:focus::-moz-range-thumb {
-  box-shadow: 0 0 0 3px rgba($si-green, .25);
+  box-shadow: 0 0 0 3px $range-field-thumb;
 }
 .RangeField::-ms-track {
   width: 100%;
@@ -56,10 +56,10 @@ $thumb-border: 1px solid $border-color-darker;
   background: transparent;
 }
 .RangeField::-ms-fill-lower {
-  background: $si-green;
+  background: $range-field-track;
 }
 .RangeField::-ms-fill-upper {
-  background: $si-green;
+  background: $range-field-track;
 }
 .RangeField::-ms-thumb {
   width: $thumb-size;
@@ -68,15 +68,15 @@ $thumb-border: 1px solid $border-color-darker;
   cursor: pointer;
   border: $thumb-border;
   border-radius: 100%;
-  background: white;
+  background: $white;
 }
 .RangeField:focus::-ms-thumb {
-  box-shadow: 0 0 0 3px rgba($si-green, .25);
+  box-shadow: 0 0 0 3px $range-field-thumb;
 }
 
 .RangeField:focus::-ms-fill-lower {
-  background: $si-green;
+  background: $range-field-track;
 }
 .RangeField:focus::-ms-fill-upper {
-  background: $si-green;
+  background: $range-field-track;
 }

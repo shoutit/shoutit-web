@@ -31,14 +31,14 @@
   margin-left: 1rem;
   a {
     margin: 0 1rem;
-    color: $color;
+    color: $color-text;
     padding: .5rem;
   }
 }
 
 .Header-link-active {
   border-radius: 0;
-  border-bottom: 2px solid $si-green;
+  border-bottom: 2px solid $color-primary;
 }
 
 .Header-search {

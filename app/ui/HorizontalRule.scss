@@ -10,12 +10,12 @@
   span {
     position: relative;
     top: -1em;
-    background-color: white;
+    background-color: $white;
     display: inline-block;
     padding: 0 .5em;
     margin: 0 auto;
     line-height: 2em;
     font-size: 1em;
-    color: $color-light;
+    color: $color-text-light;
   }
 }

@@ -8,12 +8,12 @@
 
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
-  background-color: $background-color;
-  color: black;
+  background-color: $background-color-dropdown-menu-item;
+  color: $black;
 }
 
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
 .dropdown-menu > .active > a:focus {
-  background-color: $si-green;
+  background-color: $background-color-dropdown-menu-item-active;
 }

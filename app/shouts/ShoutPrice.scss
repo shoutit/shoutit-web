@@ -3,8 +3,8 @@
 .ShoutPrice.badge {
   position: relative;
   padding: .35rem .7rem;
-  color: white;
-  background: $si-green;
+  color: $white;
+  background: $color-primary;
   box-shadow: -1px 1px 3px rgba(0,0,0,.4);
   &:before {
     position: absolute;
@@ -16,7 +16,7 @@
     content: '';
     transform: rotate(-180deg);
     border-right: 0 solid transparent;
-    border-bottom: 8px solid darken($si-green, 20);
+    border-bottom: 8px solid darken($color-primary, 20);
     border-left: 8px solid transparent;
   }
 }

@@ -19,7 +19,7 @@
   .Discover-country {
     cursor: pointer;
     position: absolute;
-    color: white;
+    color: $white;
     top: .5rem;
     left: .5rem;
     font-size: 0.75rem;
@@ -38,7 +38,7 @@
   padding: 1rem;
 
   background-color: rgba(black, .6);
-  color: white;
+  color: $white;
   align-items: center;
   justify-content: center;
   -webkit-backdrop-filter: blur(5px);

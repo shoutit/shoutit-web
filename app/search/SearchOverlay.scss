@@ -5,7 +5,7 @@
 }
 
 .SearchOverlay-placeholder {
-  color: $color-light;
+  color: $color-text-light;
   text-align: center;
   font-size: 0.75rem;
   padding: 1rem;
@@ -26,7 +26,7 @@
   font-size: 0.875em;
   cursor: pointer;
   text-align: center;
-  color: $si-green;
+  color: $color-link;
   &:hover {
     text-decoration: underline;
   }

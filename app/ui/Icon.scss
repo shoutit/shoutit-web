@@ -54,8 +54,8 @@
 .Icon-badge {
   position: relative;
   display: inline-block;
-  background-color: $si-red;
-  color: white;
+  background-color: $background-color-badge;
+  color: $white;
   font-size: 9px;
   border-radius: 7px;
   min-width: 14px;
@@ -70,7 +70,7 @@
   opacity: 1;
   transform: scale(1);
   &.isHidden {
-    color: $si-red;
+    color: $background-color-badge;
     opacity: 0;
     transform: scale(0);
   }

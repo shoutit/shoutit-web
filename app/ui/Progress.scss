@@ -19,7 +19,7 @@
 }
 
 .Progress-wrapper {
-  background-color: white;
+  background-color: $white;
   display: inline-block;
   padding: .5em 1em;
   border-radius: $border-radius;
@@ -33,7 +33,7 @@
   overflow: hidden;
   display: inline-block;
   font-size: .875em;
-  color: $color;
+  color: $color-text;
   .Progress.size-small & {
     font-size: .75em;
   }

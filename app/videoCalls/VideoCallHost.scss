@@ -10,7 +10,7 @@ $local-media-height: $local-media-width*3/4;
   height: $local-media-height;
   width: $local-media-width;
   z-index: 100000;
-  background-color: white;
+  background-color: $white;
   box-shadow: $box-shadow-depth-2;
 }
 

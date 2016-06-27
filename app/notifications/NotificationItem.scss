@@ -23,9 +23,9 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: $color;
+  color: $color-text;
   &:hover {
-    color: $color;
+    color: $color-text;
   }
 }
 .NotificationItem-image {
@@ -38,7 +38,7 @@
   font-weight: bold;
 }
 .NotificationItem-date {
-  color: $color-light;
+  color: $color-text-light;
   margin-top: .25em;
   font-size: 0.875em;
   .NotificationItem.is-unread & {

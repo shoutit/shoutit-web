@@ -4,20 +4,20 @@
   &.badge {
     display: inline-block;
     font-size: .75rem;
-    color: white;
+    color: $white;
     &.offer {
-      background: $si-green;
+      background: $green;
       &:before {
-        border-bottom: 8px solid darken($si-green, 20);
+        border-bottom: 8px solid darken($green, 20);
       }
     }
     &.request {
-      background-color: $shoutit-blue;
+      background-color: $blue;
       &:before {
-        border-bottom: 8px solid darken($shoutit-blue, 20);
+        border-bottom: 8px solid darken($blue, 20);
       }
     }
-    background: $si-green;
+    background: $green;
     padding: 0.35em .7em;
     box-shadow: -1px 1px 3px rgba(0,0,0,.4);
     &:before {
@@ -39,18 +39,17 @@
     padding: .25rem .5rem;
     margin-bottom: .5rem;
     &.offer {
-      background: $si-green;
+      background: $green;
       &:before {
-        border-bottom: 8px solid darken($si-green, 20);
+        border-bottom: 8px solid darken($green, 20);
       }
     }
     &.request {
-      color: white;
-      background: $shoutit-blue;
+      color: $white;
+      background: $blue;
     }
   }
   &.free {
     text-transform: uppercase;
-    // background-color: $si-blue;
   }
 }

@@ -1,65 +1,70 @@
-$shoutit-black: #58585a;
-$shoutit-blue: #40c4ff;
-$shoutit-red: #FF4700;
-$shoutit-green: #4caf50;
-$shoutit-green-light: #c8e6c9;;
-$shoutit-grey-light: #d2d2d2;
-$shoutit-grey: #8c8c8c;
-$shoutit-grey-dark: #646464;
+// Base colors
 
-$si-white: #fff;
-$si-red: #E73F3F;
-$si-light-green: #EEF6E8;
-$si-green: #a7d281;
-$si-dark-green: #7EBE59;
-$si-gray: #3b3b3b;
-$si-light-gray: #989899;
-$si-light-gray2: #bfbfbf;
-$si-bg: #edefed;
-$si-blue: #337ab7;
-$si-light-blue: #3ac3dc;
-$si-orange : #f7be5a;
-$si-card: #f8f9f8;
-$si-footer-bg: #58585a;
-$si-footer-text: #e6e9ed;
-
-$si-error-color: #E73F3F;
-
-$green-light: #33E96B;
+$black: #373837;
 $green: #36DD69;
-
+$green-light: #33E96B;
 $red: #FF4700;
+$blue: #40c4ff;
+$grey-light: #AFAFAF;
+$grey-lighter: #CCCCCC;
+
+$white: #FFFFFF;
+
+// Text colors
+$color-text: $black;
+$color-text-light: $grey-light;
+$color-text-lighter: $grey-lighter;
+
+// Alternate states colors
+$color-primary: $green;
+$color-primary-light: $green-light;
+
+$color-secondary: $blue;
+$color-secondary-light: $blue;
 
 // Buttons colors
-$background-color-button-primary: $green; 
-$background-color-button-primary-hover: $green;
+$background-color-button-primary: $color-primary;
+$background-color-button-primary-hover: $color-primary;
+
+$background-color-button-secondary: $color-secondary;
+$background-color-button-secondary-hover: $color-secondary;
 
 // Popup colors
-$background-color-popup-header: $green;
-$background-color-popup-header-hover: $green-light;
+$background-color-popup-header: $color-primary;
+$background-color-popup-header-hover: $color-primary-light;
 
+// Icons
+$background-color-badge: $red;
 
-$border-color-field: $shoutit-grey-light;
-$border-color-field-focus: $shoutit-blue;
+// Fields
+$color-placeholder: $grey-light;
+$border-color-field: $grey-lighter;
+$border-color-field-focus: $color-primary;
+
+$input-error: $red;
+
+$range-field-track: $color-primary;
+$range-field-thumb: $color-primary-light;
+
+// Links
+
+$color-link: $color-primary;
+$color-link-hover: $color-primary-light;
+
+// Dropdowns
+
+$background-color-dropdown-menu-item: $grey-lighter;
+$background-color-dropdown-menu-item-active: $color-primary;
+
 $border-color: #EDEFED;
 $border-color-dark: #DFDFDF;
 $border-color-darker: #bfbfbf;
 $border-color-alt: #a7d281;
 
-$color: $shoutit-black;
-$color-light: #989899;
-$color-lighter: #C8C8C9;
-$color-primary: #a7d281;
-$color-active: $green;
-$color-active-hover: $green-light;
-
 $background-color-light: #FAFAFA;
-$background-color: #F3F3F3;
+$background-color: #F9F9F9;
 $background-color-dark: #989899;
 $background-color-darker: #58585A;
 $background-color-alt-light: #F8FAFB;  // slightly green
 $background-color-alt: #EEF6E8;  // slightly green
 
-$button-primary-background-color: $shoutit-green;
-$color-placeholder: $color-light;
-$input-error: $shoutit-red;

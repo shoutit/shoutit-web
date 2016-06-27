@@ -4,7 +4,7 @@
   margin-top: 2rem;
   padding-bottom: 1rem;
   background-color: $background-color-darker;
-  color: $color-lighter;
+  color: $color-text-lighter;
   font-size: 0.875rem;
 }
 
@@ -25,7 +25,7 @@
   margin: 0 2rem;
   a {
     display: block;
-    color: white;
+    color: $white;
     padding: 0.25rem 0;
   }
 }

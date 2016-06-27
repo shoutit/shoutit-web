@@ -3,7 +3,7 @@
 .Gallery {
 
   // border-radius: $border-radius;
-  // background-color: white;
+  // background-color: $white;
   // box-shadow: $box-shadow-depth-0;
 
 
@@ -61,7 +61,7 @@
 
   cursor: pointer;
 
-  border: 2px solid white;
+  border: 2px solid $white;
   &.selected {
     opacity: .6;
   }

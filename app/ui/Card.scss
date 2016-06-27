@@ -4,7 +4,7 @@
 .Card {
   position: relative;
   border-radius: $border-radius;
-  background-color: white;
+  background-color: $white;
   position: relative;
   box-shadow: $box-shadow-depth-0;
   display: inline-block;
@@ -55,7 +55,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  color: $color;
+  color: $color-text;
   background-color: rgba(white, 1);
   border-bottom-left-radius: $border-radius;
   border-bottom-right-radius: $border-radius;
@@ -69,7 +69,7 @@
 }
 
 a > .Card {
-  color: $color;
+  color: $color-text;
 }
 //
 // a:hover > .Card .Card-image {

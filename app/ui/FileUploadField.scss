@@ -6,7 +6,7 @@
     border: 0;
   }
   label {
-    color: $color;
+    color: $color-text;
     font-size: .875em;
   }
 }
@@ -22,7 +22,7 @@
 }
 
 .FileUploadField-instructions {
-  color: $color-lighter;
+  color: $color-text-lighter;
   font-size: 0.875rem;
   text-align: center;
   padding: .5rem 0;
