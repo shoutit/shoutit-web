@@ -14,9 +14,7 @@ import { getConversation } from '../reducers/entities/conversations';
 
 import Progress from '../ui/Progress';
 
-if (process.env.BROWSER) {
-  require('./Conversation.scss');
-}
+import './Conversation.scss';
 
 export class Conversation extends Component {
 

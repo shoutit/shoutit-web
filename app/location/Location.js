@@ -5,9 +5,7 @@ import Card from '../ui/Card';
 import GoogleStaticMap from '../location/GoogleStaticMap';
 import { formatLocation } from '../utils/LocationUtils';
 
-if (process.env.BROWSER) {
-  require('./Location.scss');
-}
+import './Location.scss';
 
 export function Location({ location, style, zoom = 11, locale }) {
   return (

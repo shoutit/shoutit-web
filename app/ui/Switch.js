@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-if (process.env.BROWSER) {
-  require('./Switch.scss');
-}
+import './Switch.scss';
 
 export default class Switch extends Component {
 

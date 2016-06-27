@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 
-if (process.env.BROWSER) {
-  require('./DestructiveAction.scss');
-}
+import './DestructiveAction.scss';
 export default function DestructiveAction({ label, description, onClick }) {
   return (
     <span className="DestructiveAction">

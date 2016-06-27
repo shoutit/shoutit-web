@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 
-if (process.env.BROWSER) {
-  require('./CardWithList.scss');
-}
+import './CardWithList.scss';
 
 export default function CardWithList({ children = [], title, style }) {
   return (

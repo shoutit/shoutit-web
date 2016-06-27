@@ -15,9 +15,7 @@ import Button from '../ui/Button';
 import LocationModal from '../location/LocationModal';
 import SearchOverlay from '../search/SearchOverlay';
 
-if (process.env.BROWSER) {
-  require('./Searchbar.scss');
-}
+import './Searchbar.scss';
 
 export class Searchbar extends Component {
 

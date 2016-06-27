@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 
-if (process.env.BROWSER) {
-  require('./Frame.scss');
-}
+import './Frame.scss';
 export default function Frame({ title, children, transparent = false, style, className = '' }) {
   return (
     <div className={ `Frame${transparent ? ' transparent' : ''} ${className}` } style={ style }>

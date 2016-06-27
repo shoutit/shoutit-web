@@ -4,9 +4,7 @@ import Progress from '../ui/Progress';
 import Scrollable from '../ui/Scrollable';
 import ProfileListItem from '../users/ProfileListItem';
 
-if (process.env.BROWSER) {
-  require('./ProfilesScrollableList.scss');
-}
+import './ProfilesScrollableList.scss';
 
 export default class ProfilesScrollableList extends Component {
 

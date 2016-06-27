@@ -43,9 +43,7 @@ import LocationListItem from '../location/LocationListItem';
 import { denormalize } from '../schemas';
 import { getLoggedUser } from '../reducers/session';
 
-if (process.env.BROWSER) {
-  require('./Shout.scss');
-}
+import './Shout.scss';
 
 const fetchData = (dispatch, state, params) =>
   dispatch(loadShout(params.id))

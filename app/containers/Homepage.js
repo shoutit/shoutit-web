@@ -12,9 +12,7 @@ import Helmet from '../utils/Helmet';
 
 import { imagesPath } from '../config';
 
-if (process.env.BROWSER) {
-  require('./Homepage.scss');
-}
+import './Homepage.scss';
 
 export class Homepage extends Component {
 

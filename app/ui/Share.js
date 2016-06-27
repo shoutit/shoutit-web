@@ -16,9 +16,7 @@ const PinterestIcon = generateShareIcon('pinterest');
 
 const DEFAULT_TITLE = 'Shoutit - Buy and sell while chatting';
 
-if (process.env.BROWSER) {
-  require('./Share.scss');
-}
+import './Share.scss';
 
 const MESSAGES = defineMessages({
   defaultTitle: {

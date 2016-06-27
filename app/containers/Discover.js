@@ -28,9 +28,7 @@ import LocationModal from '../location/LocationModal';
 import { openModal } from '../actions/ui';
 import { routeError } from '../actions/server';
 
-if (process.env.BROWSER) {
-  require('./Discover.scss');
-}
+import './Discover.scss';
 
 const page_size = 9;
 

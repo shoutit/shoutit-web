@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import ShoutListItem from '../shouts/ShoutListItem';
 
-if (process.env.BROWSER) {
-  require('./ConversationHead.scss');
-}
+import './ConversationHead.scss';
 
 export default function ConversationHead({ conversation, showTitle = true }) {
   if (!showTitle && !conversation.about) {

@@ -8,9 +8,7 @@ import { connect } from 'react-redux';
 import { loadListeningTags } from '../actions/users';
 import { getListeningTags, getPaginationState } from '../reducers/paginated/tagListeningByUser';
 
-if (process.env.BROWSER) {
-  require('./ListeningTagsScrollableList.scss');
-}
+import './ListeningTagsScrollableList.scss';
 
 export class ListeningTagsScrollableList extends Component {
 

@@ -4,9 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { getTypingProfiles } from '../reducers/chat';
 
-if (process.env.BROWSER) {
-  require('./Typing.scss');
-}
+import './Typing.scss';
 
 export function Typing({ profiles }) {
 

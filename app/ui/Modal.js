@@ -1,7 +1,5 @@
 
-if (process.env.BROWSER) {
-  require('./Modal.scss');
-}
+import './Modal.scss';
 
 export default from './modal/Modal';
 export Body from './modal/Body';

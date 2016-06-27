@@ -2,9 +2,7 @@ import React, { PropTypes } from 'react';
 import ProfileAvatar from '../users/ProfileAvatar';
 import { FormattedMessage } from 'react-intl';
 
-if (process.env.BROWSER) {
-  require('./ConversationStart.scss');
-}
+import './ConversationStart.scss';
 
 export default function ConversationStart({ conversation }) {
 

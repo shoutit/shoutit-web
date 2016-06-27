@@ -2,9 +2,7 @@ import React, { PropTypes } from 'react';
 
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
-if (process.env.BROWSER) {
-  require('./DiscoverItemPreview.scss');
-}
+import './DiscoverItemPreview.scss';
 export default function DiscoverItemPreview({ discoverItem }) {
   return (
     <div className="DiscoverItemPreview" style={ getStyleBackgroundImage(discoverItem.image, 'small') }>

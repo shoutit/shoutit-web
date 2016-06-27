@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Overlay as ReactOverlay } from 'react-overlays';
 
-if (process.env.BROWSER) {
-  require('./Overlay.scss');
-}
+import './Overlay.scss';
 
 function OverlayWrapper({ arrow, arrowOffsetLeft, arrowOffsetTop, children, style, className }) {
   let arrowStyle;

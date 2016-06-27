@@ -14,9 +14,7 @@ import PublishToFacebook from '../ui/PublishToFacebook';
 
 import { canPublishToFacebook } from '../reducers/session';
 
-if (process.env.BROWSER) {
-  require('./ShoutForm.scss');
-}
+import './ShoutForm.scss';
 
 const MESSAGES = defineMessages({
   editPhotos: {

@@ -2,9 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import HostedConversation from './HostedConversation';
 
-if (process.env.BROWSER) {
-  require('./ConversationsHost.scss');
-}
+import './ConversationsHost.scss';
 
 export class ConversationsHost extends Component {
 

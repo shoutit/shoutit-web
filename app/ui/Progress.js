@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-if (process.env.BROWSER) {
-  require('./Progress.scss');
-}
+import './Progress.scss';
 
 export default function Progress({ animate = false, spaced = true, style, size }) {
   let className = 'Progress';

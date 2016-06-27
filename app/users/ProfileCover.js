@@ -15,9 +15,7 @@ import ProfileAvatarEditable from '../users/ProfileAvatarEditable';
 import Button from '../ui/Button';
 import UploadButton from '../ui/UploadButton';
 
-if (process.env.BROWSER) {
-  require('./ProfileCover.scss');
-}
+import './ProfileCover.scss';
 
 export const width = 904;
 export const height = 250;

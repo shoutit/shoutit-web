@@ -8,9 +8,7 @@ import { getCountryName } from '../utils/LocationUtils';
 
 const VERSION = 1; // change version to skip browser cache
 
-if (process.env.BROWSER) {
-  require('./CountryFlag.scss');
-}
+import './CountryFlag.scss';
 
 export function CountryFlag({ code, size = 'medium', rounded = true, style, locale }) {
   code = code.toUpperCase();

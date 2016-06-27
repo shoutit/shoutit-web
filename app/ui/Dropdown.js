@@ -2,9 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import Dropdown from 'react-bootstrap/lib/Dropdown';
 import uuid from 'uuid';
 
-if (process.env.BROWSER) {
-  require('./Dropdown.scss');
-}
+import './Dropdown.scss';
 export MenuItem from 'react-bootstrap/lib/MenuItem';
 export default class DropDown extends Component {
 

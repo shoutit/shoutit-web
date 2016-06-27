@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 
-if (process.env.BROWSER) {
-  require('./UIMessage.scss');
-}
+import './UIMessage.scss';
 
 const UIMessage = ({
   title,

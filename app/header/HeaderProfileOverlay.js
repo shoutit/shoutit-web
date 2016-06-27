@@ -8,9 +8,7 @@ import { connect } from 'react-redux';
 import { logout } from '../actions/session';
 import { getLoggedUser } from '../reducers/session';
 
-if (process.env.BROWSER) {
-  require('./HeaderProfileOverlay.scss');
-}
+import './HeaderProfileOverlay.scss';
 
 export function HeaderProfileOverlay({ profile, onLogoutClick, onItemClick }) {
   return (

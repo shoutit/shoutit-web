@@ -4,9 +4,7 @@ import ProfileListItem from '../users/ProfileListItem';
 import GoogleStaticMap from '../location/GoogleStaticMap';
 import MessageAttachedImages from './MessageAttachedImages';
 
-if (process.env.BROWSER) {
-  require('./MessageAttachment.scss');
-}
+import './MessageAttachment.scss';
 
 function MessageAttachment({ attachment }) {
   let content;

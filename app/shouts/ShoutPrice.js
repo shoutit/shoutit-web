@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import { FormattedNumber, FormattedMessage } from 'react-intl';
 
-if (process.env.BROWSER) {
-  require('./ShoutPrice.scss');
-}
+import './ShoutPrice.scss';
 export default function ShoutPrice({ shout, layout = 'plain' }) {
   const isFree = !shout.price;
   let { price } = shout;

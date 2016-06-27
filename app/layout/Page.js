@@ -2,9 +2,7 @@ import React, { PropTypes } from 'react';
 import Sticky from 'react-sticky-state';
 
 import MiniFooter from '../layout/MiniFooter';
-if (process.env.BROWSER) {
-  require('./Page.scss');
-}
+import './Page.scss';
 
 const stickyProps = {
   stickyWrapperClass: 'Page-sticky-wrap',

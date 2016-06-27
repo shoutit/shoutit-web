@@ -6,9 +6,7 @@ import ScrollableNotifications from '../notifications/ScrollableNotifications';
 import { getNotifications } from '../reducers/paginated/notifications';
 import { resetNotifications } from '../actions/notifications';
 
-if (process.env.BROWSER) {
-  require('../styles/ListOverlay.scss');
-}
+import '../styles/ListOverlay.scss';
 
 export function HeaderNotificationsOverlay({ reset, closeOverlay, unreadCount = 0 }) {
   return (

@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 
-if (process.env.BROWSER) {
-  require('./Card.scss');
-}
+import './Card.scss';
 
 export default function Card({ image, title, size = 'small', block = false, children, style, className }) {
   let cssClass = `Card size-${size}`;

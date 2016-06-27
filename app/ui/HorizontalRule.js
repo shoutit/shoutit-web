@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 
-if (process.env.BROWSER) {
-  require('./HorizontalRule.scss');
-}
+import './HorizontalRule.scss';
 
 export default function HorizontalRule({ label }) {
   return (

@@ -26,9 +26,7 @@ import SuggestedShout from '../shouts/SuggestedShout';
 import { getHomepageShouts, getPaginationState } from '../reducers/paginated/shoutsByHome';
 import { getLoggedUser } from '../reducers/session';
 
-if (process.env.BROWSER) {
-  require('./Dashboard.scss');
-}
+import './Dashboard.scss';
 
 const MESSAGES = defineMessages({
   title: {

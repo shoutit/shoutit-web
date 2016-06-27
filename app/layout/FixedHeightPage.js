@@ -2,9 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
-if (process.env.BROWSER) {
-  require('./FixedHeightPage.scss');
-}
+import './FixedHeightPage.scss';
 export default class FixedHeightPage extends Component {
   static propTypes = {
     children: PropTypes.element,

@@ -1,9 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import FormField from './FormField';
 
-if (process.env.BROWSER) {
-  require('./SegmentedControl.scss');
-}
+import './SegmentedControl.scss';
 
 export default class SegmentedControl extends Component {
   static propTypes = {

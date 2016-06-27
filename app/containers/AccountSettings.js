@@ -16,9 +16,7 @@ import { updateProfile, updatePassword } from '../actions/users';
 import { resetErrors } from '../actions/session';
 import { getLoggedUser } from '../reducers/session';
 
-if (process.env.BROWSER) {
-  require('./Settings.scss');
-}
+import './Settings.scss';
 
 const MESSAGES = defineMessages({
   title: {

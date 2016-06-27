@@ -5,9 +5,7 @@ import ShoutPrice from '../shouts/ShoutPrice';
 import ListItem from '../ui/ListItem';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
-if (process.env.BROWSER) {
-  require('./ShoutListItem.scss');
-}
+import './ShoutListItem.scss';
 
 export default function ShoutListItem({
   shout,

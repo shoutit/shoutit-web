@@ -16,9 +16,7 @@ import { imagesPath } from '../config';
 import { openModal } from '../actions/ui';
 import { getLocationPath } from '../utils/LocationUtils';
 
-if (process.env.BROWSER) {
-  require('./Header.scss');
-}
+import './Header.scss';
 
 function getDiscoverLink(location) {
   let link = '/discover';

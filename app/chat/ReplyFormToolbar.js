@@ -12,9 +12,7 @@ import Icon from '../ui/Icon';
 import Tooltip from '../ui/Tooltip';
 import FileInput from '../ui/FileInput';
 
-if (process.env.BROWSER) {
-  require('./ReplyFormToolbar.scss');
-}
+import './ReplyFormToolbar.scss';
 
 export function ReplyFormToolbar({ openShoutModal, openImageUpload, openProfilesModal, loggedUser }) {
   return (

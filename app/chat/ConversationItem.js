@@ -11,9 +11,7 @@ import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
 import ConversationDropdown from '../chat/ConversationDropdown';
 
-if (process.env.BROWSER) {
-  require('./ConversationItem.scss');
-}
+import './ConversationItem.scss';
 
 export class ConversationItem extends Component {
 

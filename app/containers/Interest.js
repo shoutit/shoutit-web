@@ -21,9 +21,7 @@ import Progress from '../ui/Progress';
 import Card from '../ui/Card';
 import Scrollable from '../ui/Scrollable';
 
-if (process.env.BROWSER) {
-  require('./Interest.scss');
-}
+import './Interest.scss';
 
 const fetchData = (dispatch, state, params) =>
   Promise.all([
