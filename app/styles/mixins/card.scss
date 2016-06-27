@@ -3,7 +3,7 @@
 @mixin card($background-color: $background-color-alt-light) {
 
   border-radius: $border-radius;
-  background-color: $background-color;
+  background-color: $white;
   position: relative;
   box-shadow: $box-shadow-depth-0;
 
