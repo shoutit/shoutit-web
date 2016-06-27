@@ -39,9 +39,10 @@ export default function HtmlDocument({
         { process.env.NODE_ENV === 'production' &&
           <link rel="stylesheet" type="text/css" href={ `${config.publicUrl}${chunkNames[rtl ? 'cssRtl' : 'css']}` } /> }
 
-        { locale === 'ar' &&
-          <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/earlyaccess/droidarabickufi.css" /> }
-
+        { locale === 'ar' ?
+          <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/earlyaccess/droidarabickufi.css" /> :
+          <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700&subset=latin-ext" rel="stylesheet" /> 
+        }
         { newrelicEnabled &&
           <script type="text/javascript" dangerouslySetInnerHTML={ {
             __html: newrelic.getBrowserTimingHeader().replace(/<\/?script[^>]*>/g, '') } }
