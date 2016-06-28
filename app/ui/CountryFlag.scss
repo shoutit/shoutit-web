@@ -20,4 +20,8 @@
   &.rounded {
     border-radius: 100%;
   }
+  &.clickable {
+    cursor: pointer;
+  }
+  
 }

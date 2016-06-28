@@ -10,7 +10,7 @@ const VERSION = 1; // change version to skip browser cache
 
 import './CountryFlag.scss';
 
-export function CountryFlag({ code, size = 'medium', rounded = true, style, locale }) {
+export function CountryFlag({ code, tooltipPlacement = 'top', size = 'medium', rounded = true, style, locale, onClick }) {
   code = code.toUpperCase();
   let className = 'CountryFlag';
   if (size) {
@@ -19,10 +19,19 @@ export function CountryFlag({ code, size = 'medium', rounded = true, style, loca
   if (rounded) {
     className += ' rounded';
   }
+  if (onClick) {
+    className += ' clickable';
+  }
   const countryName = getCountryName(code, locale);
   return (
-    <Tooltip position="top" overlay={ countryName }>
-      <img alt={ countryName } className={ className } style={ style } src={ `${imagesPath}/flags/${code}.png?v${VERSION}` } />
+    <Tooltip placement={ tooltipPlacement } overlay={ countryName }>
+      <img
+        alt={ countryName }
+        className={ className }
+        style={ style }
+        src={ `${imagesPath}/flags/${code}.png?v${VERSION}` }
+        onClick={ onClick }
+      />
     </Tooltip>
   );
 }
@@ -32,6 +41,8 @@ CountryFlag.propTypes = {
   size: PropTypes.string,
   rounded: PropTypes.bool,
   style: PropTypes.object,
+  tooltipPlacement: PropTypes.string,
+  onClick: PropTypes.func,
   showTooltip: PropTypes.bool,
   locale: PropTypes.string.isRequired,
 };
