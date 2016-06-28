@@ -1,58 +1,54 @@
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
+@import '../styles/mixins/ellipsis.scss';
+@import './FormField.scss';
 
 .SegmentedControl {
-  .field-wrapper {
-    padding: 0;
-    border-radius: 0;
-    border: 0;
-  }
+  width: 100%;
 }
 
 .SegmentedControl-options {
   display: flex;
+  width: 100%;
 }
 
 .SegmentedControl-option {
   display: inline-block;
-  flex: 1;
-
+  line-height: 34px;
+  flex-grow: 1;
+  
   input {
     display: none;
   }
 
-  > label {
-    text-align: center;
+  label {
+    background-color: $white;
+    @include ellipsis();
     display: block;
-    padding: .5em;
-    background-color: transparent;
+    padding: 0 .5em;
+    text-align: center;
+    border: 1px solid $formFieldBorderColor;
+    border-right-width: 0;
     font-size: .875em;
-    border: 1px solid $border-color-dark;
   }
 
   input:checked + label {
     color: $white;
+    border-color: $color-primary;
     background-color: $color-primary;
-    border: 1px solid $color-primary;
   }
 
-  + .SegmentedControl-option {
-    > label {
-      border-left: 0;
-    }
-  }
-
-  &:not(:last-child) > input:checked + label {
-    // border-right: 0;
+  &.is-checked + .SegmentedControl-option > label {
+    border-left-color: $color-primary;
   }
 
   &:first-child > label {
-    border-top-left-radius: $border-radius;
-    border-bottom-left-radius: $border-radius;
+    border-top-left-radius: .25em;
+    border-bottom-left-radius: .25em;
   }
 
   &:last-child > label {
-    border-top-right-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
+    border-right-width: 1px;
+    border-top-right-radius: .25em;
+    border-bottom-right-radius: .25em;
   }
-
 }

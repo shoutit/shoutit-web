@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import Picker from './Picker';
+import TagIcon from '../tags/TagIcon';
 
 export class CategoryPicker extends Component {
   static propTypes = {
@@ -106,6 +107,7 @@ export class CategoryPicker extends Component {
     return (
       <div className={ cssClass } ref={ () => { inputRef ? inputRef(this) : null; } }>
         <Picker
+          startElement={ selectedCategory.icon && <TagIcon tag={ selectedCategory } /> }
           className="SearchFilters-input"
           block
           label={ label }

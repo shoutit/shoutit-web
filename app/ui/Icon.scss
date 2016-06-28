@@ -191,6 +191,14 @@
     background-image: url("../../assets/icons/cog-fill.svg");
   }
 
+.Icon-icon.current-location {
+  background-image: url("../../assets/icons/current-location.svg");
+}
+  .Icon.hover:hover .Icon-icon.current-location,
+  .Icon.active .Icon-icon.current-location {
+    background-image: url("../../assets/icons/current-location-active.svg");
+  }
+
 .Icon-icon.email {
   background-image: url("../../assets/icons/email.svg");
 }
@@ -243,6 +251,14 @@
   .Icon.hover:hover .Icon-icon.grid,
   .Icon.active .Icon-icon.grid {
     background-image: url("../../assets/icons/grid-active.svg");
+  }
+
+.Icon-icon.globe {
+  background-image: url("../../assets/icons/globe.svg");
+}
+  .Icon.hover:hover .Icon-icon.globe,
+  .Icon.active .Icon-icon.globe {
+    background-image: url("../../assets/icons/globe-active.svg");
   }
 
 

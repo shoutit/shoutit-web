@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getCurrentLocale } from '../reducers/i18n';
 import { getCountryName } from '../utils/LocationUtils';
 import RangeField from '../ui/RangeField';
+import Icon from '../ui/Icon';
 
 const STEPS = [0, 4, 8, 12, 16, 20, 24, 32, 36, 40, 44, 48, 52, 56, 60, 64, 82, 100];
 const VALUES = ['city', 1, 2, 3, 5, 7, 10, 15, 20, 30, 60, 100, 200, 300, 400, 500, 'state', 'country'];
@@ -28,6 +29,8 @@ export class LocationRange extends Component {
   }
   constructor(props) {
     super(props);
+    this.setFirstValue = this.setFirstValue.bind(this);
+    this.setLastValue = this.setLastValue.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = this.getStateFromProps(props);
   }
@@ -90,6 +93,16 @@ export class LocationRange extends Component {
     const value = VALUES[this.state.index];
     return typeof value === 'string' ? value : parseInt(value, 10);
   }
+  setFirstValue() {
+    this.setState({ index: 0 }, () =>
+      this.refs.rangeField.setValue(STEPS[this.state.index])
+    );
+  }
+  setLastValue() {
+    this.setState({ index: STEPS.length - 1 }, () =>
+      this.refs.rangeField.setValue(STEPS[this.state.index])
+    );
+  }
   handleChange(value) {
     let index = 0;
     if (value > STEPS[0]) {
@@ -121,7 +134,23 @@ export class LocationRange extends Component {
           value={ STEPS[this.state.index] }
         />
         <label htmlFor={ this.props.name }>
-          { this.getLabel() }
+          <span className="LocationRange-icon">
+            <Icon
+              name="current-location"
+              size="small"
+              onClick={ this.setFirstValue }
+            />
+          </span>
+          <span className="LocationRange-label">
+            { this.getLabel() }
+          </span>
+          <span className="LocationRange-icon">
+            <Icon
+              name="globe"
+              size="small"
+              onClick={ this.setLastValue }
+            />
+          </span>
         </label>
       </div>
     );

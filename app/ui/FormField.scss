@@ -1,55 +1,97 @@
 @import '../styles/constants';
-@import '../styles/mixins/field';
+@import '../styles/mixins/formfields';
+
+%inputBase {
+  appearance: none;
+  display: block;
+  width: 100%;
+  padding: 0 10px;
+  color: $color-text;
+  border: 0;
+  outline: none;
+  background-color: transparent;
+  font-family: $font-family;
+  font-size: 14px;
+  line-height: 38px;
+}
+$formFieldBorderColor: $grey-light-3;
+$formFieldBorder: 1px solid $formFieldBorderColor;
 
 .FormField {
-  @include fieldContainer();
-  input:not([type='radio']) {
-    @include field();
-  }
-  select {
-    @include field();
-    background-image: url('../../assets/ui-elements/dropdown-caret-big.svg');
-    background-repeat: no-repeat;
-    background-position: 100%;
-    /*!rtl:ignore*/
-    html[dir="rtl"] & {
-      background-position: 7px;
-    }
-  }
-  textarea {
-    @include field();
-  }
-  .field-element-wrapper {
-    flex: 1;
+}
+
+.FormField-wrapper {
+  height: 38px;
+  border: $formFieldBorder;
+  border-radius: .25em;
+  position: relative;
+  z-index: 0;
+  background-color: $white;
+}
+
+.FormField:hover .FormField-wrapper {
+  border-color: $grey-light-2;
+}
+
+.FormField.has-focus .FormField-wrapper {
+  border-color: $color-primary !important;
+  box-shadow: 0 0 5px 0 rgba($color-primary, .20);
+}
+
+.FormField.has-error .FormField-wrapper {
+  border-color: $input-error !important;
+  box-shadow: 0 0 5px 0 rgba($input-error, .20) !important;
+}
+
+.FormField-label {
+  font-size: 14px;
+  font-weight: bold;
+  text-rendering: geometricPrecision;
+  margin-bottom: 7px;
+  display: inline-block;
+}
+
+.FormField-start {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  min-width: 36px;
+  border-right: $formFieldBorder;
+  line-height: 36px;
+  z-index: 1;
+}
+
+.FormField-element {
+  position: relative;
+  z-index: 2;
+}
+.FormField.has-start .FormField-element input,
+.FormField.has-start .FormField-element select,
+ {
+  padding-left: 44px;
+}
+
+.FormField input:not([type='radio']) {
+  @extend %inputBase;
+}
+
+.FormField select {
+  @extend %inputBase;
+  background-image: url('../../assets/ui-elements/dropdown-caret-big.svg');
+  background-repeat: no-repeat;
+  background-position: 100%;
+  padding-right: 24px;
+  /*!rtl:ignore*/
+  html[dir="rtl"] & {
+    background-position: 7px;
   }
 }
 
-.FormField-start-element {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  border-right: 1px solid $border-color;
-  .FormField {
-    display: inline-block;
-    > .field-wrapper {
-      margin-top: -1px;
-      margin-right: -1px;
-      margin-bottom: -1px;
-      margin-left: -1px;
-      padding: 0;
-      border: 1px solid transparent;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      background-color: transparent;
-    }
-  }
-  + input {
-    width: auto;
-  }
-}
 
 .FormField-error {
   margin: .5em .25em;
-  color: $red;
+  color: $input-error;
   font-size: .75em;
 }

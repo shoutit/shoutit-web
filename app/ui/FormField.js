@@ -49,6 +49,7 @@ export default class FormField extends Component {
 
   constructor(props) {
     super(props);
+    this.focus = this.focus.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
@@ -141,6 +142,9 @@ export default class FormField extends Component {
     if (focus) {
       cssClass += ' has-focus';
     }
+    if (startElement) {
+      cssClass += ' has-start';
+    }
     if (disabled) {
       cssClass += ' disabled';
     }
@@ -174,27 +178,40 @@ export default class FormField extends Component {
     }
 
     return (
-      <span className={ cssClass } style={ style }>
+      <div className={ cssClass } style={ style }>
         { label &&
           <label htmlFor={ props.name }>
-            <span className="FormField-label">{ label }</span>
-            { props.maxLength && <span className="FormField-max-length">{ `${value.length}/${props.maxLength}` }</span> }
+            <span className="FormField-label">
+              { label }
+            </span>
+            { props.maxLength &&
+              <span className="FormField-max-length">
+                { `${value.length}/${props.maxLength}` }
+              </span>
+            }
           </label>
         }
-        <span className="field-wrapper">
-          { startElement && <span className="FormField-start-element"> { startElement }</span> }
-          <span className="field-element-wrapper">
+        <div className="FormField-wrapper">
+          <div className="FormField-element">
             { fieldElement || children }
+          </div>
+          { startElement &&
+            <span className="FormField-start" >
+              <span>
+                { startElement }
+              </span>
+            </span>
+          }
+        </div>
+        { validationErrors.length === 0 && ancillary &&
+          <span className="FormField-ancillary">
+            { ancillary }
           </span>
-        </span>
-        { validationErrors.length === 0 && ancillary && <span className="FormField-ancillary">
-          { ancillary }
-        </span>
         }
         { validationErrors.length > 0 &&
           <ValidationError errors={ validationErrors } />
         }
-      </span>
+      </div>
     );
   }
 }

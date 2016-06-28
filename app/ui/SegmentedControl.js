@@ -41,20 +41,25 @@ export default class SegmentedControl extends Component {
     const { value } = this.state;
     const fields = options.map((option, i) => {
       const id = `${name}.${i}`;
+      const checked = value === option.value;
+      let className = 'SegmentedControl-option';
+      if (checked) {
+        className += ' is-checked';
+      }
       return (
-        <span key={ i } className="SegmentedControl-option">
-          <input onChange={ this.handleChange } checked={ value === option.value } id={ id } name={ name } type="radio" value={ option.value } />
+        <span key={ i } className={ className }>
+          <input onChange={ this.handleChange } checked={ checked } id={ id } name={ name } type="radio" value={ option.value } />
           <label htmlFor={ id }>{ option.label }</label>
         </span>
       );
     });
 
     return (
-      <FormField className="SegmentedControl" { ...this.props } ref="field">
+      <div className="SegmentedControl" ref="field">
         <div className="SegmentedControl-options">
           { fields }
         </div>
-      </FormField>
+      </div>
     );
   }
 }
