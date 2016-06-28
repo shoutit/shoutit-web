@@ -15,14 +15,13 @@
   display: inline-block;
   line-height: 34px;
   flex-grow: 1;
-  
+
   input {
     display: none;
   }
 
   label {
     background-color: $white;
-    @include ellipsis();
     display: block;
     padding: 0 .5em;
     text-align: center;
