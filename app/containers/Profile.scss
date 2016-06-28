@@ -1,6 +1,4 @@
 @import '../styles/constants.scss';
-@import '../styles/mixins/card.scss';
-@import '../styles/mixins/ellipsis.scss';
 
 .Profile {
   margin-top: .75rem;
@@ -35,24 +33,4 @@
 .Profile-actions {
   align-self: center;
 }
-//
-// .Profile-actions {
-//   margin-left: .5rem;
-//   border-left: 1px solid $border-color-dark;
-//   padding-left: .5rem;
-//   align-items: center;
-//   display: flex;
-//   justify-content: flex-end;
-// }
-//
-// .Profile-action {
-//   font-size: 0.875rem;
-//   margin-left: .5rem;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-// }
 
-// .Profile-tool-label {
-//   font-size: 0.875rem;
-// }
