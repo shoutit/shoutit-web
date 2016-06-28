@@ -1,0 +1,31 @@
+@import '../styles/constants';
+
+._link {
+ cursor: pointer;
+  text-decoration: none;
+  color: $color-link;
+  &:hover,
+  &:active,
+  &.active {
+    color: $color-link-hover;
+  }
+}
+
+._sideLink {
+  cursor: pointer;
+  text-decoration: none;
+  color: $color-text;
+  &:hover,
+  &:active,
+  &.active {
+    color: $color-link;
+  }
+}
+
+@mixin link() {
+  @extend ._link;
+}
+
+@mixin sideLink() {
+  @extend ._sideLink;
+}

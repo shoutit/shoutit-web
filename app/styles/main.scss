@@ -9,6 +9,7 @@
 //
 
 @import "./constants.scss";
+@import "./mixins/links";
 
 $font-family-sans-serif:  $font-family;
 $font-size-base: $base-font-size;
@@ -43,11 +44,7 @@ body {
 }
 
 a {
-  text-decoration: none;
-  color: $color-link;
-  &:hover {
-    color: $color-link-hover;
-  }
+  @include link();
 }
 
 p {
