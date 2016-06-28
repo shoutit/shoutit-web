@@ -1,26 +1,26 @@
 @import '../styles/constants';
-@import '../styles/mixins/formfields';
 
 %inputBase {
   appearance: none;
   display: block;
   width: 100%;
-  padding: 0 10px;
+  padding: 9px 10px;
   color: $color-text;
   border: 0;
   outline: none;
   background-color: transparent;
   font-family: $font-family;
   font-size: 14px;
-  line-height: 38px;
+  line-height: 18px;
 }
-$formFieldBorderColor: $grey-light-3;
+$formFieldBorderColor: $grey-light-2;
 $formFieldBorder: 1px solid $formFieldBorderColor;
 
 .FormField {
 }
 
 .FormField-wrapper {
+  overflow: hidden;
   height: 38px;
   border: $formFieldBorder;
   border-radius: .25em;
@@ -30,7 +30,7 @@ $formFieldBorder: 1px solid $formFieldBorderColor;
 }
 
 .FormField:hover .FormField-wrapper {
-  border-color: $grey-light-2;
+  border-color: $grey-light-1;
 }
 
 .FormField.has-focus .FormField-wrapper {
