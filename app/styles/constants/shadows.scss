@@ -1,7 +1,10 @@
-// from react-material-ui
+@import "./colors";
+
 $box-shadow-depth-0: 0 1px 2px 0 rgba(black, 0.07);
 $box-shadow-depth-1: 0 1px 6px rgba(black, .12), 0 1px 4px rgba(black, .12);
 $box-shadow-depth-2: 0 3px 10px rgba(black, .16), 0 3px 10px rgba(black, .23);
 $box-shadow-depth-3: 0 10px 30px rgba(black, .19), 0 6px 10px rgba(black, .23);
 $box-shadow-depth-4: 0 14px 45px rgba(black, .25), 0 10px 18px rgba(black, .22);
 $box-shadow-depth-5: 0 19px 60px rgba(black, .3), 0 15px 20px rgba(black, .22);
+
+$outline-shadow: 0 0 0 3px rgba($color-primary, .25);

@@ -42,7 +42,7 @@ export class NewShoutModal extends Component {
               <Button
                 ref="offerButton"
                 block
-                action="primary"
+                kind="primary"
                 style={ { margin: '0 .5rem .5rem .5rem' } }
                 onClick={ this.handleButtonClick.bind(this, 'offer') }>
                 <FormattedMessage
@@ -52,7 +52,7 @@ export class NewShoutModal extends Component {
               </Button>
               <Button
                 block
-                action="primary-alt"
+                kind="secondary"
                 style={ { margin: '.5rem .5rem 0 .5rem' } }
                 onClick={ this.handleButtonClick.bind(this, 'request') }>
                 <FormattedMessage

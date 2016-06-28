@@ -170,7 +170,7 @@ export class AccountSettings extends Component {
                   error={ session.updatePasswordError } />
               </div>
               <div className="Settings-actions">
-                <Button action="primary" disabled={ session.isUpdatingPassword || !this.isChangingPassword() }>
+                <Button kind="primary" disabled={ session.isUpdatingPassword || !this.isChangingPassword() }>
                   <FormattedMessage id="accountSettings.password.submit" defaultMessage="Change password" />
                 </Button>
               </div>
@@ -206,7 +206,7 @@ export class AccountSettings extends Component {
                 disabled={ profile.isUpdating }
               />
               <div className="Settings-actions">
-                <Button action="primary" disabled={ !this.didChange() || profile.isUpdating }>
+                <Button kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
                   { profile.isUpdating &&
                     <FormattedMessage id="accountSettings.account.updatingLabel" defaultMessage="Updating…" /> }
                   { this.didChange() && !profile.isUpdating &&

@@ -36,7 +36,7 @@ export class LocationModal extends Component {
           <SearchLocation ref="search" onLocationSelect={ this.handleLocationSelect } />
         </Body>
         <Footer>
-          <Button ref="close" size="small" action="primary" onClick={ () => this.refs.modal.hide() }>
+          <Button ref="close" kind="primary" onClick={ () => this.refs.modal.hide() }>
             <FormattedMessage
               id="locationModal.closeButton"
               defaultMessage="Close"

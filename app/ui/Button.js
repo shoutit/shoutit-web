@@ -9,7 +9,7 @@ export default class Button extends Component {
 
   static propTypes = {
     children: PropTypes.node.isRequired,
-    action: PropTypes.oneOf(['default', 'primary', 'primary-alt', 'destructive', 'inverted']),
+    kind: PropTypes.oneOf(['default', 'primary', 'primary-alt', 'destructive', 'inverted']),
     size: PropTypes.oneOf(['small', 'medium']),
     icon: PropTypes.string,
     block: PropTypes.bool,
@@ -18,7 +18,7 @@ export default class Button extends Component {
   }
 
   static defaultProps = {
-    action: 'default',
+    kind: 'default',
     block: false,
     element: 'button',
   }
@@ -32,9 +32,9 @@ export default class Button extends Component {
   }
 
   render() {
-    const { icon, children, action, size, block, ...attributes } = this.props;
+    const { icon, children, kind, size, block, ...attributes } = this.props;
 
-    let className = `Button action-${action}`;
+    let className = `Button ${kind}`;
     if (icon) {
       className += ' with-icon';
     }
@@ -51,11 +51,9 @@ export default class Button extends Component {
       className += ` ${attributes.className}`;
     }
     const content = (
-      <span className="Button-wrapper">
+      <span>
         { icon &&
-          <span className="Button-icon">
-            <Icon size={ size } name={ icon } fill />
-          </span>
+          <Icon name={ icon } fill={ kind !== 'default' } active={ kind === 'default' } />
         }
         <span className="Button-label">
           { children }

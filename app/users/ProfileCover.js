@@ -154,9 +154,8 @@ export class ProfileCover extends Component {
             <div className="ProfileCover-edit">
               { !isEditing &&
                 <Button
-                  size="small"
                   block
-                  action="inverted"
+                  kind="inverted"
                   icon={ profile.cover ? 'pencil' : 'camera' }
                   onClick={ this.startEditing }>
                   <FormattedMessage
@@ -169,9 +168,8 @@ export class ProfileCover extends Component {
                 <UploadButton
                   name="upload-cover"
                   accept="image/jpeg,image/png"
-                  size="small"
                   block
-                  action="inverted"
+                  kind="inverted"
                   onChange={ this.handlePictureChange }
                   icon="camera">
                   <FormattedMessage
@@ -188,9 +186,8 @@ export class ProfileCover extends Component {
               <UploadButton
                 name="upload-cover"
                 accept="image/jpeg,image/png"
-                size="small"
                 block
-                action="inverted"
+                kind="inverted"
                 onChange={ this.handlePictureChange }
                 icon="camera">
                 <FormattedMessage
@@ -212,7 +209,7 @@ export class ProfileCover extends Component {
               />
             </Button>
             { profile.cover && profile.cover === image &&
-              <Button name="upload-cover" size="small" disabled={ isLoading } action="destructive" onClick={ this.handleDeleteClick }>
+              <Button name="upload-cover" size="small" disabled={ isLoading } kind="destructive" onClick={ this.handleDeleteClick }>
                 <FormattedMessage
                   id="profileCover.deleteButton"
                   defaultMessage="Delete"
@@ -224,7 +221,7 @@ export class ProfileCover extends Component {
                 name="upload-cover"
                 accept="image/jpeg,image/png"
                 size="small"
-                action="primary-alt"
+                kind="secondary"
                 style={ { minWidth: 120 } }
                 icon="camera"
                 disabled={ isLoading }
@@ -236,7 +233,7 @@ export class ProfileCover extends Component {
               </UploadButton>
             }
             { profile.cover !== image &&
-              <Button onClick={ this.handleSaveClick } action="primary" size="small" disabled={ profile.cover === image || isLoading } style={ { minWidth: 120 } }>
+              <Button onClick={ this.handleSaveClick } kind="primary" disabled={ profile.cover === image || isLoading } style={ { minWidth: 120 } }>
                 <FormattedMessage
                   id="profileCover.saveButton"
                   defaultMessage="{isLoading, select,

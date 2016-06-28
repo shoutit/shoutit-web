@@ -169,8 +169,7 @@ export class SearchFilters extends Component {
           <div className="SearchFilters-buttons">
             <Button
               block
-              action="primary"
-              size="small"
+              kind="primary"
               disabled={ disabled || isEqual(this.state, this.props.searchParams) }
               type="submit">
               <FormattedMessage

@@ -1,198 +1,34 @@
 @import '../styles/constants.scss';
 @import '../styles/mixins/ellipsis.scss';
+@import '../styles/mixins/buttons.scss';
 
-.Button {
-  display: inline-block;
-  padding: .3rem 1rem;
-  cursor: pointer;
-  text-align: center;
-  text-align: center;
-  vertical-align: middle;
-  white-space: nowrap;
-  color: $color-text;
-  border: 0;
-  border: 1px solid transparent;
-  border-radius: .25rem;
-  font-size: 1rem;
-
-  -webkit-appearance: none;
-  &:hover {
-    color: $color-text;
-  }
-  &.block {
-    display: block;
-    width: 100%;
-  }
-  &.with-icon {
-    padding-left: .5rem;
-  }
-  &.size-small {
-    padding: .3rem .75rem;
-    border-radius: .2rem;
-    font-size: .875rem;
-    &.with-icon {
-      padding-left: .5rem;
-    }
-  }
+.Button.default {
+  @include defaultButton();
 }
-
-.Button-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.Button.primary {
+  @include primaryButton();
 }
-
-.Button-icon {
-  padding-right: .35rem;
+.Button.secondary {
+  @include secondaryButton();
+}
+.Button.destructive {
+  @include destructiveButton();
+}
+.Button.inverted {
+  @include invertedButton();
 }
 
 .Button-label {
-  @include ellipsis();
-  line-height: $icon-size-medium;
-  .Button.size-small & {
-    line-height: $icon-size-small;
-  }
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0 1em;
 }
 
-.Button.action-default {
-  border-color: #DDD;
-  background-color: $white;
-  background-image: linear-gradient(rgba(black, 0), rgba(black, .05));
-  &:hover {
-    background-color: $white;
-    background-image: linear-gradient(rgba(black, .025), rgba(black, .075));
+.Button {
+  .Icon {
+    margin-left: 1em;
   }
-  &:disabled,
-  &.disabled {
-    color: #CCC;
-    border-color: transparent;
-    background-color: #F1F1F1;
-    background-image: none;
-  }
-  a,
-  a:hover {
-    color: $color-text;
-  }
-}
-
-.Button.action-primary {
-  color: $white;
-  background-color: $background-color-button-primary;
-  &:hover:not(:active):not(.active) {
-    background-color: $background-color-button-primary-hover;
-  }
-  &:active,
-  &.active {
-    box-shadow: inset 0 1px 5px 0 rgba(black, 0.1);
-  }
-  a,
-  a:hover {
-    color: $white;
-  }
-}
-
-.Button.action-primary-alt {
-  color: $white;
-  border-color: $blue darken($blue, 5) darken($blue, 15);
-  background-color: $blue;
-  background-image: linear-gradient($blue, darken($blue, 15));
-  &:hover {
-    background-color: darken($blue, 5);
-    background-image: linear-gradient(darken($blue, 5), darken(darken($blue, 5), 15));
-  }
-  &:disabled,
-  &.disabled {
-    border-color: transparent;
-    background-color: lighten($blue, 20);
-    background-image: none;
-  }
-  a,
-  a:hover {
-    color: $white;
-  }
-}
-
-.Button.action-inverted {
-  color: $white;
-  border-color: $white;
-  background-color: black;
-  background-image: linear-gradient(lighten(black, 30), black);
-  &:disabled,
-  &.disabled {
-    color: rgba(white, .7);
-    background-image: none;
-  }
-  a,
-  a:hover {
-    color: $white;
-  }
-}
-
-.Button.action-destructive {
-  color: $white;
-  border-color: $red darken($red, 5) darken($red, 5);
-  background-color: $red;
-  background-image: linear-gradient($red, darken($red, 5));
-  &:hover {
-    background-color: darken($red, 5);
-    background-image: linear-gradient(darken($red, 5), darken(darken($red, 5), 5));
-  }
-  &:disabled,
-  &.disabled {
-    border-color: transparent;
-    background-color: lighten($red, 20);
-    background-image: none;
-  }
-  a,
-  a:hover {
-    color: $white;
-  }
-}
-
-$facebook-base-color: #395185;
-
-.Button.facebook,
-.Button.google {
-  color: $white;
-  border-color: transparent;
-  .Button-label {
-    color: $white;
-    padding-left: .5rem;
-  }
-  .Button-icon {
-    padding-right: .5rem;
-    border-right:  1px solid rgba(white, .5);
-  }
-  &:not(.disabled):hover {
-    color: $white;
-    .Button-label {
-      color: $white;
-    }
-  }
-  .Button-wrapper {
-    justify-content: flex-start;
-  }
-}
-
-.Button.facebook {
-  background-color: lighten($facebook-base-color, 10);
-  &:not(.disabled):hover {
-    background-color: $facebook-base-color;
-  }
-  &:disabled,
-  &.disabled {
-    background-color: lighten($facebook-base-color, 30);
-  }
-}
-
-$google-base-color: darken(#DC4E41, 10);
-.Button.google {
-  background-color: lighten($google-base-color, 10);
-  &:not(.disabled):hover {
-    background-color: $google-base-color;
-  }
-  &:disabled,
-  &.disabled {
-    background-color: lighten($google-base-color, 30);
+  .Icon + .Button-label {
+    padding-left: .5em;
   }
 }

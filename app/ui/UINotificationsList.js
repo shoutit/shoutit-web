@@ -62,7 +62,7 @@
 //       label="Cancel"
 //       onClick={ () => dismiss(options.notificationId) } />,
 //     <Button
-//       action="primary"
+//       kind="primary"
 //       size="small"
 //       label="Call"
 //       onClick={ () => flux.actions.inviteToVideoCall(user) } />,
@@ -111,7 +111,7 @@
 //   const content = (
 //     <UINotification
 //       icon= { <Icon name="video" active /> }
-//       buttons={ [<Button size="small" action="primary" label="Close" onClick={ () => dismiss(options.notificationId) } />] }>
+//       buttons={ [<Button size="small" kind="primary" label="Close" onClick={ () => dismiss(options.notificationId) } />] }>
 //       <p>Cannot call { user.name }</p>
 //       <p><small>{ user.name } rejected the call.</small></p>
 //     </UINotification>
@@ -123,7 +123,7 @@
 //   const options = { autoHide: false, notificationId: 'videocall' };
 //   const buttons = [
 //     <Button key="close" size="small" label="Close" onClick={ () => dismiss(options.notificationId) } />,
-//     <Button key="retry" action="primary" autoFocus size="small" label="Retry" onClick={ () => {
+//     <Button key="retry" kind="primary" autoFocus size="small" label="Retry" onClick={ () => {
 //       dismiss(options.notificationId);
 //       flux.actions.inviteToVideoCall(user);
 //     }} />,
@@ -141,7 +141,7 @@
 //   const options = { autoHide: false, notificationId: incomingInvite.conversationSid };
 //   const buttons = [
 //     <Button key="reject" size="small" label="Reject" onClick={ () => incomingInvite.reject() } />,
-//     <Button key="accept" size="small" action="primary" label="Accept" onClick={ () => flux.actions.acceptVideoCall(incomingInvite) } />,
+//     <Button key="accept" size="small" kind="primary" label="Accept" onClick={ () => flux.actions.acceptVideoCall(incomingInvite) } />,
 //   ];
 //
 //   const content = (
@@ -165,7 +165,7 @@
 //   const notificationId = incomingInvite.conversationSid;
 //   const options = { autoHide: false, notificationId };
 //   const buttons = [
-//     <Button size="small" action="primary" label="Close" onClick={ () => dismiss(notificationId) } />,
+//     <Button size="small" kind="primary" label="Close" onClick={ () => dismiss(notificationId) } />,
 //   ];
 //   const content = (
 //     <UINotification icon= { <Icon name="video" active /> } buttons={ buttons }>
@@ -179,7 +179,7 @@
 //   const notificationId = incomingInvite.conversationSid;
 //   const options = { autoHide: false, notificationId };
 //   const buttons = [
-//     <Button size="small" action="primary" label="Close" onClick={ () => dismiss(notificationId) } />,
+//     <Button size="small" kind="primary" label="Close" onClick={ () => dismiss(notificationId) } />,
 //   ];
 //   const content = (
 //     <UINotification icon= { <Icon name="video" active /> } buttons={ buttons }>
@@ -193,7 +193,7 @@
 // export function EMAIL_VERIFICATION_SUCCESS({ user }, dismiss) {
 //   const options = { autoHide: false, notificationId: 'emailVerificationSuccess' };
 //   const buttons = [
-//     <Button size="small" action="primary" label="Got it" onClick={ () => dismiss(options.notificationId) } />,
+//     <Button size="small" kind="primary" label="Got it" onClick={ () => dismiss(options.notificationId) } />,
 //   ];
 //   const content = (
 //     <UINotification icon= { <Icon name="ok" active /> } buttons={ buttons }>

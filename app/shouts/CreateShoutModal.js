@@ -131,7 +131,6 @@ export class CreateShoutModal extends Component {
 
           <Button
             ref="cancel"
-            size="small"
             key="cancel"
             type="button"
             onClick={ this.hide }
@@ -144,9 +143,8 @@ export class CreateShoutModal extends Component {
 
           <Button
             onClick={ () => this.form.submit() }
-            size="small"
             key="submit"
-            action="primary"
+            kind="primary"
             disabled={ isCreating || isUploading }>
             { submitLabel }
           </Button>

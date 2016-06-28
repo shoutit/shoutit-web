@@ -49,9 +49,8 @@ export class ShoutCallButton extends Component {
       <RequiresLogin event="onClick" loginAction={ REVEAL_NUMBER }>
         <Button
           { ...this.props }
-          action="primary-alt"
+          kind="secondary"
           disabled={ shout.isCalling }
-          size="small"
           onClick={ !shout.mobile && !shout.isCalling ? this.handleClick : null }
           icon="phone">
           { label }

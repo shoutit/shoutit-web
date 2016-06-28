@@ -31,7 +31,7 @@ export default class ListenersModal extends Component {
           <TagListenersScrollableList tag={ tag } />
         </Body>
         <Footer>
-          <Button ref="close" size="small" action="primary" onClick={ () => this.refs.modal.hide() }>Close</Button>
+          <Button ref="close" kind="primary" onClick={ () => this.refs.modal.hide() }>Close</Button>
         </Footer>
       </Modal>
     );

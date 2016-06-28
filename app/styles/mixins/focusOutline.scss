@@ -22,10 +22,7 @@
   }
 }
 
-@mixin link() {
-  @extend %link;
-}
-
-@mixin sideLink() {
-  @extend %sideLink;
+@mixin focusOutline() {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba($color-primary, .25);
 }

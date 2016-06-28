@@ -36,9 +36,9 @@ export default class ListenersModal extends Component {
           <ListenersScrollableList type={ type } profile={ profile } />
         </Body>
         <Footer>
-          <Button ref="close"
-            size="small"
-            action="primary"
+          <Button
+            ref="close"
+            kind="primary"
             onClick={ () => this.refs.modal.hide() }>
             <FormattedMessage
               id="listenersModal.closeButton"
