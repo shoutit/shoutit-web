@@ -214,7 +214,7 @@ export class ProfileSettings extends Component {
               />
 
               <div className="Settings-actions">
-                <Button action="primary" disabled={ !this.didChange() || profile.isUpdating }>
+                <Button kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
                 { profile.isUpdating &&
                   <FormattedMessage id="ProfileSettings.profileForm.updatingLabel" defaultMessage="Updating…" /> }
                 { this.didChange() && !profile.isUpdating &&

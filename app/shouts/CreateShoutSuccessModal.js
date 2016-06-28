@@ -33,7 +33,7 @@ export function CreateShoutSuccessModal({ shoutId, onNewClick, ...modalProps }) 
           </h3>
 
           <div className="CreateShoutSuccessModal-buttons">
-            <UpdateShoutButton shoutId={ shoutId } block size="small" action="primary" icon={ null }>
+            <UpdateShoutButton shoutId={ shoutId } block kind="primary" icon={ null }>
               <FormattedMessage
                 id="createShoutSuccessModal.editButton"
                 defaultMessage="Add more details"
@@ -44,7 +44,7 @@ export function CreateShoutSuccessModal({ shoutId, onNewClick, ...modalProps }) 
           <HorizontalRule label="or" />
 
           <div className="CreateShoutSuccessModal-buttons">
-            <Button block size="small" action="primary-alt" onClick={ onNewClick }>
+            <Button block kind="secondary" onClick={ onNewClick }>
               <FormattedMessage
                 id="createShoutSuccessModal.createButton"
                 defaultMessage="Create another shout"

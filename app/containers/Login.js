@@ -187,7 +187,7 @@ export class Login extends Component {
 
               <Button
                 style={ { marginTop: '1rem' } }
-                action="primary"
+                kind="primary"
                 block
                 disabled={ isLoggingIn }>
                 { formatMessage(isLoggingIn ? MESSAGES.loggingInButton : MESSAGES.loginButton) }

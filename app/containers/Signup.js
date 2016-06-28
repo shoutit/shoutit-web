@@ -226,7 +226,7 @@ export class Signup extends Component {
 
             <Button
               style={ { marginTop: '1rem' } }
-              action="primary"
+              kind="primary"
               block
               disabled={ isSigningUp }>
               { isSigningUp ?

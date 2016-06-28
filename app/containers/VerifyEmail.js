@@ -71,7 +71,7 @@ export class VerifyEmail extends Component {
                 { formatMessage(MESSAGES.successMessage) }
               </p>
               <div className="Frame-form" style={ { textAlign: 'center' } }>
-                <Button action="primary" to="/">
+                <Button kind="primary" to="/">
                   { formatMessage(MESSAGES.successButton) }
                 </Button>
               </div>

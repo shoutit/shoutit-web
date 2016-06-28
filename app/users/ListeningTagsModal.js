@@ -30,7 +30,7 @@ export default class ListeningTagsModal extends Component {
         <Footer>
           <Button ref="close"
             size="small"
-            action="primary"
+            kind="primary"
             onClick={ () => this.refs.modal.hide() }>
             <FormattedMessage
               id="users.ListeningTagsModal.close"

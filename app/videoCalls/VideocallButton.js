@@ -10,8 +10,7 @@ export function VideocallButton({ onVideocallClick, enabled = false, user }) {
   }
   return (
     <Button
-      action="primary"
-      size="small"
+      kind="primary"
       onClick={ () => onVideocallClick(user) }
       icon="video">
         Video call

@@ -83,7 +83,7 @@ export class ProfilesModal extends Component {
           />
         </Body>
         <Footer>
-          <Button ref="close" size="small" action="primary" onClick={ this.hide }>
+          <Button ref="close" kind="primary" onClick={ this.hide }>
             { intl.formatMessage(MESSAGES.hide) }
           </Button>
         </Footer>

@@ -144,9 +144,8 @@ export class AvatarEditorModal extends Component {
       startButtons.push(
         <Button
           key="delete"
-          size="small"
           disabled={ this.state.isLoading }
-          action="destructive"
+          kind="destructive"
           onClick={ this.handleDeleteClick }>
           <FormattedMessage
             id="avatarEditor.deleteButton"
@@ -160,8 +159,7 @@ export class AvatarEditorModal extends Component {
         key="upload"
         name="upload-image"
         accept="image/jpeg,image/png"
-        size="small"
-        action="primary-alt"
+        kind="secondary"
         style={ { minWidth: 120 } }
         icon="camera"
         disabled={ this.state.isLoading }
@@ -177,8 +175,7 @@ export class AvatarEditorModal extends Component {
       actions.push(
         <Button
           onClick={ this.handleSaveClick }
-          action="primary"
-          size="small"
+          kind="primary"
           disabled={ this.props.profile.image === this.state.image || this.state.isLoading }
           style={ { minWidth: 120 } }>
           <FormattedMessage

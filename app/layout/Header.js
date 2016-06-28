@@ -72,7 +72,7 @@ export class Header extends Component {
           <div className="Header-tools loggedIn">
             <HeaderMessagesButton overlayContainer={ this } />
             <HeaderNotificationsButton overlayContainer={ this } />
-            <Button action="primary" size="small" icon="sparkle" onClick={ this.handleNewShoutClick }>
+            <Button kind="primary" icon="sparkle" onClick={ this.handleNewShoutClick }>
               <FormattedMessage id="header.createShoutButton" defaultMessage="Create Shout" />
             </Button>
             <HeaderProfileButton overlayContainer={ this } />
@@ -81,7 +81,7 @@ export class Header extends Component {
             <Button to="/login">
               <FormattedMessage id="header.loginButton" defaultMessage="Login" />
             </Button>
-            <Button action="primary" to="/signup">
+            <Button kind="primary" to="/signup">
               <FormattedMessage id="header.signupButton" defaultMessage="Sign up" />
             </Button>
           </div>

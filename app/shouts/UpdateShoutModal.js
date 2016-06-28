@@ -121,8 +121,7 @@ export class UpdateShout extends Component {
         </Body>
         <Footer start={
           <Button
-            action="destructive"
-            size="small"
+            kind="destructive"
             type="button"
             onClick={ this.deleteShout }
             disabled={ this.state.isUpdating || this.state.isDeleting }
@@ -135,7 +134,6 @@ export class UpdateShout extends Component {
         }>
           <Button
             key="cancel"
-            size="small"
             type="button"
             onClick={ this.hide }
             disabled={ this.state.isUpdating || this.state.isDeleting }
@@ -148,8 +146,7 @@ export class UpdateShout extends Component {
           <Button
             ref="submit"
             key="submit"
-            size="small"
-            action="primary"
+            kind="primary"
             onClick={ () => this.form.submit() }
             disabled={ this.state.isUpdating || this.state.isUploading || this.state.isDeleting }
           >

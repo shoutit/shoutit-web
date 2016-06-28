@@ -101,7 +101,7 @@ export class ResetPassword extends Component {
 
             <Button
               style={ { marginTop: '1rem' } }
-              action="primary"
+              kind="primary"
               block
               disabled={ this.props.isResettingPassword }>
               { this.props.isResettingPassword ?

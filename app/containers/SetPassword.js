@@ -117,7 +117,7 @@ export class SetPassword extends Component {
 
             <Button
               style={ { marginTop: '1rem' } }
-              action="primary"
+              kind="primary"
               block
               disabled={ isSettingPassword }
             >
@@ -149,7 +149,7 @@ export class SetPassword extends Component {
             />
           </p>
           <div className="Frame-form" style={ { textAlign: 'center' } }>
-            <Button action="primary" to="/login">
+            <Button kind="primary" to="/login">
               <FormattedMessage
                 id="setPassword.confirmMessage.toLogin"
                 defaultMessage="To Login"
