@@ -12,6 +12,7 @@ import { openModal } from '../actions/ui';
 
 import { formatLocation } from '../utils/LocationUtils';
 import Button from '../ui/Button';
+import TextField from '../ui/TextField';
 import LocationModal from '../location/LocationModal';
 import SearchOverlay from '../search/SearchOverlay';
 
@@ -91,22 +92,23 @@ export class Searchbar extends Component {
       <FormattedMessage id="searchbar.locationButton.withoutLocation" defaultMessage="Anywhere" />;
     return (
       <form ref="form" onSubmit={ this.submit } className="Searchbar">
+
         <Button
           type="button"
           dropdown
           onClick={ e => this.handleLocationClick(e) }>
           { locationLabel }
         </Button>
+
         <FormattedMessage
           id="searchbar.input.placeholder"
           defaultMessage="Search Shoutit">
           { message =>
-            <input
+            <TextField
               autoComplete="off"
               ref={ el => { this.searchField = el; } }
               name="query"
               placeholder={ message }
-              className="htmlInput"
               value={ this.state.query }
               type="text"
               onChange={ this.handleChange }
@@ -115,7 +117,7 @@ export class Searchbar extends Component {
             />
           }
         </FormattedMessage>
-
+        { /* 
         <SearchOverlay
           query={ this.state.query.length <= 2 ? '' : this.state.query }
           rootClose
@@ -131,6 +133,7 @@ export class Searchbar extends Component {
           onMoreShoutsClick={ this.submit }
           target={ () => this.searchField }
          />
+         */ }
       </form>
     );
   }

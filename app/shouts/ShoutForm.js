@@ -182,7 +182,6 @@ export class ShoutForm extends Component {
           name="title"
           placeholder={ formatMessage(MESSAGES.title) }
           disabled={ disabled }
-          style={ { fontSize: '1.25rem' } }
           value={ shout.title }
           onChange={ title => this.handleChange({ title }) }
           error={ error }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="44px" height="33px" viewBox="0 0 44 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
     <title>icons/ok</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="icons/ok" fill="#969696">
+        <g id="icons/ok" fill="#AFAFAF">
             <path d="M14.8012369,33 C13.5556864,33 12.3085163,32.4885818 11.360991,31.4657455 L0.713073568,19.9911273 C-0.237691189,18.9665455 -0.237691189,17.3066182 0.713073568,16.2837818 C1.66383832,15.2592 3.20417441,15.2592 4.15331947,16.2837818 L14.8012369,27.7584 L39.8466805,0.768436364 C40.7974453,-0.256145455 42.3377814,-0.256145455 43.2869264,0.768436364 C44.2376912,1.79301818 44.2376912,3.45294545 43.2869264,4.47578182 L18.2414828,31.4657455 C17.2939574,32.4885818 16.0467873,33 14.8012369,33 L14.8012369,33 Z" id="Shape"></path>
         </g>
     </g>

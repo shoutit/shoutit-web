@@ -21,7 +21,14 @@ export default class Picker extends Component {
   }
   render() {
     const { children } = this.props;
-    return <FormField { ...this.props } field="select" ref="field">{ children }</FormField>;
+    return (
+      <FormField
+        { ...this.props }
+        field="select"
+        ref="field">
+        { children }
+      </FormField>
+    );
   }
 }
 

@@ -1,5 +1,9 @@
 @import '../styles/constants.scss';
-$thumb-size: 1.3em;
+
+$range-field-track: $color-primary;
+$range-field-thumb: $grey-light-1;
+
+$thumb-size: 18px;
 $track-height: 2px;
 $thumb-border: 1px solid $range-field-thumb;
 
