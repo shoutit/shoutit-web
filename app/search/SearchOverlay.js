@@ -39,7 +39,7 @@ export class SearchOverlay extends Component {
       className += ' has-results';
     }
     return (
-      <Overlay { ...overlayProps }>
+      <Overlay { ...overlayProps } style={ { width: '100%' } }>
         <div className={ className }>
           { !query &&
             <div className="SearchOverlay-placeholder">

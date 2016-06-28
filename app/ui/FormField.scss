@@ -60,6 +60,13 @@ $formFieldBorder: 1px solid $formFieldBorderColor;
   min-width: 36px;
   border-right: $formFieldBorder;
   line-height: 36px;
+}
+
+.FormField.with-input .FormField-start {
+  z-index: 3;
+}
+
+.FormField.with-select .FormField-start {
   z-index: 1;
 }
 
@@ -67,6 +74,7 @@ $formFieldBorder: 1px solid $formFieldBorderColor;
   position: relative;
   z-index: 2;
 }
+
 .FormField.has-start .FormField-element input,
 .FormField.has-start .FormField-element select,
  {

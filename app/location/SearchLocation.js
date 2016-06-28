@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import trim from 'lodash/trim';
 import throttle from 'lodash/throttle';
-import { geocodePlace } from '../utils/LocationUtils';
+import { geocodePlace, formatLocation } from '../utils/LocationUtils';
 import { loadPlacePredictions } from '../actions/location';
 import { getCurrentLocale } from '../reducers/i18n';
 
+import TextField from '../ui/TextField';
 import Progress from '../ui/Progress';
 
 export class SearchLocation extends Component {
@@ -15,6 +16,7 @@ export class SearchLocation extends Component {
     dispatch: PropTypes.func.isRequired,
     predictions: PropTypes.object,
     error: PropTypes.object,
+    location: PropTypes.object,
     isFetching: PropTypes.bool,
     lastInput: PropTypes.string,
     locale: PropTypes.string.isRequired,
@@ -39,11 +41,11 @@ export class SearchLocation extends Component {
   };
 
   componentDidMount() {
-    this.input.focus();
+    this.input.select();
   }
 
   handleChange() {
-    const input = trim(this.input.value).toLowerCase();
+    const input = trim(this.input.getValue()).toLowerCase();
     this.setState({ input });
     if (input.length < 2) {
       return;
@@ -76,9 +78,10 @@ export class SearchLocation extends Component {
           id="searchLocation.input.placeholder"
           defaultMessage="Search for a location">
           { message =>
-            <input
-              className="htmlInput block"
+            <TextField
+              name="SearchLocation-location"
               type="text"
+              value={ this.props.location ? formatLocation(this.props.location) : '' }
               ref={ el => { this.input = el; } }
               disabled={ isGeocoding }
               placeholder={ message }
@@ -109,6 +112,7 @@ export class SearchLocation extends Component {
 const mapStateToProps = state => ({
   ...state.placePredictions,
   locale: getCurrentLocale(state),
+  location: state.currentLocation,
 });
 
 export default connect(mapStateToProps)(SearchLocation);

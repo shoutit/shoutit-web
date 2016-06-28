@@ -7,7 +7,7 @@
   border-radius: $border-radius-small;
   // ⚠️ if you change the shadow remember to update the arrows-* PNG ui-elements
   // to match the new shadow!
-  box-shadow: $box-shadow-depth-2;
+  box-shadow: $box-shadow-depth-1;
   &.arrow.bottom {
     transform: translateY(18px);
   }

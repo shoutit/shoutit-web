@@ -41,3 +41,7 @@ export default function (state, action) {
 export function getQueryAsString(state, omit = []) {
   return queryString.stringify(_omit(state.routing.query, omit));
 }
+
+export function getQuery(state) {
+  return state.routing.query;
+}
