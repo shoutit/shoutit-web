@@ -57,6 +57,9 @@ export function start(app) {
 
   app.use(errorDomainMiddleware);
 
+  // Get the client's locale in req.locale
+  app.use(localeMiddleware);
+
   // Register fetchr services
   Object.keys(services).forEach(name => Fetchr.registerService(services[name])); // eslint-disable-line
   app.use('/fetchr', Fetchr.middleware());
@@ -73,9 +76,6 @@ export function start(app) {
 
   // Remove trailing slashes from urls
   app.use(slashMiddleware);
-
-  // Get the client's locale in req.locale
-  app.use(localeMiddleware);
 
   // Get the client's geo location
   app.use(geolocationMiddleware);

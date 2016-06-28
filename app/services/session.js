@@ -26,6 +26,7 @@ export function createRequestSession(req, data, callback) {
   request
     .post('/oauth2/access_token')
     .send({ ...data, client_id, client_secret })
+    .use(req)
     .prefix()
     .end((err, res) => {
       if (err) {
