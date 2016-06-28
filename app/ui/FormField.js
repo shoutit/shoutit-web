@@ -148,6 +148,9 @@ export default class FormField extends Component {
     if (disabled) {
       cssClass += ' disabled';
     }
+    if (typeof field === 'string') {
+      cssClass += ` with-${field}`;
+    }
     if (!label) {
       cssClass += ' no-label';
     }
