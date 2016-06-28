@@ -17,9 +17,7 @@ import SocialLoginForm from '../auth/SocialLoginForm';
 import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
 import { getLoggedUser } from '../reducers/session';
 
-if (process.env.BROWSER) {
-  require('./Login.scss');
-}
+import './Login.scss';
 
 const MESSAGES = defineMessages({
   title: {

@@ -11,9 +11,7 @@ import Progress from '../ui/Progress';
 
 import { getShouts, getTags, getProfiles, isFetching, hasMoreShouts } from '../reducers/search';
 
-if (process.env.BROWSER) {
-  require('./SearchOverlay.scss');
-}
+import './SearchOverlay.scss';
 
 export class SearchOverlay extends Component {
 

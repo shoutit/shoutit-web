@@ -6,7 +6,7 @@ export default {
   read: (req, resource, { name }, config, callback) => {
     request
       .get(`/tags/${name}`)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

@@ -13,9 +13,7 @@ import SuggestedShout from '../shouts/SuggestedShout';
 
 import RequiresLogin from '../auth/RequiresLogin';
 
-if (process.env.BROWSER) {
-  require('./Chat.scss');
-}
+import './Chat.scss';
 
 const MESSAGES = defineMessages({
   title: {

@@ -9,9 +9,7 @@ import RangeField from '../ui/RangeField';
 const STEPS = [0, 4, 8, 12, 16, 20, 24, 32, 36, 40, 44, 48, 52, 56, 60, 64, 82, 100];
 const VALUES = ['city', 1, 2, 3, 5, 7, 10, 15, 20, 30, 60, 100, 200, 300, 400, 500, 'state', 'country'];
 
-if (process.env.BROWSER) {
-  require('./LocationRange.scss');
-}
+import './LocationRange.scss';
 
 export class LocationRange extends Component {
   static propTypes = {

@@ -23,9 +23,7 @@ import ShoutsList from '../shouts/ShoutsList';
 import Progress from '../ui/Progress';
 import Scrollable from '../ui/Scrollable';
 
-if (process.env.BROWSER) {
-  require('./Profile.scss');
-}
+import './Profile.scss';
 
 const requiredDetails = ['name', 'cover', 'bio', 'location'];
 

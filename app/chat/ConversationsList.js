@@ -10,9 +10,7 @@ import ConversationItem from './ConversationItem';
 import Progress from '../ui/Progress';
 import Scrollable from '../ui/Scrollable';
 
-if (process.env.BROWSER) {
-  require('./ConversationsList.scss');
-}
+import './ConversationsList.scss';
 
 export class ConversationsList extends Component {
 

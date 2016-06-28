@@ -7,9 +7,7 @@ import ProfileListenersListItem from './ProfileListenersListItem';
 import ProfileListeningTagsListItem from './ProfileListeningTagsListItem';
 import ProfileActions from '../users/ProfileActions';
 
-if (process.env.BROWSER) {
-  require('./ProfileBiography.scss');
-}
+import './ProfileBiography.scss';
 
 export default function ProfileBiography({ profile }) {
   return (

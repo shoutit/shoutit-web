@@ -17,7 +17,7 @@ export default {
     }
     request
       .get(url)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .query(query)
       .end((err, res) => {

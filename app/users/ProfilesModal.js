@@ -7,9 +7,7 @@ import Modal, { Header, Footer, Body, BodyFixed } from '../ui/Modal';
 import Button from '../ui/Button';
 import SegmentedControl from '../ui/SegmentedControl';
 
-if (process.env.BROWSER) {
-  require('./ProfilesModal.scss');
-}
+import './ProfilesModal.scss';
 
 const MESSAGES = defineMessages({
   listeners: {

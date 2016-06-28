@@ -11,9 +11,7 @@ import LocationListItem from '../location/LocationListItem';
 import ProfileListenersListItem from '../users/ProfileListenersListItem';
 import ProfileActions from '../users/ProfileActions';
 
-if (process.env.BROWSER) {
-  require('./ProfilePreview.scss');
-}
+import './ProfilePreview.scss';
 
 const requiredDetails = ['location', 'listenersCount', 'name', 'cover'];
 

@@ -2,9 +2,7 @@ import React, { PropTypes, Component } from 'react';
 
 import { getErrorsByLocation } from '../utils/APIUtils';
 
-if (process.env.BROWSER) {
-  require('./FormField.scss');
-}
+import './FormField.scss';
 
 function ValidationError({ errors }) {
   return (

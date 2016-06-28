@@ -1,7 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-if (process.env.BROWSER) {
-  require('./FileInput.scss');
-}
+import './FileInput.scss';
 
 export default class FileInput extends Component {
   static propTypes = {

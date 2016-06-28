@@ -3,9 +3,7 @@ import { FormattedMessage } from 'react-intl';
 
 import Icon from '../ui/Icon';
 
-if (process.env.BROWSER) {
-  require('./MessageReadBy.scss');
-}
+import './MessageReadBy.scss';
 
 export default function MessageReadBy({ message }) {
   const profiles = message.readBy.map(readBy => readBy.profile);

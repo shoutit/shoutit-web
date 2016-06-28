@@ -10,9 +10,7 @@ import UpdateShoutButton from '../shouts/UpdateShoutButton';
 
 import { openModal, closeModal } from '../actions/ui';
 
-if (process.env.BROWSER) {
-  require('./CreateShoutSuccessModal.scss');
-}
+import './CreateShoutSuccessModal.scss';
 
 export function CreateShoutSuccessModal({ shoutId, onNewClick, ...modalProps }) {
   return (

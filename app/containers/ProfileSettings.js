@@ -19,9 +19,7 @@ import SettingsNavigation from '../settings/SettingsNavigation';
 import { updateProfile } from '../actions/users';
 import { getLoggedUser } from '../reducers/session';
 
-if (process.env.BROWSER) {
-  require('./Settings.scss');
-}
+import './Settings.scss';
 
 const MESSAGES = defineMessages({
   title: {

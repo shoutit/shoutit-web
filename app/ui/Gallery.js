@@ -4,9 +4,7 @@ import { getVariation } from '../utils/APIUtils';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import union from 'lodash/union';
 
-if (process.env.BROWSER) {
-  require('./Gallery.scss');
-}
+import './Gallery.scss';
 
 export default class Gallery extends Component {
 

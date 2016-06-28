@@ -7,9 +7,7 @@ import ConversationDropdown from '../chat/ConversationDropdown';
 
 import Icon from '../ui/Icon';
 
-if (process.env.BROWSER) {
-  require('./HostedConversation.scss');
-}
+import './HostedConversation.scss';
 
 export class HostedConversation extends Component {
 

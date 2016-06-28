@@ -1,8 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 
-if (process.env.BROWSER) {
-  require('./Form.scss');
-}
+import './Form.scss';
 
 export default class Form extends Component {
 

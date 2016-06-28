@@ -8,9 +8,7 @@ import TagListenersListItem from '../tags/TagListenersListItem';
 import TagActions from '../tags/TagActions';
 import CategoryIcon from '../shouts/CategoryIcon';
 
-if (process.env.BROWSER) {
-  require('./TagPreview.scss');
-}
+import './TagPreview.scss';
 
 const properties = ['listenersCount', 'isListening'];
 

@@ -3,9 +3,7 @@ import { Link } from 'react-router';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import FormattedCreatedAt from '../utils/FormattedCreatedAt';
 
-if (process.env.BROWSER) {
-  require('./NotificationItem.scss');
-}
+import './NotificationItem.scss';
 
 function getSegmentsFromRange(text, ranges) {
   let segments;

@@ -12,9 +12,7 @@ import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
 import { getLoggedUser } from '../reducers/session';
 
-if (process.env.BROWSER) {
-  require('./ProfileActions.scss');
-}
+import './ProfileActions.scss';
 export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium', showProfileLink = false }) {
 
   if (profile.isOwner && !showProfileLink) {

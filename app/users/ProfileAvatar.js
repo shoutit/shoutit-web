@@ -4,9 +4,7 @@ import Tooltip from '../ui/Tooltip';
 
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
-if (process.env.BROWSER) {
-  require('./ProfileAvatar.scss');
-}
+import './ProfileAvatar.scss';
 
 export default class ProfileAvatar extends Component {
 

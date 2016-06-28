@@ -12,9 +12,7 @@ import CategoryPicker from '../ui/CategoryPicker';
 import CurrencyField from '../ui/CurrencyField';
 import TextField from '../ui/TextField';
 
-if (process.env.BROWSER) {
-  require('./SearchFilters.scss');
-}
+import './SearchFilters.scss';
 
 export class SearchFilters extends Component {
 

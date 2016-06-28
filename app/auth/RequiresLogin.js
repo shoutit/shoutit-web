@@ -7,9 +7,7 @@ import { FormattedMessage } from 'react-intl';
 
 import * as loginActions from '../auth/loginActions';
 
-if (process.env.BROWSER) {
-  require('./RequiresLogin.scss');
-}
+import './RequiresLogin.scss';
 
 export class RequiresLogin extends Component {
 

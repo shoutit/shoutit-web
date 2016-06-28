@@ -4,9 +4,7 @@ import { getCurrentLocale } from '../reducers/i18n';
 import { googleMapsKey } from '../config';
 import { createLinkToGoogleMaps } from '../utils/GoogleMapsUtils';
 
-if (process.env.BROWSER) {
-  require('./GoogleStaticMap.scss');
-}
+import './GoogleStaticMap.scss';
 export function GoogleStaticMap({
   // pass location
   location,

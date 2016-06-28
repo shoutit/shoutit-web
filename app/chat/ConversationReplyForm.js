@@ -17,9 +17,7 @@ import { getLoggedUser } from '../reducers/session';
 
 import ReplyFormToolbar from '../chat/ReplyFormToolbar';
 
-if (process.env.BROWSER) {
-  require('./ConversationReplyForm.scss');
-}
+import './ConversationReplyForm.scss';
 
 export class ConversationReplyForm extends Component {
 

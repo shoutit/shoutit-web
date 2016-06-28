@@ -8,9 +8,7 @@ import MessageReadBy from './MessageReadBy';
 
 import last from 'lodash/last';
 
-if (process.env.BROWSER) {
-  require('./MessagesList.scss');
-}
+import './MessagesList.scss';
 
 export default class MessagesList extends Component {
 

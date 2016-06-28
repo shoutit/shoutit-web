@@ -7,7 +7,7 @@ export default {
     const url = endpoint || `/profiles/${username}/listeners`;
     request
       .get(url)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

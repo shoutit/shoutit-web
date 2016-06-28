@@ -3,9 +3,7 @@ import { Link } from 'react-router';
 
 import Icon from '../ui/Icon';
 
-if (process.env.BROWSER) {
-  require('./Button.scss');
-}
+import './Button.scss';
 
 export default class Button extends Component {
 

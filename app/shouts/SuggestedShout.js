@@ -4,9 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import ShoutPreview from './ShoutPreview';
 import { denormalize } from '../schemas/index';
 
-if (process.env.BROWSER) {
-  require('./SuggestedShout.scss');
-}
+import './SuggestedShout.scss';
 
 export function SuggestedShout({ shout }) {
   if (!shout) {

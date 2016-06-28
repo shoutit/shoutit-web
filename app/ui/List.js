@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-if (process.env.BROWSER) {
-  require('./List.scss');
-}
+import './List.scss';
 
 export default class List extends Component {
   static propTypes = {

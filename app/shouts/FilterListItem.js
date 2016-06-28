@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import ListItem from '../ui/ListItem';
-if (process.env.BROWSER) {
-  require('./FilterListItem.scss');
-}
+import './FilterListItem.scss';
 
 export default function FilterListItem({ category, filter, size = 'medium' }) {
   return (

@@ -2,9 +2,7 @@ import React, { PropTypes, Component } from 'react';
 
 import ShoutPreview from './ShoutPreview';
 
-if (process.env.BROWSER) {
-  require('./ShoutsList.scss');
-}
+import './ShoutsList.scss';
 
 export default class ShoutsList extends Component {
 

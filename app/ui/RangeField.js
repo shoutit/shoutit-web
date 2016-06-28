@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-if (process.env.BROWSER) {
-  require('./RangeField.scss');
-}
+import './RangeField.scss';
 
 export default class RangeField extends Component {
   static propTypes = {

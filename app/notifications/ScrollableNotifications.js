@@ -9,9 +9,7 @@ import { getPaginationState, getNotifications } from '../reducers/paginated/noti
 import NotificationItem from './NotificationItem';
 import Progress from '../ui/Progress';
 
-if (process.env.BROWSER) {
-  require('./ScrollableNotifications.scss');
-}
+import './ScrollableNotifications.scss';
 
 export class ScrollableNotifications extends Component {
 

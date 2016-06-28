@@ -6,9 +6,7 @@ import LocaleSwitcher from '../ui/LocaleSwitcher';
 
 import { imagesPath, facebookLink, twitterLink, instagramLink } from '../config';
 
-if (process.env.BROWSER) {
-  require('./Footer.scss');
-}
+import './Footer.scss';
 
 export default function Footer() {
   return (

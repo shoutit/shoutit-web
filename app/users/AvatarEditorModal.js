@@ -18,9 +18,7 @@ import UploadButton from '../ui/UploadButton';
 export const width = 250;
 export const height = 250;
 
-if (process.env.BROWSER) {
-  require('./AvatarEditorModal.scss');
-}
+import './AvatarEditorModal.scss';
 
 const MESSAGES = defineMessages({
   deleteConfirm: {

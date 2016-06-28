@@ -2,9 +2,7 @@ import React, { PropTypes } from 'react';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import { getVariation } from '../utils/APIUtils';
 
-if (process.env.BROWSER) {
-  require('./MessageAttachedImages.scss');
-}
+import './MessageAttachedImages.scss';
 
 export default function MessageAttachedImages({ images }) {
   return (

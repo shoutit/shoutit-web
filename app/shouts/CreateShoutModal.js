@@ -15,9 +15,7 @@ import CreateShoutSuccessModal from './CreateShoutSuccessModal';
 import { getLoggedUser } from '../reducers/session';
 import { getShoutDraft } from '../reducers/shoutDraft';
 
-if (process.env.BROWSER) {
-  require('./CreateShoutModal.scss');
-}
+import './CreateShoutModal.scss';
 
 export class CreateShoutModal extends Component {
 

@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 
-if (process.env.BROWSER) {
-  require('./ListItem.scss');
-}
+import './ListItem.scss';
 
 export default function ListItem({
   className = '',

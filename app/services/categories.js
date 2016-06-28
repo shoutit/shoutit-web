@@ -11,7 +11,7 @@ export default {
     request
       .get('/shouts/categories')
       .prefix()
-      .setSession(req.session)
+      .use(req)
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));

@@ -7,9 +7,7 @@ import MessageAttachment from './MessageAttachment';
 import NewlineToBreak from '../ui/NewlineToBreak';
 import Tooltip from '../ui/Tooltip';
 
-if (process.env.BROWSER) {
-  require('./MessageItem.scss');
-}
+import './MessageItem.scss';
 export default class MessageItem extends Component {
 
   static propTypes = {

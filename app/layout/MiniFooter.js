@@ -6,9 +6,7 @@ import LocaleSwitcher from '../ui/LocaleSwitcher';
 import AppBadge from '../ui/AppBadge';
 import { facebookLink, twitterLink, instagramLink } from '../config';
 
-if (process.env.BROWSER) {
-  require('./MiniFooter.scss');
-}
+import './MiniFooter.scss';
 
 export default function MiniFooter() {
   return (

@@ -5,7 +5,7 @@ export default {
   create: (req, resource, params, { newPassword, resetToken }, config, callback) => {
     request
       .post('/auth/set_password')
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .send({
         reset_token: resetToken,

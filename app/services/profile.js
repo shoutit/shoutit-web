@@ -51,7 +51,7 @@ export default {
     request
       .post('/oauth2/access_token')
       .send(data)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {
@@ -64,7 +64,7 @@ export default {
   read: (req, resource, params, config, callback) => {
     request
       .get(`/profiles/${params.username}`)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {
@@ -82,7 +82,7 @@ export default {
     request
       .patch('/profiles/me')
       .send(body)
-      .setSession(req.session)
+      .use(req)
       .prefix()
       .end((err, res) => {
         if (err) {

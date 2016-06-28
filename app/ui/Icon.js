@@ -1,8 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { FormattedNumber } from 'react-intl';
-if (process.env.BROWSER) {
-  require('./Icon.scss');
-}
+import './Icon.scss';
 
 export default class Icon extends Component {
 

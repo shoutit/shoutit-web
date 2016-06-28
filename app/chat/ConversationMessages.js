@@ -10,9 +10,7 @@ import { loadMessages } from '../actions/messages';
 import { getMessagesByConversation, getPaginationState } from '../reducers/paginated/messagesByConversation';
 import Progress from '../ui/Progress';
 
-if (process.env.BROWSER) {
-  require('./ConversationMessages.scss');
-}
+import './ConversationMessages.scss';
 
 export class ConversationMessages extends Component {
 

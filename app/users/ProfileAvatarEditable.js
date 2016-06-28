@@ -9,9 +9,7 @@ import AvatarEditorModal from '../users/AvatarEditorModal';
 import ProfileAvatar from '../users/ProfileAvatar';
 import FileInput from '../ui/FileInput';
 
-if (process.env.BROWSER) {
-  require('./ProfileAvatarEditable.scss');
-}
+import './ProfileAvatarEditable.scss';
 
 export class ProfileAvatarEditable extends Component {
 

@@ -8,9 +8,7 @@ import ListItem from '../ui/ListItem';
 import ProfilePreview from '../users/ProfilePreview';
 import { formatLocation } from '../utils/LocationUtils';
 
-if (process.env.BROWSER) {
-  require('./ProfileListItem.scss');
-}
+import './ProfileListItem.scss';
 
 export function ProfileListItem({
   profile,

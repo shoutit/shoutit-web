@@ -11,9 +11,7 @@ import { getShout } from '../reducers/entities/shouts';
 
 import ShoutForm from './ShoutForm';
 
-if (process.env.BROWSER) {
-  require('./CreateShoutModal.scss');
-}
+import './CreateShoutModal.scss';
 
 export class UpdateShout extends Component {
 
