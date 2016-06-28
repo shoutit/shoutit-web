@@ -161,8 +161,8 @@ export class CreateShoutModal extends Component {
 const mapStateToProps = (state, ownProps) => {
   const loggedUser = getLoggedUser(state);
   const shout = {
-    ...getShoutDraft(state),
     ...ownProps.shout,
+    ...getShoutDraft(state),
   };
   return {
     shout,
