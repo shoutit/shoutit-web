@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="19px" height="9px" viewBox="0 0 19 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
     <title>ui-elements/dropdown-caret-big</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="UI-Elements" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="ui-elements/dropdown-caret-big" fill="#919191">
+        <g id="ui-elements/dropdown-caret-big" fill="#373837">
             <path d="M4.82984559,6.73526813 L1.24501629,2.5280486 C0.920421655,2.17825255 0.920421655,1.61154719 1.24501629,1.26234704 C1.56961092,0.912550986 2.0954874,0.912550986 2.41952906,1.26234704 L6.00239263,5.46956659 L9.58204125,1.26234704 C9.90663588,0.912550984 10.4325124,0.912550984 10.756554,1.26234704 C11.0811487,1.61214309 11.0811487,2.17884845 10.756554,2.5280486 L7.1769054,6.73526815 C6.85341672,7.0844683 6.42762819,7.25906837 6.00239263,7.25906837 C5.57715707,7.25906837 5.15333428,7.08446828 4.82984559,6.73526813 Z" id="Shape"></path>
         </g>
     </g>
