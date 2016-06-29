@@ -26,7 +26,9 @@ export default class FormField extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     disabled: PropTypes.bool,
+    flexibleContent: PropTypes.bool,
     error: PropTypes.object,
+    errorLocation: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     field: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     inputRef: PropTypes.func,
     label: PropTypes.string,
@@ -77,6 +79,10 @@ export default class FormField extends Component {
     return this.field.value;
   }
 
+  getErrorLocation() {
+    return this.props.errorLocation || this.props.name;
+  }
+
   setValue(value) {
     this.setState({ value });
   }
@@ -85,7 +91,7 @@ export default class FormField extends Component {
     if (!this.state.error) {
       return [];
     }
-    return getErrorsByLocation(this.state.error, this.props.name);
+    return getErrorsByLocation(this.state.error, this.getErrorLocation());
   }
 
   field = null;
@@ -129,7 +135,21 @@ export default class FormField extends Component {
   }
 
   render() {
-    const { block, startElement, disabled, label, className, placeholder, field, inputRef, children, style, ancillary, ...props } = this.props;
+    const {
+      block,
+      startElement,
+      disabled,
+      label,
+      className,
+      placeholder,
+      field,
+      inputRef,
+      children,
+      style,
+      ancillary,
+      flexibleContent,
+      ...props,
+    } = this.props;
     const { focus, value } = this.state;
     const validationErrors = this.getValidationErrors() || [];
     let cssClass = 'FormField';
@@ -145,6 +165,9 @@ export default class FormField extends Component {
     if (startElement) {
       cssClass += ' has-start';
     }
+    if (flexibleContent) {
+      cssClass += ' flexible-content';
+    }
     if (disabled) {
       cssClass += ' disabled';
     }
@@ -157,6 +180,7 @@ export default class FormField extends Component {
     if (className) {
       cssClass += ` ${className}`;
     }
+
 
     let fieldElement;
     if (field) {
@@ -195,16 +219,16 @@ export default class FormField extends Component {
           </label>
         }
         <div className="FormField-wrapper">
-          <div className="FormField-element">
-            { fieldElement || children }
-          </div>
           { startElement &&
-            <span className="FormField-start" >
+            <span className="FormField-start">
               <span>
                 { startElement }
               </span>
             </span>
           }
+          <div className="FormField-element">
+            { fieldElement || children }
+          </div>
         </div>
         { validationErrors.length === 0 && ancillary &&
           <span className="FormField-ancillary">

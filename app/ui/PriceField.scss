@@ -1,0 +1,22 @@
+.PriceField {
+
+  .FormField-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .FormField-element {
+    flex: 1;
+    width: auto;
+    display: inline-block;
+  }
+
+  .FormField-start {
+    position: relative;
+  }
+
+  .input {
+    padding-left: 10px;
+  }
+
+}
