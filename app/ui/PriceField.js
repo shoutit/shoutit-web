@@ -71,7 +71,7 @@ export default class PriceField extends Component {
     this.setState({ currencyValue });
     this.select();
     if (this.props.onCurrencyChange) {
-      this.props.onCurrencyChange(currencyValue, e);
+      this.props.onCurrencyChange(currencyValue || null, e);
     }
   }
   handleBlur(value) {
@@ -85,7 +85,13 @@ export default class PriceField extends Component {
     const { value } = this.state;
     let startElement;
     if (this.props.showCurrencies) {
-      startElement = <CurrencySelect name="currency" tabIndex={ 0 } value={ this.state.currencyValue } onChange={ this.handleCurrencyChange } />;
+      startElement = (
+        <CurrencySelect
+          name="currency"
+          value={ this.state.currencyValue }
+          onChange={ this.handleCurrencyChange }
+        />
+      );
     }
     return (
       <TextField
