@@ -106,7 +106,6 @@ export class ShoutForm extends Component {
       removedImages: this.imageFileUploadField.getFilesToDelete(),
       publish_to_facebook: this.state.publish_to_facebook,
     };
-    console.log(shout);
     return shout;
   }
 
@@ -127,7 +126,6 @@ export class ShoutForm extends Component {
   handleChange(state) {
     this.setState(state);
     if (this.props.onChange) {
-      console.log(state);
       this.props.onChange(state);
     }
   }

@@ -16,7 +16,6 @@ class CurrencySelect extends Component {
     currencies: PropTypes.array.isRequired,
   }
   render() {
-    console.log(this.props.value);
     return (
       <select { ...this.props }>
         <option value="">
