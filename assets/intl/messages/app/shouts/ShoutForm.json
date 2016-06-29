@@ -34,9 +34,5 @@
   {
     "id": "shoutForm.mobile.label",
     "defaultMessage": "Let people contact you"
-  },
-  {
-    "id": "shoutForm.currency",
-    "defaultMessage": "Currency"
   }
 ]

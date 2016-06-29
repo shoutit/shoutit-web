@@ -9,7 +9,7 @@ import Form from '../ui/Form';
 import LocationField from '../ui/LocationField';
 import LocationRange from '../ui/LocationRange';
 import CategoryPicker from '../ui/CategoryPicker';
-import CurrencyField from '../ui/CurrencyField';
+import PriceField from '../ui/PriceField';
 import TextField from '../ui/TextField';
 
 import './SearchFilters.scss';
@@ -136,7 +136,7 @@ export class SearchFilters extends Component {
               defaultMessage="Min price"
             >
               { message =>
-                <CurrencyField
+                <PriceField
                   autoComplete="off"
                   className="SearchFilters-input"
                   placeholder={ message }
@@ -152,7 +152,7 @@ export class SearchFilters extends Component {
               defaultMessage="Max price"
             >
               { message =>
-                <CurrencyField
+                <PriceField
                   autoComplete="off"
                   className="SearchFilters-input"
                   placeholder={ message }

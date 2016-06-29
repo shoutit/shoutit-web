@@ -201,7 +201,7 @@
     "shoutForm.category.placeholder": "التصنيف",
     "shoutForm.mobile.placeholder": "أدخل رقم هاتفك المحمول",
     "shoutForm.mobile.label": "دع الآخرين يتصلون بك",
-    "shoutForm.currency": "العملة",
+    "ui.CurrencySelect.emptyOptionLabel": "العملة",
     "shoutPrice.free": "مجاني",
     "shoutType": "{type, select, offer {عرض} request {طلب}}",
     "suggestedShout.title": "إعلانات مقترحة",

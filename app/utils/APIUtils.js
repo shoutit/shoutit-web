@@ -39,11 +39,14 @@ export function parseApiError(err, info) {
   return parsedError;
 }
 
-export function getErrorsByLocation(apiError, location) {
+export function getErrorsByLocation(apiError, locations) {
+  if (typeof locations === 'string') {
+    locations = [locations];
+  }
   if (!apiError.hasOwnProperty('errors')) {
     return undefined;
   }
-  return apiError.errors.filter(error => error.location === location);
+  return apiError.errors.filter(error => locations.indexOf(error.location) > -1);
 }
 
 export function getErrorLocations(apiError) {

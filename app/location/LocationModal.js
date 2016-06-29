@@ -33,9 +33,9 @@ export class LocationModal extends Component {
           />
         </Header>
         <Body>
-          <SearchLocation 
-            ref="search" 
-            onLocationSelect={ this.handleLocationSelect } 
+          <SearchLocation
+            ref="search"
+            onLocationSelect={ this.handleLocationSelect }
           />
         </Body>
         <Footer>

@@ -7,3 +7,7 @@ export default function (state = [], action) {
     default: return state;
   }
 }
+
+export function getCurrencies(state) {
+  return state.currencies.map(code => state.entities.currencies[code]);
+}

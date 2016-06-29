@@ -208,7 +208,7 @@
   "shoutForm.category.placeholder": "Category",
   "shoutForm.mobile.placeholder": "Enter your mobile number",
   "shoutForm.mobile.label": "Let people contact you",
-  "shoutForm.currency": "Currency",
+  "ui.CurrencySelect.emptyOptionLabel": "Currency",
   "shoutPrice.free": "Free",
   "shoutType": "{type, select, offer {Offer} request {Request}}",
   "shoutTypeControl.offer": "Offers",
