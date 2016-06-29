@@ -9,7 +9,7 @@ export default class Button extends Component {
 
   static propTypes = {
     children: PropTypes.node.isRequired,
-    kind: PropTypes.oneOf(['default', 'primary', 'primary-alt', 'destructive', 'inverted']),
+    kind: PropTypes.oneOf(['default', 'primary', 'secondary', 'destructive', 'inverted', 'social']),
     size: PropTypes.oneOf(['small', 'medium']),
     icon: PropTypes.string,
     block: PropTypes.bool,
