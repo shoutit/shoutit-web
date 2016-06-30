@@ -11,7 +11,7 @@ import './Footer.scss';
 export default function Footer() {
   return (
     <div className="Footer">
-      <div className="htmlContentWidth Footer-wrapper">
+      <div className="Footer-wrapper">
         <div className="Footer-logo">
           <Link to="/">
             <img alt="" src={ `${imagesPath}/logo-mark-inverted.png` } height="40" />

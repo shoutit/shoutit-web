@@ -11,6 +11,7 @@ import { identifyOnMixpanel, trackWithMixpanel } from '../utils/mixpanel';
 
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
+import ResponsiveLayout from '../layout/ResponsiveLayout';
 import ModalHost from '../ui/ModalHost';
 import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
@@ -89,7 +90,7 @@ export class Application extends React.Component {
 
   render() {
     const { children, error, ...props } = this.props;
-    let className = 'App';
+    let className = 'Application';
 
     let layout = {
       stickyHeader: !error || error.statusCode === 404,
@@ -119,6 +120,16 @@ export class Application extends React.Component {
       locale = 'ar-u-nu-latn';
     }
 
+    let content;
+
+    if (!error) {
+      content = React.cloneElement(children, props);
+    } else {
+      content = (error.statusCode === 404 ?
+        <NotFound /> :
+        <ServerError error={ error } />
+      );
+    }
     return (
       <IntlProvider locale={ locale } messages={ this.props.messages }>
         <div className={ className }>
@@ -147,32 +158,36 @@ export class Application extends React.Component {
             ] }
           />
           { layout.showHeader &&
-            <div className="App-header">
-              <Header
-                history={ props.history }
-                flux={ props.flux }
-                chat={ props.chat }
-                conversations={ props.conversations }
-                location={ props.location }
-              />
+            <div className="Application-header">
+              <ResponsiveLayout>
+                <Header
+                  history={ props.history }
+                  flux={ props.flux }
+                  chat={ props.chat }
+                  conversations={ props.conversations }
+                  location={ props.location }
+                />
+              </ResponsiveLayout>
             </div>
           }
-          <div className="App-content">
-            { !error ? // eslint-disable-line
-              React.cloneElement(children, props) :
-              (error.statusCode === 404 ?
-                <NotFound /> :
-                <ServerError error={ error } />)
-            }
+          <div className="Application-content">
+            <ResponsiveLayout>
+              { content }
+            </ResponsiveLayout>
           </div>
           { layout.showFooter &&
-            <div className="App-footer">
-              <Footer />
+            <div className="Application-footer">
+              <ResponsiveLayout>
+                <Footer />
+              </ResponsiveLayout>
             </div>
           }
 
           <ModalHost />
-          <ConversationsHost />
+
+          <ResponsiveLayout>
+            <ConversationsHost />
+          </ResponsiveLayout>
 
         </div>
       </IntlProvider>

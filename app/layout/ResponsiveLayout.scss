@@ -1,0 +1,22 @@
+
+.ResponsiveLayout {
+  text-align: center;
+  padding: 0 1em;
+  > span {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+.ResponsiveLayout.min-width {
+  > span {
+    min-width: 768px;
+  }
+}
+
+.ResponsiveLayout.max-width {
+  > span {
+    max-width: 1400px;
+  }
+}
