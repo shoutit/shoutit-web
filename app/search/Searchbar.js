@@ -25,6 +25,7 @@ export class Searchbar extends Component {
   static propTypes = {
     currentLocation: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
+    query: PropTypes.string.isRequired,
     searchTags: PropTypes.func.isRequired,
     searchProfiles: PropTypes.func.isRequired,
     searchShouts: PropTypes.func.isRequired,
