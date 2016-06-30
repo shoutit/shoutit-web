@@ -14,7 +14,7 @@ const stickyProps = {
 };
 
 export default function Page({ children, className, startColumn, stickyStartColumn = false, endColumn, stickyEndColumn = false, miniFooter = true }) {
-  let cssClass = 'Page htmlContentWidth';
+  let cssClass = 'Page';
   if (className) {
     cssClass += ` ${className}`;
   }
