@@ -14,7 +14,7 @@ export default function Footer() {
       <div className="Footer-wrapper">
         <div className="Footer-logo">
           <Link to="/">
-            <img alt="" src={ `${imagesPath}/logo-mark-inverted.png` } height="40" />
+            <img alt="" src={ `${imagesPath}/logo-mark-inverted.png` } height="33" />
           </Link>
         </div>
         <div className="Footer-links">
