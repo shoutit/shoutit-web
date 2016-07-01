@@ -20,9 +20,6 @@ import Progress from '../ui/Progress';
 import UIMessage from '../ui/UIMessage';
 
 import ShoutsList from '../shouts/ShoutsList';
-import SuggestedShout from '../shouts/SuggestedShout';
-import SuggestedTags from '../tags/SuggestedTags';
-import SuggestedProfiles from '../users/SuggestedProfiles';
 
 import SearchFilters from '../search/SearchFilters';
 
@@ -146,8 +143,7 @@ export class Search extends Component {
               <SearchFilters disabled={ false } searchParams={ searchParams } onSubmit={ this.search } />
             </div>
           }
-          stickyStartColumn
-          endColumn={ [<SuggestedTags />, <SuggestedProfiles />, <SuggestedShout />] }>
+          stickyStartColumn>
 
           <Helmet title={ title } />
           <ShoutsList shouts={ shouts } />
