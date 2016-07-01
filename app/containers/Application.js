@@ -96,6 +96,7 @@ export class Application extends React.Component {
       stickyHeader: !error || error.statusCode === 404,
       showHeader: true,
       showFooter: !!error,
+      responsiveLayout: {},
     };
 
     if (props.routes) {
@@ -159,7 +160,7 @@ export class Application extends React.Component {
           />
           { layout.showHeader &&
             <div className="Application-header">
-              <ResponsiveLayout>
+              <ResponsiveLayout { ...layout.responsiveLayout }>
                 <Header
                   history={ props.history }
                   flux={ props.flux }
@@ -171,13 +172,13 @@ export class Application extends React.Component {
             </div>
           }
           <div className="Application-content">
-            <ResponsiveLayout>
+            <ResponsiveLayout { ...layout.responsiveLayout }>
               { content }
             </ResponsiveLayout>
           </div>
           { layout.showFooter &&
             <div className="Application-footer">
-              <ResponsiveLayout>
+              <ResponsiveLayout { ...layout.responsiveLayout }>
                 <Footer />
               </ResponsiveLayout>
             </div>
@@ -185,7 +186,7 @@ export class Application extends React.Component {
 
           <ModalHost />
 
-          <ResponsiveLayout>
+          <ResponsiveLayout { ...layout.responsiveLayout }>
             <ConversationsHost />
           </ResponsiveLayout>
 

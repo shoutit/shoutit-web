@@ -51,7 +51,15 @@ const routes = (store) =>
     <Route path="/signup" component={ Signup } getApplicationLayout={ authAppLayout } />
     <Route path="/signup/verify/:token" component={ VerifyEmail } getApplicationLayout={ authAppLayout } />
 
-    <Route path="/search(/:country)(/:state)(/:city)" component={ Search } />
+    <Route
+      path="/search(/:country)(/:state)(/:city)"
+      component={ Search }
+      getApplicationLayout={ () => ({
+        responsiveLayout: {
+          constrainMaxWidth: false,
+        },
+      }) }
+    />
     <Route path="/shout/:id(/:city)(/:description)" component={ Shout } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/interest/:name" component={ Interest } />
     <Route path="/user/:username(/:shout_type)" component={ Profile } getApplicationLayout={ () => ({ showFooter: true }) } />
