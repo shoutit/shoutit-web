@@ -1,18 +1,20 @@
-@import "../styles/constants.scss";
-@import "../styles/mixins/ellipsis.scss";
+@import '../styles/constants.scss';
+@import '../styles/mixins/ellipsis.scss';
+
+$card-border-radius: 2px;
 
 .Card {
   position: relative;
-  border-radius: $border-radius;
-  background-color: $white;
   position: relative;
-  box-shadow: $box-shadow-depth-0;
   display: inline-block;
+  border-radius: $card-border-radius;
+  background-color: $white;
+  box-shadow: $box-shadow-depth-0;
   &.size-small {
     width: 240px;
   }
   &.size-medium {
-    width: 320px;
+    width: 280px;
   }
   &.block {
     display: block;
@@ -20,51 +22,45 @@
   }
 }
 
-.Card-image-wrapper {
-  border-radius: $border-radius;
+.CardImage {
   position: relative;
+  width: 100%;
+  padding-bottom: 100%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-
-  width: 100%;
-  padding-bottom: 75%;
-
-  .Card.no-image & {
-    background-image: url("../../assets/icons/no-camera-fill.svg");
-  }
-
+  border-radius: $card-border-radius;
 }
 
-.Card-image {
+.CardImage > span {
+
   position: absolute;
   top: 0;
-  bottom: 0;
-  left: 0;
   right: 0;
-  background-position: center;
+  bottom: $card-border-radius;
+  left: 0;
+  border-radius: $card-border-radius;
   background-repeat: no-repeat;
+  background-position: center;
   background-size: cover;
-  border-radius: $border-radius;
 }
 
-.Card-title {
-  padding: .75rem;
+.CardBody {
   position: absolute;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
+  padding: .75em 1.25em 1.125em 1.25em;
   color: $color-text;
+  border-bottom-right-radius: $card-border-radius;
+  border-bottom-left-radius: $card-border-radius;
   background-color: rgba(white, 1);
-  border-bottom-left-radius: $border-radius;
-  border-bottom-right-radius: $border-radius;
   .Card-title-max-height {
-    vertical-align: middle;
     display: inline-block;
-    max-height: 2.2em;
     overflow: hidden;
+    max-height: 2.2em;
+    vertical-align: middle;
   }
-
 }
 
 a > .Card {

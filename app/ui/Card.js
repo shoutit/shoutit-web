@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import './Card.scss';
 
-export default function Card({ image, title, size = 'small', block = false, children, style, className }) {
+export default function Card({ image, title, size = 'medium', block = false, children, style, className }) {
   let cssClass = `Card size-${size}`;
   if (block) {
     cssClass += ' block';
@@ -22,7 +22,7 @@ export default function Card({ image, title, size = 'small', block = false, chil
         { title }
         </div>
       }
-      { children && <div>{ children }</div> }
+      { children }
     </div>
   );
 }
@@ -34,5 +34,29 @@ Card.propTypes = {
   block: PropTypes.bool,
   className: PropTypes.string,
   title: PropTypes.string,
-  size: PropTypes.oneOf(['small']),
+  size: PropTypes.oneOf(['small', 'medium']),
+};
+
+export function CardImage({ src }) {
+  return (
+    <div className="CardImage">
+      <span style={ { backgroundImage: `url(${src})` } } />
+    </div>
+  );
+}
+
+CardImage.propTypes = {
+  src: PropTypes.string.isRequired,
+};
+
+export function CardBody({ children }) {
+  return (
+    <div className="CardBody">
+      { children }
+    </div>
+  );
+}
+
+CardBody.propTypes = {
+  children: PropTypes.node.isRequired,
 };
