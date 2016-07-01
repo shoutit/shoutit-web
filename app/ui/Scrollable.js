@@ -165,9 +165,6 @@ export default class Scrollable extends Component {
 
   render() {
     const { children, className, style } = this.props;
-    if (this.props.scrollElement) {
-      return children;
-    }
     return (
       <div ref="node" style={ style } className={ className }>
         { children }
