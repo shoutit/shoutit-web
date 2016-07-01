@@ -1,8 +1,8 @@
 @import "../styles/constants.scss";
 
-@mixin card($background-color: $background-color-alt-light) {
+@mixin card($background-color: $background-color-light) {
 
-  border-radius: $border-radius;
+  border-radius: 2px;
   background-color: $white;
   position: relative;
   box-shadow: $box-shadow-depth-0;

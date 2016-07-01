@@ -10,7 +10,6 @@
 
 @import './constants.scss';
 @import './mixins/links';
-
 $font-family-sans-serif: $font-family;
 $font-size-base: $base-font-size;
 $tooltip-bg: rgba(black, .8);
@@ -37,10 +36,10 @@ html {
 }
 
 body {
-  line-height: 1.2em;
   height: 100%;
   color: $color-text;
   background-color: $background-color;
+  line-height: 1.2em;
 
   -webkit-font-smoothing: subpixel-antialiased;
 }
