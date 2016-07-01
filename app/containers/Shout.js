@@ -25,11 +25,12 @@ import Location from '../location/Location';
 import ShoutCallButton from '../shouts/ShoutCallButton';
 import ShoutPreview from '../shouts/ShoutPreview';
 import ShoutPrice from '../shouts/ShoutPrice';
+import ShoutsList from '../shouts/ShoutsList';
 import ShoutType from '../shouts/ShoutType';
 import UpdateShoutButton from '../shouts/UpdateShoutButton';
 
 import Button from '../ui/Button';
-import CardWithList from '../ui/CardWithList';
+import Card, { CardList, CardTitle } from '../ui/Card';
 import Gallery from '../ui/Gallery';
 import Icon from '../ui/Icon';
 import ListItem from '../ui/ListItem';
@@ -132,34 +133,34 @@ export class Shout extends Component {
     const { shout } = this.props;
 
     const categoryWithFilters = (
-      <CardWithList key="filters" block style={ { padding: '.5rem' } }>
-        <Link to={ `/search?category=${shout.category.slug}` }>
-          <CategoryListItem category={ shout.category } />
-        </Link>
-        { shout.filters.map((filter) =>
-          <FilterListItem
-            key={ filter.slug }
-            filter={ filter }
-            category={ shout.category }
-          />
-        ) }
-      </CardWithList>
+      <Card key="filters" block style={ { padding: '.5rem' } }>
+        <CardList>
+          { [
+            <Link to={ `/search?category=${shout.category.slug}` }>
+              <CategoryListItem category={ shout.category } />
+            </Link>,
+            ...shout.filters.map((filter) =>
+              <FilterListItem
+                key={ filter.slug }
+                filter={ filter }
+                category={ shout.category }
+              />
+            ),
+          ] }
+        </CardList>
+      </Card>
     );
 
     const share = (
-      <CardWithList
-        title={
+      <Card size="small" block key="share">
+        <CardTitle>
           <FormattedMessage
             id="shout.share"
             defaultMessage="Share this Shout"
           />
-        }
-        block
-        key="share"
-        style={ { padding: '.5rem' } }
-      >
+        </CardTitle>
         <Share shareUrl={ `/shout/${shout.id}` } title={ shout.title } image={ shout.thumbnail } />
-      </CardWithList>
+      </Card>
     );
 
     return [categoryWithFilters, share];
@@ -169,13 +170,15 @@ export class Shout extends Component {
     const { shout } = this.props;
     return [
       <ShoutActions key="actions" shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
-      <CardWithList block key="profile" style={ { marginTop: '2rem', padding: '.5rem' } } >
-        <ProfileListItem tooltipPlacement="right" profile={ shout.profile } />
-        <ListItem start={ <Icon name="clock" active /> }>
-          <TimeAgo date={ shout.datePublished } />
-        </ListItem>
-        <LocationListItem location={ shout.location } />
-      </CardWithList>,
+      <Card block key="profile" style={ { marginTop: '2rem', padding: '.5rem' } }>
+        <CardList>
+          <ProfileListItem tooltipPlacement="right" profile={ shout.profile } />
+          <ListItem start={ <Icon name="clock" active /> }>
+            <TimeAgo date={ shout.datePublished } />
+          </ListItem>
+          <LocationListItem location={ shout.location } />
+        </CardList>
+      </Card>,
       <Location key="location" style={ { marginTop: '1rem' } } location={ shout.location } />,
     ];
   }
@@ -194,9 +197,7 @@ export class Shout extends Component {
             defaultMessage="Related Shouts"
           />
         </h2>
-        <div className="Shouts-related-wrapper">
-          { relatedShouts.map(shout => <ShoutPreview key={ shout.id } shout={ shout } />) }
-        </div>
+        <ShoutsList shouts={ relatedShouts } />
       </div>
     );
   }

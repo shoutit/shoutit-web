@@ -4,13 +4,14 @@ $black: #373837;
 $green: #36DD69;
 $green-light: #33E96B;
 $red: #FF4700;
-$blue: #40c4ff;
-
+$blue: #40C4FF;
 $grey-light-1: #AFAFAF;
-$grey-light-2: #CCCCCC;
+$grey-light-2: #CCC;
 $grey-light-3: #E1E1E1;
-
-$white: #FFFFFF;
+$grey-light-5: #EEE;
+$grey-light-6: #F5F5F5;
+$grey-light-4: #FAFAFA;
+$white: #FFF;
 
 // Text colors
 $color-text: $black;
@@ -20,17 +21,14 @@ $color-text-lighter: $grey-light-2;
 // Alternate states colors
 $color-primary: $green;
 $color-primary-light: $green-light;
-
 $color-secondary: $blue;
 $color-secondary-light: $blue;
-
 $color-destructive: $red;
 $color-destructive-light: $red;
 
 // Buttons colors
 $background-color-button-primary: $color-primary;
 $background-color-button-primary-hover: $color-primary-light;
-
 $background-color-button-secondary: $color-secondary;
 $background-color-button-secondary-hover: $color-secondary;
 
@@ -45,7 +43,6 @@ $background-color-badge: $red;
 $color-placeholder: $grey-light-1;
 $border-color-field: $grey-light-2;
 $border-color-field-focus: $color-primary;
-
 $input-error: $red;
 
 // Links
@@ -61,15 +58,12 @@ $color-request: $red;
 
 $background-color-dropdown-menu-item: $grey-light-3;
 $background-color-dropdown-menu-item-active: $color-primary;
-
-$border-color: $grey-light-3;
-$border-color-dark: $grey-light-2;
+$border-color: $grey-light-5;
+$border-color-dark: $grey-light-3;
 $border-color-darker: $grey-light-1;
-$border-color-alt: #a7d281;
-
-$background-color-light: #FAFAFA;
-$background-color: #F9F9F9;
+$border-color-alt: #A7D281;
+$background-color: $grey-light-4;
+$background-color-light: $grey-light-6;
 $background-color-dark: #989899;
 $background-color-darker: #58585A;
-$background-color-alt-light: #F8FAFB;  // slightly green
-$background-color-alt: #EEF6E8;  // slightly green
+$background-color-alt: #F8FAFB;  // slightly green

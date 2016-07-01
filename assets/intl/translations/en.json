@@ -241,7 +241,6 @@
   "ui.locationRange.country": "Entire {country}",
   "ui.locationRange.state": "Entire {state}",
   "ui.locationRange.distance": "Within {distance}km",
-  "ui.progress.label": "Loading…",
   "ui.PublishToFacebook.label": "Publish to Facebook",
   "share.defaultTitle": "Shoutit - Buy and sell while chatting",
   "share.facebook.tooltip": "Share on Facebook",

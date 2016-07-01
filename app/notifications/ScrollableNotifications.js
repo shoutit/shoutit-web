@@ -78,7 +78,7 @@ export class ScrollableNotifications extends Component {
                 </p>
               </div>
             }
-          <Progress animate={ isFetching } size="small" />
+          <Progress animate={ isFetching } />
         </ul>
       </Scrollable>
     );

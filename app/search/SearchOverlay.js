@@ -58,7 +58,7 @@ export class SearchOverlay extends Component {
             </div>
           }
           { query && !hasResults && isFetching &&
-            <Progress size="small" animate />
+            <Progress animate />
           }
           { query && hasResults &&
             <div className="SearchOverlay-results">

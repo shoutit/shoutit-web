@@ -1,57 +1,17 @@
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
 
 .Progress {
-  margin: 2em 1em;
   display: block;
   display: flex;
+  visibility: hidden;
   align-items: center;
   justify-content: center;
-  visibility: hidden;
+  margin: .5em;
   &.animated {
     visibility: visible;
   }
-  &.no-space {
-    margin: 0;
+  svg path,
+  svg rect {
+    fill: $color-primary;
   }
-  &.size-small {
-    margin: .5em .25em;
-  }
-}
-
-.Progress-wrapper {
-  background-color: $white;
-  display: inline-block;
-  padding: .5em 1em;
-  border-radius: $border-radius;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.Progress-label {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-  font-size: .875em;
-  color: $color-text;
-  .Progress.size-small & {
-    font-size: .75em;
-  }
-}
-
-.Progress-animation {
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  bottom: 0;
-  left: -60%;
-  width: 100%;
-
-  animation: ProgressAnimation 1.25s linear infinite;
-  background: linear-gradient(270deg, rgba(white, 0), white, rgba(white, 0));
-}
-
-@keyframes ProgressAnimation {
-  0% { left: -60% }
-  100% { left: 160% }
 }

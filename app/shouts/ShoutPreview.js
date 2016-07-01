@@ -19,10 +19,10 @@ if (process.env.BROWSER) {
   require('./ShoutPreview.scss');
 }
 
-function ShoutPreview({ shout, onProfileAvatarClick, showProfile = true }) {
+function ShoutPreview({ shout, onProfileAvatarClick, showProfile = true, ...props }) {
   return (
     <ShoutLink shout={ shout }>
-      <Card className="ShoutPreview">
+      <Card className="ShoutPreview" { ...props }>
         <CardImage src={ getVariation(shout.thumbnail, 'medium') } />
         <CardBody>
           { shout.title &&

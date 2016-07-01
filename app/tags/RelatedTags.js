@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import CardWithList from '../ui/CardWithList';
+import Card, { CardTitle, CardList } from '../ui/Card';
 import TagListItem from '../tags/TagListItem';
 import { getRelatedTags } from '../reducers/paginated/relatedTagsByTag';
 
@@ -11,10 +11,14 @@ export function RelatedTags({ tags }) {
     return null;
   }
   return (
-    <CardWithList
-      title={ <FormattedMessage id="relatedTags.title" defaultMessage="Related interests" /> }>
-      { tags.map((tag, i) => <TagListItem key={ i } tag={ tag } />) }
-    </CardWithList>
+    <Card>
+      <CardTitle>
+        <FormattedMessage id="relatedTags.title" defaultMessage="Related interests" />
+      </CardTitle>
+      <CardList>
+        { tags.map((tag, i) => <TagListItem key={ i } tag={ tag } />) }
+      </CardList>
+    </Card>
   );
 }
 
