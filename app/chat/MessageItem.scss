@@ -40,7 +40,7 @@
 
 .MessageItem-message {
   background-color: $white;
-  border: 1px solid $border-color-dark;
+  border: 1px solid $grey-light-3;
   padding: .5em .75em;
 
   .MessageItem.no-profile & {
@@ -91,7 +91,9 @@
     margin: 0;
   }
   .MessageItem.is-owner & {
-     background-color: $background-color-alt;
+     background-color: $color-primary;
+     color: $white;
+     border-color: $color-primary;
   }
 
   .MessageItem:not(.has-attachments) & {
