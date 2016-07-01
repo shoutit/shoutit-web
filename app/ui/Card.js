@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import './Card.scss';
 
-export default function Card({ image, title, size = 'medium', block = false, children, style, className }) {
+export default function Card({ title, size = 'medium', block = false, children, style, className }) {
   let cssClass = `Card size-${size}`;
   if (block) {
     cssClass += ' block';
@@ -12,11 +12,6 @@ export default function Card({ image, title, size = 'medium', block = false, chi
   }
   return (
     <div className={ cssClass } style={ style } >
-      { image &&
-        <div className="Card-image-wrapper">
-          <div className="Card-image" style={ { backgroundImage: `url(${image})` } } />
-        </div>
-      }
       { title &&
         <div className="Card-title">
         { title }
@@ -47,6 +42,30 @@ export function CardImage({ src }) {
 
 CardImage.propTypes = {
   src: PropTypes.string.isRequired,
+};
+
+export function CardTitle({ children }) {
+  return (
+    <div className="CardTitle">
+      <h4>{ children }</h4>
+    </div>
+  );
+}
+
+CardTitle.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export function CardList({ children }) {
+  return (
+    <ul className="CardList">
+      { children.map((child, i) => <li key={ i }>{ child }</li>) }
+    </ul>
+  );
+}
+
+CardTitle.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export function CardBody({ children }) {

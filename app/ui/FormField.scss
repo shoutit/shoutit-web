@@ -141,9 +141,12 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
   }
 }
 
-
 .FormField-error {
   margin: .5em .25em;
   color: $input-error;
+  font-size: .75em;
+}
+
+.FormField-ancillary {
   font-size: .75em;
 }

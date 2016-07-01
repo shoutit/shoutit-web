@@ -3,20 +3,19 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import ShoutPreview from './ShoutPreview';
 import { denormalize } from '../schemas/index';
-
-import './SuggestedShout.scss';
+import Card, { CardTitle } from '../ui/Card';
 
 export function SuggestedShout({ shout }) {
   if (!shout) {
-    return <div />;
+    return null;
   }
   return (
-    <div className="SuggestedShout">
-      <h3>
+    <Card size="small" block>
+      <CardTitle>
         <FormattedMessage id="suggestedShout.title" defaultMessage="Suggested shout" />
-      </h3>
-      <ShoutPreview shout={ shout } />
-    </div>
+      </CardTitle>
+      <ShoutPreview block shout={ shout } />
+    </Card>
   );
 }
 
