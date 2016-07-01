@@ -27,11 +27,10 @@ export default class MessagesList extends Component {
     const hasNextSameSender = nextMessage && nextMessage.profile && message.profile && nextMessage.profile.id === message.profile.id;
     const isNextAfterSomeTime = nextMessage && hasNextSameSender && ((nextMessage.createdAt - message.createdAt) > 5 * 60);
     const isPreviousBeforeSomeTime = prevMessage && hasPreviousSameSender && ((message.createdAt - prevMessage.createdAt) > 5 * 60);
-    const showSender = (i === 0 && !nextMessage) || !hasNextSameSender || !isNextInSameDay || isNextAfterSomeTime;
+    const showSender = i === 0 || !nextMessage || !hasNextSameSender || !isNextInSameDay || isNextAfterSomeTime;
 
-    const isFirstOfGroup = isPreviousBeforeSomeTime || !prevMessage || !isPreviousInSameDay || !hasPreviousSameSender;
     const isLastOfGroup = showSender || !nextMessage || !hasNextSameSender || !isNextInSameDay || !hasNextSameSender;
-
+    const isFirstOfGroup = i === 1 || isPreviousBeforeSomeTime || !prevMessage || !isPreviousInSameDay || !hasPreviousSameSender;
     return (
       <div key={ message.id } className="MessageList-item">
         { (!prevMessage || !isPreviousInSameDay) &&
