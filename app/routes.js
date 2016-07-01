@@ -54,11 +54,7 @@ const routes = (store) =>
     <Route
       path="/search(/:country)(/:state)(/:city)"
       component={ Search }
-      getApplicationLayout={ () => ({
-        responsiveLayout: {
-          constrainMaxWidth: false,
-        },
-      }) }
+      getResponsiveLayout={ () => ({ constrainMaxWidth: false }) }
     />
     <Route path="/shout/:id(/:city)(/:description)" component={ Shout } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/interest/:name" component={ Interest } />

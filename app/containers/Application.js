@@ -92,28 +92,36 @@ export class Application extends React.Component {
     const { children, error, ...props } = this.props;
     let className = 'Application';
 
-    let layout = {
+    let applicationLayout = {
       stickyHeader: !error || error.statusCode === 404,
       showHeader: true,
       showFooter: !!error,
       responsiveLayout: {},
     };
 
+    let responsiveLayoutProps = {};
+
     if (props.routes) {
       const lastRoute = props.routes[props.routes.length - 1];
       if (lastRoute.getApplicationLayout) {
-        layout = {
-          ...layout,
+        applicationLayout = {
+          ...applicationLayout,
           ...lastRoute.getApplicationLayout(),
+        };
+      }
+      if (lastRoute.getResponsiveLayout) {
+        responsiveLayoutProps = {
+          ...responsiveLayoutProps,
+          ...lastRoute.getResponsiveLayout(),
         };
       }
     }
 
-    if (layout.showHeader && layout.stickyHeader) {
+    if (applicationLayout.showHeader && applicationLayout.stickyHeader) {
       className += ' stickyHeader';
     }
-    if (layout.className) {
-      className += ` ${layout.className}`;
+    if (applicationLayout.className) {
+      className += ` ${applicationLayout.className}`;
     }
 
     let { locale } = this.props;
@@ -158,9 +166,9 @@ export class Application extends React.Component {
               { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
             ] }
           />
-          { layout.showHeader &&
+          { applicationLayout.showHeader &&
             <div className="Application-header">
-              <ResponsiveLayout { ...layout.responsiveLayout }>
+              <ResponsiveLayout { ...responsiveLayoutProps }>
                 <Header
                   history={ props.history }
                   flux={ props.flux }
@@ -172,13 +180,13 @@ export class Application extends React.Component {
             </div>
           }
           <div className="Application-content">
-            <ResponsiveLayout { ...layout.responsiveLayout }>
+            <ResponsiveLayout { ...responsiveLayoutProps }>
               { content }
             </ResponsiveLayout>
           </div>
-          { layout.showFooter &&
+          { applicationLayout.showFooter &&
             <div className="Application-footer">
-              <ResponsiveLayout { ...layout.responsiveLayout }>
+              <ResponsiveLayout { ...responsiveLayoutProps }>
                 <Footer />
               </ResponsiveLayout>
             </div>
@@ -186,7 +194,7 @@ export class Application extends React.Component {
 
           <ModalHost />
 
-          <ResponsiveLayout { ...layout.responsiveLayout }>
+          <ResponsiveLayout { ...responsiveLayoutProps }>
             <ConversationsHost />
           </ResponsiveLayout>
 
