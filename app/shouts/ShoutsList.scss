@@ -2,8 +2,9 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
-  .ShoutsList-item {
-    padding: .75rem;
-  }
+}
+
+.ShoutsList-item {
+  padding: 1em;
+  flex: 0 1 auto;
 }
