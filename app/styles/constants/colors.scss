@@ -9,7 +9,7 @@ $blue: #40c4ff;
 $grey-light-1: #AFAFAF;
 $grey-light-2: #CCCCCC;
 $grey-light-3: #E1E1E1;
-
+$grey-light-4: #FAFAFA;
 $white: #FFFFFF;
 
 // Text colors
@@ -72,4 +72,4 @@ $background-color: #F9F9F9;
 $background-color-dark: #989899;
 $background-color-darker: #58585A;
 $background-color-alt-light: #F8FAFB;  // slightly green
-$background-color-alt: #EEF6E8;  // slightly green
+$background-color-alt: $color-primary;  // slightly green
