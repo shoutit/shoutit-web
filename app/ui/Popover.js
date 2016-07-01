@@ -63,10 +63,9 @@ export default class Popover extends Component {
 
   adjustPlacement(node) {
     let { placement } = this.props;
-
     const { width, height } = node.getBoundingClientRect();
     const { top: targetTop, right: targetRight } = this.refs.target.getBoundingClientRect();
-    const { right: maxRight } = document.getElementsByClassName('App-content')[0].getBoundingClientRect();
+    const { right: maxRight } = document.getElementsByClassName('Application-content')[0].getBoundingClientRect();
 
     if (placement === 'top' || placement === 'bottom') {
       // adjust vertical position

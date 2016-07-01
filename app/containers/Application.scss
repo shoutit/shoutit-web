@@ -1,40 +1,43 @@
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
 
-.App {
-  min-height: 100%;
+.Application {
   position: relative;
+  min-height: 100%;
   &.pattern-background {
-    background-attachment: fixed;
-    background-repeat: 20px/2px repeat;
-    background-size: (366px * 0.75) (600px * 0.75);
     background-image: url('../../assets/images/pattern@2x.png');
+    background-repeat: 20px/2px repeat;
+    background-attachment: fixed;
+    background-size: (366px * .75) (600px * .75);
   }
 }
 
-.App-header {
+.Application-header {
   z-index: $z-index-header;
   width: 100%;
   background-color: $white;
   box-shadow: $box-shadow-depth-0;
+
   -webkit-font-smoothing: subpixel-antialiased;
 
-  .App.stickyHeader & {
+  .Application.stickyHeader & {
     position: fixed;
     top: 0;
   }
   .Header {
     height: $header-height;
-    width: $content-width;
     margin: 0 auto;
   }
-
 }
 
-.App-content {
+.Application-content {
   z-index: 0;
-  margin: 0 auto;
-  min-height: 100%;
-  .App.stickyHeader & {
+  .Application.stickyHeader & {
     padding-top: $header-height;
   }
+}
+
+.Application-footer {
+  margin-top: 2rem;
+  padding-bottom: 1rem;
+  background-color: $background-color-darker;
 }

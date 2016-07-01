@@ -17,7 +17,6 @@ import UploadButton from '../ui/UploadButton';
 
 import './ProfileCover.scss';
 
-export const width = 904;
 export const height = 250;
 
 export class ProfileCover extends Component {
@@ -120,7 +119,7 @@ export class ProfileCover extends Component {
     const { isEditing, isLoading, image } = this.state;
     const style = {
       ...getStyleBackgroundImage(profile.cover, 'large'),
-      width, height,
+      height,
     };
     let className = 'ProfileCover';
     if (isEditing) {
@@ -134,7 +133,7 @@ export class ProfileCover extends Component {
             <div>
               <ReactAvatarEditor
                 ref="editor"
-                width={ width }
+                width="100%"
                 height={ height }
                 image={ image }
                 border={ 0 }

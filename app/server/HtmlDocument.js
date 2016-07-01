@@ -41,7 +41,7 @@ export default function HtmlDocument({
 
         { locale === 'ar' ?
           <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/earlyaccess/droidarabickufi.css" /> :
-          <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700&subset=latin-ext" rel="stylesheet" /> 
+          <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500&subset=latin-ext" rel="stylesheet" />
         }
         { newrelicEnabled &&
           <script type="text/javascript" dangerouslySetInnerHTML={ {

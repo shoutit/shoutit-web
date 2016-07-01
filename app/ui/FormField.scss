@@ -60,13 +60,22 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
   }
 }
 
+.FormField label {
+  display: flex;
+}
+
 .FormField-label {
   display: inline-block;
   margin-bottom: 7px;
   font-size: 14px;
-  font-weight: bold;
-
+  font-weight: 500;
+  flex: 1;
   text-rendering: geometricPrecision;
+}
+
+.FormField-max-length {
+  color: $color-text-light;
+  font-size: .75em;
 }
 
 .FormField-start {

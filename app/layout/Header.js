@@ -51,7 +51,7 @@ export class Header extends Component {
       <header className="Header" style={ { position: 'relative' } }>
         <div className="Header-logo">
           <Link to="/">
-            <img alt="" height="36" width="132" src={ `${imagesPath}/logo.png` } />
+            <img alt="" height="36" width="113" src={ `${imagesPath}/logo.png` } />
           </Link>
         </div>
 

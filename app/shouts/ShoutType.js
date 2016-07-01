@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
+
 import './ShoutType.scss';
-export default function ShoutType({ shout, layout = 'badge' }) {
-  let className = `ShoutType ${layout} ${shout.type}`;
+
+export default function ShoutType({ shout }) {
   return (
-    <span className={ className }>
+    <span className={ `ShoutType ${shout.type}` }>
       <FormattedMessage
         id="shoutType"
         defaultMessage="{type, select,

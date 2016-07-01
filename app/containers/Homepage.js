@@ -92,7 +92,7 @@ export class Homepage extends Component {
           </div>
         </div>
 
-        <Element name="explore" className="Homepage-explore htmlContentWidth">
+        <Element name="explore" className="Homepage-explore htmlResponsiveLayout">
           <h2>
             <FormattedMessage
               id="homepage.header-explore"
