@@ -8,16 +8,16 @@
 //
 //
 
-@import "./constants.scss";
-@import "./mixins/links";
+@import './constants.scss';
+@import './mixins/links';
 
-$font-family-sans-serif:  $font-family;
+$font-family-sans-serif: $font-family;
 $font-size-base: $base-font-size;
 $tooltip-bg: rgba(black, .8);
 
 /*!rtl:begin:ignore*/
-@import "./bootstrap-custom.scss";
-@import "./bootstrap-theme.scss";
+@import './bootstrap-custom.scss';
+@import './bootstrap-theme.scss';
 /*!rtl:end:ignore*/
 
 #content {
@@ -29,17 +29,18 @@ $tooltip-bg: rgba(black, .8);
 }
 
 html {
-  height: 100%;
-  font-size: $base-font-size;
-  font-family: $font-family;
   overflow-x: hidden;
   overflow-y: scroll;
+  height: 100%;
+  font-family: $font-family;
+  font-size: $base-font-size;
 }
 
 body {
   height: 100%;
-  background-color: $background-color;
   color: $color-text;
+  background-color: $background-color;
+
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
@@ -54,10 +55,12 @@ p {
 ::-webkit-input-placeholder {
   color: $color-placeholder;
 }
-:-moz-placeholder { /* Firefox 18- */
+:-moz-placeholder {
+  /* Firefox 18- */
   color: $color-placeholder;
 }
-::-moz-placeholder {  /* Firefox 19+ */
+::-moz-placeholder {
+  /* Firefox 19+ */
   color: $color-placeholder;
 }
 :-ms-input-placeholder {
@@ -67,20 +70,32 @@ p {
 :focus::-webkit-input-placeholder {
   color: lighten($color-placeholder, 20);
 }
-:focus:-moz-placeholder { /* Firefox 18- */
+:focus:-moz-placeholder {
+  /* Firefox 18- */
   color: lighten($color-placeholder, 20);
 }
-:focus::-moz-placeholder {  /* Firefox 19+ */
+:focus::-moz-placeholder {
+  /* Firefox 19+ */
   color: lighten($color-placeholder, 20);
 }
 :focus:-ms-input-placeholder {
   color: lighten($color-placeholder, 20);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 500;
-  margin-bottom: .625em;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 0;
+  font-weight: 500;
+  &:not(:last-child) {
+    margin-bottom: .5em;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
-@import "html.scss";
+@import 'html.scss';
