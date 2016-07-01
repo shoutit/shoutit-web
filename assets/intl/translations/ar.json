@@ -229,7 +229,6 @@
     "ui.locationRange.country": "كامل {country}",
     "ui.locationRange.state": "كامل {state}",
     "ui.locationRange.distance": "في نطاق {distance} كم",
-    "ui.progress.label": "تحميل…",
     "share.defaultTitle": "شاوت ات - بيع و اشتري وانت تدردش",
     "share.facebook.tooltip": "مشاركة على الفيسبوك",
     "share.twitter.tooltip": "مشاركة على تويتر",

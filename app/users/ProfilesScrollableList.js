@@ -69,7 +69,7 @@ export default class ProfilesScrollableList extends Component {
             </span>
           ) }
         </div>
-        <Progress animate={ this.props.isFetching } size="small" />
+        <Progress animate={ this.props.isFetching } />
       </Scrollable>
     );
   }

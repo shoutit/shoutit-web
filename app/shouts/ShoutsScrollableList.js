@@ -74,7 +74,7 @@ export class ShoutsScrollableList extends Component {
             </span>
           ) }
         </div>
-        <Progress animate={ isFetching } size="small" />
+        <Progress animate={ isFetching } />
       </Scrollable>
     );
   }

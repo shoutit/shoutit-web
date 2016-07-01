@@ -86,7 +86,7 @@ export class ConversationsList extends Component {
           }
 
           { isFetching && (previousUrl || conversations.length === 0) &&
-            <Progress size="small" animate={ isFetching } />
+            <Progress animate={ isFetching } />
           }
 
       </Scrollable>
