@@ -14,7 +14,7 @@ import { openModal } from '../actions/ui';
 
 import { getLocationPath } from '../utils/LocationUtils';
 import TextField from '../forms/TextField';
-import CountryFlag from '../ui/CountryFlag';
+import CountryFlag from '../location/CountryFlag';
 import Form from '../forms/Form';
 import LocationModal from '../location/LocationModal';
 import SearchOverlay from '../search/SearchOverlay';

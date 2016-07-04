@@ -2,12 +2,12 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Overlay from '../ui/Overlay';
+import Overlay from '../widgets/Overlay';
 import ShoutListItem from '../shouts/ShoutListItem';
 import TagListItem from '../tags/TagListItem';
 import ProfileListItem from '../users/ProfileListItem';
-import List from '../ui/List';
-import Progress from '../ui/Progress';
+import List from '../layout/List';
+import Progress from '../widgets/Progress';
 
 import { getShouts, getTags, getProfiles, isFetching, hasMoreShouts } from '../reducers/search';
 

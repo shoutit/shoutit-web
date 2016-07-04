@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Modal, { Body } from '../modals';
 import Button from '../forms/Button';
-import HorizontalRule from '../ui/HorizontalRule';
+import HorizontalRule from '../widgets/HorizontalRule';
 import NewShoutModal from '../shouts/NewShoutModal';
 import UpdateShoutButton from '../shouts/UpdateShoutButton';
 

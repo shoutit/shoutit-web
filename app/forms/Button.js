@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 
-import Icon from '../ui/Icon';
+import Icon from '../widgets/Icon';
 
 import './Button.scss';
 

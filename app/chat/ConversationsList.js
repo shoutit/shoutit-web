@@ -7,8 +7,8 @@ import { loadChat } from '../actions/chat';
 import { getAllConversations, getPaginationState } from '../reducers/paginated/chatConversations';
 
 import ConversationItem from './ConversationItem';
-import Progress from '../ui/Progress';
-import Scrollable from '../ui/Scrollable';
+import Progress from '../widgets/Progress';
+import Scrollable from '../layout/Scrollable';
 
 import './ConversationsList.scss';
 

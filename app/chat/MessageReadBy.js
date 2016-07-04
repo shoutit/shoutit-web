@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import Icon from '../ui/Icon';
+import Icon from '../widgets/Icon';
 
 import './MessageReadBy.scss';
 

@@ -5,13 +5,13 @@ import { FormattedMessage } from 'react-intl';
 import throttle from 'lodash/throttle';
 import debug from 'debug';
 import { getCurrentLocale } from '../reducers/i18n';
-import CountryFlag from '../ui/CountryFlag';
+import CountryFlag from '../location/CountryFlag';
 
 import { ESCAPE, ENTER } from '../utils/keycodes';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
 import { loadPlacePredictions, resetPlacePredictionsLastInput, updateCurrentLocation } from '../actions/location';
 
-import Overlay from '../ui/Overlay';
+import Overlay from '../widgets/Overlay';
 import FormField from './FormField';
 
 const log = debug('shoutit:ui:LocationField');

@@ -12,7 +12,7 @@ import CategoryPicker from '../forms/CategoryPicker';
 import PriceField from '../forms/PriceField';
 import TextField from '../forms/TextField';
 import Label from '../forms/Label';
-import Card, { CardSection } from '../ui/Card';
+import Card, { CardSection } from '../layout/Card';
 
 import ShoutTypeSegmentedControl from '../shouts/ShoutTypeSegmentedControl';
 

@@ -3,8 +3,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import Icon from '../ui/Icon';
-import Overlay from '../ui/Overlay';
+import Icon from '../widgets/Icon';
+import Overlay from '../widgets/Overlay';
 
 import HeaderMessagesOverlay from './HeaderMessagesOverlay';
 import { getUnreadConversationsCount } from '../reducers/session';

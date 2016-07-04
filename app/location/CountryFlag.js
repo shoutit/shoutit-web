@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getCurrentLocale } from '../reducers/i18n';
-import Tooltip from '../ui/Tooltip';
+import Tooltip from '../widgets/Tooltip';
 
 import { imagesPath } from '../config';
 import { getCountryName } from '../utils/LocationUtils';

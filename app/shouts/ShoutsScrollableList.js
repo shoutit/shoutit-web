@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { getShoutsByUsername, getPaginationState } from '../reducers/paginated/shoutsByUsername';
 import { loadShoutsByUsername } from '../actions/users';
 
-import Progress from '../ui/Progress';
-import Scrollable from '../ui/Scrollable';
+import Progress from '../widgets/Progress';
+import Scrollable from '../layout/Scrollable';
 import ShoutListItem from '../shouts/ShoutListItem';
 
 import './ShoutsScrollableList.scss';

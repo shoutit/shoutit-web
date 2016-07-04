@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import LocaleSwitcher from '../ui/LocaleSwitcher';
+import LocaleSwitcher from '../widgets/LocaleSwitcher';
 
-import AppBadge from '../ui/AppBadge';
+import AppBadge from '../widgets/AppBadge';
 import { facebookLink, twitterLink, instagramLink } from '../config';
 
 import './MiniFooter.scss';

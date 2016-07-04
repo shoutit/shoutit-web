@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import ListItem from '../ui/ListItem';
-import Icon from '../ui/Icon';
+import ListItem from '../layout/ListItem';
+import Icon from '../widgets/Icon';
 
 export default function ProfileWebsiteListItem({ profile, size = 'medium' }) {
   let { website } = profile;

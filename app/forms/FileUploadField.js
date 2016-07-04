@@ -6,8 +6,8 @@ import debug from 'debug';
 import without from 'lodash/without';
 import union from 'lodash/union';
 
-import Tooltip from '../ui/Tooltip';
-import Icon from '../ui/Icon';
+import Tooltip from '../widgets/Tooltip';
+import Icon from '../widgets/Icon';
 import request from '../utils/request';
 import { uploadResources } from '../config';
 import { getVariation } from '../utils/APIUtils';

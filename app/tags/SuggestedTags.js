@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Card, { CardList, CardTitle } from '../ui/Card';
+import Card, { CardList, CardTitle } from '../layout/Card';
 import TagListItem from '../tags/TagListItem';
 
 export function SuggestedTags({ tags }) {

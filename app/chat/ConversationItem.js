@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { isRtl } from '../reducers/i18n';
 
-import Icon from '../ui/Icon.js';
+import Icon from '../widgets/Icon.js';
 
 import FormattedCreatedAt from '../utils/FormattedCreatedAt';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';

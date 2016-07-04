@@ -30,14 +30,14 @@ import ShoutType from '../shouts/ShoutType';
 import UpdateShoutButton from '../shouts/UpdateShoutButton';
 
 import Button from '../forms/Button';
-import Card, { CardList, CardTitle } from '../ui/Card';
-import Gallery from '../ui/Gallery';
-import Icon from '../ui/Icon';
-import ListItem from '../ui/ListItem';
-import NewlineToBreak from '../ui/NewlineToBreak';
-import Progress from '../ui/Progress';
-import Share from '../ui/Share';
-import TimeAgo from '../ui/TimeAgo';
+import Card, { CardList, CardTitle } from '../layout/Card';
+import Gallery from '../widgets/Gallery';
+import Icon from '../widgets/Icon';
+import ListItem from '../layout/ListItem';
+import NewlineToBreak from '../widgets/NewlineToBreak';
+import Progress from '../widgets/Progress';
+import Share from '../widgets/Share';
+import TimeAgo from '../widgets/TimeAgo';
 
 import LocationListItem from '../location/LocationListItem';
 

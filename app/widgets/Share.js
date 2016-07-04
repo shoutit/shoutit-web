@@ -3,7 +3,7 @@ import { ShareButtons, ShareCounts, generateShareIcon } from 'react-share';
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 import { getVariation } from '../utils/APIUtils';
 
-import Tooltip from '../ui/Tooltip';
+import Tooltip from '../widgets/Tooltip';
 import { siteUrl } from '../config';
 
 const { FacebookShareButton, GooglePlusShareButton, TwitterShareButton, PinterestShareButton } = ShareButtons;

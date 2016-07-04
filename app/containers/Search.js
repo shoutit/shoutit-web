@@ -15,9 +15,9 @@ import { loadShouts, invalidateShouts } from '../actions/shouts';
 
 import Page from '../layout/Page';
 
-import Scrollable from '../ui/Scrollable';
-import Progress from '../ui/Progress';
-import UIMessage from '../ui/UIMessage';
+import Scrollable from '../layout/Scrollable';
+import Progress from '../widgets/Progress';
+import UIMessage from '../widgets/UIMessage';
 
 import ShoutsList from '../shouts/ShoutsList';
 

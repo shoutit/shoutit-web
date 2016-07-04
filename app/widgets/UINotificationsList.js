@@ -23,7 +23,7 @@
 // */
 //
 // import React from 'react';
-// import Icon from '../ui/Icon';
+// import Icon from '../widgets/Icon';
 // import Button from '../forms/Button';
 // import ProfileAvatar from '../users/ProfileAvatar';
 //

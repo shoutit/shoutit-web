@@ -1,0 +1,22 @@
+[
+  {
+    "id": "share.defaultTitle",
+    "defaultMessage": "Shoutit - Buy and sell while chatting"
+  },
+  {
+    "id": "share.facebook.tooltip",
+    "defaultMessage": "Share on Facebook"
+  },
+  {
+    "id": "share.twitter.tooltip",
+    "defaultMessage": "Share on Twitter"
+  },
+  {
+    "id": "share.google.tooltip",
+    "defaultMessage": "Share on Google+"
+  },
+  {
+    "id": "share.pininterest.tooltip",
+    "defaultMessage": "Share on Pininterest+"
+  }
+]

@@ -7,9 +7,9 @@ import { getLoggedUser } from '../reducers/session';
 import { openModal } from '../actions/ui';
 import ProfilesModal from '../users/ProfilesModal';
 import UserShoutsModal from '../shouts/UserShoutsModal';
-import ImageUploadModal from '../ui/ImageUploadModal';
-import Icon from '../ui/Icon';
-import Tooltip from '../ui/Tooltip';
+import ImageUploadModal from '../modals/ImageUploadModal';
+import Icon from '../widgets/Icon';
+import Tooltip from '../widgets/Tooltip';
 import FileInput from '../forms/FileInput';
 
 import './ReplyFormToolbar.scss';

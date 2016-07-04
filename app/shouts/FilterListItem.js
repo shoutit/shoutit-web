@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import ListItem from '../ui/ListItem';
+import ListItem from '../layout/ListItem';
 import './FilterListItem.scss';
 
 export default function FilterListItem({ category, filter, size = 'medium' }) {

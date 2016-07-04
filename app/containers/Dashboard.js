@@ -12,12 +12,12 @@ import ShoutsList from '../shouts/ShoutsList';
 import { loadHomeShouts, loadListeningProfiles } from '../actions/users';
 import { routeError } from '../actions/server';
 
-import Progress from '../ui/Progress';
+import Progress from '../widgets/Progress';
 import Page from '../layout/Page';
-import Scrollable from '../ui/Scrollable';
-import Icon from '../ui/Icon';
-import ListItem from '../ui/ListItem';
-import UIMessage from '../ui/UIMessage';
+import Scrollable from '../layout/Scrollable';
+import Icon from '../widgets/Icon';
+import ListItem from '../layout/ListItem';
+import UIMessage from '../widgets/UIMessage';
 import Listening from '../users/Listening';
 import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';

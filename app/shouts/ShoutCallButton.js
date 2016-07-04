@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
 import Button from '../forms/Button';
-import Tooltip from '../ui/Tooltip';
+import Tooltip from '../widgets/Tooltip';
 import RequiresLogin from '../auth/RequiresLogin';
 import { REVEAL_NUMBER } from '../auth/loginActions';
 

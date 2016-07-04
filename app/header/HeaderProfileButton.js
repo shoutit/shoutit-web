@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import ProfileAvatar from '../users/ProfileAvatar';
-import Overlay from '../ui/Overlay';
+import Overlay from '../widgets/Overlay';
 
 import HeaderProfileOverlay from './HeaderProfileOverlay';
 import { getLoggedUser } from '../reducers/session';

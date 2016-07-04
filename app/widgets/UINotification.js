@@ -1,5 +1,5 @@
 // import React from 'react';
-// import Icon from '../ui/Icon';
+// import Icon from '../widgets/Icon';
 //
 // if (process.env.BROWSER) {
 //   require('./UINotification.scss');

@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router';
 
-import Card, { CardList, CardTitle } from '../ui/Card';
+import Card, { CardList, CardTitle } from '../layout/Card';
 
 export function SettingsNavigation() {
   return (

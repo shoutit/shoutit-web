@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import Icon from '../ui/Icon';
-import ListItem from '../ui/ListItem';
-import Popover from '../ui/Popover';
+import Icon from '../widgets/Icon';
+import ListItem from '../layout/ListItem';
+import Popover from '../widgets/Popover';
 import TagPreview from '../tags/TagPreview';
 import CategoryIcon from '../shouts/CategoryIcon';
 

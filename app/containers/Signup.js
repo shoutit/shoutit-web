@@ -9,7 +9,7 @@ import Helmet from '../utils/Helmet';
 import { signup, resetErrors } from '../actions/session';
 
 import Button from '../forms/Button';
-import HorizontalRule from '../ui/HorizontalRule';
+import HorizontalRule from '../widgets/HorizontalRule';
 import TextField from '../forms/TextField';
 import Page from '../layout/Page';
 import Frame from '../layout/Frame';

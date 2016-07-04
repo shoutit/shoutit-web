@@ -3,8 +3,8 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { getCurrentLocale } from '../reducers/i18n';
 import ProfileAvatar from '../users/ProfileAvatar';
-import Popover from '../ui/Popover';
-import ListItem from '../ui/ListItem';
+import Popover from '../widgets/Popover';
+import ListItem from '../layout/ListItem';
 import ProfilePreview from '../users/ProfilePreview';
 import { formatLocation } from '../utils/LocationUtils';
 

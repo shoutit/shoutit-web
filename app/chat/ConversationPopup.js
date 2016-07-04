@@ -5,7 +5,7 @@ import { closeConversation } from '../actions/conversations';
 import { getConversation } from '../reducers/entities/conversations';
 import ConversationDropdown from '../chat/ConversationDropdown';
 
-import Icon from '../ui/Icon';
+import Icon from '../widgets/Icon';
 
 import './ConversationPopup.scss';
 
