@@ -89,7 +89,7 @@ export class ResetPassword extends Component {
         }
 
           <form onSubmit={ e => this.handleFormSubmit(e) } className="Frame-form" noValidate>
-            
+
             <TextField
               autoFocus
               ref="email"
