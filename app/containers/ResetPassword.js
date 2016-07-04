@@ -10,6 +10,7 @@ import Button from '../forms/Button';
 import TextField from '../forms/TextField';
 import Page from '../layout/Page';
 import Frame from '../layout/Frame';
+import AncillaryText from '../widgets/AncillaryText';
 
 import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
 
@@ -88,6 +89,7 @@ export class ResetPassword extends Component {
         }
 
           <form onSubmit={ e => this.handleFormSubmit(e) } className="Frame-form" noValidate>
+            
             <TextField
               autoFocus
               ref="email"
@@ -100,7 +102,6 @@ export class ResetPassword extends Component {
             />
 
             <Button
-              style={ { marginTop: '1rem' } }
               kind="primary"
               block
               disabled={ this.props.isResettingPassword }>
@@ -117,12 +118,12 @@ export class ResetPassword extends Component {
               }
             </Button>
 
-            <p className="htmlAncillary">
+            <AncillaryText>
               <FormattedMessage
                 id="resetPassword.submit.instructions"
                 defaultMessage="You will receive a link to change the password."
               />
-            </p>
+            </AncillaryText>
 
           </form>
         </div>

@@ -2,6 +2,8 @@ import React, { PropTypes, Component } from 'react';
 
 import { getErrorsByLocation } from '../utils/APIUtils';
 
+import AncillaryText from '../widgets/AncillaryText';
+
 import Label from '../forms/Label';
 import './FormField.scss';
 
@@ -23,7 +25,7 @@ export default class FormField extends Component {
     name: PropTypes.string.isRequired,
 
     ancillary: PropTypes.node,
-    block: PropTypes.bool,
+    flex: PropTypes.bool,
     children: PropTypes.node,
     className: PropTypes.string,
     disabled: PropTypes.bool,
@@ -46,8 +48,8 @@ export default class FormField extends Component {
 
   static defaultProps = {
     tooltipPlacement: 'right',
-    block: false,
     inset: false,
+    flex: false,
   }
 
   constructor(props) {
@@ -137,7 +139,6 @@ export default class FormField extends Component {
 
   render() {
     const {
-      block,
       startElement,
       disabled,
       label,
@@ -149,13 +150,15 @@ export default class FormField extends Component {
       style,
       ancillary,
       flexibleContent,
+      flex,
       ...props,
     } = this.props;
     const { focus, value } = this.state;
     const validationErrors = this.getValidationErrors() || [];
     let cssClass = 'FormField';
-    if (block) {
-      cssClass += ' block';
+
+    if (flex) {
+      cssClass += ' flex';
     }
     if (validationErrors.length > 0) {
       cssClass += ' has-error';
@@ -232,9 +235,9 @@ export default class FormField extends Component {
           <ValidationError errors={ validationErrors } />
         }
         { validationErrors.length === 0 && ancillary &&
-          <span className="FormField-ancillary">
+          <AncillaryText>
             { ancillary }
-          </span>
+          </AncillaryText>
         }
       </div>
     );

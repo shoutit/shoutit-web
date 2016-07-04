@@ -184,8 +184,6 @@ export class SearchFilters extends Component {
                 />
               }
             </FormattedMessage>
-          </CardSection>
-          <CardSection>
             <Button
               block
               kind="primary"

@@ -10,15 +10,15 @@ import { signup, resetErrors } from '../actions/session';
 
 import Button from '../forms/Button';
 import HorizontalRule from '../widgets/HorizontalRule';
+import AncillaryText from '../widgets/AncillaryText';
 import TextField from '../forms/TextField';
+import FieldsGroup from '../forms/FieldsGroup';
 import Page from '../layout/Page';
 import Frame from '../layout/Frame';
 
 import SocialLoginForm from '../auth/SocialLoginForm';
 import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
 import { getLoggedUser } from '../reducers/session';
-
-import './Signup.scss';
 
 const MESSAGES = defineMessages({
   pageTitle: {
@@ -179,8 +179,9 @@ export class Signup extends Component {
 
           <form onSubmit={ e => this.handleFormSubmit(e) } className="Form Frame-form" noValidate>
 
-            <div className="Frame-form-horizontal-group">
+            <FieldsGroup>
               <TextField
+                flex
                 ref="firstName"
                 tooltipPlacement="left"
                 disabled={ isSigningUp }
@@ -190,6 +191,7 @@ export class Signup extends Component {
                 placeholder={ formatMessage(MESSAGES.firstNamePlaceholder) }
               />
               <TextField
+                flex
                 error={ error }
                 ref="lastName"
                 disabled={ isSigningUp }
@@ -197,7 +199,7 @@ export class Signup extends Component {
                 type="text"
                 placeholder={ formatMessage(MESSAGES.lastNamePlaceholder) }
               />
-            </div>
+            </FieldsGroup>
 
             <TextField
               ref="email"
@@ -217,12 +219,12 @@ export class Signup extends Component {
               placeholder={ formatMessage(MESSAGES.passwordPlaceholder) }
             />
 
-            <p style={ { fontSize: '0.875rem' } }>
+            <AncillaryText>
               <FormattedMessage
                 defaultMessage="By signing up, you agree to our Terms of Service and to our Privacy Policy."
                 id="signup.form.tos"
               />
-            </p>
+            </AncillaryText>
 
             <Button
               style={ { marginTop: '1rem' } }

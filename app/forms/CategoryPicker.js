@@ -99,7 +99,7 @@ export class CategoryPicker extends Component {
     if (showFilters && selectedCategory && selectedCategory.filters) {
       filters = selectedCategory.filters.filter(filter => filter.values.length > 0);
     }
-    let cssClass = 'CategoryPicker';
+    let cssClass = 'CategoryPicker FormField';
 
     if (className) {
       cssClass += ` ${className}`;

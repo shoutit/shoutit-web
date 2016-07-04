@@ -253,7 +253,7 @@ export default class FileUploadField extends Component {
 
   render() {
     const { max } = this.props;
-    let className = 'FileUploadField';
+    let className = 'FileUploadField FormField';
     if (this.state.dragging) {
       className += ' dragging';
     }
