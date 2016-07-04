@@ -228,13 +228,13 @@ export default class FormField extends Component {
             { fieldElement || children }
           </div>
         </div>
+        { validationErrors.length > 0 &&
+          <ValidationError errors={ validationErrors } />
+        }
         { validationErrors.length === 0 && ancillary &&
           <span className="FormField-ancillary">
             { ancillary }
           </span>
-        }
-        { validationErrors.length > 0 &&
-          <ValidationError errors={ validationErrors } />
         }
       </div>
     );
