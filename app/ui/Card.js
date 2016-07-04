@@ -56,6 +56,23 @@ CardTitle.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+export function CardSection({ children, separe }) {
+  let className = 'CardSection';
+  if (separe) {
+    className += ' separe';
+  }
+  return (
+    <div className={ className }>
+      { children }
+    </div>
+  );
+}
+
+CardSection.propTypes = {
+  children: PropTypes.node.isRequired,
+  separe: PropTypes.bool,
+};
+
 export function CardList({ children }) {
   return (
     <ul className="CardList">
@@ -64,7 +81,7 @@ export function CardList({ children }) {
   );
 }
 
-CardTitle.propTypes = {
+CardList.propTypes = {
   children: PropTypes.node.isRequired,
 };
 

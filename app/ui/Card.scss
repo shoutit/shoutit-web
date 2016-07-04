@@ -70,6 +70,18 @@ $card-border-radius: 2px;
   }
 }
 
+.CardSection {
+  padding: .5em;
+}
+
+.CardSection.separe {
+  margin-top: .5em;
+  border-top: 1px solid $border-color-dark;
+}
+.CardSection.separe + .CardSection.separe {
+  margin-top: 0;
+}
+
 ul.CardList {
   padding: 0 1em;
   margin: 0;
