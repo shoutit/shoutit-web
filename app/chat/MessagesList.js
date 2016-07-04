@@ -29,8 +29,8 @@ export default class MessagesList extends Component {
     const isPreviousBeforeSomeTime = prevMessage && hasPreviousSameSender && ((message.createdAt - prevMessage.createdAt) > 5 * 60);
     const showSender = i === 0 || !nextMessage || !hasNextSameSender || !isNextInSameDay || isNextAfterSomeTime;
 
-    const isLastOfGroup = showSender || !nextMessage || !hasNextSameSender || !isNextInSameDay || !isNextInSameDay;
-
+    const isLastOfGroup = showSender || !nextMessage || !hasNextSameSender || !isNextInSameDay || !hasNextSameSender;
+    const isFirstOfGroup = i === 1 || isPreviousBeforeSomeTime || !prevMessage || !isPreviousInSameDay || !hasPreviousSameSender;
     return (
       <div key={ message.id } className="MessageList-item">
         { (!prevMessage || !isPreviousInSameDay) &&
@@ -40,7 +40,7 @@ export default class MessagesList extends Component {
         }
 
         <MessageItem
-          isFirstOfGroup={ isPreviousBeforeSomeTime || !prevMessage || !isPreviousInSameDay || !hasPreviousSameSender }
+          isFirstOfGroup={ isFirstOfGroup }
           isLastOfGroup={ isLastOfGroup }
           showSender={ showSender }
           message={ message } />

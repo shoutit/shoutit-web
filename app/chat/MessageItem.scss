@@ -1,12 +1,12 @@
 
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
 
 .MessageItem {
-  font-size: 0.875em;
-  margin: .075em .5em 0;
-  align-items: flex-end;
-  display: flex;
   position: relative;
+  display: flex;
+  align-items: flex-end;
+  margin: .075em .5em 0;
+  font-size: .875em;
   &.is-owner {
     justify-content: flex-end;
   }
@@ -39,14 +39,14 @@
 }
 
 .MessageItem-message {
-  background-color: $white;
   // border: 1px solid $grey-light-3;
   padding: .5em .75em;
+  background-color: $white;
 
   .MessageItem.no-profile & {
     padding: .5em 0;
-    background-color: transparent;
     border: 0;
+    background-color: transparent;
     font-style: italic;
   }
 
@@ -87,13 +87,16 @@
   }
 
   p {
-    font-size: 1em;
     margin: 0;
+    font-size: 1em;
   }
   .MessageItem.is-owner & {
-     background-color: $color-primary;
-     color: $white;
-     border-color: $color-primary;
+    color: $white;
+    border-color: $color-primary;
+    background-color: $color-primary;
+    a > .ListItem {
+      color: $white;
+    }
   }
 
   .MessageItem:not(.has-attachments) & {
@@ -104,8 +107,8 @@
   }
 
   .MessageItem.has-attachments & {
-    padding: 0 !important;
     overflow: hidden;
+    padding: 0 !important;
 
     .MessageAttachment.type-shout,
     .MessageAttachment.type-profile {
@@ -114,7 +117,7 @@
   }
   .MessageItem.has-location-attachments &,
   .MessageItem.has-media-attachments & {
-     border: none;
-     background-color: transparent;
+    border: none;
+    background-color: transparent;
   }
 }

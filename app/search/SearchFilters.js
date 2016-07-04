@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
+import debounce from 'lodash/debounce';
 import { FormattedMessage } from 'react-intl';
 
 import ShoutTypeSegmentedControl from '../shouts/ShoutTypeSegmentedControl';
@@ -34,7 +35,8 @@ export class SearchFilters extends Component {
 
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.submit = this.submit.bind(this);
+    this.debouncedSubmit = debounce(this.submit, 1000).bind(this);
     this.state = this.getStateFromProps(props);
   }
 
@@ -70,7 +72,7 @@ export class SearchFilters extends Component {
     };
   }
 
-  handleSubmit() {
+  submit() {
     const { disabled, onSubmit } = this.props;
     if (disabled) {
       return;
@@ -78,25 +80,36 @@ export class SearchFilters extends Component {
     onSubmit(this.getSearchParams());
   }
 
+  handleChange(state, { debounce } = {}) {
+    this.setState(state, () => {
+      if (debounce) {
+        this.debouncedSubmit();
+      } else {
+        this.submit();
+      }
+    });
+    this.setState(state, debounce ? this.debouncedSubmit : this.submit);
+  }
+
   render() {
     const { disabled, currentLocation } = this.props;
     const { category, shout_type, min_price, max_price, search, filters } = this.state;
     return (
       <div className="SearchFilters">
-        <Form onSubmit={ this.handleSubmit }>
+        <Form onSubmit={ this.submit }>
 
           <ShoutTypeSegmentedControl
             value={ shout_type }
             disabled={ disabled }
             name="shout_type"
-            onChange={ shout_type => this.setState({ shout_type }) }
+            onChange={ shout_type => this.handleChange({ shout_type }) }
           />
 
           <LocationField name="location" />
 
           { currentLocation && currentLocation.city &&
             <LocationRange
-              onChange={ within => this.setState({ within }) }
+              onChange={ within => this.handleChange({ within }, { debounce: true }) }
               name="within"
               value={ this.state.within }
               location={ currentLocation }
@@ -112,7 +125,7 @@ export class SearchFilters extends Component {
                 disabled={ disabled }
                 name="search"
                 value={ search }
-                onChange={ search => this.setState({ search }) }
+                onChange={ search => this.handleChange({ search }, { debounce: true }) }
               />
             }
           </FormattedMessage>
@@ -123,7 +136,7 @@ export class SearchFilters extends Component {
             selectedFilters={ filters }
             showFilters
             onChange={ (category, filters) =>
-              this.setState({
+              this.handleChange({
                 category: category ? category.slug : '',
                 filters,
               })
@@ -143,7 +156,7 @@ export class SearchFilters extends Component {
                   disabled={ disabled }
                   name="min_price"
                   value={ min_price }
-                  onChange={ min_price => this.setState({ min_price }) }
+                  onChange={ min_price => this.handleChange({ min_price }, { debounce: true }) }
                 />
               }
             </FormattedMessage>
@@ -159,7 +172,7 @@ export class SearchFilters extends Component {
                   disabled={ disabled }
                   name="max_price"
                   value={ max_price }
-                  onChange={ max_price => this.setState({ max_price }) }
+                  onChange={ max_price => this.handleChange({ max_price }, { debounce: true }) }
                 />
               }
             </FormattedMessage>
@@ -186,13 +199,11 @@ export class SearchFilters extends Component {
 
 SearchFilters.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool,
   disabled: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   categories: state.categories.ids.map(id => state.entities.categories[id]),
-  isLoggedIn: !!state.session.user,
   currentLocation: state.currentLocation,
 });
 

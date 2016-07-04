@@ -140,7 +140,11 @@ export class Search extends Component {
           className="Search"
           startColumn={
             <div className="Search-start-column">
-              <SearchFilters disabled={ false } searchParams={ searchParams } onSubmit={ this.search } />
+              <SearchFilters
+                disabled={ false }
+                searchParams={ searchParams }
+                onSubmit={ this.search }
+              />
             </div>
           }
           stickyStartColumn>
