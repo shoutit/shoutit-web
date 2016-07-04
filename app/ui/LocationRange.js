@@ -29,8 +29,8 @@ export class LocationRange extends Component {
   }
   constructor(props) {
     super(props);
-    this.setFirstValue = this.setFirstValue.bind(this);
-    this.setLastValue = this.setLastValue.bind(this);
+    this.setFirst = this.setFirst.bind(this);
+    this.setLast = this.setLast.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = this.getStateFromProps(props);
   }
@@ -93,15 +93,19 @@ export class LocationRange extends Component {
     const value = VALUES[this.state.index];
     return typeof value === 'string' ? value : parseInt(value, 10);
   }
-  setFirstValue() {
-    this.setState({ index: 0 }, () =>
-      this.refs.rangeField.setValue(STEPS[this.state.index])
-    );
+  setIndex(index) {
+    this.setState({ index }, () => {
+      this.refs.rangeField.setValue(STEPS[this.state.index]);
+      if (this.props.onChange) {
+        this.props.onChange(this.getValue());
+      }
+    });
   }
-  setLastValue() {
-    this.setState({ index: STEPS.length - 1 }, () =>
-      this.refs.rangeField.setValue(STEPS[this.state.index])
-    );
+  setFirst() {
+    this.setIndex(0);
+  }
+  setLast() {
+    this.setIndex(STEPS.length - 1);
   }
   handleChange(value) {
     let index = 0;
@@ -114,12 +118,7 @@ export class LocationRange extends Component {
         }
       }
     }
-    this.setState({ index }, () => {
-      if (this.props.onChange) {
-        this.props.onChange(this.getValue());
-      }
-    });
-
+    this.setIndex(index);
   }
   render() {
     return (
@@ -138,7 +137,7 @@ export class LocationRange extends Component {
             <Icon
               name="current-location"
               size="small"
-              onClick={ this.setFirstValue }
+              onClick={ this.setFirst }
             />
           </span>
           <span className="LocationRange-label">
@@ -148,7 +147,7 @@ export class LocationRange extends Component {
             <Icon
               name="globe"
               size="small"
-              onClick={ this.setLastValue }
+              onClick={ this.setLast }
             />
           </span>
         </label>
