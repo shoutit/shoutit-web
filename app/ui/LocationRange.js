@@ -123,7 +123,7 @@ export class LocationRange extends Component {
   }
   render() {
     return (
-      <div className="LocationRange">
+      <div className="FormField LocationRange">
         <RangeField
           ref="rangeField"
           id={ this.props.name }

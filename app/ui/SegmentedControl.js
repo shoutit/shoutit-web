@@ -54,7 +54,7 @@ export default class SegmentedControl extends Component {
     });
 
     return (
-      <div className="SegmentedControl" ref="field">
+      <div className="FormField SegmentedControl" ref="field">
         <div className="SegmentedControl-options">
           { fields }
         </div>

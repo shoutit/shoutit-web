@@ -243,7 +243,7 @@ export class LocationField extends Component {
     const { inputRef, name, location, ...props } = this.props; // eslint-disable-line
     const { readOnly, value, showOverlay, hasFocus, error } = this.state;
     return (
-      <div className="LocationField" style={ { position: 'relative' } }>
+      <div className="FormField" style={ { position: 'relative' } }>
         <FormField
           { ...props }
           name={ name }
