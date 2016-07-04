@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 
 import { getErrorsByLocation } from '../utils/APIUtils';
 
+import Label from '../ui/Label';
 import './FormField.scss';
 
 function ValidationError({ errors }) {
@@ -207,16 +208,13 @@ export default class FormField extends Component {
     return (
       <div className={ cssClass } style={ style }>
         { label &&
-          <label htmlFor={ props.name }>
-            <span className="FormField-label">
-              { label }
-            </span>
-            { props.maxLength &&
-              <span className="FormField-max-length">
-                { `${value.length}/${props.maxLength}` }
-              </span>
-            }
-          </label>
+          <Label
+            for={ props.name }
+            maxLength={ props.maxLength }
+            currentLength={ value.length }
+          >
+            { label }
+          </Label>
         }
         <div className="FormField-wrapper">
           { startElement &&
