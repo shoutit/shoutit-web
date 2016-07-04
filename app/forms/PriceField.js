@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import round from 'lodash/round';
 
 import TextField from './TextField';
-import CurrencySelect from '../ui/CurrencySelect';
+import CurrencySelect from '../forms/CurrencySelect';
 
 import './PriceField.scss';
 

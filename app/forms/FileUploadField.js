@@ -15,7 +15,7 @@ import { getFilename } from '../utils/StringUtils';
 
 const log = debug('shoutit:ui:FileUploadField');
 
-import '../ui/FileUploadField.scss';
+import '../forms/FileUploadField.scss';
 
 export function File({ upload, onDeleteClick }) {
   const url = upload.file ? upload.file.preview : getVariation(upload.url, 'small');

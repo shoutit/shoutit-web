@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Modal, { Header, Body, Footer } from '../ui/Modal';
-import Button from '../ui/Button';
+import Button from '../forms/Button';
 import ListeningTagsScrollableList from '../users/ListeningTagsScrollableList';
 
 export default class ListeningTagsModal extends Component {

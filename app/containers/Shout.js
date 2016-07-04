@@ -29,7 +29,7 @@ import ShoutsList from '../shouts/ShoutsList';
 import ShoutType from '../shouts/ShoutType';
 import UpdateShoutButton from '../shouts/UpdateShoutButton';
 
-import Button from '../ui/Button';
+import Button from '../forms/Button';
 import Card, { CardList, CardTitle } from '../ui/Card';
 import Gallery from '../ui/Gallery';
 import Icon from '../ui/Icon';

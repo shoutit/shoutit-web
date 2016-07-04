@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { injectIntl, defineMessages } from 'react-intl';
 import Helmet from '../utils/Helmet';
 
-import Button from '../ui/Button';
+import Button from '../forms/Button';
 import Page from '../layout/Page';
 import Frame from '../layout/Frame';
 import { verifyEmail } from '../actions/session';

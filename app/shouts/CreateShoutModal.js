@@ -5,7 +5,7 @@ import { push } from 'react-router-redux';
 
 import Modal, { Header, Body, Footer } from '../ui/Modal';
 
-import Button from '../ui/Button';
+import Button from '../forms/Button';
 
 import { createShout, saveShoutDraft, resetShoutDraft } from '../actions/shouts';
 import { openModal } from '../actions/ui';

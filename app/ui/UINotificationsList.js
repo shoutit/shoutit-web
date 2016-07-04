@@ -24,7 +24,7 @@
 //
 // import React from 'react';
 // import Icon from '../ui/Icon';
-// import Button from '../ui/Button';
+// import Button from '../forms/Button';
 // import ProfileAvatar from '../users/ProfileAvatar';
 //
 // import UINotification from './UINotification';

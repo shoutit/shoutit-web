@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
 import Modal, { Body } from '../ui/Modal';
-import Button from '../ui/Button';
+import Button from '../forms/Button';
 import HorizontalRule from '../ui/HorizontalRule';
 import NewShoutModal from '../shouts/NewShoutModal';
 import UpdateShoutButton from '../shouts/UpdateShoutButton';

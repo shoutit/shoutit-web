@@ -12,8 +12,8 @@ import { updateProfile } from '../actions/users';
 
 import ProfileAvatar from '../users/ProfileAvatar';
 import ProfileAvatarEditable from '../users/ProfileAvatarEditable';
-import Button from '../ui/Button';
-import UploadButton from '../ui/UploadButton';
+import Button from '../forms/Button';
+import UploadButton from '../forms/UploadButton';
 
 import './ProfileCover.scss';
 

@@ -4,14 +4,14 @@ import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import { FormattedMessage } from 'react-intl';
 
-import Button from '../ui/Button';
-import Form from '../ui/Form';
-import LocationField from '../ui/LocationField';
-import LocationRange from '../ui/LocationRange';
-import CategoryPicker from '../ui/CategoryPicker';
-import PriceField from '../ui/PriceField';
-import TextField from '../ui/TextField';
-import Label from '../ui/Label';
+import Button from '../forms/Button';
+import Form from '../forms/Form';
+import LocationField from '../forms/LocationField';
+import LocationRange from '../forms/LocationRange';
+import CategoryPicker from '../forms/CategoryPicker';
+import PriceField from '../forms/PriceField';
+import TextField from '../forms/TextField';
+import Label from '../forms/Label';
 import Card, { CardSection } from '../ui/Card';
 
 import ShoutTypeSegmentedControl from '../shouts/ShoutTypeSegmentedControl';

@@ -10,10 +10,10 @@ import { updateProfile } from '../actions/users';
 import { getFilename } from '../utils/StringUtils';
 import request from '../utils/request';
 
-import Form from '../ui/Form';
-import Button from '../ui/Button';
+import Form from '../forms/Form';
+import Button from '../forms/Button';
 import Modal, { Header, Body, Footer } from '../ui/Modal';
-import UploadButton from '../ui/UploadButton';
+import UploadButton from '../forms/UploadButton';
 
 export const width = 250;
 export const height = 250;

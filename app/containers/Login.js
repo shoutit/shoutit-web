@@ -7,9 +7,9 @@ import Helmet from '../utils/Helmet';
 
 import { login, resetErrors } from '../actions/session';
 
-import Button from '../ui/Button';
+import Button from '../forms/Button';
 import HorizontalRule from '../ui/HorizontalRule';
-import TextField from '../ui/TextField';
+import TextField from '../forms/TextField';
 import Page from '../layout/Page';
 import Frame from '../layout/Frame';
 

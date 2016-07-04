@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
 import Modal, { Header, Body } from '../ui/Modal';
-import Button from '../ui/Button';
+import Button from '../forms/Button';
 
 import { openModal } from '../actions/ui';
 import CreateShoutModal from '../shouts/CreateShoutModal';

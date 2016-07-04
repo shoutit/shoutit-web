@@ -6,8 +6,8 @@ import Helmet from '../utils/Helmet';
 
 import { setPassword } from '../actions/session';
 
-import Button from '../ui/Button';
-import TextField from '../ui/TextField';
+import Button from '../forms/Button';
+import TextField from '../forms/TextField';
 import Page from '../layout/Page';
 import Frame from '../layout/Frame';
 

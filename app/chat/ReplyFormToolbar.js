@@ -10,7 +10,7 @@ import UserShoutsModal from '../shouts/UserShoutsModal';
 import ImageUploadModal from '../ui/ImageUploadModal';
 import Icon from '../ui/Icon';
 import Tooltip from '../ui/Tooltip';
-import FileInput from '../ui/FileInput';
+import FileInput from '../forms/FileInput';
 
 import './ReplyFormToolbar.scss';
 

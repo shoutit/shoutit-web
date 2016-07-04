@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 
 import { getErrorsByLocation } from '../utils/APIUtils';
 
-import Label from '../ui/Label';
+import Label from '../forms/Label';
 import './FormField.scss';
 
 function ValidationError({ errors }) {

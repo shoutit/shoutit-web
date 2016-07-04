@@ -7,9 +7,9 @@ import Page from '../layout/Page';
 import Helmet from '../utils/Helmet';
 import RequiresLogin from '../auth/RequiresLogin';
 
-import TextField from '../ui/TextField';
-import Form from '../ui/Form';
-import Button from '../ui/Button';
+import TextField from '../forms/TextField';
+import Form from '../forms/Form';
+import Button from '../forms/Button';
 import SettingsNavigation from '../settings/SettingsNavigation';
 
 import { updateProfile, updatePassword } from '../actions/users';

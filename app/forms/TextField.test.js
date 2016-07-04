@@ -4,7 +4,7 @@ import TestUtils from 'react-addons-test-utils';
 
 import TextField from './TextField';
 
-describe('ui/TextField', () => {
+describe('forms/TextField', () => {
 
   it('should render an input text form field', () => {
     const textField = TestUtils.renderIntoDocument(<TextField name="test" />);

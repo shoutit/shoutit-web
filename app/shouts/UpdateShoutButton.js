@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Button from '../ui/Button';
+import Button from '../forms/Button';
 
 import UpdateShoutModal from './UpdateShoutModal';
 

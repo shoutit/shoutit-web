@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
-import FileInput from '../ui/FileInput';
-import Button from '../ui/Button';
+import FileInput from '../forms/FileInput';
+import Button from '../forms/Button';
 
 export default class UploadButton extends Component {
 

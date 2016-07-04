@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { login } from '../utils/FacebookUtils';
 import { updateLinkedAccount } from '../actions/session';
-import Switch from '../ui/Switch';
+import Switch from '../forms/Switch';
 
 export class PublishToFacebook extends Component {
 

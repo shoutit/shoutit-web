@@ -1,9 +1,9 @@
 /* eslint-env browser */
 import React, { PropTypes, Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import FileUploadField from '../ui/FileUploadField';
-import Form from '../ui/Form';
-import Button from '../ui/Button';
+import FileUploadField from '../forms/FileUploadField';
+import Form from '../forms/Form';
+import Button from '../forms/Button';
 import Modal, { Header, Footer, Body } from '../ui/Modal';
 
 export default class ImageUploadModal extends Component {

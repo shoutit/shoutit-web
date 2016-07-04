@@ -4,7 +4,7 @@ import last from 'lodash/last';
 import { connect } from 'react-redux';
 import { getCurrentLocale } from '../reducers/i18n';
 import { getCountryName } from '../utils/LocationUtils';
-import RangeField from '../ui/RangeField';
+import RangeField from '../forms/RangeField';
 import Icon from '../ui/Icon';
 
 const STEPS = [0, 4, 8, 12, 16, 20, 24, 32, 36, 40, 44, 48, 52, 56, 60, 64, 82, 100];

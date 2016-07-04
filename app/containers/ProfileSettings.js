@@ -7,12 +7,12 @@ import Helmet from '../utils/Helmet';
 import RequiresLogin from '../auth/RequiresLogin';
 
 import ProfileAvatarEditable from '../users/ProfileAvatarEditable';
-import TextField from '../ui/TextField';
-import TextArea from '../ui/TextArea';
-import Form from '../ui/Form';
-import Button from '../ui/Button';
-import Picker from '../ui/Picker';
-import LocationField from '../ui/LocationField';
+import TextField from '../forms/TextField';
+import TextArea from '../forms/TextArea';
+import Form from '../forms/Form';
+import Button from '../forms/Button';
+import Picker from '../forms/Picker';
+import LocationField from '../forms/LocationField';
 
 import SettingsNavigation from '../settings/SettingsNavigation';
 

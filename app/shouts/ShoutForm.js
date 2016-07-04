@@ -2,14 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { defineMessages, injectIntl } from 'react-intl';
 
-import CategoryPicker from '../ui/CategoryPicker';
-import PriceField from '../ui/PriceField';
-import Form from '../ui/Form';
-import LocationField from '../ui/LocationField';
-import TextArea from '../ui/TextArea';
-import TextField from '../ui/TextField';
-import FileUploadField from '../ui/FileUploadField';
-import PublishToFacebook from '../ui/PublishToFacebook';
+import CategoryPicker from '../forms/CategoryPicker';
+import PriceField from '../forms/PriceField';
+import Form from '../forms/Form';
+import LocationField from '../forms/LocationField';
+import TextArea from '../forms/TextArea';
+import TextField from '../forms/TextField';
+import FileUploadField from '../forms/FileUploadField';
+import PublishToFacebook from '../forms/PublishToFacebook';
 
 import { canPublishToFacebook } from '../reducers/session';
 

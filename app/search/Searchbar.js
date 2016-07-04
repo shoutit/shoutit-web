@@ -13,9 +13,9 @@ import { getQuery } from '../reducers/routing';
 import { openModal } from '../actions/ui';
 
 import { getLocationPath } from '../utils/LocationUtils';
-import TextField from '../ui/TextField';
+import TextField from '../forms/TextField';
 import CountryFlag from '../ui/CountryFlag';
-import Form from '../ui/Form';
+import Form from '../forms/Form';
 import LocationModal from '../location/LocationModal';
 import SearchOverlay from '../search/SearchOverlay';
 import './Searchbar.scss';

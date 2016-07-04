@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
-import Button from '../ui/Button';
+import Button from '../forms/Button';
 
 import HeaderMessagesButton from '../header/HeaderMessagesButton';
 import HeaderNotificationsButton from '../header/HeaderNotificationsButton';
