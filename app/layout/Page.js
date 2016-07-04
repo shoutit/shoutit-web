@@ -22,7 +22,7 @@ export default function Page({ children, className, startColumn, stickyStartColu
     <div className={ cssClass }>
       { startColumn &&
         <div className="Page-column">
-          { stickyStartColumn ?
+          { false ?
             <Sticky { ...stickyProps }>
               <div>
                 { startColumn }

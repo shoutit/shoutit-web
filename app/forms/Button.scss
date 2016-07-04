@@ -22,6 +22,7 @@
   display: inline-block;
   vertical-align: middle;
   padding: 0 1em;
+  @include ellipsis();
   a {
     color: inherit !important;
   }

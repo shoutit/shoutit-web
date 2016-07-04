@@ -1,11 +1,12 @@
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
 
 .Frame {
+  width: 100%;
+  max-width: 400px;
   margin: 3rem auto;
-  width: 40%;
+  border-radius: $border-radius;
   background-color: $white;
   box-shadow: $box-shadow-depth-1;
-  border-radius: $border-radius;
   &.transparent {
     background-color: transparent;
     box-shadow: none;
@@ -17,9 +18,9 @@
 
   .Frame.transparent & {
     margin-top: 1rem;
+    border-radius: $border-radius;
     background-color: $white;
     box-shadow: $box-shadow-depth-0;
-    border-radius: $border-radius;
   }
 }
 
@@ -28,14 +29,14 @@
 }
 
 .Frame-header h1 {
+  margin: 0;
+  padding-top: 2.75em;
+  text-align: center;
   background-image: url('../../assets/images/mark.svg');
-  background-size: 2em;
   background-repeat: no-repeat;
   background-position: center top;
-  padding-top: 2.75em;
+  background-size: 2em;
   font-size: 1.5rem;
-  margin: 0;
-  text-align: center;
   font-weight: lighter;
 }
 
@@ -50,11 +51,12 @@
 .Frame-footer {
   margin-top: 1rem;
   padding: .75rem 1rem;
-  background-color: $background-color-dark;
   color: darken(white, 10);
-  border-bottom-left-radius: $border-radius;
   border-bottom-right-radius: $border-radius;
-  a, a:hover {
+  border-bottom-left-radius: $border-radius;
+  background-color: $background-color-dark;
+  a,
+  a:hover {
     color: $white;
   }
 }

@@ -52,8 +52,6 @@ const fetchData = (dispatch, state, params) =>
 
 function ShoutActions({ shout, onReplyClick }) {
   const buttonStyle = {
-    width: '80%',
-    margin: '0 auto',
     marginTop: '.5rem',
     textAlign: 'center',
   };

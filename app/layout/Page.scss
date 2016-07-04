@@ -6,7 +6,9 @@
 }
 
 .Page-column {
-  width: $page-width-column;
+  min-width: 200px;
+  max-width: 250px;
+  width: 17%;
   margin: $page-column-margin;
   > div {
     margin-bottom: .75rem;
