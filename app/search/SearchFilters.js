@@ -145,7 +145,7 @@ export class SearchFilters extends Component {
             />
           </CardSection>
           <CardSection separe>
-            <Label>
+            <Label htmlFor="searchFiltersMinPrice">
               <FormattedMessage
                 id="searchFilters.priceRange.label"
                 defaultMessage="Price Range"
@@ -158,6 +158,7 @@ export class SearchFilters extends Component {
             >
               { placeholder =>
                 <PriceField
+                  id="SearchFiltersMinPrice"
                   autoComplete="off"
                   placeholder={ placeholder }
                   disabled={ disabled }
