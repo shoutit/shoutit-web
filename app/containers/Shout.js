@@ -23,7 +23,6 @@ import CategoryListItem from '../shouts/CategoryListItem';
 import FilterListItem from '../shouts/FilterListItem';
 import Location from '../location/Location';
 import ShoutCallButton from '../shouts/ShoutCallButton';
-import ShoutPreview from '../shouts/ShoutPreview';
 import ShoutPrice from '../shouts/ShoutPrice';
 import ShoutsList from '../shouts/ShoutsList';
 import ShoutType from '../shouts/ShoutType';
