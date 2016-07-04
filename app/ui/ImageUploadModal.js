@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import FileUploadField from '../forms/FileUploadField';
 import Form from '../forms/Form';
 import Button from '../forms/Button';
-import Modal, { Header, Footer, Body } from '../ui/Modal';
+import Modal, { Header, Footer, Body } from '../modals';
 
 export default class ImageUploadModal extends Component {
 

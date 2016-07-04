@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { push } from 'react-router-redux';
 
-import Modal, { Header, Body, Footer } from '../ui/Modal';
+import Modal, { Header, Body, Footer } from '../modals';
 
 import Button from '../forms/Button';
 

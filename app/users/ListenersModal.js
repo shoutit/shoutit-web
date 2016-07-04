@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import Modal, { Header, Body, Footer } from '../ui/Modal';
+import Modal, { Header, Body, Footer } from '../modals';
 import Button from '../forms/Button';
 import ListenersScrollableList from '../users/ListenersScrollableList';
 

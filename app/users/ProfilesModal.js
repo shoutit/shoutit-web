@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { injectIntl, defineMessages } from 'react-intl';
 import { getLoggedUser } from '../reducers/session';
 import ListenersScrollableList from './ListenersScrollableList';
-import Modal, { Header, Footer, Body, BodyFixed } from '../ui/Modal';
+import Modal, { Header, Footer, Body, BodyFixed } from '../modals';
 import Button from '../forms/Button';
 import SegmentedControl from '../forms/SegmentedControl';
 

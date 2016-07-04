@@ -10,8 +10,8 @@ import BodyFixed from './BodyFixed';
 import Body from './Body';
 import Footer from './Footer';
 
-import { preventBodyScroll } from '../../utils/DOMUtils';
-import { ESCAPE } from '../../utils/keycodes';
+import { preventBodyScroll } from '../utils/DOMUtils';
+import { ESCAPE } from '../utils/keycodes';
 
 const log = debug('shoutit:ui:Modal');
 

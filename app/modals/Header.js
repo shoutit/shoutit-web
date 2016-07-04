@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Icon from '../../ui/Icon';
+import Icon from '../ui/Icon';
 
 export default class Header extends Component {
 

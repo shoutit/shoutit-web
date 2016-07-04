@@ -12,7 +12,7 @@ import request from '../utils/request';
 
 import Form from '../forms/Form';
 import Button from '../forms/Button';
-import Modal, { Header, Body, Footer } from '../ui/Modal';
+import Modal, { Header, Body, Footer } from '../modals';
 import UploadButton from '../forms/UploadButton';
 
 export const width = 250;
