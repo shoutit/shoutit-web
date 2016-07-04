@@ -4,6 +4,10 @@
     "defaultMessage": "Search by keyword"
   },
   {
+    "id": "searchFilters.priceRange.label",
+    "defaultMessage": "Price Range"
+  },
+  {
     "id": "searchFilters.minPrice.placeholder",
     "defaultMessage": "Min price"
   },

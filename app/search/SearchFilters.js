@@ -4,7 +4,6 @@ import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import { FormattedMessage } from 'react-intl';
 
-import ShoutTypeSegmentedControl from '../shouts/ShoutTypeSegmentedControl';
 import Button from '../ui/Button';
 import Form from '../ui/Form';
 import LocationField from '../ui/LocationField';
@@ -12,8 +11,10 @@ import LocationRange from '../ui/LocationRange';
 import CategoryPicker from '../ui/CategoryPicker';
 import PriceField from '../ui/PriceField';
 import TextField from '../ui/TextField';
+import Label from '../ui/Label';
+import Card, { CardSection } from '../ui/Card';
 
-import './SearchFilters.scss';
+import ShoutTypeSegmentedControl from '../shouts/ShoutTypeSegmentedControl';
 
 export class SearchFilters extends Component {
 
@@ -95,64 +96,70 @@ export class SearchFilters extends Component {
     const { disabled, currentLocation } = this.props;
     const { category, shout_type, min_price, max_price, search, filters } = this.state;
     return (
-      <div className="SearchFilters">
+      <Card block>
         <Form onSubmit={ this.submit }>
 
-          <ShoutTypeSegmentedControl
-            value={ shout_type }
-            disabled={ disabled }
-            name="shout_type"
-            onChange={ shout_type => this.handleChange({ shout_type }) }
-          />
+          <CardSection>
+            <ShoutTypeSegmentedControl
+              value={ shout_type }
+              disabled={ disabled }
+              name="shout_type"
+              onChange={ shout_type => this.handleChange({ shout_type }) }
+            />
+            <FormattedMessage
+              id="searchFilters.search.placeholder"
+              defaultMessage="Search by keyword"
+            >
+              { message =>
+                <TextField
+                  placeholder={ message }
+                  disabled={ disabled }
+                  name="search"
+                  value={ search }
+                  onChange={ search => this.handleChange({ search }, { debounce: true }) }
+                />
+              }
+            </FormattedMessage>
+            <LocationField name="location" />
 
-          <LocationField name="location" />
-
-          { currentLocation && currentLocation.city &&
-            <LocationRange
-              onChange={ within => this.handleChange({ within }, { debounce: true }) }
-              name="within"
-              value={ this.state.within }
-              location={ currentLocation }
-            /> }
-
-          <FormattedMessage
-            id="searchFilters.search.placeholder"
-            defaultMessage="Search by keyword"
-          >
-            { message =>
-              <TextField
-                placeholder={ message }
-                disabled={ disabled }
-                name="search"
-                value={ search }
-                onChange={ search => this.handleChange({ search }, { debounce: true }) }
+            { currentLocation && currentLocation.city &&
+              <LocationRange
+                onChange={ within => this.handleChange({ within }, { debounce: true }) }
+                name="within"
+                value={ this.state.within }
+                location={ currentLocation }
+              /> }
+          </CardSection>
+          <CardSection separe>
+            <CategoryPicker
+              filtersClassName="Form-inset-small"
+              selectedCategorySlug={ category }
+              selectedFilters={ filters }
+              showFilters
+              onChange={ (category, filters) =>
+                this.handleChange({
+                  category: category ? category.slug : '',
+                  filters,
+                })
+              }
+            />
+          </CardSection>
+          <CardSection separe>
+            <Label>
+              <FormattedMessage
+                id="searchFilters.priceRange.label"
+                defaultMessage="Price Range"
               />
-            }
-          </FormattedMessage>
+            </Label>
 
-          <CategoryPicker
-            filtersClassName="Form-inset-small"
-            selectedCategorySlug={ category }
-            selectedFilters={ filters }
-            showFilters
-            onChange={ (category, filters) =>
-              this.handleChange({
-                category: category ? category.slug : '',
-                filters,
-              })
-            }
-          />
-
-          <div className="SearchFilters-price">
             <FormattedMessage
               id="searchFilters.minPrice.placeholder"
               defaultMessage="Min price"
             >
-              { message =>
+              { placeholder =>
                 <PriceField
                   autoComplete="off"
-                  className="SearchFilters-input"
-                  placeholder={ message }
+                  placeholder={ placeholder }
                   disabled={ disabled }
                   name="min_price"
                   value={ min_price }
@@ -164,11 +171,11 @@ export class SearchFilters extends Component {
               id="searchFilters.maxPrice.placeholder"
               defaultMessage="Max price"
             >
-              { message =>
+              { placeholder =>
                 <PriceField
                   autoComplete="off"
                   className="SearchFilters-input"
-                  placeholder={ message }
+                  placeholder={ placeholder }
                   disabled={ disabled }
                   name="max_price"
                   value={ max_price }
@@ -176,10 +183,8 @@ export class SearchFilters extends Component {
                 />
               }
             </FormattedMessage>
-
-          </div>
-
-          <div className="SearchFilters-buttons">
+          </CardSection>
+          <CardSection>
             <Button
               block
               kind="primary"
@@ -190,9 +195,9 @@ export class SearchFilters extends Component {
                 defaultMessage="Search"
               />
             </Button>
-          </div>
+          </CardSection>
         </Form>
-      </div>
+      </Card>
     );
   }
 }
