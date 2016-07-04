@@ -197,7 +197,7 @@ export default class FormField extends Component {
         },
         placeholder,
         disabled,
-        id: props.name,
+        id: props.id || props.name,
         className: 'FormField-input',
         onChange: this.handleChange,
         onFocus: this.handleFocus,
