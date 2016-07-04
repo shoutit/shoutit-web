@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
-import Modal, { Body } from '../ui/Modal';
-import Button from '../ui/Button';
-import HorizontalRule from '../ui/HorizontalRule';
+import Modal, { Body } from '../modals';
+import Button from '../forms/Button';
+import HorizontalRule from '../widgets/HorizontalRule';
 import NewShoutModal from '../shouts/NewShoutModal';
 import UpdateShoutButton from '../shouts/UpdateShoutButton';
 

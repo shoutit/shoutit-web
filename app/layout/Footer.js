@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage, FormattedDate } from 'react-intl';
-import AppBadge from '../ui/AppBadge';
-import LocaleSwitcher from '../ui/LocaleSwitcher';
+import AppBadge from '../widgets/AppBadge';
+import LocaleSwitcher from '../widgets/LocaleSwitcher';
 
 import { imagesPath, facebookLink, twitterLink, instagramLink } from '../config';
 

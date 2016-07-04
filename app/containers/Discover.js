@@ -15,9 +15,9 @@ import DiscoverItemPreview from '../discover/DiscoverItemPreview';
 import SuggestedShout from '../shouts/SuggestedShout';
 import ShoutsList from '../shouts/ShoutsList';
 
-import Scrollable from '../ui/Scrollable';
-import CountryFlag from '../ui/CountryFlag';
-import Progress from '../ui/Progress';
+import Scrollable from '../layout/Scrollable';
+import CountryFlag from '../location/CountryFlag';
+import Progress from '../widgets/Progress';
 
 import { loadDiscoverItemsByCountry, loadDiscoverItem, loadShoutsForDiscoverItem } from '../actions/discover';
 import { getCountryName, getLocationPath } from '../utils/LocationUtils';

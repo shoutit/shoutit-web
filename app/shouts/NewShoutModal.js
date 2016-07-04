@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Modal, { Header, Body } from '../ui/Modal';
-import Button from '../ui/Button';
+import Modal, { Header, Body } from '../modals';
+import Button from '../forms/Button';
 
 import { openModal } from '../actions/ui';
 import CreateShoutModal from '../shouts/CreateShoutModal';

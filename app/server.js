@@ -80,7 +80,7 @@ export function start(app) {
   // Get the client's geo location
   app.use(geolocationMiddleware);
 
-  // Required by material-ui for server-side rendering: https://github.com/callemall/material-ui/issues/2356
+  // Required by material-ui for server-side rendering: https://github.com/callemall/material-widgets/issues/2356
   app.use((req, res, next) => {
     GLOBAL.navigator = { userAgent: req.headers['user-agent'] };
     next();

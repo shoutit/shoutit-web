@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import Card, { CardTitle, CardList } from '../ui/Card';
+import Card, { CardTitle, CardList } from '../layout/Card';
 import ProfileListItem from '../users/ProfileListItem';
 import { denormalize } from '../schemas';
 

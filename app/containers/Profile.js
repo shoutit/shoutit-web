@@ -20,8 +20,8 @@ import ProfileBiography from '../users/ProfileBiography';
 import SuggestedShout from '../shouts/SuggestedShout';
 import ShoutsList from '../shouts/ShoutsList';
 
-import Progress from '../ui/Progress';
-import Scrollable from '../ui/Scrollable';
+import Progress from '../widgets/Progress';
+import Scrollable from '../layout/Scrollable';
 
 import './Profile.scss';
 

@@ -23,21 +23,20 @@ import CategoryListItem from '../shouts/CategoryListItem';
 import FilterListItem from '../shouts/FilterListItem';
 import Location from '../location/Location';
 import ShoutCallButton from '../shouts/ShoutCallButton';
-import ShoutPreview from '../shouts/ShoutPreview';
 import ShoutPrice from '../shouts/ShoutPrice';
 import ShoutsList from '../shouts/ShoutsList';
 import ShoutType from '../shouts/ShoutType';
 import UpdateShoutButton from '../shouts/UpdateShoutButton';
 
-import Button from '../ui/Button';
-import Card, { CardList, CardTitle } from '../ui/Card';
-import Gallery from '../ui/Gallery';
-import Icon from '../ui/Icon';
-import ListItem from '../ui/ListItem';
-import NewlineToBreak from '../ui/NewlineToBreak';
-import Progress from '../ui/Progress';
-import Share from '../ui/Share';
-import TimeAgo from '../ui/TimeAgo';
+import Button from '../forms/Button';
+import Card, { CardList, CardTitle } from '../layout/Card';
+import Gallery from '../widgets/Gallery';
+import Icon from '../widgets/Icon';
+import ListItem from '../layout/ListItem';
+import NewlineToBreak from '../widgets/NewlineToBreak';
+import Progress from '../widgets/Progress';
+import Share from '../widgets/Share';
+import TimeAgo from '../widgets/TimeAgo';
 
 import LocationListItem from '../location/LocationListItem';
 
@@ -52,8 +51,6 @@ const fetchData = (dispatch, state, params) =>
 
 function ShoutActions({ shout, onReplyClick }) {
   const buttonStyle = {
-    width: '80%',
-    margin: '0 auto',
     marginTop: '.5rem',
     textAlign: 'center',
   };

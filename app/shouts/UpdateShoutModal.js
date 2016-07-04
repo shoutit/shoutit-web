@@ -3,8 +3,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import Modal, { Header, Footer, Body } from '../ui/Modal';
-import Button from '../ui/Button';
+import Modal, { Header, Footer, Body } from '../modals';
+import Button from '../forms/Button';
 
 import { updateShout, deleteShout } from '../actions/shouts';
 import { getShout } from '../reducers/entities/shouts';

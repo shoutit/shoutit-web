@@ -12,7 +12,7 @@ import { identifyOnMixpanel, trackWithMixpanel } from '../utils/mixpanel';
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
 import ResponsiveLayout from '../layout/ResponsiveLayout';
-import ModalHost from '../ui/ModalHost';
+import { ModalHost } from '../modals';
 import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
 import NotFound from './NotFound';

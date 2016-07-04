@@ -5,9 +5,9 @@ import { push } from 'react-router-redux';
 import ShoutPrice from './ShoutPrice';
 import ShoutType from './ShoutType';
 import ShoutLink from './ShoutLink';
-import TimeAgo from '../ui/TimeAgo';
-import Popover from '../ui/Popover';
-import Card, { CardImage, CardBody } from '../ui/Card';
+import TimeAgo from '../widgets/TimeAgo';
+import Popover from '../widgets/Popover';
+import Card, { CardImage, CardBody } from '../layout/Card';
 
 import ProfileAvatar from '../users/ProfileAvatar';
 import ProfilePreview from '../users/ProfilePreview';
@@ -15,7 +15,7 @@ import ProfilePreview from '../users/ProfilePreview';
 import { getVariation } from '../utils/APIUtils';
 
 if (process.env.BROWSER) {
-  require('../ui/Card.scss');
+  require('../layout/Card.scss');
   require('./ShoutPreview.scss');
 }
 

@@ -7,8 +7,8 @@ import { geocodePlace, formatLocation } from '../utils/LocationUtils';
 import { loadPlacePredictions } from '../actions/location';
 import { getCurrentLocale } from '../reducers/i18n';
 
-import TextField from '../ui/TextField';
-import Progress from '../ui/Progress';
+import TextField from '../forms/TextField';
+import Progress from '../widgets/Progress';
 
 export class SearchLocation extends Component {
 

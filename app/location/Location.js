@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getCurrentLocale } from '../reducers/i18n';
-import Card from '../ui/Card';
+import Card from '../layout/Card';
 import GoogleStaticMap from '../location/GoogleStaticMap';
 import { formatLocation } from '../utils/LocationUtils';
 

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import ShoutPrice from '../shouts/ShoutPrice';
 
-import ListItem from '../ui/ListItem';
+import ListItem from '../layout/ListItem';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
 import './ShoutListItem.scss';

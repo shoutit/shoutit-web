@@ -9,7 +9,7 @@ class ResponsiveLayout extends Component {
   }
   static defaultProps = {
     constrainMaxWidth: true,
-    constrainMinWidth: true,
+    constrainMinWidth: false,
   }
   render() {
     let className = 'ResponsiveLayout';

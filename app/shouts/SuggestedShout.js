@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import ShoutPreview from './ShoutPreview';
 import { denormalize } from '../schemas/index';
-import Card, { CardTitle } from '../ui/Card';
+import Card, { CardTitle } from '../layout/Card';
 
 export function SuggestedShout({ shout }) {
   if (!shout) {

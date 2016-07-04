@@ -7,12 +7,13 @@ import Helmet from '../utils/Helmet';
 import RequiresLogin from '../auth/RequiresLogin';
 
 import ProfileAvatarEditable from '../users/ProfileAvatarEditable';
-import TextField from '../ui/TextField';
-import TextArea from '../ui/TextArea';
-import Form from '../ui/Form';
-import Button from '../ui/Button';
-import Picker from '../ui/Picker';
-import LocationField from '../ui/LocationField';
+import TextField from '../forms/TextField';
+import TextArea from '../forms/TextArea';
+import Form from '../forms/Form';
+import FieldsGroup from '../forms/FieldsGroup';
+import Button from '../forms/Button';
+import Picker from '../forms/Picker';
+import LocationField from '../forms/LocationField';
 
 import SettingsNavigation from '../settings/SettingsNavigation';
 
@@ -141,9 +142,10 @@ export class ProfileSettings extends Component {
                 <ProfileAvatarEditable profile={ profile } size="huge" />
               </div>
 
-              <div className="Settings-profile-name">
 
+              <FieldsGroup>
                 <TextField
+                  flex
                   name="first_name"
                   label={ formatMessage(MESSAGES.firstNameLabel) }
                   value={ profile.firstName }
@@ -153,6 +155,7 @@ export class ProfileSettings extends Component {
                 />
 
                 <TextField
+                  flex
                   name="last_name"
                   label={ formatMessage(MESSAGES.lastNameLabel) }
                   value={ profile.lastName }
@@ -178,8 +181,7 @@ export class ProfileSettings extends Component {
                   </option>
                 </Picker>
 
-
-              </div>
+              </FieldsGroup>
 
               <TextArea
                 name="bio"

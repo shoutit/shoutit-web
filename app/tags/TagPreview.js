@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
 import { loadTagIfNeeded } from '../actions/tags';
-import Icon from '../ui/Icon';
+import Icon from '../widgets/Icon';
 import TagListenersListItem from '../tags/TagListenersListItem';
 import TagActions from '../tags/TagActions';
 import CategoryIcon from '../shouts/CategoryIcon';

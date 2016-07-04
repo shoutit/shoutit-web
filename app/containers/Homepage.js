@@ -5,8 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import { Link as ScrollLink, Element } from 'react-scroll';
 import { getCurrentLocale } from '../reducers/i18n';
 
-import Card from '../ui/Card';
-import AppBadge from '../ui/AppBadge';
+import Card from '../layout/Card';
+import AppBadge from '../widgets/AppBadge';
 import { getVariation } from '../utils/APIUtils';
 import Helmet from '../utils/Helmet';
 

@@ -17,9 +17,9 @@ import TagPreview from '../tags/TagPreview';
 import SuggestedProfiles from '../users/SuggestedProfiles';
 import SuggestedShout from '../shouts/SuggestedShout';
 import ShoutsList from '../shouts/ShoutsList';
-import Progress from '../ui/Progress';
-import Card from '../ui/Card';
-import Scrollable from '../ui/Scrollable';
+import Progress from '../widgets/Progress';
+import Card from '../layout/Card';
+import Scrollable from '../layout/Scrollable';
 
 import './Interest.scss';
 

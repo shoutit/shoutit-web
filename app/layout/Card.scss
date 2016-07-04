@@ -1,0 +1,112 @@
+@import '../styles/constants.scss';
+@import '../styles/mixins/ellipsis.scss';
+$card-border-radius: 2px;
+
+.Card {
+  position: relative;
+  position: relative;
+  display: inline-block;
+  border-radius: $card-border-radius;
+  background-color: $white;
+  box-shadow: $box-shadow-depth-0;
+  &.size-small {
+    width: 240px;
+    font-size: .875em;
+  }
+  &.size-medium {
+    width: 280px;
+  }
+  &.block {
+    display: block;
+    width: 100%;
+  }
+}
+
+.CardTitle {
+  padding: 1em;
+  h4 {
+    color: $color-text-light;
+    font-weight: normal;
+  }
+}
+
+.CardImage {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  border-radius: $card-border-radius;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.CardImage > span {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: $card-border-radius;
+  left: 0;
+  border-radius: $card-border-radius;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.CardBody {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: .75em 1.25em 1.125em 1.25em;
+  color: $color-text;
+  border-bottom-right-radius: $card-border-radius;
+  border-bottom-left-radius: $card-border-radius;
+  background-color: rgba(white, 1);
+  .Card-title-max-height {
+    display: inline-block;
+    overflow: hidden;
+    max-height: 2.2em;
+    vertical-align: middle;
+  }
+}
+
+.CardSection {
+  padding: .5em;
+}
+
+.CardSection.separe {
+  margin-top: .5em;
+  border-top: 1px solid $border-color-dark;
+}
+.CardSection.separe + .CardSection.separe {
+  margin-top: 0;
+}
+
+ul.CardList {
+  padding: 0 1em;
+  margin: 0;
+  list-style: none;
+  li {
+    margin: .5em 0;
+    &:first-child {
+      margin-top: 0;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+    a {
+      color: $color-text;
+      &.active,
+      &:active {
+        color: $color-link;
+      }
+    }
+  }
+}
+.CardTitle + ul.CardList {
+  padding-bottom: 1em;
+}
+
+a > .Card {
+  color: $color-text;
+}

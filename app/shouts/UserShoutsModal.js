@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl';
 
 import { getLoggedUser } from '../reducers/session';
 import ShoutsScrollableList from './ShoutsScrollableList';
-import Modal, { Header, Footer, Body } from '../ui/Modal';
-import Button from '../ui/Button';
+import Modal, { Header, Footer, Body } from '../modals';
+import Button from '../forms/Button';
 
 export class UserShoutsModal extends Component {
 

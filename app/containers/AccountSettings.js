@@ -7,9 +7,10 @@ import Page from '../layout/Page';
 import Helmet from '../utils/Helmet';
 import RequiresLogin from '../auth/RequiresLogin';
 
-import TextField from '../ui/TextField';
-import Form from '../ui/Form';
-import Button from '../ui/Button';
+import TextField from '../forms/TextField';
+import Form from '../forms/Form';
+import FieldsGroup from '../forms/FieldsGroup';
+import Button from '../forms/Button';
 import SettingsNavigation from '../settings/SettingsNavigation';
 
 import { updateProfile, updatePassword } from '../actions/users';
@@ -153,8 +154,9 @@ export class AccountSettings extends Component {
                   error={ session.updatePasswordError }
                 />
                }
-              <div className="Settings-main-password">
+              <FieldsGroup>
                 <TextField
+                  flex
                   ref="new_password"
                   name="new_password"
                   placeholder={ formatMessage(MESSAGES.newPasswordPlaceholder) }
@@ -162,13 +164,14 @@ export class AccountSettings extends Component {
                   onChange={ new_password => this.setState({ new_password }) }
                   error={ session.updatePasswordError } />
                 <TextField
+                  flex
                   ref="new_password2"
                   name="new_password2"
                   placeholder={ formatMessage(MESSAGES.repeatPasswordPlaceholder) }
                   type="password"
                   onChange={ new_password2 => this.setState({ new_password2 }) }
                   error={ session.updatePasswordError } />
-              </div>
+              </FieldsGroup>
               <div className="Settings-actions">
                 <Button kind="primary" disabled={ session.isUpdatingPassword || !this.isChangingPassword() }>
                   <FormattedMessage id="accountSettings.password.submit" defaultMessage="Change password" />

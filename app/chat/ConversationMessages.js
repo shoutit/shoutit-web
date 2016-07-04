@@ -4,11 +4,11 @@ import { FormattedMessage } from 'react-intl';
 
 import MessagesList from '../chat/MessagesList';
 import Typing from '../chat/Typing';
-import Scrollable from '../ui/Scrollable';
+import Scrollable from '../layout/Scrollable';
 import { loadMessages } from '../actions/messages';
 
 import { getMessagesByConversation, getPaginationState } from '../reducers/paginated/messagesByConversation';
-import Progress from '../ui/Progress';
+import Progress from '../widgets/Progress';
 
 import './ConversationMessages.scss';
 

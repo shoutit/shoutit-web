@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
 import { getUnreadNotificationsCount } from '../reducers/session';
-import Icon from '../ui/Icon';
-import Overlay from '../ui/Overlay';
+import Icon from '../widgets/Icon';
+import Overlay from '../widgets/Overlay';
 
 import HeaderNotificationsOverlay from './HeaderNotificationsOverlay';
 

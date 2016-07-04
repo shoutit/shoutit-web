@@ -2,12 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Scrollable from '../ui/Scrollable';
+import Scrollable from '../layout/Scrollable';
 import { loadNotifications, readNotification } from '../actions/notifications';
 
 import { getPaginationState, getNotifications } from '../reducers/paginated/notifications';
 import NotificationItem from './NotificationItem';
-import Progress from '../ui/Progress';
+import Progress from '../widgets/Progress';
 
 import './ScrollableNotifications.scss';
 

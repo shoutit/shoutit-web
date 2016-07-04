@@ -5,8 +5,8 @@ import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 
 import { leaveConversation, readConversation, unreadConversation } from '../actions/conversations';
 
-import Icon from '../ui/Icon';
-import Dropdown, { MenuItem } from '../ui/Dropdown';
+import Icon from '../widgets/Icon';
+import Dropdown, { MenuItem } from '../widgets/Dropdown';
 
 const MESSAGES = defineMessages({
   deleteConfirm: {

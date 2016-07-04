@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Tooltip from '../ui/Tooltip';
+import Tooltip from '../widgets/Tooltip';
 
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
