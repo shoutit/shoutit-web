@@ -66,6 +66,7 @@ describe('utils/SearchUtils', () => {
         max_price: '2',
         search: 'with%20space',
         filters: 'foo:bar;abc:xyz',
+        page: '1',
       });
       expect(searchParams).to.eql({
         shout_type: 'request',
@@ -75,6 +76,7 @@ describe('utils/SearchUtils', () => {
         search: 'with space',
         foo: 'bar',
         abc: 'xyz',
+        page: 1,
       });
     });
 

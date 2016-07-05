@@ -50,6 +50,10 @@ export function getQuerystringFromSearchParams(params) {
       query.push(`filters=${filtersUriComponent}`);
     }
   }
+  if (params.page) {
+    query.push(`page=${params.page}`);
+  }
+
   if (query.length > 0) {
     queryAsString += `${query.join('&')}`;
   }
@@ -57,7 +61,7 @@ export function getQuerystringFromSearchParams(params) {
 }
 
 export function getSearchParamsFromQuery(query) {
-  const { shout_type, category, min_price, max_price, search } = query;
+  const { shout_type, category, min_price, max_price, search, page } = query;
 
   let filters;
   if (query.filters) {
@@ -69,6 +73,7 @@ export function getSearchParamsFromQuery(query) {
     search: search ? decodeURIComponent(search) : undefined,
     min_price: min_price ? parseInt(min_price, 10) : undefined,
     max_price: max_price ? parseInt(max_price, 10) : undefined,
+    page: page ? parseInt(page, 10) : undefined,
     ...filters,
   };
 
