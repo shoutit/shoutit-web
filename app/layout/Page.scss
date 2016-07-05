@@ -9,6 +9,7 @@
   width: 17%;
   min-width: 200px;
   max-width: 250px;
+  margin-bottom: $vertical-spacing;
   &:first-child {
     margin-right: $horizontal-spacing*2;
     margin-left: 0;
