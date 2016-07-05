@@ -49,7 +49,7 @@ export class Homepage extends Component {
             </h2>
             <ScrollLink
               to="explore"
-              className="Button action-primary-alt size-huge"
+              className="Button secondary size-huge"
               smooth
               duration={ 800 }
               offset={ 0 }>
@@ -60,7 +60,7 @@ export class Homepage extends Component {
                 />
               </span>
             </ScrollLink>
-            <ScrollLink to="how-it-works" className="Button action-primary size-huge" smooth duration={ 800 } offset={ 0 } style={ { marginLeft: '1rem' } }>
+            <ScrollLink to="how-it-works" className="Button primary size-huge" smooth duration={ 800 } offset={ 0 } style={ { marginLeft: '1rem' } }>
               <span className="Button-label">
                 <FormattedMessage
                   id="homepage.howItWorksButton"
