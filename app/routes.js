@@ -54,6 +54,9 @@ const routes = (store) =>
     <Route
       path="/search(/:country)(/:state)(/:city)"
       component={ Search }
+      getApplicationLayout={ () => ({
+        showFooter: true,
+      }) }
       getResponsiveLayout={ () => ({ constrainMaxWidth: false }) }
     />
     <Route path="/shout/:id(/:city)(/:description)" component={ Shout } getApplicationLayout={ () => ({ showFooter: true }) } />
