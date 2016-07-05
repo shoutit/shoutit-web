@@ -9,6 +9,10 @@
     background-attachment: fixed;
     background-size: (366px * .75) (600px * .75);
   }
+  &.stickyHeader {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .Application-header {
@@ -33,6 +37,7 @@
   z-index: 0;
   .Application.stickyHeader & {
     padding-top: $header-height;
+    flex: 1;
   }
 }
 

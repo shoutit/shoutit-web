@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { injectIntl, defineMessages } from 'react-intl';
 
 import { push } from 'react-router-redux';
+import { PaginationPropTypes } from '../utils/PropTypes';
+
 import Helmet from '../utils/Helmet';
 import { getLocationPath } from '../utils/LocationUtils';
 import { getShouts, getPaginationState } from '../reducers/paginated/shouts';
@@ -14,8 +16,8 @@ import { getSearchParamsFromQuery, getQuerystringFromSearchParams } from '../uti
 import { loadShouts, invalidateShouts } from '../actions/shouts';
 
 import Page from '../layout/Page';
+import Pagination from '../layout/Pagination';
 
-import Scrollable from '../layout/Scrollable';
 import Progress from '../widgets/Progress';
 import UIMessage from '../widgets/UIMessage';
 
@@ -26,7 +28,7 @@ import SearchFilters from '../search/SearchFilters';
 const fetchData = (dispatch, state, params, query) => {
   const searchParams = getSearchParamsFromQuery(query);
   dispatch(invalidateShouts(searchParams));
-  return dispatch(loadShouts(state.currentLocation, searchParams));
+  return dispatch(loadShouts(state.currentLocation, { ...searchParams, page_size: 12 }));
 };
 
 const MESSAGES = defineMessages({
@@ -74,12 +76,11 @@ export class Search extends Component {
     currentLocation: PropTypes.object,
     error: PropTypes.object,
     firstRender: PropTypes.bool,
-    isFetching: PropTypes.bool,
-    nextUrl: PropTypes.string,
     params: PropTypes.object,
     searchParams: PropTypes.object,
     shouts: PropTypes.array,
     title: PropTypes.string,
+    ...PaginationPropTypes,
   };
 
   static fetchData = fetchData;
@@ -127,51 +128,50 @@ export class Search extends Component {
     const { shouts, nextUrl, isFetching, dispatch, error, searchParams, currentLocation, title } = this.props;
     const { formatMessage } = this.props.intl;
     return (
-      <Scrollable
-        scrollElement={ () => window }
-        onScrollBottom={ () => {
-          if (nextUrl && !isFetching) {
-            dispatch(loadShouts(currentLocation, searchParams, nextUrl));
-          }
-        } }
-        triggerOffset={ 400 }
-      >
-        <Page
-          className="Search"
-          startColumn={
-            <div className="Search-start-column">
-              <SearchFilters
-                disabled={ false }
-                searchParams={ searchParams }
-                onSubmit={ this.search }
-              />
-            </div>
-          }
-          stickyStartColumn>
-
-          <Helmet title={ title } />
-          <ShoutsList shouts={ shouts } />
-
-          <Progress animate={ isFetching } />
-
-          { !isFetching && error &&
-            <UIMessage
-              title={ formatMessage(MESSAGES.errorTitle) }
-              details={ formatMessage(MESSAGES.errorDetails) }
-              type="error"
-              retryAction={ () => dispatch(loadShouts(currentLocation, searchParams, nextUrl)) }
+      <Page
+        className="Search"
+        startColumn={
+          <div className="Search-start-column">
+            <SearchFilters
+              disabled={ false }
+              searchParams={ searchParams }
+              onSubmit={ this.search }
             />
-          }
+          </div>
+        }
+        stickyStartColumn>
 
-          { !isFetching && !error && shouts.length === 0 &&
-            <UIMessage
-              title={ formatMessage(MESSAGES.notFoundTitle) }
-              details={ formatMessage(MESSAGES.notFoundDetails) }
-            />
-          }
+        <Helmet title={ title } />
 
-        </Page>
-      </Scrollable>
+        <ShoutsList shouts={ shouts } />
+
+        { !isFetching &&
+          <Pagination
+            pageSize={ 12 }
+            currentPage={ 0 }
+            count={ this.props.count }
+          />
+        }
+
+        <Progress animate={ isFetching } />
+
+        { !isFetching && error &&
+          <UIMessage
+            title={ formatMessage(MESSAGES.errorTitle) }
+            details={ formatMessage(MESSAGES.errorDetails) }
+            type="error"
+            retryAction={ () => dispatch(loadShouts(currentLocation, searchParams, nextUrl)) }
+          />
+        }
+
+        { !isFetching && !error && shouts.length === 0 &&
+          <UIMessage
+            title={ formatMessage(MESSAGES.notFoundTitle) }
+            details={ formatMessage(MESSAGES.notFoundDetails) }
+          />
+        }
+
+      </Page>
     );
   }
 

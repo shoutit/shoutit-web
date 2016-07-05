@@ -1,25 +1,9 @@
 @import '../styles/constants.scss';
 @import '../styles/mixins/links.scss';
 
-.Settings {
-
-  &.Page {
-    width: 1000px;
-  }
-
-  .CardWithList {
-    background-color: $white;
-    a {
-      @include sideLink();
-      font-size: 0.875rem;
-      padding: .5rem 0;
-    }
-  }
-}
-
 .Settings-layout {
-  margin-top: .75rem;
-  padding: 1rem 0;
+  margin-top: $vertical-spacing;
+  padding: $horizontal-spacing 0;
   display: flex;
   background: $white;
   border-radius: $border-radius;

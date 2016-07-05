@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
+import { PaginationPropTypes } from '../utils/PropTypes';
+
 import Scrollable from '../layout/Scrollable';
 import { loadNotifications, readNotification } from '../actions/notifications';
 
@@ -21,8 +23,7 @@ export class ScrollableNotifications extends Component {
     notifications: PropTypes.array,
 
     error: PropTypes.object,
-    isFetching: PropTypes.bool,
-    nextUrl: PropTypes.string,
+    ...PaginationPropTypes,
   };
 
   constructor(props) {

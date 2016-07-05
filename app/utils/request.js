@@ -44,7 +44,7 @@ request.Request.prototype.end = function end(oldCallback) {
       console.error("Error %s %s from %s: %s", res ? res.status : "(no HTTP status)", this.method, this.url, err.message); // eslint-disable-line
     }
   };
-  log('Started %s to %s...', this.method, this.url, this.toJSON());
+  log('Started %s to %s...', this.method, this.url, this.toJSON(), this.qs);
   return this.end.call(this, callback);
 };
 

@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 
+import { PaginationPropTypes } from '../utils/PropTypes';
+
 import Helmet from '../utils/Helmet';
 
 import ShoutsList from '../shouts/ShoutsList';
@@ -17,6 +19,7 @@ import Page from '../layout/Page';
 import Scrollable from '../layout/Scrollable';
 import Icon from '../widgets/Icon';
 import ListItem from '../layout/ListItem';
+import { CardList } from '../layout/Card';
 import UIMessage from '../widgets/UIMessage';
 import Listening from '../users/Listening';
 import SuggestedTags from '../tags/SuggestedTags';
@@ -49,48 +52,40 @@ const StartColumn = ({ profile }) =>
       />
     </h1>
 
-    <ul className="htmlNoList Dashboard-shortcuts" style={ { padding: '0 .5rem' } }>
-      <li>
-        <Link to={ `/user/${profile.username}` }>
-          <ListItem start={ <Icon active name="profile" size="small" /> }>
-            <FormattedMessage
-              id="dashboard.menu.profile"
-              defaultMessage="Your Profile"
-            />
-          </ListItem>
-        </Link>
-      </li>
-      <li>
-        <Link to="/settings">
-          <ListItem start={ <Icon active name="pencil" size="small" /> }>
-            <FormattedMessage
-              id="dashboard.menu.editProfile"
-              defaultMessage="Edit Your Profile"
-            />
-          </ListItem>
-        </Link>
-      </li>
-      <li>
-        <Link to="/messages">
-          <ListItem start={ <Icon active name="balloon-dots" size="small" /> }>
-            <FormattedMessage
-              id="dashboard.menu.chat"
-              defaultMessage="Messages"
-            />
-          </ListItem>
-        </Link>
-      </li>
-      <li>
-        <Link to="/search">
-          <ListItem start={ <Icon active name="world-west" size="small" /> }>
-            <FormattedMessage
-              id="dashboard.menu.search"
-              defaultMessage="Browse shouts"
-            />
-          </ListItem>
-        </Link>
-      </li>
-    </ul>
+    <CardList>
+      <Link to={ `/user/${profile.username}` }>
+        <ListItem start={ <Icon active name="profile" size="small" /> }>
+          <FormattedMessage
+            id="dashboard.menu.profile"
+            defaultMessage="Your Profile"
+          />
+        </ListItem>
+      </Link>
+      <Link to="/settings">
+        <ListItem start={ <Icon active name="pencil" size="small" /> }>
+          <FormattedMessage
+            id="dashboard.menu.editProfile"
+            defaultMessage="Edit Your Profile"
+          />
+        </ListItem>
+      </Link>
+      <Link to="/messages">
+        <ListItem start={ <Icon active name="balloon-dots" size="small" /> }>
+          <FormattedMessage
+            id="dashboard.menu.chat"
+            defaultMessage="Messages"
+          />
+        </ListItem>
+      </Link>
+      <Link to="/search">
+        <ListItem start={ <Icon active name="world-west" size="small" /> }>
+          <FormattedMessage
+            id="dashboard.menu.search"
+            defaultMessage="Browse shouts"
+          />
+        </ListItem>
+      </Link>
+    </CardList>
 
     <Listening byProfile={ profile } />
 
@@ -106,13 +101,12 @@ export class Dashboard extends Component {
     dispatch: PropTypes.func.isRequired,
     shouts: PropTypes.array.isRequired,
     searchString: PropTypes.string,
-    nextUrl: PropTypes.string,
     firstRender: PropTypes.bool,
-    isFetching: PropTypes.bool,
     searchParams: PropTypes.array,
     error: PropTypes.object,
     intl: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
+    ...PaginationPropTypes,
   };
 
   static fetchData = fetchData;

@@ -1,25 +1,17 @@
+@import '../styles/constants.scss';
+
 .Dashboard {
 
+  .CardList + .Card {
+    margin-top: $vertical-spacing;
+  }
 }
 
 .Dashboard-start-column {
   h1 {
-    margin: 0 .5rem;
-    margin-bottom: 1rem;
-    font-size: 1.25rem;
+    margin: 0 .5em;
+    margin-bottom: $vertical-spacing;
+    font-size: 1.25em;
     font-weight: normal;
-  }
-
-  .CardWithList {
-    margin-top: 1.5rem;
-  }
-}
-
-.Dashboard-shortcuts {
-  .ListItem {
-    margin: .5em;
-    &:hover {
-      opacity: .75;
-    }
   }
 }

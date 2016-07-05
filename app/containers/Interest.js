@@ -2,6 +2,9 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+
+import { PaginationPropTypes } from '../utils/PropTypes';
+
 import Helmet from '../utils/Helmet';
 
 import { loadTag, loadTagShouts, loadRelatedTags, invalidateTagShouts } from '../actions/tags';
@@ -40,12 +43,10 @@ export class Interest extends Component {
     params: PropTypes.object.isRequired,
     currentLocation: PropTypes.object.isRequired,
     firstRender: PropTypes.bool,
-    isFetching: PropTypes.bool,
-    nextUrl: PropTypes.string,
     shouts: PropTypes.array,
-    count: PropTypes.number,
     tag: PropTypes.object,
     category: PropTypes.object,
+    ...PaginationPropTypes,
   };
 
   static fetchData = fetchData;

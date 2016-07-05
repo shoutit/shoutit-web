@@ -1,0 +1,42 @@
+@import '../styles/constants.scss';
+
+ul.Pager {
+  display: inline;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.Pager > li {
+  display: inline-block;
+  a {
+    padding: .5em;
+    color: $color-text;
+    display: inline-block;
+  }
+  &:first-child a,
+  &:last-child a {
+    background-color: $white;
+    border: 1px solid $border-color;
+    border-radius: .25em;
+    min-width: 7.5em;
+  }
+  &:first-child.disabled a,
+  &:last-child.disabled a {
+    background-color: $background-color-light;
+    color: $color-text-light;
+  }
+  &:first-child a {
+    margin-right: $horizontal-spacing;
+  }
+  &:last-child a {
+    margin-left: $horizontal-spacing;
+  }
+  &.active a {
+    color: $color-primary;
+    font-weight: 500;
+  }
+  &.disabled a {
+    cursor: default;
+  }
+}

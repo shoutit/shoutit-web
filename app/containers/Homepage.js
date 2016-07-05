@@ -5,7 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import { Link as ScrollLink, Element } from 'react-scroll';
 import { getCurrentLocale } from '../reducers/i18n';
 
-import Card from '../layout/Card';
+import Card, { CardImage, CardBody } from '../layout/Card';
+
 import AppBadge from '../widgets/AppBadge';
 import { getVariation } from '../utils/APIUtils';
 import Helmet from '../utils/Helmet';
@@ -49,7 +50,7 @@ export class Homepage extends Component {
             </h2>
             <ScrollLink
               to="explore"
-              className="Button action-primary-alt size-huge"
+              className="Button secondary size-huge"
               smooth
               duration={ 800 }
               offset={ 0 }>
@@ -60,7 +61,7 @@ export class Homepage extends Component {
                 />
               </span>
             </ScrollLink>
-            <ScrollLink to="how-it-works" className="Button action-primary size-huge" smooth duration={ 800 } offset={ 0 } style={ { marginLeft: '1rem' } }>
+            <ScrollLink to="how-it-works" className="Button primary size-huge" smooth duration={ 800 } offset={ 0 } style={ { marginLeft: '1rem' } }>
               <span className="Button-label">
                 <FormattedMessage
                   id="homepage.howItWorksButton"
@@ -102,7 +103,12 @@ export class Homepage extends Component {
           <div className="Homepage-cards">
           { this.props.categories.slice(0, 8).map(category =>
             <Link key={ category.slug } to={ `/interest/${category.slug}` }>
-              <Card size="small" title={ category.name } image={ category.image ? getVariation(category.image, 'small') : null } />
+              <Card>
+                <CardImage src={ category.image } />
+                <CardBody>
+                  <h3>{ category.name }</h3>
+                </CardBody>
+              </Card>
             </Link>
           ) }
           </div>
