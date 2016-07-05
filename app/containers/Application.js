@@ -215,17 +215,15 @@ Application.propTypes = {
   messages: PropTypes.object.isRequired,
 };
 
-function mapStateToProps(state) {
-  return {
-    currentLocation: state.currentLocation,
-    currentUrl: state.routing.currentUrl,
-    error: state.routing.error,
-    locale: getCurrentLocale(state),
-    loggedUser: getLoggedUser(state),
-    messages: getIntlMessages(state),
-    rtl: isRtl(state),
-  };
-}
+const mapStateToProps = state => ({
+  currentLocation: state.currentLocation,
+  currentUrl: state.routing.currentUrl,
+  error: state.routing.error,
+  locale: getCurrentLocale(state),
+  loggedUser: getLoggedUser(state),
+  messages: getIntlMessages(state),
+  rtl: isRtl(state),
+});
 
 const Wrapped = connect(mapStateToProps)(Application);
 
