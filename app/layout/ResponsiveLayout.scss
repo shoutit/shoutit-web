@@ -1,7 +1,8 @@
+@import '../styles/constants.scss';
 
 .ResponsiveLayout {
   text-align: center;
-  padding: 0 1em;
+  padding: 0 $horizontal-spacing;
   > span {
     width: 100%;
     text-align: left;

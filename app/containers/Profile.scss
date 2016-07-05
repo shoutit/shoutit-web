@@ -10,7 +10,7 @@
   .Profile-body-start-column {
     overflow: hidden;
     width: $page-width-column;
-    margin: $page-column-margin;
+    margin: $vertical-spacing $horizontal-spacing;
   }
   .Profile-shouts {
     margin-top: .75rem;

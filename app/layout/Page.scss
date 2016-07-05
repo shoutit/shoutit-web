@@ -2,22 +2,22 @@
 
 .Page {
   display: flex;
-  padding-top: 1rem;
+  padding-top: $vertical-spacing;
 }
 
 .Page-column {
   min-width: 200px;
   max-width: 250px;
   width: 17%;
-  margin: $page-column-margin;
-  > div {
-    margin-bottom: .75rem;
+  margin: $vertical-spacing $horizontal-spacing;
+  .Card + .Card,
+  .CardList + .Card,
+  .Card + .CardList {
+    margin-top: $vertical-spacing*2;
   }
 }
 
 .Page-body {
-  padding-right: $page-body-padding-horizontal;
-  padding-left: $page-body-padding-horizontal;
   flex: 1;
   position: relative;
 }

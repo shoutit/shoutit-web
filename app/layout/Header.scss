@@ -7,12 +7,8 @@
   margin: 0 auto 5px;
 }
 
-.Header-logo {
-  padding: 10px;
-}
-
 .Header-separator {
-  margin: 0 10px;
+  margin: 0 $horizontal-spacing;
   position: relative;
   top: 6px;
   display: inline-block;
@@ -23,12 +19,12 @@
 
 .Header-tools {
   > * {
-    margin: 0 .5rem;
+    margin: 0 .5em;
   }
 }
 
 .Header-links {
-  margin-left: 1rem;
+  margin-left: $horizontal-spacing;
   a {
     margin: 0 1rem;
     color: $color-text;
@@ -45,5 +41,5 @@
   display: flex;
   flex: 1;
   justify-content: center;
-  margin: 0 2rem;
+  margin: 0 $horizontal-spacing;
 }
