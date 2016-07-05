@@ -5,14 +5,13 @@
   background-color: $white;
 
   textarea {
-    width: 100%;
     display: block;
-    margin: 0;
-    border: 0;
-    padding: .5rem .5rem .5rem;
-    border-radius: 0;
-    line-height: 1.2em;
     overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: .5rem .5rem .5rem;
+    border: 0;
+    border-radius: 0;
   }
 }
 
