@@ -3,10 +3,12 @@
 .ShoutsList {
   display: flex;
   flex-direction: row;
+
   flex-wrap: wrap;
 }
 
 .ShoutsList-item {
-  padding: $vertical-spacing $horizontal-spacing;
+  padding: 0 $horizontal-spacing $vertical-spacing*2 $horizontal-spacing;
+
   flex: 0 1 auto;
 }
