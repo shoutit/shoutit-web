@@ -48,10 +48,6 @@ a {
   @include link();
 }
 
-p {
-  line-height: 1.25em;
-}
-
 ::-webkit-input-placeholder {
   color: $color-placeholder;
 }
@@ -88,9 +84,9 @@ h3,
 h4,
 h5,
 h6 {
-  line-height: 1.2em;
   margin-top: 0;
   font-weight: 500;
+  line-height: 1.2em;
   &:not(:last-child) {
     margin-bottom: .5em;
   }
