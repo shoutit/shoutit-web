@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
 import './Card.scss';
 
@@ -35,13 +36,13 @@ Card.propTypes = {
 export function CardImage({ src }) {
   return (
     <div className="CardImage">
-      <span style={ { backgroundImage: `url(${src})` } } />
+      <span style={ getStyleBackgroundImage(src, 'medium') } />
     </div>
   );
 }
 
 CardImage.propTypes = {
-  src: PropTypes.string.isRequired,
+  src: PropTypes.string,
 };
 
 export function CardTitle({ children }) {

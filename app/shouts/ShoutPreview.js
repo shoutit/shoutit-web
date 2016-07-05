@@ -12,7 +12,6 @@ import Card, { CardImage, CardBody } from '../layout/Card';
 import ProfileAvatar from '../users/ProfileAvatar';
 import ProfilePreview from '../users/ProfilePreview';
 
-import { getVariation } from '../utils/APIUtils';
 
 if (process.env.BROWSER) {
   require('../layout/Card.scss');
@@ -23,7 +22,7 @@ function ShoutPreview({ shout, onProfileAvatarClick, showProfile = true, ...prop
   return (
     <ShoutLink shout={ shout }>
       <Card className="ShoutPreview" { ...props }>
-        <CardImage src={ getVariation(shout.thumbnail, 'medium') } />
+        <CardImage src={ shout.thumbnail } />
         <CardBody>
           { shout.title &&
             <h4>{ shout.title }</h4>
