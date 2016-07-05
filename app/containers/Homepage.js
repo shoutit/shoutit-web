@@ -5,7 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import { Link as ScrollLink, Element } from 'react-scroll';
 import { getCurrentLocale } from '../reducers/i18n';
 
-import Card from '../layout/Card';
+import Card, { CardImage, CardBody } from '../layout/Card';
+
 import AppBadge from '../widgets/AppBadge';
 import { getVariation } from '../utils/APIUtils';
 import Helmet from '../utils/Helmet';
@@ -102,7 +103,12 @@ export class Homepage extends Component {
           <div className="Homepage-cards">
           { this.props.categories.slice(0, 8).map(category =>
             <Link key={ category.slug } to={ `/interest/${category.slug}` }>
-              <Card size="small" title={ category.name } image={ category.image ? getVariation(category.image, 'small') : null } />
+              <Card>
+                <CardImage src={ category.image } />
+                <CardBody>
+                  <h3>{ category.name }</h3>
+                </CardBody>
+              </Card>
             </Link>
           ) }
           </div>
