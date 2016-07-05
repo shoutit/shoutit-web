@@ -4,6 +4,8 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 
+import { PaginationPropTypes } from '../utils/PropTypes';
+
 import Helmet from '../utils/Helmet';
 
 import { getProfile } from '../reducers/entities/users';
@@ -52,8 +54,7 @@ export class Profile extends Component {
     params: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
     profile: PropTypes.object,
-    isFetching: PropTypes.bool,
-    nextUrl: PropTypes.string,
+    ...PaginationPropTypes,
   };
 
   static fetchData = fetchData;

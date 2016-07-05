@@ -10,12 +10,12 @@
   min-width: 200px;
   max-width: 250px;
   &:first-child {
-    margin-right: $horizontal-spacing;
+    margin-right: $horizontal-spacing*2;
     margin-left: 0;
   }
   &:last-child {
     margin-right: 0;
-    margin-left: $horizontal-spacing;
+    margin-left: $horizontal-spacing*2;
   }
   .Card + .Card,
   .CardList + .Card,

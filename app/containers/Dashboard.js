@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 
+import { PaginationPropTypes } from '../utils/PropTypes';
+
 import Helmet from '../utils/Helmet';
 
 import ShoutsList from '../shouts/ShoutsList';
@@ -99,13 +101,12 @@ export class Dashboard extends Component {
     dispatch: PropTypes.func.isRequired,
     shouts: PropTypes.array.isRequired,
     searchString: PropTypes.string,
-    nextUrl: PropTypes.string,
     firstRender: PropTypes.bool,
-    isFetching: PropTypes.bool,
     searchParams: PropTypes.array,
     error: PropTypes.object,
     intl: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
+    ...PaginationPropTypes,
   };
 
   static fetchData = fetchData;

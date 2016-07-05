@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { injectIntl, defineMessages } from 'react-intl';
 
 import { push } from 'react-router-redux';
+import { PaginationPropTypes } from '../utils/PropTypes';
+
 import Helmet from '../utils/Helmet';
 import { getLocationPath } from '../utils/LocationUtils';
 import { getShouts, getPaginationState } from '../reducers/paginated/shouts';
@@ -74,12 +76,11 @@ export class Search extends Component {
     currentLocation: PropTypes.object,
     error: PropTypes.object,
     firstRender: PropTypes.bool,
-    isFetching: PropTypes.bool,
-    nextUrl: PropTypes.string,
     params: PropTypes.object,
     searchParams: PropTypes.object,
     shouts: PropTypes.array,
     title: PropTypes.string,
+    ...PaginationPropTypes,
   };
 
   static fetchData = fetchData;
@@ -126,6 +127,7 @@ export class Search extends Component {
   render() {
     const { shouts, nextUrl, isFetching, dispatch, error, searchParams, currentLocation, title } = this.props;
     const { formatMessage } = this.props.intl;
+    console.log(this.props);
     return (
       <Scrollable
         scrollElement={ () => window }
@@ -150,6 +152,7 @@ export class Search extends Component {
           stickyStartColumn>
 
           <Helmet title={ title } />
+
           <ShoutsList shouts={ shouts } />
 
           <Progress animate={ isFetching } />

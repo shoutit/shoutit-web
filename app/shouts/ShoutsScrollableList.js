@@ -1,7 +1,9 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
-
 import { connect } from 'react-redux';
+
+import { PaginationPropTypes } from '../utils/PropTypes';
+
 import { getShoutsByUsername, getPaginationState } from '../reducers/paginated/shoutsByUsername';
 import { loadShoutsByUsername } from '../actions/users';
 
@@ -16,10 +18,9 @@ export class ShoutsScrollableList extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
     loadData: PropTypes.func.isRequired,
-    isFetching: PropTypes.bool,
-    nextUrl: PropTypes.string,
     shouts: PropTypes.arrayOf(PropTypes.object).isRequired,
     onShoutClick: PropTypes.func,
+    ...PaginationPropTypes,
   }
 
   constructor(props) {

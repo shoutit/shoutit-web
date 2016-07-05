@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
+import { PaginationPropTypes } from '../utils/PropTypes';
+
 import MessagesList from '../chat/MessagesList';
 import Typing from '../chat/Typing';
 import Scrollable from '../layout/Scrollable';
@@ -21,8 +23,7 @@ export class ConversationMessages extends Component {
     messages: PropTypes.array,
 
     error: PropTypes.object,
-    isFetching: PropTypes.bool,
-    previousUrl: PropTypes.string,
+    ...PaginationPropTypes,
   };
 
   constructor(props) {

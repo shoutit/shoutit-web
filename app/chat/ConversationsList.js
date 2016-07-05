@@ -4,6 +4,8 @@ import { FormattedMessage } from 'react-intl';
 
 import { loadChat } from '../actions/chat';
 
+import { PaginationPropTypes } from '../utils/PropTypes';
+
 import { getAllConversations, getPaginationState } from '../reducers/paginated/chatConversations';
 
 import ConversationItem from './ConversationItem';
@@ -22,8 +24,7 @@ export class ConversationsList extends Component {
     selectedId: PropTypes.string,
     showConversationDropdown: PropTypes.bool,
 
-    isFetching: PropTypes.bool,
-    previousUrl: PropTypes.string,
+    ...PaginationPropTypes,
   }
 
   constructor(props) {

@@ -1,5 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
+
+import { PaginationPropTypes } from '../utils/PropTypes';
+
 import Progress from '../widgets/Progress';
 import Scrollable from '../layout/Scrollable';
 import TagListItem from '../tags/TagListItem';
@@ -14,10 +17,9 @@ export class ListeningTagsScrollableList extends Component {
 
   static propTypes = {
     loadData: PropTypes.func.isRequired,
-    isFetching: PropTypes.bool,
-    nextUrl: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.object).isRequired,
     onTagClick: PropTypes.func,
+    ...PaginationPropTypes,
   }
 
   constructor(props) {
