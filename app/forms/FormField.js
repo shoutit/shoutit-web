@@ -42,13 +42,10 @@ export default class FormField extends Component {
     placeholder: PropTypes.string,
     startElement: PropTypes.element,
     style: PropTypes.object,
-    tooltipPlacement: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }
 
   static defaultProps = {
-    tooltipPlacement: 'right',
-    inset: false,
     flex: false,
   }
 
@@ -214,8 +211,7 @@ export default class FormField extends Component {
           <Label
             for={ props.name }
             maxLength={ props.maxLength }
-            currentLength={ value.length }
-          >
+            currentLength={ value.length }>
             { label }
           </Label>
         }

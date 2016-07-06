@@ -32,7 +32,7 @@ export default class Button extends Component {
   }
 
   render() {
-    const { icon, children, kind, size, block, ...attributes } = this.props;
+    const { icon, children, kind, size, block, element, ...attributes } = this.props;
 
     let className = `Button ${kind}`;
     if (icon) {
@@ -61,11 +61,11 @@ export default class Button extends Component {
       </span>
     );
 
-    let { element } = this.props;
+    let elementClass = element;
     if (attributes.to) {
-      element = Link;
+      elementClass = Link;
     }
-    return React.createElement(element, {
+    return React.createElement(elementClass, {
       ...attributes,
       className,
       children: content,

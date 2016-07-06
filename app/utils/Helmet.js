@@ -16,16 +16,18 @@ class Helmet extends Component {
     meta: PropTypes.array,
     description: PropTypes.string,
     badge: PropTypes.number,
+    hideBadge: PropTypes.bool,
     images: PropTypes.arrayOf(PropTypes.string),
   }
 
   static defaultProps = {
     images: [],
+    hideBadge: false,
   }
 
   render() {
     let { title, description } = this.props;
-    if (title && this.props.badge > 0) {
+    if (title && !this.props.hideBadge && this.props.badge > 0) {
       title = `(${this.props.badge}) ${title}`;
     }
     if (description) {

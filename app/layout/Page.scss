@@ -1,57 +1,43 @@
 @import '../styles/constants';
+@import '../styles/mixins/mq';
 
 .Page {
   display: flex;
-  padding-top: $vertical-spacing*2;
+  padding-top: $vertical-spacing;
 }
 
-.Page-column {
+.PageColumn {
   width: 17%;
   min-width: 200px;
   max-width: 250px;
   margin-bottom: $vertical-spacing;
-  &:first-child {
-    margin-right: $horizontal-spacing*2;
-    margin-left: 0;
-  }
-  &:last-child {
-    margin-right: 0;
-    margin-left: $horizontal-spacing*2;
-  }
   .Card + .Card,
   .CardList + .Card,
   .Card + .CardList {
-    margin-top: $vertical-spacing*2;
+    margin-top: $vertical-spacing;
   }
 }
 
-.Page-body {
-  position: relative;
+@include tablet() {
+  .PageColumn {
+    display: none;
+  }  
+}
 
+.PageBody {
+  position: relative;
   flex: 1;
 }
 
-.Page-sticky-content {
+.PageColumn.start {
+  margin-right: $horizontal-spacing;
+}
+
+.PageColumn.end {
+  margin-left: $horizontal-spacing;
+}
+
+.PageColumn.sticky {
   position: sticky;
-  top: calc(#{$header-height} + 1.75rem);
-}
-
-.Page-sticky {
-  position: sticky;
-  z-index: $z-index-page-sticky;
-  top: calc(#{$header-height} + 1.75rem);
-}
-
-.Page-sticky-fixed {
-  width: $page-width-column;
-}
-
-.Page-sticky.Page-sticky-fixed.Page-is-sticky {
-  position: fixed;
-
-  backface-visibility: hidden;
-}
-
-.Page-sticky.Page-sticky-fixed.Page-is-absolute {
-  position: absolute;
+  top: $header-height + 18px;
 }

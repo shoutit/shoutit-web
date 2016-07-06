@@ -1,14 +1,23 @@
 @import '../styles/constants';
+@import '../styles/mixins/mq';
 
-.ShoutsList {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  flex-wrap: wrap;
+
+@include desktop() {
+  .ShoutsList {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  .ShoutsList-item {
+    padding: 0 $horizontal-spacing*2 $vertical-spacing*2 0;
+    flex: 0 1 auto;
+  }
 }
 
-.ShoutsList-item {
-  padding: 0 $horizontal-spacing*2 $vertical-spacing*2 0;
-
-  flex: 0 1 auto;
+@include tablet() {
+  .ShoutsList-item {
+    padding-bottom: $vertical-spacing*2;
+    flex: 0 1 auto;
+  }
 }

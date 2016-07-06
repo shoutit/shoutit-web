@@ -1,12 +1,8 @@
 @import '../styles/constants.scss';
 
-.Profile {
-  margin-top: .75rem;
-}
-
 .Profile-body {
-  margin-top: 1rem;
   display: flex;
+  margin-top: $vertical-spacing;
   .Profile-body-start-column {
     overflow: hidden;
     width: $page-width-column;
@@ -14,7 +10,6 @@
   }
   .Profile-shouts {
     margin-top: .75rem;
-
     flex: 1;
     h2 {
       margin: 0;
@@ -25,12 +20,3 @@
     }
   }
 }
-
-.Profile-name {
-  flex: 1;
-}
-
-.Profile-actions {
-  align-self: center;
-}
-

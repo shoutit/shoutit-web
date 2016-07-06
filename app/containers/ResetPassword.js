@@ -167,7 +167,7 @@ export class ResetPassword extends Component {
     const { sent } = this.state;
     return (
       <Page>
-        <Helmet title={ 'x' } />
+        <Helmet hideBadge title={ this.props.intl.formatMessage(MESSAGES.title) } />
         { !sent ? this.renderForm() : this.renderSuccessMessage() }
       </Page>
     );

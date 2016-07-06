@@ -183,7 +183,6 @@ export class Signup extends Component {
               <TextField
                 flex
                 ref="firstName"
-                tooltipPlacement="left"
                 disabled={ isSigningUp }
                 name="first_name"
                 type="text"

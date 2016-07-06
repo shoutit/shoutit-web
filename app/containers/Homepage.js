@@ -8,7 +8,6 @@ import { getCurrentLocale } from '../reducers/i18n';
 import Card, { CardImage, CardBody } from '../layout/Card';
 
 import AppBadge from '../widgets/AppBadge';
-import { getVariation } from '../utils/APIUtils';
 import Helmet from '../utils/Helmet';
 
 import { imagesPath } from '../config';

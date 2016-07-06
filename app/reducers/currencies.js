@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { denormalize } from '../schemas';
 
 export default function (state = [], action) {
   switch (action.type) {
@@ -9,5 +10,5 @@ export default function (state = [], action) {
 }
 
 export function getCurrencies(state) {
-  return state.currencies.map(code => state.entities.currencies[code]);
+  return denormalize(state.currencies, state.entities, 'CURRENCIES');
 }

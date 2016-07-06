@@ -36,6 +36,7 @@
 .Application-content {
   z-index: 0;
   .Application.stickyHeader & {
+    min-height: calc(100vh - #{$header-height});
     padding-top: $header-height;
     flex: 1;
   }
