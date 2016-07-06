@@ -14,7 +14,7 @@ import { getShoutsByUsername, getPaginationState } from '../reducers/paginated/s
 import { loadProfileDetailsIfNeeded, loadShoutsByUsername } from '../actions/users';
 import { routeError } from '../actions/server';
 
-import Page from '../layout/Page';
+import Page, { EndColumn, Body } from '../layout/Page';
 import SuggestedTags from '../tags/SuggestedTags';
 import SuggestedProfiles from '../users/SuggestedProfiles';
 import ProfileCover from '../users/ProfileCover';
@@ -86,14 +86,7 @@ export class Profile extends Component {
         } }
         triggerOffset={ 400 }
       >
-        <Page
-          endColumn={ [
-            <SuggestedTags key="interests" />,
-            <SuggestedProfiles key="profiles" />,
-            <SuggestedShout key="shout" />,
-          ] }
-        >
-
+        <Page>
           { profile &&
             <Helmet
               title={ formatMessage(MESSAGES.title, { ...profile }) }
@@ -108,55 +101,62 @@ export class Profile extends Component {
 
           { !profile && <Progress animate /> }
 
-          { profile &&
-            <div className="Profile">
-              <ProfileCover profile={ profile } />
+          <Body>
+            { profile &&
+              <div className="Profile">
+                <ProfileCover profile={ profile } />
 
-              <div className="Profile-body">
-                <div className="Profile-body-start-column">
-                  <ProfileBiography profile={ profile } />
-                </div>
+                <div className="Profile-body">
+                  <div className="Profile-body-start-column">
+                    <ProfileBiography profile={ profile } />
+                  </div>
 
-                <div className="Profile-shouts">
-                  <div>
-                    { shouts.length > 0 &&
+                  <div className="Profile-shouts">
+                    <div>
+                      { shouts.length > 0 &&
+                        <h2>
+                          { profile.isOwner ?
+                            <FormattedMessage
+                              id="profile.me.shoutsList.header"
+                              defaultMessage="Your shouts ({count})"
+                              values={ { count: this.props.shouts.length } }
+                            /> :
+                            <FormattedMessage
+                              id="profile.others.shoutsList.header"
+                              defaultMessage="{firstName}’s shouts ({count})"
+                              values={ {
+                                firstName: profile.firstName,
+                                count: this.props.shouts.length,
+                              } }
+                            />
+                          }
+                        </h2>
+                      }
+                      { shouts.length > 0 && <ShoutsList shouts={ shouts } showProfile={ false } /> }
+
+                      <Progress animate={ isFetching } />
+                    </div>
+                    { !isFetching && shouts.length === 0 &&
                       <h2>
-                        { profile.isOwner ?
-                          <FormattedMessage
-                            id="profile.me.shoutsList.header"
-                            defaultMessage="Your shouts ({count})"
-                            values={ { count: this.props.shouts.length } }
-                          /> :
-                          <FormattedMessage
-                            id="profile.others.shoutsList.header"
-                            defaultMessage="{firstName}’s shouts ({count})"
-                            values={ {
-                              firstName: profile.firstName,
-                              count: this.props.shouts.length,
-                            } }
-                          />
-                        }
+                        <FormattedMessage
+                          id="profile.others.shoutsList.noshouts"
+                          defaultMessage="{firstName} has no shouts, yet!"
+                          values={ { ...profile } }
+                        />
                       </h2>
                     }
-                    { shouts.length > 0 && <ShoutsList shouts={ shouts } showProfile={ false } /> }
 
-                    <Progress animate={ isFetching } />
                   </div>
-                  { !isFetching && shouts.length === 0 &&
-                    <h2>
-                      <FormattedMessage
-                        id="profile.others.shoutsList.noshouts"
-                        defaultMessage="{firstName} has no shouts, yet!"
-                        values={ { ...profile } }
-                      />
-                    </h2>
-                  }
-
                 </div>
-              </div>
 
-            </div>
-          }
+              </div>
+            }
+          </Body>
+          <EndColumn footer>
+            <SuggestedTags key="interests" />,
+            <SuggestedProfiles key="profiles" />,
+            <SuggestedShout key="shout" />
+          </EndColumn>
         </Page>
       </Scrollable>
     );

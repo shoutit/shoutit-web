@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { getCurrentLocale } from '../reducers/i18n';
 import Helmet from '../utils/Helmet';
 
-import Page from '../layout/Page';
+import Page, { Body, EndColumn } from '../layout/Page';
 
 import DiscoverItemPreview from '../discover/DiscoverItemPreview';
 
@@ -133,49 +133,52 @@ export class Discover extends Component {
             dispatch(loadShoutsForDiscoverItem(discoverItem.id, null, nextShoutsUrl));
           }
         } }>
-        <Page endColumn={ <SuggestedShout /> }>
+        <Page>
           { discoverItem && <Helmet title={ discoverItem.title } images={ [discoverItem.image] } /> }
-          { discoverItem &&
-            <div className="Discover-hero" style={ getStyleBackgroundImage(discoverItem.image, 'large') }>
-              { country &&
-                <div className="Discover-country" onClick={ e => this.showLocationModal(e) }>
-                  <CountryFlag code={ country } rounded size="medium" showTooltip={ false } />
-                  { getCountryName(country, this.props.locale) }
+          <Body>
+            { discoverItem &&
+              <div className="Discover-hero" style={ getStyleBackgroundImage(discoverItem.image, 'large') }>
+                { country &&
+                  <div className="Discover-country" onClick={ e => this.showLocationModal(e) }>
+                    <CountryFlag code={ country } rounded size="medium" showTooltip={ false } />
+                    { getCountryName(country, this.props.locale) }
+                  </div>
+                }
+                <div className="Discover-hero-content">
+                  <h1>{ discoverItem.title }</h1>
+                  { discoverItem.subtitle && <h2>{ discoverItem.subtitle }</h2> }
                 </div>
-              }
-              <div className="Discover-hero-content">
-                <h1>{ discoverItem.title }</h1>
-                { discoverItem.subtitle && <h2>{ discoverItem.subtitle }</h2> }
               </div>
-            </div>
-          }
+            }
 
-          { discoverItem && discoverItem.showChildren && discoverItem.children &&
-            <div className="Discover-children">
-              { discoverItem.children.map((child, i) =>
-                <Link to={ getDiscoverLink(country, child) } key={ i }>
-                  <DiscoverItemPreview discoverItem={ child } />
-                </Link>
-              ) }
-            </div>
-          }
+            { discoverItem && discoverItem.showChildren && discoverItem.children &&
+              <div className="Discover-children">
+                { discoverItem.children.map((child, i) =>
+                  <Link to={ getDiscoverLink(country, child) } key={ i }>
+                    <DiscoverItemPreview discoverItem={ child } />
+                  </Link>
+                ) }
+              </div>
+            }
 
-          { discoverItem && discoverItem.showShouts && shouts.length > 0 &&
-            <div className="Discover-shouts">
-              <h2>
-                <FormattedMessage
-                  defaultMessage="{discoverItemTitle} Shouts"
-                  id="discover.shouts.title"
-                  values={ { discoverItemTitle: discoverItem.title } }
-                />
-              </h2>
-              <ShoutsList columns={ 3 } shouts={ shouts } />
-            </div>
-          }
-
-          <Progress animate={ isFetchingShouts } />
-          <Progress animate={ isFetching && !discoverItem } />
-
+            { discoverItem && discoverItem.showShouts && shouts.length > 0 &&
+              <div className="Discover-shouts">
+                <h2>
+                  <FormattedMessage
+                    defaultMessage="{discoverItemTitle} Shouts"
+                    id="discover.shouts.title"
+                    values={ { discoverItemTitle: discoverItem.title } }
+                  />
+                </h2>
+                <ShoutsList columns={ 3 } shouts={ shouts } />
+              </div>
+            }
+            <Progress animate={ isFetchingShouts } />
+            <Progress animate={ isFetching && !discoverItem } />
+          </Body>
+          <EndColumn>
+            <SuggestedShout />
+          </EndColumn>
         </Page>
       </Scrollable>
     );

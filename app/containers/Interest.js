@@ -14,7 +14,7 @@ import { getTagByName } from '../reducers/entities/tags';
 import { getCategory } from '../reducers/categories';
 import { getShoutsByTagname, getPaginationState } from '../reducers/paginated/shoutsByTagname';
 
-import Page from '../layout/Page';
+import Page, { Body, StartColumn, EndColumn } from '../layout/Page';
 import RelatedTags from '../tags/RelatedTags';
 import TagPreview from '../tags/TagPreview';
 import SuggestedProfiles from '../users/SuggestedProfiles';
@@ -76,33 +76,37 @@ export class Interest extends Component {
           if (nextUrl && !isFetching) {
             dispatch(loadTagShouts(tag.name, {}, nextUrl));
           }
-        } }
-      >
-        <Page
-          stickyStartColumn
-          startColumn={ [
-            tag && <Card className="Interest-main-card" block style={ { width: '100%' } }>
-              <TagPreview style={ { width: '100%' } } id={ tag.id } />
-            </Card>,
-          ] }
-          endColumn={ [
-            tag && <RelatedTags key="related" tag={ tag } />,
-            <SuggestedProfiles key="profiles" />,
-            <SuggestedShout key="shout" />,
-          ] }
-        >
+        } }>
+        <Page>
           { tag && <Helmet title={ category ? category.name : tag.name } images={ [tag.image] } /> }
-
-          { !tag && <Progress animate /> }
-
-          { tag &&
-            <div className="Interest-shouts">
-              { shouts.length > 0 &&
-                <ShoutsList shouts={ shouts } />
-              }
-              <Progress animate={ isFetching } />
-            </div>
-          }
+          <StartColumn sticky>
+            {
+              tag &&
+                <Card className="Interest-main-card" block style={ { width: '100%' } }>
+                  <TagPreview style={ { width: '100%' } } id={ tag.id } />
+                </Card>
+            }
+          </StartColumn>
+          <Body>
+            { !tag && <Progress animate /> }
+            { tag &&
+              <div className="Interest-shouts">
+                { shouts.length > 0 &&
+                  <ShoutsList shouts={ shouts } />
+                }
+                <Progress animate={ isFetching } />
+              </div>
+            }
+          </Body>
+          <EndColumn footer>
+            { tag &&
+              <div>
+                <RelatedTags key="related" tag={ tag } />
+                <SuggestedProfiles key="profiles" />
+                <SuggestedShout key="shout" />
+              </div>
+            }
+          </EndColumn>
         </Page>
       </Scrollable>
     );

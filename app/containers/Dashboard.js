@@ -15,7 +15,7 @@ import { loadHomeShouts, loadListeningProfiles } from '../actions/users';
 import { routeError } from '../actions/server';
 
 import Progress from '../widgets/Progress';
-import Page from '../layout/Page';
+import Page, { StartColumn, EndColumn, Body } from '../layout/Page';
 import Scrollable from '../layout/Scrollable';
 import Icon from '../widgets/Icon';
 import ListItem from '../layout/ListItem';
@@ -41,59 +41,6 @@ const MESSAGES = defineMessages({
 const fetchData = dispatch =>
   dispatch(loadHomeShouts())
     .catch(err => dispatch(routeError(err)));
-
-const StartColumn = ({ profile }) =>
-  <div className="Dashboard-start-column">
-    <h1>
-      <FormattedMessage
-        id="dashboard.welcome"
-        defaultMessage="Welcome back, {firstName}"
-        values={ { firstName: profile.firstName } }
-      />
-    </h1>
-
-    <CardList>
-      <Link to={ `/user/${profile.username}` }>
-        <ListItem start={ <Icon active name="profile" size="small" /> }>
-          <FormattedMessage
-            id="dashboard.menu.profile"
-            defaultMessage="Your Profile"
-          />
-        </ListItem>
-      </Link>
-      <Link to="/settings">
-        <ListItem start={ <Icon active name="pencil" size="small" /> }>
-          <FormattedMessage
-            id="dashboard.menu.editProfile"
-            defaultMessage="Edit Your Profile"
-          />
-        </ListItem>
-      </Link>
-      <Link to="/messages">
-        <ListItem start={ <Icon active name="balloon-dots" size="small" /> }>
-          <FormattedMessage
-            id="dashboard.menu.chat"
-            defaultMessage="Messages"
-          />
-        </ListItem>
-      </Link>
-      <Link to="/search">
-        <ListItem start={ <Icon active name="world-west" size="small" /> }>
-          <FormattedMessage
-            id="dashboard.menu.search"
-            defaultMessage="Browse shouts"
-          />
-        </ListItem>
-      </Link>
-    </CardList>
-
-    <Listening byProfile={ profile } />
-
-  </div>;
-
-StartColumn.propTypes = {
-  profile: PropTypes.object.isRequired,
-};
 
 export class Dashboard extends Component {
 
@@ -141,52 +88,99 @@ export class Dashboard extends Component {
           }
         } }
         triggerOffset={ 400 }>
-        <Page
-          startColumn={ <StartColumn profile={ profile } /> }
-          stickyStartColumn
-          endColumn={ [<SuggestedTags />, <SuggestedProfiles />, <SuggestedShout />] }>
-
+        <Page>
           <Helmet title={ title } />
+          <StartColumn sticky>
+            <h1>
+              <FormattedMessage
+                id="dashboard.welcome"
+                defaultMessage="Welcome back, {firstName}"
+                values={ { firstName: profile.firstName } }
+              />
+            </h1>
 
-          <ShoutsList shouts={ shouts } />
+            <CardList>
+              <Link to={ `/user/${profile.username}` }>
+                <ListItem start={ <Icon active name="profile" size="small" /> }>
+                  <FormattedMessage
+                    id="dashboard.menu.profile"
+                    defaultMessage="Your Profile"
+                  />
+                </ListItem>
+              </Link>
+              <Link to="/settings">
+                <ListItem start={ <Icon active name="pencil" size="small" /> }>
+                  <FormattedMessage
+                    id="dashboard.menu.editProfile"
+                    defaultMessage="Edit Your Profile"
+                  />
+                </ListItem>
+              </Link>
+              <Link to="/messages">
+                <ListItem start={ <Icon active name="balloon-dots" size="small" /> }>
+                  <FormattedMessage
+                    id="dashboard.menu.chat"
+                    defaultMessage="Messages"
+                  />
+                </ListItem>
+              </Link>
+              <Link to="/search">
+                <ListItem start={ <Icon active name="world-west" size="small" /> }>
+                  <FormattedMessage
+                    id="dashboard.menu.search"
+                    defaultMessage="Browse shouts"
+                  />
+                </ListItem>
+              </Link>
+            </CardList>
+            <Listening byProfile={ profile } />
+          </StartColumn>
+          <Body>
+            <ShoutsList shouts={ shouts } />
 
-          { !isFetching && shouts.length === 0 &&
-            <UIMessage
-              title={
-                <FormattedMessage
-                  id="dashboard.shouts.noShoutsTitle"
-                  defaultMessage="No suggestions, yet."
-                />
-              }
-              details={
-                <FormattedMessage
-                  id="dashboard.shouts.noShoutsDetails"
-                  defaultMessage="After some while, you will see some more suggested shouts here."
-                />
-              }
-            />
-           }
+            { !isFetching && shouts.length === 0 &&
+              <UIMessage
+                title={
+                  <FormattedMessage
+                    id="dashboard.shouts.noShoutsTitle"
+                    defaultMessage="No suggestions, yet."
+                  />
+                }
+                details={
+                  <FormattedMessage
+                    id="dashboard.shouts.noShoutsDetails"
+                    defaultMessage="After some while, you will see some more suggested shouts here."
+                  />
+                }
+              />
+            }
 
-          <Progress animate={ isFetching } />
+            <Progress animate={ isFetching } />
 
-          { !isFetching && error &&
-            <UIMessage
-              title={
-                <FormattedMessage
-                  id="dashboard.shouts.errorTitle"
-                  defaultMessage="There was an error"
-                />
-              }
-              details={
-                <FormattedMessage
-                  id="dashboard.shouts.errorDetails"
-                  defaultMessage="Cannot load shouts right now – please try again."
-                />
-              }
-              type="error"
-              retryAction={ () => dispatch(loadHomeShouts(nextUrl)) }
-            />
-          }
+            { !isFetching && error &&
+              <UIMessage
+                title={
+                  <FormattedMessage
+                    id="dashboard.shouts.errorTitle"
+                    defaultMessage="There was an error"
+                  />
+                }
+                details={
+                  <FormattedMessage
+                    id="dashboard.shouts.errorDetails"
+                    defaultMessage="Cannot load shouts right now – please try again."
+                  />
+                }
+                type="error"
+                retryAction={ () => dispatch(loadHomeShouts(nextUrl)) }
+              />
+            }
+          </Body>
+          <EndColumn>
+            <SuggestedTags />
+            <SuggestedProfiles />
+            <SuggestedShout />
+          </EndColumn>
         </Page>
       </Scrollable>
     );

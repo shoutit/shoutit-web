@@ -15,7 +15,7 @@ import { getSearchParamsFromQuery, getQuerystringFromSearchParams } from '../uti
 
 import { loadShouts, invalidateShouts } from '../actions/shouts';
 
-import Page from '../layout/Page';
+import Page, { Body, StartColumn } from '../layout/Page';
 import Pagination from '../layout/Pagination';
 
 import Progress from '../widgets/Progress';
@@ -128,48 +128,44 @@ export class Search extends Component {
     const { shouts, nextUrl, isFetching, dispatch, error, searchParams, currentLocation, title } = this.props;
     const { formatMessage } = this.props.intl;
     return (
-      <Page
-        className="Search"
-        startColumn={
-          <div className="Search-start-column">
-            <SearchFilters
-              disabled={ false }
-              searchParams={ searchParams }
-              onSubmit={ this.search }
-            />
-          </div>
-        }
-        stickyStartColumn>
-
+      <Page className="Search">
         <Helmet title={ title } />
+        <StartColumn sticky>
+          <SearchFilters
+            disabled={ false }
+            searchParams={ searchParams }
+            onSubmit={ this.search }
+            />
+        </StartColumn>
+        <Body>
+          <ShoutsList shouts={ shouts } />
 
-        <ShoutsList shouts={ shouts } />
+          { !isFetching &&
+            <Pagination
+              pageSize={ 12 }
+              currentPage={ 0 }
+              count={ this.props.count }
+            />
+          }
 
-        { !isFetching &&
-          <Pagination
-            pageSize={ 12 }
-            currentPage={ 0 }
-            count={ this.props.count }
-          />
-        }
+          <Progress animate={ isFetching } />
 
-        <Progress animate={ isFetching } />
+          { !isFetching && error &&
+            <UIMessage
+              title={ formatMessage(MESSAGES.errorTitle) }
+              details={ formatMessage(MESSAGES.errorDetails) }
+              type="error"
+              retryAction={ () => dispatch(loadShouts(currentLocation, searchParams, nextUrl)) }
+            />
+          }
 
-        { !isFetching && error &&
-          <UIMessage
-            title={ formatMessage(MESSAGES.errorTitle) }
-            details={ formatMessage(MESSAGES.errorDetails) }
-            type="error"
-            retryAction={ () => dispatch(loadShouts(currentLocation, searchParams, nextUrl)) }
-          />
-        }
-
-        { !isFetching && !error && shouts.length === 0 &&
-          <UIMessage
-            title={ formatMessage(MESSAGES.notFoundTitle) }
-            details={ formatMessage(MESSAGES.notFoundDetails) }
-          />
-        }
+          { !isFetching && !error && shouts.length === 0 &&
+            <UIMessage
+              title={ formatMessage(MESSAGES.notFoundTitle) }
+              details={ formatMessage(MESSAGES.notFoundDetails) }
+            />
+          }
+        </Body>
 
       </Page>
     );

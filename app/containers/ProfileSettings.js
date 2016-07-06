@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 
 import { connect } from 'react-redux';
-import Page from '../layout/Page';
+import Page, { Body, StartColumn } from '../layout/Page';
 import Helmet from '../utils/Helmet';
 import RequiresLogin from '../auth/RequiresLogin';
 
@@ -126,108 +126,112 @@ export class ProfileSettings extends Component {
 
     return (
       <RequiresLogin>
-        <Page className="Settings" startColumn={ <SettingsNavigation /> }>
+        <Page className="Settings">
           <Helmet title={ formatMessage(MESSAGES.title) } />
-          <div className="Settings-layout">
-            <Form onSubmit={ this.handleSubmit }>
+          <StartColumn fixed>
+            <SettingsNavigation />
+          </StartColumn>
+          <Body>
+            <div className="Settings-layout">
+              <Form onSubmit={ this.handleSubmit }>
 
-              <h3>
-                <FormattedMessage
-                  id="profileSettings.profile.formTitle"
-                  defaultMessage="Public Profile"
-                />
-              </h3>
+                <h3>
+                  <FormattedMessage
+                    id="profileSettings.profile.formTitle"
+                    defaultMessage="Public Profile"
+                  />
+                </h3>
 
-              <div className="Settings-profile-avatar">
-                <ProfileAvatarEditable profile={ profile } size="huge" />
-              </div>
+                <div className="Settings-profile-avatar">
+                  <ProfileAvatarEditable profile={ profile } size="huge" />
+                </div>
 
 
-              <FieldsGroup>
-                <TextField
-                  flex
-                  name="first_name"
-                  label={ formatMessage(MESSAGES.firstNameLabel) }
-                  value={ profile.firstName }
-                  onChange={ first_name => this.setState({ first_name }) }
+                <FieldsGroup>
+                  <TextField
+                    flex
+                    name="first_name"
+                    label={ formatMessage(MESSAGES.firstNameLabel) }
+                    value={ profile.firstName }
+                    onChange={ first_name => this.setState({ first_name }) }
+                    error={ error }
+                    disabled={ profile.isUpdating }
+                  />
+
+                  <TextField
+                    flex
+                    name="last_name"
+                    label={ formatMessage(MESSAGES.lastNameLabel) }
+                    value={ profile.lastName }
+                    onChange={ last_name => this.setState({ last_name }) }
+                    error={ error }
+                    disabled={ profile.isUpdating }
+                  />
+
+                  <Picker
+                    name="gender"
+                    label={ formatMessage(MESSAGES.genderLabel) }
+                    value={ profile.gender }
+                    onChange={ gender => this.setState({ gender }) }
+                    error={ error }
+                    disabled={ profile.isUpdating }
+                    >
+                    <option value=""></option>
+                    <option value="female">
+                      { formatMessage(MESSAGES.femaleValue) }
+                    </option>
+                    <option value="male">
+                      { formatMessage(MESSAGES.maleValue) }
+                    </option>
+                  </Picker>
+
+                </FieldsGroup>
+
+                <TextArea
+                  name="bio"
+                  label={ formatMessage(MESSAGES.aboutLabel) }
+                  autosize
+                  rows={ 1 }
+                  maxLength={ 160 }
+                  maxRows={ 3 }
+                  name="bio"
+                  value={ profile.bio }
+                  onBlur={ this.submitProfileForm }
+                  onChange={ bio => this.setState({ bio }) }
                   error={ error }
                   disabled={ profile.isUpdating }
                 />
 
                 <TextField
-                  flex
-                  name="last_name"
-                  label={ formatMessage(MESSAGES.lastNameLabel) }
-                  value={ profile.lastName }
-                  onChange={ last_name => this.setState({ last_name }) }
+                  type="url"
+                  placeholder="http://"
+                  name="website"
+                  label={ formatMessage(MESSAGES.websiteLabel) }
+                  value={ this.state.website }
+                  onChange={ website => this.setState({ website }) }
                   error={ error }
                   disabled={ profile.isUpdating }
                 />
 
-                <Picker
-                  name="gender"
-                  label={ formatMessage(MESSAGES.genderLabel) }
-                  value={ profile.gender }
-                  onChange={ gender => this.setState({ gender }) }
-                  error={ error }
-                  disabled={ profile.isUpdating }
-                  >
-                  <option value=""></option>
-                  <option value="female">
-                    { formatMessage(MESSAGES.femaleValue) }
-                  </option>
-                  <option value="male">
-                    { formatMessage(MESSAGES.maleValue) }
-                  </option>
-                </Picker>
+                <LocationField
+                  name="location"
+                  location={ profile.location }
+                  label={ formatMessage(MESSAGES.locationLabel) }
+                />
 
-              </FieldsGroup>
-
-              <TextArea
-                name="bio"
-                label={ formatMessage(MESSAGES.aboutLabel) }
-                autosize
-                rows={ 1 }
-                maxLength={ 160 }
-                maxRows={ 3 }
-                name="bio"
-                value={ profile.bio }
-                onBlur={ this.submitProfileForm }
-                onChange={ bio => this.setState({ bio }) }
-                error={ error }
-                disabled={ profile.isUpdating }
-              />
-
-              <TextField
-                type="url"
-                placeholder="http://"
-                name="website"
-                label={ formatMessage(MESSAGES.websiteLabel) }
-                value={ this.state.website }
-                onChange={ website => this.setState({ website }) }
-                error={ error }
-                disabled={ profile.isUpdating }
-              />
-
-              <LocationField
-                name="location"
-                location={ profile.location }
-                label={ formatMessage(MESSAGES.locationLabel) }
-              />
-
-              <div className="Settings-actions">
-                <Button kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
-                { profile.isUpdating &&
-                  <FormattedMessage id="ProfileSettings.profileForm.updatingLabel" defaultMessage="Updating…" /> }
-                { this.didChange() && !profile.isUpdating &&
-                  <FormattedMessage id="ProfileSettings.profileForm.updateLabel" defaultMessage="Update profile" /> }
-                { !this.didChange() && !profile.isUpdating &&
-                  <FormattedMessage id="ProfileSettings.profileForm.updatedLabel" defaultMessage="Profile updated" /> }
-                </Button>
-              </div>
-            </Form>
-
-          </div>
+                <div className="Settings-actions">
+                  <Button kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
+                  { profile.isUpdating &&
+                    <FormattedMessage id="ProfileSettings.profileForm.updatingLabel" defaultMessage="Updating…" /> }
+                  { this.didChange() && !profile.isUpdating &&
+                    <FormattedMessage id="ProfileSettings.profileForm.updateLabel" defaultMessage="Update profile" /> }
+                  { !this.didChange() && !profile.isUpdating &&
+                    <FormattedMessage id="ProfileSettings.profileForm.updatedLabel" defaultMessage="Profile updated" /> }
+                  </Button>
+                </div>
+              </Form>
+            </div>
+          </Body>
         </Page>
       </RequiresLogin>
     );

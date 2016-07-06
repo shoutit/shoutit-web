@@ -1,23 +1,16 @@
 @import '../styles/constants';
+@import '../styles/mixins/mq';
 
 .Page {
   display: flex;
   padding-top: $vertical-spacing*2;
 }
 
-.Page-column {
+.PageColumn {
   width: 17%;
   min-width: 200px;
   max-width: 250px;
   margin-bottom: $vertical-spacing;
-  &:first-child {
-    margin-right: $horizontal-spacing*2;
-    margin-left: 0;
-  }
-  &:last-child {
-    margin-right: 0;
-    margin-left: $horizontal-spacing*2;
-  }
   .Card + .Card,
   .CardList + .Card,
   .Card + .CardList {
@@ -25,7 +18,14 @@
   }
 }
 
-.Page-body {
+@include tablet() {
+  .PageColumn {
+    display: none;
+  }  
+}
+
+
+.PageBody {
   position: relative;
 
   flex: 1;
