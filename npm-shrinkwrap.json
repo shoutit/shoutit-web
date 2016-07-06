@@ -2,6 +2,18 @@
   "name": "shoutit-web",
   "version": "0.0.1",
   "dependencies": {
+    "@economist/component-stickyfill": {
+      "version": "1.1.1",
+      "from": "@economist/component-stickyfill@latest",
+      "resolved": "https://registry.npmjs.org/@economist/component-stickyfill/-/component-stickyfill-1.1.1.tgz",
+      "dependencies": {
+        "stickyfill": {
+          "version": "1.1.1",
+          "from": "stickyfill@>=1.1.1 <2.0.0",
+          "resolved": "https://registry.npmjs.org/stickyfill/-/stickyfill-1.1.1.tgz"
+        }
+      }
+    },
     "aws-sdk": {
       "version": "2.4.5",
       "from": "aws-sdk@2.4.5",

@@ -1,5 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import React, { PropTypes, Component } from 'react';
+import Sticky from '@economist/component-stickyfill';
+
 // import Sticky from 'react-sticky-state';
 
 import MiniFooter from '../layout/MiniFooter';
@@ -28,11 +30,18 @@ class PageColumn extends Component {
     if (this.props.classModifier) {
       className += ` ${this.props.classModifier}`;
     }
-    return (
+    if (this.props.sticky) {
+      className += ' sticky';
+    }
+    const content = (
       <div className={ className }>
         { this.props.children }
       </div>
     );
+    if (this.props.sticky) {
+      return <Sticky>{ content }</Sticky>;
+    }
+    return content;
   }
 }
 

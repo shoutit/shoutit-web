@@ -31,6 +31,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@economist/component-stickyfill": "1.1.1",
     "aws-sdk": "2.4.5",
     "babel-polyfill": "6.9.1",
     "basic-auth": "1.0.4",
