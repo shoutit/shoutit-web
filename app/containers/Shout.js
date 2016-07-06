@@ -50,13 +50,9 @@ const fetchData = (dispatch, state, params) =>
     .catch(err => dispatch(routeError(err)));
 
 function ShoutActions({ shout, onReplyClick }) {
-  const buttonStyle = {
-    marginTop: '.5rem',
-    textAlign: 'center',
-  };
   let callButton;
   if (shout.isMobileSet) {
-    callButton = <ShoutCallButton shout={ shout } style={ buttonStyle } block />;
+    callButton = <ShoutCallButton shout={ shout } block />;
   }
   return (
     <div className="ShoutActions">
@@ -64,12 +60,12 @@ function ShoutActions({ shout, onReplyClick }) {
       <ShoutPrice shout={ shout } />
       { shout.profile.isOwner ?
         <div>
-          <UpdateShoutButton style={ buttonStyle } block shoutId={ shout.id } />
+          <UpdateShoutButton block shoutId={ shout.id } />
           { callButton }
         </div> :
         <div>
           <RequiresLogin event="onClick" loginAction={ REPLY_SHOUT }>
-            <Button style={ buttonStyle } block onClick={ onReplyClick } kind="primary" icon="balloon-dots">
+            <Button block onClick={ onReplyClick } kind="primary" icon="balloon-dots">
               <FormattedMessage id="shoutActions.reply" defaultMessage="Reply to this Shout" />
             </Button>
           </RequiresLogin>

@@ -72,6 +72,9 @@ export class RequiresLogin extends Component {
         </div>
       );
     }
+    delete props.loginAction;
+    delete props.currentUrl;
+    delete props.dispatch;
     return React.cloneElement(children, props);
   }
 }
