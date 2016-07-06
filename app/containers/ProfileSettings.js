@@ -14,6 +14,7 @@ import FieldsGroup from '../forms/FieldsGroup';
 import Button from '../forms/Button';
 import Picker from '../forms/Picker';
 import LocationField from '../forms/LocationField';
+import Card from '../layout/Card';
 
 import SettingsNavigation from '../settings/SettingsNavigation';
 
@@ -132,15 +133,15 @@ export class ProfileSettings extends Component {
             <SettingsNavigation />
           </StartColumn>
           <Body>
-            <div className="Settings-layout">
+            <Card block className="Settings-body">
               <Form onSubmit={ this.handleSubmit }>
 
-                <h3>
+                <h2>
                   <FormattedMessage
                     id="profileSettings.profile.formTitle"
                     defaultMessage="Public Profile"
                   />
-                </h3>
+                </h2>
 
                 <div className="Settings-profile-avatar">
                   <ProfileAvatarEditable profile={ profile } size="huge" />
@@ -219,18 +220,16 @@ export class ProfileSettings extends Component {
                   label={ formatMessage(MESSAGES.locationLabel) }
                 />
 
-                <div className="Settings-actions">
-                  <Button kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
+                <Button kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
                   { profile.isUpdating &&
                     <FormattedMessage id="ProfileSettings.profileForm.updatingLabel" defaultMessage="Updating…" /> }
                   { this.didChange() && !profile.isUpdating &&
                     <FormattedMessage id="ProfileSettings.profileForm.updateLabel" defaultMessage="Update profile" /> }
                   { !this.didChange() && !profile.isUpdating &&
                     <FormattedMessage id="ProfileSettings.profileForm.updatedLabel" defaultMessage="Profile updated" /> }
-                  </Button>
-                </div>
+                </Button>
               </Form>
-            </div>
+            </Card>
           </Body>
         </Page>
       </RequiresLogin>

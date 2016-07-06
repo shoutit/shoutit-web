@@ -29,8 +29,6 @@ import SuggestedShout from '../shouts/SuggestedShout';
 import { getHomepageShouts, getPaginationState } from '../reducers/paginated/shoutsByHome';
 import { getLoggedUser } from '../reducers/session';
 
-import './Dashboard.scss';
-
 const MESSAGES = defineMessages({
   title: {
     id: 'dashboard.page.title',
@@ -91,13 +89,13 @@ export class Dashboard extends Component {
         <Page>
           <Helmet title={ title } />
           <StartColumn sticky>
-            <h1>
+            <h2>
               <FormattedMessage
                 id="dashboard.welcome"
                 defaultMessage="Welcome back, {firstName}"
                 values={ { firstName: profile.firstName } }
               />
-            </h1>
+            </h2>
 
             <CardList>
               <Link to={ `/user/${profile.username}` }>

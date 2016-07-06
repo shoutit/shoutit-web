@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
-
+import Card from '../layout/Card';
 import Page, { StartColumn, Body } from '../layout/Page';
 import Helmet from '../utils/Helmet';
 import RequiresLogin from '../auth/RequiresLogin';
@@ -137,11 +137,11 @@ export class AccountSettings extends Component {
             <SettingsNavigation />
           </StartColumn>
           <Body>
-            <div className="Settings-layout">
+            <Card className="Settings-body" block>
               <Form onSubmit={ this.handlePasswordFormSubmit }>
-                <h3>
+                <h2>
                   <FormattedMessage id="accountSettings.password.formTitle" defaultMessage="Change your password" />
-                </h3>
+                </h2>
                 { this.state.isPasswordSet &&
                   <TextField
                     ref="old_password"
@@ -175,18 +175,16 @@ export class AccountSettings extends Component {
                     onChange={ new_password2 => this.setState({ new_password2 }) }
                     error={ session.updatePasswordError } />
                 </FieldsGroup>
-                <div className="Settings-actions">
-                  <Button kind="primary" disabled={ session.isUpdatingPassword || !this.isChangingPassword() }>
-                    <FormattedMessage id="accountSettings.password.submit" defaultMessage="Change password" />
-                  </Button>
-                </div>
+                <Button kind="primary" disabled={ session.isUpdatingPassword || !this.isChangingPassword() }>
+                  <FormattedMessage id="accountSettings.password.submit" defaultMessage="Change password" />
+                </Button>
               </Form>
-            </div>
-            <div className="Settings-layout">
+            </Card>
+            <Card className="Settings-body" block>
               <Form onSubmit={ this.handleAccountFormSubmit }>
-                <h3>
+                <h2>
                   <FormattedMessage id="accountSettings.account.formTitle" defaultMessage="Your Account" />
-                </h3>
+                </h2>
                 <TextField
                   name="email"
                   label={ formatMessage(MESSAGES.emailLabel) }
@@ -211,19 +209,16 @@ export class AccountSettings extends Component {
                   error={ profile.updateError }
                   disabled={ profile.isUpdating }
                 />
-                <div className="Settings-actions">
-                  <Button kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
-                    { profile.isUpdating &&
-                      <FormattedMessage id="accountSettings.account.updatingLabel" defaultMessage="Updating…" /> }
-                    { this.didChange() && !profile.isUpdating &&
-                      <FormattedMessage id="accountSettings.account.updateLabel" defaultMessage="Update account" /> }
-                    { !this.didChange() && !profile.isUpdating &&
-                      <FormattedMessage id="accountSettings.account.updatedLabel" defaultMessage="Account updated" /> }
-                  </Button>
-                </div>
-
+                <Button kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
+                  { profile.isUpdating &&
+                    <FormattedMessage id="accountSettings.account.updatingLabel" defaultMessage="Updating…" /> }
+                  { this.didChange() && !profile.isUpdating &&
+                    <FormattedMessage id="accountSettings.account.updateLabel" defaultMessage="Update account" /> }
+                  { !this.didChange() && !profile.isUpdating &&
+                    <FormattedMessage id="accountSettings.account.updatedLabel" defaultMessage="Account updated" /> }
+                </Button>
               </Form>
-            </div>
+            </Card>
           </Body>
         </Page>
       </RequiresLogin>

@@ -31,7 +31,8 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
   padding-top: .75em;
 }
 
-.FormField + .Button {
+.FormField + .Button,
+.FieldsGroup + .Button {
   margin-top: .75em;
 }
 
