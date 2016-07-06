@@ -1,0 +1,13 @@
+@import "~sass-mediaqueries/_media-queries.scss";
+
+@mixin tablet() {
+  @include mq($max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin desktop() {
+  @include mq($min-width: 768px) {
+    @content;
+  }
+}
