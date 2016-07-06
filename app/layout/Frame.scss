@@ -14,7 +14,7 @@
 }
 
 .Frame-body {
-  padding: 1rem;
+  padding: $vertical-spacing $horizontal-spacing;
 
   .Frame.transparent & {
     margin-top: 1rem;
@@ -30,7 +30,7 @@
 
 .Frame-header h1 {
   margin: 0;
-  padding-top: 2.75em;
+  padding-top: 3.5em;
   text-align: center;
   background-image: url('../../assets/images/mark.svg');
   background-repeat: no-repeat;
