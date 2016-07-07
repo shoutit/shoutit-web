@@ -128,7 +128,7 @@ export class Search extends Component {
   }
 
   handleSortChange(sort) {
-    this.setState({ sort: sort }, this.updateList);
+    this.setState({ sort }, this.updateList);
   }
   handleFiltersSubmit(params) {
     this.setState({ ...params }, this.updateList);
