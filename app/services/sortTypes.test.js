@@ -4,12 +4,14 @@ import { expect } from 'chai';
 import { Request } from 'superagent';
 import sinon from 'sinon';
 
-import service, { getCache, setCache } from './sortTypes';
+import service from './sortTypes';
+import { clearCache, setCache, getCache } from './createService';
+
 
 describe('services/sortTypes', () => {
 
   afterEach(() => {
-    setCache(undefined);
+    clearCache('sortTypes');
     if (Request.prototype.end.restore) {
       Request.prototype.end.restore();
     }
@@ -45,14 +47,14 @@ describe('services/sortTypes', () => {
         callback(null, response);
       });
       const callback = () => {
-        expect(getCache()).to.eql(body);
+        expect(getCache('sortTypes')).to.eql(body);
         done();
       };
       service.read({}, resource, params, config, callback);
     });
     it('should use the cache if available', done => {
       const cached = body;
-      setCache(cached);
+      setCache('sortTypes', cached);
       const callback = (err, body) => {
         expect(body).to.eql(cached);
         done();
