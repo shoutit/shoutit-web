@@ -16,6 +16,10 @@
     "defaultMessage": "Max price"
   },
   {
+    "id": "search.SearchFilters.free.label",
+    "defaultMessage": "Only Free Items"
+  },
+  {
     "id": "searchFilters.submitButton.label",
     "defaultMessage": "Search"
   }
