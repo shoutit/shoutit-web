@@ -50,13 +50,17 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
   background-color: $white;
 }
 
+.FormField.disabled .FormField-wrapper {
+  background-color: $grey-light-6;
+}
+
 .FormField.with-input .FormField-wrapper,
 .FormField.with-select .FormField-wrapper {
   height: 2.375em;
 }
 
-.FormField:hover .FormField-wrapper {
-  border-color: $grey-light-1;
+.FormField:hover:not(.disabled) .FormField-wrapper {
+  border-color: $formFieldBorderColorHover;
 }
 
 .FormField.has-focus .FormField-wrapper {
