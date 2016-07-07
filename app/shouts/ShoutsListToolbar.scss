@@ -11,6 +11,14 @@
   margin-top: $vertical-spacing;
 }
 
+.ShoutsListToolbar-count {
+  color: $color-text-light; 
+}
+
+.ShoutsListToolbar-countValue {
+  color: $color-text;
+}
+
 .ShoutsListToolbar-form {
   display: flex;
   align-items: center;

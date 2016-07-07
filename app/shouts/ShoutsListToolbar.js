@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedNumber } from 'react-intl';
 import { connect } from 'react-redux';
 import { getSortTypes } from '../reducers/sortTypes';
 
@@ -11,17 +11,29 @@ class ShoutsListToolbar extends Component {
   static propTypes = {
     sortTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
     count: PropTypes.number,
+    sortType: PropTypes.string,
     onSortChange: PropTypes.func.isRequired,
   }
   render() {
     const { count } = this.props;
     return (
       <div className="ShoutsListToolbar">
-        <div className="ShoutsListToolbar-counter">
+        <div className="ShoutsListToolbar-count">
           <FormattedMessage
             id="shouts.ShoutsListToolbar.count"
-            defaultMessage="{ count } Shouts found"
-            values={ { count } }
+            defaultMessage="{count, plural,
+              one {{formattedCount} Shout found}
+              two {{formattedCount} Shouts found}
+              other {{formattedCount} Shouts found}
+            }"
+            values={ {
+              count,
+              formattedCount: (
+                <span className="ShoutsListToolbar-countValue">
+                  <FormattedNumber value={ count } />
+                </span>
+              ),
+            } }
           />
         </div>
 
@@ -32,7 +44,7 @@ class ShoutsListToolbar extends Component {
               defaultMessage="Sort by"
             />
           </label>
-          <Picker name="sort" id="ShoutsListToolbarSort" onChange={ this.props.onSortChange }>
+          <Picker value={ this.props.sortType } name="sort" id="ShoutsListToolbarSort" onChange={ this.props.onSortChange }>
             { this.props.sortTypes.map(sortType =>
               <option value={ sortType.type }>{ sortType.name }</option>
             ) }

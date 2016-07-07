@@ -1,7 +1,7 @@
 [
   {
     "id": "shouts.ShoutsListToolbar.count",
-    "defaultMessage": "{count} Shouts found"
+    "defaultMessage": "{count, plural, one {{formattedCount} Shout found} two {{formattedCount} Shouts found} other {{formattedCount} Shouts found}}"
   },
   {
     "id": "shouts.ShoutsListToolbar.sortByLabel",
