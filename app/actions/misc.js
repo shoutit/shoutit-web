@@ -36,4 +36,3 @@ export const loadSortTypes = () => ({
     schema: SORT_TYPES,
   },
 });
-
