@@ -139,7 +139,9 @@ export class Search extends Component {
             />
         </StartColumn>
         <Body>
-          <ShoutsListToolbar count={ this.props.count } onSortChange={ () => {} } />
+          { shouts && this.props.count > 0 &&
+            <ShoutsListToolbar count={ this.props.count } onSortChange={ () => {} } />
+          }
           <ShoutsList shouts={ shouts } />
 
           { !isFetching &&
