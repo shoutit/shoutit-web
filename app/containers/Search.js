@@ -88,7 +88,11 @@ export class Search extends Component {
 
   constructor(props) {
     super(props);
-    this.search = this.search.bind(this);
+    this.handleFiltersSubmit = this.handleFiltersSubmit.bind(this);
+    this.handleSortChange = this.handleSortChange.bind(this);
+    this.state = {
+      sort: props.searchParams.sort,
+    };
   }
 
   componentDidMount() {
@@ -109,20 +113,25 @@ export class Search extends Component {
   componentDidUpdate(prevProps) {
     const { currentLocation, searchParams } = this.props;
     if (prevProps.currentLocation.slug !== currentLocation.slug) {
-      this.search(searchParams);
+      this.setState({ ...searchParams }, this.update);
     }
   }
 
-  search(searchParams) {
+  updateList() {
     const { dispatch, currentLocation } = this.props;
     let path = `/search${getLocationPath(currentLocation)}`;
-    if (searchParams) {
-      const qs = getQuerystringFromSearchParams(searchParams);
-      if (qs) {
-        path += `?${qs}`;
-      }
+    const qs = getQuerystringFromSearchParams(this.state);
+    if (qs) {
+      path += `?${qs}`;
     }
     dispatch(push(path));
+  }
+
+  handleSortChange(sort) {
+    this.setState({ sort: sort }, this.updateList);
+  }
+  handleFiltersSubmit(params) {
+    this.setState({ ...params }, this.updateList);
   }
 
   render() {
@@ -135,12 +144,16 @@ export class Search extends Component {
           <SearchFilters
             disabled={ false }
             searchParams={ searchParams }
-            onSubmit={ this.search }
+            onSubmit={ this.handleFiltersSubmit }
             />
         </StartColumn>
         <Body>
           { shouts && this.props.count > 0 &&
-            <ShoutsListToolbar count={ this.props.count } onSortChange={ () => {} } />
+            <ShoutsListToolbar
+              sortType={ this.state.sort }
+              count={ this.props.count }
+              onSortChange={ this.handleSortChange }
+            />
           }
           <ShoutsList shouts={ shouts } />
 

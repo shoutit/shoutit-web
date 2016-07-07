@@ -53,7 +53,9 @@ export function getQuerystringFromSearchParams(params) {
   if (params.page) {
     query.push(`page=${params.page}`);
   }
-
+  if (params.sort) {
+    query.push(`sort=${params.sort}`);
+  }
   if (query.length > 0) {
     queryAsString += `${query.join('&')}`;
   }
@@ -61,7 +63,7 @@ export function getQuerystringFromSearchParams(params) {
 }
 
 export function getSearchParamsFromQuery(query) {
-  const { shout_type, category, min_price, max_price, search, page } = query;
+  const { shout_type, category, min_price, max_price, search, page, sort } = query;
 
   let filters;
   if (query.filters) {
@@ -75,6 +77,7 @@ export function getSearchParamsFromQuery(query) {
     max_price: max_price ? parseInt(max_price, 10) : undefined,
     page: page ? parseInt(page, 10) : undefined,
     ...filters,
+    sort,
   };
 
   if (query.within && query.within !== 'city') {

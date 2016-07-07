@@ -11,6 +11,7 @@ class ShoutsListToolbar extends Component {
   static propTypes = {
     sortTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
     count: PropTypes.number,
+    sortType: PropTypes.string,
     onSortChange: PropTypes.func.isRequired,
   }
   render() {
@@ -43,7 +44,7 @@ class ShoutsListToolbar extends Component {
               defaultMessage="Sort by"
             />
           </label>
-          <Picker name="sort" id="ShoutsListToolbarSort" onChange={ this.props.onSortChange }>
+          <Picker value={ this.props.sortType } name="sort" id="ShoutsListToolbarSort" onChange={ this.props.onSortChange }>
             { this.props.sortTypes.map(sortType =>
               <option value={ sortType.type }>{ sortType.name }</option>
             ) }
