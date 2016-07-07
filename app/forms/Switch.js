@@ -12,13 +12,14 @@ export default class Switch extends Component {
   render() {
     const { children, ...props } = this.props;
     return (
-      <div className="Switch">
+      <div className="FormField Switch">
         <input
           { ...props }
           type="checkbox"
           name={ this.props.name }
           id={ this.props.name }
         />
+        <span className="Switch-checkbox" />
         <label htmlFor={ this.props.name }>
           { children }
         </label>

@@ -80,6 +80,7 @@ describe('utils/SearchUtils', () => {
         abc: 'xyz',
         page: 1,
         sort: 'foo',
+        free: false,
       });
     });
 

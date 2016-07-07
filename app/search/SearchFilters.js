@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl';
 
 import Button from '../forms/Button';
 import Form from '../forms/Form';
+import Switch from '../forms/Switch';
 import LocationField from '../forms/LocationField';
 import LocationRange from '../forms/LocationRange';
 import CategoryPicker from '../forms/CategoryPicker';
@@ -57,6 +58,7 @@ export class SearchFilters extends Component {
       min_price: parseInt(this.state.min_price, 10) || undefined,
       max_price: parseInt(this.state.max_price, 10) || undefined,
       within: this.state.within || undefined,
+      free: this.state.free || undefined,
     };
     return searchParams;
   }
@@ -70,6 +72,7 @@ export class SearchFilters extends Component {
       search: props.searchParams.search || '',
       within: props.searchParams.within,
       filters: props.searchParams.filters || {},
+      free: props.searchParams.free || false,
     };
   }
 
@@ -161,7 +164,7 @@ export class SearchFilters extends Component {
                   id="SearchFiltersMinPrice"
                   autoComplete="off"
                   placeholder={ placeholder }
-                  disabled={ disabled }
+                  disabled={ disabled || this.state.free }
                   name="min_price"
                   value={ min_price }
                   onChange={ min_price => this.handleChange({ min_price }, { debounce: true }) }
@@ -177,13 +180,28 @@ export class SearchFilters extends Component {
                   autoComplete="off"
                   className="SearchFilters-input"
                   placeholder={ placeholder }
-                  disabled={ disabled }
+                  disabled={ disabled || this.state.free }
                   name="max_price"
                   value={ max_price }
                   onChange={ max_price => this.handleChange({ max_price }, { debounce: true }) }
                 />
               }
             </FormattedMessage>
+
+            <Switch
+              disabled={ disabled }
+              checked={ this.state.free }
+              type="checkbox"
+              name="free"
+              id="free"
+              onChange={ e => this.handleChange({ free: e.target.checked }) }
+            >
+              <FormattedMessage
+                id="search.SearchFilters.free.label"
+                defaultMessage="Only Free Items"
+              />
+            </Switch>
+
             <Button
               block
               kind="primary"

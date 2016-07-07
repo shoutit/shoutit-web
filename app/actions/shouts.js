@@ -29,6 +29,11 @@ export const loadShouts = (location, params, endpoint, types = [
   let searchLocation = omit(location, ['slug', 'name', 'postalCode']);
   searchLocation.postal_code = location.postalCode;
   let searchParams = { ...params };
+  if (searchParams.free) {
+    delete searchParams.free;
+    delete searchParams.min_price;
+    searchParams.max_price = 0;
+  }
   switch (searchParams.within) {
     case 'country':
       searchParams = omit(searchParams, ['within']);

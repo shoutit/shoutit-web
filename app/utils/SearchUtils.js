@@ -22,7 +22,7 @@ export function uriComponentToFiltersObject(component) {
 }
 
 export function getQuerystringFromSearchParams(params) {
-  const { shout_type, category, min_price, max_price, search, filters, within } = params;
+  const { shout_type, category, min_price, max_price, search, filters, within, free } = params;
   let queryAsString = '';
   const query = [];
   if (shout_type && ['request', 'offer'].indexOf(shout_type) > -1) {
@@ -34,11 +34,16 @@ export function getQuerystringFromSearchParams(params) {
   if (search) {
     query.push(`search=${encodeURIComponent(search)}`);
   }
-  if (min_price) {
-    query.push(`min_price=${min_price}`);
-  }
-  if (max_price) {
-    query.push(`max_price=${max_price}`);
+
+  if (free) {
+    query.push(`free=${free}`);
+  } else {
+    if (min_price) {
+      query.push(`min_price=${min_price}`);
+    }
+    if (max_price) {
+      query.push(`max_price=${max_price}`);
+    }
   }
   if (within && within !== 'city') {
     query.push(`within=${within}`);
@@ -63,7 +68,7 @@ export function getQuerystringFromSearchParams(params) {
 }
 
 export function getSearchParamsFromQuery(query) {
-  const { shout_type, category, min_price, max_price, search, page, sort } = query;
+  const { shout_type, category, min_price, max_price, search, page, sort, free } = query;
 
   let filters;
   if (query.filters) {
@@ -72,6 +77,7 @@ export function getSearchParamsFromQuery(query) {
   const searchParams = {
     shout_type,
     category,
+    free: free === 'true',
     search: search ? decodeURIComponent(search) : undefined,
     min_price: min_price ? parseInt(min_price, 10) : undefined,
     max_price: max_price ? parseInt(max_price, 10) : undefined,
