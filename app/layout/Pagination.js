@@ -37,12 +37,14 @@ class Pagination extends Component {
     if (this.props.querystring) {
       url += `?${this.props.querystring}`;
     }
+    const previousLabel = <FormattedMessage id="layout.Pagination.previousLabel" defaultMessage="Previous" />;
+    const nextLabel = <FormattedMessage id="layout.Pagination.nextLabel" defaultMessage="Next" />;
     return (
       <div className="Pagination">
         <Pager
           url={ url }
-          previousLabel={ <FormattedMessage id="layout.Pagination.previousLabel" defaultMessage="Previous" /> }
-          nextLabel={ <FormattedMessage id="layout.Pagination.nextLabel" defaultMessage="Next" /> }
+          previousLabel={ previousLabel }
+          nextLabel={ nextLabel }
           total={ total }
           current={ parseInt(this.props.page, 10) }
         />

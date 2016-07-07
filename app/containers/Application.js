@@ -17,7 +17,7 @@ import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
 import NotFound from './NotFound';
 
-import { loadCategories, loadCurrencies } from '../actions/misc';
+import { loadCategories, loadCurrencies, loadSortTypes } from '../actions/misc';
 import { loadSuggestions } from '../actions/location';
 import { loadListeningProfiles } from '../actions/users';
 import { clientLogin, updateLinkedAccount, logout } from '../actions/session';
@@ -33,6 +33,7 @@ import './Application.scss';
 const fetchData = (dispatch, state) => {
   const promises = [];
   promises.push(dispatch(loadCategories()));
+  promises.push(dispatch(loadSortTypes()));
   promises.push(dispatch(loadCurrencies()));
   const loggedUser = getLoggedUser(state); // logged user comes from rehydrated state
   if (loggedUser) {

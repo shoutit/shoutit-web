@@ -1,24 +1,7 @@
-import request from '../utils/request';
-import { parseApiError } from '../utils/APIUtils';
+import createService from './createService';
 
-let cache;
-export default {
+export default createService({
   name: 'currencies',
-  read: (req, resource, params, config, callback) => {
-    if (cache) {
-      callback(null, cache);
-      return;
-    }
-    request
-      .get('/misc/currencies')
-      .use(req)
-      .prefix()
-      .end((err, res) => {
-        if (err) {
-          return callback(parseApiError(err));
-        }
-        cache = res.body;
-        return callback(null, res.body);
-      });
-  },
-};
+  read: '/misc/currencies',
+  cacheResponse: true,
+});

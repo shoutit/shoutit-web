@@ -1,0 +1,10 @@
+[
+  {
+    "id": "shouts.ShoutsListToolbar.count",
+    "defaultMessage": "{count} Shouts found"
+  },
+  {
+    "id": "shouts.ShoutsListToolbar.sortByLabel",
+    "defaultMessage": "Sort by"
+  }
+]

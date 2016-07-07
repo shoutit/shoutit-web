@@ -22,6 +22,7 @@ import Progress from '../widgets/Progress';
 import UIMessage from '../widgets/UIMessage';
 
 import ShoutsList from '../shouts/ShoutsList';
+import ShoutsListToolbar from '../shouts/ShoutsListToolbar';
 
 import SearchFilters from '../search/SearchFilters';
 
@@ -138,6 +139,7 @@ export class Search extends Component {
             />
         </StartColumn>
         <Body>
+          <ShoutsListToolbar count={ this.props.count } onSortChange={ () => {} } />
           <ShoutsList shouts={ shouts } />
 
           { !isFetching &&

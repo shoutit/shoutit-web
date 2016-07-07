@@ -19,6 +19,9 @@ export const TAG = new Schema('tags');
 export const TAGS = arrayOf(TAG);
 export const PROFILE = new Schema('users');
 export const PROFILES = arrayOf(PROFILE);
+export const SORT_TYPE = new Schema('sortTypes', { idAttribute: 'type' });
+export const SORT_TYPES = arrayOf(SORT_TYPE);
+
 export const SEARCH = {
   users: arrayOf(PROFILE),
   shouts: arrayOf(SHOUT),
@@ -51,14 +54,16 @@ export const Schemas = {
   MESSAGES,
   NOTIFICATION,
   NOTIFICATIONS,
+  PROFILE,
+  PROFILES,
   SEARCH,
   SHOUT,
   SHOUTS,
+  SORT_TYPE,
+  SORT_TYPES,
   SUGGESTIONS,
   TAG,
   TAGS,
-  PROFILE,
-  PROFILES,
 };
 
 SHOUT.define({

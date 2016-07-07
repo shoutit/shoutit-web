@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import { CURRENCIES, CATEGORIES } from '../schemas';
+import { CURRENCIES, CATEGORIES, SORT_TYPES } from '../schemas';
 
 export const loadCategories = () => ({
   types: [
@@ -22,5 +22,17 @@ export const loadCurrencies = () => ({
   service: {
     name: 'currencies',
     schema: CURRENCIES,
+  },
+});
+
+export const loadSortTypes = () => ({
+  types: [
+    actionTypes.LOAD_SORT_TYPES_START,
+    actionTypes.LOAD_SORT_TYPES_SUCCESS,
+    actionTypes.LOAD_SORT_TYPES_FAILURE,
+  ],
+  service: {
+    name: 'sortTypes',
+    schema: SORT_TYPES,
   },
 });
