@@ -1,5 +1,7 @@
 @import '../styles/constants';
+
 $formFieldBorderColor: $grey-light-2;
+$formFieldBorderColorHover: $grey-light-1;
 $formFieldBorder: 1px solid $formFieldBorderColor;
 $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
 
@@ -28,7 +30,7 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
 .FieldsGroup + .FieldsGroup,
 .FormField + .FieldsGroup,
 .FieldsGroup + .FormField {
-  padding-top: .75em;
+  margin-top: .75em;
 }
 
 .FormField + .Button,
@@ -130,7 +132,7 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
   @extend %inputBase;
 }
 
-.FormField input:not([type='radio']):not([type='range']),
+.FormField input:not([type='radio']):not([type='range']):not([type='checkbox']),
 .FormField select {
   @extend %inputBase;
   line-height: 1.1875em; // 19px
