@@ -1,7 +1,6 @@
 import * as actionTypes from '../../actions/actionTypes';
-import createPaginatedReducer from './createPaginatedReducer';
+import paginate, { getPagination, getPageState } from './paginate';
 import { denormalize } from '../../schemas';
-import { getState } from '../paginated';
 
 const initialState = { ids: [] };
 
@@ -14,8 +13,8 @@ function shouts(state = {}, action) {
 }
 
 export default function (state = initialState, action) {
-  let newState = createPaginatedReducer({
-    fetchTypes: [
+  let newState = paginate({
+    actionTypes: [
       actionTypes.LOAD_SHOUTS_START,
       actionTypes.LOAD_SHOUTS_SUCCESS,
       actionTypes.LOAD_SHOUTS_FAILURE,
@@ -26,9 +25,13 @@ export default function (state = initialState, action) {
   return newState;
 }
 
-export const getShouts = state =>
-  state.paginated.shouts.ids.map(id =>
-    denormalize(state.entities.shouts[id], state.entities, 'SHOUT')
+export const getShouts = (state, page) =>
+  denormalize(
+    state.paginated.shouts[page] ?
+    state.paginated.shouts[page].ids :
+    [],
+    state.entities, 'SHOUTS'
   );
 
-export const getPaginationState = state => getState(state, 'shouts');
+export const getShoutsPagination = (state) => getPagination(state, 'shouts');
+export const getShoutsPageState = (state, page) => getPageState(state, page, 'shouts');

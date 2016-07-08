@@ -20,44 +20,56 @@ export const loadShout = id => ({
 });
 
 
-export const loadShouts = (location, params, endpoint, types = [
-  actionTypes.LOAD_SHOUTS_START,
-  actionTypes.LOAD_SHOUTS_SUCCESS,
-  actionTypes.LOAD_SHOUTS_FAILURE,
-]) => {
-  location = omitBy(location, i => !i);
-  let searchLocation = omit(location, ['slug', 'name', 'postalCode']);
-  searchLocation.postal_code = location.postalCode;
-  let searchParams = { ...params };
-  if (searchParams.free) {
-    delete searchParams.free;
-    delete searchParams.min_price;
-    searchParams.max_price = 0;
+export const loadShouts = (params) => {
+
+  const { page, page_size, sort, within, free, ...query } = params;
+
+  if (query.hasOwnProperty('location')) {
+    query.location.postal_code = query.location.postalCode;
+
+    query.location = omitBy(query.location, i => !i);
+    const keys = ['slug', 'name', 'postalCode'];
+    if (within) {
+      keys.append(['latitude', 'longitude', 'postal_code', 'address', 'city']);
+      if (within === 'state') {
+        keys.push(['state']);
+      }
+    }
+    query.location = omit(query.location, keys);
   }
-  switch (searchParams.within) {
-    case 'country':
-      searchParams = omit(searchParams, ['within']);
-      searchLocation = omit(searchLocation, ['latitude', 'longitude', 'postal_code', 'address', 'city', 'state']);
-      break;
-    case 'state':
-      searchParams = omit(searchParams, ['within']);
-      searchLocation = omit(searchLocation, ['latitude', 'longitude', 'postal_code', 'address', 'city']);
-      break;
-    default:
-      break;
+
+  if (query.hasOwnProperty('filters')) {
+    Object.keys(query.filters).forEach(slug => {
+      query[slug] = query.filters[slug];
+    });
+    delete query.filters;
   }
+
+  if (free) {
+    delete query.min_price;
+    query.max_price = 0;
+  }
+
+  const pagination = { page, page_size, sort };
+
   return {
-    types,
+    types: [
+      actionTypes.LOAD_SHOUTS_START,
+      actionTypes.LOAD_SHOUTS_SUCCESS,
+      actionTypes.LOAD_SHOUTS_FAILURE,
+    ],
     service: {
       name: 'shouts',
       schema: SHOUTS,
       params: {
-        searchParams,
-        location: searchLocation,
-        endpoint,
+        ...query,
+        ...pagination,
       },
     },
-    payload: { searchParams, endpoint },
+    payload: {
+      query,
+      pagination,
+    },
   };
 
 };

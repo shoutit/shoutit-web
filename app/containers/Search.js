@@ -9,7 +9,7 @@ import { PaginationPropTypes } from '../utils/PropTypes';
 
 import Helmet from '../utils/Helmet';
 import { getLocationPath } from '../utils/LocationUtils';
-import { getShouts, getPaginationState } from '../reducers/paginated/shouts';
+import { getShouts, getShoutsPagination, getShoutsPageState } from '../reducers/paginated/shouts';
 import { getCategory } from '../reducers/categories';
 import { getSearchParamsFromQuery, getQuerystringFromSearchParams } from '../utils/SearchUtils';
 
@@ -28,8 +28,13 @@ import SearchFilters from '../search/SearchFilters';
 
 const fetchData = (dispatch, state, params, query) => {
   const searchParams = getSearchParamsFromQuery(query);
-  dispatch(invalidateShouts(searchParams));
-  return dispatch(loadShouts(state.currentLocation, { ...searchParams, page_size: 12 }));
+  // dispatch(invalidateShouts(searchParams));
+  return dispatch(loadShouts({
+    ...searchParams,
+    location: state.currentLocation,
+    page: searchParams.page || 0,
+    page_size: 12,
+  }));
 };
 
 const MESSAGES = defineMessages({
@@ -81,7 +86,8 @@ export class Search extends Component {
     searchParams: PropTypes.object,
     shouts: PropTypes.array,
     title: PropTypes.string,
-    ...PaginationPropTypes,
+    pagination: PropTypes.shape(PaginationPropTypes),
+    page: PropTypes.number,
   };
 
   static fetchData = fetchData;
@@ -148,10 +154,10 @@ export class Search extends Component {
             />
         </StartColumn>
         <Body>
-          { shouts && this.props.count > 0 &&
+          { shouts && this.props.pagination.count > 0 &&
             <ShoutsListToolbar
               sortType={ this.state.sort }
-              count={ this.props.count }
+              count={ this.props.pagination.count }
               onSortChange={ this.handleSortChange }
             />
           }
@@ -159,9 +165,9 @@ export class Search extends Component {
 
           { !isFetching &&
             <Pagination
-              pageSize={ 12 }
-              currentPage={ 0 }
-              count={ this.props.count }
+              pageSize={ this.props.pagination.page_size }
+              currentPage={ this.props.page }
+              count={ this.props.pagination.count }
             />
           }
 
@@ -216,15 +222,19 @@ const mapStateToProps = (state, ownProps) => {
       title = ownProps.intl.formatMessage(MESSAGES.title);
     }
   }
-
+  const page = ownProps.location.query.page || 0;
+  const pageState = getShoutsPageState(state, page);
   return {
     currentUrl: routing.currentUrl,
     searchParams,
     currentLocation,
     title,
     location: ownProps.location,
-    shouts: getShouts(state),
-    ...getPaginationState(state),
+    shouts: getShouts(state, page),
+    pagination: getShoutsPagination(state),
+    error: pageState.error,
+    isFetching: pageState.isFetching,
+    page,
   };
 };
 
