@@ -27,6 +27,10 @@ $tooltip-bg: rgba(black, .8);
   box-sizing: border-box;
 }
 
+html:not([dir=rtl]) .rtl {
+  font-family: $font-family-rtl;
+}
+
 html {
   overflow-x: hidden;
   overflow-y: scroll;
