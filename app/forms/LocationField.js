@@ -40,6 +40,7 @@ export class LocationField extends Component {
   constructor(props) {
     super(props);
     this.fetchPredictions = throttle(this.fetchPredictions, 1000).bind(this);
+    this.select = this.select.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -107,7 +108,11 @@ export class LocationField extends Component {
   }
   handleFocus() {
     this.select();
-    this.setState({ readOnly: true, hasFocus: true, showOverlay: true });
+    this.setState({ 
+      readOnly: true, 
+      hasFocus: true, 
+      showOverlay: true 
+    });
   }
   handleBlur() {
     let timeout = 0;
@@ -245,8 +250,14 @@ export class LocationField extends Component {
   render() {
     const { inputRef, name, location, ...props } = this.props; // eslint-disable-line
     const { readOnly, value, showOverlay, hasFocus, error } = this.state;
+  
+    let countryFlag;
+    if (location) {
+      countryFlag = <CountryFlag code={ location.country } size="small" />;
+    }
     return (
       <div className="FormField" style={ { position: 'relative' } }>
+        <span onClick={ this.select }>
         <FormField
           { ...props }
           name={ name }
@@ -259,7 +270,7 @@ export class LocationField extends Component {
           onBlur={ this.handleBlur }
           onChange={ this.handleChange }
           onKeyDown={ this.handleKeyDown }
-          startElement={ location && <CountryFlag code={ location.country } size="small" style={ { margin: '0 3px' } } /> }
+          startElement={ countryFlag }
           ref={ el => {
             this.field = el;
             if (inputRef) {
@@ -267,6 +278,7 @@ export class LocationField extends Component {
             }
           } }
           field="input" />
+        </span>
         <Overlay
           rootClose
           onHide={ () => {
