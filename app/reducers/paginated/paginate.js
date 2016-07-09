@@ -68,7 +68,6 @@ function handleStartAction(state, action) {
   }
 
   let ids = [];
-  let isFetching = true;
   if (newState.pages[query.page]) {
     ids = newState.pages[query.page].ids;
   } else if (newState.pages[state.query.page]) {
@@ -84,7 +83,7 @@ function handleStartAction(state, action) {
       [query.page]: {
         ...newState.pages[query.page],
         ids,
-        isFetching,
+        isFetching: true,
         error: undefined,
       },
     },
