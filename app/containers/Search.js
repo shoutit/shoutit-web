@@ -141,7 +141,8 @@ export class Search extends Component {
     dispatch(push(path));
   }
 
-  handleSortChange(sort) {
+  handleSortChange(sort, e) {
+    e.target.blur();
     this.setState({ sort }, this.updateList);
   }
   handleFiltersSubmit(params) {
