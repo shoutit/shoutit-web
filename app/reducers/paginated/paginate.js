@@ -4,11 +4,9 @@ import isInteger from 'lodash/isInteger';
 import isObject from 'lodash/isObject';
 import isString from 'lodash/isString';
 import isUndefined from 'lodash/isUndefined';
+import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import get from 'lodash/get';
-
-import debug from 'debug';
-const log = debug('shoutit:reducers:paginate');
 
 import { denormalize } from '../../schemas';
 
@@ -19,31 +17,16 @@ function validatePayload(action) {
 }
 
 function validateQuery(action) {
-  if (action.payload.query && !isObject(action.payload.query)) {
+  if (!isObject(action.payload.query)) {
     throw new Error(`Expected the query for ${action.type} to be an object`);
   }
-}
-
-function validatePagination(action) {
-  if (!isObject(action.payload.pagination)) {
-    throw new Error(`Expected a pagination object for ${action.type} action payload`);
-  }
-}
-
-function validatePageNumber(action) {
-  if (!isInteger(action.payload.pagination.page)) {
+  if (!isInteger(action.payload.query.page)) {
     throw new Error(`Page number for ${action.type} must be an integer`);
   }
-}
-
-function validatePageSize(action) {
-  if (!isInteger(action.payload.pagination.page_size)) {
+  if (!isInteger(action.payload.query.page_size)) {
     throw new Error(`Page size for ${action.type} must be an iteger`);
   }
-}
-
-function validateSort(action) {
-  if (!isUndefined(action.payload.pagination.sort) && !isString(action.payload.pagination.sort)) {
+  if (!isUndefined(action.payload.query.sort) && !isString(action.payload.query.sort)) {
     throw new Error(`Sort value for ${action.type} must be a string`);
   }
 }
@@ -69,69 +52,89 @@ function validateError(action) {
 function handleStartAction(state, action) {
   validatePayload(action);
   validateQuery(action);
-  validatePagination(action);
-  validatePageNumber(action);
-  validatePageSize(action);
-  validateSort(action);
+  const { query } = action.payload;
+  const newState = { ...state };
 
-  const { page, page_size, sort } = action.payload.pagination;
-
-  let newState;
-  if (!isEqual(state.query, action.payload.query)) {
-    newState = {};
-  } else if (page_size !== state.page_size || sort !== state.sort) {
-    newState = { count: state.count };
-  } else {
-    newState = { ...state };
+  if (query.sort !== state.query.sort) {
+    // sort changed, pages are not valid anymore
+    newState.pages = {};
+  } else if (!isEqual(
+    omit(query, ['page', 'page_size']),
+    omit(state.query, ['page', 'page_size'])
+  )) {
+    // other query values did change, reset pages and count as they are not valid anymore
+    newState.pages = {};
+    delete newState.count;
   }
+
   return {
     ...newState,
-    page_size,
-    sort,
-    query: action.payload.query,
-    [page]: {
-      ids: state[page] ? state[page].ids : [],
-      isFetching: true,
-      error: undefined,
+    query,
+    pages: {
+      ...newState.pages,
+      [query.page]: {
+        ...newState.pages[query.page],
+        ids: newState.pages[query.page] ? newState.pages[query.page].ids : [],
+        isFetching: true,
+        error: undefined,
+      },
     },
   };
 }
 
 function handleSuccessAction(state, action) {
-  validatePageNumber(action);
+  validateQuery(action);
   validateCount(action);
   validateResult(action);
-
+  if (!isEqual(action.payload.query, state.query)) {
+    // Ignore success for a previous query
+    return state;
+  }
   return {
     ...state,
     nextUrl: action.payload.nextUrl,
     previousUrl: action.payload.previousUrl,
     count: action.payload.count,
-    [action.payload.pagination.page]: {
-      isFetching: false,
-      error: undefined,
-      ids: action.payload.result,
+    pages: {
+      ...state.pages,
+      [action.payload.query.page]: {
+        isFetching: false,
+        ids: action.payload.result,
+      },
     },
   };
 }
 
 function handleFailureAction(state, action) {
-  validatePageNumber(action);
+  validateQuery(action);
   validateError(action);
-  const { page } = action.payload.pagination;
+  const { page } = action.payload.query;
+  if (!isEqual(action.payload.query, state.query)) {
+    // Ignore success for a previous query
+    return state;
+  }
   return {
     ...state,
-    [page]: {
-      isFetching: false,
-      error: action.payload.error,
+    pages: {
+      ...state.pages,
+      [page]: {
+        ...state.pages[page],
+        isFetching: false,
+        error: action.payload.error,
+      },
     },
   };
 }
 
+const initialState = {
+  query: {},
+  pages: {},
+};
+
 export default function paginate({ actionTypes }) {
   const [startType, successType, failureType] = actionTypes;
 
-  return function paginatedReducer(state = {}, action) {
+  return function paginatedReducer(state = initialState, action) {
     switch (action.type) {
       case startType:
         return handleStartAction(state, action);
@@ -151,12 +154,12 @@ export const getPagination = (state, selector) => {
 };
 
 export const getPageState = (state, page, selector) =>
-  pick(get(state.paginated, `${selector}.${page}`), ['isFetching', 'error']);
+  pick(get(state.paginated, `${selector}.pages.${page}`), ['isFetching', 'error']);
 
 export const getEntities = (state, entity, page, schema) =>
   denormalize(
-    state.paginated[entity][page] ?
-    state.paginated[entity][page].ids :
+    state.paginated[entity].pages[page] ?
+    state.paginated[entity].pages[page].ids :
     [],
     state.entities, schema
   );
