@@ -10,6 +10,8 @@ import get from 'lodash/get';
 import debug from 'debug';
 const log = debug('shoutit:reducers:paginate');
 
+import { denormalize } from '../../schemas';
+
 function validatePayload(action) {
   if (!isObject(action.payload)) {
     throw new Error(`Expected the payload for ${action.type} to be an object`);
@@ -75,11 +77,10 @@ function handleStartAction(state, action) {
   const { page, page_size, sort } = action.payload.pagination;
 
   let newState;
-  if (page_size !== state.page_size ||
-      sort !== state.sort ||
-      !isEqual(state.query, action.payload.query)) {
-    log('Resetting pagination state as page_size or sort changed');
+  if (!isEqual(state.query, action.payload.query)) {
     newState = {};
+  } else if (page_size !== state.page_size || sort !== state.sort) {
+    newState = { count: state.count };
   } else {
     newState = { ...state };
   }
@@ -144,11 +145,18 @@ export default function paginate({ actionTypes }) {
   };
 }
 
-export function getPagination(state, selector) {
+export const getPagination = (state, selector) => {
   const keys = ['nextUrl', 'previousUrl', 'count', 'page_size', 'sort'];
   return pick(get(state.paginated, selector), keys);
-}
+};
 
-export function getPageState(state, page, selector) {
-  return pick(get(state.paginated, `${selector}.${page}`), ['isFetching', 'error']);
-}
+export const getPageState = (state, page, selector) =>
+  pick(get(state.paginated, `${selector}.${page}`), ['isFetching', 'error']);
+
+export const getEntities = (state, entity, page, schema) =>
+  denormalize(
+    state.paginated[entity][page] ?
+    state.paginated[entity][page].ids :
+    [],
+    state.entities, schema
+  );
