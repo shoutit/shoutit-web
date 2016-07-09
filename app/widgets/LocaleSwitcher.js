@@ -11,14 +11,21 @@ const LOCALES = [
 export function LocaleSwitcher({ search, currentLocale }) {
   return (
     <div className="LocaleSwitcher">
-      { LOCALES.map(locale =>
-        <a
+      { LOCALES.map(locale => {
+        let className;
+        if (locale.code === 'ar') {
+          className = 'rtl';
+        }
+        if (currentLocale === locale.code) {
+          className += ' selected';
+        }
+        return (<a
           key={ locale.code }
-          className={ currentLocale === locale.code ? 'selected ' : '' }
+          className={ className }
           href={ `?${search}&hl=${locale.code}&set` }>
           { locale.name }
-        </a>
-        ) }
+        </a>);
+      }) }
     </div>
   );
 }

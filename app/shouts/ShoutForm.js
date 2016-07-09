@@ -12,6 +12,7 @@ import FileUploadField from '../forms/FileUploadField';
 import PublishToFacebook from '../forms/PublishToFacebook';
 
 import { canPublishToFacebook } from '../reducers/session';
+import { getCurrentLocation } from '../reducers/currentLocation';
 
 import './ShoutForm.scss';
 
@@ -266,7 +267,7 @@ export class ShoutForm extends Component {
 
 const mapStateToProps = state => ({
   canPublishToFacebook: canPublishToFacebook(state),
-  currentLocation: state.currentLocation,
+  currentLocation: getCurrentLocation(state),
 });
 
 export default connect(mapStateToProps)(injectIntl(ShoutForm));

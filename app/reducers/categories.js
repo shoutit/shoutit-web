@@ -23,3 +23,7 @@ export default function (state = initialState, action) {
 export function getCategory(state, name) {
   return state.entities.categories[name];
 }
+
+export function getCategories(state) {
+  return state.categories.ids.map(id => state.entities.categories[id]);
+}

@@ -12,6 +12,8 @@ import { routeError } from '../actions/server';
 
 import { getTagByName } from '../reducers/entities/tags';
 import { getCategory } from '../reducers/categories';
+import { getCurrentLocation } from '../reducers/currentLocation';
+
 import { getShoutsByTagname, getPaginationState } from '../reducers/paginated/shoutsByTagname';
 
 import Page, { Body, StartColumn, EndColumn } from '../layout/Page';
@@ -33,7 +35,7 @@ const fetchData = (dispatch, state, params) =>
         dispatch(loadRelatedTags({ id: payload.result, name: params.name })).catch(() => {}),
         err => dispatch(routeError(err))
       ),
-    dispatch(loadTagShouts(params.name, state.currentLocation)).catch(() => {}),
+    dispatch(loadTagShouts(params.name, getCurrentLocation(state))).catch(() => {}),
   ]);
 
 export class Interest extends Component {
@@ -121,7 +123,7 @@ const mapStateToProps = (state, ownProps) => {
     tag,
     category: getCategory(state, tagName),
     shouts: getShoutsByTagname(state, tagName),
-    currentLocation: state.currentLocation,
+    currentLocation: getCurrentLocation(state),
     ...getPaginationState(state, tagName),
   };
 };

@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import throttle from 'lodash/throttle';
 import debug from 'debug';
+
 import { getCurrentLocale } from '../reducers/i18n';
+import { getCurrentLocation } from '../reducers/currentLocation';
+
 import CountryFlag from '../location/CountryFlag';
 
 import { ESCAPE, ENTER } from '../utils/keycodes';
@@ -288,7 +291,7 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: state.placePredictions.isFetching,
   predictions: state.placePredictions.predictions[state.placePredictions.lastInput],
   lastInput: state.placePredictions.lastInput,
-  location: ownProps.location || state.currentLocation,
+  location: ownProps.location || getCurrentLocation(state),
 });
 
 export default connect(mapStateToProps)(LocationField);

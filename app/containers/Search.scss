@@ -1,0 +1,19 @@
+@import '../styles/constants.scss';
+.Search {
+  .Shouts-container {
+    position: relative;
+  }
+
+  .ShoutsListToolbar {
+    margin-bottom: $vertical-spacing;
+  }
+  .Shouts-loadingBackdrop {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background-color: rgba($background-color, .8);
+  }
+}

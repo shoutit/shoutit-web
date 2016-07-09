@@ -72,7 +72,7 @@ describe('services/shouts', () => {
         expect(this.qs).to.eql({ search: 'foo' });
         done();
       });
-      shouts.read({}, resource, { searchParams: { search: 'foo' } }, config, serviceCallback);
+      shouts.read({}, resource, { search: 'foo' }, config, serviceCallback);
     });
 
     it('should not pass the search params when an endpoint is used', done => {
@@ -80,22 +80,8 @@ describe('services/shouts', () => {
         expect(this.qs).to.eql({});
         done();
       });
-      shouts.read({}, resource, { searchParams: { search: 'foo' }, endpoint: 'foo' }, config, serviceCallback);
+      shouts.read({}, resource, { search: 'foo', endpoint: 'foo' }, config, serviceCallback);
     });
-
-    it('should augment the search params with location', done => {
-      sinon.stub(Request.prototype, 'end', function callback() {
-        expect(this.qs).to.eql({ country: 'it', state: 'lazio', city: 'rome', search: 'foo' });
-        done();
-      });
-      shouts.read(
-        { },
-        resource,
-        { searchParams: { search: 'foo' }, location: { country: 'it', state: 'lazio', city: 'rome' } },
-        config,
-        serviceCallback);
-    });
-
   });
 
 

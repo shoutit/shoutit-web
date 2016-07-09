@@ -153,8 +153,8 @@ export class Profile extends Component {
             }
           </Body>
           <EndColumn footer>
-            <SuggestedTags key="interests" />,
-            <SuggestedProfiles key="profiles" />,
+            <SuggestedTags key="interests" />
+            <SuggestedProfiles key="profiles" />
             <SuggestedShout key="shout" />
           </EndColumn>
         </Page>

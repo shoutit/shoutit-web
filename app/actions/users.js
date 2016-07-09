@@ -124,7 +124,7 @@ export function loadShoutsByUsername(username, endpoint) {
     service: {
       name: 'shouts',
       params: {
-        searchParams: { profile: username },
+        profile: username,
         endpoint,
       },
       schema: SHOUTS,
