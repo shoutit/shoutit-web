@@ -1,20 +1,10 @@
 /* eslint-disable react/no-multi-comp */
+
 import React, { PropTypes, Component } from 'react';
 import Sticky from '@economist/component-stickyfill';
 
-// import Sticky from 'react-sticky-state';
-
 import MiniFooter from '../layout/MiniFooter';
 import './Page.scss';
-
-// const stickyProps = {
-//   stickyWrapperClass: 'Page-sticky-wrap',
-//   stickyClass: 'Page-sticky',
-//   fixedClass: 'Page-sticky-fixed',
-//   stateClass: 'Page-is-sticky',
-//   disabledClass: 'Page-sticky-disabled',
-//   absoluteClass: 'Page-is-absolute',
-// };
 
 class PageColumn extends Component {
   static propTypes = {
