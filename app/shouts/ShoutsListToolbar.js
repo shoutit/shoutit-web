@@ -19,38 +19,40 @@ class ShoutsListToolbar extends Component {
     return (
       <div className="ShoutsListToolbar">
         <div className="ShoutsListToolbar-count">
-          <FormattedMessage
-            id="shouts.ShoutsListToolbar.count"
-            defaultMessage="{count, plural,
-              one {{formattedCount} Shout found}
-              two {{formattedCount} Shouts found}
-              other {{formattedCount} Shouts found}
-            }"
-            values={ {
-              count,
-              formattedCount: (
-                <span className="ShoutsListToolbar-countValue">
-                  <FormattedNumber value={ count } />
-                </span>
-              ),
-            } }
-          />
-        </div>
-
-        <div className="ShoutsListToolbar-form">
-          <label htmlFor="ShoutsListToolbarSort">
+          { !!count &&
             <FormattedMessage
-              id="shouts.ShoutsListToolbar.sortByLabel"
-              defaultMessage="Sort by"
+              id="shouts.ShoutsListToolbar.count"
+              defaultMessage="{count, plural,
+                one {{formattedCount} Shout found}
+                two {{formattedCount} Shouts found}
+                other {{formattedCount} Shouts found}
+              }"
+              values={ {
+                count,
+                formattedCount: (
+                  <span className="ShoutsListToolbar-countValue">
+                    <FormattedNumber value={ count } />
+                  </span>
+                ),
+              } }
             />
-          </label>
-          <Picker value={ this.props.sortType } name="sort" id="ShoutsListToolbarSort" onChange={ this.props.onSortChange }>
-            { this.props.sortTypes.map(sortType =>
-              <option value={ sortType.type }>{ sortType.name }</option>
-            ) }
-          </Picker>
+          }
         </div>
-
+        { !!count &&
+          <div className="ShoutsListToolbar-form">
+            <label htmlFor="ShoutsListToolbarSort">
+              <FormattedMessage
+                id="shouts.ShoutsListToolbar.sortByLabel"
+                defaultMessage="Sort by"
+              />
+            </label>
+            <Picker value={ this.props.sortType } name="sort" id="ShoutsListToolbarSort" onChange={ this.props.onSortChange }>
+              { this.props.sortTypes.map(sortType =>
+                <option value={ sortType.type }>{ sortType.name }</option>
+              ) }
+            </Picker>
+          </div>
+        }
       </div>
     );
   }
