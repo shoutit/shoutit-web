@@ -229,7 +229,7 @@
   "shoutTypeControl.offer": "Offers",
   "shoutTypeControl.request": "Requests",
   "shoutTypeControl.all": "All",
-  "shouts.ShoutsListToolbar.count": "{count, plural, zero {No Shouts found} one {{formattedCount} Shout found} two {{formattedCount} Shouts found} other {{formattedCount} Shouts found}}",
+  "shouts.ShoutsListToolbar.count": "{count, plural, =0 {No Shouts found} one {{formattedCount} Shout found} two {{formattedCount} Shouts found} other {{formattedCount} Shouts found}}",
   "shouts.ShoutsListToolbar.sortByLabel": "Sort by",
   "suggestedShout.title": "Suggested shout",
   "UpdateShoutButton.label": "Edit Shout",

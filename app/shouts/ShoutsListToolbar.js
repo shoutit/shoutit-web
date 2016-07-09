@@ -21,23 +21,25 @@ class ShoutsListToolbar extends Component {
     return (
       <div className="ShoutsListToolbar">
         <div className="ShoutsListToolbar-count">
-          <FormattedMessage
-            id="shouts.ShoutsListToolbar.count"
-            defaultMessage="{count, plural,
-              zero {No Shouts found}
-              one {{formattedCount} Shout found}
-              two {{formattedCount} Shouts found}
-              other {{formattedCount} Shouts found}
-            }"
-            values={ {
-              count,
-              formattedCount: (
-                <span className="ShoutsListToolbar-countValue">
-                  <FormattedNumber value={ count } />
-                </span>
-              ),
-            } }
-          />
+          { !isNaN(count) &&
+            <FormattedMessage
+              id="shouts.ShoutsListToolbar.count"
+              defaultMessage="{count, plural,
+                =0 {No Shouts found}
+                one {{formattedCount} Shout found}
+                two {{formattedCount} Shouts found}
+                other {{formattedCount} Shouts found}
+              }"
+              values={ {
+                count,
+                formattedCount: (
+                  <span className="ShoutsListToolbar-countValue">
+                    <FormattedNumber value={ count } />
+                  </span>
+                ),
+              } }
+            />
+          }
         </div>
         <div>
           <Progress animate={ this.props.showProgress } />
