@@ -1,5 +1,3 @@
-import omit from 'lodash/omit';
-import omitBy from 'lodash/omitBy';
 import { now } from 'unix-timestamp';
 
 import * as actionTypes from './actionTypes';

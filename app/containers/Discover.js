@@ -189,7 +189,7 @@ export class Discover extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { routing, paginated, entities, currentLocation } = state;
+  const { paginated, entities, currentLocation } = state;
   const { country, id } = ownProps.params;
 
   let discoverItem;
