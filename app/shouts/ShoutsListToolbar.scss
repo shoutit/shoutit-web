@@ -7,10 +7,6 @@
   align-items: center;
 }
 
-.ShoutsListToolbar + .ShoutsList {
-  margin-top: $vertical-spacing;
-}
-
 .ShoutsListToolbar-count {
   color: $color-text-light; 
 }

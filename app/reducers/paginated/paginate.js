@@ -67,6 +67,15 @@ function handleStartAction(state, action) {
     delete newState.count;
   }
 
+  let ids = [];
+  let isFetching = true;
+  if (newState.pages[query.page]) {
+    ids = newState.pages[query.page].ids;
+  } else if (newState.pages[state.query.page]) {
+    // use current results
+    ids = newState.pages[state.query.page].ids;
+  }
+
   return {
     ...newState,
     query,
@@ -74,8 +83,8 @@ function handleStartAction(state, action) {
       ...newState.pages,
       [query.page]: {
         ...newState.pages[query.page],
-        ids: newState.pages[query.page] ? newState.pages[query.page].ids : [],
-        isFetching: true,
+        ids,
+        isFetching,
         error: undefined,
       },
     },

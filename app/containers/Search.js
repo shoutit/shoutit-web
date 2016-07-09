@@ -23,6 +23,8 @@ import ShoutsList from '../shouts/ShoutsList';
 import ShoutsListToolbar from '../shouts/ShoutsListToolbar';
 import SearchFilters from '../search/SearchFilters';
 
+import './Search.scss';
+
 const MESSAGES = defineMessages({
   title: {
     id: 'search.page.title',
@@ -172,8 +174,13 @@ export class Search extends Component {
             count={ this.props.count }
             onSortChange={ this.handleSortChange }
           />
-          <ShoutsList shouts={ shouts } />
-          { this.props.count > 0 &&
+          <div className="Shouts-container">
+            <ShoutsList shouts={ shouts } />
+            { this.props.isFetching &&
+              <div className="Shouts-loadingBackdrop" />
+            }
+          </div>
+          { this.props.shouts.length > 0 &&
             <Pagination
               pageSize={ this.props.query.page_size }
               currentPage={ this.props.page }

@@ -13,7 +13,7 @@ describe('reducer/paginated/paginate', () => {
     it('should set the page ids to empty if not already existing');
     it('should set the page as fetching');
     it('should reset a previous error for the page being fetched');
-
+    it('should use the ids of the previous page while loading a new page');
   });
 
   describe('success action handler', () => {

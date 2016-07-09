@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getSortTypes } from '../reducers/sortTypes';
 
 import Picker from '../forms/Picker';
+import Progress from '../widgets/Progress';
 
 import './ShoutsListToolbar.scss';
 
@@ -12,6 +13,7 @@ class ShoutsListToolbar extends Component {
     sortTypes: PropTypes.arrayOf(PropTypes.object).isRequired,
     count: PropTypes.number,
     sortType: PropTypes.string,
+    showProgress: PropTypes.bool,
     onSortChange: PropTypes.func.isRequired,
   }
   render() {
@@ -38,21 +40,26 @@ class ShoutsListToolbar extends Component {
             />
           }
         </div>
-        { !!count &&
-          <div className="ShoutsListToolbar-form">
-            <label htmlFor="ShoutsListToolbarSort">
-              <FormattedMessage
-                id="shouts.ShoutsListToolbar.sortByLabel"
-                defaultMessage="Sort by"
-              />
-            </label>
-            <Picker value={ this.props.sortType } name="sort" id="ShoutsListToolbarSort" onChange={ this.props.onSortChange }>
-              { this.props.sortTypes.map(sortType =>
-                <option value={ sortType.type }>{ sortType.name }</option>
-              ) }
-            </Picker>
-          </div>
-        }
+        <div> 
+          <Progress animate={ this.props.showProgress } />
+        </div>
+        <div>
+          { !!count &&
+            <div className="ShoutsListToolbar-form">
+              <label htmlFor="ShoutsListToolbarSort">
+                <FormattedMessage
+                  id="shouts.ShoutsListToolbar.sortByLabel"
+                  defaultMessage="Sort by"
+                />
+              </label>
+              <Picker value={ this.props.sortType } name="sort" id="ShoutsListToolbarSort" onChange={ this.props.onSortChange }>
+                { this.props.sortTypes.map(sortType =>
+                  <option value={ sortType.type }>{ sortType.name }</option>
+                ) }
+              </Picker>
+            </div>
+          }
+        </div>
       </div>
     );
   }
