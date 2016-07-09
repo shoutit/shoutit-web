@@ -10,6 +10,7 @@ import Helmet from '../utils/Helmet';
 
 import { getQuery, getCurrentUrl } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
+import { getCategory } from '../reducers/categories';
 
 import { getLocationPath } from '../utils/LocationUtils';
 import { getShouts, getShoutsCount, getShoutsPageState, getShoutsQuery } from '../reducers/paginated/shouts';
@@ -91,6 +92,8 @@ export class Search extends Component {
       query: PropTypes.object.isRequired,
     }).isRequired,
 
+    title: PropTypes.string,
+
   };
 
   static defaultProps = {
@@ -154,15 +157,14 @@ export class Search extends Component {
   }
 
   render() {
-    const { shouts, query } = this.props;
     return (
       <Page className="Search">
-        <Helmet />
+        <Helmet title={ this.props.title } />
         <StartColumn sticky>
           <SearchFilters
             disabled={ false }
             query={ {
-              ...query,
+              ...this.props.query,
               free: !!this.props.route.query.free,
               within: parseInt(this.props.route.query.within, 10),
             } }
@@ -177,7 +179,7 @@ export class Search extends Component {
             onSortChange={ this.handleSortChange }
           />
           <div className="Shouts-container">
-            <ShoutsList shouts={ shouts } />
+            <ShoutsList shouts={ this.props.shouts } />
             { this.props.isFetching &&
               <div className="Shouts-loadingBackdrop" />
             }
@@ -196,15 +198,41 @@ export class Search extends Component {
 
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
 
   const page = getQuery(state).page || 1;
   const query = getShoutsQuery(state);
   const count = getShoutsCount(state);
   const pageState = getShoutsPageState(state, page);
+  const currentLocation = getCurrentLocation(state);
+
+  let title;
+
+  if (query.category) {
+    const category = getCategory(state, query.category).name;
+    if (currentLocation && currentLocation.city) {
+      title = ownProps.intl.formatMessage(MESSAGES.titleWithCityAndCategory, {
+        city: currentLocation.city,
+        category,
+      });
+    } else {
+      title = ownProps.intl.formatMessage(MESSAGES.titleWithCategory, {
+        category,
+      });
+    }
+  } else {
+    if (currentLocation && currentLocation.city) {
+      title = ownProps.intl.formatMessage(MESSAGES.titleWithCity, {
+        city: currentLocation.city,
+      });
+    } else {
+      title = ownProps.intl.formatMessage(MESSAGES.title);
+    }
+  }
 
   return {
-    currentLocation: getCurrentLocation(state),
+    title,
+    currentLocation,
     query,
     count,
     isFetching: pageState.isFetching,
