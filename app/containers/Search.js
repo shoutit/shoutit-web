@@ -13,7 +13,7 @@ import { getShouts, getShoutsPagination, getShoutsPageState } from '../reducers/
 import { getCategory } from '../reducers/categories';
 import { getSearchParamsFromQuery, getQuerystringFromSearchParams } from '../utils/SearchUtils';
 
-import { loadShouts, invalidateShouts } from '../actions/shouts';
+import { loadShouts } from '../actions/shouts';
 
 import Page, { Body, StartColumn } from '../layout/Page';
 import Pagination from '../layout/Pagination';
@@ -28,7 +28,6 @@ import SearchFilters from '../search/SearchFilters';
 
 const fetchData = (dispatch, state, params, query) => {
   const searchParams = getSearchParamsFromQuery(query);
-  // dispatch(invalidateShouts(searchParams));
   return dispatch(loadShouts({
     ...searchParams,
     location: state.currentLocation,

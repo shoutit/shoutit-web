@@ -74,11 +74,6 @@ export const loadShouts = (params) => {
 
 };
 
-export const invalidateShouts = (searchParams) => ({
-  type: actionTypes.INVALIDATE_SHOUTS,
-  payload: { searchParams },
-});
-
 export const loadRelatedShouts = (shoutId, query, endpoint) => ({
   types: [
     actionTypes.LOAD_RELATED_SHOUTS_START,
