@@ -7,11 +7,13 @@ import { injectIntl, defineMessages } from 'react-intl';
 import { push } from 'react-router-redux';
 
 import Helmet from '../utils/Helmet';
+
+import { getQuery, getCurrentUrl } from '../reducers/routing';
+import { getCurrentLocation } from '../reducers/currentLocation';
+
 import { getLocationPath } from '../utils/LocationUtils';
 import { getShouts, getShoutsCount, getShoutsPageState, getShoutsQuery } from '../reducers/paginated/shouts';
 // import { getCategory } from '../reducers/categories';
-
-import { getQuery, getCurrentUrl } from '../reducers/routing';
 
 import { getSearchQuery, getQuerystringFromSearchParams } from '../utils/SearchUtils';
 
@@ -63,7 +65,7 @@ const MESSAGES = defineMessages({
 const fetchData = (dispatch, state, params, query) =>
   dispatch(loadShouts({
     sort: 'time',
-    ...getSearchQuery(query, state.currentLocation),
+    ...getSearchQuery(query, getCurrentLocation(state)),
     page_size: 12,
   }));
 
@@ -202,7 +204,7 @@ const mapStateToProps = state => {
   const pageState = getShoutsPageState(state, page);
 
   return {
-    currentLocation: state.currentLocation,
+    currentLocation: getCurrentLocation(state),
     query,
     count,
     isFetching: pageState.isFetching,

@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
+import { getCurrentLocation } from '../reducers/currentLocation';
+import { isLoggedIn } from '../reducers/session';
+
 import Button from '../forms/Button';
 
 import HeaderMessagesButton from '../header/HeaderMessagesButton';
@@ -93,8 +96,8 @@ export class Header extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentLocation: state.currentLocation,
-  isLoggedIn: !!state.session.user,
+  currentLocation: getCurrentLocation(state),
+  isLoggedIn: isLoggedIn(state),
 });
 
 export default connect(mapStateToProps)(Header);

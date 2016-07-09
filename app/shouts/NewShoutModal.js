@@ -2,12 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
+import { getLoggedUser } from '../reducers/session';
+import { getCurrentLocation } from '../reducers/currentLocation';
+
 import Modal, { Header, Body } from '../modals';
 import Button from '../forms/Button';
 
 import { openModal } from '../actions/ui';
 import CreateShoutModal from '../shouts/CreateShoutModal';
-import { getLoggedUser } from '../reducers/session';
 
 export class NewShoutModal extends Component {
 
@@ -72,7 +74,7 @@ export class NewShoutModal extends Component {
 const mapStateToProps = state => ({
   shout: {
     mobile: getLoggedUser(state).mobile,
-    location: state.currentLocation,
+    location: getCurrentLocation(state),
   },
 });
 

@@ -6,6 +6,7 @@ import { push } from 'react-router-redux';
 import { FormattedMessage } from 'react-intl';
 
 import { getCurrentUrl } from '../reducers/routing';
+import { isLoggedIn } from '../reducers/session';
 
 import * as loginActions from '../auth/loginActions';
 
@@ -82,7 +83,7 @@ export class RequiresLogin extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: !!state.session.user,
+  isLoggedIn: isLoggedIn(state),
   currentUrl: getCurrentUrl(state),
 });
 

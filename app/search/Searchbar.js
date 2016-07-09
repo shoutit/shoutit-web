@@ -9,6 +9,7 @@ import { invalidateSearch, searchShouts, searchTags, searchProfiles } from '../a
 
 import { getCurrentLocale } from '../reducers/i18n';
 import { getQuery } from '../reducers/routing';
+import { getCurrentLocation } from '../reducers/currentLocation';
 
 import { openModal } from '../actions/ui';
 
@@ -146,7 +147,7 @@ export class Searchbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentLocation: state.currentLocation,
+  currentLocation: getCurrentLocation(state),
   locale: getCurrentLocale(state),
   query: getQuery(state).search || '',
 });

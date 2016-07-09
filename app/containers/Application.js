@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 
 import { getCurrentLocale, isRtl, getIntlMessages } from '../reducers/i18n';
-import { getCurrentUrl } from '../reducers/routing';
+import { getCurrentUrl, getRoutingError } from '../reducers/routing';
+import { getCurrentLocation } from '../reducers/currentLocation';
 
 import Helmet from '../utils/Helmet';
 import { identifyOnMixpanel, trackWithMixpanel } from '../utils/mixpanel';
@@ -218,9 +219,9 @@ Application.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  currentLocation: state.currentLocation,
+  currentLocation: getCurrentLocation(state),
   currentUrl: getCurrentUrl(state),
-  error: state.routing.error,
+  error: getRoutingError(state),
   locale: getCurrentLocale(state),
   loggedUser: getLoggedUser(state),
   messages: getIntlMessages(state),

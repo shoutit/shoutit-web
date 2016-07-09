@@ -54,3 +54,7 @@ export function getPath(state) {
 export function getCurrentUrl(state) {
   return state.routing.currentUrl;
 }
+
+export function getRoutingError(state) {
+  return state.routing.error;
+}

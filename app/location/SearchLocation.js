@@ -6,6 +6,7 @@ import throttle from 'lodash/throttle';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
 import { loadPlacePredictions } from '../actions/location';
 import { getCurrentLocale } from '../reducers/i18n';
+import { getCurrentLocation } from '../reducers/currentLocation';
 
 import TextField from '../forms/TextField';
 import Progress from '../widgets/Progress';
@@ -112,7 +113,7 @@ export class SearchLocation extends Component {
 const mapStateToProps = state => ({
   ...state.placePredictions,
   locale: getCurrentLocale(state),
-  location: state.currentLocation,
+  location: getCurrentLocation(state),
 });
 
 export default connect(mapStateToProps)(SearchLocation);

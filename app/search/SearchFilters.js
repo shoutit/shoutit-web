@@ -4,6 +4,9 @@ import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import { FormattedMessage } from 'react-intl';
 
+import { getCategories } from '../reducers/categories';
+import { getCurrentLocation } from '../reducers/currentLocation';
+
 import Button from '../forms/Button';
 import Form from '../forms/Form';
 import Switch from '../forms/Switch';
@@ -225,8 +228,8 @@ SearchFilters.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  categories: state.categories.ids.map(id => state.entities.categories[id]),
-  currentLocation: state.currentLocation,
+  categories: getCategories(state),
+  currentLocation: getCurrentLocation(state),
 });
 
 export default connect(mapStateToProps)(SearchFilters);
