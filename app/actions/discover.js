@@ -39,11 +39,9 @@ export const loadShoutsForDiscoverItem = (discoverItemId, searchParams, endpoint
   service: {
     name: 'shouts',
     params: {
+      ...searchParams,
+      discover: discoverItemId,
       endpoint,
-      searchParams: {
-        ...searchParams,
-        discover: discoverItemId,
-      },
     },
     schema: SHOUTS,
   },
