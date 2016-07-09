@@ -26,8 +26,8 @@ export default class ShoutsList extends Component {
     const { shouts, showProfile, showCategory } = this.props;
     return (
       <div className="ShoutsList">
-        { shouts.map(shout =>
-          <div className="ShoutsList-item" key={ shout.id }>
+        { shouts.map((shout, i) =>
+          <div className="ShoutsList-item" key={ i }>
             <ShoutPreview shout={ shout } showProfile={ showProfile } showCategory={ showCategory } />
           </div>
         ) }

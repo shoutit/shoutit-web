@@ -20,38 +20,7 @@ export const loadShout = id => ({
 });
 
 
-export const loadShouts = (params) => {
-
-  const { page, page_size, sort, within, free, ...query } = params;
-
-  if (query.hasOwnProperty('location')) {
-    query.location.postal_code = query.location.postalCode;
-
-    query.location = omitBy(query.location, i => !i);
-    const keys = ['slug', 'name', 'postalCode'];
-    if (within) {
-      keys.append(['latitude', 'longitude', 'postal_code', 'address', 'city']);
-      if (within === 'state') {
-        keys.push(['state']);
-      }
-    }
-    query.location = omit(query.location, keys);
-  }
-
-  if (query.hasOwnProperty('filters')) {
-    Object.keys(query.filters).forEach(slug => {
-      query[slug] = query.filters[slug];
-    });
-    delete query.filters;
-  }
-
-  if (free) {
-    delete query.min_price;
-    query.max_price = 0;
-  }
-
-  const pagination = { page, page_size, sort };
-
+export const loadShouts = query => {
   return {
     types: [
       actionTypes.LOAD_SHOUTS_START,
@@ -61,15 +30,9 @@ export const loadShouts = (params) => {
     service: {
       name: 'shouts',
       schema: SHOUTS,
-      params: {
-        ...query,
-        ...pagination,
-      },
+      params: query,
     },
-    payload: {
-      query,
-      pagination,
-    },
+    payload: { query },
   };
 
 };

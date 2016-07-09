@@ -23,13 +23,13 @@ export class SearchFilters extends Component {
     onSubmit: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
-    searchParams: PropTypes.object,
+    query: PropTypes.object,
     currentLocation: PropTypes.object,
   }
 
   static defaultProps = {
     disabled: false,
-    searchParams: {
+    query: {
       category: '',
       filters: {},
     },
@@ -43,14 +43,14 @@ export class SearchFilters extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (isEqual(nextProps.searchParams, this.props.searchParams)) {
+    if (isEqual(nextProps.query, this.props.query)) {
       return;
     }
     this.setState(this.getStateFromProps(nextProps));
   }
 
-  getSearchParams() {
-    const searchParams = {
+  getQuery() {
+    const query = {
       search: this.state.search || undefined,
       shout_type: this.state.shout_type,
       category: this.state.category,
@@ -60,19 +60,19 @@ export class SearchFilters extends Component {
       within: this.state.within || undefined,
       free: this.state.free || undefined,
     };
-    return searchParams;
+    return query;
   }
 
   getStateFromProps(props) {
     return {
-      category: props.searchParams.category || '',
-      shout_type: props.searchParams.shout_type || 'all',
-      min_price: props.searchParams.min_price || '',
-      max_price: props.searchParams.max_price || '',
-      search: props.searchParams.search || '',
-      within: props.searchParams.within,
-      filters: props.searchParams.filters || {},
-      free: props.searchParams.free || false,
+      category: props.query.category || '',
+      shout_type: props.query.shout_type || 'all',
+      min_price: props.query.min_price || '',
+      max_price: props.query.max_price || '',
+      search: props.query.search || '',
+      within: props.query.within,
+      filters: props.query.filters || {},
+      free: props.query.free || false,
     };
   }
 
@@ -81,7 +81,7 @@ export class SearchFilters extends Component {
     if (disabled) {
       return;
     }
-    onSubmit(this.getSearchParams());
+    onSubmit(this.getQuery());
   }
 
   handleChange(state, { debounce } = {}) {
@@ -205,7 +205,7 @@ export class SearchFilters extends Component {
             <Button
               block
               kind="primary"
-              disabled={ disabled || isEqual(this.state, this.props.searchParams) }
+              disabled={ disabled || isEqual(this.state, this.props.query) }
               type="submit">
               <FormattedMessage
                 id="searchFilters.submitButton.label"

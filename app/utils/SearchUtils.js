@@ -1,4 +1,3 @@
-
 export function filtersObjectToUriComponent(filters) {
   const arr = [];
   Object.keys(filters).forEach(slug =>
@@ -67,8 +66,96 @@ export function getQuerystringFromSearchParams(params) {
   return queryAsString;
 }
 
+/**
+ * Returns the shout search query from a location query object
+ */
+export function getSearchQuery(params, location) {
+  const query = {};
+  if (params.shout_type) {
+    query.shout_type = params.shout_type;
+  }
+  if (params.search) {
+    query.search = params.search;
+  }
+  if (params.category) {
+    query.category = params.category;
+  }
+  if (params.free) {
+    query.max_price = 0;
+  } else {
+    if (params.min_price) {
+      query.min_price = parseInt(params.min_price, 10);
+    }
+    if (params.max_price) {
+      query.max_price = parseInt(params.max_price, 10);
+    }
+  }
+  if (location) {
+    query.location = {};
+    const within = parseInt(params.within, 10);
+    switch (within) {
+      case 'city':
+        query.location = {
+          city: location.city,
+          state: location.state,
+          country: location.country,
+        };
+        break;
+      case 'state':
+        query.location = {
+          state: location.state,
+          country: location.country,
+        };
+        break;
+      case 'country':
+        query.location = {
+          country: location.country,
+        };
+        break;
+      default: {
+        query.location = {};
+        if (within) {
+          query.within = within;
+        }
+        if (location.latitude && location.longitude) {
+          query.location.latitude = location.latitude;
+          query.location.longitude = location.longitude;
+        }
+        if (location.city) {
+          query.location.city = location.city;
+        }
+        if (location.state) {
+          query.location.state = location.state;
+        }
+        if (location.country) {
+          query.location.country = location.country;
+        }
+      }
+    }
+  }
+  if (!isNaN(params.page)) {
+    query.page = parseInt(params.page, 10);
+  } else {
+    query.page = 1;
+  }
+
+  if (params.sort) {
+    query.sort = params.sort;
+  }
+  return query;
+}
+
 export function getSearchParamsFromQuery(query) {
-  const { shout_type, category, min_price, max_price, search, page, sort, free } = query;
+  const {
+    shout_type,
+    category,
+    min_price,
+    max_price,
+    search,
+    page,
+    sort,
+    free,
+  } = query;
 
   let filters;
   if (query.filters) {
