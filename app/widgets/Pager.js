@@ -8,6 +8,9 @@ function makeUrl(baseUrl, page) {
   if (!baseUrl) {
     return '';
   }
+  if (page <= 1) {
+    return baseUrl;
+  }
   if (baseUrl.indexOf('?') === -1) {
     return `${baseUrl}?page=${page}`;
   }
