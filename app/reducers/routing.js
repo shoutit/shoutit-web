@@ -50,3 +50,7 @@ export function getQuery(state) {
 export function getPath(state) {
   return state.routing.path;
 }
+
+export function getCurrentUrl(state) {
+  return state.routing.currentUrl;
+}

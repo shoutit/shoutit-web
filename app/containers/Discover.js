@@ -6,6 +6,8 @@ import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 import { FormattedMessage } from 'react-intl';
 import { getCurrentLocale } from '../reducers/i18n';
+import { getCurrentUrl } from '../reducers/routing';
+
 import Helmet from '../utils/Helmet';
 
 import Page, { Body, EndColumn } from '../layout/Page';
@@ -225,7 +227,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     locale: getCurrentLocale(state),
     country,
-    currentUrl: routing.currentUrl,
+    currentUrl: getCurrentUrl(state),
     currentLocation,
     discoverItem,
     shouts,
