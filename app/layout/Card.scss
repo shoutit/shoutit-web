@@ -16,6 +16,12 @@ $card-border-radius: 2px;
   &.size-medium {
     width: 280px;
   }
+  &.size-flexible-medium {
+    display: block;
+    min-width: 250px;
+    max-width: 320px;
+    width: 100%;
+  }
   &.block {
     display: block;
     width: 100%;
