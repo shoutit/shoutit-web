@@ -28,6 +28,8 @@ import SearchFilters from '../search/SearchFilters';
 
 import './Search.scss';
 
+const PAGE_SIZE = 12;
+
 const MESSAGES = defineMessages({
   title: {
     id: 'search.page.title',
@@ -67,7 +69,7 @@ const fetchData = (dispatch, state, params, query) =>
   dispatch(loadShouts({
     sort: 'time',
     ...getSearchQuery(query, getCurrentLocation(state)),
-    page_size: 12,
+    page_size: PAGE_SIZE,
   }));
 
 export class Search extends Component {

@@ -5,25 +5,27 @@ import './Switch.scss';
 export default class Switch extends Component {
 
   static propTypes = {
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    id: PropTypes.string,
     children: PropTypes.node.isRequired,
   }
 
   render() {
     const { children, ...props } = this.props;
+    const id = this.props.id || this.props.name;
     return (
-      <div className="FormField Switch">
+      <label className="FormField Switch" htmlFor={ id }>
         <input
           { ...props }
           type="checkbox"
           name={ this.props.name }
-          id={ this.props.name }
+          id={ id }
         />
         <span className="Switch-checkbox" />
-        <label htmlFor={ this.props.name }>
+        <span>
           { children }
-        </label>
-      </div>
+        </span>
+      </label>
     );
   }
 }
