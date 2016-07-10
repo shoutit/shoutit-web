@@ -146,7 +146,7 @@ export default class Pager extends Component {
   }
 
   renderItems() {
-    let items = [];
+    const items = [];
     const { total, current, maxItems } = this.props;
 
     if (total <= maxItems) {
