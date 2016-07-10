@@ -148,7 +148,7 @@ export default class Pager extends Component {
     const items = [];
     let from = 1;
     let active;
-    const skip = 2;
+    const skip = 1;
     let to = total;
 
     if (current > skip) {
