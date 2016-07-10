@@ -28,7 +28,12 @@ export default class ShoutsList extends Component {
       <div className="ShoutsList">
         { shouts.map((shout, i) =>
           <div className="ShoutsList-item" key={ i }>
-            <ShoutPreview shout={ shout } showProfile={ showProfile } showCategory={ showCategory } />
+            <ShoutPreview
+              shout={ shout }
+              showProfile={ showProfile }
+              showCategory={ showCategory }
+              size="flexible-medium"
+            />
           </div>
         ) }
       </div>
