@@ -97,6 +97,7 @@ export default class Pager extends Component {
     current: PropTypes.number.isRequired,
     total: PropTypes.number.isRequired,
     url: PropTypes.string,
+    maxItems: PropTypes.number,
 
     previousLabel: PropTypes.node,
     nextLabel: PropTypes.node,
@@ -106,6 +107,7 @@ export default class Pager extends Component {
   static defaultProps = {
     previousLabel: '←',
     nextLabel: '→',
+    maxItems: 5,
   }
 
   constructor(props) {
@@ -144,37 +146,99 @@ export default class Pager extends Component {
   }
 
   renderItems() {
-    const { total, current } = this.props;
-    const items = [];
-    let from = 1;
-    let active;
-    const skip = 1;
-    let to = total;
+    let items = [];
+    const { total, current, maxItems } = this.props;
 
-    if (current > skip) {
-      from = current - skip;
-    }
-    if (total - current > skip) {
-      to = current + skip;
-    }
-    if (from !== 1) {
-      items.push(<PageItem url={ this.props.url } onClick={ this.handlePageClick } page={ 1 }>1</PageItem>);
-      if (from > 1) {
-        items.push(<PageItem disabled />);
+    if (total <= maxItems) {
+      // Display all the page numbers
+      for (let i = 1; i <= total; i++) {
+        items.push(
+          <PageItem
+            url={ this.props.url }
+            active={ i === current }
+            onClick={ this.handlePageClick }
+            page={ i }>
+            { i }
+          </PageItem>
+        );
       }
-    }
-
-    for (let i = from; i <= to; i++) {
-      active = current === i;
-      items.push(<PageItem url={ this.props.url } active={ active } onClick={ this.handlePageClick } page={ i }>{ i }</PageItem>);
-    }
-
-    if (to < total - 1) {
-      active = current === total - 1;
-      if (to < total - 2) {
-        items.push(<PageItem disabled />);
+    } else if (current < maxItems - 1) {
+      for (let i = 1; i < maxItems; i++) {
+        items.push(
+          <PageItem
+            url={ this.props.url }
+            active={ i === current }
+            onClick={ this.handlePageClick }
+            page={ i }>
+            { i }
+          </PageItem>
+        );
       }
-      items.push(<PageItem url={ this.props.url } onClick={ this.handlePageClick } page={ total }>{ total }</PageItem>);
+      items.push(
+        <PageItem disabled />
+      );
+      // End of the batch, display first and last 5
+      items.push(
+        <PageItem
+          url={ this.props.url }
+          onClick={ this.handlePageClick }
+          page={ total }>
+          { total }
+        </PageItem>
+      );
+    } else if (current > total - maxItems + 2) {
+      // End of the batch, display first and last 5
+      items.push(
+        <PageItem
+          url={ this.props.url }
+          onClick={ this.handlePageClick }
+          page={ 1 }>
+          1
+        </PageItem>
+      );
+      items.push(<PageItem disabled />);
+      for (let i = total - maxItems + 2; i <= total; i++) {
+        items.push(
+          <PageItem
+            url={ this.props.url }
+            active={ i === current }
+            onClick={ this.handlePageClick }
+            page={ i }>
+            { i }
+          </PageItem>
+        );
+      }
+    } else {
+      // Middle of the batch
+      items.push(
+        <PageItem
+          url={ this.props.url }
+          onClick={ this.handlePageClick }
+          page={ 1 }>
+          1
+        </PageItem>
+      );
+      items.push(<PageItem disabled />);
+      for (let i = current - 1; i <= current + 1; i++) {
+        items.push(
+          <PageItem
+            url={ this.props.url }
+            active={ i === current }
+            onClick={ this.handlePageClick }
+            page={ i }>
+            { i }
+          </PageItem>
+        );
+      }
+      items.push(<PageItem disabled />);
+      items.push(
+        <PageItem
+          url={ this.props.url }
+          onClick={ this.handlePageClick }
+          page={ total }>
+          { total }
+        </PageItem>
+      );
     }
     return items;
   }
