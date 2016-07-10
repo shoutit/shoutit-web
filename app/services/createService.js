@@ -14,7 +14,6 @@ export function setCache(serviceName, body, locale = 'en') {
   cachedResponses[serviceName] = {
     [locale]: body,
   };
-  console.log(JSON.stringify(cachedResponses));
 }
 
 export function getCache(serviceName, locale = 'en') {

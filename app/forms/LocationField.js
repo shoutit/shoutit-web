@@ -108,10 +108,10 @@ export class LocationField extends Component {
   }
   handleFocus() {
     this.select();
-    this.setState({ 
-      readOnly: true, 
-      hasFocus: true, 
-      showOverlay: true 
+    this.setState({
+      readOnly: true,
+      hasFocus: true,
+      showOverlay: true,
     });
   }
   handleBlur() {
@@ -250,7 +250,7 @@ export class LocationField extends Component {
   render() {
     const { inputRef, name, location, ...props } = this.props; // eslint-disable-line
     const { readOnly, value, showOverlay, hasFocus, error } = this.state;
-  
+
     let countryFlag;
     if (location) {
       countryFlag = <CountryFlag code={ location.country } size="small" />;
@@ -258,26 +258,26 @@ export class LocationField extends Component {
     return (
       <div className="FormField" style={ { position: 'relative' } }>
         <span onClick={ this.select }>
-        <FormField
-          { ...props }
-          name={ name }
-          error={ error }
-          autoComplete="off"
-          readOnly={ !readOnly }
-          type="text"
-          value={ value }
-          onFocus={ this.handleFocus }
-          onBlur={ this.handleBlur }
-          onChange={ this.handleChange }
-          onKeyDown={ this.handleKeyDown }
-          startElement={ countryFlag }
-          ref={ el => {
-            this.field = el;
-            if (inputRef) {
-              inputRef(this);
-            }
-          } }
-          field="input" />
+          <FormField
+            { ...props }
+            name={ name }
+            error={ error }
+            autoComplete="off"
+            readOnly={ !readOnly }
+            type="text"
+            value={ value }
+            onFocus={ this.handleFocus }
+            onBlur={ this.handleBlur }
+            onChange={ this.handleChange }
+            onKeyDown={ this.handleKeyDown }
+            startElement={ countryFlag }
+            ref={ el => {
+              this.field = el;
+              if (inputRef) {
+                inputRef(this);
+              }
+            } }
+            field="input" />
         </span>
         <Overlay
           rootClose
