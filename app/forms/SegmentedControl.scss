@@ -13,22 +13,23 @@
 
 .SegmentedControl-option {
   display: inline-block;
+  white-space: nowrap;
   line-height: 34px;
-  flex-grow: 1;
 
+  flex-grow: 1;
   input {
     display: none;
   }
 
   label {
-    background-color: $white;
     display: block;
     padding: 0 .5em;
     text-align: center;
+    color: $color-placeholder;
     border: 1px solid $formFieldBorderColor;
     border-right-width: 0;
+    background-color: $white;
     font-size: .875em;
-    color: $color-placeholder;
   }
 
   input:checked + label {

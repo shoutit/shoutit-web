@@ -20,6 +20,7 @@ ul.Pager > li {
     border: 1px solid $border-color;
     border-radius: .25em;
     min-width: 7.5em;
+    font-size: 0.875em;
   }
   &:first-child.disabled a,
   &:last-child.disabled a {

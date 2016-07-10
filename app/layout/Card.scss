@@ -16,6 +16,12 @@ $card-border-radius: 2px;
   &.size-medium {
     width: 280px;
   }
+  &.size-flexible-medium {
+    display: block;
+    min-width: 250px;
+    max-width: 320px;
+    width: 100%;
+  }
   &.block {
     display: block;
     width: 100%;
@@ -42,10 +48,10 @@ $card-border-radius: 2px;
 
 .CardImage > span {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: $card-border-radius;
-  left: 0;
+  top: 0.1875em;
+  right: 0.1875em;
+  bottom: 0;
+  left: 0.1875em;
   border-radius: $card-border-radius;
   background-repeat: no-repeat;
   background-position: center;

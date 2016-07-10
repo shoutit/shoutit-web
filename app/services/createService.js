@@ -3,21 +3,29 @@ import { parseApiError } from '../utils/APIUtils';
 
 const cachedResponses = {};
 
-export function clearCache(serviceName) {
-  delete cachedResponses[serviceName];
+export function clearCache(serviceName, locale = 'en') {
+  if (!cachedResponses.hasOwnProperty('serviceName')) {
+    return;
+  }
+  delete cachedResponses[serviceName][locale];
 }
 
-export function setCache(serviceName, body) {
-  cachedResponses[serviceName] = body;
+export function setCache(serviceName, body, locale = 'en') {
+  cachedResponses[serviceName] = {
+    [locale]: body,
+  };
 }
 
-export function getCache(serviceName) {
-  return cachedResponses[serviceName];
+export function getCache(serviceName, locale = 'en') {
+  if (!cachedResponses[serviceName]) {
+    return undefined;
+  }
+  return cachedResponses[serviceName][locale];
 }
 
 function createReadMethod({ url, cacheResponse, name }) {
   return function readService(req, resource, params, config, callback) {
-    const cache = getCache(name);
+    const cache = getCache(name, req.locale);
     if (cache) {
       callback(null, cache);
       return;
@@ -31,7 +39,7 @@ function createReadMethod({ url, cacheResponse, name }) {
           return callback(parseApiError(err));
         }
         if (cacheResponse) {
-          setCache(name, res.body);
+          setCache(name, res.body, req.locale);
         }
         return callback(null, res.body);
       });

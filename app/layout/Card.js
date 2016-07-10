@@ -30,7 +30,7 @@ Card.propTypes = {
   block: PropTypes.bool,
   className: PropTypes.string,
   title: PropTypes.string,
-  size: PropTypes.oneOf(['small', 'medium']),
+  size: PropTypes.oneOf(['small', 'medium', 'flexible-medium']),
 };
 
 export function CardImage({ src }) {
