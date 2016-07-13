@@ -53,6 +53,7 @@ class HomePage extends Component {
         </section>
         <section className="HomePage-section">
           <div className="HomePage-sectionContent">
+
             <ResponsiveLayout size="small">
               <h3>
                 <FormattedMessage

@@ -30,6 +30,7 @@
 
 .HomePage-sectionContent {
   width: 100%;
+  min-width: 280px;
   margin: 0 auto;
   padding: $vertical-spacing*2 $horizontal-spacing 0 $horizontal-spacing;
   text-align: center;
@@ -38,7 +39,7 @@
   }
   p {
     color: $color-text-light;
-    font-size: 0.875em; 
+    font-size: .875em;
   }
 }
 
@@ -48,30 +49,34 @@
     margin-bottom: 0;
   }
   img {
-    vertical-align: bottom
+    vertical-align: bottom;
+    width: 100%;
+    max-width: 260px;
   }
 }
 
 .HomePage-shouts {
   display: flex;
-  flex-wrap: nowrap;
   overflow-x: auto;
   max-width: 750px;
   margin: 0 auto;
   margin-bottom: $vertical-spacing;
+
+  flex-wrap: nowrap;
   a {
-    text-align: left;
+    width: 270px;
     margin: auto;
+    padding: $vertical-spacing $horizontal-spacing/2;
+    text-align: left;
+
     flex-shrink: 0;
-    width: 300px;
-    padding: $vertical-spacing $horizontal-spacing;
   }
 }
 
 .HomePage-sectionSeparator {
-  border-top: 1px solid $border-color-dark;
   margin-top: $vertical-spacing*2;
   margin-bottom: $vertical-spacing*2;
+  border-top: 1px solid $border-color-dark;
 }
 
 .HomePage-section {
