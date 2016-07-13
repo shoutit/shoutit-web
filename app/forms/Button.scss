@@ -30,13 +30,17 @@
   a {
     color: inherit !important;
   }
+  > * {
+    vertical-align: middle;
+  }
 }
 
 .Button {
   .Icon {
     margin-left: 1em;
   }
-  .Icon + .Button-label {
+  .Icon + .Button-label,
+  .Button-start + .Button-label {
     padding-left: .5em;
   }
 }
