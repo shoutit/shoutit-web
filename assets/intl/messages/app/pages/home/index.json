@@ -32,6 +32,10 @@
     "defaultMessage": "Talk about products and services with others in your area. Share videos, photos and Shouts or ask for an advice while looking for something. Join existing public chats in your city or create your own."
   },
   {
+    "id": "pages.home.publicChats.description.action",
+    "defaultMessage": "+ Start your own Public Chat"
+  },
+  {
     "id": "pages.home.publicChats.action.button",
     "defaultMessage": "Explore Public Chats in {city}"
   },
@@ -42,6 +46,10 @@
   {
     "id": "pages.home.shoutitCredit.description",
     "defaultMessage": "Is a virtual currency you can earn and spend on Shoutit. Use your Shoutit credit to promote your Shouts and business pages. You can buy Shoutit credit or earn it by inviting friends."
+  },
+  {
+    "id": "pages.home.shoutitCredit.description.action",
+    "defaultMessage": "Learn more"
   },
   {
     "id": "pages.home.business.description",
