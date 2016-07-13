@@ -80,7 +80,7 @@ class HomePage extends Component {
 
             <ResponsiveLayout size="small">
               <div className="HomePage-section-action">
-                <Button kind="primary">
+                <Button to="/signup" kind="primary">
                   <FormattedMessage
                     id="pages.home.shouts.action.button"
                     defaultMessage="Create a Shout"
