@@ -30,11 +30,12 @@
 
 .HomePage-sectionContent {
   width: 100%;
-  max-width: 500px;
   margin: 0 auto;
   padding: $vertical-spacing*2 $horizontal-spacing 0 $horizontal-spacing;
   text-align: center;
-
+  .ResponsiveLayout > span {
+    text-align: center;
+  }
   p {
     color: $color-text-light;
     font-size: 0.875em; 
@@ -51,6 +52,22 @@
   }
 }
 
+.HomePage-shouts {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  max-width: 750px;
+  margin: 0 auto;
+  margin-bottom: $vertical-spacing;
+  a {
+    text-align: left;
+    margin: auto;
+    flex-shrink: 0;
+    width: 300px;
+    padding: $vertical-spacing $horizontal-spacing;
+  }
+}
+
 .HomePage-sectionSeparator {
   border-top: 1px solid $border-color-dark;
   margin-top: $vertical-spacing*2;
@@ -61,6 +78,12 @@
   .AppBadge {
     display: inline-block;
     padding: $vertical-spacing $horizontal-spacing/2;
+  }
+}
+
+.HomePage-section-action {
+  .Button-label {
+    white-space: normal;
   }
 }
 

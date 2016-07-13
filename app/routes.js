@@ -37,7 +37,7 @@ const routes = (store) =>
     <Route path="/"
       getApplicationLayout={ () => ({
         stickyHeader: !!store.getState().session.user,
-        showFooter: true,
+        showFooter: false,
         showHeader: false,
       }) }
       getResponsiveLayout={ () => ({
