@@ -190,6 +190,7 @@
   "pages.home.hero.header": "Buy & Sell anything while Chatting",
   "pages.home.hero.subtitle": "Shout Offers and Requests in your area or anywhere in the world!",
   "pages.home.hero.categoryLink": "Search by Category",
+  "pages.home.hero.businessLink": "Business?",
   "pages.home.shouts.title": "Offers & Requests",
   "pages.home.shouts.description": "There are two different types of Shouts (listings). {colouredOfferText} any product or a service on Shoutit marketplace. Do you need anything? {colouredRequestText} it and wait to be contacted by someone who has it.",
   "pages.home.shouts.description.colouredOfferText": "Offer",

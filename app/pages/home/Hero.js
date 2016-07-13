@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
@@ -9,6 +9,9 @@ import Searchbar from '../../search/Searchbar';
 import './Hero.scss';
 
 class HomePageHero extends Component {
+  static propTypes = {
+    onBusinessClick: PropTypes.func.isRequired,
+  }
   render() {
     return (
       <div className="HomePageHero">
@@ -38,6 +41,14 @@ class HomePageHero extends Component {
               />
             </Link>
           </div>
+        </div>
+        <div className="HomePageHero-businessLink">
+          <a onClick={ this.props.onBusinessClick }>
+            <FormattedMessage
+              id="pages.home.hero.businessLink"
+              defaultMessage="Business?"
+            />
+          </a>
         </div>
       </div>
     );

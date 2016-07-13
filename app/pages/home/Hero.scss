@@ -63,10 +63,20 @@
   }
 }
 
-.HomePageHero-categoryLink {
+.HomePageHero-categoryLink,
+.HomePageHero-businessLink, {
   font-size: 1em;
   a {
     text-decoration: underline;
     color: white;
   }
+}
+
+.HomePageHero-businessLink {
+  z-index: 2;
+  position: absolute;
+  bottom: $vertical-spacing;
+  left: 0;
+  right: 0;
+  text-align: center;
 }
