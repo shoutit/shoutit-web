@@ -56,3 +56,14 @@
   margin-top: $vertical-spacing*2;
   margin-bottom: $vertical-spacing*2;
 }
+
+.HomePage-section {
+  .AppBadge {
+    display: inline-block;
+    padding: $vertical-spacing $horizontal-spacing/2;
+  }
+}
+
+p + .HomePage-section-action {
+  padding-top: $vertical-spacing;
+}

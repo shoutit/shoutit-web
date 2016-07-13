@@ -1,14 +1,24 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
 
 import Header from './Header';
 import Hero from './Hero';
 import Button from '../../forms/Button';
 import { imagesPath } from '../../config';
+import AppBadge from '../../widgets/AppBadge';
+import Logo from '../../widgets/Logo';
 
 import './HomePage.scss';
 
+import { getCurrentLocation } from '../../reducers/currentLocation';
+
 class HomePage extends Component {
+
+  static propTypes = {
+    currentLocation: PropTypes.object.isRequired,
+  }
+
   render() {
     return (
       <div className="HomePage">
@@ -33,10 +43,6 @@ class HomePage extends Component {
                   colouredRequestText: <span className="request"><FormattedMessage id="pages.home.shouts.description.colouredRequestText" defaultMessage="Request" /></span>,
                 } }
               />
-            </p>
-
-            <p>
-              (shouts list)
             </p>
 
             <div className="HomePage-section-action">
@@ -74,16 +80,19 @@ class HomePage extends Component {
             <div className="HomePage-sectionImage">
               <img alt="" height="267" width="260" src={ `${imagesPath}/home-public-chat-mobile.png` } />
             </div>
-            <Button kind="primary">
-              <FormattedMessage
-                id="pages.home.publicChats.action.button"
-                defaultMessage="Explore Public Chats in { city }"
-                values={ {
-                  city: this.props.currentCity,
-                } }
-              />
-            </Button>
-  
+
+            { true &&
+              <Button kind="primary">
+                <FormattedMessage
+                  id="pages.home.publicChats.action.button"
+                  defaultMessage="Explore Public Chats in { city }"
+                  values={ {
+                    city: this.props.currentLocation.city,
+                  } }
+                />
+              </Button>
+            }
+
             <div className="HomePage-sectionSeparator" />
 
             <h3>
@@ -105,6 +114,7 @@ class HomePage extends Component {
         </section>
         <section className="HomePage-section">
           <div className="HomePage-sectionContent">
+            <Logo type="business" />
             <p>
               <FormattedMessage
                 id="pages.home.business.description"
@@ -139,7 +149,7 @@ class HomePage extends Component {
               />
             </p>
             <div className="HomePage-section-action">
-              <Button kind="secondary">
+              <Button kind="alternate">
                 <FormattedMessage
                   id="pages.home.business.action.button"
                   defaultMessage="Get Started with Shoutit for Business"
@@ -171,6 +181,10 @@ class HomePage extends Component {
                 defaultMessage="Buy and Sell anything while chatting. Shout Offers and Requests in your area or anywhere in the world!"
               />
             </p>
+
+            <AppBadge appstore="appStore" height={ 40 } />
+            <AppBadge appstore="googlePlay" height={ 40 } />
+
           </div>
         </section>
 
@@ -179,4 +193,7 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage;
+const mapStateToProps = state => ({
+  currentLocation: getCurrentLocation(state),
+});
+export default connect(mapStateToProps)(HomePage);
