@@ -41,7 +41,7 @@ const routes = (store) =>
         showHeader: false,
       }) }
       getResponsiveLayout={ () => ({
-        constrainMaxWidth: false, 
+        constrainMaxWidth: false,
         horizontalSpace: false,
       }) }
       getComponent={ (location, callback) => {
