@@ -1,5 +1,17 @@
 @import "~sass-mediaqueries/_media-queries.scss";
 
+@mixin smartphone-small() {
+  @include mq($max-width: 320px) {
+    @content;
+  }
+}
+
+@mixin smartphone() {
+  @include mq($max-width: 414px) {
+    @content;
+  }
+}
+
 @mixin tablet() {
   @include mq($max-width: 768px) {
     @content;
