@@ -29,7 +29,8 @@ const authAppLayout = () => ({
 });
 
 const settingsAppLayout = () => ({
-  showFooter: true, stickyHeader: false,
+  showFooter: true, 
+  stickyHeader: false,
 });
 
 const routes = (store) =>
@@ -38,11 +39,11 @@ const routes = (store) =>
       getApplicationLayout={ () => ({
         stickyHeader: !!store.getState().session.user,
         showFooter: true,
-        showHeader: false,
+        showHeader: !!store.getState().session.user,
       }) }
       getResponsiveLayout={ () => ({
-        constrainMaxWidth: false,
-        horizontalSpace: false,
+        constrainMaxWidth: !!store.getState().session.user,
+        horizontalSpace: !!store.getState().session.user,
       }) }
       getComponent={ (location, callback) => {
         const Component = store.getState().session.user ? Dashboard : Homepage;
