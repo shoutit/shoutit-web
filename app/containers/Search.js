@@ -108,7 +108,7 @@ export class Search extends Component {
     super(props);
     this.handleFiltersSubmit = this.handleFiltersSubmit.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
-    this.state = { };
+    this.state = this.getStateFromProps(props);
   }
 
   componentDidMount() {
@@ -140,6 +140,16 @@ export class Search extends Component {
     }
   }
 
+  getStateFromProps(props) {
+    const within = parseInt(props.route.query.within, 10);
+    const state = {
+      ...props.query,
+      free: !!props.route.query.free,
+      within: isNaN(within) ? props.route.query.within : within,
+    };
+    return state;
+  }
+
   updateList() {
     const { dispatch, currentLocation } = this.props;
     let path = `/search${getLocationPath(currentLocation)}`;
@@ -154,22 +164,20 @@ export class Search extends Component {
     e.target.blur();
     this.setState({ sort }, this.updateList);
   }
+
   handleFiltersSubmit(params) {
     this.setState({ ...params }, this.updateList);
   }
 
   render() {
+    console.log(this.state);
     return (
       <Page className="Search">
         <Helmet title={ this.props.title } />
         <StartColumn>
           <SearchFilters
             disabled={ false }
-            query={ {
-              ...this.props.query,
-              free: !!this.props.route.query.free,
-              within: parseInt(this.props.route.query.within, 10),
-            } }
+            query={ this.state }
             onSubmit={ this.handleFiltersSubmit }
             />
         </StartColumn>
@@ -188,8 +196,8 @@ export class Search extends Component {
           </div>
           { this.props.shouts.length > 0 &&
             <Pagination
-              pageSize={ this.props.query.page_size }
-              currentPage={ this.props.page }
+              pageSize={ this.state.page_size }
+              currentPage={ this.state.page }
               count={ this.props.count }
             />
           }
