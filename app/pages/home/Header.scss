@@ -1,9 +1,11 @@
 @import '../../styles/constants';
 
 .HomePageHeader {
+  height: $header-height;
   display: flex; 
   justify-content: space-between;
-  padding: $vertical-spacing $horizontal-spacing;
+  padding: 0 $horizontal-spacing;
+  align-items: center;
 }
 
 .HomePageHeader-actions {
