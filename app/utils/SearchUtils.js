@@ -91,9 +91,7 @@ export function getSearchQuery(params, location) {
     }
   }
   if (location) {
-    query.location = {};
-    const within = parseInt(params.within, 10);
-    switch (within) {
+    switch (params.within) {
       case 'city':
         query.location = {
           city: location.city,
@@ -114,8 +112,11 @@ export function getSearchQuery(params, location) {
         break;
       default: {
         query.location = {};
-        if (within) {
-          query.within = within;
+        if (params.within) {
+          const within = parseInt(params.within, 10);
+          if (!isNaN(within)) {
+            query.within = within;
+          }
         }
         if (location.latitude && location.longitude) {
           query.location.latitude = location.latitude;
