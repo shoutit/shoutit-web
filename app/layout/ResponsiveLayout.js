@@ -7,14 +7,16 @@ class ResponsiveLayout extends Component {
     constrainMinWidth: PropTypes.bool.isRequired,
     horizontalSpace: PropTypes.bool,
     children: PropTypes.element,
+    size: PropTypes.oneOf(['default', 'small']),
   }
   static defaultProps = {
     constrainMaxWidth: true,
     constrainMinWidth: false,
     horizontalSpace: true,
+    size: 'default',
   }
   render() {
-    let className = 'ResponsiveLayout';
+    let className = `ResponsiveLayout ${this.props.size}`;
     if (this.props.constrainMaxWidth) {
       className += ' max-width';
     }

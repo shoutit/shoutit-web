@@ -12,15 +12,15 @@
 }
 
 .ResponsiveLayout.min-width {
-  > span {
+  &.default > span {
     min-width: 768px;
     display: inline-block;
   }
 }
 
 .ResponsiveLayout.max-width {
-  > span {
-    max-width: 1400px;
+  &.small > span {
+    max-width: 530px;
     display: inline-block;
   }
 }
