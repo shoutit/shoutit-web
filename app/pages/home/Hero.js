@@ -33,14 +33,16 @@ class HomePageHero extends Component {
           <div className="HomePageHero-search">
             <Searchbar autosuggest={ false } />
           </div>
-          <div className="HomePageHero-categoryLink">
-            <Link to="/search">
-              <FormattedMessage
-                id="pages.home.hero.categoryLink"
-                defaultMessage="Search by Category"
-              />
-            </Link>
-          </div>
+          { false &&
+            <div className="HomePageHero-categoryLink">
+              <Link to="/search">
+                <FormattedMessage
+                  id="pages.home.hero.categoryLink"
+                  defaultMessage="Search by Category"
+                />
+              </Link>
+            </div>
+          }
         </div>
         <div className="HomePageHero-businessLink">
           <a onClick={ this.props.onBusinessClick }>
