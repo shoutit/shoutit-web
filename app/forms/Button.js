@@ -9,6 +9,7 @@ export default class Button extends Component {
 
   static propTypes = {
     children: PropTypes.node.isRequired,
+    startElement: PropTypes.element,
     kind: PropTypes.oneOf(['default', 'primary', 'secondary', 'alternate', 'destructive', 'inverted', 'social']),
     size: PropTypes.oneOf(['small', 'medium']),
     icon: PropTypes.string,
@@ -54,6 +55,11 @@ export default class Button extends Component {
       <span>
         { icon &&
           <Icon name={ icon } fill={ kind !== 'default' } active={ kind === 'default' } />
+        }
+        { this.props.startElement &&
+          <span className="Button-start">
+            { this.props.startElement }
+          </span>
         }
         <span className="Button-label">
           { children }

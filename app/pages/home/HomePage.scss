@@ -1,4 +1,5 @@
 @import '../../styles/constants';
+@import '../../styles/mixins/mq';
 
 .HomePage {
 }
@@ -42,6 +43,16 @@
     color: $color-text-light;
     font-size: .875em;
   }
+
+  .text-offer {
+    font-weight: bold;
+    color: $color-offer;
+  }
+
+  .text-request {
+    font-weight: bold;
+    color: $color-request;
+  }
 }
 
 .HomePage-sectionImage {
@@ -50,9 +61,9 @@
     margin-bottom: 0;
   }
   img {
-    vertical-align: bottom;
     width: 100%;
     max-width: 260px;
+    vertical-align: bottom;
   }
 }
 
@@ -64,13 +75,24 @@
   margin-bottom: $vertical-spacing;
 
   flex-wrap: nowrap;
-  
+  scroll-snap-destination: 50% 50%;
+  scroll-snap-type: mandatory;
+
   .ShoutPreview-container {
     width: 270px;
     margin: auto;
     padding: $vertical-spacing $horizontal-spacing/2;
     text-align: left;
+
+    scroll-snap-coordinate: 50% 50%;
     flex-shrink: 0;
+  }
+}
+
+@include smartphone-small() {
+  .HomePage-shouts .ShoutPreview-container {
+    width: 250px;
+    padding: $vertical-spacing $horizontal-spacing/3;
   }
 }
 

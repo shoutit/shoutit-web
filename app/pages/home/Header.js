@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { imagesPath } from '../../config';
 
 import Button from '../../forms/Button';
+import ProfileAvatar from '../../users/ProfileAvatar';
 
 import './Header.scss';
 
@@ -18,10 +19,10 @@ class HomePageHeader extends Component {
           </Link>
         </span>
         <span className="HomePageHeader-actions">
-          <Button to="/login">
+          <Button to="/login" startElement={ <ProfileAvatar /> }>
             <FormattedMessage id="pages.home.header.loginButton" defaultMessage="Login" />
           </Button>
-          <Button kind="primary" to="/signup">
+          <Button className="HomePageHeader-signup" kind="primary" to="/signup">
             <FormattedMessage id="pages.home.header.signupButton" defaultMessage="Sign up" />
           </Button>
         </span>
