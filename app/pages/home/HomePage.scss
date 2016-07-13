@@ -63,12 +63,12 @@
   margin-bottom: $vertical-spacing;
 
   flex-wrap: nowrap;
-  a {
+  
+  .ShoutPreview-container {
     width: 270px;
     margin: auto;
     padding: $vertical-spacing $horizontal-spacing/2;
     text-align: left;
-
     flex-shrink: 0;
   }
 }
