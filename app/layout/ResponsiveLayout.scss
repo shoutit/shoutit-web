@@ -2,7 +2,9 @@
 
 .ResponsiveLayout {
   text-align: center;
-  padding: 0 $horizontal-spacing;
+  &.horizontal-space {
+    padding: 0 $horizontal-spacing;
+  }
   > span {
     width: 100%;
     text-align: left;
