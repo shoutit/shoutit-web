@@ -21,7 +21,7 @@ class HomePageHeader extends Component {
           <Button to="/login">
             <FormattedMessage id="pages.home.header.loginButton" defaultMessage="Login" />
           </Button>
-          <Button kind="primary" to="/signup">
+          <Button className="HomePageHeader-signup" kind="primary" to="/signup">
             <FormattedMessage id="pages.home.header.signupButton" defaultMessage="Sign up" />
           </Button>
         </span>

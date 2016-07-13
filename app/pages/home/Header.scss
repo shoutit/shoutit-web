@@ -1,4 +1,5 @@
 @import '../../styles/constants';
+@import '../../styles/mixins/mq';
 
 .HomePageHeader {
   height: $header-height;
@@ -10,4 +11,10 @@
 
 .HomePageHeader-actions {
   font-size: 0.875em;
+}
+
+@include smartphone() {
+  .HomePageHeader-signup {
+    display: none !important;
+  }
 }
