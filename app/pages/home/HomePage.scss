@@ -43,6 +43,16 @@
     color: $color-text-light;
     font-size: .875em;
   }
+
+  .text-offer {
+    font-weight: bold;
+    color: $color-offer;
+  }
+
+  .text-request {
+    font-weight: bold;
+    color: $color-request;
+  }
 }
 
 .HomePage-sectionImage {

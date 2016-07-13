@@ -77,8 +77,8 @@ class HomePage extends Component {
                   id="pages.home.shouts.description"
                   defaultMessage="There are two different types of Shouts (listings). {colouredOfferText} any product or a service on Shoutit marketplace. Do you need anything? {colouredRequestText} it and wait to be contacted by someone who has it."
                   values={ {
-                    colouredOfferText: <span className="offer"><FormattedMessage id="pages.home.shouts.description.colouredOfferText" defaultMessage="Offer" /></span>,
-                    colouredRequestText: <span className="request"><FormattedMessage id="pages.home.shouts.description.colouredRequestText" defaultMessage="Request" /></span>,
+                    colouredOfferText: <span className="text-offer"><FormattedMessage id="pages.home.shouts.description.colouredOfferText" defaultMessage="Offer" /></span>,
+                    colouredRequestText: <span className="text-request"><FormattedMessage id="pages.home.shouts.description.colouredRequestText" defaultMessage="Request" /></span>,
                   } }
                 />
               </p>
