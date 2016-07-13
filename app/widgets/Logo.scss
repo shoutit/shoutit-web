@@ -14,7 +14,9 @@
   .Logo-text {
     position: absolute;
     bottom: 0;
+    /*!rtl:begin:ignore*/
     left: 56px;
+    /*!rtl:end:ignore*/
     white-space: nowrap;
     font-weight: bold;
   }
