@@ -1,38 +1,50 @@
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
 
 .Footer {
-  color: $color-text-lighter;
-  font-size: 0.875rem;
+  color: $grey;
 }
 
 .Footer h3 {
-  font-size: 0.75rem;
   text-transform: uppercase;
-  font-weight: normal;
+  font-size: 1em;
+  font-weight: bold;
 }
 .Footer-wrapper {
-  padding: $vertical-spacing*2 0;
   display: flex;
+  justify-content: space-between;
+  padding: $vertical-spacing $horizontal-spacing;
+
+  flex-wrap: wrap;
 }
 
-.Footer-logo {
-  margin-right: 3rem;
-}
 .Footer-links {
-  margin: 0 2rem;
+  margin: $vertical-spacing $horizontal-spacing*2;
   a {
     display: block;
-    color: $white;
-    padding: 0.25rem 0;
+    padding: .25em 0;
+    color: #E9E9E9;
+    &:hover {
+      color: $white;
+    }
+  }
+  &.social {
+    margin-top: 0;
+    text-align: center;
+    a {
+      display: inline-block;
+      vertical-align: middle;
+      padding: 0 $horizontal-spacing/2;
+    }
   }
 }
 
 .Footer-apps {
-  flex: 1;
   display: flex;
-  flex-direction: column;
   align-items: flex-end;
   justify-content: flex-start;
+  flex-direction: column;
+
+  flex: 1;
 
   a {
     display: block;
@@ -40,6 +52,7 @@
 }
 
 .Footer-copyright {
+  padding-top: $vertical-spacing;
   text-align: center;
-  font-size: 0.65rem;
+  font-size: .875em;
 }

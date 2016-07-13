@@ -10,5 +10,9 @@
   {
     "id": "pages.home.hero.categoryLink",
     "defaultMessage": "Search by Category"
+  },
+  {
+    "id": "pages.home.hero.businessLink",
+    "defaultMessage": "Business?"
   }
 ]

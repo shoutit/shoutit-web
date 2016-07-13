@@ -178,7 +178,7 @@ export class Discover extends Component {
             <Progress animate={ isFetchingShouts } />
             <Progress animate={ isFetching && !discoverItem } />
           </Body>
-          <EndColumn>
+          <EndColumn footer>
             <SuggestedShout />
           </EndColumn>
         </Page>

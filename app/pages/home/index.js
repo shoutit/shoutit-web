@@ -34,10 +34,21 @@ class HomePage extends Component {
   constructor(props) {
     super(props);
     this.scrollToApps = this.scrollToApps.bind(this);
+    this.scrollToBusiness = this.scrollToBusiness.bind(this);
   }
 
-  scrollToApps() {
+  scrollToApps(e) {
+    e.target.blur();
     scroller.scrollTo('apps', {
+      duration: 800,
+      delay: 100,
+      smooth: true,
+    });
+  }
+
+  scrollToBusiness(e) {
+    e.target.blur();
+    scroller.scrollTo('business', {
       duration: 800,
       delay: 100,
       smooth: true,
@@ -49,7 +60,7 @@ class HomePage extends Component {
       <div className="HomePage">
         <section className="HomePage-hero">
           <Header />
-          <Hero />
+          <Hero onBusinessClick={ this.scrollToBusiness } />
         </section>
         <section className="HomePage-section">
           <div className="HomePage-sectionContent">
@@ -167,7 +178,7 @@ class HomePage extends Component {
         </section>
         <section className="HomePage-section">
           <ResponsiveLayout size="small">
-
+            <ScrollTarget name="business" />
             <div className="HomePage-sectionContent">
               <Logo type="business" />
               <p>

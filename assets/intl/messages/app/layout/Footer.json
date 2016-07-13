@@ -1,23 +1,31 @@
 [
   {
-    "id": "footer.social.title",
-    "defaultMessage": "Follow us"
+    "id": "layout.Footer.discover.title",
+    "defaultMessage": "Discover"
   },
   {
-    "id": "footer.social.facebook",
-    "defaultMessage": "Facebook"
+    "id": "layout.Footer.discover.browse",
+    "defaultMessage": "Browse Shouts"
   },
   {
-    "id": "footer.social.twitter",
-    "defaultMessage": "Twitter"
+    "id": "layout.Footer.discover.discover",
+    "defaultMessage": "Discover Shouts"
   },
   {
-    "id": "footer.social.instagram",
-    "defaultMessage": "Instagram"
+    "id": "layout.Footer.discover.register",
+    "defaultMessage": "Sign Up"
   },
   {
-    "id": "footer.language.title",
+    "id": "layout.Footer.discover.login",
+    "defaultMessage": "Log In"
+  },
+  {
+    "id": "layout.Footer.language.title",
     "defaultMessage": "Language"
+  },
+  {
+    "id": "layout.Footer.social.title",
+    "defaultMessage": "Join us on"
   },
   {
     "id": "footer.copyright",

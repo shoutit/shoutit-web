@@ -25,6 +25,7 @@ export class Searchbar extends Component {
 
   static propTypes = {
     currentLocation: PropTypes.object.isRequired,
+    autosuggest: PropTypes.bool,
     locale: PropTypes.string.isRequired,
     query: PropTypes.string.isRequired,
     searchTags: PropTypes.func.isRequired,
@@ -34,6 +35,10 @@ export class Searchbar extends Component {
     onLocationClick: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    autosuggest: true,
+  }
 
   constructor(props) {
     super(props);
@@ -68,6 +73,9 @@ export class Searchbar extends Component {
   }
 
   handleChange() {
+    if (!this.props.autosuggest) {
+      return;
+    }
     const query = this.searchField.getValue();
     if (query.length <= 2) {
       this.props.invalidateSearch();
@@ -126,7 +134,7 @@ export class Searchbar extends Component {
                 }
                 onChange={ this.handleChange }
                 onBlur={ () => this.setState({ isFocused: false }) }
-                onFocus={ () => this.setState({ isFocused: true, showOverlay: true }) }
+                onFocus={ () => this.setState({ isFocused: true, showOverlay: this.props.autosuggest }) }
               />
             }
           </FormattedMessage>
