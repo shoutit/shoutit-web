@@ -9,17 +9,26 @@ import { imagesPath } from '../../config';
 import AppBadge from '../../widgets/AppBadge';
 import Logo from '../../widgets/Logo';
 
+import { loadShoutSamples } from '../../actions/shouts';
+
 import './HomePage.scss';
 
 import { getCurrentLocation } from '../../reducers/currentLocation';
+import { getShoutSamples } from '../../reducers/shoutSamples';
+
+const fetchData = dispatch => dispatch(loadShoutSamples());
 
 class HomePage extends Component {
 
   static propTypes = {
     currentLocation: PropTypes.object.isRequired,
+    shouts: PropTypes.array.isRequired,
   }
 
+  static fetchData = fetchData;
+
   render() {
+    console.log(this.props.shouts);
     return (
       <div className="HomePage">
         <section className="HomePage-hero">
@@ -195,5 +204,6 @@ class HomePage extends Component {
 
 const mapStateToProps = state => ({
   currentLocation: getCurrentLocation(state),
+  shouts: getShoutSamples(state),
 });
 export default connect(mapStateToProps)(HomePage);
