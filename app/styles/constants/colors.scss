@@ -4,6 +4,7 @@ $black: #373837;
 $green: #36DD69;
 $green-light: #33E96B;
 $red: #FF4700;
+$yellow: #FFBF00;
 $blue: #40C4FF;
 $grey-light-1: #AFAFAF;
 $grey-light-2: #CCC;
@@ -22,7 +23,9 @@ $color-text-lighter: $grey-light-2;
 $color-primary: $green;
 $color-primary-light: $green-light;
 $color-secondary: $blue;
-$color-secondary-light: $blue;
+$color-secondary-light: lighten($blue, 10);
+$color-alternate: $yellow;
+$color-alternate-light: lighten($yellow, 10);
 $color-destructive: $red;
 $color-destructive-light: $red;
 
