@@ -26,7 +26,7 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
   margin-left: .25em;
 }
 
-.FormField + .FormField,
+:not(.FieldsGroup) > .FormField + .FormField,
 .FieldsGroup + .FieldsGroup,
 .FormField + .FieldsGroup,
 .FieldsGroup + .FormField {
