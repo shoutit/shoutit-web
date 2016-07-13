@@ -1,0 +1,82 @@
+[
+  {
+    "id": "pages.home.shouts.title",
+    "defaultMessage": "Offers & Requests"
+  },
+  {
+    "id": "pages.home.shouts.description",
+    "defaultMessage": "There are two different types of Shouts (listings). {colouredOfferText} any product or a service on Shoutit marketplace. Do you need anything? {colouredRequestText} it and wait to be contacted by someone who has it."
+  },
+  {
+    "id": "pages.home.shouts.description.colouredOfferText",
+    "defaultMessage": "Offer"
+  },
+  {
+    "id": "pages.home.shouts.description.colouredRequestText",
+    "defaultMessage": "Request"
+  },
+  {
+    "id": "pages.home.shouts.action.button",
+    "defaultMessage": "Create a Shout"
+  },
+  {
+    "id": "pages.home.shouts.action.description",
+    "defaultMessage": "It’s free!"
+  },
+  {
+    "id": "pages.home.publicChats.title",
+    "defaultMessage": "Public Chats"
+  },
+  {
+    "id": "pages.home.publicChats.description",
+    "defaultMessage": "Talk about products and services with others in your area. Share videos, photos and Shouts or ask for an advice while looking for something. Join existing public chats in your city or create your own."
+  },
+  {
+    "id": "pages.home.publicChats.action.button",
+    "defaultMessage": "Explore Public Chats in {city}"
+  },
+  {
+    "id": "pages.home.shoutitCredit.title",
+    "defaultMessage": "Shoutit Credit"
+  },
+  {
+    "id": "pages.home.shoutitCredit.description",
+    "defaultMessage": "Is a virtual currency you can earn and spend on Shoutit. Use your Shoutit credit to promote your Shouts and business pages. You can buy Shoutit credit or earn it by inviting friends."
+  },
+  {
+    "id": "pages.home.business.description",
+    "defaultMessage": "Every great business needs to stay close to its customers. Use Shoutit to sell and grow your customer base at the same time."
+  },
+  {
+    "id": "pages.home.business.pages.title",
+    "defaultMessage": "Pages"
+  },
+  {
+    "id": "pages.home.business.pages.description",
+    "defaultMessage": "Create a personalised page for your company product, brand or a cause. Let your customers and supporters know who you are."
+  },
+  {
+    "id": "pages.home.business.plans.title",
+    "defaultMessage": "Plans"
+  },
+  {
+    "id": "pages.home.business.plans.description",
+    "defaultMessage": "Is one admin for your business page not enough? Do you have a lot to list to on Shoutit? Then we have something extra for you. Shoutit business plans coming soon."
+  },
+  {
+    "id": "pages.home.business.action.button",
+    "defaultMessage": "Get Started with Shoutit for Business"
+  },
+  {
+    "id": "pages.home.business.action.description",
+    "defaultMessage": "It’s free to set up."
+  },
+  {
+    "id": "pages.home.apps.title",
+    "defaultMessage": "Download Shoutit Apps"
+  },
+  {
+    "id": "pages.home.apps.description",
+    "defaultMessage": "Buy and Sell anything while chatting. Shout Offers and Requests in your area or anywhere in the world!"
+  }
+]

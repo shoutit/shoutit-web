@@ -108,7 +108,7 @@ export class Searchbar extends Component {
         <div ref="overlayTarget">
           <FormattedMessage
             id="searchbar.input.placeholder"
-            defaultMessage="Search Shoutit">
+            defaultMessage="Search Products, Services, Businesses">
             { placeholder =>
               <TextField
                 autoComplete="off"

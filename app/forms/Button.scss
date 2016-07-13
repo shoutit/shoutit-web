@@ -18,6 +18,10 @@
   @include invertedButton();
 }
 
+.Button.alternate {
+  @include alternateButton();
+}
+
 .Button-label {
   @include ellipsis();
   display: inline-block;

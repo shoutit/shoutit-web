@@ -1,0 +1,14 @@
+[
+  {
+    "id": "pages.home.hero.header",
+    "defaultMessage": "Buy & Sell anything while Chatting"
+  },
+  {
+    "id": "pages.home.hero.subtitle",
+    "defaultMessage": "Shout Offers and Requests in your area or anywhere in the world!"
+  },
+  {
+    "id": "pages.home.hero.categoryLink",
+    "defaultMessage": "Search by Category"
+  }
+]

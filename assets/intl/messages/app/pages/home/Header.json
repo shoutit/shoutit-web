@@ -1,0 +1,10 @@
+[
+  {
+    "id": "pages.home.header.loginButton",
+    "defaultMessage": "Login"
+  },
+  {
+    "id": "pages.home.header.signupButton",
+    "defaultMessage": "Sign up"
+  }
+]

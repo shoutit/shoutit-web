@@ -1,0 +1,11 @@
+@import '../../styles/constants';
+
+.HomePageHeader {
+  display: flex; 
+  justify-content: space-between;
+  padding: $vertical-spacing $horizontal-spacing;
+}
+
+.HomePageHeader-actions {
+  font-size: 0.875em;
+}

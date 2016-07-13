@@ -10,7 +10,7 @@ import Chat from './containers/Chat';
 import Dashboard from './containers/Dashboard';
 import Discover from './containers/Discover';
 import Heartbeat from './containers/Heartbeat';
-import Homepage from './containers/Homepage';
+import Homepage from './pages/home';
 import Interest from './containers/Interest';
 import Login from './containers/Login';
 import NotFound from './containers/NotFound';
@@ -38,6 +38,11 @@ const routes = (store) =>
       getApplicationLayout={ () => ({
         stickyHeader: !!store.getState().session.user,
         showFooter: true,
+        showHeader: false,
+      }) }
+      getResponsiveLayout={ () => ({
+        constrainMaxWidth: false,
+        horizontalSpace: false,
       }) }
       getComponent={ (location, callback) => {
         const Component = store.getState().session.user ? Dashboard : Homepage;

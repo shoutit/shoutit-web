@@ -1,0 +1,69 @@
+@import '../../styles/constants';
+
+.HomePage {
+}
+
+.HomePage-hero {
+  position: relative;
+  z-index: 0;
+  .HomePageHeader {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    left: 0;
+  }
+}
+
+.HomePageHeader {
+  max-width: 1400px;
+}
+
+.HomePageHeader .Button.default {
+  color: $white !important;
+}
+
+.HomePage-section {
+  width: 100%;
+  background-image: linear-gradient(-180deg, #F9F9F9 0%, #F5F5F5 98%);
+}
+
+.HomePage-sectionContent {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: $vertical-spacing*2 $horizontal-spacing 0 $horizontal-spacing;
+  text-align: center;
+
+  p {
+    color: $color-text-light;
+    font-size: 0.875em; 
+  }
+}
+
+.HomePage-sectionImage {
+  margin: $vertical-spacing 0;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  img {
+    vertical-align: bottom
+  }
+}
+
+.HomePage-sectionSeparator {
+  border-top: 1px solid $border-color-dark;
+  margin-top: $vertical-spacing*2;
+  margin-bottom: $vertical-spacing*2;
+}
+
+.HomePage-section {
+  .AppBadge {
+    display: inline-block;
+    padding: $vertical-spacing $horizontal-spacing/2;
+  }
+}
+
+p + .HomePage-section-action {
+  padding-top: $vertical-spacing;
+}
