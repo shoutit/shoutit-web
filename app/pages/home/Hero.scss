@@ -2,6 +2,7 @@
 
 .HomePageHero {
   position: relative;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -10,20 +11,21 @@
   padding: $vertical-spacing $horizontal-spacing;
   background-image: url('../../../assets/images/home-hero-bg.jpg');
   background-repeat: no-repeat;
+  background-position: center;
   background-size: cover;
-  position: relative;
+
   align-content: center;
 }
 
 .HomePageHero-content {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 100%;
   text-align: center;
   color: white;
-  position: relative;
-  z-index: 2;
 
   h1,
   h3 {
@@ -42,11 +44,11 @@
 
 .HomePageHero-backdrop {
   position: absolute;
+  z-index: 1;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1;
   background-color: rgba(black, .4);
 }
 
@@ -62,10 +64,9 @@
 }
 
 .HomePageHero-categoryLink {
-  
   font-size: 1em;
   a {
-    color: white;
     text-decoration: underline;
+    color: white;
   }
 }

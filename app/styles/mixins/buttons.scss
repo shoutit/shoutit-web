@@ -62,10 +62,10 @@ $filled-button-shadow: inset 0 1px 5px 0 rgba(black, .1);
 
 @mixin defaultButton() {
   @extend %baseButton;
-  color: $color-text;
+  color: $color-primary;
   background-color: transparent;
   &:hover {
-    color: $color-primary;
+    color: $color-primary-light;
   }
   &.disabled,
   &:disabled {

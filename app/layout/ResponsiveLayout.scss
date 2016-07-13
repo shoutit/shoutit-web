@@ -17,8 +17,23 @@
     display: inline-block;
   }
 }
+.ResponsiveLayout.min-width {
+  &.default > span {
+    min-width: 768px;
+    display: inline-block;
+  }
+  &.small > span {
+    min-width: 280px;
+    display: inline-block;
+  }
+}
+
 
 .ResponsiveLayout.max-width {
+  &.default > span {
+    max-width: 1400px;
+    display: inline-block;
+  }
   &.small > span {
     max-width: 530px;
     display: inline-block;
