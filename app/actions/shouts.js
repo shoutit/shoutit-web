@@ -35,6 +35,21 @@ export const loadShouts = query => {
 
 };
 
+export const loadShoutSamples = () => {
+  return {
+    types: [
+      actionTypes.LOAD_SHOUT_SAMPLES_START,
+      actionTypes.LOAD_SHOUT_SAMPLES_SUCCESS,
+      actionTypes.LOAD_SHOUT_SAMPLES_FAILURE,
+    ],
+    service: {
+      name: 'shoutSamples',
+      schema: SHOUTS,
+    },
+  };
+
+};
+
 export const loadRelatedShouts = (shoutId, query, endpoint) => ({
   types: [
     actionTypes.LOAD_RELATED_SHOUTS_START,
