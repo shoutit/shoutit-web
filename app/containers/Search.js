@@ -162,7 +162,7 @@ export class Search extends Component {
     return (
       <Page className="Search">
         <Helmet title={ this.props.title } />
-        <StartColumn sticky>
+        <StartColumn>
           <SearchFilters
             disabled={ false }
             query={ {
