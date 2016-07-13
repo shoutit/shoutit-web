@@ -31,7 +31,7 @@ class HomePageHero extends Component {
           </h3>
 
           <div className="HomePageHero-search">
-            <Searchbar />
+            <Searchbar autosuggest={ false } />
           </div>
           <div className="HomePageHero-categoryLink">
             <Link to="/search">
