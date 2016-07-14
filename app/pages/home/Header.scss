@@ -14,10 +14,16 @@
 }
 
 @include smartphone() {
+  .HomePageHeader {
+    padding: 0 $horizontal-spacing/2;
+  }
   .HomePageHeader-signup {
     display: none !important;
   }
   .HomePageHeader-actions {
     font-size: 1em;
+    .Button-label {
+      padding-right: 0;
+    }
   }
 }

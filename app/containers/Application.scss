@@ -1,4 +1,5 @@
 @import '../styles/constants.scss';
+@import '../styles/mixins/mq.scss';
 
 .Application {
   position: relative;
@@ -9,9 +10,16 @@
     background-attachment: fixed;
     background-size: (366px * .75) (600px * .75);
   }
+  
   &.stickyHeader {
     display: flex;
     flex-direction: column;
+  }
+}
+
+@include smartphone() {
+  .Application.pattern-background {
+    background: none;
   }
 }
 
