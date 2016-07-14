@@ -4,15 +4,15 @@
             "id": "hp-main-sample-en-1",
             "type": "offer",
             "title": "Vintage Custom Motorcycle",
-            "price": 11500,
+            "price": 1150000,
             "currency": "USD",
             "thumbnail": "https://shout-image.static.shoutit.com/1468484327823_9fec588a-70da-42bb-81c6-34b81b577be8.jpg"
         },
         {
             "id": "hp-main-sample-en-2",
             "type": "request",
-            "title": "Looking for a job in Gastronomy",
-            "price": 1500,
+            "title": "Looking for Gastronomy Job",
+            "price": 150000,
             "currency": "USD",
             "thumbnail": "https://shout-image.static.shoutit.com/1468484397595_9fec588a-70da-42bb-81c6-34b81b577be8.jpg"
         }
