@@ -133,7 +133,6 @@ export class ProfileCover extends Component {
     if (isEditing) {
       className += ' is-editing';
     }
-    console.log(this.state.width);
     return (
       <div ref="container" className={ className }>
         <div className="ProfileCover-image" style={ style }>
