@@ -29,15 +29,10 @@
   border-radius: $border-radius;
   background-color: $white;
   box-shadow: $box-shadow-depth-0;
-
 }
 
 .Shout-title {
   padding: .5rem 0;
-  // background-color: rgba(white, .8);
-  // position: sticky;
-  // top: 70px;
-  // z-index: 2;
 }
 
 .Shout-header {
@@ -77,11 +72,14 @@
 
 .ShoutActions {
   padding-top: .5rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: $vertical-spacing;
   text-align: center;
-  .ShoutPrice {
+  > * {
     display: block;
-    margin-bottom: 1rem;
+    margin-bottom: $vertical-spacing;
+  }
+  .Button + .Button {
+    margin-top: $vertical-spacing /2;
   }
   .htmlAncillary {
     text-align: left;
