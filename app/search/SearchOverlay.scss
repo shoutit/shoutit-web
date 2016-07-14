@@ -1,11 +1,12 @@
 @import "../styles/constants.scss";
+@import "../styles/mixins/links.scss";
 
 .SearchOverlay.has-results {
   padding-bottom: .5rem;
 }
 
 .SearchOverlay-placeholder {
-  color: $color-light;
+  color: $color-text-light;
   text-align: center;
   font-size: 0.75rem;
   padding: 1rem;
@@ -21,13 +22,9 @@
 }
 
 .SearchOverlay-more {
+  @include link();
   display: block;
   margin-top: .5rem;
   font-size: 0.875em;
-  cursor: pointer;
   text-align: center;
-  color: $si-green;
-  &:hover {
-    text-decoration: underline;
-  }
 }

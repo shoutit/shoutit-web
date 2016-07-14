@@ -2,17 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { defineMessages, injectIntl } from 'react-intl';
 
-import CategoryPicker from '../ui/CategoryPicker';
-import CurrencyField from '../ui/CurrencyField';
-import Form from '../ui/Form';
-import LocationField from '../ui/LocationField';
-import Picker from '../ui/Picker';
-import TextArea from '../ui/TextArea';
-import TextField from '../ui/TextField';
-import FileUploadField from '../ui/FileUploadField';
-import PublishToFacebook from '../ui/PublishToFacebook';
+import CategoryPicker from '../forms/CategoryPicker';
+import PriceField from '../forms/PriceField';
+import Form from '../forms/Form';
+import LocationField from '../forms/LocationField';
+import TextArea from '../forms/TextArea';
+import TextField from '../forms/TextField';
+import FileUploadField from '../forms/FileUploadField';
+import PublishToFacebook from '../forms/PublishToFacebook';
 
 import { canPublishToFacebook } from '../reducers/session';
+import { getCurrentLocation } from '../reducers/currentLocation';
 
 import './ShoutForm.scss';
 
@@ -53,17 +53,12 @@ const MESSAGES = defineMessages({
     id: 'shoutForm.mobile.label',
     defaultMessage: 'Let people contact you',
   },
-  currency: {
-    id: 'shoutForm.currency',
-    defaultMessage: 'Currency',
-  },
 });
 
 export class ShoutForm extends Component {
 
   static propTypes = {
     shout: PropTypes.object.isRequired,
-    currencies: PropTypes.array.isRequired,
     mode: PropTypes.oneOf(['update', 'create']),
     onSubmit: PropTypes.func,
     onChange: PropTypes.func,
@@ -105,7 +100,7 @@ export class ShoutForm extends Component {
       category: category ? category.slug : null,
       filters: mode === 'update' ? this.categoryPicker.getSelectedFilters() : [],
 
-      currency: this.currencyPicker.getValue() || null,
+      currency: this.state.currency || null,
       price: this.priceField.getValue(),
 
       images: this.imageFileUploadField.getValue(),
@@ -116,7 +111,7 @@ export class ShoutForm extends Component {
   }
 
   categoryPicker = null;
-  currencyPicker = null;
+  currencySelect = null;
   form = null;
   imageFileUploadField = null;
   locationField = null;
@@ -151,7 +146,7 @@ export class ShoutForm extends Component {
   }
 
   render() {
-    const { currencies, error, shout, disabled, inputRef, mode } = this.props;
+    const { error, shout, disabled, inputRef, mode } = this.props;
     const { formatMessage } = this.props.intl;
     return (
       <Form
@@ -182,7 +177,6 @@ export class ShoutForm extends Component {
           name="title"
           placeholder={ formatMessage(MESSAGES.title) }
           disabled={ disabled }
-          style={ { fontSize: '1.25rem' } }
           value={ shout.title }
           onChange={ title => this.handleChange({ title }) }
           error={ error }
@@ -203,35 +197,20 @@ export class ShoutForm extends Component {
           />
         }
 
-        <CurrencyField
+        <PriceField
+          showCurrencies
           ref={ el => { this.priceField = el; } }
           type="text"
           name="price"
+          errorLocation={ ['currency', 'price'] }
           placeholder={ formatMessage(MESSAGES.price) }
           disabled={ disabled }
           value={ shout.price }
-          onChange={ price => {
-            this.handleChange({ price });
-          } }
+          currencyValue={ shout.currency }
+          onChange={ price => this.handleChange({ price }) }
+          onCurrencyChange={ currency => this.handleChange({ currency }) }
           error={ error }
-          startElement={
-            <Picker
-              name="currency"
-              ref={ el => { this.currencyPicker = el; } }
-              tooltipPlacement="left"
-              value={ shout.currency }
-              onChange={ currency => this.handleChange({ currency }) }
-              error={ error }>
-              <option value="">
-                { formatMessage(MESSAGES.currency) }
-              </option>
-              { currencies.map(currency =>
-                <option key={ currency.code } value={ currency.code }>
-                  { currency.code } { currency.name }
-                </option>
-              ) }
-            </Picker>
-          } />
+        />
 
         <CategoryPicker
           inputRef={ el => { this.categoryPicker = el; } }
@@ -286,13 +265,9 @@ export class ShoutForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { currencies, entities, currentLocation } = state;
-  return {
-    canPublishToFacebook: canPublishToFacebook(state),
-    currentLocation,
-    currencies: currencies.map(code => entities.currencies[code]),
-  };
-};
+const mapStateToProps = state => ({
+  canPublishToFacebook: canPublishToFacebook(state),
+  currentLocation: getCurrentLocation(state),
+});
 
 export default connect(mapStateToProps)(injectIntl(ShoutForm));

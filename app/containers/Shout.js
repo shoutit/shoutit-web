@@ -16,27 +16,27 @@ import Helmet from '../utils/Helmet';
 import RequiresLogin from '../auth/RequiresLogin';
 import { REPLY_SHOUT } from '../auth/loginActions';
 
-import Page from '../layout/Page';
+import Page, { Body, StartColumn, EndColumn } from '../layout/Page';
 import ProfileListItem from '../users/ProfileListItem';
 
 import CategoryListItem from '../shouts/CategoryListItem';
 import FilterListItem from '../shouts/FilterListItem';
 import Location from '../location/Location';
 import ShoutCallButton from '../shouts/ShoutCallButton';
-import ShoutPreview from '../shouts/ShoutPreview';
 import ShoutPrice from '../shouts/ShoutPrice';
+import ShoutsList from '../shouts/ShoutsList';
 import ShoutType from '../shouts/ShoutType';
 import UpdateShoutButton from '../shouts/UpdateShoutButton';
 
-import Button from '../ui/Button';
-import CardWithList from '../ui/CardWithList';
-import Gallery from '../ui/Gallery';
-import Icon from '../ui/Icon';
-import ListItem from '../ui/ListItem';
-import NewlineToBreak from '../ui/NewlineToBreak';
-import Progress from '../ui/Progress';
-import Share from '../ui/Share';
-import TimeAgo from '../ui/TimeAgo';
+import Button from '../forms/Button';
+import Card, { CardList, CardTitle } from '../layout/Card';
+import Gallery from '../widgets/Gallery';
+import Icon from '../widgets/Icon';
+import ListItem from '../layout/ListItem';
+import NewlineToBreak from '../widgets/NewlineToBreak';
+import Progress from '../widgets/Progress';
+import Share from '../widgets/Share';
+import TimeAgo from '../widgets/TimeAgo';
 
 import LocationListItem from '../location/LocationListItem';
 
@@ -50,15 +50,9 @@ const fetchData = (dispatch, state, params) =>
     .catch(err => dispatch(routeError(err)));
 
 function ShoutActions({ shout, onReplyClick }) {
-  const buttonStyle = {
-    width: '80%',
-    margin: '0 auto',
-    marginTop: '.5rem',
-    textAlign: 'center',
-  };
   let callButton;
   if (shout.isMobileSet) {
-    callButton = <ShoutCallButton shout={ shout } style={ buttonStyle } block />;
+    callButton = <ShoutCallButton shout={ shout } block />;
   }
   return (
     <div className="ShoutActions">
@@ -66,12 +60,12 @@ function ShoutActions({ shout, onReplyClick }) {
       <ShoutPrice shout={ shout } />
       { shout.profile.isOwner ?
         <div>
-          <UpdateShoutButton style={ buttonStyle } block shoutId={ shout.id } />
+          <UpdateShoutButton block shoutId={ shout.id } />
           { callButton }
         </div> :
         <div>
           <RequiresLogin event="onClick" loginAction={ REPLY_SHOUT }>
-            <Button style={ buttonStyle } block onClick={ onReplyClick } size="small" action="primary" icon="balloon-dots">
+            <Button block onClick={ onReplyClick } kind="primary" icon="balloon-dots">
               <FormattedMessage id="shoutActions.reply" defaultMessage="Reply to this Shout" />
             </Button>
           </RequiresLogin>
@@ -103,6 +97,11 @@ export class Shout extends Component {
 
   static fetchData = fetchData;
 
+  constructor(props) {
+    super(props);
+    this.startShoutReply = this.startShoutReply.bind(this);
+  }
+
   componentDidMount() {
     const { dispatch, firstRender, params } = this.props;
     if (!firstRender) {
@@ -128,58 +127,6 @@ export class Shout extends Component {
     }
   }
 
-  renderStartColumn() {
-    const { shout } = this.props;
-
-    const categoryWithFilters = (
-      <CardWithList key="filters" block style={ { padding: '.5rem' } }>
-        <Link to={ `/search?category=${shout.category.slug}` }>
-          <CategoryListItem category={ shout.category } />
-        </Link>
-        { shout.filters.map((filter) =>
-          <FilterListItem
-            key={ filter.slug }
-            filter={ filter }
-            category={ shout.category }
-          />
-        ) }
-      </CardWithList>
-    );
-
-    const share = (
-      <CardWithList
-        title={
-          <FormattedMessage
-            id="shout.share"
-            defaultMessage="Share this Shout"
-          />
-        }
-        block
-        key="share"
-        style={ { padding: '.5rem' } }
-      >
-        <Share shareUrl={ `/shout/${shout.id}` } title={ shout.title } image={ shout.thumbnail } />
-      </CardWithList>
-    );
-
-    return [categoryWithFilters, share];
-  }
-
-  renderEndColumn() {
-    const { shout } = this.props;
-    return [
-      <ShoutActions key="actions" shout={ shout } onReplyClick={ () => this.startShoutReply() } />,
-      <CardWithList block key="profile" style={ { marginTop: '2rem', padding: '.5rem' } } >
-        <ProfileListItem tooltipPlacement="right" profile={ shout.profile } />
-        <ListItem start={ <Icon name="clock" active /> }>
-          <TimeAgo date={ shout.datePublished } />
-        </ListItem>
-        <LocationListItem location={ shout.location } />
-      </CardWithList>,
-      <Location key="location" style={ { marginTop: '1rem' } } location={ shout.location } />,
-    ];
-  }
-
   renderRelatedShouts() {
     const { relatedShouts } = this.props;
     if (!relatedShouts || relatedShouts.length === 0) {
@@ -194,9 +141,7 @@ export class Shout extends Component {
             defaultMessage="Related Shouts"
           />
         </h2>
-        <div className="Shouts-related-wrapper">
-          { relatedShouts.map(shout => <ShoutPreview key={ shout.id } shout={ shout } />) }
-        </div>
+        <ShoutsList shouts={ relatedShouts } />
       </div>
     );
   }
@@ -241,31 +186,68 @@ export class Shout extends Component {
       }) : 0;
     return (
       <div>
-        <Page
-          className="ShoutPage"
-          miniFooter={ false }
-          startColumn={ this.renderStartColumn() }
-          endColumn={ this.renderEndColumn() }>
-
-          { shout &&
-            <Helmet
-              title={ shout.title }
-              description={ shout.text }
-              images={ shout.images }
-              meta={ [
-                { property: 'og:type', content: `ogPrefix:${shout.type}` },
-                { property: 'ogPrefix:price', content: price },
-                { property: 'ogPrefix:username', content: shout.profile.username },
-                { name: 'twitter:card', content: 'product' },
-                { name: 'twitter:label1', content: capitalize(shout.type) },
-                { name: 'twitter:data1', content: price },
-                { name: 'twitter:label2', content: 'Location' },
-                { name: 'twitter:data2', content: formatLocation(shout.location, { locale }) },
-              ] }
-            />
-          }
-          { !shout && <Progress animate /> }
-          { shout && this.renderShout() }
+        <Page className="ShoutPage">
+          <StartColumn>
+            <Card key="filters" block style={ { padding: '.5rem' } }>
+              <CardList>
+                { [
+                  <Link to={ `/search?category=${shout.category.slug}` }>
+                    <CategoryListItem category={ shout.category } />
+                  </Link>,
+                  ...shout.filters.map((filter) =>
+                    <FilterListItem
+                      key={ filter.slug }
+                      filter={ filter }
+                      category={ shout.category }
+                    />
+                  ),
+                ] }
+              </CardList>
+            </Card>
+            <Card size="small" block key="share">
+              <CardTitle>
+                <FormattedMessage
+                  id="shout.share"
+                  defaultMessage="Share this Shout"
+                />
+              </CardTitle>
+              <Share shareUrl={ `/shout/${shout.id}` } title={ shout.title } image={ shout.thumbnail } />
+            </Card>
+          </StartColumn>
+          <Body>
+            { shout &&
+              <Helmet
+                title={ shout.title }
+                description={ shout.text }
+                images={ shout.images }
+                meta={ [
+                  { property: 'og:type', content: `ogPrefix:${shout.type}` },
+                  { property: 'ogPrefix:price', content: price },
+                  { property: 'ogPrefix:username', content: shout.profile.username },
+                  { name: 'twitter:card', content: 'product' },
+                  { name: 'twitter:label1', content: capitalize(shout.type) },
+                  { name: 'twitter:data1', content: price },
+                  { name: 'twitter:label2', content: 'Location' },
+                  { name: 'twitter:data2', content: formatLocation(shout.location, { locale }) },
+                ] }
+              />
+            }
+            { !shout && <Progress animate /> }
+            { shout && this.renderShout() }
+          </Body>
+          <EndColumn>
+            <ShoutActions key="actions" shout={ shout } onReplyClick={ this.startShoutReply } />
+            <Card block key="profile" style={ { marginTop: '2rem', padding: '.5rem' } }>
+              <CardList>
+                <ProfileListItem tooltipPlacement="right" profile={ shout.profile } />
+                <ListItem start={ <Icon name="clock" active /> }>
+                  <TimeAgo date={ shout.datePublished } />
+                </ListItem>
+                <LocationListItem location={ shout.location } />
+              </CardList>
+            </Card>
+            <Location key="location" location={ shout.location } />,
+          </EndColumn>
         </Page>
         { shout && this.renderRelatedShouts() }
       </div>

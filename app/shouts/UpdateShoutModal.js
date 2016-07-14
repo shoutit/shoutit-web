@@ -3,8 +3,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import Modal, { Header, Footer, Body } from '../ui/Modal';
-import Button from '../ui/Button';
+import Modal, { Header, Footer, Body } from '../modals';
+import Button from '../forms/Button';
 
 import { updateShout, deleteShout } from '../actions/shouts';
 import { getShout } from '../reducers/entities/shouts';
@@ -121,8 +121,7 @@ export class UpdateShout extends Component {
         </Body>
         <Footer start={
           <Button
-            action="destructive"
-            size="small"
+            kind="destructive"
             type="button"
             onClick={ this.deleteShout }
             disabled={ this.state.isUpdating || this.state.isDeleting }
@@ -135,7 +134,6 @@ export class UpdateShout extends Component {
         }>
           <Button
             key="cancel"
-            size="small"
             type="button"
             onClick={ this.hide }
             disabled={ this.state.isUpdating || this.state.isDeleting }
@@ -148,8 +146,7 @@ export class UpdateShout extends Component {
           <Button
             ref="submit"
             key="submit"
-            size="small"
-            action="primary"
+            kind="primary"
             onClick={ () => this.form.submit() }
             disabled={ this.state.isUpdating || this.state.isUploading || this.state.isDeleting }
           >

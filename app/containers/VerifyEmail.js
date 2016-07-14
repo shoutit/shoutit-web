@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { injectIntl, defineMessages } from 'react-intl';
 import Helmet from '../utils/Helmet';
 
-import Button from '../ui/Button';
+import Button from '../forms/Button';
 import Page from '../layout/Page';
 import Frame from '../layout/Frame';
 import { verifyEmail } from '../actions/session';
@@ -71,7 +71,7 @@ export class VerifyEmail extends Component {
                 { formatMessage(MESSAGES.successMessage) }
               </p>
               <div className="Frame-form" style={ { textAlign: 'center' } }>
-                <Button action="primary" to="/">
+                <Button kind="primary" to="/">
                   { formatMessage(MESSAGES.successButton) }
                 </Button>
               </div>

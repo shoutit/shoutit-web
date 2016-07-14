@@ -4,8 +4,8 @@ import { FormattedMessage } from 'react-intl';
 
 import { getLoggedUser } from '../reducers/session';
 import ShoutsScrollableList from './ShoutsScrollableList';
-import Modal, { Header, Footer, Body } from '../ui/Modal';
-import Button from '../ui/Button';
+import Modal, { Header, Footer, Body } from '../modals';
+import Button from '../forms/Button';
 
 export class UserShoutsModal extends Component {
 
@@ -49,7 +49,7 @@ export class UserShoutsModal extends Component {
           <ShoutsScrollableList profile={ loggedUser } onShoutClick={ this.handleShoutClick } />
         </Body>
         <Footer>
-          <Button ref="close" size="small" action="primary" onClick={ this.hide }>
+          <Button ref="close" kind="primary" onClick={ this.hide }>
             <FormattedMessage id="userShoutsModal.closeButton" defaultMessage="Close" />
           </Button>
         </Footer>

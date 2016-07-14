@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import Modal, { Header, Body, Footer } from '../ui/Modal';
-import Button from '../ui/Button';
+import Modal, { Header, Body, Footer } from '../modals';
+import Button from '../forms/Button';
 import ListeningTagsScrollableList from '../users/ListeningTagsScrollableList';
 
 export default class ListeningTagsModal extends Component {
@@ -30,7 +30,7 @@ export default class ListeningTagsModal extends Component {
         <Footer>
           <Button ref="close"
             size="small"
-            action="primary"
+            kind="primary"
             onClick={ () => this.refs.modal.hide() }>
             <FormattedMessage
               id="users.ListeningTagsModal.close"

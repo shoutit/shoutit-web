@@ -10,13 +10,12 @@
 .ConversationsHost-wrapper {
   display: flex;
   flex-direction: row-reverse;
-  width: $content-width;
   height: 0;
   margin: 0 auto;
   padding-right: 2rem;
 }
 
-.ConversationsHost-hosted-conversation {
+.ConversationsHost-popup {
   position: relative;
   width: 275px;
   height: 350px;
@@ -24,6 +23,6 @@
   transform: translateY(-350px);
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
-  background-color: $background-color-alt-light;
+  background-color: $background-color-light;
   box-shadow: $box-shadow-depth-2;
 }

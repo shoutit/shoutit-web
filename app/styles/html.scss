@@ -19,11 +19,6 @@
   padding: 0.625rem;
 }
 
-.htmlContentWidth {
-  width: $content-width;
-  margin: 0 auto;
-}
-
 ul.htmlNoList {
   margin: 0;
   padding: 0;
@@ -45,7 +40,7 @@ ul.htmlSelectableList {
       width: 100%;
       padding: .25rem .5rem;
 
-      color: $color;
+      color: $color-text;
 
       font-size: .875rem;
       &:hover, &:focus {
@@ -55,11 +50,7 @@ ul.htmlSelectableList {
   }
 }
 
-p.htmlErrorParagraph {
-  color: $shoutit-red;
-}
-
 .htmlAncillary {
-  color: $color-lighter;
+  color: $color-text-lighter;
   font-size: 0.875em;
 }

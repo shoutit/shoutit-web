@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import * as FacebookUtils from '../utils/FacebookUtils';
 
-import { FacebookButton, GoogleButton } from '../ui/SocialButtons';
+import { FacebookButton, GoogleButton } from '../forms/SocialButtons';
 import { loginWithGoogle, loginWithFacebook } from '../actions/session';
 
 export class SocialLoginForm extends Component {

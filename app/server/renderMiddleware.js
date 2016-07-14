@@ -37,6 +37,7 @@ export default function renderMiddleware(req, res, next) {
       routing: {
         currentUrl: req.url,
         query: req.query,
+        path: req.path,
       },
       currentLocation: req.geolocation,
       i18n: {

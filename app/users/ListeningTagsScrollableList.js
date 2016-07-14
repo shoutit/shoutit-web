@@ -1,7 +1,10 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
-import Progress from '../ui/Progress';
-import Scrollable from '../ui/Scrollable';
+
+import { PaginationPropTypes } from '../utils/PropTypes';
+
+import Progress from '../widgets/Progress';
+import Scrollable from '../layout/Scrollable';
 import TagListItem from '../tags/TagListItem';
 
 import { connect } from 'react-redux';
@@ -14,10 +17,9 @@ export class ListeningTagsScrollableList extends Component {
 
   static propTypes = {
     loadData: PropTypes.func.isRequired,
-    isFetching: PropTypes.bool,
-    nextUrl: PropTypes.string,
     tags: PropTypes.arrayOf(PropTypes.object).isRequired,
     onTagClick: PropTypes.func,
+    ...PaginationPropTypes,
   }
 
   constructor(props) {
@@ -76,7 +78,7 @@ export class ListeningTagsScrollableList extends Component {
             </span>
           ) }
         </div>
-        <Progress animate={ this.props.isFetching } size="small" />
+        <Progress animate={ this.props.isFetching } />
       </Scrollable>
     );
   }

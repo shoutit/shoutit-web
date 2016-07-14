@@ -1,31 +1,28 @@
-import React, { PropTypes } from 'react';
-import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router';
 
-import CardWithList from '../ui/CardWithList';
+import Card, { CardList, CardTitle } from '../layout/Card';
 
-const MESSAGES = defineMessages({
-  title: {
-    id: 'setting.navigation.title',
-    defaultMessage: 'Profile Setting',
-  },
-});
-
-export function SettingsNavigation({ intl }) {
+export function SettingsNavigation() {
   return (
-    <CardWithList title={ intl.formatMessage(MESSAGES.title) }>
-      <Link to="/settings/profile" activeClassName="active">
-        <FormattedMessage id="settings.navigation.profile" defaultMessage="Public Profile" />
-      </Link>
-      <Link to="/settings/account" activeClassName="active">
-        <FormattedMessage id="settings.navigation.menu.account" defaultMessage="Your Account" />
-      </Link>
-    </CardWithList>
+    <Card block>
+      <CardTitle>
+        <FormattedMessage id="setting.navigation.title" defaultMessage="Profile Settings" />
+      </CardTitle>
+      <CardList>
+        { [
+          <Link to="/settings/profile" activeClassName="active">
+            <FormattedMessage id="settings.navigation.profile" defaultMessage="Public Profile" />
+          </Link>,
+          <Link to="/settings/account" activeClassName="active">
+            <FormattedMessage id="settings.navigation.menu.account" defaultMessage="Your Account" />
+          </Link>,
+        ]
+        }
+      </CardList>
+    </Card>
   );
 }
 
-SettingsNavigation.propTypes = {
-  intl: PropTypes.object.isRequired,
-};
-
-export default injectIntl(SettingsNavigation);
+export default SettingsNavigation;

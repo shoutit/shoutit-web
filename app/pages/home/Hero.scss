@@ -1,0 +1,84 @@
+@import '../../styles/constants';
+
+.HomePageHero {
+  position: relative;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  height: 614px;
+  min-height: 250px;
+  max-height: 100vh;
+  padding: $vertical-spacing $horizontal-spacing;
+  background-image: url('../../../assets/images/home-hero-bg.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  align-content: center;
+}
+
+.HomePageHero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  color: white;
+
+  h1,
+  h3 {
+    max-width: 300px;
+    text-align: center;
+    line-height: 1.3em;
+  }
+
+  h1 {
+    font-weight: bold;
+  }
+  h3 {
+    font-weight: lighter;
+  }
+}
+
+.HomePageHero-backdrop {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(black, .4);
+}
+
+.HomePageHero-search {
+  width: 100%;
+  max-width: 530px;
+  padding: $vertical-spacing 0;
+  font-size: 1.125em;
+
+  .Searchbar .FormField-wrapper {
+    border-color: transparent !important;
+  }
+}
+
+.HomePageHero-categoryLink,
+.HomePageHero-businessLink, {
+  font-size: 1em;
+  a {
+    text-decoration: underline;
+    color: white;
+  }
+}
+
+.HomePageHero-businessLink {
+  z-index: 2;
+  position: absolute;
+  bottom: $vertical-spacing;
+  left: 0;
+  right: 0;
+  text-align: center;
+}

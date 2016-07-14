@@ -15,6 +15,8 @@ import server from './server';
 import search from './search';
 import session from './session';
 import shoutDraft from './shoutDraft';
+import shoutSamples from './shoutSamples';
+import sortTypes from './sortTypes';
 import suggestions from './suggestions';
 import videocalls from './videocalls';
 
@@ -34,8 +36,9 @@ const appReducer = combineReducers({
   server,
   session,
   shoutDraft,
+  shoutSamples,
+  sortTypes,
   suggestions,
   videocalls,
 });
-
 export default appReducer;

@@ -10,7 +10,7 @@ import Chat from './containers/Chat';
 import Dashboard from './containers/Dashboard';
 import Discover from './containers/Discover';
 import Heartbeat from './containers/Heartbeat';
-import Homepage from './containers/Homepage';
+import Homepage from './pages/home';
 import Interest from './containers/Interest';
 import Login from './containers/Login';
 import NotFound from './containers/NotFound';
@@ -29,7 +29,8 @@ const authAppLayout = () => ({
 });
 
 const settingsAppLayout = () => ({
-  showFooter: true, stickyHeader: false,
+  showFooter: true, 
+  stickyHeader: false,
 });
 
 const routes = (store) =>
@@ -38,6 +39,11 @@ const routes = (store) =>
       getApplicationLayout={ () => ({
         stickyHeader: !!store.getState().session.user,
         showFooter: true,
+        showHeader: !!store.getState().session.user,
+      }) }
+      getResponsiveLayout={ () => ({
+        constrainMaxWidth: !!store.getState().session.user,
+        horizontalSpace: !!store.getState().session.user,
       }) }
       getComponent={ (location, callback) => {
         const Component = store.getState().session.user ? Dashboard : Homepage;
@@ -51,7 +57,14 @@ const routes = (store) =>
     <Route path="/signup" component={ Signup } getApplicationLayout={ authAppLayout } />
     <Route path="/signup/verify/:token" component={ VerifyEmail } getApplicationLayout={ authAppLayout } />
 
-    <Route path="/search(/:country)(/:state)(/:city)" component={ Search } />
+    <Route
+      path="/search(/:country)(/:state)(/:city)"
+      component={ Search }
+      getApplicationLayout={ () => ({
+        showFooter: true,
+      }) }
+      getResponsiveLayout={ () => ({ constrainMaxWidth: false }) }
+    />
     <Route path="/shout/:id(/:city)(/:description)" component={ Shout } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/interest/:name" component={ Interest } />
     <Route path="/user/:username(/:shout_type)" component={ Profile } getApplicationLayout={ () => ({ showFooter: true }) } />

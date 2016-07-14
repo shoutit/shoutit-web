@@ -12,7 +12,7 @@ import { loadConversation, setActiveConversation, unsetActiveConversation, markC
 
 import { getConversation } from '../reducers/entities/conversations';
 
-import Progress from '../ui/Progress';
+import Progress from '../widgets/Progress';
 
 import './Conversation.scss';
 

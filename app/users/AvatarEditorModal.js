@@ -10,10 +10,10 @@ import { updateProfile } from '../actions/users';
 import { getFilename } from '../utils/StringUtils';
 import request from '../utils/request';
 
-import Form from '../ui/Form';
-import Button from '../ui/Button';
-import Modal, { Header, Body, Footer } from '../ui/Modal';
-import UploadButton from '../ui/UploadButton';
+import Form from '../forms/Form';
+import Button from '../forms/Button';
+import Modal, { Header, Body, Footer } from '../modals';
+import UploadButton from '../forms/UploadButton';
 
 export const width = 250;
 export const height = 250;
@@ -62,7 +62,7 @@ export class AvatarEditorModal extends Component {
 
   handleSaveClick() {
     const { profile, dispatch } = this.props;
-    const image = this.refs.editor.getImage();
+    const image = this.refs.editor.getImageScaledToCanvas().toDataURL();
 
     const uploadRequest = request.post('/api/file/user')
         .send({ image })
@@ -144,9 +144,8 @@ export class AvatarEditorModal extends Component {
       startButtons.push(
         <Button
           key="delete"
-          size="small"
           disabled={ this.state.isLoading }
-          action="destructive"
+          kind="destructive"
           onClick={ this.handleDeleteClick }>
           <FormattedMessage
             id="avatarEditor.deleteButton"
@@ -160,8 +159,7 @@ export class AvatarEditorModal extends Component {
         key="upload"
         name="upload-image"
         accept="image/jpeg,image/png"
-        size="small"
-        action="primary-alt"
+        kind="secondary"
         style={ { minWidth: 120 } }
         icon="camera"
         disabled={ this.state.isLoading }
@@ -177,8 +175,7 @@ export class AvatarEditorModal extends Component {
       actions.push(
         <Button
           onClick={ this.handleSaveClick }
-          action="primary"
-          size="small"
+          kind="primary"
           disabled={ this.props.profile.image === this.state.image || this.state.isLoading }
           style={ { minWidth: 120 } }>
           <FormattedMessage

@@ -2,8 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Modal, { Header, Body, Footer } from '../ui/Modal';
-import Button from '../ui/Button';
+import Modal, { Header, Body, Footer } from '../modals';
+import Button from '../forms/Button';
 
 import SearchLocation from '../location/SearchLocation';
 import { updateCurrentLocation } from '../actions/location';
@@ -33,10 +33,13 @@ export class LocationModal extends Component {
           />
         </Header>
         <Body>
-          <SearchLocation ref="search" onLocationSelect={ this.handleLocationSelect } />
+          <SearchLocation
+            ref="search"
+            onLocationSelect={ this.handleLocationSelect }
+          />
         </Body>
         <Footer>
-          <Button ref="close" size="small" action="primary" onClick={ () => this.refs.modal.hide() }>
+          <Button ref="close" kind="primary" onClick={ () => this.refs.modal.hide() }>
             <FormattedMessage
               id="locationModal.closeButton"
               defaultMessage="Close"

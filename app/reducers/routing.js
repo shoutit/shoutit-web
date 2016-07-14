@@ -18,6 +18,7 @@ export function routing(state = initialState, action) {
       const query = action.payload.query;
       return {
         ...state,
+        path: action.payload.pathname,
         query,
         currentUrl,
         error: state.currentUrl !== currentUrl ? null : state.error,
@@ -40,4 +41,20 @@ export default function (state, action) {
 
 export function getQueryAsString(state, omit = []) {
   return queryString.stringify(_omit(state.routing.query, omit));
+}
+
+export function getQuery(state) {
+  return state.routing.query;
+}
+
+export function getPath(state) {
+  return state.routing.path;
+}
+
+export function getCurrentUrl(state) {
+  return state.routing.currentUrl;
+}
+
+export function getRoutingError(state) {
+  return state.routing.error;
 }

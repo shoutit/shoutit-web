@@ -1,45 +1,49 @@
-@import "../styles/constants";
+@import '../styles/constants';
+@import '../styles/mixins/mq';
 
 .Page {
   display: flex;
-  padding-top: 1rem;
+  padding-top: $vertical-spacing;
 }
 
-.Page-column {
-  width: $page-width-column;
-  margin: $page-column-margin;
-  > div {
-    margin-bottom: .75rem;
+@include smartphone() {
+  .Page {
+    padding-top: $vertical-spacing/3;
   }
 }
 
-.Page-body {
-  padding-right: $page-body-padding-horizontal;
-  padding-left: $page-body-padding-horizontal;
-  flex: 1;
+.PageColumn {
+  width: 17%;
+  min-width: 240px;
+  max-width: 280px;
+  margin-bottom: $vertical-spacing;
+  .Card + .Card,
+  .CardList + .Card,
+  .Card + .CardList {
+    margin-top: $vertical-spacing;
+  }
+}
+
+@include tablet() {
+  .PageColumn {
+    display: none;
+  }  
+}
+
+.PageBody {
   position: relative;
+  flex: 1;
 }
 
-.Page-sticky-content {
+.PageColumn.start {
+  margin-right: $horizontal-spacing;
+}
+
+.PageColumn.end {
+  margin-left: $horizontal-spacing;
+}
+
+.PageColumn.sticky {
   position: sticky;
-  top: calc(#{$header-height} + 1.75rem);
-}
-
-.Page-sticky {
-  position: sticky;
-  z-index: $z-index-page-sticky;
-  top: calc(#{$header-height} + 1.75rem);
-}
-
-.Page-sticky-fixed  {
-  width: $page-width-column;
-}
-
-.Page-sticky.Page-sticky-fixed.Page-is-sticky {
-  position: fixed;
-  backface-visibility: hidden;
-}
-
-.Page-sticky.Page-sticky-fixed.Page-is-absolute {
-  position: absolute;
+  top: $header-height + 18px;
 }

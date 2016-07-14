@@ -7,17 +7,16 @@ import Helmet from '../utils/Helmet';
 
 import { login, resetErrors } from '../actions/session';
 
-import Button from '../ui/Button';
-import HorizontalRule from '../ui/HorizontalRule';
-import TextField from '../ui/TextField';
+import Button from '../forms/Button';
+import AncillaryText from '../widgets/AncillaryText';
+import HorizontalRule from '../widgets/HorizontalRule';
+import TextField from '../forms/TextField';
 import Page from '../layout/Page';
 import Frame from '../layout/Frame';
 
 import SocialLoginForm from '../auth/SocialLoginForm';
 import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
 import { getLoggedUser } from '../reducers/session';
-
-import './Login.scss';
 
 const MESSAGES = defineMessages({
   title: {
@@ -187,23 +186,17 @@ export class Login extends Component {
 
               <Button
                 style={ { marginTop: '1rem' } }
-                action="primary"
+                kind="primary"
                 block
                 disabled={ isLoggingIn }>
                 { formatMessage(isLoggingIn ? MESSAGES.loggingInButton : MESSAGES.loginButton) }
               </Button>
 
-              <div className="Frame-form-horizontal-group" style={ { fontSize: '0.875rem' } }>
-                {/* <span>
-                  <input ref="keep_session" name="keep_session" disabled={ isLoggingIn } type="checkbox" defaultChecked id="login-keep-session" />
-                  <label htmlFor="login-keep-session"> Keep me logged in</label>
-                </span>*/}
-                <span>
-                  <Link to={ { pathname: '/login/password', query } } className="forgot-btn">
-                    { formatMessage(MESSAGES.recoverPassword) }
-                  </Link>
-                </span>
-              </div>
+              <AncillaryText>
+                <Link to={ { pathname: '/login/password', query } } className="forgot-btn">
+                  { formatMessage(MESSAGES.recoverPassword) }
+                </Link>
+              </AncillaryText>
 
             </form>
           </div>

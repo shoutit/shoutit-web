@@ -36,8 +36,9 @@ describe('utils/SearchUtils', () => {
         max_price: '2',
         search: 'with space',
         filters: { foo: 'bar', bar: 'foo' },
+        sort: 'time',
       });
-      expect(querystring).to.equal('shout_type=request&category=foo-category&search=with%20space&min_price=1&max_price=2&filters=foo:bar;bar:foo');
+      expect(querystring).to.equal('shout_type=request&category=foo-category&search=with%20space&min_price=1&max_price=2&filters=foo:bar;bar:foo&sort=time');
     });
 
     it('should ignore invalid shout types', () => {
@@ -66,6 +67,8 @@ describe('utils/SearchUtils', () => {
         max_price: '2',
         search: 'with%20space',
         filters: 'foo:bar;abc:xyz',
+        page: '1',
+        sort: 'foo',
       });
       expect(searchParams).to.eql({
         shout_type: 'request',
@@ -75,6 +78,9 @@ describe('utils/SearchUtils', () => {
         search: 'with space',
         foo: 'bar',
         abc: 'xyz',
+        page: 1,
+        sort: 'foo',
+        free: false,
       });
     });
 

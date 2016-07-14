@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Button from '../ui/Button';
+import Button from '../forms/Button';
 
 import { startVideocall } from '../actions/videocalls';
 
@@ -10,8 +10,7 @@ export function VideocallButton({ onVideocallClick, enabled = false, user }) {
   }
   return (
     <Button
-      action="primary"
-      size="small"
+      kind="primary"
       onClick={ () => onVideocallClick(user) }
       icon="video">
         Video call

@@ -8,8 +8,8 @@ import { Link } from 'react-router';
 import RequiresLogin from '../auth/RequiresLogin';
 import { LISTEN_TAG } from '../auth/loginActions';
 
-import Icon from '../ui/Icon';
-import ListItem from '../ui/ListItem';
+import Icon from '../widgets/Icon';
+import ListItem from '../layout/ListItem';
 import { getLoggedUser } from '../reducers/session';
 
 export class TagActions extends Component {

@@ -1,0 +1,29 @@
+@import '../../styles/constants';
+@import '../../styles/mixins/mq';
+
+.HomePageHeader {
+  height: $header-height;
+  display: flex; 
+  justify-content: space-between;
+  padding: 0 $horizontal-spacing;
+  align-items: center;
+}
+
+.HomePageHeader-actions {
+  font-size: 0.875em;
+}
+
+@include smartphone() {
+  .HomePageHeader {
+    padding: 0 $horizontal-spacing/2;
+  }
+  .HomePageHeader-signup {
+    display: none !important;
+  }
+  .HomePageHeader-actions {
+    font-size: 1em;
+    .Button-label {
+      padding-right: 0;
+    }
+  }
+}

@@ -1,0 +1,20 @@
+@import '../styles/constants';
+
+.Label {
+  display: flex;
+}
+
+.Label-content {
+  display: inline-block;
+  margin-bottom: .25em;
+  font-size: .875em;
+  font-weight: 500;
+
+  flex: 1;
+  text-rendering: geometricPrecision;
+}
+
+.Label-max-length {
+  color: $color-text-light;
+  font-size: .75em;
+}

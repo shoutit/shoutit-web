@@ -1,65 +1,86 @@
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
+@import '../styles/mixins/mq.scss';
 
 .Frame {
-  margin: 3rem auto;
-  width: 40%;
-  background-color: white;
-  box-shadow: $box-shadow-depth-1;
+  width: 100%;
+  max-width: 400px;
+  margin: $vertical-spacing auto;
   border-radius: $border-radius;
+  background-color: $white;
+  box-shadow: $box-shadow-depth-1;
   &.transparent {
     background-color: transparent;
     box-shadow: none;
   }
 }
 
+@include smartphone() {
+  .Frame {
+    margin: 0 auto;
+    border-radius: 0;
+    box-shadow: $box-shadow-depth-0;
+  }
+}
+
 .Frame-body {
-  padding: 1rem;
+  padding: $vertical-spacing $horizontal-spacing;
 
   .Frame.transparent & {
-    margin-top: 1rem;
-    background-color: white;
-    box-shadow: $box-shadow-depth-0;
+    margin-top: $vertical-spacing;
     border-radius: $border-radius;
+    background-color: $white;
+    box-shadow: $box-shadow-depth-0;
+  }
+}
+
+@include smartphone() {
+  .Frame-body {
+    padding: $vertical-spacing/2 $horizontal-spacing/2;
   }
 }
 
 .Frame-header {
-  padding-top: 1rem;
+  padding-top: $vertical-spacing;
 }
 
 .Frame-header h1 {
+  margin: 0;
+  padding-top: 3.5em;
+  text-align: center;
   background-image: url('../../assets/images/mark.svg');
-  background-size: 2em;
   background-repeat: no-repeat;
   background-position: center top;
-  padding-top: 2.75em;
+  background-size: 2em;
   font-size: 1.5rem;
-  margin: 0;
-  text-align: center;
   font-weight: lighter;
 }
 
 .Frame-form {
-  width: 75%;
-  margin: 0 auto;
-  .TextField {
-    margin-bottom: .5rem;
+  margin: 0 $horizontal-spacing;
+}
+
+@include smartphone() {
+  .Frame-form {
+    margin: 0;
   }
 }
 
-.Frame-form-horizontal-group {
-  display: flex;
-  justify-content: space-between;
+.Frame-footer {
+  margin-top: $vertical-spacing/2;
+  padding: $vertical-spacing $horizontal-spacing;
+  color: darken(white, 10);
+  border-bottom-right-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+  background-color: $background-color-dark;
+  a,
+  a:hover {
+    color: $white;
+  }
 }
 
-.Frame-footer {
-  margin-top: 1rem;
-  padding: .75rem 1rem;
-  background-color: $background-color-dark;
-  color: darken(white, 10);
-  border-bottom-left-radius: $border-radius;
-  border-bottom-right-radius: $border-radius;
-  a, a:hover {
-    color: white;
+@include smartphone() {
+  .Frame-footer {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
   }
 }

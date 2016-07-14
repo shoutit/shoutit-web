@@ -1,0 +1,56 @@
+@import "../styles/constants.scss";
+@import '../styles/mixins/ellipsis.scss';
+
+.ListItem {
+  display: flex;
+  align-items: center;
+
+  font-size: 0.875rem;
+
+  &.interaction-enabled {
+    cursor: pointer;
+  }
+
+  &.disabled {
+    opacity: 0.75;
+  }
+
+  a > & {
+    color: $color-text
+  }
+
+  ul > & {
+    margin: .25rem 0;
+    color: $color-text;
+    &.size-small {
+      margin: .25rem 0;
+    }
+  }
+}
+
+.ListItem-end {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  .ListItem.nowrap & {
+    @include ellipsis();
+  }
+  .ListItem-end-child {
+    display: flex;
+    min-width: 0; // make ellipsis working
+  }
+}
+
+.ListItem-start {
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ListItem-start + .ListItem-end {
+  margin-left: .5rem;
+}
+
+.ListItem.size-small .ListItem-start + .ListItem-end {
+  margin-left: .25rem;
+}

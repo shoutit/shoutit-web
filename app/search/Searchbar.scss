@@ -4,21 +4,7 @@
   position: relative;
   width: 100%;
   margin: 0;
-
-  .Button {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 140px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    .Button-label {
-      font-size: 0.75rem;
-      vertical-align: middle;
-    }
-  }
-
+  max-width: 600px;
 }
 
 .Searchbar .htmlInput {

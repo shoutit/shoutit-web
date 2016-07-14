@@ -5,6 +5,9 @@ import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 import { FormattedMessage } from 'react-intl';
 
+import { getCurrentUrl } from '../reducers/routing';
+import { isLoggedIn } from '../reducers/session';
+
 import * as loginActions from '../auth/loginActions';
 
 import './RequiresLogin.scss';
@@ -72,13 +75,16 @@ export class RequiresLogin extends Component {
         </div>
       );
     }
+    delete props.loginAction;
+    delete props.currentUrl;
+    delete props.dispatch;
     return React.cloneElement(children, props);
   }
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: !!state.session.user,
-  currentUrl: state.routing.currentUrl,
+  isLoggedIn: isLoggedIn(state),
+  currentUrl: getCurrentUrl(state),
 });
 
 export default connect(mapStateToProps)(RequiresLogin);

@@ -5,74 +5,73 @@ import { push } from 'react-router-redux';
 import ShoutPrice from './ShoutPrice';
 import ShoutType from './ShoutType';
 import ShoutLink from './ShoutLink';
-import TimeAgo from '../ui/TimeAgo';
-import ListItem from '../ui/ListItem';
-import Popover from '../ui/Popover';
-
-import CategoryListItem from '../shouts/CategoryListItem';
+import TimeAgo from '../widgets/TimeAgo';
+import Popover from '../widgets/Popover';
+import Card, { CardImage, CardBody } from '../layout/Card';
 
 import ProfileAvatar from '../users/ProfileAvatar';
 import ProfilePreview from '../users/ProfilePreview';
 
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
 if (process.env.BROWSER) {
-  require('../ui/Card.scss');
+  require('../layout/Card.scss');
   require('./ShoutPreview.scss');
 }
 
-function ShoutPreview({ shout, onProfileAvatarClick, onCategoryClick, showProfile = true, showCategory = true }) {
-  return (
+function ShoutPreview({ shout, onProfileAvatarClick, showDate = true, showProfile = true, link = true, ...props }) {
 
-    <ShoutLink className="Card ShoutPreview" shout={ shout }>
-      <div className="ShoutPreview-price">
-        <ShoutPrice shout={ shout } layout="badge" />
-        { shout.type === 'request' && <ShoutType shout={ shout } /> }
-      </div>
-      <div className="Card-image-wrapper">
-        <div className="Card-image" style={ getStyleBackgroundImage(shout.thumbnail, 'medium') } />
-      </div>
-      <div className="Card-title">
-        { (shout.title || shout.text) &&
-          <div className="Card-title-max-height ShoutPreview-title" title={ shout.title }>
-            { shout.title || shout.text }
-          </div>
+  const content = (
+    <Card className="ShoutPreview" { ...props }>
+      <CardImage src={ shout.thumbnail } />
+      <CardBody>
+        { shout.title &&
+          <h4>{ shout.title }</h4>
         }
-        <div className="ShoutPreview-details">
-          <ListItem
-            className="ShoutPreview-profile"
-            size="small"
-            start={ showProfile ?
-              <Popover trigger={ ['hover', 'focus'] } overlay={ <ProfilePreview id={ shout.profile.id } /> }>
+        <div className="ShoutPreview-body">
+          <h3>
+            <ShoutPrice shout={ shout } />
+          </h3>
+          <ShoutType shout={ shout } />
+        </div>
+        { (showProfile || showDate) &&
+          <div className="ShoutPreview-footer">
+            { showProfile &&
+              <Popover
+                trigger={ ['hover', 'focus'] }
+                overlay={ <ProfilePreview id={ shout.profile.id } /> }
+              >
                 <span onClick={ onProfileAvatarClick }>
                   <ProfileAvatar profile={ shout.profile } size="small" />
                 </span>
-              </Popover> : null
-            }>
-            <TimeAgo date={ shout.datePublished } />
-          </ListItem>
-          { showCategory && <CategoryListItem onClick={ onCategoryClick } category={ shout.category } size="small" /> }
-        </div>
-      </div>
+              </Popover>
+            }
+            { showDate &&
+              <TimeAgo date={ shout.datePublished } />
+            }
+          </div>
+         }
+      </CardBody>
+    </Card>
+  );
+  if (!link) {
+    return <span className="ShoutPreview-container">{ content }</span>;
+  }
+  return (
+    <ShoutLink shout={ shout }>
+      { content }
     </ShoutLink>
-
   );
 }
 
 ShoutPreview.propTypes = {
+  link: PropTypes.bool,
   shout: PropTypes.object.isRequired,
   onProfileAvatarClick: PropTypes.func.isRequired,
-  onCategoryClick: PropTypes.func.isRequired,
   showProfile: PropTypes.bool,
-  showCategory: PropTypes.bool,
+  showDate: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onCategoryClick: e => {
-    e.preventDefault();
-    e.stopPropagation();
-    dispatch(push(`/search?category=${ownProps.shout.category.slug}`));
-  },
   onProfileAvatarClick: e => {
     e.preventDefault();
     e.stopPropagation();

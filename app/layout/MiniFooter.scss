@@ -1,4 +1,5 @@
 @import "../styles/constants.scss";
+@import "../styles/mixins/links.scss";
 
 .MiniFooter {
   margin-top: 1rem;
@@ -9,7 +10,7 @@
 
     text-transform: uppercase;
 
-    color: $color-light;
+    color: $color-text-light;
 
     font-size: .625rem;
     font-weight: normal;
@@ -34,13 +35,9 @@
 .MiniFooter-follow,
 .MiniFooter-language {
   a {
+    @include sideLink();
     font-size: .875rem;
-    color: $color;
-    display: inline-block;
     margin-right: 1rem;
-    &:hover {
-      color: $si-green;
-    }
   }
 }
 
@@ -48,6 +45,6 @@
   margin-top: 1.5rem;
   padding-top: .5rem;
   border-top: 1px solid $border-color-dark;
-  color: $color-light;
+  color: $color-text-light;
   font-size: .625rem;
 }

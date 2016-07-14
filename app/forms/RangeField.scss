@@ -1,0 +1,86 @@
+@import '../styles/constants.scss';
+
+$range-field-track: $color-primary;
+$range-field-thumb: $grey-light-1;
+
+$thumb-size: 18px;
+$track-height: 2px;
+$thumb-border: 1px solid $range-field-thumb;
+
+.RangeField {
+  width: 100%;
+  padding: $thumb-size/2 0;
+
+  -webkit-appearance: none;
+}
+.RangeField:focus {
+  outline: none;
+}
+.RangeField::-webkit-slider-runnable-track {
+  width: 100%;
+  height: $track-height;
+  cursor: pointer;
+  background: $range-field-track;
+}
+.RangeField::-webkit-slider-thumb {
+  width: $thumb-size;
+  height: $thumb-size;
+  margin-top: -$thumb-size/2;
+  cursor: pointer;
+  border: $thumb-border;
+  border-radius: 100%;
+  background: $white;
+  -webkit-appearance: none;
+  position: relative;
+}
+.RangeField::-moz-range-track {
+  width: 100%;
+  height: $track-height;
+  cursor: pointer;
+  background: $range-field-track;
+  outline: none;
+}
+.RangeField::-moz-range-thumb {
+  width: $thumb-size;
+  height: $thumb-size;
+  cursor: pointer;
+  border: $thumb-border;
+  border-radius: 100%;
+  background: $white;
+}
+.RangeField:focus::-moz-range-thumb {
+  box-shadow: 0 0 0 3px $range-field-thumb;
+}
+.RangeField::-ms-track {
+  width: 100%;
+  height: $track-height;
+  cursor: pointer;
+  color: transparent;
+  border-color: transparent;
+  background: transparent;
+}
+.RangeField::-ms-fill-lower {
+  background: $range-field-track;
+}
+.RangeField::-ms-fill-upper {
+  background: $range-field-track;
+}
+.RangeField::-ms-thumb {
+  width: $thumb-size;
+  height: $thumb-size;
+  height: $track-height;
+  cursor: pointer;
+  border: $thumb-border;
+  border-radius: 100%;
+  background: $white;
+}
+.RangeField:focus::-ms-thumb {
+  box-shadow: 0 0 0 3px $range-field-thumb;
+}
+
+.RangeField:focus::-ms-fill-lower {
+  background: $range-field-track;
+}
+.RangeField:focus::-ms-fill-upper {
+  background: $range-field-track;
+}

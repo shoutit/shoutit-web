@@ -13,7 +13,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   border-bottom: 1px solid $border-color;
-  background-color: $background-color-alt-light;
+  background-color: $background-color-light;
 }
 
 .ProfilePreview-user {
@@ -28,7 +28,7 @@
 
   h3 {
     font-size: 0.75rem;
-    color: $color-light;
+    color: $color-text-light;
     font-weight: normal;
     margin: 0;
   }

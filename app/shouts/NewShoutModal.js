@@ -2,12 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Modal, { Header, Body } from '../ui/Modal';
-import Button from '../ui/Button';
+import { getLoggedUser } from '../reducers/session';
+import { getCurrentLocation } from '../reducers/currentLocation';
+
+import Modal, { Header, Body } from '../modals';
+import Button from '../forms/Button';
 
 import { openModal } from '../actions/ui';
 import CreateShoutModal from '../shouts/CreateShoutModal';
-import { getLoggedUser } from '../reducers/session';
 
 export class NewShoutModal extends Component {
 
@@ -42,7 +44,7 @@ export class NewShoutModal extends Component {
               <Button
                 ref="offerButton"
                 block
-                action="primary"
+                kind="primary"
                 style={ { margin: '0 .5rem .5rem .5rem' } }
                 onClick={ this.handleButtonClick.bind(this, 'offer') }>
                 <FormattedMessage
@@ -52,7 +54,7 @@ export class NewShoutModal extends Component {
               </Button>
               <Button
                 block
-                action="primary-alt"
+                kind="secondary"
                 style={ { margin: '.5rem .5rem 0 .5rem' } }
                 onClick={ this.handleButtonClick.bind(this, 'request') }>
                 <FormattedMessage
@@ -72,7 +74,7 @@ export class NewShoutModal extends Component {
 const mapStateToProps = state => ({
   shout: {
     mobile: getLoggedUser(state).mobile,
-    location: state.currentLocation,
+    location: getCurrentLocation(state),
   },
 });
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="34px" height="44px" viewBox="0 0 34 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
     <title>icons/attach-location-active</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="icons/attach-location-active" fill="#7EBE59">
+        <g id="icons/attach-location-active" fill="#36DD69">
             <path d="M17.1118245,0 C7.66058416,0 -3.55271368e-15,7.44638405 -3.55271368e-15,16.6348338 C-3.55271368e-15,16.8131431 0.0841822435,21.0894094 1.55523128,24.1380243 C5.77005073,33.5899931 17.0961295,44.0550109 17.1103977,43.9997823 C17.1275195,44.0360754 28.4065133,33.6278641 32.6413082,24.1948308 C33.8969078,21.9588643 34.2222222,16.9993421 34.2222222,16.6348338 C34.2222222,7.44638405 26.5616381,0 17.1118245,0 L17.1118245,0 L17.1118245,0 Z M17.1118245,25.1400277 C13.9756792,25.1400277 11.4316633,22.3265285 11.4316633,18.8565987 C11.4316633,15.3835131 13.9742524,12.5731698 17.1118245,12.5731698 C20.2508234,12.5731698 22.7934125,15.3835131 22.7934125,18.8565987 C22.7934125,22.3249505 20.2493966,25.1400277 17.1118245,25.1400277 L17.1118245,25.1400277 L17.1118245,25.1400277 Z" id="Shape"></path>
         </g>
     </g>

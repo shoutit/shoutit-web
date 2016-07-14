@@ -1,89 +1,88 @@
 
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
 
 .Chat {
   position: absolute;
-  top: .75rem;
-  right: .5rem;
-  bottom: .75rem;
-  left: 0px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   overflow: hidden;
-
-  background-color: white;
   border-radius: $border-radius;
+  background-color: $white;
   box-shadow: $box-shadow-depth-0;
-
 }
 
-  .Chat-conversations {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 30%;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-  }
+.Chat-conversations {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  overflow: auto;
+  flex-direction: column;
+  width: 30%;
+}
 
-  .Chat-conversations-title {
-    height: 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-bottom: 1px solid $border-color;
-    h1 {
-      border-right: 1px solid $border-color;
-      padding: .5rem .75rem;
-      margin: 0;
-      font-weight: normal;
-      font-size: 1rem;
-      color: $color;
-      a {
-        color: $color;
-        &:hover {
-          color: lighten($color, 20);
-        }
+.Chat-conversations-title {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 3rem;
+  border-bottom: 1px solid $border-color;
+  h1 {
+    margin: 0;
+    padding: .5rem .75rem;
+    color: $color-text;
+    border-right: 1px solid $border-color;
+    font-size: 1rem;
+    font-weight: normal;
+    a {
+      color: $color-text;
+      &:hover {
+        color: $color-text-light;
       }
     }
   }
+}
 
-  .Chat-conversations-list {
-    flex: 1;
-    position: relative;
-    border-right: 1px solid $border-color;
-  }
+.Chat-conversations-list {
+  position: relative;
+  border-right: 1px solid $border-color;
 
-  .Chat-conversation {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 30%;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-    h1 {
-      background-color: white;
-    }
-  }
+  flex: 1;
+}
 
-  .Chat-conversation-body {
-    flex: 1;
-    position: relative;
-    background-color: $background-color-light;
+.Chat-conversation {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 30%;
+  display: flex;
+  flex-direction: column;
+  h1 {
+    background-color: $white;
   }
+}
 
-  .Chat-placeholder {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
+.Chat-conversation-body {
+  position: relative;
+  background-color: $background-color-light;
 
-  .Chat-conversationsList {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+  flex: 1;
+}
+
+.Chat-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+
+.Chat-conversationsList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

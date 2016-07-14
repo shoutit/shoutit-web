@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import { toDate } from 'unix-timestamp';
 import { FormattedDate, FormattedMessage } from 'react-intl';
 
-import ListItem from '../ui/ListItem';
-import Icon from '../ui/Icon';
+import ListItem from '../layout/ListItem';
+import Icon from '../widgets/Icon';
 
 export default function ProfileJoinedOnListItem({ profile, size = 'medium' }) {
   return (

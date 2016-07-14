@@ -2,13 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
+import { PaginationPropTypes } from '../utils/PropTypes';
+
 import MessagesList from '../chat/MessagesList';
 import Typing from '../chat/Typing';
-import Scrollable from '../ui/Scrollable';
+import Scrollable from '../layout/Scrollable';
 import { loadMessages } from '../actions/messages';
 
 import { getMessagesByConversation, getPaginationState } from '../reducers/paginated/messagesByConversation';
-import Progress from '../ui/Progress';
+import Progress from '../widgets/Progress';
 
 import './ConversationMessages.scss';
 
@@ -21,8 +23,7 @@ export class ConversationMessages extends Component {
     messages: PropTypes.array,
 
     error: PropTypes.object,
-    isFetching: PropTypes.bool,
-    previousUrl: PropTypes.string,
+    ...PaginationPropTypes,
   };
 
   constructor(props) {

@@ -31,6 +31,8 @@ export shout from './shout';
 export shoutCall from './shoutCall';
 export shoutReply from './shoutReply';
 export shouts from './shouts';
+export shoutSamples from './shoutSamples';
+export sortTypes from './sortTypes';
 export suggestions from './suggestions';
 export tag from './tag';
 export tagListen from './tagListen';

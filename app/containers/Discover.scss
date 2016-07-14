@@ -1,11 +1,8 @@
 @import "../styles/constants";
 
-
 .Discover-hero {
   display: flex;
   flex-direction: column;
-
-  margin-top: .75rem;
 
   border-radius: $border-radius;
   background-color: black;
@@ -19,7 +16,7 @@
   .Discover-country {
     cursor: pointer;
     position: absolute;
-    color: white;
+    color: $white;
     top: .5rem;
     left: .5rem;
     font-size: 0.75rem;
@@ -35,10 +32,10 @@
 .Discover-hero-content {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: $vertical-spacing $horizontal-spacing;
 
   background-color: rgba(black, .6);
-  color: white;
+  color: $white;
   align-items: center;
   justify-content: center;
   -webkit-backdrop-filter: blur(5px);
@@ -50,7 +47,7 @@
   h2 {
     display: inline-block;
     margin: 0;
-    margin-top: 1rem;
+    margin-top: $vertical-spacing;
     font-weight: lighter;
   }
 }

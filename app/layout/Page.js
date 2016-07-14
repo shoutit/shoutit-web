@@ -1,55 +1,78 @@
-import React, { PropTypes } from 'react';
-import Sticky from 'react-sticky-state';
+/* eslint-disable react/no-multi-comp */
+
+import React, { PropTypes, Component } from 'react';
+import Sticky from '@economist/component-stickyfill';
 
 import MiniFooter from '../layout/MiniFooter';
 import './Page.scss';
 
-const stickyProps = {
-  stickyWrapperClass: 'Page-sticky-wrap',
-  stickyClass: 'Page-sticky',
-  fixedClass: 'Page-sticky-fixed',
-  stateClass: 'Page-is-sticky',
-  disabledClass: 'Page-sticky-disabled',
-  absoluteClass: 'Page-is-absolute',
+class PageColumn extends Component {
+  static propTypes = {
+    sticky: PropTypes.bool,
+    classModifier: PropTypes.string,
+    children: PropTypes.node,
+  }
+  static defaultProps = {
+    sticky: false,
+  }
+  render() {
+    let className = 'PageColumn';
+    if (this.props.classModifier) {
+      className += ` ${this.props.classModifier}`;
+    }
+    if (this.props.sticky) {
+      className += ' sticky';
+    }
+    const content = (
+      <div className={ className }>
+        { this.props.children }
+      </div>
+    );
+    if (this.props.sticky) {
+      return <Sticky>{ content }</Sticky>;
+    }
+    return content;
+  }
+}
+
+export class Body extends Component {
+  static propTypes = {
+    children: PropTypes.node,
+  }
+  render() {
+    const className = 'PageBody';
+    return (
+      <div className={ className }>
+        { this.props.children }
+      </div>
+    );
+  }
+}
+
+export function StartColumn(props) {
+  return <PageColumn { ...props } classModifier="start" />;
+}
+export function EndColumn({ children, footer = false, ...props }) {
+  return (
+    <PageColumn { ...props } classModifier="end">
+      { children }
+      { footer && <MiniFooter /> }
+    </PageColumn>
+  );
+}
+EndColumn.propTypes = {
+  children: PropTypes.node,
+  footer: PropTypes.bool,
 };
 
-export default function Page({ children, className, startColumn, stickyStartColumn = false, endColumn, stickyEndColumn = false, miniFooter = true }) {
-  let cssClass = 'Page htmlContentWidth';
+export default function Page({ children, className }) {
+  let cssClass = 'Page';
   if (className) {
     cssClass += ` ${className}`;
   }
   return (
     <div className={ cssClass }>
-      { startColumn &&
-        <div className="Page-column">
-          { stickyStartColumn ?
-            <Sticky { ...stickyProps }>
-              <div>
-                { startColumn }
-              </div>
-            </Sticky> :
-            startColumn
-          }
-        </div>
-      }
-      <div className="Page-body">
-        { children }
-      </div>
-      { endColumn &&
-        <div className="Page-column">
-          { stickyEndColumn ?
-            <Sticky { ...stickyProps }>
-              <div>
-                { endColumn }
-              </div>
-            </Sticky> :
-            [
-              endColumn,
-              miniFooter ? <MiniFooter key="minifooter" /> : null,
-            ]
-          }
-        </div>
-      }
+      { children }
     </div>
   );
 }
@@ -57,10 +80,4 @@ export default function Page({ children, className, startColumn, stickyStartColu
 Page.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
-  startColumn: PropTypes.node,
-  stickyStartColumn: PropTypes.bool,
-  endColumn: PropTypes.node,
-  stickyEndColumn: PropTypes.bool,
-  title: PropTypes.string,
-  miniFooter: PropTypes.bool,
 };

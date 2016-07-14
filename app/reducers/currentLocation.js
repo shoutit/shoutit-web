@@ -15,3 +15,7 @@ export default function (state = {}, action) {
     default: return state;
   }
 }
+
+export function getCurrentLocation(state) {
+  return state.currentLocation;
+}

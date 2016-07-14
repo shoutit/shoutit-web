@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
-import Button from '../ui/Button';
+import { getCurrentLocation } from '../reducers/currentLocation';
+import { isLoggedIn } from '../reducers/session';
+
+import Button from '../forms/Button';
 
 import HeaderMessagesButton from '../header/HeaderMessagesButton';
 import HeaderNotificationsButton from '../header/HeaderNotificationsButton';
@@ -51,7 +54,7 @@ export class Header extends Component {
       <header className="Header" style={ { position: 'relative' } }>
         <div className="Header-logo">
           <Link to="/">
-            <img alt="" height="36" width="132" src={ `${imagesPath}/logo.png` } />
+            <img alt="" height="36" width="113" src={ `${imagesPath}/logo.png` } />
           </Link>
         </div>
 
@@ -72,7 +75,7 @@ export class Header extends Component {
           <div className="Header-tools loggedIn">
             <HeaderMessagesButton overlayContainer={ this } />
             <HeaderNotificationsButton overlayContainer={ this } />
-            <Button action="primary" size="small" icon="sparkle" onClick={ this.handleNewShoutClick }>
+            <Button kind="primary" icon="sparkle" onClick={ this.handleNewShoutClick }>
               <FormattedMessage id="header.createShoutButton" defaultMessage="Create Shout" />
             </Button>
             <HeaderProfileButton overlayContainer={ this } />
@@ -81,7 +84,7 @@ export class Header extends Component {
             <Button to="/login">
               <FormattedMessage id="header.loginButton" defaultMessage="Login" />
             </Button>
-            <Button action="primary" to="/signup">
+            <Button kind="primary" to="/signup">
               <FormattedMessage id="header.signupButton" defaultMessage="Sign up" />
             </Button>
           </div>
@@ -93,8 +96,8 @@ export class Header extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentLocation: state.currentLocation,
-  isLoggedIn: !!state.session.user,
+  currentLocation: getCurrentLocation(state),
+  isLoggedIn: isLoggedIn(state),
 });
 
 export default connect(mapStateToProps)(Header);

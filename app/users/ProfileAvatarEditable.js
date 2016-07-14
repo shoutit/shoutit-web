@@ -7,7 +7,7 @@ import { openModal } from '../actions/ui';
 
 import AvatarEditorModal from '../users/AvatarEditorModal';
 import ProfileAvatar from '../users/ProfileAvatar';
-import FileInput from '../ui/FileInput';
+import FileInput from '../forms/FileInput';
 
 import './ProfileAvatarEditable.scss';
 

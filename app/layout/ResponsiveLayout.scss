@@ -1,0 +1,48 @@
+@import '../styles/constants.scss';
+@import '../styles/mixins/mq.scss';
+
+.ResponsiveLayout {
+  text-align: center;
+  &.horizontal-space {
+    padding: 0 $horizontal-spacing;
+  }
+  > span {
+    width: 100%;
+    text-align: left;
+  }
+}
+
+@include smartphone() {
+  .ResponsiveLayout.horizontal-space {
+    padding: 0 $horizontal-spacing/3;
+  }
+}
+
+.ResponsiveLayout.min-width {
+  &.default > span {
+    display: inline-block;
+    min-width: 768px;
+  }
+}
+.ResponsiveLayout.min-width {
+  &.default > span {
+    display: inline-block;
+    min-width: 768px;
+  }
+  &.small > span {
+    display: inline-block;
+    min-width: 280px;
+  }
+}
+
+
+.ResponsiveLayout.max-width {
+  &.default > span {
+    display: inline-block;
+    max-width: 1200px;
+  }
+  &.small > span {
+    display: inline-block;
+    max-width: 530px;
+  }
+}

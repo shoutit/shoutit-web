@@ -7,7 +7,7 @@ $size-large: 48px;
 $size-huge: 128px;
 
 .ProfileAvatar {
-  background-color: white;
+  background-color: $white;
 
   display: inline-block;
   overflow: hidden;
@@ -37,7 +37,7 @@ $size-huge: 128px;
   &.size-huge {
     width: $size-huge;
     height: $size-huge;
-    border: 2px solid white;
+    border: 2px solid $white;
     box-shadow: $box-shadow-depth-1;
   }
   &.mask {
@@ -59,7 +59,7 @@ $size-huge: 128px;
   }
 
   &.placeholder {
-    background-color: $background-color-dark;
+    background-color: $grey-light-2;
     background-image: url("../../assets/icons/profile-fill.svg");
     background-repeat: no-repeat;
     background-position: center;

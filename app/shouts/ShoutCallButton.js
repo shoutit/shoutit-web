@@ -2,8 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Button from '../ui/Button';
-import Tooltip from '../ui/Tooltip';
+import Button from '../forms/Button';
+import Tooltip from '../widgets/Tooltip';
 import RequiresLogin from '../auth/RequiresLogin';
 import { REVEAL_NUMBER } from '../auth/loginActions';
 
@@ -49,9 +49,8 @@ export class ShoutCallButton extends Component {
       <RequiresLogin event="onClick" loginAction={ REVEAL_NUMBER }>
         <Button
           { ...this.props }
-          action="primary-alt"
+          kind="secondary"
           disabled={ shout.isCalling }
-          size="small"
           onClick={ !shout.mobile && !shout.isCalling ? this.handleClick : null }
           icon="phone">
           { label }

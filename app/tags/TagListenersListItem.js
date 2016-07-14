@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Icon from '../ui/Icon';
-import ListItem from '../ui/ListItem';
+import Icon from '../widgets/Icon';
+import ListItem from '../layout/ListItem';
 import TagListenersModal from '../tags/TagListenersModal';
 
 import { openModal } from '../actions/ui';

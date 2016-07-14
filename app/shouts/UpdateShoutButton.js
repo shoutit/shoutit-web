@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Button from '../ui/Button';
+import Button from '../forms/Button';
 
 import UpdateShoutModal from './UpdateShoutModal';
 
@@ -10,7 +10,7 @@ import { openModal } from '../actions/ui';
 
 export function UpdateShoutButton({ onClick, ...props }) {
   return (
-    <Button onClick={ onClick } size="small" action="primary" icon="pencil" { ...props }>
+    <Button onClick={ onClick } kind="primary" icon="pencil" { ...props }>
       { props.children || <FormattedMessage id="UpdateShoutButton.label" defaultMessage="Edit Shout" /> }
     </Button>
   );

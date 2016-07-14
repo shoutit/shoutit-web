@@ -1,0 +1,56 @@
+@import '../styles/constants.scss';
+@import '../styles/mixins/ellipsis.scss';
+@import './FormField.scss';
+
+.SegmentedControl {
+  width: 100%;
+}
+
+.SegmentedControl-options {
+  display: flex;
+  width: 100%;
+}
+
+.SegmentedControl-option {
+  display: inline-block;
+  white-space: nowrap;
+  line-height: 34px;
+
+  flex-grow: 1;
+  input {
+    display: none;
+  }
+
+  label {
+    display: block;
+    padding: 0 .5em;
+    text-align: center;
+    color: $color-placeholder;
+    border: 1px solid $formFieldBorderColor;
+    border-right-width: 0;
+    background-color: $white;
+    font-size: .875em;
+  }
+
+  input:checked + label {
+    color: $color-text;
+    border-color: $color-primary;
+    background-color: $white;
+    box-shadow: inset 0 0 0 1px $color-primary;
+  }
+
+  &.is-checked + .SegmentedControl-option > label {
+    border-left-color: $color-primary;
+  }
+
+  &:first-child > label {
+    border-top-left-radius: .25em;
+    border-bottom-left-radius: .25em;
+  }
+
+  &:last-child > label {
+    border-right-width: 1px;
+    border-top-right-radius: .25em;
+    border-bottom-right-radius: .25em;
+  }
+}

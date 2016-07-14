@@ -36,7 +36,11 @@ export function loadTagShouts(name, location, endpoint) {
     payload: { name },
     service: {
       name: 'shouts',
-      params: { searchParams: { country: location.country, tags: name }, endpoint },
+      params: {
+        country: location.country,
+        tags: name,
+        endpoint,
+      },
       schema: SHOUTS,
     },
   };

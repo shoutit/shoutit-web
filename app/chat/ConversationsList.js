@@ -4,11 +4,13 @@ import { FormattedMessage } from 'react-intl';
 
 import { loadChat } from '../actions/chat';
 
+import { PaginationPropTypes } from '../utils/PropTypes';
+
 import { getAllConversations, getPaginationState } from '../reducers/paginated/chatConversations';
 
 import ConversationItem from './ConversationItem';
-import Progress from '../ui/Progress';
-import Scrollable from '../ui/Scrollable';
+import Progress from '../widgets/Progress';
+import Scrollable from '../layout/Scrollable';
 
 import './ConversationsList.scss';
 
@@ -22,8 +24,7 @@ export class ConversationsList extends Component {
     selectedId: PropTypes.string,
     showConversationDropdown: PropTypes.bool,
 
-    isFetching: PropTypes.bool,
-    previousUrl: PropTypes.string,
+    ...PaginationPropTypes,
   }
 
   constructor(props) {
@@ -86,7 +87,7 @@ export class ConversationsList extends Component {
           }
 
           { isFetching && (previousUrl || conversations.length === 0) &&
-            <Progress size="small" animate={ isFetching } />
+            <Progress animate={ isFetching } />
           }
 
       </Scrollable>

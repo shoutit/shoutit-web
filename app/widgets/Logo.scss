@@ -1,0 +1,23 @@
+.Logo {
+  display: inline-block;
+}
+
+.Logo.business {
+  position: relative;
+  min-width: 182px;
+  height: 58px;
+  background-image: url('../../assets/images/logo-business.png');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: contain;
+
+  .Logo-text {
+    position: absolute;
+    bottom: 0;
+    /*!rtl:begin:ignore*/
+    left: 56px;
+    /*!rtl:end:ignore*/
+    white-space: nowrap;
+    font-weight: bold;
+  }
+}

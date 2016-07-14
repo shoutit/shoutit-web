@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getCurrentLocale } from '../reducers/i18n';
-import CountryFlag from '../ui/CountryFlag';
-import ListItem from '../ui/ListItem';
+import CountryFlag from '../location/CountryFlag';
+import ListItem from '../layout/ListItem';
 import { formatLocation } from '../utils/LocationUtils';
 
 export function LocationListItem({ location, size = 'medium', locale }) {

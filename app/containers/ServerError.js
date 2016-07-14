@@ -25,7 +25,6 @@ export function ServerError({ error, intl }) {
     <Page>
       <Helmet title={ intl.formatMessage(MESSAGES.pageTitle) } />
       <Frame title={ intl.formatMessage(MESSAGES.title) } transparent>
-
         <div className="Frame-body">
           { intl.formatMessage(MESSAGES.details) }
           { process.env.NODE_ENV === 'development' &&

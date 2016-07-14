@@ -1,0 +1,129 @@
+@import '../styles/constants';
+@import '../styles/mixins/links';
+
+%baseButton {
+  appearance: none;
+  display: inline-flex;
+  height: 2.5em;
+  padding: 0;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-decoration: none;
+  border: 0;
+  border-radius: .25em;
+  font-size: 1em;
+  > span {
+    display: inline-flex;
+    align-items: center;
+  }
+  // &:focus:not(.disabled):not(:disabled),
+  // &.focus:not(.disabled):not(:disabled) {
+  //   box-shadow: $outline-shadow;
+  // }
+  &.block {
+    display: block;
+    width: 100%;
+  }
+  &.disabled,
+  &:disabled {
+    cursor: default;
+  }
+}
+
+$filled-button-shadow: inset 0 1px 5px 0 rgba(black, .1);
+%filledButton {
+  color: white;
+  &:hover:not(.disabled):not(:disabled) {
+    color: white;
+  }
+  &:active:not(.disabled):not(:disabled),
+  &.active:not(.disabled):not(:disabled) {
+    box-shadow: $filled-button-shadow;
+    // &.focus,
+    // &:focus {
+    //   box-shadow: $outline-shadow, $filled-button-shadow;
+    // }
+  }
+  &.disabled,
+  &:disabled {
+    background-color: $grey-light-3;
+  }
+}
+
+@mixin filledButton() {
+  @extend %filledButton;
+}
+
+@mixin baseButton() {
+  @extend %baseButton;
+}
+
+@mixin defaultButton() {
+  @extend %baseButton;
+  color: $color-primary;
+  background-color: transparent;
+  &:hover {
+    color: $color-primary-light;
+  }
+  &.disabled,
+  &:disabled {
+    color: $grey-light-3 !important;
+  }
+}
+
+@mixin primaryButton() {
+  @extend %baseButton;
+  @extend %filledButton;
+  background-color: $color-primary;
+  &:hover:not(:active):not(.active):not(:disabled):not(.disabled) {
+    background-color: $color-primary-light;
+  }
+}
+
+@mixin secondaryButton() {
+  @extend %baseButton;
+  @extend %filledButton;
+  background-color: $color-secondary;
+  &:hover:not(:active):not(.active):not(:disabled):not(.disabled) {
+    background-color: $color-secondary-light;
+  }
+}
+
+@mixin alternateButton() {
+  @extend %baseButton;
+  @extend %filledButton;
+  background-color: $color-alternate;
+  &:hover:not(:active):not(.active):not(:disabled):not(.disabled) {
+    background-color: $color-alternate-light;
+  }
+}
+
+
+@mixin destructiveButton() {
+  @extend %baseButton;
+  @extend %filledButton;
+  background-color: $color-destructive;
+  &:hover:not(:active):not(.active):not(:disabled):not(.disabled) {
+    background-color: $color-destructive-light;
+  }
+}
+
+@mixin invertedButton() {
+  @extend %baseButton;
+  @extend %filledButton;
+  background-color: rgba(black, .5);
+  &:hover:not(:active):not(.active):not(:disabled):not(.disabled) {
+    background-color: black;
+  }
+}
+
+@mixin socialButton() {
+  @extend %baseButton;
+  @extend %filledButton;
+  text-align: left;
+  > span {
+    display: flex;
+  }
+}

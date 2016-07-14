@@ -4,8 +4,8 @@ import { toDate } from 'unix-timestamp';
 
 import ProfileAvatar from '../users/ProfileAvatar';
 import MessageAttachment from './MessageAttachment';
-import NewlineToBreak from '../ui/NewlineToBreak';
-import Tooltip from '../ui/Tooltip';
+import NewlineToBreak from '../widgets/NewlineToBreak';
+import Tooltip from '../widgets/Tooltip';
 
 import './MessageItem.scss';
 export default class MessageItem extends Component {

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { injectIntl, defineMessages } from 'react-intl';
 import { getLoggedUser } from '../reducers/session';
 import ListenersScrollableList from './ListenersScrollableList';
-import Modal, { Header, Footer, Body, BodyFixed } from '../ui/Modal';
-import Button from '../ui/Button';
-import SegmentedControl from '../ui/SegmentedControl';
+import Modal, { Header, Footer, Body, BodyFixed } from '../modals';
+import Button from '../forms/Button';
+import SegmentedControl from '../forms/SegmentedControl';
 
 import './ProfilesModal.scss';
 
@@ -83,7 +83,7 @@ export class ProfilesModal extends Component {
           />
         </Body>
         <Footer>
-          <Button ref="close" size="small" action="primary" onClick={ this.hide }>
+          <Button ref="close" kind="primary" onClick={ this.hide }>
             { intl.formatMessage(MESSAGES.hide) }
           </Button>
         </Footer>

@@ -1,0 +1,37 @@
+@import '../styles/constants.scss';
+
+.Form-inset-small {
+  display: flex;
+  padding: .5em;
+  border-radius: $border-radius-small;
+  background-color: $background-color-light;
+  box-shadow: inset $box-shadow-depth-0;
+  font-size: .875em;
+  flex-wrap: wrap;
+  > span {
+    padding-left: .25em;
+    flex: 1;
+    flex-basis: 50%;
+  }
+}
+
+.Form-inset {
+  display: block;
+  padding: .5em;
+  border-radius: $border-radius-small;
+  background-color: $background-color-light;
+  box-shadow: inset $box-shadow-depth-0;
+}
+
+.Form-actions {
+  text-align: center;
+  padding-top: 1rem;
+
+  > * {
+    margin-left: 1rem;
+  }
+}
+
+.Form-errors {
+  color: $input-error;
+}

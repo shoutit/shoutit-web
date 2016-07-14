@@ -5,18 +5,21 @@ import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 
 import { getCurrentLocale, isRtl, getIntlMessages } from '../reducers/i18n';
+import { getCurrentUrl, getRoutingError } from '../reducers/routing';
+import { getCurrentLocation } from '../reducers/currentLocation';
 
 import Helmet from '../utils/Helmet';
 import { identifyOnMixpanel, trackWithMixpanel } from '../utils/mixpanel';
 
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
-import ModalHost from '../ui/ModalHost';
+import ResponsiveLayout from '../layout/ResponsiveLayout';
+import { ModalHost } from '../modals';
 import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
 import NotFound from './NotFound';
 
-import { loadCategories, loadCurrencies } from '../actions/misc';
+import { loadCategories, loadCurrencies, loadSortTypes } from '../actions/misc';
 import { loadSuggestions } from '../actions/location';
 import { loadListeningProfiles } from '../actions/users';
 import { clientLogin, updateLinkedAccount, logout } from '../actions/session';
@@ -32,6 +35,7 @@ import './Application.scss';
 const fetchData = (dispatch, state) => {
   const promises = [];
   promises.push(dispatch(loadCategories()));
+  promises.push(dispatch(loadSortTypes()));
   promises.push(dispatch(loadCurrencies()));
   const loggedUser = getLoggedUser(state); // logged user comes from rehydrated state
   if (loggedUser) {
@@ -89,29 +93,38 @@ export class Application extends React.Component {
 
   render() {
     const { children, error, ...props } = this.props;
-    let className = 'App';
+    let className = 'Application';
 
-    let layout = {
+    let applicationLayout = {
       stickyHeader: !error || error.statusCode === 404,
       showHeader: true,
       showFooter: !!error,
+      responsiveLayout: {},
     };
+
+    let responsiveLayoutProps = {};
 
     if (props.routes) {
       const lastRoute = props.routes[props.routes.length - 1];
       if (lastRoute.getApplicationLayout) {
-        layout = {
-          ...layout,
+        applicationLayout = {
+          ...applicationLayout,
           ...lastRoute.getApplicationLayout(),
+        };
+      }
+      if (lastRoute.getResponsiveLayout) {
+        responsiveLayoutProps = {
+          ...responsiveLayoutProps,
+          ...lastRoute.getResponsiveLayout(),
         };
       }
     }
 
-    if (layout.showHeader && layout.stickyHeader) {
+    if (applicationLayout.showHeader && applicationLayout.stickyHeader) {
       className += ' stickyHeader';
     }
-    if (layout.className) {
-      className += ` ${layout.className}`;
+    if (applicationLayout.className) {
+      className += ` ${applicationLayout.className}`;
     }
 
     let { locale } = this.props;
@@ -119,6 +132,16 @@ export class Application extends React.Component {
       locale = 'ar-u-nu-latn';
     }
 
+    let content;
+
+    if (!error) {
+      content = React.cloneElement(children, props);
+    } else {
+      content = (error.statusCode === 404 ?
+        <NotFound /> :
+        <ServerError error={ error } />
+      );
+    }
     return (
       <IntlProvider locale={ locale } messages={ this.props.messages }>
         <div className={ className }>
@@ -146,33 +169,37 @@ export class Application extends React.Component {
               { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
             ] }
           />
-          { layout.showHeader &&
-            <div className="App-header">
-              <Header
-                history={ props.history }
-                flux={ props.flux }
-                chat={ props.chat }
-                conversations={ props.conversations }
-                location={ props.location }
-              />
+          { applicationLayout.showHeader &&
+            <div className="Application-header">
+              <ResponsiveLayout { ...responsiveLayoutProps }>
+                <Header
+                  history={ props.history }
+                  flux={ props.flux }
+                  chat={ props.chat }
+                  conversations={ props.conversations }
+                  location={ props.location }
+                />
+              </ResponsiveLayout>
             </div>
           }
-          <div className="App-content">
-            { !error ? // eslint-disable-line
-              React.cloneElement(children, props) :
-              (error.statusCode === 404 ?
-                <NotFound /> :
-                <ServerError error={ error } />)
-            }
+          <div className="Application-content">
+            <ResponsiveLayout { ...responsiveLayoutProps }>
+              { content }
+            </ResponsiveLayout>
           </div>
-          { layout.showFooter &&
-            <div className="App-footer">
-              <Footer />
+          { applicationLayout.showFooter &&
+            <div className="Application-footer">
+              <ResponsiveLayout { ...responsiveLayoutProps }>
+                <Footer />
+              </ResponsiveLayout>
             </div>
           }
 
           <ModalHost />
-          <ConversationsHost />
+
+          <ResponsiveLayout { ...responsiveLayoutProps }>
+            <ConversationsHost />
+          </ResponsiveLayout>
 
         </div>
       </IntlProvider>
@@ -191,17 +218,15 @@ Application.propTypes = {
   messages: PropTypes.object.isRequired,
 };
 
-function mapStateToProps(state) {
-  return {
-    currentLocation: state.currentLocation,
-    currentUrl: state.routing.currentUrl,
-    error: state.routing.error,
-    locale: getCurrentLocale(state),
-    loggedUser: getLoggedUser(state),
-    messages: getIntlMessages(state),
-    rtl: isRtl(state),
-  };
-}
+const mapStateToProps = state => ({
+  currentLocation: getCurrentLocation(state),
+  currentUrl: getCurrentUrl(state),
+  error: getRoutingError(state),
+  locale: getCurrentLocale(state),
+  loggedUser: getLoggedUser(state),
+  messages: getIntlMessages(state),
+  rtl: isRtl(state),
+});
 
 const Wrapped = connect(mapStateToProps)(Application);
 

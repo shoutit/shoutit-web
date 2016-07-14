@@ -4,10 +4,10 @@ ul .FilterListItem {
   .ListItem-start {
     flex-basis: 30%;
     font-size: 0.875em;
-    color: $color-light;
+    color: $color-text-light;
   }
   a {
-    color: $color;
+    color: $color-text;
     &:hover {
       opacity: .7;
     }

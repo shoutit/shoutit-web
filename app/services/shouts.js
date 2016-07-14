@@ -5,27 +5,20 @@ import { parseApiError } from '../utils/APIUtils';
 export default {
   name: 'shouts',
   read: (req, resource, params = {}, config, callback) => {
-    const url = params.endpoint || '/shouts';
-    let query;
-    if (!params.endpoint && params.searchParams) {
-      query = params.searchParams;
-      if (query && query.filters) {
-        Object.keys(query.filters).forEach(slug => {
-          query[slug] = query.filters[slug];
-        });
-        delete query.filters;
-      }
-      if (params.location) {
-        query = {
-          ...query,
-          ...params.location,
-        };
-      }
+    const { endpoint } = params;
+    let query = { ...params };
+    delete query.endpoint;
+    if (!endpoint) {
+      query = {
+        ...query,
+        ...query.location,
+      };
+      delete query.location;
     }
-
+    const url = endpoint || '/shouts';
     request
       .get(url)
-      .query(query)
+      .query(!endpoint ? query : null)
       .prefix()
       .use(req)
       .end((err, res) => {

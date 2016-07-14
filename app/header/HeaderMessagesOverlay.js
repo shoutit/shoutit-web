@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { openConversation } from '../actions/conversations';
+import { getCurrentUrl } from '../reducers/routing';
 
 let ConversationsList;
 
@@ -46,7 +47,7 @@ HeaderMessagesOverlay.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  currentUrl: state.routing.currentUrl,
+  currentUrl: getCurrentUrl(state),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {

@@ -5,32 +5,30 @@ import { connect } from 'react-redux';
 import { injectIntl, defineMessages } from 'react-intl';
 
 import { push } from 'react-router-redux';
+
 import Helmet from '../utils/Helmet';
-import { getLocationPath } from '../utils/LocationUtils';
-import { getShouts, getPaginationState } from '../reducers/paginated/shouts';
+
+import { getQuery, getCurrentUrl } from '../reducers/routing';
+import { getCurrentLocation } from '../reducers/currentLocation';
 import { getCategory } from '../reducers/categories';
-import { getSearchParamsFromQuery, getQuerystringFromSearchParams } from '../utils/SearchUtils';
 
-import { loadShouts, invalidateShouts } from '../actions/shouts';
+import { getLocationPath } from '../utils/LocationUtils';
+import { getShouts, getShoutsCount, getShoutsPageState, getShoutsQuery } from '../reducers/paginated/shouts';
+// import { getCategory } from '../reducers/categories';
 
-import Page from '../layout/Page';
+import { getSearchQuery, getQuerystringFromSearchParams } from '../utils/SearchUtils';
 
-import Scrollable from '../ui/Scrollable';
-import Progress from '../ui/Progress';
-import UIMessage from '../ui/UIMessage';
+import { loadShouts } from '../actions/shouts';
 
+import Page, { Body, StartColumn } from '../layout/Page';
+import Pagination from '../layout/Pagination';
 import ShoutsList from '../shouts/ShoutsList';
-import SuggestedShout from '../shouts/SuggestedShout';
-import SuggestedTags from '../tags/SuggestedTags';
-import SuggestedProfiles from '../users/SuggestedProfiles';
-
+import ShoutsListToolbar from '../shouts/ShoutsListToolbar';
 import SearchFilters from '../search/SearchFilters';
 
-const fetchData = (dispatch, state, params, query) => {
-  const searchParams = getSearchParamsFromQuery(query);
-  dispatch(invalidateShouts(searchParams));
-  return dispatch(loadShouts(state.currentLocation, searchParams));
-};
+import './Search.scss';
+
+const PAGE_SIZE = 12;
 
 const MESSAGES = defineMessages({
   title: {
@@ -67,123 +65,161 @@ const MESSAGES = defineMessages({
   },
 });
 
+const fetchData = (dispatch, state, params, query) =>
+  dispatch(loadShouts({
+    sort: 'time',
+    ...getSearchQuery(query, getCurrentLocation(state)),
+    page_size: PAGE_SIZE,
+  }));
+
 export class Search extends Component {
 
   static propTypes = {
     currentUrl: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
-    intl: PropTypes.object.isRequired,
     currentLocation: PropTypes.object,
     error: PropTypes.object,
     firstRender: PropTypes.bool,
-    isFetching: PropTypes.bool,
-    nextUrl: PropTypes.string,
     params: PropTypes.object,
-    searchParams: PropTypes.object,
+    query: PropTypes.object,
     shouts: PropTypes.array,
+    page: PropTypes.number,
+
+    count: PropTypes.number,
+    isFetching: PropTypes.bool,
+
+    route: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      query: PropTypes.object.isRequired,
+    }).isRequired,
+
     title: PropTypes.string,
+
   };
+
+  static defaultProps = {
+    isFetching: false,
+  }
 
   static fetchData = fetchData;
 
   constructor(props) {
     super(props);
-    this.search = this.search.bind(this);
+    this.handleFiltersSubmit = this.handleFiltersSubmit.bind(this);
+    this.handleSortChange = this.handleSortChange.bind(this);
+    this.state = this.getStateFromProps(props);
   }
 
   componentDidMount() {
-    const { firstRender, dispatch, params, currentLocation, location } = this.props;
-    if (!firstRender) {
-      fetchData(dispatch, { currentLocation }, params, location.query);
+    if (!this.props.firstRender) {
+      fetchData(
+        this.props.dispatch,
+        { currentLocation: this.props.currentLocation },
+        this.props.params,
+        this.props.route.query
+      );
     }
   }
 
   componentWillUpdate(nextProps) {
-    const { currentUrl, dispatch, currentLocation } = this.props;
-    const state = { currentLocation };
-    if (nextProps.currentUrl !== currentUrl) {
-      fetchData(dispatch, state, nextProps.params, nextProps.location.query);
+    if (nextProps.route.url !== this.props.route.url) {
+      fetchData(
+        this.props.dispatch,
+        { currentLocation: this.props.currentLocation },
+        nextProps.params,
+        nextProps.route.query
+      );
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { currentLocation, searchParams } = this.props;
+    const { currentLocation } = this.props;
     if (prevProps.currentLocation.slug !== currentLocation.slug) {
-      this.search(searchParams);
+      this.updateList();
     }
   }
 
-  search(searchParams) {
+  getStateFromProps(props) {
+    const within = parseInt(props.route.query.within, 10);
+    const state = {
+      ...props.query,
+      free: !!props.route.query.free,
+      within: isNaN(within) ? props.route.query.within : within,
+    };
+    return state;
+  }
+
+  updateList() {
     const { dispatch, currentLocation } = this.props;
     let path = `/search${getLocationPath(currentLocation)}`;
-    if (searchParams) {
-      const qs = getQuerystringFromSearchParams(searchParams);
-      if (qs) {
-        path += `?${qs}`;
-      }
+    const qs = getQuerystringFromSearchParams(this.state);
+    if (qs) {
+      path += `?${qs}`;
     }
     dispatch(push(path));
   }
 
+  handleSortChange(sort, e) {
+    e.target.blur();
+    this.setState({ sort }, this.updateList);
+  }
+
+  handleFiltersSubmit(params) {
+    this.setState({ ...params }, this.updateList);
+  }
+
   render() {
-    const { shouts, nextUrl, isFetching, dispatch, error, searchParams, currentLocation, title } = this.props;
-    const { formatMessage } = this.props.intl;
+    console.log(this.state);
     return (
-      <Scrollable
-        scrollElement={ () => window }
-        onScrollBottom={ () => {
-          if (nextUrl && !isFetching) {
-            dispatch(loadShouts(currentLocation, searchParams, nextUrl));
-          }
-        } }
-        triggerOffset={ 400 }
-      >
-        <Page
-          className="Search"
-          startColumn={
-            <div className="Search-start-column">
-              <SearchFilters disabled={ false } searchParams={ searchParams } onSubmit={ this.search } />
-            </div>
-          }
-          stickyStartColumn
-          endColumn={ [<SuggestedTags />, <SuggestedProfiles />, <SuggestedShout />] }>
-
-          <Helmet title={ title } />
-          <ShoutsList shouts={ shouts } />
-
-          <Progress animate={ isFetching } />
-
-          { !isFetching && error &&
-            <UIMessage
-              title={ formatMessage(MESSAGES.errorTitle) }
-              details={ formatMessage(MESSAGES.errorDetails) }
-              type="error"
-              retryAction={ () => dispatch(loadShouts(currentLocation, searchParams, nextUrl)) }
+      <Page className="Search">
+        <Helmet title={ this.props.title } />
+        <StartColumn>
+          <SearchFilters
+            disabled={ false }
+            query={ this.state }
+            onSubmit={ this.handleFiltersSubmit }
+            />
+        </StartColumn>
+        <Body>
+          <ShoutsListToolbar
+            showProgress={ this.props.isFetching }
+            sortType={ this.state.sort }
+            count={ this.props.count }
+            onSortChange={ this.handleSortChange }
+          />
+          <div className="Shouts-container">
+            <ShoutsList shouts={ this.props.shouts } />
+            { this.props.isFetching &&
+              <div className="Shouts-loadingBackdrop" />
+            }
+          </div>
+          { this.props.shouts.length > 0 &&
+            <Pagination
+              pageSize={ this.state.page_size }
+              currentPage={ this.state.page }
+              count={ this.props.count }
             />
           }
-
-          { !isFetching && !error && shouts.length === 0 &&
-            <UIMessage
-              title={ formatMessage(MESSAGES.notFoundTitle) }
-              details={ formatMessage(MESSAGES.notFoundDetails) }
-            />
-          }
-
-        </Page>
-      </Scrollable>
+        </Body>
+      </Page>
     );
   }
 
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { routing, currentLocation } = state;
-  const searchParams = getSearchParamsFromQuery(ownProps.location.query);
+
+  const page = getQuery(state).page || 1;
+  const query = getShoutsQuery(state);
+  const count = getShoutsCount(state);
+  const pageState = getShoutsPageState(state, page);
+  const currentLocation = getCurrentLocation(state);
+
   let title;
 
-  if (searchParams.category) {
-    const category = getCategory(state, searchParams.category).name;
+  if (query.category) {
+    const category = getCategory(state, query.category).name;
     if (currentLocation && currentLocation.city) {
       title = ownProps.intl.formatMessage(MESSAGES.titleWithCityAndCategory, {
         city: currentLocation.city,
@@ -205,14 +241,19 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return {
-    currentUrl: routing.currentUrl,
-    searchParams,
-    currentLocation,
     title,
-    location: ownProps.location,
-    shouts: getShouts(state),
-    ...getPaginationState(state),
+    currentLocation,
+    query,
+    count,
+    isFetching: pageState.isFetching,
+    error: pageState.error,
+    shouts: getShouts(state, page),
+    route: {
+      url: getCurrentUrl(state),
+      query: getQuery(state),
+    },
   };
+
 };
 
 const Wrapped = injectIntl(connect(mapStateToProps)(Search));

@@ -1,23 +1,7 @@
-import request from '../utils/request';
-import { parseApiError } from '../utils/APIUtils';
-let cache;
-export default {
+import createService from './createService';
+
+export default createService({
   name: 'categories',
-  read: (req, resource, params, config, callback) => {
-    if (cache) {
-      callback(null, cache);
-      return;
-    }
-    request
-      .get('/shouts/categories')
-      .prefix()
-      .use(req)
-      .end((err, res) => {
-        if (err) {
-          return callback(parseApiError(err));
-        }
-        cache = res.body;
-        return callback(null, res.body);
-      });
-  },
-};
+  read: '/shouts/categories',
+  cacheResponse: true,
+});

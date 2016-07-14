@@ -1,54 +1,32 @@
-@import "../styles/constants.scss";
-@import "../styles/mixins/ellipsis";
+@import '../styles/constants.scss';
 
 .ShoutPreview {
   position: relative;
   z-index: 1;
-
   display: block;
-
   width: 100%;
-
-  .ShoutPreview-price {
-    position: absolute;
-    z-index: 2;
-    top: .5rem;
-    right: -.5rem;
-    .ShoutPrice,
-    .ShoutType {
-      display: block;
-    }
-    .ShoutType {
-      margin-top: .5rem;
-    }
-  }
-
 }
 
-.ShoutPreview-title {
-  margin-bottom: .5rem;
-}
-
-.ShoutPreview-details {
+.ShoutPreview-body {
   display: flex;
+  align-items: center;
+  h3 {
+    margin-bottom: 0;
 
-  color: $color-light;
-
-  font-size: 0.75rem;
-
-  justify-content: space-between;
-  .ShoutPreview-profile {
-    .ProfileAvatar {
-      opacity: 1;
-      &:hover {
-        opacity: .7;
-      }
-    }
+    flex: 1;
   }
-  .CategoryListItem {
-    @include ellipsis();
-    &:hover {
-      opacity: .9;
-    }
+  .ShoutType {
+    font-size: .875em;
+  }
+}
+
+.ShoutPreview-footer {
+  display: flex;
+  align-items: center;
+  margin-top: .75em;
+  color: $color-text-light;
+  font-size: .75em;
+  span + .TimeAgo {
+    margin-left: .5em;
   }
 }

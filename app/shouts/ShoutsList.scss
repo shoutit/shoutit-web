@@ -1,9 +1,23 @@
-.ShoutsList {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
+@import '../styles/constants';
+@import '../styles/mixins/mq';
+
+
+@include desktop() {
+  .ShoutsList {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
   .ShoutsList-item {
-    padding: .75rem;
+    padding: 0 $horizontal-spacing*1.5 $vertical-spacing*1.5 0;
+    flex: 1 1 auto;
+  }
+}
+
+@include tablet() {
+  .ShoutsList-item {
+    padding-bottom: $vertical-spacing*2;
+    flex: 0 1 auto;
   }
 }

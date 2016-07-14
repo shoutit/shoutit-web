@@ -1,18 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import isEqual from 'lodash/isEqual';
+import debounce from 'lodash/debounce';
 import { FormattedMessage } from 'react-intl';
 
-import ShoutTypeSegmentedControl from '../shouts/ShoutTypeSegmentedControl';
-import Button from '../ui/Button';
-import Form from '../ui/Form';
-import LocationField from '../ui/LocationField';
-import LocationRange from '../ui/LocationRange';
-import CategoryPicker from '../ui/CategoryPicker';
-import CurrencyField from '../ui/CurrencyField';
-import TextField from '../ui/TextField';
+import { getCategories } from '../reducers/categories';
+import { getCurrentLocation } from '../reducers/currentLocation';
 
-import './SearchFilters.scss';
+import Button from '../forms/Button';
+import Form from '../forms/Form';
+import Switch from '../forms/Switch';
+import LocationField from '../forms/LocationField';
+import LocationRange from '../forms/LocationRange';
+import CategoryPicker from '../forms/CategoryPicker';
+import PriceField from '../forms/PriceField';
+import TextField from '../forms/TextField';
+import Label from '../forms/Label';
+import Card, { CardSection } from '../layout/Card';
+
+import ShoutTypeSegmentedControl from '../shouts/ShoutTypeSegmentedControl';
 
 export class SearchFilters extends Component {
 
@@ -20,13 +26,13 @@ export class SearchFilters extends Component {
     onSubmit: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
-    searchParams: PropTypes.object,
+    query: PropTypes.object,
     currentLocation: PropTypes.object,
   }
 
   static defaultProps = {
     disabled: false,
-    searchParams: {
+    query: {
       category: '',
       filters: {},
     },
@@ -34,19 +40,20 @@ export class SearchFilters extends Component {
 
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.submit = this.submit.bind(this);
+    this.debouncedSubmit = debounce(this.submit, 1000).bind(this);
     this.state = this.getStateFromProps(props);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (isEqual(nextProps.searchParams, this.props.searchParams)) {
+    if (isEqual(nextProps.query, this.props.query)) {
       return;
     }
     this.setState(this.getStateFromProps(nextProps));
   }
 
-  getSearchParams() {
-    const searchParams = {
+  getQuery() {
+    const query = {
       search: this.state.search || undefined,
       shout_type: this.state.shout_type,
       category: this.state.category,
@@ -54,96 +61,116 @@ export class SearchFilters extends Component {
       min_price: parseInt(this.state.min_price, 10) || undefined,
       max_price: parseInt(this.state.max_price, 10) || undefined,
       within: this.state.within || undefined,
+      free: this.state.free || undefined,
     };
-    return searchParams;
+    return query;
   }
 
   getStateFromProps(props) {
     return {
-      category: props.searchParams.category || '',
-      shout_type: props.searchParams.shout_type || 'all',
-      min_price: props.searchParams.min_price || '',
-      max_price: props.searchParams.max_price || '',
-      search: props.searchParams.search || '',
-      within: props.searchParams.within,
-      filters: props.searchParams.filters || {},
+      category: props.query.category || '',
+      shout_type: props.query.shout_type || 'all',
+      min_price: props.query.min_price || '',
+      max_price: props.query.max_price || '',
+      search: props.query.search || '',
+      within: props.query.within,
+      filters: props.query.filters || {},
+      free: props.query.free || false,
     };
   }
 
-  handleSubmit() {
+  submit() {
     const { disabled, onSubmit } = this.props;
     if (disabled) {
       return;
     }
-    onSubmit(this.getSearchParams());
+    onSubmit(this.getQuery());
+  }
+
+  handleChange(state, { debounce } = {}) {
+    this.setState(state, () => {
+      if (debounce) {
+        this.debouncedSubmit();
+      } else {
+        this.submit();
+      }
+    });
+    this.setState(state, debounce ? this.debouncedSubmit : this.submit);
   }
 
   render() {
     const { disabled, currentLocation } = this.props;
     const { category, shout_type, min_price, max_price, search, filters } = this.state;
     return (
-      <div className="SearchFilters">
-        <Form onSubmit={ this.handleSubmit }>
+      <Card block>
+        <Form onSubmit={ this.submit }>
 
-          <ShoutTypeSegmentedControl
-            value={ shout_type }
-            disabled={ disabled }
-            name="shout_type"
-            onChange={ shout_type => this.setState({ shout_type }) }
-          />
+          <CardSection>
+            <ShoutTypeSegmentedControl
+              value={ shout_type }
+              disabled={ disabled }
+              name="shout_type"
+              onChange={ shout_type => this.handleChange({ shout_type }) }
+            />
+            <FormattedMessage
+              id="searchFilters.search.placeholder"
+              defaultMessage="Search by keyword"
+            >
+              { message =>
+                <TextField
+                  placeholder={ message }
+                  disabled={ disabled }
+                  name="search"
+                  value={ search }
+                  onChange={ search => this.handleChange({ search }, { debounce: true }) }
+                />
+              }
+            </FormattedMessage>
+            <LocationField name="location" />
 
-          <LocationField name="location" />
-
-          { currentLocation && currentLocation.city &&
-            <LocationRange
-              onChange={ within => this.setState({ within }) }
-              name="within"
-              value={ this.state.within }
-              location={ currentLocation }
-            /> }
-
-          <FormattedMessage
-            id="searchFilters.search.placeholder"
-            defaultMessage="Search by keyword"
-          >
-            { message =>
-              <TextField
-                placeholder={ message }
-                disabled={ disabled }
-                name="search"
-                value={ search }
-                onChange={ search => this.setState({ search }) }
+            { currentLocation && currentLocation.city &&
+              <LocationRange
+                onChange={ within => this.handleChange({ within }, { debounce: true }) }
+                name="within"
+                value={ this.state.within }
+                location={ currentLocation }
+              /> }
+          </CardSection>
+          <CardSection separe>
+            <CategoryPicker
+              filtersClassName="Form-inset-small"
+              selectedCategorySlug={ category }
+              selectedFilters={ filters }
+              showFilters
+              onChange={ (category, filters) =>
+                this.handleChange({
+                  category: category ? category.slug : '',
+                  filters,
+                })
+              }
+            />
+          </CardSection>
+          <CardSection separe>
+            <Label htmlFor="searchFiltersMinPrice">
+              <FormattedMessage
+                id="searchFilters.priceRange.label"
+                defaultMessage="Price Range"
               />
-            }
-          </FormattedMessage>
+            </Label>
 
-          <CategoryPicker
-            filtersClassName="Form-inset-small"
-            selectedCategorySlug={ category }
-            selectedFilters={ filters }
-            showFilters
-            onChange={ (category, filters) =>
-              this.setState({
-                category: category ? category.slug : '',
-                filters,
-              })
-            }
-          />
-
-          <div className="SearchFilters-price">
             <FormattedMessage
               id="searchFilters.minPrice.placeholder"
               defaultMessage="Min price"
             >
-              { message =>
-                <CurrencyField
+              { placeholder =>
+                <PriceField
+                  id="SearchFiltersMinPrice"
                   autoComplete="off"
-                  className="SearchFilters-input"
-                  placeholder={ message }
-                  disabled={ disabled }
+                  placeholder={ placeholder }
+                  disabled={ disabled || this.state.free }
                   name="min_price"
                   value={ min_price }
-                  onChange={ min_price => this.setState({ min_price }) }
+                  onChange={ min_price => this.handleChange({ min_price }, { debounce: true }) }
                 />
               }
             </FormattedMessage>
@@ -151,50 +178,58 @@ export class SearchFilters extends Component {
               id="searchFilters.maxPrice.placeholder"
               defaultMessage="Max price"
             >
-              { message =>
-                <CurrencyField
+              { placeholder =>
+                <PriceField
                   autoComplete="off"
                   className="SearchFilters-input"
-                  placeholder={ message }
-                  disabled={ disabled }
+                  placeholder={ placeholder }
+                  disabled={ disabled || this.state.free }
                   name="max_price"
                   value={ max_price }
-                  onChange={ max_price => this.setState({ max_price }) }
+                  onChange={ max_price => this.handleChange({ max_price }, { debounce: true }) }
                 />
               }
             </FormattedMessage>
 
-          </div>
+            <Switch
+              disabled={ disabled }
+              checked={ this.state.free }
+              type="checkbox"
+              name="free"
+              id="free"
+              onChange={ e => this.handleChange({ free: e.target.checked }) }
+            >
+              <FormattedMessage
+                id="search.SearchFilters.free.label"
+                defaultMessage="Only Free Items"
+              />
+            </Switch>
 
-          <div className="SearchFilters-buttons">
             <Button
               block
-              action="primary"
-              size="small"
-              disabled={ disabled || isEqual(this.state, this.props.searchParams) }
+              kind="primary"
+              disabled={ disabled || isEqual(this.state, this.props.query) }
               type="submit">
               <FormattedMessage
                 id="searchFilters.submitButton.label"
                 defaultMessage="Search"
               />
             </Button>
-          </div>
+          </CardSection>
         </Form>
-      </div>
+      </Card>
     );
   }
 }
 
 SearchFilters.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool,
   disabled: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  categories: state.categories.ids.map(id => state.entities.categories[id]),
-  isLoggedIn: !!state.session.user,
-  currentLocation: state.currentLocation,
+  categories: getCategories(state),
+  currentLocation: getCurrentLocation(state),
 });
 
 export default connect(mapStateToProps)(SearchFilters);

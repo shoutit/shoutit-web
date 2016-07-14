@@ -1,0 +1,19 @@
+@import '../styles/constants.scss';
+
+.DestructiveAction {
+  display: inline-block;
+}
+.DestructiveAction-label {
+  font-size: 0.875em;
+  color: $red;
+  cursor: pointer;
+}
+.DestructiveAction-description {
+  font-size: 0.75em;
+  color: $color-text-light;
+  cursor: default;
+  &:before {
+    content: '–';
+    margin: 0 .35em;
+  }
+}

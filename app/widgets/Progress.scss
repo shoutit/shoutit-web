@@ -1,0 +1,17 @@
+@import '../styles/constants.scss';
+
+.Progress {
+  display: block;
+  display: flex;
+  visibility: hidden;
+  align-items: center;
+  justify-content: center;
+  margin: .5em;
+  &.animated {
+    visibility: visible;
+  }
+  svg path,
+  svg rect {
+    fill: $color-primary;
+  }
+}

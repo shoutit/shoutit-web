@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import ListItem from '../ui/ListItem';
+import ListItem from '../layout/ListItem';
 import CategoryIcon from '../shouts/CategoryIcon';
 
 export default function CategoryListItem({ category, size = 'medium', onClick }) {

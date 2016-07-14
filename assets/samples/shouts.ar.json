@@ -1,0 +1,20 @@
+{
+    "shouts": [
+        {
+            "id": "hp-main-sample-ar-1",
+            "type": "offer",
+            "title": "دراجة نارية كلاسيكية معدلة",
+            "price": 15000000,
+            "currency": "AED",
+            "thumbnail": "https://shout-image.static.shoutit.com/1468484327823_9fec588a-70da-42bb-81c6-34b81b577be8.jpg"
+        },
+        {
+            "id": "hp-main-sample-ar-2",
+            "type": "request",
+            "title": "ابحث عن عمل في مطعم",
+            "price": 500000,
+            "currency": "AED",
+            "thumbnail": "https://shout-image.static.shoutit.com/1468484397595_9fec588a-70da-42bb-81c6-34b81b577be8.jpg"
+        }
+    ]
+}

@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
-import Progress from '../ui/Progress';
-import Scrollable from '../ui/Scrollable';
+import Progress from '../widgets/Progress';
+import Scrollable from '../layout/Scrollable';
 import ProfileListItem from '../users/ProfileListItem';
 
 import './ProfilesScrollableList.scss';
@@ -69,7 +69,7 @@ export default class ProfilesScrollableList extends Component {
             </span>
           ) }
         </div>
-        <Progress animate={ this.props.isFetching } size="small" />
+        <Progress animate={ this.props.isFetching } />
       </Scrollable>
     );
   }

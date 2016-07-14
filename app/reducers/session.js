@@ -181,3 +181,7 @@ export function canPublishToFacebook(state) {
   return isLinked(loggedProfile) &&
       isScopeGranted('publish_actions', loggedProfile.linkedAccounts.facebook.scopes);
 }
+
+export function isLoggedIn(state) {
+  return !!state.session.user;
+}

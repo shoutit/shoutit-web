@@ -2,12 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Scrollable from '../ui/Scrollable';
+import { PaginationPropTypes } from '../utils/PropTypes';
+
+import Scrollable from '../layout/Scrollable';
 import { loadNotifications, readNotification } from '../actions/notifications';
 
 import { getPaginationState, getNotifications } from '../reducers/paginated/notifications';
 import NotificationItem from './NotificationItem';
-import Progress from '../ui/Progress';
+import Progress from '../widgets/Progress';
 
 import './ScrollableNotifications.scss';
 
@@ -21,8 +23,7 @@ export class ScrollableNotifications extends Component {
     notifications: PropTypes.array,
 
     error: PropTypes.object,
-    isFetching: PropTypes.bool,
-    nextUrl: PropTypes.string,
+    ...PaginationPropTypes,
   };
 
   constructor(props) {
@@ -78,7 +79,7 @@ export class ScrollableNotifications extends Component {
                 </p>
               </div>
             }
-          <Progress animate={ isFetching } size="small" />
+          <Progress animate={ isFetching } />
         </ul>
       </Scrollable>
     );

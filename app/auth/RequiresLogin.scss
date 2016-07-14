@@ -1,7 +1,4 @@
-@import '../styles/mixins/card.scss';
-
 .RequiresLogin {
-  @include card($background-color: white);
   padding: 1rem;
   margin: 3rem 0;
 }

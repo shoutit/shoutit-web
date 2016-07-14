@@ -1,4 +1,5 @@
 @import './constants/colors.scss';
+@import "../styles/mixins/links.scss";
 
 .ListOverlay {
   display: flex;
@@ -15,12 +16,9 @@
     flex: 1;
   }
   .ListOverlay-action {
+    @include link();
     cursor: pointer;
-    color: $si-green;
     font-size: .75em;
-    &:hover {
-      text-decoration: underline;
-    }
   }
 }
 
@@ -34,7 +32,7 @@
 .ListOverlay-empty > p {
   padding: 20px 10px;
   text-align: center;
-  color: $color-light;
+  color: $color-text-light;
   font-weight: bold;
 }
 
@@ -43,12 +41,12 @@
   a {
     display: block;
     padding: .5em;
-    color: white;
-    background-color: $green;
+    color: $white;
+    background-color: $background-color-button-primary;
     font-size: .875em;
     &:hover {
-      color: white;
-      background-color: $green-dark;
+      color: $white;
+      background-color: $background-color-button-primary-hover;
     }
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import HostedConversation from './HostedConversation';
+import ConversationPopup from './ConversationPopup';
 
 import './ConversationsHost.scss';
 
@@ -23,8 +23,8 @@ export class ConversationsHost extends Component {
       <div className="ConversationsHost">
         <div className="ConversationsHost-wrapper">
           { conversations.map(id =>
-            <div key={ id } className="ConversationsHost-hosted-conversation">
-              <HostedConversation id={ id } onClick={ () => this.setState({ focused: id }) } />
+            <div key={ id } className="ConversationsHost-popup">
+              <ConversationPopup id={ id } onClick={ () => this.setState({ focused: id }) } />
             </div>
           ) }
         </div>

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { push } from 'react-router-redux';
 
-import Modal, { Header, Body, Footer } from '../ui/Modal';
+import Modal, { Header, Body, Footer } from '../modals';
 
-import Button from '../ui/Button';
+import Button from '../forms/Button';
 
 import { createShout, saveShoutDraft, resetShoutDraft } from '../actions/shouts';
 import { openModal } from '../actions/ui';
@@ -131,7 +131,6 @@ export class CreateShoutModal extends Component {
 
           <Button
             ref="cancel"
-            size="small"
             key="cancel"
             type="button"
             onClick={ this.hide }
@@ -144,9 +143,8 @@ export class CreateShoutModal extends Component {
 
           <Button
             onClick={ () => this.form.submit() }
-            size="small"
             key="submit"
-            action="primary"
+            kind="primary"
             disabled={ isCreating || isUploading }>
             { submitLabel }
           </Button>

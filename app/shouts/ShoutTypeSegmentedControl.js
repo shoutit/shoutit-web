@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { injectIntl, defineMessages } from 'react-intl';
-import SegmentedControl from '../ui/SegmentedControl';
+import SegmentedControl from '../forms/SegmentedControl';
 
 const MESSAGES = defineMessages({
   offers: {
