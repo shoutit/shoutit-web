@@ -1,4 +1,5 @@
 @import '../styles/constants.scss';
+@import '../styles/mixins/mq.scss';
 
 .ResponsiveLayout {
   text-align: center;
@@ -11,31 +12,37 @@
   }
 }
 
+@include smartphone() {
+  .ResponsiveLayout.horizontal-space {
+    padding: 0 $horizontal-spacing/3;
+  }
+}
+
 .ResponsiveLayout.min-width {
   &.default > span {
-    min-width: 768px;
     display: inline-block;
+    min-width: 768px;
   }
 }
 .ResponsiveLayout.min-width {
   &.default > span {
-    min-width: 768px;
     display: inline-block;
+    min-width: 768px;
   }
   &.small > span {
-    min-width: 280px;
     display: inline-block;
+    min-width: 280px;
   }
 }
 
 
 .ResponsiveLayout.max-width {
   &.default > span {
-    max-width: 1200px;
     display: inline-block;
+    max-width: 1200px;
   }
   &.small > span {
-    max-width: 530px;
     display: inline-block;
+    max-width: 530px;
   }
 }
