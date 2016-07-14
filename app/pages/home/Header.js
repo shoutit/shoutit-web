@@ -20,10 +20,10 @@ class HomePageHeader extends Component {
         </span>
         <span className="HomePageHeader-actions">
           <Button to="/login" startElement={ <ProfileAvatar /> }>
-            <FormattedMessage id="pages.home.header.loginButton" defaultMessage="Login" />
+            <FormattedMessage id="pages.home.layout.Header.LoginButton" defaultMessage="Login" />
           </Button>
           <Button className="HomePageHeader-signup" kind="primary" to="/signup">
-            <FormattedMessage id="pages.home.header.signupButton" defaultMessage="Sign up" />
+            <FormattedMessage id="pages.home.layout.Header.SignupButton" defaultMessage="Sign up" />
           </Button>
         </span>
       </div>

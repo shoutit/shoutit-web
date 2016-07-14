@@ -1,10 +1,10 @@
 [
   {
-    "id": "pages.home.header.loginButton",
+    "id": "pages.home.layout.Header.LoginButton",
     "defaultMessage": "Login"
   },
   {
-    "id": "pages.home.header.signupButton",
+    "id": "pages.home.layout.Header.SignupButton",
     "defaultMessage": "Sign up"
   }
 ]
