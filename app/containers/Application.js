@@ -151,7 +151,7 @@ export class Application extends React.Component {
               { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
               { name: 'keywords', content: 'shoutit' },
               { property: 'fb:app_id', content: config.facebookId },
-              { property: 'og:url', content: `${config.siteUrl}${props.currentUrl}` },
+              { property: 'og:url', content: `${config.siteUrl}${props.currentUrl}`.replace(/\/$/, '') },
               { property: 'og:locale', content: 'en_US' },
               { property: 'og:site_name', content: 'Shoutit' },
               { property: 'og:type', content: 'website' },
