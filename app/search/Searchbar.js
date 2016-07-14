@@ -26,6 +26,7 @@ export class Searchbar extends Component {
   static propTypes = {
     currentLocation: PropTypes.object.isRequired,
     autosuggest: PropTypes.bool,
+    showLocation: PropTypes.bool,
     locale: PropTypes.string.isRequired,
     query: PropTypes.string.isRequired,
     searchTags: PropTypes.func.isRequired,
@@ -38,6 +39,7 @@ export class Searchbar extends Component {
 
   static defaultProps = {
     autosuggest: true,
+    showLocation: true,
   }
 
   constructor(props) {
@@ -124,7 +126,7 @@ export class Searchbar extends Component {
                 name="query"
                 placeholder={ placeholder }
                 value={ this.state.query }
-                startElement={
+                startElement={ this.props.showLocation && 
                   <CountryFlag
                     size="small"
                     tooltipPlacement="bottom"
