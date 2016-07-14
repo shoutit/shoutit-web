@@ -170,7 +170,6 @@ export class Search extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <Page className="Search">
         <Helmet title={ this.props.title } />

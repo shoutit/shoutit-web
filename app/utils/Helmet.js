@@ -3,7 +3,7 @@ import ReactHelmet from 'react-helmet';
 import { injectIntl, defineMessages } from 'react-intl';
 import union from 'lodash/union';
 import { connect } from 'react-redux';
-import { ogPrefix } from '../config';
+import { ogPrefix, imagesPath } from '../config';
 
 import { getUnreadNotificationsCount, getUnreadConversationsCount } from '../reducers/session';
 import { getVariation } from '../utils/APIUtils';
@@ -21,7 +21,7 @@ class Helmet extends Component {
   }
 
   static defaultProps = {
-    images: [],
+    images: [`${imagesPath}/opengraph-v1-1.png`],
     hideBadge: false,
   }
 
@@ -35,7 +35,7 @@ class Helmet extends Component {
     }
     const otherMeta = [
         { name: 'description', content: description },
-        { property: 'og:title', content: title },
+        { property: 'og:title', content: title || this.props.defaultTitle },
         { property: 'og:description', content: description },
     ];
     if (this.props.images.length > 2) {
