@@ -56,7 +56,7 @@ export class Header extends Component {
           </div>
 
           <div className="Header-search">
-            <Searchbar />
+            <Searchbar showLocation={ false } />
           </div>
 
           <div className="Header-toolbar">
