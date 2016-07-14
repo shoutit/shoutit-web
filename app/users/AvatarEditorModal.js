@@ -62,7 +62,7 @@ export class AvatarEditorModal extends Component {
 
   handleSaveClick() {
     const { profile, dispatch } = this.props;
-    const image = this.refs.editor.getImage();
+    const image = this.refs.editor.getImageScaledToCanvas().toDataURL();
 
     const uploadRequest = request.post('/api/file/user')
         .send({ image })
