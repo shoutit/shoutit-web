@@ -18,7 +18,7 @@ if (process.env.BROWSER) {
   require('./ShoutPreview.scss');
 }
 
-function ShoutPreview({ shout, onProfileAvatarClick, showProfile = true, link = true, ...props }) {
+function ShoutPreview({ shout, onProfileAvatarClick, showDate = true, showProfile = true, link = true, ...props }) {
 
   const content = (
     <Card className="ShoutPreview" { ...props }>
@@ -33,19 +33,23 @@ function ShoutPreview({ shout, onProfileAvatarClick, showProfile = true, link = 
           </h3>
           <ShoutType shout={ shout } />
         </div>
-        <div className="ShoutPreview-footer">
-          { showProfile &&
-            <Popover
-              trigger={ ['hover', 'focus'] }
-              overlay={ <ProfilePreview id={ shout.profile.id } /> }
-            >
-              <span onClick={ onProfileAvatarClick }>
-                <ProfileAvatar profile={ shout.profile } size="small" />
-              </span>
-            </Popover>
-          }
-          <TimeAgo date={ shout.datePublished } />
-        </div>
+        { (showProfile || showDate) &&
+          <div className="ShoutPreview-footer">
+            { showProfile &&
+              <Popover
+                trigger={ ['hover', 'focus'] }
+                overlay={ <ProfilePreview id={ shout.profile.id } /> }
+              >
+                <span onClick={ onProfileAvatarClick }>
+                  <ProfileAvatar profile={ shout.profile } size="small" />
+                </span>
+              </Popover>
+            }
+            { showDate &&
+              <TimeAgo date={ shout.datePublished } />
+            }
+          </div>
+         }
       </CardBody>
     </Card>
   );
@@ -64,6 +68,7 @@ ShoutPreview.propTypes = {
   shout: PropTypes.object.isRequired,
   onProfileAvatarClick: PropTypes.func.isRequired,
   showProfile: PropTypes.bool,
+  showDate: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
