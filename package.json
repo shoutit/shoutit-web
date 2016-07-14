@@ -16,7 +16,7 @@
     "build:translations": "babel-node ./scripts/translations.js && git add assets/intl",
     "build:copy_styles": "find app -name '*.scss' | cpio -pdm ./built",
     "build:copy_assets": "cp -r assets built/assets",
-    "dev": "DEBUG=shoutit,shoutit:* NODE_ENV=development babel-watch -D -w app/server -w app/services -w app/server.js index.js",
+    "dev": "DEBUG=shoutit,shoutit:* NODE_ENV=development babel-watch -D -w app/server -w app/services -w app/server.js -w assets/samples index.js",
     "dev:built": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=production npm start",
     "lint": "eslint app",
     "test": "npm run test:unit",
