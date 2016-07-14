@@ -38,8 +38,16 @@ export class ProfileCover extends Component {
       isEditing: false,
       isLoading: false,
       uploadRequest: null,
+      width: 0,
     };
   }
+
+  componentDidMount() {
+    this.setState({
+      width: this.refs.container.offsetWidth,
+    });
+  }
+
 
   handlePictureChange(e) {
     const { files } = e.target;
@@ -73,7 +81,7 @@ export class ProfileCover extends Component {
 
   handleSaveClick() {
     const { profile, dispatch } = this.props;
-    const image = this.refs.editor.getImage();
+    const image = this.refs.editor.getImageScaledToCanvas().toDataURL();
 
     const uploadRequest = request.post('/api/file/user')
       .send({ image })
@@ -125,8 +133,9 @@ export class ProfileCover extends Component {
     if (isEditing) {
       className += ' is-editing';
     }
+    console.log(this.state.width);
     return (
-      <div className={ className }>
+      <div ref="container" className={ className }>
         <div className="ProfileCover-image" style={ style }>
 
           { isEditing &&
@@ -135,6 +144,7 @@ export class ProfileCover extends Component {
                 ref="editor"
                 width="100%"
                 height={ height }
+                width={ this.state.width }
                 image={ image }
                 border={ 0 }
               />
