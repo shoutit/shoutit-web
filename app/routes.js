@@ -29,7 +29,7 @@ const authAppLayout = () => ({
 });
 
 const settingsAppLayout = () => ({
-  showFooter: true, 
+  showFooter: true,
   stickyHeader: false,
 });
 
