@@ -8,6 +8,8 @@
   justify-content: space-around;
   flex-direction: column;
   height: 614px;
+  min-height: 250px;
+  max-height: 100vh;
   padding: $vertical-spacing $horizontal-spacing;
   background-image: url('../../../assets/images/home-hero-bg.jpg');
   background-repeat: no-repeat;
