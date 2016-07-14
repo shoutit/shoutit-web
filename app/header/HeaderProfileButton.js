@@ -42,7 +42,7 @@ export class HeaderProfileButton extends Component {
           className="HeaderProfile-profileLink"
           to={ `/user/${user.username}` }
           onClick={ this.showOverlay }>
-          <ProfileAvatar ref="avatar" profile={ user } size="large" />
+          <ProfileAvatar ref="avatar" profile={ user } size="medium" />
         </Link>
         <Overlay
           arrow

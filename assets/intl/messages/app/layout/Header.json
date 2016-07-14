@@ -1,22 +1,18 @@
 [
   {
-    "id": "header.navbar.search",
-    "defaultMessage": "Browse"
-  },
-  {
-    "id": "header.navbar.discover",
-    "defaultMessage": "Discover"
-  },
-  {
-    "id": "header.createShoutButton",
-    "defaultMessage": "Create Shout"
-  },
-  {
-    "id": "header.loginButton",
+    "id": "layout.Header.LoginButton",
     "defaultMessage": "Login"
   },
   {
-    "id": "header.signupButton",
-    "defaultMessage": "Sign up"
+    "id": "layout.Header.CreateShoutButton",
+    "defaultMessage": "Offer / Request"
+  },
+  {
+    "id": "layout.Navbar.browse",
+    "defaultMessage": "Browse"
+  },
+  {
+    "id": "layout.Navbar.discover",
+    "defaultMessage": "Discover"
   }
 ]

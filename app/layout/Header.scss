@@ -1,45 +1,80 @@
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
 
 .Header {
   position: relative;
   display: flex;
+  flex-direction: column;
+}
+
+.Header-location {
+  margin-left: $horizontal-spacing;
+  display: flex;
   align-items: center;
-  margin: 0 auto 5px;
+  color: $color-text-light;
+  cursor: pointer;
+  span {
+    margin-left: .5em;
+  }
 }
 
-.Header-separator {
-  margin: 0 $horizontal-spacing;
-  position: relative;
-  top: 6px;
+.Header-logo a {
   display: inline-block;
-  height: 20px;
-  content: "";
-  border-right: 1px solid #ccc;
+  position: relative;
+  top: 3px;
 }
 
-.Header-tools {
+.Navbar {
+  display: flex;
+  justify-content: center;
+  font-size: .875em;
+  a {
+    display: inline-block;
+    margin: 0 $horizontal-spacing;
+    padding-bottom: .25em;
+    color: $color-text-light;
+    border-bottom: 1px solid transparent;
+    &.active {
+      color: $color-text;
+      border-color: $color-primary;
+    }
+    // &:hover {
+    //   color: $color-text;
+    // }
+    // &:active {
+    //   color: $color-primary;
+    // }
+  }
+}
+
+.Header-toolbar-loggedIn {
+  display: flex;
+  align-items: center;
+  margin-right: .5em;
   > * {
     margin: 0 .5em;
   }
-}
-
-.Header-links {
-  margin-left: $horizontal-spacing;
-  a {
-    margin: 0 1rem;
-    color: $color-text;
-    padding: .5rem;
+  .ProfileAvatar {
+    width: 30px;
+    height: 30px;
   }
 }
 
-.Header-link-active {
-  border-radius: 0;
-  border-bottom: 2px solid $color-primary;
+.Header-top {
+  display: flex;
+  align-items: center;
+  font-size: .875em;
+
+  flex: 1;
+}
+
+.Header-toolbar {
+  display: flex;
+  align-items: center;
 }
 
 .Header-search {
   display: flex;
-  flex: 1;
   justify-content: center;
   margin: 0 $horizontal-spacing;
+  flex: 1;
 }

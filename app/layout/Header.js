@@ -13,6 +13,8 @@ import HeaderNotificationsButton from '../header/HeaderNotificationsButton';
 import HeaderProfileButton from '../header/HeaderProfileButton';
 import NewShoutModal from '../shouts/NewShoutModal';
 import Searchbar from '../search/Searchbar';
+import CountryFlag from '../location/CountryFlag';
+import LocationModal from '../location/LocationModal';
 
 import { imagesPath } from '../config';
 
@@ -32,64 +34,64 @@ function getDiscoverLink(location) {
 export class Header extends Component {
 
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
+    onNewShoutClick: PropTypes.func.isRequired,
+    onLocationClick: PropTypes.func.isRequired,
     isLoggedIn: PropTypes.bool,
     currentLocation: PropTypes.object,
   };
-
-  constructor(props) {
-    super(props);
-    this.handleNewShoutClick = this.handleNewShoutClick.bind(this);
-
-  }
-
-  handleNewShoutClick() {
-    const { dispatch } = this.props;
-    dispatch(openModal(<NewShoutModal />));
-  }
 
   render() {
     const { currentLocation, isLoggedIn } = this.props;
     return (
       <header className="Header" style={ { position: 'relative' } }>
-        <div className="Header-logo">
-          <Link to="/">
-            <img alt="" height="36" width="113" src={ `${imagesPath}/logo.png` } />
-          </Link>
-        </div>
-
-        <div className="Header-links">
-          <Link to={ `/search${getLocationPath(currentLocation)}` } activeClassName="Header-link-active">
-            <FormattedMessage id="header.navbar.search" defaultMessage="Browse" />
-          </Link>
-          <Link to={ getDiscoverLink(currentLocation) } activeClassName="Header-link-active">
-            <FormattedMessage id="header.navbar.discover" defaultMessage="Discover" />
-          </Link>
-        </div>
-
-        <div className="Header-search">
-          <Searchbar />
-        </div>
-
-        { isLoggedIn ?
-          <div className="Header-tools loggedIn">
-            <HeaderMessagesButton overlayContainer={ this } />
-            <HeaderNotificationsButton overlayContainer={ this } />
-            <Button kind="primary" icon="sparkle" onClick={ this.handleNewShoutClick }>
-              <FormattedMessage id="header.createShoutButton" defaultMessage="Create Shout" />
-            </Button>
-            <HeaderProfileButton overlayContainer={ this } />
-          </div> :
-          <div className="Header-tools loggedOut">
-            <Button to="/login">
-              <FormattedMessage id="header.loginButton" defaultMessage="Login" />
-            </Button>
-            <Button kind="primary" to="/signup">
-              <FormattedMessage id="header.signupButton" defaultMessage="Sign up" />
-            </Button>
+        <div className="Header-top">
+          <div className="Header-logo">
+            <Link to="/">
+              <img alt="" height="36" width="113" src={ `${imagesPath}/logo.png` } />
+            </Link>
           </div>
-        }
+          <div className="Header-location" onClick={ this.props.onLocationClick }>
+            <CountryFlag code={ currentLocation.country } tooltipPlacement="bottom" size="small" />
+            <span>{ currentLocation.city }</span>
+          </div>
 
+          <div className="Header-search">
+            <Searchbar showLocation={ false } />
+          </div>
+
+          <div className="Header-toolbar">
+
+            { isLoggedIn &&
+              <div className="Header-toolbar-loggedIn">
+                <HeaderMessagesButton overlayContainer={ this } />
+                <HeaderNotificationsButton overlayContainer={ this } />
+                <HeaderProfileButton overlayContainer={ this } />
+              </div>
+            }
+
+            { !isLoggedIn &&
+              <Button to="/login">
+                <FormattedMessage id="layout.Header.LoginButton" defaultMessage="Login" />
+              </Button>
+            }
+
+            <Button
+              kind="primary"
+              to={ isLoggedIn ? undefined : '/signup' }
+              onClick={ isLoggedIn ? this.props.onNewShoutClick : undefined }>
+              <FormattedMessage id="layout.Header.CreateShoutButton" defaultMessage="Offer / Request" />
+            </Button>
+
+          </div>
+        </div>
+        <div className="Navbar">
+          <Link to={ `/search${getLocationPath(currentLocation)}` } activeClassName="active">
+            <FormattedMessage id="layout.Navbar.browse" defaultMessage="Browse" />
+          </Link>
+          <Link to={ getDiscoverLink(currentLocation) } activeClassName="active" >
+            <FormattedMessage id="layout.Navbar.discover" defaultMessage="Discover" />
+          </Link>
+        </div>
       </header>
     );
   }
@@ -100,4 +102,11 @@ const mapStateToProps = state => ({
   isLoggedIn: isLoggedIn(state),
 });
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = dispatch => ({
+  onNewShoutClick: () =>
+    dispatch(openModal(<NewShoutModal />)),
+  onLocationClick: () =>
+    dispatch(openModal(<LocationModal />)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
