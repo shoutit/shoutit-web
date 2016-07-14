@@ -87,7 +87,14 @@ class HomePage extends Component {
             <div className="HomePage-shouts">
               {
                 this.props.shouts.map((shout, i) =>
-                  <ShoutPreview link={ false } showProfile={ false } block shout={ shout } key={ i } />
+                  <ShoutPreview
+                    link={ false }
+                    showProfile={ false }
+                    showDate={ false }
+                    block
+                    shout={ shout }
+                    key={ i }
+                    />
                 )
               }
             </div>
