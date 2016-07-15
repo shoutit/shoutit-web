@@ -1,8 +1,7 @@
 
 import * as actionTypes from './actionTypes';
-import { TAGS, PROFILES } from '../schemas';
-import { loadShouts } from '../actions/shouts';
-export const searchTags = searchParams => ({
+import { TAGS, PROFILES, SHOUTS } from '../schemas';
+export const searchTags = query => ({
   types: [
     actionTypes.SEARCH_TAGS_START,
     actionTypes.SEARCH_TAGS_SUCCESS,
@@ -11,12 +10,12 @@ export const searchTags = searchParams => ({
   service: {
     name: 'tags',
     schema: TAGS,
-    params: searchParams,
+    params: query,
   },
-  payload: { searchParams },
+  payload: { query },
 });
 
-export const searchProfiles = searchParams => ({
+export const searchProfiles = query => ({
   types: [
     actionTypes.SEARCH_PROFILES_START,
     actionTypes.SEARCH_PROFILES_SUCCESS,
@@ -25,21 +24,27 @@ export const searchProfiles = searchParams => ({
   service: {
     name: 'profiles',
     schema: PROFILES,
-    params: searchParams,
+    params: query,
   },
-  payload: { searchParams },
+  payload: { query },
 });
 
-export const searchShouts = (location, params, endpoint) => {
-  return loadShouts(location, params, endpoint, [
-    actionTypes.SEARCH_SHOUTS_START,
-    actionTypes.SEARCH_SHOUTS_SUCCESS,
-    actionTypes.SEARCH_SHOUTS_FAILURE,
-  ]);
-}
-;
-export const invalidateSearch = () => {
+
+export const searchShouts = query => {
   return {
-    type: actionTypes.INVALIDATE_SEARCH,
+    types: [
+      actionTypes.SEARCH_SHOUTS_START,
+      actionTypes.SEARCH_SHOUTS_SUCCESS,
+      actionTypes.SEARCH_SHOUTS_FAILURE,
+    ],
+    service: {
+      name: 'shouts',
+      schema: SHOUTS,
+      params: query,
+    },
+    payload: { query },
   };
+
 };
+
+export const invalidateSearch = () => ({ type: actionTypes.INVALIDATE_SEARCH });

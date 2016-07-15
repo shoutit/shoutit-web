@@ -10,7 +10,6 @@
     background-attachment: fixed;
     background-size: (366px * .75) (600px * .75);
   }
-  
   &.stickyHeader {
     display: flex;
     flex-direction: column;
@@ -27,6 +26,7 @@
   z-index: $z-index-header;
   width: 100%;
   background-color: $white;
+  box-shadow: $box-shadow-depth-0;
   -webkit-font-smoothing: subpixel-antialiased;
 
   .Application.stickyHeader & {
@@ -44,6 +44,7 @@
   .Application.stickyHeader & {
     min-height: calc(100vh - #{$header-height});
     padding-top: $header-height;
+
     flex: 1;
   }
 }

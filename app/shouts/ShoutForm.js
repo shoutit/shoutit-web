@@ -184,6 +184,7 @@ export class ShoutForm extends Component {
 
         { mode === 'update' &&
           <TextArea
+            maxLength={ 1000 }
             autosize
             rows={ 2 }
             maxRows={ 10 }
