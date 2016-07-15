@@ -1,0 +1,62 @@
+@import '../../styles/constants.scss';
+
+.Header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.Header-location {
+  margin-left: $horizontal-spacing;
+  display: flex;
+  align-items: center;
+  color: $color-text-light;
+  cursor: pointer;
+  span {
+    margin-left: .5em;
+  }
+}
+
+.Header-logo a {
+  display: inline-block;
+  position: relative;
+  top: 3px;
+}
+
+.Header-toolbar-loggedIn {
+  display: flex;
+  align-items: center;
+  margin-right: .5em;
+  > * {
+    margin: 0 .5em;
+  }
+  .ProfileAvatar {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.Header-top {
+  display: flex;
+  align-items: center;
+  font-size: .875em;
+  flex: 1;
+
+  .Header.small & {
+    margin-top: .5em;
+  }
+}
+
+
+.Header-toolbar {
+  display: flex;
+  align-items: center;
+}
+
+.Header-search {
+  display: flex;
+  justify-content: center;
+  margin: 0 $horizontal-spacing;
+  flex: 1;
+}
