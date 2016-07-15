@@ -8,8 +8,6 @@ import NewShoutModal from '../../shouts/NewShoutModal';
 import Searchbar from '../../search/Searchbar';
 import LocationModal from '../../location/LocationModal';
 
-import { Smartphone, Desktop } from '../../utils/MediaQueries';
-
 import { openModal } from '../../actions/ui';
 
 import Navbar from './Navbar';
