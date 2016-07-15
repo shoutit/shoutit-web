@@ -2,6 +2,7 @@
 
 import React, { PropTypes, Component } from 'react';
 import Sticky from '@economist/component-stickyfill';
+import { Desktop } from '../utils/MediaQueries';
 
 import MiniFooter from '../layout/MiniFooter';
 import './Page.scss';
@@ -50,14 +51,20 @@ export class Body extends Component {
 }
 
 export function StartColumn(props) {
-  return <PageColumn { ...props } classModifier="start" />;
+  return (
+    <Desktop>
+      <PageColumn { ...props } classModifier="start" />
+    </Desktop>
+  );
 }
 export function EndColumn({ children, footer = false, ...props }) {
   return (
-    <PageColumn { ...props } classModifier="end">
-      { children }
-      { footer && <MiniFooter /> }
-    </PageColumn>
+    <Desktop>
+      <PageColumn { ...props } classModifier="end">
+        { children }
+        { footer && <MiniFooter /> }
+      </PageColumn>
+    </Desktop>
   );
 }
 EndColumn.propTypes = {
