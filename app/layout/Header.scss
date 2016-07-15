@@ -32,6 +32,7 @@
     margin: 0 $horizontal-spacing;
     padding-bottom: .25em;
     color: $color-text-light;
+    margin-bottom: -1px;
     border-bottom: 1px solid transparent;
     &.active {
       color: $color-text;

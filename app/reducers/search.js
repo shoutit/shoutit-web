@@ -16,14 +16,15 @@ export default function (state = initialState, action) {
     case actionTypes.SEARCH_SHOUTS_START:
     case actionTypes.SEARCH_PROFILES_START:
     case actionTypes.SEARCH_TAGS_START:
-      state = { ...state,
-        query: action.payload.searchParams.search,
+      state = {
+        ...state,
+        query: action.payload.query,
       };
       break;
     case actionTypes.SEARCH_SHOUTS_SUCCESS:
     case actionTypes.SEARCH_PROFILES_SUCCESS:
     case actionTypes.SEARCH_TAGS_SUCCESS:
-      if (state.query !== action.payload.searchParams.search) {
+      if (state.query.search !== action.payload.query.search) {
         // Ignore results coming from previous seaerches
         return state;
       }
