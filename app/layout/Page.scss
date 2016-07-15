@@ -24,12 +24,6 @@
   }
 }
 
-@include tablet() {
-  .PageColumn {
-    display: none;
-  }  
-}
-
 .PageBody {
   position: relative;
   flex: 1;
