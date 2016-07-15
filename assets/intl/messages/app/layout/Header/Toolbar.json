@@ -1,0 +1,10 @@
+[
+  {
+    "id": "layout.Header.LoginButton",
+    "defaultMessage": "Login"
+  },
+  {
+    "id": "layout.Header.CreateShoutButton",
+    "defaultMessage": "Offer / Request"
+  }
+]

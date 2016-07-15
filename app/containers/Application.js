@@ -14,6 +14,8 @@ import { identifyOnMixpanel, trackWithMixpanel } from '../utils/mixpanel';
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
 import ResponsiveLayout from '../layout/ResponsiveLayout';
+import { Desktop, Smartphone } from '../utils/MediaQueries';
+
 import { ModalHost } from '../modals';
 import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
@@ -172,13 +174,12 @@ export class Application extends React.Component {
           { applicationLayout.showHeader &&
             <div className="Application-header">
               <ResponsiveLayout { ...responsiveLayoutProps }>
-                <Header
-                  history={ props.history }
-                  flux={ props.flux }
-                  chat={ props.chat }
-                  conversations={ props.conversations }
-                  location={ props.location }
-                />
+                <Desktop>
+                  <Header layout="full" />
+                </Desktop>
+                <Smartphone>
+                  <Header layout="small" />
+                </Smartphone>
               </ResponsiveLayout>
             </div>
           }
