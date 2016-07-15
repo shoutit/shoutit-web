@@ -21,7 +21,7 @@ class Helmet extends Component {
   }
 
   static defaultProps = {
-    images: [`${imagesPath}/opengraph-v1-1.png`],
+    images: [`${imagesPath}/opengraph-v2-1.png`],
     hideBadge: false,
   }
 
