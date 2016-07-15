@@ -47,7 +47,7 @@ export class Header extends Component {
         <div className="Header-top">
           <div className="Header-logo">
             <Link to="/">
-              <img alt="" height="36" width="113" src={ `${imagesPath}/logo.png` } />
+              <img alt="" height="36" width="113" src={ `${imagesPath}/logo.png?v2` } />
             </Link>
           </div>
           <div className="Header-location" onClick={ this.props.onLocationClick }>
