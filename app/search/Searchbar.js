@@ -87,15 +87,15 @@ export class Searchbar extends Component {
     this.setState({ query });
   }
 
-  startSearch(query) {
+  startSearch(search) {
     this.setState({
       showOverlay: true,
     });
     const params = {
-      search: query,
+      search,
       page_size: 5,
     };
-    this.props.searchShouts(this.props.currentLocation, params);
+    this.props.searchShouts({ ...params, ...this.props.currentLocation });
     this.props.searchTags(params);
     this.props.searchProfiles(params);
   }
@@ -126,7 +126,7 @@ export class Searchbar extends Component {
                 name="query"
                 placeholder={ placeholder }
                 value={ this.state.query }
-                startElement={ this.props.showLocation && 
+                startElement={ this.props.showLocation &&
                   <CountryFlag
                     size="small"
                     tooltipPlacement="bottom"
