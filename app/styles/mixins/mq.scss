@@ -19,7 +19,7 @@
 }
 
 @mixin desktop() {
-  @include mq($min-width: 768px) {
+  @include mq($min-width: 769px) {
     @content;
   }
 }
