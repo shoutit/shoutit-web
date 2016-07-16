@@ -1,12 +1,13 @@
 /* eslint-env browser */
 
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 
 import { getCurrentLocale, isRtl, getIntlMessages } from '../reducers/i18n';
 import { getCurrentUrl, getRoutingError } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
+import { getDevice } from '../reducers/browser';
 
 import Helmet from '../utils/Helmet';
 import { identifyOnMixpanel, trackWithMixpanel } from '../utils/mixpanel';
@@ -14,6 +15,7 @@ import { identifyOnMixpanel, trackWithMixpanel } from '../utils/mixpanel';
 import Header from '../layout/Header';
 import Footer from '../layout/Footer';
 import ResponsiveLayout from '../layout/ResponsiveLayout';
+
 import { ModalHost } from '../modals';
 import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
@@ -44,7 +46,19 @@ const fetchData = (dispatch, state) => {
   return Promise.all(promises);
 };
 
-export class Application extends React.Component {
+export class Application extends Component {
+
+  static propTypes = {
+    loggedUser: PropTypes.object,
+    currentLocation: PropTypes.object,
+    error: PropTypes.object,
+    children: PropTypes.element.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
+    rtl: PropTypes.bool.isRequired,
+    messages: PropTypes.object.isRequired,
+    device: PropTypes.string,
+  };
 
   static fetchData = fetchData;
 
@@ -146,7 +160,10 @@ export class Application extends React.Component {
       <IntlProvider locale={ locale } messages={ this.props.messages }>
         <div className={ className }>
           <Helmet
-            htmlAttributes={ { lang: props.locale, dir: props.rtl ? 'rtl' : 'ltr' } }
+            htmlAttributes={ {
+              lang: props.locale,
+              dir: props.rtl ? 'rtl' : 'ltr',
+            } }
             meta={ [
               { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
               { name: 'keywords', content: 'shoutit' },
@@ -172,13 +189,7 @@ export class Application extends React.Component {
           { applicationLayout.showHeader &&
             <div className="Application-header">
               <ResponsiveLayout { ...responsiveLayoutProps }>
-                <Header
-                  history={ props.history }
-                  flux={ props.flux }
-                  chat={ props.chat }
-                  conversations={ props.conversations }
-                  location={ props.location }
-                />
+                <Header layout={ this.props.device } />
               </ResponsiveLayout>
             </div>
           }
@@ -207,18 +218,8 @@ export class Application extends React.Component {
   }
 }
 
-Application.propTypes = {
-  loggedUser: PropTypes.object,
-  currentLocation: PropTypes.object,
-  error: PropTypes.object,
-  children: PropTypes.element.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
-  rtl: PropTypes.bool.isRequired,
-  messages: PropTypes.object.isRequired,
-};
-
 const mapStateToProps = state => ({
+  device: getDevice(state),
   currentLocation: getCurrentLocation(state),
   currentUrl: getCurrentUrl(state),
   error: getRoutingError(state),

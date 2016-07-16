@@ -3,16 +3,15 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import Icon from '../widgets/Icon';
-import Overlay from '../widgets/Overlay';
+import ProfileAvatar from '../../users/ProfileAvatar';
+import Overlay from '../../widgets/Overlay';
 
-import HeaderMessagesOverlay from './HeaderMessagesOverlay';
-import { getUnreadConversationsCount } from '../reducers/session';
-
-export class HeaderMessagesButton extends Component {
+import ProfileOverlay from './ProfileOverlay';
+import { getLoggedUser } from '../../reducers/session';
+export class ProfileButton extends Component {
 
   static propTypes = {
-    badge: PropTypes.number,
+    user: PropTypes.object.isRequired,
     overlayContainer: PropTypes.oneOfType([PropTypes.object, PropTypes.element, PropTypes.func]),
   }
 
@@ -36,23 +35,26 @@ export class HeaderMessagesButton extends Component {
   }
 
   render() {
-    const { badge } = this.props;
+    const { user } = this.props;
     return (
       <span>
-        <Link to="/messages" onClick={ this.showOverlay } style={ { position: 'relative' } }>
-          <Icon ref="icon" name="balloon-dots" badge={ badge } />
+        <Link
+          className="HeaderProfile-profileLink"
+          to={ `/user/${user.username}` }
+          onClick={ this.showOverlay }>
+          <ProfileAvatar ref="avatar" profile={ user } size="medium" />
         </Link>
         <Overlay
           arrow
+          inverted
           rootClose
-          style={ { width: 400, marginLeft: 4 } }
+          style={ { minWidth: 150, padding: '0 .5rem' } }
           show={ this.state.showOverlay }
           placement="bottom"
-          container={ this.props.overlayContainer }
           onHide={ this.hideOverlay }
-          target={ () => this.refs.icon.getIconNode() }
+          target={ () => this.refs.avatar.getImageNode() }
         >
-          <HeaderMessagesOverlay closeOverlay={ this.hideOverlay } />
+          <ProfileOverlay onItemClick={ this.hideOverlay } />
         </Overlay>
       </span>
     );
@@ -60,7 +62,7 @@ export class HeaderMessagesButton extends Component {
 }
 
 const mapStateToProps = state => ({
-  badge: getUnreadConversationsCount(state),
+  user: getLoggedUser(state),
 });
 
-export default connect(mapStateToProps)(HeaderMessagesButton);
+export default connect(mapStateToProps)(ProfileButton);

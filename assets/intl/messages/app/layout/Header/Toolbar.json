@@ -6,13 +6,5 @@
   {
     "id": "layout.Header.CreateShoutButton",
     "defaultMessage": "Offer / Request"
-  },
-  {
-    "id": "layout.Navbar.browse",
-    "defaultMessage": "Browse"
-  },
-  {
-    "id": "layout.Navbar.discover",
-    "defaultMessage": "Discover"
   }
 ]

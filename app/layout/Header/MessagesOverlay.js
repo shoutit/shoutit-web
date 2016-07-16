@@ -2,17 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { openConversation } from '../actions/conversations';
-import { getCurrentUrl } from '../reducers/routing';
+import { openConversation } from '../../actions/conversations';
+import { getCurrentUrl } from '../../reducers/routing';
 
 let ConversationsList;
 
 if (process.env.BROWSER) {
-  ConversationsList = require('../chat/ConversationsList.js').default;
-  require('../styles/ListOverlay.scss');
+  ConversationsList = require('../../chat/ConversationsList.js').default;
+  require('../../styles/ListOverlay.scss');
 }
 
-export class HeaderMessagesOverlay extends Component {
+export class MessagesOverlay extends Component {
   render() {
     const { onConversationClick, closeOverlay } = this.props;
     return (
@@ -41,7 +41,7 @@ export class HeaderMessagesOverlay extends Component {
   }
 }
 
-HeaderMessagesOverlay.propTypes = {
+MessagesOverlay.propTypes = {
   closeOverlay: PropTypes.func.isRequired,
   onConversationClick: PropTypes.func.isRequired,
 };
@@ -69,4 +69,4 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, null, mergeProps)(HeaderMessagesOverlay);
+export default connect(mapStateToProps, null, mergeProps)(MessagesOverlay);

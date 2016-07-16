@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import ScrollableNotifications from '../notifications/ScrollableNotifications';
-import { getNotifications } from '../reducers/paginated/notifications';
-import { resetNotifications } from '../actions/notifications';
+import ScrollableNotifications from '../../notifications/ScrollableNotifications';
+import { getNotifications } from '../../reducers/paginated/notifications';
+import { resetNotifications } from '../../actions/notifications';
 
-import '../styles/ListOverlay.scss';
+import '../../styles/ListOverlay.scss';
 
-export function HeaderNotificationsOverlay({ reset, closeOverlay, unreadCount = 0 }) {
+export function NotificationsOverlay({ reset, closeOverlay, unreadCount = 0 }) {
   return (
     <div className="ListOverlay">
       <div className="ListOverlay-header">
@@ -35,7 +35,7 @@ export function HeaderNotificationsOverlay({ reset, closeOverlay, unreadCount = 
   );
 }
 
-HeaderNotificationsOverlay.propTypes = {
+NotificationsOverlay.propTypes = {
   reset: PropTypes.func.isRequired,
   closeOverlay: PropTypes.func.isRequired,
   unreadCount: PropTypes.number.isRequired,
@@ -49,4 +49,4 @@ const mapDispatchToProps = dispatch => ({
   reset: () => dispatch(resetNotifications()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderNotificationsOverlay);
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationsOverlay);
