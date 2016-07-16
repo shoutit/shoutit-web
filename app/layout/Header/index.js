@@ -24,10 +24,10 @@ export class Header extends Component {
     onLocationClick: PropTypes.func.isRequired,
     isLoggedIn: PropTypes.bool,
     currentLocation: PropTypes.object,
-    layout: PropTypes.oneOf(['small', 'full']),
+    layout: PropTypes.oneOf(['desktop', 'mobile']),
   };
 
-  renderFullHeader() {
+  renderDesktopHeader() {
     return (
       <header className="Header full">
         <div className="Header-top">
@@ -43,7 +43,7 @@ export class Header extends Component {
     );
   }
 
-  renderSmallHeader() {
+  renderMobileHeader() {
     return (
       <header className="Header small">
         <div className="Header-top">
@@ -59,7 +59,7 @@ export class Header extends Component {
     );
   }
   render() {
-    return this.props.layout === 'full' ? this.renderFullHeader() : this.renderSmallHeader();
+    return this.props.layout === 'desktop' ? this.renderDesktopHeader() : this.renderMobileHeader();
   }
 }
 

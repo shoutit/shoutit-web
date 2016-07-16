@@ -1981,6 +1981,18 @@
         }
       }
     },
+    "redux-responsive": {
+      "version": "2.2.0",
+      "from": "redux-responsive@latest",
+      "resolved": "https://registry.npmjs.org/redux-responsive/-/redux-responsive-2.2.0.tgz",
+      "dependencies": {
+        "mediaquery": {
+          "version": "0.0.3",
+          "from": "mediaquery@0.0.3",
+          "resolved": "https://registry.npmjs.org/mediaquery/-/mediaquery-0.0.3.tgz"
+        }
+      }
+    },
     "redux-thunk": {
       "version": "2.1.0",
       "from": "https://registry.npmjs.org/redux-thunk/-/redux-thunk-2.1.0.tgz",
