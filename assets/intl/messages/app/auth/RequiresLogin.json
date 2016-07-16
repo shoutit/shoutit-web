@@ -1,0 +1,10 @@
+[
+  {
+    "id": "requiresLogin.message",
+    "defaultMessage": "Please {linkLabel} to access this page."
+  },
+  {
+    "id": "requiresLogin.linkLabel",
+    "defaultMessage": "login"
+  }
+]

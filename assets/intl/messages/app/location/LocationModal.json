@@ -1,0 +1,10 @@
+[
+  {
+    "id": "locationModal.title",
+    "defaultMessage": "Change your location"
+  },
+  {
+    "id": "locationModal.closeButton",
+    "defaultMessage": "Close"
+  }
+]

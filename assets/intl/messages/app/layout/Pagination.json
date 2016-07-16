@@ -1,0 +1,10 @@
+[
+  {
+    "id": "layout.Pagination.previousLabel",
+    "defaultMessage": "Previous"
+  },
+  {
+    "id": "layout.Pagination.nextLabel",
+    "defaultMessage": "Next"
+  }
+]
