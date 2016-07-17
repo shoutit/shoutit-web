@@ -1,5 +1,6 @@
 @import '../styles/constants.scss';
 @import '../styles/mixins/ellipsis.scss';
+@import '../styles/mixins/mq.scss';
 $card-border-radius: 2px;
 
 .Card {
@@ -27,6 +28,11 @@ $card-border-radius: 2px;
   }
 }
 
+@include desktop() {
+  .Card.size-flexible-medium {
+    max-width: 320px;
+  }
+}
 .CardTitle {
   padding: $vertical-spacing $horizontal-spacing;
   h4 {
