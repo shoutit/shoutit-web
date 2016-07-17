@@ -12,7 +12,12 @@ class Location extends Component {
   render() {
     return (
       <div className="Header-location" onClick={ this.props.onClick }>
-        <CountryFlag code={ this.props.location.country } tooltipPlacement="bottom" size="small" />
+        <CountryFlag
+          rounded={ false }
+          code={ this.props.location.country }
+          tooltipPlacement="bottom"
+          size="small"
+        />
         { !this.props.hideCity && <span>{ this.props.location.city }</span> }
       </div>
     );
