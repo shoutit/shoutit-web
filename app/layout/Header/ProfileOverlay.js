@@ -5,14 +5,14 @@ import { FormattedMessage } from 'react-intl';
 
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { logout } from '../actions/session';
-import { getLoggedUser } from '../reducers/session';
+import { logout } from '../../actions/session';
+import { getLoggedUser } from '../../reducers/session';
 
-import './HeaderProfileOverlay.scss';
+import './ProfileOverlay.scss';
 
-export function HeaderProfileOverlay({ profile, onLogoutClick, onItemClick }) {
+export function ProfileOverlay({ profile, onLogoutClick, onItemClick }) {
   return (
-    <ul className="HeaderProfileOverlay">
+    <ul className="ProfileOverlay">
       <li>
         <Link onClick={ onItemClick } to={ `/user/${profile.username}` }>
           <FormattedMessage
@@ -42,7 +42,7 @@ export function HeaderProfileOverlay({ profile, onLogoutClick, onItemClick }) {
   );
 }
 
-HeaderProfileOverlay.propTypes = {
+ProfileOverlay.propTypes = {
   profile: PropTypes.object.isRequired,
   onLogoutClick: PropTypes.func.isRequired,
   onItemClick: PropTypes.func.isRequired,
@@ -59,4 +59,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderProfileOverlay);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileOverlay);

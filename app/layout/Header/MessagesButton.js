@@ -1,17 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
-import { getUnreadNotificationsCount } from '../reducers/session';
-import Icon from '../widgets/Icon';
-import Overlay from '../widgets/Overlay';
+import { Link } from 'react-router';
 
-import HeaderNotificationsOverlay from './HeaderNotificationsOverlay';
+import Icon from '../../widgets/Icon';
+import Overlay from '../../widgets/Overlay';
 
-export class HeaderNotificationsButton extends Component {
+import MessagesOverlay from './MessagesOverlay';
+import { getUnreadConversationsCount } from '../../reducers/session';
+
+export class MessagesButton extends Component {
 
   static propTypes = {
     badge: PropTypes.number,
-    overlayContainer: PropTypes.oneOfType([PropTypes.object, PropTypes.element, PropTypes.func]),
   }
 
   constructor(props) {
@@ -24,7 +25,8 @@ export class HeaderNotificationsButton extends Component {
     showOverlay: false,
   }
 
-  showOverlay() {
+  showOverlay(e) {
+    e.preventDefault();
     this.setState({ showOverlay: true });
   }
 
@@ -33,21 +35,21 @@ export class HeaderNotificationsButton extends Component {
   }
 
   render() {
-    const { badge, overlayContainer } = this.props;
     return (
       <span>
-        <Icon ref="icon" onClick={ this.showOverlay } name="bell" badge={ badge } />
+        <Link to="/messages" onClick={ this.showOverlay } style={ { position: 'relative' } }>
+          <Icon ref="icon" name="balloon-dots" badge={ this.props.badge } />
+        </Link>
         <Overlay
           arrow
           rootClose
           style={ { width: 400, marginLeft: 4 } }
           show={ this.state.showOverlay }
           placement="bottom"
-          container={ overlayContainer }
           onHide={ this.hideOverlay }
           target={ () => this.refs.icon.getIconNode() }
         >
-          <HeaderNotificationsOverlay closeOverlay={ this.hideOverlay } />
+          <MessagesOverlay closeOverlay={ this.hideOverlay } />
         </Overlay>
       </span>
     );
@@ -55,7 +57,7 @@ export class HeaderNotificationsButton extends Component {
 }
 
 const mapStateToProps = state => ({
-  badge: getUnreadNotificationsCount(state),
+  badge: getUnreadConversationsCount(state),
 });
 
-export default connect(mapStateToProps)(HeaderNotificationsButton);
+export default connect(mapStateToProps)(MessagesButton);

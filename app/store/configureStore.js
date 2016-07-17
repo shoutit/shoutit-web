@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import { createResponsiveStoreEnhancer } from 'redux-responsive';
 
 import rootReducer from '../reducers';
 import services from '../middlewares/services';
@@ -23,6 +24,7 @@ export default function configureStore(initialState, { fetchr, devToolsExtension
     rootReducer,
     initialState,
     compose(
+      createResponsiveStoreEnhancer({ calculateStateInitially: process.env.BROWSER }),
       applyMiddleware(
         services(fetchr),
         routing,

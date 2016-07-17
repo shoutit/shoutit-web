@@ -14,6 +14,7 @@ export default class Button extends Component {
     size: PropTypes.oneOf(['small', 'medium']),
     icon: PropTypes.string,
     block: PropTypes.bool,
+    iconButton: PropTypes.bool,
     className: PropTypes.string,
     element: PropTypes.string,
   }
@@ -21,6 +22,7 @@ export default class Button extends Component {
   static defaultProps = {
     kind: 'default',
     block: false,
+    iconButton: false,
     element: 'button',
   }
 
@@ -61,9 +63,14 @@ export default class Button extends Component {
             { this.props.startElement }
           </span>
         }
-        <span className="Button-label">
-          { children }
-        </span>
+        { this.props.iconButton ?
+          <span className="Button-icon">
+            { children }
+          </span> :
+          <span className="Button-label">
+            { children }
+          </span>
+        }
       </span>
     );
 

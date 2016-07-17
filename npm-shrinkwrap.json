@@ -1774,6 +1774,35 @@
         }
       }
     },
+    "react-responsive": {
+      "version": "1.1.4",
+      "from": "react-responsive@latest",
+      "resolved": "https://registry.npmjs.org/react-responsive/-/react-responsive-1.1.4.tgz",
+      "dependencies": {
+        "hyphenate-style-name": {
+          "version": "1.0.1",
+          "from": "hyphenate-style-name@>=1.0.0 <2.0.0",
+          "resolved": "https://registry.npmjs.org/hyphenate-style-name/-/hyphenate-style-name-1.0.1.tgz"
+        },
+        "matchmedia": {
+          "version": "0.1.2",
+          "from": "matchmedia@>=0.1.2 <0.2.0",
+          "resolved": "https://registry.npmjs.org/matchmedia/-/matchmedia-0.1.2.tgz",
+          "dependencies": {
+            "css-mediaquery": {
+              "version": "0.1.2",
+              "from": "css-mediaquery@>=0.1.2 <0.2.0",
+              "resolved": "https://registry.npmjs.org/css-mediaquery/-/css-mediaquery-0.1.2.tgz"
+            }
+          }
+        },
+        "object-assign": {
+          "version": "4.1.0",
+          "from": "object-assign@>=4.0.1 <5.0.0",
+          "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-4.1.0.tgz"
+        }
+      }
+    },
     "react-router": {
       "version": "2.3.0",
       "from": "https://registry.npmjs.org/react-router/-/react-router-2.3.0.tgz",
@@ -1949,6 +1978,18 @@
           "version": "0.2.4",
           "from": "https://registry.npmjs.org/symbol-observable/-/symbol-observable-0.2.4.tgz",
           "resolved": "https://registry.npmjs.org/symbol-observable/-/symbol-observable-0.2.4.tgz"
+        }
+      }
+    },
+    "redux-responsive": {
+      "version": "2.2.0",
+      "from": "redux-responsive@latest",
+      "resolved": "https://registry.npmjs.org/redux-responsive/-/redux-responsive-2.2.0.tgz",
+      "dependencies": {
+        "mediaquery": {
+          "version": "0.0.3",
+          "from": "mediaquery@0.0.3",
+          "resolved": "https://registry.npmjs.org/mediaquery/-/mediaquery-0.0.3.tgz"
         }
       }
     },

@@ -41,6 +41,7 @@ export default class FormField extends Component {
     onFocus: PropTypes.func,
     placeholder: PropTypes.string,
     startElement: PropTypes.element,
+    endElement: PropTypes.element,
     style: PropTypes.object,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }
@@ -137,6 +138,7 @@ export default class FormField extends Component {
   render() {
     const {
       startElement,
+      endElement,
       disabled,
       label,
       className,
@@ -165,6 +167,9 @@ export default class FormField extends Component {
     }
     if (startElement) {
       cssClass += ' has-start';
+    }
+    if (endElement) {
+      cssClass += ' has-end';
     }
     if (flexibleContent) {
       cssClass += ' flexible-content';
@@ -226,6 +231,13 @@ export default class FormField extends Component {
           <div className="FormField-element">
             { fieldElement || children }
           </div>
+          { endElement &&
+            <span className="FormField-end">
+              <span>
+                { endElement }
+              </span>
+            </span>
+          }
         </div>
         { validationErrors.length > 0 &&
           <ValidationError errors={ validationErrors } />

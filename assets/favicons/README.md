@@ -1,0 +1,1 @@
+To build the favicon.ico, use the files found in this directory and [Icon Slate](http://www.kodlian.com).

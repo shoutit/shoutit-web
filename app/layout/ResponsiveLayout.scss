@@ -7,6 +7,7 @@
     padding: 0 $horizontal-spacing;
   }
   > span {
+    display: inline-block;
     width: 100%;
     text-align: left;
   }
@@ -20,29 +21,32 @@
 
 .ResponsiveLayout.min-width {
   &.default > span {
-    display: inline-block;
     min-width: 768px;
   }
 }
 .ResponsiveLayout.min-width {
   &.default > span {
-    display: inline-block;
     min-width: 768px;
   }
   &.small > span {
-    display: inline-block;
     min-width: 280px;
   }
 }
 
-
 .ResponsiveLayout.max-width {
   &.default > span {
-    display: inline-block;
     max-width: 1200px;
   }
   &.small > span {
-    display: inline-block;
     max-width: 530px;
   }
+}
+
+.ResponsiveLayout.full-height > span  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
 }

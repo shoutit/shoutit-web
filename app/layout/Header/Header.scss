@@ -1,4 +1,4 @@
-@import '../styles/constants.scss';
+@import '../../styles/constants.scss';
 
 .Header {
   position: relative;
@@ -6,45 +6,28 @@
   flex-direction: column;
 }
 
+
 .Header-location {
-  margin-left: $horizontal-spacing;
   display: flex;
   align-items: center;
-  color: $color-text-light;
+  
   cursor: pointer;
+  color: $color-text-light;
   span {
     margin-left: .5em;
+  }
+  .Header.desktop & {
+    margin-left: $horizontal-spacing;
+  }
+  .Header.mobile & {
+    margin-left: $horizontal-spacing/2;
   }
 }
 
 .Header-logo a {
-  display: inline-block;
   position: relative;
   top: 3px;
-}
-
-.Navbar {
-  display: flex;
-  justify-content: center;
-  font-size: .875em;
-  a {
-    display: inline-block;
-    margin: 0 $horizontal-spacing;
-    padding-bottom: .25em;
-    color: $color-text-light;
-    margin-bottom: -1px;
-    border-bottom: 1px solid transparent;
-    &.active {
-      color: $color-text;
-      border-color: $color-primary;
-    }
-    // &:hover {
-    //   color: $color-text;
-    // }
-    // &:active {
-    //   color: $color-primary;
-    // }
-  }
+  display: inline-block;
 }
 
 .Header-toolbar-loggedIn {
@@ -66,16 +49,35 @@
   font-size: .875em;
 
   flex: 1;
+
+  .Header.mobile & {
+    margin-top: .5em;
+  }
 }
+
 
 .Header-toolbar {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  &.mobile {
+    flex: 1;
+    .ProfileAvatar {
+      width: 35px;
+      height: 35px;
+    }
+  }
 }
 
 .Header-search {
   display: flex;
   justify-content: center;
-  margin: 0 $horizontal-spacing;
+
   flex: 1;
+  .Header.desktop & {
+    margin: 0 $horizontal-spacing;
+  }
+  .Header.mobile & {
+    margin: $vertical-spacing/2 0;
+  }
 }

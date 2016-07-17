@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import browser from './browser';
 import categories from './categories';
 import chat from './chat';
 import currencies from './currencies';
@@ -21,6 +22,7 @@ import suggestions from './suggestions';
 import videocalls from './videocalls';
 
 const appReducer = combineReducers({
+  browser,
   categories,
   chat,
   currencies,

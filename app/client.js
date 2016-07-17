@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { Router, browserHistory, RouterContext } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import useScroll from 'scroll-behavior/lib/useStandardScroll';
-
+import { calculateResponsiveState } from 'redux-responsive';
 import debug from 'debug';
 import Fetchr from 'fetchr';
 
@@ -51,6 +51,7 @@ let firstRender = true;
 const renderApp = () => {
   const configureRoutes = require('./routes').default;
   const routes = configureRoutes(store);
+  store.dispatch(calculateResponsiveState(window));
   return (
     <Router
       history={ history }

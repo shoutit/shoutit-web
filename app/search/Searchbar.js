@@ -10,6 +10,7 @@ import { invalidateSearch, searchShouts, searchTags, searchProfiles } from '../a
 import { getCurrentLocale } from '../reducers/i18n';
 import { getQuery } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
+import SearchIcon from '../icons/SearchIcon';
 
 import { openModal } from '../actions/ui';
 
@@ -27,6 +28,7 @@ export class Searchbar extends Component {
     currentLocation: PropTypes.object.isRequired,
     autosuggest: PropTypes.bool,
     showLocation: PropTypes.bool,
+    showSubmitButton: PropTypes.bool,
     locale: PropTypes.string.isRequired,
     query: PropTypes.string.isRequired,
     searchTags: PropTypes.func.isRequired,
@@ -40,6 +42,7 @@ export class Searchbar extends Component {
   static defaultProps = {
     autosuggest: true,
     showLocation: true,
+    showSubmitButton: true,
   }
 
   constructor(props) {
@@ -71,6 +74,8 @@ export class Searchbar extends Component {
       });
       this.searchField.blur();
       this.props.onSubmit(query, this.props.currentLocation);
+    } else {
+      this.searchField.focus();
     }
   }
 
@@ -133,6 +138,11 @@ export class Searchbar extends Component {
                     code={ this.props.currentLocation.country }
                     onClick={ this.handleLocationClick }
                   />
+                }
+                endElement={ this.props.showSubmitButton &&
+                  <span onClick={ this.submit }>
+                    <SearchIcon colorName={ this.state.isFocused ? 'BORDER_COLOR_HOVER' : 'BORDER_COLOR' } />
+                  </span>
                 }
                 onChange={ this.handleChange }
                 onBlur={ () => this.setState({ isFocused: false }) }
