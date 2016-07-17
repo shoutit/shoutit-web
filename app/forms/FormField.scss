@@ -82,7 +82,8 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
   display: flex;
   flex-direction: row;
 
-  .FormField-start {
+  .FormField-start, 
+  .FormField-end {
     display: block;
     width: auto;
   }
@@ -91,15 +92,29 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
   }
 }
 
-.FormField-start {
+.FormField-start,
+.FormField-end {
   display: flex;
   justify-content: center;
   min-width: 36px;
-  border-right: $formFieldBorder;
   line-height: 2.5em; // 40px
   /*!rtl:remove*/
   line-height: 2.25em; // 36px
+
+  svg {
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
+
+.FormField-start {
+  border-right: $formFieldBorder;
+}
+
+.FormField-end {
+  border-left: $formFieldBorder;
+}
+
 
 .FormField-start select:focus {
   color: $color-primary;
@@ -113,11 +128,21 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
   left: 0;
 }
 
-.FormField.with-input .FormField-start {
+.FormField:not(.flexible-content) .FormField-end {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  right: 0;
+}
+
+.FormField.with-input .FormField-start,
+.FormField.with-input .FormField-end {
   z-index: 3;
 }
 
-.FormField.with-select .FormField-start {
+.FormField.with-select .FormField-start,
+.FormField.with-select .FormField-end,
+ {
   z-index: 1;
 }
 
@@ -130,6 +155,12 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
 .FormField.has-start:not(.flexible-content) .FormField-element select, {
   padding-left: 44px;
 }
+
+.FormField.has-end:not(.flexible-content) .FormField-element input,
+.FormField.has-end:not(.flexible-content) .FormField-element select, {
+  padding-right: 44px;
+}
+
 
 .FormField textarea {
   @extend %inputBase;
