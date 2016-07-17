@@ -29,7 +29,7 @@ class Toolbar extends Component {
           <div className="Header-toolbar-loggedIn">
             { this.props.layout === 'desktop' && <MessagesButton overlayContainer={ this } /> }
             { this.props.layout === 'desktop' && <NotificationsButton overlayContainer={ this } /> }
-            <ProfileButton overlay={ this.props.layout === 'desktop' } />
+            <ProfileButton />
           </div>
         }
 
