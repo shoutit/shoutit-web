@@ -4,6 +4,7 @@
 .Page {
   display: flex;
   padding-top: $vertical-spacing;
+  padding-bottom: $vertical-spacing * 2;
 }
 
 @include smartphone() {
@@ -40,4 +41,14 @@
 .PageColumn.sticky {
   position: sticky;
   top: $header-height + 18px;
+}
+
+.ResponsiveLayout.full-height {
+  .Page {
+    position: absolute;
+    top: 0;
+    bottom: 1.125em;
+    right: 0;
+    left: 0;
+  }
 }

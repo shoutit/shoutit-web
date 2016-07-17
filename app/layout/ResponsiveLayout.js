@@ -6,6 +6,7 @@ class ResponsiveLayout extends Component {
     constrainMaxWidth: PropTypes.bool.isRequired,
     constrainMinWidth: PropTypes.bool.isRequired,
     horizontalSpace: PropTypes.bool,
+    fullHeight: PropTypes.bool,
     children: PropTypes.element,
     size: PropTypes.oneOf(['default', 'small']),
   }
@@ -25,6 +26,9 @@ class ResponsiveLayout extends Component {
     }
     if (this.props.horizontalSpace) {
       className += ' horizontal-space';
+    }
+    if (this.props.fullHeight) {
+      className += ' full-height';
     }
     return (
       <div className={ className }>

@@ -146,15 +146,17 @@ class HomePage extends Component {
                 <img alt="" height="267" width="260" src={ `${imagesPath}/home-public-chat-mobile.png` } />
               </div>
 
-              <Button onClick={ this.scrollToApps } kind="primary">
-                <FormattedMessage
-                  id="pages.home.publicChats.action.button"
-                  defaultMessage="Explore Public Chats in { city }"
-                  values={ {
-                    city: this.props.currentLocation.city,
-                  } }
-                />
-              </Button>
+              <div className="HomePage-section-action">
+                <Button onClick={ this.scrollToApps } kind="primary">
+                  <FormattedMessage
+                    id="pages.home.publicChats.action.button"
+                    defaultMessage="Explore Public Chats in { city }"
+                    values={ {
+                      city: this.props.currentLocation.city,
+                    } }
+                  />
+                </Button>
+              </div>
 
               <div className="HomePage-sectionSeparator" />
 

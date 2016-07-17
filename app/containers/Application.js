@@ -112,6 +112,7 @@ export class Application extends Component {
     let applicationLayout = {
       stickyHeader: !error || error.statusCode === 404,
       showHeader: true,
+      fullHeight: false,
       showFooter: !!error,
       responsiveLayout: {},
     };
@@ -134,8 +135,12 @@ export class Application extends Component {
       }
     }
 
-    if (applicationLayout.showHeader && applicationLayout.stickyHeader) {
-      className += ' stickyHeader';
+    if (applicationLayout.fullHeight) {
+      className += ' fullHeight';
+    } else {
+      if (applicationLayout.showHeader && applicationLayout.stickyHeader) {
+        className += ' stickyHeader';
+      }
     }
     if (applicationLayout.className) {
       className += ` ${applicationLayout.className}`;
@@ -186,31 +191,32 @@ export class Application extends Component {
               { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
             ] }
           />
-          { applicationLayout.showHeader &&
-            <div className="Application-header">
-              <ResponsiveLayout { ...responsiveLayoutProps }>
-                <Header layout={ this.props.device } />
+          <div className="Application-top">
+            { applicationLayout.showHeader &&
+              <div className="Application-header">
+                <ResponsiveLayout { ...responsiveLayoutProps }>
+                  <Header layout={ this.props.device } />
+                </ResponsiveLayout>
+              </div>
+            }
+            <div className="Application-content">
+              <ResponsiveLayout
+                { ...responsiveLayoutProps }
+                fullHeight={ applicationLayout.fullHeight }
+                >
+                { content }
               </ResponsiveLayout>
             </div>
-          }
-          <div className="Application-content">
-            <ResponsiveLayout { ...responsiveLayoutProps }>
-              { content }
-            </ResponsiveLayout>
           </div>
           { applicationLayout.showFooter &&
-            <div className="Application-footer">
+            <div className="Application-bottom">
               <ResponsiveLayout { ...responsiveLayoutProps }>
                 <Footer />
               </ResponsiveLayout>
             </div>
           }
-
           <ModalHost />
-
-          <ResponsiveLayout { ...responsiveLayoutProps }>
-            <ConversationsHost />
-          </ResponsiveLayout>
+          <ConversationsHost />
 
         </div>
       </IntlProvider>

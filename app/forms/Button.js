@@ -22,7 +22,7 @@ export default class Button extends Component {
   static defaultProps = {
     kind: 'default',
     block: false,
-    iconButton: true,
+    iconButton: false,
     element: 'button',
   }
 

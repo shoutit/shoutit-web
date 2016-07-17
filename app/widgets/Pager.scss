@@ -1,4 +1,5 @@
 @import '../styles/constants.scss';
+@import '../styles/mixins/mq.scss';
 
 ul.Pager {
   display: inline;
@@ -39,5 +40,15 @@ ul.Pager > li {
   }
   &.disabled a {
     cursor: default;
+  }
+}
+
+@include smartphone() {
+  ul.Pager > li:first-child,
+  ul.Pager > li:last-child {
+    display: block;
+    a {
+      margin: 0;
+    }
   }
 }
