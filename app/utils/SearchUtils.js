@@ -135,6 +135,11 @@ export function getSearchQuery(params, location) {
       }
     }
   }
+
+  if (params.filters) {
+    query.filters = uriComponentToFiltersObject(params.filters);
+  }
+
   if (!isNaN(params.page)) {
     query.page = parseInt(params.page, 10);
   } else {
