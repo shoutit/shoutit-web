@@ -26,6 +26,9 @@ class ResponsiveLayout extends Component {
     if (this.props.horizontalSpace) {
       className += ' horizontal-space';
     }
+    if (this.props.fullHeight) {
+      className += ' full-height';
+    }
     return (
       <div className={ className }>
         <span>
