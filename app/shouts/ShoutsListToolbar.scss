@@ -1,14 +1,16 @@
 @import '../styles/constants.scss';
 
 .ShoutsListToolbar {
-  font-size: 0.875em;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  font-size: .875em;
+
+  flex-wrap: wrap;
 }
 
 .ShoutsListToolbar-count {
-  color: $color-text-light; 
+  color: $color-text-light;
 }
 
 .ShoutsListToolbar-countValue {
@@ -23,4 +25,3 @@
     color: $color-text-light;
   }
 }
-
