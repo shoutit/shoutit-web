@@ -28,6 +28,7 @@ export class Searchbar extends Component {
     currentLocation: PropTypes.object.isRequired,
     autosuggest: PropTypes.bool,
     showLocation: PropTypes.bool,
+    showSubmitButton: PropTypes.bool,
     locale: PropTypes.string.isRequired,
     query: PropTypes.string.isRequired,
     searchTags: PropTypes.func.isRequired,
@@ -41,6 +42,7 @@ export class Searchbar extends Component {
   static defaultProps = {
     autosuggest: true,
     showLocation: true,
+    showSubmitButton: true,
   }
 
   constructor(props) {
@@ -137,7 +139,7 @@ export class Searchbar extends Component {
                     onClick={ this.handleLocationClick }
                   />
                 }
-                endElement={
+                endElement={ this.props.showSubmitButton && 
                   <span onClick={ this.submit }>
                     <SearchIcon colorName={ this.state.isFocused ? 'BORDER_COLOR_HOVER' : 'BORDER_COLOR' } />
                   </span>
