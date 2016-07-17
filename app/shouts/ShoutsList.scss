@@ -18,6 +18,6 @@
 @include tablet() {
   .ShoutsList-item {
     padding: $vertical-spacing $horizontal-spacing;
-    flex: 0 1 auto;
+    flex: 1 1 auto;
   }
 }
