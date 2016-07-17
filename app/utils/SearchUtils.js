@@ -1,7 +1,8 @@
 export function filtersObjectToUriComponent(filters) {
   const arr = [];
-  Object.keys(filters).forEach(slug =>
-    arr.push(`${slug}:${filters[slug]}`)
+  Object.keys(filters)
+    .filter(slug => !!filters[slug])
+    .forEach(slug => arr.push(`${slug}:${filters[slug]}`)
   );
   return arr.join(';');
 }
