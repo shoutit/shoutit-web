@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router';
-
+import { connect } from 'react-redux';
+import { getCurrentUrl } from '../../reducers/routing';
 import { getLocationPath } from '../../utils/LocationUtils';
 
 import './Navbar.scss';
@@ -32,4 +33,7 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+// Connecting to current url is required to make the active class name working
+// This should be solved when moving to a bette router 
+const mapStateToProps = state => ({ currentUrl: getCurrentUrl(state) });
+export default connect(mapStateToProps)(Navbar);
