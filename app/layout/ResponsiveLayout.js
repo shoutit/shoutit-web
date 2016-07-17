@@ -6,6 +6,7 @@ class ResponsiveLayout extends Component {
     constrainMaxWidth: PropTypes.bool.isRequired,
     constrainMinWidth: PropTypes.bool.isRequired,
     horizontalSpace: PropTypes.bool,
+    fullHeight: PropTypes.bool,
     children: PropTypes.element,
     size: PropTypes.oneOf(['default', 'small']),
   }

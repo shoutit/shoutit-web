@@ -4,7 +4,6 @@ import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 
 import Helmet from '../utils/Helmet';
 
-import FixedHeightPage from '../layout/FixedHeightPage';
 import Page, { Body, EndColumn } from '../layout/Page';
 import ConversationsList from '../chat/ConversationsList';
 import Conversation from '../chat/Conversation';

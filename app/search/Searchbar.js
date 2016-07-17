@@ -139,7 +139,7 @@ export class Searchbar extends Component {
                     onClick={ this.handleLocationClick }
                   />
                 }
-                endElement={ this.props.showSubmitButton && 
+                endElement={ this.props.showSubmitButton &&
                   <span onClick={ this.submit }>
                     <SearchIcon colorName={ this.state.isFocused ? 'BORDER_COLOR_HOVER' : 'BORDER_COLOR' } />
                   </span>

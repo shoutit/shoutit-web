@@ -34,6 +34,6 @@ class Navbar extends Component {
 }
 
 // Connecting to current url is required to make the active class name working
-// This should be solved when moving to a bette router 
+// This should be solved when moving to a bette router
 const mapStateToProps = state => ({ currentUrl: getCurrentUrl(state) });
 export default connect(mapStateToProps)(Navbar);
