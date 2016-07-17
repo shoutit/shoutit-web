@@ -29,14 +29,14 @@ export class Header extends Component {
 
   renderDesktopHeader() {
     return (
-      <header className="Header full">
+      <header className="Header desktop">
         <div className="Header-top">
           <Logo />
           <Location location={ this.props.currentLocation } onClick={ this.props.onLocationClick } />
           <div className="Header-search">
             <Searchbar showLocation={ false } />
           </div>
-          <Toolbar isLoggedIn={ this.props.isLoggedIn } onNewShoutClick={ this.props.onNewShoutClick } />
+          <Toolbar layout="desktop" isLoggedIn={ this.props.isLoggedIn } onNewShoutClick={ this.props.onNewShoutClick } />
         </div>
         <Navbar location={ this.props.currentLocation } />
       </header>
@@ -45,11 +45,11 @@ export class Header extends Component {
 
   renderMobileHeader() {
     return (
-      <header className="Header small">
+      <header className="Header mobile">
         <div className="Header-top">
           <Logo />
           <Location hideCity location={ this.props.currentLocation } onClick={ this.props.onLocationClick } />
-          <Toolbar small isLoggedIn={ this.props.isLoggedIn } onNewShoutClick={ this.props.onNewShoutClick } />
+          <Toolbar layout="mobile" isLoggedIn={ this.props.isLoggedIn } onNewShoutClick={ this.props.onNewShoutClick } />
         </div>
         <div className="Header-search">
           <Searchbar autosuggest={ false } showLocation={ false } />

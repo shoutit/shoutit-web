@@ -11,8 +11,12 @@ import { getLoggedUser } from '../../reducers/session';
 export class ProfileButton extends Component {
 
   static propTypes = {
+    overlay: PropTypes.bool,
     user: PropTypes.object.isRequired,
-    overlayContainer: PropTypes.oneOfType([PropTypes.object, PropTypes.element, PropTypes.func]),
+  }
+
+  static defaultProps = {
+    overlay: true,
   }
 
   constructor(props) {
@@ -35,27 +39,28 @@ export class ProfileButton extends Component {
   }
 
   render() {
-    const { user } = this.props;
     return (
       <span>
         <Link
           className="HeaderProfile-profileLink"
-          to={ `/user/${user.username}` }
-          onClick={ this.showOverlay }>
-          <ProfileAvatar ref="avatar" profile={ user } size="medium" />
+          to={ `/user/${this.props.user.username}` }
+          onClick={ this.props.overlay && this.showOverlay }>
+          <ProfileAvatar ref="avatar" profile={ this.props.user } size="medium" />
         </Link>
-        <Overlay
-          arrow
-          inverted
-          rootClose
-          style={ { minWidth: 150, padding: '0 .5rem' } }
-          show={ this.state.showOverlay }
-          placement="bottom"
-          onHide={ this.hideOverlay }
-          target={ () => this.refs.avatar.getImageNode() }
-        >
-          <ProfileOverlay onItemClick={ this.hideOverlay } />
-        </Overlay>
+        { this.props.overlay &&
+          <Overlay
+            arrow
+            inverted
+            rootClose
+            style={ { minWidth: 150, padding: '0 .5rem' } }
+            show={ this.state.showOverlay }
+            placement="bottom"
+            onHide={ this.hideOverlay }
+            target={ () => this.refs.avatar.getImageNode() }
+          >
+            <ProfileOverlay onItemClick={ this.hideOverlay } />
+          </Overlay>
+        }
       </span>
     );
   }
