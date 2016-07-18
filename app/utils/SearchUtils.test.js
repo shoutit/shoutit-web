@@ -57,14 +57,14 @@ describe('utils/SearchUtils', () => {
 
   });
 
-  describe('getShoutsQuery', () => {
+  describe('getSearchQuery', () => {
 
     it('should append a page param if not provided', () => {
-      expect(SearchUtils.getShoutsQuery({})).to.eql({ page: 1 });
-      expect(SearchUtils.getShoutsQuery({ page: '2' })).to.eql({ page: 2 });
+      expect(SearchUtils.getSearchQuery({})).to.eql({ page: 1 });
+      expect(SearchUtils.getSearchQuery({ page: '2' })).to.eql({ page: 2 });
     });
     it('should decode an encoded character in the search query', () => {
-      const query = SearchUtils.getShoutsQuery({
+      const query = SearchUtils.getSearchQuery({
         search: 'with%20space',
       });
       expect(query).to.eql({
@@ -73,7 +73,7 @@ describe('utils/SearchUtils', () => {
       });
     });
     it('should create a valid query with shout type, search, sort and category', () => {
-      const query = SearchUtils.getShoutsQuery({
+      const query = SearchUtils.getSearchQuery({
         shout_type: 'request',
         category: 'foo-category',
         search: 'hello',
@@ -90,7 +90,7 @@ describe('utils/SearchUtils', () => {
     });
 
     it('should parse prices to integer', () => {
-      const query = SearchUtils.getShoutsQuery({
+      const query = SearchUtils.getSearchQuery({
         min_price: '1',
         max_price: '2',
       });
@@ -102,7 +102,7 @@ describe('utils/SearchUtils', () => {
     });
 
     it('should create a valid query with prices having the `free` param set', () => {
-      const query = SearchUtils.getShoutsQuery({
+      const query = SearchUtils.getSearchQuery({
         shout_type: 'request',
         category: 'foo-category',
         min_price: '1',
@@ -125,7 +125,7 @@ describe('utils/SearchUtils', () => {
         latitude: 123,
         longitude: 245,
       };
-      const query = SearchUtils.getShoutsQuery({}, location);
+      const query = SearchUtils.getSearchQuery({}, location);
       const expectedValue = {
         city: 'a city',
         state: 'a state',
@@ -143,7 +143,7 @@ describe('utils/SearchUtils', () => {
         state: 'a state',
         country: 'a country',
       };
-      const query = SearchUtils.getShoutsQuery({ within: '200' }, location);
+      const query = SearchUtils.getSearchQuery({ within: '200' }, location);
       const expectedValue = {
         city: 'a city',
         state: 'a state',
@@ -161,7 +161,7 @@ describe('utils/SearchUtils', () => {
         latitude: 123,
         longitude: 245,
       };
-      const query = SearchUtils.getShoutsQuery({ within: 'city' }, location);
+      const query = SearchUtils.getSearchQuery({ within: 'city' }, location);
       const expectedValue = {
         city: 'a city',
         state: 'a state',
@@ -178,7 +178,7 @@ describe('utils/SearchUtils', () => {
         latitude: 123,
         longitude: 245,
       };
-      const query = SearchUtils.getShoutsQuery({ within: 'state' }, location);
+      const query = SearchUtils.getSearchQuery({ within: 'state' }, location);
       const expectedValue = {
         state: 'a state',
         country: 'a country',
@@ -194,7 +194,7 @@ describe('utils/SearchUtils', () => {
         latitude: 123,
         longitude: 245,
       };
-      const query = SearchUtils.getShoutsQuery({ within: 'country' }, location);
+      const query = SearchUtils.getSearchQuery({ within: 'country' }, location);
       const expectedValue = {
         country: 'a country',
         page: 1,
