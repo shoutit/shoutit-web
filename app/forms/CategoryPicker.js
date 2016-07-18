@@ -19,7 +19,7 @@ export class CategoryPicker extends Component {
     className: PropTypes.string,
     label: PropTypes.string,
     disabled: PropTypes.bool,
-    filtersClassName: PropTypes.string,
+    canSelectMultipleFilters: PropTypes.bool,
     inputRef: PropTypes.func,
     onChange: PropTypes.func,
     selectedCategorySlug: PropTypes.string,
@@ -29,6 +29,7 @@ export class CategoryPicker extends Component {
   static defaultProps = {
     showFilters: true,
     disabled: false,
+    canSelectMultipleFilters: true,
   }
   constructor(props) {
     super(props);
@@ -79,7 +80,9 @@ export class CategoryPicker extends Component {
     let selectedFilters;
     if (e.target.checked) {
       selectedFilters = merge({}, this.state.selectedFilters, {
-        [filter.slug]: union(this.state.selectedFilters[filter.slug], [value.slug]),
+        [filter.slug]: this.props.canSelectMultipleFilters ?
+          union(this.state.selectedFilters[filter.slug], [value.slug]) :
+          [value.slug],
       });
     } else {
       selectedFilters = {
@@ -127,7 +130,7 @@ export class CategoryPicker extends Component {
         </Picker>
 
         { filters.length > 0 &&
-          <div className={ filtersClassName } style={ { marginTop: '.5em' } }>
+          <div style={ { marginTop: '.75em' } }>
             { filters.map((filter, i) =>
               <Expandable key={ i } label={ filter.name } expand={ selectedFilters[filter.slug] && selectedFilters[filter.slug].length > 0 }>
                 { filter.values.map(value =>
