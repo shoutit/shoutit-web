@@ -1,5 +1,7 @@
 export default {
   WHITE: '#FFF',
+  COLOR_TEXT: '#373837',
+  COLOR_TEXT_HOVER: '#6B6B6B',
   BORDER_COLOR: '#E1E1E1',
   BORDER_COLOR_HOVER: '#CCC',
 };

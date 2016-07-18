@@ -1,0 +1,6 @@
+.SimpleIcon {
+  transition: transform 0.2s;
+  &.rotate-down {
+    transform: rotate(90deg);
+  }
+}

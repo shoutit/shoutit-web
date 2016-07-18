@@ -75,6 +75,17 @@ describe('services/shouts', () => {
       shouts.read({}, resource, { search: 'foo' }, config, serviceCallback);
     });
 
+    it('should spread filters to querystring', done => {
+      sinon.stub(Request.prototype, 'end', function callback() {
+        expect(this.qs).to.eql({ search: 'foo', foo: 'abc,pqr', bar: 'xyz' });
+        done();
+      });
+      shouts.read({}, resource, { search: 'foo', filters: {
+        foo: ['abc', 'pqr'],
+        bar: ['xyz'],
+      } }, config, serviceCallback);
+    });
+
     it('should not pass the search params when an endpoint is used', done => {
       sinon.stub(Request.prototype, 'end', function callback() {
         expect(this.qs).to.eql({});
