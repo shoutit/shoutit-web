@@ -9,10 +9,10 @@
   },
   {
     "id": "profile.others.shoutsList.header",
-    "defaultMessage": "{firstName}’s shouts ({count})"
+    "defaultMessage": "{name}’s shouts ({count})"
   },
   {
     "id": "profile.others.shoutsList.noshouts",
-    "defaultMessage": "{firstName} has no shouts, yet!"
+    "defaultMessage": "{name} has no shouts, yet!"
   }
 ]
