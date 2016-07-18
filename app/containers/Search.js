@@ -16,7 +16,7 @@ import { getLocationPath } from '../utils/LocationUtils';
 import { getShouts, getShoutsCount, getShoutsPageState, getShoutsQuery } from '../reducers/paginated/shouts';
 // import { getCategory } from '../reducers/categories';
 
-import { getSearchQuery, getQuerystringFromSearchParams } from '../utils/SearchUtils';
+import { getShoutsQuery, getQuerystringFromSearchParams } from '../utils/SearchUtils';
 
 import { loadShouts } from '../actions/shouts';
 
@@ -68,7 +68,7 @@ const MESSAGES = defineMessages({
 const fetchData = (dispatch, state, params, query) =>
   dispatch(loadShouts({
     sort: 'time',
-    ...getSearchQuery(query, getCurrentLocation(state)),
+    ...getShoutsQuery(query, getCurrentLocation(state)),
     page_size: PAGE_SIZE,
   }));
 

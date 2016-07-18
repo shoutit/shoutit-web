@@ -76,7 +76,7 @@ export function getQuerystringFromSearchParams(params) {
  * @param {Object} location
  * @returns {Object}
  */
-export function getSearchQuery(params, location) {
+export function getShoutsQuery(params, location) {
   const query = {};
   if (params.shout_type) {
     query.shout_type = params.shout_type;
