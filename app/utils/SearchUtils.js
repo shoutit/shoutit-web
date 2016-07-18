@@ -68,7 +68,13 @@ export function getQuerystringFromSearchParams(params) {
 }
 
 /**
- * Returns the shout search query from a location query object
+ * Returns the query to be consumed by the shouts API from
+ * query params or url coming from an URL path.
+ *
+ * @export
+ * @param {Object} params
+ * @param {Object} location
+ * @returns {Object}
  */
 export function getSearchQuery(params, location) {
   const query = {};
@@ -137,7 +143,8 @@ export function getSearchQuery(params, location) {
   }
 
   if (params.filters) {
-    query.filters = uriComponentToFiltersObject(params.filters);
+    const filters = uriComponentToFiltersObject(params.filters);
+    Object.keys(filters).forEach(slug => { query[slug] = filters[slug]; });
   }
 
   if (!isNaN(params.page)) {
