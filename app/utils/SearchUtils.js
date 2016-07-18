@@ -68,7 +68,13 @@ export function getQuerystringFromSearchParams(params) {
 }
 
 /**
- * Returns the shout search query from a location query object
+ * Returns the query to be consumed by the shouts API from
+ * query params or url coming from an URL path.
+ *
+ * @export
+ * @param {Object} params
+ * @param {Object} location
+ * @returns {Object}
  */
 export function getSearchQuery(params, location) {
   const query = {};
@@ -76,7 +82,7 @@ export function getSearchQuery(params, location) {
     query.shout_type = params.shout_type;
   }
   if (params.search) {
-    query.search = params.search;
+    query.search = decodeURIComponent(params.search);
   }
   if (params.category) {
     query.category = params.category;
@@ -94,25 +100,18 @@ export function getSearchQuery(params, location) {
   if (location) {
     switch (params.within) {
       case 'city':
-        query.location = {
-          city: location.city,
-          state: location.state,
-          country: location.country,
-        };
+        query.city = location.city;
+        query.state = location.state;
+        query.country = location.country;
         break;
       case 'state':
-        query.location = {
-          state: location.state,
-          country: location.country,
-        };
+        query.state = location.state;
+        query.country = location.country;
         break;
       case 'country':
-        query.location = {
-          country: location.country,
-        };
+        query.country = location.country;
         break;
       default: {
-        query.location = {};
         if (params.within) {
           const within = parseInt(params.within, 10);
           if (!isNaN(within)) {
@@ -120,24 +119,25 @@ export function getSearchQuery(params, location) {
           }
         }
         if (location.latitude && location.longitude) {
-          query.location.latitude = location.latitude;
-          query.location.longitude = location.longitude;
+          query.latitude = location.latitude;
+          query.longitude = location.longitude;
         }
         if (location.city) {
-          query.location.city = location.city;
+          query.city = location.city;
         }
         if (location.state) {
-          query.location.state = location.state;
+          query.state = location.state;
         }
         if (location.country) {
-          query.location.country = location.country;
+          query.country = location.country;
         }
       }
     }
   }
 
   if (params.filters) {
-    query.filters = uriComponentToFiltersObject(params.filters);
+    const filters = uriComponentToFiltersObject(params.filters);
+    Object.keys(filters).forEach(slug => { query[slug] = filters[slug]; });
   }
 
   if (!isNaN(params.page)) {

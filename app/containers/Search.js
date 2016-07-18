@@ -77,15 +77,11 @@ export class Search extends Component {
   static propTypes = {
     currentUrl: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
+
     currentLocation: PropTypes.object,
-    error: PropTypes.object,
     firstRender: PropTypes.bool,
     params: PropTypes.object,
-    query: PropTypes.object,
     shouts: PropTypes.array,
-    page: PropTypes.number,
-
     count: PropTypes.number,
     isFetching: PropTypes.bool,
 
@@ -151,13 +147,12 @@ export class Search extends Component {
   }
 
   updateList() {
-    const { dispatch, currentLocation } = this.props;
-    let path = `/search${getLocationPath(currentLocation)}`;
+    let path = `/search${getLocationPath(this.props.currentLocation)}`;
     const qs = getQuerystringFromSearchParams(this.state);
     if (qs) {
       path += `?${qs}`;
     }
-    dispatch(push(path));
+    this.props.dispatch(push(path));
   }
 
   handleSortChange(sort, e) {

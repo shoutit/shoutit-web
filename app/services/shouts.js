@@ -5,16 +5,7 @@ import { parseApiError } from '../utils/APIUtils';
 export default {
   name: 'shouts',
   read: (req, resource, params = {}, config, callback) => {
-    const { endpoint } = params;
-    let query = { ...params };
-    delete query.endpoint;
-    if (!endpoint) {
-      query = {
-        ...query,
-        ...query.location,
-      };
-      delete query.location;
-    }
+    const { endpoint, ...query } = params;
     const url = endpoint || '/shouts';
     request
       .get(url)
