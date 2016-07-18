@@ -127,13 +127,11 @@ describe('utils/SearchUtils', () => {
       };
       const query = SearchUtils.getSearchQuery({}, location);
       const expectedValue = {
-        location: {
-          city: 'a city',
-          state: 'a state',
-          country: 'a country',
-          latitude: 123,
-          longitude: 245,
-        },
+        city: 'a city',
+        state: 'a state',
+        country: 'a country',
+        latitude: 123,
+        longitude: 245,
         page: 1,
       };
       expect(query).to.eql(expectedValue);
@@ -147,11 +145,9 @@ describe('utils/SearchUtils', () => {
       };
       const query = SearchUtils.getSearchQuery({ within: '200' }, location);
       const expectedValue = {
-        location: {
-          city: 'a city',
-          state: 'a state',
-          country: 'a country',
-        },
+        city: 'a city',
+        state: 'a state',
+        country: 'a country',
         within: 200,
         page: 1,
       };
@@ -167,11 +163,9 @@ describe('utils/SearchUtils', () => {
       };
       const query = SearchUtils.getSearchQuery({ within: 'city' }, location);
       const expectedValue = {
-        location: {
-          city: 'a city',
-          state: 'a state',
-          country: 'a country',
-        },
+        city: 'a city',
+        state: 'a state',
+        country: 'a country',
         page: 1,
       };
       expect(query).to.eql(expectedValue);
@@ -186,10 +180,8 @@ describe('utils/SearchUtils', () => {
       };
       const query = SearchUtils.getSearchQuery({ within: 'state' }, location);
       const expectedValue = {
-        location: {
-          state: 'a state',
-          country: 'a country',
-        },
+        state: 'a state',
+        country: 'a country',
         page: 1,
       };
       expect(query).to.eql(expectedValue);
@@ -204,9 +196,7 @@ describe('utils/SearchUtils', () => {
       };
       const query = SearchUtils.getSearchQuery({ within: 'country' }, location);
       const expectedValue = {
-        location: {
-          country: 'a country',
-        },
+        country: 'a country',
         page: 1,
       };
       expect(query).to.eql(expectedValue);

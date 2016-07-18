@@ -100,25 +100,18 @@ export function getSearchQuery(params, location) {
   if (location) {
     switch (params.within) {
       case 'city':
-        query.location = {
-          city: location.city,
-          state: location.state,
-          country: location.country,
-        };
+        query.city = location.city;
+        query.state = location.state;
+        query.country = location.country;
         break;
       case 'state':
-        query.location = {
-          state: location.state,
-          country: location.country,
-        };
+        query.state = location.state;
+        query.country = location.country;
         break;
       case 'country':
-        query.location = {
-          country: location.country,
-        };
+        query.country = location.country;
         break;
       default: {
-        query.location = {};
         if (params.within) {
           const within = parseInt(params.within, 10);
           if (!isNaN(within)) {
@@ -126,17 +119,17 @@ export function getSearchQuery(params, location) {
           }
         }
         if (location.latitude && location.longitude) {
-          query.location.latitude = location.latitude;
-          query.location.longitude = location.longitude;
+          query.latitude = location.latitude;
+          query.longitude = location.longitude;
         }
         if (location.city) {
-          query.location.city = location.city;
+          query.city = location.city;
         }
         if (location.state) {
-          query.location.state = location.state;
+          query.state = location.state;
         }
         if (location.country) {
-          query.location.country = location.country;
+          query.country = location.country;
         }
       }
     }
