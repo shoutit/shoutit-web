@@ -6,7 +6,6 @@ import merge from 'lodash/merge';
 
 import { getCategories } from '../reducers/categories';
 
-import Label from './Label';
 import Expandable from '../widgets/Expandable';
 import Switch from './Switch';
 import Picker from './Picker';
@@ -97,7 +96,7 @@ export class CategoryPicker extends Component {
     });
   }
   render() {
-    const { categories, disabled, showFilters, className, filtersClassName, label, inputRef } = this.props;
+    const { categories, disabled, showFilters, className, label, inputRef } = this.props;
     const { selectedCategory, selectedFilters } = this.state;
     let filters = [];
     if (showFilters && selectedCategory && selectedCategory.filters) {

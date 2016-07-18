@@ -155,4 +155,3 @@ export function getSearchQuery(params, location) {
 
   return query;
 }
-
