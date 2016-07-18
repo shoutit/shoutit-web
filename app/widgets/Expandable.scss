@@ -1,0 +1,29 @@
+@import '../styles/constants.scss';
+
+.Expandable {
+
+}
+.Expandable.expanded + .Expandable {
+  margin-top: $vertical-spacing;
+}
+
+.Expandable-label {
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: $vertical-spacing/2;
+  font-size: .875em;
+  font-weight: 500;
+  text-rendering: geometricPrecision;
+  > span > * {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.Expandable-content {
+  display: none;
+  margin-left: $horizontal-spacing/3;
+  .Expandable.expanded & {
+    display: block;
+  }
+}
