@@ -1,6 +1,14 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import union from 'lodash/union';
+import without from 'lodash/without';
+import merge from 'lodash/merge';
 
+import { getCategories } from '../reducers/categories';
+
+import Label from './Label';
+import Expandable from '../widgets/Expandable';
+import Switch from './Switch';
 import Picker from './Picker';
 import TagIcon from '../tags/TagIcon';
 
@@ -37,26 +45,13 @@ export class CategoryPicker extends Component {
       selectedFilters: this.mapFiltersToObject(nextProps.selectedFilters),
     });
   }
-  getSelectedCategory() {
-    return this.state.selectedCategory;
-  }
-  getSelectedFilters() {
-    const { selectedFilters } = this.state;
-    const filterArray = Object.keys(selectedFilters).map(key => ({
-      slug: key,
-      value: {
-        slug: selectedFilters[key],
-      },
-    })).filter(filter => !!filter.value.slug);
-    return filterArray;
-  }
   mapFiltersToObject(arr) {
     if (!(arr instanceof Array)) {
       return arr;
     }
     const obj = {};
     arr.forEach(filter => {
-      obj[filter.slug] = filter.value.slug;
+      obj[filter.slug] = filter.value.slug.split(',');
     });
     return obj;
   }
@@ -81,12 +76,18 @@ export class CategoryPicker extends Component {
     });
   }
   handleFilterChange(filter, value, e) {
-    this.setState({
-      selectedFilters: {
+    let selectedFilters;
+    if (e.target.checked) {
+      selectedFilters = merge({}, this.state.selectedFilters, {
+        [filter.slug]: union(this.state.selectedFilters[filter.slug], [value.slug]),
+      });
+    } else {
+      selectedFilters = {
         ...this.state.selectedFilters,
-        [filter.slug]: value,
-      },
-    }, () => {
+        [filter.slug]: without(this.state.selectedFilters[filter.slug], value.slug),
+      };
+    }
+    this.setState({ selectedFilters }, () => {
       if (this.props.onChange) {
         this.props.onChange(this.state.selectedCategory, this.state.selectedFilters, e);
       }
@@ -127,22 +128,18 @@ export class CategoryPicker extends Component {
 
         { filters.length > 0 &&
           <div className={ filtersClassName } style={ { marginTop: '.5em' } }>
-            { filters.map(filter =>
-              <span key={ filter.name }>
-                <Picker
-                  className="SearchFilters-input"
-                  block
-                  label={ filter.name }
-                  name={ filter.slug }
-                  disabled={ disabled }
-                  value={ selectedFilters[filter.slug] || '' }
-                  onChange={ value => this.handleFilterChange(filter, value) }>
-                  <option value="">All</option>
-                  { filter.values.map(value =>
-                    <option value={ value.slug } key={ value.slug }>{ value.name }</option>
+            { filters.map((filter, i) =>
+              <Expandable key={ i } label={ filter.name } expand={ selectedFilters[filter.slug] && selectedFilters[filter.slug].length > 0 }>
+                { filter.values.map(value =>
+                  <Switch
+                    onChange={ e => this.handleFilterChange(filter, value, e) }
+                    id={ `${filter.slug}:${value.slug}` }
+                    name={ filter.slug }
+                    value={ value.slug }
+                    checked={ selectedFilters[filter.slug] && selectedFilters[filter.slug].indexOf(value.slug) > -1 }
+                    key={ value.slug }>{ value.name }</Switch>
                   ) }
-                </Picker>
-              </span>
+              </Expandable>
             ) }
           </div>
         }
@@ -152,7 +149,7 @@ export class CategoryPicker extends Component {
 }
 
 const mapStateToProps = state => ({
-  categories: state.categories.ids.map(id => state.entities.categories[id]),
+  categories: getCategories(state),
 });
 
 export default connect(mapStateToProps)(CategoryPicker);
