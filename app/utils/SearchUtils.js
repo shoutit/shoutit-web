@@ -1,7 +1,7 @@
 export function filtersObjectToUriComponent(filters) {
   const arr = [];
   Object.keys(filters)
-    .filter(slug => !!filters[slug])
+    .filter(slug => !!filters[slug].length > 0)
     .forEach(slug => arr.push(`${slug}:${filters[slug]}`)
   );
   return arr.join(';');
@@ -14,7 +14,7 @@ export function uriComponentToFiltersObject(component) {
     if (filter.length === 2) {
       filters = {
         ...filters,
-        [filter[0]]: filter[1],
+        [filter[0]]: filter[1].split(','),
       };
     }
   });
@@ -136,8 +136,11 @@ export function getSearchQuery(params, location) {
   }
 
   if (params.filters) {
+    query.filters = {};
     const filters = uriComponentToFiltersObject(params.filters);
-    Object.keys(filters).forEach(slug => { query[slug] = filters[slug]; });
+    Object.keys(filters).forEach(slug => {
+      query.filters[slug] = filters[slug];
+    });
   }
 
   if (!isNaN(params.page)) {
@@ -149,42 +152,7 @@ export function getSearchQuery(params, location) {
   if (params.sort) {
     query.sort = params.sort;
   }
+
   return query;
 }
 
-export function getSearchParamsFromQuery(query) {
-  const {
-    shout_type,
-    category,
-    min_price,
-    max_price,
-    search,
-    page,
-    sort,
-    free,
-  } = query;
-
-  let filters;
-  if (query.filters) {
-    filters = uriComponentToFiltersObject(query.filters);
-  }
-  const searchParams = {
-    shout_type,
-    category,
-    free: free === 'true',
-    search: search ? decodeURIComponent(search) : undefined,
-    min_price: min_price ? parseInt(min_price, 10) : undefined,
-    max_price: max_price ? parseInt(max_price, 10) : undefined,
-    page: page ? parseInt(page, 10) : undefined,
-    ...filters,
-    sort,
-  };
-
-  if (query.within && query.within !== 'city') {
-    searchParams.within = isNaN(parseInt(query.within, 10)) ?
-      query.within :
-      parseInt(query.within, 10);
-  }
-
-  return searchParams;
-}

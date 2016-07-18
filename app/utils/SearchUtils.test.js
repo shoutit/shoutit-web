@@ -9,11 +9,19 @@ describe('utils/SearchUtils', () => {
 
     it('should create a string with slugs and values', () => {
       const component = SearchUtils.filtersObjectToUriComponent({
-        foo: 'bar',
-        abc: 'xyz',
-        bar: 'abc,foo',
+        foo: ['bar'],
+        abc: ['xyz'],
+        bar: ['abc', 'foo'],
       });
       expect(component).to.equal('foo:bar;abc:xyz;bar:abc,foo');
+    });
+    it('should ignore empty filters', () => {
+      const component = SearchUtils.filtersObjectToUriComponent({
+        foo: ['bar'],
+        abc: ['xyz'],
+        bar: [],
+      });
+      expect(component).to.equal('foo:bar;abc:xyz');
     });
 
   });
@@ -22,7 +30,7 @@ describe('utils/SearchUtils', () => {
 
     it('should create an object from a string with slugs and values', () => {
       const obj = SearchUtils.uriComponentToFiltersObject('foo:bar;bar:foo,abc');
-      expect(obj).to.eql({ foo: 'bar', bar: 'foo,abc' });
+      expect(obj).to.eql({ foo: ['bar'], bar: ['foo', 'abc'] });
     });
 
   });
@@ -36,7 +44,10 @@ describe('utils/SearchUtils', () => {
         min_price: '1',
         max_price: '2',
         search: 'with space',
-        filters: { foo: 'bar,abc', bar: 'foo' },
+        filters: {
+          foo: ['bar', 'abc'],
+          bar: ['foo'],
+        },
         sort: 'time',
       });
       expect(querystring).to.equal('shout_type=request&category=foo-category&search=with%20space&min_price=1&max_price=2&filters=foo:bar,abc;bar:foo&sort=time');
@@ -98,6 +109,18 @@ describe('utils/SearchUtils', () => {
       expect(query).to.eql({
         min_price: 1,
         max_price: 2,
+        page: 1,
+      });
+    });
+
+    it('should parse filters', () => {
+      const query = SearchUtils.getSearchQuery({
+        filters: 'foo:bar,abc',
+      });
+      expect(query).to.eql({
+        filters: {
+          foo: ['bar', 'abc'],
+        },
         page: 1,
       });
     });

@@ -5,7 +5,12 @@ import { parseApiError } from '../utils/APIUtils';
 export default {
   name: 'shouts',
   read: (req, resource, params = {}, config, callback) => {
-    const { endpoint, ...query } = params;
+    const { endpoint, filters, ...query } = params;
+    if (filters) {
+      Object.keys(filters).forEach(slug => {
+        query[slug] = filters[slug].join(',');
+      });
+    }
     const url = endpoint || '/shouts';
     request
       .get(url)
