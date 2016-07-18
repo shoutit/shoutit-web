@@ -32,10 +32,6 @@ export class SearchFilters extends Component {
 
   static defaultProps = {
     disabled: false,
-    query: {
-      category: '',
-      filters: {},
-    },
   }
 
   constructor(props) {
@@ -100,7 +96,7 @@ export class SearchFilters extends Component {
 
   render() {
     const { disabled, currentLocation } = this.props;
-    const { category, shout_type, min_price, max_price, search, filters } = this.state;
+    const { category, shout_type, min_price, max_price, search } = this.state;
     return (
       <Card block>
         <Form onSubmit={ this.submit }>
@@ -138,9 +134,8 @@ export class SearchFilters extends Component {
           </CardSection>
           <CardSection separe>
             <CategoryPicker
-              filtersClassName="Form-inset-small"
               selectedCategorySlug={ category }
-              selectedFilters={ filters }
+              selectedFilters={ this.state.filters }
               showFilters
               onChange={ (category, filters) =>
                 this.handleChange({

@@ -216,8 +216,8 @@ export class ShoutForm extends Component {
         <CategoryPicker
           inputRef={ el => { this.categoryPicker = el; } }
           showFilters={ mode === 'update' }
+          canSelectMultipleFilters={ false }
           label={ formatMessage(MESSAGES.category) }
-          filtersClassName="Form-inset-small"
           name="category.slug"
           disabled={ disabled }
           selectedCategorySlug={ shout.category ? (shout.category.slug || shout.category) : '' }

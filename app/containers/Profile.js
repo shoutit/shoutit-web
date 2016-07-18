@@ -123,9 +123,9 @@ export class Profile extends Component {
                             /> :
                             <FormattedMessage
                               id="profile.others.shoutsList.header"
-                              defaultMessage="{firstName}’s shouts ({count})"
+                              defaultMessage="{name}’s shouts ({count})"
                               values={ {
-                                firstName: profile.firstName,
+                                name: profile.name,
                                 count: this.props.shouts.length,
                               } }
                             />
@@ -140,8 +140,8 @@ export class Profile extends Component {
                       <h2>
                         <FormattedMessage
                           id="profile.others.shoutsList.noshouts"
-                          defaultMessage="{firstName} has no shouts, yet!"
-                          values={ { ...profile } }
+                          defaultMessage="{name} has no shouts, yet!"
+                          values={ { name: profile.name } }
                         />
                       </h2>
                     }

@@ -10,7 +10,7 @@ import { invalidateSearch, searchShouts, searchTags, searchProfiles } from '../a
 import { getCurrentLocale } from '../reducers/i18n';
 import { getQuery } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
-import SearchIcon from '../icons/SearchIcon';
+import SimpleIcon from '../icons/SimpleIcon';
 
 import { openModal } from '../actions/ui';
 
@@ -141,7 +141,7 @@ export class Searchbar extends Component {
                 }
                 endElement={ this.props.showSubmitButton &&
                   <span onClick={ this.submit }>
-                    <SearchIcon colorName={ this.state.isFocused ? 'BORDER_COLOR_HOVER' : 'BORDER_COLOR' } />
+                    <SimpleIcon name="search" colorName={ this.state.isFocused ? 'BORDER_COLOR_HOVER' : 'BORDER_COLOR' } />
                   </span>
                 }
                 onChange={ this.handleChange }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>svg/icons/chevron</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="SVG-icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="svg/icons/chevron" fill="#FFFFFF">
+            <path d="M29.3964826,18.7208543 L18.1020879,8.68175579 C17.1630509,7.77274807 15.641715,7.77274807 14.7042777,8.68175579 C13.7652408,9.5907635 13.7652408,11.0634489 14.7042777,11.9709081 L25.9986725,22.0045016 L14.7042777,32.0290919 C13.7652408,32.9380997 13.7652408,34.4107851 14.7042777,35.3182442 C15.6433147,36.2272519 17.1646506,36.2272519 18.1020878,35.3182442 L29.3964827,25.2936539 C30.3339199,24.3877433 30.8026385,23.1953482 30.8026385,22.0045016 C30.8026385,20.8136551 30.3339199,19.6267649 29.3964826,18.7208543 L29.3964826,18.7208543 Z" id="chevron"></path>
+        </g>
+    </g>
+</svg>
