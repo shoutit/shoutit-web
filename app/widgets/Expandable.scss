@@ -21,9 +21,11 @@
 }
 
 .Expandable-content {
-  display: none;
+  height: 0;
+  overflow: hidden;
   margin-left: $horizontal-spacing/3;
   .Expandable.expanded & {
-    display: block;
+    height: auto;
+    overflow: default;
   }
 }
