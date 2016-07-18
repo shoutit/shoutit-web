@@ -76,7 +76,7 @@ export function getSearchQuery(params, location) {
     query.shout_type = params.shout_type;
   }
   if (params.search) {
-    query.search = params.search;
+    query.search = decodeURIComponent(params.search);
   }
   if (params.category) {
     query.category = params.category;
