@@ -4,7 +4,6 @@ import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import { FormattedMessage } from 'react-intl';
 
-import { getCategories } from '../reducers/categories';
 import { getCurrentLocation } from '../reducers/currentLocation';
 
 import Button from '../forms/Button';
@@ -13,6 +12,7 @@ import Switch from '../forms/Switch';
 import LocationField from '../forms/LocationField';
 import LocationRange from '../forms/LocationRange';
 import CategoryPicker from '../forms/CategoryPicker';
+import CategoryFilters from '../forms/CategoryFilters';
 import PriceField from '../forms/PriceField';
 import TextField from '../forms/TextField';
 import Label from '../forms/Label';
@@ -24,8 +24,6 @@ export class SearchFilters extends Component {
 
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    intl: PropTypes.object.isRequired,
-    categories: PropTypes.array.isRequired,
     query: PropTypes.object,
     currentLocation: PropTypes.object,
   }
@@ -96,7 +94,7 @@ export class SearchFilters extends Component {
 
   render() {
     const { disabled, currentLocation } = this.props;
-    const { category, shout_type, min_price, max_price, search } = this.state;
+    const { shout_type, min_price, max_price, search } = this.state;
     return (
       <Card block>
         <Form onSubmit={ this.submit }>
@@ -134,16 +132,19 @@ export class SearchFilters extends Component {
           </CardSection>
           <CardSection separe>
             <CategoryPicker
-              selectedCategorySlug={ category }
-              selectedFilters={ this.state.filters }
-              showFilters
-              onChange={ (category, filters) =>
-                this.handleChange({
-                  category: category ? category.slug : '',
-                  filters,
-                })
-              }
+              selectedCategorySlug={ this.state.category }
+              onChange={ category => this.handleChange({
+                category,
+                filters: null, // reset current filters when changing category
+              }) }
             />
+            { this.state.category &&
+              <CategoryFilters
+                categorySlug={ this.state.category }
+                selectedFilters={ this.state.filters }
+                onChange={ filters => this.handleChange({ filters }) }
+              />
+            }
           </CardSection>
           <CardSection separe>
             <Label htmlFor="searchFiltersMinPrice">
@@ -217,13 +218,13 @@ export class SearchFilters extends Component {
   }
 }
 
+
 SearchFilters.propTypes = {
   dispatch: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  categories: getCategories(state),
   currentLocation: getCurrentLocation(state),
 });
 
