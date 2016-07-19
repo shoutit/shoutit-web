@@ -85,20 +85,34 @@ export class ShoutForm extends Component {
     this.handleUploadEnd = this.handleUploadEnd.bind(this);
     this.state = {
       publish_to_facebook: props.canPublishToFacebook,
+      filters: [],
     };
+  }
+
+  /**
+   * Get the selected filters in the form our API requires them
+   * @return {Array}
+   */
+  getFilters() {
+    const filterArray = Object.keys(this.state.filters).map(key => ({
+      slug: key,
+      value: {
+        slug: this.state.filters[key].join(),
+      },
+    })).filter(filter => !!filter.value.slug);
+    return filterArray;
   }
 
   getShout() {
     const { mode } = this.props;
-    const category = this.categoryPicker.getSelectedCategory();
     const shout = {
       title: this.titleField.getValue(),
       text: mode === 'update' ? this.textField.getValue() : null,
       location: this.locationField.getValue(),
       mobile: this.mobileField.getValue(),
 
-      category: category ? category.slug : null,
-      filters: mode === 'update' ? this.categoryPicker.getSelectedFilters() : [],
+      category: this.state.category || null,
+      // filters: this.getFilters(),
 
       currency: this.state.currency || null,
       price: this.priceField.getValue(),
@@ -125,10 +139,17 @@ export class ShoutForm extends Component {
   }
 
   handleChange(state) {
-    this.setState(state);
-    if (this.props.onChange) {
-      this.props.onChange(state);
-    }
+    this.setState(state, () => {
+      if (state.filters) {
+        state = {
+          ...state,
+          filters: this.getFilters(),
+        };
+      }
+      if (this.props.onChange) {
+        this.props.onChange(state);
+      }
+    });
   }
 
   handleUploadStart() {
@@ -214,17 +235,11 @@ export class ShoutForm extends Component {
         />
 
         <CategoryPicker
-          inputRef={ el => { this.categoryPicker = el; } }
-          showFilters={ mode === 'update' }
-          canSelectMultipleFilters={ false }
           label={ formatMessage(MESSAGES.category) }
           name="category.slug"
           disabled={ disabled }
           selectedCategorySlug={ shout.category ? (shout.category.slug || shout.category) : '' }
-          selectedFilters={ shout.filters }
-          onChange={ category =>
-            this.handleChange({ category, filters: this.categoryPicker.getSelectedFilters() })
-          }
+          onChange={ category => this.handleChange({ category, filters: [] }) }
           error={ error } />
 
         <LocationField
