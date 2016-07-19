@@ -20,8 +20,8 @@ export default function (state = initialState, action) {
   }
 }
 
-export function getCategory(state, name) {
-  return state.entities.categories[name];
+export function getCategory(state, slug) {
+  return state.entities.categories[slug];
 }
 
 export function getCategories(state) {
