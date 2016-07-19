@@ -1,59 +1,33 @@
 import React, { PropTypes, Component } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import union from 'lodash/union';
-import without from 'lodash/without';
-import merge from 'lodash/merge';
 
 import { getCategories } from '../reducers/categories';
 
-import Expandable from '../widgets/Expandable';
-import Switch from './Switch';
-import Picker from './Picker';
+import Picker from '../forms/Picker';
 import TagIcon from '../tags/TagIcon';
 
 export class CategoryPicker extends Component {
   static propTypes = {
     categories: PropTypes.array.isRequired,
-
     className: PropTypes.string,
     label: PropTypes.string,
     disabled: PropTypes.bool,
-    canSelectMultipleFilters: PropTypes.bool,
-    inputRef: PropTypes.func,
     onChange: PropTypes.func,
     selectedCategorySlug: PropTypes.string,
-    selectedFilters: PropTypes.object,
-    showFilters: PropTypes.bool,
-  }
-  static defaultProps = {
-    showFilters: true,
-    disabled: false,
-    canSelectMultipleFilters: true,
   }
   constructor(props) {
     super(props);
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
-    this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.state = {
-      selectedCategory: this.findCategory(props.selectedCategorySlug),
-      selectedFilters: this.mapFiltersToObject(props.selectedFilters),
-    };
+    this.handleChange = this.handleChange.bind(this);
+    this.state = this.getStateFromProps(props);
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      selectedCategory: this.findCategory(nextProps.selectedCategorySlug),
-      selectedFilters: this.mapFiltersToObject(nextProps.selectedFilters),
-    });
+    this.setState(this.getStateFromProps(nextProps));
   }
-  mapFiltersToObject(arr) {
-    if (!(arr instanceof Array)) {
-      return arr;
-    }
-    const obj = {};
-    arr.forEach(filter => {
-      obj[filter.slug] = filter.value.slug.split(',');
-    });
-    return obj;
+  getStateFromProps(props) {
+    return {
+      selectedCategory: this.findCategory(props.selectedCategorySlug),
+    };
   }
   findCategory(slug) {
     return this.props.categories.find(category => category.slug === slug) || '';
@@ -67,84 +41,45 @@ export class CategoryPicker extends Component {
   select() {
     this.refs.field.select();
   }
-  handleCategoryChange(slug, e) {
+  handleChange(slug, e) {
     const selectedCategory = this.findCategory(slug);
-    this.setState({ selectedCategory, selectedFilters: {} }, () => {
+    this.setState({ selectedCategory }, () => {
       if (this.props.onChange) {
-        this.props.onChange(this.state.selectedCategory, this.state.selectedFilters, e);
-      }
-    });
-  }
-  handleFilterChange(filter, value, e) {
-    let selectedFilters;
-    if (e.target.checked) {
-      selectedFilters = merge({}, this.state.selectedFilters, {
-        [filter.slug]: this.props.canSelectMultipleFilters ?
-          union(this.state.selectedFilters[filter.slug], [value.slug]) :
-          [value.slug],
-      });
-    } else {
-      selectedFilters = {
-        ...this.state.selectedFilters,
-        [filter.slug]: without(this.state.selectedFilters[filter.slug], value.slug),
-      };
-    }
-    this.setState({ selectedFilters }, () => {
-      if (this.props.onChange) {
-        this.props.onChange(this.state.selectedCategory, this.state.selectedFilters, e);
+        this.props.onChange(this.state.selectedCategory.slug, e);
       }
     });
   }
   render() {
-    const { categories, disabled, showFilters, className, label, inputRef } = this.props;
-    const { selectedCategory, selectedFilters } = this.state;
-    let filters = [];
-    if (showFilters && selectedCategory && selectedCategory.filters) {
-      filters = selectedCategory.filters.filter(filter => filter.values.length > 0);
+    let className = 'CategoryPicker FormField';
+    if (this.props.className) {
+      className += ` ${this.props.className}`;
     }
-    let cssClass = 'CategoryPicker FormField';
-
-    if (className) {
-      cssClass += ` ${className}`;
-    }
+    const { selectedCategory } = this.state;
     return (
-      <div className={ cssClass } ref={ () => { inputRef ? inputRef(this) : null; } }>
-        <Picker
-          startElement={ selectedCategory.icon && <TagIcon tag={ selectedCategory } /> }
-          className="SearchFilters-input"
-          block
-          label={ label }
-          disabled={ disabled }
-          ref="category"
-          name="category"
-          value={ selectedCategory && selectedCategory.slug }
-          onChange={ this.handleCategoryChange }
-        >
-          <option value="">All categories</option>
-          { categories.map(({ slug, name }) =>
-            <option value={ slug } key={ slug }>
-              { name }
-            </option>
-          ) }
-        </Picker>
+      <div className={ className }>
 
-        { filters.length > 0 &&
-          <div style={ { marginTop: '.75em' } }>
-            { filters.map((filter, i) =>
-              <Expandable key={ i } label={ filter.name } expand={ selectedFilters[filter.slug] && selectedFilters[filter.slug].length > 0 }>
-                { filter.values.map(value =>
-                  <Switch
-                    onChange={ e => this.handleFilterChange(filter, value, e) }
-                    id={ `${filter.slug}:${value.slug}` }
-                    name={ filter.slug }
-                    value={ value.slug }
-                    checked={ selectedFilters[filter.slug] && selectedFilters[filter.slug].indexOf(value.slug) > -1 }
-                    key={ value.slug }>{ value.name }</Switch>
-                  ) }
-              </Expandable>
-            ) }
-          </div>
-        }
+        <FormattedMessage
+          id="forms.CategoryPicker.allCategories"
+          defaultMessage="All Categories">
+          { allCategoriesMessage =>
+            <Picker
+              startElement={ selectedCategory.icon && <TagIcon tag={ selectedCategory } /> }
+              block
+              disabled={ this.props.disabled }
+              label={ this.props.label }
+              ref="category"
+              name="category"
+              value={ selectedCategory && selectedCategory.slug }
+              onChange={ this.handleChange }>
+              <option value="">{ allCategoriesMessage }</option>
+              { this.props.categories.map(({ slug, name }) =>
+                <option value={ slug } key={ slug }>
+                  { name }
+                </option>
+              ) }
+            </Picker>
+          }
+        </FormattedMessage>
       </div>
     );
   }
