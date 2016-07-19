@@ -1,11 +1,12 @@
 /* eslint-env browser */
 import debug from 'debug';
+import isFunction from 'lodash/isFunction';
 
 const log = debug('shoutit:utils:mixpanel');
 
 export function identifyOnMixpanel(user) {
   if (!window.mixpanel) {
-    log('Mixpanel not loaded');
+    log('Mixpanel not available, do you have an ad blocker installed?');
     return;
   }
   window.mixpanel.identify(user.id);
@@ -13,6 +14,10 @@ export function identifyOnMixpanel(user) {
 }
 
 export function getMixpanelId() {
+  if (!window.mixpanel || !isFunction(window.mixpanel.get_distinct_id)) {
+    log('Mixpanel not available, do you have an ad blocker installed?');
+    return null;
+  }
   return window.mixpanel.get_distinct_id();
 }
 
