@@ -3,7 +3,7 @@ import { FormattedNumber, FormattedMessage } from 'react-intl';
 
 import './ShoutPrice.scss';
 export default function ShoutPrice({ shout, layout = 'plain' }) {
-  const isFree = !shout.price;
+  const isFree = shout.price === 0;
   let { price } = shout;
   let className = `ShoutPrice ${layout}`;
   if (isFree) {
