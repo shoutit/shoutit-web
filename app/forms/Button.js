@@ -8,15 +8,15 @@ import './Button.scss';
 export default class Button extends Component {
 
   static propTypes = {
-    children: PropTypes.node.isRequired,
-    startElement: PropTypes.element,
-    kind: PropTypes.oneOf(['default', 'primary', 'secondary', 'alternate', 'destructive', 'inverted', 'social']),
-    size: PropTypes.oneOf(['small', 'medium']),
-    icon: PropTypes.string,
     block: PropTypes.bool,
-    iconButton: PropTypes.bool,
+    children: PropTypes.node.isRequired,
     className: PropTypes.string,
     element: PropTypes.string,
+    icon: PropTypes.string,
+    iconButton: PropTypes.bool,
+    kind: PropTypes.oneOf(['default', 'primary', 'secondary', 'alternate', 'destructive', 'inverted', 'social']),
+    size: PropTypes.oneOf(['small', 'medium']),
+    startElement: PropTypes.element,
   }
 
   static defaultProps = {
@@ -35,7 +35,17 @@ export default class Button extends Component {
   }
 
   render() {
-    const { icon, children, kind, size, block, element, ...attributes } = this.props;
+    const {
+      block,
+      children,
+      element,
+      icon,
+      iconButton,
+      kind,
+      size,
+      startElement,
+      ...attributes,
+    } = this.props;
 
     let className = `Button ${kind}`;
     if (icon) {
@@ -58,12 +68,12 @@ export default class Button extends Component {
         { icon &&
           <Icon name={ icon } fill={ kind !== 'default' } active={ kind === 'default' } />
         }
-        { this.props.startElement &&
+        { startElement &&
           <span className="Button-start">
-            { this.props.startElement }
+            { startElement }
           </span>
         }
-        { this.props.iconButton ?
+        { iconButton ?
           <span className="Button-icon">
             { children }
           </span> :

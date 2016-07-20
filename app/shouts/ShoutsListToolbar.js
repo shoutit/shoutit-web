@@ -55,7 +55,7 @@ class ShoutsListToolbar extends Component {
               </label>
               <Picker value={ this.props.sortType } name="sort" id="ShoutsListToolbarSort" onChange={ this.props.onSortChange }>
                 { this.props.sortTypes.map(sortType =>
-                  <option value={ sortType.type }>{ sortType.name }</option>
+                  <option key={ sortType.type } value={ sortType.type }>{ sortType.name }</option>
                 ) }
               </Picker>
             </div>

@@ -17,6 +17,7 @@ export function AppBadge({ appstore, locale, ...props }) {
       break;
     default:
   }
+  delete props.dispatch;
   return (
     <a href={ href } target="_blank" className="AppBadge">
       <img
@@ -31,6 +32,7 @@ export function AppBadge({ appstore, locale, ...props }) {
 AppBadge.propTypes = {
   appstore: PropTypes.oneOf(['appStore', 'googlePlay']).isRequired,
   locale: PropTypes.string.isRequired,
+  dispatch: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

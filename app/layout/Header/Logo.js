@@ -1,23 +1,17 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { imagesPath } from '../../config';
 
-// import './Toolbar.scss';
-
-class Location extends Component {
-  static propTypes = {
-    location: PropTypes.object.isRequired,
-    onLocationClick: PropTypes.func.isRequired,
-  }
+class Logo extends Component {
   render() {
     return (
       <div className="Header-logo">
         <Link to="/">
-          <img alt="" height="36" width="113" src={ `${imagesPath}/logo.png` } />
+          <img alt="" height="36" width="113" src={ `${imagesPath}/logo.svg?v2` } />
         </Link>
       </div>
     );
   }
 }
 
-export default Location;
+export default Logo;

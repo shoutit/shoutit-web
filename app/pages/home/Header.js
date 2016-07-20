@@ -15,7 +15,7 @@ class HomePageHeader extends Component {
       <div className="HomePageHeader">
         <span className="HomePageHeader-logo">
           <Link to="/">
-            <img alt="" height="36" width="113" src={ `${imagesPath}/logo-mark-inverted.png` } />
+            <img alt="" height="36" width="113" src={ `${imagesPath}/logo-mark-inverted.svg?v2` } />
           </Link>
         </span>
         <span className="HomePageHeader-actions">

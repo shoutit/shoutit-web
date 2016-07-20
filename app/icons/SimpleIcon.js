@@ -68,8 +68,7 @@ class SimpleIcon extends Component {
         width={ size }
         height={ size }
         viewBox="0 0 44 44"
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg">
+        version="1.1">
         <g fill={ colors[colorName] }>
           { this.getIcon(this.props.name) }
         </g>

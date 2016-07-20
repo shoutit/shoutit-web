@@ -44,9 +44,14 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
   margin-top: .75em;
 }
 
-.FieldsGroup > .FormField + .FormField {
+.FieldsGroup:not(.wrap) > .FormField + .FormField {
   padding-top: 0;
   padding-left: .5em;
+}
+
+.FieldsGroup.wrap > .FormField {
+  padding-right: .5em;
+  padding-bottom: .25em;
 }
 
 .FormField-wrapper {
@@ -60,7 +65,7 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
 
 .FormField.disabled .FormField-wrapper {
   background-color: $grey-light-6;
-  input, textearea, select {
+  input, textarea, select {
     color: $color-placeholder !important;
   }
 }

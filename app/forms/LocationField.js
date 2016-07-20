@@ -255,6 +255,12 @@ export class LocationField extends Component {
     if (location) {
       countryFlag = <CountryFlag code={ location.country } size="small" />;
     }
+    delete props.locale;
+    delete props.isFetching;
+    delete props.predictions;
+    delete props.lastInput;
+    delete props.updatesUserLocation;
+    delete props.dispatch;
     return (
       <div className="FormField" style={ { position: 'relative' } }>
         <span onClick={ this.select }>

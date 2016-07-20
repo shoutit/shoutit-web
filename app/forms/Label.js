@@ -4,7 +4,7 @@ import './Label.scss';
 class Label extends Component {
   static propTypes = {
     htmlFor: PropTypes.string,
-    children: PropTypes.element,
+    children: PropTypes.node,
     maxLength: PropTypes.number,
     currentLength: PropTypes.number,
   }

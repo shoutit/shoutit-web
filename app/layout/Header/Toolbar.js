@@ -13,7 +13,6 @@ import AddIcon from '../../icons/AddIcon';
 
 class Toolbar extends Component {
   static propTypes = {
-    location: PropTypes.object.isRequired,
     isLoggedIn: PropTypes.bool,
     layout: PropTypes.oneOf(['mobile', 'desktop']),
     onNewShoutClick: PropTypes.func.isRequired,
