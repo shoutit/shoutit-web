@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import Modal, { Header, Footer, Body } from '../modals';
 import Button from '../forms/Button';
 
@@ -13,11 +13,19 @@ import ShoutForm from './ShoutForm';
 
 import './CreateShoutModal.scss';
 
+const MESSAGES = defineMessages({
+  confirmDelete: {
+    id: 'updateShoutModal.deleteButton.confirm',
+    defaultMessage: 'Really delete this Shout?',
+  },
+});
+
 export class UpdateShout extends Component {
 
   static propTypes = {
     shoutId: PropTypes.string.isRequired,
     shout: PropTypes.object.isRequired,
+    intl: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onDeleteConfirm: PropTypes.func.isRequired,
     onShoutChange: PropTypes.func,
@@ -64,7 +72,7 @@ export class UpdateShout extends Component {
   }
 
   deleteShout() {
-    if (confirm('Really delete this Shout?')) { // eslint-disable-line
+    if (confirm(this.props.intl.formatMessage(MESSAGES.confirmDelete))) {
       this.setState({ isDeleting: true });
       this.props.onDeleteConfirm(this.state.shout);
     }
@@ -169,4 +177,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(deleteShout(shout)).then(() => { window.location = '/'; }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateShout);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(UpdateShout));

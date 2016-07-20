@@ -1,5 +1,9 @@
 [
   {
+    "id": "updateShoutModal.deleteButton.confirm",
+    "defaultMessage": "Really delete this Shout?"
+  },
+  {
     "id": "updateShoutModal.publishButton.uploadingImages",
     "defaultMessage": "Uploading…"
   },

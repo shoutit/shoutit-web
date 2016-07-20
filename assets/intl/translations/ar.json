@@ -255,6 +255,7 @@
   "shouts.ShoutsListToolbar.sortByLabel": "ترتيب حسب",
   "suggestedShout.title": "إعلانات مقترحة",
   "UpdateShoutButton.label": "تعديل الإعلان",
+  "updateShoutModal.deleteButton.confirm": "Really delete this Shout?",
   "updateShoutModal.publishButton.uploadingImages": "يتم التحميل…",
   "updateShoutModal.publishButton.publishing": "يتم النشر…",
   "updateShoutModal.publishButton.deleting": "يتم الحذف…",
