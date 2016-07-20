@@ -139,10 +139,10 @@ export class Searchbar extends Component {
                     onClick={ this.handleLocationClick }
                   /> : null
                 }
-                endElement={ this.props.showSubmitButton &&
+                endElement={ this.props.showSubmitButton ?
                   <span onClick={ this.submit }>
                     <SimpleIcon name="search" colorName={ this.state.isFocused ? 'BORDER_COLOR_HOVER' : 'BORDER_COLOR' } />
-                  </span>
+                  </span> : null
                 }
                 onChange={ this.handleChange }
                 onBlur={ () => this.setState({ isFocused: false }) }
