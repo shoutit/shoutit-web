@@ -60,7 +60,7 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
 
 .FormField.disabled .FormField-wrapper {
   background-color: $grey-light-6;
-  input, textearea, select {
+  input, textarea, select {
     color: $color-placeholder !important;
   }
 }
