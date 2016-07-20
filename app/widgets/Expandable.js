@@ -7,7 +7,7 @@ class Expandable extends Component {
   static propTypes = {
     expand: PropTypes.bool,
     label: PropTypes.string,
-    children: PropTypes.element.isRequired,
+    children: PropTypes.node.isRequired,
   }
   static defaultProps = {
     expand: false,

@@ -54,7 +54,7 @@ export default class Form extends Component {
 
         { errorMessages.length > 0 &&
           <ul className="Form-errors">
-            { errorMessages.map(message => <li>{ message }</li>) }
+            { errorMessages.map((message, i) => <li key={ i }>{ message }</li>) }
           </ul>
         }
 

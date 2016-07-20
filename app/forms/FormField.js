@@ -187,7 +187,6 @@ export default class FormField extends Component {
       cssClass += ` ${className}`;
     }
 
-
     let fieldElement;
     if (field) {
       fieldElement = React.createElement(field, {

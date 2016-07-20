@@ -131,13 +131,13 @@ export class Searchbar extends Component {
                 name="query"
                 placeholder={ placeholder }
                 value={ this.state.query }
-                startElement={ this.props.showLocation &&
+                startElement={ this.props.showLocation ?
                   <CountryFlag
                     size="small"
                     tooltipPlacement="bottom"
                     code={ this.props.currentLocation.country }
                     onClick={ this.handleLocationClick }
-                  />
+                  /> : null
                 }
                 endElement={ this.props.showSubmitButton &&
                   <span onClick={ this.submit }>

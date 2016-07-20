@@ -93,11 +93,14 @@ export default class PriceField extends Component {
         />
       );
     }
+    const props = { ...this.props };
+    delete props.currency;
+    delete props.showCurrencies;
     return (
       <TextField
         className="PriceField"
         inputRef={ field => { this.field = field; } }
-        { ...this.props }
+        { ...props }
         startElement={ startElement }
         flexibleContent
         value={ value }
