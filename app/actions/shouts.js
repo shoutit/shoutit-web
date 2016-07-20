@@ -85,18 +85,18 @@ export const createShout = (user, newShout) => {
   };
 };
 
-export const updateShout = shout => ({
+export const updateShout = (shout, removedImages) => ({
   types: [
     actionTypes.UPDATE_SHOUT_START,
     actionTypes.UPDATE_SHOUT_SUCCESS,
     actionTypes.UPDATE_SHOUT_FAILURE,
   ],
-  payload: { shout },
+  payload: { shout, removedImages },
   service: {
     method: 'update',
     name: 'shout',
     params: { id: shout.id },
-    body: shout,
+    body: { shout, removedImages },
     schema: SHOUT,
   },
 });

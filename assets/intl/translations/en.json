@@ -255,6 +255,7 @@
   "shouts.ShoutsListToolbar.sortByLabel": "Sort by",
   "suggestedShout.title": "Suggested shout",
   "UpdateShoutButton.label": "Edit Shout",
+  "updateShoutModal.deleteButton.confirm": "Really delete this Shout?",
   "updateShoutModal.publishButton.uploadingImages": "Uploading…",
   "updateShoutModal.publishButton.publishing": "Publishing…",
   "updateShoutModal.publishButton.deleting": "Deleting…",

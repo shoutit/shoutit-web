@@ -154,6 +154,7 @@ export default class Pager extends Component {
       for (let i = 1; i <= total; i++) {
         items.push(
           <PageItem
+            key={ items.length }
             url={ this.props.url }
             active={ i === current }
             onClick={ this.handlePageClick }
@@ -166,6 +167,7 @@ export default class Pager extends Component {
       for (let i = 1; i < maxItems; i++) {
         items.push(
           <PageItem
+            key={ items.length }
             url={ this.props.url }
             active={ i === current }
             onClick={ this.handlePageClick }
@@ -175,11 +177,12 @@ export default class Pager extends Component {
         );
       }
       items.push(
-        <PageItem disabled />
+        <PageItem key={ items.length } disabled />
       );
       // End of the batch, display first and last 5
       items.push(
         <PageItem
+          key={ items.length }
           url={ this.props.url }
           onClick={ this.handlePageClick }
           page={ total }>
@@ -190,16 +193,18 @@ export default class Pager extends Component {
       // End of the batch, display first and last 5
       items.push(
         <PageItem
+          key={ items.length }
           url={ this.props.url }
           onClick={ this.handlePageClick }
           page={ 1 }>
           1
         </PageItem>
       );
-      items.push(<PageItem disabled />);
+      items.push(<PageItem key={ items.length } disabled />);
       for (let i = total - maxItems + 2; i <= total; i++) {
         items.push(
           <PageItem
+            key={ items.length }
             url={ this.props.url }
             active={ i === current }
             onClick={ this.handlePageClick }
@@ -212,16 +217,18 @@ export default class Pager extends Component {
       // Middle of the batch
       items.push(
         <PageItem
+          key={ items.length }
           url={ this.props.url }
           onClick={ this.handlePageClick }
           page={ 1 }>
           1
         </PageItem>
       );
-      items.push(<PageItem disabled />);
+      items.push(<PageItem key={ items.length } disabled />);
       for (let i = current - 1; i <= current + 1; i++) {
         items.push(
           <PageItem
+            key={ items.length }
             url={ this.props.url }
             active={ i === current }
             onClick={ this.handlePageClick }
@@ -230,9 +237,10 @@ export default class Pager extends Component {
           </PageItem>
         );
       }
-      items.push(<PageItem disabled />);
+      items.push(<PageItem key={ items.length } disabled />);
       items.push(
         <PageItem
+          key={ items.length }
           url={ this.props.url }
           onClick={ this.handlePageClick }
           page={ total }>

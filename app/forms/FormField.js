@@ -137,19 +137,19 @@ export default class FormField extends Component {
 
   render() {
     const {
-      startElement,
-      endElement,
-      disabled,
-      label,
-      className,
-      placeholder,
-      field,
-      inputRef,
-      children,
-      style,
       ancillary,
-      flexibleContent,
+      children,
+      className,
+      disabled,
+      endElement,
+      field,
       flex,
+      flexibleContent,
+      inputRef,
+      label,
+      placeholder,
+      startElement,
+      style,
       ...props,
     } = this.props;
     const { focus, value } = this.state;
@@ -187,9 +187,10 @@ export default class FormField extends Component {
       cssClass += ` ${className}`;
     }
 
-
     let fieldElement;
     if (field) {
+      delete props.error;
+
       fieldElement = React.createElement(field, {
         ...props,
         value,
@@ -209,6 +210,7 @@ export default class FormField extends Component {
         onBlur: this.handleBlur,
       });
     }
+
 
     return (
       <div className={ cssClass } style={ style }>

@@ -26,7 +26,7 @@ export class CategoryFilters extends Component {
   }
   getStateFromProps(props) {
     return {
-      selectedFilters: this.mapFiltersToObject(props.selectedFilters),
+      selectedFilters: this.mapFiltersToObject(props.selectedFilters) || {},
     };
   }
   mapFiltersToObject(arr) {

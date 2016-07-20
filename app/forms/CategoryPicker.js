@@ -64,7 +64,6 @@ export class CategoryPicker extends Component {
           { allCategoriesMessage =>
             <Picker
               startElement={ selectedCategory.icon && <TagIcon tag={ selectedCategory } /> }
-              block
               disabled={ this.props.disabled }
               label={ this.props.label }
               ref="category"

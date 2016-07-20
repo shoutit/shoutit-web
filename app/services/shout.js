@@ -33,7 +33,7 @@ export default {
         return callback(null, res.body);
       });
   },
-  update: (req, resource, { id }, shout, config, callback) => {
+  update: (req, resource, { id }, { shout, removedImages }, config, callback) => {
     request
       .patch(`/shouts/${id}`)
       .prefix()
@@ -46,9 +46,9 @@ export default {
         return callback(null, res.body);
       });
 
-    if (shout.removedImages) {
+    if (removedImages) {
       const { bucket } = uploadResources.shout;
-      AWS.del({ keys: shout.removedImages, bucket });
+      AWS.del({ keys: removedImages, bucket });
     }
   },
   delete: (req, resource, { shout }, config, callback) => {

@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import Modal, { Header, Footer, Body } from '../modals';
 import Button from '../forms/Button';
 
@@ -13,27 +13,36 @@ import ShoutForm from './ShoutForm';
 
 import './CreateShoutModal.scss';
 
+const MESSAGES = defineMessages({
+  confirmDelete: {
+    id: 'updateShoutModal.deleteButton.confirm',
+    defaultMessage: 'Really delete this Shout?',
+  },
+});
+
 export class UpdateShout extends Component {
 
   static propTypes = {
     shoutId: PropTypes.string.isRequired,
     shout: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
+    intl: PropTypes.object.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onDeleteConfirm: PropTypes.func.isRequired,
+    onShoutChange: PropTypes.func,
   };
 
   constructor(props) {
     super(props);
-    this.updateShout = this.updateShout.bind(this);
-    this.deleteShout = this.deleteShout.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
-    this.hide = this.hide.bind(this);
+    this.deleteShout = this.deleteShout.bind(this);
 
     this.state = {
       isUploading: false,
       isUpdating: false,
       isDeleting: false,
       error: null,
-      shout: props.shout,
+      ...this.getStateFromProps(props),
     };
   }
 
@@ -41,18 +50,19 @@ export class UpdateShout extends Component {
     this.refs.submit.focus();
   }
 
-  hide() {
-    this.refs.modal.hide();
+  getStateFromProps(props) {
+    return {
+      shout: props.shout,
+    };
   }
 
-  updateShout() {
+  handleSubmit() {
     if (this.state.isUpdating || this.state.isUploading || this.state.isDeleting) {
       return;
     }
     this.setState({ isUpdating: true });
-    const { dispatch } = this.props;
-    dispatch(updateShout(this.state.shout))
-      .then(this.hide)
+    this.props.onSubmit(this.state.shout)
+      .then(this.refs.modal.hide)
       .catch(error => {
         this.setState({
           error,
@@ -62,14 +72,16 @@ export class UpdateShout extends Component {
   }
 
   deleteShout() {
-    const { shout, dispatch } = this.props;
-    if (confirm('Really delete this Shout?')) { // eslint-disable-line
+    if (confirm(this.props.intl.formatMessage(MESSAGES.confirmDelete))) {
       this.setState({ isDeleting: true });
-      dispatch(deleteShout(shout)).then(() => { window.location = '/'; });
+      this.props.onDeleteConfirm(this.state.shout);
     }
   }
-  handleFormChange(data) {
-    this.setState({ shout: { ...this.state.shout, ...data } });
+  handleFormChange(shout) {
+    if (this.props.onShoutChange) {
+      this.props.onShoutChange(shout);
+    }
+    this.setState({ shout, error: null });
   }
   render() {
     let submitLabel = 'Save changes';
@@ -107,13 +119,13 @@ export class UpdateShout extends Component {
         <Body>
           <div className="CreateShoutModal">
             <ShoutForm
+              ref="form"
               onChange={ this.handleFormChange }
-              inputRef={ form => { this.form = form; } }
+              onSubmit={ this.handleSubmit }
               mode="update"
               disabled={ this.state.isUpdating || this.state.isDeleting }
               shout={ this.state.shout }
               error={ this.state.error }
-              onSubmit={ this.updateShout }
               onUploadStart={ () => this.setState({ isUploading: true }) }
               onUploadEnd={ () => this.setState({ isUploading: false }) }
             />
@@ -124,8 +136,7 @@ export class UpdateShout extends Component {
             kind="destructive"
             type="button"
             onClick={ this.deleteShout }
-            disabled={ this.state.isUpdating || this.state.isDeleting }
-          >
+            disabled={ this.state.isUpdating || this.state.isDeleting }>
             <FormattedMessage
               id="updateShoutModal.publishButton.deleteButton"
               defaultMessage="Delete"
@@ -135,9 +146,8 @@ export class UpdateShout extends Component {
           <Button
             key="cancel"
             type="button"
-            onClick={ this.hide }
-            disabled={ this.state.isUpdating || this.state.isDeleting }
-            >
+            onClick={ () => this.refs.modal.hide() }
+            disabled={ this.state.isUpdating || this.state.isDeleting }>
             <FormattedMessage
               id="updateShoutModal.publishButton.cancelButton"
               defaultMessage="Cancel"
@@ -147,9 +157,8 @@ export class UpdateShout extends Component {
             ref="submit"
             key="submit"
             kind="primary"
-            onClick={ () => this.form.submit() }
-            disabled={ this.state.isUpdating || this.state.isUploading || this.state.isDeleting }
-          >
+            onClick={ this.handleSubmit }
+            disabled={ this.state.isUpdating || this.state.isUploading || this.state.isDeleting }>
             { submitLabel }
           </Button>
         </Footer>
@@ -162,5 +171,10 @@ const mapStateToProps = (state, ownProps) => ({
   shout: getShout(state, ownProps.shoutId),
 });
 
+const mapDispatchToProps = dispatch => ({
+  onSubmit: (shout, removedImages) => dispatch(updateShout(shout, removedImages)),
+  onDeleteConfirm: shout =>
+    dispatch(deleteShout(shout)).then(() => { window.location = '/'; }),
+});
 
-export default connect(mapStateToProps)(UpdateShout);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(UpdateShout));
