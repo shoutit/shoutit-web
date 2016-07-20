@@ -75,7 +75,7 @@ export class CategoryFilters extends Component {
             expand={ selectedFilters[filter.slug] && selectedFilters[filter.slug].length > 0 }>
             { filter.values.map(value =>
               <Switch
-                onClick={ e => this.handleChange(filter, value, e) }
+                onChange={ e => this.handleChange(filter, value, e) }
                 id={ `${filter.slug}:${value.slug}` }
                 name={ filter.slug }
                 value={ value.slug }
