@@ -19,7 +19,9 @@ export default function ShoutListItem({
       <div className="ShoutListItem-child">
         <div className="ShoutListItem-title">{ shout.title }</div>
         <div className="ShoutListItem-details">
-          <ShoutPrice shout={ shout } />
+          { shout.price !== null &&
+            <ShoutPrice shout={ shout } />
+          }
         </div>
       </div>
     </ListItem>
