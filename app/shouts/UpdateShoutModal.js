@@ -66,7 +66,7 @@ export class UpdateShout extends Component {
   deleteShout() {
     if (confirm('Really delete this Shout?')) { // eslint-disable-line
       this.setState({ isDeleting: true });
-      this.onDeleteConfirm(this.state.shout);
+      this.props.onDeleteConfirm(this.state.shout);
     }
   }
   handleFormChange(shout) {
