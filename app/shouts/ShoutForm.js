@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { defineMessages, injectIntl } from 'react-intl';
 
+import CategoryFiltersPicker from '../forms/CategoryFiltersPicker';
 import CategoryPicker from '../forms/CategoryPicker';
 import PriceField from '../forms/PriceField';
 import Form from '../forms/Form';
@@ -83,56 +84,47 @@ export class ShoutForm extends Component {
     this.submit = this.submit.bind(this);
     this.handleUploadStart = this.handleUploadStart.bind(this);
     this.handleUploadEnd = this.handleUploadEnd.bind(this);
-    this.state = {
-      publish_to_facebook: props.canPublishToFacebook,
-      filters: [],
+    this.state = this.getStateFromProps(props);
+  }
+
+  getStateFromProps(props) {
+    const filters = {};
+    if (props.shout.filters) {
+      props.shout.filters.forEach(filter => {
+        filters[filter.slug] = filter.value.id;
+      });
+    }
+    return {
+      shout: {
+        ...props.shout,
+      },
+      filters,
+      publishToFacebook: props.canPublishToFacebook,
     };
   }
 
   /**
-   * Get the selected filters in the form our API requires them
+   * Get the selected filters in the form our API requires them.
    * @return {Array}
    */
-  getFilters() {
-    const filterArray = Object.keys(this.state.filters).map(key => ({
+  getFiltersFromState() {
+    const filtersArray = Object.keys(this.state.filters).map(key => ({
       slug: key,
       value: {
-        slug: this.state.filters[key].join(),
+        id: this.state.filters[key],
       },
-    })).filter(filter => !!filter.value.slug);
-    return filterArray;
+    })).filter(filter => !!filter.value.id);
+    return filtersArray;
   }
 
   getShout() {
-    const { mode } = this.props;
     const shout = {
-      title: this.titleField.getValue(),
-      text: mode === 'update' ? this.textField.getValue() : null,
-      location: this.locationField.getValue(),
-      mobile: this.mobileField.getValue(),
-
-      category: this.state.category || null,
-      // filters: this.getFilters(),
-
-      currency: this.state.currency || null,
-      price: this.priceField.getValue(),
-
-      images: this.imageFileUploadField.getValue(),
-      removedImages: this.imageFileUploadField.getFilesToDelete(),
-      publish_to_facebook: this.state.publish_to_facebook,
+      ...this.state.shout,
+      filters: this.getFiltersFromState(),
+      publish_to_facebook: this.state.publishToFacebook,
     };
     return shout;
   }
-
-  categoryPicker = null;
-  currencySelect = null;
-  form = null;
-  imageFileUploadField = null;
-  locationField = null;
-  mobileField = null;
-  priceField = null;
-  textField = null;
-  titleField = null;
 
   submit() {
     this.props.onSubmit(this.getShout());
@@ -140,14 +132,17 @@ export class ShoutForm extends Component {
 
   handleChange(state) {
     this.setState(state, () => {
-      if (state.filters) {
-        state = {
-          ...state,
-          filters: this.getFilters(),
-        };
-      }
       if (this.props.onChange) {
-        this.props.onChange(state);
+        this.props.onChange(this.getShout());
+      }
+    });
+  }
+
+  handleShoutChange(prop) {
+    const shout = Object.assign({}, this.state.shout, prop);
+    this.setState({ shout }, () => {
+      if (this.props.onChange) {
+        this.props.onChange(this.getShout());
       }
     });
   }
@@ -167,12 +162,10 @@ export class ShoutForm extends Component {
   }
 
   render() {
-    const { error, shout, disabled, inputRef, mode } = this.props;
-    const { formatMessage } = this.props.intl;
+    const { error, shout, disabled, mode, intl } = this.props;
     return (
       <Form
         className="ShoutForm"
-        ref={ inputRef ? () => inputRef(this) : null }
         onSubmit={ this.submit }
         error={ error }>
 
@@ -181,25 +174,24 @@ export class ShoutForm extends Component {
           name="images"
           resourceType="shout"
           label={ mode === 'update' ?
-            formatMessage(MESSAGES.editPhotos) :
-            formatMessage(MESSAGES.addPhotos)
+            intl.formatMessage(MESSAGES.editPhotos) :
+            intl.formatMessage(MESSAGES.addPhotos)
           }
           disabled={ disabled }
-          initialFileUrls={ shout.images }
-          onChange={ images => this.handleChange({ images }) }
+          initialFileUrls={ this.state.shout.images }
+          onChange={ images => this.handleShoutChange({ images }) }
           onUploadStart={ this.handleUploadStart }
           onUploadEnd={ this.handleUploadEnd }
           error={ error }
         />
 
         <TextField
-          ref={ el => { this.titleField = el; } }
           type="text"
           name="title"
-          placeholder={ formatMessage(MESSAGES.title) }
+          placeholder={ intl.formatMessage(MESSAGES.title) }
           disabled={ disabled }
-          value={ shout.title }
-          onChange={ title => this.handleChange({ title }) }
+          value={ this.state.shout.title }
+          onChange={ title => this.handleShoutChange({ title }) }
           error={ error }
         />
 
@@ -209,60 +201,68 @@ export class ShoutForm extends Component {
             autosize
             rows={ 2 }
             maxRows={ 10 }
-            ref={ el => { this.textField = el; } }
             name="text"
-            placeholder={ formatMessage(MESSAGES.description) }
+            placeholder={ intl.formatMessage(MESSAGES.description) }
             disabled={ disabled }
-            value={ shout.text }
-            onChange={ text => this.handleChange({ text }) }
+            value={ this.state.shout.text }
+            onChange={ text => this.handleShoutChange({ text }) }
             error={ error }
           />
         }
 
         <PriceField
           showCurrencies
-          ref={ el => { this.priceField = el; } }
           type="text"
           name="price"
           errorLocation={ ['currency', 'price'] }
-          placeholder={ formatMessage(MESSAGES.price) }
+          placeholder={ intl.formatMessage(MESSAGES.price) }
           disabled={ disabled }
-          value={ shout.price }
-          currencyValue={ shout.currency }
-          onChange={ price => this.handleChange({ price }) }
-          onCurrencyChange={ currency => this.handleChange({ currency }) }
+          value={ this.state.shout.price }
+          currencyValue={ this.state.shout.currency }
+          onChange={ price => this.handleShoutChange({ price }) }
+          onCurrencyChange={ currency => this.handleShoutChange({ currency }) }
           error={ error }
         />
 
         <CategoryPicker
-          label={ formatMessage(MESSAGES.category) }
+          label={ intl.formatMessage(MESSAGES.category) }
           name="category.slug"
           disabled={ disabled }
-          selectedCategorySlug={ shout.category ? (shout.category.slug || shout.category) : '' }
-          onChange={ category => this.handleChange({ category, filters: [] }) }
+          selectedCategorySlug={ this.state.shout.category }
+          onChange={ category => this.handleShoutChange({ category, filters: {} }) }
           error={ error } />
+
+        { mode === 'update' && this.state.shout.category &&
+          <CategoryFiltersPicker
+            name="filters"
+            id="ShoutForm_filters"
+            selectedFilters={ this.state.filters }
+            disabled={ disabled }
+            onChange={ filters => this.handleChange({ filters }) }
+            categorySlug={ this.state.shout.category }
+            error={ error }
+          />
+        }
 
         <LocationField
           updatesUserLocation={ false }
-          onChange={ location => this.handleChange({ location }) }
+          onChange={ location => this.handleShoutChange({ location }) }
           error={ error }
           disabled={ disabled }
-          inputRef={ el => { this.locationField = el; } }
-          label={ formatMessage(MESSAGES.location) }
-          location={ shout.location }
+          label={ intl.formatMessage(MESSAGES.location) }
+          location={ this.state.shout.location }
           name="location"
           type="text"
         />
 
         <TextField
-          ref={ el => { this.mobileField = el; } }
           type="text"
           name="mobile"
-          label={ formatMessage(MESSAGES.mobileLabel) }
-          placeholder={ formatMessage(MESSAGES.mobilePlaceholder) }
+          label={ intl.formatMessage(MESSAGES.mobileLabel) }
+          placeholder={ intl.formatMessage(MESSAGES.mobilePlaceholder) }
           disabled={ disabled }
-          value={ shout.mobile }
-          onChange={ mobile => this.handleChange({ mobile }) }
+          value={ this.state.shout.mobile }
+          onChange={ mobile => this.handleShoutChange({ mobile }) }
           error={ error }
         />
 
@@ -270,8 +270,8 @@ export class ShoutForm extends Component {
           <div style={ { marginTop: '1em' } }>
             <PublishToFacebook
               disabled={ this.props.disabled }
-              defaultChecked={ this.props.canPublishToFacebook }
-              onChange={ publish_to_facebook => this.handleChange({ publish_to_facebook }) }
+              checked={ this.state.publishToFacebook }
+              onChange={ publishToFacebook => this.handleChange({ publishToFacebook }) }
             />
           </div>
         }

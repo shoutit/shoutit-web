@@ -20,16 +20,19 @@ import './CreateShoutModal.scss';
 export class CreateShoutModal extends Component {
 
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     loggedUser: PropTypes.object.isRequired,
     shout: PropTypes.object.isRequired,
+    onShoutChange: PropTypes.func,
+    onSubmit: PropTypes.func.isRequired,
+    onCreateSuccess: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-    this.createShout = this.createShout.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
     this.hide = this.hide.bind(this);
+    this.state = this.getStateFromProps(props);
   }
 
   state = {
@@ -42,47 +45,30 @@ export class CreateShoutModal extends Component {
     this.refs.cancel.focus();
   }
 
-  saveShoutDraft(data) {
-    const { dispatch } = this.props;
-    dispatch(saveShoutDraft(data));
+  getStateFromProps(props) {
+    return {
+      shout: props.shout,
+    };
   }
 
-  createShout() {
-    const { dispatch, shout, loggedUser } = this.props;
-
+  handleSubmit() {
     if (this.state.isCreating || this.state.isUploading) {
       return;
     }
     this.setState({ isCreating: true });
-    dispatch(createShout(loggedUser, shout)).then(payload => {
-      dispatch(resetShoutDraft());
-      const shoutId = payload.result;
-      this.showNextSteps(shoutId);
-      dispatch(push(`/shout/${shoutId}`));
-    }).catch(error => this.setState({
-      isCreating: false,
-      error,
-    }));
-
+    this.props.onSubmit(this.props.loggedUser, this.state.shout)
+      .then(payload => this.props.onCreateSuccess(payload.result))
+      .catch(error => this.setState({
+        isCreating: false,
+        error,
+      }));
   }
 
-  handleFormChange(data) {
-    this.saveShoutDraft({
-      ...this.props.shout,
-      ...data,
-    });
-    this.setState({
-      ...data,
-      error: null,
-    });
-  }
-
-  showNextSteps(shoutId) {
-    this.props.dispatch(dispatch => {
-      setTimeout(() =>
-        dispatch(openModal(<CreateShoutSuccessModal shoutId={ shoutId } />))
-      , 1000);
-    });
+  handleFormChange(shout) {
+    if (this.props.onShoutChange) {
+      this.props.onShoutChange(shout);
+    }
+    this.setState({ shout, error: null });
   }
 
   hide() {
@@ -114,13 +100,11 @@ export class CreateShoutModal extends Component {
           <div className="CreateShoutModal">
             <div style={ { marginBottom: '1rem' } }>
               <ShoutForm
-                inputRef={ form => { this.form = form; } }
                 disabled={ isCreating }
-                shout={ this.props.shout }
+                shout={ this.state.shout }
                 error={ error }
-                onChange={ data => this.handleFormChange(data) }
-                onSubmit={ this.createShout }
-                onCancel={ this.hide }
+                onSubmit={ this.handleSubmit }
+                onChange={ this.handleFormChange }
                 onUploadStart={ () => this.setState({ isUploading: true }) }
                 onUploadEnd={ () => this.setState({ isUploading: false }) }
               />
@@ -142,7 +126,7 @@ export class CreateShoutModal extends Component {
           </Button>
 
           <Button
-            onClick={ () => this.form.submit() }
+            onClick={ this.handleSubmit }
             key="submit"
             kind="primary"
             disabled={ isCreating || isUploading }>
@@ -156,16 +140,28 @@ export class CreateShoutModal extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const loggedUser = getLoggedUser(state);
-  const shout = {
-    ...ownProps.shout,
-    ...getShoutDraft(state),
-  };
-  return {
-    shout,
-    loggedUser,
-  };
-};
+const mapStateToProps = (state, ownProps) => ({
+  shout: Object.assign(
+    {},
+    ownProps.shout,
+    getShoutDraft(state),
+    { type: ownProps.shout.type }
+  ),
+  loggedUser: getLoggedUser(state),
+});
 
-export default connect(mapStateToProps)(CreateShoutModal);
+const mapDispatchToProps = dispatch => ({
+  onSubmit: (profile, shout) => dispatch(createShout(profile, shout)),
+  onShoutChange: shout => dispatch(saveShoutDraft(shout)),
+  onCreateSuccess: shoutId => {
+    dispatch(resetShoutDraft());
+    dispatch(push(`/shout/${shoutId}`));
+    dispatch(() => {
+      setTimeout(() =>
+        dispatch(openModal(<CreateShoutSuccessModal shoutId={ shoutId } />))
+      , 1000);
+    });
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateShoutModal);
