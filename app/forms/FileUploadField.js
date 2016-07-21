@@ -69,7 +69,7 @@ export default class FileUploadField extends Component {
     label: 'Upload files',
     max: 10,
     initialFileUrls: [],
-    accept: 'image/x-png, image/jpeg',
+    accept: 'image/*',
   }
 
   constructor(props) {
