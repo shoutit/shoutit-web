@@ -13,7 +13,7 @@
     "build": "npm run build:server && npm run build:client && npm run build:copy_assets && npm run build:copy_styles",
     "build:server": "babel index.js app.js -d built && babel app -d built/app",
     "build:client": "NODE_ENV=production webpack -p --bail",
-    "build:translations": "babel-node ./scripts/translations.js && git add assets/intl",
+    "build:translations": "babel-node ./scripts/translations.js",
     "build:copy_styles": "find app -name '*.scss' | cpio -pdm ./built",
     "build:copy_assets": "cp -r assets built/assets",
     "dev": "DEBUG=shoutit,shoutit:* NODE_ENV=development babel-watch -D -w app/server -w app/services -w app/server.js -w assets/samples index.js",
