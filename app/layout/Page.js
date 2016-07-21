@@ -2,7 +2,6 @@
 
 import React, { PropTypes, Component } from 'react';
 import Sticky from '@economist/component-stickyfill';
-import { Desktop } from '../utils/MediaQueries';
 
 import MiniFooter from '../layout/MiniFooter';
 import './Page.scss';
@@ -12,6 +11,7 @@ class PageColumn extends Component {
     sticky: PropTypes.bool,
     classModifier: PropTypes.string,
     children: PropTypes.node,
+    wide: PropTypes.bool,
   }
   static defaultProps = {
     sticky: false,
@@ -23,6 +23,9 @@ class PageColumn extends Component {
     }
     if (this.props.sticky) {
       className += ' sticky';
+    }
+    if (this.props.wide) {
+      className += ' wide';
     }
     const content = (
       <div className={ className }>
@@ -52,19 +55,15 @@ export class Body extends Component {
 
 export function StartColumn(props) {
   return (
-    <Desktop>
-      <PageColumn { ...props } classModifier="start" />
-    </Desktop>
+    <PageColumn { ...props } classModifier="start" />
   );
 }
 export function EndColumn({ children, footer = false, ...props }) {
   return (
-    <Desktop>
-      <PageColumn { ...props } classModifier="end">
-        { children }
-        { footer && <MiniFooter /> }
-      </PageColumn>
-    </Desktop>
+    <PageColumn { ...props } classModifier="end">
+      { children }
+      { footer && <MiniFooter /> }
+    </PageColumn>
   );
 }
 EndColumn.propTypes = {

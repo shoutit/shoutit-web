@@ -18,7 +18,7 @@ import Profile from './containers/Profile';
 import ResetPassword from './containers/ResetPassword';
 import Search from './containers/Search';
 import SetPassword from './containers/SetPassword';
-import Shout from './containers/Shout';
+import ShoutPage from './pages/shout';
 import Signup from './containers/Signup';
 import VerifyEmail from './containers/VerifyEmail';
 
@@ -65,7 +65,7 @@ const routes = (store) =>
       }) }
       getResponsiveLayout={ () => ({ constrainMaxWidth: false }) }
     />
-    <Route path="/shout/:id(/:city)(/:description)" component={ Shout } getApplicationLayout={ () => ({ showFooter: true }) } />
+    <Route path="/shout/:id(/:city)(/:description)" component={ ShoutPage } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/interest/:name" component={ Interest } />
     <Route path="/user/:username(/:shout_type)" component={ Profile } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true }) } />

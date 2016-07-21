@@ -3,6 +3,7 @@ import without from 'lodash/without';
 
 import * as actionTypes from '../../actions/actionTypes';
 import createEntityReducer from './createEntityReducer';
+import { denormalize } from '../../schemas';
 
 export default (state, action) => {
   state = createEntityReducer({
@@ -62,5 +63,5 @@ export default (state, action) => {
 };
 
 export function getShout(state, id) {
-  return state.entities.shouts[id];
+  return denormalize(state.entities.shouts[id], state.entities, 'SHOUT');
 }

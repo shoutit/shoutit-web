@@ -7,6 +7,7 @@ import { injectIntl, defineMessages } from 'react-intl';
 import { push } from 'react-router-redux';
 
 import Helmet from '../utils/Helmet';
+import { Desktop } from '../utils/MediaQueries';
 
 import { getQuery, getCurrentUrl } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
@@ -168,13 +169,15 @@ export class Search extends Component {
     return (
       <Page className="Search">
         <Helmet title={ this.props.title } />
-        <StartColumn>
-          <SearchFilters
-            disabled={ false }
-            query={ this.props.query }
-            onSubmit={ this.handleFiltersSubmit }
-            />
-        </StartColumn>
+        <Desktop>
+          <StartColumn>
+            <SearchFilters
+              disabled={ false }
+              query={ this.props.query }
+              onSubmit={ this.handleFiltersSubmit }
+              />
+          </StartColumn>
+        </Desktop>
         <Body>
           <ShoutsListToolbar
             showProgress={ this.props.isFetching }

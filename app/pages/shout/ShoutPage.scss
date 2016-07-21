@@ -1,0 +1,47 @@
+@import '../../styles/constants.scss';
+@import '../../styles/mixins/mq.scss';
+
+.ShoutPage {
+
+  h1 {
+    font-weight: 500;
+    font-size: 1.5em;
+  }
+
+  h2 {
+    font-weight: 500;
+    font-size: 1em;
+  }
+
+}
+
+.ShoutPage-Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $vertical-spacing;
+}
+
+.ShoutPage-Header-profile {
+  a > .ListItem {
+    color: $color-link;
+  }
+}
+
+.ShoutPage-Header-date {
+  font-size: 0.875em;
+  color: $color-text-light;
+}
+
+.ShoutPage-MainCard {
+  padding: $vertical-spacing/2 $horizontal-spacing/2;
+}
+
+@include desktop() {
+  padding: $vertical-spacing $horizontal-spacing*2;
+}
+
+.ShoutPage-AsideCard {
+  padding: $vertical-spacing $horizontal-spacing;
+}
+
