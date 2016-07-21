@@ -97,7 +97,9 @@ h6 {
   &:last-child {
     margin-bottom: 0;
   }
-
+  & + p {
+    padding-top: 0;
+  }
   p + & {
     padding-top: 1em;
   }
@@ -111,5 +113,6 @@ p {
   margin: 0;
   padding: 1em 0;
 }
+
 
 @import 'html.scss';
