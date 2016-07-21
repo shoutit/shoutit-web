@@ -11,6 +11,7 @@ class PageColumn extends Component {
     sticky: PropTypes.bool,
     classModifier: PropTypes.string,
     children: PropTypes.node,
+    wide: PropTypes.bool,
   }
   static defaultProps = {
     sticky: false,
@@ -22,6 +23,9 @@ class PageColumn extends Component {
     }
     if (this.props.sticky) {
       className += ' sticky';
+    }
+    if (this.props.wide) {
+      className += ' wide';
     }
     const content = (
       <div className={ className }>

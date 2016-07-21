@@ -28,16 +28,27 @@
 }
 
 @include desktop() {
-  .PageColumn {
+  .PageColumn:not(.wide) {
     width: 17%;
     min-width: 240px;
     max-width: 280px;
   }
-  .PageColumn.start {
-  margin-right: $horizontal-spacing;
+  .PageColumn.wide {
+    width: 33%;
+    min-width: 240px;
+    max-width: 400px;
   }
-  .PageColumn.end {
+  .PageColumn.start:not(.wide) {
+    margin-right: $horizontal-spacing;
+  }
+  .PageColumn.start.wide {
+    margin-right: $horizontal-spacing/2;
+  }
+  .PageColumn.end:not(.wide) {
     margin-left: $horizontal-spacing;
+  }
+  .PageColumn.end.wide {
+    margin-left: $horizontal-spacing/2;
   }
 }
 
