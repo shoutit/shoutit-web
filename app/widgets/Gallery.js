@@ -32,7 +32,7 @@ export default class Gallery extends Component {
   renderItem(item) {
     if (item.type === 'image') {
       return (
-        <img role="presentation" key={ `image-${item.url}` } src={ getVariation(item.url, 'large') } />
+        <span key={ `image-${item.url}` } style={ getStyleBackgroundImage(item.url, 'large', false) } />
       );
     } else if (item.type === 'video') {
       return (
