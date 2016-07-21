@@ -29,6 +29,15 @@ locales.forEach(lang => {
   if (pathExists(file)) {
     existingMessages = JSON.parse(fs.readFileSync(file, 'utf8'));
   }
-  fs.writeFileSync(file, JSON.stringify({ ...defaultMessages, ...existingMessages }, null, 2));
+  const unsortedMessages = { ...defaultMessages, ...existingMessages };
+  const sortedMessages = {};
+  Object.keys(unsortedMessages)
+    .sort()
+    .forEach(key => {
+      sortedMessages[key] = unsortedMessages[key];
+    });
+  const filecontent = JSON.stringify(sortedMessages, null, 2);
+  console.log(filecontent);
+  fs.writeFileSync(file, filecontent);
   console.log(file);
 });
