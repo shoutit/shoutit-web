@@ -2,21 +2,23 @@
 @import '../styles/mixins/mq';
 
 .Page {
-  display: flex;
-  padding-top: $vertical-spacing;
+  padding-top: $vertical-spacing/3;
   padding-bottom: $vertical-spacing * 2;
 }
-
-@include smartphone() {
+@include desktop() {
   .Page {
-    padding-top: $vertical-spacing/3;
+    display: flex;
+    padding-top: $vertical-spacing;
   }
 }
 
+.PageBody {
+  position: relative;
+
+  flex: 1;
+}
+
 .PageColumn {
-  width: 17%;
-  min-width: 240px;
-  max-width: 280px;
   margin-bottom: $vertical-spacing;
   .Card + .Card,
   .CardList + .Card,
@@ -25,17 +27,18 @@
   }
 }
 
-.PageBody {
-  position: relative;
-  flex: 1;
-}
-
-.PageColumn.start {
+@include desktop() {
+  .PageColumn {
+    width: 17%;
+    min-width: 240px;
+    max-width: 280px;
+  }
+  .PageColumn.start {
   margin-right: $horizontal-spacing;
-}
-
-.PageColumn.end {
-  margin-left: $horizontal-spacing;
+  }
+  .PageColumn.end {
+    margin-left: $horizontal-spacing;
+  }
 }
 
 .PageColumn.sticky {
@@ -47,10 +50,10 @@
   .Page {
     position: absolute;
     top: 0;
-    bottom: 0;
     right: 0;
+    bottom: 0;
     left: 0;
-    padding-left: $horizontal-spacing/2;
     padding-bottom: $vertical-spacing;
+    padding-left: $horizontal-spacing/2;
   }
 }
