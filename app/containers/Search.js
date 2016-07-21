@@ -77,6 +77,7 @@ export class Search extends Component {
   static propTypes = {
     currentUrl: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
+    query: PropTypes.object.isRequired,
 
     currentLocation: PropTypes.object,
     firstRender: PropTypes.bool,
