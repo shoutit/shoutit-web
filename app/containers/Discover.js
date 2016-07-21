@@ -9,6 +9,7 @@ import { getCurrentLocale } from '../reducers/i18n';
 import { getCurrentUrl } from '../reducers/routing';
 
 import Helmet from '../utils/Helmet';
+import { Desktop } from '../utils/MediaQueries';
 
 import Page, { Body, EndColumn } from '../layout/Page';
 
@@ -178,9 +179,11 @@ export class Discover extends Component {
             <Progress animate={ isFetchingShouts } />
             <Progress animate={ isFetching && !discoverItem } />
           </Body>
-          <EndColumn footer>
-            <SuggestedShout />
-          </EndColumn>
+          <Desktop>
+            <EndColumn footer>
+              <SuggestedShout />
+            </EndColumn>
+          </Desktop>
         </Page>
       </Scrollable>
     );

@@ -4,7 +4,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import { PaginationPropTypes } from '../utils/PropTypes';
-
+import { Desktop } from '../utils/MediaQueries';
 import Helmet from '../utils/Helmet';
 
 import { loadTag, loadTagShouts, loadRelatedTags, invalidateTagShouts } from '../actions/tags';
@@ -81,14 +81,16 @@ export class Interest extends Component {
         } }>
         <Page>
           { tag && <Helmet title={ category ? category.name : tag.name } images={ [tag.image] } /> }
-          <StartColumn sticky>
-            {
-              tag &&
-                <Card className="Interest-main-card" block style={ { width: '100%' } }>
-                  <TagPreview style={ { width: '100%' } } id={ tag.id } />
-                </Card>
-            }
-          </StartColumn>
+          <Desktop>
+            <StartColumn sticky>
+              {
+                tag &&
+                  <Card className="Interest-main-card" block style={ { width: '100%' } }>
+                    <TagPreview style={ { width: '100%' } } id={ tag.id } />
+                  </Card>
+              }
+            </StartColumn>
+          </Desktop>
           <Body>
             { !tag && <Progress animate /> }
             { tag &&
@@ -100,15 +102,17 @@ export class Interest extends Component {
               </div>
             }
           </Body>
-          <EndColumn footer>
-            { tag &&
-              <div>
-                <RelatedTags key="related" tag={ tag } />
-                <SuggestedProfiles key="profiles" />
-                <SuggestedShout key="shout" />
-              </div>
-            }
-          </EndColumn>
+          <Desktop>
+            <EndColumn footer>
+              { tag &&
+                <div>
+                  <RelatedTags key="related" tag={ tag } />
+                  <SuggestedProfiles key="profiles" />
+                  <SuggestedShout key="shout" />
+                </div>
+              }
+            </EndColumn>
+          </Desktop>
         </Page>
       </Scrollable>
     );
