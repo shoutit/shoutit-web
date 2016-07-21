@@ -78,8 +78,8 @@ export class CategoryFilters extends Component {
                 onChange={ e => this.handleChange(filter, value, e) }
                 id={ `${filter.slug}:${value.slug}` }
                 name={ filter.slug }
-                value={ value.slug }
-                checked={ selectedFilters[filter.slug] && selectedFilters[filter.slug].indexOf(value.slug) > -1 }
+                defaultValue={ value.slug }
+                defaultChecked={ selectedFilters[filter.slug] && selectedFilters[filter.slug].indexOf(value.slug) > -1 }
                 key={ value.slug }>{ value.name }</Switch>
               ) }
           </Expandable>

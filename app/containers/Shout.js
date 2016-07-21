@@ -191,7 +191,7 @@ export class Shout extends Component {
             <Card key="filters" block style={ { padding: '.5rem' } }>
               <CardList>
                 { [
-                  <Link to={ `/search?category=${shout.category.slug}` }>
+                  <Link key={ shout.category.slug } to={ `/search?category=${shout.category.slug}` }>
                     <CategoryListItem category={ shout.category } />
                   </Link>,
                   ...shout.filters.map((filter) =>

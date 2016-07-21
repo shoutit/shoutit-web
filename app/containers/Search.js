@@ -77,6 +77,7 @@ export class Search extends Component {
   static propTypes = {
     currentUrl: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
+    query: PropTypes.object.isRequired,
 
     currentLocation: PropTypes.object,
     firstRender: PropTypes.bool,
@@ -139,7 +140,6 @@ export class Search extends Component {
   getStateFromProps(props) {
     const within = parseInt(props.route.query.within, 10);
     const state = {
-      ...props.query,
       free: !!props.route.query.free,
       within: isNaN(within) ? props.route.query.within : within,
     };
@@ -171,7 +171,7 @@ export class Search extends Component {
         <StartColumn>
           <SearchFilters
             disabled={ false }
-            query={ this.state }
+            query={ this.props.query }
             onSubmit={ this.handleFiltersSubmit }
             />
         </StartColumn>
@@ -190,8 +190,8 @@ export class Search extends Component {
           </div>
           { this.props.shouts.length > 0 &&
             <Pagination
-              pageSize={ this.state.page_size }
-              currentPage={ this.state.page }
+              pageSize={ this.props.query.page_size }
+              currentPage={ this.props.query.page }
               count={ this.props.count }
             />
           }
