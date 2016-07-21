@@ -1,0 +1,23 @@
+@import '../../styles/constants.scss';
+
+.ShoutDetails {
+  margin: $vertical-spacing/2 0;
+  display: flex;
+  flex-wrap: wrap;
+  > div {
+    padding: $vertical-spacing/2 0;
+    border-top: 1px solid $border-color;
+    width: 50%;
+  }
+  h3 {
+    font-size: 0.75em;
+    font-weight: normal;
+    color: $color-text-light;
+    text-transform: uppercase;
+  }
+}
+
+a.ShoutDetails-Filters-value {
+  font-size: 0.875em;
+  color: $color-text;
+}

@@ -16,7 +16,7 @@ import Helmet from '../utils/Helmet';
 import RequiresLogin from '../auth/RequiresLogin';
 import { REPLY_SHOUT } from '../auth/loginActions';
 
-import Page, { Body, StartColumn, EndColumn } from '../layout/Page';
+import Page, { Body, EndColumn } from '../layout/Page';
 import ProfileListItem from '../users/ProfileListItem';
 
 import CategoryListItem from '../shouts/CategoryListItem';
@@ -146,35 +146,6 @@ export class Shout extends Component {
     );
   }
 
-  renderShout() {
-    const { shout } = this.props;
-    return (
-      <div className="Shout">
-        { shout.title &&
-          <div className="Shout-title">
-            <h1>{ shout.title }</h1>
-          </div>
-        }
-
-        { (shout.images && shout.images.length > 0 || shout.videos && shout.videos.length > 0) &&
-          <div className="Shout-gallery">
-            <Gallery images={ shout.images || undefined } videos={ shout.videos || undefined } />
-          </div>
-        }
-
-        <div className="Shout-body">
-          <div className="Shout-text">
-            { shout.text &&
-              <NewlineToBreak>
-                { shout.text }
-              </NewlineToBreak>
-            }
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   render() {
     const { shout, locale } = this.props;
     const { formatNumber } = this.props.intl;
@@ -184,10 +155,60 @@ export class Shout extends Component {
         currencyDisplay: 'symbol',
         currency: shout.currency,
       }) : 0;
+
+    const meta = [
+      { property: 'og:type', content: `ogPrefix:${shout.type}` },
+      { property: 'ogPrefix:price', content: price },
+      { property: 'ogPrefix:username', content: shout.profile.username },
+      { name: 'twitter:card', content: 'product' },
+      { name: 'twitter:label1', content: capitalize(shout.type) },
+      { name: 'twitter:data1', content: price },
+      { name: 'twitter:label2', content: 'Location' },
+      { name: 'twitter:data2', content: formatLocation(shout.location, { locale }) },
+    ];
+    if (!shout) {
+      return null;
+    }
     return (
       <div>
         <Page className="ShoutPage">
-          <StartColumn>
+          <Body>
+            { shout &&
+              <Helmet
+                title={ shout.title }
+                description={ shout.text }
+                images={ shout.images }
+                meta={ meta }
+              />
+            }
+            { !shout && <Progress animate /> }
+            { shout &&
+
+              <div className="Shout">
+                { shout.title &&
+                  <div className="Shout-title">
+                    <h1>{ shout.title }</h1>
+                  </div>
+                }
+
+                { (shout.images && shout.images.length > 0 || shout.videos && shout.videos.length > 0) &&
+                  <div className="Shout-gallery">
+                    <Gallery images={ shout.images || undefined } videos={ shout.videos || undefined } />
+                  </div>
+                }
+
+                <div className="Shout-body">
+                  <div className="Shout-text">
+                    { shout.text &&
+                      <NewlineToBreak>
+                        { shout.text }
+                      </NewlineToBreak>
+                    }
+                  </div>
+                </div>
+              </div>
+           }
+
             <Card key="filters" block style={ { padding: '.5rem' } }>
               <CardList>
                 { [
@@ -213,27 +234,6 @@ export class Shout extends Component {
               </CardTitle>
               <Share shareUrl={ `/shout/${shout.id}` } title={ shout.title } image={ shout.thumbnail } />
             </Card>
-          </StartColumn>
-          <Body>
-            { shout &&
-              <Helmet
-                title={ shout.title }
-                description={ shout.text }
-                images={ shout.images }
-                meta={ [
-                  { property: 'og:type', content: `ogPrefix:${shout.type}` },
-                  { property: 'ogPrefix:price', content: price },
-                  { property: 'ogPrefix:username', content: shout.profile.username },
-                  { name: 'twitter:card', content: 'product' },
-                  { name: 'twitter:label1', content: capitalize(shout.type) },
-                  { name: 'twitter:data1', content: price },
-                  { name: 'twitter:label2', content: 'Location' },
-                  { name: 'twitter:data2', content: formatLocation(shout.location, { locale }) },
-                ] }
-              />
-            }
-            { !shout && <Progress animate /> }
-            { shout && this.renderShout() }
           </Body>
           <EndColumn>
             <ShoutActions key="actions" shout={ shout } onReplyClick={ this.startShoutReply } />
