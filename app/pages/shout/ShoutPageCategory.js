@@ -19,8 +19,8 @@ class ShoutPageCategory extends Component {
             <CategoryListItem category={ shout.category } />
           </Link>
         </div>
-        { shout.filters.map((filter) =>
-          <div>
+        { shout.filters.map((filter, i) =>
+          <div key={ i } >
             <h3>{ filter.name }</h3>
             <Link
               to={ `/search?category=${shout.category.slug}&filters=${filter.slug}:${filter.value.slug}` }
