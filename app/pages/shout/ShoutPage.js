@@ -88,18 +88,12 @@ class ShoutPage extends Component {
               </Smartphone>
 
               { shout.text &&
-                <div>
-                  <h2>Description</h2>
-                  <NewlineToBreak>
-                    { shout.text }
-                  </NewlineToBreak>
-                </div>
+                <NewlineToBreak>
+                  { shout.text }
+                </NewlineToBreak>
               }
               { shout.category &&
-                <div>
-                  <h2>Details</h2>
-                  <ShoutPageCategory shout={ shout } />
-                </div>
+                <ShoutPageCategory shout={ shout } />
               }
               <ShoutPageLocation shout={ shout } />
               <div className="ShoutPage-Share">
