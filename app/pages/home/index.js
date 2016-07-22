@@ -9,6 +9,7 @@ import Button from '../../forms/Button';
 import { imagesPath } from '../../config';
 import AppBadge from '../../widgets/AppBadge';
 import Logo from '../../widgets/Logo';
+import Helmet from '../../utils/Helmet';
 
 import { loadShoutSamples } from '../../actions/shouts';
 import ShoutPreview from '../../shouts/ShoutPreview';
@@ -58,6 +59,9 @@ class HomePage extends Component {
   render() {
     return (
       <div className="HomePage">
+        <Helmet meta={ [
+          { name: 'twitter:card', content: 'app' },
+        ] } />
         <section className="HomePage-hero">
           <Header />
           <Hero onBusinessClick={ this.scrollToBusiness } />
