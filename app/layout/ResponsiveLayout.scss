@@ -3,9 +3,6 @@
 
 .ResponsiveLayout {
   text-align: center;
-  &.horizontal-space {
-    padding: 0 $horizontal-spacing;
-  }
   > span {
     display: inline-block;
     width: 100%;
@@ -13,11 +10,6 @@
   }
 }
 
-@include smartphone() {
-  .ResponsiveLayout.horizontal-space {
-    padding: 0 $horizontal-spacing/3;
-  }
-}
 
 .ResponsiveLayout.min-width {
   &.default > span {
