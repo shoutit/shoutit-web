@@ -17,12 +17,13 @@ class PageColumn extends Component {
   static defaultProps = {
     sticky: false,
   }
-  state = {
-    sticky: false,
-  }
+
   constructor(props) {
     super(props);
     this.setSticky = this.setSticky.bind(this);
+  }
+  state = {
+    sticky: false,
   }
   componentDidMount() {
     if (this.props.sticky) {

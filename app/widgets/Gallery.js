@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-import { getVariation } from '../utils/APIUtils';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import union from 'lodash/union';
 
@@ -18,32 +17,28 @@ export default class Gallery extends Component {
     videos: [],
   }
 
-  state = {
-    selectedIndex: 0,
-    scrolledIndex: 0,
-  }
-
   constructor(props) {
     super(props);
     this.handleSlidesScroll = this.handleSlidesScroll.bind(this);
   }
 
+  state = {
+    selectedIndex: 0,
+    scrolledIndex: 0,
+  }
   componentDidMount() {
     this.refs.slides.addEventListener('scroll', this.handleSlidesScroll);
   }
-
-  componentWillUnmount() {
-    this.refs.slides.removeEventListener('scroll', this.handleSlidesScroll);
-  }
-
   componentWillReceiveProps(nextProps) {
     if (this.props.images.length !== nextProps.images.length ||
       this.props.videos.length !== nextProps.videos.length) {
       this.setState({ selectedIndex: 0 });
     }
   }
-
-  handleSlidesScroll(e) {
+  componentWillUnmount() {
+    this.refs.slides.removeEventListener('scroll', this.handleSlidesScroll);
+  }
+  handleSlidesScroll() {
     // const { scrollLeft, scrollWidth, offsetWidth, children } = e.target;
 
     // console.log('scrollLeft', scrollLeft, 'scrollWidth', scrollWidth, 'offsetWidth', offsetWidth, 'ratio', scrollWidth / scrollLeft);
