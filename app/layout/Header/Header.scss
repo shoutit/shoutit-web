@@ -1,11 +1,15 @@
 @import '../../styles/constants.scss';
+@import '../../styles/mixins/mq.scss';
 
 .Header {
   position: relative;
   display: flex;
   flex-direction: column;
+  padding: 0 $horizontal-spacing/2;
+  @include desktop() {
+    padding: 0 $horizontal-spacing;
+  }
 }
-
 
 .Header-location {
   display: flex;
