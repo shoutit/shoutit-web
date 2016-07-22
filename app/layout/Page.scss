@@ -8,7 +8,7 @@
 @include desktop() {
   .Page {
     display: flex;
-    padding-top: $vertical-spacing;
+    padding: $vertical-spacing $horizontal-spacing;
   }
 }
 

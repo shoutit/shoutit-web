@@ -2,9 +2,6 @@
 @import '../../styles/mixins/mq.scss';
 
 .ShoutPage {
-  @include desktop() {
-    padding: 0 $horizontal-spacing;
-  }
   h1 {
     font-size: 1.5em;
     font-weight: 500;

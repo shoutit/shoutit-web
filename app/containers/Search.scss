@@ -1,11 +1,14 @@
 @import '../styles/constants.scss';
+@import '../styles/mixins/mq.scss';
 .Search {
   .Shouts-container {
     position: relative;
   }
-
   .ShoutsListToolbar {
-    margin-bottom: $vertical-spacing;
+    margin: 0 $horizontal-spacing/2;
+    @include desktop() {
+      margin: 0;
+    }
   }
   .Shouts-loadingBackdrop {
     position: absolute;
