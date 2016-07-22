@@ -97,7 +97,7 @@ export class ShoutForm extends Component {
     return {
       shout: {
         ...props.shout,
-        category: props.shout.category.slug || props.shout.category,
+        category: props.shout.category ? (props.shout.category.slug || props.shout.category) : null,
       },
       filters,
       publishToFacebook: props.canPublishToFacebook,
