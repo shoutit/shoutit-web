@@ -45,6 +45,13 @@
   }
 }
 
+.Gallery-video {
+  text-align: center;
+  video {
+    height: 100%;
+  }
+}
+
 .Gallery-thumbnails {
   width: 100%;
   padding: 1rem 0;
