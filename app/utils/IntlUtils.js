@@ -27,7 +27,7 @@ export const loadIntlPolyfill = locale => {
 const locales = {
   en: () => require('react-intl?locale=en!./empty.json'),
   ar: () => require('react-intl?locale=ar!./empty.json'),
-  it: () => require('react-intl?locale=it!./empty.json'),
+  de: () => require('react-intl?locale=de!./empty.json'),
 };
 
 export const loadLocaleData = locale => {
