@@ -98,7 +98,7 @@ export default class Gallery extends Component {
           { items.map((item, i) =>
             <span key={ i }
               onClick={ () => this.setState({ selectedIndex: i }) }
-              className={ `Gallery-thumbnail-wrapper${(this.state.scrolledIndex === i || selectedIndex === i) ? ' selected' : ''}` }
+              className={ `Gallery-thumbnail-wrapper${(selectedIndex === i) ? ' selected' : ''}` }
             >
               <span
                 className={ `Gallery-thumbnail ${item.type}` }

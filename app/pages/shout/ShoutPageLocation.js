@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+
 import { getCurrentLocale } from '../../reducers/i18n';
 import GoogleStaticMap from '../../location/GoogleStaticMap';
 import { formatLocation } from '../../utils/LocationUtils';
@@ -12,7 +14,9 @@ class ShoutPageLocation extends Component {
   render() {
     return (
       <div>
-        <h2>Location</h2>
+        <h2>
+          <FormattedMessage id="shout.location" defaultMessage="Location" />
+        </h2>
         <p>
           { formatLocation(this.props.shout.location, { useAddress: true, locale: this.props.locale }) }
         </p>
