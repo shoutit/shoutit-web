@@ -97,6 +97,7 @@ export class ShoutForm extends Component {
     return {
       shout: {
         ...props.shout,
+        category: props.shout.category.slug || props.shout.category,
       },
       filters,
       publishToFacebook: props.canPublishToFacebook,
@@ -239,7 +240,7 @@ export class ShoutForm extends Component {
             selectedFilters={ this.state.filters }
             disabled={ disabled }
             onChange={ filters => this.handleChange({ filters }) }
-            categorySlug={ this.state.shout.category }
+            categorySlug={ this.state.shout.category.slug || this.state.shout.category }
             error={ error }
           />
         }
