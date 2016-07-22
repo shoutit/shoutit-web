@@ -43,7 +43,6 @@ const routes = (store) =>
       }) }
       getResponsiveLayout={ () => ({
         constrainMaxWidth: !!store.getState().session.user,
-        horizontalSpace: !!store.getState().session.user,
       }) }
       getComponent={ (location, callback) => {
         const Component = store.getState().session.user ? Dashboard : Homepage;
