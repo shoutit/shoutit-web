@@ -20,13 +20,42 @@ export default class Gallery extends Component {
 
   state = {
     selectedIndex: 0,
-  };
+    scrolledIndex: 0,
+  }
+
+  constructor(props) {
+    super(props);
+    this.handleSlidesScroll = this.handleSlidesScroll.bind(this);
+  }
+
+  componentDidMount() {
+    this.refs.slides.addEventListener('scroll', this.handleSlidesScroll);
+  }
+
+  componentWillUnmount() {
+    this.refs.slides.removeEventListener('scroll', this.handleSlidesScroll);
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.images.length !== nextProps.images.length ||
       this.props.videos.length !== nextProps.videos.length) {
       this.setState({ selectedIndex: 0 });
     }
+  }
+
+  handleSlidesScroll(e) {
+    // const { scrollLeft, scrollWidth, offsetWidth, children } = e.target;
+
+    // console.log('scrollLeft', scrollLeft, 'scrollWidth', scrollWidth, 'offsetWidth', offsetWidth, 'ratio', scrollWidth / scrollLeft);
+
+    // const scrolledIndex = Math.ceil((200 * scrollLeft / (scrollWidth + offsetWidth))/children.length);
+    // console.log('scrollEnd', scrollLeft, 'scrolledIndex', scrolledIndex);
+    // if (this.state.scrolledIndex !== scrolledIndex) {
+    //   e.preventDefault();
+    //   this.setState({
+    //     scrolledIndex,
+    //   });
+    // }
   }
 
   renderItem(item) {
@@ -55,7 +84,7 @@ export default class Gallery extends Component {
     const offset = selectedIndex * 100;
     return (
       <div className="Gallery">
-        <div className="Gallery-slides">
+        <div className="Gallery-slides" ref="slides">
 
           { items.map((item, i) =>
             <div
@@ -74,7 +103,7 @@ export default class Gallery extends Component {
           { items.map((item, i) =>
             <span key={ i }
               onClick={ () => this.setState({ selectedIndex: i }) }
-              className={ `Gallery-thumbnail-wrapper${selectedIndex === i ? ' selected' : ''}` }
+              className={ `Gallery-thumbnail-wrapper${(this.state.scrolledIndex === i || selectedIndex === i) ? ' selected' : ''}` }
             >
               <span
                 className={ `Gallery-thumbnail ${item.type}` }
