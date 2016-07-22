@@ -14,14 +14,14 @@
 }
 
 .ShoutPage-Header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: $vertical-spacing/2 $horizontal-spacing/2;
   @include desktop() {
     padding: 0;
     padding-bottom: $vertical-spacing;
   }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $vertical-spacing/2 $horizontal-spacing/2;
 }
 
 .ShoutPage-Header-profile {
@@ -43,20 +43,21 @@
 }
 
 .ShoutPage-AsideCard {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: $vertical-spacing $horizontal-spacing;
   @include desktop() {
     position: relative;
   }
+  position: fixed;
+  z-index: 100;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: $vertical-spacing $horizontal-spacing;
 }
 
 .ShoutPage-Price {
-  margin: $vertical-spacing 0;
   display: flex;
   justify-content: space-between;
+  margin: $vertical-spacing 0;
   .ShoutPrice {
     font-size: 1.5em;
   }
@@ -77,5 +78,26 @@
 .ShoutPage-Actions {
   > div + div {
     margin-top: $vertical-spacing/2;
+  }
+}
+
+.ShoutPage-Related {
+  @include desktop() {
+    margin: $horizontal-spacing;
+  }
+  margin-top: $vertical-spacing/2;
+  padding: 0 $horizontal-spacing/2;
+  .ShoutsList {
+    overflow: auto;
+    justify-content: flex-start;
+
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-destination: 50% 50%;
+    scroll-snap-type: mandatory;
+    flex-wrap: nowrap;
+  }
+  .ShoutList-item {
+    scroll-snap-coordinate: 50% 50%;
+    flex: 1 0 auto;
   }
 }
