@@ -61,7 +61,16 @@ export class UpdateShout extends Component {
       return;
     }
     this.setState({ isUpdating: true });
-    this.props.onSubmit(this.state.shout)
+
+    // reduce data sent with submit
+    const shout = {
+      ...this.state.shout,
+      category: this.state.shout.category.slug,
+    };
+    delete shout.profile;
+    delete shout.conversations;
+
+    this.props.onSubmit(shout)
       .then(this.refs.modal.hide)
       .catch(error => {
         this.setState({
