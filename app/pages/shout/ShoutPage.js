@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+
 import { getShout } from '../../reducers/entities/shouts';
 
 import { routeError } from '../../actions/server';
@@ -97,7 +99,9 @@ class ShoutPage extends Component {
               }
               <ShoutPageLocation shout={ shout } />
               <div className="ShoutPage-Share">
-                <h2>Share This Shout</h2>
+                <h2>
+                  <FormattedMessage id="shout.share" defaultMessage="Share this Shout" />
+                </h2>
                 <Share shareUrl={ `/shout/${shout.id}` } title={ shout.title } image={ shout.thumbnail } />
               </div>
             </Card>

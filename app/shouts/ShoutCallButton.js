@@ -42,7 +42,7 @@ export class ShoutCallButton extends Component {
       label = <FormattedMessage id="shoutCallButton.loading" defaultMessage="Please wait…" />;
     }
     if (shout.mobile) {
-      label = <a href={ `tel://${shout.mobile}` }>{ shout.mobile }</a>;
+      label = <a href={ `tel:${shout.mobile}` }>{ shout.mobile }</a>;
     }
 
     const button = (
