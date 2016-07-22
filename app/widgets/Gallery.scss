@@ -1,70 +1,69 @@
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
+@import '../styles/mixins/mq.scss';
 
 .Gallery {
-
-  // border-radius: $border-radius;
-  // background-color: $white;
-  // box-shadow: $box-shadow-depth-0;
-
-
 }
 .Gallery-slides {
   position: relative;
-
-  overflow-x: hidden; // set auto on iOS/ OSX
+  overflow-x: auto;
   overflow-y: hidden;
-
   width: 100%;
+  margin-bottom: 2px;
   padding-bottom: 72.5%;
-  // height: $width*0.75;
-
   white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-destination: 50% 50%;
+  scroll-snap-type: mandatory;
 
-  // background-color: black;
+  @include desktop() {
+    overflow-x: hidden;
+  }
 }
 
 .Gallery-slide {
   position: absolute;
   top: 0;
   bottom: 0;
-
   display: flex;
-
-  transition: left .25s, right .25s;
-
-  line-height: 0;
-
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  transition: left .25s, right .25s;
+  line-height: 0;
+  scroll-snap-coordinate: 50% 50%;
+
   span {
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
+  }
+}
+
+.Gallery-video {
+  text-align: center;
+  video {
+    height: 100%;
   }
 }
 
 .Gallery-thumbnails {
   width: 100%;
-  padding: 1rem 0;
-
-  border-bottom-left-radius: $border-radius;
   border-bottom-right-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
   line-height: 0;
 }
 
 .Gallery-thumbnail-wrapper {
   position: relative;
-
   display: inline-block;
-
-  width: 10%;
-  padding-bottom: 7.5%;
-
+  width: 20%;
+  padding-bottom: 15%;
   cursor: pointer;
-
   border: 2px solid $white;
+  &:first-child {
+    border-left: 0;
+  }
   &.selected {
     opacity: .6;
   }
@@ -78,14 +77,14 @@
 }
 
 .Gallery-thumbnail.video:after {
-  content: '';
   position: absolute;
-  bottom: 0;
   right: 0;
+  bottom: 0;
   width: 18px;
   height: 18px;
+  content: '';
   background-image: url('../../assets/icons/video-fill.svg');
   background-repeat: no-repeat;
-  background-size: 16px;
   background-position: center;
+  background-size: 16px;
 }

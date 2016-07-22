@@ -1,3 +1,4 @@
+/* eslint-env browser */
 /* eslint-disable react/no-multi-comp */
 
 import React, { PropTypes, Component } from 'react';
@@ -16,23 +17,51 @@ class PageColumn extends Component {
   static defaultProps = {
     sticky: false,
   }
+
+  constructor(props) {
+    super(props);
+    this.setSticky = this.setSticky.bind(this);
+  }
+  state = {
+    sticky: false,
+  }
+  componentDidMount() {
+    if (this.props.sticky) {
+      this.setSticky();
+      window.addEventListener('resize', this.setSticky);
+    }
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.setSticky);
+  }
+
+  setSticky() {
+    this.setState({
+      sticky: true,
+      width: this.refs.node.offsetWidth,
+    });
+  }
   render() {
     let className = 'PageColumn';
+    let style;
     if (this.props.classModifier) {
       className += ` ${this.props.classModifier}`;
     }
-    if (this.props.sticky) {
+    if (this.state.sticky) {
       className += ' sticky';
+      style = {
+        width: this.state.width,
+      };
     }
     if (this.props.wide) {
       className += ' wide';
     }
     const content = (
-      <div className={ className }>
+      <div className={ className } ref="node" style={ style }>
         { this.props.children }
       </div>
     );
-    if (this.props.sticky) {
+    if (this.state.sticky) {
       return <Sticky>{ content }</Sticky>;
     }
     return content;

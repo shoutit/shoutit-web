@@ -6,7 +6,7 @@ import Modal, { Body } from '../modals';
 import Button from '../forms/Button';
 import HorizontalRule from '../widgets/HorizontalRule';
 import NewShoutModal from '../shouts/NewShoutModal';
-import UpdateShoutButton from '../shouts/UpdateShoutButton';
+import ShoutUpdateButton from '../shouts/ShoutUpdateButton';
 
 import { openModal, closeModal } from '../actions/ui';
 
@@ -33,12 +33,12 @@ export function CreateShoutSuccessModal({ shoutId, onNewClick, ...modalProps }) 
           </h3>
 
           <div className="CreateShoutSuccessModal-buttons">
-            <UpdateShoutButton shoutId={ shoutId } block kind="primary" icon={ null }>
+            <ShoutUpdateButton shoutId={ shoutId } block kind="primary" icon={ null }>
               <FormattedMessage
                 id="createShoutSuccessModal.editButton"
                 defaultMessage="Add more details"
               />
-            </UpdateShoutButton>
+            </ShoutUpdateButton>
           </div>
 
           <HorizontalRule label="or" />
