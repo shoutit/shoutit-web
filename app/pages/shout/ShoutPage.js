@@ -21,6 +21,7 @@ import ShoutPageHeader from './ShoutPageHeader';
 import ShoutPagePrice from './ShoutPagePrice';
 import ShoutPageActions from './ShoutPageActions';
 import ShoutPageLocation from './ShoutPageLocation';
+import ShoutPageRelated from './ShoutPageRelated';
 
 import './ShoutPage.scss';
 
@@ -118,6 +119,7 @@ class ShoutPage extends Component {
             </Card>
           </EndColumn>
         </Page>
+        <ShoutPageRelated shoutId={ this.props.params.id } />
       </div>
     );
   }
