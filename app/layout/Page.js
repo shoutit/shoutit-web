@@ -1,8 +1,8 @@
+/* eslint-env browser */
 /* eslint-disable react/no-multi-comp */
 
 import React, { PropTypes, Component } from 'react';
 import Sticky from '@economist/component-stickyfill';
-import { Desktop } from '../utils/MediaQueries';
 
 import MiniFooter from '../layout/MiniFooter';
 import './Page.scss';
@@ -12,24 +12,56 @@ class PageColumn extends Component {
     sticky: PropTypes.bool,
     classModifier: PropTypes.string,
     children: PropTypes.node,
+    wide: PropTypes.bool,
   }
   static defaultProps = {
     sticky: false,
   }
+
+  constructor(props) {
+    super(props);
+    this.setSticky = this.setSticky.bind(this);
+  }
+  state = {
+    sticky: false,
+  }
+  componentDidMount() {
+    if (this.props.sticky) {
+      this.setSticky();
+      window.addEventListener('resize', this.setSticky);
+    }
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.setSticky);
+  }
+
+  setSticky() {
+    this.setState({
+      sticky: true,
+      width: this.refs.node.offsetWidth,
+    });
+  }
   render() {
     let className = 'PageColumn';
+    let style;
     if (this.props.classModifier) {
       className += ` ${this.props.classModifier}`;
     }
-    if (this.props.sticky) {
+    if (this.state.sticky) {
       className += ' sticky';
+      style = {
+        width: this.state.width,
+      };
+    }
+    if (this.props.wide) {
+      className += ' wide';
     }
     const content = (
-      <div className={ className }>
+      <div className={ className } ref="node" style={ style }>
         { this.props.children }
       </div>
     );
-    if (this.props.sticky) {
+    if (this.state.sticky) {
       return <Sticky>{ content }</Sticky>;
     }
     return content;
@@ -52,19 +84,15 @@ export class Body extends Component {
 
 export function StartColumn(props) {
   return (
-    <Desktop>
-      <PageColumn { ...props } classModifier="start" />
-    </Desktop>
+    <PageColumn { ...props } classModifier="start" />
   );
 }
 export function EndColumn({ children, footer = false, ...props }) {
   return (
-    <Desktop>
-      <PageColumn { ...props } classModifier="end">
-        { children }
-        { footer && <MiniFooter /> }
-      </PageColumn>
-    </Desktop>
+    <PageColumn { ...props } classModifier="end">
+      { children }
+      { footer && <MiniFooter /> }
+    </PageColumn>
   );
 }
 EndColumn.propTypes = {

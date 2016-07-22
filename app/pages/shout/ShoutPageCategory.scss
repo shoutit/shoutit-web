@@ -1,0 +1,27 @@
+@import '../../styles/constants.scss';
+
+.ShoutPageCategory {
+  display: flex;
+  margin: $vertical-spacing/2 0;
+  border-bottom: 1px solid $border-color;
+
+  flex-wrap: wrap;
+
+  > div {
+    padding: $vertical-spacing/2 0;
+    border-top: 1px solid $border-color;
+
+    flex: 1 0 50%;
+  }
+  h3 {
+    text-transform: uppercase;
+    color: $color-text-light;
+    font-size: .75em;
+    font-weight: normal;
+  }
+}
+
+a.ShoutPageCategory-Filters-value {
+  color: $color-text;
+  font-size: .875em;
+}

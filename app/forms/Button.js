@@ -66,7 +66,7 @@ export default class Button extends Component {
     const content = (
       <span>
         { icon &&
-          <Icon name={ icon } fill={ kind !== 'default' } active={ kind === 'default' } />
+          <Icon size="small" name={ icon } fill={ kind !== 'default' } active={ kind === 'default' } />
         }
         { startElement &&
           <span className="Button-start">

@@ -45,13 +45,13 @@
   }
 
   .text-offer {
-    font-weight: bold;
     color: $color-offer;
+    font-weight: bold;
   }
 
   .text-request {
-    font-weight: bold;
     color: $color-request;
+    font-weight: bold;
   }
 }
 
@@ -75,6 +75,7 @@
   margin-bottom: $vertical-spacing;
 
   flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
   scroll-snap-destination: 50% 50%;
   scroll-snap-type: mandatory;
 

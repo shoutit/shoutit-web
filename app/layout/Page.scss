@@ -2,21 +2,23 @@
 @import '../styles/mixins/mq';
 
 .Page {
-  display: flex;
-  padding-top: $vertical-spacing;
+  padding-top: $vertical-spacing/3;
   padding-bottom: $vertical-spacing * 2;
 }
-
-@include smartphone() {
+@include desktop() {
   .Page {
-    padding-top: $vertical-spacing/3;
+    display: flex;
+    padding: $vertical-spacing $horizontal-spacing;
   }
 }
 
+.PageBody {
+  position: relative;
+
+  flex: 1;
+}
+
 .PageColumn {
-  width: 17%;
-  min-width: 240px;
-  max-width: 280px;
   margin-bottom: $vertical-spacing;
   .Card + .Card,
   .CardList + .Card,
@@ -25,32 +27,45 @@
   }
 }
 
-.PageBody {
-  position: relative;
-  flex: 1;
+@include desktop() {
+  .PageColumn:not(.wide) {
+    width: 17%;
+    min-width: 240px;
+    max-width: 280px;
+  }
+  .PageColumn.wide {
+    width: 33%;
+    min-width: 240px;
+    max-width: 400px;
+  }
+  .PageColumn.start:not(.wide) {
+    margin-right: $horizontal-spacing;
+  }
+  .PageColumn.start.wide {
+    margin-right: $horizontal-spacing/2;
+  }
+  .PageColumn.end:not(.wide) {
+    margin-left: $horizontal-spacing;
+  }
+  .PageColumn.end.wide {
+    margin-left: $horizontal-spacing/2;
+  }
+  .PageColumn.sticky {
+    position: sticky;
+    top: $header-height + 18px;
+    margin-bottom: 0;
+  }
 }
 
-.PageColumn.start {
-  margin-right: $horizontal-spacing;
-}
-
-.PageColumn.end {
-  margin-left: $horizontal-spacing;
-}
-
-.PageColumn.sticky {
-  position: sticky;
-  top: $header-height + 18px;
-}
 
 .ResponsiveLayout.full-height {
   .Page {
     position: absolute;
     top: 0;
-    bottom: 0;
     right: 0;
+    bottom: 0;
     left: 0;
-    padding-left: $horizontal-spacing/2;
     padding-bottom: $vertical-spacing;
+    padding-left: $horizontal-spacing/2;
   }
 }

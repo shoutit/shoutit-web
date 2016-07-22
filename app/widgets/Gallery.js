@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-import { getVariation } from '../utils/APIUtils';
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
 import union from 'lodash/union';
 
@@ -18,21 +17,46 @@ export default class Gallery extends Component {
     videos: [],
   }
 
+  constructor(props) {
+    super(props);
+    this.handleSlidesScroll = this.handleSlidesScroll.bind(this);
+  }
+
   state = {
     selectedIndex: 0,
-  };
-
+    scrolledIndex: 0,
+  }
+  componentDidMount() {
+    this.refs.slides.addEventListener('scroll', this.handleSlidesScroll);
+  }
   componentWillReceiveProps(nextProps) {
     if (this.props.images.length !== nextProps.images.length ||
       this.props.videos.length !== nextProps.videos.length) {
       this.setState({ selectedIndex: 0 });
     }
   }
+  componentWillUnmount() {
+    this.refs.slides.removeEventListener('scroll', this.handleSlidesScroll);
+  }
+  handleSlidesScroll() {
+    // const { scrollLeft, scrollWidth, offsetWidth, children } = e.target;
+
+    // console.log('scrollLeft', scrollLeft, 'scrollWidth', scrollWidth, 'offsetWidth', offsetWidth, 'ratio', scrollWidth / scrollLeft);
+
+    // const scrolledIndex = Math.ceil((200 * scrollLeft / (scrollWidth + offsetWidth))/children.length);
+    // console.log('scrollEnd', scrollLeft, 'scrolledIndex', scrolledIndex);
+    // if (this.state.scrolledIndex !== scrolledIndex) {
+    //   e.preventDefault();
+    //   this.setState({
+    //     scrolledIndex,
+    //   });
+    // }
+  }
 
   renderItem(item) {
     if (item.type === 'image') {
       return (
-        <img role="presentation" key={ `image-${item.url}` } src={ getVariation(item.url, 'large') } />
+        <span key={ `image-${item.url}` } style={ getStyleBackgroundImage(item.url, 'large', false) } />
       );
     } else if (item.type === 'video') {
       return (
@@ -55,7 +79,7 @@ export default class Gallery extends Component {
     const offset = selectedIndex * 100;
     return (
       <div className="Gallery">
-        <div className="Gallery-slides">
+        <div className="Gallery-slides" ref="slides">
 
           { items.map((item, i) =>
             <div
@@ -74,7 +98,7 @@ export default class Gallery extends Component {
           { items.map((item, i) =>
             <span key={ i }
               onClick={ () => this.setState({ selectedIndex: i }) }
-              className={ `Gallery-thumbnail-wrapper${selectedIndex === i ? ' selected' : ''}` }
+              className={ `Gallery-thumbnail-wrapper${(this.state.scrolledIndex === i || selectedIndex === i) ? ' selected' : ''}` }
             >
               <span
                 className={ `Gallery-thumbnail ${item.type}` }

@@ -1,0 +1,81 @@
+@import '../../styles/constants.scss';
+@import '../../styles/mixins/mq.scss';
+
+.ShoutPage {
+  h1 {
+    font-size: 1.5em;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-size: 1em;
+    font-weight: 500;
+  }
+}
+
+.ShoutPage-Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $vertical-spacing/2 $horizontal-spacing/2;
+  @include desktop() {
+    padding: 0;
+    padding-bottom: $vertical-spacing;
+  }
+}
+
+.ShoutPage-Header-profile {
+  a > .ListItem {
+    color: $color-link;
+  }
+}
+
+.ShoutPage-Header-date {
+  color: $color-text-light;
+  font-size: .875em;
+}
+
+.ShoutPage-MainCard {
+  @include desktop() {
+    padding: $vertical-spacing $horizontal-spacing*2;
+  }
+  padding: $vertical-spacing $horizontal-spacing/2;
+}
+
+.ShoutPage-AsideCard {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: $vertical-spacing $horizontal-spacing;
+  @include desktop() {
+    position: relative;
+  }
+}
+
+.ShoutPage-Price {
+  margin: $vertical-spacing 0;
+  display: flex;
+  justify-content: space-between;
+  .ShoutPrice {
+    font-size: 1.5em;
+  }
+  .ShoutType {
+    font-size: 1em;
+    font-weight: 500;
+  }
+}
+
+.ShoutPage-Share {
+  margin: $vertical-spacing 0;
+  .Share {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+}
+
+.ShoutPage-Actions {
+  > div + div {
+    margin-top: $vertical-spacing/2;
+  }
+}
