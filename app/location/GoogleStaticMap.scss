@@ -1,17 +1,18 @@
-@import "../styles/constants";
+@import '../styles/constants';
 
 .GoogleStaticMap {
   position: relative;
   display: block;
   width: 100%;
-  padding-bottom: 75%;
+  max-width: 640px; // limit by google maps free API
+  padding-bottom: 50%;
+  margin: 0 auto;
   span {
-    border-radius: $border-radius;
     position: absolute;
-    top: 1px;
-    right: 1px;
-    bottom: 1px;
-    left: 1px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     display: block;
     background-position: center;
   }
