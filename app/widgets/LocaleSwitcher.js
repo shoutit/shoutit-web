@@ -4,8 +4,9 @@ import { getCurrentLocale } from '../reducers/i18n';
 import { getQueryAsString } from '../reducers/routing';
 
 const LOCALES = [
-  { code: 'en', name: 'English' },
   { code: 'ar', name: 'العربية' },
+  { code: 'de', name: 'Deutsch' },
+  { code: 'en', name: 'English' },
 ];
 
 export function LocaleSwitcher({ search, currentLocale }) {
