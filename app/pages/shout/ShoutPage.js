@@ -16,6 +16,7 @@ import Gallery from '../../widgets/Gallery';
 import NewlineToBreak from '../../widgets/NewlineToBreak';
 import Share from '../../widgets/Share';
 
+import ShoutPageHelmet from './ShoutPageHelmet';
 import ShoutPageCategory from './ShoutPageCategory';
 import ShoutPageHeader from './ShoutPageHeader';
 import ShoutPagePrice from './ShoutPagePrice';
@@ -60,8 +61,8 @@ class ShoutPage extends Component {
     const showGallery = (shout.images && shout.images.length > 0 || shout.videos && shout.videos.length > 0);
     return (
       <div className="ShoutPage">
-
         <Page>
+          <ShoutPageHelmet shout={ shout } />
           <Smartphone>
             <ShoutPageHeader shout={ shout } />
           </Smartphone>
