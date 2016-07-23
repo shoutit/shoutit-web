@@ -1,8 +1,10 @@
 @import '../styles/constants.scss';
 @import '../styles/mixins/mq.scss';
 
-.Gallery {
+.Gallery-content {
+  position: relative;
 }
+
 .Gallery-slides {
   position: relative;
   overflow-x: auto;
@@ -45,6 +47,12 @@
   video {
     height: 100%;
   }
+}
+
+.Gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .Gallery-thumbnails {
