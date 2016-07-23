@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import union from 'lodash/union';
 
 import { getStyleBackgroundImage } from '../utils/DOMUtils';
-import union from 'lodash/union';
+
+import SimpleIcon from '../icons/SimpleIcon';
 
 import './Gallery.scss';
 
@@ -20,6 +22,8 @@ export default class Gallery extends Component {
   constructor(props) {
     super(props);
     this.handleSlidesScroll = this.handleSlidesScroll.bind(this);
+    this.next = this.next.bind(this);
+    this.previous = this.previous.bind(this);
   }
 
   state = {
@@ -53,6 +57,12 @@ export default class Gallery extends Component {
     // }
   }
 
+  next() {
+    this.setState({ selectedIndex: this.state.selectedIndex + 1 });
+  }
+  previous() {
+    this.setState({ selectedIndex: this.state.selectedIndex - 1 });
+  }
   renderItem(item) {
     if (item.type === 'image') {
       return (
@@ -79,20 +89,33 @@ export default class Gallery extends Component {
     const offset = selectedIndex * 100;
     return (
       <div className="Gallery">
-        <div className="Gallery-slides" ref="slides">
-
-          { items.map((item, i) =>
-            <div
-              key={ i }
-              className="Gallery-slide"
-              style={ { left: `${i * 100 - offset}%`, right: `${i * -100 + offset}%` } }
-              >
-              { this.renderItem(item, i) }
+        <div className="Gallery-content">
+          <div className="Gallery-slides" ref="slides">
+            { items.map((item, i) =>
+              <div
+                key={ i }
+                className="Gallery-slide"
+                style={ { left: `${i * 100 - offset}%`, right: `${i * -100 + offset}%` } }
+                >
+                { this.renderItem(item, i) }
+              </div>
+            ) }
+          </div>
+          { items.length > 1 &&
+            <div className="Gallery-nav">
+              { selectedIndex > 0 &&
+                <span onClick={ this.previous }>
+                  <SimpleIcon colorName="WHITE" rotate="left" name="chevron" size="huge" />
+                </span>
+              }
+              { selectedIndex < items.length - 1 &&
+                <span onClick={ this.next }>
+                  <SimpleIcon colorName="WHITE" name="chevron" size="huge" />
+                </span>
+              }
             </div>
-           ) }
-
+          }
         </div>
-
         { images.length > 1 &&
           <div className="Gallery-thumbnails">
           { items.map((item, i) =>
