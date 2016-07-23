@@ -7,7 +7,7 @@ class SimpleIcon extends Component {
   static propTypes = {
     colorName: PropTypes.oneOf(Object.keys(colors)),
 
-    size: PropTypes.oneOf(['small', 'medium']),
+    size: PropTypes.oneOf(['small', 'medium', 'huge']),
     name: PropTypes.oneOf(['search', 'chevron']),
     rotate: PropTypes.oneOf(['up', 'down', 'right', 'left']),
 
@@ -56,6 +56,9 @@ class SimpleIcon extends Component {
     switch (this.props.size) {
       case 'small':
         size = 16;
+        break;
+      case 'huge':
+        size = 64;
         break;
       default:
         break;
