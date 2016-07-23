@@ -50,7 +50,7 @@ class Helmet extends Component {
         tag.property = tag.property.replace('ogPrefix', ogPrefix);
       }
       if (tag.content) {
-        tag.content = tag.content.replace('ogPrefix', ogPrefix);
+        tag.content = tag.content.toString().replace('ogPrefix', ogPrefix);
       }
       return tag;
     });
