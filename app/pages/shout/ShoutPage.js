@@ -12,6 +12,7 @@ import Card from '../../layout/Card';
 
 import { Desktop, Smartphone } from '../../utils/MediaQueries';
 
+import Progress from '../../widgets/Progress';
 import Gallery from '../../widgets/Gallery';
 import NewlineToBreak from '../../widgets/NewlineToBreak';
 import Share from '../../widgets/Share';
@@ -56,7 +57,7 @@ class ShoutPage extends Component {
   render() {
     const { shout } = this.props;
     if (!shout) {
-      return <p>Loading</p>;
+      return <Progress animate />;
     }
     const showGallery = (shout.images && shout.images.length > 0 || shout.videos && shout.videos.length > 0);
     return (
