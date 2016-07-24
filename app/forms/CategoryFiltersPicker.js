@@ -33,13 +33,14 @@ export class CategoryFiltersPicker extends Component {
   }
   handleChange(filterSlug, valueId, e) {
     this.setState({
-      [filterSlug]: valueId,
+      selectedFilters: Object.assign({}, this.state.selectedFilters, { [filterSlug]: valueId }),
     }, () => {
       if (this.props.onChange) {
-        this.props.onChange(this.state, e);
+        this.props.onChange(this.state.selectedFilters, e);
       }
     });
   }
+  
   render() {
     const { category, ...props } = this.props;
     delete props.categorySlug;
