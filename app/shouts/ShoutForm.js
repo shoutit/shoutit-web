@@ -230,7 +230,10 @@ export class ShoutForm extends Component {
           name="category.slug"
           disabled={ disabled }
           selectedCategorySlug={ this.state.shout.category }
-          onChange={ category => this.handleShoutChange({ category, filters: {} }) }
+          onChange={ category => {
+            this.handleChange({ filters: {} });
+            this.handleShoutChange({ category });
+          } }
           error={ error } />
 
         { mode === 'update' && this.state.shout.category &&

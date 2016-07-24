@@ -19,7 +19,6 @@ export default function geoLocationMiddleware(req, res, next) {
     };
     if (matchesUrl[1] === 'search' && matchesUrl[4]) {
       req.geolocation.state = toTitleCase(decodeURIComponent(matchesUrl[4]));
-      console.log(req.geolocation.state);
     }
     if (matchesUrl[1] === 'search' && matchesUrl[6]) {
       req.geolocation.city = toTitleCase(decodeURIComponent(matchesUrl[6]));

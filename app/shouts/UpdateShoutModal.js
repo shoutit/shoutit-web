@@ -65,7 +65,6 @@ export class UpdateShout extends Component {
     // reduce data sent with submit
     const shout = {
       ...this.state.shout,
-      category: this.state.shout.category.slug,
     };
     delete shout.profile;
     delete shout.conversations;
