@@ -96,6 +96,9 @@ export default class PriceField extends Component {
     const props = { ...this.props };
     delete props.currency;
     delete props.showCurrencies;
+    delete props.onCurrencyChange;
+    delete props.errorLocation;
+    delete props.currencyValue;
     return (
       <TextField
         className="PriceField"

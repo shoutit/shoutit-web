@@ -9,6 +9,7 @@ import UpdateShoutModal from './UpdateShoutModal';
 import { openModal } from '../actions/ui';
 
 export function ShoutUpdateButton({ onClick, ...props }) {
+  delete props.shoutId;
   return (
     <Button onClick={ onClick } kind="primary" icon="pencil" { ...props }>
       { props.children || <FormattedMessage id="ShoutUpdateButton.label" defaultMessage="Edit Shout" /> }

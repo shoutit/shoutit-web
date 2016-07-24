@@ -8,12 +8,12 @@ import './CategoryFiltersPicker.scss';
 
 import { getCategory } from '../reducers/categories';
 
-export class CategoryFilters extends Component {
+export class CategoryFiltersPicker extends Component {
   static propTypes = {
     categorySlug: PropTypes.string.isRequired,
     category: PropTypes.object.isRequired,
     onChange: PropTypes.func,
-    selectedFilters: PropTypes.array,
+    selectedFilters: PropTypes.object,
     disabled: PropTypes.bool,
   }
   constructor(props) {
@@ -25,7 +25,10 @@ export class CategoryFilters extends Component {
     this.setState(this.getStateFromProps(nextProps));
   }
   getStateFromProps(props) {
-    return { ...props.selectedFilters };
+    const state = {
+      ...props.selectedFilters,
+    };
+    return state;
   }
   handleChange(filterSlug, valueId, e) {
     this.setState({
@@ -38,6 +41,9 @@ export class CategoryFilters extends Component {
   }
   render() {
     const { category, ...props } = this.props;
+    delete props.categorySlug;
+    delete props.selectedFilters;
+    delete props.dispatch;
     // Exclude filters with no values
     const filters = category.filters.filter(filter => filter.values.length > 0);
     if (filters.length === 0) {
@@ -46,9 +52,10 @@ export class CategoryFilters extends Component {
     return (
       <div className="CategoryFiltersPicker FormField">
         <FieldsGroup wrap>
-          { filters.map(filter =>
-            <Picker
+          { filters.map(filter => {
+            return (<Picker
               { ...props }
+              key={ filter.slug }
               value={ this.state[filter.slug] }
               name={ filter.slug }
               onChange={ (value, e) => this.handleChange(filter.slug, value, e) }>
@@ -58,8 +65,8 @@ export class CategoryFilters extends Component {
                   { value.name }
                 </option>
               ) }
-            </Picker>
-          ) }
+            </Picker>);
+          }) }
         </FieldsGroup>
       </div>
     );
@@ -70,4 +77,4 @@ const mapStateToProps = (state, ownProps) => ({
   category: getCategory(state, ownProps.categorySlug),
 });
 
-export default connect(mapStateToProps)(CategoryFilters);
+export default connect(mapStateToProps)(CategoryFiltersPicker);
