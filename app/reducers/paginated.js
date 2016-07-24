@@ -14,7 +14,7 @@ import relatedTagsByTag from './paginated/relatedTagsByTag';
 import shoutsByDiscoverItem from './paginated/shoutsByDiscoverItem';
 import shoutsByHome from './paginated/shoutsByHome';
 import shouts from './paginated/shouts';
-import shoutsByTagname from './paginated/shoutsByTagname';
+import shoutsByTagSlug from './paginated/shoutsByTagSlug';
 import shoutsByUsername from './paginated/shoutsByUsername';
 import suggestions from './paginated/suggestions';
 import tagListeningByUser from './paginated/tagListeningByUser';
@@ -32,12 +32,19 @@ export default combineReducers({
   shoutsByDiscoverItem,
   shoutsByHome,
   shouts,
-  shoutsByTagname,
+  shoutsByTagSlug,
   shoutsByUsername,
   suggestions,
   tagListeningByUser,
 });
 
 export function getState(state, selector) {
-  return omit(get(state.paginated, selector), 'ids');
+  const paginationState = get(state.paginated, selector);
+  if (!paginationState) {
+    return {
+      isFetching: false,
+      count: 0,
+    };
+  }
+  return omit(paginationState, 'ids');
 }

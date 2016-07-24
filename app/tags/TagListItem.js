@@ -22,7 +22,7 @@ export function TagListItem({ tag, size = 'medium', link = true, category, popov
   );
 
   let content = link ?
-    <Link to={ `/interest/${tag.slug || tag.name}` }>
+    <Link to={ `/interest/${tag.slug}` }>
       { item }
     </Link>
     : item;
@@ -52,7 +52,7 @@ TagListItem.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const { tag } = ownProps;
-  const category = state.entities.categories[tag.name];
+  const category = state.entities.categories[tag.slug];
   return {
     tag,
     category,

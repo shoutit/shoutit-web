@@ -28,6 +28,6 @@ export default (state, action) => {
   return state;
 };
 
-export function getTagByName(state, name) {
-  return find(state.entities.tags, { name });
+export function getTagBySlug(state, slug) {
+  return find(state.entities.tags, { slug });
 }

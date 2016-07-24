@@ -65,7 +65,7 @@ const routes = (store) =>
       getResponsiveLayout={ () => ({ constrainMaxWidth: false }) }
     />
     <Route path="/shout/:id(/:city)(/:description)" component={ ShoutPage } getApplicationLayout={ () => ({ showFooter: true }) } />
-    <Route path="/interest/:name" component={ Interest } />
+    <Route path="/interest/:slug" component={ Interest } />
     <Route path="/user/:username(/:shout_type)" component={ Profile } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/discover/:country(/:id)" component={ Discover } />
