@@ -20,13 +20,12 @@ export default class Picker extends Component {
     this.refs.field.blur();
   }
   render() {
-    const { children } = this.props;
     return (
       <FormField
         { ...this.props }
         field="select"
         ref="field">
-        { children }
+        { this.props.children }
       </FormField>
     );
   }
