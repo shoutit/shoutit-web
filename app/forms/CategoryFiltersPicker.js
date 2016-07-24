@@ -22,11 +22,12 @@ export class CategoryFiltersPicker extends Component {
     this.state = this.getStateFromProps(props);
   }
   componentWillReceiveProps(nextProps) {
-    this.setState(this.getStateFromProps(nextProps));
+    const state = this.getStateFromProps(nextProps);
+    this.setState(state);
   }
   getStateFromProps(props) {
     const state = {
-      ...props.selectedFilters,
+      selectedFilters: props.selectedFilters,
     };
     return state;
   }
@@ -44,28 +45,32 @@ export class CategoryFiltersPicker extends Component {
     delete props.categorySlug;
     delete props.selectedFilters;
     delete props.dispatch;
+
     // Exclude filters with no values
     const filters = category.filters.filter(filter => filter.values.length > 0);
     if (filters.length === 0) {
       return null;
     }
+    
     return (
       <div className="CategoryFiltersPicker FormField">
         <FieldsGroup wrap>
           { filters.map(filter => {
-            return (<Picker
-              { ...props }
-              key={ filter.slug }
-              value={ this.state[filter.slug] }
-              name={ filter.slug }
-              onChange={ (value, e) => this.handleChange(filter.slug, value, e) }>
-              <option value="">{ filter.name }</option>
-              { filter.values.map(value =>
-                <option value={ value.id } key={ value.id }>
-                  { value.name }
-                </option>
-              ) }
-            </Picker>);
+            return (
+              <Picker
+                { ...props }
+                key={ `${category.slug}-${filter.slug}` }
+                value={ this.state.selectedFilters[filter.slug] }
+                name={ filter.slug }
+                onChange={ (value, e) => this.handleChange(filter.slug, value, e) }>
+                <option value="">{ filter.name }</option>
+                { filter.values.map(value =>
+                  <option value={ value.id } key={ value.id }>
+                    { value.name }
+                  </option>
+                ) }
+              </Picker>
+            );
           }) }
         </FieldsGroup>
       </div>
