@@ -173,7 +173,11 @@ export class Search extends Component {
           <StartColumn>
             <SearchFilters
               disabled={ false }
-              query={ this.props.query }
+              query={ {
+                ...this.props.query,
+                within: this.props.query.within || this.props.within,
+                free: this.props.free,
+              } }
               onSubmit={ this.handleFiltersSubmit }
               />
           </StartColumn>
@@ -206,8 +210,8 @@ export class Search extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-
-  const page = getQuery(state).page || 1;
+  const routingQuery = getQuery(state);
+  const page = routingQuery.page || 1;
   const query = getShoutsQuery(state);
   const count = getShoutsCount(state);
   const pageState = getShoutsPageState(state, page);
@@ -241,6 +245,8 @@ const mapStateToProps = (state, ownProps) => {
     title,
     currentLocation,
     query,
+    within: routingQuery.within,
+    free: !!routingQuery.free,
     count,
     isFetching: pageState.isFetching,
     error: pageState.error,
