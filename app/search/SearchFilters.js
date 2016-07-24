@@ -88,7 +88,6 @@ export class SearchFilters extends Component {
         this.submit();
       }
     });
-    this.setState(state, debounce ? this.debouncedSubmit : this.submit);
   }
 
   render() {
