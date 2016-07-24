@@ -3,8 +3,8 @@ import { parseApiError } from '../utils/APIUtils';
 
 export default {
   name: 'tagListeners',
-  read: (req, resource, { name, endpoint, query }, config, callback) => {
-    const url = endpoint || `/tags/${name}/listeners`;
+  read: (req, resource, { slug, endpoint, query }, config, callback) => {
+    const url = endpoint || `/tags/${slug}/listeners`;
     request
       .get(url)
       .query(query)
