@@ -74,11 +74,10 @@ export class SearchFilters extends Component {
   }
 
   submit() {
-    const { disabled, onSubmit } = this.props;
-    if (disabled) {
+    if (this.props.disabled) {
       return;
     }
-    onSubmit(this.getQuery());
+    this.props.onSubmit(this.getQuery());
   }
 
   handleChange(state, { debounce } = {}) {
