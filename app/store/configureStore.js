@@ -10,8 +10,9 @@ const noop = store => next => action => next(action); // eslint-disable-line
 const pusher = process.env.BROWSER ?
   require('../middlewares/pusher').default : noop;
 
-const twilio = process.env.BROWSER ?
-  require('../middlewares/twilio').default : noop;
+// Disable twilio until we don't restore the videocalls
+// const twilio = process.env.BROWSER ?
+//   require('../middlewares/twilio').default : noop;
 
 const router = process.env.BROWSER ?
   require('react-router-redux').routerMiddleware : () => noop;
@@ -29,7 +30,7 @@ export default function configureStore(initialState, { fetchr, devToolsExtension
         services(fetchr),
         routing,
         pusher,
-        twilio,
+        // twilio,
         thunk,
         router(history)
       ),

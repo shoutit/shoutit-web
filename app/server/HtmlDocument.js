@@ -63,8 +63,8 @@ export default function HtmlDocument({
         { config.ga &&
           <script async src="https://www.google-analytics.com/analytics.js" /> }
 
-        <script src="https://media.twiliocdn.com/sdk/js/common/v0.1/twilio-common.min.js" />
-        <script src="https://media.twiliocdn.com/sdk/js/conversations/v0.13/twilio-conversations.min.js" />
+        { false && <script src="https://media.twiliocdn.com/sdk/js/common/v0.1/twilio-common.min.js" /> }
+        { false && <script src="https://media.twiliocdn.com/sdk/js/conversations/v0.13/twilio-conversations.min.js" /> }
 
         <script dangerouslySetInnerHTML={ { __html: uservoice.replace('{locale}', locale) } } />
 
