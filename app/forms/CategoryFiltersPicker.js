@@ -51,7 +51,7 @@ export class CategoryFiltersPicker extends Component {
     if (filters.length === 0) {
       return null;
     }
-    
+
     return (
       <div className="CategoryFiltersPicker FormField">
         <FieldsGroup wrap>
