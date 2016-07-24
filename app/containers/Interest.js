@@ -10,11 +10,11 @@ import Helmet from '../utils/Helmet';
 import { loadTag, loadTagShouts, loadRelatedTags, invalidateTagShouts } from '../actions/tags';
 import { routeError } from '../actions/server';
 
-import { getTagByName } from '../reducers/entities/tags';
+import { getTagBySlug } from '../reducers/entities/tags';
 import { getCategory } from '../reducers/categories';
 import { getCurrentLocation } from '../reducers/currentLocation';
 
-import { getShoutsByTagname, getPaginationState } from '../reducers/paginated/shoutsByTagname';
+import { getShoutsByTagSlug, getPaginationState } from '../reducers/paginated/shoutsByTagSlug';
 
 import Page, { Body, StartColumn, EndColumn } from '../layout/Page';
 import RelatedTags from '../tags/RelatedTags';
@@ -30,12 +30,12 @@ import './Interest.scss';
 
 const fetchData = (dispatch, state, params) =>
   Promise.all([
-    dispatch(loadTag(params.name))
+    dispatch(loadTag(params.slug))
       .then(payload =>
-        dispatch(loadRelatedTags({ id: payload.result, name: params.name })).catch(() => {}),
+        dispatch(loadRelatedTags({ id: payload.result, slug: params.slug })).catch(() => {}),
         err => dispatch(routeError(err))
       ),
-    dispatch(loadTagShouts(params.name, getCurrentLocation(state))).catch(() => {}),
+    dispatch(loadTagShouts(params.slug, getCurrentLocation(state))).catch(() => {}),
   ]);
 
 export class Interest extends Component {
@@ -61,8 +61,8 @@ export class Interest extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    const { dispatch, params: { name }, currentLocation, tag } = this.props;
-    if (nextProps.params.name !== name || currentLocation.slug !== nextProps.currentLocation.slug) {
+    const { dispatch, params: { slug }, currentLocation, tag } = this.props;
+    if (nextProps.params.slug !== slug || currentLocation.slug !== nextProps.currentLocation.slug) {
       dispatch(invalidateTagShouts(tag));
       fetchData(dispatch, { currentLocation: nextProps.currentLocation }, nextProps.params);
     }
@@ -76,7 +76,7 @@ export class Interest extends Component {
         scrollElement={ () => window }
         onScrollBottom={ () => {
           if (nextUrl && !isFetching) {
-            dispatch(loadTagShouts(tag.name, {}, nextUrl));
+            dispatch(loadTagShouts(tag.slug, {}, nextUrl));
           }
         } }>
         <Page>
@@ -120,19 +120,16 @@ export class Interest extends Component {
 
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const tagName = ownProps.params.name;
-  const tag = getTagByName(state, tagName);
-  return {
-    tag,
-    category: getCategory(state, tagName),
-    shouts: getShoutsByTagname(state, tagName),
-    currentLocation: getCurrentLocation(state),
-    ...getPaginationState(state, tagName),
-  };
-};
+const mapStateToProps = (state, ownProps) => ({
+  tag: getTagBySlug(state, ownProps.params.slug),
+  category: getCategory(state, ownProps.params.slug),
+  shouts: getShoutsByTagSlug(state, ownProps.params.slug),
+  currentLocation: getCurrentLocation(state),
+  ...getPaginationState(state, ownProps.params.slug),
+});
 
 const Wrapped = connect(mapStateToProps)(Interest);
+
 Wrapped.fetchData = Interest.fetchData;
 
 export default Wrapped;

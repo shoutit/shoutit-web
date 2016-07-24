@@ -23,22 +23,22 @@ export function loadTagIfNeeded(tag, properties = []) {
   if (properties.every(property => tag.hasOwnProperty(property))) {
     return noop;
   }
-  return loadTag(tag.name);
+  return loadTag(tag.slug);
 }
 
-export function loadTagShouts(name, location, endpoint) {
+export function loadTagShouts(slug, location, endpoint) {
   return {
     types: [
       actionTypes.LOAD_TAG_SHOUTS_START,
       actionTypes.LOAD_TAG_SHOUTS_SUCCESS,
       actionTypes.LOAD_TAG_SHOUTS_FAILURE,
     ],
-    payload: { name },
+    payload: { slug },
     service: {
       name: 'shouts',
       params: {
         country: location.country,
-        tags: name,
+        tags: slug,
         endpoint,
       },
       schema: SHOUTS,
@@ -74,7 +74,7 @@ export const loadTagListeners = (tag, endpoint) => ({
   payload: { tag },
   service: {
     name: 'tagListeners',
-    params: { name: tag.name, endpoint },
+    params: { slug: tag.slug, endpoint },
     schema: PROFILES,
   },
 });

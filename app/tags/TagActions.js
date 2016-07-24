@@ -50,7 +50,7 @@ export class TagActions extends Component {
       <div className="TagActions">
         <ul className="htmlNoList">
           <li>
-            <RequiresLogin event="onClick" loginAction={ LISTEN_TAG } actionParams={ tag.name }>
+            <RequiresLogin event="onClick" loginAction={ LISTEN_TAG } actionParams={ tag.slug }>
               <ListItem
                 size={ size }
                 disabled={ isUpdatingListening }
@@ -72,7 +72,7 @@ export class TagActions extends Component {
             </RequiresLogin>
           </li>
           <li>
-            <Link to={ `/interest/${tag.name}` }>
+            <Link to={ `/interest/${tag.slug}` }>
               <ListItem
                 size={ size }
                 start={ <Icon active size={ size } name="tag" /> }

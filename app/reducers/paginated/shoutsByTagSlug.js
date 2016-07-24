@@ -5,36 +5,36 @@ import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
 import { getState } from '../paginated';
 
-function shoutsByTagName(state = {}, action) {
+function shoutsByTagSlug(state = {}, action) {
   if (action.type === actionTypes.INVALIDATE_TAG_SHOUTS) {
-    return omit(state, action.payload.name);
+    return omit(state, action.payload.slug);
   }
   return state;
 }
 export default function (state = {}, action) {
   let newState = createPaginatedReducer({
-    mapActionToKey: action => action.payload.name,
+    mapActionToKey: action => action.payload.slug,
     fetchTypes: [
       actionTypes.LOAD_TAG_SHOUTS_START,
       actionTypes.LOAD_TAG_SHOUTS_SUCCESS,
       actionTypes.LOAD_TAG_SHOUTS_FAILURE,
     ],
   })(state, action);
-  newState = shoutsByTagName(newState, action);
+  newState = shoutsByTagSlug(newState, action);
   return newState;
 
 }
 
-export function getShoutsByTagname(state, name) {
-  const shoutsByTagname = state.paginated.shoutsByTagname[name];
-  if (!shoutsByTagname) {
+export function getShoutsByTagSlug(state, slug) {
+  const shoutsByTagSlug = state.paginated.shoutsByTagSlug[slug];
+  if (!shoutsByTagSlug) {
     return [];
   }
-  return shoutsByTagname.ids.map(id =>
+  return shoutsByTagSlug.ids.map(id =>
     denormalize(state.entities.shouts[id], state.entities, 'SHOUT')
   );
 }
 
-export function getPaginationState(state, name) {
-  return getState(state, `shoutsByTagname.${name}`);
+export function getPaginationState(state, slug) {
+  return getState(state, `shoutsByTagSlug.${slug}`);
 }

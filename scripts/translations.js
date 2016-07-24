@@ -37,7 +37,5 @@ locales.forEach(lang => {
       sortedMessages[key] = unsortedMessages[key];
     });
   const filecontent = JSON.stringify(sortedMessages, null, 2);
-  console.log(filecontent);
   fs.writeFileSync(file, filecontent);
-  console.log(file);
 });

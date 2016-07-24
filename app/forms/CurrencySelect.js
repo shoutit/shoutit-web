@@ -16,8 +16,12 @@ class CurrencySelect extends Component {
     currencies: PropTypes.array.isRequired,
   }
   render() {
+    const props = { ...this.props };
+    delete props.intl;
+    delete props.currencies;
+    delete props.dispatch;
     return (
-      <select { ...this.props }>
+      <select { ...props }>
         <option value="">
           { this.props.intl.formatMessage(MESSAGES.firstOptionLabel) }
         </option>
