@@ -1,25 +1,25 @@
 @import "~sass-mediaqueries/_media-queries.scss";
 
-@mixin smartphone-small() {
-  @include mq($max-width: 320px) {
-    @content;
-  }
-}
+// Use the same width specified in deviceWidths.js
+
+$smartphone-max: 425px;
+$tablet-max: 768px;
+$desktop-min: 769px;
 
 @mixin smartphone() {
-  @include mq($max-width: 414px) {
+  @include mq($max-width: $smartphone-max) {
     @content;
   }
 }
 
 @mixin tablet() {
-  @include mq($max-width: 768px) {
+  @include mq($max-width: $tablet-max) {
     @content;
   }
 }
 
 @mixin desktop() {
-  @include mq($min-width: 769px) {
+  @include mq($min-width: $desktop-min) {
     @content;
   }
 }

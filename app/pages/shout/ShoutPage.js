@@ -10,7 +10,7 @@ import { loadShout } from '../../actions/shouts';
 import Page, { Body, EndColumn } from '../../layout/Page';
 import Card from '../../layout/Card';
 
-import { Desktop, Smartphone } from '../../utils/MediaQueries';
+import Device from '../../utils/Device';
 
 import Progress from '../../widgets/Progress';
 import Gallery from '../../widgets/Gallery';
@@ -64,20 +64,20 @@ class ShoutPage extends Component {
       <div className="ShoutPage">
         <Page>
           <ShoutPageHelmet shout={ shout } />
-          <Smartphone>
+          <Device type="tablet,smartphone">
             <ShoutPageHeader shout={ shout } />
-          </Smartphone>
+          </Device>
           <Body>
             <Card block className="ShoutPage-MainCard">
 
-              <Desktop>
+              <Device type="desktop">
                 <ShoutPageHeader shout={ shout } />
-              </Desktop>
+              </Device>
 
               { shout.title &&
-                <Smartphone>
+                <Device type="tablet,smartphone">
                   <h1>{ shout.title }</h1>
-                </Smartphone>
+                </Device>
               }
               { showGallery &&
                 <div className="ShoutPage-Gallery">
@@ -88,9 +88,9 @@ class ShoutPage extends Component {
                 </div>
               }
 
-              <Smartphone>
+              <Device type="tablet,smartphone">
                 <ShoutPagePrice shout={ this.props.shout } />
-              </Smartphone>
+              </Device>
 
               { shout.text &&
                 <NewlineToBreak>
@@ -112,10 +112,10 @@ class ShoutPage extends Component {
           <EndColumn sticky wide>
             <Card block className="ShoutPage-AsideCard">
               { shout.title &&
-                <Desktop>
+                <Device type="desktop">
                   <h1>{ shout.title }</h1>
                   <ShoutPagePrice shout={ shout } />
-                </Desktop>
+                </Device>
               }
               <ShoutPageActions shout={ shout } />
             </Card>

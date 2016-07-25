@@ -90,7 +90,7 @@
   }
 }
 
-@include smartphone-small() {
+@include smartphone() {
   .HomePage-shouts .ShoutPreview-container {
     width: 250px;
     padding: $vertical-spacing $horizontal-spacing/3;

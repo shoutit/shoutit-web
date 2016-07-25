@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { getCurrentLocation } from '../../reducers/currentLocation';
 import { isLoggedIn } from '../../reducers/session';
+import { getDevice } from '../../reducers/browser';
 
 import NewShoutModal from '../../shouts/NewShoutModal';
 import Searchbar from '../../search/Searchbar';
@@ -24,7 +25,7 @@ export class Header extends Component {
     onLocationClick: PropTypes.func.isRequired,
     isLoggedIn: PropTypes.bool,
     currentLocation: PropTypes.object,
-    layout: PropTypes.oneOf(['desktop', 'mobile']),
+    device: PropTypes.oneOf(['desktop', 'smartphone', 'tablet']),
   };
 
   renderDesktopHeader() {
@@ -59,11 +60,12 @@ export class Header extends Component {
     );
   }
   render() {
-    return this.props.layout === 'desktop' ? this.renderDesktopHeader() : this.renderMobileHeader();
+    return this.props.device === 'desktop' ? this.renderDesktopHeader() : this.renderMobileHeader();
   }
 }
 
 const mapStateToProps = state => ({
+  device: getDevice(state),
   currentLocation: getCurrentLocation(state),
   isLoggedIn: isLoggedIn(state),
 });
