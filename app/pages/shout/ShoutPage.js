@@ -59,7 +59,9 @@ class ShoutPage extends Component {
     if (!shout) {
       return <Progress animate />;
     }
-    const showGallery = (shout.images && shout.images.length > 0 || shout.videos && shout.videos.length > 0);
+    const hasImages = !!shout.thumbnail;
+    const isLoadingGallery = hasImages && (!shout.images || !shout.videos);
+    console.log('hasImages', hasImages, 'isLoadingGallery', isLoadingGallery);
     return (
       <div className="ShoutPage">
         <Page>
@@ -79,12 +81,15 @@ class ShoutPage extends Component {
                   <h1>{ shout.title }</h1>
                 </Device>
               }
-              { showGallery &&
+              { hasImages &&
                 <div className="ShoutPage-Gallery">
-                  <Gallery
-                    images={ shout.images }
-                    videos={ shout.videos }
-                  />
+                  { isLoadingGallery && <Progress animate /> }
+                  { !isLoadingGallery &&
+                    <Gallery
+                      images={ shout.images }
+                      videos={ shout.videos }
+                    />
+                  }
                 </div>
               }
 
