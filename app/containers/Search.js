@@ -175,8 +175,8 @@ export class Search extends Component {
               disabled={ false }
               query={ {
                 ...this.props.query,
-                within: this.props.query.within || this.props.within,
-                free: this.props.free,
+                within: this.state.within,
+                free: this.state.free,
               } }
               onSubmit={ this.handleFiltersSubmit }
               />
