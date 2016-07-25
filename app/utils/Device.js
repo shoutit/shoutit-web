@@ -21,4 +21,3 @@ Device.propTypes = {
 
 const mapStateToProps = state => ({ currentType: getDevice(state) });
 export default Device = connect(mapStateToProps)(Device);
-

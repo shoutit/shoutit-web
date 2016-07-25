@@ -61,7 +61,6 @@ class ShoutPage extends Component {
     }
     const hasImages = !!shout.thumbnail;
     const isLoadingGallery = hasImages && (!shout.images || !shout.videos);
-    console.log('hasImages', hasImages, 'isLoadingGallery', isLoadingGallery);
     return (
       <div className="ShoutPage">
         <Page>
