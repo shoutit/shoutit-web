@@ -4,12 +4,19 @@
 
 ## Setup
 
-Make sure to have node.js 4+ installed with `node --version`.
+1. Make sure to have node.js 4+ installed with `node --version`.
 
 ```bash
-git clone git@github.com:shoutit/shoutit-web.git
-cd shoutit-web
-npm install
+$ git clone git@github.com:shoutit/shoutit-web.git
+$ cd shoutit-web
+$ npm install
+```
+
+2. Install and run a redis server to enable authentication
+
+```
+$ brew install redis
+$ redis-server # Run redis in background
 ```
 
 ## Running the app
