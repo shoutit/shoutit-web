@@ -33,11 +33,16 @@ export default function renderMiddleware(req, res, next) {
   const fetchr = new Fetchr({ xhrPath: '/fetchr', req });
 
   fetchr.read('session').end((err, user) => {
+
+    // Set the initial store state
     const storeState = {
       routing: {
         currentUrl: req.url,
         query: req.query,
         path: req.path,
+      },
+      browser: {
+        device: req.device,
       },
       currentLocation: req.geolocation,
       i18n: {
@@ -57,6 +62,7 @@ export default function renderMiddleware(req, res, next) {
         },
       };
     }
+
     const store = configureStore(storeState, { fetchr });
     const routes = configureRoutes(store);
 

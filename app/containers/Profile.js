@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 
 import { PaginationPropTypes } from '../utils/PropTypes';
-import { Desktop } from '../utils/MediaQueries';
+import Device from '../utils/Device';
 
 import Helmet from '../utils/Helmet';
 
@@ -153,13 +153,13 @@ export class Profile extends Component {
               </div>
             }
           </Body>
-          <Desktop>
+          <Device type="desktop">
             <EndColumn footer>
               <SuggestedTags key="interests" />
               <SuggestedProfiles key="profiles" />
               <SuggestedShout key="shout" />
             </EndColumn>
-          </Desktop>
+          </Device>
         </Page>
       </Scrollable>
     );

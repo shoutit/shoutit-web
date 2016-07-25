@@ -4,7 +4,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
 import { PaginationPropTypes } from '../utils/PropTypes';
-import { Desktop } from '../utils/MediaQueries';
+import Device from '../utils/Device';
 import Helmet from '../utils/Helmet';
 
 import { loadTag, loadTagShouts, loadRelatedTags, invalidateTagShouts } from '../actions/tags';
@@ -81,7 +81,7 @@ export class Interest extends Component {
         } }>
         <Page>
           { tag && <Helmet title={ category ? category.name : tag.name } images={ [tag.image] } /> }
-          <Desktop>
+          <Device type="desktop">
             <StartColumn sticky>
               {
                 tag &&
@@ -90,7 +90,7 @@ export class Interest extends Component {
                   </Card>
               }
             </StartColumn>
-          </Desktop>
+          </Device>
           <Body>
             { !tag && <Progress animate /> }
             { tag &&
@@ -102,7 +102,7 @@ export class Interest extends Component {
               </div>
             }
           </Body>
-          <Desktop>
+          <Device type="desktop">
             <EndColumn footer>
               { tag &&
                 <div>
@@ -112,7 +112,7 @@ export class Interest extends Component {
                 </div>
               }
             </EndColumn>
-          </Desktop>
+          </Device>
         </Page>
       </Scrollable>
     );

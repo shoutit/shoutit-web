@@ -1,11 +1,18 @@
-import { responsiveStateReducer } from 'redux-responsive';
+import * as actionTypes from '../actions/actionTypes';
 
-export default responsiveStateReducer;
-
-export const getBrowser = state => state.browser;
-export const getDevice = state => {
-  if (state.browser.lessThanOrEqual.small) {
-    return 'mobile';
-  }
-  return 'desktop';
+const initialState = {
+  device: undefined,
 };
+
+export default function (state = initialState, action) {
+  switch (action.type) {
+    case actionTypes.BROWSER_SET_DEVICE:
+      return {
+        ...state,
+        device: action.payload,
+      };
+  }
+  return state;
+}
+
+export const getDevice = state => state.browser.device;

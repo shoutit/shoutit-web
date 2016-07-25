@@ -7,7 +7,6 @@ import { IntlProvider } from 'react-intl';
 import { getCurrentLocale, isRtl, getIntlMessages } from '../reducers/i18n';
 import { getCurrentUrl, getRoutingError } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
-import { getDevice } from '../reducers/browser';
 
 import Helmet from '../utils/Helmet';
 import { identifyOnMixpanel, trackWithMixpanel } from '../utils/mixpanel';
@@ -57,7 +56,6 @@ export class Application extends Component {
     locale: PropTypes.string.isRequired,
     rtl: PropTypes.bool.isRequired,
     messages: PropTypes.object.isRequired,
-    device: PropTypes.string,
   };
 
   static fetchData = fetchData;
@@ -195,7 +193,7 @@ export class Application extends Component {
             { applicationLayout.showHeader &&
               <div className="Application-header">
                 <ResponsiveLayout { ...responsiveLayoutProps }>
-                  <Header layout={ this.props.device } />
+                  <Header />
                 </ResponsiveLayout>
               </div>
             }
@@ -225,7 +223,6 @@ export class Application extends Component {
 }
 
 const mapStateToProps = state => ({
-  device: getDevice(state),
   currentLocation: getCurrentLocation(state),
   currentUrl: getCurrentUrl(state),
   error: getRoutingError(state),
