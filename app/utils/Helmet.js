@@ -13,7 +13,7 @@ class Helmet extends Component {
   static propTypes = {
     ...ReactHelmet.propTypes,
     title: PropTypes.string,
-    appLink: PropTypes.string,
+    appUrl: PropTypes.string,
     meta: PropTypes.array,
     description: PropTypes.string,
     badge: PropTypes.number,
@@ -27,6 +27,7 @@ class Helmet extends Component {
   }
 
   render() {
+    console.log(this.props.appUrl);
     let { title, description } = this.props;
     if (title && !this.props.hideBadge && this.props.badge > 0) {
       title = `(${this.props.badge}) ${title}`;
@@ -40,9 +41,9 @@ class Helmet extends Component {
       { property: 'og:description', content: description },
     ];
 
-    // Append applinks (the rest is added in Application.js)
-    otherMeta.push({ property: 'al:ios:url', content: this.props.appLink || 'shoutit://home' });
-    otherMeta.push({ property: 'al:android:url', content: this.props.appLink || 'shoutit://home' });
+    // Append app links (the rest is added in Application.js)
+    otherMeta.push({ property: 'al:ios:url', content: this.props.appUrl || 'shoutit://home' });
+    otherMeta.push({ property: 'al:android:url', content: this.props.appUrl || 'shoutit://home' });
 
     if (this.props.images.length > 2) {
       otherMeta.push({ name: 'twitter:card', content: 'gallery' });

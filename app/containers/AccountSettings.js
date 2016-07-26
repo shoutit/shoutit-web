@@ -132,7 +132,7 @@ export class AccountSettings extends Component {
     return (
       <RequiresLogin>
         <Page className="Settings">
-          <Helmet title={ formatMessage(MESSAGES.title) } />
+          <Helmet title={ formatMessage(MESSAGES.title) } appUrl="shoutit://settings" />
           <StartColumn sticky>
             <SettingsNavigation />
           </StartColumn>

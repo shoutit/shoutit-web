@@ -93,6 +93,7 @@ export class Profile extends Component {
               title={ formatMessage(MESSAGES.title, { ...profile }) }
               description={ profile.bio }
               images={ [profile.image] }
+              appUrl={ profile.appUrl }
               meta={ [
                 { property: 'og:type', content: 'ogPrefix:user' },
                 { property: 'ogPrefix:username', content: profile.username },

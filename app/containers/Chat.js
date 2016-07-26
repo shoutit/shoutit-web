@@ -32,7 +32,10 @@ export class Chat extends Component {
     return (
       <RequiresLogin>
         <Page>
-          <Helmet title={ this.props.intl.formatMessage(MESSAGES.title) } />
+          <Helmet
+            title={ this.props.intl.formatMessage(MESSAGES.title) }
+            appUrl="shoutit://chats"
+           />
           <Body>
             <div className="Chat">
               <div className="Chat-conversations">
