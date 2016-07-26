@@ -137,7 +137,7 @@ export class Discover extends Component {
           }
         } }>
         <Page>
-          { discoverItem && <Helmet title={ discoverItem.title } images={ [discoverItem.image] } /> }
+          { discoverItem && <Helmet appUrl={ discoverItem.appUrl } title={ discoverItem.title } images={ [discoverItem.image] } /> }
           <Body>
             { discoverItem &&
               <div className="Discover-hero" style={ getStyleBackgroundImage(discoverItem.image, 'large') }>

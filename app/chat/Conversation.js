@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { FormattedMessage } from 'react-intl';
 
+import Helmet from '../utils/Helmet';
+
 import ConversationReplyForm from '../chat/ConversationReplyForm';
 import ConversationMessages from '../chat/ConversationMessages';
 import ConversationStart from '../chat/ConversationStart';
@@ -102,6 +104,9 @@ export class Conversation extends Component {
     return (
       <div className={ `Conversation layout-${layout}` }>
 
+        { conversation && layout === 'full' &&
+          <Helmet title={ conversation.display.title } appUrl={ conversation.appUrl } />
+        }
         { conversation && (layout === 'full' || conversation.about) &&
           <div className="Conversation-head">
             <ConversationHead showTitle={ layout === 'full' } conversation={ conversation } />

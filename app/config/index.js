@@ -51,6 +51,11 @@ export const instagramLink = 'https://www.instagram.com/shoutitcom';
 export const playStoreLink = 'https://play.google.com/store/apps/details?id=com.shoutit.app.android';
 export const twitterLink = 'https://twitter.com/shoutitcom';
 
+export const androidPackage = 'com.shoutit.app.android';
+export const androidAppName = 'Shoutit';
+export const iosAppId = '947017118';
+export const iosAppName = 'Shoutit';
+
 export function getSummary() {
   const summary = [];
   summary.push('');

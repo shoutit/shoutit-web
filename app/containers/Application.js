@@ -159,6 +159,42 @@ export class Application extends Component {
         <ServerError error={ error } />
       );
     }
+
+    const url = `${config.siteUrl}${props.currentUrl}`.replace(/\/$/, '');
+
+    const meta = [
+
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
+      { name: 'keywords', content: 'shoutit' },
+
+      { property: 'fb:app_id', content: config.facebookId },
+
+      { property: 'og:url', content: url },
+      { property: 'og:locale', content: 'en_US' },
+      { property: 'og:site_name', content: 'Shoutit' },
+      { property: 'og:type', content: 'website' },
+
+      { name: 'twitter:site', content: '@Shoutitcom' },
+      { name: 'twitter:card', content: 'summary' },
+      { name: 'twitter:app:name:iphone', content: config.iosAppName },
+      { name: 'twitter:app:name:ipad', content: config.iosAppName },
+      { name: 'twitter:app:name:googleplay', content: 'Shoutit' },
+      { name: 'twitter:app:id:iphone', content: config.iosAppId },
+      { name: 'twitter:app:id:ipad', content: config.iosAppId },
+      { name: 'twitter:app:id:googleplay', content: config.androidPackage },
+
+      { property: 'al:ios:app_store_id', content: config.iosAppId },
+      { property: 'al:ios:app_name', content: config.iosAppName },
+      { property: 'al:android:package', content: config.androidPackage },
+      { property: 'al:android:app_name', content: config.androidAppName },
+      { property: 'al:web:url', content: url },
+    ];
+
+    const link = [
+      { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
+      { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
+    ];
+
     return (
       <IntlProvider locale={ locale } messages={ this.props.messages }>
         <div className={ className }>
@@ -167,27 +203,8 @@ export class Application extends Component {
               lang: props.locale,
               dir: props.rtl ? 'rtl' : 'ltr',
             } }
-            meta={ [
-              { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
-              { name: 'keywords', content: 'shoutit' },
-              { property: 'fb:app_id', content: config.facebookId },
-              { property: 'og:url', content: `${config.siteUrl}${props.currentUrl}`.replace(/\/$/, '') },
-              { property: 'og:locale', content: 'en_US' },
-              { property: 'og:site_name', content: 'Shoutit' },
-              { property: 'og:type', content: 'website' },
-              { name: 'twitter:site', content: '@Shoutitcom' },
-              { name: 'twitter:card', content: 'summary' },
-              { name: 'twitter:app:name:iphone', content: 'Shoutit' },
-              { name: 'twitter:app:name:ipad', content: 'Shoutit' },
-              { name: 'twitter:app:name:googleplay', content: 'Shoutit' },
-              { name: 'twitter:app:id:iphone', content: '947017118' },
-              { name: 'twitter:app:id:ipad', content: '947017118' },
-              { name: 'twitter:app:id:googleplay', content: 'com.shoutit.app.android' },
-            ] }
-            link={ [
-              { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
-              { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
-            ] }
+            meta={ meta }
+            link={ link }
           />
           <div className="Application-top">
             { applicationLayout.showHeader &&

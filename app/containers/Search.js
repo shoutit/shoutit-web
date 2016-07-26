@@ -168,7 +168,7 @@ export class Search extends Component {
   render() {
     return (
       <Page className="Search">
-        <Helmet title={ this.props.title } />
+        <Helmet title={ this.props.title } appUrl="shoutit://search" />
         <Device type="desktop">
           <StartColumn>
             <SearchFilters
