@@ -85,7 +85,7 @@ export function getSummary() {
   summary.push(`  iOS app name:         ${iosAppName}`);
   summary.push(`  Android package:      ${androidPackage}`);
   summary.push(`  Android app name:     ${androidAppName}`);
-  
+
   summary.push('');
   return summary.join('\n');
 }

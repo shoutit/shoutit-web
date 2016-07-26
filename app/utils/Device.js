@@ -11,11 +11,9 @@ let Device = ({
   currentOperatingSystem,
 }) => {
   if (type && type.split(',').indexOf(currentType) === -1) {
-    console.log('type does not match', type, currentType);
     return null;
   }
   if (operatingSystem && operatingSystem.split(',').indexOf(currentOperatingSystem) === -1) {
-    console.log('operatingSystem', operatingSystem, 'currentOperatingSystem', currentOperatingSystem);
     return null;
   }
   if (React.Children.count(children) > 1 || typeof children === 'string') {

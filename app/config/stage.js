@@ -10,4 +10,3 @@ export const androidPackage = 'com.shoutit.app.android.staging';
 export const androidAppName = 'Shoutit - Buy & Sell on Chat';
 export const iosAppId = '947017118';
 export const iosAppName = 'Shoutit - Buy & Sell while Chatting';
-
