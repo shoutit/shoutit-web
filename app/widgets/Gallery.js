@@ -114,7 +114,6 @@ export class Gallery extends Component {
             <video src={ item.url } controls />
           </span>
         }
-      }
       </div>
     );
   }
