@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
   device: undefined,
+  os: undefined,
 };
 
 export default function (state = initialState, action) {
@@ -16,3 +17,4 @@ export default function (state = initialState, action) {
 }
 
 export const getDevice = state => state.browser.device;
+export const getOperatingSystem = state => state.browser.os;
