@@ -209,7 +209,7 @@ export class Application extends Component {
             meta={ meta }
             link={ link }
           />
-          <Device type="smartphone">
+          <Device type="smartphone,tablet" operatingSystem="ios,android">
             <OpenInApp />
           </Device>
           <div className="Application-top">

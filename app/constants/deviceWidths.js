@@ -1,7 +1,7 @@
 // Use the same width specified in mixins/mq.scss
 
 export const smartphone = {
-  maxWidth: 425,
+  maxWidth: 435,
 };
 export const tablet = {
   maxWidth: 768,

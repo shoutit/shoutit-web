@@ -1,12 +1,18 @@
 /* eslint-env browser */
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
 
-import { appStoreLink } from '../config';
+import { appStoreLink, playStoreLink } from '../config';
+import { getOperatingSystem } from '../reducers/browser';
 
 import './OpenInApp.scss';
 
 class OpenInApp extends Component {
+
+  static propTypes = {
+    storeLink: PropTypes.string.isRequired,
+  }
 
   constructor(props) {
     super(props);
@@ -53,7 +59,7 @@ class OpenInApp extends Component {
           />
         </span>
         <span className="OpenInApp-Buttons">
-          <a href={ appStoreLink } target="_blank">
+          <a href={ this.props.storeLink } target="_blank">
             <FormattedMessage
               id="widgets.OpenInApp.install"
               defaultMessage="Install"
@@ -71,4 +77,18 @@ class OpenInApp extends Component {
   }
 }
 
-export default OpenInApp;
+const mapStateToProps = state => {
+  const os = getOperatingSystem(state);
+  let storeLink;
+  switch (os) {
+    case 'android':
+      storeLink = playStoreLink;
+      break;
+    case 'ios':
+      storeLink = appStoreLink;
+      break;
+    default: break;
+  }
+  return { storeLink };
+};
+export default connect(mapStateToProps)(OpenInApp);

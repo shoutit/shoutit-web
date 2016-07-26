@@ -41,9 +41,7 @@ export default function renderMiddleware(req, res, next) {
         query: req.query,
         path: req.path,
       },
-      browser: {
-        device: req.device,
-      },
+      browser: req.browser,
       currentLocation: req.geolocation,
       i18n: {
         locale: req.locale,

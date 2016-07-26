@@ -1,10 +1,19 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { getDevice } from '../reducers/browser';
+import { getDevice, getOperatingSystem } from '../reducers/browser';
 
-let Device = ({ children, type, currentType }) => {
-  if (type.split(',').indexOf(currentType) === -1) {
+let Device = ({
+  children,
+  type,
+  currentType,
+  operatingSystem,
+  currentOperatingSystem,
+}) => {
+  if (type && type.split(',').indexOf(currentType) === -1) {
+    return null;
+  }
+  if (operatingSystem && operatingSystem.split(',').indexOf(currentOperatingSystem) === -1) {
     return null;
   }
   if (React.Children.count(children) > 1 || typeof children === 'string') {
@@ -15,9 +24,15 @@ let Device = ({ children, type, currentType }) => {
 
 Device.propTypes = {
   children: PropTypes.node.isRequired,
-  type: PropTypes.string.isRequired,
-  currentType: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  currentType: PropTypes.string,
+  operatingSystem: PropTypes.string,
+  currentOperatingSystem: PropTypes.string,
 };
 
-const mapStateToProps = state => ({ currentType: getDevice(state) });
+const mapStateToProps = state => ({
+  currentType: getDevice(state),
+  currentOperatingSystem: getOperatingSystem(state),
+});
+
 export default Device = connect(mapStateToProps)(Device);
