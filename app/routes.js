@@ -21,6 +21,8 @@ import SetPassword from './containers/SetPassword';
 import ShoutPage from './pages/shout';
 import Signup from './containers/Signup';
 import VerifyEmail from './containers/VerifyEmail';
+import Static from './containers/Static';
+//I append new static route at line
 
 const authAppLayout = () => ({
   className: 'pattern-background',
@@ -76,6 +78,7 @@ const routes = (store) =>
     <Redirect from="/settings" to="/settings/profile" />
     <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ settingsAppLayout } />
     <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ settingsAppLayout } />
+  <Route path="/static" component={ Static } getApplicationLayout={ authAppLayout }/>
     <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true }) } />
   </Route>;
 
