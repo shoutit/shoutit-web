@@ -13,6 +13,7 @@ class Helmet extends Component {
   static propTypes = {
     ...ReactHelmet.propTypes,
     title: PropTypes.string,
+    appLink: PropTypes.string,
     meta: PropTypes.array,
     description: PropTypes.string,
     badge: PropTypes.number,
@@ -34,17 +35,21 @@ class Helmet extends Component {
       description = description.substring(0, 160);
     }
     const otherMeta = [
-        { name: 'description', content: description },
-        { property: 'og:title', content: title || this.props.defaultTitle },
-        { property: 'og:description', content: description },
+      { name: 'description', content: description },
+      { property: 'og:title', content: title || this.props.defaultTitle },
+      { property: 'og:description', content: description },
     ];
+
+    // Append applinks (the rest is added in Application.js)
+    otherMeta.push({ property: 'al:ios:url', content: this.props.appLink || 'shoutit://home' });
+    otherMeta.push({ property: 'al:android:url', content: this.props.appLink || 'shoutit://home' });
+
     if (this.props.images.length > 2) {
       otherMeta.push({ name: 'twitter:card', content: 'gallery' });
     }
     const imagesMeta = this.props.images.map(src =>
-        ({ property: 'og:image', content: getVariation(src, 'large') }),
-      );
-
+      ({ property: 'og:image', content: getVariation(src, 'large') }),
+    );
     const meta = union(this.props.meta, otherMeta, imagesMeta).map(tag => {
       if (tag.property) {
         tag.property = tag.property.replace('ogPrefix', ogPrefix);
