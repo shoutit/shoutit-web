@@ -2,7 +2,9 @@
 
 // Just copied from https://github.com/madebysource/animated-scrollto/pull/11 until merged
 
-var requestAnimFrame = (function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(callback){window.setTimeout(callback,1000/60);};})();
+if (process.env.BROWSER) {
+  var requestAnimFrame = (function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||function(callback){window.setTimeout(callback,1000/60);};})();
+}
 
 var easeInOutQuad = function (t, b, c, d) {
   t /= d / 2;
