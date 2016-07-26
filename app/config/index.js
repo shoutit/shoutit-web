@@ -51,6 +51,11 @@ export const instagramLink = 'https://www.instagram.com/shoutitcom';
 export const playStoreLink = 'https://play.google.com/store/apps/details?id=com.shoutit.app.android';
 export const twitterLink = 'https://twitter.com/shoutitcom';
 
+export const androidPackage = envConfig.androidPackage;
+export const androidAppName = envConfig.androidAppName;
+export const iosAppId = envConfig.iosAppId;
+export const iosAppName = envConfig.iosAppName;
+
 export function getSummary() {
   const summary = [];
   summary.push('');
@@ -60,19 +65,27 @@ export function getSummary() {
   summary.push(`  Shoutit environment:  ${process.env.SHOUTIT_ENV}`);
   summary.push(`  Node environment:     ${process.env.NODE_ENV}`);
   summary.push(`  Redis host:           ${process.env.REDIS_HOST}`);
-  summary.push(`  New Relic Key:        ${process.env.NEW_RELIC_LICENSE_KEY}`);
   summary.push('');
   summary.push(`  Site URL:             ${siteUrl}`);
   summary.push(`  Public assets URL:    ${publicUrl}`);
   summary.push(`  API URL:              ${apiUrl}`);
-  summary.push(`  Supported locales:    ${locales.join(', ')}`);
-  summary.push(`  Google Analytics:     ${ga}`);
   summary.push(`  Images path:          ${imagesPath}`);
+  summary.push('');
+  summary.push(`  Supported locales:    ${locales.join(', ').toUpperCase()}`);
+  summary.push('');
+  summary.push(`  New Relic Key:        ${process.env.NEW_RELIC_LICENSE_KEY}`);
+  summary.push(`  Google Analytics:     ${ga}`);
   summary.push(`  Facebook ID:          ${facebookId}`);
   summary.push(`  Pusher App Key:       ${pusherAppKey}`);
   summary.push(`  Uservoice API Key:    ${uservoiceApiKey}`);
   summary.push(`  OpenGraph Prefix:     ${ogPrefix}`);
   summary.push(`  Mixpanel Token:       ${mixpanelToken}`);
+  summary.push('');
+  summary.push(`  iOS app id:           ${iosAppId}`);
+  summary.push(`  iOS app name:         ${iosAppName}`);
+  summary.push(`  Android package:      ${androidPackage}`);
+  summary.push(`  Android app name:     ${androidAppName}`);
+
   summary.push('');
   return summary.join('\n');
 }

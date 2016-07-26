@@ -1,10 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { createResponsiveStoreEnhancer } from 'redux-responsive';
 
 import rootReducer from '../reducers';
 import services from '../middlewares/services';
-
+import createBrowseStoreEnhancer from './createBrowserStoreEnhancer';
 const noop = store => next => action => next(action); // eslint-disable-line
 
 const pusher = process.env.BROWSER ?
@@ -25,7 +24,7 @@ export default function configureStore(initialState, { fetchr, devToolsExtension
     rootReducer,
     initialState,
     compose(
-      createResponsiveStoreEnhancer({ calculateStateInitially: process.env.BROWSER }),
+      createBrowseStoreEnhancer(),
       applyMiddleware(
         services(fetchr),
         routing,

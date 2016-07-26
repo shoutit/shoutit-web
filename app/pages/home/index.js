@@ -1,7 +1,8 @@
+/* eslint-env browser */
+
 import React, { Component, PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import Scroll, { Element as ScrollTarget } from 'react-scroll';
 
 import Header from './Header';
 import Hero from './Hero';
@@ -9,7 +10,9 @@ import Button from '../../forms/Button';
 import { imagesPath } from '../../config';
 import AppBadge from '../../widgets/AppBadge';
 import Logo from '../../widgets/Logo';
+
 import Helmet from '../../utils/Helmet';
+import animatedScrollTo from '../../utils/animatedScrollTo';
 
 import { loadShoutSamples } from '../../actions/shouts';
 import ShoutPreview from '../../shouts/ShoutPreview';
@@ -21,7 +24,6 @@ import { getCurrentLocation } from '../../reducers/currentLocation';
 import { getShoutSamples } from '../../reducers/shoutSamples';
 
 const fetchData = dispatch => dispatch(loadShoutSamples());
-const scroller = Scroll.scroller;
 
 class HomePage extends Component {
 
@@ -32,28 +34,9 @@ class HomePage extends Component {
 
   static fetchData = fetchData;
 
-  constructor(props) {
-    super(props);
-    this.scrollToApps = this.scrollToApps.bind(this);
-    this.scrollToBusiness = this.scrollToBusiness.bind(this);
-  }
-
-  scrollToApps(e) {
+  scrollTo(ref, e) {
     e.target.blur();
-    scroller.scrollTo('apps', {
-      duration: 800,
-      delay: 100,
-      smooth: true,
-    });
-  }
-
-  scrollToBusiness(e) {
-    e.target.blur();
-    scroller.scrollTo('business', {
-      duration: 800,
-      delay: 100,
-      smooth: true,
-    });
+    animatedScrollTo(document.body, this.refs[ref].offsetTop, 500);
   }
 
   render() {
@@ -64,7 +47,7 @@ class HomePage extends Component {
         ] } />
         <section className="HomePage-hero">
           <Header />
-          <Hero onBusinessClick={ this.scrollToBusiness } />
+          <Hero onBusinessClick={ this.scrollTo.bind(this, 'business') } />
         </section>
         <section className="HomePage-section">
           <div className="HomePage-sectionContent">
@@ -139,7 +122,7 @@ class HomePage extends Component {
                 />
               </p>
               <p>
-                <Button onClick={ this.scrollToApps }>
+                <Button onClick={ this.scrollTo.bind(this, 'apps') }>
                   <FormattedMessage
                     id="pages.home.publicChats.description.action"
                     defaultMessage="+ Start your own Public Chat"
@@ -151,7 +134,7 @@ class HomePage extends Component {
               </div>
 
               <div className="HomePage-section-action">
-                <Button onClick={ this.scrollToApps } kind="primary">
+                <Button onClick={ this.scrollTo.bind(this, 'apps') } kind="primary">
                   <FormattedMessage
                     id="pages.home.publicChats.action.button"
                     defaultMessage="Explore Public Chats in { city }"
@@ -177,7 +160,7 @@ class HomePage extends Component {
                 />
               </p>
               <p>
-                <Button onClick={ this.scrollToApps }>
+                <Button onClick={ this.scrollTo.bind(this, 'apps') }>
                   <FormattedMessage
                     id="pages.home.shoutitCredit.description.action"
                     defaultMessage="Learn more"
@@ -193,8 +176,7 @@ class HomePage extends Component {
         </section>
         <section className="HomePage-section">
           <ResponsiveLayout size="small">
-            <ScrollTarget name="business" />
-            <div className="HomePage-sectionContent">
+            <div className="HomePage-sectionContent" ref="business">
               <Logo type="business" />
               <p>
                 <FormattedMessage
@@ -230,7 +212,7 @@ class HomePage extends Component {
                 />
               </p>
               <div className="HomePage-section-action">
-                <Button kind="alternate" onClick={ this.scrollToApps }>
+                <Button kind="alternate" onClick={ this.scrollTo.bind(this, 'apps') }>
                   <FormattedMessage
                     id="pages.home.business.action.button"
                     defaultMessage="Get Started with Shoutit for Business"
@@ -245,32 +227,29 @@ class HomePage extends Component {
                   </em>
                 </p>
               </div>
-
             </div>
           </ResponsiveLayout>
         </section>
         <section className="HomePage-section">
           <ResponsiveLayout size="small">
-            <ScrollTarget name="apps">
-              <div className="HomePage-sectionContent">
-                <h3>
-                  <FormattedMessage
-                    id="pages.home.apps.title"
-                    defaultMessage="Download Shoutit Apps"
-                  />
-                </h3>
-                <p>
-                  <FormattedMessage
-                    id="pages.home.apps.description"
-                    defaultMessage="Buy and Sell anything while chatting. Shout Offers and Requests in your area or anywhere in the world!"
-                  />
-                </p>
+            <div className="HomePage-sectionContent" ref="apps">
+              <h3>
+                <FormattedMessage
+                  id="pages.home.apps.title"
+                  defaultMessage="Download Shoutit Apps"
+                />
+              </h3>
+              <p>
+                <FormattedMessage
+                  id="pages.home.apps.description"
+                  defaultMessage="Buy and Sell anything while chatting. Shout Offers and Requests in your area or anywhere in the world!"
+                />
+              </p>
 
-                <AppBadge appstore="appStore" height={ 40 } />
-                <AppBadge appstore="googlePlay" height={ 40 } />
+              <AppBadge appstore="appStore" height={ 40 } />
+              <AppBadge appstore="googlePlay" height={ 40 } />
 
-              </div>
-            </ScrollTarget>
+            </div>
           </ResponsiveLayout>
 
         </section>

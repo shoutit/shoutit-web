@@ -21,6 +21,7 @@ import pusherMiddleware from './server/pusherMiddleware';
 import localeMiddleware from './server/localeMiddleware';
 import redirects from './server/redirects';
 import renderMiddleware from './server/renderMiddleware';
+import browserMiddleware from './server/browserMiddleware';
 import slashMiddleware from './server/slashMiddleware';
 import { fileUploadMiddleware, fileDeleteMiddleware } from './server/fileMiddleware';
 
@@ -59,6 +60,9 @@ export function start(app) {
 
   // Get the client's locale in req.locale
   app.use(localeMiddleware);
+
+  // Get the client's device in req.browser
+  app.use(browserMiddleware);
 
   // Register fetchr services
   Object.keys(services).forEach(name => Fetchr.registerService(services[name])); // eslint-disable-line

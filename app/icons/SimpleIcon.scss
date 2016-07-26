@@ -3,4 +3,7 @@
   &.rotate-down {
     transform: rotate(90deg);
   }
+  &.rotate-right {
+    transform: rotate(180deg);
+  }
 }

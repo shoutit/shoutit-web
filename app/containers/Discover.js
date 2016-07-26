@@ -9,7 +9,7 @@ import { getCurrentLocale } from '../reducers/i18n';
 import { getCurrentUrl } from '../reducers/routing';
 
 import Helmet from '../utils/Helmet';
-import { Desktop } from '../utils/MediaQueries';
+import Device from '../utils/Device';
 
 import Page, { Body, EndColumn } from '../layout/Page';
 
@@ -137,7 +137,7 @@ export class Discover extends Component {
           }
         } }>
         <Page>
-          { discoverItem && <Helmet title={ discoverItem.title } images={ [discoverItem.image] } /> }
+          { discoverItem && <Helmet appUrl={ discoverItem.appUrl } title={ discoverItem.title } images={ [discoverItem.image] } /> }
           <Body>
             { discoverItem &&
               <div className="Discover-hero" style={ getStyleBackgroundImage(discoverItem.image, 'large') }>
@@ -179,11 +179,11 @@ export class Discover extends Component {
             <Progress animate={ isFetchingShouts } />
             <Progress animate={ isFetching && !discoverItem } />
           </Body>
-          <Desktop>
+          <Device type="desktop">
             <EndColumn footer>
               <SuggestedShout />
             </EndColumn>
-          </Desktop>
+          </Device>
         </Page>
       </Scrollable>
     );

@@ -7,7 +7,7 @@ import { injectIntl, defineMessages } from 'react-intl';
 import { push } from 'react-router-redux';
 
 import Helmet from '../utils/Helmet';
-import { Desktop } from '../utils/MediaQueries';
+import Device from '../utils/Device';
 
 import { getQuery, getCurrentUrl } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
@@ -168,20 +168,20 @@ export class Search extends Component {
   render() {
     return (
       <Page className="Search">
-        <Helmet title={ this.props.title } />
-        <Desktop>
+        <Helmet title={ this.props.title } appUrl="shoutit://search" />
+        <Device type="desktop">
           <StartColumn>
             <SearchFilters
               disabled={ false }
               query={ {
                 ...this.props.query,
-                within: this.props.query.within || this.props.within,
-                free: this.props.free,
+                within: this.state.within,
+                free: this.state.free,
               } }
               onSubmit={ this.handleFiltersSubmit }
               />
           </StartColumn>
-        </Desktop>
+        </Device>
         <Body>
           <ShoutsListToolbar
             showProgress={ this.props.isFetching }

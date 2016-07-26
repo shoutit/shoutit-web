@@ -8,6 +8,10 @@ import { locales } from '../app/config';
 const MESSAGES_PATTERN = './assets/intl/messages/**/*.json';
 const TRANSLATIONS_PATH = './assets/intl/translations';
 
+const log = console.log;
+
+log('Reading files in %s...', MESSAGES_PATTERN);
+
 const defaultMessages = globSync(MESSAGES_PATTERN)
     .map(filename => fs.readFileSync(filename, 'utf8'))
     .map(file => JSON.parse(file))
@@ -24,10 +28,18 @@ const defaultMessages = globSync(MESSAGES_PATTERN)
 mkdirpSync(TRANSLATIONS_PATH);
 
 locales.forEach(lang => {
+  console.log('\nBuilding %s.json...', lang);
   const file = `${TRANSLATIONS_PATH}/${lang}.json`;
   let existingMessages = {};
   if (pathExists(file)) {
     existingMessages = JSON.parse(fs.readFileSync(file, 'utf8'));
+    // Remove existing messages not present between the defaults
+    Object.keys(existingMessages).forEach(messageId => {
+      if (!defaultMessages.hasOwnProperty(messageId)) {
+        delete existingMessages[messageId];
+        log('   Deleted not existing message with id %s', messageId);
+      }
+    });
   }
   const unsortedMessages = { ...defaultMessages, ...existingMessages };
   const sortedMessages = {};
@@ -38,4 +50,7 @@ locales.forEach(lang => {
     });
   const filecontent = JSON.stringify(sortedMessages, null, 2);
   fs.writeFileSync(file, filecontent);
+  log('   Saved %s messages (%s were new)', Object.keys(sortedMessages).length, Object.keys(sortedMessages).length - Object.keys(existingMessages).length);
 });
+
+log();

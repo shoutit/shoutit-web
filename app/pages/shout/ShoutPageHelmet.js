@@ -12,6 +12,7 @@ export function ShoutPageHelmet({ shout, locale }) {
       title={ shout.title }
       description={ shout.text }
       images={ shout.images }
+      appUrl={ shout.appUrl }
       meta={ [
         { property: 'og:type', content: `ogPrefix:${shout.type}` },
         { property: 'ogPrefix:price', content: shout.price },
