@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getDevice } from '../reducers/browser';
 
 let Device = ({ children, type, currentType }) => {
-  if (type.split().indexOf(currentType) === -1) {
+  if (type.split(',').indexOf(currentType) === -1) {
     return null;
   }
   if (React.Children.count(children) > 1 || typeof children === 'string') {
@@ -21,4 +21,3 @@ Device.propTypes = {
 
 const mapStateToProps = state => ({ currentType: getDevice(state) });
 export default Device = connect(mapStateToProps)(Device);
-
