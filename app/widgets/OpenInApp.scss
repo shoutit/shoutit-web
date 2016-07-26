@@ -1,0 +1,31 @@
+.OpenInApp {
+  font-size: 0.875em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.OpenInApp-Close {
+  padding: .5em;
+  white-space: nowrap;
+  margin: .5em 0;
+  cursor: pointer;
+}
+
+.OpenInApp-Title {
+  white-space: nowrap;
+  flex: 1;
+  margin-right: .5em;
+}
+
+.OpenInApp-Buttons {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.OpenInApp-Buttons a {
+  white-space: normal;
+  display: inline-block;
+  padding: .5em;
+}

@@ -27,6 +27,9 @@ import { clientLogin, updateLinkedAccount, logout } from '../actions/session';
 
 import { getLoggedUser } from '../reducers/session';
 
+import Device from '../utils/Device';
+import OpenInApp from '../widgets/OpenInApp';
+
 import * as FacebookUtils from '../utils/FacebookUtils';
 
 import * as config from '../config';
@@ -206,6 +209,9 @@ export class Application extends Component {
             meta={ meta }
             link={ link }
           />
+          <Device type="smartphone">
+            <OpenInApp />
+          </Device>
           <div className="Application-top">
             { applicationLayout.showHeader &&
               <div className="Application-header">

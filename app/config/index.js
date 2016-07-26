@@ -52,9 +52,9 @@ export const playStoreLink = 'https://play.google.com/store/apps/details?id=com.
 export const twitterLink = 'https://twitter.com/shoutitcom';
 
 export const androidPackage = 'com.shoutit.app.android';
-export const androidAppName = 'Shoutit';
+export const androidAppName = 'Shoutit - Buy & Sell on Chat';
 export const iosAppId = '947017118';
-export const iosAppName = 'Shoutit';
+export const iosAppName = 'Buy & Sell while Chatting';
 
 export function getSummary() {
   const summary = [];
