@@ -311,5 +311,8 @@
   "verifyEmail.success.button": "اذهب إلى صفحتك الرئيسية",
   "verifyEmail.success.message": "شكرا, تم تفعيل حسابك",
   "verifyEmail.success.title": "تم تفعيل الحساب!",
+  "widgets.OpenInApp.free": "(FREE)",
+  "widgets.OpenInApp.install": "Install",
+  "widgets.OpenInApp.open": "Open in App",
   "widgets.logo.businessText": "للأعمال و الشركات"
 }

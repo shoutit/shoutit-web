@@ -1,0 +1,14 @@
+[
+  {
+    "id": "widgets.OpenInApp.free",
+    "defaultMessage": "(FREE)"
+  },
+  {
+    "id": "widgets.OpenInApp.install",
+    "defaultMessage": "Install"
+  },
+  {
+    "id": "widgets.OpenInApp.open",
+    "defaultMessage": "Open in App"
+  }
+]
