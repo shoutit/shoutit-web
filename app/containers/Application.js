@@ -163,7 +163,7 @@ export class Application extends Component {
     const url = `${config.siteUrl}${props.currentUrl}`.replace(/\/$/, '');
 
     const meta = [
-      
+
       { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
       { name: 'keywords', content: 'shoutit' },
 

@@ -27,7 +27,6 @@ class Helmet extends Component {
   }
 
   render() {
-    console.log(this.props.appUrl);
     let { title, description } = this.props;
     if (title && !this.props.hideBadge && this.props.badge > 0) {
       title = `(${this.props.badge}) ${title}`;
