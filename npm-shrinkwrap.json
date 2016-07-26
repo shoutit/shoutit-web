@@ -1851,18 +1851,6 @@
       "from": "https://registry.npmjs.org/react-router-redux/-/react-router-redux-4.0.5.tgz",
       "resolved": "https://registry.npmjs.org/react-router-redux/-/react-router-redux-4.0.5.tgz"
     },
-    "react-scroll": {
-      "version": "1.0.24",
-      "from": "react-scroll@1.0.24",
-      "resolved": "https://registry.npmjs.org/react-scroll/-/react-scroll-1.0.24.tgz",
-      "dependencies": {
-        "object-assign": {
-          "version": "4.1.0",
-          "from": "object-assign@>=4.0.1 <5.0.0",
-          "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-4.1.0.tgz"
-        }
-      }
-    },
     "react-share": {
       "version": "1.8.4",
       "from": "react-share@1.8.4",
