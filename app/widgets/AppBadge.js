@@ -9,11 +9,11 @@ export function AppBadge({ appstore, locale, ...props }) {
   switch (appstore) {
     case 'appStore':
       href = appStoreLink;
-      image = 'app-store-badge';
+      image = 'app-store';
       break;
     case 'googlePlay':
       href = playStoreLink;
-      image = 'google-play-badge';
+      image = 'play-store';
       break;
     default:
   }
@@ -22,7 +22,7 @@ export function AppBadge({ appstore, locale, ...props }) {
     <a href={ href } target="_blank" className="AppBadge">
       <img
         { ...props }
-        src={ `${imagesPath}/${image}-${locale}.png` }
+        src={ `${imagesPath}/badges/${image}-${locale}.png` }
         alt=""
       />
     </a>
