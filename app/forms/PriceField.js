@@ -1,13 +1,16 @@
 import React, { PropTypes, Component } from 'react';
 import round from 'lodash/round';
+import { injectIntl } from 'react-intl';
 
 import TextField from './TextField';
 import CurrencySelect from '../forms/CurrencySelect';
+import { numberFromString } from '../utils/IntlUtils';
 
 import './PriceField.scss';
 
-export default class PriceField extends Component {
+export class PriceField extends Component {
   static propTypes = {
+    intl: PropTypes.object.isRequired,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     currencyValue: PropTypes.string,
     onChange: PropTypes.func,
@@ -22,50 +25,46 @@ export default class PriceField extends Component {
     this.handleCurrencyChange = this.handleCurrencyChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
-    this.state = {
+    this.state = this.getStateFromProps(props);
+
+  }
+  getStateFromProps(props) {
+    const value = (!props.hasOwnProperty('value') || props.value === '' || isNaN(props.value)) ? '' : props.value / 100;
+    return {
       currencyValue: props.currencyValue,
-      value: (!props.value || isNaN(props.value)) ? '' : props.value / 100,
+      value: value === '' ? '' : this.formatNumericValue(value),
     };
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.props.value) {
-      this.setState({
-        value: nextProps.value / 100,
-      }, () => {
-        this.field.setValue(this.state.value || '');
-      });
-    }
-    if (nextProps.currencyValue !== this.props.currencyValue) {
-      this.setState({
-        currencyValue: nextProps.currencyValue,
-      });
-    }
+  formatNumericValue(value) {
+    return this.props.intl.formatNumber(value, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
   }
-  getValue() {
-    const { value } = this.state;
-    if (isNaN(value)) {
+  formatStringValue(value) {
+    if (value === '') {
       return '';
     }
-    return parseInt(round(this.state.value, 2) * 100, 10);
+    const valueAsNumber = numberFromString(value.toString(), this.props.intl);
+    if (isNaN(valueAsNumber)) {
+      return '';
+    }
+    return this.formatNumericValue(valueAsNumber);
   }
   focus() {
-    this.field.focus();
+    this.refs.field.focus();
   }
   blur() {
-    this.field.blur();
+    this.refs.field.blur();
   }
   select() {
-    this.field.select();
+    this.refs.field.select();
   }
-  handleChange(value, e) {
-    value = value.replace(/,/g, '.');
-    if ((!value || isNaN(value)) && this.props.onChange) {
-      this.props.onChange(null, e);
-    } else if (this.props.onChange) {
-      this.props.onChange(round(value * 100, 2), e);
+  handleChange(value) {
+    if (this.props.onChange) {
+      const valueAsNumber = numberFromString(value, this.props.intl);
+      this.props.onChange(round(valueAsNumber * 100, 2));
     }
-    this.setState({ value }, () => this.field.setValue(value));
+    this.setState({ value });
   }
+
   handleCurrencyChange(e) {
     const currencyValue = e.target.value;
     this.setState({ currencyValue });
@@ -75,14 +74,9 @@ export default class PriceField extends Component {
     }
   }
   handleBlur(value) {
-    if (!value || isNaN(value)) {
-      this.setState({ value: '' });
-    } else {
-      this.setState({ value: round(value, 2) });
-    }
+    this.setState({ value: this.formatStringValue(value) });
   }
   render() {
-    const { value } = this.state;
     let startElement;
     if (this.props.showCurrencies) {
       startElement = (
@@ -97,19 +91,20 @@ export default class PriceField extends Component {
     delete props.currency;
     delete props.showCurrencies;
     delete props.onCurrencyChange;
-    delete props.errorLocation;
     delete props.currencyValue;
     return (
       <TextField
-        className="PriceField"
-        inputRef={ field => { this.field = field; } }
         { ...props }
+        ref="field"
+        value={ this.state.value }
+        className="PriceField"
         startElement={ startElement }
         flexibleContent
-        value={ value }
         onBlur={ this.handleBlur }
         onChange={ this.handleChange }
       />
     );
   }
 }
+
+export default injectIntl(PriceField);
