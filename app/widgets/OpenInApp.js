@@ -16,8 +16,10 @@ class OpenInApp extends Component {
 
   constructor(props) {
     super(props);
-    this.handleOpenClick = this.handleOpenClick.bind(this);
     this.hide = this.hide.bind(this);
+    this.state = {
+      appUrl: props.storeLink,
+    };
   }
 
   state = {
@@ -26,17 +28,20 @@ class OpenInApp extends Component {
 
   componentDidMount() {
     this.mounted = true;
+    this.setAppUrl();
+  }
+
+  setAppUrl() {
+    const el = document.getElementById('shoutitAppUrl');
+    if (el) {
+      this.setState({
+        appUrl: el.getAttribute('content'),
+      });
+    }
   }
 
   hide() {
     this.setState({ hidden: true });
-  }
-
-  handleOpenClick() {
-    const el = document.getElementById('shoutitAppUrl');
-    if (el) {
-      window.open(el.getAttribute('content'), '_self');
-    }
   }
 
   render() {
@@ -59,16 +64,16 @@ class OpenInApp extends Component {
           />
         </span>
         <span className="OpenInApp-Buttons">
+          <a href={ this.state.appUrl }>
+            <FormattedMessage
+              id="widgets.OpenInApp.open"
+              defaultMessage="Open in App"
+            />
+          </a>
           <a href={ this.props.storeLink } target="_blank">
             <FormattedMessage
               id="widgets.OpenInApp.install"
               defaultMessage="Install"
-            />
-          </a>
-          <a onClick={ this.handleOpenClick }>
-            <FormattedMessage
-              id="widgets.OpenInApp.open"
-              defaultMessage="Open in App"
             />
           </a>
         </span>
