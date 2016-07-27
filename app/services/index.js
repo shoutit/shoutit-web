@@ -33,6 +33,7 @@ export shoutReply from './shoutReply';
 export shouts from './shouts';
 export shoutSamples from './shoutSamples';
 export sortTypes from './sortTypes';
+export staticPages from './staticPages';
 export suggestions from './suggestions';
 export tag from './tag';
 export tagListen from './tagListen';

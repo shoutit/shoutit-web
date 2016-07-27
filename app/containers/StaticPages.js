@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { loadStatic } from '../actions/static';
+import { loadStaticPages } from '../actions/staticPages';
 
 import Card from '../layout/Card';
 import Page, { Body } from '../layout/Page';
@@ -7,10 +7,10 @@ import Frame from '../layout/Frame';
 import Helmet from '../utils/Helmet';
 
 const fetchData = (dispatch, state, params) =>
-  dispatch(loadStatic(params.id))
+  dispatch(loadStaticPages(params.id))
       .catch(err => dispatch(routeError(err)));
 
-class Static extends Component {
+class StaticPages extends Component {
   
   static propTypes = {
     intl: PropTypes.object,//.isRequired,
@@ -33,6 +33,8 @@ class Static extends Component {
   }
 
   render () {
+      console.log('fetch that data son', fetchData);
+
     const { tos } = this.props;
     return (
 	<Page>
@@ -46,4 +48,4 @@ class Static extends Component {
   }
 }
 //I have removed injectIntl decorator because I think we will use a different strategy for localization please let me know.
-export default Static;
+export default StaticPages;

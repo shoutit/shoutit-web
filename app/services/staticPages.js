@@ -2,8 +2,8 @@ import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
 
 export default {
-  name: 'static',
-  tos: (req, resource, params, config, callback) => {
+  name: 'staticPages',
+  read: (req, resource, params, config, callback) => {
     request
       .get(`/static/tos.html`)
       .use(req)
@@ -12,7 +12,8 @@ export default {
         if (err) {
           return callback(parseApiError(err, { resource, params, url: req.url }));
         }
-        return callback(null, res.body);
+	console.log('response', response, 'responsebodybitch', response.body)
+        return callback(null, res);
       });
   },
 }

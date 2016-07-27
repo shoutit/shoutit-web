@@ -18,6 +18,7 @@ import session from './session';
 import shoutDraft from './shoutDraft';
 import shoutSamples from './shoutSamples';
 import sortTypes from './sortTypes';
+import staticPages from './staticPages.js'
 import suggestions from './suggestions';
 import videocalls from './videocalls';
 
@@ -40,6 +41,7 @@ const appReducer = combineReducers({
   shoutDraft,
   shoutSamples,
   sortTypes,
+  staticPages,
   suggestions,
   videocalls,
 });

@@ -21,7 +21,7 @@ import SetPassword from './containers/SetPassword';
 import ShoutPage from './pages/shout';
 import Signup from './containers/Signup';
 import VerifyEmail from './containers/VerifyEmail';
-import Static from './containers/Static';
+import StaticPages from './containers/StaticPages';
 //I append new static route at line
 
 const authAppLayout = () => ({
@@ -78,7 +78,7 @@ const routes = (store) =>
     <Redirect from="/settings" to="/settings/profile" />
     <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ settingsAppLayout } />
     <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ settingsAppLayout } />
-  <Route path="/static" component={ Static } getApplicationLayout={ authAppLayout }/>
+  <Route path="/staticPages" component={ StaticPages } getApplicationLayout={ authAppLayout }/>
     <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true }) } />
   </Route>;
 

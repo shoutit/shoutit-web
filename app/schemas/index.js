@@ -21,7 +21,7 @@ export const PROFILE = new Schema('users');
 export const PROFILES = arrayOf(PROFILE);
 export const SORT_TYPE = new Schema('sortTypes', { idAttribute: 'type' });
 export const SORT_TYPES = arrayOf(SORT_TYPE);
-export const STATIC = new Schema('static');
+export const STATIC_PAGES = new Schema('staticPages');
 
 export const SEARCH = {
   users: arrayOf(PROFILE),
@@ -62,7 +62,7 @@ export const Schemas = {
   SHOUTS,
   SORT_TYPE,
   SORT_TYPES,
-  STATIC,
+  STATIC_PAGES,
   SUGGESTIONS,
   TAG,
   TAGS,
