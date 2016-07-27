@@ -12,13 +12,10 @@ import Card, { CardImage, CardBody } from '../layout/Card';
 import ProfileAvatar from '../users/ProfileAvatar';
 import ProfilePreview from '../users/ProfilePreview';
 
-
-if (process.env.BROWSER) {
-  require('../layout/Card.scss');
-  require('./ShoutPreview.scss');
-}
+import './ShoutPreview.scss';
 
 function ShoutPreview({ shout, onProfileAvatarClick, showDate = true, showProfile = true, link = true, ...props }) {
+
 
   const content = (
     <Card className="ShoutPreview" { ...props }>
