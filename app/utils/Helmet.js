@@ -45,7 +45,7 @@ class Helmet extends Component {
     otherMeta.push({ property: 'al:android:url', content: this.props.appUrl || 'shoutit://home' });
 
     // Used by OpenInApp.js
-    otherMeta.push({ id: 'shoutitAppUrl', property: 'shoutit:app:url', content: this.props.appUrl || 'shoutit://home' });
+    otherMeta.push({ id: 'shoutitAppUrl', property: 'shoutit_app_url', content: this.props.appUrl || 'shoutit://home' });
 
     if (this.props.images.length > 2) {
       otherMeta.push({ name: 'twitter:card', content: 'gallery' });
