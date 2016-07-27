@@ -29,7 +29,12 @@ export class PriceField extends Component {
 
   }
   getStateFromProps(props) {
-    const value = (!props.hasOwnProperty('value') || props.value === '' || isNaN(props.value)) ? '' : props.value / 100;
+    const value = (
+      !props.hasOwnProperty('value') ||
+      props.value === '' ||
+      isNaN(props.value) ||
+      props.value === null
+    ) ? '' : props.value / 100;
     return {
       currencyValue: props.currencyValue,
       value: value === '' ? '' : this.formatNumericValue(value),
@@ -59,8 +64,12 @@ export class PriceField extends Component {
   }
   handleChange(value) {
     if (this.props.onChange) {
-      const valueAsNumber = numberFromString(value, this.props.intl);
-      this.props.onChange(round(valueAsNumber * 100, 2));
+      if (value === '') {
+        this.props.onChange(null);
+      } else {
+        const valueAsNumber = numberFromString(value, this.props.intl);
+        this.props.onChange(round(valueAsNumber * 100, 2));
+      }
     }
     this.setState({ value });
   }
