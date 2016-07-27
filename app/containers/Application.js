@@ -191,6 +191,7 @@ export class Application extends Component {
       { property: 'al:android:package', content: config.androidPackage },
       { property: 'al:android:app_name', content: config.androidAppName },
       { property: 'al:web:url', content: url },
+      { property: 'al:web:should_fallback', content: 'false' },
     ];
 
     const link = [
