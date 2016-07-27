@@ -20,7 +20,7 @@ import Card, { CardSection } from '../layout/Card';
 
 import ShoutTypeSegmentedControl from '../shouts/ShoutTypeSegmentedControl';
 
-export class SearchFilters extends Component {
+export class ShoutsSearchForm extends Component {
 
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
@@ -105,7 +105,7 @@ export class SearchFilters extends Component {
               onChange={ shout_type => this.handleChange({ shout_type }) }
             />
             <FormattedMessage
-              id="searchFilters.search.placeholder"
+              id="ShoutsSearchForm.search.placeholder"
               defaultMessage="Search by keyword"
             >
               { message =>
@@ -145,20 +145,20 @@ export class SearchFilters extends Component {
             }
           </CardSection>
           <CardSection separe>
-            <Label htmlFor="searchFiltersMinPrice">
+            <Label htmlFor="ShoutsSearchFormMinPrice">
               <FormattedMessage
-                id="searchFilters.priceRange.label"
+                id="ShoutsSearchForm.priceRange.label"
                 defaultMessage="Price Range"
               />
             </Label>
 
             <FormattedMessage
-              id="searchFilters.minPrice.placeholder"
+              id="ShoutsSearchForm.minPrice.placeholder"
               defaultMessage="Min price"
             >
               { placeholder =>
                 <PriceField
-                  id="SearchFiltersMinPrice"
+                  id="ShoutsSearchFormMinPrice"
                   autoComplete="off"
                   placeholder={ placeholder }
                   disabled={ disabled || this.state.free }
@@ -169,13 +169,13 @@ export class SearchFilters extends Component {
               }
             </FormattedMessage>
             <FormattedMessage
-              id="searchFilters.maxPrice.placeholder"
+              id="ShoutsSearchForm.maxPrice.placeholder"
               defaultMessage="Max price"
             >
               { placeholder =>
                 <PriceField
                   autoComplete="off"
-                  className="SearchFilters-input"
+                  className="ShoutsSearchForm-input"
                   placeholder={ placeholder }
                   disabled={ disabled || this.state.free }
                   name="max_price"
@@ -194,7 +194,7 @@ export class SearchFilters extends Component {
               onChange={ e => this.handleChange({ free: e.target.checked }) }
             >
               <FormattedMessage
-                id="search.SearchFilters.free.label"
+                id="search.ShoutsSearchForm.free.label"
                 defaultMessage="Only Free Items"
               />
             </Switch>
@@ -205,7 +205,7 @@ export class SearchFilters extends Component {
               disabled={ disabled || isEqual(this.state, this.props.query) }
               type="submit">
               <FormattedMessage
-                id="searchFilters.submitButton.label"
+                id="ShoutsSearchForm.submitButton.label"
                 defaultMessage="Search"
               />
             </Button>
@@ -217,7 +217,7 @@ export class SearchFilters extends Component {
 }
 
 
-SearchFilters.propTypes = {
+ShoutsSearchForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
 };
@@ -226,4 +226,4 @@ const mapStateToProps = state => ({
   currentLocation: getCurrentLocation(state),
 });
 
-export default connect(mapStateToProps)(SearchFilters);
+export default connect(mapStateToProps)(ShoutsSearchForm);
