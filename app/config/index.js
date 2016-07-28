@@ -1,13 +1,18 @@
 /* eslint no-console: 0 */
 
+export const IS_DEVELOPMENT = process.env.NODE_ENV === 'development' || !process.env.SHOUTIT_ENV;
+export const IS_STAGE = process.env.SHOUTIT_ENV === 'stage';
+export const IS_BETA = process.env.SHOUTIT_ENV === 'beta';
+export const IS_PRODUCTION = process.env.SHOUTIT_ENV === 'live';
+
 let envConfig = {};
-if (process.env.NODE_ENV === 'development' || !process.env.SHOUTIT_ENV) {
+if (IS_DEVELOPMENT) {
   envConfig = require('./development');
-} else if (process.env.SHOUTIT_ENV === 'stage') {
+} else if (IS_STAGE) {
   envConfig = require('./stage');
-} else if (process.env.SHOUTIT_ENV === 'beta') {
+} else if (IS_BETA) {
   envConfig = require('./beta');
-} else if (process.env.SHOUTIT_ENV === 'live') {
+} else if (IS_PRODUCTION) {
   envConfig = require('./live');
 } else {
   throw new Error('SHOUTIT_ENV is not valid.');
@@ -41,7 +46,8 @@ export const publicUrl = envConfig.publicUrl;
 export const pusherAppKey = envConfig.pusherAppKey;
 export const shoutitEnv = process.env.SHOUTIT_ENV;
 export const siteUrl = envConfig.siteUrl;
-export const ogPrefix = (process.env.SHOUTIT_ENV === 'stage' || !process.env.SHOUTIT_ENV) ? 'shoutitcom-dev' : 'shoutitcom';
+export const staticResourceUrl = IS_DEVELOPMENT ? `${envConfig.publicUrl}/static_resources` : process.env.AWS_STATIC;
+export const ogPrefix = (IS_STAGE || !process.env.SHOUTIT_ENV) ? 'shoutitcom-dev' : 'shoutitcom';
 export const uservoiceApiKey = 'NBlfnPFrkEttGeEqYUhA';
 export const mixpanelToken = envConfig.mixpanelToken;
 
