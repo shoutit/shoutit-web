@@ -6,8 +6,7 @@ import { connect } from 'react-redux';
 import { PaginationPropTypes } from '../utils/PropTypes';
 
 import { loadStaticResource } from '../actions/staticPages';
-
-import { getCurrentLocation } from '../reducers/currentLocation';
+import { routeError } from '../actions/server';
 
 import Page, { Body } from '../layout/Page';
 import Progress from '../widgets/Progress';
@@ -15,7 +14,7 @@ import Progress from '../widgets/Progress';
 const fetchData = (dispatch, state, params) => {
   Promise.all([
     dispatch(loadStaticResource(params.resource_path)),
-  ]); // TODO implement catch and redirect to 404?
+  ]).catch(error => dispatch(routeError(error)));
 };
 
 export class Static extends Component {
@@ -23,7 +22,6 @@ export class Static extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
-    currentLocation: PropTypes.object.isRequired,
     firstRender: PropTypes.bool,
     staticPages: PropTypes.object.isRequired,
     ...PaginationPropTypes,
@@ -32,21 +30,22 @@ export class Static extends Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { dispatch, firstRender, currentLocation, params } = this.props;
+    const { dispatch, firstRender, params } = this.props;
     if (!firstRender) {
-      fetchData(dispatch, { currentLocation }, params);
+      fetchData(dispatch, {}, params);
     }
   }
 
   componentWillUpdate(nextProps) {
-    const { dispatch, params: { resource_path }, currentLocation } = this.props;
-    if (nextProps.params.resource_path !== resource_path || currentLocation.resource_path !== nextProps.currentLocation.resource_path) {
-      fetchData(dispatch, { currentLocation: nextProps.currentLocation }, nextProps.params);
+    const { dispatch, params: { resource_path } } = this.props;
+    if (nextProps.params.resource_path !== resource_path) {
+      fetchData(dispatch, {}, nextProps.params);
     }
   }
 
   render() {
     const { isFetching, staticPages: { data } } = this.props;
+
     return (
       <Page>
         <Body>
@@ -60,7 +59,6 @@ export class Static extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentLocation: getCurrentLocation(state),
   staticPages: state.staticPages,
 });
 
