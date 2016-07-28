@@ -5,7 +5,7 @@ const initialState = {
   data: '',
 };
 
-export default function (state = null, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case actionTypes.LOAD_STATIC_START:
       return initialState;
