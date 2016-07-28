@@ -3,7 +3,7 @@ import ReactHelmet from 'react-helmet';
 import { injectIntl, defineMessages } from 'react-intl';
 import union from 'lodash/union';
 import { connect } from 'react-redux';
-import { ogPrefix, imagesPath } from '../config';
+import { ogPrefix, imagesPath, appProtocol } from '../config';
 
 import { getUnreadNotificationsCount, getUnreadConversationsCount } from '../reducers/session';
 import { getVariation } from '../utils/APIUtils';
@@ -41,11 +41,11 @@ class Helmet extends Component {
     ];
 
     // Append app links (the rest is added in Application.js)
-    otherMeta.push({ property: 'al:ios:url', content: this.props.appUrl || 'shoutit://home' });
-    otherMeta.push({ property: 'al:android:url', content: this.props.appUrl || 'shoutit://home' });
-
-    // Used by OpenInApp.js
-    otherMeta.push({ id: 'shoutitAppUrl', property: 'shoutit_app_url', content: this.props.appUrl || 'shoutit://home' });
+    const appUrl = this.props.appUrl ? this.props.appUrl.replace('shoutit://', appProtocol) : `${appProtocol}home`;
+    otherMeta.push({ property: 'al:ios:url', content: appUrl });
+    otherMeta.push({ property: 'al:android:url', content: appUrl });
+    // !! Used by OpenInApp.js
+    otherMeta.push({ id: 'shoutitAppUrl', property: 'shoutit_app_url', content: appUrl });
 
     if (this.props.images.length > 2) {
       otherMeta.push({ name: 'twitter:card', content: 'gallery' });
