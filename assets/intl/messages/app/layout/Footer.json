@@ -20,6 +20,10 @@
     "defaultMessage": "Log In"
   },
   {
+    "id": "layout.Footer.discover.faq",
+    "defaultMessage": "FAQ"
+  },
+  {
     "id": "layout.Footer.language.title",
     "defaultMessage": "Language"
   },

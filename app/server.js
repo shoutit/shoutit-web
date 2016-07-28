@@ -76,6 +76,7 @@ export function start(app) {
     app.use('/styles', serveStatic(`${publicDir}/styles`, { maxAge }));
   } else {
     app.use('/images', serveStatic(`${publicDir}/images`, { maxAge }));
+    app.use('/static_resources', serveStatic(`${publicDir}/static_resources`, { maxAge }));
   }
 
   // Remove trailing slashes from urls

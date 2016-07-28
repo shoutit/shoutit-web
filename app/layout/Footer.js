@@ -47,6 +47,12 @@ export function Footer({ currentLocation }) {
                 defaultMessage="Log In"
               />
             </Link>
+            <Link to="/static/faq.html">
+              <FormattedMessage
+                id="layout.Footer.discover.faq"
+                defaultMessage="FAQ"
+              />
+            </Link>
           </div>
           <div className="Footer-links">
             <h3>

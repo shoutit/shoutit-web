@@ -338,3 +338,9 @@ export const ROUTE_ERROR = 'ROUTE_ERROR';
 // Browser
 
 export const BROWSER_SET_DEVICE = 'BROWSER_SET_DEVICE';
+
+// Static
+
+export const LOAD_STATIC_START = 'LOAD_STATIC_START';
+export const LOAD_STATIC_SUCCESS = 'LOAD_STATIC_SUCCESS';
+export const LOAD_STATIC_FAILURE = 'LOAD_STATIC_FAILURE';
