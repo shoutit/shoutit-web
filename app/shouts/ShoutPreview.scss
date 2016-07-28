@@ -9,6 +9,13 @@
   z-index: 1;
   display: block;
   width: 100%;
+  border: 1px solid transparent;
+   h4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 
 .ShoutPreview-body {
@@ -16,7 +23,6 @@
   align-items: center;
   h3 {
     margin-bottom: 0;
-
     flex: 1;
   }
   .ShoutType {

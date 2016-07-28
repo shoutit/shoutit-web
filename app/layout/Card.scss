@@ -47,12 +47,6 @@ $card-border-radius: 2px;
   color: $color-text;
   border-bottom-right-radius: $card-border-radius;
   border-bottom-left-radius: $card-border-radius;
-  .Card-title-max-height {
-    display: inline-block;
-    overflow: hidden;
-    max-height: 2.2em;
-    vertical-align: middle;
-  }
 }
 
 a > .Card {
