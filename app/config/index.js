@@ -55,6 +55,7 @@ export const androidPackage = envConfig.androidPackage;
 export const androidAppName = envConfig.androidAppName;
 export const iosAppId = envConfig.iosAppId;
 export const iosAppName = envConfig.iosAppName;
+export const appProtocol = envConfig.appProtocol;
 
 export function getSummary() {
   const summary = [];
@@ -85,6 +86,7 @@ export function getSummary() {
   summary.push(`  iOS app name:         ${iosAppName}`);
   summary.push(`  Android package:      ${androidPackage}`);
   summary.push(`  Android app name:     ${androidAppName}`);
+  summary.push(`  App protocol:         ${appProtocol}`);
 
   summary.push('');
   return summary.join('\n');
