@@ -23,7 +23,7 @@ import SuggestedProfiles from '../users/SuggestedProfiles';
 import SuggestedShout from '../shouts/SuggestedShout';
 import ShoutsList from '../shouts/ShoutsList';
 import Progress from '../widgets/Progress';
-import Card from '../layout/Card';
+import Panel from '../layout/Panel';
 import Scrollable from '../layout/Scrollable';
 
 import './Interest.scss';
@@ -83,11 +83,10 @@ export class Interest extends Component {
           { tag && <Helmet title={ category ? category.name : tag.name } images={ [tag.image] } /> }
           <Device type="desktop">
             <StartColumn sticky>
-              {
-                tag &&
-                  <Card className="Interest-main-card" block style={ { width: '100%' } }>
-                    <TagPreview style={ { width: '100%' } } id={ tag.id } />
-                  </Card>
+              { tag &&
+                <Panel className="Interest-main-card">
+                  <TagPreview style={ { width: '100%' } } id={ tag.id } />
+                </Panel>
               }
             </StartColumn>
           </Device>
