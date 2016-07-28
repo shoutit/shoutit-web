@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import './Panel.scss';
 
-export default function Panel({ size = 'medium', block = false, children, style, className }) {
+export default function Panel({ children, style, className }) {
   let cssClass = 'Panel';
   if (className) {
     cssClass += ` ${className}`;
