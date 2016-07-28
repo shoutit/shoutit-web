@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import { getCurrentUrl } from '../reducers/routing';
 
 import { appStoreLink, playStoreLink } from '../config';
 import { getOperatingSystem } from '../reducers/browser';
@@ -12,6 +13,7 @@ class OpenInApp extends Component {
 
   static propTypes = {
     storeLink: PropTypes.string.isRequired,
+    currentUrl: PropTypes.string.isRequired,
   }
 
   constructor(props) {
@@ -29,6 +31,13 @@ class OpenInApp extends Component {
   componentDidMount() {
     this.mounted = true;
     this.setAppUrl();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.currentUrl !== prevProps.currentUrl) {
+      // reset the app url if the page changed
+      this.setAppUrl();
+    }
   }
 
   setAppUrl() {
@@ -94,6 +103,9 @@ const mapStateToProps = state => {
       break;
     default: break;
   }
-  return { storeLink };
+  return {
+    storeLink,
+    currentUrl: getCurrentUrl(state),
+  };
 };
 export default connect(mapStateToProps)(OpenInApp);
