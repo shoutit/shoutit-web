@@ -1,6 +1,10 @@
 @import '../styles/constants.scss';
 
-.ShoutPreview {
+.Panel {
+  position: relative;
+  overflow: hidden;
+}
+.ShoutPreview .Card {
   position: relative;
   z-index: 1;
   display: block;
@@ -29,4 +33,21 @@
   span + .TimeAgo {
     margin-left: .5em;
   }
+}
+
+.ShoutPreview-promotion {
+  font-weight: 500;
+  position: absolute;
+  z-index: 2;
+  top: 10%;
+  right: -35%;
+  display: inline-block;
+  width: 100%;
+  padding: .5em;
+  transform: rotate(45deg);
+  text-align: center;
+  color: white;
+  box-shadow: inset -1px -2px 0 rgba(0,0,0,.1);
+  font-size: .75em;
+  line-height: 1em;
 }

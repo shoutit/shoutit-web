@@ -8,7 +8,7 @@ import { routeError } from '../../actions/server';
 import { loadShout } from '../../actions/shouts';
 
 import Page, { Body, EndColumn } from '../../layout/Page';
-import Card from '../../layout/Card';
+import Panel from '../../layout/Panel';
 
 import Device from '../../utils/Device';
 
@@ -69,7 +69,7 @@ class ShoutPage extends Component {
             <ShoutPageHeader shout={ shout } />
           </Device>
           <Body>
-            <Card block className="ShoutPage-MainCard">
+            <Panel block className="ShoutPage-MainCard">
 
               <Device type="desktop">
                 <ShoutPageHeader shout={ shout } />
@@ -111,10 +111,10 @@ class ShoutPage extends Component {
                 </h2>
                 <Share shareUrl={ `/shout/${shout.id}` } title={ shout.title } image={ shout.thumbnail } />
               </div>
-            </Card>
+            </Panel>
           </Body>
           <EndColumn sticky wide>
-            <Card block className="ShoutPage-AsideCard">
+            <Panel block className="ShoutPage-AsideCard">
               { shout.title &&
                 <Device type="desktop">
                   <h1>{ shout.title }</h1>
@@ -122,7 +122,7 @@ class ShoutPage extends Component {
                 </Device>
               }
               <ShoutPageActions shout={ shout } />
-            </Card>
+            </Panel>
           </EndColumn>
         </Page>
         <ShoutPageRelated shoutId={ this.props.params.id } />

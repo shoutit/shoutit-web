@@ -2,20 +2,20 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Card, { CardList, CardTitle } from '../layout/Card';
+import Panel, { PanelList, PanelTitle } from '../layout/Panel';
 
 import ProfileListItem from '../users/ProfileListItem';
 
 export function SuggestedProfiles({ profiles }) {
   return (
-    <Card size="small" block>
-      <CardTitle>
+    <Panel>
+      <PanelTitle>
         <FormattedMessage id="suggestedProfiles.title" defaultMessage="Suggested Profiles" />
-      </CardTitle>
-      <CardList>
+      </PanelTitle>
+      <PanelList>
         { profiles.map(profile => <ProfileListItem key={ profile.id } profile={ profile } />) }
-      </CardList>
-    </Card>
+      </PanelList>
+    </Panel>
   );
 }
 

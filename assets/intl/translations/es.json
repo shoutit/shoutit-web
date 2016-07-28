@@ -276,7 +276,7 @@
     "minifooter.social.twitter": "Twitter",
     "minifooter.social.instagram": "Instagram",
     "createShoutModal.title": "{type, select, offer {Publicar una nueva oferta} request {Enviar una nueva solicitud}}",
-    "userListeningCard.title": "Oyendo a",
+    "userListeningPanel.title": "Oyendo a",
     "locationField.instructions": "Comience a escribir para buscar.",
     "discover.shouts.title": "{discoverItemTitle} Shouts \n",
     "login.form.toSignup": "¿Nuevo en shoutit? {signupLink} \n",

@@ -25,7 +25,6 @@ export default function ConversationStart({ conversation }) {
         </div>
         :
         <div className="ConversationStart-shout">
-          { /* <ShoutPreview shout={ conversation.about } />*/ }
           <p className="htmlAncillary">
             <FormattedMessage
               id="chat.replyForm.welcome"

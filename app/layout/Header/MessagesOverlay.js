@@ -5,11 +5,12 @@ import { FormattedMessage } from 'react-intl';
 import { openConversation } from '../../actions/conversations';
 import { getCurrentUrl } from '../../reducers/routing';
 
+import '../../styles/ListOverlay.scss';
+
 let ConversationsList;
 
 if (process.env.BROWSER) {
   ConversationsList = require('../../chat/ConversationsList.js').default;
-  require('../../styles/ListOverlay.scss');
 }
 
 export class MessagesOverlay extends Component {

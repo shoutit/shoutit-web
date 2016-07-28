@@ -16,7 +16,7 @@ import CategoryFilters from '../forms/CategoryFilters';
 import PriceField from '../forms/PriceField';
 import TextField from '../forms/TextField';
 import Label from '../forms/Label';
-import Card, { CardSection } from '../layout/Card';
+import Panel, { PanelSection } from '../layout/Panel';
 
 import ShoutTypeSegmentedControl from '../shouts/ShoutTypeSegmentedControl';
 
@@ -94,10 +94,10 @@ export class ShoutsSearchForm extends Component {
     const { disabled, currentLocation } = this.props;
     const { shout_type, min_price, max_price, search } = this.state;
     return (
-      <Card block>
+      <Panel block>
         <Form onSubmit={ this.submit }>
 
-          <CardSection>
+          <PanelSection>
             <ShoutTypeSegmentedControl
               value={ shout_type }
               disabled={ disabled }
@@ -127,8 +127,8 @@ export class ShoutsSearchForm extends Component {
                 value={ this.state.within }
                 location={ currentLocation }
               /> }
-          </CardSection>
-          <CardSection separe>
+          </PanelSection>
+          <PanelSection separe>
             <CategoryPicker
               selectedCategorySlug={ this.state.category }
               onChange={ category => this.handleChange({
@@ -143,8 +143,8 @@ export class ShoutsSearchForm extends Component {
                 onChange={ filters => this.handleChange({ filters }) }
               />
             }
-          </CardSection>
-          <CardSection separe>
+          </PanelSection>
+          <PanelSection separe>
             <Label htmlFor="ShoutsSearchFormMinPrice">
               <FormattedMessage
                 id="ShoutsSearchForm.priceRange.label"
@@ -209,9 +209,9 @@ export class ShoutsSearchForm extends Component {
                 defaultMessage="Search"
               />
             </Button>
-          </CardSection>
+          </PanelSection>
         </Form>
-      </Card>
+      </Panel>
     );
   }
 }

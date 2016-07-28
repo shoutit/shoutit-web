@@ -2,15 +2,15 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router';
 
-import Card, { CardList, CardTitle } from '../layout/Card';
+import Panel, { PanelList, PanelTitle } from '../layout/Panel';
 
 export function SettingsNavigation() {
   return (
-    <Card block>
-      <CardTitle>
+    <Panel>
+      <PanelTitle>
         <FormattedMessage id="setting.navigation.title" defaultMessage="Profile Settings" />
-      </CardTitle>
-      <CardList>
+      </PanelTitle>
+      <PanelList>
         { [
           <Link to="/settings/profile" activeClassName="active">
             <FormattedMessage id="settings.navigation.profile" defaultMessage="Public Profile" />
@@ -20,8 +20,8 @@ export function SettingsNavigation() {
           </Link>,
         ]
         }
-      </CardList>
-    </Card>
+      </PanelList>
+    </Panel>
   );
 }
 
