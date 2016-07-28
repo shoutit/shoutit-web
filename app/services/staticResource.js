@@ -26,7 +26,9 @@ export default {
         if (err) {
           return callback(parseApiError(err));
         }
-        return callback(null, res.text);
+        return callback(null, {
+          content: res.text,
+        });
       });
   },
 };
