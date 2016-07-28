@@ -3,22 +3,16 @@ import { getStyleBackgroundImage } from '../utils/DOMUtils';
 
 import './Card.scss';
 
-export default function Card({ title, size = 'medium', block = false, children, style, className }) {
-  let cssClass = `Card size-${size}`;
-  if (block) {
-    cssClass += ' block';
-  }
+export default function Card({ children, style, className }) {
+  let cssClass = 'Card';
   if (className) {
     cssClass += ` ${className}`;
   }
   return (
-    <div className={ cssClass } style={ style } >
-      { title &&
-        <div className="Card-title">
-        { title }
-        </div>
-      }
-      { children }
+    <div className={ cssClass } style={ style }>
+      <div className="Card-content">
+        { children }
+      </div>
     </div>
   );
 }
@@ -29,7 +23,6 @@ Card.propTypes = {
   children: PropTypes.node,
   block: PropTypes.bool,
   className: PropTypes.string,
-  title: PropTypes.string,
   size: PropTypes.oneOf(['small', 'medium', 'flexible-medium']),
 };
 
@@ -86,9 +79,9 @@ CardList.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export function CardBody({ children }) {
+export function CardBody({ children, style }) {
   return (
-    <div className="CardBody">
+    <div className="CardBody" style={ style }>
       { children }
     </div>
   );
@@ -96,4 +89,5 @@ export function CardBody({ children }) {
 
 CardBody.propTypes = {
   children: PropTypes.node.isRequired,
+  style: PropTypes.object,
 };

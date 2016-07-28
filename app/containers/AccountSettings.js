@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
-import Card from '../layout/Card';
+import Panel from '../layout/Panel';
 import Page, { StartColumn, Body } from '../layout/Page';
 import Helmet from '../utils/Helmet';
 import RequiresLogin from '../auth/RequiresLogin';
@@ -137,7 +137,7 @@ export class AccountSettings extends Component {
             <SettingsNavigation />
           </StartColumn>
           <Body>
-            <Card className="Settings-body" block>
+            <Panel className="Settings-body">
               <Form onSubmit={ this.handlePasswordFormSubmit }>
                 <h2>
                   <FormattedMessage id="accountSettings.password.formTitle" defaultMessage="Change your password" />
@@ -179,8 +179,8 @@ export class AccountSettings extends Component {
                   <FormattedMessage id="accountSettings.password.submit" defaultMessage="Change password" />
                 </Button>
               </Form>
-            </Card>
-            <Card className="Settings-body" block>
+            </Panel>
+            <Panel className="Settings-body" block>
               <Form onSubmit={ this.handleAccountFormSubmit }>
                 <h2>
                   <FormattedMessage id="accountSettings.account.formTitle" defaultMessage="Your Account" />
@@ -218,7 +218,7 @@ export class AccountSettings extends Component {
                     <FormattedMessage id="accountSettings.account.updatedLabel" defaultMessage="Account updated" /> }
                 </Button>
               </Form>
-            </Card>
+            </Panel>
           </Body>
         </Page>
       </RequiresLogin>

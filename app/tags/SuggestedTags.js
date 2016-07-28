@@ -2,19 +2,19 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import Card, { CardList, CardTitle } from '../layout/Card';
+import Panel, { PanelList, PanelTitle } from '../layout/Panel';
 import TagListItem from '../tags/TagListItem';
 
 export function SuggestedTags({ tags }) {
   return (
-    <Card size="small" block>
-      <CardTitle>
+    <Panel>
+      <PanelTitle>
         <FormattedMessage id="suggestedTags.title" defaultMessage="Suggested interests" />
-      </CardTitle>
-      <CardList>
+      </PanelTitle>
+      <PanelList>
         { tags.map((tag, i) => <TagListItem key={ i } tag={ tag } />) }
-      </CardList>
-    </Card>
+      </PanelList>
+    </Panel>
   );
 }
 

@@ -1,0 +1,58 @@
+@import '../styles/constants.scss';
+@import '../styles/mixins/ellipsis.scss';
+@import '../styles/mixins/mq.scss';
+
+$card-border-radius: 2px;
+
+.Panel {
+  border-radius: $card-border-radius;
+  background-color: $white;
+  box-shadow: $box-shadow-depth-0;
+}
+
+.PanelTitle {
+  padding: $vertical-spacing $horizontal-spacing;
+  h4 {
+    color: $color-text-light;
+    font-weight: normal;
+  }
+}
+
+ul.PanelList {
+  margin: 0;
+  padding: 0 $horizontal-spacing;
+  list-style: none;
+  li {
+    margin: $vertical-spacing/2 0;
+    &:first-child {
+      margin-top: 0;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+    a {
+      color: $color-text;
+      &.active,
+      &:active {
+        color: $color-link;
+      }
+    }
+  }
+}
+
+.PanelTitle + ul.PanelList {
+  padding-bottom: $vertical-spacing;
+}
+
+.PanelSection {
+  padding: $vertical-spacing $horizontal-spacing;
+}
+
+.PanelSection.separe {
+  margin-top: $vertical-spacing/2;
+  border-top: 1px solid $border-color-dark;
+}
+.PanelSection.separe + .PanelSection.separe {
+  margin-top: 0;
+}
+

@@ -14,7 +14,7 @@ import FieldsGroup from '../forms/FieldsGroup';
 import Button from '../forms/Button';
 import Picker from '../forms/Picker';
 import LocationField from '../forms/LocationField';
-import Card from '../layout/Card';
+import Panel from '../layout/Panel';
 
 import SettingsNavigation from '../settings/SettingsNavigation';
 
@@ -133,7 +133,7 @@ export class ProfileSettings extends Component {
             <SettingsNavigation />
           </StartColumn>
           <Body>
-            <Card block className="Settings-body">
+            <Panel className="Settings-body">
               <Form onSubmit={ this.handleSubmit }>
 
                 <h2>
@@ -229,7 +229,7 @@ export class ProfileSettings extends Component {
                     <FormattedMessage id="ProfileSettings.profileForm.updatedLabel" defaultMessage="Profile updated" /> }
                 </Button>
               </Form>
-            </Card>
+            </Panel>
           </Body>
         </Page>
       </RequiresLogin>

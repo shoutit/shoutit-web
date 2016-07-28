@@ -276,7 +276,7 @@
     "minifooter.social.twitter": "Twitter",
     "minifooter.social.instagram": "Instagram",
     "createShoutModal.title": "{type, select, offer {发布新供应} request {发布新需求}}",
-    "userListeningCard.title": "聆听",
+    "userListeningPanel.title": "聆听",
     "locationField.instructions": "输入位置，开始搜寻。",
     "discover.shouts.title": "{discoverItemTitle}Shouts",
     "login.form.toSignup": "您是Shoutit新用户吗？{signupLink}",

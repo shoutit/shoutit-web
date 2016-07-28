@@ -8,16 +8,19 @@
   flex-wrap: wrap;
 }
 
+.ShoutsList-item {
+  min-width: 240px;
+  flex: 1 1 240px;
+}
+
 @include desktop() {
   .ShoutsList-item {
     padding: 0 $horizontal-spacing*1.5 $vertical-spacing*1.5 0;
-    flex: 1 1 auto;
   }
 }
 
 @include tablet() {
   .ShoutsList-item {
     padding: $vertical-spacing $horizontal-spacing/2;
-    flex: 1 1 auto;
   }
 }

@@ -19,7 +19,7 @@ import Page, { StartColumn, EndColumn, Body } from '../layout/Page';
 import Scrollable from '../layout/Scrollable';
 import Icon from '../widgets/Icon';
 import ListItem from '../layout/ListItem';
-import { CardList } from '../layout/Card';
+import { PanelList } from '../layout/Panel';
 import UIMessage from '../widgets/UIMessage';
 import Listening from '../users/Listening';
 import SuggestedTags from '../tags/SuggestedTags';
@@ -97,7 +97,7 @@ export class Dashboard extends Component {
               />
             </h2>
 
-            <CardList>
+            <PanelList>
               <Link to={ `/user/${profile.username}` }>
                 <ListItem start={ <Icon active name="profile" size="small" /> }>
                   <FormattedMessage
@@ -130,7 +130,7 @@ export class Dashboard extends Component {
                   />
                 </ListItem>
               </Link>
-            </CardList>
+            </PanelList>
             <Listening byProfile={ profile } />
           </StartColumn>
           <Body>

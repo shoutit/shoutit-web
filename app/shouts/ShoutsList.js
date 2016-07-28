@@ -31,9 +31,7 @@ export default class ShoutsList extends Component {
             <ShoutPreview
               shout={ shout }
               showProfile={ showProfile }
-              showCategory={ showCategory }
-              size="flexible-medium"
-            />
+              showCategory={ showCategory } />
           </div>
         ) }
       </div>
