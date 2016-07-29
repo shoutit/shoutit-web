@@ -9,14 +9,14 @@ function isLocaleSupported(locale) {
 const maxAge = 365 * 24 * 60 * 60 * 1000;
 
 export default function localeMiddleware(req, res, next) {
-  if (req.query.hl && isLocaleSupported(req.query.hl) > -1) {
+  if (req.query.hl && isLocaleSupported(req.query.hl)) {
     req.locale = req.query.hl;
     log('Detected locale from querystring: %s', req.locale);
     if ('set' in req.query) {
       log('Locale cookie has been set to %s', req.locale);
       res.cookie('hl', req.locale, { maxAge });
     }
-  } else if (req.cookies.hl && isLocaleSupported(req.cookies.hl) > -1) {
+  } else if (req.cookies.hl && isLocaleSupported(req.cookies.hl)) {
     req.locale = req.cookies.hl;
     log('Detected locale from cookie: %s', req.locale);
   } else {
