@@ -1,12 +1,10 @@
 import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
-import { staticResourceUrl } from '../config';
 
 export default {
   name: 'staticResource',
   read: (req, resource, { id, searchParams, location }, config, callback) => {
-    let url = '';
-
+    let url = '/static_resources';
     if (id) {
       url += `/${id}`;
     }
@@ -22,7 +20,7 @@ export default {
       .get(url)
       .use(req)
       .type('html')
-      .prefix(staticResourceUrl)
+      .prefix('http://localhost:3000') // TODO detect the environment
       .query(query)
       .end((err, res) => {
         if (err) {

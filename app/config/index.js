@@ -1,18 +1,13 @@
 /* eslint no-console: 0 */
 
-export const IS_DEVELOPMENT = process.env.NODE_ENV === 'development' || !process.env.SHOUTIT_ENV;
-export const IS_STAGE = process.env.SHOUTIT_ENV === 'stage';
-export const IS_BETA = process.env.SHOUTIT_ENV === 'beta';
-export const IS_PRODUCTION = process.env.SHOUTIT_ENV === 'live';
-
 let envConfig = {};
-if (IS_DEVELOPMENT) {
+if (process.env.NODE_ENV === 'development' || !process.env.SHOUTIT_ENV) {
   envConfig = require('./development');
-} else if (IS_STAGE) {
+} else if (process.env.SHOUTIT_ENV === 'stage') {
   envConfig = require('./stage');
-} else if (IS_BETA) {
+} else if (process.env.SHOUTIT_ENV === 'beta') {
   envConfig = require('./beta');
-} else if (IS_PRODUCTION) {
+} else if (process.env.SHOUTIT_ENV === 'live') {
   envConfig = require('./live');
 } else {
   throw new Error('SHOUTIT_ENV is not valid.');
@@ -46,8 +41,7 @@ export const publicUrl = envConfig.publicUrl;
 export const pusherAppKey = envConfig.pusherAppKey;
 export const shoutitEnv = process.env.SHOUTIT_ENV;
 export const siteUrl = envConfig.siteUrl;
-export const staticResourceUrl = IS_DEVELOPMENT ? `${envConfig.publicUrl}/static_resources` : process.env.AWS_STATIC_ENV;
-export const ogPrefix = (IS_STAGE || !process.env.SHOUTIT_ENV) ? 'shoutitcom-dev' : 'shoutitcom';
+export const ogPrefix = (process.env.SHOUTIT_ENV === 'stage' || !process.env.SHOUTIT_ENV) ? 'shoutitcom-dev' : 'shoutitcom';
 export const uservoiceApiKey = 'NBlfnPFrkEttGeEqYUhA';
 export const mixpanelToken = envConfig.mixpanelToken;
 
@@ -91,8 +85,6 @@ export function getSummary() {
   summary.push(`  iOS app name:         ${iosAppName}`);
   summary.push(`  Android package:      ${androidPackage}`);
   summary.push(`  Android app name:     ${androidAppName}`);
-  summary.push('');
-  summary.push(`  Static resources endpoint:     ${staticResourceUrl}`);
 
   summary.push('');
   return summary.join('\n');
