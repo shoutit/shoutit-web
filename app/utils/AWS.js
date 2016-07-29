@@ -12,6 +12,16 @@ AWS.config.logger = { log };
 AWS.config.accessKeyId = process.env.SHOUTIT_S3_ACCESS_KEY;
 AWS.config.secretAccessKey = process.env.SHOUTIT_S3_SECRET_KEY;
 
+export function getObject({ key: Key, bucket: Bucket }, callback) {
+  const s3 = new AWS.S3();
+  const params = { Bucket, Key };
+
+  s3.getObject(params, (err, data) => {
+    err ? console.error(err) : log('getObject success for %s', Key, data);
+    callback(err, data);
+  });
+}
+
 export function upload({ body: Body, key: Key, bucket: Bucket }, callback) {
   const s3 = new AWS.S3();
   const params = { Bucket, Body, Key };

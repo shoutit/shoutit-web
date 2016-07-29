@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import { getFilename } from '../utils/StringUtils';
+import { getFilename, getPathFromUrl } from '../utils/StringUtils';
 
 const buildState = (isFetching = true, content) => ({
   isFetching,
@@ -29,7 +29,8 @@ export default function (state = {}, action) {
 }
 
 export function getStaticPage(state) {
-  const resource_path = getFilename(state.routing.currentUrl);
+  const url = getFilename(state.routing.currentUrl);
+  const resource_path = getPathFromUrl(url);
   return state.staticPages[resource_path] || {};
 }
 

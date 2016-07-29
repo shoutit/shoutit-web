@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
-import { getFilename, toTitleCase } from "./StringUtils"; // eslint-disable-line
+import { getFilename, toTitleCase, getPathFromUrl } from "./StringUtils"; // eslint-disable-line
 
 describe('utils/StringUtils', () => {
   describe('getFilename', () => {
@@ -17,6 +17,11 @@ describe('utils/StringUtils', () => {
     });
     it('should change the case when string has unicode letters', () => {
       expect(toTitleCase('müllheim nrw')).to.eql('Müllheim Nrw');
+    });
+  });
+  describe('getPathFromUrl', () => {
+    it('should return path without query parameters', () => {
+      expect(getPathFromUrl('faq?a=1&b=2')).to.eql('faq');
     });
   });
 });
