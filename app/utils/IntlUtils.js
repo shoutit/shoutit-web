@@ -28,10 +28,26 @@ const locales = {
   en: () => require('react-intl?locale=en!./empty.json'),
   ar: () => require('react-intl?locale=ar!./empty.json'),
   de: () => require('react-intl?locale=de!./empty.json'),
+  es: () => require('react-intl?locale=es!./empty.json'),
+  zh: () => require('react-intl?locale=zh!./empty.json'),
 };
 
 export const loadLocaleData = locale => {
   return new Promise(resolve => {
     locales[locale]()(resolve);
   });
+};
+
+const intlCache = {};
+export const numberFromString = (value, { locale, formatNumber }) => {
+  if (!intlCache.hasOwnProperty(locale)) {
+    const formatted = formatNumber(12345.6789);
+    const decimalSeparator = formatted.match(/345(.*)67/)[1];
+    const thousandSeparator = formatted.match(/12(.*)345/)[1];
+    intlCache[locale] = { decimalSeparator, thousandSeparator };
+  }
+  const n = value
+    .replace(intlCache[locale].thousandSeparator, '')
+    .replace(intlCache[locale].decimalSeparator, '.');
+  return +n;
 };

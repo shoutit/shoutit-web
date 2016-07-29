@@ -1,9 +1,11 @@
 .SimpleIcon {
   transition: transform 0.2s;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
   &.rotate-down {
-    transform: rotate(90deg);
+    transform: rotate(90deg) translateZ(0);
   }
   &.rotate-right {
-    transform: rotate(180deg);
+    transform: rotate(180deg) translateZ(0);
   }
 }

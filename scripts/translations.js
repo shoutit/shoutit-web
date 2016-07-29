@@ -31,7 +31,7 @@ locales.forEach(lang => {
   console.log('\nBuilding %s.json...', lang);
   const file = `${TRANSLATIONS_PATH}/${lang}.json`;
   let existingMessages = {};
-  if (pathExists(file)) {
+  if (pathExists.sync(file)) {
     existingMessages = JSON.parse(fs.readFileSync(file, 'utf8'));
     // Remove existing messages not present between the defaults
     Object.keys(existingMessages).forEach(messageId => {

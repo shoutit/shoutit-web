@@ -25,7 +25,7 @@ import Page, { Body, StartColumn } from '../layout/Page';
 import Pagination from '../layout/Pagination';
 import ShoutsList from '../shouts/ShoutsList';
 import ShoutsListToolbar from '../shouts/ShoutsListToolbar';
-import SearchFilters from '../search/SearchFilters';
+import ShoutsSearchForm from '../search/ShoutsSearchForm';
 
 import './Search.scss';
 
@@ -171,7 +171,7 @@ export class Search extends Component {
         <Helmet title={ this.props.title } appUrl="shoutit://search" />
         <Device type="desktop">
           <StartColumn>
-            <SearchFilters
+            <ShoutsSearchForm
               disabled={ false }
               query={ {
                 ...this.props.query,

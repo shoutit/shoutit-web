@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import Card, { CardTitle, CardList } from '../layout/Card';
+import Panel, { PanelTitle, PanelList } from '../layout/Panel';
 import ProfileListItem from '../users/ProfileListItem';
 import { denormalize } from '../schemas';
 
@@ -10,18 +10,18 @@ export function Listening({ profiles }) {
     return <span />;
   }
   return (
-    <Card block size="small">
-      <CardTitle>
+    <Panel>
+      <PanelTitle>
         <FormattedMessage
-          id="userListeningCard.title"
+          id="userListeningPanel.title"
           defaultMessage="Listening to"
         />
-      </CardTitle>
-      <CardList>
+      </PanelTitle>
+      <PanelList>
       { profiles.map(profile =>
         <ProfileListItem key={ profile.id } profile={ profile } />) }
-      </CardList>
-    </Card>
+      </PanelList>
+    </Panel>
   );
 }
 

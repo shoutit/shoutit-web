@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import { getCurrentUrl } from '../reducers/routing';
 
 import { appStoreLink, playStoreLink } from '../config';
 import { getOperatingSystem } from '../reducers/browser';
@@ -12,12 +13,15 @@ class OpenInApp extends Component {
 
   static propTypes = {
     storeLink: PropTypes.string.isRequired,
+    currentUrl: PropTypes.string.isRequired,
   }
 
   constructor(props) {
     super(props);
-    this.handleOpenClick = this.handleOpenClick.bind(this);
     this.hide = this.hide.bind(this);
+    this.state = {
+      appUrl: props.storeLink,
+    };
   }
 
   state = {
@@ -26,17 +30,27 @@ class OpenInApp extends Component {
 
   componentDidMount() {
     this.mounted = true;
+    this.setAppUrl();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.currentUrl !== prevProps.currentUrl) {
+      // reset the app url if the page changed
+      this.setAppUrl();
+    }
+  }
+
+  setAppUrl() {
+    const el = document.getElementById('shoutitAppUrl');
+    if (el) {
+      this.setState({
+        appUrl: el.getAttribute('content'),
+      });
+    }
   }
 
   hide() {
     this.setState({ hidden: true });
-  }
-
-  handleOpenClick() {
-    const el = document.getElementById('shoutitAppUrl');
-    if (el) {
-      window.open(el.getAttribute('content'), '_self');
-    }
   }
 
   render() {
@@ -59,16 +73,16 @@ class OpenInApp extends Component {
           />
         </span>
         <span className="OpenInApp-Buttons">
+          <a href={ this.state.appUrl }>
+            <FormattedMessage
+              id="widgets.OpenInApp.open"
+              defaultMessage="Open in App"
+            />
+          </a>
           <a href={ this.props.storeLink } target="_blank">
             <FormattedMessage
               id="widgets.OpenInApp.install"
               defaultMessage="Install"
-            />
-          </a>
-          <a onClick={ this.handleOpenClick }>
-            <FormattedMessage
-              id="widgets.OpenInApp.open"
-              defaultMessage="Open in App"
             />
           </a>
         </span>
@@ -89,6 +103,9 @@ const mapStateToProps = state => {
       break;
     default: break;
   }
-  return { storeLink };
+  return {
+    storeLink,
+    currentUrl: getCurrentUrl(state),
+  };
 };
 export default connect(mapStateToProps)(OpenInApp);

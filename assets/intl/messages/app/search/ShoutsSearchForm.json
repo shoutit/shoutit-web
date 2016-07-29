@@ -1,0 +1,26 @@
+[
+  {
+    "id": "ShoutsSearchForm.search.placeholder",
+    "defaultMessage": "Search by keyword"
+  },
+  {
+    "id": "ShoutsSearchForm.priceRange.label",
+    "defaultMessage": "Price Range"
+  },
+  {
+    "id": "ShoutsSearchForm.minPrice.placeholder",
+    "defaultMessage": "Min price"
+  },
+  {
+    "id": "ShoutsSearchForm.maxPrice.placeholder",
+    "defaultMessage": "Max price"
+  },
+  {
+    "id": "search.ShoutsSearchForm.free.label",
+    "defaultMessage": "Only Free Items"
+  },
+  {
+    "id": "ShoutsSearchForm.submitButton.label",
+    "defaultMessage": "Search"
+  }
+]

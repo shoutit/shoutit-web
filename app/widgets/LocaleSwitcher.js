@@ -7,6 +7,8 @@ const LOCALES = [
   { code: 'ar', name: 'العربية' },
   { code: 'de', name: 'Deutsch' },
   { code: 'en', name: 'English' },
+  { code: 'es', name: 'Spanish' },
+  { code: 'zh', name: '中文' },
 ];
 
 export function LocaleSwitcher({ search, currentLocale }) {
