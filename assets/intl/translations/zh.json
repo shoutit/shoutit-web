@@ -15,7 +15,7 @@
     "socialLogin.facebook.buttonLabel": "Facebook",
     "socialLogin.google.buttonLabel": "Google+",
     "chat.conversation.loadError": "无法加载当前对话。",
-    "chat.conversation.dropdown.fullConversation": "阅读所有对话内容",
+    "chat.conversation.dropdown.fullConversation": "查看完整对话内容",
     "chat.conversation.dropdown.read": "标记为已读",
     "chat.conversation.dropdown.unread": "标记为未读",
     "chat.conversation.dropdown.leaveConversation": "终止对话",
@@ -276,7 +276,7 @@
     "minifooter.social.twitter": "Twitter",
     "minifooter.social.instagram": "Instagram",
     "createShoutModal.title": "{type, select, offer {发布新供应} request {发布新需求}}",
-    "userListeningPanel.title": "聆听",
+    "userListeningCard.title": "聆听",
     "locationField.instructions": "输入位置，开始搜寻。",
     "discover.shouts.title": "{discoverItemTitle}Shouts",
     "login.form.toSignup": "您是Shoutit新用户吗？{signupLink}",
@@ -353,5 +353,6 @@
     "ShoutsSearchForm.priceRange.label": "价格范围",
     "ShoutsSearchForm.search.placeholder": "关键字搜索",
     "ShoutsSearchForm.submitButton.label": "搜索",
-    "search.ShoutsSearchForm.free.label": "只限于免费商品"
+    "search.ShoutsSearchForm.free.label": "只限于免费商品",
+    "userListeningPanel.title": "聆听"
 }
