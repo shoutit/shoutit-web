@@ -253,6 +253,7 @@
   "shoutForm.title.label": "Title",
   "shoutForm.title.placeholder": "标题",
   "shoutPrice.free": "免费",
+  "shoutPrice.negotiable": "Negotiable price",
   "shoutType": "{type, select, offer {供应} request {需求}}",
   "shoutTypeControl.all": "全部",
   "shoutTypeControl.offer": "供应",

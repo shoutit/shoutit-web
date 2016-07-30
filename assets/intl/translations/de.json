@@ -253,6 +253,7 @@
   "shoutForm.title.label": "Title",
   "shoutForm.title.placeholder": "Titel",
   "shoutPrice.free": "Kostenlos",
+  "shoutPrice.negotiable": "Negotiable price",
   "shoutType": "{type, select, offer {Angebot} request {Anfrage}}",
   "shoutTypeControl.all": "Alle",
   "shoutTypeControl.offer": "Angebote",

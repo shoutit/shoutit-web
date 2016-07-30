@@ -253,6 +253,7 @@
   "shoutForm.title.label": "Title",
   "shoutForm.title.placeholder": "العنوان",
   "shoutPrice.free": "مجاني",
+  "shoutPrice.negotiable": "Negotiable price",
   "shoutType": "{type, select, offer {عرض} request {طلب}}",
   "shoutTypeControl.all": "كل شيء",
   "shoutTypeControl.offer": "عروض",
