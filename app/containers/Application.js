@@ -167,7 +167,7 @@ export class Application extends Component {
 
     const meta = [
 
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=no' },
       { name: 'keywords', content: 'shoutit' },
 
       { property: 'fb:app_id', content: config.facebookId },

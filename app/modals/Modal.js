@@ -66,7 +66,7 @@ export default class Modal extends Component {
     this.handleBackdropClick = this.handleBackdropClick.bind(this);
     this.state = {
       show: props.show,
-      contentTop: CONTENT_TOP_DEFAULT,
+      contentTop: props.autoSize ? CONTENT_TOP_DEFAULT : 0,
       bodyStyle: null,
     };
   }
@@ -74,15 +74,19 @@ export default class Modal extends Component {
   componentDidMount() {
     preventBodyScroll().on();
     window.addEventListener('keyup', this.handleWindowKeyup);
-    window.addEventListener('resize', this.handleWindowResize);
-    this.setSize();
+    if (this.props.autoSize) {
+      window.addEventListener('resize', this.handleWindowResize);
+      this.setSize();
+    }
   }
 
   componentWillUnmount() {
     preventBodyScroll().off();
     clearTimeout(this.leaveTimeoutId);
     window.removeEventListener('keyup', this.handleWindowKeyup);
-    window.removeEventListener('resize', this.handleWindowResize);
+    if (this.props.autoSize) {
+      window.removeEventListener('resize', this.handleWindowResize);
+    }
   }
 
   getHeader() {
