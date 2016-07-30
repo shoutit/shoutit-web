@@ -115,6 +115,13 @@ export class UpdateShout extends Component {
           defaultMessage="Deleting…"
         />
       );
+    } else {
+      submitLabel = (
+        <FormattedMessage
+          id="updateShoutModal.publishButton.defaultLabel"
+          defaultMessage="Save changes"
+        />
+      );
     }
     return (
       <Modal { ...this.props } ref="modal">
