@@ -36,7 +36,7 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload, openProfiles
           }>
           <FileInput
             multiple
-            accept="image/x-png, image/jpeg"
+            accept="image/png,image/jpeg"
             name="image-modal"
             onChange={ e => openImageUpload([...e.target.files]) }>
             <span className="ReplyFormToolbar-item">

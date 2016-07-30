@@ -132,7 +132,7 @@ export default class ImageUploadModal extends Component {
                   onUploadStart={ this.handleUploadStart }
                   onUploadEnd={ this.handleUploadEnd }
                   error={ null }
-                  accept="image/x-png, image/jpeg"
+                  accept="image/png,image/jpeg"
                   max={ this.props.max }
                 />
               }
