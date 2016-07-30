@@ -21,7 +21,7 @@ import SetPassword from './containers/SetPassword';
 import ShoutPage from './pages/shout';
 import Signup from './containers/Signup';
 import VerifyEmail from './containers/VerifyEmail';
-import Static from './containers/Static';
+import StaticHtml from './containers/StaticHtml';
 
 const authAppLayout = () => ({
   className: 'pattern-background',
@@ -83,7 +83,7 @@ const routes = (store) =>
     <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ settingsAppLayout } />
     <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ settingsAppLayout } />
 
-    <Route path="/static/:resource_path" component={ Static } getApplicationLayout={ staticAppLayout } />
+    <Route path="/static/:id" component={ StaticHtml } getApplicationLayout={ staticAppLayout } />
 
     <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true }) } />
   </Route>;

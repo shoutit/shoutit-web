@@ -8,17 +8,17 @@ const buildState = (isFetching = true, content) => ({
 
 export default function (state = {}, action) {
   switch (action.type) {
-    case actionTypes.LOAD_STATIC_START:
+    case actionTypes.LOAD_STATIC_HTML_START:
       return {
         ...state,
         [action.id]: buildState(true),
       };
-    case actionTypes.LOAD_STATIC_SUCCESS:
+    case actionTypes.LOAD_STATIC_HTML_SUCCESS:
       return {
         ...state,
         [action.id]: buildState(false, action.payload.content),
       };
-    case actionTypes.LOAD_STATIC_FAILURE:
+    case actionTypes.LOAD_STATIC_HTML_FAILURE:
       return {
         ...state,
         [action.id]: buildState(false),
@@ -28,10 +28,10 @@ export default function (state = {}, action) {
   return state;
 }
 
-export function getStaticPage(state) {
+export function getStaticHtml(state) {
   const url = getFilename(state.routing.currentUrl);
   const resource_path = getPathFromUrl(url);
-  return state.staticPages[resource_path] || {};
+  return state.staticHtml[resource_path] || {};
 }
 
 export function getStaticContent(page) {

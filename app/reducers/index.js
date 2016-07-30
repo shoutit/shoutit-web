@@ -20,7 +20,7 @@ import shoutSamples from './shoutSamples';
 import sortTypes from './sortTypes';
 import suggestions from './suggestions';
 import videocalls from './videocalls';
-import staticPages from './staticPages';
+import staticHtml from './staticHtml';
 
 const appReducer = combineReducers({
   browser,
@@ -43,6 +43,6 @@ const appReducer = combineReducers({
   sortTypes,
   suggestions,
   videocalls,
-  staticPages,
+  staticHtml,
 });
 export default appReducer;

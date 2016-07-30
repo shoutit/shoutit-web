@@ -9,10 +9,10 @@ const STATIC_RESOURCES_DIR = `${__dirname}/../../assets/static`;
 
 let staticCache = {};
 
-const cachePage = (pageKey, data) => {
+const cache = (filePrefix, data) => {
   staticCache = {
     ...staticCache,
-    [pageKey]: data,
+    [filePrefix]: data,
   };
 };
 
@@ -21,7 +21,7 @@ const invalidateCache = pageKey => {
 };
 
 export default {
-  name: 'staticResource',
+  name: 'staticHtml',
   read: (req, resource, { id }, config, callback) => {
 
     let cachedContent = undefined;
@@ -47,7 +47,7 @@ export default {
           return callback(parseApiError(err));
         }
 
-        cachePage(filePrefix, data);
+        cache(filePrefix, data);
 
         return callback(null, {
           content: data,

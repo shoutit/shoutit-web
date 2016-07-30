@@ -3,53 +3,53 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getStaticPage, getStaticContent } from '../reducers/staticPages';
+import { getStaticHtml, getStaticContent } from '../reducers/staticHtml';
 
-import { loadStaticResource } from '../actions/staticPages';
+import { loadStaticHtml } from '../actions/staticHtml';
 import { routeError } from '../actions/server';
 
 import Page, { Body } from '../layout/Page';
 import Progress from '../widgets/Progress';
 
 const fetchData = (dispatch, state, params) => {
-  const content = getStaticContent(state.staticPage);
+  const content = getStaticContent(state.staticHtml);
 
   if (content) {
     return;
   }
 
   Promise.all([
-    dispatch(loadStaticResource(params.resource_path)),
+    dispatch(loadStaticHtml(params.id)),
   ]).catch(error => dispatch(routeError(error)));
 };
 
-export class Static extends Component {
+export class StaticHtml extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     firstRender: PropTypes.bool,
-    staticPage: PropTypes.object.isRequired,
+    staticHtml: PropTypes.object.isRequired,
   };
 
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { dispatch, firstRender, params, staticPage } = this.props;
+    const { dispatch, firstRender, params, staticHtml } = this.props;
     if (!firstRender) {
-      fetchData(dispatch, { staticPage }, params);
+      fetchData(dispatch, { staticHtml }, params);
     }
   }
 
   componentWillUpdate(nextProps) {
-    const { dispatch, params: { resource_path } } = this.props;
-    if (nextProps.params.resource_path !== resource_path) {
-      fetchData(dispatch, { staticPage: nextProps.staticPage }, nextProps.params);
+    const { dispatch, params: { id } } = this.props;
+    if (nextProps.params.id !== id) {
+      fetchData(dispatch, { staticHtml: nextProps.staticHtml }, nextProps.params);
     }
   }
 
   render() {
-    const { staticPage: { isFetching, content } } = this.props;
+    const { staticHtml: { isFetching, content } } = this.props;
 
     return (
       <Page>
@@ -66,11 +66,11 @@ export class Static extends Component {
 }
 
 const mapStateToProps = state => ({
-  staticPage: getStaticPage(state),
+  staticHtml: getStaticHtml(state),
 });
 
-const Wrapped = connect(mapStateToProps)(Static);
+const Wrapped = connect(mapStateToProps)(StaticHtml);
 
-Wrapped.fetchData = Static.fetchData;
+Wrapped.fetchData = StaticHtml.fetchData;
 
 export default Wrapped;
