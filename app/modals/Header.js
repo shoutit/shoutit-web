@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Icon from '../widgets/Icon';
+import SimpleIcon from '../icons/SimpleIcon';
 
 export default class Header extends Component {
 
@@ -13,13 +13,17 @@ export default class Header extends Component {
     return (
       <div className="ModalHeader">
         <span className="ModalHeader-content">
+          { this.props.closeButton &&
+            <span
+              className="ModalHeader-close"
+              tabIndex={ 0 }
+              onClick={ this.props.onCloseClick }
+              aria-label="Close" >
+              <SimpleIcon name="close" />
+            </span>
+          }
           { this.props.children }
         </span>
-        { this.props.closeButton &&
-          <span className="ModalHeader-close" tabIndex={ 0 } onClick={ this.props.onCloseClick } aria-label="Close" >
-            <Icon name="close" size="x-small" />
-          </span>
-        }
       </div>
     );
   }
