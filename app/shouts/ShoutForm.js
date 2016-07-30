@@ -26,7 +26,6 @@ const MESSAGES = defineMessages({
     id: 'shoutForm.addPhotos.label',
     defaultMessage: 'Add photos',
   },
-  
   titlePlaceholder: {
     id: 'shoutForm.title.placeholder',
     defaultMessage: 'Title',

@@ -4,7 +4,7 @@ import { FormattedNumber, FormattedMessage } from 'react-intl';
 
 import './ShoutPrice.scss';
 export default function ShoutPrice({ shout, layout = 'plain' }) {
-  let { price, currency } = shout;
+  let { price } = shout;
   const isFree = price === 0;
   const isNegotiable = price === null;
   let className = `ShoutPrice ${layout}`;
@@ -30,7 +30,7 @@ export default function ShoutPrice({ shout, layout = 'plain' }) {
           <FormattedNumber
             style="currency"
             currencyDisplay="symbol"
-            currency={ currency }
+            currency={ shout.currency }
             value={ price }
             maximumFractionDigits={ Number.isInteger(price) ? 0 : undefined }
             minimumFractionDigits={ Number.isInteger(price) ? 0 : undefined }
