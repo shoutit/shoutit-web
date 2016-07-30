@@ -35,13 +35,13 @@
   margin-right: .5em;
 }
 .NotificationItem-text .highlight {
-  font-weight: bold;
+  font-weight: 500;
 }
 .NotificationItem-date {
   color: $color-text-light;
   margin-top: .25em;
   font-size: 0.875em;
   .NotificationItem.is-unread & {
-    font-weight: bold;
+    font-weight: 500;
   }
 }

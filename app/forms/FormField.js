@@ -35,6 +35,7 @@ export default class FormField extends Component {
     field: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     inputRef: PropTypes.func,
     label: PropTypes.string,
+    labelTooltip: PropTypes.string,
     maxLength: PropTypes.number,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
@@ -147,6 +148,7 @@ export default class FormField extends Component {
       flexibleContent,
       inputRef,
       label,
+      labelTooltip,
       placeholder,
       startElement,
       style,
@@ -216,7 +218,8 @@ export default class FormField extends Component {
       <div className={ cssClass } style={ style }>
         { label &&
           <Label
-            for={ props.name }
+            tooltip={ labelTooltip }
+            htmlFor={ props.id || props.name }
             maxLength={ props.maxLength }
             currentLength={ value.length }>
             { label }

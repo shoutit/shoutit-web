@@ -9,11 +9,9 @@ class ShoutPagePrice extends Component {
   render() {
     return (
       <div className="ShoutPage-Price">
-        { this.props.shout.price !== null &&
-          <div>
-            <ShoutPrice shout={ this.props.shout } />
-          </div>
-        }
+        <div>
+          <ShoutPrice shout={ this.props.shout } />
+        </div>
         <div>
           <ShoutType shout={ this.props.shout } />
         </div>

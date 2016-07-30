@@ -120,6 +120,20 @@ If you want to test the client of another computer in the same network, use the 
 $ HOST=$HOSTNAME npm run dev # Tested only on OSX
 ```
 
+### i18n
+
+When adding a new translation messages in our code (e.g. using `<FormattedMessage`>), the Babel compiler extracts automatically the default messages and places them into the [assets/intl/messages](https://github.com/shoutit/shoutit-web/tree/develop/assets/intl/messages/app) directory. 
+
+To make the default messages translatable, they must be saved into the locale-relative JSON files in   [assets/intl/translations](https://github.com/shoutit/shoutit-web/tree/develop/assets/intl/translations).
+
+Run this script to updated those JSONs:
+
+```bash
+$ npm run build:translations
+```
+
+The localized JSONs *must* be committed on the `develop` branch to make them available to the translators.
+
 ### Tests
 
 Most of the unit tests run with [mocha](http://mochajs.org) and [chai](http://chaijs.com).

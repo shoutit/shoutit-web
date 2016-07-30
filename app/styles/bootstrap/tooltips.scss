@@ -1,4 +1,12 @@
+$tooltip-opacity: 1;
 
 .tooltip {
-  font-size: 0.75em
+  font-size: 0.75em;
+  border-radius: 0;
+}
+
+.tooltip-inner {
+  border-radius: 0;
+  padding: 5px 10px;
+  text-align: left;
 }
