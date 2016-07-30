@@ -17,7 +17,7 @@ export function getObject({ key: Key, bucket: Bucket }, callback) {
   const params = { Bucket, Key };
 
   s3.getObject(params, (err, data) => {
-    err ? console.error(err) : log('getObject success for %s', Key, data);
+    err ? console.error(err) : log('getObject success for %s from %s', Key, Bucket);
     callback(err, data);
   });
 }
