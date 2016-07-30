@@ -216,7 +216,8 @@ export default class FormField extends Component {
       <div className={ cssClass } style={ style }>
         { label &&
           <Label
-            for={ props.name }
+            tooltip={ labelTooltip }
+            htmlFor={ props.id || props.name }
             maxLength={ props.maxLength }
             currentLength={ value.length }>
             { label }
