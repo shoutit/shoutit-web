@@ -26,18 +26,38 @@ const MESSAGES = defineMessages({
     id: 'shoutForm.addPhotos.label',
     defaultMessage: 'Add photos',
   },
-  title: {
+  
+  titlePlaceholder: {
     id: 'shoutForm.title.placeholder',
     defaultMessage: 'Title',
   },
-  description: {
+  titleLabel: {
+    id: 'shoutForm.title.label',
+    defaultMessage: 'Title',
+  },
+
+  textLabel: {
+    id: 'shoutForm.description.label',
+    defaultMessage: 'Description',
+  },
+  textPlaceholder: {
     id: 'shoutForm.description.placeholder',
     defaultMessage: 'Description',
   },
-  price: {
-    id: 'shoutForm.price.placeholder',
-    defaultMessage: 'Type a price',
+
+  priceLabel: {
+    id: 'shoutForm.price.title',
+    defaultMessage: 'Price',
   },
+  pricePlaceholder: {
+    id: 'shoutForm.price.placeholder',
+    defaultMessage: 'Amount',
+  },
+  priceTooltip: {
+    id: 'shoutForm.price.priceTooltip',
+    defaultMessage: 'Leave this field empty to show the price as "negotiable".',
+  },
+
   location: {
     id: 'shoutForm.location.label',
     defaultMessage: 'Shout location',
@@ -46,13 +66,13 @@ const MESSAGES = defineMessages({
     id: 'shoutForm.category.placeholder',
     defaultMessage: 'Category',
   },
+  mobileLabel: {
+    id: 'shoutForm.mobile.label',
+    defaultMessage: 'How could people reach you?',
+  },
   mobilePlaceholder: {
     id: 'shoutForm.mobile.placeholder',
     defaultMessage: 'Enter your mobile number',
-  },
-  mobileLabel: {
-    id: 'shoutForm.mobile.label',
-    defaultMessage: 'Let people contact you',
   },
 });
 
@@ -189,7 +209,10 @@ export class ShoutForm extends Component {
         <TextField
           type="text"
           name="title"
-          placeholder={ intl.formatMessage(MESSAGES.title) }
+          id="shoutForm_title"
+          placeholder={ intl.formatMessage(MESSAGES.titlePlaceholder) }
+          label={ intl.formatMessage(MESSAGES.titleLabel) }
+          maxLength={ 50 }
           disabled={ disabled }
           value={ this.state.shout.title }
           onChange={ title => this.handleShoutChange({ title }) }
@@ -198,12 +221,14 @@ export class ShoutForm extends Component {
 
         { mode === 'update' &&
           <TextArea
+            id="shoutForm_text"
             maxLength={ 1000 }
             autosize
             rows={ 2 }
             maxRows={ 10 }
             name="text"
-            placeholder={ intl.formatMessage(MESSAGES.description) }
+            label={ intl.formatMessage(MESSAGES.textLabel) }
+            placeholder={ intl.formatMessage(MESSAGES.textPlaceholder) }
             disabled={ disabled }
             value={ this.state.shout.text }
             onChange={ text => this.handleShoutChange({ text }) }
@@ -215,8 +240,11 @@ export class ShoutForm extends Component {
           showCurrencies
           type="text"
           name="price"
+          id="shoutForm_price"
           errorLocation={ ['currency', 'price'] }
-          placeholder={ intl.formatMessage(MESSAGES.price) }
+          label={ intl.formatMessage(MESSAGES.priceLabel) }
+          labelTooltip={ intl.formatMessage(MESSAGES.priceTooltip) }
+          placeholder={ intl.formatMessage(MESSAGES.pricePlaceholder) }
           disabled={ disabled }
           value={ this.state.shout.price }
           currencyValue={ this.state.shout.currency }
@@ -226,6 +254,7 @@ export class ShoutForm extends Component {
         />
 
         <CategoryPicker
+          id="shoutForm_category"
           label={ intl.formatMessage(MESSAGES.category) }
           name="category.slug"
           disabled={ disabled }
@@ -249,6 +278,7 @@ export class ShoutForm extends Component {
         }
 
         <LocationField
+          id="shoutForm_location"
           updatesUserLocation={ false }
           onChange={ location => this.handleShoutChange({ location }) }
           error={ error }
@@ -260,6 +290,7 @@ export class ShoutForm extends Component {
         />
 
         <TextField
+          id="shoutForm_mobile"
           type="text"
           name="mobile"
           label={ intl.formatMessage(MESSAGES.mobileLabel) }
