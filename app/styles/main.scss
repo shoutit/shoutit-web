@@ -119,4 +119,14 @@ p {
 }
 
 
+.text-offer {
+  color: $color-offer;
+  font-weight: 500;
+}
+
+.text-request {
+  color: $color-request;
+  font-weight: 500;
+}
+
 @import 'html.scss';
