@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { FormattedNumber } from 'react-intl';
+
 import SimpleIcon from '../icons/SimpleIcon';
 import Tooltip from '../widgets/Tooltip';
 
@@ -18,14 +20,16 @@ class Label extends Component {
         <span className="Label-content">
           { this.props.children }
           { this.props.tooltip &&
-            <Tooltip defaultOverlayShown={true} defaultShow={true} overlay={ this.props.tooltip } placement="right">
+            <Tooltip overlay={ this.props.tooltip } placement="right">
               <SimpleIcon name="info" size="small" />
             </Tooltip>
           }
         </span>
         { this.props.maxLength &&
           <span className="Label-max-length">
-            { `${this.props.currentLength}/${this.props.maxLength}` }
+            <FormattedNumber value={ this.props.currentLength } />
+            /
+            <FormattedNumber value={ this.props.maxLength } />
           </span>
         }
       </label>
