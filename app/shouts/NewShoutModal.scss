@@ -1,0 +1,29 @@
+@import '../styles/constants';
+
+.NewShoutModal {
+
+  .Button {
+    margin: $vertical-spacing/2 auto;
+    max-width: 300px;
+  }
+}
+
+.NewShoutModal-intro {
+  color: $color-text-light;
+  padding: .5em 0;
+  text-align: center;
+  margin-bottom: 1em; 
+}
+.Button.NewShoutModal-offer {
+  background-color: $color-offer;
+  &:hover {
+    background-color: lighten($color-offer, 5) !important;
+  }
+}
+
+.Button.NewShoutModal-request {
+  background-color: $color-request;
+  &:hover {
+    background-color: lighten($color-request, 5) !important;
+  }
+}
