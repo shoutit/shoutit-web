@@ -19,7 +19,7 @@
 .ConversationItem.is-unread:not(.is-selected) {
   background-color: $background-color;
   .ConversationItem-content {
-    font-weight: bold;
+    font-weight: 500;
   }
 }
 .ConversationItem.hover {
@@ -70,7 +70,7 @@
 
 .ConversationItem-title {
   font-size: .875em;
-  font-weight: bold;
+  font-weight: 500;
 }
 .ConversationItem-subtitle {
   margin: .25em 0;

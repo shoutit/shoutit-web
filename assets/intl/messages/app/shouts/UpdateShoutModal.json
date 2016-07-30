@@ -16,6 +16,10 @@
     "defaultMessage": "Deleting…"
   },
   {
+    "id": "updateShoutModal.publishButton.defaultLabel",
+    "defaultMessage": "Save changes"
+  },
+  {
     "id": "updateShoutModal.title",
     "defaultMessage": "Update Shout"
   },

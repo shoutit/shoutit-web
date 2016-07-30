@@ -126,12 +126,6 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
   border-left: $formFieldBorder;
 }
 
-
-.FormField-start select:focus {
-  color: $color-primary;
-  background-image: url('../../assets/ui-elements/dropdown-caret-big-active.svg');
-}
-
 .FormField:not(.flexible-content) .FormField-start {
   position: absolute;
   z-index: 3;

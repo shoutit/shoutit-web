@@ -4,6 +4,18 @@
     "defaultMessage": "What are you posting?"
   },
   {
+    "id": "shouts.newShoutModal.introduction",
+    "defaultMessage": "{colouredOfferText} any product or a service on Shoutit marketplace. Do you need anything? {colouredRequestText} it and wait to be contacted by someone who has it."
+  },
+  {
+    "id": "shouts.newShoutModal.colouredOfferText",
+    "defaultMessage": "Offer"
+  },
+  {
+    "id": "shouts.newShoutModal.colouredRequestText",
+    "defaultMessage": "Request"
+  },
+  {
     "id": "newShoutModal.offerButton",
     "defaultMessage": "Offer"
   },

@@ -35,6 +35,7 @@
 }
 
 .Modal-content {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -67,19 +68,22 @@
   z-index: 1;
   display: flex;
   align-items: center;
-  padding: .75rem 1rem;
+  padding: $vertical-spacing $horizontal-spacing/2;
   border-bottom: 1px solid $border-color;
   border-top-left-radius: $border-radius-small;
   border-top-right-radius: $border-radius-small;
-  background-color: $background-color;
 }
 
 .ModalHeader-close {
-  span {
+  position: absolute;
+  top: 50%;
+  right: $horizontal-spacing/2;
+  transform: translateY(-50%);
+  svg {
     cursor: pointer;
-    opacity: .7;
+    opacity: .2;
     &:hover {
-      opacity: 1;
+      opacity: .25;
     }
   }
 }
@@ -87,25 +91,34 @@
 .ModalHeader-content {
   margin: 0;
   padding: 0;
-
+  text-align: center;
+  font-weight: 500;
   flex: 1;
 }
 
 .ModalFooter {
-  padding: .5rem 1rem;
+  padding: $vertical-spacing/2 $horizontal-spacing;
   text-align: right;
   border-top: 1px solid $border-color;
-  border-bottom-right-radius: $border-radius-small;
-  border-bottom-left-radius: $border-radius-small;
-  background-color: $background-color-light;
   font-size: 0.875em;
   .Button {
     margin: 0 .25em;
+    &.default {
+      color: $color-text;
+      &:hover {
+        color: $color-text-light;
+      }
+    }
     &:last-child {
       margin-right: 0;
     }
     &:first-child {
       margin-left: 0;
+    }
+    &:first-child:last-child {
+      display: block;
+      width: 100%;
+      margin: 0 auto;
     }
   }
 }
@@ -123,7 +136,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: .75rem;
+  padding: $vertical-spacing $horizontal-spacing;
 }
 
 @include tablet() {

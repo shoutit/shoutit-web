@@ -86,9 +86,9 @@ export class PriceField extends Component {
     this.setState({ value: this.formatStringValue(value) });
   }
   render() {
-    let startElement;
+    let currencyPicker;
     if (this.props.showCurrencies) {
-      startElement = (
+      currencyPicker = (
         <CurrencySelect
           name="currency"
           value={ this.state.currencyValue }
@@ -107,7 +107,7 @@ export class PriceField extends Component {
         ref="field"
         value={ this.state.value }
         className="PriceField"
-        startElement={ startElement }
+        endElement={ currencyPicker }
         flexibleContent
         onBlur={ this.handleBlur }
         onChange={ this.handleChange }
