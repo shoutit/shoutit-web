@@ -3,7 +3,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getStaticPage } from '../reducers/staticPages';
+import { getStaticPage, getStaticContent } from '../reducers/staticPages';
 
 import { loadStaticResource } from '../actions/staticPages';
 import { routeError } from '../actions/server';
@@ -12,6 +12,12 @@ import Page, { Body } from '../layout/Page';
 import Progress from '../widgets/Progress';
 
 const fetchData = (dispatch, state, params) => {
+  const content = getStaticContent(state.staticPage);
+
+  if (content) {
+    return;
+  }
+
   Promise.all([
     dispatch(loadStaticResource(params.resource_path)),
   ]).catch(error => dispatch(routeError(error)));
