@@ -8,6 +8,10 @@
   flex-wrap: wrap;
 }
 
+.ShoutsList-item {
+  flex-shrink: 0;
+}
+
 @include desktop() {
   .ShoutsList-item {
     width: 320px;
