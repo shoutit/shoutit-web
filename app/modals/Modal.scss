@@ -97,12 +97,9 @@
 }
 
 .ModalFooter {
-  padding: .5rem 1rem;
+  padding: $vertical-spacing/2 $horizontal-spacing;
   text-align: right;
   border-top: 1px solid $border-color;
-  border-bottom-right-radius: $border-radius-small;
-  border-bottom-left-radius: $border-radius-small;
-  background-color: $background-color-light;
   font-size: 0.875em;
   .Button {
     margin: 0 .25em;
@@ -117,6 +114,11 @@
     }
     &:first-child {
       margin-left: 0;
+    }
+    &:first-child:last-child {
+      display: block;
+      width: 100%;
+      margin: 0 auto;
     }
   }
 }
