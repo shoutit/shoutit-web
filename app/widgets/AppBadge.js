@@ -22,7 +22,7 @@ export function AppBadge({ appstore, locale, ...props }) {
     <a href={ href } target="_blank" className="AppBadge">
       <img
         { ...props }
-        src={ `${imagesPath}/badges/${image}-${locale}.png` }
+        src={ `${imagesPath}/badges/${image}.${locale}.png` }
         alt=""
       />
     </a>
