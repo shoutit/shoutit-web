@@ -23,23 +23,30 @@ export const loadIntlPolyfill = locale => {
   });
 };
 
-
-const locales = {
-  en: () => require('react-intl?locale=en!./empty.json'),
+export const locales = {
   ar: () => require('react-intl?locale=ar!./empty.json'),
+  cs: () => require('react-intl?locale=cs!./empty.json'),
   de: () => require('react-intl?locale=de!./empty.json'),
+  en: () => require('react-intl?locale=en!./empty.json'),
   es: () => require('react-intl?locale=es!./empty.json'),
+  fr: () => require('react-intl?locale=fr!./empty.json'),
+  hi: () => require('react-intl?locale=hi!./empty.json'),
+  it: () => require('react-intl?locale=it!./empty.json'),
+  pl: () => require('react-intl?locale=pl!./empty.json'),
+  pt: () => require('react-intl?locale=pt!./empty.json'),
+  ru: () => require('react-intl?locale=ru!./empty.json'),
   zh: () => require('react-intl?locale=zh!./empty.json'),
 };
 
-export const loadLocaleData = locale => {
-  return new Promise(resolve => {
-    locales[locale]()(resolve);
-  });
-};
+export const loadLocaleData = locale => new Promise(resolve => locales[locale]()(resolve));
 
 const intlCache = {};
-export const numberFromString = (value, { locale, formatNumber }) => {
+
+/**
+ * Get a number from a string using Intl API
+ */
+export const numberFromString = (value, intl) => {
+  const { locale, formatNumber } = intl;
   if (!intlCache.hasOwnProperty(locale)) {
     const formatted = formatNumber(12345.6789);
     const decimalSeparator = formatted.match(/345(.*)67/)[1];

@@ -1,14 +1,17 @@
-import ar from '../../assets/samples/shouts.ar.json';
-import de from '../../assets/samples/shouts.de.json';
-import en from '../../assets/samples/shouts.en.json';
-import es from '../../assets/samples/shouts.es.json';
-import zh from '../../assets/samples/shouts.zh.json';
+import { locales } from '../config';
 
-const SHOUTS = { ar, en, de, es, zh };
+const SHOUTS = {};
+
+locales.forEach(locale => {
+  SHOUTS[locale] = require(`../../assets/samples/shouts.${locale}.json`);
+});
 
 export default {
   name: 'shoutSamples',
   read: (req, resource, params = {}, config, callback) => {
+    if (!SHOUTS[req.locale]) {
+      callback(new Error(`Cannot load sample shouts for ${req.locale}`));
+    }
     callback(null, SHOUTS[req.locale].shouts);
   },
 };
