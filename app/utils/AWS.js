@@ -12,9 +12,9 @@ AWS.config.logger = { log };
 AWS.config.accessKeyId = process.env.SHOUTIT_S3_ACCESS_KEY;
 AWS.config.secretAccessKey = process.env.SHOUTIT_S3_SECRET_KEY;
 
-export function upload({ body: Body, key: Key, bucket: Bucket }, callback) {
+export function upload({ body: Body, key: Key, bucket: Bucket, contentType: ContentType }, callback) {
   const s3 = new AWS.S3();
-  const params = { Bucket, Body, Key };
+  const params = { Bucket, Body, Key, ContentType };
 
   log('Uploading %s to %s...', Key, Bucket);
 
