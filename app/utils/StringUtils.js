@@ -7,3 +7,7 @@ export function getFilename(str) {
 export function toTitleCase(str) {
   return str.replace(/[\u00BF-\u1FFF\u2C00-\uD7FF\w]*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 }
+
+export function getPathFromUrl(url) {
+  return url.split('?')[0];
+}

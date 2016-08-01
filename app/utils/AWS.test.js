@@ -1,7 +1,13 @@
 /* eslint-env mocha */
 
 import { expect } from 'chai';
-import { upload } from './AWS';
+import { getObject, upload } from './AWS';
+
+const bucket = 'shoutit-tests';
+
+function getBucketKey() {
+  return `mocha_test_${Date.now()}.txt`;
+}
 
 describe('AWS', () => {
 
@@ -10,16 +16,29 @@ describe('AWS', () => {
     return;
   }
 
+  describe('getObject', () => {
+    it('should retrieve an object', done => {
+      const key = getBucketKey();
+      const body = 'Hello';
+
+      upload({ body, bucket, key }, () => {
+        getObject({ key, bucket }, (err, data) => {
+          expect(err).to.be.null;
+          expect(data.Body.toString()).to.equal(body);
+          done();
+        });
+      });
+    });
+  });
+
   describe('upload', function testUpload() {
     this.timeout(5000);
 
     it('should upload a stream', done => {
-      const key = `mocha_test_${Date.now()}.txt`;
-      upload({
-        body: 'Hello!',
-        bucket: 'shoutit-tests',
-        key,
-      }, (err, data) => {
+      const key = getBucketKey();
+      const body = 'Hello';
+
+      upload({ body, bucket, key }, (err, data) => {
         expect(err).to.be.null;
         expect(data.key).to.equal(key);
         done();

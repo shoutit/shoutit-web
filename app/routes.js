@@ -21,6 +21,7 @@ import SetPassword from './containers/SetPassword';
 import ShoutPage from './pages/shout';
 import Signup from './containers/Signup';
 import VerifyEmail from './containers/VerifyEmail';
+import StaticHtml from './containers/StaticHtml';
 
 const authAppLayout = () => ({
   className: 'pattern-background',
@@ -31,6 +32,11 @@ const authAppLayout = () => ({
 const settingsAppLayout = () => ({
   showFooter: true,
   stickyHeader: false,
+});
+
+const staticAppLayout = () => ({
+  showFooter: true,
+  stickyHeader: true,
 });
 
 const routes = (store) =>
@@ -76,6 +82,9 @@ const routes = (store) =>
     <Redirect from="/settings" to="/settings/profile" />
     <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ settingsAppLayout } />
     <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ settingsAppLayout } />
+
+    <Route path="/static/:id" component={ StaticHtml } getApplicationLayout={ staticAppLayout } />
+
     <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true }) } />
   </Route>;
 

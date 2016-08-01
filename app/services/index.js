@@ -39,3 +39,4 @@ export tagListen from './tagListen';
 export tagListeners from './tagListeners';
 export tags from './tags';
 export twilioToken from './twilioToken';
+export staticHtml from './staticHtml';

@@ -29,6 +29,9 @@ export const uploadResources = {
     bucket: 'shoutit-tag-image-original',
     cdn: 'https://tag-image.static.shoutit.com',
   },
+  static: {
+    bucket: 'shoutit-pages',
+  },
 };
 
 export const apiUrl = envConfig.apiUrl;
