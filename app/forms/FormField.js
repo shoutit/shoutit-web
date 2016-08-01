@@ -221,7 +221,7 @@ export default class FormField extends Component {
             tooltip={ labelTooltip }
             htmlFor={ props.id || props.name }
             maxLength={ props.maxLength }
-            currentLength={ value.length }>
+            currentLength={ value ? value.length : 0 }>
             { label }
           </Label>
         }

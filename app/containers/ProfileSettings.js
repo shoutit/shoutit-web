@@ -4,6 +4,7 @@ import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 import { connect } from 'react-redux';
 import Page, { Body, StartColumn } from '../layout/Page';
 import Helmet from '../utils/Helmet';
+import { areEquals } from '../utils/FormUtils';
 import RequiresLogin from '../auth/RequiresLogin';
 
 import ProfileAvatarEditable from '../users/ProfileAvatarEditable';
@@ -60,6 +61,10 @@ const MESSAGES = defineMessages({
     id: 'profileSettings.profileForm.location.label',
     defaultMessage: 'Default Location',
   },
+  birthdayLabel: {
+    id: 'profileSettings.profileForm.birthday.label',
+    defaultMessage: 'Birthday',
+  },
 });
 
 export class ProfileSettings extends Component {
@@ -77,7 +82,6 @@ export class ProfileSettings extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleFieldChange = this.handleFieldChange.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
     this.state = this.getStateFromProfile(props.profile);
   }
@@ -89,6 +93,7 @@ export class ProfileSettings extends Component {
       gender: profile.gender,
       bio: profile.bio,
       website: profile.website,
+      birthday: profile.birthday,
     };
   }
 
@@ -102,22 +107,23 @@ export class ProfileSettings extends Component {
     });
   }
 
-  handleFieldChange(name, value) {
-    this.setState({ [name]: value });
-  }
-
   handleSubmit(e) {
     e.preventDefault();
     this.updateProfile();
   }
 
   didChange() {
+    const { state } = this;
     const { profile } = this.props;
-    return this.state.first_name !== profile.firstName ||
-      this.state.last_name !== profile.lastName ||
-      this.state.gender !== profile.gender ||
-      this.state.bio !== profile.bio ||
-      this.state.website !== profile.website;
+
+    return areEquals(
+      [state.first_name, profile.firstName],
+      [state.last_name, profile.lastName],
+      [state.gender, profile.gender],
+      [state.bio, profile.bio],
+      [state.website, profile.website],
+      [state.birthday, profile.birthday]
+    );
   }
 
   render() {
@@ -147,7 +153,6 @@ export class ProfileSettings extends Component {
                   <ProfileAvatarEditable profile={ profile } size="huge" />
                 </div>
 
-
                 <FieldsGroup>
                   <TextField
                     flex
@@ -176,7 +181,7 @@ export class ProfileSettings extends Component {
                     onChange={ gender => this.setState({ gender }) }
                     error={ error }
                     disabled={ profile.isUpdating }
-                    >
+                  >
                     <option value=""></option>
                     <option value="female">
                       { formatMessage(MESSAGES.femaleValue) }
@@ -185,6 +190,17 @@ export class ProfileSettings extends Component {
                       { formatMessage(MESSAGES.maleValue) }
                     </option>
                   </Picker>
+
+                  <TextField
+                    flex
+                    name="birthday"
+                    placeholder="YYYY-MM-DD"
+                    label={ formatMessage(MESSAGES.birthdayLabel) }
+                    value={ profile.birthday }
+                    onChange={ birthday => this.setState({ birthday: birthday || null }) }
+                    error={ error }
+                    disabled={ profile.isUpdating }
+                  />
 
                 </FieldsGroup>
 

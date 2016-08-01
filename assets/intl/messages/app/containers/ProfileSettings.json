@@ -36,6 +36,10 @@
     "defaultMessage": "Default Location"
   },
   {
+    "id": "profileSettings.profileForm.birthday.label",
+    "defaultMessage": "Birthday"
+  },
+  {
     "id": "profileSettings.profile.formTitle",
     "defaultMessage": "Public Profile"
   },
