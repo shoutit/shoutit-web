@@ -12,12 +12,28 @@
     "defaultMessage": "Title"
   },
   {
+    "id": "shoutForm.title.label",
+    "defaultMessage": "Title"
+  },
+  {
+    "id": "shoutForm.description.label",
+    "defaultMessage": "Description"
+  },
+  {
     "id": "shoutForm.description.placeholder",
     "defaultMessage": "Description"
   },
   {
+    "id": "shoutForm.price.title",
+    "defaultMessage": "Price"
+  },
+  {
     "id": "shoutForm.price.placeholder",
-    "defaultMessage": "Type a price"
+    "defaultMessage": "Amount"
+  },
+  {
+    "id": "shoutForm.price.priceTooltip",
+    "defaultMessage": "Leave this field empty to show the price as \"negotiable\"."
   },
   {
     "id": "shoutForm.location.label",
@@ -28,11 +44,11 @@
     "defaultMessage": "Category"
   },
   {
-    "id": "shoutForm.mobile.placeholder",
-    "defaultMessage": "Enter your mobile number"
+    "id": "shoutForm.mobile.label",
+    "defaultMessage": "How could people reach you?"
   },
   {
-    "id": "shoutForm.mobile.label",
-    "defaultMessage": "Let people contact you"
+    "id": "shoutForm.mobile.placeholder",
+    "defaultMessage": "Enter your mobile number"
   }
 ]

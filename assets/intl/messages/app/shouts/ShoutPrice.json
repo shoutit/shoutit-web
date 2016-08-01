@@ -2,5 +2,9 @@
   {
     "id": "shoutPrice.free",
     "defaultMessage": "Free"
+  },
+  {
+    "id": "shoutPrice.negotiable",
+    "defaultMessage": "Negotiable price"
   }
 ]

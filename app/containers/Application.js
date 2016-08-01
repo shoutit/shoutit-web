@@ -167,7 +167,7 @@ export class Application extends Component {
 
     const meta = [
 
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=yes' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=no' },
       { name: 'keywords', content: 'shoutit' },
 
       { property: 'fb:app_id', content: config.facebookId },
@@ -191,7 +191,7 @@ export class Application extends Component {
       { property: 'al:android:package', content: config.androidPackage },
       { property: 'al:android:app_name', content: config.androidAppName },
       { property: 'al:web:url', content: url },
-      { property: 'al:web:should_fallback', content: 'false' },
+      { property: 'al:web:should_fallback', content: 'true' },
     ];
 
     const link = [

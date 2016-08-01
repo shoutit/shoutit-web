@@ -18,7 +18,7 @@
     "react/jsx-closing-bracket-location": 0,
     "react/jsx-no-bind": 0,
     "react/jsx-first-prop-new-line": 0,
-    "react/jsx-curly-spacing": [2, "always"],
+    "react/jsx-curly-spacing": [2, "always"]
   },
   "settings": {
     "import/ignore": [
@@ -29,6 +29,6 @@
   "env": {
     "es6": true,
     "mocha": true,
-    "browser": false,
+    "browser": false
   }
 }

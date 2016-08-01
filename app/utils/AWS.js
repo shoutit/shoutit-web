@@ -22,9 +22,9 @@ export function getObject({ key: Key, bucket: Bucket }, callback) {
   });
 }
 
-export function upload({ body: Body, key: Key, bucket: Bucket }, callback) {
+export function upload({ body: Body, key: Key, bucket: Bucket, contentType: ContentType }, callback) {
   const s3 = new AWS.S3();
-  const params = { Bucket, Body, Key };
+  const params = { Bucket, Body, Key, ContentType };
 
   log('Uploading %s to %s...', Key, Bucket);
 

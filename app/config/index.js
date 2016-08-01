@@ -39,7 +39,22 @@ export const facebookId = envConfig.facebookId;
 export const ga = envConfig.ga;
 export const googleMapsKey = 'AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc';
 export const imagesPath = `${envConfig.publicUrl}/images`;
-export const locales = ['en', 'de', 'ar', 'es', 'zh'];
+
+export const locales = [
+  'ar',
+  'cs',
+  'de',
+  'en',
+  'es',
+  'fr',
+  'hi',
+  'it',
+  'pl',
+  'pt',
+  'ru',
+  'zh',
+];
+
 export const publicUrl = envConfig.publicUrl;
 export const pusherAppKey = envConfig.pusherAppKey;
 export const shoutitEnv = process.env.SHOUTIT_ENV;
@@ -58,6 +73,7 @@ export const androidPackage = envConfig.androidPackage;
 export const androidAppName = envConfig.androidAppName;
 export const iosAppId = envConfig.iosAppId;
 export const iosAppName = envConfig.iosAppName;
+export const appProtocol = envConfig.appProtocol;
 
 export function getSummary() {
   const summary = [];
@@ -88,6 +104,7 @@ export function getSummary() {
   summary.push(`  iOS app name:         ${iosAppName}`);
   summary.push(`  Android package:      ${androidPackage}`);
   summary.push(`  Android app name:     ${androidAppName}`);
+  summary.push(`  App protocol:         ${appProtocol}`);
 
   summary.push('');
   return summary.join('\n');

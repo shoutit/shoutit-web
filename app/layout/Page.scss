@@ -20,9 +20,9 @@
 
 .PageColumn {
   margin-bottom: $vertical-spacing;
-  .Card + .Card,
-  .CardList + .Card,
-  .Card + .CardList {
+  .Panel + .Panel,
+  .PanelList + .Panel,
+  .Panel + .PanelList {
     margin-top: $vertical-spacing;
   }
 }

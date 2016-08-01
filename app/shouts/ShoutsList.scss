@@ -9,18 +9,26 @@
 }
 
 .ShoutsList-item {
-  min-width: 240px;
-  flex: 1 1 240px;
+  flex-shrink: 0;
 }
 
 @include desktop() {
   .ShoutsList-item {
+    width: 320px;
     padding: 0 $horizontal-spacing*1.5 $vertical-spacing*1.5 0;
+  }
+}
+
+@include smartphone() {
+  .ShoutsList-item {
+    width: 100%;
+    padding: $vertical-spacing $horizontal-spacing/2;
   }
 }
 
 @include tablet() {
   .ShoutsList-item {
+    width: 320px;
     padding: $vertical-spacing $horizontal-spacing/2;
   }
 }

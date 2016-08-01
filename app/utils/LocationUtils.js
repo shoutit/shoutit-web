@@ -3,20 +3,18 @@ import request from 'superagent';
 import { camelizeKeys } from 'humps';
 import round from 'lodash/round';
 
-import { googleMapsKey } from '../config';
-import { countries as countriesEn } from '../../assets/countries/countries-en.json';
-import { countries as countriesAr } from '../../assets/countries/countries-ar.json';
-import { countries as countriesDe } from '../../assets/countries/countries-de.json';
+import { googleMapsKey, locales } from '../config';
 
 export function createLocationSlug({ country = 'no-country', state = 'no-state', city = 'no-city' }) {
   return `${kebabCase(country)}_${kebabCase(state)}_${kebabCase(city)}`;
 }
 
-const countries = {
-  en: countriesEn,
-  ar: countriesAr,
-  de: countriesDe,
-};
+const countries = {};
+
+// This should be removed by #127431039
+locales.forEach(locale => {
+  countries[locale] = require(`../../assets/countries/countries.${locale}.json`).countries;
+});
 
 export function parseGeocoderResult(result) {
   let location = {

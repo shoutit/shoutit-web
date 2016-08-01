@@ -4,6 +4,7 @@ import { blurActiveElement } from '../utils/DOMUtils';
 const initialState = {
   modal: null,
 };
+
 export default function modalsReducer(state = initialState, action) {
   switch (action.type) {
     case '@@router/LOCATION_CHANGE':
@@ -16,3 +17,5 @@ export default function modalsReducer(state = initialState, action) {
   }
   return state;
 }
+
+export const getModal = state => state.modals.modal;

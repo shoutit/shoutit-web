@@ -41,10 +41,6 @@ export class CreateShoutModal extends Component {
     error: null,
   }
 
-  componentDidMount() {
-    this.refs.cancel.focus();
-  }
-
   getStateFromProps(props) {
     return {
       shout: props.shout,
@@ -88,8 +84,8 @@ export class CreateShoutModal extends Component {
       />);
     }
     return (
-      <Modal { ...this.props } ref="modal" preventClose>
-        <Header>
+      <Modal { ...this.props } ref="modal">
+        <Header closeButton>
           <FormattedMessage
             id="createShoutModal.title"
             defaultMessage="{type, select, offer {Post a new offer} request {Post a new request}}"
@@ -112,19 +108,6 @@ export class CreateShoutModal extends Component {
           </div>
         </Body>
         <Footer>
-
-          <Button
-            ref="cancel"
-            key="cancel"
-            type="button"
-            onClick={ this.hide }
-            disabled={ isCreating }>
-            <FormattedMessage
-              id="createShoutModal.cancelButton"
-              defaultMessage="Cancel"
-            />
-          </Button>
-
           <Button
             onClick={ this.handleSubmit }
             key="submit"
@@ -132,7 +115,6 @@ export class CreateShoutModal extends Component {
             disabled={ isCreating || isUploading }>
             { submitLabel }
           </Button>
-
         </Footer>
       </Modal>
 

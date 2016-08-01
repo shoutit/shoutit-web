@@ -40,8 +40,8 @@ export class Gallery extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.images.length !== nextProps.images.length ||
-      this.props.videos.length !== nextProps.videos.length) {
+    if (this.props.images !== nextProps.images ||
+      this.props.videos !== nextProps.videos) {
       this.setState(this.getStateFromProps(nextProps));
     }
   }
