@@ -29,11 +29,11 @@ export function fileUploadMiddleware(req, res) {
   const { fieldname, bucket, cdn } = uploadResources[resourceType];
   const filename = uniqueFilenameFromUser(req.session.user);
 
-  const uploadToS3 = (filePath) => {
+  const uploadToS3 = filePath => {
     const key = path.basename(filePath);
     const body = fs.readFileSync(filePath);
-
-    AWS.upload({ bucket, key, body }, (err, data) => {
+    const contentType = 'image/jpeg';
+    AWS.upload({ bucket, key, body, contentType }, (err, data) => {
       if (err) {
         console.error('Cannot upload image %s', filePath, err);
         res.status(500).send('Cannot upload this image.');
