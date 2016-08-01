@@ -36,7 +36,22 @@ export const facebookId = envConfig.facebookId;
 export const ga = envConfig.ga;
 export const googleMapsKey = 'AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc';
 export const imagesPath = `${envConfig.publicUrl}/images`;
-export const locales = ['en', 'de', 'ar', 'es', 'zh'];
+
+export const locales = [
+  'ar',
+  'cs',
+  'de',
+  'en',
+  'es',
+  'fr',
+  'hi',
+  'it',
+  'pl',
+  'pt',
+  'ru',
+  'zh',
+];
+
 export const publicUrl = envConfig.publicUrl;
 export const pusherAppKey = envConfig.pusherAppKey;
 export const shoutitEnv = process.env.SHOUTIT_ENV;

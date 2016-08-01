@@ -11,7 +11,12 @@ export default class Form extends Component {
     children: PropTypes.node,
     actions: PropTypes.node,
     onSubmit: PropTypes.func,
+    method: PropTypes.string,
   };
+
+  static defaultProps = {
+    method: 'POST',
+  }
 
   constructor(props) {
     super(props);
