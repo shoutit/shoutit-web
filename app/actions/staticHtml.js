@@ -10,7 +10,10 @@ export function loadStaticHtml(id) {
     ],
     service: {
       name: 'staticHtml',
-      params: { id },
+      params: {
+        id,
+        resourceType: 'static',
+      },
     },
   };
 }

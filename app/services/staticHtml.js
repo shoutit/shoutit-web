@@ -1,11 +1,8 @@
 import has from 'lodash/has';
 import omit from 'lodash/omit';
-import fs from 'fs';
 import { parseApiError } from '../utils/APIUtils';
-// import * as AWS from '../utils/AWS';
-
-const IS_DEVELOPMENT = process.env.NODE_ENV === 'development' || !process.env.SHOUTIT_ENV;
-const STATIC_RESOURCES_DIR = `${__dirname}/../../assets/static`;
+import * as AWS from '../utils/AWS';
+import { uploadResources } from '../config';
 
 let staticCache = {};
 
@@ -22,7 +19,9 @@ const invalidateCache = pageKey => {
 
 export default {
   name: 'staticHtml',
-  read: (req, resource, { id }, config, callback) => {
+  read: (req, resource, { id, resourceType }, config, callback) => {
+
+    const { bucket } = uploadResources[resourceType];
 
     let cachedContent = undefined;
     const filePrefix = `${id}.${req.locale}`;
@@ -41,28 +40,23 @@ export default {
       return;
     }
 
-    if (IS_DEVELOPMENT) {
-      fs.readFile(`${STATIC_RESOURCES_DIR}/${fileName}`, 'utf8', (err, data) => {
-        if (err) {
-          return callback(parseApiError(err));
-        }
+    AWS.getObject({
+      key: fileName,
+      bucket,
+    }, (err, data) => {
+      let content = undefined;
 
-        cache(filePrefix, data);
+      if (err) {
+        callback(parseApiError(err));
+        return;
+      }
 
-        return callback(null, {
-          content: data,
-        });
+      content = data.Body.toString();
+      cache(filePrefix, content);
+
+      callback(null, {
+        content,
       });
-    }
-
-    // TODO Define a bucket in config/index uploadResources
-    // AWS.getObject({
-    //   fileName,
-    //   bucket,
-    // }, (err, data) => {
-    //   return callback(err, {
-    //     content: data.Body.toString(),
-    //   });
-    // });
+    });
   },
 };
