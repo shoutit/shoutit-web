@@ -4,7 +4,6 @@ import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 import { connect } from 'react-redux';
 import Page, { Body, StartColumn } from '../layout/Page';
 import Helmet from '../utils/Helmet';
-import { areEquals } from '../utils/FormUtils';
 import RequiresLogin from '../auth/RequiresLogin';
 
 import ProfileAvatarEditable from '../users/ProfileAvatarEditable';
@@ -116,13 +115,13 @@ export class ProfileSettings extends Component {
     const { state } = this;
     const { profile } = this.props;
 
-    return areEquals(
-      [state.first_name, profile.firstName],
-      [state.last_name, profile.lastName],
-      [state.gender, profile.gender],
-      [state.bio, profile.bio],
-      [state.website, profile.website],
-      [state.birthday, profile.birthday]
+    return (
+      state.first_name !== profile.firstName ||
+      state.last_name !== profile.lastName ||
+      state.gender !== profile.gender ||
+      state.bio !== profile.bio ||
+      state.website !== profile.website ||
+      state.birthday !== profile.birthday
     );
   }
 
