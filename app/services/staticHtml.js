@@ -3,10 +3,14 @@ import omit from 'lodash/omit';
 import { parseApiError } from '../utils/APIUtils';
 import * as AWS from '../utils/AWS';
 import { uploadResources } from '../config';
+import debug from 'debug';
+
+const log = debug('shoutit:services:staticHtml');
 
 let staticCache = {};
 
 const cache = (filePrefix, data) => {
+  log('Caching %s with content', filePrefix, data.substring(0, 50));
   staticCache = {
     ...staticCache,
     [filePrefix]: data,
@@ -21,6 +25,8 @@ export default {
   name: 'staticHtml',
   read: (req, resource, { pageName, resourceType }, config, callback) => {
 
+    log('Getting %s (%s)...', pageName, req.locale);
+
     const { bucket } = uploadResources[resourceType];
 
     let cachedContent = undefined;
@@ -34,6 +40,7 @@ export default {
     cachedContent = staticCache[filePrefix];
 
     if (cachedContent) {
+      log('%s (%s) found in cache, will skip AWS request', pageName, req.locale);
       callback(null, {
         content: cachedContent,
       });
