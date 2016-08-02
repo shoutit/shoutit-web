@@ -1,4 +1,3 @@
-import omit from 'lodash/omit';
 import { parseApiError } from '../utils/APIUtils';
 import * as AWS from '../utils/AWS';
 import { s3Buckets } from '../config';
@@ -7,35 +6,57 @@ import debug from 'debug';
 const log = debug('shoutit:services:staticHtml');
 
 let staticCache = {};
+/*
+Example of a cached object:
+{
+  tos: {
+    de: 'html_content',
+    en: 'html_content,
+  }
+  pageName: {
+    it: 'html_content',
+    de: 'html_content,
+  }
+}
+*/
+export function cacheContent(pageName, locale, content) {
+  log('Caching page "%s" (locale) with content', pageName, content.substring(0, 50));
+  if (!staticCache.hasOwnProperty(pageName)) {
+    staticCache[pageName] = {};
+  }
+  staticCache[pageName][locale] = content;
+}
 
-const cache = (filePrefix, data) => {
-  log('Caching %s with content', filePrefix, data.substring(0, 50));
-  staticCache = {
-    ...staticCache,
-    [filePrefix]: data,
-  };
-};
+export function getCachedContent(pageName, locale) {
+  if (!staticCache.hasOwnProperty(pageName)) {
+    return undefined;
+  }
+  return staticCache[pageName][locale];
+}
 
-const invalidateCache = pageKey => {
-  staticCache = { ...omit(staticCache, pageKey) };
-};
+export function invalidateCache(pageName) {
+  if (!pageName) {
+    staticCache = {};
+    return;
+  }
+  log('Invalidating cache for %s', pageName);
+  delete staticCache[pageName];
+}
 
 export default {
   name: 'staticHtml',
   read: (req, resource, { pageName, resourceType }, config, callback) => {
 
-    log('Getting %s (%s)...', pageName, req.locale);
+    log('Getting page "%s" (%s)...', pageName, req.locale);
 
     if (req.query.hasOwnProperty('invalidateCache')) {
       invalidateCache(pageName);
     }
 
-    const cachedContent = staticCache[pageName];
-    if (cachedContent) {
-      log('%s (%s) found in cache, will skip AWS request', pageName, req.locale);
-      callback(null, {
-        content: cachedContent,
-      });
+    const content = getCachedContent(pageName, req.locale);
+    if (content) {
+      log('Page "%s" (%s) found in cache, will skip AWS request', pageName, req.locale);
+      callback(null, { content });
       return;
     }
 
@@ -48,10 +69,8 @@ export default {
         return;
       }
       const content = data.Body.toString();
-      cache(pageName, content);
-      callback(null, {
-        content,
-      });
+      cacheContent(pageName, req.locale, content);
+      callback(null, { content });
     });
   },
 };
