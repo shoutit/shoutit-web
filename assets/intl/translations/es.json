@@ -75,6 +75,7 @@
   "dashboard.welcome": "Bienvenido de nuevo {firstName}",
   "discover.shouts.title": "{discoverItemTitle} Shouts \n",
   "footer.copyright": "© {year} Shoutit ",
+  "footer.termsOfUse": "Terms Of Use",
   "forms.CategoryPicker.allCategories": "Todas las categorias",
   "header.messagesPopover.seeAllButton": "Ver todo",
   "header.messagesPopover.title": "Mensajes",
