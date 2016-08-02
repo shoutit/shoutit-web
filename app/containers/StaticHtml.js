@@ -12,10 +12,6 @@ import Page, { Body } from '../layout/Page';
 import Progress from '../widgets/Progress';
 
 const fetchData = (dispatch, state, params) => {
-  if (getStaticHtml(state, params.pageName)) {
-    return Promise.resolve();
-  }
-
   return dispatch(loadStaticHtml(params.pageName))
     .catch(error => dispatch(routeError(error)));
 };
@@ -34,7 +30,7 @@ export class StaticHtml extends Component {
   componentDidMount() {
     const { dispatch, firstRender, params } = this.props;
     if (!firstRender) {
-      fetchData(dispatch, {}, params);
+      fetchData(dispatch, null, params);
     }
   }
 
