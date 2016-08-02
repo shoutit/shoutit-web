@@ -1,8 +1,8 @@
 import * as actionTypes from './actionTypes';
 
-export function loadStaticHtml(id) {
+export function loadStaticHtml(pageName) {
   return {
-    id,
+    pageName,
     types: [
       actionTypes.LOAD_STATIC_HTML_START,
       actionTypes.LOAD_STATIC_HTML_SUCCESS,
@@ -11,7 +11,7 @@ export function loadStaticHtml(id) {
     service: {
       name: 'staticHtml',
       params: {
-        id,
+        pageName,
         resourceType: 'static',
       },
     },

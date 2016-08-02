@@ -19,7 +19,7 @@ const fetchData = (dispatch, state, params) => {
   }
 
   Promise.all([
-    dispatch(loadStaticHtml(params.id)),
+    dispatch(loadStaticHtml(params.pageName)),
   ]).catch(error => dispatch(routeError(error)));
 };
 
@@ -42,8 +42,8 @@ export class StaticHtml extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    const { dispatch, params: { id } } = this.props;
-    if (nextProps.params.id !== id) {
+    const { dispatch, params: { pageName } } = this.props;
+    if (nextProps.params.pageName !== pageName) {
       fetchData(dispatch, { staticHtml: nextProps.staticHtml }, nextProps.params);
     }
   }

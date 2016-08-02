@@ -19,12 +19,12 @@ const invalidateCache = pageKey => {
 
 export default {
   name: 'staticHtml',
-  read: (req, resource, { id, resourceType }, config, callback) => {
+  read: (req, resource, { pageName, resourceType }, config, callback) => {
 
     const { bucket } = uploadResources[resourceType];
 
     let cachedContent = undefined;
-    const filePrefix = `${id}.${req.locale}`;
+    const filePrefix = `${pageName}.${req.locale}`;
     const fileSuffix = '.html';
     const fileName = `${filePrefix}${fileSuffix}`;
     const invalidate = has(req.query, 'invalidate');

@@ -11,17 +11,17 @@ export default function (state = {}, action) {
     case actionTypes.LOAD_STATIC_HTML_START:
       return {
         ...state,
-        [action.id]: buildState(true),
+        [action.pageName]: buildState(true),
       };
     case actionTypes.LOAD_STATIC_HTML_SUCCESS:
       return {
         ...state,
-        [action.id]: buildState(false, action.payload.content),
+        [action.pageName]: buildState(false, action.payload.content),
       };
     case actionTypes.LOAD_STATIC_HTML_FAILURE:
       return {
         ...state,
-        [action.id]: buildState(false),
+        [action.pageName]: buildState(false),
       };
   }
 
