@@ -9,6 +9,12 @@
   font-size: 1em;
   font-weight: 500;
 }
+.Footer a {
+  color: #E9E9E9;
+  &:hover {
+    color: $white;
+  }
+}
 .Footer-wrapper {
   display: flex;
   justify-content: space-between;
@@ -22,10 +28,6 @@
   a {
     display: block;
     padding: .25em 0;
-    color: #E9E9E9;
-    &:hover {
-      color: $white;
-    }
   }
   &.social {
     margin-top: 0;
