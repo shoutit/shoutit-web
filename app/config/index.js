@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'development' || !process.env.SHOUTIT_ENV) {
   throw new Error('SHOUTIT_ENV is not valid.');
 }
 
-export const uploadResources = {
+export const s3Buckets = {
   shout: {
     fieldname: 'shout_image',
     bucket: 'shoutit-shout-image-original',
@@ -29,8 +29,9 @@ export const uploadResources = {
     bucket: 'shoutit-tag-image-original',
     cdn: 'https://tag-image.static.shoutit.com',
   },
-  static: {
+  staticPages: {
     bucket: 'shoutit-pages',
+    // no need to cdn and fieldname as no uploads are made to this bucket
   },
 };
 

@@ -1,62 +1,75 @@
-import has from 'lodash/has';
-import omit from 'lodash/omit';
-import { parseApiError } from '../utils/APIUtils';
 import * as AWS from '../utils/AWS';
-import { uploadResources } from '../config';
+import { s3Buckets } from '../config';
+import debug from 'debug';
+
+const log = debug('shoutit:services:staticHtml');
 
 let staticCache = {};
+/*
+Example of a cached object:
+{
+  tos: {
+    de: 'html_content',
+    en: 'html_content,
+  }
+  pageName: {
+    it: 'html_content',
+    de: 'html_content,
+  }
+}
+*/
+export function cacheContent(pageName, locale, content) {
+  log('Caching page "%s" (locale) with content', pageName, content.substring(0, 50));
+  if (!staticCache.hasOwnProperty(pageName)) {
+    staticCache[pageName] = {};
+  }
+  staticCache[pageName][locale] = content;
+}
 
-const cache = (filePrefix, data) => {
-  staticCache = {
-    ...staticCache,
-    [filePrefix]: data,
-  };
-};
+export function getCachedContent(pageName, locale) {
+  if (!staticCache.hasOwnProperty(pageName)) {
+    return undefined;
+  }
+  return staticCache[pageName][locale];
+}
 
-const invalidateCache = pageKey => {
-  staticCache = { ...omit(staticCache, pageKey) };
-};
+export function invalidateCache(pageName) {
+  if (!pageName) {
+    staticCache = {};
+    return;
+  }
+  log('Invalidating cache for %s', pageName);
+  delete staticCache[pageName];
+}
 
 export default {
   name: 'staticHtml',
-  read: (req, resource, { id, resourceType }, config, callback) => {
+  read: (req, resource, { pageName }, config, callback) => {
 
-    const { bucket } = uploadResources[resourceType];
+    log('Getting page "%s" (%s)...', pageName, req.locale);
 
-    let cachedContent = undefined;
-    const filePrefix = `${id}.${req.locale}`;
-    const fileSuffix = '.html';
-    const fileName = `${filePrefix}${fileSuffix}`;
-    const invalidate = has(req.query, 'invalidate');
+    if (req.query.hasOwnProperty('invalidateCache')) {
+      invalidateCache(pageName);
+    }
 
-    invalidate && invalidateCache(filePrefix);
-
-    cachedContent = staticCache[filePrefix];
-
-    if (cachedContent) {
-      callback(null, {
-        content: cachedContent,
-      });
+    const content = getCachedContent(pageName, req.locale);
+    if (content) {
+      log('Page "%s" (%s) found in cache, will skip AWS request', pageName, req.locale);
+      callback(null, { content });
       return;
     }
 
     AWS.getObject({
-      key: fileName,
-      bucket,
+      bucket: s3Buckets.staticPages.bucket,
+      key: `${pageName}.${req.locale}.html`,
     }, (err, data) => {
-      let content = undefined;
-
       if (err) {
-        callback(parseApiError(err));
+        callback(err);
         return;
       }
-
-      content = data.Body.toString();
-      cache(filePrefix, content);
-
-      callback(null, {
-        content,
-      });
+      const content = data.Body.toString();
+      cacheContent(pageName, req.locale, content);
+      callback(null, { content });
     });
   },
 };

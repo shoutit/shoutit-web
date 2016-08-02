@@ -82,6 +82,13 @@ export function Footer({ currentLocation }) {
             defaultMessage="Copyright © {year} Shoutit – All Rights Reserved."
             values={ { year: <FormattedDate value={ new Date() } year="numeric" /> } }
           />
+          { ' - ' }
+          <Link to="/static/tos">
+            <FormattedMessage
+              id="footer.termsOfUse"
+              defaultMessage="Terms Of Use"
+            />
+          </Link>
         </div>
       </ResponsiveLayout>
     </div>

@@ -30,5 +30,9 @@
   {
     "id": "footer.copyright",
     "defaultMessage": "Copyright © {year} Shoutit – All Rights Reserved."
+  },
+  {
+    "id": "footer.termsOfUse",
+    "defaultMessage": "Terms Of Use"
   }
 ]
