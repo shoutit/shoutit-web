@@ -2,7 +2,7 @@ import has from 'lodash/has';
 import omit from 'lodash/omit';
 import { parseApiError } from '../utils/APIUtils';
 import * as AWS from '../utils/AWS';
-import { uploadResources } from '../config';
+import { s3Buckets } from '../config';
 import debug from 'debug';
 
 const log = debug('shoutit:services:staticHtml');
@@ -27,7 +27,7 @@ export default {
 
     log('Getting %s (%s)...', pageName, req.locale);
 
-    const { bucket } = uploadResources[resourceType];
+    const { bucket } = s3Buckets[resourceType];
 
     let cachedContent = undefined;
     const filePrefix = `${pageName}.${req.locale}`;

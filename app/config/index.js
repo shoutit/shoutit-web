@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'development' || !process.env.SHOUTIT_ENV) {
   throw new Error('SHOUTIT_ENV is not valid.');
 }
 
-export const uploadResources = {
+export const s3Buckets = {
   shout: {
     fieldname: 'shout_image',
     bucket: 'shoutit-shout-image-original',
