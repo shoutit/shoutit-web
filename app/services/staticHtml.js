@@ -26,19 +26,11 @@ export default {
 
     log('Getting %s (%s)...', pageName, req.locale);
 
-    const { bucket } = s3Buckets[resourceType];
-
-    let cachedContent = undefined;
-    const filePrefix = `${pageName}.${req.locale}`;
-    const fileSuffix = '.html';
-    const fileName = `${filePrefix}${fileSuffix}`;
-
     if (req.query.hasOwnProperty('invalidateCache')) {
-      invalidateCache(filePrefix);
+      invalidateCache(pageName);
     }
 
-    cachedContent = staticCache[filePrefix];
-
+    const cachedContent = staticCache[pageName];
     if (cachedContent) {
       log('%s (%s) found in cache, will skip AWS request', pageName, req.locale);
       callback(null, {
@@ -48,19 +40,15 @@ export default {
     }
 
     AWS.getObject({
-      key: fileName,
-      bucket,
+      bucket: s3Buckets[resourceType].bucket,
+      key: `${pageName}.${req.locale}.html`,
     }, (err, data) => {
-      let content = undefined;
-
       if (err) {
         callback(parseApiError(err));
         return;
       }
-
-      content = data.Body.toString();
-      cache(filePrefix, content);
-
+      const content = data.Body.toString();
+      cache(pageName, content);
       callback(null, {
         content,
       });
