@@ -1,4 +1,3 @@
-import has from 'lodash/has';
 import omit from 'lodash/omit';
 import { parseApiError } from '../utils/APIUtils';
 import * as AWS from '../utils/AWS';
@@ -33,9 +32,10 @@ export default {
     const filePrefix = `${pageName}.${req.locale}`;
     const fileSuffix = '.html';
     const fileName = `${filePrefix}${fileSuffix}`;
-    const invalidate = has(req.query, 'invalidate');
 
-    invalidate && invalidateCache(filePrefix);
+    if (req.query.hasOwnProperty('invalidateCache')) {
+      invalidateCache(filePrefix);
+    }
 
     cachedContent = staticCache[filePrefix];
 
