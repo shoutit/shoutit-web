@@ -3,7 +3,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getStaticHtml, getStaticContent } from '../reducers/staticHtml';
+import { getStaticHtml } from '../reducers/staticHtml';
 
 import { loadStaticHtml } from '../actions/staticHtml';
 import { routeError } from '../actions/server';
@@ -12,15 +12,12 @@ import Page, { Body } from '../layout/Page';
 import Progress from '../widgets/Progress';
 
 const fetchData = (dispatch, state, params) => {
-  const content = getStaticContent(state.staticHtml);
-
-  if (content) {
-    return;
+  if (getStaticHtml(state, params.pageName)) {
+    return Promise.resolve();
   }
 
-  Promise.all([
-    dispatch(loadStaticHtml(params.pageName)),
-  ]).catch(error => dispatch(routeError(error)));
+  return dispatch(loadStaticHtml(params.pageName))
+    .catch(error => dispatch(routeError(error)));
 };
 
 export class StaticHtml extends Component {
@@ -29,34 +26,36 @@ export class StaticHtml extends Component {
     dispatch: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     firstRender: PropTypes.bool,
-    staticHtml: PropTypes.object.isRequired,
+    staticHtml: PropTypes.object,
   };
 
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { dispatch, firstRender, params, staticHtml } = this.props;
+    const { dispatch, firstRender, params } = this.props;
     if (!firstRender) {
-      fetchData(dispatch, { staticHtml }, params);
+      fetchData(dispatch, {}, params);
     }
   }
 
   componentWillUpdate(nextProps) {
     const { dispatch, params: { pageName } } = this.props;
     if (nextProps.params.pageName !== pageName) {
-      fetchData(dispatch, { staticHtml: nextProps.staticHtml }, nextProps.params);
+      fetchData(dispatch, {}, nextProps.params);
     }
   }
 
   render() {
-    const { staticHtml: { isFetching, content } } = this.props;
+    const { staticHtml = {} } = this.props;
 
     return (
       <Page>
         <Body>
-          <Progress animate={ isFetching } />
-          { !isFetching && content &&
-            <div dangerouslySetInnerHTML={ { __html: content } }></div>
+          { staticHtml.isFetching &&
+            <Progress animate={ staticHtml.isFetching } />
+          }
+          { !staticHtml.isFetching && staticHtml.content &&
+            <div dangerouslySetInnerHTML={ { __html: staticHtml.content } }></div>
           }
         </Body>
       </Page>
@@ -65,8 +64,8 @@ export class StaticHtml extends Component {
 
 }
 
-const mapStateToProps = state => ({
-  staticHtml: getStaticHtml(state),
+const mapStateToProps = (state, ownProps) => ({
+  staticHtml: getStaticHtml(state, ownProps.params.pageName),
 });
 
 const Wrapped = connect(mapStateToProps)(StaticHtml);

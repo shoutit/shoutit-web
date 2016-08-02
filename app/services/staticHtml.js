@@ -1,4 +1,3 @@
-import { parseApiError } from '../utils/APIUtils';
 import * as AWS from '../utils/AWS';
 import { s3Buckets } from '../config';
 import debug from 'debug';
@@ -65,7 +64,7 @@ export default {
       key: `${pageName}.${req.locale}.html`,
     }, (err, data) => {
       if (err) {
-        callback(parseApiError(err));
+        callback(err);
         return;
       }
       const content = data.Body.toString();

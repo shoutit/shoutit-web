@@ -1,5 +1,4 @@
 import * as actionTypes from '../actions/actionTypes';
-import { getFilename, getPathFromUrl } from '../utils/StringUtils';
 
 const buildState = (isFetching = true, content) => ({
   isFetching,
@@ -28,12 +27,6 @@ export default function (state = {}, action) {
   return state;
 }
 
-export function getStaticHtml(state) {
-  const url = getFilename(state.routing.currentUrl);
-  const resource_path = getPathFromUrl(url);
-  return state.staticHtml[resource_path] || {};
-}
-
-export function getStaticContent(page) {
-  return page && page.content;
+export function getStaticHtml(state, pageName) {
+  return state.staticHtml[pageName];
 }
