@@ -1,5 +1,6 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-env browser */
+import range from 'lodash/range';
 import debug from 'debug';
 import isIntlLocaleSupported from 'intl-locales-supported';
 
@@ -58,3 +59,42 @@ export const numberFromString = (value, intl) => {
     .replace(intlCache[locale].decimalSeparator, '.');
   return +n;
 };
+
+/**
+  * Get all months in a year in current locale
+  */
+export const getLocalizedMonths = intl => {
+  const { formatDate } = intl;
+
+  return range(12)
+    .map(month => {
+      const date = new Date().setMonth(month);
+      return formatDate(date, { month: 'long' });
+    });
+};
+
+/**
+  * Calculates the order of the year, month, day based on the locale
+  */
+export function getDateOrderWeight(intl) {
+  const { formatDate } = intl;
+  const date = new Date();
+  const numbersOnly = /\d+/g;
+  const formatType = 'numeric';
+
+  const localizedDate = formatDate(date, {
+    year: formatType,
+    month: formatType,
+    day: formatType,
+  });
+
+  const localeYear = formatDate(date, { year: formatType }).match(numbersOnly)[0];
+  const localeMonth = formatDate(date, { month: formatType }).match(numbersOnly)[0];
+  const localeDay = formatDate(date, { day: formatType }).match(numbersOnly)[0];
+
+  return {
+    year: localizedDate.indexOf(localeYear),
+    month: localizedDate.indexOf(localeMonth),
+    day: localizedDate.indexOf(localeDay),
+  };
+}

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { PropTypes, Component } from 'react';
 
 import { getErrorsByLocation } from '../utils/APIUtils';
@@ -156,38 +157,18 @@ export default class FormField extends Component {
     } = this.props;
     const { focus, value } = this.state;
     const validationErrors = this.getValidationErrors() || [];
-    let cssClass = 'FormField';
 
-    if (flex) {
-      cssClass += ' flex';
-    }
-    if (validationErrors.length > 0) {
-      cssClass += ' has-error';
-    }
-    if (focus) {
-      cssClass += ' has-focus';
-    }
-    if (startElement) {
-      cssClass += ' has-start';
-    }
-    if (endElement) {
-      cssClass += ' has-end';
-    }
-    if (flexibleContent) {
-      cssClass += ' flexible-content';
-    }
-    if (disabled) {
-      cssClass += ' disabled';
-    }
-    if (typeof field === 'string') {
-      cssClass += ` with-${field}`;
-    }
-    if (!label) {
-      cssClass += ' no-label';
-    }
-    if (className) {
-      cssClass += ` ${className}`;
-    }
+    const cssClass = classNames('FormField', className, {
+      disabled,
+      flex,
+      'flexible-content': flexibleContent,
+      'has-error': validationErrors.length > 0,
+      'has-focus': focus,
+      'has-start': startElement,
+      'has-end': endElement,
+      'no-label': !label,
+      [`with-${field}`]: typeof field === 'string',
+    });
 
     let fieldElement;
     if (field) {
@@ -212,7 +193,6 @@ export default class FormField extends Component {
         onBlur: this.handleBlur,
       });
     }
-
 
     return (
       <div className={ cssClass } style={ style }>

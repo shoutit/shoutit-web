@@ -13,6 +13,7 @@ import Form from '../forms/Form';
 import FieldsGroup from '../forms/FieldsGroup';
 import Button from '../forms/Button';
 import Picker from '../forms/Picker';
+import DatePicker from '../forms/DatePicker';
 import LocationField from '../forms/LocationField';
 import Panel from '../layout/Panel';
 
@@ -190,18 +191,17 @@ export class ProfileSettings extends Component {
                     </option>
                   </Picker>
 
-                  <TextField
-                    flex
-                    name="birthday"
-                    placeholder="YYYY-MM-DD"
-                    label={ formatMessage(MESSAGES.birthdayLabel) }
-                    value={ profile.birthday }
-                    onChange={ birthday => this.setState({ birthday: birthday || null }) }
-                    error={ error }
-                    disabled={ profile.isUpdating }
-                  />
-
                 </FieldsGroup>
+
+                <DatePicker
+                  flex
+                  name="birthday"
+                  label={ formatMessage(MESSAGES.birthdayLabel) }
+                  value={ profile.birthday }
+                  onChange={ birthday => this.setState({ birthday: birthday || null }) }
+                  error={ error }
+                  disabled={ profile.isUpdating }
+                />
 
                 <TextArea
                   name="bio"
