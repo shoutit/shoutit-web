@@ -61,7 +61,7 @@ export default {
     }
 
     AWS.getObject({
-      bucket: s3Buckets.static.bucket,
+      bucket: s3Buckets.staticPages.bucket,
       key: `${pageName}.${req.locale}.html`,
     }, (err, data) => {
       if (err) {

@@ -29,8 +29,9 @@ export const s3Buckets = {
     bucket: 'shoutit-tag-image-original',
     cdn: 'https://tag-image.static.shoutit.com',
   },
-  static: {
+  staticPages: {
     bucket: 'shoutit-pages',
+    // no need to cdn and fieldname as no uploads are made to this bucket
   },
 };
 
