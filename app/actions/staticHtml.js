@@ -10,10 +10,7 @@ export function loadStaticHtml(pageName) {
     ],
     service: {
       name: 'staticHtml',
-      params: {
-        pageName,
-        resourceType: 'static',
-      },
+      params: { pageName },
     },
   };
 }

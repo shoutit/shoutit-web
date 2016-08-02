@@ -45,7 +45,7 @@ export function invalidateCache(pageName) {
 
 export default {
   name: 'staticHtml',
-  read: (req, resource, { pageName, resourceType }, config, callback) => {
+  read: (req, resource, { pageName }, config, callback) => {
 
     log('Getting page "%s" (%s)...', pageName, req.locale);
 
@@ -61,7 +61,7 @@ export default {
     }
 
     AWS.getObject({
-      bucket: s3Buckets[resourceType].bucket,
+      bucket: s3Buckets.static.bucket,
       key: `${pageName}.${req.locale}.html`,
     }, (err, data) => {
       if (err) {
