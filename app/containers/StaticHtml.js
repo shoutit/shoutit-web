@@ -8,7 +8,9 @@ import { getStaticHtml } from '../reducers/staticHtml';
 import { loadStaticHtml } from '../actions/staticHtml';
 import { routeError } from '../actions/server';
 
+import Panel from '../layout/Panel';
 import Page, { Body } from '../layout/Page';
+import ResponsiveLayout from '../layout/ResponsiveLayout';
 import Progress from '../widgets/Progress';
 
 const fetchData = (dispatch, state, params) => {
@@ -45,14 +47,18 @@ export class StaticHtml extends Component {
     const { staticHtml = {} } = this.props;
 
     return (
-      <Page>
+      <Page className="StaticHtml">
         <Body>
-          { staticHtml.isFetching &&
-            <Progress animate={ staticHtml.isFetching } />
-          }
-          { !staticHtml.isFetching && staticHtml.content &&
-            <div dangerouslySetInnerHTML={ { __html: staticHtml.content } }></div>
-          }
+          <ResponsiveLayout size="small">
+            <Panel>
+              { staticHtml.isFetching &&
+                <Progress animate={ staticHtml.isFetching } />
+              }
+              { !staticHtml.isFetching && staticHtml.content &&
+                <div dangerouslySetInnerHTML={ { __html: staticHtml.content } }></div>
+              }
+            </Panel>
+          </ResponsiveLayout>
         </Body>
       </Page>
     );
