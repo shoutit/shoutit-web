@@ -13,10 +13,13 @@ import Page, { Body } from '../layout/Page';
 import ResponsiveLayout from '../layout/ResponsiveLayout';
 import Progress from '../widgets/Progress';
 
+import './StaticHtml.scss';
+
 const fetchData = (dispatch, state, params) => {
   return dispatch(loadStaticHtml(params.pageName))
     .catch(error => dispatch(routeError(error)));
 };
+
 
 export class StaticHtml extends Component {
 
