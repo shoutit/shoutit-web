@@ -7,7 +7,7 @@ import last from 'lodash/last';
 import createMulter from './createMulter';
 import * as AWS from '../utils/AWS';
 import { convertImageToJPEG } from '../utils/ImageUtils';
-import { uploadResources } from '../config';
+import { s3Buckets } from '../config';
 
 function uniqueFilenameFromUser(user) {
   return `${Date.now()}_${user.id}`;
@@ -16,7 +16,7 @@ function uniqueFilenameFromUser(user) {
 export function fileUploadMiddleware(req, res) {
   const { resourceType } = req.params;
 
-  if (Object.keys(uploadResources).indexOf(resourceType) === -1) {
+  if (Object.keys(s3Buckets).indexOf(resourceType) === -1) {
     res.status(400).send('Resource type not valid.');
     return;
   }
@@ -26,7 +26,7 @@ export function fileUploadMiddleware(req, res) {
     return;
   }
 
-  const { fieldname, bucket, cdn } = uploadResources[resourceType];
+  const { fieldname, bucket, cdn } = s3Buckets[resourceType];
   const filename = uniqueFilenameFromUser(req.session.user);
 
   const uploadToS3 = filePath => {
@@ -94,7 +94,7 @@ export function fileUploadMiddleware(req, res) {
 export function fileDeleteMiddleware(req, res) {
   const { name } = req.query;
   const { resourceType } = req.params;
-  const { bucket } = uploadResources[resourceType];
+  const { bucket } = s3Buckets[resourceType];
 
   if (!req.session.user) {
     res.status(403).send('User session is required.');
