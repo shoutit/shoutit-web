@@ -47,11 +47,11 @@ export default function (app) {
   }));
   app.use((req, res, next) => {
     if (!req.session) {
-      const error = new Error('Cannot initialize session, failed connection to redis?', storeSettings);
+      const error = new Error('Cannot initialize session, failed connection to redis?');
       if (newrelicEnabled) {
         newrelic.noticeError('CONN:REDIS FAILED', error);
       }
-      console.error(error);
+      console.error(error, storeSettings);
     }
     return next();
   });
