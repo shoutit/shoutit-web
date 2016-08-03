@@ -12,10 +12,10 @@ export function SettingsNavigation() {
       </PanelTitle>
       <PanelList>
         { [
-          <Link to="/settings/profile" activeClassName="active">
+          <Link to="/settings/profile" activeClassName="active" key="settings-profile">
             <FormattedMessage id="settings.navigation.profile" defaultMessage="Public Profile" />
           </Link>,
-          <Link to="/settings/account" activeClassName="active">
+          <Link to="/settings/account" activeClassName="active" key="settings-account">
             <FormattedMessage id="settings.navigation.menu.account" defaultMessage="Your Account" />
           </Link>,
         ]
