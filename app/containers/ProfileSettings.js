@@ -190,7 +190,6 @@ export class ProfileSettings extends Component {
                       { formatMessage(MESSAGES.maleValue) }
                     </option>
                   </Picker>
-
                 </FieldsGroup>
 
                 <DatePicker

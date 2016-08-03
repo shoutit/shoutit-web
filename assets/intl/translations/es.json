@@ -174,6 +174,7 @@
   "profileSettings.page.title": "Su perfil",
   "profileSettings.profile.formTitle": "Perfil público",
   "profileSettings.profileForm.about.label": "Sobre usted",
+  "profileSettings.profileForm.birthday.label": "Birthday",
   "profileSettings.profileForm.firstName.label": "Nombre",
   "profileSettings.profileForm.gender.female": "Femenino",
   "profileSettings.profileForm.gender.label": "Género",

@@ -2,27 +2,13 @@ import range from 'lodash/range';
 import sortBy from 'lodash/sortBy';
 import padStart from 'lodash/padStart';
 import React, { PropTypes, Component } from 'react';
-import { injectIntl, defineMessages } from 'react-intl';
+import { injectIntl } from 'react-intl';
 
-import FormField from './FormField';
+import Label from '../forms/Label';
+import FieldsGroup from '../forms/FieldsGroup';
 import ValuePicker from '../forms/ValuePicker';
 
 import { getLocalizedMonths, getDateOrderWeight } from '../utils/IntlUtils';
-
-const MESSAGES = defineMessages({
-  year: {
-    id: 'forms.datePicker.year',
-    defaultMessage: 'Year',
-  },
-  month: {
-    id: 'forms.datePicker.month',
-    defaultMessage: 'Month',
-  },
-  day: {
-    id: 'forms.datePicker.day',
-    defaultMessage: 'Day',
-  },
-});
 
 const padZeroes = val => padStart(val, 2, 0);
 
@@ -35,6 +21,7 @@ const getDays = () => range(1, 32).map(padZeroes);
 
 class DatePicker extends Component {
   static propTypes = {
+    disabled: PropTypes.bool,
     className: PropTypes.string,
     onChange: PropTypes.func,
     label: PropTypes.string,
@@ -89,7 +76,7 @@ class DatePicker extends Component {
   }
 
   render() {
-    const { className, label, value, intl, intl: { formatMessage } } = this.props;
+    const { disabled, className, label, value, intl } = this.props; //eslint-disable-line
     const orderWeight = getDateOrderWeight(intl);
 
     let date;
@@ -109,15 +96,16 @@ class DatePicker extends Component {
         order: orderWeight.year,
         component: (
           <ValuePicker
+            flex
             key="year"
             name="year"
-            label={ formatMessage(MESSAGES.year) }
             className="DatePicker"
             inputRef={ ref => (this.yearRef = ref) }
             value={ `${year}` }
             defaultValue=""
             values={ this.buildYearOptions() }
             onChange={ this.handleChange }
+            disabled={ disabled }
           />
         ),
       },
@@ -125,15 +113,16 @@ class DatePicker extends Component {
         order: orderWeight.month,
         component: (
           <ValuePicker
+            flex
             key="month"
             name="month"
-            label={ formatMessage(MESSAGES.month) }
             className="DatePicker"
             inputRef={ ref => (this.monthRef = ref) }
             value={ `${month}` }
             defaultValue=""
             values={ this.buildMonthOptions() }
             onChange={ this.handleChange }
+            disabled={ disabled }
           />
         ),
       },
@@ -141,28 +130,28 @@ class DatePicker extends Component {
         order: orderWeight.day,
         component: (
           <ValuePicker
+            flex
             key="day"
             name="day"
-            label={ formatMessage(MESSAGES.day) }
             className="DatePicker"
             inputRef={ ref => (this.dayRef = ref) }
             value={ `${day}` }
             defaultValue=""
             values={ this.buildDayOptions() }
             onChange={ this.handleChange }
+            disabled={ disabled }
           />
         ),
       },
     ], 'order').map(item => item.component);
 
     return (
-      <FormField
-        name="datepicker"
-        label={ label }
-        className={ className }
-      >
-        { components }
-      </FormField>
+      <div className="FormField">
+        { label && <Label>{ label }</Label> }
+        <FieldsGroup className={ className }>
+          { components }
+        </FieldsGroup>
+      </div>
     );
   }
 }
