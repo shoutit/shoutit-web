@@ -32,16 +32,27 @@ const RedisStore = connectRedis(session);
 const storeSettings = {
   ...getHostAndPort(process.env.REDIS_ADDRESS),
   db: 11,
-  port: 6379,
-  logErrors: error => {
-    newrelicEnabled && newrelic.noticeError('CONN:REDIS FAILED', error);
-    console.error(error);
-  },
 };
 
-export default session({
-  store: new RedisStore(storeSettings),
+const sessionOptions = {
   secret: 'ShoutItOutLoudIntoTheCrowd',
   resave: false,
   saveUninitialized: true,
-});
+};
+
+export default function (app) {
+  app.use(session({
+    ...sessionOptions,
+    store: new RedisStore(storeSettings),
+  }));
+  app.use((req, res, next) => {
+    if (!req.session) {
+      const error = new Error('Cannot initialize session, failed connection to redis?');
+      if (newrelicEnabled) {
+        newrelic.noticeError('CONN:REDIS FAILED', error);
+      }
+      console.error(error);
+    }
+    return next();
+  });
+}

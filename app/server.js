@@ -47,7 +47,7 @@ export function start(app) {
   app.use(favicon(`${publicDir}/images/favicons/favicon.ico`));
 
   // Enable redis-based session
-  app.use(sessionMiddleware);
+  sessionMiddleware(app);
 
   app.use(errorDomainMiddleware);
 
