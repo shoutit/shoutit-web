@@ -30,7 +30,7 @@ redis-staging:
 web:
   image: 'shoutit/shoutit-web:master'
   environment:
-    - REDIS_HOST=
+    - REDIS_ADDRESS=
     -SHOUTIT_ENV=live
   links:
     - 'redis:redis'
@@ -44,7 +44,7 @@ web-beta:
   image: 'shoutit/shoutit-web:master'
   autoredeploy: true
   environment:
-    - REDIS_HOST=
+    - REDIS_ADDRESS=
     -SHOUTIT_ENV=beta
   links:
     - 'redis-beta:redis'
@@ -59,7 +59,7 @@ web-staging:
   image: 'shoutit/shoutit-web:develop'
   autoredeploy: true
   environment:
-    - REDIS_HOST=
+    - REDIS_ADDRESS=
     -SHOUTIT_ENV=stage
   links:
     - 'redis-staging:redis'

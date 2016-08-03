@@ -84,7 +84,7 @@ export function getSummary() {
   summary.push('');
   summary.push(`  Shoutit environment:  ${process.env.SHOUTIT_ENV}`);
   summary.push(`  Node environment:     ${process.env.NODE_ENV}`);
-  summary.push(`  Redis host:           ${process.env.REDIS_HOST}`);
+  summary.push(`  Redis host:           ${process.env.REDIS_ADDRESS}`);
   summary.push('');
   summary.push(`  Site URL:             ${siteUrl}`);
   summary.push(`  Public assets URL:    ${publicUrl}`);
