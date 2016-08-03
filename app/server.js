@@ -23,6 +23,7 @@ import redirects from './server/redirects';
 import renderMiddleware from './server/renderMiddleware';
 import browserMiddleware from './server/browserMiddleware';
 import slashMiddleware from './server/slashMiddleware';
+import sessionFallback from './server/sessionFallback';
 import { fileUploadMiddleware, fileDeleteMiddleware } from './server/fileMiddleware';
 
 import * as services from './services';
@@ -30,6 +31,12 @@ import * as services from './services';
 const publicDir = path.resolve(__dirname,
   process.env.NODE_ENV === 'production' ? '../public' : '../assets'
 );
+
+const sessionOpts = {
+  secret: 'ShoutItOutLoudIntoTheCrowd',
+  resave: false,
+  saveUninitialized: true,
+};
 
 export function start(app) {
 
@@ -49,12 +56,16 @@ export function start(app) {
 
   // Init redis
   const RedisStore = connectRedis(session);
-  app.use(session({
+  const RedisSessionMiddleware = session({
     store: new RedisStore({ db: 11, host: process.env.REDIS_HOST }),
-    secret: 'ShoutItOutLoudIntoTheCrowd',
-    resave: false,
-    saveUninitialized: true,
-  }));
+    ...sessionOpts,
+  });
+
+  // Use Redis session
+  app.use(RedisSessionMiddleware);
+
+  // Fallback to express sessions if redis is offline
+  app.use(sessionFallback(session(sessionOpts)));
 
   app.use(errorDomainMiddleware);
 
