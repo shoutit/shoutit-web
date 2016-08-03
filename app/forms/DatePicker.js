@@ -21,6 +21,7 @@ const getDays = () => range(1, 32).map(padZeroes);
 
 class DatePicker extends Component {
   static propTypes = {
+    disabled: PropTypes.bool,
     className: PropTypes.string,
     onChange: PropTypes.func,
     label: PropTypes.string,
@@ -75,7 +76,7 @@ class DatePicker extends Component {
   }
 
   render() {
-    const { className, label, value, intl } = this.props; //eslint-disable-line
+    const { disabled, className, label, value, intl } = this.props; //eslint-disable-line
     const orderWeight = getDateOrderWeight(intl);
 
     let date;
@@ -104,6 +105,7 @@ class DatePicker extends Component {
             defaultValue=""
             values={ this.buildYearOptions() }
             onChange={ this.handleChange }
+            disabled={ disabled }
           />
         ),
       },
@@ -120,6 +122,7 @@ class DatePicker extends Component {
             defaultValue=""
             values={ this.buildMonthOptions() }
             onChange={ this.handleChange }
+            disabled={ disabled }
           />
         ),
       },
@@ -136,6 +139,7 @@ class DatePicker extends Component {
             defaultValue=""
             values={ this.buildDayOptions() }
             onChange={ this.handleChange }
+            disabled={ disabled }
           />
         ),
       },
