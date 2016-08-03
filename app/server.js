@@ -1,5 +1,5 @@
-/* eslint no-var: 0, no-console: 0 */
 import newrelic, { newrelicEnabled } from './server/newrelic';
+/* eslint no-console: 0 */
 import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
