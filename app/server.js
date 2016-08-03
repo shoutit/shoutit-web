@@ -1,4 +1,3 @@
-import newrelic, { newrelicEnabled } from './server/newrelic';
 /* eslint no-console: 0 */
 import path from 'path';
 import bodyParser from 'body-parser';
@@ -6,8 +5,6 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import morgan from 'morgan';
 import favicon from 'serve-favicon';
-import session from 'express-session';
-import connectRedis from 'connect-redis';
 import Fetchr from 'fetchr';
 import serveStatic from 'serve-static';
 import errorDomainMiddleware from 'express-domain-middleware';
@@ -23,6 +20,7 @@ import localeMiddleware from './server/localeMiddleware';
 import redirects from './server/redirects';
 import renderMiddleware from './server/renderMiddleware';
 import browserMiddleware from './server/browserMiddleware';
+import sessionMiddleware from './server/sessionMiddleware';
 import slashMiddleware from './server/slashMiddleware';
 import { fileUploadMiddleware, fileDeleteMiddleware } from './server/fileMiddleware';
 
@@ -48,22 +46,8 @@ export function start(app) {
 
   app.use(favicon(`${publicDir}/images/favicons/favicon.ico`));
 
-  // Init redis
-  const RedisStore = connectRedis(session);
-  const storeSettings = {
-    db: 11,
-    host: process.env.REDIS_HOST,
-    logErrors: error => {
-      newrelicEnabled && newrelic.noticeError('CONN:REDIS FAILED', error);
-      console.error(error);
-    },
-  };
-  app.use(session({
-    store: new RedisStore(storeSettings),
-    secret: 'ShoutItOutLoudIntoTheCrowd',
-    resave: false,
-    saveUninitialized: true,
-  }));
+  // Enable redis-based session
+  app.use(sessionMiddleware);
 
   app.use(errorDomainMiddleware);
 
