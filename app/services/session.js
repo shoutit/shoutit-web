@@ -22,6 +22,11 @@ export function setRequestSession(req, sessionData) {
 }
 
 export function createRequestSession(req, data, callback) {
+  if (!req.session) {
+    const error = new Error('Cannot initialize session');
+    callback(error);
+    return;
+  }
   log('Creating request session...');
   request
     .post('/oauth2/access_token')
