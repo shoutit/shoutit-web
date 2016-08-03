@@ -173,6 +173,7 @@
   "profileSettings.page.title": "您的账户",
   "profileSettings.profile.formTitle": "公开资料",
   "profileSettings.profileForm.about.label": "个人简介",
+  "profileSettings.profileForm.birthday.label": "Birthday",
   "profileSettings.profileForm.firstName.label": "名字",
   "profileSettings.profileForm.gender.female": "女性",
   "profileSettings.profileForm.gender.label": "性别",
