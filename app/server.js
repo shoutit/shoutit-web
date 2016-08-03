@@ -55,6 +55,7 @@ export function start(app) {
     host: process.env.REDIS_HOST,
     logErrors: error => {
       newrelicEnabled && newrelic.noticeError('CONN:REDIS FAILED', error);
+      console.error(error);
     },
   };
   app.use(session({
