@@ -1,4 +1,5 @@
 /* eslint no-var: 0, no-console: 0 */
+import newrelic, { newrelicEnabled } from './server/newrelic';
 import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -49,8 +50,15 @@ export function start(app) {
 
   // Init redis
   const RedisStore = connectRedis(session);
+  const storeSettings = {
+    db: 11,
+    host: process.env.REDIS_HOST,
+    logErrors: error => {
+      newrelicEnabled && newrelic.noticeError('CONN:REDIS FAILED', error);
+    },
+  };
   app.use(session({
-    store: new RedisStore({ db: 11, host: process.env.REDIS_HOST }),
+    store: new RedisStore(storeSettings),
     secret: 'ShoutItOutLoudIntoTheCrowd',
     resave: false,
     saveUninitialized: true,
