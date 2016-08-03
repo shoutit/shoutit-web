@@ -8,6 +8,8 @@ import * as FacebookUtils from '../utils/FacebookUtils';
 import { FacebookButton, GoogleButton } from '../forms/SocialButtons';
 import { loginWithGoogle, loginWithFacebook } from '../actions/session';
 
+const GOOGLE_LOGIN_METHOD = 'PROMPT';
+
 export class SocialLoginForm extends Component {
 
   static propTypes = {
@@ -32,25 +34,28 @@ export class SocialLoginForm extends Component {
 
     const { dispatch, onLoginSuccess, currentLocation } = this.props;
 
-    this.setState({ error: null, waitingForGoogle: true });
+    this.setState({ error: null, waitingForGoogle: true }, () => {
+      window.gapi.auth.signIn({
+        clientid: '935842257865-s6069gqjq4bvpi4rcbjtdtn2kggrvi06.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        redirecturi: 'postmessage',
+        accesstype: 'offline',
+        requestvisibleactions: 'http://schemas.google.com/AddActivity',
+        scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+        callback: authResult => {
+          if (!authResult.status.signed_in) {
+            this.setState({ waitingForGoogle: false });
+            return;
+          }
 
-    window.gapi.auth.signIn({
-      clientid: '935842257865-s6069gqjq4bvpi4rcbjtdtn2kggrvi06.apps.googleusercontent.com',
-      cookiepolicy: 'single_host_origin',
-      redirecturi: 'postmessage',
-      accesstype: 'offline',
-      requestvisibleactions: 'http://schemas.google.com/AddActivity',
-      scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
-      callback: authResult => {
-        if (!authResult.status.signed_in) {
-          this.setState({ waitingForGoogle: false });
-          return;
-        }
-        dispatch(loginWithGoogle(
-          { gplus_code: authResult.code },
-          { location: currentLocation }
-        )).then(() => onLoginSuccess());
-      },
+          if (authResult.status.method === GOOGLE_LOGIN_METHOD) {
+            dispatch(loginWithGoogle(
+              { gplus_code: authResult.code },
+              { location: currentLocation }
+            )).then(() => onLoginSuccess());
+          }
+        },
+      });
     });
   }
 
@@ -63,22 +68,21 @@ export class SocialLoginForm extends Component {
       options.auth_type = 'rerequest';
     }
 
-    this.setState({ error: null, waitingForFacebook: true });
-
-    FacebookUtils.login(options, (error, response) => {
-      if (error) {
-        this.setState({
-          waitingForFacebook: false,
-          error,
-        });
-        return;
-      }
-      dispatch(loginWithFacebook(
+    this.setState({ error: null, waitingForFacebook: true }, () => {
+      FacebookUtils.login(options, (error, response) => {
+        if (error) {
+          this.setState({
+            waitingForFacebook: false,
+            error,
+          });
+          return;
+        }
+        dispatch(loginWithFacebook(
           { facebook_access_token: response.authResponse.accessToken },
           { location: currentLocation }
         )).then(() => onLoginSuccess());
+      });
     });
-
   }
 
   render() {
