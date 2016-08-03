@@ -34,7 +34,7 @@ $ npm start     # start the server
 
 * `SHOUTIT_ENV`: define if use stage, beta or live [config](config).
 * `SHOUTIT_S3_SECRET_KEY` and `SHOUTIT_S3_ACCESS_KEY`: required for uploading on S3
-* `REDIS_ADDRESS`: the host for the redis server, default is *tcp://localhost:6379*
+* `REDIS_PORT`: the host for the redis server, default is *tcp://localhost:6379*
 * `NODE_ENV`: must be set on *production*
 
 #### Optional on the server

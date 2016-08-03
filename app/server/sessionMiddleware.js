@@ -30,7 +30,7 @@ export function getHostAndPort(address) {
 
 const RedisStore = connectRedis(session);
 const storeSettings = {
-  ...getHostAndPort(process.env.REDIS_ADDRESS),
+  ...getHostAndPort(process.env.REDIS_PORT),
   db: 11,
 };
 
