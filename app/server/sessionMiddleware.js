@@ -12,7 +12,7 @@ import newrelic, { newrelicEnabled } from '../server/newrelic';
  * @param {any} address
  * @returns
  */
-const regExp = /\w*:\/\/(\w*):(\d*)/;
+const regExp = /\w*:\/\/([\w\d\.]*):(\d*)/;
 export function getHostAndPort(address) {
   // Default values for redis
   let host = 'localhost';
@@ -47,11 +47,10 @@ export default function (app) {
   }));
   app.use((req, res, next) => {
     if (!req.session) {
-      const error = new Error('Cannot initialize session, failed connection to redis?');
       if (newrelicEnabled) {
-        newrelic.noticeError('CONN:REDIS FAILED', error);
+        newrelic.noticeError('CONN:REDIS FAILED', new Error('Cannot initialize session'));
       }
-      console.error(error, storeSettings);
+      console.error('Error connecting to redis, trying to connect to %s:%s', storeSettings.host, storeSettings.host);
     }
     return next();
   });

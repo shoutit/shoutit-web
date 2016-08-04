@@ -12,5 +12,8 @@ describe('server/sessionMiddleware', () => {
     it('should return host and port from a valid address', () => {
       expect(getHostAndPort('tcp://foo:1234')).to.eql({ host: 'foo', port: 1234 });
     });
+    it('should return host and port from a numeric host', () => {
+      expect(getHostAndPort('tcp://10.20.30.40:1234')).to.eql({ host: '10.20.30.40', port: 1234 });
+    });
   });
 });
