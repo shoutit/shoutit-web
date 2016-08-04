@@ -75,6 +75,7 @@
   "dashboard.welcome": "Welcome back, {firstName}",
   "discover.shouts.title": "{discoverItemTitle} Shouts",
   "footer.copyright": "Copyright © {year} Shoutit – All Rights Reserved.",
+  "footer.privacy": "Privacy Policy",
   "footer.termsOfUse": "Terms Of Use",
   "forms.CategoryPicker.allCategories": "All Categories",
   "header.messagesPopover.seeAllButton": "See All",

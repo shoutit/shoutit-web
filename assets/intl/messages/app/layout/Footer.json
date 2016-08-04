@@ -34,5 +34,9 @@
   {
     "id": "footer.termsOfUse",
     "defaultMessage": "Terms Of Use"
+  },
+  {
+    "id": "footer.privacy",
+    "defaultMessage": "Privacy Policy"
   }
 ]

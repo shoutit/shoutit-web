@@ -89,6 +89,13 @@ export function Footer({ currentLocation }) {
               defaultMessage="Terms Of Use"
             />
           </Link>
+          { ' ' }
+          <Link to="/static/privacy">
+            <FormattedMessage
+              id="footer.privacy"
+              defaultMessage="Privacy Policy"
+            />
+          </Link>
         </div>
       </ResponsiveLayout>
     </div>
