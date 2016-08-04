@@ -75,6 +75,7 @@
   "dashboard.welcome": "欢迎回来，{firstName}",
   "discover.shouts.title": "{discoverItemTitle} Shouts",
   "footer.copyright": "© {year} Shoutit",
+  "footer.marketRules": "Market Rules",
   "footer.privacy": "Privacy Policy",
   "footer.termsOfUse": "Terms Of Use",
   "forms.CategoryPicker.allCategories": "全部类别",

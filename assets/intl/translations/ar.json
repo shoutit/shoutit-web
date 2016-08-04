@@ -75,6 +75,7 @@
   "dashboard.welcome": "اهلاً بك, {firstName}",
   "discover.shouts.title": "إعلانات {discoverItemTitle}",
   "footer.copyright": "Shoutit © {year}",
+  "footer.marketRules": "Market Rules",
   "footer.privacy": "Privacy Policy",
   "footer.termsOfUse": "Terms Of Use",
   "forms.CategoryPicker.allCategories": "جميع التصنيفات",
