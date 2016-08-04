@@ -7,6 +7,8 @@ import Helmet from '../../utils/Helmet';
 import { getCurrentLocale } from '../../reducers/i18n';
 
 export function ShoutPageHelmet({ shout, locale }) {
+  const price = shout.price / 100;
+
   return (
     <Helmet
       title={ shout.title }
@@ -15,11 +17,11 @@ export function ShoutPageHelmet({ shout, locale }) {
       appUrl={ shout.appUrl }
       meta={ [
         { property: 'og:type', content: `ogPrefix:${shout.type}` },
-        { property: 'ogPrefix:price', content: shout.price },
+        { property: 'ogPrefix:price', content: price },
         { property: 'ogPrefix:username', content: shout.profile.username },
         { name: 'twitter:card', content: 'product' },
         { name: 'twitter:label1', content: capitalize(shout.type) },
-        { name: 'twitter:data1', content: shout.price },
+        { name: 'twitter:data1', content: price },
         { name: 'twitter:label2', content: 'Location' },
         { name: 'twitter:data2', content: formatLocation(shout.location, { locale }) },
       ] }
