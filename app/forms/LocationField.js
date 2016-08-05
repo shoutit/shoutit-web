@@ -12,7 +12,7 @@ import CountryFlag from '../location/CountryFlag';
 
 import { ESCAPE, ENTER } from '../utils/keycodes';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
-import { loadPlacePredictions, resetPlacePredictionsLastInput, updateCurrentLocation } from '../actions/location';
+import { loadPlacePredictions, geocode, resetPlacePredictionsLastInput, updateCurrentLocation } from '../actions/location';
 
 import Overlay from '../widgets/Overlay';
 import FormField from './FormField';
@@ -164,6 +164,7 @@ export class LocationField extends Component {
       }
     }
   }
+
   handlePredictionClick(prediction) {
     this.setState({
       isGeocoding: true,
@@ -174,36 +175,28 @@ export class LocationField extends Component {
     });
     this.blur();
     log('Start geocoding place with id %s', prediction.placeId);
-    geocodePlace(prediction.placeId, this.props.locale, (err, location) => {
-      this.setState({ isGeocoding: false }, () => {
-        if (location && location.city) {
-          log('Found location geocoding %s', prediction.placeId, location);
-          const value = formatLocation(location, {
-            showCountry: false,
-            locale: this.props.locale,
-          });
-          this.setState({ value, location }, () => {
-            this.handleGeocodeSuccess(location);
-          });
-          this.field.setValue(value);
-          return;
-        }
-        log('Could not geocode %s, showing error', prediction.placeId);
-        // Prediction couldn't be geocoded
-        this.setState({
-          error: {
-            errors: [{
-              location: this.props.name,
-              message: 'This place is not valid: please choose another one.',
-            }],
-          },
-          value: prediction.description,
-          showOverlay: true,
-          readOnly: true,
-        }, this.select);
-      });
-    });
+    const { locale, dispatch, name } = this.props;
+
+    geocodePlace(prediction.placeId, locale)
+      .then(placeLocation => dispatch(geocode(placeLocation)))
+      .then(location => {
+        const value = formatLocation(location, { showCountry: false, locale });
+        this.setState({ value, location }, () => this.handleGeocodeSuccess(location));
+        this.field.setValue(value);
+      })
+      .catch(() => this.setState({
+        error: {
+          errors: [{
+            location: name,
+            message: 'This place is not valid: please choose another one.',
+          }],
+        },
+        value: prediction.description,
+        showOverlay: true,
+        readOnly: true,
+      }, this.select));
   }
+
   handleGeocodeSuccess(location) {
     const { disabled, onChange, dispatch, updatesUserLocation } = this.props;
     if (disabled) {
@@ -216,6 +209,7 @@ export class LocationField extends Component {
       onChange(location);
     }
   }
+
   fetchPredictions(value) {
     const { dispatch } = this.props;
     const input = value.toLowerCase();
