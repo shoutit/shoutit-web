@@ -57,7 +57,7 @@ export default function geoLocationMiddleware(req, res, next) {
   }
   request
     .get('/misc/geocode')
-    .query({ latlng: '0,0' })
+    .query({ latlng: '0,0' }) // will get location from ip passed from the headers
     .set(headers)
     .prefix()
     .end((err, res) => {
