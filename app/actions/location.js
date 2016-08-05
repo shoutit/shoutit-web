@@ -37,6 +37,22 @@ export const loadSuggestions = location => ({
   },
 });
 
+export const geocode = ({ latitude, longitude }) => ({
+  types: [
+    actionTypes.GEOCODE_START,
+    actionTypes.GEOCODE_SUCCESS,
+    actionTypes.GEOCODE_FAILURE,
+  ],
+  service: {
+    name: 'geocode',
+    params: {
+      query: {
+        latlng: `${latitude},${longitude}`,
+      },
+    },
+  },
+});
+
 export const resetPlacePredictionsLastInput = () => ({
   type: actionTypes.PLACE_PREDICTIONS_RESET_INPUT,
 });

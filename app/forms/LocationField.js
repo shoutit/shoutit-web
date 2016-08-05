@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import throttle from 'lodash/throttle';
+import isEqual from 'lodash/isEqual';
 import debug from 'debug';
+
 
 import { getCurrentLocale } from '../reducers/i18n';
 import { getCurrentLocation } from '../reducers/currentLocation';
@@ -12,8 +14,9 @@ import CountryFlag from '../location/CountryFlag';
 
 import { ESCAPE, ENTER } from '../utils/keycodes';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
-import { loadPlacePredictions, resetPlacePredictionsLastInput, updateCurrentLocation } from '../actions/location';
+import { loadPlacePredictions, geocode, resetPlacePredictionsLastInput, updateCurrentLocation } from '../actions/location';
 
+import Progress from '../widgets/Progress';
 import Overlay from '../widgets/Overlay';
 import FormField from './FormField';
 
@@ -71,7 +74,7 @@ export class LocationField extends Component {
         previousPredictions: nextProps.predictions,
       };
     }
-    if (nextProps.location.slug !== this.props.location.slug) {
+    if (!isEqual(nextProps.location, this.props.location)) {
       const value = formatLocation(nextProps.location, {
         showCountry: false,
         locale: this.props.locale,
@@ -164,6 +167,7 @@ export class LocationField extends Component {
       }
     }
   }
+
   handlePredictionClick(prediction) {
     this.setState({
       isGeocoding: true,
@@ -174,36 +178,29 @@ export class LocationField extends Component {
     });
     this.blur();
     log('Start geocoding place with id %s', prediction.placeId);
-    geocodePlace(prediction.placeId, this.props.locale, (err, location) => {
-      this.setState({ isGeocoding: false }, () => {
-        if (location && location.city) {
-          log('Found location geocoding %s', prediction.placeId, location);
-          const value = formatLocation(location, {
-            showCountry: false,
-            locale: this.props.locale,
-          });
-          this.setState({ value, location }, () => {
-            this.handleGeocodeSuccess(location);
-          });
-          this.field.setValue(value);
-          return;
-        }
-        log('Could not geocode %s, showing error', prediction.placeId);
-        // Prediction couldn't be geocoded
-        this.setState({
-          error: {
-            errors: [{
-              location: this.props.name,
-              message: 'This place is not valid: please choose another one.',
-            }],
-          },
-          value: prediction.description,
-          showOverlay: true,
-          readOnly: true,
-        }, this.select);
-      });
-    });
+    const { locale, dispatch, name } = this.props;
+
+    geocodePlace(prediction.placeId, locale)
+      .then(placeLocation => dispatch(geocode(placeLocation)))
+      .then(location => {
+        const value = formatLocation(location, { showCountry: false, locale });
+        this.setState({ value, location, isGeocoding: false }, () => this.handleGeocodeSuccess(location));
+        this.field.setValue(value);
+      })
+      .catch(() => this.setState({
+        error: {
+          errors: [{
+            location: name,
+            message: 'This place is not valid: please choose another one.',
+          }],
+        },
+        value: prediction.description,
+        showOverlay: true,
+        readOnly: true,
+        isGeocoding: false,
+      }, this.select));
   }
+
   handleGeocodeSuccess(location) {
     const { disabled, onChange, dispatch, updatesUserLocation } = this.props;
     if (disabled) {
@@ -216,6 +213,7 @@ export class LocationField extends Component {
       onChange(location);
     }
   }
+
   fetchPredictions(value) {
     const { dispatch } = this.props;
     const input = value.toLowerCase();
@@ -266,6 +264,7 @@ export class LocationField extends Component {
         <span onClick={ this.select }>
           <FormField
             { ...props }
+            disabled={ props.disabled || this.state.isGeocoding }
             name={ name }
             error={ error }
             autoComplete="off"
@@ -276,7 +275,7 @@ export class LocationField extends Component {
             onBlur={ this.handleBlur }
             onChange={ this.handleChange }
             onKeyDown={ this.handleKeyDown }
-            startElement={ countryFlag }
+            startElement={ this.state.isGeocoding ? <Progress animate size="small" /> : countryFlag }
             ref={ el => {
               this.field = el;
               if (inputRef) {

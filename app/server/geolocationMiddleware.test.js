@@ -10,7 +10,6 @@ const mockLocation = {
   country: 'IT',
   state: 'Lazio',
   city: 'Rome',
-  slug: 'it_lazio_rome',
   name: 'Rome, Lazio, Italy',
 };
 
@@ -29,7 +28,6 @@ describe('server/geolocationMiddleware', () => {
       geolocationMiddleware(req, null, () => {});
       expect(req.geolocation).to.eql({
         country: 'it',
-        slug: 'it_no-state_no-city',
         name: 'Italy',
       });
     });
@@ -41,7 +39,6 @@ describe('server/geolocationMiddleware', () => {
       expect(req.geolocation).to.eql({
         country: 'it',
         state: 'Lazio',
-        slug: 'it_lazio_no-city',
         name: 'Lazio, Italy',
       });
     });
@@ -54,7 +51,6 @@ describe('server/geolocationMiddleware', () => {
         country: 'it',
         state: 'Emilia Romagna',
         city: 'Valeggio Sul Mincio',
-        slug: 'it_emilia-romagna_valeggio-sul-mincio',
         name: 'Valeggio Sul Mincio, Emilia Romagna, Italy',
       });
     });
@@ -68,7 +64,6 @@ describe('server/geolocationMiddleware', () => {
       geolocationMiddleware(req, null, () => {});
       expect(req.geolocation).to.eql({
         country: 'it',
-        slug: 'it_no-state_no-city',
         name: 'Italy',
       });
     });
@@ -79,7 +74,6 @@ describe('server/geolocationMiddleware', () => {
       geolocationMiddleware(req, null, () => {});
       expect(req.geolocation).to.eql({
         country: 'it',
-        slug: 'it_no-state_no-city',
         name: 'Italy',
       });
     });

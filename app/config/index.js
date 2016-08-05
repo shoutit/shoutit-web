@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'development' || !process.env.SHOUTIT_ENV) {
   throw new Error('SHOUTIT_ENV is not valid.');
 }
 
-export const uploadResources = {
+export const s3Buckets = {
   shout: {
     fieldname: 'shout_image',
     bucket: 'shoutit-shout-image-original',
@@ -28,6 +28,10 @@ export const uploadResources = {
     fieldname: 'tag_image',
     bucket: 'shoutit-tag-image-original',
     cdn: 'https://tag-image.static.shoutit.com',
+  },
+  staticPages: {
+    bucket: 'shoutit-pages',
+    // no need to cdn and fieldname as no uploads are made to this bucket
   },
 };
 
@@ -80,7 +84,7 @@ export function getSummary() {
   summary.push('');
   summary.push(`  Shoutit environment:  ${process.env.SHOUTIT_ENV}`);
   summary.push(`  Node environment:     ${process.env.NODE_ENV}`);
-  summary.push(`  Redis host:           ${process.env.REDIS_HOST}`);
+  summary.push(`  Redis host:           ${process.env.REDIS_PORT}`);
   summary.push('');
   summary.push(`  Site URL:             ${siteUrl}`);
   summary.push(`  Public assets URL:    ${publicUrl}`);

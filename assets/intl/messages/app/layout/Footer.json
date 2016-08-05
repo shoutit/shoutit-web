@@ -28,6 +28,18 @@
     "defaultMessage": "Join us on"
   },
   {
+    "id": "footer.termsOfUse",
+    "defaultMessage": "Terms Of Use"
+  },
+  {
+    "id": "footer.marketRules",
+    "defaultMessage": "Market Rules"
+  },
+  {
+    "id": "footer.privacy",
+    "defaultMessage": "Privacy Policy"
+  },
+  {
     "id": "footer.copyright",
     "defaultMessage": "Copyright © {year} Shoutit – All Rights Reserved."
   }

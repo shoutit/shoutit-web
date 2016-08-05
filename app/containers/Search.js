@@ -2,6 +2,8 @@
 
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import isEqual from 'lodash/isEqual';
+
 import { injectIntl, defineMessages } from 'react-intl';
 
 import { push } from 'react-router-redux';
@@ -133,7 +135,7 @@ export class Search extends Component {
 
   componentDidUpdate(prevProps) {
     const { currentLocation } = this.props;
-    if (prevProps.currentLocation.slug !== currentLocation.slug) {
+    if (!isEqual(prevProps.currentLocation, currentLocation)) {
       this.updateList();
     }
   }

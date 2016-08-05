@@ -77,6 +77,27 @@ export function Footer({ currentLocation }) {
         </div>
 
         <div className="Footer-copyright">
+          <Link to="/static/tos">
+            <FormattedMessage
+              id="footer.termsOfUse"
+              defaultMessage="Terms Of Use"
+            />
+          </Link>
+          { ' - ' }
+          <Link to="/static/rules">
+            <FormattedMessage
+              id="footer.marketRules"
+              defaultMessage="Market Rules"
+            />
+          </Link>
+          { ' - ' }
+          <Link to="/static/privacy">
+            <FormattedMessage
+              id="footer.privacy"
+              defaultMessage="Privacy Policy"
+            />
+          </Link>
+          <br />
           <FormattedMessage
             id="footer.copyright"
             defaultMessage="Copyright © {year} Shoutit – All Rights Reserved."

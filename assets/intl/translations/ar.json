@@ -364,5 +364,13 @@
     "shouts.newShoutModal.colouredOfferText": "عرض",
     "shouts.newShoutModal.colouredRequestText": "طلب",
     "shouts.newShoutModal.introduction": "انشئ {colouredOfferText} لمنتجاتك أو الخدمات التي تقدمها على شاوت ات ودع الأخرين يصلون اليك بسهولة. هل تبحث عن غرض معين أو خدمة؟ انشئ {colouredRequestText} عن الشيء الذي تريده و انتظر المستخدمين الذين عندهم طلبك ليتواصلوا معك.",
-    "updateShoutModal.publishButton.defaultLabel": "حفظ التعديلات"
+    "updateShoutModal.publishButton.defaultLabel": "حفظ التعديلات",
+    "footer.termsOfUse": "شروط الخدمة",
+    "profileSettings.profileForm.birthday.label": "تاريخ الميلاد",
+    "footer.marketRules": "قوانين السوق",
+    "footer.privacy": "سياسة الخصوصية",
+    "signup.form.conditions": "بالتسجيل، أنت توافق على {linkToTermsOfService}, {linkToRules} و {linkToPrivacyPolicy}.",
+    "signup.form.linkToPrivacyPolicy": "سياسة الخصوصية",
+    "signup.form.linkToRules": "قوانين السوق",
+    "signup.form.linkToTermsOfService": "شروط الخدمة"
 }

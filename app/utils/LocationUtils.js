@@ -1,13 +1,8 @@
-import kebabCase from 'lodash/kebabCase';
 import request from 'superagent';
 import { camelizeKeys } from 'humps';
 import round from 'lodash/round';
 
 import { googleMapsKey, locales } from '../config';
-
-export function createLocationSlug({ country = 'no-country', state = 'no-state', city = 'no-city' }) {
-  return `${kebabCase(country)}_${kebabCase(state)}_${kebabCase(city)}`;
-}
 
 const countries = {};
 
@@ -42,33 +37,43 @@ export function parseGeocoderResult(result) {
       }
     });
   }
-  location = {
-    ...location,
-    slug: createLocationSlug(location),
-  };
   return location;
 }
 
-export function geocodePlace(placeId, language, callback) {
-  request.get('https://maps.googleapis.com/maps/api/geocode/json')
-    .query({
-      language,
-      place_id: placeId,
-      key: googleMapsKey,
-    })
-    .end((err, res) => {
-      if (err) {
-        console.error(err); // eslint-disable-line
-        callback(err);
-        return;
-      }
-      if (res.body.status !== 'OK') {
-        console.error(res.body); // eslint-disable-line
-        callback(res.body);
-        return;
-      }
-      callback(null, parseGeocoderResult(camelizeKeys(res.body.results[0])));
-    });
+
+/**
+ * Geocode a place obtained from Google Maps API
+ *
+ * @export
+ * @param {any} placeId
+ * @param {any} language
+ * @return {Promise} A promise resolved with a location object
+ */
+export function geocodePlace(placeId, language) {
+
+  return new Promise((resolve, reject) => {
+    request.get('https://maps.googleapis.com/maps/api/geocode/json')
+      .query({
+        language,
+        place_id: placeId,
+        key: googleMapsKey,
+      })
+      .end((err, res) => {
+        if (err) {
+          console.error(err); // eslint-disable-line
+          reject(err);
+          return;
+        }
+        if (res.body.status !== 'OK') {
+          console.error(res.body); // eslint-disable-line
+          reject(res.body);
+          return;
+        }
+        const parsedResult = parseGeocoderResult(camelizeKeys(res.body.results[0]));
+        resolve(parsedResult);
+      });
+  });
+
 }
 
 export function getCountryName(code, locale = 'en') {

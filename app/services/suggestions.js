@@ -1,5 +1,4 @@
 import request from '../utils/request';
-import { createLocationSlug } from '../utils/LocationUtils';
 import { parseApiError } from '../utils/APIUtils';
 
 export default {
@@ -25,7 +24,6 @@ export default {
           return callback(parseApiError(err));
         }
         const suggestions = res.body;
-        suggestions.slug = createLocationSlug(location);
         return callback(null, suggestions);
       });
   },

@@ -32,8 +32,20 @@
     "defaultMessage": "Sign up did not work for an unknown error. Please try again later or contact support."
   },
   {
-    "id": "signup.form.tos",
-    "defaultMessage": "By signing up, you agree to our Terms of Service and to our Privacy Policy."
+    "id": "signup.form.conditions",
+    "defaultMessage": "By signing up, you agree to our {linkToTermsOfService}, {linkToRules} and {linkToPrivacyPolicy}."
+  },
+  {
+    "id": "signup.form.linkToTermsOfService",
+    "defaultMessage": "Terms of Service"
+  },
+  {
+    "id": "signup.form.linkToPrivacyPolicy",
+    "defaultMessage": "Privacy Policy"
+  },
+  {
+    "id": "signup.form.linkToRules",
+    "defaultMessage": "Market Rules"
   },
   {
     "id": "signup.form.buttonLabel.loading",
