@@ -3,6 +3,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
+import isEqual from 'lodash/isEqual';
 
 import { getCurrentLocale, isRtl, getIntlMessages } from '../reducers/i18n';
 import { getCurrentUrl, getRoutingError } from '../reducers/routing';
@@ -94,7 +95,7 @@ export class Application extends Component {
 
     // Update suggestions if location change
 
-    if (currentLocation.slug !== nextProps.currentLocation.slug) {
+    if (!isEqual(currentLocation, nextProps.currentLocation)) {
       dispatch(loadSuggestions(nextProps.currentLocation));
     }
     if (!nextProps.loggedUser && loggedUser) {

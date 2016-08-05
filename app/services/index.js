@@ -5,6 +5,7 @@ export conversations from './conversations';
 export currencies from './currencies';
 export discover from './discover';
 export emailVerification from './emailVerification';
+export geocode from './geocode';
 export home from './home';
 export listen from './listen';
 export listeners from './listeners';

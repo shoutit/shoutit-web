@@ -4,6 +4,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
+import isEqual from 'lodash/isEqual';
+
 import { FormattedMessage } from 'react-intl';
 import { getCurrentLocale } from '../reducers/i18n';
 import { getCurrentUrl } from '../reducers/routing';
@@ -103,7 +105,7 @@ export class Discover extends Component {
 
   componentDidUpdate(prevProps) {
     const { dispatch, currentLocation } = this.props;
-    if (prevProps.currentLocation.slug !== currentLocation.slug) {
+    if (!isEqual(prevProps.currentLocation, currentLocation)) {
       dispatch(push(`/discover/${currentLocation.country.toLowerCase()}`));
     }
   }
