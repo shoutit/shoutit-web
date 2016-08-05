@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import throttle from 'lodash/throttle';
+import isEqual from 'lodash/isEqual';
 import debug from 'debug';
+
 
 import { getCurrentLocale } from '../reducers/i18n';
 import { getCurrentLocation } from '../reducers/currentLocation';
@@ -14,6 +16,7 @@ import { ESCAPE, ENTER } from '../utils/keycodes';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
 import { loadPlacePredictions, geocode, resetPlacePredictionsLastInput, updateCurrentLocation } from '../actions/location';
 
+import Progress from '../widgets/Progress';
 import Overlay from '../widgets/Overlay';
 import FormField from './FormField';
 
@@ -181,7 +184,7 @@ export class LocationField extends Component {
       .then(placeLocation => dispatch(geocode(placeLocation)))
       .then(location => {
         const value = formatLocation(location, { showCountry: false, locale });
-        this.setState({ value, location }, () => this.handleGeocodeSuccess(location));
+        this.setState({ value, location, isGeocoding: false }, () => this.handleGeocodeSuccess(location));
         this.field.setValue(value);
       })
       .catch(() => this.setState({
@@ -194,6 +197,7 @@ export class LocationField extends Component {
         value: prediction.description,
         showOverlay: true,
         readOnly: true,
+        isGeocoding: false,
       }, this.select));
   }
 
@@ -260,6 +264,7 @@ export class LocationField extends Component {
         <span onClick={ this.select }>
           <FormField
             { ...props }
+            disabled={ props.disabled || this.state.isGeocoding }
             name={ name }
             error={ error }
             autoComplete="off"
@@ -270,7 +275,7 @@ export class LocationField extends Component {
             onBlur={ this.handleBlur }
             onChange={ this.handleChange }
             onKeyDown={ this.handleKeyDown }
-            startElement={ countryFlag }
+            startElement={ this.state.isGeocoding ? <Progress animate size="small" /> : countryFlag }
             ref={ el => {
               this.field = el;
               if (inputRef) {
