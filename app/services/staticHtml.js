@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 import * as AWS from '../utils/AWS';
 import { s3Buckets } from '../config';
 import debug from 'debug';
@@ -19,7 +21,7 @@ Example of a cached object:
 }
 */
 export function cacheContent(pageName, locale, content) {
-  log('Caching page "%s" (locale) with content', pageName, content.substring(0, 50));
+  log('Caching page "%s" (%s) with content', pageName, locale, content.substring(0, 50));
   if (!staticCache.hasOwnProperty(pageName)) {
     staticCache[pageName] = {};
   }
@@ -42,6 +44,21 @@ export function invalidateCache(pageName) {
   delete staticCache[pageName];
 }
 
+export function getObjectFromAWS(key) {
+  return new Promise((resolve, reject) => {
+    AWS.getObject({
+      key,
+      bucket: s3Buckets.staticPages.bucket,
+    }, (err, data) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(data);
+    });
+  });
+}
+
 export default {
   name: 'staticHtml',
   read: (req, resource, { pageName }, config, callback) => {
@@ -58,18 +75,20 @@ export default {
       callback(null, { content });
       return;
     }
-
-    AWS.getObject({
-      bucket: s3Buckets.staticPages.bucket,
-      key: `${pageName}.${req.locale}.html`,
-    }, (err, data) => {
-      if (err) {
+    const key = `${pageName}.${req.locale}.html`;
+    getObjectFromAWS(key)
+      .then(data => data, reason => {
+        log('Error retrieving key %s, trying english version...', key, reason.message);
+        return getObjectFromAWS(`${pageName}.en.html`);
+      })
+      .then(data => {
+        const content = data.Body.toString();
+        cacheContent(pageName, req.locale, content);
+        callback(null, { content });
+      })
+      .catch(err => {
+        console.error(err);
         callback(err);
-        return;
-      }
-      const content = data.Body.toString();
-      cacheContent(pageName, req.locale, content);
-      callback(null, { content });
-    });
+      });
   },
 };
