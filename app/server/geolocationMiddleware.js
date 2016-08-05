@@ -4,7 +4,7 @@ import debug from 'debug';
 import { toTitleCase } from '../utils/StringUtils';
 import { getValidIPv4Address } from '../utils/InternetUtils';
 import request from '../utils/request';
-import { createLocationSlug, getCountryName, formatLocation } from '../utils/LocationUtils';
+import { getCountryName, formatLocation } from '../utils/LocationUtils';
 
 const geoRE = /^\/(search|discover)\/(\w{2})(\/([^\/]*))?(\/([^\/\?]*))?/;
 
@@ -42,7 +42,6 @@ export default function geoLocationMiddleware(req, res, next) {
   if (req.geolocation) {
     req.geolocation = {
       ...req.geolocation,
-      slug: createLocationSlug(req.geolocation),
       name: formatLocation(req.geolocation, { locale: req.locale }),
     };
     return next();
@@ -65,7 +64,6 @@ export default function geoLocationMiddleware(req, res, next) {
         const geolocation = res.body;
         req.geolocation = {
           ...geolocation,
-          slug: createLocationSlug(geolocation),
           name: formatLocation(geolocation, { locale: req.locale }),
         };
         log('Got geolocation from ip address', ip, req.geolocation.slug);

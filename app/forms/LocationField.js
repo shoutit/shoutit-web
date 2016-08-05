@@ -71,7 +71,7 @@ export class LocationField extends Component {
         previousPredictions: nextProps.predictions,
       };
     }
-    if (nextProps.location.slug !== this.props.location.slug) {
+    if (!isEqual(nextProps.location, this.props.location)) {
       const value = formatLocation(nextProps.location, {
         showCountry: false,
         locale: this.props.locale,

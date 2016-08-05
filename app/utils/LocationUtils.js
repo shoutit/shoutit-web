@@ -1,13 +1,8 @@
-import kebabCase from 'lodash/kebabCase';
 import request from 'superagent';
 import { camelizeKeys } from 'humps';
 import round from 'lodash/round';
 
 import { googleMapsKey, locales } from '../config';
-
-export function createLocationSlug({ country = 'no-country', state = 'no-state', city = 'no-city' }) {
-  return `${kebabCase(country)}_${kebabCase(state)}_${kebabCase(city)}`;
-}
 
 const countries = {};
 
@@ -42,10 +37,6 @@ export function parseGeocoderResult(result) {
       }
     });
   }
-  location = {
-    ...location,
-    slug: createLocationSlug(location),
-  };
   return location;
 }
 

@@ -7,30 +7,6 @@ import { Request } from 'superagent';
 import * as LocationUtils from './LocationUtils';
 
 describe('utils/LocationUtils', () => {
-  describe('createLocationSlug', () => {
-
-    it('should create the slug from a full location', () => {
-      const slug = LocationUtils.createLocationSlug({
-        country: 'IT',
-        state: 'Sardegna',
-        city: 'Bortigiadas (OT)',
-      });
-      expect(slug).to.equal('it_sardegna_bortigiadas-ot');
-    });
-
-    it('should create the slug from a location missing data', () => {
-      const slug = LocationUtils.createLocationSlug({
-        country: 'IT',
-        city: 'Bortigiadas (OT)',
-      });
-      expect(slug).to.equal('it_no-state_bortigiadas-ot');
-    });
-
-    it('should create the slug from an empty location', () => {
-      const slug = LocationUtils.createLocationSlug({});
-      expect(slug).to.equal('no-country_no-state_no-city');
-    });
-  });
 
   describe('parseGeocoderResult', () => {
     it('should include rounded latitude and longitude', () => {
