@@ -80,6 +80,7 @@ class ShoutPage extends Component {
                   <h1>{ shout.title }</h1>
                 </Device>
               }
+
               { hasImages &&
                 <div className="ShoutPage-Gallery">
                   { isLoadingGallery && <Progress animate /> }
@@ -115,12 +116,10 @@ class ShoutPage extends Component {
           </Body>
           <EndColumn sticky wide>
             <Panel block className="ShoutPage-AsideCard">
-              { shout.title &&
-                <Device type="desktop">
-                  <h1>{ shout.title }</h1>
-                  <ShoutPagePrice shout={ shout } />
-                </Device>
-              }
+              <Device type="desktop">
+                { shout.title && <h1>{ shout.title }</h1> }
+                <ShoutPagePrice shout={ shout } />
+              </Device>
               <ShoutPageActions shout={ shout } />
             </Panel>
           </EndColumn>
