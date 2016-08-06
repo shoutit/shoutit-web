@@ -1,4 +1,4 @@
-/* eslint no-var: 0 */
+/* eslint no-var: 0, no-console: 0 */
 /* eslint-env node */
 
 var fs = require('fs');
@@ -11,9 +11,13 @@ if (process.env.NODE_ENV === 'production' &&
 }
 
 if (!process.env.CURRENT_TAG) {
-  let currentTag = fs.readFileSync(path.resolve(__dirname, './CURRENT_TAG'), 'utf8');
-  currentTag = currentTag.replace(/[\n\r]/gi, '');
-  process.env.CURRENT_TAG = currentTag;
+  try {
+    let currentTag = fs.readFileSync(path.resolve(__dirname, './CURRENT_TAG'), 'utf8');
+    currentTag = currentTag.replace(/[\n\r]/gi, '');
+    process.env.CURRENT_TAG = currentTag;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 require('ignore-styles');
