@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
+import { backgroundImageStyle } from '../utils/DOMUtils';
 
 import { loadTagIfNeeded } from '../actions/tags';
 import Icon from '../widgets/Icon';
@@ -32,7 +32,8 @@ export class TagPreview extends Component {
     }
     return (
       <div className={ className } style={ style }>
-        { tag.image && <div className="TagPreview-cover" style={ getStyleBackgroundImage(tag.image, 'medium') } /> }
+        { tag.image &&
+          <div className="TagPreview-cover" style={ backgroundImageStyle({ url: tag.image, variation: 'medium' }) } /> }
         <div className="TagPreview-header">
           <div className="TagPreview-icon">
             { category ?

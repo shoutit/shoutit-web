@@ -1,23 +1,23 @@
 /* eslint-env mocha */
 
 import { expect } from 'chai';
-import { getStyleBackgroundImage } from './DOMUtils';
+import { backgroundImageStyle } from './DOMUtils';
 
 describe('DOMUtils', () => {
 
-  describe('getStyleBackgroundImage', () => {
+  describe('backgroundImageStyle', () => {
     it('should return the pattern image if path does not exist', () => {
-      expect(getStyleBackgroundImage().backgroundImage).to.contain('pattern');
-      expect(getStyleBackgroundImage().backgroundRepeat).to.eql('repeat');
+      expect(backgroundImageStyle().backgroundImage).to.contain('pattern');
+      expect(backgroundImageStyle().backgroundRepeat).to.eql('repeat');
     });
     it('should use the passed path as image', () => {
-      expect(getStyleBackgroundImage('foo').backgroundImage).to.contain('foo');
-      expect(getStyleBackgroundImage('foo').backgroundRepeat).to.eql('no-repeat');
-      expect(getStyleBackgroundImage('foo').backgroundSize).to.eql('cover');
-      expect(getStyleBackgroundImage('foo').backgroundPosition).to.eql('center');
+      expect(backgroundImageStyle({ url: 'foo' }).backgroundImage).to.contain('foo');
+      expect(backgroundImageStyle({ url: 'foo' }).backgroundRepeat).to.eql('no-repeat');
+      expect(backgroundImageStyle({ url: 'foo' }).backgroundSize).to.eql('cover');
+      expect(backgroundImageStyle({ url: 'foo' }).backgroundPosition).to.eql('center');
     });
     it('should adopt the given variation', () => {
-      expect(getStyleBackgroundImage('foo', 'large').backgroundImage).to.contain('foo_large');
+      expect(backgroundImageStyle({ url: 'foo', variation: 'large' }).backgroundImage).to.contain('foo_large');
     });
   });
 
