@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 
 import { connect } from 'react-redux';
 
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
+import { backgroundImageStyle } from '../utils/DOMUtils';
 import animatedScrollTo from '../utils/animatedScrollTo';
 import { isRtl } from '../reducers/i18n';
 import SimpleIcon from '../icons/SimpleIcon';
@@ -106,7 +106,7 @@ export class Gallery extends Component {
         { item.type === 'image' &&
           <span
             key={ `image-${item.url}` }
-            style={ getStyleBackgroundImage(item.url, 'large', false) }
+            style={ backgroundImageStyle({ url: item.url, variation: 'large', usePlaceholder: false, size: 'contain' }) }
           />
         }
         { item.type === 'video' &&
@@ -155,7 +155,7 @@ export class Gallery extends Component {
       wrapperClassName += ' selected';
     }
     const className = `Gallery-thumbnail ${item.type}`;
-    const style = getStyleBackgroundImage(item.thumbnailUrl || item.url, 'small');
+    const style = backgroundImageStyle({ url: item.thumbnailUrl || item.url, variation: 'small' });
     return (
       <span
         href="#"
