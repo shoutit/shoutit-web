@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Tooltip from '../widgets/Tooltip';
 
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
+import { backgroundImageStyle } from '../utils/DOMUtils';
 
 import './ProfileAvatar.scss';
 
@@ -47,7 +47,12 @@ export default class ProfileAvatar extends Component {
 
     let avatar = null;
     if (image) {
-      avatar = <span style={ getStyleBackgroundImage(image, size === 'huge' ? 'large' : size) } className="ProfileAvatar-image" />;
+      avatar = (
+        <span
+          style={ backgroundImageStyle({ url: image, variation: size === 'huge' ? 'large' : size }) }
+          className="ProfileAvatar-image"
+        />
+      );
     }
     if (linkToProfilePage) {
       avatar = <Link className={ className } to={ `/user/${username}` }>{ avatar }</Link>;

@@ -7,7 +7,7 @@ import { isRtl } from '../reducers/i18n';
 import Icon from '../widgets/Icon.js';
 
 import FormattedCreatedAt from '../utils/FormattedCreatedAt';
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
+import { backgroundImageStyle } from '../utils/DOMUtils';
 
 import ConversationDropdown from '../chat/ConversationDropdown';
 
@@ -73,10 +73,12 @@ export class ConversationItem extends Component {
       <li
         className={ className }
         onMouseEnter={ this.handleMouseEnter.bind(this) }
-        onMouseLeave={ this.handleMouseLeave.bind(this) }
-      >
+        onMouseLeave={ this.handleMouseLeave.bind(this) }>
         <Link onClick={ onClick } to={ `/messages/${conversation.id}` }>
-          <div className="ConversationItem-image" style={ getStyleBackgroundImage(conversation.display.image, 'small', false) } />
+          <div
+            className="ConversationItem-image"
+            style={ backgroundImageStyle({ url: conversation.display.image, variation: 'small', usePlaceholder: false }) }
+          />
           <div className="ConversationItem-content">
             { conversation.display.title &&
               <div className="ConversationItem-title">

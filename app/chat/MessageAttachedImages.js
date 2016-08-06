@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
+import { backgroundImageStyle } from '../utils/DOMUtils';
 import { getVariation } from '../utils/APIUtils';
 
 import './MessageAttachedImages.scss';
@@ -14,7 +14,7 @@ export default function MessageAttachedImages({ images }) {
             href={ getVariation(image, 'large') }
             className="MessageAttachedImages-image"
             key={ i }
-            style={ getStyleBackgroundImage(image, 'medium') }
+            style={ backgroundImageStyle({ url: image, variation: 'medium' }) }
           />
         ) }
     </div>
