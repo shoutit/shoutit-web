@@ -26,12 +26,15 @@ request.Request.prototype.use = function use(req) {
     this.set('Accept-Language', req.locale);
   }
 
-  const forwardedFor = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  this.set('X-Forwarded-For', forwardedFor);
+  if (req.headers) {
+    this.set('X-Forwarded-For', req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+  }
 
-  const userAgent = `shoutit-web (nodejs ${process.version}; ${process.env.NODE_ENV}; ${process.env.SHOUTIT_ENV || 'no-env'}; ${process.env.CURRENT_TAG}) ${req.headers['user-agent']}`;
+  let userAgent = `shoutit-web (nodejs ${process.version}; ${process.env.NODE_ENV}; ${process.env.SHOUTIT_ENV || 'no-env'}; ${process.env.CURRENT_TAG})`;
+  if (req.headers && req.headers['user-agent']) {
+    userAgent += ` ${req.headers['user-agent']}`;
+  }
   this.set('User-Agent', userAgent);
-
   return this;
 };
 
