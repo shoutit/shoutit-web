@@ -26,7 +26,7 @@ import Progress from '../widgets/Progress';
 
 import { loadDiscoverItemsByCountry, loadDiscoverItem, loadShoutsForDiscoverItem } from '../actions/discover';
 import { getCountryName, getLocationPath } from '../utils/LocationUtils';
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
+import { backgroundImageStyle } from '../utils/DOMUtils';
 import { denormalize } from '../schemas';
 
 import LocationModal from '../location/LocationModal';
@@ -142,7 +142,8 @@ export class Discover extends Component {
           { discoverItem && <Helmet appUrl={ discoverItem.appUrl } title={ discoverItem.title } images={ [discoverItem.image] } /> }
           <Body>
             { discoverItem &&
-              <div className="Discover-hero" style={ getStyleBackgroundImage(discoverItem.image, 'large') }>
+              <div className="Discover-hero"
+                style={ backgroundImageStyle({ url: discoverItem.image, variation: 'large' }) }>
                 { country &&
                   <div className="Discover-country" onClick={ e => this.showLocationModal(e) }>
                     <CountryFlag code={ country } rounded size="medium" showTooltip={ false } />

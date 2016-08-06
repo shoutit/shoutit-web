@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
+import { backgroundImageStyle } from '../utils/DOMUtils';
 
 import { denormalize } from '../schemas';
 
@@ -26,13 +26,16 @@ export class ProfilePreview extends Component {
     dispatch(loadProfileDetailsIfNeeded(profile, requiredDetails));
   }
   render() {
-    const { profile, style, profile: { cover, name } } = this.props;
+    const { profile, style } = this.props;
     return (
       <div className="ProfilePreview" style={ style }>
-        <div className="ProfilePreview-cover" style={ getStyleBackgroundImage(cover, 'medium') } />
+        <div
+          className="ProfilePreview-cover"
+          style={ backgroundImageStyle({ url: profile.cover, variation: 'medium' }) }
+        />
         <div className="ProfilePreview-user">
           <ProfileAvatar profile={ profile } size="large" />
-          <h2>{ name } { profile.isOwner && ' (you)' }</h2>
+          <h2>{ profile.name } { profile.isOwner && ' (you)' }</h2>
         </div>
         <div className="ProfilePreview-body">
           { profile.location && <LocationListItem location={ profile.location } size="small" /> }
