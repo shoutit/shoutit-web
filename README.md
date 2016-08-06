@@ -43,6 +43,7 @@ $ npm start     # start the server
 * `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD`: username and password to enforce a basic authentication access control
 * `HOST`: the host where to start the Express server. Default is *localhost*.
 * `PORT`: the port the server listens to. Default is *8080* for production, *3000* for development.
+* `CURRENT_TAG`: the current git versioning info. Default is set in index.js.
 
 ### Starting the docker container
 

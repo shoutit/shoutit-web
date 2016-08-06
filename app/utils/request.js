@@ -15,18 +15,26 @@ import request from 'superagent';
 import debug from 'debug';
 import { apiUrl } from '../config';
 
-const log = debug('shoutit:request');
+const log = debug('shoutit:utils:request');
 
 // Use data from the server-side request object
 request.Request.prototype.use = function use(req) {
   if (req.session && req.session.accessToken) {
     this.set('Authorization', `Bearer ${req.session.accessToken}`);
-    log('Set Authorization header');
   }
   if (req.locale) {
     this.set('Accept-Language', req.locale);
-    log('Set Accept-Language header to %s', req.locale);
   }
+
+  if (req.headers) {
+    this.set('X-Forwarded-For', req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+  }
+
+  let userAgent = `shoutit-web (nodejs ${process.version}; ${process.env.NODE_ENV}; ${process.env.SHOUTIT_ENV || 'no-env'}; ${process.env.CURRENT_TAG})`;
+  if (req.headers && req.headers['user-agent']) {
+    userAgent += ` ${req.headers['user-agent']}`;
+  }
+  this.set('User-Agent', userAgent);
   return this;
 };
 
