@@ -1,7 +1,55 @@
 @import '../styles/constants.scss';
+@import '../forms/Button.scss';
 
 .StaticHtml {
-  .Panel {
-    padding: $vertical-spacing $horizontal-spacing;
+  // override Page
+  padding-top: 0;
+  padding-bottom: 0;
+
+  h1 {
+    padding: $vertical-spacing/4 0;
   }
+  li {
+    padding: $vertical-spacing/4; 
+  }
+
+  p, li {
+    line-height: 1.4em;
+  }
+
+  hr {
+    margin: $vertical-spacing*2 0;
+    border: 0;
+    height: 0;
+    border-top: 1px solid $border-color;
+  }
+
+  blockquote.highlight {
+    margin-top: $vertical-spacing*1.5;
+    margin-bottom: $vertical-spacing*1.5;
+    padding: 1em;
+    background-color: $grey-light-5;
+  }
+
+  .button {
+    @extend .Button;
+    @extend .Button.primary;
+    height: auto;
+    padding: .5em .75em;
+  }
+
+  .ancillary {
+    color: $color-text-light;
+    font-style: italic;
+    font-size: 0.875em;
+  }
+
 }
+
+.StaticHtml-Content {
+  box-shadow: inset $box-shadow-depth-0;
+  background-color: $white;
+  padding: $vertical-spacing $horizontal-spacing;
+  padding-bottom: 40vh;
+}
+

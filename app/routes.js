@@ -36,7 +36,7 @@ const settingsAppLayout = () => ({
 
 const staticAppLayout = () => ({
   showFooter: true,
-  stickyHeader: true,
+  stickyHeader: false,
 });
 
 const routes = (store) =>

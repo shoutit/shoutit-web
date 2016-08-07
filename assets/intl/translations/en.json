@@ -367,10 +367,10 @@
     "updateShoutModal.publishButton.defaultLabel": "Save changes",
     "footer.termsOfUse": "Terms of Service",
     "profileSettings.profileForm.birthday.label": "Birthday",
-    "footer.marketRules": "Market Rules",
+    "footer.marketRules": "Marketplace Rules",
     "footer.privacy": "Privacy Policy",
     "signup.form.conditions": "By signing up, you agree to our {linkToTermsOfService}, {linkToRules} and {linkToPrivacyPolicy}.",
     "signup.form.linkToPrivacyPolicy": "Privacy Policy",
-    "signup.form.linkToRules": "Market Rules",
+    "signup.form.linkToRules": "Marketplace Rules",
     "signup.form.linkToTermsOfService": "Terms of Service"
 }
