@@ -101,11 +101,15 @@ h6 {
   &:last-child {
     margin-bottom: 0;
   }
-  & + p {
+  & + p,
+  & + ul,
+  & + ol {
     padding-top: 0;
   }
-  p + & {
-    padding-top: 1em;
+  p + &,
+  ul + &,
+  ol + & {
+    margin-top: $vertical-spacing;
   }
 }
 
@@ -115,9 +119,16 @@ h1, h2 {
 
 p {
   margin: 0;
-  padding: 1em 0;
+  padding: 0;
+  padding-top: $vertical-spacing;
+}
+p + p {
+  padding-top: 0;
 }
 
+p + ul, p + ol {
+  padding-top: $vertical-spacing/2;
+}
 
 .text-offer {
   color: $color-offer;
@@ -128,5 +139,7 @@ p {
   color: $color-request;
   font-weight: 500;
 }
+
+
 
 @import 'html.scss';

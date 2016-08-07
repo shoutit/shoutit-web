@@ -8,7 +8,6 @@ import { getStaticHtml } from '../reducers/staticHtml';
 import { loadStaticHtml } from '../actions/staticHtml';
 import { routeError } from '../actions/server';
 
-import Panel from '../layout/Panel';
 import Page, { Body } from '../layout/Page';
 import ResponsiveLayout from '../layout/ResponsiveLayout';
 import Progress from '../widgets/Progress';
@@ -52,15 +51,15 @@ export class StaticHtml extends Component {
     return (
       <Page className="StaticHtml">
         <Body>
-          <ResponsiveLayout size="small">
-            <Panel>
+          <ResponsiveLayout size="medium">
+            <div className="StaticHtml-Content">
               { staticHtml.isFetching &&
                 <Progress animate={ staticHtml.isFetching } />
               }
               { !staticHtml.isFetching && staticHtml.content &&
                 <div dangerouslySetInnerHTML={ { __html: staticHtml.content } }></div>
               }
-            </Panel>
+            </div>
           </ResponsiveLayout>
         </Body>
       </Page>

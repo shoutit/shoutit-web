@@ -1,7 +1,33 @@
 @import '../styles/constants.scss';
 
 .StaticHtml {
-  .Panel {
-    padding: $vertical-spacing $horizontal-spacing;
+  // override Page
+  padding-top: 0;
+  padding-bottom: 0;
+
+  h1 {
+    padding: $vertical-spacing/4 0;
   }
+  li {
+    padding: $vertical-spacing/4; 
+  }
+
+  p, li {
+    line-height: 1.4em;
+  }
+
+  hr {
+    margin: $vertical-spacing*2 0;
+    border: 0;
+    height: 0;
+    border-top: 1px solid $border-color;
+  }
+
+}
+
+.StaticHtml-Content {
+  box-shadow: inset $box-shadow-depth-0;
+  background-color: $white;
+  padding: $vertical-spacing $horizontal-spacing;
+  padding-bottom: 40vh;
 }
