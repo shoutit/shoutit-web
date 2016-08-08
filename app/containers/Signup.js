@@ -227,7 +227,7 @@ export class Signup extends Component {
                 values={ {
                   linkToTermsOfService: <Link to="/static/tos"><FormattedMessage id="signup.form.linkToTermsOfService" defaultMessage="Terms of Service" /></Link>,
                   linkToPrivacyPolicy: <Link to="/static/privacy"><FormattedMessage id="signup.form.linkToPrivacyPolicy" defaultMessage="Privacy Policy" /></Link>,
-                  linkToRules: <Link to="/static/rules"><FormattedMessage id="signup.form.linkToRules" defaultMessage="Market Rules" /></Link>,
+                  linkToRules: <Link to="/static/rules"><FormattedMessage id="signup.form.linkToRules" defaultMessage="Marketplace Rules" /></Link>,
                 } }
               />
             </AncillaryText>

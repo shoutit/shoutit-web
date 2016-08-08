@@ -43,6 +43,7 @@ $ npm start     # start the server
 * `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD`: username and password to enforce a basic authentication access control
 * `HOST`: the host where to start the Express server. Default is *localhost*.
 * `PORT`: the port the server listens to. Default is *8080* for production, *3000* for development.
+* `CURRENT_TAG`: the current git versioning info. Default is set in index.js.
 
 ### Starting the docker container
 
@@ -136,7 +137,7 @@ The localized JSONs *must* be committed on the `develop` branch to make them ava
 
 ### Tests
 
-Most of the unit tests run with [mocha](http://mochajs.org) and [chai](http://chaijs.com).
+Most of the unit tests run with [mocha](http://mochajs.org), [chai](http://chaijs.com) and [enzyme](https://github.com/airbnb/enzyme).
 Some specs that need a browser instance run with [karma](https://karma-runner.github.io).
 
 ```bash
@@ -164,9 +165,9 @@ Test coverage output is in the _coverage_ directory.
 
 * Fixtures and mocks goes into _assets/fixtures_
 * Each file must have a relative _*.test.js_  (for mocha tests) or _*.spec.js_ (for karma) file
-* If test is not ready yet, just import the file, so that our test coverage script will detect it. Example:
 
-```js
-import myScript from "./myScript"; // eslint-disable-line
-// no tests here, code climate will complain :(
-```
+### Deploy
+
+* pushing to the `develop` branch will deploy to [stage.www.shoutit.com](http://stage.www.shoutit.com)
+* pushing to the `master` branch will deploy to [beta.www.shoutit.com](http://beta.www.shoutit.com) (login/password: `beta`/`beta`)
+* creating a new tag `release-<n>` (e.g. `release-24`) on the `master` branch will release the tag to [www.shoutit.com](http://www.shoutit.com). Releases should be tracked on github's [releases page](https://github.com/shoutit/shoutit-web/releases).

@@ -17,8 +17,19 @@ export function getDocumentScrollTop() {
   return 0;
 }
 
-export function getStyleBackgroundImage(path, variation, usePlaceholder = true) {
-  if (!path) {
+/**
+ * Get the style to use an image as background:
+ * `url`: the image URL on S3
+ * `variation`: the S3 image variation to use
+ * `size`: `cover` or `contain`
+ * `usePlaceholder`: if url is undefined, will use a placeholder image
+ *
+ * @export
+ * @param {Object} { url, variation, size = 'cover', usePlaceholder = true }
+ * @returns
+ */
+export function backgroundImageStyle({ url, variation, size = 'cover', usePlaceholder = true } = {}) {
+  if (!url) {
     if (!usePlaceholder) {
       return null;
     }
@@ -29,9 +40,9 @@ export function getStyleBackgroundImage(path, variation, usePlaceholder = true) 
     };
   }
   return {
-    backgroundImage: `url("${variation ? getVariation(path, variation) : path}")`,
+    backgroundImage: `url("${variation ? getVariation(url, variation) : url}")`,
     backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
+    backgroundSize: size,
     backgroundPosition: 'center',
   };
 }

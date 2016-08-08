@@ -87,7 +87,7 @@ export function Footer({ currentLocation }) {
           <Link to="/static/rules">
             <FormattedMessage
               id="footer.marketRules"
-              defaultMessage="Market Rules"
+              defaultMessage="Marketplace Rules"
             />
           </Link>
           { ' - ' }

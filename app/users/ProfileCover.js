@@ -6,7 +6,7 @@ import ReactAvatarEditor from 'react-avatar-editor';
 import { connect } from 'react-redux';
 
 import request from '../utils/request';
-import { getStyleBackgroundImage, preventBodyScroll } from '../utils/DOMUtils';
+import { backgroundImageStyle, preventBodyScroll } from '../utils/DOMUtils';
 import { getFilename } from '../utils/StringUtils';
 import { updateProfile } from '../actions/users';
 
@@ -126,7 +126,7 @@ export class ProfileCover extends Component {
     const { profile } = this.props;
     const { isEditing, isLoading, image } = this.state;
     const style = {
-      ...getStyleBackgroundImage(profile.cover, 'large'),
+      ...backgroundImageStyle({ url: profile.cover, variation: 'large' }),
       height,
     };
     let className = 'ProfileCover';
