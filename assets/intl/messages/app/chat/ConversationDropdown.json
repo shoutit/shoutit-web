@@ -8,7 +8,7 @@
     "defaultMessage": "Do you really want to leave this conversation?"
   },
   {
-    "id": "shoutPageDeleteAction.modal.button.leave",
+    "id": "shoutPageDeleteAction.leaveModal.leave",
     "defaultMessage": "Leave"
   },
   {

@@ -20,8 +20,8 @@ const MESSAGES = defineMessages({
     id: 'chat.conversation.leaveModal.body',
     defaultMessage: 'Do you really want to leave this conversation?',
   },
-  confirm: {
-    id: 'shoutPageDeleteAction.modal.button.leave',
+  leave: {
+    id: 'shoutPageDeleteAction.leaveModal.leave',
     defaultMessage: 'Leave',
   },
   cancel: {
@@ -63,7 +63,7 @@ export class ConversationDropdown extends Component {
         actions={ [
           { label: formatMessage(MESSAGES.cancel) },
           {
-            label: formatMessage(MESSAGES.confirm),
+            label: formatMessage(MESSAGES.leave),
             kind: 'primary',
             onClick: () => dispatch(leaveConversation(conversation)),
           },
