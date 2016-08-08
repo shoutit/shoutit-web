@@ -40,7 +40,9 @@ export class ProfileAvatarEditable extends Component {
 
   static propTypes = {
     ...ProfileAvatar.PropTypes,
+    intl: PropTypes.object.isRequired,
     openModal: PropTypes.func.isRequired,
+    updateProfile: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
   }
 
