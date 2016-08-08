@@ -1,0 +1,22 @@
+[
+  {
+    "id": "shoutPageDeleteAction.button.label",
+    "defaultMessage": "Delete"
+  },
+  {
+    "id": "shoutPageDeleteAction.modal.header",
+    "defaultMessage": "Are you sure?"
+  },
+  {
+    "id": "shoutPageDeleteAction.modal.body",
+    "defaultMessage": "Really delete this Shout?"
+  },
+  {
+    "id": "shoutPageDeleteAction.modal.button.confirm",
+    "defaultMessage": "Confirm"
+  },
+  {
+    "id": "shoutPageDeleteAction.modal.button.cancel",
+    "defaultMessage": "Cancel"
+  }
+]

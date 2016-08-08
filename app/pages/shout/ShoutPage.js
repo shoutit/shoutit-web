@@ -24,6 +24,7 @@ import ShoutPagePrice from './ShoutPagePrice';
 import ShoutPageActions from './ShoutPageActions';
 import ShoutPageLocation from './ShoutPageLocation';
 import ShoutPageRelated from './ShoutPageRelated';
+import ShoutPageDeleteAction from './ShoutPageDeleteAction';
 
 import './ShoutPage.scss';
 
@@ -119,6 +120,7 @@ class ShoutPage extends Component {
               <Device type="desktop">
                 { shout.title && <h1>{ shout.title }</h1> }
                 <ShoutPagePrice shout={ shout } />
+                <ShoutPageDeleteAction shout={ shout } />
               </Device>
               <ShoutPageActions shout={ shout } />
             </Panel>

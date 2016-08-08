@@ -1,0 +1,10 @@
+@import '../../styles/constants.scss';
+
+.ShoutPageDeleteAction {
+  text-align: right;
+  margin: 5px 0px;
+
+  a {
+    color: $grey;
+  }
+}
