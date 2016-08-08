@@ -1,5 +1,21 @@
 [
   {
+    "id": "profileAvatarEditable.modal.header",
+    "defaultMessage": "Are you sure?"
+  },
+  {
+    "id": "profileAvatarEditable.modal.body",
+    "defaultMessage": "Delete your profile picture?"
+  },
+  {
+    "id": "profileAvatarEditable.modal.confirm",
+    "defaultMessage": "Confirm"
+  },
+  {
+    "id": "profileAvatarEditable.modal.cancel",
+    "defaultMessage": "Cancel"
+  },
+  {
     "id": "profileAvatar.editButton",
     "defaultMessage": "{hasImage, select, true {Change picture} false {Set profile picture}}"
   }

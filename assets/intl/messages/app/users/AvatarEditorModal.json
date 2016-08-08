@@ -1,13 +1,5 @@
 [
   {
-    "id": "avatarEditor.deleteConfirmMessage",
-    "defaultMessage": "Delete your profile picture?"
-  },
-  {
-    "id": "avatarEditor.deleteButton",
-    "defaultMessage": "Delete"
-  },
-  {
     "id": "avatarEditor.uploadButton",
     "defaultMessage": "Upload image"
   },

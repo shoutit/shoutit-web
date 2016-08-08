@@ -3,11 +3,10 @@
 
 import React, { PropTypes, Component } from 'react';
 import ReactAvatarEditor from 'react-avatar-editor';
-import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { connect } from 'react-redux';
 import { updateProfile } from '../actions/users';
-import { getFilename } from '../utils/StringUtils';
 import request from '../utils/request';
 
 import Form from '../forms/Form';
@@ -19,13 +18,6 @@ export const width = 250;
 export const height = 250;
 
 import './AvatarEditorModal.scss';
-
-const MESSAGES = defineMessages({
-  deleteConfirm: {
-    id: 'avatarEditor.deleteConfirmMessage',
-    defaultMessage: 'Delete your profile picture?',
-  },
-});
 
 export class AvatarEditorModal extends Component {
 
@@ -41,7 +33,6 @@ export class AvatarEditorModal extends Component {
     this.cancelEditing = this.cancelEditing.bind(this);
     this.handlePictureChange = this.handlePictureChange.bind(this);
     this.handleSaveClick = this.handleSaveClick.bind(this);
-    this.handleDeleteClick = this.handleDeleteClick.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
     this.handleScale = this.handleScale.bind(this);
     this.hide = this.hide.bind(this);
@@ -87,24 +78,6 @@ export class AvatarEditorModal extends Component {
 
   }
 
-  handleDeleteClick() {
-    const { profile, dispatch } = this.props;
-    if (!confirm(this.props.intl.formatMessage(MESSAGES.deleteConfirm))) {
-      return;
-    }
-    this.setState({ isLoading: true });
-    request
-        .delete('/api/file/user')
-        .query({ name: getFilename(profile.image) })
-        .end((err, res) => {
-          if (err || !res.ok) {
-            console.error(err); // eslint-disable-line
-            return;
-          }
-        });
-    dispatch(updateProfile({ id: profile.id, image: null })).then(this.hide);
-  }
-
   handlePictureChange(e) {
     const { files } = e.target;
     if (files && files.length > 0) {
@@ -138,23 +111,7 @@ export class AvatarEditorModal extends Component {
 
     const actions = [];
 
-    const startButtons = [];
-
-    if (this.props.profile.image && this.props.profile.image === this.state.image) {
-      startButtons.push(
-        <Button
-          key="delete"
-          disabled={ this.state.isLoading }
-          kind="destructive"
-          onClick={ this.handleDeleteClick }>
-          <FormattedMessage
-            id="avatarEditor.deleteButton"
-            defaultMessage="Delete"
-          />
-        </Button>
-      );
-    }
-    startButtons.push(
+    const startButtons = [
       <UploadButton
         key="upload"
         name="upload-image"
@@ -168,8 +125,8 @@ export class AvatarEditorModal extends Component {
           id="avatarEditor.uploadButton"
           defaultMessage="Upload image"
         />
-      </UploadButton>
-    );
+      </UploadButton>,
+    ];
 
     if (this.state.image && this.props.profile.image !== this.state.image) {
       actions.push(
