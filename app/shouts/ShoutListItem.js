@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import ShoutPrice from '../shouts/ShoutPrice';
 
 import ListItem from '../layout/ListItem';
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
+import { backgroundImageStyle } from '../utils/DOMUtils';
 
 import './ShoutListItem.scss';
 
@@ -13,9 +13,14 @@ export default function ShoutListItem({
   link = true,
   onClick,
 }) {
-  const image = <span className="ShoutListItem-thumbnail" style={ getStyleBackgroundImage(shout.thumbnail, 'small') } />;
+  const thumbnail = (
+    <span
+      className="ShoutListItem-thumbnail"
+      style={ backgroundImageStyle({ url: shout.thumbnail, variation: 'small' }) }
+    />
+  );
   let content = (
-    <ListItem className="ShoutListItem" size={ size } nowrap start={ image } onClick={ onClick }>
+    <ListItem className="ShoutListItem" size={ size } nowrap start={ thumbnail } onClick={ onClick }>
       <div className="ShoutListItem-child">
         <div className="ShoutListItem-title">{ shout.title }</div>
         <div className="ShoutListItem-details">

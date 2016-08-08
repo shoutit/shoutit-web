@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
-import { getStyleBackgroundImage } from '../utils/DOMUtils';
+import { backgroundImageStyle } from '../utils/DOMUtils';
 import FormattedCreatedAt from '../utils/FormattedCreatedAt';
 
 import './NotificationItem.scss';
@@ -58,7 +58,10 @@ export default class NotificationItem extends Component {
     return (
       <li className={ className }>
         <Link onClick={ onClick } to={ notification.webUrl }>
-          <div className="NotificationItem-image" style={ getStyleBackgroundImage(notification.display.image) } />
+          <div
+            className="NotificationItem-image"
+            style={ backgroundImageStyle({ url: notification.display.image }) }
+          />
           <div className="NotificationItem-content">
             <div className="NotificationItem-text">
               { getSegmentsFromRange(text, ranges).map((segment, i) => {

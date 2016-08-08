@@ -15,12 +15,10 @@
   &.default > span {
     min-width: 768px;
   }
-}
-.ResponsiveLayout.min-width {
-  &.default > span {
-    min-width: 768px;
-  }
   &.small > span {
+    min-width: 280px;
+  }
+  &.medium > span {
     min-width: 280px;
   }
 }
@@ -28,6 +26,9 @@
 .ResponsiveLayout.max-width {
   &.default > span {
     max-width: 1200px;
+  }
+  &.medium > span {
+    max-width: 768px;
   }
   &.small > span {
     max-width: 530px;
