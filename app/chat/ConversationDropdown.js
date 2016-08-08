@@ -4,16 +4,32 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 
 import { leaveConversation, readConversation, unreadConversation } from '../actions/conversations';
+import { openModal } from '../actions/ui';
 
 import Icon from '../widgets/Icon';
 import Dropdown, { MenuItem } from '../widgets/Dropdown';
 
+import GenericModal from '../modals/GenericModal';
+
 const MESSAGES = defineMessages({
-  deleteConfirm: {
-    id: 'chat.conversation.dropdown.deleteConfirm',
+  header: {
+    id: 'chat.conversation.leaveModal.header',
+    defaultMessage: 'Are you sure?',
+  },
+  body: {
+    id: 'chat.conversation.leaveModal.body',
     defaultMessage: 'Do you really want to leave this conversation?',
   },
+  confirm: {
+    id: 'shoutPageDeleteAction.modal.button.leave',
+    defaultMessage: 'Leave',
+  },
+  cancel: {
+    id: 'chat.conversation.leaveModal.cancel',
+    defaultMessage: 'Cancel',
+  },
 });
+
 export class ConversationDropdown extends Component {
 
   static propTypes = {
@@ -22,6 +38,7 @@ export class ConversationDropdown extends Component {
     conversation: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -38,11 +55,23 @@ export class ConversationDropdown extends Component {
   }
 
   handleLeaveClick() {
-    const { conversation, dispatch } = this.props;
-    const { formatMessage } = this.props.intl;
-    if (confirm(formatMessage(MESSAGES.deleteConfirm))) { // eslint-disable-line
-      dispatch(leaveConversation(conversation));
-    }
+    const { conversation, dispatch, intl: { formatMessage } } = this.props;
+
+    dispatch(openModal(
+      <GenericModal
+        header={ formatMessage(MESSAGES.header) }
+        actions={ [
+          { label: formatMessage(MESSAGES.cancel) },
+          {
+            label: formatMessage(MESSAGES.confirm),
+            kind: 'primary',
+            onClick: () => dispatch(leaveConversation(conversation)),
+          },
+        ] }
+      >
+        { formatMessage(MESSAGES.body) }
+      </GenericModal>
+    ));
   }
 
   render() {
@@ -70,7 +99,6 @@ export class ConversationDropdown extends Component {
       </Dropdown>
     );
   }
-
 }
 
 export default connect()(injectIntl(ConversationDropdown));

@@ -1,7 +1,19 @@
 [
   {
-    "id": "chat.conversation.dropdown.deleteConfirm",
+    "id": "chat.conversation.leaveModal.header",
+    "defaultMessage": "Are you sure?"
+  },
+  {
+    "id": "chat.conversation.leaveModal.body",
     "defaultMessage": "Do you really want to leave this conversation?"
+  },
+  {
+    "id": "shoutPageDeleteAction.modal.button.leave",
+    "defaultMessage": "Leave"
+  },
+  {
+    "id": "chat.conversation.leaveModal.cancel",
+    "defaultMessage": "Cancel"
   },
   {
     "id": "chat.conversation.dropdown.fullConversation",
