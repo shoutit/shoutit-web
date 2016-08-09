@@ -2,9 +2,11 @@
 
 .ShoutPageDeleteAction {
   text-align: right;
-  margin: 5px 0px;
-
+  font-size: 0.875em;
   a {
-    color: $grey;
+    color: $color-destructive;
+    &:hover {
+      color: $color-destructive-light;
+    }
   }
 }
