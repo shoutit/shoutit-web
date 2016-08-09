@@ -1,7 +1,7 @@
 import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
 import { denormalize } from '../../schemas';
-import { getState } from '../paginated';
+import { getPagination } from '../paginated';
 
 export default createPaginatedReducer({
   mapActionToKey: action => action.payload.username,
@@ -24,5 +24,5 @@ export function getShoutsByUsername(state, username) {
 }
 
 export function getPaginationState(state, username) {
-  return getState(state, `shoutsByUsername.${username}`);
+  return getPagination(state, ['shoutsByUsername', username]);
 }

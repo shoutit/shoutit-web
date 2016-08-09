@@ -38,8 +38,23 @@ export default combineReducers({
   tagListeningByUser,
 });
 
-export function getState(state, selector) {
-  const paginationState = get(state.paginated, selector);
+/**
+ * Returns an object containing the pagination state for the specified path.
+ * {
+ *   isFetching // boolean
+ *   count // number
+ *   nextUrl // string
+ *   prevUrl // string
+ *   error // object
+ * }
+ *
+ * @export
+ * @param {any} state The store state
+ * @param {Array|String} path The path of the paginated reducer
+ * @returns {Object}
+ */
+export function getPagination(state, path) {
+  const paginationState = get(state.paginated, path);
   if (!paginationState) {
     return {
       isFetching: false,

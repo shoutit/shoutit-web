@@ -1,7 +1,7 @@
 import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
 import { denormalize } from '../../schemas';
-import { getState } from '../paginated';
+import { getPagination } from '../paginated';
 
 export default createPaginatedReducer({
   fetchTypes: [
@@ -17,4 +17,4 @@ export function getHomepageShouts(state) {
   );
 }
 
-export const getPaginationState = state => getState(state, 'shoutsByHome');
+export const getPaginationState = state => getPagination(state, 'shoutsByHome');

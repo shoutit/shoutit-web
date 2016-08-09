@@ -1,7 +1,7 @@
 import without from 'lodash/without';
 import union from 'lodash/union';
 import { denormalize } from '../../schemas';
-import { getState } from '../paginated';
+import { getPagination } from '../paginated';
 
 import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
@@ -88,6 +88,6 @@ export function getListeningTags(state, profile) {
 
 
 export function getPaginationState(state, profile) {
-  return getState(state, `tagListeningByUser.${profile.id}`);
+  return getPagination(state, ['tagListeningByUser', profile.id]);
 }
 
