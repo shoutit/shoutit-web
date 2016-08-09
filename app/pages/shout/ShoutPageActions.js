@@ -9,6 +9,7 @@ import { getLoggedUser } from '../../reducers/session';
 
 import ShoutUpdateButton from '../../shouts/ShoutUpdateButton';
 import ShoutCallButton from '../../shouts/ShoutCallButton';
+import ShoutPageDeleteAction from './ShoutPageDeleteAction';
 
 import Button from '../../forms/Button';
 
@@ -25,11 +26,12 @@ function ShoutActions({ shout, onReplyClick }) {
     return (
       <div className="ShoutPage-Actions">
         <div>
-          <ShoutUpdateButton block shoutId={ shout.id } />
-        </div>
-        <div>
           { callButton }
         </div>
+        <div>
+          <ShoutUpdateButton block shoutId={ shout.id } />
+        </div>
+        <ShoutPageDeleteAction shout={ shout } />
       </div>
     );
   }
@@ -52,7 +54,6 @@ function ShoutActions({ shout, onReplyClick }) {
 ShoutActions.propTypes = {
   shout: PropTypes.object.isRequired,
   onReplyClick: PropTypes.func.isRequired,
-  loggedUser: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

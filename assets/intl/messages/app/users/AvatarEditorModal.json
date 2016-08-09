@@ -1,11 +1,11 @@
 [
   {
-    "id": "avatarEditor.deleteConfirmMessage",
-    "defaultMessage": "Delete your profile picture?"
+    "id": "avatarEditor.title",
+    "defaultMessage": "Change Your Picture"
   },
   {
-    "id": "avatarEditor.deleteButton",
-    "defaultMessage": "Delete"
+    "id": "avatarEditor.cancelButton",
+    "defaultMessage": "Cancel"
   },
   {
     "id": "avatarEditor.uploadButton",
@@ -14,13 +14,5 @@
   {
     "id": "avatarEditor.saveButton",
     "defaultMessage": "Save changes"
-  },
-  {
-    "id": "avatarEditor.cancelButton",
-    "defaultMessage": "Cancel"
-  },
-  {
-    "id": "avatarEditor.title",
-    "defaultMessage": "Change Your Picture"
   }
 ]

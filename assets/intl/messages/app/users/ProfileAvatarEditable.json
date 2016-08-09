@@ -1,6 +1,26 @@
 [
   {
+    "id": "profileAvatarEditable.confirmDelete.title",
+    "defaultMessage": "Do you want to remove your picture?"
+  },
+  {
+    "id": "profileAvatarEditable.confirmDelete.message",
+    "defaultMessage": "Your profile will be less recognizable without a picture."
+  },
+  {
+    "id": "profileAvatarEditable.confirmDelete.confirmButton",
+    "defaultMessage": "Remove"
+  },
+  {
+    "id": "profileAvatarEditable.confirmDelete.cancelButton",
+    "defaultMessage": "Cancel"
+  },
+  {
     "id": "profileAvatar.editButton",
-    "defaultMessage": "{hasImage, select, true {Change picture} false {Set profile picture}}"
+    "defaultMessage": "{hasImage, select, true {Click to change your profile picture} false {Click to set your profile picture}}"
+  },
+  {
+    "id": "profileAvatar.removeButton",
+    "defaultMessage": "Remove"
   }
 ]
