@@ -15,14 +15,14 @@
   margin-bottom: 1em; 
 }
 .Button.NewShoutModal-offer {
-  background-color: $color-offer;
+  background-color: $color-offer !important;
   &:hover {
     background-color: lighten($color-offer, 5) !important;
   }
 }
 
 .Button.NewShoutModal-request {
-  background-color: $color-request;
+  background-color: $color-request !important;
   &:hover {
     background-color: lighten($color-request, 5) !important;
   }
