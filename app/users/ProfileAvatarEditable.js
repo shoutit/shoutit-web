@@ -111,6 +111,7 @@ export class ProfileAvatarEditable extends Component {
         >
         <FileInput
           name="avatar"
+          accept="image/jpeg,image/png"
           onChange={ this.handleFileInputChange }>
           <ProfileAvatar { ...this.props } />
           <div className="ProfileAvatarEditable-instructions">
