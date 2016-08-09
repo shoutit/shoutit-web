@@ -2,12 +2,12 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { defineMessages, injectIntl } from 'react-intl';
 
-import { openModal } from '../../actions/ui';
 import { deleteShout } from '../../actions/shouts';
 
-import GenericModal from '../../modals/GenericModal';
+import { confirm } from '../../actions/ui';
 
 import './ShoutPageDeleteAction.scss';
 
@@ -38,8 +38,8 @@ class ShoutPageDeleteAction extends Component {
   static propTypes = {
     shout: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
-    openModal: PropTypes.func.isRequired,
-    onDeleteConfirm: PropTypes.func.isRequired,
+    confirm: PropTypes.func.isRequired,
+    deleteShout: PropTypes.func.isRequired,
   }
 
   constructor() {
@@ -49,25 +49,25 @@ class ShoutPageDeleteAction extends Component {
   }
 
   handleClick() {
-    const { openModal, shout, onDeleteConfirm, intl } = this.props;
+    const { confirm, shout, deleteShout, intl } = this.props;
 
-    openModal(
-      <GenericModal
-        header={ intl.formatMessage(MESSAGES.header) }
-        buttons={ [
-          {
-            label: intl.formatMessage(MESSAGES.cancel),
-            focused: true,
+    confirm(
+      intl.formatMessage(MESSAGES.header),
+      intl.formatMessage(MESSAGES.body),
+      [
+        {
+          label: intl.formatMessage(MESSAGES.cancel),
+          focused: true,
+        },
+        {
+          label: intl.formatMessage(MESSAGES.confirm),
+          kind: 'destructive',
+          onClick: () => {
+            deleteShout(shout)
+              .then(() => { window.location = '/'; });
           },
-          {
-            label: intl.formatMessage(MESSAGES.confirm),
-            kind: 'destructive',
-            onClick: () => onDeleteConfirm(shout),
-          },
-        ] }
-      >
-        { intl.formatMessage(MESSAGES.body) }
-      </GenericModal>
+        },
+      ]
     );
   }
 
@@ -84,10 +84,9 @@ class ShoutPageDeleteAction extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  openModal: modal => dispatch(openModal(modal)),
-  onDeleteConfirm: shout =>
-    dispatch(deleteShout(shout)).then(() => { window.location = '/'; }),
-});
+const mapDispatchToProps = dispatch => bindActionCreators({
+  deleteShout,
+  confirm,
+}, dispatch);
 
 export default connect(undefined, mapDispatchToProps)(injectIntl(ShoutPageDeleteAction));

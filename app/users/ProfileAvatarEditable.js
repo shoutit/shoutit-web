@@ -1,11 +1,12 @@
 /* eslint-env browser */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { injectIntl, FormattedMessage, defineMessages } from 'react-intl';
 import request from '../utils/request';
 import { getFilename } from '../utils/StringUtils';
 
-import { openModal } from '../actions/ui';
+import { openModal, confirm } from '../actions/ui';
 import { updateProfile } from '../actions/users';
 
 import AvatarEditorModal from '../users/AvatarEditorModal';
@@ -13,8 +14,6 @@ import ProfileAvatar from '../users/ProfileAvatar';
 import FileInput from '../forms/FileInput';
 
 import './ProfileAvatarEditable.scss';
-
-import GenericModal from '../modals/GenericModal';
 
 const MESSAGES = defineMessages({
   header: {
@@ -41,6 +40,7 @@ export class ProfileAvatarEditable extends Component {
     ...ProfileAvatar.PropTypes,
     intl: PropTypes.object.isRequired,
     openModal: PropTypes.func.isRequired,
+    confirm: PropTypes.func.isRequired,
     updateProfile: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
   }
@@ -74,39 +74,37 @@ export class ProfileAvatarEditable extends Component {
   handleImageDelete(e) {
     e.preventDefault();
     e.stopPropagation();
-    const { profile, intl: { formatMessage }, openModal, updateProfile } = this.props;
+    const { profile, intl: { formatMessage }, confirm, updateProfile } = this.props;
 
-    openModal(
-      <GenericModal
-        header={ formatMessage(MESSAGES.header) }
-        buttons={ [
-          { label: formatMessage(MESSAGES.cancel) },
-          {
-            label: formatMessage(MESSAGES.confirm),
-            kind: 'destructive',
-            onClick: () => {
-              request
-                .delete('/api/file/user')
-                .query({ name: getFilename(profile.image) })
-                .end((err, res) => {
-                  if (err || !res.ok) {
-                    console.error(err); // eslint-disable-line
-                    return;
-                  }
-                });
+    confirm(
+      formatMessage(MESSAGES.header),
+      formatMessage(MESSAGES.body),
+      [
+        { label: formatMessage(MESSAGES.cancel) },
+        {
+          label: formatMessage(MESSAGES.confirm),
+          kind: 'primary',
+          onClick: () => {
+            request
+              .delete('/api/file/user')
+              .query({ name: getFilename(profile.image) })
+              .end((err, res) => {
+                if (err || !res.ok) {
+                  console.error(err); // eslint-disable-line
+                  return;
+                }
+              });
 
-              updateProfile({ id: profile.id, image: null });
-            },
+            updateProfile({ id: profile.id, image: null });
           },
-        ] }
-      >
-        { formatMessage(MESSAGES.body) }
-      </GenericModal>
+        },
+      ]
     );
   }
 
   render() {
     const { profile } = this.props;
+
     return (
       <span
         className="ProfileAvatarEditable"
@@ -142,8 +140,10 @@ export class ProfileAvatarEditable extends Component {
 
 }
 
-const mapDispatchToProps = dispatch => ({
-  openModal: modal => dispatch(openModal(modal)),
-  updateProfile: profile => dispatch(updateProfile(profile)),
-});
+const mapDispatchToProps = dispatch => bindActionCreators({
+  openModal,
+  confirm,
+  updateProfile,
+}, dispatch);
+
 export default connect(null, mapDispatchToProps)(injectIntl(ProfileAvatarEditable));
