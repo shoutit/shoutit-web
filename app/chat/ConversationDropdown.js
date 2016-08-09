@@ -9,7 +9,7 @@ import { openModal } from '../actions/ui';
 import Icon from '../widgets/Icon';
 import Dropdown, { MenuItem } from '../widgets/Dropdown';
 
-import GenericModal from '../modals/GenericModal';
+import SimpleModal from '../modals/SimpleModal';
 
 const MESSAGES = defineMessages({
   header: {
@@ -58,7 +58,7 @@ export class ConversationDropdown extends Component {
     const { conversation, dispatch, intl: { formatMessage } } = this.props;
 
     dispatch(openModal(
-      <GenericModal
+      <SimpleModal
         header={ formatMessage(MESSAGES.header) }
         buttons={ [
           { label: formatMessage(MESSAGES.cancel) },
@@ -70,7 +70,7 @@ export class ConversationDropdown extends Component {
         ] }
       >
         { formatMessage(MESSAGES.body) }
-      </GenericModal>
+      </SimpleModal>
     ));
   }
 

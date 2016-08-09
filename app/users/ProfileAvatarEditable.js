@@ -14,7 +14,7 @@ import FileInput from '../forms/FileInput';
 
 import './ProfileAvatarEditable.scss';
 
-import GenericModal from '../modals/GenericModal';
+import SimpleModal from '../modals/SimpleModal';
 import Icon from '../widgets/Icon';
 
 const MESSAGES = defineMessages({
@@ -76,7 +76,7 @@ export class ProfileAvatarEditable extends Component {
     const { profile, intl: { formatMessage }, openModal, updateProfile } = this.props;
 
     openModal(
-      <GenericModal
+      <SimpleModal
         header={ formatMessage(MESSAGES.header) }
         buttons={ [
           { label: formatMessage(MESSAGES.cancel) },
@@ -100,7 +100,7 @@ export class ProfileAvatarEditable extends Component {
         ] }
       >
         { formatMessage(MESSAGES.body) }
-      </GenericModal>
+      </SimpleModal>
     );
   }
 
