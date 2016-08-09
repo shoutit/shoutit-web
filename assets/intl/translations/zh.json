@@ -165,6 +165,7 @@
   "profileActions.userIsListening": "{firstName} 正在聆听您",
   "profileActions.viewProfile": "查看个人资料",
   "profileAvatar.editButton": "{hasImage, select, true {更换照片} false {设置头像}}",
+  "profileAvatar.removeButton": "Remove",
   "profileAvatarEditable.modal.body": "Delete your profile picture?",
   "profileAvatarEditable.modal.cancel": "Cancel",
   "profileAvatarEditable.modal.confirm": "Confirm",

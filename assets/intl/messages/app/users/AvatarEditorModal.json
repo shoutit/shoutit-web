@@ -1,18 +1,18 @@
 [
   {
-    "id": "avatarEditor.uploadButton",
-    "defaultMessage": "Upload image"
-  },
-  {
-    "id": "avatarEditor.saveButton",
-    "defaultMessage": "Save changes"
+    "id": "avatarEditor.title",
+    "defaultMessage": "Change Your Picture"
   },
   {
     "id": "avatarEditor.cancelButton",
     "defaultMessage": "Cancel"
   },
   {
-    "id": "avatarEditor.title",
-    "defaultMessage": "Change Your Picture"
+    "id": "avatarEditor.uploadButton",
+    "defaultMessage": "Upload image"
+  },
+  {
+    "id": "avatarEditor.saveButton",
+    "defaultMessage": "Save changes"
   }
 ]

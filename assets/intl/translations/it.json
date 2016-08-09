@@ -165,6 +165,7 @@
   "profileActions.userIsListening": "{firstName} is listening to you",
   "profileActions.viewProfile": "View profile",
   "profileAvatar.editButton": "{hasImage, select, true {Change picture} false {Set profile picture}}",
+  "profileAvatar.removeButton": "Remove",
   "profileAvatarEditable.modal.body": "Delete your profile picture?",
   "profileAvatarEditable.modal.cancel": "Cancel",
   "profileAvatarEditable.modal.confirm": "Confirm",

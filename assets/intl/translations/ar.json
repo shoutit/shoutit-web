@@ -165,6 +165,7 @@
   "profileActions.userIsListening": "{firstName} يستمع اليك",
   "profileActions.viewProfile": "عرض الملف الشخصي",
   "profileAvatar.editButton": "{hasImage, select, true {تغيير الصورة الشخصية} false {تعيين الصورة الشخصية}}",
+  "profileAvatar.removeButton": "Remove",
   "profileAvatarEditable.modal.body": "Delete your profile picture?",
   "profileAvatarEditable.modal.cancel": "Cancel",
   "profileAvatarEditable.modal.confirm": "Confirm",
