@@ -45,10 +45,10 @@ class ShoutPageDeleteAction extends Component {
   constructor() {
     super();
 
-    this.onClickHandler = this.onClickHandler.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  onClickHandler() {
+  handleClick() {
     const { openModal, shout, onDeleteConfirm, intl } = this.props;
 
     openModal(
@@ -73,7 +73,7 @@ class ShoutPageDeleteAction extends Component {
 
     return (
       <div className="ShoutPageDeleteAction">
-        <a onClick={ this.onClickHandler }>
+        <a onClick={ this.handleClick }>
           { intl.formatMessage(MESSAGES.buttonLabel) }
         </a>
       </div>
