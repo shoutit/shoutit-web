@@ -5,15 +5,15 @@
   },
   {
     "id": "shoutPageDeleteAction.modal.header",
-    "defaultMessage": "Are you sure?"
+    "defaultMessage": "Do you want to delete this Shout?"
   },
   {
     "id": "shoutPageDeleteAction.modal.body",
-    "defaultMessage": "Really delete this Shout?"
+    "defaultMessage": "This shout will be removed permanently."
   },
   {
     "id": "shoutPageDeleteAction.modal.button.confirm",
-    "defaultMessage": "Confirm"
+    "defaultMessage": "Delete Shout"
   },
   {
     "id": "shoutPageDeleteAction.modal.button.cancel",

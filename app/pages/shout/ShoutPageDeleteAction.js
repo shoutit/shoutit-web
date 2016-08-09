@@ -18,15 +18,15 @@ const MESSAGES = defineMessages({
   },
   header: {
     id: 'shoutPageDeleteAction.modal.header',
-    defaultMessage: 'Are you sure?',
+    defaultMessage: 'Do you want to delete this Shout?',
   },
   body: {
     id: 'shoutPageDeleteAction.modal.body',
-    defaultMessage: 'Really delete this Shout?',
+    defaultMessage: 'This shout will be removed permanently.',
   },
   confirm: {
     id: 'shoutPageDeleteAction.modal.button.confirm',
-    defaultMessage: 'Confirm',
+    defaultMessage: 'Delete Shout',
   },
   cancel: {
     id: 'shoutPageDeleteAction.modal.button.cancel',
@@ -58,7 +58,7 @@ class ShoutPageDeleteAction extends Component {
           { label: intl.formatMessage(MESSAGES.cancel) },
           {
             label: intl.formatMessage(MESSAGES.confirm),
-            kind: 'primary',
+            kind: 'destructive',
             onClick: () => onDeleteConfirm(shout),
           },
         ] }
