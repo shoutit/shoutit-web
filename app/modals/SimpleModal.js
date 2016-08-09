@@ -1,5 +1,4 @@
 /* eslint-env browser */
-import map from 'lodash/map';
 import React, { PropTypes, Component } from 'react';
 import Button from '../forms/Button';
 import Modal, { Header, Footer, Body } from '../modals';
@@ -54,21 +53,18 @@ export default class GenericModal extends Component {
         </Body>
         { buttons &&
           <Footer>
-            {
-              map(buttons, (button, index) => {
-                const { label, focused, ...props } = button;
-
-                const onClick = () => {
-                  button.onClick && button.onClick();
-                  this.hide();
-                };
-
-                return (
-                  <Button { ...props } key={ index } onClick={ onClick } ref={ focused && 'focusedButton' }>
-                    { label }
-                  </Button>
-                );
-              })
+            { buttons.map((button, i) => {
+              const { label, focused, ...props } = button;
+              const onClick = () => {
+                button.onClick && button.onClick();
+                this.hide();
+              };
+              return (
+                <Button { ...props } key={ i } onClick={ onClick } ref={ focused && 'focusedButton' }>
+                  { label }
+                </Button>
+              );
+            })
             }
           </Footer>
         }
