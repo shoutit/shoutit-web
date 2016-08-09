@@ -29,20 +29,23 @@ export default class GenericModal extends Component {
   }
 
   componentDidMount() {
-    const { refs: { focusedButton } } = this;
-
-    focusedButton && focusedButton.focus();
+    if (this.focusedButton) {
+      this.focusedButton.focus();
+    }
   }
 
+  focusedButton = null
+  modal = null
+
   hide() {
-    this.refs.modal.hide();
+    this.modal.hide();
   }
 
   render() {
     const { children, buttons, header, size, ...rest } = this.props;
 
     return (
-      <Modal { ...rest } ref="modal" size={ size }>
+      <Modal { ...rest } ref={ el => { this.modal = el; } } size={ size }>
         { header &&
           <Header closeButton>
             { header }
@@ -53,14 +56,19 @@ export default class GenericModal extends Component {
         </Body>
         { buttons &&
           <Footer>
-            { buttons.map((button, i) => {
+            { buttons.map((button, index) => {
               const { label, focused, ...props } = button;
               const onClick = () => {
                 button.onClick && button.onClick();
                 this.hide();
               };
               return (
-                <Button { ...props } key={ i } onClick={ onClick } ref={ focused && 'focusedButton' }>
+                <Button
+                  { ...props }
+                  key={ index }
+                  onClick={ onClick }
+                  ref={ focused ? el => { this.focusedButton = el; } : null }
+                >
                   { label }
                 </Button>
               );
