@@ -12,19 +12,19 @@ import Dropdown, { MenuItem } from '../widgets/Dropdown';
 
 const MESSAGES = defineMessages({
   header: {
-    id: 'chat.conversation.leaveModal.header',
-    defaultMessage: 'Are you sure?',
+    id: 'chat.conversation.leaveModal.title',
+    defaultMessage: 'Leave this conversation?',
   },
   body: {
-    id: 'chat.conversation.leaveModal.body',
+    id: 'chat.conversation.leaveModal.message',
     defaultMessage: 'By leaving this conversation, it won\'t be visible from your messages anymore.',
   },
   leave: {
-    id: 'shoutPageDeleteAction.leaveModal.leave',
+    id: 'chat.conversation.leaveModal.confirmButton',
     defaultMessage: 'Leave',
   },
   cancel: {
-    id: 'chat.conversation.leaveModal.cancel',
+    id: 'chat.conversation.leaveModal.cancelButton',
     defaultMessage: 'Cancel',
   },
 });

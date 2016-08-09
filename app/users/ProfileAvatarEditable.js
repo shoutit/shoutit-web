@@ -17,19 +17,19 @@ import './ProfileAvatarEditable.scss';
 
 const MESSAGES = defineMessages({
   header: {
-    id: 'profileAvatarEditable.modal.header',
+    id: 'profileAvatarEditable.confirmDelete.title',
     defaultMessage: 'Do you want to remove your picture?',
   },
   body: {
-    id: 'profileAvatarEditable.modal.body',
+    id: 'profileAvatarEditable.confirmDelete.message',
     defaultMessage: 'Your profile will be less recognizable without a picture.',
   },
   confirm: {
-    id: 'profileAvatarEditable.modal.confirm',
+    id: 'profileAvatarEditable.confirmDelete.confirmButton',
     defaultMessage: 'Remove',
   },
   cancel: {
-    id: 'profileAvatarEditable.modal.cancel',
+    id: 'profileAvatarEditable.confirmDelete.cancelButton',
     defaultMessage: 'Cancel',
   },
 });

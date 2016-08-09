@@ -1,18 +1,18 @@
 [
   {
-    "id": "profileAvatarEditable.modal.header",
+    "id": "profileAvatarEditable.confirmDelete.title",
     "defaultMessage": "Do you want to remove your picture?"
   },
   {
-    "id": "profileAvatarEditable.modal.body",
+    "id": "profileAvatarEditable.confirmDelete.message",
     "defaultMessage": "Your profile will be less recognizable without a picture."
   },
   {
-    "id": "profileAvatarEditable.modal.confirm",
+    "id": "profileAvatarEditable.confirmDelete.confirmButton",
     "defaultMessage": "Remove"
   },
   {
-    "id": "profileAvatarEditable.modal.cancel",
+    "id": "profileAvatarEditable.confirmDelete.cancelButton",
     "defaultMessage": "Cancel"
   },
   {
