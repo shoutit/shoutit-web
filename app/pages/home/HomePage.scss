@@ -28,6 +28,9 @@
 .HomePage-section {
   width: 100%;
   background-image: linear-gradient(-180deg, #F9F9F9 0%, #F5F5F5 98%);
+  p:last-child {
+    margin-bottom: $vertical-spacing;
+  }
 }
 
 .HomePage-sectionContent {
