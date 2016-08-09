@@ -1,15 +1,14 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 
 import { leaveConversation, readConversation, unreadConversation } from '../actions/conversations';
-import { openModal } from '../actions/ui';
+import { confirm } from '../actions/ui';
 
 import Icon from '../widgets/Icon';
 import Dropdown, { MenuItem } from '../widgets/Dropdown';
-
-import SimpleModal from '../modals/SimpleModal';
 
 const MESSAGES = defineMessages({
   header: {
@@ -37,8 +36,10 @@ export class ConversationDropdown extends Component {
     skipItems: PropTypes.arrayOf(PropTypes.oneOf(['linkToConversation', 'toggleRead'])),
     conversation: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    openModal: PropTypes.func.isRequired,
+    confirm: PropTypes.func.isRequired,
+    readConversation: PropTypes.func.isRequired,
+    unreadConversation: PropTypes.func.isRequired,
+    leaveConversation: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -46,32 +47,33 @@ export class ConversationDropdown extends Component {
   }
 
   handleToggleReadClick() {
-    const { conversation, dispatch } = this.props;
-    if (this.props.conversation.unreadMessagesCount > 0) {
-      dispatch(readConversation(conversation));
+    const { conversation, readConversation, unreadConversation } = this.props;
+
+    if (conversation.unreadMessagesCount > 0) {
+      readConversation(conversation);
     } else {
-      dispatch(unreadConversation(conversation));
+      unreadConversation(conversation);
     }
   }
 
   handleLeaveClick() {
-    const { conversation, dispatch, intl: { formatMessage } } = this.props;
+    const { conversation, intl: { formatMessage }, confirm, leaveConversation } = this.props;
 
-    dispatch(openModal(
-      <SimpleModal
-        header={ formatMessage(MESSAGES.header) }
-        buttons={ [
-          { label: formatMessage(MESSAGES.cancel) },
-          {
-            label: formatMessage(MESSAGES.leave),
-            kind: 'primary',
-            onClick: () => dispatch(leaveConversation(conversation)),
-          },
-        ] }
-      >
-        { formatMessage(MESSAGES.body) }
-      </SimpleModal>
-    ));
+    confirm(
+      formatMessage(MESSAGES.header),
+      formatMessage(MESSAGES.body),
+      [
+        {
+          label: formatMessage(MESSAGES.cancel),
+          focused: true,
+        },
+        {
+          label: formatMessage(MESSAGES.leave),
+          kind: 'primary',
+          onClick: () => leaveConversation(conversation),
+        },
+      ]
+    );
   }
 
   render() {
@@ -101,4 +103,11 @@ export class ConversationDropdown extends Component {
   }
 }
 
-export default connect()(injectIntl(ConversationDropdown));
+const mapDispatchToProps = dispatch => bindActionCreators({
+  confirm,
+  readConversation,
+  unreadConversation,
+  leaveConversation,
+}, dispatch);
+
+export default connect(null, mapDispatchToProps)(injectIntl(ConversationDropdown));
