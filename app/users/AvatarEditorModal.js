@@ -107,53 +107,6 @@ export class AvatarEditorModal extends Component {
     this.hide();
   }
 
-  renderFooter() {
-
-    const actions = [];
-
-    const startButtons = [
-      <UploadButton
-        key="upload"
-        name="upload-image"
-        accept="image/jpeg,image/png"
-        kind="secondary"
-        style={ { minWidth: 120 } }
-        icon="camera"
-        disabled={ this.state.isLoading }
-        onChange={ this.handlePictureChange }>
-        <FormattedMessage
-          id="avatarEditor.uploadButton"
-          defaultMessage="Upload image"
-        />
-      </UploadButton>,
-    ];
-
-    if (this.state.image && this.props.profile.image !== this.state.image) {
-      actions.push(
-        <Button
-          onClick={ this.handleSaveClick }
-          kind="primary"
-          disabled={ this.props.profile.image === this.state.image || this.state.isLoading }
-          style={ { minWidth: 120 } }>
-          <FormattedMessage
-            id="avatarEditor.saveButton"
-            defaultMessage="Save changes"
-          />
-        </Button>
-      );
-    }
-
-    actions.push(
-      <Button key="cancel" ref="cancelButton" onClick={ this.hide } size="small" disabled={ this.state.isLoading }>
-        <FormattedMessage
-          id="avatarEditor.cancelButton"
-          defaultMessage="Cancel"
-        />
-      </Button>
-      );
-    return <Footer start={ startButtons }> { actions } </Footer>;
-  }
-
   render() {
     return (
       <Modal { ...this.props } ref="modal" preventClose={ this.state.isLoading }>
@@ -191,7 +144,42 @@ export class AvatarEditorModal extends Component {
             </div>
           </Form>
         </Body>
-        { this.renderFooter() }
+        <Footer>
+          <Button key="cancel" ref="cancelButton" onClick={ this.hide } size="small" disabled={ this.state.isLoading }>
+            <FormattedMessage
+              id="avatarEditor.cancelButton"
+              defaultMessage="Cancel"
+            />
+          </Button>
+
+          <UploadButton
+            key="upload"
+            name="upload-image"
+            accept="image/jpeg,image/png"
+            kind="secondary"
+            icon="camera"
+            disabled={ this.state.isLoading }
+            onChange={ this.handlePictureChange }>
+            <FormattedMessage
+              id="avatarEditor.uploadButton"
+              defaultMessage="Upload image"
+            />
+          </UploadButton>
+
+          { this.state.image && this.props.profile.image !== this.state.image &&
+            <Button
+              onClick={ this.handleSaveClick }
+              kind="primary"
+              disabled={ this.props.profile.image === this.state.image || this.state.isLoading }
+              style={ { minWidth: 120 } }>
+              <FormattedMessage
+                id="avatarEditor.saveButton"
+                defaultMessage="Save changes"
+              />
+            </Button>
+          }
+
+        </Footer>
       </Modal>
     );
   }
