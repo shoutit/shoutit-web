@@ -17,7 +17,7 @@ const MESSAGES = defineMessages({
   },
   body: {
     id: 'chat.conversation.leaveModal.body',
-    defaultMessage: 'Do you really want to leave this conversation?',
+    defaultMessage: 'By leaving this conversation, it won\'t be visible from your messages anymore.',
   },
   leave: {
     id: 'shoutPageDeleteAction.leaveModal.leave',

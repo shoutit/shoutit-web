@@ -35,7 +35,7 @@
   "chat.conversation.dropdown.leaveConversation": "Abandonar esta conversación",
   "chat.conversation.dropdown.read": "Marcar como leído",
   "chat.conversation.dropdown.unread": "Marcas como no leído",
-  "chat.conversation.leaveModal.body": "Do you really want to leave this conversation?",
+  "chat.conversation.leaveModal.body": "By leaving this conversation, it won't be visible from your messages anymore.",
   "chat.conversation.leaveModal.cancel": "Cancel",
   "chat.conversation.leaveModal.header": "Are you sure?",
   "chat.conversation.loadError": "Error al cargar esta conversación.",

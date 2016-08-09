@@ -35,7 +35,7 @@
   "chat.conversation.dropdown.leaveConversation": "终止对话",
   "chat.conversation.dropdown.read": "标记为已读",
   "chat.conversation.dropdown.unread": "标记为未读",
-  "chat.conversation.leaveModal.body": "Do you really want to leave this conversation?",
+  "chat.conversation.leaveModal.body": "By leaving this conversation, it won't be visible from your messages anymore.",
   "chat.conversation.leaveModal.cancel": "Cancel",
   "chat.conversation.leaveModal.header": "Are you sure?",
   "chat.conversation.loadError": "无法加载当前对话。",
