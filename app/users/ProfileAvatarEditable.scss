@@ -1,8 +1,8 @@
 @import '../styles/constants';
 
 .ProfileAvatarEditable {
-  display: inline-block;
   position: relative;
+  display: inline-block;
   &:hover {
     .ProfileAvatarEditable-instructions {
       display: flex;
@@ -11,20 +11,25 @@
 }
 
 .ProfileAvatarEditable-instructions {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  color: $white;
-  line-height: 100%;
-  text-align: center;
-  font-size: 0.75rem;
-  content: 'Change picture';
-  background-color: rgba(black, .2);
   position: absolute;
   top: 2px;
+  right: 2px;
   bottom: 2px;
   left: 2px;
-  right: 2px;
-  border-radius: 100%;
+  display: none;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
   cursor: pointer;
+  text-align: center;
+  color: $white;
+  border-radius: 100%;
+  background-color: rgba(black, .2);
+  font-size: .75rem;
+  line-height: 100%;
+}
+
+.ProfileAvatarEditable-delete {
+  margin: 2em;
+  text-decoration: underline;
 }

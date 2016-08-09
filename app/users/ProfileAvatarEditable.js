@@ -15,20 +15,19 @@ import FileInput from '../forms/FileInput';
 import './ProfileAvatarEditable.scss';
 
 import GenericModal from '../modals/GenericModal';
-import Icon from '../widgets/Icon';
 
 const MESSAGES = defineMessages({
   header: {
     id: 'profileAvatarEditable.modal.header',
-    defaultMessage: 'Are you sure?',
+    defaultMessage: 'Do you want to remove your picture?',
   },
   body: {
     id: 'profileAvatarEditable.modal.body',
-    defaultMessage: 'Delete your profile picture?',
+    defaultMessage: 'Your profile will be less recognizable without a picture.',
   },
   confirm: {
     id: 'profileAvatarEditable.modal.confirm',
-    defaultMessage: 'Confirm',
+    defaultMessage: 'Remove',
   },
   cancel: {
     id: 'profileAvatarEditable.modal.cancel',
@@ -57,7 +56,7 @@ export class ProfileAvatarEditable extends Component {
   }
 
   openAvatarEditorModal(image, profile) {
-    openModal(
+    this.props.openModal(
       <AvatarEditorModal initialImage={ image } profile={ profile } />
     );
   }
@@ -72,7 +71,9 @@ export class ProfileAvatarEditable extends Component {
     }
   }
 
-  handleImageDelete() {
+  handleImageDelete(e) {
+    e.preventDefault();
+    e.stopPropagation();
     const { profile, intl: { formatMessage }, openModal, updateProfile } = this.props;
 
     openModal(
@@ -82,7 +83,7 @@ export class ProfileAvatarEditable extends Component {
           { label: formatMessage(MESSAGES.cancel) },
           {
             label: formatMessage(MESSAGES.confirm),
-            kind: 'primary',
+            kind: 'destructive',
             onClick: () => {
               request
                 .delete('/api/file/user')
@@ -109,27 +110,31 @@ export class ProfileAvatarEditable extends Component {
     return (
       <span
         className="ProfileAvatarEditable"
-        onClick={ profile.image ? () => this.openAvatarEditorModal(profile.image, profile) : null }>
+        >
         <FileInput
           name="avatar"
-          disabled={ !!profile.image }
           onChange={ this.handleFileInputChange }>
           <ProfileAvatar { ...this.props } />
-          <span className="ProfileAvatarEditable-instructions">
-            <FormattedMessage
-              id="profileAvatar.editButton"
-              defaultMessage="{hasImage, select,
-                true {Change picture}
-                false {Set profile picture}
-              }"
-              values={ { hasImage: !!profile.image } }
-            />
+          <div className="ProfileAvatarEditable-instructions">
+            <div>
+              <FormattedMessage
+                id="profileAvatar.editButton"
+                defaultMessage="{hasImage, select,
+                  true {Click to change your profile picture}
+                  false {Click to set your profile picture}
+                }"
+                values={ { hasImage: !!profile.image } }
+              />
+            </div>
             { profile.image &&
-              <span onClick={ this.handleImageDelete }>
-                <Icon name="trash" fill />
-              </span>
+              <div className="ProfileAvatarEditable-delete" onClick={ this.handleImageDelete }>
+                <FormattedMessage
+                  id="profileAvatar.removeButton"
+                  defaultMessage="Remove"
+                />
+              </div>
             }
-          </span>
+          </div>
         </FileInput>
       </span>
     );
