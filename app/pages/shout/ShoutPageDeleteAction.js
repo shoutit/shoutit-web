@@ -13,23 +13,23 @@ import './ShoutPageDeleteAction.scss';
 
 const MESSAGES = defineMessages({
   buttonLabel: {
-    id: 'shoutPageDeleteAction.button.label',
-    defaultMessage: 'Delete',
+    id: 'shoutPage.DeleteAction.button.label',
+    defaultMessage: 'Delete Shout',
   },
   header: {
-    id: 'shoutPageDeleteAction.modal.header',
+    id: 'shoutPage.DeleteAction.modal.header',
     defaultMessage: 'Do you want to delete this Shout?',
   },
   body: {
-    id: 'shoutPageDeleteAction.modal.body',
+    id: 'shoutPage.DeleteAction.modal.body',
     defaultMessage: 'This shout will be removed permanently.',
   },
   confirm: {
-    id: 'shoutPageDeleteAction.modal.button.confirm',
+    id: 'shoutPage.DeleteAction.modal.button.confirm',
     defaultMessage: 'Delete Shout',
   },
   cancel: {
-    id: 'shoutPageDeleteAction.modal.button.cancel',
+    id: 'shoutPage.DeleteAction.modal.button.cancel',
     defaultMessage: 'Cancel',
   },
 });
