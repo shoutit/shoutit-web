@@ -7,5 +7,3 @@ export BodyFixed from './BodyFixed';
 export Footer from './Footer';
 export Header from './Header';
 export ModalHost from './ModalHost';
-
-export confirm from './ConfirmModal';

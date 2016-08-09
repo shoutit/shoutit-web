@@ -7,7 +7,7 @@ import { defineMessages, injectIntl } from 'react-intl';
 
 import { deleteShout } from '../../actions/shouts';
 
-import { confirm } from '../../modals';
+import { confirm } from '../../actions/ui';
 
 import './ShoutPageDeleteAction.scss';
 
