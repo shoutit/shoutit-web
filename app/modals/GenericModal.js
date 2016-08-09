@@ -29,12 +29,14 @@ export default class GenericModal extends Component {
     this.hide = this.hide.bind(this);
   }
 
-  hide() {
-    this.refs.modal.hide();
+  componentDidMount() {
+    const { refs: { focusedButton } } = this;
+
+    focusedButton && focusedButton.focus();
   }
 
-  focus(ref) {
-    ref && ref.focus();
+  hide() {
+    this.refs.modal.hide();
   }
 
   render() {
@@ -62,7 +64,7 @@ export default class GenericModal extends Component {
                 };
 
                 return (
-                  <Button { ...props } key={ index } onClick={ onClick } ref={ ref => focused && this.focus(ref) }>
+                  <Button { ...props } key={ index } onClick={ onClick } ref={ focused && 'focusedButton' }>
                     { label }
                   </Button>
                 );
