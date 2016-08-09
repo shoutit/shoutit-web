@@ -1,7 +1,7 @@
 import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
 import { denormalize } from '../../schemas';
-import { getState } from '../paginated';
+import { getPagination } from '../paginated';
 
 export default createPaginatedReducer({
   mapActionToKey: action => action.payload.conversation.id,
@@ -52,4 +52,4 @@ export function getMessagesByConversation(state, id) {
 }
 
 export const getPaginationState = (state, id) =>
-  getState(state, `messagesByConversation.${id}`);
+  getPagination(state, ['messagesByConversation', id]);

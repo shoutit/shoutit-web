@@ -1,0 +1,12 @@
+@import '../../styles/constants.scss';
+
+.ShoutPageDeleteAction {
+  text-align: right;
+  font-size: 0.875em;
+  a {
+    color: $color-destructive;
+    &:hover {
+      color: $color-destructive-light;
+    }
+  }
+}

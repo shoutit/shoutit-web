@@ -1,7 +1,7 @@
 import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
 import { denormalize } from '../../schemas';
-import { getState } from '../paginated';
+import { getPagination } from '../paginated';
 
 export default createPaginatedReducer({
   mapActionToTempId: action => action.payload.conversation.id,
@@ -25,4 +25,4 @@ export function getAllConversations(state) {
   ).sort((a, b) => b.modifiedAt - a.modifiedAt);
 }
 
-export const getPaginationState = state => getState(state, 'chatConversations');
+export const getPaginationState = state => getPagination(state, 'chatConversations');

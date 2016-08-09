@@ -37,11 +37,6 @@ export default class Modal extends Component {
     leaveTimeout: PropTypes.number,
     enterTimeout: PropTypes.number,
     autoSize: PropTypes.bool,
-    buttons: PropTypes.arrayOf(
-      PropTypes.shape({
-        close: PropTypes.bool,
-      })
-    ),
   }
 
   static defaultProps = {
@@ -51,7 +46,6 @@ export default class Modal extends Component {
     closeButton: true,
     show: true,
     preventClose: false,
-    buttons: [],
     autoSize: true,
 
     leaveTimeout: 250,

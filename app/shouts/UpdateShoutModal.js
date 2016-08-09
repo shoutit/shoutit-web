@@ -2,23 +2,16 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Modal, { Header, Footer, Body } from '../modals';
 import Button from '../forms/Button';
 
-import { updateShout, deleteShout } from '../actions/shouts';
+import { updateShout } from '../actions/shouts';
 import { getShout } from '../reducers/entities/shouts';
 
 import ShoutForm from './ShoutForm';
 
 import './CreateShoutModal.scss';
-
-const MESSAGES = defineMessages({
-  confirmDelete: {
-    id: 'updateShoutModal.deleteButton.confirm',
-    defaultMessage: 'Really delete this Shout?',
-  },
-});
 
 export class UpdateShout extends Component {
 
@@ -35,7 +28,6 @@ export class UpdateShout extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
-    this.deleteShout = this.deleteShout.bind(this);
 
     this.state = {
       isUploading: false,
@@ -79,12 +71,6 @@ export class UpdateShout extends Component {
       });
   }
 
-  deleteShout() {
-    if (confirm(this.props.intl.formatMessage(MESSAGES.confirmDelete))) {
-      this.setState({ isDeleting: true });
-      this.props.onDeleteConfirm(this.state.shout);
-    }
-  }
   handleFormChange(shout) {
     if (this.props.onShoutChange) {
       this.props.onShoutChange(shout);
@@ -146,18 +132,7 @@ export class UpdateShout extends Component {
             />
           </div>
         </Body>
-        <Footer start={
-          <Button
-            kind="destructive"
-            type="button"
-            onClick={ this.deleteShout }
-            disabled={ this.state.isUpdating || this.state.isDeleting }>
-            <FormattedMessage
-              id="updateShoutModal.publishButton.deleteButton"
-              defaultMessage="Delete"
-            />
-          </Button>
-        }>
+        <Footer>
           <Button
             key="cancel"
             type="button"
@@ -188,8 +163,6 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: (shout, removedImages) => dispatch(updateShout(shout, removedImages)),
-  onDeleteConfirm: shout =>
-    dispatch(deleteShout(shout)).then(() => { window.location = '/'; }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(UpdateShout));
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateShout);

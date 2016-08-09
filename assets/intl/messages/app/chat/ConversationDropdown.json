@@ -1,7 +1,19 @@
 [
   {
-    "id": "chat.conversation.dropdown.deleteConfirm",
-    "defaultMessage": "Do you really want to leave this conversation?"
+    "id": "chat.conversation.leaveModal.title",
+    "defaultMessage": "Leave this conversation?"
+  },
+  {
+    "id": "chat.conversation.leaveModal.message",
+    "defaultMessage": "By leaving this conversation, it won't be visible from your messages anymore."
+  },
+  {
+    "id": "chat.conversation.leaveModal.confirmButton",
+    "defaultMessage": "Leave"
+  },
+  {
+    "id": "chat.conversation.leaveModal.cancelButton",
+    "defaultMessage": "Cancel"
   },
   {
     "id": "chat.conversation.dropdown.fullConversation",

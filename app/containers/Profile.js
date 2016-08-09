@@ -121,14 +121,14 @@ export class Profile extends Component {
                             <FormattedMessage
                               id="profile.me.shoutsList.header"
                               defaultMessage="Your shouts ({count})"
-                              values={ { count: this.props.shouts.length } }
+                              values={ { count: this.props.count } }
                             /> :
                             <FormattedMessage
                               id="profile.others.shoutsList.header"
                               defaultMessage="{name}’s shouts ({count})"
                               values={ {
                                 name: profile.name,
-                                count: this.props.shouts.length,
+                                count: this.props.count,
                               } }
                             />
                           }

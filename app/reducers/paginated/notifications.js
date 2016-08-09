@@ -1,6 +1,6 @@
 import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
-import { getState } from '../paginated';
+import { getPagination } from '../paginated';
 
 export default createPaginatedReducer({
   fetchTypes: [
@@ -22,5 +22,5 @@ export function getNotifications(state) {
 }
 
 export function getPaginationState(state) {
-  return getState(state, 'notifications');
+  return getPagination(state, 'notifications');
 }

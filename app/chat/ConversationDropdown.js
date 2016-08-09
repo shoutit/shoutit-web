@@ -1,19 +1,34 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 
 import { leaveConversation, readConversation, unreadConversation } from '../actions/conversations';
+import { confirm } from '../actions/ui';
 
 import Icon from '../widgets/Icon';
 import Dropdown, { MenuItem } from '../widgets/Dropdown';
 
 const MESSAGES = defineMessages({
-  deleteConfirm: {
-    id: 'chat.conversation.dropdown.deleteConfirm',
-    defaultMessage: 'Do you really want to leave this conversation?',
+  header: {
+    id: 'chat.conversation.leaveModal.title',
+    defaultMessage: 'Leave this conversation?',
+  },
+  body: {
+    id: 'chat.conversation.leaveModal.message',
+    defaultMessage: 'By leaving this conversation, it won\'t be visible from your messages anymore.',
+  },
+  leave: {
+    id: 'chat.conversation.leaveModal.confirmButton',
+    defaultMessage: 'Leave',
+  },
+  cancel: {
+    id: 'chat.conversation.leaveModal.cancelButton',
+    defaultMessage: 'Cancel',
   },
 });
+
 export class ConversationDropdown extends Component {
 
   static propTypes = {
@@ -21,7 +36,10 @@ export class ConversationDropdown extends Component {
     skipItems: PropTypes.arrayOf(PropTypes.oneOf(['linkToConversation', 'toggleRead'])),
     conversation: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
+    confirm: PropTypes.func.isRequired,
+    readConversation: PropTypes.func.isRequired,
+    unreadConversation: PropTypes.func.isRequired,
+    leaveConversation: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -29,20 +47,33 @@ export class ConversationDropdown extends Component {
   }
 
   handleToggleReadClick() {
-    const { conversation, dispatch } = this.props;
-    if (this.props.conversation.unreadMessagesCount > 0) {
-      dispatch(readConversation(conversation));
+    const { conversation, readConversation, unreadConversation } = this.props;
+
+    if (conversation.unreadMessagesCount > 0) {
+      readConversation(conversation);
     } else {
-      dispatch(unreadConversation(conversation));
+      unreadConversation(conversation);
     }
   }
 
   handleLeaveClick() {
-    const { conversation, dispatch } = this.props;
-    const { formatMessage } = this.props.intl;
-    if (confirm(formatMessage(MESSAGES.deleteConfirm))) { // eslint-disable-line
-      dispatch(leaveConversation(conversation));
-    }
+    const { conversation, intl: { formatMessage }, confirm, leaveConversation } = this.props;
+
+    confirm(
+      formatMessage(MESSAGES.header),
+      formatMessage(MESSAGES.body),
+      [
+        {
+          label: formatMessage(MESSAGES.cancel),
+          focused: true,
+        },
+        {
+          label: formatMessage(MESSAGES.leave),
+          kind: 'destructive',
+          onClick: () => leaveConversation(conversation),
+        },
+      ]
+    );
   }
 
   render() {
@@ -70,7 +101,13 @@ export class ConversationDropdown extends Component {
       </Dropdown>
     );
   }
-
 }
 
-export default connect()(injectIntl(ConversationDropdown));
+const mapDispatchToProps = dispatch => bindActionCreators({
+  confirm,
+  readConversation,
+  unreadConversation,
+  leaveConversation,
+}, dispatch);
+
+export default connect(null, mapDispatchToProps)(injectIntl(ConversationDropdown));
