@@ -60,7 +60,7 @@ export class ConversationDropdown extends Component {
     dispatch(openModal(
       <GenericModal
         header={ formatMessage(MESSAGES.header) }
-        actions={ [
+        buttons={ [
           { label: formatMessage(MESSAGES.cancel) },
           {
             label: formatMessage(MESSAGES.leave),

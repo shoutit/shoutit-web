@@ -54,8 +54,11 @@ class ShoutPageDeleteAction extends Component {
     openModal(
       <GenericModal
         header={ intl.formatMessage(MESSAGES.header) }
-        actions={ [
-          { label: intl.formatMessage(MESSAGES.cancel) },
+        buttons={ [
+          {
+            label: intl.formatMessage(MESSAGES.cancel),
+            focused: true,
+          },
           {
             label: intl.formatMessage(MESSAGES.confirm),
             kind: 'destructive',

@@ -1,6 +1,5 @@
 /* eslint-env browser */
 import map from 'lodash/map';
-import omit from 'lodash/omit';
 import React, { PropTypes, Component } from 'react';
 import Button from '../forms/Button';
 import Modal, { Header, Footer, Body } from '../modals';
@@ -8,9 +7,10 @@ import Modal, { Header, Footer, Body } from '../modals';
 export default class GenericModal extends Component {
 
   static propTypes = {
-    actions: PropTypes.arrayOf(PropTypes.shape({
+    buttons: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       onClick: PropTypes.func,
+      focused: PropTypes.bool,
     })),
     header: PropTypes.oneOfType([
       PropTypes.string,
@@ -33,8 +33,12 @@ export default class GenericModal extends Component {
     this.refs.modal.hide();
   }
 
+  focus(ref) {
+    ref && ref.focus();
+  }
+
   render() {
-    const { children, actions, header, size, ...rest } = this.props;
+    const { children, buttons, header, size, ...rest } = this.props;
 
     return (
       <Modal { ...rest } ref="modal" size={ size }>
@@ -46,17 +50,20 @@ export default class GenericModal extends Component {
         <Body>
           { children }
         </Body>
-        { actions &&
+        { buttons &&
           <Footer>
             {
-              map(actions, (action, index) => {
+              map(buttons, (button, index) => {
+                const { label, focused, ...props } = button;
+
                 const onClick = () => {
-                  action.onClick && action.onClick();
+                  button.onClick && button.onClick();
                   this.hide();
                 };
+
                 return (
-                  <Button { ...omit(action, 'label', 'isClose') } key={ index } onClick={ onClick }>
-                    { action.label }
+                  <Button { ...props } key={ index } onClick={ onClick } ref={ ref => focused && this.focus(ref) }>
+                    { label }
                   </Button>
                 );
               })

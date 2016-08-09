@@ -78,7 +78,7 @@ export class ProfileAvatarEditable extends Component {
     openModal(
       <GenericModal
         header={ formatMessage(MESSAGES.header) }
-        actions={ [
+        buttons={ [
           { label: formatMessage(MESSAGES.cancel) },
           {
             label: formatMessage(MESSAGES.confirm),
