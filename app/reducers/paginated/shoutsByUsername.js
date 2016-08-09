@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
 import { denormalize } from '../../schemas';
@@ -24,5 +25,5 @@ export function getShoutsByUsername(state, username) {
 }
 
 export function getPaginationState(state, username) {
-  return getState(state, `shoutsByUsername.${username}`);
+  return _.get(getState(state), ['shoutsByUsername', username]);
 }
