@@ -15,7 +15,7 @@ export default class UploadButton extends Component {
     const { accept, children, name, onChange, ...props } = this.props;
     return (
       <FileInput className="UploadButton" accept={ accept } name={ name } onChange={ onChange }>
-        <Button { ...props } block={ false } element="span">
+        <Button { ...props } block={ false }>
           { children }
         </Button>
       </FileInput>
