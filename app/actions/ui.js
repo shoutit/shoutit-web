@@ -17,10 +17,7 @@ export function openModal(modal) {
 
 export function confirm(header, body, buttons) {
   return openModal(
-    <SimpleModal
-      header={ header }
-      buttons={ buttons }
-    >
+    <SimpleModal header={ header } buttons={ buttons }>
       { body }
     </SimpleModal>
   );
