@@ -101,7 +101,7 @@
   text-align: right;
   border-top: 1px solid $border-color;
   font-size: 0.875em;
-  .Button {
+  > .Button {
     margin: 0 .25em;
     &.default {
       color: $color-text;
