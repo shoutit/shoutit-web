@@ -33,12 +33,18 @@ export function initFacebook(callback) {
     }
   };
 
+  let locale = 'en_US';
+  const ogLocale = document.getElementById('ogLocale'); 
+  if (ogLocale) {
+    locale = ogLocale.getAttribute('content');
+  }
+
   (function (d, s, id) {
     var js;
     var fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) {return;}
     js = d.createElement(s); js.id = id;
-    js.src = '//connect.facebook.net/en_US/sdk.js';
+    js.src = `//connect.facebook.net/${locale}/sdk.js`;
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
  
