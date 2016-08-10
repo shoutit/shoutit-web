@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getCurrentLocale } from '../reducers/i18n';
+import { getCurrentLanguage } from '../reducers/i18n';
 import Tooltip from '../widgets/Tooltip';
 
 import { imagesPath } from '../config';
@@ -10,7 +10,7 @@ const VERSION = 1; // change version to skip browser cache
 
 import './CountryFlag.scss';
 
-export function CountryFlag({ code, tooltipPlacement = 'top', size = 'medium', rounded = true, style, locale, onClick }) {
+export function CountryFlag({ code, tooltipPlacement = 'top', size = 'medium', rounded = true, style, language, onClick }) {
   code = code.toUpperCase();
   let className = 'CountryFlag';
   if (size) {
@@ -22,7 +22,7 @@ export function CountryFlag({ code, tooltipPlacement = 'top', size = 'medium', r
   if (onClick) {
     className += ' clickable';
   }
-  const countryName = getCountryName(code, locale);
+  const countryName = getCountryName(code, language);
   return (
     <Tooltip placement={ tooltipPlacement } overlay={ countryName }>
       <img
@@ -44,11 +44,11 @@ CountryFlag.propTypes = {
   tooltipPlacement: PropTypes.string,
   onClick: PropTypes.func,
   showTooltip: PropTypes.bool,
-  locale: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
-  locale: getCurrentLocale(state),
+  language: getCurrentLanguage(state),
 });
 
 export default connect(mapStateToProps)(CountryFlag);

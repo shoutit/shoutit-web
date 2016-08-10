@@ -6,7 +6,7 @@ import newrelic, { newrelicEnabled } from './newrelic';
 import uservoice from './uservoice';
 import mixpanel from './mixpanel';
 import Helmet from '../utils/Helmet';
-import { getCurrentLocale, isRtl } from '../reducers/i18n';
+import { getCurrentLanguage, isRtl } from '../reducers/i18n';
 
 import * as config from '../config';
 
@@ -26,7 +26,7 @@ export default function HtmlDocument({
 }) {
   const head = Helmet.rewind();
   const attrs = head.htmlAttributes.toComponent();
-  const locale = getCurrentLocale(initialState);
+  const language = getCurrentLanguage(initialState);
   const rtl = isRtl(initialState);
   return (
     <html { ...attrs }>
@@ -39,7 +39,7 @@ export default function HtmlDocument({
         { process.env.NODE_ENV === 'production' &&
           <link rel="stylesheet" type="text/css" href={ `${config.publicUrl}${chunkNames[rtl ? 'cssRtl' : 'css']}` } /> }
 
-        { locale === 'ar' ?
+        { language === 'ar' ?
           <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/earlyaccess/droidarabickufi.css" /> :
           <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500&subset=latin-ext" rel="stylesheet" />
         }
@@ -59,17 +59,17 @@ export default function HtmlDocument({
 
         <script dangerouslySetInnerHTML={ { __html: `window.__INITIAL_STATE__=${serialize(initialState)}` } } />
 
-        <script dangerouslySetInnerHTML={ { __html: `window.___gcfg = {lang: '${locale}'}` } } />
+        <script dangerouslySetInnerHTML={ { __html: `window.___gcfg = {lang: '${language}'}` } } />
         <script async src="https://apis.google.com/js/client:platform.js" />
         { config.googleMapsKey &&
-          <script async src={ `https://maps.googleapis.com/maps/api/js?key=${config.googleMapsKey}&libraries=places&language=${locale}` } /> }
+          <script async src={ `https://maps.googleapis.com/maps/api/js?key=${config.googleMapsKey}&libraries=places&language=${language}` } /> }
         { config.ga &&
           <script async src="https://www.google-analytics.com/analytics.js" /> }
 
         { false && <script src="https://media.twiliocdn.com/sdk/js/common/v0.1/twilio-common.min.js" /> }
         { false && <script src="https://media.twiliocdn.com/sdk/js/conversations/v0.13/twilio-conversations.min.js" /> }
 
-        <script dangerouslySetInnerHTML={ { __html: uservoice.replace('{locale}', locale) } } />
+        <script dangerouslySetInnerHTML={ { __html: uservoice.replace('{language}', language) } } />
 
         <script src={ `${config.publicUrl}${chunkNames.main}` } />
 

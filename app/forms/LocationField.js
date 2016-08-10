@@ -7,7 +7,7 @@ import isEqual from 'lodash/isEqual';
 import debug from 'debug';
 
 
-import { getCurrentLocale } from '../reducers/i18n';
+import { getCurrentLanguage } from '../reducers/i18n';
 import { getCurrentLocation } from '../reducers/currentLocation';
 
 import CountryFlag from '../location/CountryFlag';
@@ -26,7 +26,7 @@ export class LocationField extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
-    locale: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
     error: PropTypes.object,
     inputRef: PropTypes.func,
     disabled: PropTypes.bool,
@@ -61,7 +61,7 @@ export class LocationField extends Component {
     if (props.location) {
       this.state.value = formatLocation(props.location, {
         showCountry: false,
-        locale: props.locale,
+        language: props.language,
       });
       this.state.location = props.location;
     }
@@ -77,7 +77,7 @@ export class LocationField extends Component {
     if (!isEqual(nextProps.location, this.props.location)) {
       const value = formatLocation(nextProps.location, {
         showCountry: false,
-        locale: this.props.locale,
+        language: this.props.language,
       });
       state = {
         ...state,
@@ -178,12 +178,12 @@ export class LocationField extends Component {
     });
     this.blur();
     log('Start geocoding place with id %s', prediction.placeId);
-    const { locale, dispatch, name } = this.props;
+    const { language, dispatch, name } = this.props;
 
-    geocodePlace(prediction.placeId, locale)
+    geocodePlace(prediction.placeId, language)
       .then(placeLocation => dispatch(geocode(placeLocation)))
       .then(location => {
-        const value = formatLocation(location, { showCountry: false, locale });
+        const value = formatLocation(location, { showCountry: false, language });
         this.setState({ value, location, isGeocoding: false }, () => this.handleGeocodeSuccess(location));
         this.field.setValue(value);
       })
@@ -253,7 +253,7 @@ export class LocationField extends Component {
     if (location) {
       countryFlag = <CountryFlag code={ location.country } size="small" />;
     }
-    delete props.locale;
+    delete props.language;
     delete props.isFetching;
     delete props.predictions;
     delete props.lastInput;
@@ -304,7 +304,7 @@ export class LocationField extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  locale: getCurrentLocale(state),
+  language: getCurrentLanguage(state),
   isFetching: state.placePredictions.isFetching,
   predictions: state.placePredictions.predictions[state.placePredictions.lastInput],
   lastInput: state.placePredictions.lastInput,
