@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 
-import { getCurrentLocale, isRtl, getIntlMessages } from '../reducers/i18n';
+import { getCurrentLocale, getAvailableLocales, isRtl, getIntlMessages } from '../reducers/i18n';
 import { getCurrentUrl, getRoutingError } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
 
@@ -57,9 +57,10 @@ export class Application extends Component {
     error: PropTypes.object,
     children: PropTypes.element.isRequired,
     dispatch: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
+    currentLocale: PropTypes.string.isRequired,
     rtl: PropTypes.bool.isRequired,
     messages: PropTypes.object.isRequired,
+    availableLocales: PropTypes.array.isRequired,
   };
 
   static fetchData = fetchData;
@@ -148,9 +149,10 @@ export class Application extends Component {
       className += ` ${applicationLayout.className}`;
     }
 
-    let { locale } = this.props;
-    if (locale === 'ar') {
-      locale = 'ar-u-nu-latn';
+    let { currentLocale } = this.props;
+    if (currentLocale === 'ar') {
+      // Make sure we use latin numbers in arabic
+      currentLocale = 'ar-u-nu-latn';
     }
 
     let content;
@@ -196,12 +198,23 @@ export class Application extends Component {
     ];
 
     const link = [
+      { rel: 'canonical', href: url },
       { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
       { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
     ];
 
+    this.props.availableLocales.forEach(locale => {
+      if (locale !== currentLocale) {
+        link.push({
+          rel: 'alternate',
+          href: `${url}?hl=${locale}`,
+          hreflang: locale,
+        });
+      }
+    });
+
     return (
-      <IntlProvider locale={ locale } messages={ this.props.messages }>
+      <IntlProvider locale={ currentLocale } messages={ this.props.messages }>
         <div className={ className }>
           <Helmet
             htmlAttributes={ {
@@ -251,10 +264,11 @@ const mapStateToProps = state => ({
   currentLocation: getCurrentLocation(state),
   currentUrl: getCurrentUrl(state),
   error: getRoutingError(state),
-  locale: getCurrentLocale(state),
+  currentLocale: getCurrentLocale(state),
   loggedUser: getLoggedUser(state),
   messages: getIntlMessages(state),
   rtl: isRtl(state),
+  availableLocales: getAvailableLocales(state),
 });
 
 const Wrapped = connect(mapStateToProps)(Application);
