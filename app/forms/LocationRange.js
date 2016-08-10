@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import last from 'lodash/last';
 import { connect } from 'react-redux';
-import { getCurrentLocale } from '../reducers/i18n';
+import { getCurrentLanguage } from '../reducers/i18n';
 import { getCountryName } from '../utils/LocationUtils';
 import RangeField from '../forms/RangeField';
 import Icon from '../widgets/Icon';
@@ -21,7 +21,7 @@ export class LocationRange extends Component {
     }).isRequired,
     name: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    locale: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
     onChange: PropTypes.func,
   };
   static defaultProps = {
@@ -68,7 +68,7 @@ export class LocationRange extends Component {
           id="ui.locationRange.country"
           defaultMessage="Entire {country}"
           values={ {
-            country: getCountryName(this.props.location.country, this.props.locale),
+            country: getCountryName(this.props.location.country, this.props.language),
           } }
         />
       );
@@ -157,7 +157,7 @@ export class LocationRange extends Component {
 }
 
 const mapStateToProps = state => ({
-  locale: getCurrentLocale(state),
+  language: getCurrentLanguage(state),
 });
 
 export default connect(mapStateToProps)(LocationRange);
