@@ -2,13 +2,13 @@ import request from 'superagent';
 import { camelizeKeys } from 'humps';
 import round from 'lodash/round';
 
-import { googleMapsKey, locales } from '../config';
+import { googleMapsKey, languages } from '../config';
 
 const countries = {};
 
 // This should be removed by #127431039
-locales.forEach(locale => {
-  countries[locale] = require(`../../assets/countries/countries.${locale}.json`).countries;
+languages.forEach(language => {
+  countries[language] = require(`../../assets/countries/countries.${language}.json`).countries;
 });
 
 export function parseGeocoderResult(result) {
@@ -76,19 +76,19 @@ export function geocodePlace(placeId, language) {
 
 }
 
-export function getCountryName(code, locale = 'en') {
-  if (!(locale in countries)) {
-    locale = 'en';
+export function getCountryName(code, language = 'en') {
+  if (!(language in countries)) {
+    language = 'en';
   }
-  return countries[locale][code.toUpperCase()];
+  return countries[language][code.toUpperCase()];
 }
 
-export function getCountryCode(name, locale = 'en') {
-  if (!(locale in countries)) {
-    locale = 'en';
+export function getCountryCode(name, language = 'en') {
+  if (!(language in countries)) {
+    language = 'en';
   }
-  const code = Object.keys(countries[locale]).find(code =>
-    countries[locale][code].toLowerCase() === name.toLowerCase()
+  const code = Object.keys(countries[language]).find(code =>
+    countries[language][code].toLowerCase() === name.toLowerCase()
   );
   if (!code) {
     return null;
@@ -114,7 +114,7 @@ export function formatLocation(location, options) {
   options = {
     useAddress: false,
     showCountry: true,
-    locale: 'en',
+    language: 'en',
     ...options,
   };
   const values = [];
@@ -133,7 +133,7 @@ export function formatLocation(location, options) {
     values.push(location.state);
   }
   if ((options.showCountry || options.useAddress || !location.state || !location.city) && location.country) {
-    values.push(getCountryName(location.country, options.locale));
+    values.push(getCountryName(location.country, options.language));
   }
   return values.join(', ');
 }
