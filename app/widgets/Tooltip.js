@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import ReactBootstrapTooltip from 'react-bootstrap/lib/Tooltip';
 import { connect } from 'react-redux';
-import { getCurrentLocale } from '../reducers/i18n';
+import { getCurrentLanguage } from '../reducers/i18n';
 
-export function Tooltip({ children, overlay, placement = 'top', disabled = false, locale }) {
-  if (locale === 'ar') {
+export function Tooltip({ children, overlay, placement = 'top', disabled = false, language }) {
+  if (language === 'ar') {
     if (placement === 'left') {
       placement = 'right';
     } else if (placement === 'right') {
@@ -21,14 +21,14 @@ export function Tooltip({ children, overlay, placement = 'top', disabled = false
 
 Tooltip.propTypes = {
   children: PropTypes.node.isRequired,
-  locale: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
   placement: PropTypes.string,
   overlay: PropTypes.node,
   disabled: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  locale: getCurrentLocale(state),
+  language: getCurrentLanguage(state),
 });
 
 export default connect(mapStateToProps)(Tooltip);

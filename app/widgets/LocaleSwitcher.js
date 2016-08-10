@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getCurrentLocale } from '../reducers/i18n';
+import { getCurrentLanguage } from '../reducers/i18n';
 import { getQueryAsString } from '../reducers/routing';
 
-const LOCALES = [
+const LANGUAGES = [
   { code: 'ar', name: 'العربية' },
   { code: 'de', name: 'Deutsch' },
   { code: 'en', name: 'English' },
@@ -11,22 +11,22 @@ const LOCALES = [
   { code: 'zh', name: '中文' },
 ];
 
-export function LocaleSwitcher({ search, currentLocale }) {
+export function LocaleSwitcher({ search, currentLanguage }) {
   return (
     <div className="LocaleSwitcher">
-      { LOCALES.map(locale => {
+      { LANGUAGES.map(language => {
         let className;
-        if (locale.code === 'ar') {
+        if (language.code === 'ar') {
           className = 'rtl';
         }
-        if (currentLocale === locale.code) {
+        if (currentLanguage === language.code) {
           className += ' selected';
         }
         return (<a
-          key={ locale.code }
+          key={ language.code }
           className={ className }
-          href={ `?${search}&hl=${locale.code}&set` }>
-          { locale.name }
+          href={ `?${search}&hl=${language.code}&set` }>
+          { language.name }
         </a>);
       }) }
     </div>
@@ -34,12 +34,12 @@ export function LocaleSwitcher({ search, currentLocale }) {
 }
 
 LocaleSwitcher.propTypes = {
-  currentLocale: PropTypes.string.isRequired,
+  currentLanguage: PropTypes.string.isRequired,
   search: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
-  currentLocale: getCurrentLocale(state),
+  currentLanguage: getCurrentLanguage(state),
   search: getQueryAsString(state, ['hl', 'set']),
 });
 

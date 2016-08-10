@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { getCurrentLocale } from '../reducers/i18n';
+import { getCurrentLanguage } from '../reducers/i18n';
 import ProfileAvatar from '../users/ProfileAvatar';
 import Popover from '../widgets/Popover';
 import ListItem from '../layout/ListItem';
@@ -17,7 +17,7 @@ export function ProfileListItem({
   popover = true,
   showName = true,
   onClick,
-  locale,
+  language,
 }) {
 
   const avatar = <ProfileAvatar size={ size } profile={ profile } />;
@@ -33,7 +33,7 @@ export function ProfileListItem({
         { size === 'large' && profile.location &&
           <div className="ProfileListItem-ancillary">
             { formatLocation(profile.location, {
-              locale,
+              language,
             }) }
           </div>
         }
@@ -60,7 +60,7 @@ export function ProfileListItem({
 
 ProfileListItem.propTypes = {
   profile: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
   link: PropTypes.bool,
   onClick: PropTypes.func,
   showName: PropTypes.bool,
@@ -70,7 +70,7 @@ ProfileListItem.propTypes = {
 
 
 const mapStateToProps = state => ({
-  locale: getCurrentLocale(state),
+  language: getCurrentLanguage(state),
 });
 
 export default connect(mapStateToProps)(ProfileListItem);
