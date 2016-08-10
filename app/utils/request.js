@@ -22,8 +22,8 @@ request.Request.prototype.use = function use(req) {
   if (req.session && req.session.accessToken) {
     this.set('Authorization', `Bearer ${req.session.accessToken}`);
   }
-  if (req.locale) {
-    this.set('Accept-Language', req.locale);
+  if (req.language) {
+    this.set('Accept-Language', req.language);
   }
 
   if (req.headers) {
