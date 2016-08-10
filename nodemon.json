@@ -1,0 +1,9 @@
+{
+  "watch": [
+    "app/server/**/*",
+    "app/services/**/*",
+    "app/server.js",
+    "assets/samples"
+  ],
+  "ext": "js json"
+}
