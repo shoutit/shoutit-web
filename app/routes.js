@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router';
 
-import { locales } from './config';
 import Application from './containers/Application';
 
 import AccountSettings from './containers/AccountSettings';
@@ -23,6 +22,7 @@ import ShoutPage from './pages/shout';
 import Signup from './containers/Signup';
 import VerifyEmail from './containers/VerifyEmail';
 import StaticHtml from './containers/StaticHtml';
+import { getSupportedLanguages } from './reducers/i18n';
 
 const authAppLayout = () => ({
   className: 'pattern-background',
@@ -88,8 +88,8 @@ const routes = (store) => {
     <Route path="/static/:pageName" component={ StaticHtml } getApplicationLayout={ staticAppLayout } />,
 
   ];
-
-  const localeRoutes = locales.map(locale =>
+  const languages = getSupportedLanguages(store.getState());
+  const languageAwareRoutes = languages.map(locale =>
     <Route path={ `/${locale} ` }>
       { rootRoutes }
     </Route>
@@ -97,10 +97,9 @@ const routes = (store) => {
   return (
     <Route component={ Application }>
       { rootRoutes }
-      { localeRoutes }
+      { languageAwareRoutes }
       <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true }) } />,
     </Route>
   );
 };
-
 export default routes;
