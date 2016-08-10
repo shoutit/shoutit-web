@@ -42,19 +42,22 @@ export const googleMapsKey = 'AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc';
 export const imagesPath = `${envConfig.publicUrl}/images`;
 
 export const locales = [
-  'ar',
-  'cs',
-  'de',
-  'en',
-  'es',
-  'fr',
-  'hi',
-  'it',
-  'pl',
-  'pt',
-  'ru',
-  'zh',
+  'ar_AR',
+  'cs_CZ',
+  'de_DE',
+  'en_US',
+  'es_ES',
+  'fr_FR',
+  'hi_IN',
+  'it_IT',
+  'pl_PL',
+  'pt_BR',
+  'ru_RU',
+  'zh_CN',
 ];
+
+export const languages = locales.map(locale => locale.split('_')[0])
+  .filter((language, index, arr) => arr.indexOf(language) === index);
 
 export const publicUrl = envConfig.publicUrl;
 export const pusherAppKey = envConfig.pusherAppKey;
@@ -91,7 +94,8 @@ export function getSummary() {
   summary.push(`  API URL:              ${apiUrl}`);
   summary.push(`  Images path:          ${imagesPath}`);
   summary.push('');
-  summary.push(`  Supported locales:    ${locales.join(', ').toUpperCase()}`);
+  summary.push(`  Supported locales:    ${locales.join(', ')}`);
+  summary.push(`  Supported languages:  ${languages.join(', ')}`);
   summary.push('');
   summary.push(`  New Relic Key:        ${process.env.NEW_RELIC_LICENSE_KEY}`);
   summary.push(`  Google Analytics:     ${ga}`);

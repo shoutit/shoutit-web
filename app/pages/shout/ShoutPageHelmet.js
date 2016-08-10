@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 import { formatLocation } from '../../utils/LocationUtils';
 import Helmet from '../../utils/Helmet';
-import { getCurrentLocale } from '../../reducers/i18n';
+import { getCurrentLanguage } from '../../reducers/i18n';
 
-export function ShoutPageHelmet({ shout, locale }) {
+export function ShoutPageHelmet({ shout, language }) {
   const price = shout.price / 100;
 
   return (
@@ -23,7 +23,7 @@ export function ShoutPageHelmet({ shout, locale }) {
         { name: 'twitter:label1', content: capitalize(shout.type) },
         { name: 'twitter:data1', content: price },
         { name: 'twitter:label2', content: 'Location' },
-        { name: 'twitter:data2', content: formatLocation(shout.location, { locale }) },
+        { name: 'twitter:data2', content: formatLocation(shout.location, { language }) },
       ] }
     />
   );
@@ -31,11 +31,11 @@ export function ShoutPageHelmet({ shout, locale }) {
 
 ShoutPageHelmet.propTypes = {
   shout: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
-  locale: getCurrentLocale(state),
+  language: getCurrentLanguage(state),
 });
 
 export default connect(mapStateToProps)(ShoutPageHelmet);

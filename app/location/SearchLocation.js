@@ -5,7 +5,7 @@ import trim from 'lodash/trim';
 import throttle from 'lodash/throttle';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
 import { loadPlacePredictions, geocode } from '../actions/location';
-import { getCurrentLocale } from '../reducers/i18n';
+import { getCurrentLanguage } from '../reducers/i18n';
 import { getCurrentLocation } from '../reducers/currentLocation';
 
 import TextField from '../forms/TextField';
@@ -20,7 +20,7 @@ export class SearchLocation extends Component {
     location: PropTypes.object,
     isFetching: PropTypes.bool,
     lastInput: PropTypes.string,
-    locale: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
     onLocationSelect: PropTypes.func,
   };
 
@@ -60,7 +60,7 @@ export class SearchLocation extends Component {
   handlePredictionClick(e, prediction) {
     e.preventDefault();
     this.setState({ isGeocoding: true });
-    geocodePlace(prediction.placeId, this.props.locale)
+    geocodePlace(prediction.placeId, this.props.language)
       .then(location => this.props.dispatch(geocode(location)))
       .then(location => {
         if (location && this.props.onLocationSelect) {
@@ -114,7 +114,7 @@ export class SearchLocation extends Component {
 
 const mapStateToProps = state => ({
   ...state.placePredictions,
-  locale: getCurrentLocale(state),
+  language: getCurrentLanguage(state),
   location: getCurrentLocation(state),
 });
 

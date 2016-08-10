@@ -1,30 +1,39 @@
 import debug from 'debug';
-import { locales } from '../config';
+import { languages, locales } from '../config';
 const log = debug('shoutit:server:localeMiddleware');
 
 function isLocaleSupported(locale) {
   return locales.indexOf(locale) > -1;
 }
 
+function isLanguageSupported(language) {
+  return languages.indexOf(language) > -1;
+}
+
+function getLocaleFromLanguage(language) {
+  return locales.find(locale => locale.split('_')[0] === language);
+}
+
 const maxAge = 365 * 24 * 60 * 60 * 1000;
 
 export default function localeMiddleware(req, res, next) {
   if (req.query.fb_locale && isLocaleSupported(req.query.fb_locale)) {
-    req.locale = req.query.fb_locale;
-    log('Detected locale from ?fb_locale param: %s', req.locale);
-  } else if (req.query.hl && isLocaleSupported(req.query.hl)) {
-    req.locale = req.query.hl;
-    log('Detected locale from ?hl param: %s', req.locale);
+    req.language = req.query.fb_locale.split('_')[0];
+    log('Detected language from ?fb_locale=%s param: %s', req.query.fb_locale, req.language);
+  } else if (req.query.hl && isLanguageSupported(req.query.hl)) {
+    req.language = req.query.hl;
+    log('Detected language from ?hl param: %s', req.language);
     if ('set' in req.query) {
-      log('Locale cookie has been set to %s', req.locale);
-      res.cookie('hl', req.locale, { maxAge });
+      log('Language cookie has been set to %s', req.language);
+      res.cookie('hl', req.language, { maxAge });
     }
-  } else if (req.cookies.hl && isLocaleSupported(req.cookies.hl)) {
-    req.locale = req.cookies.hl;
-    log('Detected locale from cookie: %s', req.locale);
+  } else if (req.cookies.hl && isLanguageSupported(req.cookies.hl)) {
+    req.language = req.cookies.hl;
+    log('Detected language from cookie: %s', req.language);
   } else {
-    req.locale = req.acceptsLanguages(locales) || 'en';
-    log('Detected locale from accept-language: %s', req.locale);
+    req.language = req.acceptsLanguages(languages) || 'en';
+    log('Detected language from accept-language: %s', req.language);
   }
+  req.locale = getLocaleFromLanguage(req.language);
   next();
 }
