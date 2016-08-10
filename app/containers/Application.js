@@ -204,7 +204,7 @@ export class Application extends Component {
     ];
 
     this.props.availableLocales.forEach(locale => {
-      if (locale !== currentLocale) {
+      if (locale !== this.props.currentLocale) {
         link.push({
           rel: 'alternate',
           href: `${url}?hl=${locale}`,
@@ -213,17 +213,15 @@ export class Application extends Component {
       }
     });
 
+    const htmlAttributes = {
+      lang: currentLocale,
+      dir: props.rtl ? 'rtl' : 'ltr',
+    };
+
     return (
       <IntlProvider locale={ currentLocale } messages={ this.props.messages }>
         <div className={ className }>
-          <Helmet
-            htmlAttributes={ {
-              lang: props.locale,
-              dir: props.rtl ? 'rtl' : 'ltr',
-            } }
-            meta={ meta }
-            link={ link }
-          />
+          <Helmet htmlAttributes={ htmlAttributes } meta={ meta } link={ link } />
           <Device type="smartphone,tablet" operatingSystem="ios,android">
             <OpenInApp />
           </Device>
