@@ -51,10 +51,10 @@ export function start(app) {
 
   app.use(errorDomainMiddleware);
 
-  // Get the client's locale in req.locale
+  // Set the client's language in req.language
   app.use(localeMiddleware);
 
-  // Get the client's device in req.browser
+  // Set the client's device details in req.browser
   app.use(browserMiddleware);
 
   // Register fetchr services
