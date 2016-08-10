@@ -24,7 +24,6 @@ import Signup from './containers/Signup';
 import VerifyEmail from './containers/VerifyEmail';
 import StaticHtml from './containers/StaticHtml';
 
-import { get}
 const authAppLayout = () => ({
   className: 'pattern-background',
   showHeader: false,
