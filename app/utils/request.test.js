@@ -7,7 +7,7 @@ import request from './request';
 describe('request', () => {
 
   it('should set Accept-Language header from req object', () => {
-    const req = request.get('/foo').use({ locale: 'it' });
+    const req = request.get('/foo').use({ language: 'it' });
     expect(req.header['Accept-Language']).to.equal('it');
   });
 
