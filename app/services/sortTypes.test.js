@@ -39,7 +39,7 @@ describe('services/sortTypes', () => {
         expect(this.header).to.have.property('Accept-Language', 'it');
         done();
       });
-      service.read({ locale: 'it' }, resource, params, config, serviceCallback);
+      service.read({ language: 'it' }, resource, params, config, serviceCallback);
     });
     it('should set the cache on response', done => {
       sinon.stub(Request.prototype, 'end', callback => {
