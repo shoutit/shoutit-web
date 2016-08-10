@@ -214,7 +214,7 @@ export class Application extends Component {
     });
 
     const htmlAttributes = {
-      lang: currentLocale,
+      lang: this.props.currentLocale,
       dir: props.rtl ? 'rtl' : 'ltr',
     };
 
