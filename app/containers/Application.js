@@ -208,7 +208,7 @@ export class Application extends Component {
         link.push({
           rel: 'alternate',
           href: `${url}?hl=${locale}`,
-          hreflang: locale,
+          hrefLang: locale,
         });
       }
     });
