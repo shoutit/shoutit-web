@@ -1,15 +1,15 @@
-export default function (state = { locale: 'en', messages: {} }) {
+const initialState = {
+  locale: 'en',
+  availableLocales: ['en'],
+  messages: {},
+  rtl: false,
+};
+
+export default function (state = initialState) {
   return state;
 }
 
-export function getCurrentLocale(state) {
-  return state.i18n.locale;
-}
-
-export function getIntlMessages(state) {
-  return state.i18n.messages;
-}
-
-export function isRtl(state) {
-  return state.i18n.locale === 'ar';
-}
+export const getCurrentLocale = state => state.i18n.locale;
+export const getIntlMessages = state => state.i18n.messages;
+export const isRtl = state => state.i18n.rtl;
+export const getAvailableLocales = state => state.i18n.availableLocales;
