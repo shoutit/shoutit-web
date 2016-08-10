@@ -98,4 +98,3 @@ export function getDateOrderWeight(intl) {
     day: localizedDate.indexOf(localeDay),
   };
 }
-
