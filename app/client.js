@@ -15,6 +15,7 @@ import Fetchr from 'fetchr';
 import * as config from './config';
 
 import configureStore from './store/configureStore';
+import { getCurrentLocale } from './reducers/i18n';
 
 import { initFacebook } from './utils/FacebookUtils';
 
@@ -80,7 +81,7 @@ const renderApp = () => {
   );
 };
 
-const locale = document.documentElement.getAttribute('lang');
+const locale = getCurrentLocale(store.getState());
 
 loadIntlPolyfill(locale)
   .then(() => loadLocaleData(locale))
