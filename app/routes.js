@@ -103,6 +103,4 @@ const routes = (store) => {
   );
 };
 
-console.log(routes);
-
 export default routes;
