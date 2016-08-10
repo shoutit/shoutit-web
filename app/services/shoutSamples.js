@@ -1,17 +1,17 @@
-import { locales } from '../config';
+import { languages } from '../config';
 
 const SHOUTS = {};
 
-locales.forEach(locale => {
-  SHOUTS[locale] = require(`../../assets/samples/shouts.${locale}.json`);
+languages.forEach(language => {
+  SHOUTS[language] = require(`../../assets/samples/shouts.${language}.json`);
 });
 
 export default {
   name: 'shoutSamples',
   read: (req, resource, params = {}, config, callback) => {
-    if (!SHOUTS[req.locale]) {
-      callback(new Error(`Cannot load sample shouts for ${req.locale}`));
+    if (!SHOUTS[req.language]) {
+      callback(new Error(`Cannot load sample shouts for ${req.language}`));
     }
-    callback(null, SHOUTS[req.locale].shouts);
+    callback(null, SHOUTS[req.language].shouts);
   },
 };

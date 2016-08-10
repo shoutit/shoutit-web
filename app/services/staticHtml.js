@@ -63,19 +63,19 @@ export default {
   name: 'staticHtml',
   read: (req, resource, { pageName }, config, callback) => {
 
-    log('Getting page "%s" (%s)...', pageName, req.locale);
+    log('Getting page "%s" (%s)...', pageName, req.language);
 
     if (req.query.hasOwnProperty('invalidateCache')) {
       invalidateCache(pageName);
     }
 
-    const content = getCachedContent(pageName, req.locale);
+    const content = getCachedContent(pageName, req.language);
     if (content) {
-      log('Page "%s" (%s) found in cache, will skip AWS request', pageName, req.locale);
+      log('Page "%s" (%s) found in cache, will skip AWS request', pageName, req.language);
       callback(null, { content });
       return;
     }
-    const key = `${pageName}.${req.locale}.html`;
+    const key = `${pageName}.${req.language}.html`;
     getObjectFromAWS(key)
       .then(data => data, reason => {
         log('Error retrieving key %s, trying english version...', key, reason.message);
@@ -83,7 +83,7 @@ export default {
       })
       .then(data => {
         const content = data.Body.toString();
-        cacheContent(pageName, req.locale, content);
+        cacheContent(pageName, req.language, content);
         callback(null, { content });
       })
       .catch(err => {

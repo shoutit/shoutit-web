@@ -25,7 +25,7 @@ export function getCache(serviceName, locale = 'en') {
 
 function createReadMethod({ url, cacheResponse, name }) {
   return function readService(req, resource, params = {}, config, callback) {
-    const cache = getCache(name, req.locale);
+    const cache = getCache(name, req.language);
     if (cache) {
       callback(null, cache);
       return;
@@ -40,7 +40,7 @@ function createReadMethod({ url, cacheResponse, name }) {
           return callback(parseApiError(err));
         }
         if (cacheResponse) {
-          setCache(name, res.body, req.locale);
+          setCache(name, res.body, req.language);
         }
         return callback(null, res.body);
       });
