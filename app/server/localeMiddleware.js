@@ -31,7 +31,7 @@ export default function localeMiddleware(req, res, next) {
     req.language = req.cookies.hl;
     log('Detected language from cookie: %s', req.language);
   } else {
-    req.language = req.acceptsLanguages(languages) || 'en';
+    req.language = req.acceptsLanguages(languages) || languages[0];
     log('Detected language from accept-language: %s', req.language);
   }
   req.locale = getLocaleFromLanguage(req.language);

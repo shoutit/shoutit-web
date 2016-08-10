@@ -2,10 +2,18 @@ import fs from 'fs';
 import path from 'path';
 
 import { expect } from 'chai';
-import { languages } from '../config';
+import { languages, locales } from '../config';
 
 describe('config', () => {
+  describe('locales', () => {
+    it('should have en_US as default locale', () => {
+      expect(locales[0]).to.equal('en_US');
+    });
+  });
   describe('languages', () => {
+    it('should have en as default locale', () => {
+      expect(languages[0]).to.equal('en');
+    });
     languages.forEach(language => {
 
       describe(language, () => {

@@ -42,10 +42,10 @@ export const googleMapsKey = 'AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc';
 export const imagesPath = `${envConfig.publicUrl}/images`;
 
 export const locales = [
+  'en_US', // first is default
   'ar_AR',
   'cs_CZ',
   'de_DE',
-  'en_US',
   'es_ES',
   'fr_FR',
   'hi_IN',
