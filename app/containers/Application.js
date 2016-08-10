@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 
-import { getCurrentLocale, getSupportedLocales, isRtl, getIntlMessages } from '../reducers/i18n';
+import { getCurrentLanguage, getSupportedLocales, getCurrentLocale, isRtl, getIntlMessages } from '../reducers/i18n';
 import { getCurrentUrl, getRoutingError } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
 
@@ -57,6 +57,7 @@ export class Application extends Component {
     error: PropTypes.object,
     children: PropTypes.element.isRequired,
     dispatch: PropTypes.func.isRequired,
+    currentLanguage: PropTypes.string.isRequired,
     currentLocale: PropTypes.string.isRequired,
     rtl: PropTypes.bool.isRequired,
     messages: PropTypes.object.isRequired,
@@ -149,10 +150,10 @@ export class Application extends Component {
       className += ` ${applicationLayout.className}`;
     }
 
-    let { currentLocale } = this.props;
-    if (currentLocale === 'ar') {
+    let lang = this.props.currentLanguage;
+    if (lang === 'ar') {
       // Make sure we use latin numbers in arabic
-      currentLocale = 'ar-u-nu-latn';
+      lang = 'ar-u-nu-latn';
     }
 
     let content;
@@ -176,7 +177,7 @@ export class Application extends Component {
       { property: 'fb:app_id', content: config.facebookId },
 
       { property: 'og:url', content: url },
-      { property: 'og:locale', content: this.props.currentLocale },
+      { property: 'og:locale', content: this.props.currentLocale, id: 'ogLocale' },
       { property: 'og:site_name', content: 'Shoutit' },
       { property: 'og:type', content: 'website' },
 
@@ -204,7 +205,7 @@ export class Application extends Component {
     ];
 
     this.props.supportedLocales.forEach(locale => {
-      if (locale !== this.props.currentLocale) {
+      if (locale !== this.props.currentLanguage) {
         link.push({
           rel: 'alternate',
           href: `${url}?hl=${locale}`,
@@ -218,12 +219,12 @@ export class Application extends Component {
     });
 
     const htmlAttributes = {
-      lang: this.props.currentLocale,
+      lang,
       dir: props.rtl ? 'rtl' : 'ltr',
     };
 
     return (
-      <IntlProvider locale={ currentLocale } messages={ this.props.messages }>
+      <IntlProvider locale={ lang } messages={ this.props.messages }>
         <div className={ className }>
           <Helmet htmlAttributes={ htmlAttributes } meta={ meta } link={ link } />
           <Device type="smartphone,tablet" operatingSystem="ios,android">
@@ -267,6 +268,7 @@ const mapStateToProps = state => ({
   currentUrl: getCurrentUrl(state),
   error: getRoutingError(state),
   currentLocale: getCurrentLocale(state),
+  currentLanguage: getCurrentLanguage(state),
   loggedUser: getLoggedUser(state),
   messages: getIntlMessages(state),
   rtl: isRtl(state),
