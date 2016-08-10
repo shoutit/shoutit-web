@@ -176,7 +176,7 @@ export class Application extends Component {
       { property: 'fb:app_id', content: config.facebookId },
 
       { property: 'og:url', content: url },
-      { property: 'og:locale', content: 'en_US' },
+      { property: 'og:locale', content: this.props.currentLocale },
       { property: 'og:site_name', content: 'Shoutit' },
       { property: 'og:type', content: 'website' },
 
@@ -209,6 +209,10 @@ export class Application extends Component {
           rel: 'alternate',
           href: `${url}?hl=${locale}`,
           hrefLang: locale,
+        });
+        meta.push({
+          property: 'og:locale:alternate',
+          content: locale,
         });
       }
     });
