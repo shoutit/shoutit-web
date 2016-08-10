@@ -49,6 +49,7 @@ export default function HtmlDocument({
           />
         }
         <script type="text/javascript" dangerouslySetInnerHTML={ { __html: mixpanel } } />
+        <meta name="google-site-verification" content="YaTpPbslZ9EIxDxGSeL6nqF_tIAVC3q675VfxVr6FJg" />
       </head>
 
       <body>
