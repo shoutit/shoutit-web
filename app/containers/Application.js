@@ -57,6 +57,7 @@ export class Application extends Component {
     error: PropTypes.object,
     children: PropTypes.element.isRequired,
     dispatch: PropTypes.func.isRequired,
+    currentUrl: PropTypes.string.isRequired,
     currentLanguage: PropTypes.string.isRequired,
     currentLocale: PropTypes.string.isRequired,
     rtl: PropTypes.bool.isRequired,
@@ -167,7 +168,7 @@ export class Application extends Component {
       );
     }
 
-    const url = `${config.siteUrl}${props.currentUrl}`.replace(/\/$/, '');
+    const url = `${config.siteUrl}${this.props.currentUrl}`.replace(/\/$/, '');
 
     const meta = [
 
@@ -219,8 +220,8 @@ export class Application extends Component {
     });
 
     const htmlAttributes = {
-      lang,
-      dir: props.rtl ? 'rtl' : 'ltr',
+      lang: this.props.currentLanguage,
+      dir: this.props.rtl ? 'rtl' : 'ltr',
     };
 
     return (
