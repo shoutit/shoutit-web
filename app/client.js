@@ -15,12 +15,12 @@ import Fetchr from 'fetchr';
 import * as config from './config';
 
 import configureStore from './store/configureStore';
-import { getCurrentLocale } from './reducers/i18n';
+import { getCurrentLanguage } from './reducers/i18n';
 
 import { initFacebook } from './utils/FacebookUtils';
 
 import initGoogleAnalytics from './client/initGoogleAnalytics';
-import { loadIntlPolyfill, loadLocaleData } from './utils/IntlUtils';
+import { loadIntlPolyfill, loadLanguageData } from './utils/IntlUtils';
 
 import './styles/main.scss';
 
@@ -81,10 +81,10 @@ const renderApp = () => {
   );
 };
 
-const locale = getCurrentLocale(store.getState());
+const language = getCurrentLanguage(store.getState());
 
-loadIntlPolyfill(locale)
-  .then(() => loadLocaleData(locale))
+loadIntlPolyfill(language)
+  .then(() => loadLanguageData(language))
   .then(messages => ReactDOM.render(
     renderApp(messages),
     document.getElementById('content'))
