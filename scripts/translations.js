@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import pathExists from 'path-exists';
 import { sync as globSync } from 'glob';
 import { sync as mkdirpSync } from 'mkdirp';
-import { locales } from '../app/config';
+import { languages } from '../app/config';
 
 const MESSAGES_PATTERN = './assets/intl/messages/**/*.json';
 const TRANSLATIONS_PATH = './assets/intl/translations';
@@ -27,7 +27,7 @@ const defaultMessages = globSync(MESSAGES_PATTERN)
 
 mkdirpSync(TRANSLATIONS_PATH);
 
-locales.forEach(lang => {
+languages.forEach(lang => {
   console.log('\nBuilding %s.json...', lang);
   const file = `${TRANSLATIONS_PATH}/${lang}.json`;
   let existingMessages = {};
