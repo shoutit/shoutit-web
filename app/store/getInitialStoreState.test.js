@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { locales as availableLocales } from '../config';
+import { locales as supportedLocales } from '../config';
 
 import getInitialStoreState from './getInitialStoreState';
 
@@ -38,7 +38,7 @@ describe('store/getInitialStoreState', () => {
     expect(state.i18n).to.have.property('messages');
     expect(state.i18n).to.have.property('locale', 'en');
     expect(state.i18n).to.have.property('rtl', false);
-    expect(state.i18n).to.have.property('availableLocales', availableLocales);
+    expect(state.i18n).to.have.property('supportedLocales', supportedLocales);
   });
 
   it('should set the i18n store (rtl)', () => {
@@ -50,7 +50,7 @@ describe('store/getInitialStoreState', () => {
     expect(state.i18n).to.have.property('messages');
     expect(state.i18n).to.have.property('locale', 'ar');
     expect(state.i18n).to.have.property('rtl', true);
-    expect(state.i18n).to.have.property('availableLocales', availableLocales);
+    expect(state.i18n).to.have.property('supportedLocales', supportedLocales);
   });
 
   it('should set the user in the session store and in the entities', () => {

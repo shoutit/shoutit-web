@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router';
 
+import { locales } from './config';
 import Application from './containers/Application';
 
 import AccountSettings from './containers/AccountSettings';
@@ -23,6 +24,7 @@ import Signup from './containers/Signup';
 import VerifyEmail from './containers/VerifyEmail';
 import StaticHtml from './containers/StaticHtml';
 
+import { get}
 const authAppLayout = () => ({
   className: 'pattern-background',
   showHeader: false,
@@ -39,8 +41,9 @@ const staticAppLayout = () => ({
   stickyHeader: false,
 });
 
-const routes = (store) =>
-  <Route component={ Application }>
+const routes = (store) => {
+
+  const rootRoutes = [
     <Route path="/"
       getApplicationLayout={ () => ({
         stickyHeader: !!store.getState().session.user,
@@ -55,12 +58,12 @@ const routes = (store) =>
         callback(null, Component);
         return Component;
       } }
-    />
-    <Route path="/login" component={ Login } getApplicationLayout={ authAppLayout } />
-    <Route path="/login/password" component={ ResetPassword } getApplicationLayout={ authAppLayout } />
-    <Route path="/login/password/:resetToken" component={ SetPassword } getApplicationLayout={ authAppLayout } />
-    <Route path="/signup" component={ Signup } getApplicationLayout={ authAppLayout } />
-    <Route path="/signup/verify/:token" component={ VerifyEmail } getApplicationLayout={ authAppLayout } />
+    />,
+    <Route path="/login" component={ Login } getApplicationLayout={ authAppLayout } />,
+    <Route path="/login/password" component={ ResetPassword } getApplicationLayout={ authAppLayout } />,
+    <Route path="/login/password/:resetToken" component={ SetPassword } getApplicationLayout={ authAppLayout } />,
+    <Route path="/signup" component={ Signup } getApplicationLayout={ authAppLayout } />,
+    <Route path="/signup/verify/:token" component={ VerifyEmail } getApplicationLayout={ authAppLayout } />,
 
     <Route
       path="/search(/:country)(/:state)(/:city)"
@@ -69,23 +72,38 @@ const routes = (store) =>
         showFooter: true,
       }) }
       getResponsiveLayout={ () => ({ constrainMaxWidth: false }) }
-    />
-    <Route path="/shout/:id(/:city)(/:description)" component={ ShoutPage } getApplicationLayout={ () => ({ showFooter: true }) } />
-    <Route path="/interest/:slug" component={ Interest } />
-    <Route path="/user/:username(/:shout_type)" component={ Profile } getApplicationLayout={ () => ({ showFooter: true }) } />
-    <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true }) } />
-    <Route path="/discover/:country(/:id)" component={ Discover } />
+    />,
+    <Route path="/shout/:id(/:city)(/:description)" component={ ShoutPage } getApplicationLayout={ () => ({ showFooter: true }) } />,
+    <Route path="/interest/:slug" component={ Interest } />,
+    <Route path="/user/:username(/:shout_type)" component={ Profile } getApplicationLayout={ () => ({ showFooter: true }) } />,
+    <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true }) } />,
+    <Route path="/discover/:country(/:id)" component={ Discover } />,
     <Route path="/messages(/:conversationId)" component={ Chat } getApplicationLayout={ () => ({
       fullHeight: true,
       showFooter: false,
-    }) } />
-    <Redirect from="/settings" to="/settings/profile" />
-    <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ settingsAppLayout } />
-    <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ settingsAppLayout } />
+    }) } />,
+    <Redirect from="/settings" to="/settings/profile" />,
+    <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ settingsAppLayout } />,
+    <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ settingsAppLayout } />,
 
-    <Route path="/static/:pageName" component={ StaticHtml } getApplicationLayout={ staticAppLayout } />
+    <Route path="/static/:pageName" component={ StaticHtml } getApplicationLayout={ staticAppLayout } />,
 
-    <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true }) } />
-  </Route>;
+  ];
+
+  const localeRoutes = locales.map(locale =>
+    <Route path={ `/${locale} ` }>
+      { rootRoutes }
+    </Route>
+  );
+  return (
+    <Route component={ Application }>
+      { rootRoutes }
+      { localeRoutes }
+      <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true }) } />,
+    </Route>
+  );
+};
+
+console.log(routes);
 
 export default routes;

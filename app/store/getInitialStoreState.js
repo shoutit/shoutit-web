@@ -1,5 +1,5 @@
 import path from 'path';
-import { locales as availableLocales } from '../config';
+import { locales as supportedLocales } from '../config';
 
 const translationsPath = path.resolve(__dirname, '../../assets/intl/translations');
 
@@ -23,7 +23,7 @@ export default function getInitialStoreState(req) {
     browser: req.browser,
     currentLocation: req.geolocation,
     i18n: {
-      availableLocales,
+      supportedLocales,
       messages,
       locale,
       rtl: locale === 'ar',

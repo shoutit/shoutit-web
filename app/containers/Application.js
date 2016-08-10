@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 
-import { getCurrentLocale, getAvailableLocales, isRtl, getIntlMessages } from '../reducers/i18n';
+import { getCurrentLocale, getSupportedLocales, isRtl, getIntlMessages } from '../reducers/i18n';
 import { getCurrentUrl, getRoutingError } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
 
@@ -60,7 +60,7 @@ export class Application extends Component {
     currentLocale: PropTypes.string.isRequired,
     rtl: PropTypes.bool.isRequired,
     messages: PropTypes.object.isRequired,
-    availableLocales: PropTypes.array.isRequired,
+    supportedLocales: PropTypes.array.isRequired,
   };
 
   static fetchData = fetchData;
@@ -203,7 +203,7 @@ export class Application extends Component {
       { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
     ];
 
-    this.props.availableLocales.forEach(locale => {
+    this.props.supportedLocales.forEach(locale => {
       if (locale !== this.props.currentLocale) {
         link.push({
           rel: 'alternate',
@@ -270,7 +270,7 @@ const mapStateToProps = state => ({
   loggedUser: getLoggedUser(state),
   messages: getIntlMessages(state),
   rtl: isRtl(state),
-  availableLocales: getAvailableLocales(state),
+  supportedLocales: getSupportedLocales(state),
 });
 
 const Wrapped = connect(mapStateToProps)(Application);
