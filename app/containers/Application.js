@@ -5,7 +5,15 @@ import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 
-import { getCurrentLanguage, getSupportedLocales, getCurrentLocale, isRtl, getIntlMessages } from '../reducers/i18n';
+import {
+  getCurrentLanguage,
+  getSupportedLocales,
+  getSupportedLanguages,
+  getCurrentLocale,
+  isRtl,
+  getIntlMessages,
+} from '../reducers/i18n';
+
 import { getCurrentUrl, getRoutingError } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
 
@@ -62,6 +70,7 @@ export class Application extends Component {
     currentLocale: PropTypes.string.isRequired,
     rtl: PropTypes.bool.isRequired,
     messages: PropTypes.object.isRequired,
+    supportedLanguages: PropTypes.array.isRequired,
     supportedLocales: PropTypes.array.isRequired,
   };
 
@@ -205,19 +214,22 @@ export class Application extends Component {
       { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
     ];
 
-    this.props.supportedLocales.forEach(locale => {
-      if (locale !== this.props.currentLanguage) {
-        link.push({
-          rel: 'alternate',
-          href: `${url}?hl=${locale}`,
-          hrefLang: locale,
-        });
+    this.props.supportedLocales
+      .filter(locale => locale !== this.props.currentLocale)
+      .forEach(locale =>
         meta.push({
           property: 'og:locale:alternate',
           content: locale,
-        });
-      }
-    });
+        }));
+
+    this.props.supportedLanguages
+      .filter(language => language !== this.props.currentLanguage)
+      .forEach(language =>
+        link.push({
+          rel: 'alternate',
+          href: `${url}?hl=${language}`,
+          hrefLang: language,
+        }));
 
     const htmlAttributes = {
       lang: this.props.currentLanguage,
@@ -267,13 +279,16 @@ export class Application extends Component {
 const mapStateToProps = state => ({
   currentLocation: getCurrentLocation(state),
   currentUrl: getCurrentUrl(state),
+  loggedUser: getLoggedUser(state),
   error: getRoutingError(state),
+
+  messages: getIntlMessages(state),
   currentLocale: getCurrentLocale(state),
   currentLanguage: getCurrentLanguage(state),
-  loggedUser: getLoggedUser(state),
-  messages: getIntlMessages(state),
-  rtl: isRtl(state),
   supportedLocales: getSupportedLocales(state),
+  supportedLanguages: getSupportedLanguages(state),
+  rtl: isRtl(state),
+
 });
 
 const Wrapped = connect(mapStateToProps)(Application);
