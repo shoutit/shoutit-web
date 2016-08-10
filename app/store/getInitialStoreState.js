@@ -1,5 +1,5 @@
 import path from 'path';
-import { locales as supportedLocales } from '../config';
+import { locales as supportedLocales, languages as supportedLanguages } from '../config';
 
 const translationsPath = path.resolve(__dirname, '../../assets/intl/translations');
 
@@ -12,8 +12,10 @@ const translationsPath = path.resolve(__dirname, '../../assets/intl/translations
  * @return {Object}
  */
 export default function getInitialStoreState(req) {
-  const { locale = 'en' } = req;
-  const messages = require(`${translationsPath}/${locale}.json`);
+  let messages;
+  if (req.language) {
+    messages = require(`${translationsPath}/${req.language}.json`);
+  }
   const state = {
     routing: {
       currentUrl: req.url,
@@ -23,10 +25,12 @@ export default function getInitialStoreState(req) {
     browser: req.browser,
     currentLocation: req.geolocation,
     i18n: {
-      supportedLocales,
       messages,
-      locale,
-      rtl: locale === 'ar',
+      supportedLocales,
+      supportedLanguages,
+      currentLanguage: req.language,
+      currentLocale: req.locale,
+      rtl: req.language === 'ar',
     },
   };
   if (req.session && req.session.user) {
