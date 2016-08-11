@@ -5,14 +5,7 @@ import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 
-import {
-  getCurrentLanguage,
-  getSupportedLocales,
-  getSupportedLanguages,
-  getCurrentLocale,
-  isRtl,
-  getIntlMessages,
-} from '../reducers/i18n';
+import { getCurrentLanguage, getIntlMessages } from '../reducers/i18n';
 
 import { getCurrentUrl, getRoutingError } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
@@ -41,8 +34,6 @@ import OpenInApp from '../widgets/OpenInApp';
 
 import * as FacebookUtils from '../utils/FacebookUtils';
 
-import * as config from '../config';
-
 import './Application.scss';
 
 const fetchData = (dispatch, state) => {
@@ -67,11 +58,7 @@ export class Application extends Component {
     dispatch: PropTypes.func.isRequired,
     currentUrl: PropTypes.string.isRequired,
     currentLanguage: PropTypes.string.isRequired,
-    currentLocale: PropTypes.string.isRequired,
-    rtl: PropTypes.bool.isRequired,
     messages: PropTypes.object.isRequired,
-    supportedLanguages: PropTypes.array.isRequired,
-    supportedLocales: PropTypes.array.isRequired,
   };
 
   static fetchData = fetchData;
@@ -160,12 +147,6 @@ export class Application extends Component {
       className += ` ${applicationLayout.className}`;
     }
 
-    let lang = this.props.currentLanguage;
-    if (lang === 'ar') {
-      // Make sure we use latin numbers in arabic
-      lang = 'ar-u-nu-latn';
-    }
-
     let content;
 
     if (!error) {
@@ -177,69 +158,16 @@ export class Application extends Component {
       );
     }
 
-    const url = `${config.siteUrl}${this.props.currentUrl}`.replace(/\/$/, '');
-
-    const meta = [
-
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=no' },
-      { name: 'keywords', content: 'shoutit' },
-
-      { property: 'fb:app_id', content: config.facebookId },
-
-      { property: 'og:url', content: url },
-      { property: 'og:locale', content: this.props.currentLocale, id: 'ogLocale' },
-      { property: 'og:site_name', content: 'Shoutit' },
-      { property: 'og:type', content: 'website' },
-
-      { name: 'twitter:site', content: '@Shoutitcom' },
-      { name: 'twitter:card', content: 'summary' },
-      { name: 'twitter:app:name:iphone', content: config.iosAppName },
-      { name: 'twitter:app:name:ipad', content: config.iosAppName },
-      { name: 'twitter:app:name:googleplay', content: 'Shoutit' },
-      { name: 'twitter:app:id:iphone', content: config.iosAppId },
-      { name: 'twitter:app:id:ipad', content: config.iosAppId },
-      { name: 'twitter:app:id:googleplay', content: config.androidPackage },
-
-      { property: 'al:ios:app_store_id', content: config.iosAppId },
-      { property: 'al:ios:app_name', content: config.iosAppName },
-      { property: 'al:android:package', content: config.androidPackage },
-      { property: 'al:android:app_name', content: config.androidAppName },
-      { property: 'al:web:url', content: url },
-      { property: 'al:web:should_fallback', content: 'true' },
-    ];
-
-    const link = [
-      { rel: 'canonical', href: url },
-      { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
-      { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
-    ];
-
-    this.props.supportedLocales
-      .filter(locale => locale !== this.props.currentLocale)
-      .forEach(locale =>
-        meta.push({
-          property: 'og:locale:alternate',
-          content: locale,
-        }));
-
-    this.props.supportedLanguages
-      .filter(language => language !== this.props.currentLanguage)
-      .forEach(language =>
-        link.push({
-          rel: 'alternate',
-          href: `${url}?hl=${language}`,
-          hrefLang: language,
-        }));
-
-    const htmlAttributes = {
-      lang: this.props.currentLanguage,
-      dir: this.props.rtl ? 'rtl' : 'ltr',
-    };
+    let intlLocale = this.props.currentLanguage;
+    if (intlLocale === 'ar') {
+      // Make sure we use latin numbers in arabic
+      intlLocale = 'ar-u-nu-latn';
+    }
 
     return (
-      <IntlProvider locale={ lang } messages={ this.props.messages }>
+      <IntlProvider locale={ intlLocale } messages={ this.props.messages }>
         <div className={ className }>
-          <Helmet htmlAttributes={ htmlAttributes } meta={ meta } link={ link } />
+          <Helmet />
           <Device type="smartphone,tablet" operatingSystem="ios,android">
             <OpenInApp />
           </Device>
@@ -281,14 +209,8 @@ const mapStateToProps = state => ({
   currentUrl: getCurrentUrl(state),
   loggedUser: getLoggedUser(state),
   error: getRoutingError(state),
-
   messages: getIntlMessages(state),
-  currentLocale: getCurrentLocale(state),
   currentLanguage: getCurrentLanguage(state),
-  supportedLocales: getSupportedLocales(state),
-  supportedLanguages: getSupportedLanguages(state),
-  rtl: isRtl(state),
-
 });
 
 const Wrapped = connect(mapStateToProps)(Application);
