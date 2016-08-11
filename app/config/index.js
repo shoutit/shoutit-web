@@ -56,7 +56,8 @@ export const locales = [
   'zh_CN',
 ];
 
-export const languages = locales.map(locale => locale.split('_')[0])
+export const languages = locales
+  .map(locale => locale.split('_')[0])
   .filter((language, index, arr) => arr.indexOf(language) === index);
 
 export const publicUrl = envConfig.publicUrl;
