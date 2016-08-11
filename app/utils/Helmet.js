@@ -61,7 +61,7 @@ class Helmet extends Component {
   render() {
     const url = `${config.siteUrl}${this.props.currentUrl}`.replace(/\/$/, '');
 
-    // Basic meta tags
+    // Base meta tags
     let { title, description } = this.props;
     if (title && !this.props.hideBadge && this.props.badge > 0) {
       title = `(${this.props.badge}) ${title}`;
@@ -75,22 +75,9 @@ class Helmet extends Component {
       { name: 'description', content: description },
       { name: 'keywords', content: 'shoutit' },
     ];
-
-    const link = [
-      ...this.props.link,
-      { rel: 'canonical', href: url },
-      { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
-      { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
-    ];
-    this.props.supportedLanguages
-      .filter(language => language !== this.props.currentLanguage)
-      .forEach(language =>
-        link.push({
-          rel: 'alternate',
-          href: `${url}?hl=${language}`,
-          hrefLang: language,
-        }));
-
+    if (process.env.SHOUTIT_ENV !== 'live') {
+      base.push({ name: 'robots', content: 'noindex' });
+    }
 
     // Open Graph
     const openGraph = [
@@ -145,6 +132,7 @@ class Helmet extends Component {
       this.props.meta,
     ).map(replaceOgPrefixForTag);
 
+    // <html> Attributes
     let lang = this.props.currentLanguage;
     if (lang === 'ar') {
       // Make sure we use latin numbers in arabic
@@ -156,9 +144,24 @@ class Helmet extends Component {
       dir: this.props.rtl ? 'rtl' : 'ltr',
     };
 
+    // Links
+    const link = [
+      ...this.props.link,
+      { rel: 'canonical', href: url },
+      { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
+      { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
+    ];
+    this.props.supportedLanguages
+      .filter(language => language !== this.props.currentLanguage)
+      .forEach(language =>
+        link.push({
+          rel: 'alternate',
+          href: `${url}?hl=${language}`,
+          hrefLang: language,
+        }));
+
     return (
       <ReactHelmet
-        { ...this.props }
         meta={ meta }
         link={ link }
         htmlAttributes={ htmlAttributes }
