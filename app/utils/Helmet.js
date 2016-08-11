@@ -2,90 +2,216 @@ import React, { PropTypes, Component } from 'react';
 import ReactHelmet from 'react-helmet';
 import { injectIntl, defineMessages } from 'react-intl';
 import union from 'lodash/union';
+import sortBy from 'lodash/sortBy';
 import { connect } from 'react-redux';
-import { ogPrefix, imagesPath, appProtocol } from '../config';
 
-import { getUnreadNotificationsCount, getUnreadConversationsCount } from '../reducers/session';
+import * as config from '../config';
 import { getVariation } from '../utils/APIUtils';
+
+import {
+  getUnreadNotificationsCount,
+  getUnreadConversationsCount,
+} from '../reducers/session';
+import { getCurrentUrl } from '../reducers/routing';
+
+import {
+  getSupportedLocales,
+  getSupportedLanguages,
+  getCurrentLocale,
+  isRtl,
+} from '../reducers/i18n';
+
+function replaceOgPrefixForTag(tag) {
+  if (tag.property) {
+    tag.property = tag.property.replace('ogPrefix', config.ogPrefix);
+  }
+  if (tag.content) {
+    tag.content = tag.content.toString().replace('ogPrefix', config.ogPrefix);
+  }
+  return tag;
+}
+
+function getImageMetaTag(src) {
+  return {
+    property: 'og:image',
+    content: getVariation(src, 'large'),
+  };
+}
 
 class Helmet extends Component {
 
   static propTypes = {
-    ...ReactHelmet.propTypes,
-    title: PropTypes.string,
     appUrl: PropTypes.string,
-    meta: PropTypes.array,
-    description: PropTypes.string,
     badge: PropTypes.number,
+    currentLanguage: PropTypes.string,
+    currentLocale: PropTypes.string,
+    currentUrl: PropTypes.string.isRequired,
+    defaultTitle: PropTypes.string.isRequired,
+    description: PropTypes.string,
     hideBadge: PropTypes.bool,
+    htmlAttributes: PropTypes.object,
     images: PropTypes.arrayOf(PropTypes.string),
+    link: PropTypes.arrayOf(PropTypes.object),
+    meta: PropTypes.array,
+    rtl: PropTypes.bool,
+    supportedLanguages: PropTypes.arrayOf(PropTypes.string).isRequired,
+    supportedLocales: PropTypes.arrayOf(PropTypes.string).isRequired,
+    title: PropTypes.string,
   }
 
   static defaultProps = {
-    images: [`${imagesPath}/opengraph-v2-1.png`],
+    images: [`${config.imagesPath}/opengraph-v2-1.png`],
     hideBadge: false,
   }
 
   render() {
+    const url = `${config.siteUrl}${this.props.currentUrl}`.replace(/\/$/, '');
+
+    // Base meta tags
     let { title, description } = this.props;
+    if (!title) {
+      title = this.props.defaultTitle;
+    }
     if (title && !this.props.hideBadge && this.props.badge > 0) {
       title = `(${this.props.badge}) ${title}`;
     }
     if (description) {
       description = description.substring(0, 160);
     }
-    const otherMeta = [
+    const base = [
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=no' },
+      { name: 'title', content: title },
       { name: 'description', content: description },
+      { name: 'keywords', content: 'shoutit' },
+    ];
+    if (process.env.SHOUTIT_ENV !== 'live') {
+      base.push({ name: 'robots', content: 'noindex' });
+    }
+
+    // Open Graph
+    const openGraph = [
+      { property: 'fb:app_id', content: config.facebookId },
       { property: 'og:title', content: title || this.props.defaultTitle },
       { property: 'og:description', content: description },
+      { property: 'og:url', content: url },
+      { property: 'og:locale', content: this.props.currentLocale, id: 'ogLocale' },
+      { property: 'og:site_name', content: 'Shoutit' },
+      { property: 'og:type', content: 'website' },
+    ];
+    this.props.supportedLocales
+      .filter(locale => locale !== this.props.currentLocale)
+      .forEach(locale => openGraph.push({ property: 'og:locale:alternate', content: locale }));
+
+    // App links (the rest is added in Application.js)
+    const appUrl = this.props.appUrl ?
+      this.props.appUrl.replace('shoutit://', config.appProtocol) :
+      `${config.appProtocol}home`;
+
+    const appLinks = [
+      { property: 'al:ios:app_store_id', content: config.iosAppId },
+      { property: 'al:ios:app_name', content: config.iosAppName },
+      { property: 'al:android:package', content: config.androidPackage },
+      { property: 'al:android:app_name', content: config.androidAppName },
+      { property: 'al:web:url', content: url },
+      { property: 'al:ios:url', content: appUrl, id: 'shoutitAppUrl_ios' },
+      { property: 'al:android:url', content: appUrl, id: 'shoutitAppUrl_android' },
     ];
 
-    // Append app links (the rest is added in Application.js)
-    const appUrl = this.props.appUrl ? this.props.appUrl.replace('shoutit://', appProtocol) : `${appProtocol}home`;
-    otherMeta.push({ property: 'al:ios:url', content: appUrl, id: 'shoutitAppUrl_ios' });
-    otherMeta.push({ property: 'al:android:url', content: appUrl, id: 'shoutitAppUrl_android' });
-
+    // Twitter meta tags
+    const twitter = [
+      { name: 'twitter:site', content: '@Shoutitcom' },
+      { name: 'twitter:card', content: 'summary' },
+      { name: 'twitter:app:name:iphone', content: config.iosAppName },
+      { name: 'twitter:app:name:ipad', content: config.iosAppName },
+      { name: 'twitter:app:name:googleplay', content: 'Shoutit' },
+      { name: 'twitter:app:id:iphone', content: config.iosAppId },
+      { name: 'twitter:app:id:ipad', content: config.iosAppId },
+      { name: 'twitter:app:id:googleplay', content: config.androidPackage },
+    ];
     if (this.props.images.length > 2) {
-      otherMeta.push({ name: 'twitter:card', content: 'gallery' });
+      twitter.push({ name: 'twitter:card', content: 'gallery' });
     }
-    const imagesMeta = this.props.images.map(src =>
-      ({ property: 'og:image', content: getVariation(src, 'large') }),
+    const images = this.props.images.map(getImageMetaTag);
+    const meta = union(
+      base,
+      images,
+      openGraph,
+      twitter,
+      appLinks,
+      this.props.meta,
+    ).map(replaceOgPrefixForTag);
+
+    // <html> Attributes
+    let lang = this.props.currentLanguage;
+    if (lang === 'ar') {
+      // Make sure we use latin numbers in arabic
+      lang = 'ar-u-nu-latn';
+    }
+    const htmlAttributes = {
+      lang: this.props.currentLanguage,
+      dir: this.props.rtl ? 'rtl' : 'ltr',
+    };
+
+    // Links
+    let link = [
+      { rel: 'canonical', href: url },
+      { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
+      { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
+    ];
+    this.props.supportedLanguages
+      .filter(language => language !== this.props.currentLanguage)
+      .forEach(language =>
+        link.push({
+          rel: 'alternate',
+          href: `${url}?hl=${language}`,
+          hrefLang: language,
+        }));
+    link = union(link, this.props.link);
+
+    return (
+      <ReactHelmet
+        { ...this.props }
+        title={ title }
+        meta={ sortBy(meta, ['property', 'name']) }
+        link={ sortBy(link, ['rel']) }
+        htmlAttributes={ htmlAttributes }
+      />
     );
-    const meta = union(this.props.meta, otherMeta, imagesMeta).map(tag => {
-      if (tag.property) {
-        tag.property = tag.property.replace('ogPrefix', ogPrefix);
-      }
-      if (tag.content) {
-        tag.content = tag.content.toString().replace('ogPrefix', ogPrefix);
-      }
-      return tag;
-    });
-    return <ReactHelmet { ...this.props } title={ title } meta={ meta } />;
   }
 }
 
+const messages = defineMessages({
+  defaultTitle: {
+    id: 'app.meta.title',
+    defaultMessage: 'Buy and sell while chatting! - Shoutit',
+  },
+  description: {
+    id: 'app.meta.description',
+    defaultMessage: 'The fastest way to share and offer what you want to sell or buy. Take photos and videos and chat with buyers or sellers.',
+  },
+  titleTemplate: {
+    id: 'app.meta.titleTemplate',
+    defaultMessage: '%s - Shoutit',
+  },
+});
+
 const mapStateToProps = (state, ownProps) => {
-  const messages = defineMessages({
-    defaultTitle: {
-      id: 'app.meta.title',
-      defaultMessage: 'Buy and sell while chatting! - Shoutit',
-    },
-    description: {
-      id: 'app.meta.description',
-      defaultMessage: 'The fastest way to share and offer what you want to sell or buy. Take photos and videos and chat with buyers or sellers.',
-    },
-    titleTemplate: {
-      id: 'app.meta.titleTemplate',
-      defaultMessage: '%s - Shoutit',
-    },
-  });
   const defaultTitle = ownProps.defaultTitle || ownProps.intl.formatMessage(messages.defaultTitle);
   const description = ownProps.description || ownProps.intl.formatMessage(messages.description);
   const titleTemplate = ownProps.titleTemplate || ownProps.intl.formatMessage(messages.titleTemplate);
   const badge = getUnreadNotificationsCount(state) + getUnreadConversationsCount(state);
-  return { defaultTitle, badge, description, titleTemplate };
+  return {
+    defaultTitle,
+    badge,
+    description,
+    titleTemplate,
+    currentLocale: getCurrentLocale(state),
+    supportedLocales: getSupportedLocales(state),
+    supportedLanguages: getSupportedLanguages(state),
+    rtl: isRtl(state),
+    currentUrl: getCurrentUrl(state),
+  };
 };
-
 
 const ConnectedHelmet = injectIntl(connect(mapStateToProps)(Helmet));
 ConnectedHelmet.rewind = ReactHelmet.rewind;

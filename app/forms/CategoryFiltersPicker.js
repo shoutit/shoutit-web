@@ -40,7 +40,7 @@ export class CategoryFiltersPicker extends Component {
       }
     });
   }
-  
+
   render() {
     const { category, ...props } = this.props;
     delete props.categorySlug;

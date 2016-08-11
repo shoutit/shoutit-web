@@ -50,8 +50,6 @@ export default function HtmlDocument({
         }
         <script type="text/javascript" dangerouslySetInnerHTML={ { __html: mixpanel } } />
 
-        { process.env.SHOUTIT_ENV !== 'live' && <meta name="robots" content="noindex" /> }
-
       </head>
 
       <body>
