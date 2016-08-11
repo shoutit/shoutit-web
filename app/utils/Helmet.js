@@ -22,13 +22,6 @@ function replaceOgPrefixForTag(tag) {
   return tag;
 }
 
-function getImageMetaTag(src) {
-  return {
-    property: 'og:image',
-    content: getVariation(src, 'large'),
-  };
-}
-
 const defaultImages = [`${config.imagesPath}/opengraph-v2-1.png`];
 /**
  * Shortcut component for setting the React Helmet. Images, title and description will
@@ -55,7 +48,7 @@ export function Helmet({
   badge = 0,
   description,
   appUrl,
-  images = defaultImages,
+  images,
   meta = [],
 }) {
   if (!title) {
@@ -66,6 +59,9 @@ export function Helmet({
   }
   if (description) {
     description = description.substring(0, 160);
+  }
+  if (!images || images.length === 0) {
+    images = defaultImages;
   }
 
   const baseMetaTags = [
