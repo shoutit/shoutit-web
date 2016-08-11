@@ -8,7 +8,6 @@ import { getCurrentLanguage } from '../../reducers/i18n';
 
 export function ShoutPageHelmet({ shout, language }) {
   const price = shout.price / 100;
-
   return (
     <Helmet
       title={ shout.title }

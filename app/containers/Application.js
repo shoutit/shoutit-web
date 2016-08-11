@@ -10,7 +10,7 @@ import { getCurrentLanguage, getIntlMessages } from '../reducers/i18n';
 import { getCurrentUrl, getRoutingError } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
 
-import Helmet from '../utils/Helmet';
+import ApplicationHelmet from '../utils/ApplicationHelmet';
 import { identifyOnMixpanel, trackWithMixpanel } from '../utils/mixpanel';
 
 import Header from '../layout/Header';
@@ -167,7 +167,7 @@ export class Application extends Component {
     return (
       <IntlProvider locale={ intlLocale } messages={ this.props.messages }>
         <div className={ className }>
-          <Helmet />
+          <ApplicationHelmet />
           <Device type="smartphone,tablet" operatingSystem="ios,android">
             <OpenInApp />
           </Device>
