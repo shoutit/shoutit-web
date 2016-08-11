@@ -16,7 +16,7 @@
     "build:translations": "babel-node ./scripts/translations.js",
     "build:copy_styles": "find app -name '*.scss' | cpio -pdm ./built",
     "build:copy_assets": "cp -r assets built/assets",
-    "dev": "REDIS_PORT=tcp://localhost:6379 DEBUG=shoutit,shoutit:* NODE_ENV=development nodemon index.js --exec babel-node --debug",
+    "dev": "REDIS_PORT=tcp://localhost:6379 DEBUG=shoutit,shoutit:* NODE_ENV=development nodemon index.js --exec babel-node",
     "dev:debug": "npm run dev --debug",
     "dev:built": "redis-server & DEBUG=shoutit,shoutit:* NODE_ENV=production npm start",
     "lint": "eslint app",
