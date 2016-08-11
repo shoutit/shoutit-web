@@ -158,14 +158,16 @@ class Helmet extends Component {
       { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
       { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
     ];
-    this.props.supportedLanguages
-      .filter(language => language !== this.props.currentLanguage)
-      .forEach(language =>
-        link.push({
-          rel: 'alternate',
-          href: `${url}?hl=${language}`,
-          hrefLang: language,
-        }));
+    // Temporary disable alternate lang hrefs until we have a better router
+    //
+    // this.props.supportedLanguages
+    //   .filter(language => language !== this.props.currentLanguage)
+    //   .forEach(language =>
+    //     link.push({
+    //       rel: 'alternate',
+    //       href: `${url}?hl=${language}`,
+    //       hrefLang: language,
+    //     }));
     link = union(link, this.props.link);
 
     return (
