@@ -3,10 +3,15 @@ import ReactHelmet from 'react-helmet';
 import { injectIntl, defineMessages } from 'react-intl';
 import union from 'lodash/union';
 import { connect } from 'react-redux';
-import * as config from '../config';
 
-import { getUnreadNotificationsCount, getUnreadConversationsCount } from '../reducers/session';
+import * as config from '../config';
 import { getVariation } from '../utils/APIUtils';
+
+import {
+  getUnreadNotificationsCount,
+  getUnreadConversationsCount,
+} from '../reducers/session';
+import { getCurrentUrl } from '../reducers/routing';
 
 import {
   getSupportedLocales,
@@ -198,6 +203,8 @@ const mapStateToProps = (state, ownProps) => {
     supportedLocales: getSupportedLocales(state),
     supportedLanguages: getSupportedLanguages(state),
     rtl: isRtl(state),
+    currentUrl: getCurrentUrl(state),
+
   };
 };
 
