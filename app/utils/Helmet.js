@@ -172,11 +172,11 @@ class Helmet extends Component {
 
     return (
       <ReactHelmet
-        { ...this.props }
-        title={ title }
         meta={ sortBy(meta, ['property', 'name']) }
         link={ sortBy(link, ['rel']) }
         htmlAttributes={ htmlAttributes }
+        title={ title }
+        { ...this.props }
       />
     );
   }
