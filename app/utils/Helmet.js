@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import ReactHelmet from 'react-helmet';
 import { injectIntl, defineMessages } from 'react-intl';
 import union from 'lodash/union';
+import sortBy from 'lodash/sortBy';
 import { connect } from 'react-redux';
 
 import * as config from '../config';
@@ -40,7 +41,7 @@ function getImageMetaTag(src) {
 class Helmet extends Component {
 
   static propTypes = {
-    appUrl: PropTypes.string.isRequired,
+    appUrl: PropTypes.string,
     badge: PropTypes.number,
     currentLanguage: PropTypes.string,
     currentLocale: PropTypes.string,
@@ -68,6 +69,9 @@ class Helmet extends Component {
 
     // Base meta tags
     let { title, description } = this.props;
+    if (!title) {
+      title = this.props.defaultTitle;
+    }
     if (title && !this.props.hideBadge && this.props.badge > 0) {
       title = `(${this.props.badge}) ${title}`;
     }
@@ -166,8 +170,10 @@ class Helmet extends Component {
 
     return (
       <ReactHelmet
-        meta={ meta }
-        link={ link }
+        { ...this.props }
+        title={ title }
+        meta={ sortBy(meta, ['property', 'name']) }
+        link={ sortBy(link, ['rel']) }
         htmlAttributes={ htmlAttributes }
       />
     );
@@ -204,10 +210,8 @@ const mapStateToProps = (state, ownProps) => {
     supportedLanguages: getSupportedLanguages(state),
     rtl: isRtl(state),
     currentUrl: getCurrentUrl(state),
-
   };
 };
-
 
 const ConnectedHelmet = injectIntl(connect(mapStateToProps)(Helmet));
 ConnectedHelmet.rewind = ReactHelmet.rewind;
