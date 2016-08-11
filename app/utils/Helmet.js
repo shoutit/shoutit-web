@@ -40,12 +40,12 @@ function getImageMetaTag(src) {
 class Helmet extends Component {
 
   static propTypes = {
-    appUrl: PropTypes.string,
+    appUrl: PropTypes.string.isRequired,
     badge: PropTypes.number,
     currentLanguage: PropTypes.string,
     currentLocale: PropTypes.string,
-    currentUrl: PropTypes.string,
-    defaultTitle: PropTypes.string,
+    currentUrl: PropTypes.string.isRequired,
+    defaultTitle: PropTypes.string.isRequired,
     description: PropTypes.string,
     hideBadge: PropTypes.bool,
     htmlAttributes: PropTypes.object,
@@ -53,8 +53,8 @@ class Helmet extends Component {
     link: PropTypes.arrayOf(PropTypes.object),
     meta: PropTypes.array,
     rtl: PropTypes.bool,
-    supportedLanguages: PropTypes.arrayOf(PropTypes.string),
-    supportedLocales: PropTypes.arrayOf(PropTypes.string),
+    supportedLanguages: PropTypes.arrayOf(PropTypes.string).isRequired,
+    supportedLocales: PropTypes.arrayOf(PropTypes.string).isRequired,
     title: PropTypes.string,
   }
 
