@@ -144,8 +144,7 @@ class Helmet extends Component {
     };
 
     // Links
-    const link = [
-      ...this.props.link,
+    let link = [
       { rel: 'canonical', href: url },
       { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
       { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
@@ -158,7 +157,8 @@ class Helmet extends Component {
           href: `${url}?hl=${language}`,
           hrefLang: language,
         }));
-
+    link.union(link, this.props.link);
+    
     return (
       <ReactHelmet
         meta={ meta }
