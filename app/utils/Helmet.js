@@ -42,10 +42,8 @@ class Helmet extends Component {
 
     // Append app links (the rest is added in Application.js)
     const appUrl = this.props.appUrl ? this.props.appUrl.replace('shoutit://', appProtocol) : `${appProtocol}home`;
-    otherMeta.push({ property: 'al:ios:url', content: appUrl });
-    otherMeta.push({ property: 'al:android:url', content: appUrl });
-    // !! Used by OpenInApp.js
-    otherMeta.push({ id: 'shoutitAppUrl', property: 'shoutit_app_url', content: appUrl });
+    otherMeta.push({ property: 'al:ios:url', content: appUrl, id: 'shoutitAppUrl_ios' });
+    otherMeta.push({ property: 'al:android:url', content: appUrl, id: 'shoutitAppUrl_android' });
 
     if (this.props.images.length > 2) {
       otherMeta.push({ name: 'twitter:card', content: 'gallery' });

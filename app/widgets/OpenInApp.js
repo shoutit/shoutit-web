@@ -12,6 +12,7 @@ import './OpenInApp.scss';
 class OpenInApp extends Component {
 
   static propTypes = {
+    os: PropTypes.string,
     storeLink: PropTypes.string.isRequired,
     currentUrl: PropTypes.string.isRequired,
   }
@@ -41,7 +42,7 @@ class OpenInApp extends Component {
   }
 
   setAppUrl() {
-    const el = document.getElementById('shoutitAppUrl');
+    const el = document.getElementById(`shoutitAppUrl_${this.props.os}`);
     if (el) {
       this.setState({
         appUrl: el.getAttribute('content'),
@@ -104,6 +105,7 @@ const mapStateToProps = state => {
     default: break;
   }
   return {
+    os,
     storeLink,
     currentUrl: getCurrentUrl(state),
   };
