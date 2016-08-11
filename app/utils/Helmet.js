@@ -43,7 +43,7 @@ class Helmet extends Component {
     defaultTitle: PropTypes.string,
     description: PropTypes.string,
     hideBadge: PropTypes.bool,
-    htmlAttributes: PropTypes.arrayOf(PropTypes.object),
+    htmlAttributes: PropTypes.object,
     images: PropTypes.arrayOf(PropTypes.string),
     link: PropTypes.arrayOf(PropTypes.object),
     meta: PropTypes.array,
@@ -139,7 +139,6 @@ class Helmet extends Component {
       lang = 'ar-u-nu-latn';
     }
     const htmlAttributes = {
-      ...this.props.htmlAttributes,
       lang: this.props.currentLanguage,
       dir: this.props.rtl ? 'rtl' : 'ltr',
     };
