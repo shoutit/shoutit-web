@@ -157,8 +157,8 @@ class Helmet extends Component {
           href: `${url}?hl=${language}`,
           hrefLang: language,
         }));
-    link.union(link, this.props.link);
-    
+    link = union(link, this.props.link);
+
     return (
       <ReactHelmet
         meta={ meta }
