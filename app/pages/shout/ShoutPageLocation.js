@@ -13,7 +13,7 @@ class ShoutPageLocation extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="ShoutPage-Location">
         <h2>
           <FormattedMessage id="shout.location" defaultMessage="Location" />
         </h2>
