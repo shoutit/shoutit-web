@@ -5,6 +5,7 @@ import { getSortTypes } from '../reducers/sortTypes';
 
 import Picker from '../forms/Picker';
 import Progress from '../widgets/Progress';
+import Device from '../utils/Device';
 
 import './ShoutsListToolbar.scss';
 
@@ -16,8 +17,26 @@ class ShoutsListToolbar extends Component {
     showProgress: PropTypes.bool,
     onSortChange: PropTypes.func.isRequired,
   }
+
   render() {
     const { count } = this.props;
+    const sortPicker = (
+      <div className="ShoutsListToolbar-form">
+        <Device type="desktop">
+          <label htmlFor="ShoutsListToolbarSort">
+            <FormattedMessage
+              id="shouts.ShoutsListToolbar.sortByLabel"
+              defaultMessage="Sort by"
+            />
+          </label>
+        </Device>
+        <Picker value={ this.props.sortType } name="sort" id="ShoutsListToolbarSort" onChange={ this.props.onSortChange }>
+          { this.props.sortTypes.map(sortType =>
+            <option key={ sortType.type } value={ sortType.type }>{ sortType.name }</option>
+          ) }
+        </Picker>
+      </div>
+    );
     return (
       <div className="ShoutsListToolbar">
         <div className="ShoutsListToolbar-count">
@@ -45,21 +64,7 @@ class ShoutsListToolbar extends Component {
           <Progress animate={ this.props.showProgress } />
         </div>
         <div>
-          { !!count &&
-            <div className="ShoutsListToolbar-form">
-              <label htmlFor="ShoutsListToolbarSort">
-                <FormattedMessage
-                  id="shouts.ShoutsListToolbar.sortByLabel"
-                  defaultMessage="Sort by"
-                />
-              </label>
-              <Picker value={ this.props.sortType } name="sort" id="ShoutsListToolbarSort" onChange={ this.props.onSortChange }>
-                { this.props.sortTypes.map(sortType =>
-                  <option key={ sortType.type } value={ sortType.type }>{ sortType.name }</option>
-                ) }
-              </Picker>
-            </div>
-          }
+          { !!count && sortPicker }
         </div>
       </div>
     );
