@@ -26,10 +26,12 @@ export class ShoutsSearchForm extends Component {
     onSubmit: PropTypes.func.isRequired,
     query: PropTypes.object,
     currentLocation: PropTypes.object,
+    layout: PropTypes.oneOf(['reduced', 'full']),
   }
 
   static defaultProps = {
     disabled: false,
+    layout: 'full',
   }
 
   constructor(props) {
@@ -91,7 +93,7 @@ export class ShoutsSearchForm extends Component {
   }
 
   render() {
-    const { disabled, currentLocation } = this.props;
+    const { disabled, currentLocation, layout } = this.props;
     const { shout_type, min_price, max_price, search } = this.state;
     return (
       <Panel block>
@@ -104,20 +106,22 @@ export class ShoutsSearchForm extends Component {
               name="shout_type"
               onChange={ shout_type => this.handleChange({ shout_type }) }
             />
-            <FormattedMessage
-              id="ShoutsSearchForm.search.placeholder"
-              defaultMessage="Search by keyword"
-            >
-              { message =>
-                <TextField
-                  placeholder={ message }
-                  disabled={ disabled }
-                  name="search"
-                  value={ search }
-                  onChange={ search => this.handleChange({ search }, { debounce: true }) }
-                />
-              }
-            </FormattedMessage>
+            { layout === 'full' &&
+              <FormattedMessage
+                id="ShoutsSearchForm.search.placeholder"
+                defaultMessage="Search by keyword"
+              >
+                { message =>
+                  <TextField
+                    placeholder={ message }
+                    disabled={ disabled }
+                    name="search"
+                    value={ search }
+                    onChange={ search => this.handleChange({ search }, { debounce: true }) }
+                  />
+                }
+              </FormattedMessage>
+            }
             <LocationField name="location" />
 
             { currentLocation && currentLocation.city &&
@@ -127,89 +131,103 @@ export class ShoutsSearchForm extends Component {
                 value={ this.state.within }
                 location={ currentLocation }
               /> }
-          </PanelSection>
-          <PanelSection separe>
-            <CategoryPicker
+            
+            { layout === 'reduced' &&
+              <CategoryPicker
               selectedCategorySlug={ this.state.category }
               onChange={ category => this.handleChange({
                 category,
                 filters: null, // reset current filters when changing category
               }) }
             />
-            { this.state.category &&
-              <CategoryFilters
-                categorySlug={ this.state.category }
-                selectedFilters={ this.state.filters }
-                onChange={ filters => this.handleChange({ filters }) }
-              />
             }
           </PanelSection>
-          <PanelSection separe>
-            <Label htmlFor="ShoutsSearchFormMinPrice">
-              <FormattedMessage
-                id="ShoutsSearchForm.priceRange.label"
-                defaultMessage="Price Range"
+          { layout === 'full' &&
+            <PanelSection separe={ layout === 'full' }>
+              <CategoryPicker
+                selectedCategorySlug={ this.state.category }
+                onChange={ category => this.handleChange({
+                  category,
+                  filters: null, // reset current filters when changing category
+                }) }
               />
-            </Label>
-
-            <FormattedMessage
-              id="ShoutsSearchForm.minPrice.placeholder"
-              defaultMessage="Min price"
-            >
-              { placeholder =>
-                <PriceField
-                  id="ShoutsSearchFormMinPrice"
-                  autoComplete="off"
-                  placeholder={ placeholder }
-                  disabled={ disabled || this.state.free }
-                  name="min_price"
-                  value={ min_price }
-                  onChange={ min_price => this.handleChange({ min_price }, { debounce: true }) }
+              { this.state.category &&
+                <CategoryFilters
+                  categorySlug={ this.state.category }
+                  selectedFilters={ this.state.filters }
+                  onChange={ filters => this.handleChange({ filters }) }
                 />
               }
-            </FormattedMessage>
-            <FormattedMessage
-              id="ShoutsSearchForm.maxPrice.placeholder"
-              defaultMessage="Max price"
-            >
-              { placeholder =>
-                <PriceField
-                  autoComplete="off"
-                  className="ShoutsSearchForm-input"
-                  placeholder={ placeholder }
-                  disabled={ disabled || this.state.free }
-                  name="max_price"
-                  value={ max_price }
-                  onChange={ max_price => this.handleChange({ max_price }, { debounce: true }) }
+            </PanelSection>
+          }
+          { layout === 'full' &&
+            <PanelSection separe>
+              <Label htmlFor="ShoutsSearchFormMinPrice">
+                <FormattedMessage
+                  id="ShoutsSearchForm.priceRange.label"
+                  defaultMessage="Price Range"
                 />
-              }
-            </FormattedMessage>
+              </Label>
 
-            <Switch
-              disabled={ disabled }
-              checked={ this.state.free }
-              type="checkbox"
-              name="free"
-              id="free"
-              onChange={ e => this.handleChange({ free: e.target.checked }) }
-            >
               <FormattedMessage
-                id="search.ShoutsSearchForm.free.label"
-                defaultMessage="Only Free Items"
-              />
-            </Switch>
+                id="ShoutsSearchForm.minPrice.placeholder"
+                defaultMessage="Min price"
+              >
+                { placeholder =>
+                  <PriceField
+                    id="ShoutsSearchFormMinPrice"
+                    autoComplete="off"
+                    placeholder={ placeholder }
+                    disabled={ disabled || this.state.free }
+                    name="min_price"
+                    value={ min_price }
+                    onChange={ min_price => this.handleChange({ min_price }, { debounce: true }) }
+                  />
+                }
+              </FormattedMessage>
+              <FormattedMessage
+                id="ShoutsSearchForm.maxPrice.placeholder"
+                defaultMessage="Max price"
+              >
+                { placeholder =>
+                  <PriceField
+                    autoComplete="off"
+                    className="ShoutsSearchForm-input"
+                    placeholder={ placeholder }
+                    disabled={ disabled || this.state.free }
+                    name="max_price"
+                    value={ max_price }
+                    onChange={ max_price => this.handleChange({ max_price }, { debounce: true }) }
+                  />
+                }
+              </FormattedMessage>
 
-            <Button
-              block
-              kind="primary"
-              disabled={ disabled || isEqual(this.state, this.props.query) }
-              type="submit">
-              <FormattedMessage
-                id="ShoutsSearchForm.submitButton.label"
-                defaultMessage="Search"
-              />
-            </Button>
-          </PanelSection>
+              <Switch
+                disabled={ disabled }
+                checked={ this.state.free }
+                type="checkbox"
+                name="free"
+                id="free"
+                onChange={ e => this.handleChange({ free: e.target.checked }) }
+              >
+                <FormattedMessage
+                  id="search.ShoutsSearchForm.free.label"
+                  defaultMessage="Only Free Items"
+                />
+              </Switch>
+
+              <Button
+                block
+                kind="primary"
+                disabled={ disabled || isEqual(this.state, this.props.query) }
+                type="submit">
+                <FormattedMessage
+                  id="ShoutsSearchForm.submitButton.label"
+                  defaultMessage="Search"
+                />
+              </Button>
+            </PanelSection>
+          }
         </Form>
       </Panel>
     );
