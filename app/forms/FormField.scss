@@ -67,6 +67,8 @@ $formFieldOutlineShadow: 0 0 5px 0 rgba($color-primary, .20);
   background-color: $grey-light-6;
   input, textarea, select {
     color: $color-placeholder !important;
+    // For disabled color not working in safari http://stackoverflow.com/questions/262158
+    -webkit-text-fill-color: $color-placeholder !important;
   }
 }
 

@@ -37,7 +37,7 @@
   a {
     @include sideLink();
     font-size: .875rem;
-    margin-right: 1rem;
+    margin-right: $horizontal-spacing/4;
   }
 }
 

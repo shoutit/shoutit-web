@@ -185,6 +185,18 @@ export class Search extends Component {
           </StartColumn>
         </Device>
         <Body>
+          <Device type="tablet,smartphone">
+            <ShoutsSearchForm
+              layout="reduced"
+              disabled={ false }
+              query={ {
+                ...this.props.query,
+                within: this.state.within,
+                free: this.state.free,
+              } }
+              onSubmit={ this.handleFiltersSubmit }
+            />
+          </Device>
           <ShoutsListToolbar
             showProgress={ this.props.isFetching }
             sortType={ this.state.sort }

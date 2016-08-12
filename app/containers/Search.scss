@@ -1,6 +1,9 @@
 @import '../styles/constants.scss';
 @import '../styles/mixins/mq.scss';
 .Search {
+  @include smartphone() {
+    padding-top: 1px;
+  }
   .Shouts-container {
     position: relative;
   }
