@@ -131,14 +131,14 @@ export class ShoutsSearchForm extends Component {
                 value={ this.state.within }
                 location={ currentLocation }
               /> }
-            
+
             { layout === 'reduced' &&
               <CategoryPicker
-              selectedCategorySlug={ this.state.category }
-              onChange={ category => this.handleChange({
-                category,
-                filters: null, // reset current filters when changing category
-              }) }
+                selectedCategorySlug={ this.state.category }
+                onChange={ category => this.handleChange({
+                  category,
+                  filters: null, // reset current filters when changing category
+                }) }
             />
             }
           </PanelSection>
