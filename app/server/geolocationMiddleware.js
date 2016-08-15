@@ -42,7 +42,7 @@ export default function geoLocationMiddleware(req, res, next) {
   if (req.geolocation) {
     req.geolocation = {
       ...req.geolocation,
-      name: formatLocation(req.geolocation, { locale: req.locale }),
+      name: formatLocation(req.geolocation, { language: req.language }),
     };
     return next();
   }
@@ -64,7 +64,7 @@ export default function geoLocationMiddleware(req, res, next) {
         const geolocation = res.body;
         req.geolocation = {
           ...geolocation,
-          name: formatLocation(geolocation, { locale: req.locale }),
+          name: formatLocation(geolocation, { language: req.language }),
         };
         log('Got geolocation from ip address', ip, req.geolocation.slug);
       } else {

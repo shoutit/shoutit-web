@@ -1,4 +1,3 @@
-import path from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
@@ -17,10 +16,10 @@ import { Provider } from 'react-redux';
 import configureStore from '../store/configureStore';
 
 import fetchDataForRoutes from '../utils/fetchDataForRoutes';
+import getInitialStoreState from '../store/getInitialStoreState';
 
 const log = debug('shoutit:server:renderMiddleware');
 
-const translationsPath = path.resolve(__dirname, '../../assets/intl/translations');
 const noticeError = (e, params) => {
   if (!newrelicEnabled) {
     return;
@@ -30,37 +29,18 @@ const noticeError = (e, params) => {
 };
 
 export default function renderMiddleware(req, res, next) {
-  const fetchr = new Fetchr({ xhrPath: '/fetchr', req });
+
+  const fetchr = new Fetchr({
+    xhrPath: '/fetchr',
+    req,
+  });
 
   fetchr.read('session').end((err, user) => {
-
-    // Set the initial store state
-    const storeState = {
-      routing: {
-        currentUrl: req.url,
-        query: req.query,
-        path: req.path,
-      },
-      browser: req.browser,
-      currentLocation: req.geolocation,
-      i18n: {
-        locale: req.locale,
-        rtl: req.locale === 'ar',
-        messages: require(`${translationsPath}/${req.locale}.json`),
-      },
-    };
     if (user) {
       req.session.user = user;
-      storeState.session = {
-        user: user.id,
-      };
-      storeState.entities = {
-        users: {
-          [user.id]: user,
-        },
-      };
     }
 
+    const storeState = getInitialStoreState(req);
     const store = configureStore(storeState, { fetchr });
     const routes = configureRoutes(store);
 

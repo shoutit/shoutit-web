@@ -7,7 +7,7 @@ import throttle from 'lodash/throttle';
 
 import { invalidateSearch, searchShouts, searchTags, searchProfiles } from '../actions/search';
 
-import { getCurrentLocale } from '../reducers/i18n';
+import { getCurrentLanguage } from '../reducers/i18n';
 import { getQuery } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
 import SimpleIcon from '../icons/SimpleIcon';
@@ -29,7 +29,7 @@ export class Searchbar extends Component {
     autosuggest: PropTypes.bool,
     showLocation: PropTypes.bool,
     showSubmitButton: PropTypes.bool,
-    locale: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
     query: PropTypes.string.isRequired,
     searchTags: PropTypes.func.isRequired,
     searchProfiles: PropTypes.func.isRequired,
@@ -168,7 +168,7 @@ export class Searchbar extends Component {
 
 const mapStateToProps = state => ({
   currentLocation: getCurrentLocation(state),
-  locale: getCurrentLocale(state),
+  language: getCurrentLanguage(state),
   query: getQuery(state).search || '',
 });
 

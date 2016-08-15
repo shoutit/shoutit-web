@@ -39,7 +39,7 @@ export const locales = {
   zh: () => require('react-intl?locale=zh!./empty.json'),
 };
 
-export const loadLocaleData = locale => new Promise(resolve => locales[locale]()(resolve));
+export const loadLanguageData = locale => new Promise(resolve => locales[locale]()(resolve));
 
 const intlCache = {};
 
@@ -61,8 +61,8 @@ export const numberFromString = (value, intl) => {
 };
 
 /**
-  * Get all months in a year in current locale
-  */
+ * Get all months in a year in current locale
+ */
 export const getLocalizedMonths = intl => {
   const { formatDate } = intl;
 

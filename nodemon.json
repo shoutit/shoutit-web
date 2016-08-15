@@ -1,0 +1,10 @@
+{
+  "watch": [
+    "app/routes.js",
+    "app/server.js",
+    "app/server/**/*",
+    "app/services/**/*",
+    "assets/samples"
+  ],
+  "ext": "js json"
+}

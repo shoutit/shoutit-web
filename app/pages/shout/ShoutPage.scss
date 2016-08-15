@@ -100,3 +100,9 @@
     scroll-snap-coordinate: 50% 50%;
   }
 }
+
+.ShoutPage-Location {
+  .GoogleStaticMap {
+    margin-top: $vertical-spacing;
+  }
+}

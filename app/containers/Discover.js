@@ -7,7 +7,7 @@ import { push } from 'react-router-redux';
 import isEqual from 'lodash/isEqual';
 
 import { FormattedMessage } from 'react-intl';
-import { getCurrentLocale } from '../reducers/i18n';
+import { getCurrentLanguage } from '../reducers/i18n';
 import { getCurrentUrl } from '../reducers/routing';
 
 import Helmet from '../utils/Helmet';
@@ -78,7 +78,7 @@ export class Discover extends Component {
     isFetching: PropTypes.bool,
     isFetchingShouts: PropTypes.bool,
     nextShoutsUrl: PropTypes.string,
-    locale: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
     shouts: PropTypes.array,
     shoutsCount: PropTypes.number,
   };
@@ -147,7 +147,7 @@ export class Discover extends Component {
                 { country &&
                   <div className="Discover-country" onClick={ e => this.showLocationModal(e) }>
                     <CountryFlag code={ country } rounded size="medium" showTooltip={ false } />
-                    { getCountryName(country, this.props.locale) }
+                    { getCountryName(country, this.props.language) }
                   </div>
                 }
                 <div className="Discover-hero-content">
@@ -231,7 +231,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return {
-    locale: getCurrentLocale(state),
+    language: getCurrentLanguage(state),
     country,
     currentUrl: getCurrentUrl(state),
     currentLocation,

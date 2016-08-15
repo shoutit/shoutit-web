@@ -82,9 +82,7 @@ const routes = (store) =>
     <Redirect from="/settings" to="/settings/profile" />
     <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ settingsAppLayout } />
     <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ settingsAppLayout } />
-
     <Route path="/static/:pageName" component={ StaticHtml } getApplicationLayout={ staticAppLayout } />
-
     <Route path="*" component={ NotFound } getApplicationLayout={ () => ({ showFooter: true }) } />
   </Route>;
 

@@ -2,23 +2,23 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import { getCurrentLocale } from '../../reducers/i18n';
+import { getCurrentLanguage } from '../../reducers/i18n';
 import GoogleStaticMap from '../../location/GoogleStaticMap';
 import { formatLocation } from '../../utils/LocationUtils';
 
 class ShoutPageLocation extends Component {
   static propTypes = {
-    locale: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
     shout: PropTypes.object.isRequired,
   }
   render() {
     return (
-      <div>
+      <div className="ShoutPage-Location">
         <h2>
           <FormattedMessage id="shout.location" defaultMessage="Location" />
         </h2>
         <p>
-          { formatLocation(this.props.shout.location, { useAddress: true, locale: this.props.locale }) }
+          { formatLocation(this.props.shout.location, { useAddress: true, language: this.props.language }) }
         </p>
         <GoogleStaticMap location={ this.props.shout.location } />
       </div>
@@ -26,6 +26,6 @@ class ShoutPageLocation extends Component {
   }
 }
 const mapStateToProps = state => ({
-  locale: getCurrentLocale(state),
+  language: getCurrentLanguage(state),
 });
 export default connect(mapStateToProps)(ShoutPageLocation);

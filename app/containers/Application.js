@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 
-import { getCurrentLocale, isRtl, getIntlMessages } from '../reducers/i18n';
+import { getCurrentLanguage, getIntlMessages } from '../reducers/i18n';
+
 import { getCurrentUrl, getRoutingError } from '../reducers/routing';
 import { getCurrentLocation } from '../reducers/currentLocation';
 
-import Helmet from '../utils/Helmet';
+import ApplicationHelmet from '../utils/ApplicationHelmet';
 import { identifyOnMixpanel, trackWithMixpanel } from '../utils/mixpanel';
 
 import Header from '../layout/Header';
@@ -33,8 +34,6 @@ import OpenInApp from '../widgets/OpenInApp';
 
 import * as FacebookUtils from '../utils/FacebookUtils';
 
-import * as config from '../config';
-
 import './Application.scss';
 
 const fetchData = (dispatch, state) => {
@@ -57,8 +56,8 @@ export class Application extends Component {
     error: PropTypes.object,
     children: PropTypes.element.isRequired,
     dispatch: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
-    rtl: PropTypes.bool.isRequired,
+    currentUrl: PropTypes.string.isRequired,
+    currentLanguage: PropTypes.string.isRequired,
     messages: PropTypes.object.isRequired,
   };
 
@@ -148,11 +147,6 @@ export class Application extends Component {
       className += ` ${applicationLayout.className}`;
     }
 
-    let { locale } = this.props;
-    if (locale === 'ar') {
-      locale = 'ar-u-nu-latn';
-    }
-
     let content;
 
     if (!error) {
@@ -164,53 +158,16 @@ export class Application extends Component {
       );
     }
 
-    const url = `${config.siteUrl}${props.currentUrl}`.replace(/\/$/, '');
-
-    const meta = [
-
-      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=no' },
-      { name: 'keywords', content: 'shoutit' },
-
-      { property: 'fb:app_id', content: config.facebookId },
-
-      { property: 'og:url', content: url },
-      { property: 'og:locale', content: 'en_US' },
-      { property: 'og:site_name', content: 'Shoutit' },
-      { property: 'og:type', content: 'website' },
-
-      { name: 'twitter:site', content: '@Shoutitcom' },
-      { name: 'twitter:card', content: 'summary' },
-      { name: 'twitter:app:name:iphone', content: config.iosAppName },
-      { name: 'twitter:app:name:ipad', content: config.iosAppName },
-      { name: 'twitter:app:name:googleplay', content: 'Shoutit' },
-      { name: 'twitter:app:id:iphone', content: config.iosAppId },
-      { name: 'twitter:app:id:ipad', content: config.iosAppId },
-      { name: 'twitter:app:id:googleplay', content: config.androidPackage },
-
-      { property: 'al:ios:app_store_id', content: config.iosAppId },
-      { property: 'al:ios:app_name', content: config.iosAppName },
-      { property: 'al:android:package', content: config.androidPackage },
-      { property: 'al:android:app_name', content: config.androidAppName },
-      { property: 'al:web:url', content: url },
-      { property: 'al:web:should_fallback', content: 'true' },
-    ];
-
-    const link = [
-      { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
-      { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
-    ];
+    let intlLocale = this.props.currentLanguage;
+    if (intlLocale === 'ar') {
+      // Make sure we use latin numbers in arabic
+      intlLocale = 'ar-u-nu-latn';
+    }
 
     return (
-      <IntlProvider locale={ locale } messages={ this.props.messages }>
+      <IntlProvider locale={ intlLocale } messages={ this.props.messages }>
         <div className={ className }>
-          <Helmet
-            htmlAttributes={ {
-              lang: props.locale,
-              dir: props.rtl ? 'rtl' : 'ltr',
-            } }
-            meta={ meta }
-            link={ link }
-          />
+          <ApplicationHelmet />
           <Device type="smartphone,tablet" operatingSystem="ios,android">
             <OpenInApp />
           </Device>
@@ -250,11 +207,10 @@ export class Application extends Component {
 const mapStateToProps = state => ({
   currentLocation: getCurrentLocation(state),
   currentUrl: getCurrentUrl(state),
-  error: getRoutingError(state),
-  locale: getCurrentLocale(state),
   loggedUser: getLoggedUser(state),
+  error: getRoutingError(state),
   messages: getIntlMessages(state),
-  rtl: isRtl(state),
+  currentLanguage: getCurrentLanguage(state),
 });
 
 const Wrapped = connect(mapStateToProps)(Application);
