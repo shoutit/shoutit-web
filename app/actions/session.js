@@ -74,6 +74,14 @@ export function loginWithFacebook({ facebook_access_token, user }) {
   return login(loginData);
 }
 
+export function loginWithAuthToken({ auth_token }) {
+  const loginData = {
+    auth_token,
+    grant_type: grantTypes.auth_token,
+  };
+  return login(loginData);
+}
+
 export function logout() {
   return {
     types: [
