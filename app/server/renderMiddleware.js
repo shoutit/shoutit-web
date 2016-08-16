@@ -35,7 +35,9 @@ export default function renderMiddleware(req, res, next) {
     req,
   });
 
-  fetchr.read('session').end((err, user) => {
+  fetchr.read('session').end().then(result => {
+
+    const user = result.data;
     if (user) {
       req.session.user = user;
     }
