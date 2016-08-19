@@ -12,6 +12,7 @@ import errorDomainMiddleware from 'express-domain-middleware';
 import basicAuthMiddleware from './server/basicAuthMiddleware';
 import browserMiddleware from './server/browserMiddleware';
 import errorMiddleware from './server/errorMiddleware';
+import fetchrMiddleware, { fetchrPath } from './server/fetchrMiddleware';
 import geolocationMiddleware from './server/geolocationMiddleware';
 import localeMiddleware from './server/localeMiddleware';
 import pusherMiddleware from './server/pusherMiddleware';
@@ -53,12 +54,12 @@ export function start(app) {
   // Set the client's device details in req.browser
   app.use(browserMiddleware);
 
+  // Add fetchr to req
+  fetchrMiddleware(app);
+
   // Register fetchr services
   Object.keys(services).forEach(name => Fetchr.registerService(services[name])); // eslint-disable-line
-  app.use('/fetchr', Fetchr.middleware());
-
-  // Remove trailing slashes from urls
-  app.use(slashMiddleware);
+  app.use(fetchrPath, Fetchr.middleware());
 
   // Get the client's geo location
   app.use(geolocationMiddleware);
