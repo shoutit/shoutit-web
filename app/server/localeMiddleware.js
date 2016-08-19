@@ -1,4 +1,5 @@
 import debug from 'debug';
+import { removeParamsFromUrl } from '../utils/StringUtils';
 import { languages, locales } from '../config';
 const log = debug('shoutit:server:localeMiddleware');
 
@@ -26,6 +27,8 @@ export default function localeMiddleware(req, res, next) {
     if ('set' in req.query) {
       log('Language cookie has been set to %s', req.language);
       res.cookie('hl', req.language, { maxAge });
+      res.redirect(removeParamsFromUrl(req.url, ['hl', 'set']));
+      return;
     }
   } else if (req.cookies.hl && isLanguageSupported(req.cookies.hl)) {
     req.language = req.cookies.hl;
