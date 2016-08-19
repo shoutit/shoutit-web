@@ -35,10 +35,11 @@ export function createRequestSession(req, data, callback) {
     .prefix()
     .end((err, res) => {
       if (err) {
-        return callback(parseApiError(err));
+        callback(parseApiError(err));
+        return;
       }
       setRequestSession(req, camelizeKeys(res.body));
-      return callback(null, req.session.user);
+      callback(null, req.session.user);
     });
 }
 
@@ -69,8 +70,7 @@ export default {
   read: (req, resource, params, config, callback) => {
     log('Reading current session...');
     if (!req.session || !req.session.user) {
-      log('Session does not exist');
-      callback();
+      callback(new Error('Session does not exists'));
       return;
     }
     readSessionProfile(req, callback);

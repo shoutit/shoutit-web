@@ -1,34 +1,29 @@
 /* eslint no-console: 0 */
-import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import morgan from 'morgan';
-import favicon from 'serve-favicon';
 import Fetchr from 'fetchr';
-import serveStatic from 'serve-static';
 import errorDomainMiddleware from 'express-domain-middleware';
 
 // import csurf from 'csurf';
 
 // import smsMiddleware from './server/smsMiddleware';
 import basicAuthMiddleware from './server/basicAuthMiddleware';
-import geolocationMiddleware from './server/geolocationMiddleware';
+import browserMiddleware from './server/browserMiddleware';
 import errorMiddleware from './server/errorMiddleware';
-import pusherMiddleware from './server/pusherMiddleware';
+import fetchrMiddleware, { fetchrPath } from './server/fetchrMiddleware';
+import geolocationMiddleware from './server/geolocationMiddleware';
 import localeMiddleware from './server/localeMiddleware';
+import pusherMiddleware from './server/pusherMiddleware';
 import redirects from './server/redirects';
 import renderMiddleware from './server/renderMiddleware';
-import browserMiddleware from './server/browserMiddleware';
 import sessionMiddleware from './server/sessionMiddleware';
 import slashMiddleware from './server/slashMiddleware';
+import staticMiddleware from './server/staticMiddleware';
 import { fileUploadMiddleware, fileDeleteMiddleware } from './server/fileMiddleware';
 
 import * as services from './services';
-
-const publicDir = path.resolve(__dirname,
-  process.env.NODE_ENV === 'production' ? '../public' : '../assets'
-);
 
 export function start(app) {
 
@@ -44,11 +39,13 @@ export function start(app) {
     app.use(basicAuthMiddleware);
   }
 
-  app.use(favicon(`${publicDir}/images/favicons/favicon.ico`));
+  // Serve static files
+  staticMiddleware(app);
 
-  // Enable redis-based session
-  sessionMiddleware(app);
+  // Remove trailing slashes from urls
+  app.use(slashMiddleware);
 
+  // Make sure errors are catched without crashing the server
   app.use(errorDomainMiddleware);
 
   // Set the client's language in req.language
@@ -57,31 +54,18 @@ export function start(app) {
   // Set the client's device details in req.browser
   app.use(browserMiddleware);
 
+  // Add fetchr to req
+  fetchrMiddleware(app);
+
+  // Enable redis-based session
+  sessionMiddleware(app);
+
   // Register fetchr services
   Object.keys(services).forEach(name => Fetchr.registerService(services[name])); // eslint-disable-line
-  app.use('/fetchr', Fetchr.middleware());
-
-  // Static assets
-  const maxAge = 365 * 24 * 60 * 60;
-  if (process.env.NODE_ENV === 'production') {
-    app.use('/scripts', serveStatic(`${publicDir}/scripts`, { maxAge }));
-    app.use('/images', serveStatic(`${publicDir}/images`, { maxAge }));
-    app.use('/styles', serveStatic(`${publicDir}/styles`, { maxAge }));
-  } else {
-    app.use('/images', serveStatic(`${publicDir}/images`, { maxAge }));
-  }
-
-  // Remove trailing slashes from urls
-  app.use(slashMiddleware);
+  app.use(fetchrPath, Fetchr.middleware());
 
   // Get the client's geo location
   app.use(geolocationMiddleware);
-
-  // Required by material-ui for server-side rendering: https://github.com/callemall/material-widgets/issues/2356
-  app.use((req, res, next) => {
-    GLOBAL.navigator = { userAgent: req.headers['user-agent'] };
-    next();
-  });
 
   app.post('/api/pusher/auth', pusherMiddleware);
   app.post('/api/file/:resourceType', fileUploadMiddleware);

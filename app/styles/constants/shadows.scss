@@ -1,7 +1,5 @@
-@import "./colors";
-
-$box-shadow-depth-0: 0 1px 2px 0 #EDEDED;
-$box-shadow-depth-1: 0 1px 6px #E0E0E0, 0 1px 4px #E0E0E0;
+@import './colors';
+$box-shadow-depth-0: 0 1px 2px 0 rgba(black, .07);
+$box-shadow-depth-1: 0 1px 6px rgba(black, .12), 0 1px 4px rgba(black, .12);
 $box-shadow-depth-2: 0 3px 10px rgba(black, .16), 0 3px 10px rgba(black, .23);
-
 $outline-shadow: 0 0 0 3px rgba($color-primary, .25);

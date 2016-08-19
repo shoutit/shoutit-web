@@ -9,13 +9,8 @@
 
   &.type-location {
     width: 200px;
-    height: 150px;
-    .GoogleStaticMap span {
-      border-radius: 0;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+    .GoogleStaticMap {
+      padding-bottom: 100%;
     }
   }
 }

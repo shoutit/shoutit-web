@@ -61,7 +61,6 @@ export class ConversationMessages extends Component {
         <div className="Conversation-messagesList">
 
           <Progress animate={ isFetching } />
-
           { error &&
             <div className="Conversation-error">
               <FormattedMessage id="chat.messages.loadError" defaultMessage="Error while loading messages." />
