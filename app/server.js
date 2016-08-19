@@ -42,8 +42,8 @@ export function start(app) {
   // Serve static files
   staticMiddleware(app);
 
-  // Enable redis-based session
-  sessionMiddleware(app);
+  // Remove trailing slashes from urls
+  app.use(slashMiddleware);
 
   // Make sure errors are catched without crashing the server
   app.use(errorDomainMiddleware);
@@ -56,6 +56,9 @@ export function start(app) {
 
   // Add fetchr to req
   fetchrMiddleware(app);
+
+  // Enable redis-based session
+  sessionMiddleware(app);
 
   // Register fetchr services
   Object.keys(services).forEach(name => Fetchr.registerService(services[name])); // eslint-disable-line
