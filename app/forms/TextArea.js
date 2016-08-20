@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
-import FormField from './FormField';
 import TextareaAutosize from 'react-textarea-autosize';
+
+import FormField from './FormField';
 
 export default class TextArea extends Component {
   static propTypes = {

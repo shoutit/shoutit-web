@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router';
+
 import { listenToUser, stopListeningToUser } from '../actions/users';
 import { startConversation, openConversation } from '../actions/conversations';
-import { Link } from 'react-router';
 
 import RequiresLogin from '../auth/RequiresLogin';
 import { START_LISTENING, SEND_MESSAGE } from '../auth/loginActions';
@@ -13,6 +14,7 @@ import ListItem from '../layout/ListItem';
 import { getLoggedUser } from '../reducers/session';
 
 import './ProfileActions.scss';
+
 export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium', showProfileLink = false }) {
 
   if (profile.isOwner && !showProfileLink) {

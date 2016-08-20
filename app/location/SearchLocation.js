@@ -99,7 +99,7 @@ export class SearchLocation extends Component {
           <ul className="htmlSelectableList">
             { lastPredictions.map(prediction =>
               <li key={ prediction.id }>
-                <a href="#" onClick={ e => this.handlePredictionClick(e, prediction) }>
+                <a onClick={ e => this.handlePredictionClick(e, prediction) }>
                   { prediction.description }
                 </a>
               </li>

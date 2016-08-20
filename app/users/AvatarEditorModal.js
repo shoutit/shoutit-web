@@ -13,11 +13,10 @@ import Form from '../forms/Form';
 import Button from '../forms/Button';
 import Modal, { Header, Body, Footer } from '../modals';
 import UploadButton from '../forms/UploadButton';
+import './AvatarEditorModal.scss';
 
 export const width = 250;
 export const height = 250;
-
-import './AvatarEditorModal.scss';
 
 export class AvatarEditorModal extends Component {
 

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
-import ProfileAvatar from '../users/ProfileAvatar';
 import { FormattedMessage } from 'react-intl';
+
+import ProfileAvatar from '../users/ProfileAvatar';
 
 import './ConversationStart.scss';
 

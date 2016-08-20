@@ -1,6 +1,6 @@
-
 import * as actionTypes from './actionTypes';
 import { TAGS, PROFILES, SHOUTS } from '../schemas';
+
 export const searchTags = query => ({
   types: [
     actionTypes.SEARCH_TAGS_START,

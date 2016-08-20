@@ -189,7 +189,7 @@ export default class Pager extends Component {
           { total }
         </PageItem>
       );
-    } else if (current > total - maxItems + 2) {
+    } else if (current > total - (maxItems + 2)) {
       // End of the batch, display first and last 5
       items.push(
         <PageItem
@@ -201,7 +201,7 @@ export default class Pager extends Component {
         </PageItem>
       );
       items.push(<PageItem key={ items.length } disabled />);
-      for (let i = total - maxItems + 2; i <= total; i++) {
+      for (let i = total - (maxItems + 2); i <= total; i++) {
         items.push(
           <PageItem
             key={ items.length }

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
@@ -8,6 +7,7 @@ import Overlay from '../../widgets/Overlay';
 
 import ProfileOverlay from './ProfileOverlay';
 import { getLoggedUser } from '../../reducers/session';
+
 export class ProfileButton extends Component {
 
   static propTypes = {

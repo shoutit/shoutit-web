@@ -1,4 +1,5 @@
 import request from '../utils/request';
+
 export default function pusherMiddleware(req, res, next) { // eslint-disable-line
   request
     .post('/pusher/auth')

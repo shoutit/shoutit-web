@@ -99,7 +99,7 @@ export class GoogleStaticMap extends Component {
     };
 
     return (
-      <a ref="node" href={ href } target="_blank" className="GoogleStaticMap">
+      <a ref="node" href={ href } target="_blank" className="GoogleStaticMap" rel="noopener noreferrer">
         <span style={ style } />
       </a>
     );

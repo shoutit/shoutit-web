@@ -50,6 +50,7 @@ let firstRender = true;
 
 const renderApp = () => {
   const configureRoutes = require('./routes').default;
+
   const routes = configureRoutes(store);
   return (
     <Router
@@ -85,7 +86,10 @@ const language = getCurrentLanguage(store.getState());
 
 loadIntlPolyfill(language)
   .then(() => loadLanguageData(language))
-  .then(messages => ReactDOM.render(
-    renderApp(messages),
-    document.getElementById('content'))
-  );
+  .then(messages => {
+    ReactDOM.render(
+      renderApp(messages),
+      document.getElementById('content')
+    );
+  });
+

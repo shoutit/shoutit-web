@@ -2,9 +2,11 @@
 /* eslint-disable no-underscore-dangle */
 import { expect } from 'chai';
 import sinon from 'sinon';
-import service from './profile';
 import { Request } from 'superagent';
+
+import service from './profile';
 import { shoutit_signup } from '../constants/grantTypes';
+
 describe('services/profile', () => {
 
   let callback;

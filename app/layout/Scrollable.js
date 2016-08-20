@@ -1,9 +1,8 @@
 /* eslint-env browser */
-
 import React, { Component, PropTypes } from 'react';
+import debug from 'debug';
 
 import { preventBodyScroll, getDocumentScrollTop } from '../utils/DOMUtils';
-import debug from 'debug';
 
 const log = debug('shoutit:ui:Scrollable');
 
@@ -72,7 +71,7 @@ export default class Scrollable extends Component {
     if (scrollHeight !== this.state.scrollHeight) {
       log('Component has a different scrollHeight %s (was %s)', this.state.scrollHeight, scrollHeight);
       if (this.props.initialScroll === 'bottom') {
-        this.getScrollable().scrollTop = scrollHeight - this.state.scrollHeight + this.state.scrollTop;
+        this.getScrollable().scrollTop = (scrollHeight - this.state.scrollHeight) + this.state.scrollTop;
         log('Set scrollTop to %s', this.getScrollable().scrollTop);
       }
       this.setState({ scrollHeight, didScrollToBottom: false }); // eslint-disable-line

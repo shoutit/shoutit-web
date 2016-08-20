@@ -13,9 +13,9 @@ import { s3Buckets } from '../config';
 import { getVariation } from '../utils/APIUtils';
 import { getFilename } from '../utils/StringUtils';
 
-const log = debug('shoutit:ui:FileUploadField');
-
 import '../forms/FileUploadField.scss';
+
+const log = debug('shoutit:ui:FileUploadField');
 
 export function File({ upload, onDeleteClick }) {
   const url = upload.file ? upload.file.preview : getVariation(upload.url, 'small');
@@ -180,7 +180,7 @@ export default class FileUploadField extends Component {
         percent: 0,
         isUploading: true,
       });
-      const index = existingUploads.length + uploads.length - 1;
+      const index = (existingUploads.length + uploads.length) - 1;
 
       uploads[uploads.length - 1].request = request
         .post(`/api/file/${resourceType}`)

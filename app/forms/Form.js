@@ -25,7 +25,7 @@ export default class Form extends Component {
 
   blur() {
     [...this.refs.form.elements]
-      .filter(el => typeof(el.blur) === 'function')
+      .filter(el => typeof (el.blur) === 'function')
       .forEach(el => el.blur());
   }
 

@@ -1,8 +1,9 @@
+import set from 'lodash/set';
+
 import * as actionTypes from './actionTypes';
 import { getMixpanelId } from '../utils/mixpanel';
 
 import { PROFILE, EMAIL_VERIFICATION } from '../schemas';
-import set from 'lodash/set';
 import * as grantTypes from '../constants/grantTypes';
 
 export function login({ grant_type = grantTypes.shoutit_login, ...loginData }) {

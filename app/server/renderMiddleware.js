@@ -1,17 +1,17 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
-
 import last from 'lodash/last';
-import newrelic, { newrelicEnabled } from './newrelic';
 
 import debug from 'debug';
+import { Provider } from 'react-redux';
+
+import newrelic, { newrelicEnabled } from './newrelic';
 
 import { routeError } from '../actions/server';
 import HtmlDocument from './HtmlDocument';
 import configureRoutes from '../routes';
 
-import { Provider } from 'react-redux';
 import configureStore from '../store/configureStore';
 
 import fetchDataForRoutes from '../utils/fetchDataForRoutes';

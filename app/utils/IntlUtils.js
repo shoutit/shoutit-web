@@ -18,6 +18,7 @@ export const loadIntlPolyfill = locale => {
       // When executing: run the callback once the chunk has been download.
     require.ensure(['intl'], require => {
       require('intl'); // apply the polyfill
+
       log('Intl polyfill for %s has been loaded', locale);
       resolve(true);
     }, 'intl');

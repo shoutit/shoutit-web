@@ -29,7 +29,7 @@ export default function HtmlDocument({
   const language = getCurrentLanguage(initialState);
   const rtl = isRtl(initialState);
   return (
-    <html { ...attrs }>
+    <html lang="en" { ...attrs }>
       <head prefix={ `og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# ${config.ogPrefix}: http://ogp.me/ns/fb/${config.ogPrefix}#` }>
 
         { head.title.toComponent() }

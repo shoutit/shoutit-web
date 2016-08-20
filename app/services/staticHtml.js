@@ -1,8 +1,8 @@
 /* eslint no-console: 0 */
+import debug from 'debug';
 
 import * as AWS from '../utils/AWS';
 import { s3Buckets } from '../config';
-import debug from 'debug';
 
 const log = debug('shoutit:services:staticHtml');
 

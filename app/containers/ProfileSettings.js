@@ -182,7 +182,7 @@ export class ProfileSettings extends Component {
                     error={ error }
                     disabled={ profile.isUpdating }
                   >
-                    <option value=""></option>
+                    <option value="" />
                     <option value="female">
                       { formatMessage(MESSAGES.femaleValue) }
                     </option>

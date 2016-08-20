@@ -1,6 +1,7 @@
 import debug from 'debug';
 import { removeParamsFromUrl } from '../utils/StringUtils';
 import { languages, locales } from '../config';
+
 const log = debug('shoutit:server:localeMiddleware');
 
 function isLocaleSupported(locale) {

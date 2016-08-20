@@ -1,3 +1,5 @@
+/* eslint import/prefer-default-export: 0 */
+
 const IPv4Regexp = /(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$)/;
 
 export function getValidIPv4Address(address) {

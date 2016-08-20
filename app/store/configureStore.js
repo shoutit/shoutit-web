@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
 import services from '../middlewares/services';
 import createBrowseStoreEnhancer from './createBrowserStoreEnhancer';
+
 const noop = store => next => action => next(action); // eslint-disable-line
 
 const pusher = process.env.BROWSER ?
@@ -41,6 +42,7 @@ export default function configureStore(initialState, { fetchr, devToolsExtension
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
       const nextRootReducer = require('../reducers').default;
+
       store.replaceReducer(nextRootReducer);
     });
   }

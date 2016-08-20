@@ -16,7 +16,7 @@ export function setRequestSession(req, sessionData) {
   req.session.user = profile;
   req.session.accessToken = accessToken;
   req.session.refreshToken = refreshToken;
-  req.session.cookie.expires = new Date(Date.now() + expiresIn * 1000);
+  req.session.cookie.expires = new Date(Date.now() + (expiresIn * 1000));
   req.session.scope = scope ? scope.split[' '] : [];
   log('Request session has been created and will expires on %s', req.session.cookie.expires);
 }
