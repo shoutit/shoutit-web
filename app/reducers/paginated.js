@@ -8,6 +8,7 @@ import listenersByTag from './paginated/listenersByTag';
 import listenersByUser from './paginated/listenersByUser';
 import listeningByUser from './paginated/listeningByUser';
 import messagesByConversation from './paginated/messagesByConversation';
+import pagesByUsername from './paginated/pagesByUsername';
 import notifications from './paginated/notifications';
 import relatedShoutsByShout from './paginated/relatedShoutsByShout';
 import relatedTagsByTag from './paginated/relatedTagsByTag';
@@ -26,6 +27,7 @@ export default combineReducers({
   listenersByTag,
   listeningByUser,
   messagesByConversation,
+  pagesByUsername,
   notifications,
   relatedShoutsByShout,
   relatedTagsByTag,
