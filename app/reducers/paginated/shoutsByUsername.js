@@ -7,9 +7,9 @@ export default createPaginatedReducer({
   mapActionToKey: action => action.payload.username,
   mapActionToTempId: action => action.payload.shout.id,
   fetchTypes: [
-    actionTypes.LOAD_USER_SHOUTS_START,
-    actionTypes.LOAD_USER_SHOUTS_SUCCESS,
-    actionTypes.LOAD_USER_SHOUTS_FAILURE,
+    actionTypes.LOAD_PROFILE_SHOUTS_START,
+    actionTypes.LOAD_PROFILE_SHOUTS_SUCCESS,
+    actionTypes.LOAD_PROFILE_SHOUTS_FAILURE,
   ],
 });
 
