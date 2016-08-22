@@ -100,7 +100,7 @@ export default class Scrollable extends Component {
     if (this.props.scrollElement) {
       return this.props.scrollElement();
     }
-    return this.refs.node;
+    return this.node;
   }
 
   getScrollHeight() {
@@ -163,10 +163,12 @@ export default class Scrollable extends Component {
   }
 
   render() {
-    const { children, className, style } = this.props;
     return (
-      <div ref="node" style={ style } className={ className }>
-        { children }
+      <div
+        ref={ el => { this.node = el; } }
+        style={ this.props.style }
+        className={ this.props.className }>
+        { this.props.children }
       </div>
     );
   }

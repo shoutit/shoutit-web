@@ -136,7 +136,6 @@ export class Conversation extends Component {
           <div className="Conversation-footer">
             <ConversationReplyForm
               inputRef={ form => { this.form = form; } }
-              ref="replyForm"
               conversation={ conversation }
               autoFocus
             />

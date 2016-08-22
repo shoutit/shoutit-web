@@ -23,6 +23,8 @@ export class NotificationsButton extends Component {
     showOverlay: false,
   }
 
+  icon = null
+
   showOverlay() {
     this.setState({ showOverlay: true });
   }
@@ -34,7 +36,7 @@ export class NotificationsButton extends Component {
   render() {
     return (
       <span>
-        <Icon ref="icon" onClick={ this.showOverlay } name="bell" badge={ this.props.badge } />
+        <Icon ref={ el => { this.icon = el; } } onClick={ this.showOverlay } name="bell" badge={ this.props.badge } />
         <Overlay
           arrow
           rootClose
@@ -42,7 +44,7 @@ export class NotificationsButton extends Component {
           show={ this.state.showOverlay }
           placement="bottom"
           onHide={ this.hideOverlay }
-          target={ () => this.refs.icon.getIconNode() }
+          target={ () => this.icon.getIconNode() }
         >
           <NotificationsOverlay closeOverlay={ this.hideOverlay } />
         </Overlay>

@@ -40,10 +40,11 @@ export class ConversationsList extends Component {
     this.loadMoreIfNeeded();
   }
 
+  scrollable: null
+
   loadMoreIfNeeded() {
     const { previousUrl, isFetching, loadData } = this.props;
-    const { scrollable } = this.refs;
-    if (!isFetching && previousUrl && !scrollable.canScroll()) {
+    if (!isFetching && previousUrl && !this.scrollable.canScroll()) {
       loadData(previousUrl);
     }
   }
@@ -58,7 +59,7 @@ export class ConversationsList extends Component {
     const { isFetching, conversations, selectedId, onConversationClick, previousUrl, showConversationDropdown } = this.props;
     return (
       <Scrollable
-        ref="scrollable"
+        ref={ el => { this.scrollable = el; } }
         preventDocumentScroll
         className="ConversationsList"
         onScrollBottom={ this.handleScrollBottom }

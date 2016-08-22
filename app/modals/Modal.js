@@ -89,7 +89,7 @@ export default class Modal extends Component {
       return undefined;
     }
     const props = {
-      ref: 'header',
+      ref: el => { this.header = el; },
       onCloseClick: this.hide,
     };
     if (this.props.preventClose) {
@@ -99,10 +99,10 @@ export default class Modal extends Component {
   }
 
   getHeaderHeight() {
-    if (!this.refs.header) {
+    if (!this.header) {
       return 0;
     }
-    return ReactDOM.findDOMNode(this.refs.header).offsetHeight;
+    return ReactDOM.findDOMNode(this.header).offsetHeight;
   }
 
   getBodyFixed() {
@@ -110,14 +110,14 @@ export default class Modal extends Component {
     if (!bodyFixed) {
       return null;
     }
-    return React.cloneElement(bodyFixed, { ref: 'bodyFixed' });
+    return React.cloneElement(bodyFixed, { ref: el => { this.bodyFixed = el; } });
   }
 
   getBodyFixedHeight() {
-    if (!this.refs.bodyFixed) {
+    if (!this.bodyFixed) {
       return 0;
     }
-    return ReactDOM.findDOMNode(this.refs.bodyFixed).offsetHeight;
+    return ReactDOM.findDOMNode(this.bodyFixed).offsetHeight;
   }
 
   getBody() {
@@ -135,14 +135,14 @@ export default class Modal extends Component {
     if (!footer) {
       return null;
     }
-    return React.cloneElement(footer, { ref: 'footer' });
+    return React.cloneElement(footer, { ref: el => { this.footer = el; } });
   }
 
   getFooterHeight() {
-    if (!this.refs.footer) {
+    if (!this.footer) {
       return 0;
     }
-    return ReactDOM.findDOMNode(this.refs.footer).offsetHeight;
+    return ReactDOM.findDOMNode(this.footer).offsetHeight;
   }
 
   setSize() {
@@ -168,6 +168,7 @@ export default class Modal extends Component {
   }
 
   leaveTimeoutId = null
+  content = null
 
   hide() {
     log('Hiding modal...');
@@ -199,7 +200,7 @@ export default class Modal extends Component {
   }
 
   handleBackdropClick(e) {
-    if (this.refs.content.contains(e.target)) {
+    if (this.content.contains(e.target)) {
       log('Ignoring backdrop click since the clicked element is the modal content');
       return;
     }
@@ -234,7 +235,7 @@ export default class Modal extends Component {
               onClick={ this.handleBackdropClick }>
               <div className="Modal-dialog">
                 <div
-                  ref="content"
+                  ref={ el => { this.content = el; } }
                   className="Modal-content"
                   tabIndex={ 0 }
                   style={ { top: this.state.contentTop } }>

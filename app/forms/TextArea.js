@@ -8,19 +8,26 @@ export default class TextArea extends Component {
     autosize: PropTypes.bool,
   }
   getValue() {
-    return this.refs.field.getValue();
+    return this.field.getValue();
   }
+  field = null
   focus() {
-    this.refs.field.focus();
+    this.field.focus();
   }
   blur() {
-    this.refs.field.blur();
+    this.field.blur();
   }
   select() {
-    this.refs.field.select();
+    this.field.select();
   }
   render() {
     const { autosize, ...props } = this.props;
-    return <FormField { ...props } field={ autosize ? TextareaAutosize : 'textarea' } ref="field" />;
+    return (
+      <FormField
+        { ...props }
+        field={ autosize ? TextareaAutosize : 'textarea' }
+        ref={ el => { this.field = el; } }
+      />
+    );
   }
 }

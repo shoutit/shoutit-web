@@ -3,6 +3,7 @@
 
 import React, { PropTypes, Component } from 'react';
 import Sticky from '@economist/component-stickyfill';
+import classNames from 'classnames';
 
 import MiniFooter from '../layout/MiniFooter';
 import './Page.scss';
@@ -34,13 +35,14 @@ class PageColumn extends Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.setSticky);
   }
-
   setSticky() {
     this.setState({
       sticky: true,
-      width: this.refs.node.offsetWidth,
+      width: this.node.offsetWidth,
     });
   }
+  node = null
+
   render() {
     let className = 'PageColumn';
     let style;
@@ -57,7 +59,7 @@ class PageColumn extends Component {
       className += ' wide';
     }
     const content = (
-      <div className={ className } ref="node" style={ style }>
+      <div className={ className } ref={ el => { this.node = el; } } style={ style }>
         { this.props.children }
       </div>
     );
@@ -101,10 +103,7 @@ EndColumn.propTypes = {
 };
 
 export default function Page({ children, className }) {
-  let cssClass = 'Page';
-  if (className) {
-    cssClass += ` ${className}`;
-  }
+  const cssClass = classNames('Page', className);
   return (
     <div className={ cssClass }>
       { children }

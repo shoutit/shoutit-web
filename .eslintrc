@@ -22,8 +22,7 @@
     "react/jsx-first-prop-new-line": 0,
     "react/jsx-curly-spacing": [2, "always"],
     "react/jsx-filename-extension": 0,
-    "react/require-extension": 0,
-    "react/no-string-refs": 0
+    "react/require-extension": 0
   },
   "settings": {
     "import/ignore": [

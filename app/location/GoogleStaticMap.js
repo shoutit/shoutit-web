@@ -54,8 +54,8 @@ export class GoogleStaticMap extends Component {
   }
   setDimensions() {
     this.setState({
-      width: this.refs.node.clientWidth,
-      height: this.refs.node.clientHeight,
+      width: this.node.clientWidth,
+      height: this.node.clientHeight,
     });
   }
   setScale() {
@@ -63,6 +63,7 @@ export class GoogleStaticMap extends Component {
       scale: window.devicePixelRatio >= 2 ? 2 : 1,
     });
   }
+  node = null
   render() {
     let { center, markers } = this.props;
     if (this.props.location) {
@@ -99,7 +100,7 @@ export class GoogleStaticMap extends Component {
     };
 
     return (
-      <a ref="node" href={ href } target="_blank" className="GoogleStaticMap" rel="noopener noreferrer">
+      <a ref={ el => { this.node = el; } } href={ href } target="_blank" className="GoogleStaticMap" rel="noopener noreferrer">
         <span style={ style } />
       </a>
     );

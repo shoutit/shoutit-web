@@ -80,10 +80,10 @@ export class Signup extends Component {
       } else if (errorLocations.includes('password')) {
         location = 'password';
       }
-      if (location && this.refs[location].getValue()) {
-        this.refs[location].select();
+      if (location && this.fields[location].getValue()) {
+        this.fields[location].select();
       } else if (location) {
-        this.refs[location].focus();
+        this.fields[location].focus();
       }
     }
   }
@@ -91,6 +91,13 @@ export class Signup extends Component {
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch(resetErrors());
+  }
+
+  fields = {
+    firstName: null,
+    lastName: null,
+    email: null,
+    password: null,
   }
 
   handleFormSubmit(e) {
@@ -101,32 +108,32 @@ export class Signup extends Component {
       return;
     }
 
-    const firstName = this.refs.firstName.getValue();
-    const lastName = this.refs.lastName.getValue();
-    const email = this.refs.email.getValue();
-    const password = this.refs.password.getValue();
+    const firstName = this.fields.firstName.getValue();
+    const lastName = this.fields.lastName.getValue();
+    const email = this.fields.email.getValue();
+    const password = this.fields.password.getValue();
 
     if (!firstName) {
-      this.refs.firstName.focus();
+      this.fields.firstName.focus();
       return;
     }
     if (!lastName) {
-      this.refs.lastName.focus();
+      this.fields.lastName.focus();
       return;
     }
     if (!email) {
-      this.refs.email.focus();
+      this.fields.email.focus();
       return;
     }
     if (!password) {
-      this.refs.password.focus();
+      this.fields.password.focus();
       return;
     }
     if (email && password) {
-      this.refs.firstName.blur();
-      this.refs.lastName.blur();
-      this.refs.email.blur();
-      this.refs.password.blur();
+      this.fields.firstName.blur();
+      this.fields.lastName.blur();
+      this.fields.email.blur();
+      this.fields.password.blur();
       dispatch(signup(
         { email, password, firstName, lastName, location: currentLocation }
       )).then(() => {
@@ -184,7 +191,7 @@ export class Signup extends Component {
             <FieldsGroup>
               <TextField
                 flex
-                ref="firstName"
+                ref={ el => { this.fields.firstName = el; } }
                 disabled={ isSigningUp }
                 name="first_name"
                 type="text"
@@ -194,7 +201,7 @@ export class Signup extends Component {
               <TextField
                 flex
                 error={ error }
-                ref="lastName"
+                ref={ el => { this.fields.lastName = el; } }
                 disabled={ isSigningUp }
                 name="last_name"
                 type="text"
@@ -203,7 +210,7 @@ export class Signup extends Component {
             </FieldsGroup>
 
             <TextField
-              ref="email"
+              ref={ el => { this.fields.email = el; } }
               disabled={ isSigningUp }
               name="email"
               type="email"
@@ -213,7 +220,7 @@ export class Signup extends Component {
 
             <TextField
               error={ error }
-              ref="password"
+              ref={ el => { this.fields.password = el; } }
               disabled={ isSigningUp }
               name="password"
               type="password"
