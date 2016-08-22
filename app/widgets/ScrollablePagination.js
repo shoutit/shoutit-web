@@ -1,6 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import ReactDOM from 'react-dom';
-
 import debug from 'debug';
 
 import Scrollable from '../layout/Scrollable';
