@@ -18,6 +18,22 @@ export function loadUser(username) {
   };
 }
 
+export function loadPages(username, endpoint) {
+  return {
+    types: [
+      actionTypes.LOAD_PROFILE_PAGES_START,
+      actionTypes.LOAD_PROFILE_PAGES_SUCCESS,
+      actionTypes.LOAD_PROFILE_PAGES_FAILURE,
+    ],
+    payload: { username },
+    service: {
+      name: 'profilePages',
+      params: { username, endpoint },
+      schema: PROFILES,
+    },
+  };
+}
+
 export function loadListeners(user, endpoint) {
   return {
     types: [
@@ -116,9 +132,9 @@ export function loadHomeShouts(endpoint) {
 export function loadShoutsByUsername(username, endpoint) {
   return {
     types: [
-      actionTypes.LOAD_USER_SHOUTS_START,
-      actionTypes.LOAD_USER_SHOUTS_SUCCESS,
-      actionTypes.LOAD_USER_SHOUTS_FAILURE,
+      actionTypes.LOAD_PROFILE_SHOUTS_START,
+      actionTypes.LOAD_PROFILE_SHOUTS_SUCCESS,
+      actionTypes.LOAD_PROFILE_SHOUTS_FAILURE,
     ],
     payload: { username },
     service: {
