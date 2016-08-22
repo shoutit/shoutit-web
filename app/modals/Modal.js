@@ -1,14 +1,15 @@
 /* eslint-env browser */
 
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import debug from 'debug';
+import classNames from 'classnames';
 
 import Header from './Header';
 import BodyFixed from './BodyFixed';
 import Body from './Body';
 import Footer from './Footer';
+import Progress from '../widgets/Progress';
 
 import { preventBodyScroll } from '../utils/DOMUtils';
 import { ESCAPE } from '../utils/keycodes';
@@ -34,9 +35,10 @@ export default class Modal extends Component {
     onHide: PropTypes.func.isRequired,
     show: PropTypes.bool,
     preventClose: PropTypes.bool,
+    loading: PropTypes.bool,
     leaveTimeout: PropTypes.number,
-    enterTimeout: PropTypes.number,
     autoSize: PropTypes.bool,
+    enterAnimation: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -47,9 +49,10 @@ export default class Modal extends Component {
     show: true,
     preventClose: false,
     autoSize: true,
+    loading: false,
+    enterAnimation: true,
 
     leaveTimeout: 250,
-    enterTimeout: 0,
   }
 
   constructor(props) {
@@ -62,6 +65,7 @@ export default class Modal extends Component {
       show: props.show,
       contentTop: props.autoSize ? CONTENT_TOP_DEFAULT : 0,
       bodyStyle: null,
+      didJustFinishToLoad: false,
     };
   }
 
@@ -73,6 +77,17 @@ export default class Modal extends Component {
       this.setSize();
     }
   }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (this.props.loading && !nextProps.loading) {
+      this.setState({ didJustFinishToLoad: true }, () => {
+        setTimeout(() => {
+          this.setState({ didJustFinishToLoad: false });
+        }, 250);
+      });
+    }
+  }
+
 
   componentWillUnmount() {
     preventBodyScroll().off();
@@ -102,7 +117,7 @@ export default class Modal extends Component {
     if (!this.header) {
       return 0;
     }
-    return ReactDOM.findDOMNode(this.header).offsetHeight;
+    return this.header.getHeight();
   }
 
   getBodyFixed() {
@@ -117,7 +132,7 @@ export default class Modal extends Component {
     if (!this.bodyFixed) {
       return 0;
     }
-    return ReactDOM.findDOMNode(this.bodyFixed).offsetHeight;
+    return this.bodyFixed.getHeight();
   }
 
   getBody() {
@@ -142,7 +157,7 @@ export default class Modal extends Component {
     if (!this.footer) {
       return 0;
     }
-    return ReactDOM.findDOMNode(this.footer).offsetHeight;
+    return this.footer.getHeight();
   }
 
   setSize() {
@@ -213,11 +228,34 @@ export default class Modal extends Component {
   }
 
   render() {
+    const modalClassName = classNames('Modal', {
+      loading: this.props.loading,
+      enterAnimation: this.props.enterAnimation,
+      'scrollable-body': this.props.scrollableBody,
+      didJustFinishToLoad: this.state.didJustFinishToLoad,
+    });
+    const backdropClassName = classNames('Modal-backdrop', {
+      enterAnimation: this.props.enterAnimation,
+    });
 
-    let modalClassName = `Modal size-${this.props.size}`;
-
-    if (this.props.scrollableBody) {
-      modalClassName += ' scrollable-body';
+    const style = {};
+    if (this.props.loading) {
+      style.width = 200;
+    } else {
+      switch (this.props.size) {
+        case 'medium':
+          style.width = 550;
+          break;
+        case 'small':
+          style.width = 450;
+          break;
+        case 'x-small':
+          style.width = 385;
+          break;
+        default:
+          style.width = 550;
+          break;
+      }
     }
 
     return (
@@ -228,17 +266,18 @@ export default class Modal extends Component {
 
         { this.state.show &&
           <div role="dialog" key="dialog">
-            <div key="backdrop" className="Modal-backdrop" />
+            <div key="backdrop" className={ backdropClassName } />
             <div
               className={ modalClassName }
               role="dialog"
               onClick={ this.handleBackdropClick }>
-              <div className="Modal-dialog">
+              <div className="Modal-dialog" style={ style }>
                 <div
                   ref={ el => { this.content = el; } }
                   className="Modal-content"
                   tabIndex={ 0 }
                   style={ { top: this.state.contentTop } }>
+                  { this.props.loading && <Progress animate /> }
                   { this.getHeader() }
                   { this.getBodyFixed() }
                   { this.getBody() }
