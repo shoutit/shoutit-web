@@ -46,6 +46,18 @@ describe('services/createService', () => {
       });
       service.read({}, {}, { value: 'baz' }, {}, () => {});
     });
+    it('should use the params\' endpoint as url', done => {
+      stub(Request.prototype, 'end', function callback() {
+        expect(this.url).to.contain('/boo/zap');
+        done();
+      });
+      const service = createService({
+        name: 'foo',
+        read: '/bar/${value}',
+      });
+      service.read({}, {}, { endpoint: '/boo/zap' }, {}, () => {});
+    });
+
     it('should pass the query from params', done => {
       stub(Request.prototype, 'end', function callback() {
         expect(this.qs).to.eql({ abc: 'xyz' });
