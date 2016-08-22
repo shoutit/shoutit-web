@@ -2,18 +2,12 @@
 
 import debug from 'debug';
 import { now } from 'unix-timestamp';
+import { facebookId } from '../config';
 
 const log = debug('shoutit:utils:FacebookUtils');
 
-let appId;
-let version;
-if (process.env.NODE_ENV === 'development' || process.env.SHOUTIT_ENV === 'stage') {
-  appId = '1151546964858487';
-  version = 'v2.0';
-} else {
-  appId = '353625811317277';
-  version = 'v2.0';
-}
+const appId = facebookId;
+const version = 'v2.1';
 
 export function initFacebook(callback) {
 
@@ -28,6 +22,19 @@ export function initFacebook(callback) {
     log('Facebook SDK has been loaded.');
     window.FB.init({ appId, version });
     log('Facebook App: ' + appId + ' has been initialized.');
+
+    FB.Event.subscribe(
+      'ad.loaded',
+      placementId => {
+        log('Audience Network ad loaded');
+        document.getElementById('ad_root').style.display = 'block';
+      }
+    );
+    FB.Event.subscribe(
+      'ad.error',
+      (errorCode, errorMessage, placementId) => log(`Audience Network error (${errorCode}) ${errorMessage}`)
+    );
+    
     if (callback) {
       callback();
     }
@@ -47,7 +54,7 @@ export function initFacebook(callback) {
     js.src = `//connect.facebook.net/${locale}/sdk.js`;
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
- 
+
 }
 
 export function isLinked(profile) {
