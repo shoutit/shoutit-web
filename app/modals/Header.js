@@ -9,9 +9,15 @@ export default class Header extends Component {
     onCloseClick: PropTypes.func,
   };
 
+  getHeight() {
+    return this.node.offsetHeight;
+  }
+
+  node = null
+
   render() {
     return (
-      <div className="ModalHeader">
+      <div className="ModalHeader" ref={ el => { this.node = el; } }>
         <span className="ModalHeader-content">
           { this.props.closeButton &&
             <span
