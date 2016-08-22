@@ -32,9 +32,14 @@ function createReadMethod({ url, cacheResponse, name }) {
       callback(null, cache);
       return;
     }
-    url = template(url)(params);
+    let requestUrl;
+    if (params.endpoint) {
+      requestUrl = params.endpoint;
+    } else {
+      requestUrl = template(url)(params);
+    }
     request
-      .get(url)
+      .get(requestUrl)
       .prefix()
       .query(params.query)
       .use(req)
