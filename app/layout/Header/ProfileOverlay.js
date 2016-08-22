@@ -2,15 +2,18 @@
 
 import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
-
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+
+import SwitchToPageModal from '../../users/SwitchToPageModal';
+
 import { logout } from '../../actions/session';
+import { openModal } from '../../actions/ui';
 import { getLoggedUser } from '../../reducers/session';
 
 import './ProfileOverlay.scss';
 
-export function ProfileOverlay({ profile, onLogoutClick, onItemClick }) {
+export function ProfileOverlay({ profile, onLogoutClick, onItemClick, onSwitchToPageClick }) {
   return (
     <ul className="ProfileOverlay">
       <li>
@@ -21,6 +24,14 @@ export function ProfileOverlay({ profile, onLogoutClick, onItemClick }) {
             values={ { ...profile } }
           />
         </Link>
+      </li>
+      <li>
+        <a onClick={ onSwitchToPageClick }>
+          <FormattedMessage
+            id="header.profilePopover.menu.switchToPage"
+            defaultMessage="Use as Page…"
+          />
+        </a>
       </li>
       <li className="separe">
         <Link onClick={ onItemClick } to="/settings">
@@ -46,6 +57,7 @@ ProfileOverlay.propTypes = {
   profile: PropTypes.object.isRequired,
   onLogoutClick: PropTypes.func.isRequired,
   onItemClick: PropTypes.func.isRequired,
+  onSwitchToPageClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -56,6 +68,9 @@ const mapDispatchToProps = dispatch => ({
   onLogoutClick: e => {
     e.preventDefault();
     dispatch(logout()).then(() => window.location.reload());
+  },
+  onSwitchToPageClick: () => {
+    dispatch(openModal(<SwitchToPageModal />));
   },
 });
 

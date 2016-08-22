@@ -87,6 +87,7 @@
   "header.profilePopover.menu.logout": "退出账户",
   "header.profilePopover.menu.profile": "{name}",
   "header.profilePopover.menu.setting": "设定",
+  "header.profilePopover.menu.switchToPage": "Use as Page…",
   "layout.Footer.discover.browse": "浏览 Shouts",
   "layout.Footer.discover.discover": "发现 Shouts",
   "layout.Footer.discover.login": "登录",

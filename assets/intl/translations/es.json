@@ -87,6 +87,7 @@
   "header.profilePopover.menu.logout": "cerrar sesión",
   "header.profilePopover.menu.profile": "{name}",
   "header.profilePopover.menu.setting": "Ajustes",
+  "header.profilePopover.menu.switchToPage": "Use as Page…",
   "layout.Footer.discover.browse": "Explorar shouts",
   "layout.Footer.discover.discover": "Descubrir Shouts",
   "layout.Footer.discover.login": "Iniciar sesión",
