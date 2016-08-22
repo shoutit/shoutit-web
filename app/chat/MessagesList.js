@@ -1,12 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { FormattedDate } from 'react-intl';
 import { toDate } from 'unix-timestamp';
+import last from 'lodash/last';
 
 import { isSameDay } from '../utils/DateUtils';
 import MessageItem from './MessageItem';
 import MessageReadBy from './MessageReadBy';
-
-import last from 'lodash/last';
 
 import './MessagesList.scss';
 

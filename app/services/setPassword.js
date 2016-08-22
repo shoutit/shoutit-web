@@ -1,5 +1,6 @@
 import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
+
 export default {
   name: 'setPassword',
   create: (req, resource, params, { newPassword, resetToken }, config, callback) => {

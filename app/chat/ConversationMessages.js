@@ -56,7 +56,6 @@ export class ConversationMessages extends Component {
         uniqueId={ uniqueId }
         initialScroll="bottom"
         className="ConversationMessages"
-        ref="scrollable"
         onScrollTop={ this.handleScrollTop }>
         <div className="Conversation-messagesList">
 

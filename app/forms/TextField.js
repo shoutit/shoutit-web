@@ -12,7 +12,7 @@ export default class TextField extends Component {
     }
   }
   getValue() {
-    let fieldValue = this.refs.field.getValue();
+    let fieldValue = this.field.getValue();
     switch (this.props.type) {
       case 'url':
         if (!fieldValue.match(/^https?:\/\//)) {
@@ -24,16 +24,17 @@ export default class TextField extends Component {
     return fieldValue;
   }
   setValue(value) {
-    this.refs.field.setValue(value);
+    this.field.setValue(value);
   }
+  field = null
   focus() {
-    this.refs.field.focus();
+    this.field.focus();
   }
   blur() {
-    this.refs.field.blur();
+    this.field.blur();
   }
   select() {
-    this.refs.field.select();
+    this.field.select();
   }
   render() {
     const { type, ...props } = this.props;
@@ -42,7 +43,7 @@ export default class TextField extends Component {
         { ...props }
         type={ type || 'text' }
         field="input"
-        ref="field"
+        ref={ el => { this.field = el; } }
       />
     );
   }

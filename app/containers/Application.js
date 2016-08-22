@@ -138,10 +138,8 @@ export class Application extends Component {
 
     if (applicationLayout.fullHeight) {
       className += ' fullHeight';
-    } else {
-      if (applicationLayout.showHeader && applicationLayout.stickyHeader) {
-        className += ' stickyHeader';
-      }
+    } else if (applicationLayout.showHeader && applicationLayout.stickyHeader) {
+      className += ' stickyHeader';
     }
     if (applicationLayout.className) {
       className += ` ${applicationLayout.className}`;

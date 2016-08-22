@@ -58,7 +58,6 @@ export class ScrollableNotifications extends Component {
         preventDocumentScroll
         uniqueId={ uniqueId }
         className="ScrollableNotifications"
-        ref="scrollable"
         onScrollBottom={ this.handleScrollBottom }>
         <ul className="Notifications-list">
           { notifications.length > 0 &&

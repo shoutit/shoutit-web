@@ -24,8 +24,8 @@ export default class Form extends Component {
   }
 
   blur() {
-    [...this.refs.form.elements]
-      .filter(el => typeof(el.blur) === 'function')
+    [...this.node.elements]
+      .filter(el => typeof (el.blur) === 'function')
       .forEach(el => el.blur());
   }
 
@@ -54,7 +54,12 @@ export default class Form extends Component {
     }
 
     return (
-      <form { ...props } noValidate className={ cssClass } onSubmit={ this.handleSubmit } ref="form">
+      <form
+        { ...props }
+        noValidate
+        className={ cssClass }
+        onSubmit={ this.handleSubmit }
+        ref={ el => { this.node = el; } }>
         { children }
 
         { errorMessages.length > 0 &&

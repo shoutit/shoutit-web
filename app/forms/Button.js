@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
+import classNames from 'classnames';
 
 import Icon from '../widgets/Icon';
 
@@ -26,12 +27,14 @@ export default class Button extends Component {
     element: 'button',
   }
 
+  node = null
+
   focus() {
-    this.refs.button.focus();
+    this.node.focus();
   }
 
   blur() {
-    this.refs.button.blur();
+    this.node.blur();
   }
 
   render() {
@@ -47,22 +50,12 @@ export default class Button extends Component {
       ...attributes,
     } = this.props;
 
-    let className = `Button ${kind}`;
-    if (icon) {
-      className += ' with-icon';
-    }
-    if (block) {
-      className += ' block';
-    }
-    if (attributes.disabled) {
-      className += ' disabled';
-    }
-    if (size) {
-      className += ` size-${size}`;
-    }
-    if (attributes.className) {
-      className += ` ${attributes.className}`;
-    }
+    const className = classNames(`Button ${kind}`, {
+      'with-icon': !!icon,
+      block: !!block,
+      disabled: attributes.disabled,
+    }, size ? `size-${size}` : null, attributes.className);
+
     const content = (
       <span>
         { icon &&
@@ -92,7 +85,7 @@ export default class Button extends Component {
       ...attributes,
       className,
       children: content,
-      ref: 'button',
+      ref: el => { this.node = el; },
     });
   }
 

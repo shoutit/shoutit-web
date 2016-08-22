@@ -25,6 +25,8 @@ export class MessagesButton extends Component {
     showOverlay: false,
   }
 
+  icon = null
+
   showOverlay(e) {
     e.preventDefault();
     this.setState({ showOverlay: true });
@@ -38,7 +40,7 @@ export class MessagesButton extends Component {
     return (
       <span>
         <Link to="/messages" onClick={ this.showOverlay } style={ { position: 'relative' } }>
-          <Icon ref="icon" name="balloon-dots" badge={ this.props.badge } />
+          <Icon ref={ el => { this.icon = el; } } name="balloon-dots" badge={ this.props.badge } />
         </Link>
         <Overlay
           arrow
@@ -47,8 +49,7 @@ export class MessagesButton extends Component {
           show={ this.state.showOverlay }
           placement="bottom"
           onHide={ this.hideOverlay }
-          target={ () => this.refs.icon.getIconNode() }
-        >
+          target={ () => this.icon.getIconNode() }>
           <MessagesOverlay closeOverlay={ this.hideOverlay } />
         </Overlay>
       </span>

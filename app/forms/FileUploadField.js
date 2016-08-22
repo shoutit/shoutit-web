@@ -13,9 +13,9 @@ import { s3Buckets } from '../config';
 import { getVariation } from '../utils/APIUtils';
 import { getFilename } from '../utils/StringUtils';
 
-const log = debug('shoutit:ui:FileUploadField');
-
 import '../forms/FileUploadField.scss';
+
+const log = debug('shoutit:ui:FileUploadField');
 
 export function File({ upload, onDeleteClick }) {
   const url = upload.file ? upload.file.preview : getVariation(upload.url, 'small');
@@ -107,6 +107,8 @@ export default class FileUploadField extends Component {
     return this.state.uploads.some(upload => upload.isUploading);
   }
 
+  dropzone = null
+
   abortUnfinishedUploads() {
     log('Aborting unfinished uploads...');
     this.state.uploads
@@ -118,7 +120,7 @@ export default class FileUploadField extends Component {
   }
 
   open() {
-    this.refs.dropzone.open();
+    this.dropzone.open();
   }
 
   delete(upload) {
@@ -180,7 +182,7 @@ export default class FileUploadField extends Component {
         percent: 0,
         isUploading: true,
       });
-      const index = existingUploads.length + uploads.length - 1;
+      const index = (existingUploads.length + uploads.length) - 1;
 
       uploads[uploads.length - 1].request = request
         .post(`/api/file/${resourceType}`)
@@ -273,7 +275,7 @@ export default class FileUploadField extends Component {
           onDragLeave={ this.handleDragLeave }
           className="FileUploadField-dropzone"
           activeClassName="FileUploadField-dropzone active"
-          ref="dropzone">
+          ref={ el => { this.dropzone = el; } }>
           <div className="FileUploadField-instructions">
             <FormattedMessage
               id="ui.fileUpload.instrutions"
@@ -287,7 +289,7 @@ export default class FileUploadField extends Component {
           ) }
 
           { this.state.uploads.length < max &&
-            <div className="FileUploadField-add" ref="dropzone" onClick={ this.open } />
+            <div className="FileUploadField-add" ref={ el => { this.dropzone = el; } } onClick={ this.open } />
           }
 
         </Dropzone>

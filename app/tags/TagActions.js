@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router';
 
 import { listenToTag, stopListeningToTag } from '../actions/tags';
-import { Link } from 'react-router';
 
 import RequiresLogin from '../auth/RequiresLogin';
 import { LISTEN_TAG } from '../auth/loginActions';

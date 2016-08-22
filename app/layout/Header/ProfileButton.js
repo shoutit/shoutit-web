@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
@@ -8,6 +7,7 @@ import Overlay from '../../widgets/Overlay';
 
 import ProfileOverlay from './ProfileOverlay';
 import { getLoggedUser } from '../../reducers/session';
+
 export class ProfileButton extends Component {
 
   static propTypes = {
@@ -29,6 +29,8 @@ export class ProfileButton extends Component {
     showOverlay: false,
   }
 
+  avatar = null
+
   showOverlay(e) {
     e.preventDefault();
     this.setState({ showOverlay: true });
@@ -45,7 +47,7 @@ export class ProfileButton extends Component {
           className="HeaderProfile-profileLink"
           to={ `/user/${this.props.user.username}` }
           onClick={ this.props.overlay && this.showOverlay }>
-          <ProfileAvatar ref="avatar" profile={ this.props.user } size="medium" />
+          <ProfileAvatar ref={ el => { this.avatar = el; } } profile={ this.props.user } size="medium" />
         </Link>
         { this.props.overlay &&
           <Overlay
@@ -56,7 +58,7 @@ export class ProfileButton extends Component {
             show={ this.state.showOverlay }
             placement="bottom"
             onHide={ this.hideOverlay }
-            target={ () => this.refs.avatar.getImageNode() }
+            target={ () => this.avatar.getImageNode() }
           >
             <ProfileOverlay onItemClick={ this.hideOverlay } />
           </Overlay>

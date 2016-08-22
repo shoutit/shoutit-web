@@ -1,8 +1,8 @@
 /* eslint-env browser */
+import debug from 'debug';
 
 import { getVariation } from './APIUtils';
 import { imagesPath } from '../config';
-import debug from 'debug';
 
 export function getDocumentScrollTop() {
   if (window.pageYOffset !== 'undefined') {

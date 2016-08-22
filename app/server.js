@@ -25,7 +25,7 @@ import { fileUploadMiddleware, fileDeleteMiddleware } from './server/fileMiddlew
 
 import * as services from './services';
 
-export function start(app) {
+export default function start(app) {
 
   app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined'));
   app.use(cookieParser());

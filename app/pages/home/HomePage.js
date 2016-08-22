@@ -33,10 +33,10 @@ class HomePage extends Component {
   }
 
   static fetchData = fetchData;
-
-  scrollTo(ref, e) {
+  sections = {}
+  scrollTo(sectionName, e) {
     e.target.blur();
-    animatedScrollTo(document.body, this.refs[ref].offsetTop, 500);
+    animatedScrollTo(document.body, this.sections[sectionName].offsetTop, 500);
   }
 
   render() {
@@ -174,7 +174,7 @@ class HomePage extends Component {
         </section>
         <section className="HomePage-section">
           <ResponsiveLayout size="small">
-            <div className="HomePage-sectionContent" ref="business">
+            <div className="HomePage-sectionContent" ref={ el => { this.sections.business = el; } }>
               <Logo type="business" />
               <p>
                 <FormattedMessage
@@ -230,7 +230,7 @@ class HomePage extends Component {
         </section>
         <section className="HomePage-section">
           <ResponsiveLayout size="small">
-            <div className="HomePage-sectionContent" ref="apps">
+            <div className="HomePage-sectionContent" ref={ el => { this.sections.apps = el; } }>
               <h3>
                 <FormattedMessage
                   id="pages.home.apps.title"

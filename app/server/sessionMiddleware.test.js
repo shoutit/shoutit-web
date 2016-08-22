@@ -1,6 +1,8 @@
-import { getHostAndPort, authTokenLogin, setUserRequest } from './sessionMiddleware';
 import { expect } from 'chai';
 import { spy } from 'sinon';
+
+import { getHostAndPort, authTokenLogin, setUserRequest } from './sessionMiddleware';
+
 describe('server/sessionMiddleware', () => {
   describe('getHostAndPort', () => {
     it('should return localhost:6379 as default', () => {

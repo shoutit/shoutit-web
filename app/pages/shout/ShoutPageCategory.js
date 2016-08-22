@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
-import CategoryListItem from '../../shouts/CategoryListItem';
-
 import { Link } from 'react-router';
+
+import CategoryListItem from '../../shouts/CategoryListItem';
 import './ShoutPageCategory.scss';
 
 class ShoutPageCategory extends Component {

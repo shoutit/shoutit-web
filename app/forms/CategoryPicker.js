@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import { getCategories } from '../reducers/categories';
 
@@ -29,17 +30,18 @@ export class CategoryPicker extends Component {
       selectedCategory: this.findCategory(props.selectedCategorySlug),
     };
   }
+  field = null
   findCategory(slug) {
     return this.props.categories.find(category => category.slug === slug) || '';
   }
   focus() {
-    this.refs.field.focus();
+    this.field.focus();
   }
   blur() {
-    this.refs.field.blur();
+    this.field.blur();
   }
   select() {
-    this.refs.field.select();
+    this.field.select();
   }
   handleChange(slug, e) {
     const selectedCategory = this.findCategory(slug);
@@ -50,10 +52,7 @@ export class CategoryPicker extends Component {
     });
   }
   render() {
-    let className = 'CategoryPicker FormField';
-    if (this.props.className) {
-      className += ` ${this.props.className}`;
-    }
+    const className = classNames('CategoryPicker FormField', this.props.className);
     const { selectedCategory } = this.state;
     return (
       <div className={ className }>
@@ -66,7 +65,7 @@ export class CategoryPicker extends Component {
               startElement={ selectedCategory.icon && <TagIcon tag={ selectedCategory } /> }
               disabled={ this.props.disabled }
               label={ this.props.label }
-              ref="category"
+              ref={ el => { this.field = el; } }
               name="category"
               value={ selectedCategory && selectedCategory.slug }
               onChange={ this.handleChange }>

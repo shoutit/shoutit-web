@@ -54,13 +54,13 @@ export class PriceField extends Component {
     return this.formatNumericValue(valueAsNumber);
   }
   focus() {
-    this.refs.field.focus();
+    this.field.focus();
   }
   blur() {
-    this.refs.field.blur();
+    this.field.blur();
   }
   select() {
-    this.refs.field.select();
+    this.field.select();
   }
   handleChange(value) {
     if (this.props.onChange) {
@@ -104,7 +104,7 @@ export class PriceField extends Component {
     return (
       <TextField
         { ...props }
-        ref="field"
+        ref={ el => { this.field = el; } }
         value={ this.state.value }
         className="PriceField"
         endElement={ currencyPicker }

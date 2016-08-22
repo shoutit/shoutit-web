@@ -84,10 +84,10 @@ export class Login extends Component {
       } else if (errorLocations.includes('password')) {
         location = 'password';
       }
-      if (location && this.refs[location].getValue()) {
-        this.refs[location].select();
+      if (location && this.fields[location].getValue()) {
+        this.fields[location].select();
       } else if (location) {
-        this.refs[location].focus();
+        this.fields[location].focus();
       }
     }
   }
@@ -95,6 +95,11 @@ export class Login extends Component {
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch(resetErrors());
+  }
+
+  fields = {
+    email: null,
+    password: null,
   }
 
   submit(e) {
@@ -107,9 +112,9 @@ export class Login extends Component {
     }
 
     const form = e.target;
-    const email = this.refs.email.getValue();
-    const password = this.refs.password.getValue();
-    // const keepSession = this.refs.keep_session.checked;
+    const email = this.fields.email.getValue();
+    const password = this.fields.password.getValue();
+    // const keepSession = this.fields.keep_session.checked;
 
     if (!email) {
       form.email.focus();
@@ -168,7 +173,7 @@ export class Login extends Component {
 
             <form onSubmit={ this.submit } className="Form Frame-form" noValidate>
               <TextField
-                ref="email"
+                ref={ el => { this.fields.email = el; } }
                 disabled={ isLoggingIn }
                 name="email"
                 type="text"
@@ -177,7 +182,7 @@ export class Login extends Component {
               />
               <TextField
                 error={ error }
-                ref="password"
+                ref={ el => { this.fields.password = el; } }
                 disabled={ isLoggingIn }
                 name="password"
                 type="password"

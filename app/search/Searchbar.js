@@ -62,8 +62,11 @@ export class Searchbar extends Component {
   }
 
   getOverlayTarget() {
-    return this.refs.overlayTarget;
+    return this.overlayTarget;
   }
+
+  form = null
+  overlayTarget = null
 
   submit(e) {
     e.preventDefault();
@@ -119,8 +122,8 @@ export class Searchbar extends Component {
 
   render() {
     return (
-      <Form ref="form" onSubmit={ this.submit } className="Searchbar">
-        <div ref="overlayTarget">
+      <Form ref={ el => { this.form = el; } } onSubmit={ this.submit } className="Searchbar">
+        <div ref={ el => { this.overlayTarget = el; } }>
           <FormattedMessage
             id="searchbar.input.placeholder"
             defaultMessage="Search Products, Services, Businesses">

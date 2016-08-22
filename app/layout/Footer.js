@@ -65,13 +65,13 @@ export function Footer({ currentLocation }) {
               defaultMessage="Join us on"
             />
           </h3>
-          <a href={ facebookLink } target="_blank">
+          <a href={ facebookLink } target="_blank" rel="noopener noreferrer">
             <img alt="" width={ 10 } height={ 19 } src={ `${imagesPath}/facebook-icon-white.png` } />
           </a>
-          <a href={ twitterLink } target="_blank">
+          <a href={ twitterLink } target="_blank" rel="noopener noreferrer">
             <img alt="" width={ 18 } height={ 14 } src={ `${imagesPath}/twitter-icon-white.png` } />
           </a>
-          <a href={ instagramLink } target="_blank">
+          <a href={ instagramLink } target="_blank" rel="noopener noreferrer">
             <img alt="" width={ 17 } height={ 17 } src={ `${imagesPath}/instagram-icon-white.png` } />
           </a>
         </div>

@@ -1,4 +1,6 @@
 import React, { PropTypes, Component } from 'react';
+import classNames from 'classnames';
+
 import './FileInput.scss';
 
 export default class FileInput extends Component {
@@ -7,6 +9,7 @@ export default class FileInput extends Component {
     name: PropTypes.string,
     accept: PropTypes.string,
     className: PropTypes.string,
+    id: PropTypes.string,
     disabled: PropTypes.bool,
     multiple: PropTypes.bool,
     onChange: PropTypes.func,
@@ -21,15 +24,11 @@ export default class FileInput extends Component {
     }
   }
   render() {
-    let cssClass = 'FileInput';
-    if (this.props.className) {
-      cssClass += ` ${this.props.className}`;
-    }
+    const className = classNames('FileInput', this.props.className);
     return (
-      <span className={ cssClass }>
+      <span className={ className }>
         <input
-          ref="input"
-          id={ this.props.name }
+          id={ this.props.id || this.props.name }
           type="file"
           accept={ this.props.accept }
           onClick={ this.handleClick.bind(this) }
@@ -38,7 +37,7 @@ export default class FileInput extends Component {
           multiple={ this.props.multiple }
           name={ this.props.name }
         />
-        <label htmlFor={ this.props.name } zIndex={ 0 }>
+        <label htmlFor={ this.props.id || this.props.name } zIndex={ 0 }>
           { this.props.children }
         </label>
       </span>

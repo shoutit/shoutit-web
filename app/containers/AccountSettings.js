@@ -85,6 +85,10 @@ export class AccountSettings extends Component {
     };
   }
 
+  new_password: null
+  new_password2: null
+  old_password: null
+
   handleAccountFormSubmit() {
     if (!this.didChange()) {
       return;
@@ -107,11 +111,11 @@ export class AccountSettings extends Component {
         old_password: undefined,
         isPasswordSet: true,
       });
-      if (this.refs.old_password) {
-        this.refs.old_password.setValue('');
+      if (this.old_password) {
+        this.old_password.setValue('');
       }
-      this.refs.new_password.setValue('');
-      this.refs.new_password2.setValue('');
+      this.new_password.setValue('');
+      this.new_password2.setValue('');
     });
   }
 
@@ -144,7 +148,7 @@ export class AccountSettings extends Component {
                 </h2>
                 { this.state.isPasswordSet &&
                   <TextField
-                    ref="old_password"
+                    ref={ el => { this.old_password = el; } }
                     name="old_password"
                     placeholder={ formatMessage(MESSAGES.oldPasswordPlaceholder) }
                     type="password"
@@ -160,7 +164,7 @@ export class AccountSettings extends Component {
                 <FieldsGroup>
                   <TextField
                     flex
-                    ref="new_password"
+                    ref={ el => { this.new_password = el; } }
                     name="new_password"
                     placeholder={ formatMessage(MESSAGES.newPasswordPlaceholder) }
                     type="password"
@@ -168,7 +172,7 @@ export class AccountSettings extends Component {
                     error={ session.updatePasswordError } />
                   <TextField
                     flex
-                    ref="new_password2"
+                    ref={ el => { this.new_password2 = el; } }
                     name="new_password2"
                     placeholder={ formatMessage(MESSAGES.repeatPasswordPlaceholder) }
                     type="password"

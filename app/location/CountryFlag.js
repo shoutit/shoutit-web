@@ -5,10 +5,9 @@ import Tooltip from '../widgets/Tooltip';
 
 import { imagesPath } from '../config';
 import { getCountryName } from '../utils/LocationUtils';
+import './CountryFlag.scss';
 
 const VERSION = 1; // change version to skip browser cache
-
-import './CountryFlag.scss';
 
 export function CountryFlag({ code, tooltipPlacement = 'top', size = 'medium', rounded = true, style, language, onClick }) {
   code = code.toUpperCase();

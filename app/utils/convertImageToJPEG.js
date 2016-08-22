@@ -12,7 +12,7 @@ const log = debug('shoutit:ImageUtils');
 
 const imageMagick = gm.subClass({ imageMagick: true });
 
-export function convertImageToJPEG(filePath, callback) {
+export default function convertImageToJPEG(filePath, callback) {
 
   const ext = path.extname(filePath);
 

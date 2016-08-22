@@ -74,12 +74,10 @@ export default class Popover extends Component {
       } else {
         placement = 'top';
       }
+    } else if (targetRight + width > maxRight) {
+      placement = 'left';
     } else {
-      if (targetRight + width > maxRight) {
-        placement = 'left';
-      } else {
-        placement = 'right';
-      }
+      placement = 'right';
     }
 
     this.setState({ width, height, placement });

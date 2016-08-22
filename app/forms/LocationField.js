@@ -237,7 +237,9 @@ export class LocationField extends Component {
       <ul className="htmlSelectableList">
         { results.map(prediction =>
           <li key={ prediction.id }>
-            <a href="#" onClick={ e => { e.preventDefault(); this.handlePredictionClick(prediction); } }>
+            <a onClick={ e => {
+              e.preventDefault(); this.handlePredictionClick(prediction);
+            } }>
               { prediction.description }
             </a>
           </li>

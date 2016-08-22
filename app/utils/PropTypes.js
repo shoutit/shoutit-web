@@ -1,3 +1,5 @@
+/* eslint import/prefer-default-export: 0 */
+
 import { PropTypes } from 'react';
 
 export const PaginationPropTypes = {

@@ -6,7 +6,7 @@ import last from 'lodash/last';
 
 import createMulter from './createMulter';
 import * as AWS from '../utils/AWS';
-import { convertImageToJPEG } from '../utils/ImageUtils';
+import convertImageToJPEG from '../utils/convertImageToJPEG';
 import { s3Buckets } from '../config';
 
 function uniqueFilenameFromUser(user) {

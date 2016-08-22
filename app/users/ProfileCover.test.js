@@ -1,8 +1,8 @@
 import React from 'react';
-import { ProfileCover } from './ProfileCover';
 import sd from 'skin-deep';
-
 import { expect } from 'chai';
+
+import { ProfileCover } from './ProfileCover';
 
 describe('ProfileCover', () => {
 

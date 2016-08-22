@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 
 import { PaginationPropTypes } from '../utils/PropTypes';
 
@@ -7,7 +8,6 @@ import Progress from '../widgets/Progress';
 import Scrollable from '../layout/Scrollable';
 import TagListItem from '../tags/TagListItem';
 
-import { connect } from 'react-redux';
 import { loadListeningTags } from '../actions/users';
 import { getListeningTags, getPaginationState } from '../reducers/paginated/tagListeningByUser';
 

@@ -1,7 +1,7 @@
 /* eslint no-console: 0, vars-on-top: 0 */
 import express from 'express';
 import { getSummary } from './app/config';
-import { start } from './app/server';
+import startServer from './app/server';
 import './app/server/intl-polyfill';
 
 const port = process.env.PORT || 3000;
@@ -12,8 +12,10 @@ console.log(getSummary());
 if (process.env.NODE_ENV === 'development') {
   const webpack = require('webpack');
   const webpackConfig = require('./webpack.config');
-  const webpackCompiler = webpack(webpackConfig);
   const webpackMiddleware = require('webpack-dev-middleware');
+
+  const webpackCompiler = webpack(webpackConfig);
+
   app.use(webpackMiddleware(webpackCompiler, {
     hot: true,
     publicPath: webpackConfig.output.publicPath,
@@ -33,7 +35,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(require('webpack-hot-middleware')(webpackCompiler));
 }
 
-start(app);
+startServer(app);
 app.listen(port, () =>
   console.log('\nServer is now listening to %s:%s...', process.env.HOST || 'localhost', port)
 );
