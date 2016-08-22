@@ -107,7 +107,7 @@ export default class MessageItem extends Component {
             </span>
           }
           { text &&
-            <div className="MessageItem-text">
+            <div className="MessageItem-text" dir="auto">
               <NewlineToBreak>{ text }</NewlineToBreak>
             </div>
           }
