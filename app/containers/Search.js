@@ -203,6 +203,15 @@ export class Search extends Component {
             count={ this.props.count }
             onSortChange={ this.handleSortChange }
           />
+          <div className="fb-ad" data-placementid="1151546964858487_1271002086246307" data-format="native" data-nativeadid="ad_root" data-testmode="false" />
+          <div id="ad_root">
+            <a className="fbAdLink">
+              <div className="fbAdMedia thirdPartyMediaClass" />
+              <div className="fbAdTitle thirdPartyTitleClass" />
+              <div className="fbAdBody thirdPartyBodyClass" />
+              <div className="fbAdCallToAction thirdPartyCallToActionClass" />
+            </a>
+          </div>
           <div className="Shouts-container">
             <ShoutsList shouts={ this.props.shouts } />
             { this.props.isFetching &&

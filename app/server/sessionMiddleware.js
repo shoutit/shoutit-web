@@ -63,7 +63,6 @@ export function checkExistingSession(req, res, next) {
  * Login via auth_token from req.query
  */
 export function authTokenLogin(req, res, next) {
-  console.log('authTokenLogin');
   if (!req.query.hasOwnProperty('auth_token')) {
     return next();
   }
