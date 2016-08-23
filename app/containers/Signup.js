@@ -283,8 +283,8 @@ export class Signup extends Component {
         <div className="Frame-body">
           <p>
             <FormattedMessage
-              defaultMessage="Hi {firstName}, thanks for signing up!"
-              values={ { firstName: loggedUser.firstName } }
+              defaultMessage="Hi {name}, thanks for signing up!"
+              values={ loggedUser }
               id="signup.success.welcomeMessage-1"
             />
 
