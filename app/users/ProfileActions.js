@@ -43,8 +43,8 @@ export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium',
         <p className="ProfileActions-is-listener">
           <FormattedMessage
             id="profileActions.userIsListening"
-            defaultMessage="{firstName} is listening to you"
-            values={ { ...profile } }
+            defaultMessage="{name} is listening to you"
+            values={ profile }
           />
         </p>
       }
@@ -58,8 +58,8 @@ export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium',
                 start={ <Icon size={ size } active name="balloon-dots" /> }>
                 <FormattedMessage
                   id="profileActions.sendMessage"
-                  defaultMessage="Send {firstName} a message"
-                  values={ { ...profile } }
+                  defaultMessage="Send {name} a message"
+                  values={ profile }
                 />
               </ListItem>
             </RequiresLogin>
@@ -76,10 +76,10 @@ export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium',
                 <FormattedMessage
                   id="profileActions.listen"
                   defaultMessage="{isListening, select,
-                    true {Stop listening to {firstName}}
-                    false {Listen to {firstName}}
+                    true {Stop listening to {name}}
+                    false {Listen to {name}}
                   }"
-                  values={ { ...profile } }
+                  values={ profile }
                 />
               </ListItem>
             </RequiresLogin>
