@@ -7,7 +7,7 @@ import TagListItem from '../tags/TagListItem';
 import { getRelatedTags } from '../reducers/paginated/relatedTagsByTag';
 
 export function RelatedTags({ tags }) {
-  if (tags.length === 0) {
+  if (!tags || tags.length === 0) {
     return null;
   }
   return (
@@ -23,7 +23,7 @@ export function RelatedTags({ tags }) {
 }
 
 RelatedTags.propTypes = {
-  tags: PropTypes.array.isRequired,
+  tags: PropTypes.array,
 };
 
 const mapStateToProps = (state, ownProps) => ({
