@@ -42,7 +42,7 @@ export class ListeningTagsModal extends Component {
           <Header closeButton>
             <FormattedMessage
               id="users.ListeningTagsModal.title"
-              defaultMessage="{firstName}’s interests"
+              defaultMessage="{name}’s interests"
               values={ this.props.profile }
             />
           </Header>

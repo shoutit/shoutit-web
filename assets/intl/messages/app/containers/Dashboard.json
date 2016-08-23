@@ -1,11 +1,11 @@
 [
   {
     "id": "dashboard.page.title",
-    "defaultMessage": "{firstName}’s Home Page"
+    "defaultMessage": "{name}’s Home Page"
   },
   {
     "id": "dashboard.welcome",
-    "defaultMessage": "Welcome back, {firstName}"
+    "defaultMessage": "Welcome back, {name}"
   },
   {
     "id": "dashboard.menu.profile",

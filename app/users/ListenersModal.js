@@ -26,10 +26,10 @@ export default class ListenersModal extends Component {
           <FormattedMessage
             id="listenersModal.title"
             defaultMessage="{type, select,
-              listeners {Listening to {firstName}}
-              listening {{firstName} is listening to}
+              listeners {Listening to {name}}
+              listening {{name} is listening to}
             }"
-            values={ { type, firstName: profile.firstName } }
+            values={ { type, ...profile } }
           />
         </Header>
         <Body>
