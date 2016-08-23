@@ -1,4 +1,3 @@
-import omit from 'lodash/omit';
 import get from 'lodash/get';
 import { combineReducers } from 'redux';
 
@@ -63,5 +62,5 @@ export function getPagination(state, path) {
       count: 0,
     };
   }
-  return omit(paginationState, 'ids');
+  return paginationState;
 }
