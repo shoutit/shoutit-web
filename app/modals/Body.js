@@ -5,14 +5,9 @@ export default class Body extends Component {
     children: PropTypes.node.isRequired,
     style: PropTypes.object,
   };
-
-  getDOMNode() {
-    return this.node;
-  }
-
   render() {
     return (
-      <div ref={ el => { this.node = el; } } className="ModalBody" style={ this.props.style }>
+      <div className="ModalBody" style={ this.props.style }>
         { this.props.children }
       </div>
     );
