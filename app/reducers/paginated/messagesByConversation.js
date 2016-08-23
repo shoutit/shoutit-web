@@ -26,30 +26,25 @@ export function getMessageReadBy(state, message) {
     .filter(readBy =>
       message.profile && readBy.profileId !== message.profile.id && readBy.profileId !== state.session.user && state.entities.users[readBy.profileId]
     )
-    .map(readBy => {
-      return {
-        ...readBy,
-        profile: state.entities.users[readBy.profileId],
-      };
-    });
+    .map(readBy => ({
+      ...readBy,
+      profile: state.entities.users[readBy.profileId],
+    }));
 }
 
 export function getMessagesByConversation(state, id) {
   const paginated = state.paginated.messagesByConversation[id];
-  if (!paginated) {
-    return [];
+  if (!paginated || !paginated.ids) {
+    return undefined;
   }
-  const messages = paginated.ids
-  .map(id =>
-    denormalize(state.entities.messages[id], state.entities, 'MESSAGE')
-  )
-  .sort((a, b) => a.createdAt - b.createdAt)
-  .map(message => ({
-    ...message,
-    readBy: getMessageReadBy(state, message),
-  }));
-  return messages;
+  return denormalize(paginated.ids, state.entities, 'MESSAGES')
+    .sort((a, b) => a.createdAt - b.createdAt)
+    .map(message => ({
+      ...message,
+      readBy: getMessageReadBy(state, message),
+    }));
 }
 
-export const getPaginationState = (state, id) =>
-  getPagination(state, ['messagesByConversation', id]);
+export function getPaginationState(state, id) {
+  return getPagination(state, ['messagesByConversation', id]);
+}
