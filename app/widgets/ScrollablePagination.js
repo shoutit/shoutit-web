@@ -1,5 +1,6 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import debug from 'debug';
+import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 
 import Scrollable from '../layout/Scrollable';
 
@@ -10,9 +11,8 @@ export default class ScrollablePagination extends Component {
   static propTypes = {
     loadData: PropTypes.func.isRequired,
     scrollElement: PropTypes.func,
-    isFetching: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
-    endpoint: PropTypes.string,
+    ...PaginationPropTypes,
   }
 
   constructor(props) {
@@ -21,32 +21,56 @@ export default class ScrollablePagination extends Component {
   }
 
   componentDidMount() {
-    log('Loading data after component is mounted', this.props.endpoint || 'No endpoint given');
-    this.props.loadData(this.props.endpoint);
+    const params = this.getLoadParams();
+    log('Loading data after component is mounted...');
+    if (this.props.ids) {
+      delete params.endpoint;
+      log('Will refresh the current page size');
+      params.query = {
+        page_size: this.props.ids.length,
+      };
+    }
+    this.loadData(params);
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.endpoint !== prevProps.endpoint) {
-      this.loadDataIfNeeded();
+    if (this.props.nextUrl !== prevProps.nextUrl) {
+      // this.loadDataIfNeeded();
     }
+  }
+
+  getLoadParams() {
+    return {
+      endpoint: this.props.nextUrl,
+    };
+  }
+
+  loadData(params) {
+    log('Loading data with params', params);
+    this.props.loadData(params);
   }
 
   loadDataIfNeeded() {
-    const { isFetching, endpoint, loadData } = this.props;
-    if (isFetching) {
+    log('Loading data if needed...');
+    if (this.props.isFetching) {
+      log('Will not load since already fetching');
+      return;
+    }
+    if (!this.props.nextUrl) {
+      log('Will not load since there\'s no next url');
       return;
     }
     if (this.scrollable.canScroll()) {
-      // ignore if user can scroll, which will trigger a new load data
+      log('Will not load since there\'s space to scroll');
       return;
     }
-    log('Loading data after component has been updated', endpoint);
-    loadData(this.props.endpoint);
+    this.loadData(this.getLoadParams());
   }
 
   handleScrollBottom() {
-    if (this.props.endpoint) {
-      this.props.loadData(this.props.endpoint);
+    log('Scrolled to bottom');
+    if (this.props.nextUrl) {
+      this.loadData(this.getLoadParams());
     }
   }
 
