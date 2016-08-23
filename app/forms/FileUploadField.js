@@ -278,7 +278,7 @@ export default class FileUploadField extends Component {
           ref={ el => { this.dropzone = el; } }>
           <div className="FileUploadField-instructions">
             <FormattedMessage
-              id="ui.fileUpload.instrutions"
+              id="ui.fileUpload.instructions"
               defaultMessage="To upload files, click on {icon} or drop them here"
               values={ { icon: <Icon name="camera" size="small" hover onClick={ this.open } /> } }
             />

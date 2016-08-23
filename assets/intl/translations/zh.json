@@ -309,7 +309,7 @@
   "tagListenersModal": "聆听 {name}",
   "ui.CurrencySelect.emptyOptionLabel": "货币",
   "ui.PublishToFacebook.label": "发布到Facebook",
-  "ui.fileUpload.instrutions": "上传资料，点击 {icon} 或拖拽至此",
+  "ui.fileUpload.instructions": "上传资料，点击 {icon} 或拖拽至此",
   "ui.imageUploadModal.CancelButton": "取消",
   "ui.imageUploadModal.fieldLabel": "上传照片",
   "ui.imageUploadModal.submitLabel": "{imagesCount, plural, one {发送照片} two {发送#照片} other {发送#照片}}",

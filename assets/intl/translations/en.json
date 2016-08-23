@@ -309,7 +309,7 @@
   "tagListenersModal": "Listening to {name}",
   "ui.CurrencySelect.emptyOptionLabel": "Currency",
   "ui.PublishToFacebook.label": "Publish to Facebook",
-  "ui.fileUpload.instrutions": "To upload files, click on {icon} or drop them here",
+  "ui.fileUpload.instructions": "To upload files, click on {icon} or drop them here",
   "ui.imageUploadModal.CancelButton": "Cancel",
   "ui.imageUploadModal.fieldLabel": "Upload images",
   "ui.imageUploadModal.submitLabel": "{imagesCount, plural, one {Send image} two {Send # images} other {Send # images}}",

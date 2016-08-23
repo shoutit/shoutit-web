@@ -309,7 +309,7 @@
   "tagListenersModal": "Oyendo a {name}",
   "ui.CurrencySelect.emptyOptionLabel": "Moneda",
   "ui.PublishToFacebook.label": "Publicar en Facebook",
-  "ui.fileUpload.instrutions": "Para cargar imagenes, haga click en {icon} o arrástre el archivo hasta aca",
+  "ui.fileUpload.instructions": "Para cargar imagenes, haga click en {icon} o arrástre el archivo hasta aca",
   "ui.imageUploadModal.CancelButton": "Cancelar",
   "ui.imageUploadModal.fieldLabel": "Cargar imágenes",
   "ui.imageUploadModal.submitLabel": "{imagesCount, plural, one {Enviar imagen} two {Enviar # imágenes} other {Enviar # imágenes}}",
