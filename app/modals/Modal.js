@@ -1,6 +1,9 @@
+/* eslint react/no-find-dom-node: 0 */
 /* eslint-env browser */
 
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
+
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import debug from 'debug';
 import classNames from 'classnames';
@@ -78,39 +81,27 @@ export default class Modal extends Component {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillUpdate(nextProps) {
     if (this.props.loading && !nextProps.loading) {
-      this.setState({ didJustFinishToLoad: true }, () => {
-        setTimeout(() => {
-          this.setState({ didJustFinishToLoad: false });
-        }, 250);
+      this.setState({
+        didJustFinishToLoad: true,
+      }, () => {
+        this.finishLoadTimeoutId = setTimeout(() =>
+          this.setState({
+            didJustFinishToLoad: false,
+          }), 250);
       });
     }
   }
 
-
   componentWillUnmount() {
     preventBodyScroll().off();
     clearTimeout(this.leaveTimeoutId);
+    clearTimeout(this.finishLoadTimeoutId);
     window.removeEventListener('keyup', this.handleWindowKeyup);
     if (this.props.autoSize) {
       window.removeEventListener('resize', this.handleWindowResize);
     }
-  }
-
-  getHeader() {
-    const header = React.Children.toArray(this.props.children).find(child => child.type === Header);
-    if (!header) {
-      return undefined;
-    }
-    const props = {
-      ref: el => { this.header = el; },
-      onCloseClick: this.hide,
-    };
-    if (this.props.preventClose) {
-      props.closeButton = false;
-    }
-    return React.cloneElement(header, props);
   }
 
   getHeaderHeight() {
@@ -120,14 +111,6 @@ export default class Modal extends Component {
     return this.header.getHeight();
   }
 
-  getBodyFixed() {
-    const bodyFixed = React.Children.toArray(this.props.children).find(child => child.type === BodyFixed);
-    if (!bodyFixed) {
-      return null;
-    }
-    return React.cloneElement(bodyFixed, { ref: el => { this.bodyFixed = el; } });
-  }
-
   getBodyFixedHeight() {
     if (!this.bodyFixed) {
       return 0;
@@ -135,22 +118,8 @@ export default class Modal extends Component {
     return this.bodyFixed.getHeight();
   }
 
-  getBody() {
-    let body = React.Children.toArray(this.props.children).find(child => child.type === Body);
-    if (body && this.props.autoSize) {
-      body = React.cloneElement(body, {
-        style: this.state.bodyStyle,
-      });
-    }
-    return body;
-  }
-
-  getFooter() {
-    const footer = React.Children.toArray(this.props.children).find(child => child.type === Footer);
-    if (!footer) {
-      return null;
-    }
-    return React.cloneElement(footer, { ref: el => { this.footer = el; } });
+  getBodyNode() {
+    return ReactDOM.findDOMNode(this).getElementsByClassName('ModalBody')[0];
   }
 
   getFooterHeight() {
@@ -227,6 +196,47 @@ export default class Modal extends Component {
     this.hide();
   }
 
+  renderHeader() {
+    const header = React.Children.toArray(this.props.children).find(child => child.type === Header);
+    if (!header) {
+      return undefined;
+    }
+    const props = {
+      ref: el => { this.header = el; },
+      onCloseClick: this.hide,
+    };
+    if (this.props.preventClose) {
+      props.closeButton = false;
+    }
+    return React.cloneElement(header, props);
+  }
+
+  renderBodyFixed() {
+    const bodyFixed = React.Children.toArray(this.props.children).find(child => child.type === BodyFixed);
+    if (!bodyFixed) {
+      return null;
+    }
+    return React.cloneElement(bodyFixed, { ref: el => { this.bodyFixed = el; } });
+  }
+
+  renderBody() {
+    let body = React.Children.toArray(this.props.children).find(child => child.type === Body);
+    if (body && this.props.autoSize) {
+      body = React.cloneElement(body, {
+        style: this.state.bodyStyle,
+      });
+    }
+    return body;
+  }
+
+  renderFooter() {
+    const footer = React.Children.toArray(this.props.children).find(child => child.type === Footer);
+    if (!footer) {
+      return null;
+    }
+    return React.cloneElement(footer, { ref: el => { this.footer = el; } });
+  }
+
   render() {
     const modalClassName = classNames('Modal', {
       loading: this.props.loading,
@@ -278,10 +288,10 @@ export default class Modal extends Component {
                   tabIndex={ 0 }
                   style={ { top: this.state.contentTop } }>
                   { this.props.loading && <Progress animate /> }
-                  { this.getHeader() }
-                  { this.getBodyFixed() }
-                  { this.getBody() }
-                  { this.getFooter() }
+                  { this.renderHeader() }
+                  { this.renderBodyFixed() }
+                  { this.renderBody() }
+                  { this.renderFooter() }
                 </div>
               </div>
             </div>
