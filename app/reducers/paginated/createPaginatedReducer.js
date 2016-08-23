@@ -55,7 +55,7 @@ export default function createPaginatedReducer({
     nextUrl: undefined,
     previousUrl: undefined,
     count: undefined,
-    ids: [],
+    ids: undefined,
     error: undefined,
   }, action) {
     switch (action.type) {
