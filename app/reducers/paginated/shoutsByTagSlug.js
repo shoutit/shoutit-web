@@ -26,13 +26,11 @@ export default function (state = {}, action) {
 }
 
 export function getShoutsByTagSlug(state, slug) {
-  const shoutsByTagSlug = state.paginated.shoutsByTagSlug[slug];
-  if (!shoutsByTagSlug) {
-    return [];
+  const paginated = state.paginated.shoutsByTagSlug[slug];
+  if (!paginated) {
+    return undefined;
   }
-  return shoutsByTagSlug.ids.map(id =>
-    denormalize(state.entities.shouts[id], state.entities, 'SHOUT')
-  );
+  return denormalize(paginated.ids, state.entities, 'SHOUTS');
 }
 
 export function getPaginationState(state, slug) {

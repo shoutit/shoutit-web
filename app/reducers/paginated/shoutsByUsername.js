@@ -16,11 +16,9 @@ export default createPaginatedReducer({
 export function getShoutsByUsername(state, username) {
   const paginated = state.paginated.shoutsByUsername[username];
   if (!paginated) {
-    return [];
+    return undefined;
   }
-  return paginated.ids.map(id =>
-    denormalize(state.entities.shouts[id], state.entities, 'SHOUT')
-  );
+  return denormalize(paginated.ids, state.entities, 'SHOUTS');
 }
 
 export function getPaginationState(state, username) {
