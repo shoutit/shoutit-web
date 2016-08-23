@@ -49,7 +49,7 @@ export class ConversationMessages extends Component {
 
   render() {
     const { isFetching, error, conversation, messages } = this.props;
-    const uniqueId = messages.length > 0 ? messages[messages.length - 1].id : 'empty';
+    const uniqueId = (messages && messages.length > 0) ? messages[messages.length - 1].id : 'empty';
     return (
       <Scrollable
         preventDocumentScroll
@@ -66,7 +66,7 @@ export class ConversationMessages extends Component {
             </div>
           }
 
-          { messages.length > 0 &&
+          { messages && messages.length > 0 &&
             <MessagesList messages={ messages } />
           }
 
