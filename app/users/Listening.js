@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import Panel, { PanelTitle, PanelList } from '../layout/Panel';
 import ProfileListItem from '../users/ProfileListItem';
-import { denormalize } from '../schemas';
+import { getListeningByProfile } from '../reducers/paginated/listeningByUser';
 
 export function Listening({ profiles }) {
   if (profiles.length === 0) {
@@ -30,16 +30,7 @@ Listening.propTypes = {
   byProfile: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => {
-  let profiles = [];
-  const { byProfile } = ownProps;
-  if (state.paginated.listeningByUser[byProfile.id]) {
-    profiles = state.paginated.listeningByUser[byProfile.id].ids.map(
-      id => denormalize(state.entities.users[id], state.entities, 'PROFILE')
-    );
-  }
-  return {
-    profiles,
-  };
-};
+const mapStateToProps = (state, ownProps) => ({
+  profiles: getListeningByProfile(state, ownProps.byProfile),
+});
 export default connect(mapStateToProps)(Listening);
