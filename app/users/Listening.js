@@ -6,7 +6,7 @@ import ProfileListItem from '../users/ProfileListItem';
 import { getListeningByProfile } from '../reducers/paginated/listeningByUser';
 
 export function Listening({ profiles }) {
-  if (profiles.length === 0) {
+  if (!profiles || profiles.length === 0) {
     return <span />;
   }
   return (
@@ -18,7 +18,7 @@ export function Listening({ profiles }) {
         />
       </PanelTitle>
       <PanelList>
-      { profiles.map(profile =>
+      { profiles && profiles.map(profile =>
         <ProfileListItem key={ profile.id } profile={ profile } />) }
       </PanelList>
     </Panel>
