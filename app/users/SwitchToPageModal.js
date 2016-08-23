@@ -1,6 +1,8 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { FormattedMessage } from 'react-intl';
+
+import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 
 import { getPagesByUsername, getPaginationState } from '../reducers/paginated/pagesByUsername';
 import { loadPages } from '../actions/users';
@@ -15,48 +17,38 @@ export class SwitchToPageModal extends Component {
 
   static propTypes = {
     pages: PropTypes.array.isRequired,
-    onShoutClick: PropTypes.func.isRequired,
     loadPages: PropTypes.func.isRequired,
-    isFetching: PropTypes.func.boolean,
-    nextUrl: PropTypes.string,
+    pagination: PropTypes.shape(PaginationPropTypes),
   }
 
   constructor(props) {
     super(props);
     this.handlePageClick = this.handlePageClick.bind(this);
-    this.hide = this.hide.bind(this);
   }
 
   modal = null
-  closeButton = null
-  body = null
 
   handlePageClick(e) {
     e.preventDefault();
-    this.hide();
-  }
-
-  hide() {
     this.modal.hide();
   }
 
   render() {
-    const { pages, isFetching, nextUrl, loadPages, ...modalProps } = this.props;
+    const { pages, pagination, loadPages, ...modalProps } = this.props;
     return (
       <ScrollablePagination
-        scrollElement={ () => this.body.getDOMNode() }
-        isFetching={ isFetching }
-        endpoint={ nextUrl }
+        { ...pagination }
+        scrollElement={ () => this.modal.getBodyNode() }
         loadData={ endpoint => loadPages(endpoint) }>
         <Modal
           { ...modalProps }
-          ref={ el => { this.modal = el; } }
-          loading={ !pages || (pages.length === 0 && isFetching) }
+          ref={ el => this.modal = el }
+          loading={ !pages }
           size="small" >
           <Header closeButton>
             Use Shoutit as page
           </Header>
-          <Body ref={ el => { this.body = el; } }>
+          <Body>
             { pages && pages.map(page =>
               <ProfileListItem
                 key={ page.id }
@@ -65,18 +57,15 @@ export class SwitchToPageModal extends Component {
                 profile={ page }
                 onClick={ this.handlePageClick } />
             )}
-            { pages && pages.length === 0 && !isFetching &&
+            { pages && pages.length === 0 &&
               <p>
                 You don't have any page.
               </p>
             }
-            <Progress animate={ isFetching } />
+            <Progress animate={ pagination.isFetching && pages && pages.length > 0 } />
           </Body>
           <Footer>
-            <Button
-              ref={ el => { this.closeButton = el; } }
-              kind="primary"
-              onClick={ this.hide }>
+            <Button kind="primary" onClick={ () => this.modal.hide() }>
               Close
             </Button>
           </Footer>
@@ -88,13 +77,11 @@ export class SwitchToPageModal extends Component {
 
 const mapStateToProps = state => ({
   pages: getPagesByUsername(state, 'me'),
-  ...getPaginationState(state, 'me'),
+  pagination: getPaginationState(state, 'me'),
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadPages: nextUrl => {
-    dispatch(loadPages('me', nextUrl));
-  },
+  loadPages: params => dispatch(loadPages('me', params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwitchToPageModal);
