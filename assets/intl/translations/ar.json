@@ -309,7 +309,7 @@
   "tagListenersModal": "تستمع إلى {name}",
   "ui.CurrencySelect.emptyOptionLabel": "العملة",
   "ui.PublishToFacebook.label": "مشاركة على الفيسبوك",
-  "ui.fileUpload.instrutions": "لتحميل الصور, اضغط على {icon} أو اسحبهم الى هنا",
+  "ui.fileUpload.instructions": "لتحميل الصور, اضغط على {icon} أو اسحبهم الى هنا",
   "ui.imageUploadModal.CancelButton": "إلغاء",
   "ui.imageUploadModal.fieldLabel": "رفع الصور",
   "ui.imageUploadModal.submitLabel": "{imagesCount, plural, one {ارسل صورة} two {ارسل صورتين} other {ارسل # صور}}",

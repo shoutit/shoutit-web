@@ -173,7 +173,8 @@ export default class FormField extends Component {
     let fieldElement;
     if (field) {
       delete props.error;
-
+      delete props.errorLocation;
+      delete props.intl;
       fieldElement = React.createElement(field, {
         ...props,
         value,

@@ -46,6 +46,7 @@
 .Gallery-video {
   text-align: center;
   video {
+    max-width: 100%;
     height: 100%;
   }
 }
@@ -69,13 +70,13 @@
 
   .Gallery-nav-next {
     right: 0;
-    width: 60%;
+    width: 0;
     align-items: flex-end;
   }
 
   .Gallery-nav-previous {
     left: 0;
-    width: 40%;
+    width: 0;
   }
    @include desktop() {
      display: block;

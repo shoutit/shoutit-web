@@ -13,7 +13,7 @@ import ShoutForm from './ShoutForm';
 
 import './CreateShoutModal.scss';
 
-export class UpdateShout extends Component {
+export class UpdateShoutModal extends Component {
 
   static propTypes = {
     shoutId: PropTypes.string.isRequired,
@@ -165,4 +165,4 @@ const mapDispatchToProps = dispatch => ({
   onSubmit: (shout, removedImages) => dispatch(updateShout(shout, removedImages)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateShout);
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateShoutModal);
