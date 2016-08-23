@@ -1,19 +1,6 @@
-import request from '../utils/request';
-import { parseApiError } from '../utils/APIUtils';
+import createService from './createService';
 
-export default {
+export default createService({
   name: 'listeningTags',
-  read: (req, resource, { username, endpoint }, config, callback) => {
-    const url = endpoint || `/profiles/${username}/interests`;
-    request
-      .get(url)
-      .use(req)
-      .prefix()
-      .end((err, res) => {
-        if (err) {
-          return callback(parseApiError(err));
-        }
-        return callback(null, res.body);
-      });
-  },
-};
+  read: '/profiles/${username}/interests',
+});
