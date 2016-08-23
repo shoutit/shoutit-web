@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import SimpleIcon from '../icons/SimpleIcon';
 
-export default class Header extends Component {
+export default class ModalHeader extends Component {
 
   static propTypes = {
     children: PropTypes.node.isRequired,
