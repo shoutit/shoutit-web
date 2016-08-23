@@ -18,7 +18,7 @@ export function loadUser(username) {
   };
 }
 
-export function loadPages(username, endpoint) {
+export function loadPages(username, { endpoint, query }) {
   return {
     types: [
       actionTypes.LOAD_PROFILE_PAGES_START,
@@ -28,7 +28,11 @@ export function loadPages(username, endpoint) {
     payload: { username },
     service: {
       name: 'profilePages',
-      params: { username, endpoint },
+      params: {
+        username,
+        endpoint,
+        query,
+      },
       schema: PROFILES,
     },
   };
@@ -66,7 +70,8 @@ export function loadListeningProfiles(user, endpoint) {
   };
 }
 
-export function loadListeningTags(user, endpoint) {
+export function loadListeningTags(user, { endpoint, query }) {
+  const { username } = user;
   return {
     types: [
       actionTypes.LOAD_LISTENING_TAGS_START,
@@ -76,7 +81,11 @@ export function loadListeningTags(user, endpoint) {
     payload: { user },
     service: {
       name: 'listeningTags',
-      params: { username: user.username, endpoint },
+      params: {
+        endpoint,
+        query,
+        username,
+      },
       schema: TAGS,
     },
   };
