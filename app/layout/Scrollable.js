@@ -28,7 +28,7 @@ export default class Scrollable extends Component {
 
   static defaultProps = {
     initialScroll: 'top',
-    triggerOffset: 0,
+    triggerOffset: 10, // for some reasons a small offset is required to detect the scroll to the bottom
     preventDocumentScroll: false,
   };
 
@@ -49,30 +49,32 @@ export default class Scrollable extends Component {
 
   componentDidMount() {
     const scrollHeight = this.getScrollHeight();
-    log('Component did mount: setting state.scrollHeight to %s', scrollHeight);
+    const scrollElement = this.getScrollElement();
+    log('Component did mount: setting state.scrollHeight to %s', scrollHeight, scrollElement);
     this.setState({ scrollHeight }, this.scrollToInitialPosition); // eslint-disable-line
-    this.getScrollElement().addEventListener('scroll', this.handleScroll);
+    scrollElement.addEventListener('scroll', this.handleScroll);
 
     if (this.props.preventDocumentScroll) {
-      this.getScrollElement().addEventListener('mouseenter', this.handleMouseEnter);
-      this.getScrollElement().addEventListener('mouseleave', this.handleMouseLeave);
+      scrollElement.addEventListener('mouseenter', this.handleMouseEnter);
+      scrollElement.addEventListener('mouseleave', this.handleMouseLeave);
     }
   }
 
   componentDidUpdate(prevProps) {
+    const scrollHeight = this.getScrollHeight();
+
     if (prevProps.uniqueId !== this.props.uniqueId) {
-      const scrollHeight = this.getScrollHeight();
       log('Component unique id did change: setting state.scrollHeight to %s', scrollHeight);
       this.setState({ scrollHeight, didScrollToBottom: false }, this.scrollToInitialPosition); // eslint-disable-line
       return;
     }
 
-    const scrollHeight = this.getScrollHeight();
     if (scrollHeight !== this.state.scrollHeight) {
       log('Component has a different scrollHeight %s (was %s)', this.state.scrollHeight, scrollHeight);
       if (this.props.initialScroll === 'bottom') {
-        this.getScrollable().scrollTop = (scrollHeight - this.state.scrollHeight) + this.state.scrollTop;
-        log('Set scrollTop to %s', this.getScrollable().scrollTop);
+        const scrollable = this.getScrollable();
+        scrollable.scrollTop = (scrollHeight - this.state.scrollHeight) + this.state.scrollTop;
+        log('Set scrollTop to %s', scrollable.scrollTop);
       }
       this.setState({ scrollHeight, didScrollToBottom: false }); // eslint-disable-line
       return;
@@ -80,10 +82,11 @@ export default class Scrollable extends Component {
   }
 
   componentWillUnmount() {
-    this.getScrollElement().removeEventListener('scroll', this.handleScroll);
+    const scrollElement = this.getScrollElement();
+    scrollElement.removeEventListener('scroll', this.handleScroll);
     if (this.props.preventDocumentScroll) {
-      this.getScrollElement().removeEventListener('mouseenter', this.handleMouseEnter);
-      this.getScrollElement().removeEventListener('mouseleave', this.handleMouseLeave);
+      scrollElement.removeEventListener('mouseenter', this.handleMouseEnter);
+      scrollElement.removeEventListener('mouseleave', this.handleMouseLeave);
       preventBodyScroll().off();
     }
   }
@@ -151,12 +154,18 @@ export default class Scrollable extends Component {
     if (onScroll) {
       onScroll(e);
     }
+
     // log('Scrolling... scrollTop: %s, offsetHeight: %s, triggerOffset: %s, scrollHeight: %s', scrollTop, offsetHeight, triggerOffset, scrollHeight);
+
     if (onScrollTop && scrollTop === 0) {
       log('Scrolled on top, call onScrollTop handler');
       onScrollTop(e);
-    } else if (!didScrollToBottom && onScrollBottom && scrollTop + offsetHeight + triggerOffset >= scrollHeight) {
-      log('Scrolled on bottom: call onScrollBottom handler (triggerOffset was %spx)', triggerOffset);
+      return;
+    }
+    const isAtBottom = scrollTop + offsetHeight + triggerOffset >= scrollHeight;
+    // log('isAtBottom', isAtBottom, didScrollToBottom, onScrollBottom);
+    if (!didScrollToBottom && !!onScrollBottom && isAtBottom) {
+      log('Scrolled to the bottom: call onScrollBottom handler (triggerOffset was %spx)', triggerOffset);
       this.setState({ didScrollToBottom: true }, () => onScrollBottom(e));
     }
     this.setState({ scrollTop });
@@ -165,7 +174,7 @@ export default class Scrollable extends Component {
   render() {
     return (
       <div
-        ref={ el => { this.node = el; } }
+        ref={ el => this.node = el }
         style={ this.props.style }
         className={ this.props.className }>
         { this.props.children }
