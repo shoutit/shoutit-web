@@ -7,7 +7,7 @@ import Modal, { Header, Footer, Body, BodyFixed } from '../modals';
 import Button from '../forms/Button';
 import SegmentedControl from '../forms/SegmentedControl';
 
-import './ProfilesModal.scss';
+import './LoggedUserProfilesModal.scss';
 
 const MESSAGES = defineMessages({
   listeners: {
@@ -23,7 +23,7 @@ const MESSAGES = defineMessages({
     defaultMessage: 'Close',
   },
 });
-export class ProfilesModal extends Component {
+export class LoggedUserProfilesModal extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -68,7 +68,7 @@ export class ProfilesModal extends Component {
           { title }
         </Header>
         <BodyFixed>
-          <div className="ProfilesModal-selectedControl">
+          <div className="LoggedUserProfilesModal-selectedControl">
             <SegmentedControl value={ this.state.type } ref="type" name="type" options={ [
               { label: intl.formatMessage(MESSAGES.listeners), value: 'listeners' },
               { label: intl.formatMessage(MESSAGES.listening), value: 'listening' },
@@ -96,4 +96,4 @@ const mapStateToProps = state => ({
   profile: getLoggedUser(state),
 });
 
-export default connect(mapStateToProps)(injectIntl(ProfilesModal));
+export default connect(mapStateToProps)(injectIntl(LoggedUserProfilesModal));

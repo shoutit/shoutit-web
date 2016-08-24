@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { getLoggedUser } from '../reducers/session';
 
 import { openModal } from '../actions/ui';
-import ProfilesModal from '../users/ProfilesModal';
+import LoggedUserProfilesModal from '../users/LoggedUserProfilesModal';
 import UserShoutsModal from '../shouts/UserShoutsModal';
 import ImageUploadModal from '../modals/ImageUploadModal';
 import Icon from '../widgets/Icon';
@@ -14,7 +14,7 @@ import FileInput from '../forms/FileInput';
 
 import './ReplyFormToolbar.scss';
 
-export function ReplyFormToolbar({ openShoutModal, openImageUpload, openProfilesModal, loggedUser }) {
+export function ReplyFormToolbar({ openShoutModal, openImageUpload, openLoggedUserProfilesModal, loggedUser }) {
   return (
     <span className="ReplyFormToolbar">
       <span className="ReplyFormToolbar-start">
@@ -51,7 +51,7 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload, openProfiles
                 id="chat.replyFormToolbar.attachProfile.buttonTooltip"
                 defaultMessage="Send a profile" />
             }>
-            <span className="ReplyFormToolbar-item" onClick={ () => openProfilesModal() }>
+            <span className="ReplyFormToolbar-item" onClick={ () => openLoggedUserProfilesModal() }>
               <Icon name="profile" size="x-small" hover />
             </span>
           </Tooltip>
@@ -71,7 +71,7 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload, openProfiles
 ReplyFormToolbar.propTypes = {
   loggedUser: PropTypes.object.isRequired,
   onAttachment: PropTypes.func.isRequired,
-  openProfilesModal: PropTypes.func.isRequired,
+  openLoggedUserProfilesModal: PropTypes.func.isRequired,
   openShoutModal: PropTypes.func.isRequired,
   openImageUpload: PropTypes.func.isRequired,
 };
@@ -116,9 +116,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ));
   },
 
-  openProfilesModal: () => {
+  openLoggedUserProfilesModal: () => {
     dispatch(openModal(
-      <ProfilesModal
+      <LoggedUserProfilesModal
         title={
           <FormattedMessage
             id="chat.replyFormToolbar.attachProfile.modalTitle"
