@@ -4,7 +4,7 @@ import Progress from '../widgets/Progress';
 import Scrollable from '../layout/Scrollable';
 import ProfileListItem from '../users/ProfileListItem';
 
-import './ProfilesScrollableList.scss';
+// import './ProfilesScrollableList.scss';
 
 export default class ProfilesScrollableList extends Component {
 
