@@ -11,6 +11,7 @@ import classNames from 'classnames';
 import Header from './Header';
 import BodyFixed from './BodyFixed';
 import Body from './Body';
+import BodyPaginated from './BodyPaginated';
 import Footer from './Footer';
 import Progress from '../widgets/Progress';
 
@@ -26,36 +27,28 @@ const CONTENT_TOP_LARGE = 200;
 const CONTENT_TOP_LARGE_TRIGGER = 1050; // how much should window be small to use small content's top
 const MARGIN_BOTTOM = 75;
 const BODY_MAX_HEIGHT = 600;
+const LEAVE_TIMEOUT = 250;
 
 export default class Modal extends Component {
 
   static propTypes = {
-    size: PropTypes.oneOf(['medium', 'small', 'x-small', 'large']),
-    scrollableBody: PropTypes.bool,
-    children: PropTypes.node,
-    title: PropTypes.node,
-    closeButton: PropTypes.bool,
     onHide: PropTypes.func.isRequired,
-    show: PropTypes.bool,
-    preventClose: PropTypes.bool,
-    loading: PropTypes.bool,
-    leaveTimeout: PropTypes.number,
+
     autoSize: PropTypes.bool,
+    children: PropTypes.node,
     enterAnimation: PropTypes.bool,
+    loading: PropTypes.bool,
+    preventClose: PropTypes.bool,
+    size: PropTypes.oneOf(['medium', 'small', 'x-small', 'large']),
   }
 
   static defaultProps = {
     size: 'medium',
-    scrollableBody: false,
     backdrop: true,
-    closeButton: true,
-    show: true,
     preventClose: false,
     autoSize: true,
     loading: false,
     enterAnimation: true,
-
-    leaveTimeout: 250,
   }
 
   constructor(props) {
@@ -65,10 +58,10 @@ export default class Modal extends Component {
     this.handleWindowResize = this.handleWindowResize.bind(this);
     this.handleBackdropClick = this.handleBackdropClick.bind(this);
     this.state = {
-      show: props.show,
-      contentTop: props.autoSize ? CONTENT_TOP_DEFAULT : 0,
+      contentTop: CONTENT_TOP_DEFAULT,
       bodyStyle: null,
-      didJustFinishToLoad: false,
+      hideBody: false,
+      show: true,
     };
   }
 
@@ -83,12 +76,14 @@ export default class Modal extends Component {
 
   componentWillUpdate(nextProps) {
     if (this.props.loading && !nextProps.loading) {
+      // Hide the content until the animation did finish
       this.setState({
-        didJustFinishToLoad: true,
+        hideBody: true,
       }, () => {
+        this.setSize();
         this.finishLoadTimeoutId = setTimeout(() =>
           this.setState({
-            didJustFinishToLoad: false,
+            hideBody: false,
           }), 250);
       });
     }
@@ -140,11 +135,16 @@ export default class Modal extends Component {
       newState.contentTop = CONTENT_TOP_DEFAULT;
     }
     if (this.props.autoSize) {
-      let maxHeight = documentHeight - newState.contentTop - MARGIN_BOTTOM - this.getHeaderHeight() - this.getBodyFixedHeight() - this.getFooterHeight();
+      let maxHeight = documentHeight;
+      maxHeight -= newState.contentTop;
+      maxHeight -= MARGIN_BOTTOM;
+      maxHeight -= this.getHeaderHeight();
+      maxHeight -= this.getBodyFixedHeight();
+      maxHeight -= this.getFooterHeight();
       if (maxHeight > BODY_MAX_HEIGHT) {
         maxHeight = BODY_MAX_HEIGHT;
       }
-      newState.bodyStyle = { maxHeight };
+      newState.bodyStyle = { height: maxHeight };
     }
     if (Object.keys(newState).length > 0) {
       this.setState(newState);
@@ -158,11 +158,8 @@ export default class Modal extends Component {
     log('Hiding modal...');
     this.setState({ show: false }, () => {
       if (this.props.onHide) {
-        log('Calling hide handler after %sms...', this.props.leaveTimeout);
-        this.leaveTimeoutId = setTimeout(
-          this.props.onHide,
-          this.props.leaveTimeout
-        );
+        log('Calling hide handler after %sms...', LEAVE_TIMEOUT);
+        this.leaveTimeoutId = setTimeout(this.props.onHide, LEAVE_TIMEOUT);
       }
     });
   }
@@ -197,7 +194,9 @@ export default class Modal extends Component {
   }
 
   renderHeader() {
-    const header = React.Children.toArray(this.props.children).find(child => child.type === Header);
+    const header = React.Children.toArray(this.props.children).find(child =>
+      child.type === Header
+    );
     if (!header) {
       return undefined;
     }
@@ -205,22 +204,25 @@ export default class Modal extends Component {
       ref: el => { this.header = el; },
       onCloseClick: this.hide,
     };
-    if (this.props.preventClose) {
-      props.closeButton = false;
-    }
     return React.cloneElement(header, props);
   }
 
   renderBodyFixed() {
-    const bodyFixed = React.Children.toArray(this.props.children).find(child => child.type === BodyFixed);
+    const bodyFixed = React.Children.toArray(this.props.children).find(child =>
+      child.type === BodyFixed
+    );
     if (!bodyFixed) {
       return null;
     }
-    return React.cloneElement(bodyFixed, { ref: el => { this.bodyFixed = el; } });
+    return React.cloneElement(bodyFixed, {
+      ref: el => this.bodyFixed = el,
+    });
   }
 
   renderBody() {
-    let body = React.Children.toArray(this.props.children).find(child => child.type === Body);
+    let body = React.Children.toArray(this.props.children).find(child =>
+      child.type === Body || child.type === BodyPaginated
+    );
     if (body && this.props.autoSize) {
       body = React.cloneElement(body, {
         style: {
@@ -233,19 +235,22 @@ export default class Modal extends Component {
   }
 
   renderFooter() {
-    const footer = React.Children.toArray(this.props.children).find(child => child.type === Footer);
+    const footer = React.Children.toArray(this.props.children).find(child =>
+      child.type === Footer
+    );
     if (!footer) {
       return null;
     }
-    return React.cloneElement(footer, { ref: el => { this.footer = el; } });
+    return React.cloneElement(footer, {
+      ref: el => this.footer = el,
+    });
   }
 
   render() {
     const modalClassName = classNames('Modal', {
       loading: this.props.loading,
       enterAnimation: this.props.enterAnimation,
-      'scrollable-body': this.props.scrollableBody,
-      didJustFinishToLoad: this.state.didJustFinishToLoad,
+      hideBody: this.state.hideBody,
     });
     const backdropClassName = classNames('Modal-backdrop', {
       enterAnimation: this.props.enterAnimation,

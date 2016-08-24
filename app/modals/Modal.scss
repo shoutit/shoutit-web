@@ -76,7 +76,7 @@
 @include tablet() {
   .Modal-content {
     position: fixed;
-    top: 0;
+    top: 0 !important;
     right: 0;
     bottom: 0;
     left: 0;
@@ -162,7 +162,7 @@
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: $vertical-spacing $horizontal-spacing;
-  .Modal.didJustFinishToLoad & {
+  .Modal.hideBody & {
     visibility: hidden;
   }
   &.paginated {
@@ -184,6 +184,7 @@
     }
   }
 }
+
 
 @include tablet() {
   .ModalBody {
