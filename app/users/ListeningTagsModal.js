@@ -9,10 +9,8 @@ import { getListeningTags, getPaginationState } from '../reducers/paginated/tagL
 
 import { loadListeningTags } from '../actions/users';
 
-import Modal, { Header, Footer, Body } from '../modals';
+import Modal, { Header, Footer, BodyPaginated } from '../modals';
 import Button from '../forms/Button';
-import Progress from '../widgets/Progress';
-import ScrollablePagination from '../widgets/ScrollablePagination';
 import TagListItem from '../tags/TagListItem';
 
 export class ListeningTagsModal extends Component {
@@ -25,48 +23,44 @@ export class ListeningTagsModal extends Component {
   }
 
   modal = null
-  body = null
 
   render() {
     const { tags, pagination, loadTags, ...modalProps } = this.props;
     return (
-      <ScrollablePagination
-        { ...pagination }
-        scrollElement={ () => this.modal.getBodyNode() }
-        loadData={ loadTags }>
-        <Modal
-          { ...modalProps }
-          ref={ el => { this.modal = el; } }
-          loading={ !tags }
-          size="small" >
-          <Header closeButton>
+      <Modal
+        { ...modalProps }
+        ref={ el => this.modal = el }
+        loading={ !tags }
+        size="small" >
+        <Header closeButton>
+          <FormattedMessage
+            id="users.ListeningTagsModal.title"
+            defaultMessage="{name}’s interests"
+            values={ this.props.profile }
+          />
+        </Header>
+        <BodyPaginated
+          pagination={ pagination }
+          loadData={ loadTags }
+          showProgress={ pagination.isFetching }>
+          { tags && tags.map(tag =>
+            <TagListItem
+              key={ tag.id }
+              popover={ false }
+              tag={ tag } />
+          )}
+        </BodyPaginated>
+        <Footer>
+          <Button
+            kind="primary"
+            onClick={ () => this.modal.hide() }>
             <FormattedMessage
-              id="users.ListeningTagsModal.title"
-              defaultMessage="{name}’s interests"
-              values={ this.props.profile }
+              id="users.ListeningTagsModal.close"
+              defaultMessage="Close"
             />
-          </Header>
-          <Body ref={ el => { this.body = el; } }>
-            { tags && tags.map(tag =>
-              <TagListItem
-                key={ tag.id }
-                popover={ false }
-                tag={ tag } />
-            )}
-            <Progress animate={ pagination.isFetching } />
-          </Body>
-          <Footer>
-            <Button
-              kind="primary"
-              onClick={ () => this.modal.hide() }>
-              <FormattedMessage
-                id="users.ListeningTagsModal.close"
-                defaultMessage="Close"
-              />
-            </Button>
-          </Footer>
-        </Modal>
-      </ScrollablePagination>
+          </Button>
+        </Footer>
+      </Modal>
     );
   }
 }
