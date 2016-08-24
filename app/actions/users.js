@@ -38,7 +38,7 @@ export function loadPages(username, { endpoint, query }) {
   };
 }
 
-export function loadListeners(user, endpoint) {
+export function loadListeners(user, { endpoint, query }) {
   return {
     types: [
       actionTypes.LOAD_LISTENERS_START,
@@ -48,13 +48,17 @@ export function loadListeners(user, endpoint) {
     payload: { user },
     service: {
       name: 'listeners',
-      params: { username: user.username, endpoint },
+      params: {
+        username: user.username,
+        endpoint,
+        query,
+      },
       schema: PROFILES,
     },
   };
 }
 
-export function loadListeningProfiles(user, endpoint) {
+export function loadListeningProfiles(user, { endpoint, query } = {}) {
   return {
     types: [
       actionTypes.LOAD_LISTENING_PROFILES_START,
@@ -64,13 +68,17 @@ export function loadListeningProfiles(user, endpoint) {
     payload: { user },
     service: {
       name: 'listening',
-      params: { username: user.username, endpoint },
+      params: {
+        username: user.username,
+        endpoint,
+        query,
+      },
       schema: PROFILES,
     },
   };
 }
 
-export function loadListeningTags(user, { endpoint, query }) {
+export function loadListeningTags(user, { endpoint, query } = {}) {
   const { username } = user;
   return {
     types: [
