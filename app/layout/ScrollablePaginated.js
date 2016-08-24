@@ -21,7 +21,7 @@ export default class ScrollablePaginated extends Component {
 
   static propTypes = {
     loadData: PropTypes.func.isRequired,
-    children: PropTypes.element.isRequired,
+    children: PropTypes.node.isRequired,
     className: PropTypes.string,
     showProgress: PropTypes.bool,
     ...PaginationPropTypes,
@@ -34,15 +34,10 @@ export default class ScrollablePaginated extends Component {
 
   componentDidMount() {
     const params = this.getLoadParams();
-    log('Loading data after component is mounted...');
-    if (this.props.ids) {
-      log('Will refresh using the current page size');
-      delete params.endpoint;
-      params.query = {
-        page_size: this.props.ids.length,
-      };
+    if (!this.props.ids) {
+      log('Loading data after component is mounted...');
+      this.loadData(params);
     }
-    this.loadData(params);
   }
 
   componentDidUpdate(prevProps) {
