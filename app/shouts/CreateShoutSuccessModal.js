@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 
-import Modal, { Body } from '../modals';
+import Modal, { Body, Header } from '../modals';
 import Button from '../forms/Button';
 import HorizontalRule from '../widgets/HorizontalRule';
 import NewShoutModal from '../shouts/NewShoutModal';
@@ -14,7 +14,13 @@ import './CreateShoutSuccessModal.scss';
 
 export function CreateShoutSuccessModal({ shoutId, onNewClick, ...modalProps }) {
   return (
-    <Modal { ...modalProps } size="small">
+    <Modal { ...modalProps } autoSize={ false } size="small">
+      <Header closeButton>
+        <FormattedMessage
+          id="createShoutSuccessModal.title"
+          defaultMessage="Congratulations!"
+        />
+      </Header>
       <Body>
         <div className="CreateShoutSuccessModal">
 
