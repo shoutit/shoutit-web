@@ -3,7 +3,7 @@
 
 .CreateShoutSuccessModal {
 
-  padding: 1rem 0;
+  padding: $vertical-spacing 0;
   h2 {
     margin-top: 0;
     background-image: url('../../assets/icons/sparkle-active.svg');
@@ -19,10 +19,11 @@
     text-align: center;
     font-weight: normal;
     font-size: 1rem;
+    margin-bottom: $vertical-spacing * 2;
   }
 }
 
 .CreateShoutSuccessModal-buttons {
-  width: 200px;
+  max-width: 200px;
   margin: 0 auto;
 }

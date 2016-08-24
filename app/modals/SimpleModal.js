@@ -42,10 +42,10 @@ export default class GenericModal extends Component {
   }
 
   render() {
-    const { children, buttons, header, size, ...rest } = this.props;
+    const { children, buttons, header, size, ...props } = this.props;
 
     return (
-      <Modal { ...rest } ref={ el => { this.modal = el; } } size={ size }>
+      <Modal { ...props } autoSize={ false } ref={ el => this.modal = el } size={ size }>
         { header &&
           <Header closeButton>
             { header }

@@ -1,14 +1,13 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { closeModal } from '../actions/ui';
-import { getModal } from '../reducers/modals';
-import { getDevice } from '../reducers/browser';
+import { getModal, isAlreadyVisible } from '../reducers/modals';
 
 export class ModalHost extends Component {
 
   static propTypes = {
     modal: PropTypes.element,
-    device: PropTypes.oneOf(['smartphone', 'tablet', 'desktop']),
+    isAlreadyVisible: PropTypes.bool,
     onHide: PropTypes.func.isRequired,
   };
 
@@ -18,7 +17,7 @@ export class ModalHost extends Component {
         { this.props.modal &&
           React.cloneElement(this.props.modal, {
             onHide: this.props.onHide,
-            autoSize: this.props.device === 'desktop',
+            enterAnimation: !this.props.isAlreadyVisible,
           })
         }
       </div>
@@ -28,7 +27,7 @@ export class ModalHost extends Component {
 
 const mapStateToProps = state => ({
   modal: getModal(state),
-  device: getDevice(state),
+  isAlreadyVisible: isAlreadyVisible(state),
 });
 
 const mapDispatchToProps = dispatch => ({

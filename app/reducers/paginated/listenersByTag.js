@@ -3,6 +3,7 @@ import union from 'lodash/union';
 
 import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
+import { getPagination } from '../paginated';
 
 function listenersByTag(state = {}, action) {
   const { type, payload } = action;
@@ -74,3 +75,17 @@ export default function (state = {}, action) {
   newState = listenersByTag(newState, action);
   return newState;
 }
+
+export function getListenersByTag(state, id) {
+  const paginated = state.paginated.listenersByTag[id];
+  if (!paginated || !paginated.ids) {
+    return undefined;
+  }
+  return paginated.ids.map(id => state.entities.users[id]);
+}
+
+
+export function getPaginationState(state, id) {
+  return getPagination(state, ['listenersByTag', id]);
+}
+

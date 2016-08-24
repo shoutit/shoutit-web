@@ -4,6 +4,10 @@
     "defaultMessage": "{name}"
   },
   {
+    "id": "header.profilePopover.menu.switchToPage",
+    "defaultMessage": "Use as Page…"
+  },
+  {
     "id": "header.profilePopover.menu.setting",
     "defaultMessage": "Settings"
   },

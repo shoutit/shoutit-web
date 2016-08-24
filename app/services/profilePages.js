@@ -1,6 +1,6 @@
 import createService from './createService';
 
 export default createService({
-  name: 'listeningTags',
-  read: '/profiles/${username}/interests',
+  name: 'profilePages',
+  read: '/profiles/${username}/pages',
 });

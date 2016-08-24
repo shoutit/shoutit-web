@@ -1,10 +1,6 @@
 [
   {
     "id": "listenersModal.title",
-    "defaultMessage": "{type, select, listeners {Listening to {firstName}} listening {{firstName} is listening to}}"
-  },
-  {
-    "id": "listenersModal.closeButton",
-    "defaultMessage": "Close"
+    "defaultMessage": "{type, select, listeners {Listening to {name}} listening {{name} is listening to}}"
   }
 ]

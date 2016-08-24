@@ -1,21 +1,6 @@
-import request from '../utils/request';
-import { parseApiError } from '../utils/APIUtils';
+import createService from './createService';
 
-export default {
+export default createService({
   name: 'tagListeners',
-  read: (req, resource, { slug, endpoint, query }, config, callback) => {
-    const url = endpoint || `/tags/${slug}/listeners`;
-    request
-      .get(url)
-      .query(query)
-      .use(req)
-      .prefix()
-      .end((err, res) => {
-        if (err) {
-          callback(parseApiError(err));
-          return;
-        }
-        callback(null, res.body);
-      });
-  },
-};
+  read: '/tags/${slug}/listeners',
+});

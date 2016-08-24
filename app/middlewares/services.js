@@ -1,7 +1,9 @@
 import { normalize } from 'normalizr';
 import { camelizeKeys } from 'humps';
-
+import debug from 'debug';
 import merge from 'lodash/merge';
+
+const log = debug('shoutit:middlewares:services');
 
 export default fetchr => store => next => action => { // eslint-disable-line no-unused-vars
   if (!action.service) {
@@ -34,6 +36,8 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
 
   const [startType, successType, failureType] = types;
 
+  log('Starting action for %s service...', service.name, action);
+
   next(actionWith({ type: startType }));
 
   return new Promise((resolve, reject) => {
@@ -41,7 +45,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
       .params(params)
       .body(body)
       .end((err, json) => {
-
+        log('%s service did fetch data', service.name);
         if (err) {
           const error = err.body || err;
           next(actionWith({

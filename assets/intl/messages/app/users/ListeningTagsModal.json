@@ -1,7 +1,7 @@
 [
   {
     "id": "users.ListeningTagsModal.title",
-    "defaultMessage": "{firstName}’s interests"
+    "defaultMessage": "{name}’s interests"
   },
   {
     "id": "users.ListeningTagsModal.close",

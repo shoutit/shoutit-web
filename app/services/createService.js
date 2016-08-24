@@ -1,3 +1,5 @@
+import template from 'lodash/template';
+
 import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
 
@@ -30,8 +32,14 @@ function createReadMethod({ url, cacheResponse, name }) {
       callback(null, cache);
       return;
     }
+    let requestUrl;
+    if (params.endpoint) {
+      requestUrl = params.endpoint;
+    } else {
+      requestUrl = template(url)(params);
+    }
     request
-      .get(url)
+      .get(requestUrl)
       .prefix()
       .query(params.query)
       .use(req)
@@ -47,17 +55,20 @@ function createReadMethod({ url, cacheResponse, name }) {
   };
 }
 
-export default function createService({ name, read, cacheResponse = false, methods = ['read'] }) {
+/**
+ * Shorthand to create fetchr services.
+ *
+ * @export
+ * @param {Object} { name, read, cacheResponse = false }
+ * @returns
+ */
+
+export default function createService({ name, read, cacheResponse = false }) {
   const service = { name };
 
-  methods.forEach(method => {
-    switch (method) {
-      case 'read':
-        service.read = createReadMethod({ url: read, cacheResponse, name });
-        break;
-      default:
-        break;
-    }
-  });
+  if (read) {
+    service.read = createReadMethod({ url: read, cacheResponse, name });
+  }
+
   return service;
 }

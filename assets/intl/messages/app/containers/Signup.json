@@ -65,7 +65,7 @@
   },
   {
     "id": "signup.success.welcomeMessage-1",
-    "defaultMessage": "Hi {firstName}, thanks for signing up!"
+    "defaultMessage": "Hi {name}, thanks for signing up!"
   },
   {
     "id": "signup.success.welcomeMessage-2",

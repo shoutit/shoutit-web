@@ -1,4 +1,3 @@
-import omit from 'lodash/omit';
 import get from 'lodash/get';
 import { combineReducers } from 'redux';
 
@@ -8,6 +7,7 @@ import listenersByTag from './paginated/listenersByTag';
 import listenersByUser from './paginated/listenersByUser';
 import listeningByUser from './paginated/listeningByUser';
 import messagesByConversation from './paginated/messagesByConversation';
+import pagesByUsername from './paginated/pagesByUsername';
 import notifications from './paginated/notifications';
 import relatedShoutsByShout from './paginated/relatedShoutsByShout';
 import relatedTagsByTag from './paginated/relatedTagsByTag';
@@ -26,6 +26,7 @@ export default combineReducers({
   listenersByTag,
   listeningByUser,
   messagesByConversation,
+  pagesByUsername,
   notifications,
   relatedShoutsByShout,
   relatedTagsByTag,
@@ -61,5 +62,5 @@ export function getPagination(state, path) {
       count: 0,
     };
   }
-  return omit(paginationState, 'ids');
+  return paginationState;
 }

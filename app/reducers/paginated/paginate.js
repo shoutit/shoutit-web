@@ -141,35 +141,54 @@ const initialState = {
   pages: {},
 };
 
-export default function paginate({ actionTypes }) {
+export default function paginate({ actionTypes, mapActionToKey }) {
   const [startType, successType, failureType] = actionTypes;
 
-  return function paginatedReducer(state = initialState, action) {
+  return function paginatedReducer(state, action) {
+    if (!state) {
+      if (!mapActionToKey) {
+        state = initialState;
+      } else {
+        state = {};
+      }
+      return state;
+    }
+    if (actionTypes.indexOf(action.type) === -1) {
+      return state;
+    }
     switch (action.type) {
       case startType:
-        return handleStartAction(state, action);
+        state = handleStartAction(state, action);
+        break;
       case successType:
-        return handleSuccessAction(state, action);
+        state = handleSuccessAction(state, action);
+        break;
       case failureType:
-        return handleFailureAction(state, action);
-      default:
-        return state;
+        state = handleFailureAction(state, action);
+        break;
     }
+    if (mapActionToKey) {
+      return {
+        [mapActionToKey(action)]: state,
+      };
+    }
+    return state;
   };
 }
 
-export const getPagination = (state, selector) => {
+export function getPagination(state, selector) {
   const keys = ['nextUrl', 'previousUrl', 'count', 'page_size', 'sort'];
   return pick(get(state.paginated, selector), keys);
-};
+}
 
-export const getPageState = (state, page, selector) =>
-  pick(get(state.paginated, `${selector}.pages.${page}`), ['isFetching', 'error']);
-
-export const getEntities = (state, entity, page, schema) =>
-  denormalize(
+export function getPageState(state, page, selector) {
+  return pick(get(state.paginated, `${selector}.pages.${page}`), ['isFetching', 'error']);
+}
+export function getEntities(state, entity, page, schema) {
+  return denormalize(
     state.paginated[entity].pages[page] ?
     state.paginated[entity].pages[page].ids :
     [],
     state.entities, schema
   );
+}
