@@ -5,6 +5,7 @@ import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
 
 import { denormalize } from '../../schemas';
+import { getPagination } from '../paginated';
 
 function listeningByUser(state = {}, action) {
   const { type, payload } = action;
@@ -78,10 +79,14 @@ export default function (state = {}, action) {
   return newState;
 }
 
-export function getListeningByProfile(state, profile) {
-  const paginated = state.paginated.listeningByUser[profile.id];
+export function getListeningByProfile(state, id) {
+  const paginated = state.paginated.listeningByUser[id];
   if (!paginated) {
     return undefined;
   }
   return denormalize(paginated.ids, state.entities, 'PROFILES');
+}
+
+export function getPaginationState(state, id) {
+  return getPagination(state, ['listeningByUser', id]);
 }
