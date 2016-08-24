@@ -1,25 +1,54 @@
 import React, { PropTypes, Component } from 'react';
+import classNames from 'classnames';
 
 import './Form.scss';
+
+/**
+ * Create a standard HTML form element. The form element can display errors using the `error`
+ * prop and is submitted when pressing the Enter key in one of its fields (to disable
+ * this behavior, set `submitOnEnter` prop to false).
+ *
+ * @export
+ * @class Form
+ * @extends {Component}
+ */
 
 export default class Form extends Component {
 
   static propTypes = {
-    error: PropTypes.object,
-    style: PropTypes.object,
-    className: PropTypes.string,
     children: PropTypes.node,
+    className: PropTypes.string,
+    error: PropTypes.object,
     onSubmit: PropTypes.func,
-    method: PropTypes.string,
+    style: PropTypes.object,
+    submitOnEnter: PropTypes.bool,
   };
 
   static defaultProps = {
-    method: 'POST',
+    submitOnEnter: true,
   }
 
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  state = {
+    submitOnEnter: false,
+  }
+
+  componentDidMount() {
+    if (this.props.submitOnEnter) {
+      this.enableSubmit();
+    }
+  }
+
+  node = null
+
+  enableSubmit() {
+    this.setState({
+      submitOnEnter: true,
+    });
   }
 
   blur() {
@@ -36,14 +65,8 @@ export default class Form extends Component {
     }
   }
 
-  render() {
-    const { className, children, actions, error, ...props } = this.props;
-    let cssClass = 'Form';
-    if (className) {
-      cssClass += ` ${className}`;
-    }
+  renderError(error) {
     const errorMessages = [];
-
     if (error) {
       if (error.hasOwnProperty('errors')) {
         error.errors.filter(error => !error.location).forEach(error => errorMessages.push(error.message));
@@ -52,24 +75,32 @@ export default class Form extends Component {
       }
     }
 
+    if (errorMessages.length === 0) {
+      return null;
+    }
+
+    return (
+      <ul className="Form-errors">
+        { errorMessages.map((message, i) => <li key={ i }>{ message }</li>) }
+      </ul>
+    );
+  }
+
+  render() {
+    const { className, children, error, ...props } = this.props;
+    const cssClass = classNames('Form', className);
+
     return (
       <form
-        { ...props }
+        method="post"
         noValidate
+        { ...props }
         className={ cssClass }
         onSubmit={ this.handleSubmit }
-        ref={ el => { this.node = el; } }>
+        ref={ el => this.node = el }>
         { children }
-
-        { errorMessages.length > 0 &&
-          <ul className="Form-errors">
-            { errorMessages.map((message, i) => <li key={ i }>{ message }</li>) }
-          </ul>
-        }
-
-
-        <button type="submit" style={ { display: 'none' } } />
-
+        { this.renderError(error) }
+        { this.state.submitOnEnter && <button type="submit" style={ { display: 'none' } } /> }
       </form>
     );
   }
