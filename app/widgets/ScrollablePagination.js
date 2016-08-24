@@ -35,7 +35,7 @@ export default class ScrollablePagination extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.nextUrl !== prevProps.nextUrl) {
-      // this.loadDataIfNeeded();
+      this.loadDataIfNeeded();
     }
   }
 
