@@ -14,6 +14,7 @@ export default class Button extends Component {
     className: PropTypes.string,
     element: PropTypes.string,
     icon: PropTypes.string,
+    type: PropTypes.string,
     iconButton: PropTypes.bool,
     kind: PropTypes.oneOf(['default', 'primary', 'secondary', 'alternate', 'destructive', 'inverted', 'social']),
     size: PropTypes.oneOf(['small', 'medium']),
@@ -25,9 +26,32 @@ export default class Button extends Component {
     block: false,
     iconButton: false,
     element: 'button',
+    type: 'button',
+  }
+
+  constructor(props) {
+    super(props);
+    if (props.element === 'button') {
+      this.state = {
+        type: props.type,
+      };
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.element === 'button' && this.props.type === 'submit') {
+      // Enable form submissions only when the component is mounted
+      this.enableSubmit();
+    }
   }
 
   node = null
+
+  enableSubmit() {
+    this.setState({
+      type: 'submit',
+    });
+  }
 
   focus() {
     this.node.focus();
@@ -81,12 +105,16 @@ export default class Button extends Component {
     if (attributes.to) {
       elementClass = Link;
     }
-    return React.createElement(elementClass, {
+    if (element === 'button') {
+      attributes.type = this.state.type;
+    }
+    const props = {
       ...attributes,
       className,
       children: content,
-      ref: el => { this.node = el; },
-    });
+      ref: el => this.node = el,
+    };
+    return React.createElement(elementClass, props);
   }
 
 }
