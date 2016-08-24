@@ -10,6 +10,8 @@ import { loadPages } from '../actions/users';
 import Modal, { Header, Footer, Body } from '../modals';
 import Button from '../forms/Button';
 import Progress from '../widgets/Progress';
+import List from '../layout/List';
+
 import ScrollablePagination from '../widgets/ScrollablePagination';
 import ProfileListItem from '../users/ProfileListItem';
 
@@ -38,7 +40,10 @@ export class SwitchToPageModal extends Component {
     return (
       <ScrollablePagination
         { ...pagination }
-        scrollElement={ () => this.modal.getBodyNode() }
+        scrollElement={ () => {
+          console.log('this.modal', this.modal.getBodyNode().scrollHeight);
+          return this.modal.getBodyNode();
+        } }
         loadData={ endpoint => loadPages(endpoint) }>
         <Modal
           { ...modalProps }
@@ -48,15 +53,19 @@ export class SwitchToPageModal extends Component {
           <Header closeButton>
             Use Shoutit as page
           </Header>
-          <Body>
-            { pages && pages.map(page =>
-              <ProfileListItem
-                key={ page.id }
-                popover={ false }
-                size="large"
-                profile={ page }
-                onClick={ this.handlePageClick } />
-            )}
+          <Body style={ { padding: 0 } }>
+            { pages &&
+              <List>
+                { pages.map(page =>
+                  <ProfileListItem
+                    key={ page.id }
+                    popover={ false }
+                    size="large"
+                    profile={ page }
+                    onClick={ this.handlePageClick } />
+                )}
+              </List>
+            }
             { pages && pages.length === 0 &&
               <p>
                 You don't have any page.
