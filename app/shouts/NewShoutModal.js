@@ -33,7 +33,7 @@ export class NewShoutModal extends Component {
 
   render() {
     return (
-      <Modal { ...this.props } size="small">
+      <Modal { ...this.props } autoSize={ false } size="small">
         <Header closeButton>
           <FormattedMessage
             id="newShoutModal.title"
