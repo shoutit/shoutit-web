@@ -9,7 +9,6 @@ export default class Form extends Component {
     style: PropTypes.object,
     className: PropTypes.string,
     children: PropTypes.node,
-    actions: PropTypes.node,
     onSubmit: PropTypes.func,
     method: PropTypes.string,
   };
@@ -68,11 +67,6 @@ export default class Form extends Component {
           </ul>
         }
 
-        { actions &&
-          <div className="Form-actions">
-            { actions }
-          </div>
-        }
 
         <button type="submit" style={ { display: 'none' } } />
 
