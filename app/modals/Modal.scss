@@ -76,10 +76,10 @@
 @include tablet() {
   .Modal-content {
     position: fixed;
-    top: 0 !important;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    top: 10px !important;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
   }
 }
 
@@ -196,20 +196,18 @@
   padding: .75rem;
 }
 
-@include desktop() {
-  .Modal-backdrop {
-    position: fixed;
-    z-index: $z-index-modal-backdrop;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    opacity: .4;
-    background-color: #000;
+.Modal-backdrop {
+  position: fixed;
+  z-index: $z-index-modal-backdrop;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: .4;
+  background-color: #000;
 
-    &.enterAnimation {
-      animation: modalBackdropEnterAnimation 100ms;
-    }
+  &.enterAnimation {
+    animation: modalBackdropEnterAnimation 100ms;
   }
 }
 
