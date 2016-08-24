@@ -6,6 +6,7 @@ import Helmet from '../utils/Helmet';
 
 import { resetPassword } from '../actions/session';
 
+import Form from '../forms/Form';
 import Button from '../forms/Button';
 import TextField from '../forms/TextField';
 import Page from '../layout/Page';
@@ -92,7 +93,7 @@ export class ResetPassword extends Component {
             </p>
         }
 
-          <form onSubmit={ e => this.handleFormSubmit(e) } className="Frame-form" noValidate>
+          <Form onSubmit={ e => this.handleFormSubmit(e) } className="Frame-form">
 
             <TextField
               autoFocus
@@ -106,6 +107,7 @@ export class ResetPassword extends Component {
             />
 
             <Button
+              type="submit"
               kind="primary"
               block
               disabled={ this.props.isResettingPassword }>
@@ -129,7 +131,7 @@ export class ResetPassword extends Component {
               />
             </AncillaryText>
 
-          </form>
+          </Form>
         </div>
         <div className="Frame-footer" style={ { textAlign: 'center' } }>
           <Link to={ { pathname: '/login', query: this.props.location.query } }>

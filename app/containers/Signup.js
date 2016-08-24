@@ -11,6 +11,7 @@ import Helmet from '../utils/Helmet';
 
 import { signup, resetErrors } from '../actions/session';
 
+import Form from '../forms/Form';
 import Button from '../forms/Button';
 import HorizontalRule from '../widgets/HorizontalRule';
 import AncillaryText from '../widgets/AncillaryText';
@@ -186,7 +187,7 @@ export class Signup extends Component {
             </p>
         }
 
-          <form onSubmit={ e => this.handleFormSubmit(e) } className="Form Frame-form" noValidate>
+          <Form onSubmit={ e => this.handleFormSubmit(e) } noValidate>
 
             <FieldsGroup>
               <TextField
@@ -240,6 +241,7 @@ export class Signup extends Component {
             </AncillaryText>
 
             <Button
+              type="submit"
               style={ { marginTop: '1rem' } }
               kind="primary"
               block
@@ -255,7 +257,7 @@ export class Signup extends Component {
                 />
                }
             </Button>
-          </form>
+          </Form>
         </div>
         <div className="Frame-footer" style={ { textAlign: 'center' } }>
           <FormattedMessage

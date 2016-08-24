@@ -121,6 +121,7 @@ export class SetPassword extends Component {
             />
 
             <Button
+              type="submit"
               style={ { marginTop: '1rem' } }
               kind="primary"
               block

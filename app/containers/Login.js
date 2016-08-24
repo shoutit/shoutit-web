@@ -8,6 +8,7 @@ import Helmet from '../utils/Helmet';
 import { login, resetErrors } from '../actions/session';
 
 import Button from '../forms/Button';
+import Form from '../forms/Form';
 import AncillaryText from '../widgets/AncillaryText';
 import HorizontalRule from '../widgets/HorizontalRule';
 import TextField from '../forms/TextField';
@@ -171,7 +172,7 @@ export class Login extends Component {
               </p>
             }
 
-            <form onSubmit={ this.submit } className="Form Frame-form" noValidate>
+            <Form onSubmit={ this.submit } className="Frame-form">
               <TextField
                 ref={ el => { this.fields.email = el; } }
                 disabled={ isLoggingIn }
@@ -190,6 +191,7 @@ export class Login extends Component {
               />
 
               <Button
+                type="submit"
                 style={ { marginTop: '1rem' } }
                 kind="primary"
                 block
@@ -203,7 +205,7 @@ export class Login extends Component {
                 </Link>
               </AncillaryText>
 
-            </form>
+            </Form>
           </div>
           <div className="Frame-footer" style={ { textAlign: 'center' } }>
             <FormattedMessage
