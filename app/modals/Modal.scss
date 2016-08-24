@@ -165,6 +165,24 @@
   .Modal.didJustFinishToLoad & {
     visibility: hidden;
   }
+  &.paginated {
+    padding: 0;
+    .ScrollablePaginated-Content {
+      > * {
+        display: block;
+        width: 100%;
+        padding: $vertical-spacing/2 $horizontal-spacing;
+        border-radius: $border-radius-small;
+        border-bottom: 1px solid $border-color-light;
+        &:last-child {
+          border-bottom-width: 0;
+        }
+        &:hover {
+          background-color: $background-color;
+        }
+      }
+    }
+  }
 }
 
 @include tablet() {
