@@ -223,7 +223,10 @@ export default class Modal extends Component {
     let body = React.Children.toArray(this.props.children).find(child => child.type === Body);
     if (body && this.props.autoSize) {
       body = React.cloneElement(body, {
-        style: this.state.bodyStyle,
+        style: {
+          ...body.props.style,
+          ...this.state.bodyStyle,
+        },
       });
     }
     return body;
