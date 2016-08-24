@@ -13,8 +13,8 @@ exports.config = {
   },
   rules: {
     ignore: [
-      /^\/api/,
-      /^\/fetchr/,
+      /^\/api\/*/,
+      /^\/fetchr\/*/,
     ],
   },
 };
