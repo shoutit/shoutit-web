@@ -54,7 +54,7 @@ ListenersModal.propTypes = {
   type: PropTypes.oneOf(['listeners', 'listening']),
   profile: PropTypes.object.isRequired,
 
-  profiles: PropTypes.array.isRequired,
+  profiles: PropTypes.array,
   title: PropTypes.node.isRequired,
   loadProfiles: PropTypes.func.isRequired,
   pagination: PropTypes.shape(PaginationPropTypes),
