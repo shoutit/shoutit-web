@@ -87,14 +87,13 @@ export default class Form extends Component {
   }
 
   render() {
-    const { className, children, error, ...props } = this.props;
+    const { className, children, error } = this.props;
     const cssClass = classNames('Form', className);
 
     return (
       <form
         method="post"
         noValidate
-        { ...props }
         className={ cssClass }
         onSubmit={ this.handleSubmit }
         ref={ el => this.node = el }>
