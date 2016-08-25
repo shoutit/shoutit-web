@@ -56,7 +56,7 @@ export default class NotificationItem extends Component {
     }
     const { text, ranges } = notification.display;
     return (
-      <li className={ className }>
+      <div className={ className }>
         <Link onClick={ onClick } to={ notification.webUrl }>
           <div
             className="NotificationItem-image"
@@ -76,7 +76,7 @@ export default class NotificationItem extends Component {
             </div>
           </div>
         </Link>
-      </li>
+      </div>
     );
   }
 }
