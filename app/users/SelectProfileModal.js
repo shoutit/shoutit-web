@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { injectIntl, defineMessages } from 'react-intl';
+import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 
 import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 
@@ -16,7 +16,7 @@ import {
 
 import { loadListeners, loadListening } from '../actions/users';
 
-import Modal, { Header, Footer, BodyPaginated, BodyFixed } from '../modals';
+import Modal, { Header, Footer, Body, BodyPaginated, BodyFixed } from '../modals';
 import Button from '../forms/Button';
 import SegmentedControl from '../forms/SegmentedControl';
 import ProfileListItem from '../users/ProfileListItem';
@@ -36,6 +36,13 @@ const MESSAGES = defineMessages({
   },
 });
 
+/**
+ * A modal to select between listened/listening profiles
+ *
+ * @export
+ * @class SelectProfileModal
+ * @extends {Component}
+ */
 
 export class SelectProfileModal extends Component {
 
@@ -86,6 +93,7 @@ export class SelectProfileModal extends Component {
       listening,
       listeningPagination,
       loadListening,
+      profile,
     } = this.props;
 
     const props = {};
@@ -100,6 +108,36 @@ export class SelectProfileModal extends Component {
       props.loadData = loadListening;
       props.pagination = listeningPagination;
       props.showProgress = listeningPagination.isFetching && listening && listening.length > 0;
+    }
+    if (profiles && profiles.length === 0) {
+      return (
+        <Body>
+          { this.state.type === 'listeners' &&
+            <p>
+              <FormattedMessage
+                id="profilesModal.noListeners"
+                defaultMessage="{isOwner, select, true {You have no listeners.} false {{name} has no listeners.}}"
+                values={ {
+                  isOwner: profile.isOwner,
+                  name: profile.name,
+                } }
+              />
+            </p>
+          }
+          { this.state.type === 'listening' &&
+            <p>
+              <FormattedMessage
+                id="profilesModal.noListening"
+                defaultMessage="{isOwner, select, true {You are not listening to anybody.} false {{name} is not listening to anybody.}}"
+                values={ {
+                  isOwner: profile.isOwner,
+                  name: profile.name,
+                } }
+              />
+            </p>
+          }
+        </Body>
+      );
     }
     return (
       <BodyPaginated { ...props }>
