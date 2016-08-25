@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { getLoggedUser } from '../reducers/session';
 
 import { openModal } from '../actions/ui';
-import LoggedUserProfilesModal from '../users/LoggedUserProfilesModal';
+import SelectProfileModal from '../users/SelectProfileModal';
 import UserShoutsModal from '../shouts/UserShoutsModal';
 import ImageUploadModal from '../modals/ImageUploadModal';
 import Icon from '../widgets/Icon';
@@ -14,7 +14,7 @@ import FileInput from '../forms/FileInput';
 
 import './ReplyFormToolbar.scss';
 
-export function ReplyFormToolbar({ openShoutModal, openImageUpload, openLoggedUserProfilesModal, loggedUser }) {
+export function ReplyFormToolbar({ openShoutModal, openImageUpload, openSelectProfileModal, loggedUser }) {
   return (
     <span className="ReplyFormToolbar">
       <span className="ReplyFormToolbar-start">
@@ -51,7 +51,7 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload, openLoggedUs
                 id="chat.replyFormToolbar.attachProfile.buttonTooltip"
                 defaultMessage="Send a profile" />
             }>
-            <span className="ReplyFormToolbar-item" onClick={ () => openLoggedUserProfilesModal() }>
+            <span className="ReplyFormToolbar-item" onClick={ () => openSelectProfileModal(loggedUser) }>
               <Icon name="profile" size="x-small" hover />
             </span>
           </Tooltip>
@@ -71,7 +71,7 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload, openLoggedUs
 ReplyFormToolbar.propTypes = {
   loggedUser: PropTypes.object.isRequired,
   onAttachment: PropTypes.func.isRequired,
-  openLoggedUserProfilesModal: PropTypes.func.isRequired,
+  openSelectProfileModal: PropTypes.func.isRequired,
   openShoutModal: PropTypes.func.isRequired,
   openImageUpload: PropTypes.func.isRequired,
 };
@@ -116,16 +116,17 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ));
   },
 
-  openLoggedUserProfilesModal: () => {
+  openSelectProfileModal: profile => {
     dispatch(openModal(
-      <LoggedUserProfilesModal
+      <SelectProfileModal
+        profile={ profile }
         title={
           <FormattedMessage
             id="chat.replyFormToolbar.attachProfile.modalTitle"
-            defaultMessage="Send a profile"
+            defaultMessage="Send a Profile"
           />
         }
-        onProfileClick={ profile => ownProps.onAttachment('profile', profile) }
+        onSelect={ profile => ownProps.onAttachment('profile', profile) }
       />
     ));
   },

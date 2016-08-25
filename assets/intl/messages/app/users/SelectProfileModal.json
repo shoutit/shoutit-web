@@ -1,0 +1,14 @@
+[
+  {
+    "id": "profilesModal.segmentedControl.listeners",
+    "defaultMessage": "Listeners"
+  },
+  {
+    "id": "profilesModal.segmentedControl.listening",
+    "defaultMessage": "Listening"
+  },
+  {
+    "id": "profilesModal.segmentedControl.hideButton",
+    "defaultMessage": "Close"
+  }
+]
