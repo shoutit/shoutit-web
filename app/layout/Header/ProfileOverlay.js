@@ -56,7 +56,7 @@ export function ProfileOverlay({ profile, onLogoutClick, closeOverlay, onSwitchT
 ProfileOverlay.propTypes = {
   profile: PropTypes.object.isRequired,
   onLogoutClick: PropTypes.func.isRequired,
-  onItemClick: PropTypes.func.isRequired,
+  closeOverlay: PropTypes.func.isRequired,
   onSwitchToPageClick: PropTypes.func.isRequired,
 };
 
