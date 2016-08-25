@@ -1,8 +1,9 @@
 import React from 'react';
-import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+
+import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 
 import { loadListeners, loadListeningProfiles } from '../actions/users';
 import {
