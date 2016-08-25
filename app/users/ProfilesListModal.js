@@ -18,7 +18,7 @@ import ProfileListItem from '../users/ProfileListItem';
 export default class ProfilesListModal extends Component {
 
   static propTypes = {
-    profiles: PropTypes.array.isRequired,
+    profiles: PropTypes.array,
     title: PropTypes.node.isRequired,
     loadProfiles: PropTypes.func.isRequired,
     pagination: PropTypes.shape(PaginationPropTypes),

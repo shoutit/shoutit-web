@@ -13,11 +13,11 @@ import { getLoggedUser } from '../../reducers/session';
 
 import './ProfileOverlay.scss';
 
-export function ProfileOverlay({ profile, onLogoutClick, onItemClick, onSwitchToPageClick }) {
+export function ProfileOverlay({ profile, onLogoutClick, closeOverlay, onSwitchToPageClick }) {
   return (
     <ul className="ProfileOverlay">
       <li>
-        <Link onClick={ onItemClick } to={ `/user/${profile.username}` }>
+        <Link onClick={ closeOverlay } to={ `/user/${profile.username}` }>
           <FormattedMessage
             id="header.profilePopover.menu.profile"
             defaultMessage="{name}"
@@ -34,7 +34,7 @@ export function ProfileOverlay({ profile, onLogoutClick, onItemClick, onSwitchTo
         </a>
       </li>
       <li className="separe">
-        <Link onClick={ onItemClick } to="/settings">
+        <Link onClick={ closeOverlay } to="/settings">
           <FormattedMessage
             id="header.profilePopover.menu.setting"
             defaultMessage="Settings"
@@ -56,7 +56,7 @@ export function ProfileOverlay({ profile, onLogoutClick, onItemClick, onSwitchTo
 ProfileOverlay.propTypes = {
   profile: PropTypes.object.isRequired,
   onLogoutClick: PropTypes.func.isRequired,
-  onItemClick: PropTypes.func.isRequired,
+  closeOverlay: PropTypes.func.isRequired,
   onSwitchToPageClick: PropTypes.func.isRequired,
 };
 
@@ -64,12 +64,13 @@ const mapStateToProps = state => ({
   profile: getLoggedUser(state),
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   onLogoutClick: e => {
     e.preventDefault();
     dispatch(logout()).then(() => window.location.reload());
   },
   onSwitchToPageClick: () => {
+    ownProps.closeOverlay();
     dispatch(openModal(<SwitchToPageModal />));
   },
 });

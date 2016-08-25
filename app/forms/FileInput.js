@@ -37,7 +37,7 @@ export default class FileInput extends Component {
           multiple={ this.props.multiple }
           name={ this.props.name }
         />
-        <label htmlFor={ this.props.id || this.props.name } zIndex={ 0 }>
+        <label htmlFor={ this.props.id || this.props.name }>
           { this.props.children }
         </label>
       </span>

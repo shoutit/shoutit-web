@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
@@ -48,6 +49,8 @@ export class MessagesButton extends Component {
           style={ { width: 400, marginLeft: 4 } }
           show={ this.state.showOverlay }
           placement="bottom"
+          container={ () => document.getElementsByClassName('Header')[0] }
+
           onHide={ this.hideOverlay }
           target={ () => this.icon.getIconNode() }>
           <MessagesOverlay closeOverlay={ this.hideOverlay } />

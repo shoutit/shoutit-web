@@ -6,5 +6,9 @@
   {
     "id": "header.notificationsPopover.read",
     "defaultMessage": "Mark all as read"
+  },
+  {
+    "id": "scrollableNotifications.empty",
+    "defaultMessage": "No notifications"
   }
 ]

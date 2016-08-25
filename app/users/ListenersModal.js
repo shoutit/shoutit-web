@@ -1,8 +1,9 @@
 import React from 'react';
-import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+
+import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 
 import { loadListeners, loadListeningProfiles } from '../actions/users';
 import {
@@ -17,6 +18,13 @@ import {
 
 import ProfilesListModal from '../users/ProfilesListModal';
 
+/**
+ * A modal displaying a list of profiles listened (`type="listeners"`) or listening to
+ * (`type="listening"`) a profile.
+ *
+ * @param {any} { profile, type, profiles, loadProfiles, pagination,
+ * @param {any} props
+ */
 function ListenersModal({ profile, type, profiles, loadProfiles, pagination, ...props }) {
   const title = (
     <FormattedMessage
@@ -46,7 +54,7 @@ ListenersModal.propTypes = {
   type: PropTypes.oneOf(['listeners', 'listening']),
   profile: PropTypes.object.isRequired,
 
-  profiles: PropTypes.array.isRequired,
+  profiles: PropTypes.array,
   title: PropTypes.node.isRequired,
   loadProfiles: PropTypes.func.isRequired,
   pagination: PropTypes.shape(PaginationPropTypes),

@@ -5,8 +5,8 @@ import { FormattedMessage } from 'react-intl';
 import { getLoggedUser } from '../reducers/session';
 
 import { openModal } from '../actions/ui';
-import LoggedUserProfilesModal from '../users/LoggedUserProfilesModal';
-import UserShoutsModal from '../shouts/UserShoutsModal';
+import SelectProfileModal from '../users/SelectProfileModal';
+import SelectShoutModal from '../shouts/SelectShoutModal';
 import ImageUploadModal from '../modals/ImageUploadModal';
 import Icon from '../widgets/Icon';
 import Tooltip from '../widgets/Tooltip';
@@ -14,7 +14,7 @@ import FileInput from '../forms/FileInput';
 
 import './ReplyFormToolbar.scss';
 
-export function ReplyFormToolbar({ openShoutModal, openImageUpload, openLoggedUserProfilesModal, loggedUser }) {
+export function ReplyFormToolbar({ openShoutModal, openImageUpload, openSelectProfileModal, loggedUser }) {
   return (
     <span className="ReplyFormToolbar">
       <span className="ReplyFormToolbar-start">
@@ -24,7 +24,7 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload, openLoggedUs
               id="chat.replyFormToolbar.attachShout.buttonTooltip"
               defaultMessage="Send a Shout" />
           }>
-          <span className="ReplyFormToolbar-item" onClick={ () => openShoutModal() }>
+          <span className="ReplyFormToolbar-item" onClick={ () => openShoutModal(loggedUser) }>
             <Icon name="sparkle" size="x-small" hover />
           </span>
         </Tooltip>
@@ -51,7 +51,7 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload, openLoggedUs
                 id="chat.replyFormToolbar.attachProfile.buttonTooltip"
                 defaultMessage="Send a profile" />
             }>
-            <span className="ReplyFormToolbar-item" onClick={ () => openLoggedUserProfilesModal() }>
+            <span className="ReplyFormToolbar-item" onClick={ () => openSelectProfileModal(loggedUser) }>
               <Icon name="profile" size="x-small" hover />
             </span>
           </Tooltip>
@@ -71,7 +71,7 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload, openLoggedUs
 ReplyFormToolbar.propTypes = {
   loggedUser: PropTypes.object.isRequired,
   onAttachment: PropTypes.func.isRequired,
-  openLoggedUserProfilesModal: PropTypes.func.isRequired,
+  openSelectProfileModal: PropTypes.func.isRequired,
   openShoutModal: PropTypes.func.isRequired,
   openImageUpload: PropTypes.func.isRequired,
 };
@@ -102,30 +102,32 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ));
   },
 
-  openShoutModal: () => {
+  openShoutModal: profile => {
     dispatch(openModal(
-      <UserShoutsModal
+      <SelectShoutModal
+        profile={ profile }
         title={
           <FormattedMessage
             id="chat.replyFormToolbar.attachShout.modalTitle"
             defaultMessage="Send a Shout"
           />
         }
-        onShoutClick={ shout => ownProps.onAttachment('shout', shout) }
+        onSelect={ shout => ownProps.onAttachment('shout', shout) }
       />
     ));
   },
 
-  openLoggedUserProfilesModal: () => {
+  openSelectProfileModal: profile => {
     dispatch(openModal(
-      <LoggedUserProfilesModal
+      <SelectProfileModal
+        profile={ profile }
         title={
           <FormattedMessage
             id="chat.replyFormToolbar.attachProfile.modalTitle"
-            defaultMessage="Send a profile"
+            defaultMessage="Send a Profile"
           />
         }
-        onProfileClick={ profile => ownProps.onAttachment('profile', profile) }
+        onSelect={ profile => ownProps.onAttachment('profile', profile) }
       />
     ));
   },

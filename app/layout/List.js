@@ -4,19 +4,21 @@ import './List.scss';
 
 export default class List extends Component {
   static propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node.isRequired).isRequired,
+    children: PropTypes.array,
     title: PropTypes.node,
   }
   render() {
     return (
-      <section className="List">
+      <div className="List">
         { this.props.title && <h3>{ this.props.title }</h3> }
-        <ul>
-          { this.props.children.map((child, i) =>
-            <li key={ i }>{ child }</li>
-          ) }
-        </ul>
-      </section>
+        { this.props.children &&
+          <ul>
+            { this.props.children.map((child, i) =>
+              <li key={ i }>{ child }</li>
+            ) }
+          </ul>
+        }
+      </div>
     );
   }
 }

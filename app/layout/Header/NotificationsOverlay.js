@@ -1,14 +1,30 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import ScrollableNotifications from '../../notifications/ScrollableNotifications';
-import { getNotifications } from '../../reducers/paginated/notifications';
-import { resetNotifications } from '../../actions/notifications';
+import PropTypes, { PaginationPropTypes } from '../../utils/PropTypes';
 
-import '../../styles/ListOverlay.scss';
+import { resetNotifications, loadNotifications, readNotification } from '../../actions/notifications';
+import NotificationItem from '../../notifications/NotificationItem';
+import ScrollablePaginated from '../../layout/ScrollablePaginated';
+import List from '../../layout/List';
+import { getPaginationState, getNotifications } from '../../reducers/paginated/notifications';
+// import '../../styles/ListOverlay.scss';
 
-export function NotificationsOverlay({ reset, closeOverlay, unreadCount = 0 }) {
+export function NotificationsOverlay({ markAllAsRead, notifications = [], pagination, loadNotifications, closeOverlay, markAsRead }) {
+
+  function onNotificationClick(notification) {
+    markAsRead(notification);
+    closeOverlay();
+  }
+
+  function onMarkAllAsReadClick() {
+    markAllAsRead();
+    closeOverlay();
+  }
+
+  const unreadCount = notifications.filter(n => !n.isRead).length;
+
   return (
     <div className="ListOverlay">
       <div className="ListOverlay-header">
@@ -19,7 +35,7 @@ export function NotificationsOverlay({ reset, closeOverlay, unreadCount = 0 }) {
           />
         </span>
         { unreadCount > 0 &&
-          <span tabIndex={ 0 } className="ListOverlay-action" onClick={ () => reset() && closeOverlay() }>
+          <span tabIndex={ 0 } className="ListOverlay-action" onClick={ onMarkAllAsReadClick }>
             <FormattedMessage
               id="header.notificationsPopover.read"
               defaultMessage="Mark all as read"
@@ -27,26 +43,57 @@ export function NotificationsOverlay({ reset, closeOverlay, unreadCount = 0 }) {
           </span>
         }
       </div>
-      <div className="ListOverlay-body">
-        <ScrollableNotifications onNotificationClick={ closeOverlay } />
-      </div>
+      <ScrollablePaginated
+        className="ListOverlay-body"
+        loadData={ loadNotifications }
+        showProgress={ pagination.isFetching }
+        { ...pagination }>
+        { notifications.length > 0 &&
+          <List>
+          { notifications.map(notification =>
+            <NotificationItem
+              key={ notification.id }
+              notification={ notification }
+              onClick={ onNotificationClick }
+            />
+          )}
+          </List>
+        }
+        { notifications.length === 0 && !pagination.isFetching &&
+          <div className="ListOverlay-empty">
+            <p>
+              <FormattedMessage
+                id="scrollableNotifications.empty"
+                defaultMessage="No notifications"
+              />
+            </p>
+          </div>
+        }
+      </ScrollablePaginated>
     </div>
 
   );
 }
 
 NotificationsOverlay.propTypes = {
-  reset: PropTypes.func.isRequired,
+  notifications: PropTypes.array,
+  loadNotifications: PropTypes.func.isRequired,
+  pagination: PropTypes.shape(PaginationPropTypes),
+
+  markAsRead: PropTypes.func.isRequired,
+  markAllAsRead: PropTypes.func.isRequired,
   closeOverlay: PropTypes.func.isRequired,
-  unreadCount: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
-  unreadCount: getNotifications(state).filter(notification => !notification.isRead).length,
+  notifications: getNotifications(state),
+  pagination: getPaginationState(state, 'notifications'),
 });
 
 const mapDispatchToProps = dispatch => ({
-  reset: () => dispatch(resetNotifications()),
+  loadNotifications: params => dispatch(loadNotifications(params)),
+  markAsRead: notification => dispatch(readNotification(notification)),
+  markAllAsRead: () => dispatch(resetNotifications()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationsOverlay);

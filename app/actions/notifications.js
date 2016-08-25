@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import { NOTIFICATIONS } from '../schemas';
 
-export const loadNotifications = endpoint => ({
+export const loadNotifications = ({ endpoint }) => ({
   types: [
     actionTypes.LOAD_NOTIFICATIONS_START,
     actionTypes.LOAD_NOTIFICATIONS_SUCCESS,
