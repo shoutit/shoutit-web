@@ -1,37 +1,45 @@
-@import "../styles/constants.scss";
+@import '../styles/constants.scss';
 .List {
-
   h3 {
-    font-size: .675em;
+    margin: 0;
+    padding: .75em .5em;
     text-transform: uppercase;
     color: $color-text-light;
-    padding: .75em .5em;
-    margin: 0;
     border-bottom: 1px solid $border-color;
+    font-size: .675em;
     + ul > li:first-child {
       border-top-color: transparent;
     }
   }
   > ul {
-    list-style: none;
     margin: 0;
     padding: 0;
+    list-style: none;
     > li {
       margin: 0 .35em;
-      padding: .35em 0;
+      padding: 0;
       border-top: 1px solid $border-color;
-      &:last-child {
-        border-bottom: 1px solid transparent;
+      &:first-child {
+        border-top-color: transparent;
       }
-      &:hover {
-        padding-left: .35em;
-        padding-right: .35em;
+      &:last-child {
+        border-bottom-width: 0;
+      }
+      &:hover,
+      &.is-unread {
         margin: 0;
+        padding: 0 .35em;
+        background-color: $background-color;
         border-bottom: 1px solid $border-color;
-        background-color: #FAFAFA;
         + li {
           border-top: 0;
         }
+      }
+      &:hover:not(.is-unread) {
+        background-color: $background-color-light;
+      }
+      &:hover.is-unread {
+        background-color: darken($background-color, 1);
       }
     }
   }

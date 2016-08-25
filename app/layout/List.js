@@ -9,14 +9,14 @@ export default class List extends Component {
   }
   render() {
     return (
-      <section className="List">
+      <div className="List">
         { this.props.title && <h3>{ this.props.title }</h3> }
         <ul>
           { this.props.children.map((child, i) =>
             <li key={ i }>{ child }</li>
           ) }
         </ul>
-      </section>
+      </div>
     );
   }
 }
