@@ -16,30 +16,12 @@
     padding: 0;
     list-style: none;
     > li {
-      margin: 0 .35em;
-      padding: 0;
       border-top: 1px solid $border-color;
       &:first-child {
         border-top-color: transparent;
       }
-      &:last-child {
-        border-bottom-width: 0;
-      }
-      &:hover,
-      &.is-unread {
-        margin: 0;
-        padding: 0 .35em;
+      &:hover {
         background-color: $background-color;
-        border-bottom: 1px solid $border-color;
-        + li {
-          border-top: 0;
-        }
-      }
-      &:hover:not(.is-unread) {
-        background-color: $background-color-light;
-      }
-      &:hover.is-unread {
-        background-color: darken($background-color, 1);
       }
     }
   }
