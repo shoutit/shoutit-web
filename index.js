@@ -1,14 +1,12 @@
-/* eslint no-var: 0, no-console: 0 */
+/* eslint no-var: 0, no-console: 0, vars-on-top: 0 */
 /* eslint-env node */
+
+if (process.env.NEW_RELIC_APP_NAME && process.env.NEW_RELIC_LICENSE_KEY) {
+  require('newrelic');
+}
 
 var fs = require('fs');
 var path = require('path');
-
-if (process.env.NODE_ENV === 'production' &&
-  process.env.NEW_RELIC_APP_NAME &&
-  process.env.NEW_RELIC_LICENSE_KEY) {
-  require('newrelic');
-}
 
 if (!process.env.CURRENT_TAG) {
   try {
