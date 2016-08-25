@@ -136,9 +136,6 @@ export class Discover extends Component {
       shouts,
     } = this.props;
 
-    console.log('shoutsPagination', shoutsPagination);
-    console.log('discoverItemsPagination', discoverItemsPagination);
-
     return (
       <Scrollable
         triggerOffset={ 400 }
