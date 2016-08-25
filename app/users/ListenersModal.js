@@ -17,6 +17,13 @@ import {
 
 import ProfilesListModal from '../users/ProfilesListModal';
 
+/**
+ * A modal displaying a list of profiles listened (`type="listeners"`) or listening to
+ * (`type="listening"`) a profile.
+ *
+ * @param {any} { profile, type, profiles, loadProfiles, pagination,
+ * @param {any} props
+ */
 function ListenersModal({ profile, type, profiles, loadProfiles, pagination, ...props }) {
   const title = (
     <FormattedMessage
