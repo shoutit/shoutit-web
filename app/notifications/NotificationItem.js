@@ -52,7 +52,7 @@ export default class NotificationItem extends Component {
 
     let className = 'NotificationItem';
     if (!notification.isRead) {
-      className = `${className} is-unread`;
+      className = `${className} isUnread`;
     }
     const { text, ranges } = notification.display;
     return (
