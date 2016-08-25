@@ -4,8 +4,8 @@ import { toDate } from 'unix-timestamp';
 
 import ProfileAvatar from '../users/ProfileAvatar';
 import MessageAttachment from './MessageAttachment';
-import NewlineToBreak from '../widgets/NewlineToBreak';
 import Tooltip from '../widgets/Tooltip';
+import EmojizeText from '../widgets/EmojizeText';
 
 import './MessageItem.scss';
 
@@ -109,7 +109,9 @@ export default class MessageItem extends Component {
           }
           { text &&
             <div className="MessageItem-text" dir="auto">
-              <NewlineToBreak>{ text }</NewlineToBreak>
+              <EmojizeText>
+                { text }
+              </EmojizeText>
             </div>
           }
         </div>
