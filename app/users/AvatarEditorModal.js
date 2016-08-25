@@ -34,7 +34,6 @@ export class AvatarEditorModal extends Component {
     this.handleSaveClick = this.handleSaveClick.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
     this.handleScale = this.handleScale.bind(this);
-    this.hide = this.hide.bind(this);
     this.state = {
       image: props.initialImage,
       uploadRequest: null,
@@ -43,16 +42,17 @@ export class AvatarEditorModal extends Component {
   }
 
   componentDidMount() {
-    this.refs.cancelButton.focus();
+    this.cancelButton.focus();
   }
 
-  hide() {
-    this.refs.modal.hide();
-  }
+  modal = null
+  editor = null
+  scale = null
+  cancelButton = null
 
   handleSaveClick() {
     const { profile, dispatch } = this.props;
-    const image = this.refs.editor.getImageScaledToCanvas().toDataURL();
+    const image = this.editor.getImageScaledToCanvas().toDataURL();
 
     const uploadRequest = request.post('/api/file/user')
         .send({ image })
@@ -89,13 +89,13 @@ export class AvatarEditorModal extends Component {
   }
 
   handleScale() {
-    const scale = parseFloat(this.refs.scale.value);
+    const scale = parseFloat(this.scale.value);
     this.setState({ scale });
   }
 
   handleDrop() {
     this.setState({
-      image: this.refs.editor.getImage(),
+      image: this.editor.getImage(),
     });
   }
 
@@ -108,7 +108,11 @@ export class AvatarEditorModal extends Component {
 
   render() {
     return (
-      <Modal { ...this.props } ref="modal" preventClose={ this.state.isLoading }>
+      <Modal
+        { ...this.props }
+        autoSize={ false }
+        ref={ el => this.modal = el }
+        preventClose={ this.state.isLoading }>
         <Header closeButton>
           <FormattedMessage
             id="avatarEditor.title"
@@ -120,7 +124,7 @@ export class AvatarEditorModal extends Component {
             <div>
               <ReactAvatarEditor
                 scale={ this.state.scale }
-                ref="editor"
+                ref={ el => this.editor = el }
                 width={ width }
                 height={ height }
                 image={ this.state.image }
@@ -133,7 +137,7 @@ export class AvatarEditorModal extends Component {
                 disabled={ this.state.isLoading }
                 name="scale"
                 type="range"
-                ref="scale"
+                ref={ el => this.scale = el }
                 onChange={ this.handleScale }
                 min="1"
                 max="3"
@@ -144,7 +148,10 @@ export class AvatarEditorModal extends Component {
           </Form>
         </Body>
         <Footer>
-          <Button key="cancel" ref="cancelButton" onClick={ this.hide } size="small" disabled={ this.state.isLoading }>
+          <Button
+            ref={ el => this.cancelButton = el }
+            onClick={ () => this.modal.hide() }
+            size="small" disabled={ this.state.isLoading }>
             <FormattedMessage
               id="avatarEditor.cancelButton"
               defaultMessage="Cancel"
@@ -152,7 +159,6 @@ export class AvatarEditorModal extends Component {
           </Button>
 
           <UploadButton
-            key="upload"
             name="upload-image"
             accept="image/jpeg,image/png"
             kind="secondary"
