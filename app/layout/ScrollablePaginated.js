@@ -32,24 +32,41 @@ export default class ScrollablePaginated extends Component {
     this.handleScrollBottom = this.handleScrollBottom.bind(this);
   }
 
+  state = {
+    triggerOffset: undefined,
+  }
+
   componentDidMount() {
     const params = this.getLoadParams();
     if (!this.props.ids) {
       log('Loading data after component is mounted...');
       this.loadData(params);
     }
+    this.setTriggerOffset();
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.nextUrl !== prevProps.nextUrl) {
       this.loadDataIfNeeded();
     }
+    this.setTriggerOffset();
   }
 
   getLoadParams() {
     return {
       endpoint: this.props.nextUrl,
     };
+  }
+
+  // Set the scrollable's offset as one half of the scrollable's height
+  setTriggerOffset() {
+    const offsetHeight = this.scrollable.getOffsetHeight();
+    const triggerOffset = offsetHeight / 2;
+    if (triggerOffset !== 0 && triggerOffset !== this.state.triggerOffset) {
+      log('Setting triggerOffset to %spx', triggerOffset);
+      this.setState({ triggerOffset });
+    }
+
   }
 
   scrollable = null
@@ -88,6 +105,7 @@ export default class ScrollablePaginated extends Component {
       <Scrollable
         ref={ el => this.scrollable = el }
         style={ this.props.style }
+        triggerOffset={ this.state.triggerOffset }
         className={ classNames('ScrollablePaginated', this.props.className) }
         onScrollBottom={ this.handleScrollBottom }>
         <div className="ScrollablePaginated-Content">
