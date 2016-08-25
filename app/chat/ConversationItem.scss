@@ -9,22 +9,23 @@
   line-height: 1em;
 }
 
-.ConversationItem.is-selected {
+.ConversationItem.isSelected {
   border-left-color: $color-primary !important;
   background-color: $background-color-light;
   &.hover {
     border-left-color: $color-primary-light !important;
   }
 }
-.ConversationItem.is-unread:not(.is-selected) {
-  background-color: $background-color;
-  .ConversationItem-content {
+.ConversationItem.isUnread {
+  .ConversationItem-content, .ConversationItem-date {
     font-weight: 500;
+  }
+  .ConversationItem-title {
+    font-weight: 700;
   }
 }
 .ConversationItem.hover {
   color: $color-text;
-  background-color: $background-color-light;
 }
 .ConversationItem > a {
   display: flex;

@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 
 import { CONVERSATIONS } from '../schemas';
 
-export const loadChat = endpoint => ({
+export const loadChat = ({ endpoint } = {}) => ({
   types: [
     actionTypes.LOAD_CHAT_START,
     actionTypes.LOAD_CHAT_SUCCESS,

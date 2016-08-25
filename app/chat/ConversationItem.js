@@ -2,6 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import classNames from 'classnames';
+
 import { isRtl } from '../reducers/i18n';
 
 import Icon from '../widgets/Icon.js';
@@ -56,21 +58,14 @@ export class ConversationItem extends Component {
       showDropdown,
     } = this.props;
 
-    const { hover } = this.state;
-
-    let className = 'ConversationItem';
-    if (selected) {
-      className = `${className} is-selected`;
-    }
-    if (hover) {
-      className = `${className} hover`;
-    }
-    if (conversation.unreadMessagesCount > 0) {
-      className = `${className} is-unread`;
-    }
+    const className = classNames('ConversationItem', {
+      isSelected: selected,
+      hover: this.state.hover,
+      isUnread: conversation.unreadMessagesCount > 0,
+    });
 
     return (
-      <li
+      <div
         className={ className }
         onMouseEnter={ this.handleMouseEnter.bind(this) }
         onMouseLeave={ this.handleMouseLeave.bind(this) }>
@@ -100,7 +95,7 @@ export class ConversationItem extends Component {
             <div className="ConversationItem-date">
               <FormattedCreatedAt value={ conversation.modifiedAt } />
             </div>
-            { showDropdown && !hover && conversation.unreadMessagesCount > 0 &&
+            { showDropdown && !this.state.hover && conversation.unreadMessagesCount > 0 &&
               <div className="ConversationItem-unread-count">
                 <FormattedMessage
                   id="conversation.unreadCount"
@@ -112,7 +107,7 @@ export class ConversationItem extends Component {
           </div>
         </Link>
 
-        { showDropdown && hover &&
+        { showDropdown && this.state.hover &&
           <ConversationDropdown
             skipItems={ ['linkToConversation'] }
             conversation={ conversation }
@@ -121,7 +116,7 @@ export class ConversationItem extends Component {
             pullRight={ !this.props.isRtl }
           />
         }
-      </li>
+      </div>
     );
   }
 }
