@@ -1,6 +1,7 @@
 /* eslint-env browser */
 import React, { Component, PropTypes } from 'react';
 import debug from 'debug';
+import throttle from 'lodash/throttle';
 
 import { preventBodyScroll, getDocumentScrollTop } from '../utils/DOMUtils';
 
@@ -34,7 +35,7 @@ export default class Scrollable extends Component {
 
   constructor(props) {
     super(props);
-    this.handleScroll = this.handleScroll.bind(this);
+    this.handleScroll = throttle(this.handleScroll, 100).bind(this);
     if (props.preventDocumentScroll) {
       this.handleMouseEnter = this.handleMouseEnter.bind(this);
       this.handleMouseLeave = this.handleMouseLeave.bind(this);
