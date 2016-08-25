@@ -27,7 +27,7 @@ export class LocationModal extends Component {
 
   render() {
     return (
-      <Modal { ...this.props } ref={ el => { this.modal = el; } } size="small">
+      <Modal { ...this.props } autoSize={ false } ref={ el => this.modal = el } size="small">
         <Header closeButton>
           <FormattedMessage
             id="locationModal.title"
