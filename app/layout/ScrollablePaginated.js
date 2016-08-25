@@ -38,9 +38,11 @@ export default class ScrollablePaginated extends Component {
 
   componentDidMount() {
     const params = this.getLoadParams();
-    if (!this.props.ids) {
+    if (params.endpoint !== null) {
       log('Loading data after component is mounted...');
       this.loadData(params);
+    } else {
+      log('Not loading data after component is mounted since the endpoint is null (hence assuming end of the set)');
     }
     this.setTriggerOffset();
   }
@@ -103,6 +105,7 @@ export default class ScrollablePaginated extends Component {
   render() {
     return (
       <Scrollable
+        preventDocumentScroll
         ref={ el => this.scrollable = el }
         style={ this.props.style }
         triggerOffset={ this.state.triggerOffset }
