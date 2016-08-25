@@ -21,7 +21,7 @@ export default class ScrollablePaginated extends Component {
 
   static propTypes = {
     loadData: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     className: PropTypes.string,
     showProgress: PropTypes.bool,
     ...PaginationPropTypes,

@@ -14,7 +14,7 @@ import ScrollablePaginated from '../layout/ScrollablePaginated';
  */
 export default class BodyPaginated extends Component {
   static propTypes = {
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     style: PropTypes.object,
     showProgress: PropTypes.bool,
     pagination: PropTypes.shape(PaginationPropTypes).isRequired,
