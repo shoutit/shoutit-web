@@ -189,6 +189,8 @@
   "profileSettings.profileForm.lastName.label": "姓氏",
   "profileSettings.profileForm.location.label": "默认位置",
   "profileSettings.profileForm.website.label": "网站/链接",
+  "profilesModal.noListeners": "{isOwner, select, true {You have no listeners.} false {{name} has no listeners.}}",
+  "profilesModal.noListening": "{isOwner, select, true {You are not listening to anybody.} false {{name} is not listening to anybody.}}",
   "profilesModal.segmentedControl.hideButton": "关闭",
   "profilesModal.segmentedControl.listeners": "听众",
   "profilesModal.segmentedControl.listening": "聆听",

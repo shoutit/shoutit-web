@@ -189,6 +189,8 @@
   "profileSettings.profileForm.lastName.label": "Nachname",
   "profileSettings.profileForm.location.label": "Standart Ort",
   "profileSettings.profileForm.website.label": "Webseite",
+  "profilesModal.noListeners": "{isOwner, select, true {You have no listeners.} false {{name} has no listeners.}}",
+  "profilesModal.noListening": "{isOwner, select, true {You are not listening to anybody.} false {{name} is not listening to anybody.}}",
   "profilesModal.segmentedControl.hideButton": "Schließen",
   "profilesModal.segmentedControl.listeners": "Zuhörer",
   "profilesModal.segmentedControl.listening": "Zuhören",
