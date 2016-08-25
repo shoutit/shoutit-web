@@ -60,7 +60,7 @@ export class ProfileButton extends Component {
             onHide={ this.hideOverlay }
             target={ () => this.avatar.getImageNode() }
           >
-            <ProfileOverlay onItemClick={ this.hideOverlay } />
+            <ProfileOverlay closeOverlay={ this.hideOverlay } />
           </Overlay>
         }
       </span>
