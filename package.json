@@ -11,7 +11,7 @@
     "start": "node built/index.js",
     "prebuild": "rimraf built",
     "build": "npm run build:server && npm run build:client && npm run build:copy_assets && npm run build:copy_styles",
-    "build:server": "babel index.js app.js -d built && babel app -d built/app",
+    "build:server": "babel index.js app.js newrelic.js -d built && babel app -d built/app",
     "build:client": "NODE_ENV=production webpack -p --bail",
     "build:translations": "babel-node ./scripts/translations.js",
     "build:copy_styles": "find app -name '*.scss' | cpio -pdm ./built",
