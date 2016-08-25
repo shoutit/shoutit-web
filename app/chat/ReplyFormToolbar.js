@@ -6,7 +6,7 @@ import { getLoggedUser } from '../reducers/session';
 
 import { openModal } from '../actions/ui';
 import SelectProfileModal from '../users/SelectProfileModal';
-import UserShoutsModal from '../shouts/UserShoutsModal';
+import SelectShoutModal from '../shouts/SelectShoutModal';
 import ImageUploadModal from '../modals/ImageUploadModal';
 import Icon from '../widgets/Icon';
 import Tooltip from '../widgets/Tooltip';
@@ -24,7 +24,7 @@ export function ReplyFormToolbar({ openShoutModal, openImageUpload, openSelectPr
               id="chat.replyFormToolbar.attachShout.buttonTooltip"
               defaultMessage="Send a Shout" />
           }>
-          <span className="ReplyFormToolbar-item" onClick={ () => openShoutModal() }>
+          <span className="ReplyFormToolbar-item" onClick={ () => openShoutModal(loggedUser) }>
             <Icon name="sparkle" size="x-small" hover />
           </span>
         </Tooltip>
@@ -102,16 +102,17 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     ));
   },
 
-  openShoutModal: () => {
+  openShoutModal: profile => {
     dispatch(openModal(
-      <UserShoutsModal
+      <SelectShoutModal
+        profile={ profile }
         title={
           <FormattedMessage
             id="chat.replyFormToolbar.attachShout.modalTitle"
             defaultMessage="Send a Shout"
           />
         }
-        onShoutClick={ shout => ownProps.onAttachment('shout', shout) }
+        onSelect={ shout => ownProps.onAttachment('shout', shout) }
       />
     ));
   },

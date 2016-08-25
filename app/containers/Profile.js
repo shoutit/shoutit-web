@@ -83,7 +83,7 @@ export class Profile extends Component {
         scrollElement={ () => window }
         onScrollBottom={ () => {
           if (nextUrl && !isFetching) {
-            dispatch(loadShoutsByUsername(profile.username, nextUrl));
+            dispatch(loadShoutsByUsername(profile.username, { endpoint: nextUrl }));
           }
         } }
         triggerOffset={ 400 }
