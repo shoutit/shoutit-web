@@ -11,11 +11,11 @@ export default createPaginatedReducer({
     actionTypes.CHAT_LOAD_FAILURE,
   ],
   createTypes: [
-    actionTypes.CREATE_CONVERSATION_START,
-    actionTypes.CREATE_CONVERSATION_SUCCESS,
+    actionTypes.CONVERSATION_CREATE_START,
+    actionTypes.CONVERSATION_CREATE_SUCCESS,
   ],
-  addType: actionTypes.LOAD_CONVERSATION_SUCCESS,
-  deleteType: actionTypes.LEAVE_CONVERSATION_START,
+  addType: actionTypes.CONVERSATION_LOAD_SUCCESS,
+  deleteType: actionTypes.CONVERSATION_LEAVE_START,
 });
 
 

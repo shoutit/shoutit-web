@@ -125,7 +125,7 @@ export default store => next => action => { // eslint-disable-line no-unused-var
       }
       break;
 
-    case actionTypes.SET_ACTIVE_CONVERSATION:
+    case actionTypes.CONVERSATION_SET_ACTIVE:
       const conversation = action.payload;
       channelId = getConversationChannelId(conversation);
       log('Subscribing channel %s...', channelId);
@@ -176,8 +176,8 @@ export default store => next => action => { // eslint-disable-line no-unused-var
 
       break;
 
-    case actionTypes.LEAVE_CONVERSATION_SUCCESS:
-    case actionTypes.UNSET_ACTIVE_CONVERSATION:
+    case actionTypes.CONVERSATION_LEAVE_SUCCESS:
+    case actionTypes.CONVERSATION_UNSET_ACTIVE:
       channelId = getConversationChannelId(action.payload);
       log('Unsubscribing channel %s', channelId);
       client.unsubscribe(channelId);
