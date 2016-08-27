@@ -26,7 +26,7 @@ import Scrollable from '../layout/Scrollable';
 import CountryFlag from '../location/CountryFlag';
 import Progress from '../widgets/Progress';
 
-import { loadDiscoverItemsByCountry, loadDiscoverItem, loadShoutsForDiscoverItem } from '../actions/discover';
+import { loadDiscoverItems, loadDiscoverItem, loadDiscoverItemShouts } from '../actions/discoverItems';
 import { getCountryName, getLocationPath } from '../utils/LocationUtils';
 import { backgroundImageStyle } from '../utils/DOMUtils';
 // import { denormalize } from '../schemas';
@@ -48,15 +48,15 @@ const fetchData = (dispatch, state, params) => {
   const { country, id } = params;
   if (id) {
     return dispatch(loadDiscoverItem(id))
-      .then(() => dispatch(loadShoutsForDiscoverItem(id, { page_size })))
+      .then(() => dispatch(loadDiscoverItemShouts(id, { page_size })))
       .catch(err => dispatch(routeError(err)));
   }
 
-  return dispatch(loadDiscoverItemsByCountry(country))
+  return dispatch(loadDiscoverItems(country))
     .then(({ result }) =>
       Promise.all([
         ...result.map(id => dispatch(loadDiscoverItem(id))),
-        ...result.map(id => dispatch(loadShoutsForDiscoverItem(id, { page_size }))),
+        ...result.map(id => dispatch(loadDiscoverItemShouts(id, { page_size }))),
       ])
     )
     .catch(err => dispatch(routeError(err)));
@@ -104,7 +104,7 @@ export class Discover extends Component {
     const { dispatch, params } = this.props;
     if (nextProps.params.id !== params.id) {
       dispatch(loadDiscoverItem(nextProps.params.id)).then(() => {
-        dispatch(loadShoutsForDiscoverItem(nextProps.params.id, { page_size }));
+        dispatch(loadDiscoverItemShouts(nextProps.params.id, { page_size }));
       });
     } else if (params.country !== nextProps.params.country) {
       fetchData(dispatch, null, nextProps.params);
@@ -142,7 +142,7 @@ export class Discover extends Component {
         scrollElement={ () => window }
         onScrollBottom={ () => {
           if (discoverItem && shoutsPagination.nextUrl && !shoutsPagination.isFetching) {
-            dispatch(loadShoutsForDiscoverItem(discoverItem.id, null, shoutsPagination.nextUrl));
+            dispatch(loadDiscoverItemShouts(discoverItem.id, null, shoutsPagination.nextUrl));
           }
         } }>
         <Page>
