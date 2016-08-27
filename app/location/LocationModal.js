@@ -6,7 +6,7 @@ import Modal, { Header, Body, Footer } from '../modals';
 import Button from '../forms/Button';
 
 import SearchLocation from '../location/SearchLocation';
-import { updateCurrentLocation } from '../actions/location';
+import { updateCurrentLocation } from '../actions/currentLocation';
 
 export class LocationModal extends Component {
   static propTypes = {

@@ -14,7 +14,9 @@ import CountryFlag from '../location/CountryFlag';
 
 import { ESCAPE, ENTER } from '../utils/keycodes';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
-import { loadPlacePredictions, geocode, resetPlacePredictionsLastInput, updateCurrentLocation } from '../actions/location';
+import { updateCurrentLocation } from '../actions/currentLocation';
+
+import { loadPlacePredictions, geocode, resetPlacePredictionsLastInput } from '../actions/location';
 
 import Progress from '../widgets/Progress';
 import Overlay from '../widgets/Overlay';

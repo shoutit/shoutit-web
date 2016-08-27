@@ -1,28 +1,9 @@
 /* global google */
-import Cookies from 'js-cookie';
 import { camelizeKeys } from 'humps';
 import trim from 'lodash/trim';
 
 import * as actionTypes from './actionTypes';
-import { SUGGESTIONS, PROFILE } from '../schemas';
-
-export const updateCurrentLocation = location => {
-  Cookies.set('location', location, { expires: 365 });
-  return {
-    types: [
-      actionTypes.UPDATE_CURRENT_LOCATION_START,
-      actionTypes.UPDATE_CURRENT_LOCATION_SUCCESS,
-      actionTypes.UPDATE_CURRENT_LOCATION_FAILURE,
-    ],
-    payload: { location },
-    service: {
-      method: 'update',
-      name: 'location',
-      body: { location },
-      schema: PROFILE,
-    },
-  };
-};
+import { SUGGESTIONS } from '../schemas';
 
 export const loadSuggestions = location => ({
   types: [
