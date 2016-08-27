@@ -7,7 +7,7 @@ import { MESSAGE, CONVERSATION, NOTIFICATION } from '../schemas';
 
 import { pusherAppKey } from '../config';
 import * as actionTypes from '../actions/actionTypes';
-import { typingClientNotification, removeTypingClient } from '../actions/chat';
+import { receiveTypingNotification, stopTyping } from '../actions/chat';
 import { loadConversation, replaceConversation } from '../actions/conversations';
 import { addNewMessage, readMessage, setMessageReadBy } from '../actions/messages';
 import { updateProfileStats, replaceProfile } from '../actions/users';
@@ -31,10 +31,10 @@ const handleClientIsTypingNotification = (conversationId, profile, store) => {
     log('Cleared timeout for last notification');
   }
 
-  store.dispatch(typingClientNotification(conversationId, profile));
+  store.dispatch(receiveTypingNotification(conversationId, profile));
   typingTimeouts[conversationId] = setTimeout(() => {
     log('Removing typing client...');
-    store.dispatch(removeTypingClient(conversationId, profile.id));
+    store.dispatch(stopTyping(conversationId, profile.id));
     delete typingTimeouts[conversationId];
   }, 3000);
 };
@@ -183,7 +183,7 @@ export default store => next => action => { // eslint-disable-line no-unused-var
       client.unsubscribe(channelId);
       break;
 
-    case actionTypes.NOTIFY_CLIENT_IS_TYPING:
+    case actionTypes.CHAT_START_TYPING:
       if (client.conversationChannel) {
         log('Triggering `client-is_typing` for channel %s', client.conversationChannel.name, action.payload);
         client.conversationChannel.trigger('client-is_typing', action.payload);
