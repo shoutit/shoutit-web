@@ -3,20 +3,6 @@ import { camelizeKeys } from 'humps';
 import trim from 'lodash/trim';
 
 import * as actionTypes from './actionTypes';
-import { SUGGESTIONS } from '../schemas';
-
-export const loadSuggestions = location => ({
-  types: [
-    actionTypes.LOAD_SUGGESTIONS_START,
-    actionTypes.LOAD_SUGGESTIONS_SUCCESS,
-    actionTypes.LOAD_SUGGESTIONS_FAILURE,
-  ],
-  service: {
-    name: 'suggestions',
-    params: { location },
-    schema: SUGGESTIONS,
-  },
-});
 
 export const resetPlacePredictionsLastInput = () => ({
   type: actionTypes.PLACE_PREDICTIONS_RESET_INPUT,
