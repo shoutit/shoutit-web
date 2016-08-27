@@ -1,12 +1,15 @@
 /* global google */
+
 import { camelizeKeys } from 'humps';
 import trim from 'lodash/trim';
 
 import * as actionTypes from './actionTypes';
 
-export const resetPlacePredictionsLastInput = () => ({
-  type: actionTypes.PLACE_PREDICTIONS_RESET_INPUT,
-});
+export default function resetPlacePredictionsLastInput() {
+  return {
+    type: actionTypes.PLACE_PREDICTIONS_RESET_INPUT,
+  };
+}
 
 let autocompleteService;
 export function loadPlacePredictions(input, types = ['(cities)']) {

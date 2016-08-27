@@ -16,7 +16,7 @@ import { ESCAPE, ENTER } from '../utils/keycodes';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
 import { updateCurrentLocation } from '../actions/currentLocation';
 import { geocodeCoordinates } from '../actions/geocode';
-import { loadPlacePredictions, resetPlacePredictionsLastInput } from '../actions/location';
+import { loadPlacePredictions, resetPlacePredictionsLastInput } from '../actions/placePredictions';
 
 import Progress from '../widgets/Progress';
 import Overlay from '../widgets/Overlay';

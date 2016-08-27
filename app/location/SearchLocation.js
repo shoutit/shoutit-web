@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import trim from 'lodash/trim';
 import throttle from 'lodash/throttle';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
-import { loadPlacePredictions } from '../actions/location';
+import { loadPlacePredictions } from '../actions/placePredictions';
 import { geocodeCoordinates } from '../actions/geocode';
 import { getCurrentLanguage } from '../reducers/i18n';
 import { getCurrentLocation } from '../reducers/currentLocation';
