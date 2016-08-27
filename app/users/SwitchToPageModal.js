@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Cookies from 'js-cookie';
+import { push } from 'react-router-redux';
 // import { FormattedMessage } from 'react-intl';
 
 import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
@@ -17,6 +19,7 @@ export class SwitchToPageModal extends Component {
   static propTypes = {
     pages: PropTypes.array,
     loadPages: PropTypes.func.isRequired,
+    switchToPage: PropTypes.func.isRequired,
     pagination: PropTypes.shape(PaginationPropTypes),
   }
 
@@ -27,9 +30,9 @@ export class SwitchToPageModal extends Component {
 
   modal = null
 
-  handlePageClick(e) {
+  handlePageClick(e, page) {
     e.preventDefault();
-    this.modal.hide();
+    this.props.switchToPage(page);
   }
 
   render() {
@@ -59,7 +62,7 @@ export class SwitchToPageModal extends Component {
                 popover={ false }
                 size="large"
                 profile={ page }
-                onClick={ this.handlePageClick } />
+                onClick={ e => this.handlePageClick(e, page) } />
             )}
           </BodyPaginated>
         }
@@ -80,6 +83,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadPages: params => dispatch(loadPages('me', params)),
+  switchToPage: page => {
+    Cookies.set('authorization_page_id', page.id, { expires: 365 });
+    dispatch(push(`/user/${page.username}`));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwitchToPageModal);
