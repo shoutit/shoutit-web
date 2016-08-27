@@ -22,8 +22,10 @@ import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
 import NotFound from './NotFound';
 
-import { loadCategories, loadCurrencies, loadSortTypes } from '../actions/misc';
-import { loadSuggestions } from '../actions/location';
+import { loadCategories } from '../actions/categories';
+import { loadCurrencies } from '../actions/currencies';
+import { loadSortTypes } from '../actions/sortTypes';
+import { loadSuggestions } from '../actions/suggestions';
 import { loadListeningProfiles } from '../actions/users';
 import { clientLogin, updateLinkedAccount, logout } from '../actions/session';
 
@@ -66,7 +68,11 @@ export class Application extends Component {
   componentDidMount() {
     const { dispatch, currentLocation, loggedUser } = this.props;
 
-    dispatch(loadSuggestions(currentLocation));
+    dispatch(loadSuggestions({
+      query: {
+        country: currentLocation.country,
+      },
+    }));
 
     if (loggedUser) {
       // Login the user client-side
@@ -95,7 +101,11 @@ export class Application extends Component {
     // Update suggestions if location change
 
     if (!isEqual(currentLocation, nextProps.currentLocation)) {
-      dispatch(loadSuggestions(nextProps.currentLocation));
+      dispatch(loadSuggestions({
+        query: {
+          country: nextProps.currentLocation.country,
+        },
+      }));
     }
     if (!nextProps.loggedUser && loggedUser) {
       // Fetch application data again when logged user changed (e.g. has been logged out)

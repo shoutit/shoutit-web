@@ -73,16 +73,9 @@ describe('services/suggestions', () => {
         expect(this.qs).to.eql({ type: 'a-type' });
         done();
       });
-      suggestions.read({}, resource, { type: 'a-type' }, config, serviceCallback);
+      suggestions.read({}, resource, { query: { type: 'a-type' } }, config, serviceCallback);
     });
 
-    it('should pass the country from params', done => {
-      sinon.stub(Request.prototype, 'end', function callback() {
-        expect(this.qs).to.eql({ country: 'it' });
-        done();
-      });
-      suggestions.read({}, resource, { location: { country: 'it', state: 'lazio' } }, config, serviceCallback);
-    });
 
   });
 

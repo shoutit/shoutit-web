@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router';
 
 import { listenToUser, stopListeningToUser } from '../actions/users';
-import { startConversation, openConversation } from '../actions/conversations';
+import { beginConversation, openConversation } from '../actions/conversations';
 
 import RequiresLogin from '../auth/RequiresLogin';
 import { START_LISTENING, SEND_MESSAGE } from '../auth/loginActions';
@@ -33,7 +33,7 @@ export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium',
     if (profile.conversation) {
       dispatch(openConversation(profile.conversation));
     } else {
-      dispatch(startConversation(loggedUser, profile));
+      dispatch(beginConversation(loggedUser, profile));
     }
   };
 

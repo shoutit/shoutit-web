@@ -9,9 +9,9 @@ export default (state, action) => {
     mapActionToTempId: action => action.payload.message.id,
     mapActionToTempEntity: action => action.payload.message,
     createTypes: [
-      actionTypes.REPLY_CONVERSATION_START,
-      actionTypes.REPLY_CONVERSATION_SUCCESS,
-      actionTypes.REPLY_CONVERSATION_FAILURE,
+      actionTypes.CONVERSATION_REPLY_START,
+      actionTypes.CONVERSATION_REPLY_SUCCESS,
+      actionTypes.CONVERSATION_REPLY_FAILURE,
     ],
   })(state, action);
 

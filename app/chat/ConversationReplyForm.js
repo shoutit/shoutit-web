@@ -8,7 +8,7 @@ import { saveDraft } from '../actions/forms';
 
 import { replyToConversation, closeConversation, openConversation } from '../actions/conversations';
 
-import { notifyTypingUser } from '../actions/chat';
+import { startTyping } from '../actions/chat';
 import { chatWithProfile } from '../actions/users';
 import { replyToShout } from '../actions/shouts';
 
@@ -105,9 +105,9 @@ export class ConversationReplyForm extends Component {
 
     if (text && !this.isTyping) {
       this.isTyping = true;
-      dispatch(notifyTypingUser(loggedUser));
+      dispatch(startTyping(loggedUser));
       this.typingTimeout = setTimeout(() => {
-        dispatch(notifyTypingUser(loggedUser));
+        dispatch(startTyping(loggedUser));
         this.isTyping = false;
         clearTimeout(this.typingTimeout);
       }, typingTimeout);

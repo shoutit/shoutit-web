@@ -12,8 +12,8 @@ export default createPaginatedReducer({
     actionTypes.LOAD_MESSAGES_FAILURE,
   ],
   createTypes: [
-    actionTypes.REPLY_CONVERSATION_START,
-    actionTypes.REPLY_CONVERSATION_SUCCESS,
+    actionTypes.CONVERSATION_REPLY_START,
+    actionTypes.CONVERSATION_REPLY_SUCCESS,
   ],
   addType: actionTypes.ADD_NEW_MESSAGE,
 });

@@ -14,15 +14,15 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case actionTypes.SET_ACTIVE_CONVERSATION:
+    case actionTypes.CONVERSATION_SET_ACTIVE:
       return merge({}, state, {
         activeConversations: union(state.activeConversations, [payload.id]),
       });
-    case actionTypes.UNSET_ACTIVE_CONVERSATION:
+    case actionTypes.CONVERSATION_UNSET_ACTIVE:
       return Object.assign({}, state, {
         activeConversations: without(state.activeConversations, payload.id),
       });
-    case actionTypes.RECEIVE_CLIENT_IS_TYPING:
+    case actionTypes.CHAT_RECEIVE_TYPING_NOTIFICATION:
       if (state.typingProfiles[payload.conversationId] &&
         state.typingProfiles[payload.conversationId].indexOf(payload.userId) > -1) {
         // ignore if already typing
@@ -34,7 +34,7 @@ export default function (state = initialState, action) {
         },
       });
 
-    case actionTypes.REMOVE_CLIENT_IS_TYPING:
+    case actionTypes.CHAT_STOP_TYPING:
       const newState = {
         ...state,
         typingProfiles: {
@@ -44,14 +44,14 @@ export default function (state = initialState, action) {
       };
       return newState;
 
-    case actionTypes.START_CONVERSATION:
-    case actionTypes.OPEN_CONVERSATION:
+    case actionTypes.CONVERSATION_BEGIN:
+    case actionTypes.CONVERSATION_OPEN:
       return {
         ...state,
         openedConversations: union(state.openedConversations, [payload.conversation.id]),
       };
-    case actionTypes.LEAVE_CONVERSATION_START:
-    case actionTypes.CLOSE_CONVERSATION:
+    case actionTypes.CONVERSATION_LEAVE_START:
+    case actionTypes.CONVERSATION_CLOSE:
       return {
         ...state,
         openedConversations: without(state.openedConversations, payload.id),

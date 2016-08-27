@@ -4,31 +4,37 @@ import { now } from 'unix-timestamp';
 import * as actionTypes from './actionTypes';
 import { CONVERSATION, MESSAGE } from '../schemas';
 
-export const loadConversation = conversation => ({
-  types: [
-    actionTypes.LOAD_CONVERSATION_START,
-    actionTypes.LOAD_CONVERSATION_SUCCESS,
-    actionTypes.LOAD_CONVERSATION_FAILURE,
-  ],
-  service: {
-    name: 'conversations',
-    params: { id: conversation.id },
-    schema: CONVERSATION,
-  },
-});
+export function loadConversation(conversation) {
+  return {
+    types: [
+      actionTypes.CONVERSATION_LOAD_START,
+      actionTypes.CONVERSATION_LOAD_SUCCESS,
+      actionTypes.CONVERSATION_LOAD_FAILURE,
+    ],
+    service: {
+      name: 'conversations',
+      params: { id: conversation.id },
+      schema: CONVERSATION,
+    },
+  };
+}
 
-export const setActiveConversation = conversation => ({
-  type: actionTypes.SET_ACTIVE_CONVERSATION,
-  payload: conversation,
-});
+export function setActiveConversation(conversation) {
+  return {
+    type: actionTypes.CONVERSATION_SET_ACTIVE,
+    payload: conversation,
+  };
+}
 
-export const unsetActiveConversation = conversation => ({
-  type: actionTypes.UNSET_ACTIVE_CONVERSATION,
-  payload: conversation,
-});
+export function unsetActiveConversation(conversation) {
+  return {
+    type: actionTypes.CONVERSATION_UNSET_ACTIVE,
+    payload: conversation,
+  };
+}
 
-export const replyToConversation = (conversation, sender, message) => {
-  message = {
+export function replyToConversation(conversation, sender, message) {
+  const tempMessage = {
     ...message,
     profile: sender.id,
     id: `temp-${uuid.v1()}`,
@@ -36,89 +42,103 @@ export const replyToConversation = (conversation, sender, message) => {
   };
   return {
     types: [
-      actionTypes.REPLY_CONVERSATION_START,
-      actionTypes.REPLY_CONVERSATION_SUCCESS,
-      actionTypes.REPLY_CONVERSATION_FAILURE,
+      actionTypes.CONVERSATION_REPLY_START,
+      actionTypes.CONVERSATION_REPLY_SUCCESS,
+      actionTypes.CONVERSATION_REPLY_FAILURE,
     ],
-    payload: { conversation, message },
+    payload: {
+      conversation,
+      message: tempMessage,
+    },
     service: {
       name: 'conversationReply',
       method: 'create',
       params: { id: conversation.id },
-      body: message,
+      body: tempMessage,
       schema: MESSAGE,
     },
   };
-};
+}
 
-export const openConversation = conversation => ({
-  type: actionTypes.OPEN_CONVERSATION,
-  payload: { conversation },
-});
-
-export const closeConversation = conversation => ({
-  type: actionTypes.CLOSE_CONVERSATION,
-  payload: { id: conversation.id },
-});
-
-export function startConversation(loggedUser, user) {
-  const conversation = {
-    id: `new-conversation-with-${user.id}`,
-    isNew: true,
-    type: 'chat',
-    display: {
-      title: user.name,
-    },
-    profiles: [
-      loggedUser.id,
-      user.id,
-    ],
-  };
+export function openConversation(conversation) {
   return {
-    type: actionTypes.START_CONVERSATION,
+    type: actionTypes.CONVERSATION_OPEN,
     payload: { conversation },
   };
 }
 
-export const leaveConversation = conversation => ({
-  types: [
-    actionTypes.LEAVE_CONVERSATION_START,
-    actionTypes.LEAVE_CONVERSATION_SUCCESS,
-    actionTypes.LEAVE_CONVERSATION_FAILURE,
-  ],
-  payload: conversation,
-  service: {
-    name: 'conversations',
-    method: 'delete',
-    params: { id: conversation.id },
-  },
-});
+export function closeConversation(conversation) {
+  return {
+    type: actionTypes.CONVERSATION_CLOSE,
+    payload: { id: conversation.id },
+  };
+}
 
-export const readConversation = conversation => ({
-  types: [
-    actionTypes.READ_CONVERSATION_START,
-    actionTypes.READ_CONVERSATION_SUCCESS,
-    actionTypes.READ_CONVERSATION_FAILURE,
-  ],
-  payload: { conversation },
-  service: {
-    name: 'conversationRead',
-    method: 'create',
-    params: { id: conversation.id },
-  },
-});
+export function beginConversation(sender, recipient) {
+  const conversation = {
+    id: `new-conversation-with-${recipient.id}`,
+    isNew: true,
+    type: 'chat',
+    display: {
+      title: recipient.name,
+    },
+    profiles: [
+      sender.id,
+      recipient.id,
+    ],
+  };
+  return {
+    type: actionTypes.CONVERSATION_BEGIN,
+    payload: { conversation },
+  };
+}
 
-export const markConversationAsRead = conversation => ({
-  type: actionTypes.MARK_CONVERSATION_AS_READ,
-  payload: { conversation },
-});
+export function leaveConversation(conversation) {
+  return {
+    types: [
+      actionTypes.CONVERSATION_LEAVE_START,
+      actionTypes.CONVERSATION_LEAVE_SUCCESS,
+      actionTypes.CONVERSATION_LEAVE_FAILURE,
+    ],
+    payload: conversation,
+    service: {
+      name: 'conversations',
+      method: 'delete',
+      params: { id: conversation.id },
+    },
+  };
+}
+
+
+export function markConversationAsRead(conversation) {
+  return {
+    type: actionTypes.CONVERSATION_MARK_READ,
+    payload: { conversation },
+  };
+}
+
+export function readConversation(conversation) {
+  return {
+    types: [
+      actionTypes.CONVERSATION_READ_START,
+      actionTypes.CONVERSATION_READ_SUCCESS,
+      actionTypes.CONVERSATION_READ_FAILURE,
+    ],
+    payload: { conversation },
+    service: {
+      name: 'conversationRead',
+      method: 'create',
+      params: { id: conversation.id },
+    },
+  };
+}
 
 export function unreadConversation(conversation) {
   return {
     types: [
-      actionTypes.UNREAD_CONVERSATION_START,
-      actionTypes.UNREAD_CONVERSATION_SUCCESS,
-      actionTypes.UNREAD_CONVERSATION_FAILURE,
+      actionTypes.CONVERSATION_MARK_UNREAD_START,
+      actionTypes.CONVERSATION_MARK_UNREAD_SUCCESS,
+      actionTypes.CONVERSATION_MARK_UNREAD_FAILURE,
     ],
     payload: { conversation },
     service: {
@@ -131,7 +151,7 @@ export function unreadConversation(conversation) {
 
 export function replaceConversation(normalizedPayload) {
   return {
-    type: actionTypes.REPLACE_CONVERSATION,
+    type: actionTypes.CONVERSATION_REPLACE,
     payload: normalizedPayload,
   };
 }

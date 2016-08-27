@@ -6,9 +6,9 @@ import { getPagination } from '../paginated';
 export default createPaginatedReducer({
   mapActionToKey: action => action.payload.country,
   fetchTypes: [
-    actionTypes.LOAD_DISCOVER_ITEMS_START,
-    actionTypes.LOAD_DISCOVER_ITEMS_SUCCESS,
-    actionTypes.LOAD_DISCOVER_ITEMS_FAILURE,
+    actionTypes.DISCOVERITEMS_LOAD_START,
+    actionTypes.DISCOVERITEMS_LOAD_SUCCESS,
+    actionTypes.DISCOVERITEMS_LOAD_FAILURE,
   ],
 });
 

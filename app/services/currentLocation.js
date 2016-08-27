@@ -3,7 +3,7 @@ import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
 
 export default {
-  name: 'location',
+  name: 'currentLocation',
   update: (req, resource, params, { location }, config, callback) => {
     req.geolocation = location;
     if (req.session.user) {

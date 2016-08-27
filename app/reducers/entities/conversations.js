@@ -10,9 +10,9 @@ export default (state, action) => {
     mapActionToTempId: action => action.payload.conversation.id,
     mapActionToTempEntity: action => action.payload.conversation,
     createTypes: [
-      actionTypes.CREATE_CONVERSATION_START,
-      actionTypes.CREATE_CONVERSATION_SUCCESS,
-      actionTypes.CREATE_CONVERSATION_FAILURE,
+      actionTypes.CONVERSATION_CREATE_START,
+      actionTypes.CONVERSATION_CREATE_SUCCESS,
+      actionTypes.CONVERSATION_CREATE_FAILURE,
     ],
   })(state, action);
 
@@ -26,23 +26,23 @@ export default (state, action) => {
         },
       });
       break;
-    case actionTypes.READ_CONVERSATION_START:
-    case actionTypes.MARK_CONVERSATION_AS_READ:
+    case actionTypes.CONVERSATION_READ_START:
+    case actionTypes.CONVERSATION_MARK_READ:
       state = merge({}, state, {
         [payload.conversation.id]: { unreadMessagesCount: 0 },
       });
       break;
-    case actionTypes.UNREAD_CONVERSATION_START:
+    case actionTypes.CONVERSATION_MARK_UNREAD_START:
       state = merge({}, state, {
         [payload.conversation.id]: { unreadMessagesCount: 1 },
       });
       break;
-    case actionTypes.START_CONVERSATION:
+    case actionTypes.CONVERSATION_BEGIN:
       state = merge({}, state, {
         [payload.conversation.id]: payload.conversation,
       });
       break;
-    case actionTypes.REPLY_CONVERSATION_SUCCESS:
+    case actionTypes.CONVERSATION_REPLY_SUCCESS:
       state = merge({}, state, {
         [payload.conversation.id]: {
           display: {

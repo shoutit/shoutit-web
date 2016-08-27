@@ -1,61 +1,15 @@
 /* global google */
-import Cookies from 'js-cookie';
+
 import { camelizeKeys } from 'humps';
 import trim from 'lodash/trim';
 
 import * as actionTypes from './actionTypes';
-import { SUGGESTIONS, PROFILE } from '../schemas';
 
-export const updateCurrentLocation = location => {
-  Cookies.set('location', location, { expires: 365 });
+export default function resetPlacePredictionsLastInput() {
   return {
-    types: [
-      actionTypes.UPDATE_CURRENT_LOCATION_START,
-      actionTypes.UPDATE_CURRENT_LOCATION_SUCCESS,
-      actionTypes.UPDATE_CURRENT_LOCATION_FAILURE,
-    ],
-    payload: { location },
-    service: {
-      method: 'update',
-      name: 'location',
-      body: { location },
-      schema: PROFILE,
-    },
+    type: actionTypes.PLACE_PREDICTIONS_RESET_INPUT,
   };
-};
-
-export const loadSuggestions = location => ({
-  types: [
-    actionTypes.LOAD_SUGGESTIONS_START,
-    actionTypes.LOAD_SUGGESTIONS_SUCCESS,
-    actionTypes.LOAD_SUGGESTIONS_FAILURE,
-  ],
-  service: {
-    name: 'suggestions',
-    params: { location },
-    schema: SUGGESTIONS,
-  },
-});
-
-export const geocode = ({ latitude, longitude }) => ({
-  types: [
-    actionTypes.GEOCODE_START,
-    actionTypes.GEOCODE_SUCCESS,
-    actionTypes.GEOCODE_FAILURE,
-  ],
-  service: {
-    name: 'geocode',
-    params: {
-      query: {
-        latlng: `${latitude},${longitude}`,
-      },
-    },
-  },
-});
-
-export const resetPlacePredictionsLastInput = () => ({
-  type: actionTypes.PLACE_PREDICTIONS_RESET_INPUT,
-});
+}
 
 let autocompleteService;
 export function loadPlacePredictions(input, types = ['(cities)']) {
