@@ -15,8 +15,8 @@ import CountryFlag from '../location/CountryFlag';
 import { ESCAPE, ENTER } from '../utils/keycodes';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
 import { updateCurrentLocation } from '../actions/currentLocation';
-
-import { loadPlacePredictions, geocode, resetPlacePredictionsLastInput } from '../actions/location';
+import { geocodeCoordinates } from '../actions/geocode';
+import { loadPlacePredictions, resetPlacePredictionsLastInput } from '../actions/location';
 
 import Progress from '../widgets/Progress';
 import Overlay from '../widgets/Overlay';
@@ -183,7 +183,7 @@ export class LocationField extends Component {
     const { language, dispatch, name } = this.props;
 
     geocodePlace(prediction.placeId, language)
-      .then(placeLocation => dispatch(geocode(placeLocation)))
+      .then(placeLocation => dispatch(geocodeCoordinates(placeLocation)))
       .then(location => {
         const value = formatLocation(location, { showCountry: false, language });
         this.setState({ value, location, isGeocoding: false }, () => this.handleGeocodeSuccess(location));
