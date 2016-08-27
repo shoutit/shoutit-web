@@ -49,7 +49,7 @@ function createReadMethod({ url, cacheResponse, name }) {
       .query(params.query)
       .use(req)
       .end((err, res) => {
-        log('%s response from %s', res.status, requestUrl, params);
+        log('%s response from %s', res && res.status, requestUrl, params);
         if (err) {
           return callback(parseApiError(err));
         }

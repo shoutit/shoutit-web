@@ -22,7 +22,9 @@ import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
 import NotFound from './NotFound';
 
-import { loadCategories, loadCurrencies, loadSortTypes } from '../actions/misc';
+import { loadCategories } from '../actions/categories';
+import { loadCurrencies } from '../actions/currencies';
+import { loadSortTypes } from '../actions/sortTypes';
 import { loadSuggestions } from '../actions/suggestions';
 import { loadListeningProfiles } from '../actions/users';
 import { clientLogin, updateLinkedAccount, logout } from '../actions/session';
