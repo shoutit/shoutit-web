@@ -4,7 +4,8 @@ import { FormattedMessage } from 'react-intl';
 import trim from 'lodash/trim';
 import throttle from 'lodash/throttle';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
-import { loadPlacePredictions, geocode } from '../actions/location';
+import { loadPlacePredictions } from '../actions/location';
+import { geocodeCoordinates } from '../actions/geocode';
 import { getCurrentLanguage } from '../reducers/i18n';
 import { getCurrentLocation } from '../reducers/currentLocation';
 
@@ -61,7 +62,7 @@ export class SearchLocation extends Component {
     e.preventDefault();
     this.setState({ isGeocoding: true });
     geocodePlace(prediction.placeId, this.props.language)
-      .then(location => this.props.dispatch(geocode(location)))
+      .then(location => this.props.dispatch(geocodeCoordinates(location)))
       .then(location => {
         if (location && this.props.onLocationSelect) {
           this.props.onLocationSelect(location, prediction);
