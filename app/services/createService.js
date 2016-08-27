@@ -1,4 +1,5 @@
 import template from 'lodash/template';
+import debug from 'debug';
 
 import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
@@ -26,17 +27,21 @@ export function getCache(serviceName, locale = 'en') {
 }
 
 function createReadMethod({ url, cacheResponse, name }) {
+  const log = debug(`shoutit:services:${name}/read`);
   return function readService(req, resource, params = {}, config, callback) {
-    const cache = getCache(name, req.language);
-    if (cache) {
-      callback(null, cache);
-      return;
-    }
+
     let requestUrl;
     if (params.endpoint) {
       requestUrl = params.endpoint;
     } else {
       requestUrl = template(url)(params);
+    }
+    log('Sending request to %s...', requestUrl);
+    const cache = getCache(name, req.language);
+    if (cache) {
+      log('Using response found in cache for %s', requestUrl);
+      callback(null, cache);
+      return;
     }
     request
       .get(requestUrl)
@@ -44,6 +49,7 @@ function createReadMethod({ url, cacheResponse, name }) {
       .query(params.query)
       .use(req)
       .end((err, res) => {
+        log('Received response from %s', requestUrl);
         if (err) {
           return callback(parseApiError(err));
         }

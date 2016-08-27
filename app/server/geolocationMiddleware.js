@@ -8,7 +8,7 @@ import { getCountryName, formatLocation } from '../utils/LocationUtils';
 
 const geoRE = /^\/(search|discover)\/(\w{2})(\/([^\/]*))?(\/([^\/\?]*))?/;
 
-const log = debug('shoutit:geolocationMiddleware');
+const log = debug('shoutit:server:geolocationMiddleware');
 
 export default function geoLocationMiddleware(req, res, next) {
 

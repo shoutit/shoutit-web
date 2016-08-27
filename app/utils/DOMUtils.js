@@ -56,7 +56,7 @@ export function blurActiveElement() {
 
 let scrollTop;
 export function preventBodyScroll() {
-  const log = debug('shoutit:preventBodyScroll');
+  const log = debug('shoutit:utils:DOMUtils:preventBodyScroll');
   function on() {
     scrollTop = getDocumentScrollTop();
     if (document.documentElement.clientHeight === document.documentElement.scrollHeight) {

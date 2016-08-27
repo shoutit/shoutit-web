@@ -18,7 +18,7 @@ import Progress from '../widgets/Progress';
 import { preventBodyScroll } from '../utils/DOMUtils';
 import { ESCAPE } from '../utils/keycodes';
 
-const log = debug('shoutit:ui:Modal');
+const log = debug('shoutit:modals:Modal');
 
 const CONTENT_TOP_SMALL = 40;
 const CONTENT_TOP_SMALL_TRIGGER = 650; // how much should window be small to use small content's top

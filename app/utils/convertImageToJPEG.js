@@ -8,7 +8,7 @@ import fs from 'fs';
 import debug from 'debug';
 import gm from 'gm';
 
-const log = debug('shoutit:ImageUtils');
+const log = debug('shoutit:utils:convertImageToJPEG');
 
 const imageMagick = gm.subClass({ imageMagick: true });
 

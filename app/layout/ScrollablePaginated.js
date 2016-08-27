@@ -7,7 +7,7 @@ import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 import Progress from '../widgets/Progress';
 import Scrollable from '../layout/Scrollable';
 
-const log = debug('shoutit:widgets:ScrollablePaginated');
+const log = debug('shoutit:layout:ScrollablePaginated');
 
 /**
  * Render a Scrollable that can load paginated data when it's scrolled

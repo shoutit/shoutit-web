@@ -20,7 +20,7 @@ import Progress from '../widgets/Progress';
 import Overlay from '../widgets/Overlay';
 import FormField from './FormField';
 
-const log = debug('shoutit:ui:LocationField');
+const log = debug('shoutit:forms:LocationField');
 
 export class LocationField extends Component {
   static propTypes = {

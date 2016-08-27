@@ -5,7 +5,7 @@ import throttle from 'lodash/throttle';
 
 import { preventBodyScroll, getDocumentScrollTop } from '../utils/DOMUtils';
 
-const log = debug('shoutit:ui:Scrollable');
+const log = debug('shoutit:layout:Scrollable');
 
 // Use this component to detect when the user scrolls top/bottom of a container element
 
