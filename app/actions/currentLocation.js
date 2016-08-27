@@ -9,14 +9,14 @@ export function updateCurrentLocation(location) {
   Cookies.set('location', location, { expires: 365 });
   return {
     types: [
-      actionTypes.UPDATE_CURRENT_LOCATION_START,
-      actionTypes.UPDATE_CURRENT_LOCATION_SUCCESS,
-      actionTypes.UPDATE_CURRENT_LOCATION_FAILURE,
+      actionTypes.CURRENTLOCATION_UPDATE_START,
+      actionTypes.CURRENTLOCATION_UPDATE_SUCCESS,
+      actionTypes.CURRENTLOCATION_UPDATE_FAILURE,
     ],
     payload: { location },
     service: {
       method: 'update',
-      name: 'location',
+      name: 'currentLocation',
       body: { location },
       schema: PROFILE,
     },
