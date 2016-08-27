@@ -22,6 +22,9 @@ request.Request.prototype.use = function use(req) {
   if (req.session && req.session.accessToken) {
     this.set('Authorization', `Bearer ${req.session.accessToken}`);
   }
+  if (req.cookies && req.cookies.authorization_page_id) {
+    this.set('Authorization-Page-Id', req.cookies.authorization_page_id);
+  }
   if (req.language) {
     this.set('Accept-Language', req.language);
   }
