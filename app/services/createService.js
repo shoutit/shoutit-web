@@ -36,7 +36,7 @@ function createReadMethod({ url, cacheResponse, name }) {
     } else {
       requestUrl = template(url)(params);
     }
-    log('Sending request to %s...', requestUrl);
+    log('Sending request to %s...', requestUrl, params);
     const cache = getCache(name, req.language);
     if (cache) {
       log('Using response found in cache for %s', requestUrl);
@@ -49,7 +49,7 @@ function createReadMethod({ url, cacheResponse, name }) {
       .query(params.query)
       .use(req)
       .end((err, res) => {
-        log('Received response from %s', requestUrl);
+        log('%s response from %s', res.status, requestUrl, params);
         if (err) {
           return callback(parseApiError(err));
         }
