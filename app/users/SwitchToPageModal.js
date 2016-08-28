@@ -84,7 +84,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadPages: params => dispatch(loadPages('me', params)),
-  switchToPage: page => dispatch(authenticateAs(page)),
+  switchToPage: page =>
+    dispatch(authenticateAs(page))
+      .then(() => window.location = '/'),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwitchToPageModal);
