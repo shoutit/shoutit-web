@@ -195,8 +195,8 @@ describe('services/profile', () => {
 
     it('should call the callback with the response body as profile', () => {
       sinon.stub(Request.prototype, 'end', cb => {
-        cb(null, { body: { username: 'foo', lodash_key: true } });
-        expect(callback).to.have.been.calledWith(null, { username: 'foo', lodashKey: true });
+        cb(null, { body: { username: 'foo' } });
+        expect(callback).to.have.been.calledWith(null, { username: 'foo' });
       });
       service.update(req, resource, params, body, config, callback);
     });

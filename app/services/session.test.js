@@ -46,25 +46,25 @@ describe('services/session', () => {
         const res = {
           body: {
             profile: {
-              user_name: 'a user',
+              username: 'a user',
             },
-            new_signup: true,
-            access_token: 'an_access_token',
-            refresh_token: 'a_refresh_token',
+            newSignup: true,
+            accessToken: 'an_access_token',
+            refreshToken: 'a_refresh_token',
             scope: 'scopeA scopeB',
-            expires_in: 10,
+            expiresIn: 10,
           },
         };
         callback(null, res);
         expect(req.session).to.have.property('profile').to.eql({
-          userName: 'a user',
+          username: 'a user',
         });
         expect(req.session).to.have.property('newSignup', true);
         expect(req.session).to.have.property('accessToken', 'an_access_token');
         expect(req.session).to.have.property('refreshToken', 'a_refresh_token');
         expect(req.session.cookie).to.have.property('expires');
         expect(req.session.scope).to.eql('scopeA scopeB');
-        expect(requestCallback).to.have.been.calledWith(null, { userName: 'a user' });
+        expect(requestCallback).to.have.been.calledWith(null, { username: 'a user' });
         done();
       });
       service.create(req, {}, {}, { foo: 'bar' }, {}, requestCallback);
@@ -85,7 +85,7 @@ describe('services/session', () => {
       stub(Request.prototype, 'end', function cb(callback) {
         const response = {
           body: {
-            user_name: 'a user',
+            username: 'a user',
           },
         };
         callback(null, response);
@@ -93,7 +93,7 @@ describe('services/session', () => {
         expect(req.session).to.have.property('profile');
         expect(req.session).to.not.have.property('page');
 
-        expect(serviceCallback).to.have.been.calledWith(null, { userName: 'a user' });
+        expect(serviceCallback).to.have.been.calledWith(null, { username: 'a user' });
         done();
       });
       service.read(req, {}, {}, {}, serviceCallback);
