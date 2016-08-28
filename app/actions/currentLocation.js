@@ -1,12 +1,9 @@
 /* eslint import/prefer-default-export: 0 */
 
-import Cookies from 'js-cookie';
-
 import * as actionTypes from './actionTypes';
 import { PROFILE } from '../schemas';
 
 export function updateCurrentLocation(location) {
-  Cookies.set('location', location, { expires: 365 });
   return {
     types: [
       actionTypes.CURRENTLOCATION_UPDATE_START,

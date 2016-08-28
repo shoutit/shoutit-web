@@ -13,8 +13,8 @@ const translationsPath = path.resolve(__dirname, '../../assets/intl/translations
  */
 export default function getInitialStoreState(req) {
   let messages;
-  if (req.language) {
-    messages = require(`${translationsPath}/${req.language}.json`);
+  if (req.session.language) {
+    messages = require(`${translationsPath}/${req.session.language}.json`);
   }
   const state = {
     routing: {
@@ -23,26 +23,29 @@ export default function getInitialStoreState(req) {
       path: req.path,
     },
     browser: req.browser,
-    currentLocation: req.geolocation,
+    currentLocation: req.session.currentLocation,
     i18n: {
       messages,
       supportedLocales,
       supportedLanguages,
-      currentLanguage: req.language,
+      currentLanguage: req.session.language,
       currentLocale: req.locale,
-      rtl: req.language === 'ar',
+      rtl: req.session.language === 'ar',
     },
   };
-  if (req.session && req.session.user) {
-    const { user } = req.session;
+  if (req.session && req.session.profile) {
     state.session = {
-      user: user.id,
+      profile: req.session.profile.id,
     };
     state.entities = {
       users: {
-        [user.id]: user,
+        [req.session.profile.id]: req.session.profile,
       },
     };
+    if (req.session.page) {
+      state.session.page = req.session.page.id;
+      state.entities.users[req.session.page.id] = req.session.page;
+    }
   }
   return state;
 }

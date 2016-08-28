@@ -14,7 +14,9 @@ import { getPaginationState, getNotifications } from '../../reducers/paginated/n
 export function NotificationsOverlay({ markAllAsRead, notifications = [], pagination, loadNotifications, closeOverlay, markAsRead }) {
 
   function onNotificationClick(notification) {
-    markAsRead(notification);
+    if (!notification.isRead) {
+      markAsRead(notification);
+    }
     closeOverlay();
   }
 
@@ -54,7 +56,7 @@ export function NotificationsOverlay({ markAllAsRead, notifications = [], pagina
             <NotificationItem
               key={ notification.id }
               notification={ notification }
-              onClick={ onNotificationClick }
+              onClick={ () => onNotificationClick(notification) }
             />
           )}
           </List>

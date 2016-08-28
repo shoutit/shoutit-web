@@ -29,7 +29,7 @@ import { loadSuggestions } from '../actions/suggestions';
 import { loadListeningProfiles } from '../actions/users';
 import { clientLogin, updateLinkedAccount, logout } from '../actions/session';
 
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 import Device from '../utils/Device';
 import OpenInApp from '../widgets/OpenInApp';
@@ -43,9 +43,9 @@ const fetchData = (dispatch, state) => {
   promises.push(dispatch(loadCategories()));
   promises.push(dispatch(loadSortTypes()));
   promises.push(dispatch(loadCurrencies()));
-  const loggedUser = getLoggedUser(state); // logged user comes from rehydrated state
-  if (loggedUser) {
-    promises.push(dispatch(loadListeningProfiles(loggedUser)));
+  const loggedProfile = getLoggedProfile(state); // logged user comes from rehydrated state
+  if (loggedProfile) {
+    promises.push(dispatch(loadListeningProfiles(loggedProfile)));
   }
   return Promise.all(promises);
 };
@@ -53,7 +53,7 @@ const fetchData = (dispatch, state) => {
 export class Application extends Component {
 
   static propTypes = {
-    loggedUser: PropTypes.object,
+    loggedProfile: PropTypes.object,
     currentLocation: PropTypes.object,
     error: PropTypes.object,
     children: PropTypes.element.isRequired,
@@ -66,7 +66,7 @@ export class Application extends Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { dispatch, currentLocation, loggedUser } = this.props;
+    const { dispatch, currentLocation, loggedProfile } = this.props;
 
     dispatch(loadSuggestions({
       query: {
@@ -74,12 +74,12 @@ export class Application extends Component {
       },
     }));
 
-    if (loggedUser) {
+    if (loggedProfile) {
       // Login the user client-side
-      dispatch(clientLogin(loggedUser));
-      identifyOnMixpanel(loggedUser);
+      dispatch(clientLogin(loggedProfile));
+      identifyOnMixpanel(loggedProfile);
       // Get a new Facebook token if it expired
-      if (FacebookUtils.didTokenExpire(loggedUser)) {
+      if (FacebookUtils.didTokenExpire(loggedProfile)) {
         FacebookUtils.getLoginStatus(response => {
           if (response.status === 'connected') {
             dispatch(updateLinkedAccount({
@@ -92,11 +92,11 @@ export class Application extends Component {
         });
       }
     }
-    trackWithMixpanel('app_open', { signed_user: !!loggedUser });
+    trackWithMixpanel('app_open', { signed_user: !!loggedProfile });
   }
 
   componentWillUpdate(nextProps) {
-    const { dispatch, currentLocation, loggedUser } = this.props;
+    const { dispatch, currentLocation, loggedProfile } = this.props;
 
     // Update suggestions if location change
 
@@ -107,12 +107,8 @@ export class Application extends Component {
         },
       }));
     }
-    if (!nextProps.loggedUser && loggedUser) {
-      // Fetch application data again when logged user changed (e.g. has been logged out)
-      fetchData(dispatch, { session: { user: undefined } });
-    }
-    if (!loggedUser && nextProps.loggedUser) {
-      identifyOnMixpanel(nextProps.loggedUser);
+    if (!loggedProfile && nextProps.loggedProfile) {
+      identifyOnMixpanel(nextProps.loggedProfile);
     }
   }
 
@@ -215,7 +211,7 @@ export class Application extends Component {
 const mapStateToProps = state => ({
   currentLocation: getCurrentLocation(state),
   currentUrl: getCurrentUrl(state),
-  loggedUser: getLoggedUser(state),
+  loggedProfile: getLoggedProfile(state),
   error: getRoutingError(state),
   messages: getIntlMessages(state),
   currentLanguage: getCurrentLanguage(state),

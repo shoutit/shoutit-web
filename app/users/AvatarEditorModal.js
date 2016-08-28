@@ -103,7 +103,7 @@ export class AvatarEditorModal extends Component {
     if (this.state.uploadRequest) {
       this.state.uploadRequest.abort();
     }
-    this.hide();
+    this.modal.hide();
   }
 
   render() {

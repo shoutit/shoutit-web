@@ -1,4 +1,4 @@
-/* eslint-env mocha */
+
 
 import { expect } from 'chai';
 import { getVariation, getErrorLocations, getErrorsByLocation } from './APIUtils';

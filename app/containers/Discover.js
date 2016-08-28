@@ -174,7 +174,7 @@ export class Discover extends Component {
               </div>
             }
 
-            { discoverItem && discoverItem.showShouts && shouts && shouts.length > 0 &&
+            { shouts && shouts.length > 0 &&
               <div className="Discover-shouts">
                 <h2>
                   <FormattedMessage

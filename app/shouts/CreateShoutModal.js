@@ -12,7 +12,7 @@ import { openModal } from '../actions/ui';
 
 import ShoutForm from './ShoutForm';
 import CreateShoutSuccessModal from './CreateShoutSuccessModal';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 import { getShoutDraft } from '../reducers/shoutDraft';
 
 import './CreateShoutModal.scss';
@@ -129,7 +129,7 @@ const mapStateToProps = (state, ownProps) => ({
     getShoutDraft(state),
     { type: ownProps.shout.type }
   ),
-  loggedUser: getLoggedUser(state),
+  loggedUser: getLoggedProfile(state),
 });
 
 const mapDispatchToProps = dispatch => ({

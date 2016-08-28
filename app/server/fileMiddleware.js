@@ -1,4 +1,3 @@
-/* eslint no-console: 0 */
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
@@ -21,13 +20,13 @@ export function fileUploadMiddleware(req, res) {
     return;
   }
 
-  if (!req.session.user) {
+  if (!req.session.profile) {
     res.status(403).send('User is not logged in.');
     return;
   }
 
   const { fieldname, bucket, cdn } = s3Buckets[resourceType];
-  const filename = uniqueFilenameFromUser(req.session.user);
+  const filename = uniqueFilenameFromUser(req.session.profile);
 
   const uploadToS3 = filePath => {
     const key = path.basename(filePath);
@@ -96,7 +95,7 @@ export function fileDeleteMiddleware(req, res) {
   const { resourceType } = req.params;
   const { bucket } = s3Buckets[resourceType];
 
-  if (!req.session.user) {
+  if (!req.session.profile) {
     res.status(403).send('User session is required.');
     return;
   }
@@ -105,7 +104,7 @@ export function fileDeleteMiddleware(req, res) {
     return;
   }
 
-  if (last(name.split('_') !== req.session.user.id)) {
+  if (last(name.split('_') !== req.session.profile.id)) {
     res.status(403).send('Access denied.');
   }
 

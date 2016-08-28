@@ -24,7 +24,7 @@ export function getMessageReadBy(state, message) {
   }
   return message.readBy
     .filter(readBy =>
-      message.profile && readBy.profileId !== message.profile.id && readBy.profileId !== state.session.user && state.entities.users[readBy.profileId]
+      message.profile && readBy.profileId !== message.profile.id && readBy.profileId !== state.session.profile && state.entities.users[readBy.profileId]
     )
     .map(readBy => ({
       ...readBy,

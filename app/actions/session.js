@@ -28,11 +28,12 @@ export function login({ grant_type = grantTypes.shoutit_login, ...loginData }) {
   };
 }
 
-export function signup(body) {
-  body = {
-    ...body,
+export function signup(account) {
+  const body = Object.assign({}, {
+    ...account,
     mixpanel_distinct_id: getMixpanelId(),
-  };
+  });
+
   return {
     types: [
       actionTypes.SIGNUP_START,
@@ -57,27 +58,25 @@ export function clientLogin(user) {
   };
 }
 
-export function loginWithGoogle({ gplus_code, user }) {
+export function loginWithGoogle(gplusCode) {
   const loginData = {
-    gplus_code,
-    user,
+    gplus_code: gplusCode,
     grant_type: grantTypes.gplus_code,
   };
   return login(loginData);
 }
 
-export function loginWithFacebook({ facebook_access_token, user }) {
+export function loginWithFacebook(accessToken) {
   const loginData = {
-    facebook_access_token,
-    user,
+    facebook_access_token: accessToken,
     grant_type: grantTypes.facebook_access_token,
   };
   return login(loginData);
 }
 
-export function loginWithAuthToken({ auth_token }) {
+export function loginWithAuthToken(authToken) {
   const loginData = {
-    auth_token,
+    auth_token: authToken,
     grant_type: grantTypes.auth_token,
   };
   return login(loginData);
@@ -175,6 +174,38 @@ export function updateLinkedAccount(body) {
       name: 'profileLink',
       method: 'update',
       body,
+    },
+  };
+}
+
+export function authenticateAs(profile) {
+  return {
+    types: [
+      actionTypes.SESSION_AUTHENTICATE_AS_START,
+      actionTypes.SESSION_AUTHENTICATE_AS_SUCCESS,
+      actionTypes.SESSION_AUTHENTICATE_AS_FAILURE,
+    ],
+    service: {
+      name: 'authenticateAs',
+      method: 'create',
+      body: {
+        id: profile.id,
+        username: profile.username,
+      },
+    },
+  };
+}
+
+export function cancelAuthentication() {
+  return {
+    types: [
+      actionTypes.SESSION_CANCEL_AUTHENTICATION_START,
+      actionTypes.SESSION_CANCEL_AUTHENTICATION_SUCCESS,
+      actionTypes.SESSION_CANCEL_AUTHENTICATION_FAILURE,
+    ],
+    service: {
+      name: 'authenticateAs',
+      method: 'delete',
     },
   };
 }

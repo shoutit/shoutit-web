@@ -1,12 +1,6 @@
-import { camelizeKeys } from 'humps';
 import request from '../utils/request';
-import { setRequestSession } from '../services/session';
 import { parseApiError } from '../utils/APIUtils';
 import { shoutit_signup } from '../constants/grantTypes';
-import {
-  AUTH_CLIENT_ID as clientId,
-  AUTH_CLIENT_SECRET as clientSecret,
-} from './constants';
 
 export default {
   name: 'profile',
@@ -31,35 +25,22 @@ export default {
       return;
     }
 
-    let location = {};
-    if (body.location && body.location.latitude && body.location.longitude) {
-      location = {
-        latitude: body.location.latitude,
-        longitude: body.location.longitude,
-      };
-    }
     const data = {
-      client_id: clientId,
-      client_secret: clientSecret,
       grant_type: shoutit_signup,
       name: `${body.firstName} ${body.lastName}`,
       email: body.email,
       password: body.password,
-      profile: { location },
+      profile: {
+        location: req.session.currentLocation,
+        language: req.session.language,
+      },
       mixpanel_distinct_id: body.mixpanel_distinct_id,
     };
-    request
-      .post('/oauth2/access_token')
-      .send(data)
-      .use(req)
-      .prefix()
-      .end((err, res) => {
-        if (err) {
-          return callback(parseApiError(err));
-        }
-        setRequestSession(req, camelizeKeys(res.body));
-        return callback(null, req.session.user);
-      });
+
+    req.fetchr.create('session')
+      .body(data)
+      .end(callback);
+
   },
   read: (req, resource, params, config, callback) => {
     request
@@ -88,8 +69,8 @@ export default {
         if (err) {
           return callback(parseApiError(err));
         }
-        req.session.user = res.body;
-        return callback(null, res.body);
+        req.session.profile = res.body;
+        return callback(null, req.session.profile);
       });
   },
 };

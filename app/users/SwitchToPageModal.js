@@ -1,13 +1,14 @@
+/* eslint-env browser */
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Cookies from 'js-cookie';
-import { push } from 'react-router-redux';
-// import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
 import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 
 import { getPagesByUsername, getPaginationState } from '../reducers/paginated/pagesByUsername';
 import { loadPages } from '../actions/users';
+import { authenticateAs } from '../actions/session';
 
 import Modal, { Header, Footer, Body, BodyPaginated } from '../modals';
 import Button from '../forms/Button';
@@ -44,12 +45,18 @@ export class SwitchToPageModal extends Component {
         loading={ !pages }
         size="small" >
         <Header closeButton>
-          Use Shoutit as page
+          <FormattedMessage
+            id="users.SwitchToPageModal.title"
+            defaultMessage="Use Shoutit as page"
+          />
         </Header>
         { pages && pages.length === 0 ?
           <Body>
             <p>
-              You don't have any page.
+              <FormattedMessage
+                id="users.SwitchToPageModal.noPages"
+                defaultMessage="You don't have any page."
+              />
             </p>
           </Body> :
           <BodyPaginated
@@ -68,7 +75,10 @@ export class SwitchToPageModal extends Component {
         }
         <Footer>
           <Button kind="primary" onClick={ () => this.modal.hide() }>
-            Close
+            <FormattedMessage
+              id="users.SwitchToPageModal.closeButton"
+              defaultMessage="Close"
+            />
           </Button>
         </Footer>
       </Modal>
@@ -83,10 +93,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadPages: params => dispatch(loadPages('me', params)),
-  switchToPage: page => {
-    Cookies.set('authorization_page_id', page.id, { expires: 365 });
-    dispatch(push(`/user/${page.username}`));
-  },
+  switchToPage: page =>
+    dispatch(authenticateAs(page))
+      .then(() => window.location = '/'),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SwitchToPageModal);

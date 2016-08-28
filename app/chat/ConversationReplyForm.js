@@ -13,7 +13,7 @@ import { chatWithProfile } from '../actions/users';
 import { replyToShout } from '../actions/shouts';
 
 import { ENTER } from '../utils/keycodes';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 import ReplyFormToolbar from '../chat/ReplyFormToolbar';
 
@@ -191,7 +191,7 @@ const mapStateToProps = (state, ownProps) => {
   const name = `conversationReply-${ownProps.conversation.id}`;
   return {
     name,
-    loggedUser: getLoggedUser(state),
+    loggedUser: getLoggedProfile(state),
     fields: state.forms[name] || { draft: '' },
   };
 };

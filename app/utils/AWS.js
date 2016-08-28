@@ -1,5 +1,3 @@
-/* eslint no-console: 0 */
-
 /* WARNING: ONLY FOR SERVER SIDE */
 
 import AWS from 'aws-sdk';

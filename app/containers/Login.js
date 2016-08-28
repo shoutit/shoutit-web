@@ -17,7 +17,7 @@ import Frame from '../layout/Frame';
 
 import SocialLoginForm from '../auth/SocialLoginForm';
 import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 const MESSAGES = defineMessages({
   title: {
@@ -230,7 +230,7 @@ export class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedUser: getLoggedUser(state),
+    loggedUser: getLoggedProfile(state),
     isLoggingIn: state.session.isLoggingIn,
     error: state.session.loginError,
   };

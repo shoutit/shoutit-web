@@ -11,7 +11,7 @@ import { START_LISTENING, SEND_MESSAGE } from '../auth/loginActions';
 
 import Icon from '../widgets/Icon';
 import ListItem from '../layout/ListItem';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 import './ProfileActions.scss';
 
@@ -111,7 +111,7 @@ ProfileActions.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  loggedUser: getLoggedUser(state),
+  loggedUser: getLoggedProfile(state),
 });
 
 export default connect(mapStateToProps)(ProfileActions);

@@ -27,7 +27,7 @@ describe('services/geocode', () => {
         expect(this.qs).to.eql({ latlng: 'foo,bar' });
         done();
       });
-      service.read({}, resource, { query: { latlng: 'foo,bar' } }, config, serviceCallback);
+      service.read({ session: {} }, resource, { query: { latlng: 'foo,bar' } }, config, serviceCallback);
     });
   });
 });

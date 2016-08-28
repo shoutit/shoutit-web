@@ -1,5 +1,3 @@
-/* eslint no-console: 0 */
-
 let envConfig = {};
 if (process.env.NODE_ENV === 'development' || !process.env.SHOUTIT_ENV) {
   envConfig = require('./development');

@@ -14,19 +14,21 @@ export const loadNotifications = ({ endpoint }) => ({
   },
 });
 
-export const readNotification = notification => ({
-  types: [
-    actionTypes.READ_NOTIFICATION_START,
-    actionTypes.READ_NOTIFICATION_SUCCESS,
-    actionTypes.READ_NOTIFICATION_FAILURE,
-  ],
-  payload: { id: notification.id },
-  service: {
-    method: 'create',
-    name: 'notificationsRead',
-    params: { id: notification.id },
-  },
-});
+export function readNotification(notification) {
+  return {
+    types: [
+      actionTypes.READ_NOTIFICATION_START,
+      actionTypes.READ_NOTIFICATION_SUCCESS,
+      actionTypes.READ_NOTIFICATION_FAILURE,
+    ],
+    payload: { id: notification.id },
+    service: {
+      method: 'create',
+      name: 'notificationsRead',
+      params: { id: notification.id },
+    },
+  };
+}
 
 export const addNotification = notification => ({
   type: actionTypes.ADD_NOTIFICATION,

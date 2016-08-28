@@ -1,11 +1,11 @@
 /* eslint no-underscore-dangle: 0 */
-/* eslint-env mocha */
+
 import { expect } from 'chai';
 
 import { Request } from 'superagent';
-import sinon from 'sinon';
+import { spy, stub } from 'sinon';
 
-import service, * as session from './session'; // eslint-disable-line
+import service from './session'; // eslint-disable-line
 
 describe('services/session', () => {
 
@@ -19,101 +19,160 @@ describe('services/session', () => {
     }
   });
 
-  describe('setRequestSession', () => {
-    it('should merge session data into the request object', () => {
-      const req = { session: { cookie: {} } };
-      const sessionData = {
-        profile: { foo: 'bar' },
-        accessToken: 'abc',
-        refreshToken: 'xyz',
-        expiresIn: 10,
-      };
-      session.setRequestSession(req, sessionData);
-      expect(req.session.user).to.eql({ foo: 'bar' });
-      expect(req.session.accessToken).to.eql('abc');
-      expect(req.session.refreshToken).to.eql('xyz');
-      expect(req.session.cookie.expires).to.be.greaterThan(new Date(Date.now()));
-    });
-  });
-  describe('createRequestSession', () => {
-    it('should send a API request to the right endpoint', done => {
-      const req = { session: { cookie: {} } };
-      sinon.stub(Request.prototype, 'end', function callback() {
-        expect(this.url).to.contain('/oauth2/access_token');
-        done();
-      });
-      session.createRequestSession(req, { foo: 'bar' }, () => {});
-    });
-    it('should send client_id and client_secret alongside other data', done => {
-      const req = { session: { cookie: {} } };
-      sinon.stub(Request.prototype, 'end', function callback() {
-        expect(this._data).to.have.property('foo', 'bar');
+  describe('create method', () => {
+    const req = {
+      session: {
+        cookie: {},
+        currentLocation: {
+          country: 'it',
+        },
+      },
+    };
+
+    it('should pass the body to the request', done => {
+      stub(Request.prototype, 'end', function callback() {
+        expect(this._data).to.have.deep.property('profile.username', 'foo');
+        expect(this._data).to.have.deep.property('profile.location.country', 'it');
         expect(this._data).to.have.property('client_id');
         expect(this._data).to.have.property('client_secret');
         done();
       });
-      session.createRequestSession(req, { foo: 'bar' }, () => {});
+      service.create(req, {}, {}, { profile: { username: 'foo' } });
     });
-    it('should set the user in the request session', done => {
-      const req = { session: { cookie: {} } };
-      sinon.stub(Request.prototype, 'end', callback => {
-        callback(null, { body: { profile: { foo: 'bar' } } });
-      });
-      session.createRequestSession(req, { foo: 'bar' }, () => {
-        expect(req.session.user).to.have.property('foo', 'bar');
+
+    it('should set the request session data and pass the user to the callback', done => {
+      const requestCallback = spy();
+      stub(Request.prototype, 'end', callback => {
+        const res = {
+          body: {
+            profile: {
+              username: 'a user',
+            },
+            newSignup: true,
+            accessToken: 'an_access_token',
+            refreshToken: 'a_refresh_token',
+            scope: 'scopeA scopeB',
+            expiresIn: 10,
+          },
+        };
+        callback(null, res);
+        expect(req.session).to.have.property('profile').to.eql({
+          username: 'a user',
+        });
+        expect(req.session).to.have.property('newSignup', true);
+        expect(req.session).to.have.property('accessToken', 'an_access_token');
+        expect(req.session).to.have.property('refreshToken', 'a_refresh_token');
+        expect(req.session.cookie).to.have.property('expires');
+        expect(req.session.scope).to.eql('scopeA scopeB');
+        expect(requestCallback).to.have.been.calledWith(null, { username: 'a user' });
         done();
       });
+      service.create(req, {}, {}, { foo: 'bar' }, {}, requestCallback);
     });
-    it('should send the user to the callback', done => {
-      const req = { session: { cookie: {} } };
-      sinon.stub(Request.prototype, 'end', callback => {
-        callback(null, { body: { profile: { foo: 'bar' } } });
-      });
-      session.createRequestSession(req, { foo: 'bar' }, (err, user) => {
-        expect(user).to.have.property('foo', 'bar');
-        done();
-      });
-    });
+
   });
-  describe('readSessionProfile', () => {
-    it('should send a API request to the right endpoint', done => {
-      const req = { };
-      sinon.stub(Request.prototype, 'end', function callback() {
+
+  describe('read method', () => {
+
+    it('should set the user in session', done => {
+      const serviceCallback = spy();
+      const req = {
+        session: {
+          cookie: {},
+          destroy: () => {},
+        },
+      };
+      stub(Request.prototype, 'end', function cb(callback) {
+        const response = {
+          body: {
+            username: 'a user',
+          },
+        };
+        callback(null, response);
         expect(this.url).to.contain('/profiles/me');
+        expect(req.session).to.have.property('profile');
+        expect(req.session).to.not.have.property('page');
+
+        expect(serviceCallback).to.have.been.calledWith(null, { username: 'a user' });
         done();
       });
-      session.readSessionProfile(req, { foo: 'bar' }, () => {});
+      service.read(req, {}, {}, {}, serviceCallback);
     });
 
-    it('should pass the session\'s access token', done => {
-      sinon.stub(Request.prototype, 'end', function callback() {
-        expect(this.header).to.have.property('Authorization', 'Bearer foo');
-        done();
+    it('should set the authorization page in session', done => {
+      const serviceCallback = spy();
+      const req = {
+        session: {
+          cookie: {},
+          destroy: () => {},
+          authorizationPage: {
+            id: 'auth_page_id',
+            username: 'auth_page_username',
+          },
+        },
+      };
+      stub(Request.prototype, 'end', function cb(callback) {
+        if (this.url.match(/\/profiles\/me$/)) {
+          callback(null, { body: { username: 'logged_user' } });
+        } else {
+          const response = {
+            body: {
+              username: 'page',
+              isOwner: true,
+            },
+          };
+          callback(null, response);
+          expect(this.url).to.contain('/profiles/auth_page_username');
+          expect(req.session).to.have.property('profile');
+          expect(req.session).to.have.property('page').to.eql({ username: 'page', isOwner: true });
+          expect(serviceCallback).to.have.been.calledWith(null, { username: 'logged_user' });
+          done();
+        }
       });
-      session.readSessionProfile({ session: { accessToken: 'foo' } }, () => {});
+      service.read(req, {}, {}, {}, serviceCallback);
     });
 
-    it('should send the user to the callback', done => {
-      const req = { session: { cookie: {} } };
-      sinon.stub(Request.prototype, 'end', callback => {
-        callback(null, { body: { foo: 'bar' } });
+    it('should ignore the authorization page if not owner of the logged user', done => {
+      const serviceCallback = spy();
+      const req = {
+        session: {
+          cookie: {},
+          destroy: () => {},
+          authorizationPage: {
+            id: 'auth_page_id',
+            username: 'auth_page_username',
+          },
+        },
+      };
+      stub(Request.prototype, 'end', function cb(callback) {
+        if (this.url.match(/\/profiles\/me$/)) {
+          callback(null, { body: { username: 'logged_user' } });
+        } else {
+          const response = {
+            body: {
+              username: 'page',
+              isOwner: false,
+            },
+          };
+          callback(null, response);
+          expect(req.session).to.not.have.property('page');
+          done();
+        }
       });
-      session.readSessionProfile(req, (err, user) => {
-        expect(user).to.have.property('foo', 'bar');
-        done();
-      });
+      service.read(req, {}, {}, {}, serviceCallback);
     });
 
-    it('should destroy the session if the request fails', done => {
-      const destroy = sinon.spy();
-      const req = { session: { destroy, user: { username: 'foo' } } };
-      sinon.stub(Request.prototype, 'end', callback => {
+  });
+
+  describe('delete method', () => {
+    it('should destroy the session', () => {
+      const destroy = spy();
+      const req = { session: { destroy, profile: { username: 'foo' } } };
+      stub(Request.prototype, 'end', callback => {
         callback('boo');
       });
-      session.readSessionProfile(req, () => {
-        expect(destroy).to.have.been.calledWith();
-        done();
-      });
+      service.delete(req, {}, {}, {}, () => {});
+      expect(destroy).to.have.been.calledWith();
     });
 
   });

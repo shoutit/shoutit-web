@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { openConversation } from '../../actions/conversations';
 import { startShoutReply } from '../../actions/shouts';
 
-import { getLoggedUser } from '../../reducers/session';
+import { getLoggedProfile } from '../../reducers/session';
 
 import ShoutUpdateButton from '../../shouts/ShoutUpdateButton';
 import ShoutCallButton from '../../shouts/ShoutCallButton';
@@ -57,7 +57,7 @@ ShoutActions.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  loggedUser: getLoggedUser(state),
+  loggedUser: getLoggedProfile(state),
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {

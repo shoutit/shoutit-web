@@ -907,11 +907,6 @@
       "from": "ismobilejs@0.4.0",
       "resolved": "https://registry.npmjs.org/ismobilejs/-/ismobilejs-0.4.0.tgz"
     },
-    "js-cookie": {
-      "version": "2.1.2",
-      "from": "js-cookie@2.1.2",
-      "resolved": "https://registry.npmjs.org/js-cookie/-/js-cookie-2.1.2.tgz"
-    },
     "lodash": {
       "version": "4.15.0",
       "from": "lodash@4.15.0",

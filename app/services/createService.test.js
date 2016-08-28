@@ -17,7 +17,7 @@ describe('services/createService', () => {
     });
     expect(service.read).to.be.a('Function');
   });
-
+  const req = { session: {} };
   describe('read method requests', () => {
     afterEach(() => {
       if (Request.prototype.end.restore) {
@@ -33,7 +33,7 @@ describe('services/createService', () => {
         name: 'foo',
         read: '/bar',
       });
-      service.read({}, {}, { }, {}, () => {});
+      service.read(req, {}, { }, {}, () => {});
     });
     it('should use the params as url template', done => {
       stub(Request.prototype, 'end', function callback() {
@@ -44,7 +44,7 @@ describe('services/createService', () => {
         name: 'foo',
         read: '/bar/${value}',
       });
-      service.read({}, {}, { value: 'baz' }, {}, () => {});
+      service.read(req, {}, { value: 'baz' }, {}, () => {});
     });
     it('should use the params\' endpoint as url', done => {
       stub(Request.prototype, 'end', function callback() {
@@ -55,7 +55,7 @@ describe('services/createService', () => {
         name: 'foo',
         read: '/bar/${value}',
       });
-      service.read({}, {}, { endpoint: '/boo/zap' }, {}, () => {});
+      service.read(req, {}, { endpoint: '/boo/zap' }, {}, () => {});
     });
 
     it('should pass the query from params', done => {
@@ -67,7 +67,7 @@ describe('services/createService', () => {
         name: 'foo',
         read: '/bar',
       });
-      service.read({}, {}, { value: 'baz', query: { abc: 'xyz' } }, {}, () => {});
+      service.read(req, {}, { value: 'baz', query: { abc: 'xyz' } }, {}, () => {});
     });
   });
 });

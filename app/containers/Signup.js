@@ -4,8 +4,7 @@ import { replace } from 'react-router-redux';
 import { Link } from 'react-router';
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 
-import { getLoggedUser } from '../reducers/session';
-import { getCurrentLocation } from '../reducers/currentLocation';
+import { getLoggedProfile } from '../reducers/session';
 
 import Helmet from '../utils/Helmet';
 
@@ -60,7 +59,6 @@ export class Signup extends Component {
     error: PropTypes.object,
     isSigningUp: PropTypes.bool,
     dispatch: PropTypes.func.isRequired,
-    currentLocation: PropTypes.object,
     location: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
     loggedUser: PropTypes.object,
@@ -103,7 +101,7 @@ export class Signup extends Component {
 
   handleFormSubmit(e) {
     e.preventDefault();
-    const { isSigningUp, dispatch, currentLocation } = this.props;
+    const { isSigningUp, dispatch } = this.props;
 
     if (isSigningUp) {
       return;
@@ -135,27 +133,25 @@ export class Signup extends Component {
       this.fields.lastName.blur();
       this.fields.email.blur();
       this.fields.password.blur();
-      dispatch(signup(
-        { email, password, firstName, lastName, location: currentLocation }
-      )).then(() => {
+      const account = { email, password, firstName, lastName };
+      dispatch(signup(account)).then(() => {
         this.setState({ success: true });
       });
     }
   }
 
   redirectToNextPage() {
-    const { location: { query }, dispatch } = this.props;
     let redirectUrl;
-    if (query.redirect) {
-      redirectUrl = query.redirect;
+    if (this.props.location.query.redirect) {
+      redirectUrl = this.props.location.query.redirect;
     } else {
       redirectUrl = '/';
     }
-    dispatch(replace(redirectUrl));
+    this.props.dispatch(replace(redirectUrl));
   }
 
   renderForm() {
-    const { isSigningUp, location: { query }, error, currentLocation } = this.props;
+    const { isSigningUp, location: { query }, error } = this.props;
     const { formatMessage } = this.props.intl;
     return (
       <Frame title={ formatMessage(MESSAGES.pageTitle) }>
@@ -167,8 +163,7 @@ export class Signup extends Component {
           <div className="Frame-form">
             <SocialLoginForm
               disabled={ isSigningUp }
-              onLoginSuccess={ () => this.redirectToNextPage() }
-              currentLocation={ currentLocation }
+              onLoginSuccess={ this.redirectToNextPage }
             />
           </div>
 
@@ -326,10 +321,9 @@ export class Signup extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedUser: getLoggedUser(state),
+    loggedUser: getLoggedProfile(state),
     isSigningUp: state.session.isSigningUp,
     error: state.session.signupError,
-    currentLocation: getCurrentLocation(state),
   };
 };
 

@@ -8,10 +8,10 @@ export default function pusherMiddleware(req, res, next) { // eslint-disable-lin
     .prefix()
     .end((err, response) => {
       if (err) {
-        console.error(err); // eslint-disable-line no-console
+        console.error(err);
         res.status(err.status || 500).send(response ? response.body : err.message);
         return;
       }
-      res.json(response.body);
+      res.json(response.originalBody);
     });
 }

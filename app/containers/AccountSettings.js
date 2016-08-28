@@ -15,7 +15,7 @@ import SettingsNavigation from '../settings/SettingsNavigation';
 
 import { updateProfile, updatePassword } from '../actions/users';
 import { resetErrors } from '../actions/session';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 import './Settings.scss';
 
@@ -213,7 +213,7 @@ export class AccountSettings extends Component {
                   error={ profile.updateError }
                   disabled={ profile.isUpdating }
                 />
-                <Button kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
+                <Button type="submit" kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
                   { profile.isUpdating &&
                     <FormattedMessage id="accountSettings.account.updatingLabel" defaultMessage="Updating…" /> }
                   { this.didChange() && !profile.isUpdating &&
@@ -232,7 +232,7 @@ export class AccountSettings extends Component {
 }
 
 const mapStateToProps = state => ({
-  profile: getLoggedUser(state),
+  profile: getLoggedProfile(state),
   session: state.session,
 });
 

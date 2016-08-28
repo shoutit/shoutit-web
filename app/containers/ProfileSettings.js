@@ -20,7 +20,7 @@ import Panel from '../layout/Panel';
 import SettingsNavigation from '../settings/SettingsNavigation';
 
 import { updateProfile } from '../actions/users';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 import './Settings.scss';
 
@@ -130,7 +130,6 @@ export class ProfileSettings extends Component {
     const { profile } = this.props;
     const { formatMessage } = this.props.intl;
     const error = profile.updateError;
-
     return (
       <RequiresLogin>
         <Page className="Settings">
@@ -234,7 +233,7 @@ export class ProfileSettings extends Component {
                   label={ formatMessage(MESSAGES.locationLabel) }
                 />
 
-                <Button kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
+                <Button type="submit" kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
                   { profile.isUpdating &&
                     <FormattedMessage id="ProfileSettings.profileForm.updatingLabel" defaultMessage="Updating…" /> }
                   { this.didChange() && !profile.isUpdating &&
@@ -253,7 +252,7 @@ export class ProfileSettings extends Component {
 }
 
 const mapStateToProps = state => ({
-  profile: getLoggedUser(state),
+  profile: getLoggedProfile(state),
 });
 
 const mapDispatchToProps = dispatch => ({

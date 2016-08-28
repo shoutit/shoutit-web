@@ -21,14 +21,13 @@ const initialState = {
   isUpdatingPassword: false,
   updatePasswordError: null,
 
-  user: null,
+  profile: null, // the logged in profile
+  page: null, // the authenticated page (if set from switch to page)
 
 };
 
 export default function (state = initialState, action) {
-  const { payload, type } = action;
-  switch (type) {
-
+  switch (action.type) {
     case actionTypes.LOGIN_START:
       return {
         ...state,
@@ -38,15 +37,19 @@ export default function (state = initialState, action) {
 
     case actionTypes.LOGIN_SUCCESS:
     case actionTypes.SIGNUP_SUCCESS:
+      const type = action.payload.entities.users[action.payload.result].type;
+      if (type === 'user') {
+        type === 'profile';
+      }
       return {
         ...state,
-        user: payload.result,
+        [type]: action.payload.result,
         isVerifyingEmail: false,
         isLoggingIn: false,
       };
 
     case actionTypes.LOGIN_FAILURE:
-      const { error: loginError } = payload;
+      const { error: loginError } = action.payload;
       return {
         ...state,
         loginError,
@@ -63,7 +66,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isSigningUp: false,
-        signupError: payload.error,
+        signupError: action.payload.error,
       };
 
     case actionTypes.VERIFY_EMAIL_START:
@@ -75,13 +78,13 @@ export default function (state = initialState, action) {
     case actionTypes.VERIFY_EMAIL_SUCCESS:
       return {
         ...state,
-        user: payload.result.profile,
+        profile: action.payload.result.profile,
       };
     case actionTypes.VERIFY_EMAIL_FAILURE:
       return {
         ...state,
         isVerifyingEmail: false,
-        verifyEmailError: payload.error,
+        verifyEmailError: action.payload.error,
       };
 
     case actionTypes.PASSWORD_RESET_START:
@@ -100,7 +103,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isResettingPassword: false,
-        resetPasswordError: payload.error,
+        resetPasswordError: action.payload.error,
       };
 
     case actionTypes.PASSWORD_SET_START:
@@ -119,7 +122,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isSettingPassword: false,
-        setPasswordError: payload.error,
+        setPasswordError: action.payload.error,
       };
 
     case actionTypes.UPDATE_PASSWORD_START:
@@ -138,7 +141,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isUpdatingPassword: false,
-        updatePasswordError: payload.error,
+        updatePasswordError: action.payload.error,
       };
 
     case actionTypes.RESET_SESSION_ERRORS:
@@ -157,31 +160,61 @@ export default function (state = initialState, action) {
   }
 }
 
-export const getLoggedUser = state =>
-  denormalize(state.entities.users[state.session.user], state.entities, 'PROFILE');
 
+/**
+ * Return the current logged-in profile, or the page in behalf of the logged-in account.
+ *
+ * @export
+ * @param {Object} state
+ * @returns
+ */
+export function getLoggedProfile(state) {
+  return denormalize(
+    state.entities.users[state.session.page || state.session.profile],
+    state.entities,
+    'PROFILE'
+  );
+}
+
+/**
+ * Return the actual logged-in account, e.g. if authenticated as page, it will return the
+ * account that authenticated with it.
+ *
+ * @export
+ * @param {Object} state
+ * @returns
+ */
+export function getLoggedAccount(state) {
+  return denormalize(
+    state.entities.users[state.session.profile],
+    state.entities,
+    'PROFILE'
+  );
+}
 
 export function getUnreadNotificationsCount(state) {
-  if (!state.session.user) {
+  const loggedProfile = getLoggedProfile(state);
+  if (!loggedProfile) {
     return 0;
   }
-  return state.entities.users[state.session.user].stats.unreadNotificationsCount;
+  return loggedProfile.stats.unreadNotificationsCount;
 }
 
 
 export function getUnreadConversationsCount(state) {
-  if (!state.session.user) {
+  const loggedProfile = getLoggedProfile(state);
+  if (!loggedProfile) {
     return 0;
   }
-  return state.entities.users[state.session.user].stats.unreadConversationsCount;
+  return loggedProfile.stats.unreadConversationsCount;
 }
 
 export function canPublishToFacebook(state) {
-  const loggedProfile = getLoggedUser(state);
+  const loggedProfile = getLoggedProfile(state);
   return isLinked(loggedProfile) &&
       isScopeGranted('publish_actions', loggedProfile.linkedAccounts.facebook.scopes);
 }
 
 export function isLoggedIn(state) {
-  return !!state.session.user;
+  return !!getLoggedProfile(state);
 }

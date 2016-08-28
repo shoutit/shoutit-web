@@ -1,4 +1,4 @@
-/* eslint-env mocha */
+
 
 import { expect } from 'chai';
 import { getValidIPv4Address } from './InternetUtils';

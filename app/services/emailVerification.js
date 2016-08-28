@@ -1,7 +1,4 @@
-import { camelizeKeys } from 'humps';
-
 import request from '../utils/request';
-import { setRequestSession } from '../services/session';
 import { parseApiError } from '../utils/APIUtils';
 
 export default {
@@ -29,8 +26,11 @@ export default {
         if (err) {
           return callback(parseApiError(err));
         }
-        setRequestSession(req, camelizeKeys(res.body));
-        return callback(null, res.body);
+        const account = res.body;
+        Object.assign(req.session, account);
+        req.session.cookie.expires = new Date(Date.now() + (account.expiresIn * 1000));
+
+        return callback(null, account);
       });
   },
 };

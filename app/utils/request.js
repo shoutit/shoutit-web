@@ -1,3 +1,4 @@
+
 /*
  * Extends superagent for supporting shoutit access token authorization and to
  * prefix endpoints with the complete API url
@@ -10,8 +11,8 @@
  * 		 	.prefix()                                 // prefix the endpoint with API URL
  * 		  .end(callback)
  */
-
 import request from 'superagent';
+import { camelizeKeys } from 'humps';
 import debug from 'debug';
 import { apiUrl } from '../config';
 
@@ -19,14 +20,17 @@ const log = debug('shoutit:utils:request');
 
 // Use data from the server-side request object
 request.Request.prototype.use = function use(req) {
-  if (req.session && req.session.accessToken) {
-    this.set('Authorization', `Bearer ${req.session.accessToken}`);
-  }
-  if (req.cookies && req.cookies.authorization_page_id) {
-    this.set('Authorization-Page-Id', req.cookies.authorization_page_id);
-  }
-  if (req.language) {
-    this.set('Accept-Language', req.language);
+
+  if (req.session) {
+    if (req.session.accessToken) {
+      this.set('Authorization', `Bearer ${req.session.accessToken}`);
+    }
+    if (req.session.page) {
+      this.set('Authorization-Page-Id', req.session.page.id);
+    }
+    if (req.session.language) {
+      this.set('Accept-Language', req.session.language);
+    }
   }
 
   if (req.headers) {
@@ -47,6 +51,10 @@ const oldEnd = request.Request.prototype.end;
 request.Request.prototype.end = function end(oldCallback) {
   this.end = oldEnd;
   const callback = (err, res) => {
+    if (res.body) {
+      res.originalBody = res.body;
+      res.body = camelizeKeys(res.body);
+    }
     oldCallback(err, res);
     if (res) {
       log('Done %s %s from %s', res.status, this.method, this.url);

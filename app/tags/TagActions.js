@@ -10,7 +10,7 @@ import { LISTEN_TAG } from '../auth/loginActions';
 
 import Icon from '../widgets/Icon';
 import ListItem from '../layout/ListItem';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 export class TagActions extends Component {
 
@@ -91,4 +91,4 @@ export class TagActions extends Component {
 
 }
 
-export default connect(state => ({ loggedUser: getLoggedUser(state) }))(TagActions);
+export default connect(state => ({ loggedUser: getLoggedProfile(state) }))(TagActions);
