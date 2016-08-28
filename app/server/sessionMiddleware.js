@@ -86,6 +86,10 @@ export function authTokenLogin(req, res, next) {
     });
 }
 
+export function logoutMiddleware(req, res) {
+  req.fetchr.delete('session').end(res.redirect('/'));
+}
+
 /**
  * Apply the middlewares for an express app to handle user's sessions
  * and the logged user.
@@ -111,4 +115,6 @@ export default function (app) {
   }));
   app.use(checkExistingSession);
   app.use(authTokenLogin);
+
+  app.get('/logout', logoutMiddleware);
 }
