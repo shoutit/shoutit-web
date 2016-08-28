@@ -1,3 +1,4 @@
+
 /*
  * Extends superagent for supporting shoutit access token authorization and to
  * prefix endpoints with the complete API url
@@ -10,8 +11,8 @@
  * 		 	.prefix()                                 // prefix the endpoint with API URL
  * 		  .end(callback)
  */
-
 import request from 'superagent';
+import { camelizeKeys } from 'humps';
 import debug from 'debug';
 import { apiUrl } from '../config';
 
@@ -50,6 +51,9 @@ const oldEnd = request.Request.prototype.end;
 request.Request.prototype.end = function end(oldCallback) {
   this.end = oldEnd;
   const callback = (err, res) => {
+    if (res.body) {
+      res.body = camelizeKeys(res.body);
+    }
     oldCallback(err, res);
     if (res) {
       log('Done %s %s from %s', res.status, this.method, this.url);

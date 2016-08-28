@@ -1,5 +1,3 @@
-import { camelizeKeys } from 'humps';
-
 import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
 import { shoutit_signup } from '../constants/grantTypes';
@@ -71,7 +69,7 @@ export default {
         if (err) {
           return callback(parseApiError(err));
         }
-        req.session.profile = camelizeKeys(res.body);
+        req.session.profile = res.body;
         return callback(null, req.session.profile);
       });
   },

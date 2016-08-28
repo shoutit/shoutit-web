@@ -1,4 +1,3 @@
-import { camelizeKeys } from 'humps';
 import merge from 'lodash/merge';
 import debug from 'debug';
 
@@ -23,7 +22,7 @@ export function loadProfile(req, callback) {
         req.session.destroy();
         callback();
       }
-      const profile = camelizeKeys(res.body);
+      const profile = res.body;
       log('Current profile\'s username is %s', profile.username);
       callback(profile);
     });
@@ -39,7 +38,7 @@ export function loadAuthorizationPage(req, callback) {
         console.error(err);
         callback();
       }
-      const page = camelizeKeys(res.body);
+      const page = res.body;
       callback(page);
     });
 }
@@ -69,7 +68,7 @@ export default {
           return;
         }
 
-        const account = camelizeKeys(res.body);
+        const account = res.body;
         Object.assign(req.session, account);
         req.session.cookie.expires = new Date(Date.now() + (account.expiresIn * 1000));
 

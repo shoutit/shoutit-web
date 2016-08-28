@@ -1,8 +1,6 @@
 import { normalize } from 'normalizr';
-import { camelizeKeys } from 'humps';
 import debug from 'debug';
 import merge from 'lodash/merge';
-
 
 export default fetchr => store => next => action => { // eslint-disable-line no-unused-vars
 
@@ -55,7 +53,7 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
           reject(error);
           return;
         }
-        let payload = camelizeKeys(json);
+        let payload = json;
         log('Data has been fetched for %s', successType, payload);
         if (payload) {
           if (schema) {
