@@ -37,13 +37,13 @@ export default function (state = initialState, action) {
 
     case actionTypes.LOGIN_SUCCESS:
     case actionTypes.SIGNUP_SUCCESS:
-      const type = action.payload.entities.users[action.payload.result].type;
-      if (type === 'user') {
-        type === 'profile';
+      let loginType = action.payload.entities.users[action.payload.result].type;
+      if (loginType === 'user') {
+        loginType = 'profile';
       }
       return {
         ...state,
-        [type]: action.payload.result,
+        [loginType]: action.payload.result,
         isVerifyingEmail: false,
         isLoggingIn: false,
       };
