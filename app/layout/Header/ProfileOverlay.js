@@ -7,13 +7,12 @@ import { connect } from 'react-redux';
 
 import SwitchToPageModal from '../../users/SwitchToPageModal';
 
-import { logout } from '../../actions/session';
 import { openModal } from '../../actions/ui';
 import { getLoggedUser } from '../../reducers/session';
 
 import './ProfileOverlay.scss';
 
-export function ProfileOverlay({ profile, onLogoutClick, closeOverlay, onSwitchToPageClick }) {
+export function ProfileOverlay({ profile, closeOverlay, onSwitchToPageClick }) {
   return (
     <ul className="ProfileOverlay">
       <li>
@@ -42,12 +41,12 @@ export function ProfileOverlay({ profile, onLogoutClick, closeOverlay, onSwitchT
         </Link>
       </li>
       <li>
-        <Link to="/" onClick={ onLogoutClick }>
+        <a href="/logout">
           <FormattedMessage
             id="header.profilePopover.menu.logout"
             defaultMessage="Logout"
           />
-        </Link>
+        </a>
       </li>
     </ul>
   );
@@ -65,10 +64,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onLogoutClick: e => {
-    e.preventDefault();
-    dispatch(logout()).then(() => window.location.reload());
-  },
   onSwitchToPageClick: () => {
     ownProps.closeOverlay();
     dispatch(openModal(<SwitchToPageModal />));
