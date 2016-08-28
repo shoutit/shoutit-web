@@ -4,7 +4,6 @@ import debug from 'debug';
 import { toTitleCase } from '../utils/StringUtils';
 import { getValidIPv4Address } from '../utils/InternetUtils';
 import request from '../utils/request';
-import { getCountryName, formatLocation } from '../utils/LocationUtils';
 
 const geoRE = /^\/(search|discover)\/(\w{2})(\/([^\/]*))?(\/([^\/\?]*))?/;
 
@@ -13,37 +12,23 @@ const log = debug('shoutit:server:geolocationMiddleware');
 export default function geoLocationMiddleware(req, res, next) {
 
   const matchesUrl = req.url.match(geoRE);
-  if (matchesUrl && getCountryName(matchesUrl[2])) {
-    req.geolocation = {
+  if (matchesUrl) {
+    req.session.currentLocation = {
       country: matchesUrl[2],
     };
     if (matchesUrl[1] === 'search' && matchesUrl[4]) {
-      req.geolocation.state = toTitleCase(decodeURIComponent(matchesUrl[4]));
+      req.session.currentLocation.state = toTitleCase(decodeURIComponent(matchesUrl[4]));
     }
     if (matchesUrl[1] === 'search' && matchesUrl[6]) {
-      req.geolocation.city = toTitleCase(decodeURIComponent(matchesUrl[6]));
+      req.session.currentLocation.city = toTitleCase(decodeURIComponent(matchesUrl[6]));
     }
     log('Got geolocation from URL');
   } else if (get(req, 'session.user.location')) {
-    req.geolocation = req.session.user.location;
+    req.session.currentLocation = req.session.user.location;
     log('Got geolocation from logged profile');
-  } else if (get(req, 'cookies.location')) {
-    try {
-      const geolocation = JSON.parse(req.cookies.location);
-      if (geolocation.country && geolocation.state && geolocation.city) {
-        req.geolocation = geolocation;
-        log('Got geolocation from location cookie');
-      }
-    } catch (e) {
-      console.error('Cannot parse location from cookie', e);
-    }
   }
 
-  if (req.geolocation) {
-    req.geolocation = {
-      ...req.geolocation,
-      name: formatLocation(req.geolocation, { language: req.language }),
-    };
+  if (req.session.currentLocation) {
     return next();
   }
 
@@ -60,17 +45,12 @@ export default function geoLocationMiddleware(req, res, next) {
     .set(headers)
     .prefix()
     .end((err, res) => {
-      if (!err) {
-        const geolocation = res.body;
-        req.geolocation = {
-          ...geolocation,
-          name: formatLocation(geolocation, { language: req.language }),
-        };
-        log('Got geolocation from ip address', ip, req.geolocation.slug);
-      } else {
+      if (err) {
         console.warn('Couldn\'t get geolocation for %s', ip, err);
       }
-      return next();
+      req.session.currentLocation = res.body;
+      log('Got geolocation from ip address', ip, req.session.currentLocation.slug);
+      next();
     });
 
 }
