@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { Request } from 'superagent';
 import sinon from 'sinon';
 
-import geolocationMiddleware from './geolocationMiddleware';
+import currentLocationMiddleware from './currentLocationMiddleware';
 
 const mockLocation = {
   country: 'IT',
@@ -12,7 +12,7 @@ const mockLocation = {
   city: 'Rome',
 };
 
-describe('server/geolocationMiddleware', () => {
+describe('server/currentLocationMiddleware', () => {
   afterEach(() => {
     if (Request.prototype.end.restore) {
       Request.prototype.end.restore();
@@ -25,7 +25,7 @@ describe('server/geolocationMiddleware', () => {
       session: { user: { location: mockLocation } },
       cookies: { location: mockLocation },
     };
-    geolocationMiddleware(req, null, () => {});
+    currentLocationMiddleware(req, null, () => {});
     expect(req.session.currentLocation).to.eql(mockLocation);
   });
 
@@ -34,7 +34,7 @@ describe('server/geolocationMiddleware', () => {
       url: '/',
       session: { user: null, currentLocation: mockLocation },
     };
-    geolocationMiddleware(req, null, () => {});
+    currentLocationMiddleware(req, null, () => {});
     expect(req.session.currentLocation).to.eql(mockLocation);
   });
 
@@ -46,7 +46,7 @@ describe('server/geolocationMiddleware', () => {
       callback(null, { body: mockLocation });
     });
 
-    geolocationMiddleware(req, null, function next() {
+    currentLocationMiddleware(req, null, function next() {
       expect(req.session.currentLocation).to.eql(mockLocation);
       done();
     });
@@ -63,7 +63,7 @@ describe('server/geolocationMiddleware', () => {
       expect(this.qs).to.eql({ latlng: '0,0' });
       done();
     });
-    geolocationMiddleware(req, null, () => {});
+    currentLocationMiddleware(req, null, () => {});
   });
 
   it('should pass the x-forwarded-for header to get the geolocation', done => {
@@ -78,7 +78,7 @@ describe('server/geolocationMiddleware', () => {
       expect(this.header).to.have.property('x-forwarded-for', '127.0.0.1');
       done();
     });
-    geolocationMiddleware(req, null, () => {});
+    currentLocationMiddleware(req, null, () => {});
   });
 
   describe('search route', () => {
@@ -87,7 +87,7 @@ describe('server/geolocationMiddleware', () => {
         url: '/search/it',
         session: {},
       };
-      geolocationMiddleware(req, null, () => {});
+      currentLocationMiddleware(req, null, () => {});
       expect(req.session.currentLocation).to.eql({
         country: 'it',
       });
@@ -97,7 +97,7 @@ describe('server/geolocationMiddleware', () => {
         url: '/search/it/lazio',
         session: {},
       };
-      geolocationMiddleware(req, null, () => {});
+      currentLocationMiddleware(req, null, () => {});
       expect(req.session.currentLocation).to.eql({
         country: 'it',
         state: 'Lazio',
@@ -108,7 +108,7 @@ describe('server/geolocationMiddleware', () => {
         url: '/search/it/emilia%20romagna/valeggio%20sul%20mincio?test=true',
         session: {},
       };
-      geolocationMiddleware(req, null, () => {});
+      currentLocationMiddleware(req, null, () => {});
       expect(req.session.currentLocation).to.eql({
         country: 'it',
         state: 'Emilia Romagna',
@@ -123,7 +123,7 @@ describe('server/geolocationMiddleware', () => {
         url: '/discover/it',
         session: {},
       };
-      geolocationMiddleware(req, null, () => {});
+      currentLocationMiddleware(req, null, () => {});
       expect(req.session.currentLocation).to.eql({
         country: 'it',
       });
@@ -133,7 +133,7 @@ describe('server/geolocationMiddleware', () => {
         url: '/discover/it/lazio',
         session: {},
       };
-      geolocationMiddleware(req, null, () => {});
+      currentLocationMiddleware(req, null, () => {});
       expect(req.session.currentLocation).to.eql({
         country: 'it',
       });

@@ -1,7 +1,7 @@
 import MobileDetect from 'mobile-detect';
 
 const redirects = {
-  '/discover': (req, res) => res.redirect(`/discover/${req.geolocation.country.toLowerCase()}`),
+  '/discover': (req, res) => res.redirect(`/discover/${req.session.currentLocation.country.toLowerCase()}`),
   '/auth/verify_email': (req, res) => res.redirect(`/signup/verify/${req.query.token}`),
   '/services/reset_password': (req, res) => res.redirect(`/login/password/${req.query.reset_token}`),
   '/s/:shoutId': (req, res) => res.redirect(`/shout/${req.params.shoutId}`),

@@ -7,7 +7,7 @@ import request from '../utils/request';
 
 const geoRE = /^\/(search|discover)\/(\w{2})(\/([^\/]*))?(\/([^\/\?]*))?/;
 
-const log = debug('shoutit:server:geolocationMiddleware');
+const log = debug('shoutit:server:currentLocationMiddleware');
 
 export default function geoLocationMiddleware(req, res, next) {
 

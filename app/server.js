@@ -13,7 +13,7 @@ import basicAuthMiddleware from './server/basicAuthMiddleware';
 import browserMiddleware from './server/browserMiddleware';
 import errorMiddleware from './server/errorMiddleware';
 import fetchrMiddleware, { fetchrPath } from './server/fetchrMiddleware';
-import geolocationMiddleware from './server/geolocationMiddleware';
+import currentLocationMiddleware from './server/currentLocationMiddleware';
 import localeMiddleware from './server/localeMiddleware';
 import pusherMiddleware from './server/pusherMiddleware';
 import redirects from './server/redirects';
@@ -64,8 +64,8 @@ export default function start(app) {
   Object.keys(services).forEach(name => Fetchr.registerService(services[name])); // eslint-disable-line
   app.use(fetchrPath, Fetchr.middleware());
 
-  // Get the client's geo location
-  app.use(geolocationMiddleware);
+  // Set the session current location
+  app.use(currentLocationMiddleware);
 
   app.post('/api/pusher/auth', pusherMiddleware);
   app.post('/api/file/:resourceType', fileUploadMiddleware);
