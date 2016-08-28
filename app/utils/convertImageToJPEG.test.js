@@ -1,4 +1,4 @@
-/* eslint-env mocha */
+
 import { expect } from 'chai';
 import os from 'os';
 import fs from 'fs';

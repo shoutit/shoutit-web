@@ -1,4 +1,4 @@
-/* eslint no-console: 0 */
+
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';

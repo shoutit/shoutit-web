@@ -1,5 +1,3 @@
-/* eslint no-console: 0 */
-
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import debug from 'debug';

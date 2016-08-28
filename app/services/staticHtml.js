@@ -1,4 +1,3 @@
-/* eslint no-console: 0 */
 import debug from 'debug';
 
 import * as AWS from '../utils/AWS';

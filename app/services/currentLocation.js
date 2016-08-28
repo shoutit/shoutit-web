@@ -1,4 +1,3 @@
-/* eslint no-console: 0 */
 import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
 

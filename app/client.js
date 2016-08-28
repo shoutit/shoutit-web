@@ -1,4 +1,4 @@
-/* eslint no-console: 0, no-underscore-dangle: 0 */
+/* eslint no-underscore-dangle: 0 */
 /* eslint-env browser */
 
 import 'babel-polyfill';

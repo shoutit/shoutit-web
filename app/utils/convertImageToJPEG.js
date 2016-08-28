@@ -1,8 +1,3 @@
-
-/* eslint no-console: 0 */
-
-/* WARNING: ONLY FOR SERVER SIDE */
-
 import path from 'path';
 import fs from 'fs';
 import debug from 'debug';

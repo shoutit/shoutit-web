@@ -1,4 +1,4 @@
-/* eslint consistent-return: 0, no-console: 0 */
+/* eslint consistent-return: 0 */
 import get from 'lodash/get';
 import debug from 'debug';
 import { toTitleCase } from '../utils/StringUtils';
