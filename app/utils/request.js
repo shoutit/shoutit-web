@@ -52,6 +52,7 @@ request.Request.prototype.end = function end(oldCallback) {
   this.end = oldEnd;
   const callback = (err, res) => {
     if (res.body) {
+      res.originalBody = res.body;
       res.body = camelizeKeys(res.body);
     }
     oldCallback(err, res);

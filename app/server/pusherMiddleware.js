@@ -12,6 +12,6 @@ export default function pusherMiddleware(req, res, next) { // eslint-disable-lin
         res.status(err.status || 500).send(response ? response.body : err.message);
         return;
       }
-      res.json(response.body);
+      res.json(response.originalBody);
     });
 }
