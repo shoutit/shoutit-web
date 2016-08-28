@@ -12,7 +12,7 @@ export class ProfileButton extends Component {
 
   static propTypes = {
     overlay: PropTypes.bool,
-    user: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -41,13 +41,14 @@ export class ProfileButton extends Component {
   }
 
   render() {
+    const { profile } = this.props;
     return (
       <span>
         <Link
           className="HeaderProfile-profileLink"
-          to={ `/user/${this.props.user.username}` }
+          to={ `/user/${profile.profilename}` }
           onClick={ this.props.overlay && this.showOverlay }>
-          <ProfileAvatar ref={ el => { this.avatar = el; } } profile={ this.props.user } size="medium" />
+          <ProfileAvatar ref={ el => { this.avatar = el; } } profile={ profile } size="medium" />
         </Link>
         { this.props.overlay &&
           <Overlay
@@ -69,7 +70,7 @@ export class ProfileButton extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: getLoggedUser(state),
+  profile: getLoggedUser(state),
 });
 
 export default connect(mapStateToProps)(ProfileButton);
