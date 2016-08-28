@@ -27,9 +27,7 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
-  const { payload, type } = action;
-  switch (type) {
-
+  switch (action.type) {
     case actionTypes.LOGIN_START:
       return {
         ...state,
@@ -39,19 +37,19 @@ export default function (state = initialState, action) {
 
     case actionTypes.LOGIN_SUCCESS:
     case actionTypes.SIGNUP_SUCCESS:
-      const { type } = payload.entities.users[payload.result].type;
+      const type = action.payload.entities.users[action.payload.result].type;
       if (type === 'user') {
         type === 'profile';
       }
       return {
         ...state,
-        [type]: payload.result,
+        [type]: action.payload.result,
         isVerifyingEmail: false,
         isLoggingIn: false,
       };
 
     case actionTypes.LOGIN_FAILURE:
-      const { error: loginError } = payload;
+      const { error: loginError } = action.payload;
       return {
         ...state,
         loginError,
@@ -68,7 +66,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isSigningUp: false,
-        signupError: payload.error,
+        signupError: action.payload.error,
       };
 
     case actionTypes.VERIFY_EMAIL_START:
@@ -80,13 +78,13 @@ export default function (state = initialState, action) {
     case actionTypes.VERIFY_EMAIL_SUCCESS:
       return {
         ...state,
-        profile: payload.result.profile,
+        profile: action.payload.result.profile,
       };
     case actionTypes.VERIFY_EMAIL_FAILURE:
       return {
         ...state,
         isVerifyingEmail: false,
-        verifyEmailError: payload.error,
+        verifyEmailError: action.payload.error,
       };
 
     case actionTypes.PASSWORD_RESET_START:
@@ -105,7 +103,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isResettingPassword: false,
-        resetPasswordError: payload.error,
+        resetPasswordError: action.payload.error,
       };
 
     case actionTypes.PASSWORD_SET_START:
@@ -124,7 +122,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isSettingPassword: false,
-        setPasswordError: payload.error,
+        setPasswordError: action.payload.error,
       };
 
     case actionTypes.UPDATE_PASSWORD_START:
@@ -143,7 +141,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isUpdatingPassword: false,
-        updatePasswordError: payload.error,
+        updatePasswordError: action.payload.error,
       };
 
     case actionTypes.RESET_SESSION_ERRORS:
