@@ -107,10 +107,6 @@ export class Application extends Component {
         },
       }));
     }
-    if (!nextProps.loggedUser && loggedUser) {
-      // Fetch application data again when logged user changed (e.g. has been logged out)
-      fetchData(dispatch, { session: { user: undefined } });
-    }
     if (!loggedUser && nextProps.loggedUser) {
       identifyOnMixpanel(nextProps.loggedUser);
     }
