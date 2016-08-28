@@ -10,6 +10,11 @@ describe('request', () => {
     expect(req.header['Accept-Language']).to.equal('it');
   });
 
+  it('should set Authorization-Page-Id header from req object', () => {
+    const req = request.get('/foo').use({ session: { page: { id: 'foo' } } });
+    expect(req.header['Authorization-Page-Id']).to.equal('foo');
+  });
+
   it('should set Authorization header from req object', () => {
     const req = request.get('/foo').use({ session: { accessToken: 'foo' } });
     expect(req.header.Authorization).to.equal('Bearer foo');
