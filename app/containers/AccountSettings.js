@@ -213,7 +213,7 @@ export class AccountSettings extends Component {
                   error={ profile.updateError }
                   disabled={ profile.isUpdating }
                 />
-                <Button kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
+                <Button type="submit" kind="primary" disabled={ !this.didChange() || profile.isUpdating }>
                   { profile.isUpdating &&
                     <FormattedMessage id="accountSettings.account.updatingLabel" defaultMessage="Updating…" /> }
                   { this.didChange() && !profile.isUpdating &&
