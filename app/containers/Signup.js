@@ -4,7 +4,7 @@ import { replace } from 'react-router-redux';
 import { Link } from 'react-router';
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 import Helmet from '../utils/Helmet';
 
@@ -321,7 +321,7 @@ export class Signup extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedUser: getLoggedUser(state),
+    loggedUser: getLoggedProfile(state),
     isSigningUp: state.session.isSigningUp,
     error: state.session.signupError,
   };

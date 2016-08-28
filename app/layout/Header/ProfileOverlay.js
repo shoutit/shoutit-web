@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import SwitchToPageModal from '../../users/SwitchToPageModal';
 
 import { openModal } from '../../actions/ui';
-import { getLoggedUser } from '../../reducers/session';
+import { getLoggedProfile } from '../../reducers/session';
 
 import './ProfileOverlay.scss';
 
@@ -59,7 +59,7 @@ ProfileOverlay.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  profile: getLoggedUser(state),
+  profile: getLoggedProfile(state),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

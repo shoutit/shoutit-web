@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 import { openModal } from '../actions/ui';
 import SelectProfileModal from '../users/SelectProfileModal';
@@ -77,7 +77,7 @@ ReplyFormToolbar.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  loggedUser: getLoggedUser(state),
+  loggedUser: getLoggedProfile(state),
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

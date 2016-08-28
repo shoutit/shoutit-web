@@ -27,7 +27,7 @@ import SuggestedProfiles from '../users/SuggestedProfiles';
 import SuggestedShout from '../shouts/SuggestedShout';
 
 import { getHomepageShouts, getPaginationState } from '../reducers/paginated/shoutsByHome';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 const MESSAGES = defineMessages({
   title: {
@@ -187,7 +187,7 @@ export class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  profile: getLoggedUser(state),
+  profile: getLoggedProfile(state),
   shouts: getHomepageShouts(state),
   ...getPaginationState(state),
 });

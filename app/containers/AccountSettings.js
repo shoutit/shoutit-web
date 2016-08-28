@@ -15,7 +15,7 @@ import SettingsNavigation from '../settings/SettingsNavigation';
 
 import { updateProfile, updatePassword } from '../actions/users';
 import { resetErrors } from '../actions/session';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 import './Settings.scss';
 
@@ -232,7 +232,7 @@ export class AccountSettings extends Component {
 }
 
 const mapStateToProps = state => ({
-  profile: getLoggedUser(state),
+  profile: getLoggedProfile(state),
   session: state.session,
 });
 

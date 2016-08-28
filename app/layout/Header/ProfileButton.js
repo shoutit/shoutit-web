@@ -6,7 +6,7 @@ import ProfileAvatar from '../../users/ProfileAvatar';
 import Overlay from '../../widgets/Overlay';
 
 import ProfileOverlay from './ProfileOverlay';
-import { getLoggedUser } from '../../reducers/session';
+import { getLoggedProfile } from '../../reducers/session';
 
 export class ProfileButton extends Component {
 
@@ -70,7 +70,7 @@ export class ProfileButton extends Component {
 }
 
 const mapStateToProps = state => ({
-  profile: getLoggedUser(state),
+  profile: getLoggedProfile(state),
 });
 
 export default connect(mapStateToProps)(ProfileButton);

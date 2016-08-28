@@ -157,7 +157,7 @@ export default function (state = initialState, action) {
   }
 }
 
-export const getLoggedUser = state =>
+export const getLoggedProfile = state =>
   denormalize(state.entities.users[state.session.profile], state.entities, 'PROFILE');
 
 
@@ -177,7 +177,7 @@ export function getUnreadConversationsCount(state) {
 }
 
 export function canPublishToFacebook(state) {
-  const loggedProfile = getLoggedUser(state);
+  const loggedProfile = getLoggedProfile(state);
   return isLinked(loggedProfile) &&
       isScopeGranted('publish_actions', loggedProfile.linkedAccounts.facebook.scopes);
 }

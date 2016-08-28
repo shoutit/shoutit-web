@@ -29,7 +29,7 @@ import { loadSuggestions } from '../actions/suggestions';
 import { loadListeningProfiles } from '../actions/users';
 import { clientLogin, updateLinkedAccount, logout } from '../actions/session';
 
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 import Device from '../utils/Device';
 import OpenInApp from '../widgets/OpenInApp';
@@ -43,7 +43,7 @@ const fetchData = (dispatch, state) => {
   promises.push(dispatch(loadCategories()));
   promises.push(dispatch(loadSortTypes()));
   promises.push(dispatch(loadCurrencies()));
-  const loggedUser = getLoggedUser(state); // logged user comes from rehydrated state
+  const loggedUser = getLoggedProfile(state); // logged user comes from rehydrated state
   if (loggedUser) {
     promises.push(dispatch(loadListeningProfiles(loggedUser)));
   }
@@ -211,7 +211,7 @@ export class Application extends Component {
 const mapStateToProps = state => ({
   currentLocation: getCurrentLocation(state),
   currentUrl: getCurrentUrl(state),
-  loggedUser: getLoggedUser(state),
+  loggedUser: getLoggedProfile(state),
   error: getRoutingError(state),
   messages: getIntlMessages(state),
   currentLanguage: getCurrentLanguage(state),

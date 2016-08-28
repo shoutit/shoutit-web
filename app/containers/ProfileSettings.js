@@ -20,7 +20,7 @@ import Panel from '../layout/Panel';
 import SettingsNavigation from '../settings/SettingsNavigation';
 
 import { updateProfile } from '../actions/users';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 import './Settings.scss';
 
@@ -252,7 +252,7 @@ export class ProfileSettings extends Component {
 }
 
 const mapStateToProps = state => ({
-  profile: getLoggedUser(state),
+  profile: getLoggedProfile(state),
 });
 
 const mapDispatchToProps = dispatch => ({
