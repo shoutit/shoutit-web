@@ -49,10 +49,12 @@ const storeSettings = {
  */
 export function checkExistingSession(req, res, next) {
   if (!req.session) {
+    const error = new Error('Cannot initialize session');
     if (newrelicEnabled) {
-      newrelic.noticeError('CONN:REDIS FAILED', new Error('Cannot initialize session'));
+      newrelic.noticeError('CONN:REDIS FAILED', error);
     }
     console.error('Error connecting to redis, was trying %s:%s', storeSettings.host, storeSettings.host);
+    next(error);
   }
   return next();
 }
