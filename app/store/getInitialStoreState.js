@@ -43,6 +43,7 @@ export default function getInitialStoreState(req) {
       },
     };
     if (req.session.page) {
+      state.session.page = req.session.page.id;
       state.entities.users[req.session.page.id] = req.session.page;
     }
   }
