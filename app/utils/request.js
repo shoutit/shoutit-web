@@ -19,14 +19,17 @@ const log = debug('shoutit:utils:request');
 
 // Use data from the server-side request object
 request.Request.prototype.use = function use(req) {
-  if (req.session && req.session.accessToken) {
-    this.set('Authorization', `Bearer ${req.session.accessToken}`);
-  }
-  if (req.cookies && req.cookies.authorization_page_id) {
-    this.set('Authorization-Page-Id', req.cookies.authorization_page_id);
-  }
-  if (req.session.language) {
-    this.set('Accept-Language', req.session.language);
+
+  if (req.session) {
+    if (req.session.accessToken) {
+      this.set('Authorization', `Bearer ${req.session.accessToken}`);
+    }
+    if (req.session.page) {
+      this.set('Authorization-Page-Id', req.session.page.id);
+    }
+    if (req.session.language) {
+      this.set('Accept-Language', req.session.language);
+    }
   }
 
   if (req.headers) {

@@ -1,3 +1,4 @@
+export authenticateAs from './authenticateAs';
 export categories from './categories';
 export conversationRead from './conversationRead';
 export conversationReply from './conversationReply';

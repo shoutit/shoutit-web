@@ -178,3 +178,21 @@ export function updateLinkedAccount(body) {
     },
   };
 }
+
+export function authenticateAs(profile) {
+  return {
+    types: [
+      actionTypes.SESSION_AUTHENTICATE_AS_START,
+      actionTypes.SESSION_AUTHENTICATE_AS_SUCCESS,
+      actionTypes.SESSION_AUTHENTICATE_AS_FAILURE,
+    ],
+    service: {
+      name: 'authenticateAs',
+      method: 'create',
+      body: {
+        id: profile.id,
+        username: profile.username,
+      },
+    },
+  };
+}
