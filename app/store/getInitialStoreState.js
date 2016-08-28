@@ -23,7 +23,7 @@ export default function getInitialStoreState(req) {
       path: req.path,
     },
     browser: req.browser,
-    currentLocation: req.geolocation,
+    currentLocation: req.session.currentLocation,
     i18n: {
       messages,
       supportedLocales,

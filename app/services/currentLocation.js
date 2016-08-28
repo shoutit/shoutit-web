@@ -5,7 +5,7 @@ import { parseApiError } from '../utils/APIUtils';
 export default {
   name: 'currentLocation',
   update: (req, resource, params, { location }, config, callback) => {
-    req.geolocation = location;
+    req.session.currentLocation = location;
     if (req.session.user) {
       request
         .patch('/profiles/me')
