@@ -21,7 +21,8 @@ const initialState = {
   isUpdatingPassword: false,
   updatePasswordError: null,
 
-  profile: null,
+  profile: null, // the logged in profile
+  page: null, // the authenticated page (if set from switch to page)
 
 };
 
@@ -38,9 +39,13 @@ export default function (state = initialState, action) {
 
     case actionTypes.LOGIN_SUCCESS:
     case actionTypes.SIGNUP_SUCCESS:
+      const { type } = payload.entities.users[payload.result].type;
+      if (type === 'user') {
+        type === 'profile';
+      }
       return {
         ...state,
-        profile: payload.result,
+        [type]: payload.result,
         isVerifyingEmail: false,
         isLoggingIn: false,
       };
@@ -157,23 +162,53 @@ export default function (state = initialState, action) {
   }
 }
 
-export const getLoggedProfile = state =>
-  denormalize(state.entities.users[state.session.profile], state.entities, 'PROFILE');
 
+/**
+ * Return the current logged-in profile, or the page in behalf of the logged-in account.
+ *
+ * @export
+ * @param {Object} state
+ * @returns
+ */
+export function getLoggedProfile(state) {
+  return denormalize(
+    state.entities.users[state.session.page || state.session.profile],
+    state.entities,
+    'PROFILE'
+  );
+}
+
+/**
+ * Return the actual logged-in account, e.g. if authenticated as page, it will return the
+ * account that authenticated with it.
+ *
+ * @export
+ * @param {Object} state
+ * @returns
+ */
+export function getLoggedAccount(state) {
+  return denormalize(
+    state.entities.users[state.session.profile],
+    state.entities,
+    'PROFILE'
+  );
+}
 
 export function getUnreadNotificationsCount(state) {
-  if (!state.session.profile) {
+  const loggedProfile = getLoggedProfile(state);
+  if (!loggedProfile) {
     return 0;
   }
-  return state.entities.users[state.session.profile].stats.unreadNotificationsCount;
+  return loggedProfile.stats.unreadNotificationsCount;
 }
 
 
 export function getUnreadConversationsCount(state) {
-  if (!state.session.profile) {
+  const loggedProfile = getLoggedProfile(state);
+  if (!loggedProfile) {
     return 0;
   }
-  return state.entities.users[state.session.profile].stats.unreadConversationsCount;
+  return loggedProfile.stats.unreadConversationsCount;
 }
 
 export function canPublishToFacebook(state) {
@@ -183,5 +218,5 @@ export function canPublishToFacebook(state) {
 }
 
 export function isLoggedIn(state) {
-  return !!state.session.profile;
+  return !!getLoggedProfile(state);
 }
