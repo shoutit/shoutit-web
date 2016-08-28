@@ -195,3 +195,17 @@ export function authenticateAs(profile) {
     },
   };
 }
+
+export function cancelAuthentication() {
+  return {
+    types: [
+      actionTypes.SESSION_CANCEL_AUTHENTICATION_START,
+      actionTypes.SESSION_CANCEL_AUTHENTICATION_SUCCESS,
+      actionTypes.SESSION_CANCEL_AUTHENTICATION_FAILURE,
+    ],
+    service: {
+      name: 'authenticateAs',
+      method: 'delete',
+    },
+  };
+}
