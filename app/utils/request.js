@@ -25,8 +25,8 @@ request.Request.prototype.use = function use(req) {
   if (req.cookies && req.cookies.authorization_page_id) {
     this.set('Authorization-Page-Id', req.cookies.authorization_page_id);
   }
-  if (req.language) {
-    this.set('Accept-Language', req.language);
+  if (req.session.language) {
+    this.set('Accept-Language', req.session.language);
   }
 
   if (req.headers) {

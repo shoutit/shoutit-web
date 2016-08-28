@@ -37,7 +37,7 @@ function createReadMethod({ url, cacheResponse, name }) {
       requestUrl = template(url)(params);
     }
     log('Sending request to %s...', requestUrl, params);
-    const cache = getCache(name, req.language);
+    const cache = getCache(name, req.session.language);
     if (cache) {
       log('Using response found in cache for %s', requestUrl);
       callback(null, cache);
@@ -54,7 +54,7 @@ function createReadMethod({ url, cacheResponse, name }) {
           return callback(parseApiError(err));
         }
         if (cacheResponse) {
-          setCache(name, res.body, req.language);
+          setCache(name, res.body, req.session.language);
         }
         return callback(null, res.body);
       });

@@ -48,17 +48,17 @@ export default function start(app) {
   // Make sure errors are catched without crashing the server
   app.use(errorDomainMiddleware);
 
-  // Set the client's language in req.language
-  app.use(localeMiddleware);
-
   // Set the client's device details in req.browser
   app.use(browserMiddleware);
 
-  // Add fetchr to req
+  // Add fetchr to req object
   fetchrMiddleware(app);
 
   // Enable redis-based session
   sessionMiddleware(app);
+
+  // Set the session's language
+  app.use(localeMiddleware);
 
   // Register fetchr services
   Object.keys(services).forEach(name => Fetchr.registerService(services[name])); // eslint-disable-line

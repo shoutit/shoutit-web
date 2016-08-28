@@ -9,9 +9,9 @@ languages.forEach(language => {
 export default {
   name: 'shoutSamples',
   read: (req, resource, params = {}, config, callback) => {
-    if (!SHOUTS[req.language]) {
-      callback(new Error(`Cannot load sample shouts for ${req.language}`));
+    if (!SHOUTS[req.session.language]) {
+      callback(new Error(`Cannot load sample shouts for ${req.session.language}`));
     }
-    callback(null, SHOUTS[req.language].shouts);
+    callback(null, SHOUTS[req.session.language].shouts);
   },
 };
