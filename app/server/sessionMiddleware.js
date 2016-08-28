@@ -87,40 +87,28 @@ export function authTokenLogin(req, res, next) {
 }
 
 /**
- * Read the current session and set the user in the request
- */
-export function setUserRequest(req, res, next) {
-  log('Reading current session...');
-  if (req.session.user) {
-    log('A logged user was already set');
-    return next();
-  }
-  return req.fetchr.read('session').end((err, user) => {
-    if (!err) {
-      log('User %s has been logged in', user.username);
-      req.session.user = user;
-    } else {
-      log('User is not logged in');
-    }
-    next();
-  });
-}
-
-/**
  * Apply the middlewares for an express app to handle user's sessions
  * and the logged user.
  *
  * @export
  * @param {Object} app
  */
+const maxAge = 365 * 24 * 60 * 60 * 1000;
 export default function (app) {
+  const cookie = { maxAge };
+  if (app.get('env') === 'production') {
+    app.set('trust proxy', 1); // trust first proxy
+    cookie.secure = true; // serve secure cookies
+  }
   app.use(session({
     secret: 'ShoutItOutLoudIntoTheCrowd',
-    resave: false,
+    cookie,
+    name: 'shoutit.sid',
+    resave: true,
     saveUninitialized: true,
+    maxAge,
     store: new RedisStore(storeSettings),
   }));
   app.use(checkExistingSession);
   app.use(authTokenLogin);
-  app.use(setUserRequest);
 }

@@ -33,13 +33,13 @@ export default function getInitialStoreState(req) {
       rtl: req.session.language === 'ar',
     },
   };
-  if (req.session && req.session.user) {
+  if (req.session && req.session.profile) {
     state.session = {
-      user: req.session.user.id,
+      profile: req.session.profile.id,
     };
     state.entities = {
       users: {
-        [req.session.user.id]: req.session.user,
+        [req.session.profile.id]: req.session.profile,
       },
     };
     if (req.session.page) {

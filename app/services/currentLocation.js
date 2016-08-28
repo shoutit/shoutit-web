@@ -5,7 +5,7 @@ export default {
   name: 'currentLocation',
   update: (req, resource, params, { location }, config, callback) => {
     req.session.currentLocation = location;
-    if (req.session.user) {
+    if (req.session.profile) {
       request
         .patch('/profiles/me')
         .send({ location })
@@ -15,7 +15,7 @@ export default {
           if (err) {
             return callback(parseApiError(err));
           }
-          req.session.user = res.body; // eslint-disable-line
+          req.session.profile = res.body; // eslint-disable-line
           return callback(null, res.body);
         });
     } else {

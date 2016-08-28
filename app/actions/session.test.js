@@ -65,30 +65,26 @@ describe('actions/session', () => {
       expect(session.clientLogin({})).to.have.property('type', actionTypes.LOGIN_SUCCESS);
     });
     it('should return an action with the payload parsable by the entities middleware', () => {
-      const user = { foo: 'bar', id: 'ABC' };
-      const action = session.clientLogin(user);
+      const profile = { foo: 'bar', id: 'ABC' };
+      const action = session.clientLogin(profile);
       expect(action.payload).to.have.property('result', 'ABC');
-      expect(action.payload.entities.users).to.have.property('ABC', user);
+      expect(action.payload.entities.users).to.have.property('ABC', profile);
     });
   });
 
   describe('loginWithGoogle', () => {
     it('should pass the right body to the service', () => {
-      const params = { gplus_code: 'foo', user: 'ABC' };
-      const action = session.loginWithGoogle(params);
+      const action = session.loginWithGoogle('foo');
       expect(action.service.body).to.have.property('grant_type', gplus_code);
       expect(action.service.body).to.have.property('gplus_code', 'foo');
-      expect(action.service.body).to.have.property('user', 'ABC');
     });
   });
 
   describe('loginWithFacebook', () => {
     it('should pass the right body to the service', () => {
-      const params = { facebook_access_token: 'foo', user: 'ABC' };
-      const action = session.loginWithFacebook(params);
-      expect(action.service.body).to.have.property('grant_type', facebook_access_token);
-      expect(action.service.body).to.have.property('facebook_access_token', 'foo');
-      expect(action.service.body).to.have.property('user', 'ABC');
+      const action = session.loginWithFacebook('foo');
+      expect(action).to.have.deep.property('service.body.grant_type', facebook_access_token);
+      expect(action).to.have.deep.property('service.body.facebook_access_token', 'foo');
     });
   });
 

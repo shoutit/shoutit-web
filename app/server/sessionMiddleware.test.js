@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import { getHostAndPort, authTokenLogin, setUserRequest } from './sessionMiddleware';
+import { getHostAndPort, authTokenLogin } from './sessionMiddleware';
 
 describe('server/sessionMiddleware', () => {
   describe('getHostAndPort', () => {
@@ -47,22 +47,4 @@ describe('server/sessionMiddleware', () => {
     it('should redirect to an url without auth_token even if login fails');
   });
 
-  describe('setUserRequest', () => {
-    it('should skip the fetchr service if the user is already in session', () => {
-      const req = {
-        session: {
-          user: 'foo',
-        },
-        fetchr: {
-          read: spy(),
-        },
-      };
-      const res = {};
-      const next = spy();
-      setUserRequest(req, res, next);
-      expect(next).to.have.been.called.once;
-      expect(req.fetchr.read).to.not.have.been.called;
-    });
-    it('should set the user from the service response');
-  });
 });

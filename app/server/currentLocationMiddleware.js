@@ -23,8 +23,8 @@ export default function geoLocationMiddleware(req, res, next) {
       req.session.currentLocation.city = toTitleCase(decodeURIComponent(matchesUrl[6]));
     }
     log('Got geolocation from URL');
-  } else if (get(req, 'session.user.location')) {
-    req.session.currentLocation = req.session.user.location;
+  } else if (get(req, 'session.profile.location')) {
+    req.session.currentLocation = req.session.profile.location;
     log('Got geolocation from logged profile');
   }
 

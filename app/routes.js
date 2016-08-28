@@ -43,15 +43,15 @@ const routes = (store) =>
   <Route component={ Application }>
     <Route path="/"
       getApplicationLayout={ () => ({
-        stickyHeader: !!store.getState().session.user,
+        stickyHeader: !!store.getState().session.profile,
         showFooter: true,
-        showHeader: !!store.getState().session.user,
+        showHeader: !!store.getState().session.profile,
       }) }
       getResponsiveLayout={ () => ({
-        constrainMaxWidth: !!store.getState().session.user,
+        constrainMaxWidth: !!store.getState().session.profile,
       }) }
       getComponent={ (location, callback) => {
-        const Component = store.getState().session.user ? Dashboard : Homepage;
+        const Component = store.getState().session.profile ? Dashboard : Homepage;
         callback(null, Component);
         return Component;
       } }

@@ -1,3 +1,5 @@
+import { camelizeKeys } from 'humps';
+
 import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
 import { shoutit_signup } from '../constants/grantTypes';
@@ -31,7 +33,7 @@ export default {
       email: body.email,
       password: body.password,
       profile: {
-        location: req.session.location,
+        location: req.session.currentLocation,
         language: req.session.language,
       },
       mixpanel_distinct_id: body.mixpanel_distinct_id,
@@ -69,8 +71,8 @@ export default {
         if (err) {
           return callback(parseApiError(err));
         }
-        req.session.user = res.body;
-        return callback(null, res.body);
+        req.session.profile = camelizeKeys(res.body);
+        return callback(null, req.session.profile);
       });
   },
 };

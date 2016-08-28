@@ -1,4 +1,5 @@
 import { camelizeKeys } from 'humps';
+import merge from 'lodash/merge';
 import debug from 'debug';
 
 import request from '../utils/request';
@@ -11,47 +12,36 @@ import {
 
 const log = debug('shoutit:services:session');
 
-export function readSessionProfile(req) {
-  log('Reading the current session\'s profile...');
-  return new Promise(resolve => {
-    request
-      .get('/profiles/me')
-      .use(req)
-      .prefix()
-      .end((err, res) => {
-        if (err) {
-          console.warn('Trying to get user %s but got an error with status code %s: destroying current session...', req.session.user.username, res && res.status); //eslint-disable-line
-          console.error(err); //eslint-disable-line
-          req.session.destroy();
-          resolve();
-        }
-        const profile = camelizeKeys(res.body);
-        log('Current profile\'s username is %s', profile.username);
-        resolve(profile);
-      });
-  });
+export function loadProfile(req, callback) {
+  request
+    .get('/profiles/me')
+    .use(req)
+    .prefix()
+    .end((err, res) => {
+      if (err) {
+        console.error(err);
+        req.session.destroy();
+        callback();
+      }
+      const profile = camelizeKeys(res.body);
+      log('Current profile\'s username is %s', profile.username);
+      callback(profile);
+    });
 }
 
-export function readAuthenticatedPage(req) {
-  if (!req.session || !req.session.authorizationPage) {
-    return Promise.resolve();
-  }
-  log('Reading the current authenticated page...');
-  const { authorizationPage } = req.session;
-  return new Promise(resolve => {
-    request
-      .get(`/profiles/${authorizationPage.username}`)
-      .use(req)
-      .prefix()
-      .end((err, res) => {
-        if (err) {
-          console.error(err);
-          resolve();
-        }
-        const page = camelizeKeys(res.body);
-        resolve(page);
-      });
-  });
+export function loadAuthorizationPage(req, callback) {
+  request
+    .get(`/profiles/${req.session.authorizationPage.username}`)
+    .use(req)
+    .prefix()
+    .end((err, res) => {
+      if (err) {
+        console.error(err);
+        callback();
+      }
+      const page = camelizeKeys(res.body);
+      callback(page);
+    });
 }
 
 
@@ -59,60 +49,57 @@ export default {
   name: 'session',
 
   create: (req, resource, params, body, config, callback) => {
-    log('Creating request session...');
+    const data = merge(body, {
+      profile: {
+        location: req.session.currentLocation || {},
+      },
+      client_id,
+      client_secret,
+    });
+    log('Creating request session...', data);
     request
       .post('/oauth2/access_token')
-      .send({ ...body, client_id, client_secret })
+      .send(data)
       .use(req)
       .prefix()
       .end((err, res) => {
+
         if (err) {
           callback(parseApiError(err));
           return;
         }
 
-        const response = camelizeKeys(res.body);
-        const { accessToken, refreshToken, newSignup, expiresIn, scope, profile } = response;
-
-        req.session.user = profile;
-        req.session.newSignup = newSignup;
-        req.session.accessToken = accessToken;
-        req.session.refreshToken = refreshToken;
-        req.session.cookie.expires = new Date(Date.now() + (expiresIn * 1000));
-        req.session.scope = scope ? scope.split[' '] : [];
+        const account = camelizeKeys(res.body);
+        Object.assign(req.session, account);
+        req.session.cookie.expires = new Date(Date.now() + (account.expiresIn * 1000));
 
         log('Request session has been created and will expires on %s', req.session.cookie.expires);
-
-        callback(null, profile);
+        callback(null, account.profile);
       });
   },
 
   read: (req, resource, params, config, callback) => {
     log('Reading current session...', req.session);
-    if (!req.session || !req.session.user) {
-      callback(new Error('Session does not exists'));
-      return;
-    }
+    loadProfile(req, profile => {
+      req.session.profile = profile;
 
-    readSessionProfile(req)
-      .then(profile =>
-        req.session.user = profile
-      )
-      .then(() =>
-        readAuthenticatedPage(req)
-      )
-      .then(page => {
-        if (!page.isOwner) {
-          log('Not owner of %s, removing authorizationPage from session', page.username);
-          delete req.session.authorizationPage;
-          return;
+      if (!req.session.authorizationPage) {
+        return callback(null, profile);
+      }
+
+      return loadAuthorizationPage(req, page => {
+        if (page) {
+          if (page.isOwner) {
+            req.session.page = page;
+            log('Session authorization page set as %s', page.username);
+          } else {
+            log('Logged profile %s is not owner of the authorization page %s', profile.username, page.username);
+          }
         }
-        log('Authenticated page\'s username is %s', page.username);
-        req.session.page = page;
-      })
-      .then(() =>
-        callback(req.session.profile)
-      );
+        callback(null, profile);
+      });
+
+    });
   },
 
   delete: (req, resource, params, config, callback) => {

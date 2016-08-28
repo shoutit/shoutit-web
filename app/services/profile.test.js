@@ -3,6 +3,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { Request } from 'superagent';
+import Fetchr from 'fetchr';
+
+import * as services from '../services';
 
 import service from './profile';
 import { shoutit_signup } from '../constants/grantTypes';
@@ -16,9 +19,26 @@ describe('services/profile', () => {
   let body;
   let config;
 
+  const fetchr = new Fetchr({
+    xhrPath: '/',
+    req: {
+      session: {},
+    },
+  });
+  Object.keys(services).forEach(name => Fetchr.registerService(services[name])); // eslint-disable-line
+
   beforeEach(() => {
     callback = sinon.spy();
-    req = { session: { cookie: {} } };
+    req = {
+      fetchr,
+      session: {
+        cookie: {},
+        currentLocation: {
+          latitude: 'foo',
+          longitude: 'bar',
+        },
+      },
+    };
     config = {};
     resource = '';
     params = {};
@@ -39,15 +59,6 @@ describe('services/profile', () => {
   });
 
   describe('create method', () => {
-    it('should throw an error if firstName is not set', () => {
-      service.create(req, resource, params, {}, config, callback);
-      expect(callback.args[0][0].errors[0]).to.have.property('location', 'first_name');
-    });
-
-    it('should throw an error if lastName is not sent', () => {
-      service.create(req, resource, params, { firstName: 'foo' }, config, callback);
-      expect(callback.args[0][0].errors[0]).to.have.property('location', 'last_name');
-    });
 
     it('should send an API request to the right API endpoint', done => {
       sinon.stub(Request.prototype, 'end', function callback() {
@@ -101,20 +112,6 @@ describe('services/profile', () => {
         expect(this._data).to.have.property('password', '123456');
         expect(this._data).to.have.property('mixpanel_distinct_id');
         expect(this._data).to.have.property('email', 'foo@example.com');
-        done();
-      });
-      service.create(req, resource, params, body, config, callback);
-    });
-
-    it('should not pass a profile object if location does not have latitude/longitude', done => {
-      body = {
-        ...body,
-        location: {
-          city: 'a city',
-        },
-      };
-      sinon.stub(Request.prototype, 'end', function callback() {
-        expect(this._data.profile.location).to.be.empty;
         done();
       });
       service.create(req, resource, params, body, config, callback);
@@ -198,8 +195,8 @@ describe('services/profile', () => {
 
     it('should call the callback with the response body as profile', () => {
       sinon.stub(Request.prototype, 'end', cb => {
-        cb(null, { body: { username: 'foo' } });
-        expect(callback).to.have.been.calledWith(null, { username: 'foo' });
+        cb(null, { body: { username: 'foo', lodash_key: true } });
+        expect(callback).to.have.been.calledWith(null, { username: 'foo', lodashKey: true });
       });
       service.update(req, resource, params, body, config, callback);
     });

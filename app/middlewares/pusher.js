@@ -50,7 +50,7 @@ export default store => next => action => { // eslint-disable-line no-unused-var
 
     const message = camelizeKeys(payload);
     const normalizedPayload = normalize(message, MESSAGE);
-    if (message.profile && store.getState().session.user === message.profile.id) {
+    if (message.profile && store.getState().session.profile === message.profile.id) {
       // As pusher will always send the profile as "not owner"
       delete normalizedPayload.entities.users;
     }
@@ -87,7 +87,7 @@ export default store => next => action => { // eslint-disable-line no-unused-var
 
         profileChannel.bind('stats_update', payload => {
           log('profileChannel received stats_update event', payload);
-          store.dispatch(updateProfileStats(store.getState().session.user, camelizeKeys(payload)));
+          store.dispatch(updateProfileStats(store.getState().session.profile, camelizeKeys(payload)));
         });
 
         profileChannel.bind('profile_update', payload => {

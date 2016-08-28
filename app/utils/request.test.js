@@ -1,5 +1,4 @@
-/* eslint no-console: 0 */
-/* eslint-env mocha */
+
 
 import { expect } from 'chai';
 import request from './request';
@@ -7,7 +6,7 @@ import request from './request';
 describe('request', () => {
 
   it('should set Accept-Language header from req object', () => {
-    const req = request.get('/foo').use({ language: 'it' });
+    const req = request.get('/foo').use({ session: { language: 'it' } });
     expect(req.header['Accept-Language']).to.equal('it');
   });
 

@@ -21,7 +21,7 @@ const initialState = {
   isUpdatingPassword: false,
   updatePasswordError: null,
 
-  user: null,
+  profile: null,
 
 };
 
@@ -40,7 +40,7 @@ export default function (state = initialState, action) {
     case actionTypes.SIGNUP_SUCCESS:
       return {
         ...state,
-        user: payload.result,
+        profile: payload.result,
         isVerifyingEmail: false,
         isLoggingIn: false,
       };
@@ -75,7 +75,7 @@ export default function (state = initialState, action) {
     case actionTypes.VERIFY_EMAIL_SUCCESS:
       return {
         ...state,
-        user: payload.result.profile,
+        profile: payload.result.profile,
       };
     case actionTypes.VERIFY_EMAIL_FAILURE:
       return {
@@ -158,22 +158,22 @@ export default function (state = initialState, action) {
 }
 
 export const getLoggedUser = state =>
-  denormalize(state.entities.users[state.session.user], state.entities, 'PROFILE');
+  denormalize(state.entities.users[state.session.profile], state.entities, 'PROFILE');
 
 
 export function getUnreadNotificationsCount(state) {
-  if (!state.session.user) {
+  if (!state.session.profile) {
     return 0;
   }
-  return state.entities.users[state.session.user].stats.unreadNotificationsCount;
+  return state.entities.users[state.session.profile].stats.unreadNotificationsCount;
 }
 
 
 export function getUnreadConversationsCount(state) {
-  if (!state.session.user) {
+  if (!state.session.profile) {
     return 0;
   }
-  return state.entities.users[state.session.user].stats.unreadConversationsCount;
+  return state.entities.users[state.session.profile].stats.unreadConversationsCount;
 }
 
 export function canPublishToFacebook(state) {
@@ -183,5 +183,5 @@ export function canPublishToFacebook(state) {
 }
 
 export function isLoggedIn(state) {
-  return !!state.session.user;
+  return !!state.session.profile;
 }

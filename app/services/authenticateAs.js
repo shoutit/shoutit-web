@@ -5,7 +5,7 @@ const log = debug('shoutit:services:authenticateAs');
 export default {
   name: 'authenticateAs',
   create: (req, resource, params, body, config, callback) => {
-    if (!req.session || !req.session.user) {
+    if (!req.session || !req.session.profile) {
       callback(new Error('Session does not exists'));
       return;
     }

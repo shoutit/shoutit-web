@@ -13,7 +13,6 @@ const GOOGLE_LOGIN_METHOD = 'PROMPT';
 export class SocialLoginForm extends Component {
 
   static propTypes = {
-    currentLocation: PropTypes.object,  // passing this, will send the current location to the login actions
     onLoginSuccess: PropTypes.func.isRequired,
     dispatch: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
@@ -32,7 +31,7 @@ export class SocialLoginForm extends Component {
   handleGoogleLoginClick(e) {
     e.preventDefault();
 
-    const { dispatch, onLoginSuccess, currentLocation } = this.props;
+    const { dispatch, onLoginSuccess } = this.props;
 
     this.setState({ error: null, waitingForGoogle: true }, () => {
       window.gapi.auth.signIn({
@@ -49,10 +48,7 @@ export class SocialLoginForm extends Component {
           }
 
           if (authResult.status.method === GOOGLE_LOGIN_METHOD) {
-            dispatch(loginWithGoogle(
-              { gplus_code: authResult.code },
-              { location: currentLocation }
-            )).then(() => onLoginSuccess());
+            dispatch(loginWithGoogle(authResult.code)).then(onLoginSuccess);
           }
         },
       });
@@ -61,7 +57,7 @@ export class SocialLoginForm extends Component {
 
   handleFacebookLoginClick() {
     const { error } = this.state;
-    const { dispatch, onLoginSuccess, currentLocation } = this.props;
+    const { dispatch, onLoginSuccess } = this.props;
 
     const options = {};
     if (error === 'FACEBOOK_INVALID_SCOPE') {
@@ -77,10 +73,7 @@ export class SocialLoginForm extends Component {
           });
           return;
         }
-        dispatch(loginWithFacebook(
-          { facebook_access_token: response.authResponse.accessToken },
-          { location: currentLocation }
-        )).then(() => onLoginSuccess());
+        dispatch(loginWithFacebook(response.authResponse.accessToken)).then(onLoginSuccess);
       });
     });
   }

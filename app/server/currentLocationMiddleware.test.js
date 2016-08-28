@@ -22,7 +22,7 @@ describe('server/currentLocationMiddleware', () => {
   it('should use the geolocation of the logged profile', () => {
     const req = {
       url: '/',
-      session: { user: { location: mockLocation } },
+      session: { profile: { location: mockLocation } },
       cookies: { location: mockLocation },
     };
     currentLocationMiddleware(req, null, () => {});
@@ -32,7 +32,7 @@ describe('server/currentLocationMiddleware', () => {
   it('should get the geolocation from the location cookie', () => {
     const req = {
       url: '/',
-      session: { user: null, currentLocation: mockLocation },
+      session: { profile: null, currentLocation: mockLocation },
     };
     currentLocationMiddleware(req, null, () => {});
     expect(req.session.currentLocation).to.eql(mockLocation);
