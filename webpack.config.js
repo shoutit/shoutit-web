@@ -114,6 +114,7 @@ module.exports = {
     !isDevelopment ? // Write out stats.json file to build directory.
       new StatsWriterPlugin({
         fields: ['assetsByChunkName', 'assets'],
+        filename: 'chunknames-app.json',
         transform: function transform(data) {
           const cssRtl = data.assets.find(function findRtlCss(asset) {
             return asset.name.split('-').slice(-1)[0] === 'rtl.css';

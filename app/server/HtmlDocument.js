@@ -10,14 +10,14 @@ import { getCurrentLanguage, isRtl } from '../reducers/i18n';
 
 import * as config from '../config';
 
-let chunkNames = {
+let appChunkNames = {
   main: '/assets/main.js',
   css: '/assets/main.css',
   cssRtl: '/assets/main-rtl.css',
 };
 
 if (process.env.NODE_ENV === 'production') {
-  chunkNames = require('../../public/stats.json'); // eslint-disable-line import/no-unresolved
+  appChunkNames = require('../../public/chunknames-app.json'); // eslint-disable-line import/no-unresolved
 }
 
 export default function HtmlDocument({
@@ -37,7 +37,7 @@ export default function HtmlDocument({
         { head.link.toComponent() }
 
         { process.env.NODE_ENV === 'production' &&
-          <link rel="stylesheet" type="text/css" href={ `${config.publicUrl}${chunkNames[rtl ? 'cssRtl' : 'css']}` } /> }
+          <link rel="stylesheet" type="text/css" href={ `${config.publicUrl}${appChunkNames[rtl ? 'cssRtl' : 'css']}` } /> }
 
         { language === 'ar' ?
           <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/earlyaccess/droidarabickufi.css" /> :
@@ -69,7 +69,7 @@ export default function HtmlDocument({
 
         <script dangerouslySetInnerHTML={ { __html: uservoice.replace('{language}', language) } } />
 
-        <script src={ `${config.publicUrl}${chunkNames.main}` } />
+        <script src={ `${config.publicUrl}${appChunkNames.main}` } />
 
       </body>
     </html>
