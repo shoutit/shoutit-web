@@ -30,7 +30,7 @@ export class ListeningTagsModal extends Component {
       <Modal
         { ...modalProps }
         ref={ el => this.modal = el }
-        loading={ !tags }
+        isFetchingContent={ !tags }
         size="small" >
         <Header closeButton>
           <FormattedMessage

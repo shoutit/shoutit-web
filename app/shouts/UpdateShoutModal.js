@@ -31,8 +31,7 @@ export class UpdateShoutModal extends Component {
 
     this.state = {
       isUploading: false,
-      isUpdating: false,
-      isDeleting: false,
+      isSubmitting: false,
       error: null,
       ...this.getStateFromProps(props),
     };
@@ -49,10 +48,10 @@ export class UpdateShoutModal extends Component {
   }
 
   handleSubmit() {
-    if (this.state.isUpdating || this.state.isUploading || this.state.isDeleting) {
+    if (this.state.isSubmitting || this.state.isUploading) {
       return;
     }
-    this.setState({ isUpdating: true });
+    this.setState({ isSubmitting: true });
 
     // reduce data sent with submit
     const shout = {
@@ -62,11 +61,11 @@ export class UpdateShoutModal extends Component {
     delete shout.conversations;
 
     this.props.onSubmit(shout)
-      .then(this.refs.modal.hide)
+      .then(this.modal.hide)
       .catch(error => {
         this.setState({
           error,
-          isUpdating: false,
+          isSubmitting: false,
         });
       });
   }
@@ -78,39 +77,12 @@ export class UpdateShoutModal extends Component {
     this.setState({ shout, error: null });
   }
   render() {
-    let submitLabel = 'Save changes';
 
-    if (this.state.isUploading) {
-      submitLabel = (
-        <FormattedMessage
-          id="updateShoutModal.publishButton.uploadingImages"
-          defaultMessage="Uploading…"
-        />
-      );
-    } else if (this.state.isUpdating) {
-      submitLabel = (
-        <FormattedMessage
-          id="updateShoutModal.publishButton.publishing"
-          defaultMessage="Publishing…"
-        />
-      );
-    } else if (this.state.isDeleting) {
-      submitLabel = (
-        <FormattedMessage
-          id="updateShoutModal.publishButton.deleting"
-          defaultMessage="Deleting…"
-        />
-      );
-    } else {
-      submitLabel = (
-        <FormattedMessage
-          id="updateShoutModal.publishButton.defaultLabel"
-          defaultMessage="Save changes"
-        />
-      );
-    }
     return (
-      <Modal { ...this.props } ref="modal">
+      <Modal
+        { ...this.props }
+        isSubmitting={ this.state.isSubmitting }
+        ref={ el => this.modal = el }>
         <Header closeButton>
           <FormattedMessage
             id="updateShoutModal.title"
@@ -124,7 +96,7 @@ export class UpdateShoutModal extends Component {
               onChange={ this.handleFormChange }
               onSubmit={ this.handleSubmit }
               mode="update"
-              disabled={ this.state.isUpdating || this.state.isDeleting }
+              disabled={ this.state.isSubmitting }
               shout={ this.state.shout }
               error={ this.state.error }
               onUploadStart={ () => this.setState({ isUploading: true }) }
@@ -136,8 +108,8 @@ export class UpdateShoutModal extends Component {
           <Button
             key="cancel"
             type="button"
-            onClick={ () => this.refs.modal.hide() }
-            disabled={ this.state.isUpdating || this.state.isDeleting }>
+            onClick={ () => this.modal.hide() }
+            disabled={ this.state.isSubmitting }>
             <FormattedMessage
               id="updateShoutModal.publishButton.cancelButton"
               defaultMessage="Cancel"
@@ -148,8 +120,17 @@ export class UpdateShoutModal extends Component {
             key="submit"
             kind="primary"
             onClick={ this.handleSubmit }
-            disabled={ this.state.isUpdating || this.state.isUploading || this.state.isDeleting }>
-            { submitLabel }
+            disabled={ this.state.isSubmitting || this.state.isUploading }>
+            { this.state.isUploading ?
+              <FormattedMessage
+                id="updateShoutModal.publishButton.uploadingImages"
+                defaultMessage="Uploading…"
+              /> :
+              <FormattedMessage
+                id="updateShoutModal.publishButton.defaultLabel"
+                defaultMessage="Save changes"
+              />
+            }
           </Button>
         </Footer>
       </Modal>

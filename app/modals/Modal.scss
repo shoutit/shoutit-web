@@ -1,5 +1,6 @@
 @import '../styles/constants';
 @import '../styles/mixins/mq';
+
 @keyframes modalContentEnterAnimation {
   from {
     transform: scale(.95);
@@ -31,8 +32,11 @@
   }
 }
 
-.Modal.loading  {
-  .ModalHeader, .ModalBody, .ModalFooter, .ModalBodyFixed {
+.Modal.isFetchingContent {
+  .ModalHeader,
+  .ModalBody,
+  .ModalFooter,
+  .ModalBodyFixed {
     display: none;
   }
 }
@@ -66,11 +70,27 @@
   &:focus {
     outline: none;
   }
-  .Modal.loading & {
+  .Modal.isFetchingContent & {
     display: flex;
     justify-content: center;
     flex-direction: column;
   }
+}
+
+.Modal-content-backdrop {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  content: '';
+  animation: modalBackdropEnterAnimation 100ms;
+  background-color: rgba(white, .8);
+
+  align-content: center;
 }
 
 @include tablet() {
@@ -130,6 +150,10 @@
   text-align: right;
   border-top: 1px solid $border-color;
   font-size: .875em;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   > .Button {
     margin: 0 .25em;
     &.default {
@@ -149,6 +173,9 @@
       width: 100%;
       margin: 0 auto;
     }
+  }
+  .Progress {
+    padding: 0;
   }
 }
 
@@ -172,8 +199,8 @@
         display: block;
         width: 100%;
         padding: $vertical-spacing/2 $horizontal-spacing;
-        border-radius: $border-radius-small;
         border-bottom: 1px solid $border-color-light;
+        border-radius: $border-radius-small;
         &:last-child {
           border-bottom-width: 0;
         }
@@ -185,6 +212,9 @@
   }
 }
 
+.ModalBody {
+  position: relative;
+}
 
 @include tablet() {
   .ModalBody {
@@ -195,6 +225,17 @@
 .ModalBodyFixed {
   padding: .75rem;
 }
+
+.ModalBody-backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  animation: modalBackdropEnterAnimation 100ms;
+  background-color: rgba(white, .5);
+}
+
 
 .Modal-backdrop {
   position: fixed;

@@ -1,7 +1,7 @@
 /* eslint react/no-find-dom-node: 0 */
 /* eslint-env browser */
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -29,7 +29,7 @@ const MARGIN_BOTTOM = 75;
 const BODY_MAX_HEIGHT = 600;
 const LEAVE_TIMEOUT = 250;
 
-export default class Modal extends PureComponent {
+export default class Modal extends Component {
 
   static propTypes = {
     onHide: PropTypes.func.isRequired,
@@ -37,7 +37,9 @@ export default class Modal extends PureComponent {
     autoSize: PropTypes.bool,
     children: PropTypes.node,
     enterAnimation: PropTypes.bool,
-    loading: PropTypes.bool,
+    isFetchingContent: PropTypes.bool, // will display the loader instead of the content
+    isLoading: PropTypes.bool,  // will display a loader without hiding the content
+    isSubmitting: PropTypes.bool,  // will display a loader without hiding the content
     preventClose: PropTypes.bool,
     size: PropTypes.oneOf(['medium', 'small', 'x-small', 'large']),
   }
@@ -47,7 +49,9 @@ export default class Modal extends PureComponent {
     backdrop: true,
     preventClose: false,
     autoSize: true,
-    loading: false,
+    isFetchingContent: false,
+    isLoading: false,
+    isSubmitting: false,
     enterAnimation: true,
   }
 
@@ -75,7 +79,7 @@ export default class Modal extends PureComponent {
   }
 
   componentWillUpdate(nextProps) {
-    if (this.props.loading && !nextProps.loading) {
+    if (this.props.isFetchingContent && !nextProps.isFetchingContent) {
       // Hide the content until the animation did finish
       this.setState({
         hideBody: true,
@@ -166,8 +170,8 @@ export default class Modal extends PureComponent {
 
   handleWindowKeyup(e) {
     if (e.keyCode === ESCAPE) {
-      if (this.props.preventClose) {
-        log('Ignoring ESC press as prevent close is enabled');
+      if (this.props.preventClose || this.props.isLoading || this.props.isSubmitting) {
+        log('Ignoring ESC press as prevent close is enabled or modal is loading');
         return;
       }
       log('Hiding modal after pressing ESCAPE');
@@ -185,8 +189,8 @@ export default class Modal extends PureComponent {
       log('Ignoring backdrop click since the clicked element is the modal content');
       return;
     }
-    if (this.props.preventClose) {
-      log('Ignoring backdrop click as prevent close is enabled');
+    if (this.props.preventClose || this.props.isLoading || this.props.isSubmitting) {
+      log('Ignoring backdrop click as prevent close is enabled or modal is loading');
       return;
     }
     log('Backdrop has been clicked');
@@ -203,6 +207,7 @@ export default class Modal extends PureComponent {
     const props = {
       ref: el => { this.header = el; },
       onCloseClick: this.hide,
+      closeButton: !this.props.isSubmitting,
     };
     return React.cloneElement(header, props);
   }
@@ -225,6 +230,7 @@ export default class Modal extends PureComponent {
     );
     if (body && this.props.autoSize) {
       body = React.cloneElement(body, {
+        preventInteraction: this.props.isSubmitting,
         style: {
           ...body.props.style,
           ...this.state.bodyStyle,
@@ -242,13 +248,16 @@ export default class Modal extends PureComponent {
       return null;
     }
     return React.cloneElement(footer, {
+      showProgress: this.props.isSubmitting,
       ref: el => this.footer = el,
     });
   }
 
   render() {
     const modalClassName = classNames('Modal', {
-      loading: this.props.loading,
+      isFetchingContent: this.props.isFetchingContent,
+      isLoading: this.props.isLoading,
+      isSubmitting: this.props.isSubmitting,
       enterAnimation: this.props.enterAnimation,
       hideBody: this.state.hideBody,
     });
@@ -257,7 +266,7 @@ export default class Modal extends PureComponent {
     });
 
     const style = {};
-    if (this.props.loading) {
+    if (this.props.isFetchingContent) {
       style.width = 200;
     } else {
       switch (this.props.size) {
@@ -295,7 +304,12 @@ export default class Modal extends PureComponent {
                   className="Modal-content"
                   tabIndex={ 0 }
                   style={ { top: this.state.contentTop } }>
-                  { this.props.loading && <Progress animate /> }
+                  { this.props.isFetchingContent && <Progress animate /> }
+                  { this.props.isLoading &&
+                    <div className="Modal-content-backdrop">
+                      <Progress animate />
+                    </div>
+                  }
                   { this.renderHeader() }
                   { this.renderBodyFixed() }
                   { this.renderBody() }

@@ -59,7 +59,7 @@ export class AvatarEditorModal extends Component {
         .end((err, res) => {
           if (err) {
             this.setState({
-              isLoading: false,
+              isSubmitting: false,
               uploadRequest: null,
               image: profile.image,
             });
@@ -71,7 +71,7 @@ export class AvatarEditorModal extends Component {
         });
 
     this.setState({
-      isLoading: true,
+      isSubmitting: true,
       uploadRequest,
     });
 
@@ -112,7 +112,7 @@ export class AvatarEditorModal extends Component {
         { ...this.props }
         autoSize={ false }
         ref={ el => this.modal = el }
-        preventClose={ this.state.isLoading }>
+        isSubmitting={ this.state.isSubmitting }>
         <Header closeButton>
           <FormattedMessage
             id="avatarEditor.title"
@@ -134,7 +134,7 @@ export class AvatarEditorModal extends Component {
             </div>
             <div style={ { visibility: (this.state.image && this.props.profile.image !== this.state.image) ? '' : 'hidden' } }>
               <input
-                disabled={ this.state.isLoading }
+                disabled={ this.state.isSubmitting }
                 name="scale"
                 type="range"
                 ref={ el => this.scale = el }
@@ -151,7 +151,7 @@ export class AvatarEditorModal extends Component {
           <Button
             ref={ el => this.cancelButton = el }
             onClick={ () => this.modal.hide() }
-            size="small" disabled={ this.state.isLoading }>
+            size="small" disabled={ this.state.isSubmitting }>
             <FormattedMessage
               id="avatarEditor.cancelButton"
               defaultMessage="Cancel"
@@ -163,7 +163,7 @@ export class AvatarEditorModal extends Component {
             accept="image/jpeg,image/png"
             kind="secondary"
             icon="camera"
-            disabled={ this.state.isLoading }
+            disabled={ this.state.isSubmitting }
             onChange={ this.handlePictureChange }>
             <FormattedMessage
               id="avatarEditor.uploadButton"
@@ -175,7 +175,7 @@ export class AvatarEditorModal extends Component {
             <Button
               onClick={ this.handleSaveClick }
               kind="primary"
-              disabled={ this.props.profile.image === this.state.image || this.state.isLoading }
+              disabled={ this.props.profile.image === this.state.image || this.state.isSubmitting }
               style={ { minWidth: 120 } }>
               <FormattedMessage
                 id="avatarEditor.saveButton"

@@ -14,7 +14,7 @@ import {
   getPaginationState as getListenersPagination,
 } from '../reducers/paginated/listenersByUser';
 
-import { loadListeners, loadListening } from '../actions/users';
+import { loadListeners, loadListeningProfiles } from '../actions/users';
 
 import Modal, { Header, Footer, Body, BodyPaginated, BodyFixed } from '../modals';
 import Button from '../forms/Button';
@@ -48,7 +48,7 @@ export class SelectProfileModal extends Component {
 
   static propTypes = {
     type: PropTypes.oneOf(['listeners', 'listening']).isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.node.isRequired,
     intl: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
 
@@ -56,7 +56,7 @@ export class SelectProfileModal extends Component {
     loadListeners: PropTypes.func.isRequired,
     listenersPagination: PropTypes.shape(PaginationPropTypes),
     listening: PropTypes.array,
-    loadListening: PropTypes.func.isRequired,
+    loadListeningProfiles: PropTypes.func.isRequired,
     listeningPagination: PropTypes.shape(PaginationPropTypes),
 
     onSelect: PropTypes.func,
@@ -92,7 +92,7 @@ export class SelectProfileModal extends Component {
       loadListeners,
       listening,
       listeningPagination,
-      loadListening,
+      loadListeningProfiles,
       profile,
     } = this.props;
 
@@ -105,7 +105,7 @@ export class SelectProfileModal extends Component {
       props.showProgress = listenersPagination.isFetching && listeners && listeners.length > 0;
     } else {
       profiles = listening;
-      props.loadData = loadListening;
+      props.loadData = loadListeningProfiles;
       props.pagination = listeningPagination;
       props.showProgress = listeningPagination.isFetching && listening && listening.length > 0;
     }
@@ -163,7 +163,7 @@ export class SelectProfileModal extends Component {
       <Modal
         { ...this.props }
         ref={ el => this.modal = el }
-        loading={ !this.props[this.state.type] }
+        isFetchingContent={ !this.props[this.state.type] }
         size="small" >
         <Header closeButton>
           { this.props.title }
@@ -197,7 +197,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   loadListeners: params => dispatch(loadListeners(ownProps.profile, params)),
-  loadListenining: params => dispatch(loadListening(ownProps.profile, params)),
+  loadListeningProfiles: params => dispatch(loadListeningProfiles(ownProps.profile, params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(SelectProfileModal));

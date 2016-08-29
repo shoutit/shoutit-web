@@ -26,7 +26,7 @@ export function fileUploadMiddleware(req, res) {
   }
 
   const { fieldname, bucket, cdn } = s3Buckets[resourceType];
-  const filename = uniqueFilenameFromUser(req.session.profile);
+  const filename = uniqueFilenameFromUser(req.session.page || req.session.profile);
 
   const uploadToS3 = filePath => {
     const key = path.basename(filePath);
@@ -103,8 +103,8 @@ export function fileDeleteMiddleware(req, res) {
     res.status(400).send('A filename is required.');
     return;
   }
-
-  if (last(name.split('_') !== req.session.profile.id)) {
+  const id = req.session.page ? req.session.page.id : req.session.profile.id;
+  if (last(name.split('_') !== id)) {
     res.status(403).send('Access denied.');
   }
 
