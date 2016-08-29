@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 
-export default class Footer extends Component {
+export default class Footer extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
   };
