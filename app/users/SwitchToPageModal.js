@@ -29,10 +29,17 @@ export class SwitchToPageModal extends Component {
     this.handlePageClick = this.handlePageClick.bind(this);
   }
 
+  state = {
+    loading: false,
+  }
+
   modal = null
 
   handlePageClick(e, page) {
     e.preventDefault();
+    this.setState({
+      loading: true,
+    });
     this.props.switchToPage(page);
   }
 
@@ -42,7 +49,8 @@ export class SwitchToPageModal extends Component {
       <Modal
         { ...modalProps }
         ref={ el => this.modal = el }
-        loading={ !pages }
+        isFetchingContent={ !pages }
+        isLoading={ this.state.loading }
         size="small" >
         <Header closeButton>
           <FormattedMessage

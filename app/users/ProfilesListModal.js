@@ -32,7 +32,7 @@ export default class ProfilesListModal extends Component {
       <Modal
         { ...modalProps }
         ref={ el => this.modal = el }
-        loading={ !profiles }
+        isFetchingContent={ !profiles }
         size="small" >
         <Header closeButton>
           { title }

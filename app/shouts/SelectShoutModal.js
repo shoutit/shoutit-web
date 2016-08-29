@@ -46,7 +46,7 @@ export class SelectShoutModal extends Component {
       <Modal { ...modalProps }
         size="small"
         ref={ el => this.modal = el }
-        loading={ !shouts }>
+        isFetchingContent={ !shouts }>
         <Header closeButton>
           { title || <FormattedMessage id="SelectShoutModal.title" defaultMessage="Shouts" /> }
         </Header>
