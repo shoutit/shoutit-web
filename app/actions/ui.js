@@ -1,5 +1,5 @@
 import React from 'react';
-import SimpleModal from '../modals/SimpleModal';
+import Dialog from '../modals/Dialog';
 import * as actionTypes from './actionTypes';
 
 export function closeModal() {
@@ -15,10 +15,10 @@ export function openModal(modal) {
   };
 }
 
-export function confirm(header, body, buttons) {
+export function confirm(title, message, buttons) {
   return openModal(
-    <SimpleModal header={ header } buttons={ buttons }>
-      { body }
-    </SimpleModal>
+    <Dialog title={ title } buttons={ buttons }>
+      { message }
+    </Dialog>
   );
 }
