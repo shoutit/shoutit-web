@@ -15,8 +15,13 @@ export default {
           if (err) {
             return callback(parseApiError(err));
           }
-          req.session.profile = res.body; // eslint-disable-line
-          return callback(null, res.body);
+          const profile = res.body;
+          if (profile.type === 'page') {
+            req.session.page = profile;
+          } else {
+            req.session.profile = profile;
+          }
+          return callback(null, profile);
         });
     } else {
       callback();

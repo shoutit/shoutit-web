@@ -24,7 +24,7 @@ export default function geoLocationMiddleware(req, res, next) {
     }
     log('Got geolocation from URL');
   } else if (get(req, 'session.profile.location')) {
-    req.session.currentLocation = req.session.profile.location;
+    req.session.currentLocation = req.session.page ? req.session.page.location : req.session.profile.location;
     log('Got geolocation from logged profile');
   }
 
