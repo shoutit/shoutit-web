@@ -30,6 +30,7 @@ export default class MessageItem extends Component {
     const { isCreating, text, createError, attachments = [] } = message;
     const isOwner = message.profile && message.profile.isOwner;
     let className = 'MessageItem';
+    const shouldBeLinkified = true;
 
     if (this.props.isFirstOfGroup) {
       className += ' is-first';
@@ -109,7 +110,9 @@ export default class MessageItem extends Component {
           }
           { text &&
             <div className="MessageItem-text" dir="auto">
-              <NewlineToBreak>{ text }</NewlineToBreak>
+              <NewlineToBreak shouldBeLinkified={ shouldBeLinkified }>
+                { text }
+              </NewlineToBreak>
             </div>
           }
         </div>

@@ -99,6 +99,14 @@
     overflow-wrap: break-word;
   }
 
+  a {
+    color: inherit;
+    text-decoration: underline;
+    &:hover, &:focus, &:active {
+      text-decoration: none;
+    }
+  }
+
   .MessageItem.is-owner & {
     color: $white;
     border-color: $color-primary;
