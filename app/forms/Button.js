@@ -26,6 +26,7 @@ export default class Button extends Component {
     block: false,
     iconButton: false,
     element: 'button',
+    size: 'small',
     type: 'button',
   }
 
