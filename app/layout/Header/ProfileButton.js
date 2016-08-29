@@ -46,9 +46,9 @@ export class ProfileButton extends Component {
       <span>
         <Link
           className="HeaderProfile-profileLink"
-          to={ `/user/${profile.profilename}` }
+          to={ `/user/${profile.username}` }
           onClick={ this.props.overlay && this.showOverlay }>
-          <ProfileAvatar ref={ el => { this.avatar = el; } } profile={ profile } size="medium" />
+          <ProfileAvatar ref={ el => this.avatar = el } profile={ profile } size="medium" />
         </Link>
         { this.props.overlay &&
           <Overlay
