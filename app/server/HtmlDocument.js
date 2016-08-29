@@ -16,8 +16,13 @@ let appChunkNames = {
   cssRtl: '/assets/main-rtl.css',
 };
 
+let vendorsChunkNames = {
+  vendors: '/scripts/vendors.js',
+};
+
 if (process.env.NODE_ENV === 'production') {
   appChunkNames = require('../../public/chunknames-app.json'); // eslint-disable-line import/no-unresolved
+  vendorsChunkNames = require('../../public/chunknames-vendors.json'); // eslint-disable-line import/no-unresolved
 }
 
 export default function HtmlDocument({
@@ -49,6 +54,8 @@ export default function HtmlDocument({
           />
         }
         <script type="text/javascript" dangerouslySetInnerHTML={ { __html: mixpanel } } />
+
+        <script src={ `${config.publicUrl}${vendorsChunkNames.vendors}` } />
 
       </head>
 
