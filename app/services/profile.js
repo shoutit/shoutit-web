@@ -69,8 +69,13 @@ export default {
         if (err) {
           return callback(parseApiError(err));
         }
-        req.session.profile = res.body;
-        return callback(null, req.session.profile);
+        const profile = res.body;
+        if (profile.type === 'page') {
+          req.session.page = profile;
+        } else {
+          req.session.profile = res.body;
+        }
+        return callback(null, profile);
       });
   },
 };
