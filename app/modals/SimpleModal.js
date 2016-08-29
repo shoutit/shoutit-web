@@ -1,9 +1,9 @@
 /* eslint-env browser */
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import Button from '../forms/Button';
 import Modal, { Header, Footer, Body } from '../modals';
 
-export default class GenericModal extends Component {
+export default class GenericModal extends PureComponent {
 
   static propTypes = {
     buttons: PropTypes.arrayOf(PropTypes.shape({

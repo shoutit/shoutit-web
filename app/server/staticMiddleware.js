@@ -17,6 +17,7 @@ export default function (app) {
     app.use('/images', serveStatic(`${publicDir}/images`, { maxAge }));
     app.use('/styles', serveStatic(`${publicDir}/styles`, { maxAge }));
   } else {
+    app.use('/scripts', serveStatic(`${publicDir}/scripts`, { maxAge }));
     app.use('/images', serveStatic(`${publicDir}/images`, { maxAge }));
   }
 

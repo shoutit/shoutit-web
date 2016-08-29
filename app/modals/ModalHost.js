@@ -1,9 +1,9 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { closeModal } from '../actions/ui';
 import { getModal, isAlreadyVisible } from '../reducers/modals';
 
-export class ModalHost extends Component {
+export class ModalHost extends PureComponent {
 
   static propTypes = {
     modal: PropTypes.element,

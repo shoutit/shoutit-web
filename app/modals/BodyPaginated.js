@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 
@@ -10,9 +10,9 @@ import ScrollablePaginated from '../layout/ScrollablePaginated';
  *
  * @export
  * @class BodyPaginated
- * @extends {Component}
+ * @extends {PureComponent}
  */
-export default class BodyPaginated extends Component {
+export default class BodyPaginated extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
     style: PropTypes.object,

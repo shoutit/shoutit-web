@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import SimpleIcon from '../icons/SimpleIcon';
 
-export default class ModalHeader extends Component {
+export default class ModalHeader extends PureComponent {
 
   static propTypes = {
     children: PropTypes.node.isRequired,

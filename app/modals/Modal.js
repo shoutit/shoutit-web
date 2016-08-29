@@ -1,7 +1,7 @@
 /* eslint react/no-find-dom-node: 0 */
 /* eslint-env browser */
 
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -29,7 +29,7 @@ const MARGIN_BOTTOM = 75;
 const BODY_MAX_HEIGHT = 600;
 const LEAVE_TIMEOUT = 250;
 
-export default class Modal extends Component {
+export default class Modal extends PureComponent {
 
   static propTypes = {
     onHide: PropTypes.func.isRequired,
