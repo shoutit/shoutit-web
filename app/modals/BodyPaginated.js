@@ -20,10 +20,15 @@ export default class BodyPaginated extends PureComponent {
     pagination: PropTypes.shape(PaginationPropTypes).isRequired,
     loadData: PropTypes.func.isRequired,
   };
+  scrollable: null
+  scrollToInitialPosition() {
+    this.scrollable.scrollToInitialPosition();
+  }
   render() {
     return (
       <ScrollablePaginated
         { ...this.props.pagination }
+        ref={ el => this.scrollable = el }
         showProgress={ this.props.showProgress }
         className="ModalBody paginated"
         style={ this.props.style }

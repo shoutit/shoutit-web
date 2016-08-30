@@ -9,27 +9,15 @@ export default {
       .send(message)
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           callback(parseApiError(err));
           return;
         }
-        const message = res.body;
-
-        // Request the conversation data
-        request
-          .get(`/conversations/${message.conversation_id}`)
-          .use(req)
-          .prefix()
-          .end((err, res) => {
-            if (err) {
-              callback(parseApiError(err));
-              return;
-            }
-            const conversation = res.body;
-            callback(null, conversation);
-
-          });
+        req.fetchr.read('conversations')
+          .params({ id: res.body.conversationId })
+          .end(callback);
       });
   },
 };

@@ -8,6 +8,7 @@ export default {
       .post('/auth/set_password')
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .send({
         reset_token: resetToken,
         new_password: newPassword,

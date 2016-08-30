@@ -171,7 +171,6 @@ export const startShoutReply = (loggedUser, shout) => {
 };
 
 export const replyToShout = (conversation, text) => {
-  const { about: shout } = conversation;
   return {
     types: [
       actionTypes.CONVERSATION_CREATE_START,
@@ -184,7 +183,7 @@ export const replyToShout = (conversation, text) => {
     service: {
       name: 'shoutReply',
       method: 'create',
-      params: { id: shout.id },
+      params: { id: conversation.about.id },
       body: { text },
       schema: CONVERSATION,
     },

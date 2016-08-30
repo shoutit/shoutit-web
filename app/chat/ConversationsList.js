@@ -27,8 +27,20 @@ export class ConversationsList extends Component {
     pagination: PropTypes.shape(PaginationPropTypes),
   }
 
+  constructor(props) {
+    super(props);
+    this.handleConversationClick = this.handleConversationClick.bind(this);
+  }
+
+  handleConversationClick(e, conversation) {
+    if (!this.props.onConversationClick) {
+      return;
+    }
+    this.props.onConversationClick(conversation, e);
+  }
+
   render() {
-    const { pagination, conversations, selectedId, onConversationClick, showConversationDropdown } = this.props;
+    const { pagination, conversations, selectedId, showConversationDropdown } = this.props;
     return (
       <ScrollablePaginated
         className="ConversationsList"
@@ -40,8 +52,9 @@ export class ConversationsList extends Component {
         <List>
           { conversations.length > 0 && conversations.map(conversation =>
             <ConversationItem
+              key={ conversation.id }
               showDropdown={ showConversationDropdown }
-              onClick={ onConversationClick ? e => onConversationClick(conversation, e) : null }
+              onClick={ this.handleConversationClick }
               conversation={ conversation }
               selected={ conversation.id === selectedId }
             />
@@ -51,7 +64,10 @@ export class ConversationsList extends Component {
         { !pagination.isFetching && conversations.length === 0 &&
           <div className="ListOverlay-empty">
             <p>
-              <FormattedMessage id="chat.conversation.noMessages" defaultMessage="No messages." />
+              <FormattedMessage
+                id="chat.conversation.noMessages"
+                defaultMessage="No messages."
+              />
             </p>
           </div>
         }

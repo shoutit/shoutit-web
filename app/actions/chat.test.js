@@ -26,7 +26,6 @@ describe('actions/chat', () => {
   describe('receiveTypingNotification', () => {
     it('should return the right payload', () => {
       const action = chat.receiveTypingNotification('foo', { id: 'bar' });
-      expect(action).to.have.deep.property('payload.entities.users.bar.id', 'bar');
       expect(action).to.have.deep.property('payload.userId', 'bar');
       expect(action).to.have.deep.property('payload.conversationId', 'foo');
     });
@@ -42,8 +41,9 @@ describe('actions/chat', () => {
 
   describe('startTyping', () => {
     it('should return the right payload', () => {
-      const action = chat.startTyping({ firstName: 'Giampaolo' });
-      expect(action).to.have.deep.property('payload.firstName', 'Giampaolo');
+      const action = chat.startTyping({ name: 'Giampaolo', id: 'foo' });
+      expect(action).to.have.deep.property('payload.name', 'Giampaolo');
+      expect(action).to.have.deep.property('payload.id', 'foo');
     });
   });
 

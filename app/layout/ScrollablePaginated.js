@@ -73,6 +73,10 @@ export default class ScrollablePaginated extends Component {
 
   scrollable = null
 
+  scrollToInitialPosition() {
+    this.scrollable.scrollToInitialPosition();
+  }
+
   loadData(params) {
     log('Loading data with params', params);
     this.props.loadData(params);

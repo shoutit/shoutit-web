@@ -10,6 +10,7 @@ export default {
       .query(query)
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           callback(parseApiError(err));

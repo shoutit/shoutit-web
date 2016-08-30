@@ -9,6 +9,7 @@ export default {
       .use(req)
       .send({ email })
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));
@@ -22,6 +23,7 @@ export default {
       .query({ token })
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));

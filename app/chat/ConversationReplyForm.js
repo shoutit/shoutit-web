@@ -27,7 +27,7 @@ export class ConversationReplyForm extends Component {
     name: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     conversation: PropTypes.object.isRequired,
-    loggedUser: PropTypes.object.isRequired,
+    loggedProfile: PropTypes.object.isRequired,
     typingTimeout: PropTypes.number,
     focus: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -77,7 +77,7 @@ export class ConversationReplyForm extends Component {
   }
 
   submit() {
-    const { disabled, conversation, dispatch, loggedUser, name } = this.props;
+    const { disabled, conversation, dispatch, loggedProfile, name } = this.props;
     const text = trim(this.textarea.value);
     if (disabled || !text) {
       return;
@@ -89,7 +89,7 @@ export class ConversationReplyForm extends Component {
     } else {
       dispatch(saveDraft(name, { draft: '' }));
       this.textarea.focus();
-      dispatch(replyToConversation(conversation, loggedUser, { text }));
+      dispatch(replyToConversation(conversation, loggedProfile, { text }));
     }
   }
 
@@ -100,14 +100,15 @@ export class ConversationReplyForm extends Component {
 
   handleTextChange(e) {
     const text = e.target.value;
-    const { typingTimeout, dispatch, name, loggedUser } = this.props;
+    const { typingTimeout, dispatch, name, loggedProfile } = this.props;
     dispatch(saveDraft(name, { draft: text }));
 
     if (text && !this.isTyping) {
+      const payload = { id: loggedProfile.id, name: loggedProfile.name };
       this.isTyping = true;
-      dispatch(startTyping(loggedUser));
+      dispatch(startTyping(payload));
       this.typingTimeout = setTimeout(() => {
-        dispatch(startTyping(loggedUser));
+        dispatch(startTyping(payload));
         this.isTyping = false;
         clearTimeout(this.typingTimeout);
       }, typingTimeout);
@@ -136,7 +137,7 @@ export class ConversationReplyForm extends Component {
     attachments.push(attachment);
     this.props.dispatch(replyToConversation(
       this.props.conversation,
-      this.props.loggedUser,
+      this.props.loggedProfile,
       { attachments }
     ));
   }
@@ -191,7 +192,7 @@ const mapStateToProps = (state, ownProps) => {
   const name = `conversationReply-${ownProps.conversation.id}`;
   return {
     name,
-    loggedUser: getLoggedProfile(state),
+    loggedProfile: getLoggedProfile(state),
     fields: state.forms[name] || { draft: '' },
   };
 };

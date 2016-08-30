@@ -8,6 +8,7 @@ export default {
       .get(`/shouts/${id}/call`)
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           callback(parseApiError(err));

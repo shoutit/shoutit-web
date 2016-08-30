@@ -8,6 +8,7 @@ export default {
       .post(`/tags/${tag.slug}/listen`)
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));
@@ -20,6 +21,7 @@ export default {
       .del(`/tags/${tag.slug}/listen`)
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));
