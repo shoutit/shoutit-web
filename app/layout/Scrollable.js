@@ -140,9 +140,12 @@ export default class Scrollable extends Component {
   }
 
   scrollToInitialPosition() {
+    log('Scrolling to initial %s position', this.props.initialScroll);
     if (this.props.initialScroll === 'bottom') {
-      log("Scrolling to initial '%s' position", this.props.initialScroll);
       this.getScrollable().scrollTop = this.state.scrollHeight;
+      log('Set scrollTop to %s', this.getScrollable().scrollTop);
+    } else {
+      this.getScrollable().scrollTop = 0;
       log('Set scrollTop to %s', this.getScrollable().scrollTop);
     }
   }
