@@ -11,6 +11,7 @@ export default {
         .send({ location })
         .use(req)
         .prefix()
+        .camelizeResponseBody()
         .end((err, res) => {
           if (err) {
             return callback(parseApiError(err));

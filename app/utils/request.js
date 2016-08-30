@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: 0 */
 
 /*
  * Extends superagent for supporting shoutit access token authorization and to
@@ -6,9 +7,10 @@
  * Example
  *
  * 		request
- * 			.get("/user/ABC")                  // will request https://api.shoutit.com/v2/user/ABC
- * 		 	.use({ session: { accessToken: "foo" }}) // set the authorization header using `accessToken` (optional)
+ * 			.get("/user/ABC")                         // will request https://api.shoutit.com/v2/user/ABC
+ * 		 	.use({ session: { accessToken: "foo" }})  // set the authorization header using `accessToken` (optional)
  * 		 	.prefix()                                 // prefix the endpoint with API URL
+ *      .camelizeResponseBody()                   // camelize the body response keys
  * 		  .end(callback)
  */
 import request from 'superagent';
@@ -45,15 +47,38 @@ request.Request.prototype.use = function use(req) {
   return this;
 };
 
-const oldEnd = request.Request.prototype.end;
+/**
+ * Prefix url request with `prefix`
+ * @param  {String} prefix=apiUrl Default is API url from config
+ * @return {Request}
+ */
+request.Request.prototype.prefix = function prefix(prefix = apiUrl) {
+  if (this.url.indexOf(apiUrl) === -1) {
+    this.url = `${prefix}${this.url}`;
+  }
+  return this;
+};
 
+/**
+ * Prefix url request with `prefix`
+ * @param  {String} prefix=apiUrl Default is API url from config
+ * @return {Request}
+ */
+request.Request.prototype.camelizeResponseBody = function camelizeResponseBody() {
+  this._camelizeResponseBody = true;
+  return this;
+};
+
+
+const oldEnd = request.Request.prototype.end;
 // Add some logs to the end method
 request.Request.prototype.end = function end(oldCallback) {
   this.end = oldEnd;
   const callback = (err, res) => {
     if (res.body) {
-      res.originalBody = res.body;
-      res.body = camelizeKeys(res.body);
+      if (this._camelizeResponseBody) {
+        res.body = camelizeKeys(res.body);
+      }
     }
     oldCallback(err, res);
     if (res) {
@@ -67,16 +92,5 @@ request.Request.prototype.end = function end(oldCallback) {
   return this.end.call(this, callback);
 };
 
-/**
- * Prefix url request with `prefix`
- * @param  {String} prefix=apiUrl Default is API url from config
- * @return {Request}
- */
-request.Request.prototype.prefix = function prefix(prefix = apiUrl) {
-  if (this.url.indexOf(apiUrl) === -1) {
-    this.url = `${prefix}${this.url}`;
-  }
-  return this;
-};
 
 export default request;

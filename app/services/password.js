@@ -9,6 +9,7 @@ export default {
       .send(body)
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end(err => {
         if (err) {
           return callback(parseApiError(err));

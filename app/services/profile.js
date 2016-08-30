@@ -47,6 +47,7 @@ export default {
       .get(`/profiles/${params.username}`)
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));
@@ -65,6 +66,7 @@ export default {
       .send(body)
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));

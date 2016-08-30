@@ -44,6 +44,7 @@ export default function geoLocationMiddleware(req, res, next) {
     .query({ latlng: '0,0' }) // will get location from ip passed from the headers
     .set(headers)
     .prefix()
+    .camelizeResponseBody()
     .end((err, res) => {
       if (err) {
         console.warn('Couldn\'t get geolocation for %s', ip, err);

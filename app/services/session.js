@@ -16,6 +16,7 @@ export function loadProfile(req, callback) {
     .get('/profiles/me')
     .use(req)
     .prefix()
+    .camelizeResponseBody()
     .end((err, res) => {
       if (err) {
         console.error(err);
@@ -33,6 +34,7 @@ export function loadAuthorizationPage(req, callback) {
     .get(`/profiles/${req.session.authorizationPage.username}`)
     .use(req)
     .prefix()
+    .camelizeResponseBody()
     .end((err, res) => {
       if (err) {
         console.error(err);
@@ -61,6 +63,7 @@ export default {
       .send(data)
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
 
         if (err) {

@@ -76,6 +76,7 @@ function createReadMethod({ url, cacheResponse, name }) {
     request
       .get(requestUrl)
       .prefix()
+      .camelizeResponseBody()
       .query(params.query)
       .use(req)
       .end((err, res) => {

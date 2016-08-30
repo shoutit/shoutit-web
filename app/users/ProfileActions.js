@@ -36,7 +36,6 @@ export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium',
       dispatch(beginConversation(loggedUser, profile));
     }
   };
-
   return (
     <div className="ProfileActions">
       { profile.isListener &&
