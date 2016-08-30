@@ -6,6 +6,7 @@ import ProfileJoinedOnListItem from './ProfileJoinedOnListItem';
 import ProfileListenersListItem from './ProfileListenersListItem';
 import ProfileListeningTagsListItem from './ProfileListeningTagsListItem';
 import ProfileActions from '../users/ProfileActions';
+import NewlineToBreak from '../widgets/NewlineToBreak';
 
 import './ProfileBiography.scss';
 
@@ -14,7 +15,9 @@ export default function ProfileBiography({ profile }) {
     <div className="ProfileBiography">
 
       <p className="ProfileBiography-bio">
-        { profile.bio }
+        <NewlineToBreak activeEmoji>
+          { profile.bio }
+        </NewlineToBreak>
       </p>
 
       { (profile.location || profile.dateJoined || profile.website) &&

@@ -109,7 +109,7 @@ export default class MessageItem extends Component {
           }
           { text &&
             <div className="MessageItem-text" dir="auto">
-              <NewlineToBreak>{ text }</NewlineToBreak>
+              <NewlineToBreak activeLink activeEmoji>{ text }</NewlineToBreak>
             </div>
           }
         </div>
