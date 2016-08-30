@@ -19,11 +19,6 @@ export function loadChat({ endpoint } = {}) {
 
 export function receiveTypingNotification(conversationId, user) {
   const payload = {
-    entities: {
-      users: {
-        [user.id]: user,
-      },
-    },
     userId: user.id,
     conversationId,
   };
@@ -40,9 +35,9 @@ export function stopTyping(conversationId, userId) {
   };
 }
 
-export function startTyping(user) {
+export function startTyping({ id, name }) {
   return {
     type: actionTypes.CHAT_START_TYPING,
-    payload: user,
+    payload: { id, name },
   };
 }
