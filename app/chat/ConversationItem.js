@@ -28,8 +28,21 @@ export class ConversationItem extends Component {
     isRtl: PropTypes.bool.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+  }
+
   state = {
     hover: false,
+  }
+
+  handleClick(e) {
+    if (this.props.onClick) {
+      this.props.onClick(e, this.props.conversation);
+    }
   }
 
   handleMouseEnter(e) {
@@ -51,12 +64,7 @@ export class ConversationItem extends Component {
   }
 
   render() {
-    const {
-      conversation,
-      onClick,
-      selected,
-      showDropdown,
-    } = this.props;
+    const { conversation, selected, showDropdown } = this.props;
 
     const className = classNames('ConversationItem', {
       isSelected: selected,
@@ -67,9 +75,9 @@ export class ConversationItem extends Component {
     return (
       <div
         className={ className }
-        onMouseEnter={ this.handleMouseEnter.bind(this) }
-        onMouseLeave={ this.handleMouseLeave.bind(this) }>
-        <Link onClick={ onClick } to={ `/messages/${conversation.id}` }>
+        onMouseEnter={ this.handleMouseEnter }
+        onMouseLeave={ this.handleMouseLeave }>
+        <Link onClick={ this.handleClick } to={ `/messages/${conversation.id}` }>
           <div
             className="ConversationItem-image"
             style={ backgroundImageStyle({ url: conversation.display.image, variation: 'small', usePlaceholder: false }) }
