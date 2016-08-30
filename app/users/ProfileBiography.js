@@ -14,7 +14,7 @@ export default function ProfileBiography({ profile }) {
     <div className="ProfileBiography">
 
       <p className="ProfileBiography-bio">
-        { profile.bio }
+        { profile.type === 'page' ? profile.about : profile.bio }
       </p>
 
       { (profile.location || profile.dateJoined || profile.website) &&
