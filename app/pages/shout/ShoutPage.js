@@ -98,7 +98,7 @@ class ShoutPage extends Component {
               </Device>
 
               { shout.text &&
-                <NewlineToBreak>
+                <NewlineToBreak activeEmoji>
                   { shout.text }
                 </NewlineToBreak>
               }
