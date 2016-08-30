@@ -70,6 +70,12 @@ export default (state, action) => {
         [payload.profile.id]: payload.profile,
       });
       break;
+    case actionTypes.CONVERSATION_LEAVE_START:
+      if (payload.type === 'chat') {
+        state = Object.assign({}, state);
+        payload.profiles.map(profile => state[profile.id].conversation = null);
+      }
+      break;
   }
   return state;
 };
