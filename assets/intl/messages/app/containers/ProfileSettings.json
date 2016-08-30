@@ -24,7 +24,7 @@
     "defaultMessage": "Female"
   },
   {
-    "id": "profileSettings.profileForm.about.label",
+    "id": "profileSettings.profileForm.bio.label",
     "defaultMessage": "About You"
   },
   {
@@ -38,6 +38,18 @@
   {
     "id": "profileSettings.profileForm.birthday.label",
     "defaultMessage": "Birthday"
+  },
+  {
+    "id": "profileSettings.profileForm.about.label",
+    "defaultMessage": "About"
+  },
+  {
+    "id": "profileSettings.profileForm.name.label",
+    "defaultMessage": "Page Name"
+  },
+  {
+    "id": "profileSettings.profileForm.phone.label",
+    "defaultMessage": "Telephone"
   },
   {
     "id": "profileSettings.profile.formTitle",
