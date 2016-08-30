@@ -69,12 +69,14 @@ export class SelectProfileModal extends Component {
   constructor(props) {
     super(props);
     this.handleProfileClick = this.handleProfileClick.bind(this);
+    this.handleTypeChange = this.handleTypeChange.bind(this);
     this.state = {
       type: props.type,
     };
   }
 
   modal = null
+  body = null
 
   handleProfileClick(profile, e) {
     if (!this.props.onSelect) {
@@ -83,6 +85,10 @@ export class SelectProfileModal extends Component {
     e.preventDefault();
     this.modal.hide();
     this.props.onSelect(profile);
+  }
+
+  handleTypeChange(type) {
+    this.setState({ type }, () => this.body.scrollToInitialPosition());
   }
 
   renderBody() {
@@ -111,7 +117,7 @@ export class SelectProfileModal extends Component {
     }
     if (profiles && profiles.length === 0) {
       return (
-        <Body>
+        <Body ref={ el => this.body = el }>
           { this.state.type === 'listeners' &&
             <p>
               <FormattedMessage
@@ -140,7 +146,7 @@ export class SelectProfileModal extends Component {
       );
     }
     return (
-      <BodyPaginated { ...props }>
+      <BodyPaginated { ...props } ref={ el => this.body = el }>
         { profiles && profiles.map(profile =>
           <ProfileListItem
             key={ profile.id }
@@ -174,7 +180,7 @@ export class SelectProfileModal extends Component {
             ref={ el => this.typeSegmentedControl = el }
             name="type"
             options={ typeOptions }
-            onChange={ type => this.setState({ type }) }
+            onChange={ this.handleTypeChange }
           />
         </BodyFixed>
         { this.renderBody() }
