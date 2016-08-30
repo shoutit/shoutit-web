@@ -1,6 +1,5 @@
 import { Schema, arrayOf } from 'normalizr';
 import { denormalize as denormalizer } from 'denormalizr';
-import memoize from 'lodash/memoize';
 
 export const CATEGORY = new Schema('categories', { idAttribute: 'slug' });
 export const CATEGORIES = arrayOf(CATEGORY);
@@ -91,8 +90,6 @@ DISCOVERITEM.define({
   children: arrayOf(DISCOVERITEM),
 });
 
-function denorm(entity, entities, name) {
+export function denormalize(entity, entities, name) {
   return denormalizer(entity, entities, Schemas[name]);
 }
-
-export const denormalize = memoize(denorm);
