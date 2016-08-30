@@ -43,10 +43,12 @@ export default (state, action) => {
       break;
     case actionTypes.CONVERSATION_LEAVE_START:
       if (payload.type === 'about_shout') {
-        const shoutId = payload.about.id;
-        state = Object.assign({}, state, {
-          [shoutId]: { ...state[shoutId], conversations: without(state[shoutId].conversations, payload.id) },
-        });
+        const { id } = payload.about;
+        state = Object.assign({}, state);
+        state[id] = {
+          ...state[id],
+          conversations: without(state[id].conversations, payload.id),
+        };
       }
       break;
     case actionTypes.CONVERSATION_CREATE_SUCCESS:
