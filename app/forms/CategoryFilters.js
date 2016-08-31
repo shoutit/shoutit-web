@@ -79,7 +79,7 @@ export class CategoryFilters extends Component {
                 id={ `${filter.slug}:${value.slug}` }
                 name={ filter.slug }
                 defaultValue={ value.slug }
-                defaultChecked={ selectedFilters[filter.slug] && selectedFilters[filter.slug].indexOf(value.slug) > -1 }
+                defaultChecked={ selectedFilters[filter.slug] && selectedFilters[filter.slug].indexOf(value.slug) !== -1 }
                 key={ value.slug }>{ value.name }</Switch>
               ) }
           </Expandable>

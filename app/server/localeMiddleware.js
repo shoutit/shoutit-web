@@ -5,11 +5,11 @@ import { languages, locales } from '../config';
 const log = debug('shoutit:server:localeMiddleware');
 
 function isLocaleSupported(locale) {
-  return locales.indexOf(locale) > -1;
+  return locales.indexOf(locale) !== -1;
 }
 
 function isLanguageSupported(language) {
-  return languages.indexOf(language) > -1;
+  return languages.indexOf(language) !== -1;
 }
 
 function getLocaleFromLanguage(language) {
