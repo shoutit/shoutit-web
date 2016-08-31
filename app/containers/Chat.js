@@ -3,13 +3,12 @@ import { Link } from 'react-router';
 import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 
 import Helmet from '../utils/Helmet';
+import { getCountryName } from '../utils/LocationUtils';
 
 import Page, { Body, EndColumn } from '../layout/Page';
 import ConversationsList from '../chat/ConversationsList';
 import Conversation from '../chat/Conversation';
-
 import SuggestedShout from '../shouts/SuggestedShout';
-
 import RequiresLogin from '../auth/RequiresLogin';
 
 import './Chat.scss';
@@ -21,11 +20,17 @@ const MESSAGES = defineMessages({
   },
 });
 
+
 export class Chat extends Component {
 
   static propTypes = {
     params: PropTypes.object.isRequired,
+    type: PropTypes.oneOf(['profile', 'public']),
     intl: PropTypes.object.isRequired,
+  }
+
+  static defaultProps = {
+    type: 'profile',
   }
 
   render() {
@@ -42,7 +47,19 @@ export class Chat extends Component {
                 <div className="Chat-conversations-title">
                   <Link to="/messages">
                     <h1>
-                      <FormattedMessage id="chat.conversations.title" defaultMessage="Conversations" />
+                    { this.props.type === 'profile' ?
+                      <FormattedMessage
+                        id="chat.conversations.title"
+                        defaultMessage="Conversations"
+                      /> :
+                      <FormattedMessage
+                        id="publicChat.conversations.title"
+                        defaultMessage="Public Chats in {countryName}"
+                        values={ {
+                          countryName: getCountryName(this.props.params.country),
+                        } }
+                      />
+                    }
                     </h1>
                   </Link>
                 </div>

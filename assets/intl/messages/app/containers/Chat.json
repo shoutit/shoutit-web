@@ -8,6 +8,10 @@
     "defaultMessage": "Conversations"
   },
   {
+    "id": "publicChat.conversations.title",
+    "defaultMessage": "Public Chats in {countryName}"
+  },
+  {
     "id": "chat.conversations.notSelected",
     "defaultMessage": "Pick a conversation from the left."
   }

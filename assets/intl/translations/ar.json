@@ -201,6 +201,7 @@
   "profilesModal.segmentedControl.hideButton": "إغلاق",
   "profilesModal.segmentedControl.listeners": "مستمعون",
   "profilesModal.segmentedControl.listening": "إستماعات",
+  "publicChat.conversations.title": "Public Chats in {countryName}",
   "relatedTags.title": "اهتمامات مرتبطة",
   "requiresLogin.linkLabel": "تسجيل الدخول",
   "requiresLogin.message": "الرجاء {linkLabel} للوصول لهذه الصفحة\n",
