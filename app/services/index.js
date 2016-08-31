@@ -24,6 +24,7 @@ export profileLink from './profileLink';
 export profileChat from './profileChat';
 export profilePages from './profilePages';
 export profiles from './profiles';
+export publicChats from './publicChats';
 export relatedShouts from './relatedShouts';
 export relatedTags from './relatedTags';
 export resetPassword from './resetPassword';
