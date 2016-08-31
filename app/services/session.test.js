@@ -105,7 +105,7 @@ describe('services/session', () => {
         session: {
           cookie: {},
           destroy: () => {},
-          authorizationPage: {
+          page: {
             id: 'auth_page_id',
             username: 'auth_page_username',
           },
@@ -138,7 +138,7 @@ describe('services/session', () => {
         session: {
           cookie: {},
           destroy: () => {},
-          authorizationPage: {
+          page: {
             id: 'auth_page_id',
             username: 'auth_page_username',
           },
