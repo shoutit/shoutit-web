@@ -10,12 +10,12 @@ export default createPaginatedReducer({
     actionTypes.PUBLIC_CHATS_LOAD_SUCCESS,
     actionTypes.PUBLIC_CHATS_LOAD_FAILURE,
   ],
-  createTypes: [
-    actionTypes.CONVERSATION_CREATE_START,
-    actionTypes.CONVERSATION_CREATE_SUCCESS,
-  ],
-  addType: actionTypes.CONVERSATION_LOAD_SUCCESS,
-  deleteType: actionTypes.CONVERSATION_LEAVE_START,
+  // createTypes: [
+  //   actionTypes.CONVERSATION_CREATE_START,
+  //   actionTypes.CONVERSATION_CREATE_SUCCESS,
+  // ],
+  // addType: actionTypes.CONVERSATION_LOAD_SUCCESS,
+  // deleteType: actionTypes.CONVERSATION_LEAVE_START,
 });
 
 
