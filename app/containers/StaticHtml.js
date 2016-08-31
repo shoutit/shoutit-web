@@ -57,7 +57,7 @@ export class StaticHtml extends Component {
                 <Progress animate={ staticHtml.isFetching } />
               }
               { !staticHtml.isFetching && staticHtml.content &&
-                <div dangerouslySetInnerHTML={ { __html: staticHtml.content } }></div>
+                <div dangerouslySetInnerHTML={ { __html: staticHtml.content } } />
               }
             </div>
           </ResponsiveLayout>

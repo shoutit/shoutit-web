@@ -1,7 +1,4 @@
-import { camelizeKeys } from 'humps';
-
 import request from '../utils/request';
-import { setRequestSession } from '../services/session';
 import { parseApiError } from '../utils/APIUtils';
 
 export default {
@@ -12,6 +9,7 @@ export default {
       .use(req)
       .send({ email })
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));
@@ -25,12 +23,16 @@ export default {
       .query({ token })
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));
         }
-        setRequestSession(req, camelizeKeys(res.body));
-        return callback(null, res.body);
+        const account = res.body;
+        Object.assign(req.session, account);
+        req.session.cookie.expires = new Date(Date.now() + (account.expiresIn * 1000));
+
+        return callback(null, account);
       });
   },
 };

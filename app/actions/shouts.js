@@ -158,7 +158,7 @@ export const startShoutReply = (loggedUser, shout) => {
     ],
   };
   return {
-    type: actionTypes.OPEN_CONVERSATION,
+    type: actionTypes.CONVERSATION_OPEN,
     payload: {
       conversation,
       entities: {
@@ -171,12 +171,11 @@ export const startShoutReply = (loggedUser, shout) => {
 };
 
 export const replyToShout = (conversation, text) => {
-  const { about: shout } = conversation;
   return {
     types: [
-      actionTypes.CREATE_CONVERSATION_START,
-      actionTypes.CREATE_CONVERSATION_SUCCESS,
-      actionTypes.CREATE_CONVERSATION_FAILURE,
+      actionTypes.CONVERSATION_CREATE_START,
+      actionTypes.CONVERSATION_CREATE_SUCCESS,
+      actionTypes.CONVERSATION_CREATE_FAILURE,
     ],
     payload: {
       conversation,
@@ -184,7 +183,7 @@ export const replyToShout = (conversation, text) => {
     service: {
       name: 'shoutReply',
       method: 'create',
-      params: { id: shout.id },
+      params: { id: conversation.about.id },
       body: { text },
       schema: CONVERSATION,
     },

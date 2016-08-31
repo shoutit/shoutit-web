@@ -1,37 +1,59 @@
-import React, { PropTypes, Component } from 'react';
+
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import Modal, { Header, Body, Footer } from '../modals';
+
+import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
+
+import { getListeningTags, getPaginationState } from '../reducers/paginated/tagListeningByUser';
+
+import { loadListeningTags } from '../actions/users';
+
+import Modal, { Header, Footer, BodyPaginated } from '../modals';
 import Button from '../forms/Button';
-import ListeningTagsScrollableList from '../users/ListeningTagsScrollableList';
+import TagListItem from '../tags/TagListItem';
 
-export default class ListeningTagsModal extends Component {
+export class ListeningTagsModal extends Component {
+
   static propTypes = {
+    tags: PropTypes.array.isRequired,
     profile: PropTypes.object.isRequired,
+    loadTags: PropTypes.func.isRequired,
+    pagination: PropTypes.shape(PaginationPropTypes),
   }
 
-  componentDidMount() {
-    this.refs.close.focus();
-  }
+  modal = null
 
   render() {
-    const { profile, ...modalProps } = this.props;
+    const { tags, pagination, loadTags, ...modalProps } = this.props;
     return (
-      <Modal { ...modalProps } ref="modal" size="small">
+      <Modal
+        { ...modalProps }
+        ref={ el => this.modal = el }
+        isFetchingContent={ !tags }
+        size="small" >
         <Header closeButton>
           <FormattedMessage
             id="users.ListeningTagsModal.title"
-            defaultMessage="{firstName}’s interests"
-            values={ { firstName: profile.firstName } }
+            defaultMessage="{name}’s interests"
+            values={ this.props.profile }
           />
         </Header>
-        <Body>
-          <ListeningTagsScrollableList profile={ profile } />
-        </Body>
+        <BodyPaginated
+          pagination={ pagination }
+          loadData={ loadTags }
+          showProgress={ pagination.isFetching }>
+          { tags && tags.map(tag =>
+            <TagListItem
+              key={ tag.id }
+              popover={ false }
+              tag={ tag } />
+          )}
+        </BodyPaginated>
         <Footer>
-          <Button ref="close"
-            size="small"
+          <Button
             kind="primary"
-            onClick={ () => this.refs.modal.hide() }>
+            onClick={ () => this.modal.hide() }>
             <FormattedMessage
               id="users.ListeningTagsModal.close"
               defaultMessage="Close"
@@ -41,5 +63,15 @@ export default class ListeningTagsModal extends Component {
       </Modal>
     );
   }
-
 }
+
+const mapStateToProps = (state, ownProps) => ({
+  tags: getListeningTags(state, ownProps.profile),
+  pagination: getPaginationState(state, ownProps.profile),
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  loadTags: params => dispatch(loadListeningTags(ownProps.profile, params)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListeningTagsModal);

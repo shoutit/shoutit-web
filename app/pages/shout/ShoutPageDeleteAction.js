@@ -51,23 +51,26 @@ class ShoutPageDeleteAction extends Component {
   handleClick() {
     const { confirm, shout, deleteShout, intl } = this.props;
 
+    const buttons = [
+      {
+        label: intl.formatMessage(MESSAGES.cancel),
+        focused: true,
+        action: 'cancel',
+      },
+      {
+        label: intl.formatMessage(MESSAGES.confirm),
+        kind: 'destructive',
+        action: modal => {
+          modal.submit();
+          deleteShout(shout).then(() => window.location = '/');
+        },
+      },
+    ];
+
     confirm(
       intl.formatMessage(MESSAGES.header),
       intl.formatMessage(MESSAGES.body),
-      [
-        {
-          label: intl.formatMessage(MESSAGES.cancel),
-          focused: true,
-        },
-        {
-          label: intl.formatMessage(MESSAGES.confirm),
-          kind: 'destructive',
-          onClick: () => {
-            deleteShout(shout)
-              .then(() => { window.location = '/'; });
-          },
-        },
-      ]
+      buttons,
     );
   }
 

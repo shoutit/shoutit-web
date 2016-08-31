@@ -14,13 +14,15 @@ import CountryFlag from '../location/CountryFlag';
 
 import { ESCAPE, ENTER } from '../utils/keycodes';
 import { geocodePlace, formatLocation } from '../utils/LocationUtils';
-import { loadPlacePredictions, geocode, resetPlacePredictionsLastInput, updateCurrentLocation } from '../actions/location';
+import { updateCurrentLocation } from '../actions/currentLocation';
+import { geocodeCoordinates } from '../actions/geocode';
+import { loadPlacePredictions, resetPlacePredictionsLastInput } from '../actions/placePredictions';
 
 import Progress from '../widgets/Progress';
 import Overlay from '../widgets/Overlay';
 import FormField from './FormField';
 
-const log = debug('shoutit:ui:LocationField');
+const log = debug('shoutit:forms:LocationField');
 
 export class LocationField extends Component {
   static propTypes = {
@@ -181,7 +183,7 @@ export class LocationField extends Component {
     const { language, dispatch, name } = this.props;
 
     geocodePlace(prediction.placeId, language)
-      .then(placeLocation => dispatch(geocode(placeLocation)))
+      .then(placeLocation => dispatch(geocodeCoordinates(placeLocation)))
       .then(location => {
         const value = formatLocation(location, { showCountry: false, language });
         this.setState({ value, location, isGeocoding: false }, () => this.handleGeocodeSuccess(location));
@@ -237,7 +239,9 @@ export class LocationField extends Component {
       <ul className="htmlSelectableList">
         { results.map(prediction =>
           <li key={ prediction.id }>
-            <a href="#" onClick={ e => { e.preventDefault(); this.handlePredictionClick(prediction); } }>
+            <a onClick={ e => {
+              e.preventDefault(); this.handlePredictionClick(prediction);
+            } }>
               { prediction.description }
             </a>
           </li>

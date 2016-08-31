@@ -245,14 +245,12 @@ const mapStateToProps = (state, ownProps) => {
         category,
       });
     }
+  } else if (currentLocation && currentLocation.city) {
+    title = ownProps.intl.formatMessage(MESSAGES.titleWithCity, {
+      city: currentLocation.city,
+    });
   } else {
-    if (currentLocation && currentLocation.city) {
-      title = ownProps.intl.formatMessage(MESSAGES.titleWithCity, {
-        city: currentLocation.city,
-      });
-    } else {
-      title = ownProps.intl.formatMessage(MESSAGES.title);
-    }
+    title = ownProps.intl.formatMessage(MESSAGES.title);
   }
 
   return {

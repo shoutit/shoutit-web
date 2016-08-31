@@ -7,14 +7,14 @@
   font-size: 0.875rem;
 }
 
-.NotificationItem.is-unread {
+.NotificationItem.isUnread {
   background-color: $background-color;
 
 }
-.NotificationItem:hover:not(.is-unread) {
+.NotificationItem:hover:not(.isUnread) {
   background-color: $background-color-light;
 }
-.NotificationItem:hover.is-unread {
+.NotificationItem:hover.isUnread {
   background-color: darken($background-color, 1);
 }
 
@@ -41,7 +41,7 @@
   color: $color-text-light;
   margin-top: .25em;
   font-size: 0.875em;
-  .NotificationItem.is-unread & {
+  .NotificationItem.isUnread & {
     font-weight: 500;
   }
 }

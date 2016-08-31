@@ -6,6 +6,7 @@ import Helmet from '../utils/Helmet';
 
 import { resetPassword } from '../actions/session';
 
+import Form from '../forms/Form';
 import Button from '../forms/Button';
 import TextField from '../forms/TextField';
 import Page from '../layout/Page';
@@ -49,26 +50,30 @@ export class ResetPassword extends Component {
         location = 'email';
       }
 
-      if (location && this.refs[location].getValue()) {
-        this.refs[location].select();
+      if (location && this.fields[location].getValue()) {
+        this.fields[location].select();
       } else if (location) {
-        this.refs[location].focus();
+        this.fields[location].focus();
       }
     }
+  }
+
+  fields = {
+    email: null,
   }
 
   handleFormSubmit(e) {
     const { isResettingPassword, dispatch } = this.props;
     e.preventDefault();
-    const email = this.refs.email.getValue();
+    const email = this.fields.email.getValue();
     if (isResettingPassword) {
       return;
     }
     if (!email) {
-      this.refs.email.focus();
+      this.fields.email.focus();
       return;
     }
-    this.refs.email.blur();
+    this.fields.email.blur();
     dispatch(resetPassword(email)).then(() => this.setState({ sent: true }));
   }
 
@@ -88,11 +93,11 @@ export class ResetPassword extends Component {
             </p>
         }
 
-          <form onSubmit={ e => this.handleFormSubmit(e) } className="Frame-form" noValidate>
+          <Form onSubmit={ e => this.handleFormSubmit(e) } className="Frame-form">
 
             <TextField
               autoFocus
-              ref="email"
+              ref={ el => { this.fields.email = el; } }
               disabled={ this.props.isResettingPassword }
               name="email"
               type="email"
@@ -102,6 +107,7 @@ export class ResetPassword extends Component {
             />
 
             <Button
+              type="submit"
               kind="primary"
               block
               disabled={ this.props.isResettingPassword }>
@@ -125,7 +131,7 @@ export class ResetPassword extends Component {
               />
             </AncillaryText>
 
-          </form>
+          </Form>
         </div>
         <div className="Frame-footer" style={ { textAlign: 'center' } }>
           <Link to={ { pathname: '/login', query: this.props.location.query } }>

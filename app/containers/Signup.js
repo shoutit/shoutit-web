@@ -4,13 +4,13 @@ import { replace } from 'react-router-redux';
 import { Link } from 'react-router';
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 
-import { getLoggedUser } from '../reducers/session';
-import { getCurrentLocation } from '../reducers/currentLocation';
+import { getLoggedProfile } from '../reducers/session';
 
 import Helmet from '../utils/Helmet';
 
 import { signup, resetErrors } from '../actions/session';
 
+import Form from '../forms/Form';
 import Button from '../forms/Button';
 import HorizontalRule from '../widgets/HorizontalRule';
 import AncillaryText from '../widgets/AncillaryText';
@@ -59,7 +59,6 @@ export class Signup extends Component {
     error: PropTypes.object,
     isSigningUp: PropTypes.bool,
     dispatch: PropTypes.func.isRequired,
-    currentLocation: PropTypes.object,
     location: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
     loggedUser: PropTypes.object,
@@ -80,10 +79,10 @@ export class Signup extends Component {
       } else if (errorLocations.includes('password')) {
         location = 'password';
       }
-      if (location && this.refs[location].getValue()) {
-        this.refs[location].select();
+      if (location && this.fields[location].getValue()) {
+        this.fields[location].select();
       } else if (location) {
-        this.refs[location].focus();
+        this.fields[location].focus();
       }
     }
   }
@@ -93,61 +92,66 @@ export class Signup extends Component {
     dispatch(resetErrors());
   }
 
+  fields = {
+    firstName: null,
+    lastName: null,
+    email: null,
+    password: null,
+  }
+
   handleFormSubmit(e) {
     e.preventDefault();
-    const { isSigningUp, dispatch, currentLocation } = this.props;
+    const { isSigningUp, dispatch } = this.props;
 
     if (isSigningUp) {
       return;
     }
 
-    const firstName = this.refs.firstName.getValue();
-    const lastName = this.refs.lastName.getValue();
-    const email = this.refs.email.getValue();
-    const password = this.refs.password.getValue();
+    const firstName = this.fields.firstName.getValue();
+    const lastName = this.fields.lastName.getValue();
+    const email = this.fields.email.getValue();
+    const password = this.fields.password.getValue();
 
     if (!firstName) {
-      this.refs.firstName.focus();
+      this.fields.firstName.focus();
       return;
     }
     if (!lastName) {
-      this.refs.lastName.focus();
+      this.fields.lastName.focus();
       return;
     }
     if (!email) {
-      this.refs.email.focus();
+      this.fields.email.focus();
       return;
     }
     if (!password) {
-      this.refs.password.focus();
+      this.fields.password.focus();
       return;
     }
     if (email && password) {
-      this.refs.firstName.blur();
-      this.refs.lastName.blur();
-      this.refs.email.blur();
-      this.refs.password.blur();
-      dispatch(signup(
-        { email, password, firstName, lastName, location: currentLocation }
-      )).then(() => {
+      this.fields.firstName.blur();
+      this.fields.lastName.blur();
+      this.fields.email.blur();
+      this.fields.password.blur();
+      const account = { email, password, firstName, lastName };
+      dispatch(signup(account)).then(() => {
         this.setState({ success: true });
       });
     }
   }
 
   redirectToNextPage() {
-    const { location: { query }, dispatch } = this.props;
     let redirectUrl;
-    if (query.redirect) {
-      redirectUrl = query.redirect;
+    if (this.props.location.query.redirect) {
+      redirectUrl = this.props.location.query.redirect;
     } else {
       redirectUrl = '/';
     }
-    dispatch(replace(redirectUrl));
+    this.props.dispatch(replace(redirectUrl));
   }
 
   renderForm() {
-    const { isSigningUp, location: { query }, error, currentLocation } = this.props;
+    const { isSigningUp, location: { query }, error } = this.props;
     const { formatMessage } = this.props.intl;
     return (
       <Frame title={ formatMessage(MESSAGES.pageTitle) }>
@@ -159,8 +163,7 @@ export class Signup extends Component {
           <div className="Frame-form">
             <SocialLoginForm
               disabled={ isSigningUp }
-              onLoginSuccess={ () => this.redirectToNextPage() }
-              currentLocation={ currentLocation }
+              onLoginSuccess={ this.redirectToNextPage }
             />
           </div>
 
@@ -179,12 +182,12 @@ export class Signup extends Component {
             </p>
         }
 
-          <form onSubmit={ e => this.handleFormSubmit(e) } className="Form Frame-form" noValidate>
+          <Form onSubmit={ e => this.handleFormSubmit(e) } noValidate>
 
             <FieldsGroup>
               <TextField
                 flex
-                ref="firstName"
+                ref={ el => { this.fields.firstName = el; } }
                 disabled={ isSigningUp }
                 name="first_name"
                 type="text"
@@ -194,7 +197,7 @@ export class Signup extends Component {
               <TextField
                 flex
                 error={ error }
-                ref="lastName"
+                ref={ el => { this.fields.lastName = el; } }
                 disabled={ isSigningUp }
                 name="last_name"
                 type="text"
@@ -203,7 +206,7 @@ export class Signup extends Component {
             </FieldsGroup>
 
             <TextField
-              ref="email"
+              ref={ el => { this.fields.email = el; } }
               disabled={ isSigningUp }
               name="email"
               type="email"
@@ -213,7 +216,7 @@ export class Signup extends Component {
 
             <TextField
               error={ error }
-              ref="password"
+              ref={ el => { this.fields.password = el; } }
               disabled={ isSigningUp }
               name="password"
               type="password"
@@ -233,6 +236,7 @@ export class Signup extends Component {
             </AncillaryText>
 
             <Button
+              type="submit"
               style={ { marginTop: '1rem' } }
               kind="primary"
               block
@@ -248,7 +252,7 @@ export class Signup extends Component {
                 />
                }
             </Button>
-          </form>
+          </Form>
         </div>
         <div className="Frame-footer" style={ { textAlign: 'center' } }>
           <FormattedMessage
@@ -276,8 +280,8 @@ export class Signup extends Component {
         <div className="Frame-body">
           <p>
             <FormattedMessage
-              defaultMessage="Hi {firstName}, thanks for signing up!"
-              values={ { firstName: loggedUser.firstName } }
+              defaultMessage="Hi {name}, thanks for signing up!"
+              values={ loggedUser }
               id="signup.success.welcomeMessage-1"
             />
 
@@ -317,10 +321,9 @@ export class Signup extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedUser: getLoggedUser(state),
+    loggedUser: getLoggedProfile(state),
     isSigningUp: state.session.isSigningUp,
     error: state.session.signupError,
-    currentLocation: getCurrentLocation(state),
   };
 };
 

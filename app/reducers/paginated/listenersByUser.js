@@ -1,5 +1,7 @@
 import without from 'lodash/without';
 import union from 'lodash/union';
+import { denormalize } from '../../schemas';
+import { getPagination } from '../paginated';
 
 import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
@@ -74,4 +76,16 @@ export default function (state = {}, action) {
 
   newState = listenersByUser(newState, action);
   return newState;
+}
+
+export function getListenersByProfile(state, id) {
+  const paginated = state.paginated.listenersByUser[id];
+  if (!paginated) {
+    return undefined;
+  }
+  return denormalize(paginated.ids, state.entities, 'PROFILES');
+}
+
+export function getPaginationState(state, id) {
+  return getPagination(state, ['listenersByUser', id]);
 }

@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 import { BROWSER_SET_DEVICE } from '../actions/actionTypes';
 import { smartphone, tablet } from '../constants/deviceWidths';
 
-const log = debug('shoutit:store:browserStoreEnhancer');
+const log = debug('shoutit:store:createBrowserStoreEnhancer');
 
 function calculateDeviceType(window) {
   const w = window.innerWidth;

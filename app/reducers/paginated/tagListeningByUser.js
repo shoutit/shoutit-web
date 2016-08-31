@@ -79,11 +79,8 @@ export default function (state = {}, action) {
 }
 
 export function getListeningTags(state, profile) {
-  const tagListeningByUser = state.paginated.tagListeningByUser[profile.id];
-  if (!tagListeningByUser) {
-    return [];
-  }
-  return tagListeningByUser.ids.map(id => denormalize(state.entities.tags[id], state.entities, 'TAG'));
+  const paginated = state.paginated.tagListeningByUser[profile.id] || {};
+  return denormalize(paginated.ids, state.entities, 'TAGS');
 }
 
 

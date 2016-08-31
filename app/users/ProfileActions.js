@@ -1,18 +1,20 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { listenToUser, stopListeningToUser } from '../actions/users';
-import { startConversation, openConversation } from '../actions/conversations';
 import { Link } from 'react-router';
+
+import { listenToUser, stopListeningToUser } from '../actions/users';
+import { beginConversation, openConversation } from '../actions/conversations';
 
 import RequiresLogin from '../auth/RequiresLogin';
 import { START_LISTENING, SEND_MESSAGE } from '../auth/loginActions';
 
 import Icon from '../widgets/Icon';
 import ListItem from '../layout/ListItem';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 import './ProfileActions.scss';
+
 export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium', showProfileLink = false }) {
 
   if (profile.isOwner && !showProfileLink) {
@@ -31,18 +33,17 @@ export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium',
     if (profile.conversation) {
       dispatch(openConversation(profile.conversation));
     } else {
-      dispatch(startConversation(loggedUser, profile));
+      dispatch(beginConversation(loggedUser, profile));
     }
   };
-
   return (
     <div className="ProfileActions">
       { profile.isListener &&
         <p className="ProfileActions-is-listener">
           <FormattedMessage
             id="profileActions.userIsListening"
-            defaultMessage="{firstName} is listening to you"
-            values={ { ...profile } }
+            defaultMessage="{name} is listening to you"
+            values={ profile }
           />
         </p>
       }
@@ -56,8 +57,8 @@ export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium',
                 start={ <Icon size={ size } active name="balloon-dots" /> }>
                 <FormattedMessage
                   id="profileActions.sendMessage"
-                  defaultMessage="Send {firstName} a message"
-                  values={ { ...profile } }
+                  defaultMessage="Send {name} a message"
+                  values={ profile }
                 />
               </ListItem>
             </RequiresLogin>
@@ -74,10 +75,10 @@ export function ProfileActions({ profile, loggedUser, dispatch, size = 'medium',
                 <FormattedMessage
                   id="profileActions.listen"
                   defaultMessage="{isListening, select,
-                    true {Stop listening to {firstName}}
-                    false {Listen to {firstName}}
+                    true {Stop listening to {name}}
+                    false {Listen to {name}}
                   }"
-                  values={ { ...profile } }
+                  values={ profile }
                 />
               </ListItem>
             </RequiresLogin>
@@ -109,7 +110,7 @@ ProfileActions.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  loggedUser: getLoggedUser(state),
+  loggedUser: getLoggedProfile(state),
 });
 
 export default connect(mapStateToProps)(ProfileActions);

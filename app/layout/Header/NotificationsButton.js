@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
@@ -23,6 +24,8 @@ export class NotificationsButton extends Component {
     showOverlay: false,
   }
 
+  icon = null
+
   showOverlay() {
     this.setState({ showOverlay: true });
   }
@@ -34,15 +37,16 @@ export class NotificationsButton extends Component {
   render() {
     return (
       <span>
-        <Icon ref="icon" onClick={ this.showOverlay } name="bell" badge={ this.props.badge } />
+        <Icon ref={ el => this.icon = el } onClick={ this.showOverlay } name="bell" badge={ this.props.badge } />
         <Overlay
           arrow
           rootClose
           style={ { width: 400, marginLeft: 4 } }
           show={ this.state.showOverlay }
           placement="bottom"
+          container={ () => document.getElementsByClassName('Header')[0] }
           onHide={ this.hideOverlay }
-          target={ () => this.refs.icon.getIconNode() }
+          target={ () => this.icon.getIconNode() }
         >
           <NotificationsOverlay closeOverlay={ this.hideOverlay } />
         </Overlay>

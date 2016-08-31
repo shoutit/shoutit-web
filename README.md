@@ -121,6 +121,14 @@ If you want to test the client of another computer in the same network, use the 
 $ HOST=$HOSTNAME npm run dev # Tested only on OSX
 ```
 
+### Updating dependencies
+
+* Dependencies are shrinkwrapped: run `npm shrinkwrap` when updating the production dependencies.
+
+* Dependencies must be included in the [vendors bundle](assets/scripts/vendors.js).
+  * add or remove the dependency from the vendor bundle in [assets/vendor-packages.js](assets/vendor-packages.js).
+  * run `npm run build:vendors:dev` to update the vendors bundle.
+
 ### i18n
 
 When adding a new translation messages in our code (e.g. using `<FormattedMessage`>), the Babel compiler extracts automatically the default messages and places them into the [assets/intl/messages](https://github.com/shoutit/shoutit-web/tree/develop/assets/intl/messages/app) directory. 

@@ -11,6 +11,7 @@ export default function MessageAttachedImages({ images }) {
         images.map((image, i) =>
           <a
             target="_blank"
+            rel="noopener noreferrer"
             href={ getVariation(image, 'large') }
             className="MessageAttachedImages-image"
             key={ i }

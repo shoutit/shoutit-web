@@ -23,7 +23,7 @@
     &:last-child {
       border-bottom: 1px solid $border-color;
     }
-    &.is-selected, &:hover, &.is-unread {
+    &.isSelected, &:hover, &.isUnread {
       padding: 0 .35em;
       margin: 0;
       border-bottom: 1px solid $border-color;
@@ -31,7 +31,7 @@
         border-top: 0;
       }
     }
-    &.is-selected {
+    &.isSelected {
       &:first-child {
         border-top-color: transparent;
       }

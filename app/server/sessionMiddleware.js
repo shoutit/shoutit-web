@@ -1,5 +1,3 @@
-/* eslint no-console: 0 */
-
 import session from 'express-session';
 import connectRedis from 'connect-redis';
 import debug from 'debug';
@@ -51,10 +49,12 @@ const storeSettings = {
  */
 export function checkExistingSession(req, res, next) {
   if (!req.session) {
+    const error = new Error('Cannot initialize session');
     if (newrelicEnabled) {
-      newrelic.noticeError('CONN:REDIS FAILED', new Error('Cannot initialize session'));
+      newrelic.noticeError('CONN:REDIS FAILED', error);
     }
     console.error('Error connecting to redis, was trying %s:%s', storeSettings.host, storeSettings.host);
+    next(error);
   }
   return next();
 }
@@ -63,7 +63,6 @@ export function checkExistingSession(req, res, next) {
  * Login via auth_token from req.query
  */
 export function authTokenLogin(req, res, next) {
-  console.log('authTokenLogin');
   if (!req.query.hasOwnProperty('auth_token')) {
     return next();
   }
@@ -87,24 +86,8 @@ export function authTokenLogin(req, res, next) {
     });
 }
 
-/**
- * Read the current session and set the user in the request
- */
-export function setUserRequest(req, res, next) {
-  log('Reading current session...');
-  if (req.session.user) {
-    log('A logged user was already set');
-    return next();
-  }
-  return req.fetchr.read('session').end((err, user) => {
-    if (!err) {
-      log('User %s has been logged in', user.username);
-      req.session.user = user;
-    } else {
-      log('User is not logged in');
-    }
-    next();
-  });
+export function logoutMiddleware(req, res) {
+  req.fetchr.delete('session').end(res.redirect('/'));
 }
 
 /**
@@ -114,14 +97,24 @@ export function setUserRequest(req, res, next) {
  * @export
  * @param {Object} app
  */
+const maxAge = 365 * 24 * 60 * 60 * 1000;
 export default function (app) {
+  const cookie = { maxAge };
+  if (app.get('env') === 'production') {
+    app.set('trust proxy', 1); // trust first proxy
+    cookie.secure = true; // serve secure cookies
+  }
   app.use(session({
     secret: 'ShoutItOutLoudIntoTheCrowd',
-    resave: false,
+    cookie,
+    name: 'shoutit.sid',
+    resave: true,
     saveUninitialized: true,
+    maxAge,
     store: new RedisStore(storeSettings),
   }));
   app.use(checkExistingSession);
   app.use(authTokenLogin);
-  app.use(setUserRequest);
+
+  app.get('/logout', logoutMiddleware);
 }

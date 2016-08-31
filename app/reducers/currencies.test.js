@@ -1,6 +1,7 @@
-/* eslint-env mocha */
-import reducer, { getCurrencies } from './currencies';
+
 import { expect } from 'chai';
+
+import reducer, { getCurrencies } from './currencies';
 import * as actionTypes from '../actions/actionTypes';
 
 describe('reducers/currencies', () => {

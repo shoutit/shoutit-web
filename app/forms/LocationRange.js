@@ -2,15 +2,16 @@ import React, { PropTypes, Component } from 'react';
 import { FormattedMessage, FormattedNumber } from 'react-intl';
 import last from 'lodash/last';
 import { connect } from 'react-redux';
+
 import { getCurrentLanguage } from '../reducers/i18n';
 import { getCountryName } from '../utils/LocationUtils';
 import RangeField from '../forms/RangeField';
 import Icon from '../widgets/Icon';
+import './LocationRange.scss';
 
 const STEPS = [0, 4, 8, 12, 16, 20, 24, 32, 36, 40, 44, 48, 52, 56, 60, 64, 82, 100];
 const VALUES = ['city', 1, 2, 3, 5, 7, 10, 15, 20, 30, 60, 100, 200, 300, 400, 500, 'state', 'country'];
 
-import './LocationRange.scss';
 
 export class LocationRange extends Component {
   static propTypes = {
@@ -41,9 +42,9 @@ export class LocationRange extends Component {
     this.setState(this.getStateFromProps(nextProps), () => {
       const index = VALUES.indexOf(this.getValue());
       const currentStep = STEPS[index];
-      const range = this.refs.rangeField.getValue();
+      const range = this.rangeField.getValue();
       if (range >= currentStep || range <= STEPS[index - 1]) {
-        this.refs.rangeField.setValue(currentStep);
+        this.rangeField.setValue(currentStep);
       }
     });
   }
@@ -95,7 +96,7 @@ export class LocationRange extends Component {
   }
   setIndex(index) {
     this.setState({ index }, () => {
-      this.refs.rangeField.setValue(STEPS[this.state.index]);
+      this.rangeField.setValue(STEPS[this.state.index]);
       if (this.props.onChange) {
         this.props.onChange(this.getValue());
       }
@@ -107,6 +108,7 @@ export class LocationRange extends Component {
   setLast() {
     this.setIndex(STEPS.length - 1);
   }
+  rangeField = null
   handleChange(value) {
     let index = 0;
     if (value > STEPS[0]) {
@@ -124,7 +126,7 @@ export class LocationRange extends Component {
     return (
       <div className="FormField LocationRange">
         <RangeField
-          ref="rangeField"
+          ref={ el => { this.rangeField = el; } }
           id={ this.props.name }
           type="range"
           onChange={ this.handleChange }

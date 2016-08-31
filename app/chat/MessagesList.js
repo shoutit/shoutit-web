@@ -1,12 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { FormattedDate } from 'react-intl';
 import { toDate } from 'unix-timestamp';
+import last from 'lodash/last';
 
 import { isSameDay } from '../utils/DateUtils';
 import MessageItem from './MessageItem';
 import MessageReadBy from './MessageReadBy';
-
-import last from 'lodash/last';
 
 import './MessagesList.scss';
 
@@ -17,7 +16,6 @@ export default class MessagesList extends Component {
   }
 
   renderMessage(message, i, messages, lastReadBy) {
-
     const prevMessage = i > 0 ? messages[i - 1] : null;
     const nextMessage = i < messages.length - 1 ? messages[i + 1] : null;
 
@@ -45,7 +43,13 @@ export default class MessagesList extends Component {
           showSender={ showSender }
           message={ message } />
 
-        { isLastOfGroup && lastReadBy && lastReadBy.id === message.id && <MessageReadBy message={ message } /> }
+        { message.profile &&
+          message.profile.isOwner &&
+          isLastOfGroup &&
+          lastReadBy &&
+          lastReadBy.id === message.id &&
+          <MessageReadBy message={ message } />
+        }
 
       </div>
     );

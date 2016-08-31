@@ -1,12 +1,14 @@
 /* eslint-env browser */
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 import isEqual from 'lodash/isEqual';
-
 import { FormattedMessage } from 'react-intl';
+
+import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
+
 import { getCurrentLanguage } from '../reducers/i18n';
 import { getCurrentUrl } from '../reducers/routing';
 
@@ -24,14 +26,19 @@ import Scrollable from '../layout/Scrollable';
 import CountryFlag from '../location/CountryFlag';
 import Progress from '../widgets/Progress';
 
-import { loadDiscoverItemsByCountry, loadDiscoverItem, loadShoutsForDiscoverItem } from '../actions/discover';
+import { loadDiscoverItems, loadDiscoverItem, loadDiscoverItemShouts } from '../actions/discoverItems';
 import { getCountryName, getLocationPath } from '../utils/LocationUtils';
 import { backgroundImageStyle } from '../utils/DOMUtils';
-import { denormalize } from '../schemas';
+// import { denormalize } from '../schemas';
 
 import LocationModal from '../location/LocationModal';
 import { openModal } from '../actions/ui';
 import { routeError } from '../actions/server';
+
+import { getDiscoverItemsByCountry, getPaginationState as getDiscoverItemsPagination } from '../reducers/paginated/discoverItemsByCountry';
+import { getShoutsByDiscoverItem, getPaginationState as getShoutsPagination } from '../reducers/paginated/shoutsByDiscoverItem';
+import { getDiscoverItem } from '../reducers/entities/discoverItems';
+import { getCurrentLocation } from '../reducers/currentLocation';
 
 import './Discover.scss';
 
@@ -41,15 +48,15 @@ const fetchData = (dispatch, state, params) => {
   const { country, id } = params;
   if (id) {
     return dispatch(loadDiscoverItem(id))
-      .then(() => dispatch(loadShoutsForDiscoverItem(id, { page_size })))
+      .then(() => dispatch(loadDiscoverItemShouts(id, { page_size })))
       .catch(err => dispatch(routeError(err)));
   }
 
-  return dispatch(loadDiscoverItemsByCountry(country))
+  return dispatch(loadDiscoverItems(country))
     .then(({ result }) =>
       Promise.all([
         ...result.map(id => dispatch(loadDiscoverItem(id))),
-        ...result.map(id => dispatch(loadShoutsForDiscoverItem(id, { page_size }))),
+        ...result.map(id => dispatch(loadDiscoverItemShouts(id, { page_size }))),
       ])
     )
     .catch(err => dispatch(routeError(err)));
@@ -75,12 +82,13 @@ export class Discover extends Component {
     currentLocation: PropTypes.object,
     discoverItem: PropTypes.object,
     firstRender: PropTypes.bool,
-    isFetching: PropTypes.bool,
-    isFetchingShouts: PropTypes.bool,
-    nextShoutsUrl: PropTypes.string,
+
+    discoverItemsPagination: PropTypes.shape(PaginationPropTypes),
+    shoutsPagination: PropTypes.shape(PaginationPropTypes),
+
     language: PropTypes.string.isRequired,
     shouts: PropTypes.array,
-    shoutsCount: PropTypes.number,
+
   };
 
   static fetchData = fetchData;
@@ -96,7 +104,7 @@ export class Discover extends Component {
     const { dispatch, params } = this.props;
     if (nextProps.params.id !== params.id) {
       dispatch(loadDiscoverItem(nextProps.params.id)).then(() => {
-        dispatch(loadShoutsForDiscoverItem(nextProps.params.id, { page_size }));
+        dispatch(loadDiscoverItemShouts(nextProps.params.id, { page_size }));
       });
     } else if (params.country !== nextProps.params.country) {
       fetchData(dispatch, null, nextProps.params);
@@ -123,9 +131,8 @@ export class Discover extends Component {
       country,
       discoverItem,
       dispatch,
-      isFetching,
-      isFetchingShouts,
-      nextShoutsUrl,
+      shoutsPagination,
+      discoverItemsPagination,
       shouts,
     } = this.props;
 
@@ -134,8 +141,8 @@ export class Discover extends Component {
         triggerOffset={ 400 }
         scrollElement={ () => window }
         onScrollBottom={ () => {
-          if (discoverItem && nextShoutsUrl && !isFetchingShouts) {
-            dispatch(loadShoutsForDiscoverItem(discoverItem.id, null, nextShoutsUrl));
+          if (discoverItem && shoutsPagination.nextUrl && !shoutsPagination.isFetching) {
+            dispatch(loadDiscoverItemShouts(discoverItem.id, null, shoutsPagination.nextUrl));
           }
         } }>
         <Page>
@@ -167,7 +174,7 @@ export class Discover extends Component {
               </div>
             }
 
-            { discoverItem && discoverItem.showShouts && shouts.length > 0 &&
+            { shouts && shouts.length > 0 &&
               <div className="Discover-shouts">
                 <h2>
                   <FormattedMessage
@@ -179,8 +186,8 @@ export class Discover extends Component {
                 <ShoutsList columns={ 3 } shouts={ shouts } />
               </div>
             }
-            <Progress animate={ isFetchingShouts } />
-            <Progress animate={ isFetching && !discoverItem } />
+            <Progress animate={ shoutsPagination.isFetching } />
+            <Progress animate={ discoverItemsPagination.isFetching && !discoverItem } />
           </Body>
           <Device type="desktop">
             <EndColumn footer>
@@ -195,52 +202,34 @@ export class Discover extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { paginated, entities, currentLocation } = state;
-  const { country, id } = ownProps.params;
+  // const { paginated, entities, currentLocation } = state;
+  // const { country, id } = ownProps.params;
 
   let discoverItem;
 
-  const discoverItemsByCountry = paginated.discoverItemsByCountry[country];
-  let isFetching = false;
+  // let isFetching = false;
 
-  if (id) {
-    discoverItem = entities.discoverItems[id];
-  } else if (discoverItemsByCountry) {
-    const discoverItems = discoverItemsByCountry.ids.map(
-      id => entities.discoverItems[id]
-    );
-    isFetching = discoverItemsByCountry.isFetching;
-    if (discoverItems.length > 0) {
-      discoverItem = discoverItems[0];
-    }
+  if (ownProps.params.id) {
+    discoverItem = getDiscoverItem(state, ownProps.params.id);
+  } else {
+    const discoverItemsByCountry = getDiscoverItemsByCountry(state, ownProps.params.country);
+    discoverItem = discoverItemsByCountry ? discoverItemsByCountry[0] : undefined;
   }
 
-  let shouts = [];
-  let isFetchingShouts = false;
-  let nextShoutsUrl;
-  let shoutsCount;
+  let shouts;
   if (discoverItem) {
-    discoverItem = denormalize(discoverItem, entities, 'DISCOVERITEM');
-    const shoutsByDiscoverItem = paginated.shoutsByDiscoverItem[discoverItem.id];
-    if (shoutsByDiscoverItem) {
-      isFetchingShouts = shoutsByDiscoverItem.isFetching;
-      nextShoutsUrl = shoutsByDiscoverItem.nextUrl;
-      shoutsCount = shoutsByDiscoverItem.count;
-      shouts = shoutsByDiscoverItem.ids.map(id => denormalize(entities.shouts[id], entities, 'SHOUT'));
-    }
+    shouts = getShoutsByDiscoverItem(state, discoverItem.id);
   }
 
   return {
     language: getCurrentLanguage(state),
-    country,
+    country: ownProps.params.country,
     currentUrl: getCurrentUrl(state),
-    currentLocation,
+    currentLocation: getCurrentLocation(state),
     discoverItem,
     shouts,
-    isFetching,
-    isFetchingShouts,
-    nextShoutsUrl,
-    shoutsCount,
+    shoutsPagination: discoverItem ? getShoutsPagination(state, discoverItem.id) : {},
+    discoverItemsPagination: getDiscoverItemsPagination(state, ownProps.params.country),
   };
 };
 

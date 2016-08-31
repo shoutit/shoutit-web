@@ -8,6 +8,7 @@ import Helmet from '../utils/Helmet';
 import { login, resetErrors } from '../actions/session';
 
 import Button from '../forms/Button';
+import Form from '../forms/Form';
 import AncillaryText from '../widgets/AncillaryText';
 import HorizontalRule from '../widgets/HorizontalRule';
 import TextField from '../forms/TextField';
@@ -16,7 +17,7 @@ import Frame from '../layout/Frame';
 
 import SocialLoginForm from '../auth/SocialLoginForm';
 import { getErrorsByLocation, getErrorLocations } from '../utils/APIUtils';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 const MESSAGES = defineMessages({
   title: {
@@ -84,10 +85,10 @@ export class Login extends Component {
       } else if (errorLocations.includes('password')) {
         location = 'password';
       }
-      if (location && this.refs[location].getValue()) {
-        this.refs[location].select();
+      if (location && this.fields[location].getValue()) {
+        this.fields[location].select();
       } else if (location) {
-        this.refs[location].focus();
+        this.fields[location].focus();
       }
     }
   }
@@ -95,6 +96,11 @@ export class Login extends Component {
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch(resetErrors());
+  }
+
+  fields = {
+    email: null,
+    password: null,
   }
 
   submit(e) {
@@ -107,9 +113,9 @@ export class Login extends Component {
     }
 
     const form = e.target;
-    const email = this.refs.email.getValue();
-    const password = this.refs.password.getValue();
-    // const keepSession = this.refs.keep_session.checked;
+    const email = this.fields.email.getValue();
+    const password = this.fields.password.getValue();
+    // const keepSession = this.fields.keep_session.checked;
 
     if (!email) {
       form.email.focus();
@@ -166,9 +172,9 @@ export class Login extends Component {
               </p>
             }
 
-            <form onSubmit={ this.submit } className="Form Frame-form" noValidate>
+            <Form onSubmit={ this.submit } className="Frame-form">
               <TextField
-                ref="email"
+                ref={ el => { this.fields.email = el; } }
                 disabled={ isLoggingIn }
                 name="email"
                 type="text"
@@ -177,7 +183,7 @@ export class Login extends Component {
               />
               <TextField
                 error={ error }
-                ref="password"
+                ref={ el => { this.fields.password = el; } }
                 disabled={ isLoggingIn }
                 name="password"
                 type="password"
@@ -185,6 +191,7 @@ export class Login extends Component {
               />
 
               <Button
+                type="submit"
                 style={ { marginTop: '1rem' } }
                 kind="primary"
                 block
@@ -198,7 +205,7 @@ export class Login extends Component {
                 </Link>
               </AncillaryText>
 
-            </form>
+            </Form>
           </div>
           <div className="Frame-footer" style={ { textAlign: 'center' } }>
             <FormattedMessage
@@ -223,7 +230,7 @@ export class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedUser: getLoggedUser(state),
+    loggedUser: getLoggedProfile(state),
     isLoggingIn: state.session.isLoggingIn,
     error: state.session.loginError,
   };

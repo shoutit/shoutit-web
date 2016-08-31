@@ -1,4 +1,4 @@
-/* eslint no-console: 0 */
+
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
@@ -13,7 +13,7 @@ import basicAuthMiddleware from './server/basicAuthMiddleware';
 import browserMiddleware from './server/browserMiddleware';
 import errorMiddleware from './server/errorMiddleware';
 import fetchrMiddleware, { fetchrPath } from './server/fetchrMiddleware';
-import geolocationMiddleware from './server/geolocationMiddleware';
+import currentLocationMiddleware from './server/currentLocationMiddleware';
 import localeMiddleware from './server/localeMiddleware';
 import pusherMiddleware from './server/pusherMiddleware';
 import redirects from './server/redirects';
@@ -25,7 +25,7 @@ import { fileUploadMiddleware, fileDeleteMiddleware } from './server/fileMiddlew
 
 import * as services from './services';
 
-export function start(app) {
+export default function start(app) {
 
   app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined'));
   app.use(cookieParser());
@@ -48,24 +48,24 @@ export function start(app) {
   // Make sure errors are catched without crashing the server
   app.use(errorDomainMiddleware);
 
-  // Set the client's language in req.language
-  app.use(localeMiddleware);
-
   // Set the client's device details in req.browser
   app.use(browserMiddleware);
 
-  // Add fetchr to req
+  // Add fetchr to req object
   fetchrMiddleware(app);
 
   // Enable redis-based session
   sessionMiddleware(app);
 
+  // Set the session's language
+  app.use(localeMiddleware);
+
   // Register fetchr services
   Object.keys(services).forEach(name => Fetchr.registerService(services[name])); // eslint-disable-line
   app.use(fetchrPath, Fetchr.middleware());
 
-  // Get the client's geo location
-  app.use(geolocationMiddleware);
+  // Set the session current location
+  app.use(currentLocationMiddleware);
 
   app.post('/api/pusher/auth', pusherMiddleware);
   app.post('/api/file/:resourceType', fileUploadMiddleware);

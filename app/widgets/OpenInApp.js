@@ -80,7 +80,7 @@ class OpenInApp extends Component {
               defaultMessage="Open in App"
             />
           </a>
-          <a href={ this.props.storeLink } target="_blank">
+          <a href={ this.props.storeLink } target="_blank" rel="noopener noreferrer" >
             <FormattedMessage
               id="widgets.OpenInApp.install"
               defaultMessage="Install"

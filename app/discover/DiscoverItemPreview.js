@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 
 import { backgroundImageStyle } from '../utils/DOMUtils';
-
 import './DiscoverItemPreview.scss';
+
 export default function DiscoverItemPreview({ discoverItem }) {
   return (
     <div

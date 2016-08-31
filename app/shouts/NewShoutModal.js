@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 import { getCurrentLocation } from '../reducers/currentLocation';
 
 import Modal, { Header, Body } from '../modals';
@@ -33,7 +33,7 @@ export class NewShoutModal extends Component {
 
   render() {
     return (
-      <Modal { ...this.props } size="small">
+      <Modal { ...this.props } autoSize={ false } size="small">
         <Header closeButton>
           <FormattedMessage
             id="newShoutModal.title"
@@ -85,7 +85,7 @@ export class NewShoutModal extends Component {
 
 const mapStateToProps = state => ({
   shout: {
-    mobile: getLoggedUser(state).mobile,
+    mobile: getLoggedProfile(state).mobile,
     location: getCurrentLocation(state),
   },
 });

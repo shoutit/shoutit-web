@@ -39,7 +39,6 @@ export const ATTACHMENT = {
 };
 export const EMAIL_VERIFICATION = {
   profile: PROFILE,
-  user: PROFILE,
 };
 export const Schemas = {
   CATEGORY,
@@ -68,13 +67,11 @@ export const Schemas = {
 
 SHOUT.define({
   category: CATEGORY,
-  user: PROFILE,
   profile: PROFILE,
   conversations: arrayOf(CONVERSATION),
 });
 
 MESSAGE.define({
-  user: PROFILE,
   profile: PROFILE,
   attachments: arrayOf(ATTACHMENT),
 });
@@ -93,4 +90,6 @@ DISCOVERITEM.define({
   children: arrayOf(DISCOVERITEM),
 });
 
-export const denormalize = (entity, entities, name) => denormalizer(entity, entities, Schemas[name]);
+export function denormalize(entity, entities, name) {
+  return denormalizer(entity, entities, Schemas[name]);
+}

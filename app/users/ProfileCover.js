@@ -43,11 +43,14 @@ export class ProfileCover extends Component {
   }
 
   componentDidMount() {
+    this.setContainerWidth();
+  }
+
+  setContainerWidth() {
     this.setState({
       width: this.refs.container.offsetWidth,
     });
   }
-
 
   handlePictureChange(e) {
     const { files } = e.target;

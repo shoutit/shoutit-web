@@ -82,7 +82,7 @@ export default class ImageUploadModal extends Component {
   }
 
   hide() {
-    this.refs.modal.hide();
+    this.modal.hide();
   }
 
   render() {
@@ -108,7 +108,7 @@ export default class ImageUploadModal extends Component {
     }
 
     return (
-      <Modal { ...this.props } ref="modal" size="x-small">
+      <Modal { ...this.props } autoSize={ false } ref={ el => this.modal = el } size="x-small">
         <Header closeButton>
           <FormattedMessage
             id="ui.imageUploadModal.title"

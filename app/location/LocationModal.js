@@ -6,7 +6,7 @@ import Modal, { Header, Body, Footer } from '../modals';
 import Button from '../forms/Button';
 
 import SearchLocation from '../location/SearchLocation';
-import { updateCurrentLocation } from '../actions/location';
+import { updateCurrentLocation } from '../actions/currentLocation';
 
 export class LocationModal extends Component {
   static propTypes = {
@@ -18,14 +18,16 @@ export class LocationModal extends Component {
     this.handleLocationSelect = this.handleLocationSelect.bind(this);
   }
 
+  modal = null
+
   handleLocationSelect(location) {
-    this.refs.modal.hide();
+    this.modal.hide();
     this.props.onLocationSelect(location);
   }
 
   render() {
     return (
-      <Modal { ...this.props } ref="modal" size="small">
+      <Modal { ...this.props } autoSize={ false } ref={ el => this.modal = el } size="small">
         <Header closeButton>
           <FormattedMessage
             id="locationModal.title"
@@ -33,13 +35,10 @@ export class LocationModal extends Component {
           />
         </Header>
         <Body>
-          <SearchLocation
-            ref="search"
-            onLocationSelect={ this.handleLocationSelect }
-          />
+          <SearchLocation onLocationSelect={ this.handleLocationSelect } />
         </Body>
         <Footer>
-          <Button ref="close" kind="primary" onClick={ () => this.refs.modal.hide() }>
+          <Button kind="primary" onClick={ () => this.modal.hide() }>
             <FormattedMessage
               id="locationModal.closeButton"
               defaultMessage="Close"

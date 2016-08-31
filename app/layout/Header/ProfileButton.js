@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
@@ -7,12 +6,13 @@ import ProfileAvatar from '../../users/ProfileAvatar';
 import Overlay from '../../widgets/Overlay';
 
 import ProfileOverlay from './ProfileOverlay';
-import { getLoggedUser } from '../../reducers/session';
+import { getLoggedProfile } from '../../reducers/session';
+
 export class ProfileButton extends Component {
 
   static propTypes = {
     overlay: PropTypes.bool,
-    user: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -29,6 +29,8 @@ export class ProfileButton extends Component {
     showOverlay: false,
   }
 
+  avatar = null
+
   showOverlay(e) {
     e.preventDefault();
     this.setState({ showOverlay: true });
@@ -39,13 +41,14 @@ export class ProfileButton extends Component {
   }
 
   render() {
+    const { profile } = this.props;
     return (
       <span>
         <Link
           className="HeaderProfile-profileLink"
-          to={ `/user/${this.props.user.username}` }
+          to={ `/user/${profile.username}` }
           onClick={ this.props.overlay && this.showOverlay }>
-          <ProfileAvatar ref="avatar" profile={ this.props.user } size="medium" />
+          <ProfileAvatar ref={ el => this.avatar = el } profile={ profile } size="medium" />
         </Link>
         { this.props.overlay &&
           <Overlay
@@ -56,9 +59,9 @@ export class ProfileButton extends Component {
             show={ this.state.showOverlay }
             placement="bottom"
             onHide={ this.hideOverlay }
-            target={ () => this.refs.avatar.getImageNode() }
+            target={ () => this.avatar.getImageNode() }
           >
-            <ProfileOverlay onItemClick={ this.hideOverlay } />
+            <ProfileOverlay closeOverlay={ this.hideOverlay } />
           </Overlay>
         }
       </span>
@@ -67,7 +70,7 @@ export class ProfileButton extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: getLoggedUser(state),
+  profile: getLoggedProfile(state),
 });
 
 export default connect(mapStateToProps)(ProfileButton);

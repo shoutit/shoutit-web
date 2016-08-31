@@ -70,7 +70,10 @@ export class ConversationDropdown extends Component {
         {
           label: formatMessage(MESSAGES.leave),
           kind: 'destructive',
-          onClick: () => leaveConversation(conversation),
+          action: modal => {
+            modal.hide();
+            leaveConversation(conversation);
+          },
         },
       ]
     );

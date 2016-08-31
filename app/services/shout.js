@@ -12,6 +12,7 @@ export default {
     request
       .post('/shouts')
       .prefix()
+      .camelizeResponseBody()
       .use(req)
       .send(shout)
       .end((err, res) => {
@@ -26,6 +27,7 @@ export default {
       .get(`/shouts/${params.id}`)
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err, { resource, params, url: req.url }));
@@ -37,6 +39,7 @@ export default {
     request
       .patch(`/shouts/${id}`)
       .prefix()
+      .camelizeResponseBody()
       .use(req)
       .send(shout)
       .end((err, res) => {
@@ -55,6 +58,7 @@ export default {
     request
       .delete(`/shouts/${shout.id}`)
       .prefix()
+      .camelizeResponseBody()
       .use(req)
       .end((err, res) => {
         if (err) {

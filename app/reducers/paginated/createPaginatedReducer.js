@@ -55,7 +55,7 @@ export default function createPaginatedReducer({
     nextUrl: undefined,
     previousUrl: undefined,
     count: undefined,
-    ids: [],
+    ids: undefined,
     error: undefined,
   }, action) {
     switch (action.type) {
@@ -147,7 +147,7 @@ export default function createPaginatedReducer({
         }
         if (mapActionToKey) {
           const key = mapActionToKey(action);
-          if (typeof(key) === 'undefined' && process.env.NODE_ENV === 'development') {
+          if (typeof (key) === 'undefined' && process.env.NODE_ENV === 'development') {
             console.warn("Warning: mapActionToKey for action %s returned an undefined value.", action.type); // eslint-disable-line
           }
           return merge({}, state, {
@@ -163,11 +163,11 @@ export default function createPaginatedReducer({
 
         if (mapActionToKey) {
           const key = mapActionToKey(action);
-          if (typeof(key) === 'undefined' && process.env.NODE_ENV === 'development') {
+          if (typeof (key) === 'undefined' && process.env.NODE_ENV === 'development') {
             console.warn("Warning: mapActionToKey for action %s returned an undefined value.", action.type); // eslint-disable-line
           }
           return {
-            ... state,
+            ...state,
             [key]: updateOnCreate(state[key], action, tempId),
           };
         }
@@ -177,11 +177,11 @@ export default function createPaginatedReducer({
       case addType:
         if (mapActionToKey) {
           const key = mapActionToKey(action);
-          if (typeof(key) === 'undefined' && process.env.NODE_ENV === 'development') {
+          if (typeof (key) === 'undefined' && process.env.NODE_ENV === 'development') {
             console.warn("Warning: mapActionToKey for action %s returned an undefined value.", action.type); // eslint-disable-line
           }
           return {
-            ... state,
+            ...state,
             [key]: updateOnAdd(state[key], action),
           };
         }
@@ -191,11 +191,11 @@ export default function createPaginatedReducer({
       case deleteType:
         if (mapActionToKey) {
           const key = mapActionToKey(action);
-          if (typeof(key) === 'undefined' && process.env.NODE_ENV === 'development') {
+          if (typeof (key) === 'undefined' && process.env.NODE_ENV === 'development') {
             console.warn("Warning: mapActionToKey for action %s returned an undefined value.", action.type); // eslint-disable-line
           }
           return {
-            ... state,
+            ...state,
             [key]: updateOnDelete(state[key], action),
           };
         }

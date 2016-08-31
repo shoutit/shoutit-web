@@ -1,0 +1,22 @@
+[
+  {
+    "id": "profilesModal.segmentedControl.listeners",
+    "defaultMessage": "Listeners"
+  },
+  {
+    "id": "profilesModal.segmentedControl.listening",
+    "defaultMessage": "Listening"
+  },
+  {
+    "id": "profilesModal.segmentedControl.hideButton",
+    "defaultMessage": "Close"
+  },
+  {
+    "id": "profilesModal.noListeners",
+    "defaultMessage": "{isOwner, select, true {You have no listeners.} false {{name} has no listeners.}}"
+  },
+  {
+    "id": "profilesModal.noListening",
+    "defaultMessage": "{isOwner, select, true {You are not listening to anybody.} false {{name} is not listening to anybody.}}"
+  }
+]

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-
 import './CategoryIcon.scss';
+
 export default function CategoryIcon({ category, size = 'medium' }) {
   const style = {
     backgroundImage: `url("${category.icon}")`,

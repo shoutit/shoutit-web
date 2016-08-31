@@ -7,11 +7,12 @@ import { MESSAGE, CONVERSATION, NOTIFICATION } from '../schemas';
 
 import { pusherAppKey } from '../config';
 import * as actionTypes from '../actions/actionTypes';
-import { typingClientNotification, removeTypingClient } from '../actions/chat';
+import { receiveTypingNotification, stopTyping } from '../actions/chat';
 import { loadConversation, replaceConversation } from '../actions/conversations';
 import { addNewMessage, readMessage, setMessageReadBy } from '../actions/messages';
 import { updateProfileStats, replaceProfile } from '../actions/users';
 import { addNotification } from '../actions/notifications';
+import { getLoggedProfile } from '../reducers/session';
 
 const log = debug('shoutit:middlewares:pusher');
 // Pusher.log = log;
@@ -31,10 +32,10 @@ const handleClientIsTypingNotification = (conversationId, profile, store) => {
     log('Cleared timeout for last notification');
   }
 
-  store.dispatch(typingClientNotification(conversationId, profile));
+  store.dispatch(receiveTypingNotification(conversationId, profile));
   typingTimeouts[conversationId] = setTimeout(() => {
     log('Removing typing client...');
-    store.dispatch(removeTypingClient(conversationId, profile.id));
+    store.dispatch(stopTyping(conversationId, profile.id));
     delete typingTimeouts[conversationId];
   }, 3000);
 };
@@ -50,7 +51,8 @@ export default store => next => action => { // eslint-disable-line no-unused-var
 
     const message = camelizeKeys(payload);
     const normalizedPayload = normalize(message, MESSAGE);
-    if (message.profile && store.getState().session.user === message.profile.id) {
+    const loggedProfile = getLoggedProfile(store.getState);
+    if (message.profile && loggedProfile.id === message.profile.id) {
       // As pusher will always send the profile as "not owner"
       delete normalizedPayload.entities.users;
     }
@@ -87,7 +89,7 @@ export default store => next => action => { // eslint-disable-line no-unused-var
 
         profileChannel.bind('stats_update', payload => {
           log('profileChannel received stats_update event', payload);
-          store.dispatch(updateProfileStats(store.getState().session.user, camelizeKeys(payload)));
+          store.dispatch(updateProfileStats(store.getState().session.profile, camelizeKeys(payload)));
         });
 
         profileChannel.bind('profile_update', payload => {
@@ -125,7 +127,7 @@ export default store => next => action => { // eslint-disable-line no-unused-var
       }
       break;
 
-    case actionTypes.SET_ACTIVE_CONVERSATION:
+    case actionTypes.CONVERSATION_SET_ACTIVE:
       const conversation = action.payload;
       channelId = getConversationChannelId(conversation);
       log('Subscribing channel %s...', channelId);
@@ -176,14 +178,14 @@ export default store => next => action => { // eslint-disable-line no-unused-var
 
       break;
 
-    case actionTypes.LEAVE_CONVERSATION_SUCCESS:
-    case actionTypes.UNSET_ACTIVE_CONVERSATION:
+    case actionTypes.CONVERSATION_LEAVE_SUCCESS:
+    case actionTypes.CONVERSATION_UNSET_ACTIVE:
       channelId = getConversationChannelId(action.payload);
       log('Unsubscribing channel %s', channelId);
       client.unsubscribe(channelId);
       break;
 
-    case actionTypes.NOTIFY_CLIENT_IS_TYPING:
+    case actionTypes.CHAT_START_TYPING:
       if (client.conversationChannel) {
         log('Triggering `client-is_typing` for channel %s', client.conversationChannel.name, action.payload);
         client.conversationChannel.trigger('client-is_typing', action.payload);

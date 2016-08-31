@@ -10,6 +10,7 @@ describe('store/getInitialStoreState', () => {
       url: 'url',
       query: { foo: 'bar' },
       path: 'path',
+      session: {},
     };
     const state = getInitialStoreState(req);
     expect(state).to.have.property('routing');
@@ -22,6 +23,7 @@ describe('store/getInitialStoreState', () => {
 
   it('should set the browser store', () => {
     const req = {
+      session: {},
       browser: 'a_browser',
     };
     const state = getInitialStoreState(req);
@@ -31,7 +33,7 @@ describe('store/getInitialStoreState', () => {
 
   it('should set the i18n store', () => {
     const req = {
-      language: 'en',
+      session: { language: 'en' },
       locale: 'en_US',
     };
     const state = getInitialStoreState(req);
@@ -46,7 +48,7 @@ describe('store/getInitialStoreState', () => {
 
   it('should set the i18n store (rtl)', () => {
     const req = {
-      language: 'ar',
+      session: { language: 'ar' },
       locale: 'ar_AR',
     };
     const state = getInitialStoreState(req);
@@ -60,7 +62,7 @@ describe('store/getInitialStoreState', () => {
   it('should set the user in the session store and in the entities', () => {
     const req = {
       session: {
-        user: {
+        profile: {
           id: 'user_id',
           name: 'user_name',
         },
@@ -68,8 +70,7 @@ describe('store/getInitialStoreState', () => {
     };
     const state = getInitialStoreState(req);
     expect(state).to.have.property('session');
-    expect(state.session).to.have.property('user');
-    expect(state.session.user).to.equal('user_id');
+    expect(state.session).to.have.deep.property('profile').to.equal('user_id');
     expect(state.entities.users).to.eql({
       user_id: {
         id: 'user_id',

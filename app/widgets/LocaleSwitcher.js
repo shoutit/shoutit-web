@@ -25,7 +25,7 @@ export function LocaleSwitcher({ search, currentLanguage }) {
         return (<a
           key={ language.code }
           className={ className }
-          href={ `?${search}&hl=${language.code}&set` }>
+          href={ `?${search}&hl=${language.code}` }>
           { language.name }
         </a>);
       }) }
@@ -40,7 +40,7 @@ LocaleSwitcher.propTypes = {
 
 const mapStateToProps = state => ({
   currentLanguage: getCurrentLanguage(state),
-  search: getQueryAsString(state, ['hl', 'set']),
+  search: getQueryAsString(state, ['hl']),
 });
 
 export default connect(mapStateToProps)(LocaleSwitcher);

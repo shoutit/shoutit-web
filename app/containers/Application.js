@@ -22,12 +22,13 @@ import ConversationsHost from '../chat/ConversationsHost';
 import ServerError from './ServerError';
 import NotFound from './NotFound';
 
-import { loadCategories, loadCurrencies, loadSortTypes } from '../actions/misc';
-import { loadSuggestions } from '../actions/location';
-import { loadListeningProfiles } from '../actions/users';
-import { clientLogin, updateLinkedAccount, logout } from '../actions/session';
+import { loadCategories } from '../actions/categories';
+import { loadCurrencies } from '../actions/currencies';
+import { loadSortTypes } from '../actions/sortTypes';
+import { loadSuggestions } from '../actions/suggestions';
+import { clientLogin, updateLinkedAccount, logout, updateSession } from '../actions/session';
 
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 import Device from '../utils/Device';
 import OpenInApp from '../widgets/OpenInApp';
@@ -41,9 +42,10 @@ const fetchData = (dispatch, state) => {
   promises.push(dispatch(loadCategories()));
   promises.push(dispatch(loadSortTypes()));
   promises.push(dispatch(loadCurrencies()));
-  const loggedUser = getLoggedUser(state); // logged user comes from rehydrated state
-  if (loggedUser) {
-    promises.push(dispatch(loadListeningProfiles(loggedUser)));
+  const isLoggedIn = !!getLoggedProfile(state); // logged user comes from rehydrated state
+  if (isLoggedIn) {
+    // Make sure the app is using updated profile and page in session 
+    promises.push(dispatch(updateSession()));
   }
   return Promise.all(promises);
 };
@@ -51,7 +53,7 @@ const fetchData = (dispatch, state) => {
 export class Application extends Component {
 
   static propTypes = {
-    loggedUser: PropTypes.object,
+    loggedProfile: PropTypes.object,
     currentLocation: PropTypes.object,
     error: PropTypes.object,
     children: PropTypes.element.isRequired,
@@ -64,16 +66,20 @@ export class Application extends Component {
   static fetchData = fetchData;
 
   componentDidMount() {
-    const { dispatch, currentLocation, loggedUser } = this.props;
+    const { dispatch, currentLocation, loggedProfile } = this.props;
 
-    dispatch(loadSuggestions(currentLocation));
+    dispatch(loadSuggestions({
+      query: {
+        country: currentLocation.country,
+      },
+    }));
 
-    if (loggedUser) {
+    if (loggedProfile) {
       // Login the user client-side
-      dispatch(clientLogin(loggedUser));
-      identifyOnMixpanel(loggedUser);
+      dispatch(clientLogin(loggedProfile));
+      identifyOnMixpanel(loggedProfile);
       // Get a new Facebook token if it expired
-      if (FacebookUtils.didTokenExpire(loggedUser)) {
+      if (FacebookUtils.didTokenExpire(loggedProfile)) {
         FacebookUtils.getLoginStatus(response => {
           if (response.status === 'connected') {
             dispatch(updateLinkedAccount({
@@ -86,23 +92,23 @@ export class Application extends Component {
         });
       }
     }
-    trackWithMixpanel('app_open', { signed_user: !!loggedUser });
+    trackWithMixpanel('app_open', { signed_user: !!loggedProfile });
   }
 
   componentWillUpdate(nextProps) {
-    const { dispatch, currentLocation, loggedUser } = this.props;
+    const { dispatch, currentLocation, loggedProfile } = this.props;
 
     // Update suggestions if location change
 
     if (!isEqual(currentLocation, nextProps.currentLocation)) {
-      dispatch(loadSuggestions(nextProps.currentLocation));
+      dispatch(loadSuggestions({
+        query: {
+          country: nextProps.currentLocation.country,
+        },
+      }));
     }
-    if (!nextProps.loggedUser && loggedUser) {
-      // Fetch application data again when logged user changed (e.g. has been logged out)
-      fetchData(dispatch, { session: { user: undefined } });
-    }
-    if (!loggedUser && nextProps.loggedUser) {
-      identifyOnMixpanel(nextProps.loggedUser);
+    if (!loggedProfile && nextProps.loggedProfile) {
+      identifyOnMixpanel(nextProps.loggedProfile);
     }
   }
 
@@ -138,10 +144,8 @@ export class Application extends Component {
 
     if (applicationLayout.fullHeight) {
       className += ' fullHeight';
-    } else {
-      if (applicationLayout.showHeader && applicationLayout.stickyHeader) {
-        className += ' stickyHeader';
-      }
+    } else if (applicationLayout.showHeader && applicationLayout.stickyHeader) {
+      className += ' stickyHeader';
     }
     if (applicationLayout.className) {
       className += ` ${applicationLayout.className}`;
@@ -207,7 +211,7 @@ export class Application extends Component {
 const mapStateToProps = state => ({
   currentLocation: getCurrentLocation(state),
   currentUrl: getCurrentUrl(state),
-  loggedUser: getLoggedUser(state),
+  loggedProfile: getLoggedProfile(state),
   error: getRoutingError(state),
   messages: getIntlMessages(state),
   currentLanguage: getCurrentLanguage(state),

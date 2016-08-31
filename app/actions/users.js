@@ -18,7 +18,27 @@ export function loadUser(username) {
   };
 }
 
-export function loadListeners(user, endpoint) {
+export function loadPages(username, { endpoint, query }) {
+  return {
+    types: [
+      actionTypes.LOAD_PROFILE_PAGES_START,
+      actionTypes.LOAD_PROFILE_PAGES_SUCCESS,
+      actionTypes.LOAD_PROFILE_PAGES_FAILURE,
+    ],
+    payload: { username },
+    service: {
+      name: 'profilePages',
+      params: {
+        username,
+        endpoint,
+        query,
+      },
+      schema: PROFILES,
+    },
+  };
+}
+
+export function loadListeners(user, { endpoint, query }) {
   return {
     types: [
       actionTypes.LOAD_LISTENERS_START,
@@ -28,13 +48,17 @@ export function loadListeners(user, endpoint) {
     payload: { user },
     service: {
       name: 'listeners',
-      params: { username: user.username, endpoint },
+      params: {
+        username: user.username,
+        endpoint,
+        query,
+      },
       schema: PROFILES,
     },
   };
 }
 
-export function loadListeningProfiles(user, endpoint) {
+export function loadListeningProfiles(user, { endpoint, query } = {}) {
   return {
     types: [
       actionTypes.LOAD_LISTENING_PROFILES_START,
@@ -44,13 +68,18 @@ export function loadListeningProfiles(user, endpoint) {
     payload: { user },
     service: {
       name: 'listening',
-      params: { username: user.username, endpoint },
+      params: {
+        username: user.username,
+        endpoint,
+        query,
+      },
       schema: PROFILES,
     },
   };
 }
 
-export function loadListeningTags(user, endpoint) {
+export function loadListeningTags(user, { endpoint, query } = {}) {
+  const { username } = user;
   return {
     types: [
       actionTypes.LOAD_LISTENING_TAGS_START,
@@ -60,7 +89,11 @@ export function loadListeningTags(user, endpoint) {
     payload: { user },
     service: {
       name: 'listeningTags',
-      params: { username: user.username, endpoint },
+      params: {
+        endpoint,
+        query,
+        username,
+      },
       schema: TAGS,
     },
   };
@@ -113,12 +146,12 @@ export function loadHomeShouts(endpoint) {
   };
 }
 
-export function loadShoutsByUsername(username, endpoint) {
+export function loadShoutsByUsername(username, { endpoint } = {}) {
   return {
     types: [
-      actionTypes.LOAD_USER_SHOUTS_START,
-      actionTypes.LOAD_USER_SHOUTS_SUCCESS,
-      actionTypes.LOAD_USER_SHOUTS_FAILURE,
+      actionTypes.LOAD_PROFILE_SHOUTS_START,
+      actionTypes.LOAD_PROFILE_SHOUTS_SUCCESS,
+      actionTypes.LOAD_PROFILE_SHOUTS_FAILURE,
     ],
     payload: { username },
     service: {
@@ -183,9 +216,9 @@ export function chatWithProfile(conversation, text) {
   const username = conversation.profiles.filter(profile => !profile.isOwner)[0].username;
   return {
     types: [
-      actionTypes.CREATE_CONVERSATION_START,
-      actionTypes.CREATE_CONVERSATION_SUCCESS,
-      actionTypes.CREATE_CONVERSATION_FAILURE,
+      actionTypes.CONVERSATION_CREATE_START,
+      actionTypes.CONVERSATION_CREATE_SUCCESS,
+      actionTypes.CONVERSATION_CREATE_FAILURE,
     ],
     payload: {
       conversation,

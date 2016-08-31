@@ -10,7 +10,7 @@ import { getRelatedShouts } from '../../reducers/paginated/relatedShoutsByShout'
 class ShoutPageRelated extends Component {
 
   static propTypes = {
-    shouts: PropTypes.array.isRequired,
+    shouts: PropTypes.array,
     shoutId: PropTypes.string.isRequired,
     loadShouts: PropTypes.func.isRequired,
   }
@@ -26,7 +26,7 @@ class ShoutPageRelated extends Component {
   }
 
   render() {
-    if (this.props.shouts.length === 0) {
+    if (!this.props.shouts || this.props.shouts.length === 0) {
       return null;
     }
     return (

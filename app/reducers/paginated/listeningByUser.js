@@ -4,6 +4,9 @@ import union from 'lodash/union';
 import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
 
+import { denormalize } from '../../schemas';
+import { getPagination } from '../paginated';
+
 function listeningByUser(state = {}, action) {
   const { type, payload } = action;
   switch (type) {
@@ -74,4 +77,16 @@ export default function (state = {}, action) {
 
   newState = listeningByUser(newState, action);
   return newState;
+}
+
+export function getListeningByProfile(state, id) {
+  const paginated = state.paginated.listeningByUser[id];
+  if (!paginated) {
+    return undefined;
+  }
+  return denormalize(paginated.ids, state.entities, 'PROFILES');
+}
+
+export function getPaginationState(state, id) {
+  return getPagination(state, ['listeningByUser', id]);
 }

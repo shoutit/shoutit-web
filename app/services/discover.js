@@ -19,6 +19,7 @@ export default {
       .get(url)
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .query(query)
       .end((err, res) => {
         if (err) {

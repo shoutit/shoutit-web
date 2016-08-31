@@ -25,7 +25,7 @@ export default function ({
 
   if (createTypes) {
     [createStartType, createSuccessType, createFailureType] = createTypes;
-    if (!Array.isArray(createTypes) || createTypes.length > 0 && createTypes.length < 2) {
+    if (!Array.isArray(createTypes) || (createTypes.length > 0 && createTypes.length < 2)) {
       throw new Error('Expected createTypes to be an array of three elements.');
     }
     if (typeof mapActionToTempEntity !== 'function') {
@@ -38,7 +38,7 @@ export default function ({
 
   if (updateTypes) {
     [updateStartType, updateSuccessType, updateFailureType] = updateTypes;
-    if (!Array.isArray(updateTypes) || updateTypes.length > 0 && updateTypes.length < 2) {
+    if (!Array.isArray(updateTypes) || (updateTypes.length > 0 && updateTypes.length < 2)) {
       throw new Error('Expected updateTypes to be an array of three elements.');
     }
     if (typeof mapActionToId !== 'function') {
@@ -48,7 +48,7 @@ export default function ({
 
   if (deleteTypes) {
     [deleteStartType, deleteSuccessType, deleteFailureType] = deleteTypes;
-    if (!Array.isArray(deleteTypes) || deleteTypes.length > 0 && deleteTypes.length < 2) {
+    if (!Array.isArray(deleteTypes) || (deleteTypes.length > 0 && deleteTypes.length < 2)) {
       throw new Error('Expected deleteTypes to be an array of three elements.');
     }
     if (typeof mapActionToId !== 'function') {

@@ -4,6 +4,14 @@
     "defaultMessage": "Messages"
   },
   {
+    "id": "publicChats.page.title",
+    "defaultMessage": "Public Chats"
+  },
+  {
+    "id": "publicChat.conversations.title",
+    "defaultMessage": "Public Chats in {countryName}"
+  },
+  {
     "id": "chat.conversations.title",
     "defaultMessage": "Conversations"
   },

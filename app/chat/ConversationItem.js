@@ -2,6 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import classNames from 'classnames';
+
 import { isRtl } from '../reducers/i18n';
 
 import Icon from '../widgets/Icon.js';
@@ -26,8 +28,21 @@ export class ConversationItem extends Component {
     isRtl: PropTypes.bool.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+  }
+
   state = {
     hover: false,
+  }
+
+  handleClick(e) {
+    if (this.props.onClick) {
+      this.props.onClick(e, this.props.conversation);
+    }
   }
 
   handleMouseEnter(e) {
@@ -49,32 +64,26 @@ export class ConversationItem extends Component {
   }
 
   render() {
-    const {
-      conversation,
-      onClick,
-      selected,
-      showDropdown,
-    } = this.props;
+    const { conversation, selected, showDropdown } = this.props;
 
-    const { hover } = this.state;
+    const className = classNames('ConversationItem', {
+      isSelected: selected,
+      hover: this.state.hover,
+      isUnread: conversation.unreadMessagesCount > 0,
+    });
 
-    let className = 'ConversationItem';
-    if (selected) {
-      className = `${className} is-selected`;
+    let conversationUrl;
+    if (conversation.type === 'public_chat') {
+      conversationUrl = `/chat/${conversation.id}`;
+    } else {
+      conversationUrl = `/messages/${conversation.id}`;
     }
-    if (hover) {
-      className = `${className} hover`;
-    }
-    if (conversation.unreadMessagesCount > 0) {
-      className = `${className} is-unread`;
-    }
-
     return (
-      <li
+      <div
         className={ className }
-        onMouseEnter={ this.handleMouseEnter.bind(this) }
-        onMouseLeave={ this.handleMouseLeave.bind(this) }>
-        <Link onClick={ onClick } to={ `/messages/${conversation.id}` }>
+        onMouseEnter={ this.handleMouseEnter }
+        onMouseLeave={ this.handleMouseLeave }>
+        <Link onClick={ this.handleClick } to={ conversationUrl }>
           <div
             className="ConversationItem-image"
             style={ backgroundImageStyle({ url: conversation.display.image, variation: 'small', usePlaceholder: false }) }
@@ -100,7 +109,7 @@ export class ConversationItem extends Component {
             <div className="ConversationItem-date">
               <FormattedCreatedAt value={ conversation.modifiedAt } />
             </div>
-            { showDropdown && !hover && conversation.unreadMessagesCount > 0 &&
+            { showDropdown && !this.state.hover && conversation.unreadMessagesCount > 0 &&
               <div className="ConversationItem-unread-count">
                 <FormattedMessage
                   id="conversation.unreadCount"
@@ -112,7 +121,7 @@ export class ConversationItem extends Component {
           </div>
         </Link>
 
-        { showDropdown && hover &&
+        { showDropdown && this.state.hover &&
           <ConversationDropdown
             skipItems={ ['linkToConversation'] }
             conversation={ conversation }
@@ -121,7 +130,7 @@ export class ConversationItem extends Component {
             pullRight={ !this.props.isRtl }
           />
         }
-      </li>
+      </div>
     );
   }
 }

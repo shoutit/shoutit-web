@@ -9,6 +9,7 @@ export default {
       .post(`/conversations/${id}/read`)
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));
@@ -22,6 +23,7 @@ export default {
       .delete(`/conversations/${id}/read`)
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .end((err, res) => {
         if (err) {
           return callback(parseApiError(err));

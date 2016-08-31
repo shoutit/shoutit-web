@@ -6,6 +6,7 @@ import Helmet from '../utils/Helmet';
 
 import { setPassword } from '../actions/session';
 
+import Form from '../forms/Form';
 import Button from '../forms/Button';
 import TextField from '../forms/TextField';
 import Page from '../layout/Page';
@@ -46,26 +47,30 @@ export class SetPassword extends Component {
       if (errorLocations.includes('new_password')) {
         location = 'newPassword';
       }
-      if (location && this.refs[location].getValue()) {
-        this.refs[location].select();
+      if (location && this.fields[location].getValue()) {
+        this.fields[location].select();
       } else if (location) {
-        this.refs[location].focus();
+        this.fields[location].focus();
       }
     }
+  }
+
+  fields = {
+    newPassword: null,
   }
 
   handleFormSubmit(e) {
     const { isSettingPassword, dispatch, params: { resetToken } } = this.props;
     e.preventDefault();
-    const newPassword = this.refs.newPassword.getValue();
+    const newPassword = this.fields.newPassword.getValue();
     if (isSettingPassword) {
       return;
     }
     if (!newPassword) {
-      this.refs.newPassword.focus();
+      this.fields.newPassword.focus();
       return;
     }
-    this.refs.newPassword.blur();
+    this.fields.newPassword.blur();
     dispatch(setPassword(newPassword, resetToken)).then(() => this.setState({ sent: true }));
   }
 
@@ -102,11 +107,11 @@ export class SetPassword extends Component {
             </p>
           }
 
-          <form onSubmit={ e => this.handleFormSubmit(e) } className="Frame-form" noValidate>
+          <Form onSubmit={ e => this.handleFormSubmit(e) } className="Frame-form">
 
             <TextField
               autoFocus
-              ref="newPassword"
+              ref={ el => { this.fields.newPassword = el; } }
               disabled={ isSettingPassword }
               name="newPassword"
               type="password"
@@ -116,6 +121,7 @@ export class SetPassword extends Component {
             />
 
             <Button
+              type="submit"
               style={ { marginTop: '1rem' } }
               kind="primary"
               block
@@ -132,7 +138,7 @@ export class SetPassword extends Component {
                 /> }
             </Button>
 
-          </form>
+          </Form>
         </div>
       </Frame>
     );

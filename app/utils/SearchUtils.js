@@ -25,7 +25,7 @@ export function getQuerystringFromSearchParams(params) {
   const { shout_type, category, min_price, max_price, search, filters, within, free } = params;
   let queryAsString = '';
   const query = [];
-  if (shout_type && ['request', 'offer'].indexOf(shout_type) > -1) {
+  if (shout_type && ['request', 'offer'].indexOf(shout_type) !== -1) {
     query.push(`shout_type=${shout_type}`);
   }
   if (category) {

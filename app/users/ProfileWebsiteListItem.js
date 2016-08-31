@@ -8,7 +8,7 @@ export default function ProfileWebsiteListItem({ profile, size = 'medium' }) {
     return <div />;
   }
   return (
-    <a href={ website } target="_blank">
+    <a href={ website } target="_blank" rel="noopener noreferrer">
       <ListItem
         className="ProfileWebsiteListItem"
         size={ size }

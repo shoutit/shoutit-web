@@ -2,19 +2,22 @@
 
 import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
-
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { logout } from '../../actions/session';
-import { getLoggedUser } from '../../reducers/session';
+
+import SwitchToPageModal from '../../users/SwitchToPageModal';
+
+import { openModal } from '../../actions/ui';
+import { getLoggedProfile, getLoggedAccount } from '../../reducers/session';
+import { cancelAuthentication } from '../../actions/session';
 
 import './ProfileOverlay.scss';
 
-export function ProfileOverlay({ profile, onLogoutClick, onItemClick }) {
+export function ProfileOverlay({ profile, account, closeOverlay, onSwitchToPageClick, onCancelAuthenticationClick }) {
   return (
     <ul className="ProfileOverlay">
       <li>
-        <Link onClick={ onItemClick } to={ `/user/${profile.username}` }>
+        <Link onClick={ closeOverlay } to={ `/user/${profile.username}` }>
           <FormattedMessage
             id="header.profilePopover.menu.profile"
             defaultMessage="{name}"
@@ -22,8 +25,25 @@ export function ProfileOverlay({ profile, onLogoutClick, onItemClick }) {
           />
         </Link>
       </li>
+      <li>
+        { profile.username !== account.username ?
+          <a onClick={ onCancelAuthenticationClick }>
+            <FormattedMessage
+              id="header.profilePopover.menu.switchToAccount"
+              defaultMessage="Use as {name}"
+              values={ account }
+            />
+          </a> :
+          <a onClick={ onSwitchToPageClick }>
+            <FormattedMessage
+              id="header.profilePopover.menu.switchToPage"
+              defaultMessage="Use as Page…"
+            />
+          </a>
+        }
+      </li>
       <li className="separe">
-        <Link onClick={ onItemClick } to="/settings">
+        <Link onClick={ closeOverlay } to="/settings">
           <FormattedMessage
             id="header.profilePopover.menu.setting"
             defaultMessage="Settings"
@@ -31,12 +51,12 @@ export function ProfileOverlay({ profile, onLogoutClick, onItemClick }) {
         </Link>
       </li>
       <li>
-        <Link to="/" onClick={ onLogoutClick }>
+        <a href="/logout">
           <FormattedMessage
             id="header.profilePopover.menu.logout"
             defaultMessage="Logout"
           />
-        </Link>
+        </a>
       </li>
     </ul>
   );
@@ -44,18 +64,24 @@ export function ProfileOverlay({ profile, onLogoutClick, onItemClick }) {
 
 ProfileOverlay.propTypes = {
   profile: PropTypes.object.isRequired,
-  onLogoutClick: PropTypes.func.isRequired,
-  onItemClick: PropTypes.func.isRequired,
+  account: PropTypes.object.isRequired,
+  closeOverlay: PropTypes.func.isRequired,
+  onSwitchToPageClick: PropTypes.func.isRequired,
+  onCancelAuthenticationClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  profile: getLoggedUser(state),
+  profile: getLoggedProfile(state),
+  account: getLoggedAccount(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  onLogoutClick: e => {
-    e.preventDefault();
-    dispatch(logout()).then(() => window.location.reload());
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  onSwitchToPageClick: () => {
+    ownProps.closeOverlay();
+    dispatch(openModal(<SwitchToPageModal />));
+  },
+  onCancelAuthenticationClick: () => {
+    dispatch(cancelAuthentication()).then(() => window.location = '/');
   },
 });
 

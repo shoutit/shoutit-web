@@ -1,10 +1,10 @@
 /* eslint-env browser */
 
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, defineMessages, FormattedMessage } from 'react-intl';
 
-import { PaginationPropTypes } from '../utils/PropTypes';
+import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 import Device from '../utils/Device';
 
 import Helmet from '../utils/Helmet';
@@ -55,7 +55,7 @@ export class Profile extends Component {
     params: PropTypes.object.isRequired,
     intl: PropTypes.object.isRequired,
     profile: PropTypes.object,
-    ...PaginationPropTypes,
+    pagination: PropTypes.shape(PaginationPropTypes),
   };
 
   static fetchData = fetchData;
@@ -75,14 +75,15 @@ export class Profile extends Component {
   }
 
   render() {
-    const { profile, shouts, isFetching, nextUrl, dispatch } = this.props;
+    const { profile, shouts, pagination, dispatch } = this.props;
+    const { isFetching, nextUrl } = pagination;
     const { formatMessage } = this.props.intl;
     return (
       <Scrollable
         scrollElement={ () => window }
         onScrollBottom={ () => {
           if (nextUrl && !isFetching) {
-            dispatch(loadShoutsByUsername(profile.username, nextUrl));
+            dispatch(loadShoutsByUsername(profile.username, { endpoint: nextUrl }));
           }
         } }
         triggerOffset={ 400 }
@@ -115,30 +116,30 @@ export class Profile extends Component {
 
                   <div className="Profile-shouts">
                     <div>
-                      { shouts.length > 0 &&
+                      { shouts && shouts.length > 0 &&
                         <h2>
                           { profile.isOwner ?
                             <FormattedMessage
                               id="profile.me.shoutsList.header"
                               defaultMessage="Your shouts ({count})"
-                              values={ { count: this.props.count } }
+                              values={ { count: this.props.pagination.count } }
                             /> :
                             <FormattedMessage
                               id="profile.others.shoutsList.header"
                               defaultMessage="{name}’s shouts ({count})"
                               values={ {
                                 name: profile.name,
-                                count: this.props.count,
+                                count: this.props.pagination.count,
                               } }
                             />
                           }
                         </h2>
                       }
-                      { shouts.length > 0 && <ShoutsList shouts={ shouts } showProfile={ false } /> }
+                      { shouts && <ShoutsList shouts={ shouts } showProfile={ false } /> }
 
                       <Progress animate={ isFetching } />
                     </div>
-                    { !isFetching && shouts.length === 0 &&
+                    { shouts && !isFetching && shouts.length === 0 &&
                       <h2>
                         <FormattedMessage
                           id="profile.others.shoutsList.noshouts"
@@ -171,7 +172,7 @@ export class Profile extends Component {
 const mapStateToProps = (state, ownProps) => ({
   profile: getProfile(state, ownProps.params.username),
   shouts: getShoutsByUsername(state, ownProps.params.username),
-  ...getPaginationState(state, ownProps.params.username),
+  pagination: getPaginationState(state, ownProps.params.username),
 });
 
 const Wrapped = connect(mapStateToProps)(injectIntl(Profile));

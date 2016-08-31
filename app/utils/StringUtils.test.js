@@ -1,4 +1,4 @@
-/* eslint-env mocha */
+
 import { expect } from 'chai';
 import { getFilename, toTitleCase, removeParamsFromUrl } from "./StringUtils"; // eslint-disable-line
 

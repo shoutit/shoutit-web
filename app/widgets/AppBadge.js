@@ -19,7 +19,7 @@ export function AppBadge({ appstore, language, ...props }) {
   }
   delete props.dispatch;
   return (
-    <a href={ href } target="_blank" className="AppBadge">
+    <a href={ href } target="_blank" rel="noopener noreferrer" className="AppBadge">
       <img
         { ...props }
         src={ `${imagesPath}/badges/${image}.${language}.png` }

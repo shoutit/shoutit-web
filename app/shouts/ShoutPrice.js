@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import { FormattedNumber, FormattedMessage } from 'react-intl';
 
 import './ShoutPrice.scss';
+
 export default function ShoutPrice({ shout, layout = 'plain' }) {
   let { price } = shout;
   const isFree = price === 0;
@@ -12,7 +13,7 @@ export default function ShoutPrice({ shout, layout = 'plain' }) {
   if (isFree) {
     className += ' free';
   } else {
-    price = price / 100;
+    price /= 100;
   }
 
   return (

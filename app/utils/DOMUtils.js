@@ -1,8 +1,8 @@
 /* eslint-env browser */
+import debug from 'debug';
 
 import { getVariation } from './APIUtils';
 import { imagesPath } from '../config';
-import debug from 'debug';
 
 export function getDocumentScrollTop() {
   if (window.pageYOffset !== 'undefined') {
@@ -56,7 +56,7 @@ export function blurActiveElement() {
 
 let scrollTop;
 export function preventBodyScroll() {
-  const log = debug('shoutit:preventBodyScroll');
+  const log = debug('shoutit:utils:DOMUtils:preventBodyScroll');
   function on() {
     scrollTop = getDocumentScrollTop();
     if (document.documentElement.clientHeight === document.documentElement.scrollHeight) {

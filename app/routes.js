@@ -15,6 +15,7 @@ import Interest from './containers/Interest';
 import Login from './containers/Login';
 import NotFound from './containers/NotFound';
 import Profile from './containers/Profile';
+import PublicChat from './containers/PublicChat';
 import ResetPassword from './containers/ResetPassword';
 import Search from './containers/Search';
 import SetPassword from './containers/SetPassword';
@@ -39,19 +40,24 @@ const staticAppLayout = () => ({
   stickyHeader: false,
 });
 
+const chatAppLayout = () => ({
+  fullHeight: true,
+  showFooter: false,
+});
+
 const routes = (store) =>
   <Route component={ Application }>
     <Route path="/"
       getApplicationLayout={ () => ({
-        stickyHeader: !!store.getState().session.user,
+        stickyHeader: !!store.getState().session.profile,
         showFooter: true,
-        showHeader: !!store.getState().session.user,
+        showHeader: !!store.getState().session.profile,
       }) }
       getResponsiveLayout={ () => ({
-        constrainMaxWidth: !!store.getState().session.user,
+        constrainMaxWidth: !!store.getState().session.profile,
       }) }
       getComponent={ (location, callback) => {
-        const Component = store.getState().session.user ? Dashboard : Homepage;
+        const Component = store.getState().session.profile ? Dashboard : Homepage;
         callback(null, Component);
         return Component;
       } }
@@ -75,10 +81,8 @@ const routes = (store) =>
     <Route path="/user/:username(/:shout_type)" component={ Profile } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/discover/:country(/:id)" component={ Discover } />
-    <Route path="/messages(/:conversationId)" component={ Chat } getApplicationLayout={ () => ({
-      fullHeight: true,
-      showFooter: false,
-    }) } />
+    <Route path="/messages(/:conversationId)" component={ Chat } getApplicationLayout={ chatAppLayout } />
+    <Route path="/chat(/:conversationId)" component={ PublicChat } getApplicationLayout={ chatAppLayout } />
     <Redirect from="/settings" to="/settings/profile" />
     <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ settingsAppLayout } />
     <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ settingsAppLayout } />

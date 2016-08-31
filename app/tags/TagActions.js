@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router';
 
 import { listenToTag, stopListeningToTag } from '../actions/tags';
-import { Link } from 'react-router';
 
 import RequiresLogin from '../auth/RequiresLogin';
 import { LISTEN_TAG } from '../auth/loginActions';
 
 import Icon from '../widgets/Icon';
 import ListItem from '../layout/ListItem';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 export class TagActions extends Component {
 
@@ -91,4 +91,4 @@ export class TagActions extends Component {
 
 }
 
-export default connect(state => ({ loggedUser: getLoggedUser(state) }))(TagActions);
+export default connect(state => ({ loggedUser: getLoggedProfile(state) }))(TagActions);

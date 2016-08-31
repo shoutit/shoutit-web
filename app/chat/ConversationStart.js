@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
-import ProfileAvatar from '../users/ProfileAvatar';
 import { FormattedMessage } from 'react-intl';
+
+import ProfileAvatar from '../users/ProfileAvatar';
 
 import './ConversationStart.scss';
 
@@ -18,8 +19,8 @@ export default function ConversationStart({ conversation }) {
           <p className="htmlAncillary">
             <FormattedMessage
               id="chat.newConversation.welcome"
-              defaultMessage="To start chatting, write {firstName} a message."
-              values={ { firstName: profile.firstName } }
+              defaultMessage="To start chatting, write {name} a message."
+              values={ profile }
             />
           </p>
         </div>
@@ -28,8 +29,8 @@ export default function ConversationStart({ conversation }) {
           <p className="htmlAncillary">
             <FormattedMessage
               id="chat.replyForm.welcome"
-              defaultMessage="To start chatting about this Shout, write {firstName} a message."
-              values={ { firstName: profile.firstName } }
+              defaultMessage="To start chatting about this Shout, write {name} a message."
+              values={ profile }
             />
           </p>
         </div>

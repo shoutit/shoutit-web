@@ -7,20 +7,18 @@ export default createPaginatedReducer({
   mapActionToKey: action => action.payload.username,
   mapActionToTempId: action => action.payload.shout.id,
   fetchTypes: [
-    actionTypes.LOAD_USER_SHOUTS_START,
-    actionTypes.LOAD_USER_SHOUTS_SUCCESS,
-    actionTypes.LOAD_USER_SHOUTS_FAILURE,
+    actionTypes.LOAD_PROFILE_SHOUTS_START,
+    actionTypes.LOAD_PROFILE_SHOUTS_SUCCESS,
+    actionTypes.LOAD_PROFILE_SHOUTS_FAILURE,
   ],
 });
 
 export function getShoutsByUsername(state, username) {
   const paginated = state.paginated.shoutsByUsername[username];
   if (!paginated) {
-    return [];
+    return undefined;
   }
-  return paginated.ids.map(id =>
-    denormalize(state.entities.shouts[id], state.entities, 'SHOUT')
-  );
+  return denormalize(paginated.ids, state.entities, 'SHOUTS');
 }
 
 export function getPaginationState(state, username) {

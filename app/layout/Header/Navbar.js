@@ -7,26 +7,23 @@ import { getLocationPath } from '../../utils/LocationUtils';
 
 import './Navbar.scss';
 
-function getDiscoverLink(location) {
-  let link = '/discover';
-  if (location.country) {
-    link += `/${location.country.toLowerCase()}`;
-  }
-  return link;
-}
-
 class Navbar extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired,
   }
   render() {
+    const { location } = this.props;
+    const country = location.country.toLowerCase();
     return (
       <div className="Navbar">
-        <Link to={ `/search${getLocationPath(this.props.location)}` } activeClassName="active">
+        <Link to={ `/search${getLocationPath(location)}` } activeClassName="active">
           <FormattedMessage id="layout.Navbar.browse" defaultMessage="Browse" />
         </Link>
-        <Link to={ getDiscoverLink(this.props.location) } activeClassName="active" >
+        <Link to={ `/discover/${country}` } activeClassName="active">
           <FormattedMessage id="layout.Navbar.discover" defaultMessage="Discover" />
+        </Link>
+        <Link to="/chat" activeClassName="active">
+          <FormattedMessage id="layout.Navbar.publicChats" defaultMessage="Public Chats" />
         </Link>
       </div>
     );
@@ -34,6 +31,6 @@ class Navbar extends Component {
 }
 
 // Connecting to current url is required to make the active class name working
-// This should be solved when moving to a bette router
+// This should be solved when moving to a better router
 const mapStateToProps = state => ({ currentUrl: getCurrentUrl(state) });
 export default connect(mapStateToProps)(Navbar);

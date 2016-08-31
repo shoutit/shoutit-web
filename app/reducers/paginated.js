@@ -1,37 +1,40 @@
-import omit from 'lodash/omit';
 import get from 'lodash/get';
 import { combineReducers } from 'redux';
 
-import chatConversations from './paginated/chatConversations';
+import conversations from './paginated/conversations';
 import discoverItemsByCountry from './paginated/discoverItemsByCountry';
 import listenersByTag from './paginated/listenersByTag';
 import listenersByUser from './paginated/listenersByUser';
 import listeningByUser from './paginated/listeningByUser';
 import messagesByConversation from './paginated/messagesByConversation';
 import notifications from './paginated/notifications';
+import pagesByUsername from './paginated/pagesByUsername';
+import publicChats from './paginated/publicChats';
 import relatedShoutsByShout from './paginated/relatedShoutsByShout';
 import relatedTagsByTag from './paginated/relatedTagsByTag';
+import shouts from './paginated/shouts';
 import shoutsByDiscoverItem from './paginated/shoutsByDiscoverItem';
 import shoutsByHome from './paginated/shoutsByHome';
-import shouts from './paginated/shouts';
 import shoutsByTagSlug from './paginated/shoutsByTagSlug';
 import shoutsByUsername from './paginated/shoutsByUsername';
 import suggestions from './paginated/suggestions';
 import tagListeningByUser from './paginated/tagListeningByUser';
 
 export default combineReducers({
-  chatConversations,
+  conversations,
   discoverItemsByCountry,
-  listenersByUser,
   listenersByTag,
+  listenersByUser,
   listeningByUser,
   messagesByConversation,
   notifications,
+  pagesByUsername,
+  publicChats,
   relatedShoutsByShout,
   relatedTagsByTag,
+  shouts,
   shoutsByDiscoverItem,
   shoutsByHome,
-  shouts,
   shoutsByTagSlug,
   shoutsByUsername,
   suggestions,
@@ -61,5 +64,5 @@ export function getPagination(state, path) {
       count: 0,
     };
   }
-  return omit(paginationState, 'ids');
+  return paginationState;
 }

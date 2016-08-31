@@ -27,12 +27,12 @@ import SuggestedProfiles from '../users/SuggestedProfiles';
 import SuggestedShout from '../shouts/SuggestedShout';
 
 import { getHomepageShouts, getPaginationState } from '../reducers/paginated/shoutsByHome';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 
 const MESSAGES = defineMessages({
   title: {
     id: 'dashboard.page.title',
-    defaultMessage: '{firstName}’s Home Page',
+    defaultMessage: '{name}’s Home Page',
   },
 });
 
@@ -76,7 +76,7 @@ export class Dashboard extends Component {
   render() {
     const { shouts, nextUrl, dispatch, isFetching, profile, error } = this.props;
     const { formatMessage } = this.props.intl;
-    const title = formatMessage(MESSAGES.title, { firstName: profile.firstName });
+    const title = formatMessage(MESSAGES.title, profile);
     return (
       <Scrollable
         scrollElement={ () => window }
@@ -92,8 +92,8 @@ export class Dashboard extends Component {
             <h2>
               <FormattedMessage
                 id="dashboard.welcome"
-                defaultMessage="Welcome back, {firstName}"
-                values={ { firstName: profile.firstName } }
+                defaultMessage="Welcome back, {name}"
+                values={ profile }
               />
             </h2>
 
@@ -187,7 +187,7 @@ export class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  profile: getLoggedUser(state),
+  profile: getLoggedProfile(state),
   shouts: getHomepageShouts(state),
   ...getPaginationState(state),
 });

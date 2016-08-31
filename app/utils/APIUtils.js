@@ -46,7 +46,7 @@ export function getErrorsByLocation(apiError, locations) {
   if (!apiError.hasOwnProperty('errors')) {
     return undefined;
   }
-  return apiError.errors.filter(error => locations.indexOf(error.location) > -1);
+  return apiError.errors.filter(error => locations.indexOf(error.location) !== -1);
 }
 
 export function getErrorLocations(apiError) {

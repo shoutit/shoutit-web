@@ -65,7 +65,7 @@ export const loadRelatedTags = (tag, query, endpoint) => ({
   },
 });
 
-export const loadTagListeners = (tag, endpoint) => ({
+export const loadTagListeners = (tag, { endpoint, query }) => ({
   types: [
     actionTypes.LOAD_TAG_LISTENERS_START,
     actionTypes.LOAD_TAG_LISTENERS_SUCCESS,
@@ -74,7 +74,11 @@ export const loadTagListeners = (tag, endpoint) => ({
   payload: { tag },
   service: {
     name: 'tagListeners',
-    params: { slug: tag.slug, endpoint },
+    params: {
+      slug: tag.slug,
+      endpoint,
+      query,
+    },
     schema: PROFILES,
   },
 });

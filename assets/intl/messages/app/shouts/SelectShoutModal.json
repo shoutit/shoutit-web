@@ -1,0 +1,10 @@
+[
+  {
+    "id": "SelectShoutModal.title",
+    "defaultMessage": "Shouts"
+  },
+  {
+    "id": "SelectShoutModal.closeButton",
+    "defaultMessage": "Close"
+  }
+]

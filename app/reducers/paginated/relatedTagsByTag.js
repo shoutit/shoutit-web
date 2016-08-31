@@ -11,9 +11,9 @@ export default createPaginatedReducer({
 });
 
 export function getRelatedTags(state, id) {
-  const relatedTags = state.paginated.relatedTagsByTag[id];
-  if (!relatedTags) {
-    return [];
+  const paginated = state.paginated.relatedTagsByTag[id];
+  if (!paginated || !paginated.ids) {
+    return undefined;
   }
-  return relatedTags.ids.map(id => state.entities.tags[id]);
+  return paginated.ids.map(id => state.entities.tags[id]);
 }

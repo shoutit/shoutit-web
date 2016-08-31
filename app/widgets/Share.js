@@ -6,6 +6,8 @@ import { getVariation } from '../utils/APIUtils';
 import Tooltip from '../widgets/Tooltip';
 import { siteUrl } from '../config';
 
+import './Share.scss';
+
 const { FacebookShareButton, GooglePlusShareButton, TwitterShareButton, PinterestShareButton } = ShareButtons;
 const { FacebookShareCount, GooglePlusShareCount, PinterestShareCount } = ShareCounts;
 
@@ -15,8 +17,6 @@ const GooglePlusIcon = generateShareIcon('google');
 const PinterestIcon = generateShareIcon('pinterest');
 
 const DEFAULT_TITLE = 'Shoutit - Buy and sell while chatting';
-
-import './Share.scss';
 
 const MESSAGES = defineMessages({
   defaultTitle: {

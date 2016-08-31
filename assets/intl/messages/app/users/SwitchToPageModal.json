@@ -1,0 +1,14 @@
+[
+  {
+    "id": "users.SwitchToPageModal.title",
+    "defaultMessage": "Use Shoutit as page"
+  },
+  {
+    "id": "users.SwitchToPageModal.noPages",
+    "defaultMessage": "You don't have any page."
+  },
+  {
+    "id": "users.SwitchToPageModal.closeButton",
+    "defaultMessage": "Close"
+  }
+]

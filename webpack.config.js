@@ -1,4 +1,4 @@
-/* eslint no-var: 0, vars-on-top: 0, object-shorthand: 0, prefer-template: 0 */
+/* eslint no-var: 0, vars-on-top: 0, prefer-arrow-callback: 0, object-shorthand: 0, prefer-template: 0 */
 /* eslint-env node */
 
 require('babel-register');
@@ -13,6 +13,7 @@ var WebpackErrorNotificationPlugin = require('webpack-error-notification');
 var StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 var CopyPlugin = require('copy-webpack-plugin');
 var WebpackRTLPlugin = require('webpack-rtl-plugin');
+
 var isDevelopment = process.env.NODE_ENV === 'development';
 
 var context = path.join(__dirname, './app');
@@ -30,12 +31,13 @@ NotifyConfigPlugin.prototype.apply = () => {
 };
 
 module.exports = {
-  devtool: isDevelopment ? '#cheap-module-eval-source-map' : '#source-map',
+  cache: isDevelopment,
+  devtool: isDevelopment ? 'eval' : '#source-map',
   context: context,
   entry: entries,
   output: {
     path: path.join(__dirname, 'built/public/'),
-    filename: isDevelopment ? 'main.js' : '/scripts/[name]-[hash].js',
+    filename: isDevelopment ? '[name].js' : '/scripts/[name]-[chunkhash].js',
     chunkFilename: isDevelopment ? '[name].js' : '/scripts/[name]-[chunkhash].js',
     publicPath: isDevelopment ? config.publicUrl + '/assets/' : `${config.publicUrl}`,
   },
@@ -91,9 +93,7 @@ module.exports = {
   },
 
   plugins: [
-
     !isDevelopment ? new NotifyConfigPlugin() : noop,
-
     new webpack.DefinePlugin({
       'process.env': {
         SHOUTIT_ENV: JSON.stringify(process.env.SHOUTIT_ENV),
@@ -103,7 +103,16 @@ module.exports = {
         BROWSER: JSON.stringify(true),
       },
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
+
+    // Optimizations
+
+    new webpack.DllReferencePlugin({
+      manifest: isDevelopment ?
+        require('./assets/scripts/vendors-manifest.json') :
+        require('./built/public/vendors-manifest.json'),
+      context: process.cwd(),
+    }),
+
     new ExtractTextPlugin(isDevelopment ? 'main.css' : '/styles/main-[contenthash].css'),
     !isDevelopment ? new WebpackRTLPlugin({ filename: '/styles/main-[contenthash]-rtl.css' }) : noop,
     isDevelopment ? new webpack.HotModuleReplacementPlugin() : noop,
@@ -113,6 +122,7 @@ module.exports = {
     !isDevelopment ? // Write out stats.json file to build directory.
       new StatsWriterPlugin({
         fields: ['assetsByChunkName', 'assets'],
+        filename: 'chunknames-app.json',
         transform: function transform(data) {
           const cssRtl = data.assets.find(function findRtlCss(asset) {
             return asset.name.split('-').slice(-1)[0] === 'rtl.css';

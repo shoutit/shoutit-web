@@ -83,19 +83,19 @@ export class ProfileAvatarEditable extends Component {
         { label: formatMessage(MESSAGES.cancel) },
         {
           label: formatMessage(MESSAGES.confirm),
-          kind: 'primary',
-          onClick: () => {
+          kind: 'destructive',
+          action: modal => {
+            modal.submit();
             request
               .delete('/api/file/user')
               .query({ name: getFilename(profile.image) })
               .end((err, res) => {
                 if (err || !res.ok) {
-                  console.error(err); // eslint-disable-line
+                  console.error(err);
                   return;
                 }
               });
-
-            updateProfile({ id: profile.id, image: null });
+            updateProfile({ id: profile.id, image: null }).then(modal.hide);
           },
         },
       ]

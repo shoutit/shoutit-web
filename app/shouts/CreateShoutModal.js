@@ -12,7 +12,7 @@ import { openModal } from '../actions/ui';
 
 import ShoutForm from './ShoutForm';
 import CreateShoutSuccessModal from './CreateShoutSuccessModal';
-import { getLoggedUser } from '../reducers/session';
+import { getLoggedProfile } from '../reducers/session';
 import { getShoutDraft } from '../reducers/shoutDraft';
 
 import './CreateShoutModal.scss';
@@ -37,7 +37,7 @@ export class CreateShoutModal extends Component {
 
   state = {
     isUploading: false,
-    isCreating: false,
+    isSubmitting: false,
     error: null,
   }
 
@@ -48,14 +48,14 @@ export class CreateShoutModal extends Component {
   }
 
   handleSubmit() {
-    if (this.state.isCreating || this.state.isUploading) {
+    if (this.state.isSubmitting || this.state.isUploading) {
       return;
     }
-    this.setState({ isCreating: true });
+    this.setState({ isSubmitting: true });
     this.props.onSubmit(this.props.loggedUser, this.state.shout)
       .then(payload => this.props.onCreateSuccess(payload.result))
       .catch(error => this.setState({
-        isCreating: false,
+        isSubmitting: false,
         error,
       }));
   }
@@ -68,23 +68,15 @@ export class CreateShoutModal extends Component {
   }
 
   hide() {
-    this.refs.modal.hide();
+    this.modal.hide();
   }
 
   render() {
-    const { isUploading, isCreating, error } = this.state;
-    let submitLabel = (<FormattedMessage
-      id="createShoutModal.publishButton.defaultLabel"
-      defaultMessage="Publish"
-    />);
-    if (isUploading) {
-      submitLabel = (<FormattedMessage
-        id="createShoutModal.publishButton.uploadingImages"
-        defaultMessage="Uploading…"
-      />);
-    }
     return (
-      <Modal { ...this.props } ref="modal">
+      <Modal
+        { ...this.props }
+        ref={ el => this.modal = el }
+        isSubmitting={ this.state.isSubmitting }>
         <Header closeButton>
           <FormattedMessage
             id="createShoutModal.title"
@@ -96,9 +88,9 @@ export class CreateShoutModal extends Component {
           <div className="CreateShoutModal">
             <div style={ { marginBottom: '1rem' } }>
               <ShoutForm
-                disabled={ isCreating }
+                disabled={ this.state.isSubmitting }
                 shout={ this.state.shout }
-                error={ error }
+                error={ this.state.error }
                 onSubmit={ this.handleSubmit }
                 onChange={ this.handleFormChange }
                 onUploadStart={ () => this.setState({ isUploading: true }) }
@@ -112,8 +104,17 @@ export class CreateShoutModal extends Component {
             onClick={ this.handleSubmit }
             key="submit"
             kind="primary"
-            disabled={ isCreating || isUploading }>
-            { submitLabel }
+            disabled={ this.state.isSubmitting || this.state.isUploading }>
+            { this.state.isUploading ?
+              <FormattedMessage
+                id="createShoutModal.publishButton.uploadingImages"
+                defaultMessage="Uploading…"
+              /> :
+              <FormattedMessage
+                id="createShoutModal.publishButton.defaultLabel"
+                defaultMessage="Publish"
+              />
+            }
           </Button>
         </Footer>
       </Modal>
@@ -129,7 +130,7 @@ const mapStateToProps = (state, ownProps) => ({
     getShoutDraft(state),
     { type: ownProps.shout.type }
   ),
-  loggedUser: getLoggedUser(state),
+  loggedUser: getLoggedProfile(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -6,7 +6,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { getTwilioToken, addIncomingInvite, setOutgoingInvite } from '../actions/videocalls';
 import { loadUser } from '../actions/users';
 
-const log = debug('shoutit:twilio-middleware');
+const log = debug('shoutit:middleware:twilio');
 
 let conversationsClient;
 

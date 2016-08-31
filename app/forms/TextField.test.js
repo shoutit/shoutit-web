@@ -8,13 +8,13 @@ describe('forms/TextField', () => {
 
   it('should render an input text form field', () => {
     const textField = TestUtils.renderIntoDocument(<TextField name="test" />);
-    expect(textField.refs.field.props.field).to.equal('input');
-    expect(textField.refs.field.props.type).to.equal('text');
+    expect(textField.field.props.field).to.equal('input');
+    expect(textField.field.props.type).to.equal('text');
   });
 
   it('should accept different types', () => {
     const textField = TestUtils.renderIntoDocument(<TextField type="email" name="test" />);
-    expect(textField.refs.field.props.type).to.equal('email');
+    expect(textField.field.props.type).to.equal('email');
   });
 
   describe('when type is `url`', () => {

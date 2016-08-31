@@ -1,14 +1,14 @@
 import { normalize } from 'normalizr';
-import { camelizeKeys } from 'humps';
-
+import debug from 'debug';
 import merge from 'lodash/merge';
 
 export default fetchr => store => next => action => { // eslint-disable-line no-unused-vars
+
   if (!action.service) {
     return next(action);
   }
-
   const { service, types } = action;
+  const log = debug(`shoutit:middlewares:services:${service.name}`);
 
   if (typeof service !== 'object') {
     throw new Error('fetchrMiddlware: service must be an object');
@@ -34,6 +34,8 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
 
   const [startType, successType, failureType] = types;
 
+  log('Fetching data with %s...', startType, action);
+
   next(actionWith({ type: startType }));
 
   return new Promise((resolve, reject) => {
@@ -41,7 +43,6 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
       .params(params)
       .body(body)
       .end((err, json) => {
-
         if (err) {
           const error = err.body || err;
           next(actionWith({
@@ -52,8 +53,8 @@ export default fetchr => store => next => action => { // eslint-disable-line no-
           reject(error);
           return;
         }
-
-        let payload = camelizeKeys(json);
+        let payload = json;
+        log('Data has been fetched for %s', successType, payload);
         if (payload) {
           if (schema) {
             // Parse the result according to the schema, eventually adding

@@ -1,14 +1,5 @@
 @import '../styles/constants.scss';
 
-.Form-actions {
-  text-align: center;
-  padding-top: 1rem;
-
-  > * {
-    margin-left: 1rem;
-  }
-}
-
 .Form-errors {
   color: $input-error;
 }

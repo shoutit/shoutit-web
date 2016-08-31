@@ -53,6 +53,8 @@ export function Helmet({
 }) {
   if (!title) {
     title = defaultTitle;
+  } else {
+    title += ' - Shoutit';
   }
   if (title && !hideBadge && badge > 0) {
     title = `(${badge}) ${title}`;

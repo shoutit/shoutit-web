@@ -1,5 +1,6 @@
-import hexToRgba from './hexToRgba';
 import { expect } from 'chai';
+
+import hexToRgba from './hexToRgba';
 
 describe('utils/hexToRgba', () => {
   it('should convert a 8-hex string to rgba', () => {

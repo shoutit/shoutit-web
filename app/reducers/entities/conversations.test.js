@@ -1,6 +1,7 @@
-/* eslint-env mocha */
-import { getConversation } from './conversations';
+
 import { expect } from 'chai';
+import { getConversation } from './conversations';
+
 // import * as actionTypes from '../../actions/actionTypes';
 describe('reducers/currencies', () => {
 

@@ -1,5 +1,6 @@
 import request from '../utils/request';
 import { parseApiError } from '../utils/APIUtils';
+
 export default {
   name: 'setPassword',
   create: (req, resource, params, { newPassword, resetToken }, config, callback) => {
@@ -7,6 +8,7 @@ export default {
       .post('/auth/set_password')
       .use(req)
       .prefix()
+      .camelizeResponseBody()
       .send({
         reset_token: resetToken,
         new_password: newPassword,

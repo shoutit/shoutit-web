@@ -1,8 +1,7 @@
-/* eslint no-console: 0 */
+import debug from 'debug';
 
 import * as AWS from '../utils/AWS';
 import { s3Buckets } from '../config';
-import debug from 'debug';
 
 const log = debug('shoutit:services:staticHtml');
 
@@ -63,19 +62,19 @@ export default {
   name: 'staticHtml',
   read: (req, resource, { pageName }, config, callback) => {
 
-    log('Getting page "%s" (%s)...', pageName, req.language);
+    log('Getting page "%s" (%s)...', pageName, req.session.language);
 
     if (req.query.hasOwnProperty('invalidateCache')) {
       invalidateCache(pageName);
     }
 
-    const content = getCachedContent(pageName, req.language);
+    const content = getCachedContent(pageName, req.session.language);
     if (content) {
-      log('Page "%s" (%s) found in cache, will skip AWS request', pageName, req.language);
+      log('Page "%s" (%s) found in cache, will skip AWS request', pageName, req.session.language);
       callback(null, { content });
       return;
     }
-    const key = `${pageName}.${req.language}.html`;
+    const key = `${pageName}.${req.session.language}.html`;
     getObjectFromAWS(key)
       .then(data => data, reason => {
         log('Error retrieving key %s, trying english version...', key, reason.message);
@@ -83,7 +82,7 @@ export default {
       })
       .then(data => {
         const content = data.Body.toString();
-        cacheContent(pageName, req.language, content);
+        cacheContent(pageName, req.session.language, content);
         callback(null, { content });
       })
       .catch(err => {

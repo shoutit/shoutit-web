@@ -8,6 +8,7 @@ import NewlineToBreak from '../widgets/NewlineToBreak';
 import Tooltip from '../widgets/Tooltip';
 
 import './MessageItem.scss';
+
 export default class MessageItem extends Component {
 
   static propTypes = {

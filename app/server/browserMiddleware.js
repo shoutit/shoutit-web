@@ -1,7 +1,7 @@
 import debug from 'debug';
 import isMobile from 'ismobilejs';
 
-const log = debug('shoutit:server:deviceMiddleware');
+const log = debug('shoutit:server:browserMiddleware');
 
 /**
  * Attach a req.browser string to the request object, detecting

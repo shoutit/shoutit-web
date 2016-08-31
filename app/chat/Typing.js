@@ -25,7 +25,11 @@ export function Typing({ profiles }) {
       />
     );
   }
-  return <div className="Typing">{ content }</div>;
+  const style = {};
+  if (!content) {
+    style.visibility = 'hidden';
+  }
+  return <div style={ style } className="Typing">{ content || '(placeholder)' }</div>;
 }
 
 Typing.propTypes = {

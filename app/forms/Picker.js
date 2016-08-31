@@ -8,23 +8,23 @@ export default class Picker extends Component {
     }
   }
   getValue() {
-    return this.refs.field.getValue();
+    return this.field.getValue();
   }
   setValue(value) {
-    this.refs.field.setValue(value);
+    this.field.setValue(value);
   }
   focus() {
-    this.refs.field.focus();
+    this.field.focus();
   }
   blur() {
-    this.refs.field.blur();
+    this.field.blur();
   }
   render() {
     return (
       <FormField
         { ...this.props }
         field="select"
-        ref="field">
+        ref={ el => { this.field = el; } }>
         { this.props.children }
       </FormField>
     );

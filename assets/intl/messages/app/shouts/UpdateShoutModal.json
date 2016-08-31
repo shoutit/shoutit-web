@@ -1,26 +1,18 @@
 [
   {
-    "id": "updateShoutModal.publishButton.uploadingImages",
-    "defaultMessage": "Uploading…"
-  },
-  {
-    "id": "updateShoutModal.publishButton.publishing",
-    "defaultMessage": "Publishing…"
-  },
-  {
-    "id": "updateShoutModal.publishButton.deleting",
-    "defaultMessage": "Deleting…"
-  },
-  {
-    "id": "updateShoutModal.publishButton.defaultLabel",
-    "defaultMessage": "Save changes"
-  },
-  {
     "id": "updateShoutModal.title",
     "defaultMessage": "Update Shout"
   },
   {
     "id": "updateShoutModal.publishButton.cancelButton",
     "defaultMessage": "Cancel"
+  },
+  {
+    "id": "updateShoutModal.publishButton.uploadingImages",
+    "defaultMessage": "Uploading…"
+  },
+  {
+    "id": "updateShoutModal.publishButton.defaultLabel",
+    "defaultMessage": "Save changes"
   }
 ]

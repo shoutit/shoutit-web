@@ -52,11 +52,11 @@ export default class NotificationItem extends Component {
 
     let className = 'NotificationItem';
     if (!notification.isRead) {
-      className = `${className} is-unread`;
+      className = `${className} isUnread`;
     }
     const { text, ranges } = notification.display;
     return (
-      <li className={ className }>
+      <div className={ className }>
         <Link onClick={ onClick } to={ notification.webUrl }>
           <div
             className="NotificationItem-image"
@@ -76,7 +76,7 @@ export default class NotificationItem extends Component {
             </div>
           </div>
         </Link>
-      </li>
+      </div>
     );
   }
 }

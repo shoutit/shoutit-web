@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
+import classNames from 'classnames';
 
 import Icon from '../widgets/Icon';
 
@@ -13,6 +14,7 @@ export default class Button extends Component {
     className: PropTypes.string,
     element: PropTypes.string,
     icon: PropTypes.string,
+    type: PropTypes.string,
     iconButton: PropTypes.bool,
     kind: PropTypes.oneOf(['default', 'primary', 'secondary', 'alternate', 'destructive', 'inverted', 'social']),
     size: PropTypes.oneOf(['small', 'medium']),
@@ -24,14 +26,40 @@ export default class Button extends Component {
     block: false,
     iconButton: false,
     element: 'button',
+    size: 'small',
+    type: 'button',
+  }
+
+  constructor(props) {
+    super(props);
+    if (props.element === 'button') {
+      this.state = {
+        type: props.type,
+      };
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.element === 'button' && this.props.type === 'submit') {
+      // Enable form submissions only when the component is mounted
+      this.enableSubmit();
+    }
+  }
+
+  node = null
+
+  enableSubmit() {
+    this.setState({
+      type: 'submit',
+    });
   }
 
   focus() {
-    this.refs.button.focus();
+    this.node.focus();
   }
 
   blur() {
-    this.refs.button.blur();
+    this.node.blur();
   }
 
   render() {
@@ -47,22 +75,12 @@ export default class Button extends Component {
       ...attributes,
     } = this.props;
 
-    let className = `Button ${kind}`;
-    if (icon) {
-      className += ' with-icon';
-    }
-    if (block) {
-      className += ' block';
-    }
-    if (attributes.disabled) {
-      className += ' disabled';
-    }
-    if (size) {
-      className += ` size-${size}`;
-    }
-    if (attributes.className) {
-      className += ` ${attributes.className}`;
-    }
+    const className = classNames(`Button ${kind}`, {
+      'with-icon': !!icon,
+      block: !!block,
+      disabled: attributes.disabled,
+    }, size ? `size-${size}` : null, attributes.className);
+
     const content = (
       <span>
         { icon &&
@@ -88,12 +106,16 @@ export default class Button extends Component {
     if (attributes.to) {
       elementClass = Link;
     }
-    return React.createElement(elementClass, {
+    if (element === 'button') {
+      attributes.type = this.state.type;
+    }
+    const props = {
       ...attributes,
       className,
       children: content,
-      ref: 'button',
-    });
+      ref: el => this.node = el,
+    };
+    return React.createElement(elementClass, props);
   }
 
 }
