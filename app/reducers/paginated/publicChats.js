@@ -1,3 +1,5 @@
+import union from 'lodash/union';
+
 import * as actionTypes from '../../actions/actionTypes';
 import createPaginatedReducer from './createPaginatedReducer';
 import { denormalize } from '../../schemas';
@@ -14,21 +16,30 @@ const paginated = createPaginatedReducer({
   //   actionTypes.CONVERSATION_CREATE_START,
   //   actionTypes.CONVERSATION_CREATE_SUCCESS,
   // ],
-  // addType: actionTypes.CONVERSATION_LOAD_SUCCESS,
   // deleteType: actionTypes.CONVERSATION_LEAVE_START,
 });
 
 export default function publicChats(state, action) {
+  let newState = paginated(state, action);
   switch (action.type) {
     case actionTypes.CURRENTLOCATION_UPDATE_SUCCESS:
-    case actionTypes.PUBLIC_CHATS_INVALIDATE:
       return {
         ids: [],
       };
+    case actionTypes.CONVERSATION_LOAD_SUCCESS:
+      const conversation = action.payload.entities.conversations[action.payload.result];
+      if (conversation.type === 'public_chat') {
+        newState = {
+          ...newState,
+          ids: union(newState.ids, [action.payload.result]),
+        };
+      }
+      break;
+
     default:
       break;
   }
-  return paginated(state, action);
+  return newState;
 }
 
 export function getPublicChats(state) {
