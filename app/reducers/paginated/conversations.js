@@ -19,10 +19,10 @@ export default createPaginatedReducer({
 });
 
 
-export function getAllConversations(state) {
-  return state.paginated.chatConversations.ids.map(id =>
+export function getConversations(state) {
+  return state.paginated.conversations.ids.map(id =>
     denormalize(state.entities.conversations[id], state.entities, 'CONVERSATION')
   ).sort((a, b) => b.modifiedAt - a.modifiedAt);
 }
 
-export const getPaginationState = state => getPagination(state, 'chatConversations');
+export const getPaginationState = state => getPagination(state, 'conversations');
