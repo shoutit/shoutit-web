@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
 import { loadConversations, loadPublicChats } from '../actions/chat';
+import { getCurrentLocation } from '../reducers/currentLocation';
 
 import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 
@@ -30,6 +31,7 @@ export class ConversationsList extends Component {
     loadConversations: PropTypes.func,
 
     selectedId: PropTypes.string,
+    country: PropTypes.string,
     showConversationDropdown: PropTypes.bool,
 
     pagination: PropTypes.shape(PaginationPropTypes),
@@ -40,12 +42,19 @@ export class ConversationsList extends Component {
     this.handleConversationClick = this.handleConversationClick.bind(this);
   }
 
+  componentWillUpdate(nextProps) {
+    if (nextProps.country !== this.props.country) {
+      this.props.loadConversations();
+    }
+  }
+
   handleConversationClick(e, conversation) {
     if (!this.props.onConversationClick) {
       return;
     }
     this.props.onConversationClick(conversation, e);
   }
+
 
   render() {
     const { pagination, conversations, selectedId, showConversationDropdown } = this.props;
@@ -87,6 +96,10 @@ export class ConversationsList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+
+  country: ownProps.chatType === 'public_chats' ?
+    getCurrentLocation(state).country :
+    null,
 
   conversations: ownProps.chatType === 'public_chats' ?
     getPublicChats(state) :
