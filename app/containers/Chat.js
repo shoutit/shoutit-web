@@ -55,19 +55,19 @@ export class Chat extends Component {
             <div className="Chat">
               <div className="Chat-conversations">
                 <div className="Chat-conversations-title">
-                  <Link to="/messages">
+                  <Link to={ `${chatType === 'public_chats' ? '/chat' : '/messages'}` }>
                     <h1>
-                    { chatType === 'conversations' ?
-                      <FormattedMessage
-                        id="chat.conversations.title"
-                        defaultMessage="Conversations"
-                      /> :
+                    { chatType === 'public_chats' ?
                       <FormattedMessage
                         id="publicChat.conversations.title"
                         defaultMessage="Public Chats in {countryName}"
                         values={ {
                           countryName: getCountryName(country),
                         } }
+                      /> :
+                      <FormattedMessage
+                        id="chat.conversations.title"
+                        defaultMessage="Conversations"
                       />
                     }
                     </h1>
