@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 export default function (state = {}, action) {
   switch (action.type) {
-    case actionTypes.CURRENTLOCATION_UPDATE_START:
+    case actionTypes.CURRENTLOCATION_UPDATE_SUCCESS:
       return action.payload.location;
     case actionTypes.LOGIN_SUCCESS:
     case actionTypes.SIGNUP_SUCCESS:

@@ -2,11 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import { loadChat } from '../actions/chat';
+import { loadConversations, loadPublicChats } from '../actions/chat';
+import { getCurrentLocation } from '../reducers/currentLocation';
 
 import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 
-import { getAllConversations, getPaginationState } from '../reducers/paginated/chatConversations';
+import {
+  getConversations,
+  getPaginationState as getConversationsPagination,
+} from '../reducers/paginated/conversations';
+
+import {
+  getPublicChats,
+  getPaginationState as getPublicChatsPagination,
+} from '../reducers/paginated/publicChats';
 
 import ConversationItem from './ConversationItem';
 import ScrollablePaginated from '../layout/ScrollablePaginated';
@@ -22,6 +31,7 @@ export class ConversationsList extends Component {
     loadConversations: PropTypes.func,
 
     selectedId: PropTypes.string,
+    country: PropTypes.string,
     showConversationDropdown: PropTypes.bool,
 
     pagination: PropTypes.shape(PaginationPropTypes),
@@ -32,12 +42,19 @@ export class ConversationsList extends Component {
     this.handleConversationClick = this.handleConversationClick.bind(this);
   }
 
+  componentWillUpdate(nextProps) {
+    if (nextProps.country !== this.props.country) {
+      this.props.loadConversations();
+    }
+  }
+
   handleConversationClick(e, conversation) {
     if (!this.props.onConversationClick) {
       return;
     }
     this.props.onConversationClick(conversation, e);
   }
+
 
   render() {
     const { pagination, conversations, selectedId, showConversationDropdown } = this.props;
@@ -78,13 +95,26 @@ export class ConversationsList extends Component {
 
 }
 
-const mapStateToProps = state => ({
-  conversations: getAllConversations(state),
-  pagination: getPaginationState(state),
+const mapStateToProps = (state, ownProps) => ({
+
+  country: ownProps.chatType === 'public_chats' ?
+    getCurrentLocation(state).country :
+    null,
+
+  conversations: ownProps.chatType === 'public_chats' ?
+    getPublicChats(state) :
+    getConversations(state),
+
+  pagination: ownProps.chatType === 'public_chats' ?
+    getPublicChatsPagination(state) :
+    getConversationsPagination(state),
+
 });
 
-const mapDispatchToProps = dispatch => ({
-  loadConversations: params => dispatch(loadChat(params)),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  loadConversations: ownProps.chatType === 'public_chats' ?
+     params => dispatch(loadPublicChats(params)) :
+     params => dispatch(loadConversations(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationsList);

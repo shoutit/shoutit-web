@@ -15,6 +15,7 @@ import Interest from './containers/Interest';
 import Login from './containers/Login';
 import NotFound from './containers/NotFound';
 import Profile from './containers/Profile';
+import PublicChat from './containers/PublicChat';
 import ResetPassword from './containers/ResetPassword';
 import Search from './containers/Search';
 import SetPassword from './containers/SetPassword';
@@ -37,6 +38,11 @@ const settingsAppLayout = () => ({
 const staticAppLayout = () => ({
   showFooter: true,
   stickyHeader: false,
+});
+
+const chatAppLayout = () => ({
+  fullHeight: true,
+  showFooter: false,
 });
 
 const routes = (store) =>
@@ -75,10 +81,8 @@ const routes = (store) =>
     <Route path="/user/:username(/:shout_type)" component={ Profile } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/discover/:country(/:id)" component={ Discover } />
-    <Route path="/messages(/:conversationId)" component={ Chat } getApplicationLayout={ () => ({
-      fullHeight: true,
-      showFooter: false,
-    }) } />
+    <Route path="/messages(/:conversationId)" component={ Chat } getApplicationLayout={ chatAppLayout } />
+    <Route path="/chat(/:conversationId)" component={ PublicChat } getApplicationLayout={ chatAppLayout } />
     <Redirect from="/settings" to="/settings/profile" />
     <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ settingsAppLayout } />
     <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ settingsAppLayout } />

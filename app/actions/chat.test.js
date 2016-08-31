@@ -5,21 +5,21 @@ import { CONVERSATIONS } from '../schemas';
 
 describe('actions/chat', () => {
 
-  describe('loadChat', () => {
+  describe('loadConversations', () => {
     it('should call the conversations service', () => {
-      const action = chat.loadChat();
+      const action = chat.loadConversations();
       expect(action).to.have.deep.property('service.name', 'conversations');
     });
     it('should return three types', () => {
-      const action = chat.loadChat();
+      const action = chat.loadConversations();
       expect(action).to.have.property('types').of.length(3);
     });
     it('should pass the endpoint to the params', () => {
-      const action = chat.loadChat({ endpoint: 'foo' });
+      const action = chat.loadConversations({ endpoint: 'foo' });
       expect(action).to.have.deep.property('service.params.endpoint', 'foo');
     });
     it('should use the CONVERSATIONS schema', () => {
-      expect(chat.loadChat()).to.have.deep.property('service.schema', CONVERSATIONS);
+      expect(chat.loadConversations()).to.have.deep.property('service.schema', CONVERSATIONS);
     });
   });
 
