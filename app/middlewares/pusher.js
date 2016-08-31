@@ -12,6 +12,7 @@ import { loadConversation, replaceConversation } from '../actions/conversations'
 import { addNewMessage, readMessage, setMessageReadBy } from '../actions/messages';
 import { updateProfileStats, replaceProfile } from '../actions/users';
 import { addNotification } from '../actions/notifications';
+import { getLoggedProfile } from '../reducers/session';
 
 const log = debug('shoutit:middlewares:pusher');
 // Pusher.log = log;
@@ -50,7 +51,8 @@ export default store => next => action => { // eslint-disable-line no-unused-var
 
     const message = camelizeKeys(payload);
     const normalizedPayload = normalize(message, MESSAGE);
-    if (message.profile && store.getState().session.profile === message.profile.id) {
+    const loggedProfile = getLoggedProfile(store.getState);
+    if (message.profile && loggedProfile.id === message.profile.id) {
       // As pusher will always send the profile as "not owner"
       delete normalizedPayload.entities.users;
     }
