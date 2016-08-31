@@ -82,7 +82,7 @@ const routes = (store) =>
     <Route path="/heartbeat" component={ Heartbeat } getApplicationLayout={ () => ({ showFooter: true }) } />
     <Route path="/discover/:country(/:id)" component={ Discover } />
     <Route path="/messages(/:conversationId)" component={ Chat } getApplicationLayout={ chatAppLayout } />
-    <Route path="/chat/:country(/:conversationId)" component={ PublicChat } getApplicationLayout={ chatAppLayout } />
+    <Route path="/chat(/:conversationId)" component={ PublicChat } getApplicationLayout={ chatAppLayout } />
     <Redirect from="/settings" to="/settings/profile" />
     <Route path="/settings/profile" component={ ProfileSettings } getApplicationLayout={ settingsAppLayout } />
     <Route path="/settings/account" component={ AccountSettings } getApplicationLayout={ settingsAppLayout } />

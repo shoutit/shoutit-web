@@ -4,6 +4,10 @@
     "defaultMessage": "Messages"
   },
   {
+    "id": "publicChats.page.title",
+    "defaultMessage": "Public Chats"
+  },
+  {
     "id": "chat.conversations.title",
     "defaultMessage": "Conversations"
   },

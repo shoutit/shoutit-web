@@ -202,6 +202,7 @@
   "profilesModal.segmentedControl.listeners": "听众",
   "profilesModal.segmentedControl.listening": "聆听",
   "publicChat.conversations.title": "Public Chats in {countryName}",
+  "publicChats.page.title": "Public Chats",
   "relatedTags.title": "相关兴趣",
   "requiresLogin.linkLabel": "登录",
   "requiresLogin.message": "请点击网站链接 {linkLabel} ，连接这个页面",

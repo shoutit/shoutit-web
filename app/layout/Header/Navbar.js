@@ -22,7 +22,7 @@ class Navbar extends Component {
         <Link to={ `/discover/${country}` } activeClassName="active">
           <FormattedMessage id="layout.Navbar.discover" defaultMessage="Discover" />
         </Link>
-        <Link to={ `/chat/${country}` } activeClassName="active">
+        <Link to="/chat" activeClassName="active">
           <FormattedMessage id="layout.Navbar.publicChats" defaultMessage="Public Chats" />
         </Link>
       </div>

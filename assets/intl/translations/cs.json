@@ -202,6 +202,7 @@
   "profilesModal.segmentedControl.listeners": "Listeners",
   "profilesModal.segmentedControl.listening": "Listening",
   "publicChat.conversations.title": "Public Chats in {countryName}",
+  "publicChats.page.title": "Public Chats",
   "relatedTags.title": "Related interests",
   "requiresLogin.linkLabel": "login",
   "requiresLogin.message": "Please {linkLabel} to access this page.",
