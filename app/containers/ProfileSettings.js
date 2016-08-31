@@ -171,41 +171,41 @@ export class ProfileSettings extends Component {
                 </div>
 
                 { profile.type === 'user' &&
-                    <FieldsGroup>
-                      <TextField
-                        flex
-                        name="first_name"
-                        label={ formatMessage(MESSAGES.firstNameLabel) }
-                        value={ profile.firstName }
-                        onChange={ first_name => this.setState({ first_name }) }
-                        error={ error }
-                        disabled={ profile.isUpdating }
-                      />
-                      <TextField
-                        flex
-                        name="last_name"
-                        label={ formatMessage(MESSAGES.lastNameLabel) }
-                        value={ profile.lastName }
-                        onChange={ last_name => this.setState({ last_name }) }
-                        error={ error }
-                        disabled={ profile.isUpdating }
-                      />
-                      <Picker
-                        name="gender"
-                        label={ formatMessage(MESSAGES.genderLabel) }
-                        value={ profile.gender }
-                        onChange={ gender => this.setState({ gender }) }
-                        error={ error }
-                        disabled={ profile.isUpdating }>
-                        <option value="" />
-                        <option value="female">
-                          { formatMessage(MESSAGES.femaleValue) }
-                        </option>
-                        <option value="male">
-                          { formatMessage(MESSAGES.maleValue) }
-                        </option>
-                      </Picker>
-                    </FieldsGroup>
+                  <FieldsGroup>
+                    <TextField
+                      flex
+                      name="first_name"
+                      label={ formatMessage(MESSAGES.firstNameLabel) }
+                      value={ profile.firstName }
+                      onChange={ first_name => this.setState({ first_name }) }
+                      error={ error }
+                      disabled={ profile.isUpdating }
+                    />
+                    <TextField
+                      flex
+                      name="last_name"
+                      label={ formatMessage(MESSAGES.lastNameLabel) }
+                      value={ profile.lastName }
+                      onChange={ last_name => this.setState({ last_name }) }
+                      error={ error }
+                      disabled={ profile.isUpdating }
+                    />
+                    <Picker
+                      name="gender"
+                      label={ formatMessage(MESSAGES.genderLabel) }
+                      value={ profile.gender }
+                      onChange={ gender => this.setState({ gender }) }
+                      error={ error }
+                      disabled={ profile.isUpdating }>
+                      <option value="" />
+                      <option value="female">
+                        { formatMessage(MESSAGES.femaleValue) }
+                      </option>
+                      <option value="male">
+                        { formatMessage(MESSAGES.maleValue) }
+                      </option>
+                    </Picker>
+                  </FieldsGroup>
                 }
                 { profile.type === 'user' &&
                   <DatePicker
