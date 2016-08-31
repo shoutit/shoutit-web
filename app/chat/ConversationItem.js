@@ -72,12 +72,18 @@ export class ConversationItem extends Component {
       isUnread: conversation.unreadMessagesCount > 0,
     });
 
+    let conversationUrl;
+    if (conversation.type === 'public_chat') {
+      conversationUrl = `/chat/${conversation.id}`;
+    } else {
+      conversationUrl = `/messages/${conversation.id}`;
+    }
     return (
       <div
         className={ className }
         onMouseEnter={ this.handleMouseEnter }
         onMouseLeave={ this.handleMouseLeave }>
-        <Link onClick={ this.handleClick } to={ `/messages/${conversation.id}` }>
+        <Link onClick={ this.handleClick } to={ conversationUrl }>
           <div
             className="ConversationItem-image"
             style={ backgroundImageStyle({ url: conversation.display.image, variation: 'small', usePlaceholder: false }) }
