@@ -101,6 +101,7 @@
   "layout.Header.LoginButton": "Einloggen",
   "layout.Navbar.browse": "Durchsuchen",
   "layout.Navbar.discover": "Entdecken",
+  "layout.Navbar.publicChats": "Public Chats",
   "layout.Pagination.nextLabel": "Nächste",
   "layout.Pagination.previousLabel": "Vorherige",
   "listenersModal.title": "{type, select, listeners {name} zuhören}} listening {{name} hört}} ",

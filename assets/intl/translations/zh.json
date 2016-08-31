@@ -101,6 +101,7 @@
   "layout.Header.LoginButton": "登录",
   "layout.Navbar.browse": "浏览",
   "layout.Navbar.discover": "发现",
+  "layout.Navbar.publicChats": "Public Chats",
   "layout.Pagination.nextLabel": "下一页",
   "layout.Pagination.previousLabel": "上一页",
   "listenersModal.title": "{type, select, listeners {正在聆听 {name}} listening {{name} 正在聆听}}",

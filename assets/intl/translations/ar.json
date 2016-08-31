@@ -101,6 +101,7 @@
   "layout.Header.LoginButton": "تسجيل الدخول",
   "layout.Navbar.browse": "إستعرض",
   "layout.Navbar.discover": "إكتشف",
+  "layout.Navbar.publicChats": "Public Chats",
   "layout.Pagination.nextLabel": "التالي",
   "layout.Pagination.previousLabel": "السابق",
   "listenersModal.title": "{type, select, listeners {يستمع إلى {name}} listening {{name} يستمع إلى}}",

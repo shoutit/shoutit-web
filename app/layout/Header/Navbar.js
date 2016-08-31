@@ -25,8 +25,11 @@ class Navbar extends Component {
         <Link to={ `/search${getLocationPath(this.props.location)}` } activeClassName="active">
           <FormattedMessage id="layout.Navbar.browse" defaultMessage="Browse" />
         </Link>
-        <Link to={ getDiscoverLink(this.props.location) } activeClassName="active" >
+        <Link to={ getDiscoverLink(this.props.location) } activeClassName="active">
           <FormattedMessage id="layout.Navbar.discover" defaultMessage="Discover" />
+        </Link>
+        <Link to="/chat" activeClassName="active">
+          <FormattedMessage id="layout.Navbar.publicChats" defaultMessage="Public Chats" />
         </Link>
       </div>
     );
