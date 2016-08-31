@@ -12,36 +12,36 @@ import {
 const log = debug('shoutit:services:session');
 
 export function loadProfile(req, callback) {
+  let username = 'me';
+  if (req.session.profile) {
+    username = req.session.profile.username;
+  }
   request
-    .get('/profiles/me')
+    .get(`/profiles/${username}`)
     .use(req)
     .prefix()
     .camelizeResponseBody()
     .end((err, res) => {
       if (err) {
         console.error(err);
-        req.session.destroy();
-        callback();
+        callback(err);
       }
-      const profile = res.body;
-      log('Current profile\'s username is %s', profile.username);
-      callback(profile);
+      callback(null, res.body);
     });
 }
 
 export function loadAuthorizationPage(req, callback) {
   request
-    .get(`/profiles/${req.session.authorizationPage.username}`)
+    .get(`/profiles/${req.session.page.username}`)
     .use(req)
     .prefix()
     .camelizeResponseBody()
     .end((err, res) => {
       if (err) {
         console.error(err);
-        callback();
+        callback(err);
       }
-      const page = res.body;
-      callback(page);
+      callback(null, res.body);
     });
 }
 
@@ -81,22 +81,32 @@ export default {
   },
 
   read: (req, resource, params, config, callback) => {
-    log('Reading current session...', req.session);
-    loadProfile(req, profile => {
+    log('Updating current session...', req.session);
+    loadProfile(req, (err, profile) => {
+      if (err) {
+        log('Error fetching session data, destroying session...', req.session);
+        req.session.destroy();
+        return callback();
+      }
       req.session.profile = profile;
+      log('Current session username is %s', req.session.profile.username);
 
-      if (!req.session.authorizationPage) {
+      if (!req.session.page) {
+        log('%s is not authenticated as page', req.session.profile.username);
         return callback(null, profile);
       }
 
-      return loadAuthorizationPage(req, page => {
-        if (page) {
-          if (page.isOwner) {
-            req.session.page = page;
-            log('Session authorization page set as %s', page.username);
-          } else {
-            log('Logged profile %s is not owner of the authorization page %s', profile.username, page.username);
-          }
+      log('Updating current authorized page...', req.session);
+      return loadAuthorizationPage(req, (err, page) => {
+        if (err) {
+          log('Error fetching page data, removing it from session...', req.session);
+          delete req.session.page;
+        } else if (page.isOwner) {
+          req.session.page = page;
+          log('Session authorization page set as %s', page.username);
+        } else {
+          log('Logged profile %s is not owner of page %s, deleting it from session', profile.username, page.username);
+          delete req.session.page;
         }
         callback(null, profile);
       });

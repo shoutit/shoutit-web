@@ -26,8 +26,7 @@ import { loadCategories } from '../actions/categories';
 import { loadCurrencies } from '../actions/currencies';
 import { loadSortTypes } from '../actions/sortTypes';
 import { loadSuggestions } from '../actions/suggestions';
-import { loadListeningProfiles } from '../actions/users';
-import { clientLogin, updateLinkedAccount, logout } from '../actions/session';
+import { clientLogin, updateLinkedAccount, logout, updateSession } from '../actions/session';
 
 import { getLoggedProfile } from '../reducers/session';
 
@@ -43,9 +42,9 @@ const fetchData = (dispatch, state) => {
   promises.push(dispatch(loadCategories()));
   promises.push(dispatch(loadSortTypes()));
   promises.push(dispatch(loadCurrencies()));
-  const loggedProfile = getLoggedProfile(state); // logged user comes from rehydrated state
-  if (loggedProfile) {
-    promises.push(dispatch(loadListeningProfiles(loggedProfile)));
+  const isLoggedIn = !!getLoggedProfile(state); // logged user comes from rehydrated state
+  if (isLoggedIn) {
+    promises.push(dispatch(updateSession()));
   }
   return Promise.all(promises);
 };
