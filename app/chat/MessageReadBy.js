@@ -14,7 +14,7 @@ export default function MessageReadBy({ message }) {
       <FormattedMessage id="chat.message.readBy"
         defaultMessage="Read by {namesAsList}"
         values={ {
-          namesAsList: profiles.map(profile => profile.firstName).join(', '),
+          namesAsList: profiles.map(profile => profile.name).join(', '),
         } } />
     </div>
   );
