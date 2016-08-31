@@ -8,12 +8,12 @@
     "defaultMessage": "Public Chats"
   },
   {
-    "id": "chat.conversations.title",
-    "defaultMessage": "Conversations"
-  },
-  {
     "id": "publicChat.conversations.title",
     "defaultMessage": "Public Chats in {countryName}"
+  },
+  {
+    "id": "chat.conversations.title",
+    "defaultMessage": "Conversations"
   },
   {
     "id": "chat.conversations.notSelected",
