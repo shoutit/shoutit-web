@@ -96,7 +96,19 @@ export function logout() {
   };
 }
 
-
+export function updateSession() {
+  return {
+    types: [
+      actionTypes.SESSION_UPDATE_START,
+      actionTypes.SESSION_UPDATE_SUCCESS,
+      actionTypes.SESSION_UPDATE_FAILURE,
+    ],
+    service: {
+      name: 'session',
+      schema: PROFILE,
+    },
+  };
+}
 export function resetPassword(email) {
   return {
     types: [

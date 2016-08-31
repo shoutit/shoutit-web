@@ -73,7 +73,7 @@ export function isScopeGranted(grantedScopes, requiredScopes) {
     requiredScopes = requiredScopes.split(',');
   }
   return grantedScopes.every(
-    scope => requiredScopes.indexOf(scope) > -1
+    scope => requiredScopes.indexOf(scope) !== -1
   );
 }
 
@@ -117,5 +117,5 @@ export function hasScope(profile, scope) {
   if (!profile.linkedAccounts || !profile.linkedAccounts.facebook) {
     return false;
   }
-  return profile.linkedAccounts.facebook.scopes.indexOf(scope) > -1;
+  return profile.linkedAccounts.facebook.scopes.indexOf(scope) !== -1;
 }

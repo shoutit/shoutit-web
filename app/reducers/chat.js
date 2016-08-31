@@ -24,7 +24,7 @@ export default function (state = initialState, action) {
       });
     case actionTypes.CHAT_RECEIVE_TYPING_NOTIFICATION:
       if (state.typingProfiles[payload.conversationId] &&
-        state.typingProfiles[payload.conversationId].indexOf(payload.userId) > -1) {
+        state.typingProfiles[payload.conversationId].indexOf(payload.userId) !== -1) {
         // ignore if already typing
         return state;
       }

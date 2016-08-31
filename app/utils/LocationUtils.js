@@ -28,11 +28,11 @@ export function parseGeocoderResult(result) {
   }
   if (result.addressComponents) {
     result.addressComponents.forEach(address => {
-      if (address.types.indexOf('country') > -1) {
+      if (address.types.indexOf('country') !== -1) {
         location.country = address.shortName;
-      } else if (address.types.indexOf('locality') > -1) {
+      } else if (address.types.indexOf('locality') !== -1) {
         location.city = address.longName;
-      } else if (address.types.indexOf('administrative_area_level_1') > -1) {
+      } else if (address.types.indexOf('administrative_area_level_1') !== -1) {
         location.state = address.longName;
       }
     });
