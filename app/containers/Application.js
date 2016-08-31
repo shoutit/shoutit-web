@@ -44,6 +44,7 @@ const fetchData = (dispatch, state) => {
   promises.push(dispatch(loadCurrencies()));
   const isLoggedIn = !!getLoggedProfile(state); // logged user comes from rehydrated state
   if (isLoggedIn) {
+    // Make sure the app is using updated profile and page in session 
     promises.push(dispatch(updateSession()));
   }
   return Promise.all(promises);
