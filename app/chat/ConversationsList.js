@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 
-import { loadChat } from '../actions/chat';
+import { loadConversations, loadPublicChats } from '../actions/chat';
 
 import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 
@@ -83,8 +83,13 @@ const mapStateToProps = state => ({
   pagination: getPaginationState(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-  loadConversations: params => dispatch(loadChat(params)),
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  loadConversations: params => {
+    if (ownProps.chatType === 'public_chats') {
+      return dispatch(loadPublicChats(params));
+    } 
+    return dispatch(loadConversations(params));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationsList);

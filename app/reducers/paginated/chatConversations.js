@@ -6,9 +6,9 @@ import { getPagination } from '../paginated';
 export default createPaginatedReducer({
   mapActionToTempId: action => action.payload.conversation.id,
   fetchTypes: [
-    actionTypes.CHAT_LOAD_START,
-    actionTypes.CHAT_LOAD_SUCCESS,
-    actionTypes.CHAT_LOAD_FAILURE,
+    actionTypes.CONVERSATIONS_LOAD_START,
+    actionTypes.CONVERSATIONS_LOAD_SUCCESS,
+    actionTypes.CONVERSATIONS_LOAD_FAILURE,
   ],
   createTypes: [
     actionTypes.CONVERSATION_CREATE_START,

@@ -2,15 +2,30 @@ import * as actionTypes from './actionTypes';
 
 import { CONVERSATIONS } from '../schemas';
 
-export function loadChat({ endpoint } = {}) {
+export function loadConversations({ endpoint } = {}) {
   return {
     types: [
-      actionTypes.CHAT_LOAD_START,
-      actionTypes.CHAT_LOAD_SUCCESS,
-      actionTypes.CHAT_LOAD_FAILURE,
+      actionTypes.CONVERSATIONS_LOAD_START,
+      actionTypes.CONVERSATIONS_LOAD_SUCCESS,
+      actionTypes.CONVERSATIONS_LOAD_FAILURE,
     ],
     service: {
       name: 'conversations',
+      params: { endpoint },
+      schema: CONVERSATIONS,
+    },
+  };
+}
+
+export function loadPublicChats({ endpoint } = {}) {
+  return {
+    types: [
+      actionTypes.PUBLIC_CHATS_LOAD_START,
+      actionTypes.PUBLIC_CHATS_LOAD_SUCCESS,
+      actionTypes.PUBLIC_CHATS_LOAD_FAILURE,
+    ],
+    service: {
+      name: 'publicChats',
       params: { endpoint },
       schema: CONVERSATIONS,
     },
