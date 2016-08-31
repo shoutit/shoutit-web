@@ -6,7 +6,15 @@ import { loadConversations, loadPublicChats } from '../actions/chat';
 
 import PropTypes, { PaginationPropTypes } from '../utils/PropTypes';
 
-import { getAllConversations, getPaginationState } from '../reducers/paginated/chatConversations';
+import {
+  getConversations,
+  getPaginationState as getConversationsPagination,
+} from '../reducers/paginated/conversations';
+
+import {
+  getPublicChats,
+  getPaginationState as getPublicChatsPagination,
+} from '../reducers/paginated/publicChats';
 
 import ConversationItem from './ConversationItem';
 import ScrollablePaginated from '../layout/ScrollablePaginated';
@@ -78,18 +86,22 @@ export class ConversationsList extends Component {
 
 }
 
-const mapStateToProps = state => ({
-  conversations: getAllConversations(state),
-  pagination: getPaginationState(state),
+const mapStateToProps = (state, ownProps) => ({
+
+  conversations: ownProps.chatType === 'public_chats' ?
+    getPublicChats(state) :
+    getConversations(state),
+
+  pagination: ownProps.chatType === 'public_chats' ?
+    getPublicChatsPagination(state) :
+    getConversationsPagination(state),
+
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  loadConversations: params => {
-    if (ownProps.chatType === 'public_chats') {
-      return dispatch(loadPublicChats(params));
-    } 
-    return dispatch(loadConversations(params));
-  },
+  loadConversations: ownProps.chatType === 'public_chats' ?
+     params => dispatch(loadPublicChats(params)) :
+     params => dispatch(loadConversations(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationsList);
