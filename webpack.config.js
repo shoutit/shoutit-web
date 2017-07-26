@@ -136,6 +136,6 @@ module.exports = {
       }) : noop,
 
     !isDevelopment ?
-      new CopyPlugin([{ from: path.join(__dirname, 'assets/images'), to: 'images' }]) : noop,
+      new CopyPlugin([{ from: path.join(__dirname, 'assets/images'), to: 'images' }], { copyUnmodified: true }) : noop,
   ],
 };
