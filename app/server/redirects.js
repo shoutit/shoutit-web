@@ -1,6 +1,7 @@
+import url from 'url';
 import MobileDetect from 'mobile-detect';
 import { getValidIPv4Address } from '../utils/InternetUtils';
-import mixpanel from './mixpanel-node';
+import mixpanel from './mixpanelServer';
 
 const redirects = {
   '/discover': (req, res) => res.redirect(`/discover/${req.session.currentLocation.country.toLowerCase()}`),
@@ -13,17 +14,45 @@ const redirects = {
   '/search/:term/shouts': (req, res) => res.redirect(`/messages/${req.params.msgId}`),
   '/app(-:code*)?': (req, res) => {
     const md = new MobileDetect(req.headers['user-agent']);
-    const code = typeof req.params.code !== 'undefined' ? req.params.code : 'direct';
-    const remoteAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    const ip = getValidIPv4Address(remoteAddress);
-    mixpanel.track('app_link_open', { code, ip, ua: md.userAgent(), os: md.os(), ...req.params, ...req.headers });
-    if (md.is('iOS')) {
-      res.redirect('https://geo.itunes.apple.com/de/app/shoutit-app/id947017118?mt=8');
-    } else if (md.is('AndroidOS')) {
-      res.redirect('https://play.google.com/store/apps/details?id=com.shoutit.app.android');
-    } else {
-      res.redirect('/');
+    let os = 'web';
+    if (md.is('AndroidOS')) {
+      os = 'android';
+    } else if (md.is('iOS')) {
+      os = 'ios';
+    } else if (md.mobile()) {
+      os = 'mobile';
     }
+    const osRedirects = {
+      android: 'https://play.google.com/store/apps/details',  // Package name is added later with other parameters
+      ios: 'https://itunes.apple.com/app/id947017118',
+      mobile: '/',
+      web: '/',
+    };
+    const code = typeof req.params.code !== 'undefined' ? req.params.code : '$direct';
+    const ip = getValidIPv4Address(req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+    const utms = {
+      utm_campaign: code,
+      utm_medium: req.query.utm_medium || '',
+      utm_source: req.query.utm_source || '',
+      utm_content: req.query.utm_content || '',
+      utm_term: req.query.utm_term || '',
+    };
+    const trackProperties = {
+      ip,
+      ...utms,
+      md_ua: md.userAgent() || req.headers['user-agent'],
+      md_os: md.os() || 'Desktop',
+    };
+    // Todo (Nour): can this be done async?
+    mixpanel.track('app_link_open', trackProperties);
+    const platformURL = url.format({
+      pathname: osRedirects[os],
+      query: {
+        ...utms,
+        ...os === 'android' && { id: 'com.shoutit.app.android' },
+      },
+    });
+    res.redirect(platformURL);
   },
 };
 
