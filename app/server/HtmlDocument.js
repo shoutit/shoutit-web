@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react';
 import serialize from 'serialize-javascript';
 import newrelic, { newrelicEnabled } from './newrelic';
 import uservoice from './uservoice';
-import mixpanel from './mixpanel';
+import mixpanel from './mixpanelClient';
 import Helmet from '../utils/Helmet';
 import { getCurrentLanguage, isRtl } from '../reducers/i18n';
 

@@ -38,7 +38,7 @@ deployment:
       - >
         SHOUTIT_ENV=live
         npm run build
-      - git describe --tags > built/CURRENT_TAG
+      - git describe --tags --always > built/CURRENT_TAG
       - pip install awscli
       - aws s3 sync built/public s3://shoutit-web-static/prod
       - >
@@ -53,7 +53,7 @@ deployment:
       - >
         SHOUTIT_ENV=beta
         npm run build
-      - git describe --tags > built/CURRENT_TAG
+      - git describe --tags --always > built/CURRENT_TAG
       - pip install awscli
       - aws s3 sync built/public s3://shoutit-web-static/beta
       - >
@@ -68,7 +68,7 @@ deployment:
       - >
         SHOUTIT_ENV=stage
         npm run build
-      - git describe --tags > built/CURRENT_TAG
+      - git describe --tags --always > built/CURRENT_TAG
       - pip install awscli
       - aws s3 sync built/public s3://shoutit-web-static/stage
       - >
