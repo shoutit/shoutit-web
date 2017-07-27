@@ -61,7 +61,7 @@
     "ismobilejs": "0.4.0",
     "lodash": "4.15.0",
     "mixpanel": "0.7.0",
-    "mobile-detect": "1.3.3",
+    "mobile-detect": "1.3.6",
     "morgan": "1.7.0",
     "multer": "1.2.0",
     "newrelic": "1.30.0",
