@@ -16,6 +16,7 @@ import fetchrMiddleware, { fetchrPath } from './server/fetchrMiddleware';
 import currentLocationMiddleware from './server/currentLocationMiddleware';
 import localeMiddleware from './server/localeMiddleware';
 import pusherMiddleware from './server/pusherMiddleware';
+import Raven, { ravenEnabled } from './server/raven';
 import redirects from './server/redirects';
 import renderMiddleware from './server/renderMiddleware';
 import sessionMiddleware from './server/sessionMiddleware';
@@ -27,6 +28,9 @@ import * as services from './services';
 
 export default function start(app) {
 
+  if (ravenEnabled) {
+    app.use(Raven.requestHandler());
+  }
   app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined'));
   app.use(cookieParser());
   app.use(bodyParser.json({ limit: '50mb' }));
@@ -77,5 +81,8 @@ export default function start(app) {
   // app.get(':smscode', smsMiddleware);
   app.get('*', renderMiddleware);
 
+  if (ravenEnabled) {
+    app.use(Raven.errorHandler());
+  }
   app.use(errorMiddleware);
 }
