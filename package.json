@@ -68,6 +68,7 @@
     "normalizr": "2.2.1",
     "pusher-js": "3.2.1",
     "query-string": "4.2.3",
+    "raven": "2.1.1",
     "react": "15.3.1",
     "react-addons-css-transition-group": "15.3.1",
     "react-avatar-editor": "4.1.3",

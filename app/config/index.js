@@ -96,6 +96,7 @@ export function getSummary() {
   summary.push(`  Supported locales:    ${locales.join(', ')}`);
   summary.push(`  Supported languages:  ${languages.join(', ')}`);
   summary.push('');
+  summary.push(`  Sentry DSN:           ${process.env.SENTRY_DSN}`);
   summary.push(`  New Relic Key:        ${process.env.NEW_RELIC_LICENSE_KEY}`);
   summary.push(`  Google Analytics:     ${ga}`);
   summary.push(`  Facebook ID:          ${facebookId}`);

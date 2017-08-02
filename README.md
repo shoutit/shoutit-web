@@ -39,6 +39,7 @@ $ npm start     # start the server
 
 #### Optional on the server
 
+* `SENTRY_DSN`: Sentry DSN to log Node and Javascript errors using Raven
 * `NEW_RELIC_LICENSE_KEY` and `NEW_RELIC_APP_NAME`: the New Relic application name
 * `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD`: username and password to enforce a basic authentication access control
 * `HOST`: the host where to start the Express server. Default is *localhost*.

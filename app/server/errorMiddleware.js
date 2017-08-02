@@ -26,6 +26,7 @@ export default function errorMiddleware(err, req, res, next) { // eslint-disable
   }
 
   res.send(`<h1>Something bad happened</h1>
+<pre>Request id: ${res.sentry && res.sentry}</pre>
 <p>${err.message}</p>
 <pre>${process.env.NODE_ENV === 'development' ? err.stack : null}</pre>
 `);
