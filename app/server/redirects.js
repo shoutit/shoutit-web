@@ -25,8 +25,8 @@ const redirects = {
     const osRedirects = {
       android: 'https://play.google.com/store/apps/details',  // Package name is added later with other parameters
       ios: 'https://itunes.apple.com/app/id947017118',
-      mobile: '/',
-      web: '/',
+      mobile: '/discover',
+      web: '/discover',
     };
     const code = typeof req.params.code !== 'undefined' ? req.params.code : '$direct';
     const ip = getValidIPv4Address(req.headers['x-forwarded-for'] || req.connection.remoteAddress);
@@ -43,7 +43,6 @@ const redirects = {
       md_ua: md.userAgent() || req.headers['user-agent'],
       md_os: md.os() || 'Desktop',
     };
-    // Todo (Nour): can this be done async?
     mixpanel.track('app_link_open', trackProperties);
     const platformURL = url.format({
       pathname: osRedirects[os],
