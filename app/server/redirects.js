@@ -25,10 +25,11 @@ const redirects = {
     const osRedirects = {
       android: 'https://play.google.com/store/apps/details',  // Package name is added later with other parameters
       ios: 'https://itunes.apple.com/app/id947017118',
-      mobile: '/discover',
-      web: '/discover',
+      mobile: '/',
+      web: '/',
     };
     const code = typeof req.params.code !== 'undefined' ? req.params.code : '$direct';
+    const customRedirect = req.query.redirect;
     const ip = getValidIPv4Address(req.headers['x-forwarded-for'] || req.connection.remoteAddress);
     const utms = {
       utm_campaign: code,
@@ -37,13 +38,10 @@ const redirects = {
       utm_content: req.query.utm_content || '',
       utm_term: req.query.utm_term || '',
     };
-    const trackProperties = {
-      ip,
-      ...utms,
-      md_ua: md.userAgent() || req.headers['user-agent'],
-      md_os: md.os() || 'Desktop',
-    };
-    mixpanel.track('app_link_open', trackProperties);
+    if (typeof customRedirect !== 'undefined') {
+      osRedirects.mobile = `${customRedirect}`;
+      osRedirects.web = `${customRedirect}`;
+    }
     const platformURL = url.format({
       pathname: osRedirects[os],
       query: {
@@ -51,6 +49,14 @@ const redirects = {
         ...os === 'android' && { id: 'com.shoutit.app.android' },
       },
     });
+    const trackProperties = {
+      ip,
+      ...utms,
+      md_ua: md.userAgent() || req.headers['user-agent'],
+      md_os: md.os() || 'Desktop',
+      redirect: platformURL,
+    };
+    mixpanel.track('app_link_open', trackProperties);
     res.redirect(platformURL);
   },
 };
