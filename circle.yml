@@ -63,7 +63,7 @@ deployment:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:master
   hub-develop:
-    branch: develop
+    branch: [develop, edge]
     commands:
       - >
         SHOUTIT_ENV=stage
@@ -74,6 +74,6 @@ deployment:
       - >
         docker build
         --build-arg SHOUTIT_ENV=stage
-        -t shoutit/shoutit-web:develop .
+        -t shoutit/shoutit-web:$CIRCLE_BRANCH .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push shoutit/shoutit-web:develop
+      - docker push shoutit/shoutit-web:$CIRCLE_BRANCH
