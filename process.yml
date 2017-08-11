@@ -1,0 +1,5 @@
+apps:
+  - script   : './built/index.js'
+    name     : 'web'
+    exec_mode: 'cluster'
+    instances: 4
