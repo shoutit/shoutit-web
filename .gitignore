@@ -7,3 +7,4 @@ test-results.xml
 webpack-stats.json
 built
 /stats.json
+.idea
