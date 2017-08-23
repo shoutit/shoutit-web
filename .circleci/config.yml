@@ -1,0 +1,33 @@
+version: 2
+
+defaults: &defaults
+  docker:
+    - image: circleci/node:8.4
+  environment:
+    TEST_REPORTS: /tmp/test-reports
+  working_directory: ~/repo
+
+jobs:
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+
+      - run:
+          name: Set BUILD_TAG to $CIRCLE_TAG or $CIRCLE_BRANCH
+          command: |
+            ./.circleci/set-build-tag.sh
+
+        - run:
+          name: Install dependencies
+          command: |
+            npm install
+
+        - run:
+          name: Run tests
+          command: |
+            MOCHA_FILE=$TEST_REPORTS/test-results.xml
+            npm run test:cover
+
+      - store_test_results:
+          path: /tmp/test-reports
