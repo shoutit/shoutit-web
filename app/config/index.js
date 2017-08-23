@@ -8,8 +8,9 @@ const log = debug('shoutit:config');
 if (!process.env.BROWSER) {
   // Get the configuration variable from the /env directory according to
   // the SHOUTIT_ENV (stage, beta, etc.)
-  const filePath = path.resolve(__dirname, `../../env/${process.env.SHOUTIT_ENV || 'development'}`);
-  log('Getting env variables from', filePath);
+  const shoutitEnv = (process.env.SHOUTIT_ENV || 'development').toLowerCase();
+  const filePath = path.resolve(__dirname, `../../env/${shoutitEnv}.ev`);
+  log(`Getting '${shoutitEnv}' env variables from ${filePath}`);
   require('dotenv').config({ path: filePath });
 }
 
