@@ -23,7 +23,7 @@ export function getVariable(name) {
   if (process.env.BROWSER) {
     return window.APP[name];
   }
-  return process.env[`APP_${name.toUpperCase()}`];
+  return process.env[`APP_${name}`];
 }
 
 /**
