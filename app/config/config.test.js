@@ -12,14 +12,14 @@ const expectedVars = [
   'APP_STORE_LINK',
   'FACEBOOK_ID',
   'FACEBOOK_LINK',
-  'ga',
+  'GA',
   'GOOGLE_MAPS_KEY',
   'IMAGES_PATH',
   'INSTAGRAM_LINK',
   'IOS_APP_ID',
   'IOS_APP_NAME',
-  'languages',
-  'locales',
+  'LANGUAGES',
+  'LOCALES',
   'MIXPANEL_TOKEN',
   'OG_PREFIX',
   'PLAYSTORE_LINK',
@@ -35,8 +35,8 @@ describe('config', () => {
   it('should export all the config', () => {
     expect(Object.keys(config)).to.have.length(expectedVars.length);
 
-    Object.keys(config).map(key =>
-      expect(expectedVars.indexOf(key)).to.be.greaterThan(-1)
+    expectedVars.map(key =>
+      expect(Object.keys(config).indexOf(key), `${key} config was not found!`).to.be.greaterThan(-1)
     );
 
   });
