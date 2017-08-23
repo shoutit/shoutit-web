@@ -1,13 +1,13 @@
 /* eslint no-console: 0, vars-on-top: 0 */
 import express from 'express';
-import { getSummary } from './app/config';
+import getConfigSummary from './app/config/getConfigSummary';
 import startServer from './app/server';
 import './app/server/intl-polyfill';
 
 const port = process.env.PORT || 3000;
 const app = express();
 
-console.log(getSummary());
+console.log(getConfigSummary());
 
 if (process.env.NODE_ENV === 'development') {
   const webpack = require('webpack');

@@ -28,7 +28,6 @@ module.exports = {
 
     new webpack.DefinePlugin({
       'process.env': {
-        SHOUTIT_ENV: JSON.stringify(process.env.SHOUTIT_ENV),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
         HOST: JSON.stringify(process.env.HOST),
         PORT: JSON.stringify(process.env.PORT),

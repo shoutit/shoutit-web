@@ -4,7 +4,7 @@ machine:
   timezone:
     Europe/Berlin
   node:
-    version: 4.4.5
+    version: 8.4.0
   services:
     - docker
 

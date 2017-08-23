@@ -29,7 +29,7 @@ const log = debug('shoutit');
 
 const fetchr = new Fetchr({ xhrPath: '/fetchr', xhrTimeout: 20000 });
 
-log('Starting client web app', `\n${config.getSummary()}\n`);
+log('Starting client web app...');
 
 const scrollHistory = useScroll(() => browserHistory)();
 const store = configureStore(window.__INITIAL_STATE__, {

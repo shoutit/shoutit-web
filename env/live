@@ -1,0 +1,17 @@
+APP_APIURL='https://api.shoutit.com/v3'
+APP_PUBLICURL='https://web.static.shoutit.com'
+APP_SITEURL='https://www.shoutit.com'
+
+APP_FACEBOOKID='353625811317277'
+APP_OGPREFIX='shoutitcom-dev'
+APP_GA='UA-62656831-1'
+APP_PUSHERAPPKEY='86d676926d4afda44089'
+APP_MIXPANELTOKEN='c9d0a1dc521ac1962840e565fa971574'
+APP_GOOGLEMAPSKEY='AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc'
+APP_USERVOICEAPIKEY='NBlfnPFrkEttGeEqYUhA'
+
+APP_ANDROIDPACKAGE='com.shoutit.app.android'
+APP_ANDROIDAPPNAME='Shoutit - Buy & Sell on Chat'
+APP_IOSAPPID='947017118'
+APP_IOSAPPNAME='Shoutit - Buy & Sell while Chatting'
+APP_APPPROTOCOL='shoutit://'

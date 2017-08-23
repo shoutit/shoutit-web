@@ -39,7 +39,7 @@ request.Request.prototype.use = function use(req) {
     this.set('X-Forwarded-For', req.headers['x-forwarded-for'] || req.connection.remoteAddress);
   }
 
-  let userAgent = `shoutit-web (nodejs ${process.version}; ${process.env.NODE_ENV}; ${process.env.SHOUTIT_ENV || 'no-env'}; ${process.env.CURRENT_TAG})`;
+  let userAgent = `shoutit-web (nodejs ${process.version}; ${process.env.NODE_ENV}; ${process.env.CURRENT_TAG})`;
   if (req.headers && req.headers['user-agent']) {
     userAgent += ` ${req.headers['user-agent']}`;
   }
