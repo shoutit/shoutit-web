@@ -8,7 +8,7 @@
     "url": "https://bitbucket.org/shoutitcom/shoutit_webapp.git"
   },
   "scripts": {
-    "start": "node built/index.js",
+    "start": "NODE_ENV=production node built/index.js",
     "prebuild": "rimraf built",
     "build": "npm run build:server && npm run build:client && npm run build:copy_assets && npm run build:copy_styles",
     "build:server": "babel index.js app.js newrelic.js -d built && babel app -d built/app && cp -R env built/env",
