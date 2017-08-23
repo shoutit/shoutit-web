@@ -127,7 +127,7 @@
     "mkdirp": "0.5.1",
     "mocha": "3.0.2",
     "mocha-circleci-reporter": "0.0.2",
-    "node-sass": "3.8.0",
+    "node-sass": "4.5.3",
     "nodemon": "1.10.2",
     "path-exists": "3.0.0",
     "postcss-loader": "0.10.1",
