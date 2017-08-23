@@ -1,6 +1,5 @@
 FROM shoutit/node:8.4.0-icu
 
-ARG SHOUTIT_ENV
 
 # Install Debian dependencies
 RUN apt-get update && apt-get install -y \
@@ -24,6 +23,5 @@ EXPOSE 8080
 
 ENV NODE_ENV production
 ENV PORT 8080
-ENV SHOUTIT_ENV=$SHOUTIT_ENV
 
 CMD ['pm2-docker', 'process.yml']

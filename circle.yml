@@ -35,45 +35,36 @@ deployment:
   release:
     tag: /release-.*/
     commands:
-      - >
-        SHOUTIT_ENV=live
-        npm run build
+      - npm run build
       - git describe --tags --always > built/CURRENT_TAG
       - pip install awscli
       - aws s3 sync built/public s3://shoutit-web-static/prod
       - >
         docker build
-        --build-arg SHOUTIT_ENV=live
         -t shoutit/shoutit-web:live .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:live
   hub-master:
     branch: master
     commands:
-      - >
-        SHOUTIT_ENV=beta
-        npm run build
+      - npm run build
       - git describe --tags --always > built/CURRENT_TAG
       - pip install awscli
       - aws s3 sync built/public s3://shoutit-web-static/beta
       - >
         docker build
-        --build-arg SHOUTIT_ENV=beta
         -t shoutit/shoutit-web:master .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:master
   hub-develop:
     branch: [develop, edge]
     commands:
-      - >
-        SHOUTIT_ENV=stage
-        npm run build
+      - npm run build
       - git describe --tags --always > built/CURRENT_TAG
       - pip install awscli
       - aws s3 sync built/public s3://shoutit-web-static/stage
       - >
         docker build
-        --build-arg SHOUTIT_ENV=stage
         -t shoutit/shoutit-web:$CIRCLE_BRANCH .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push shoutit/shoutit-web:$CIRCLE_BRANCH
