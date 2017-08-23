@@ -13,13 +13,11 @@ var WebpackErrorNotificationPlugin = require('webpack-error-notification');
 var StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 var CopyPlugin = require('copy-webpack-plugin');
 var WebpackRTLPlugin = require('webpack-rtl-plugin');
-var getConfigSummary = require('./app/config/getConfigSummary').default;
 
 var isDevelopment = process.env.NODE_ENV === 'development';
 
 var context = path.join(__dirname, './app');
 var entries = ['./client.js'];
-var config = require('./app/config');
 
 if (isDevelopment) {
   entries.push('webpack-hot-middleware/client');
@@ -27,7 +25,6 @@ if (isDevelopment) {
 
 var NotifyConfigPlugin = function NotifyConfigPlugin() {};
 NotifyConfigPlugin.prototype.apply = () => {
-  console.log(getConfigSummary()); // eslint-disable-line
   console.log("\nWebpack is compiling...\n"); // eslint-disable-line
 };
 
@@ -40,7 +37,6 @@ module.exports = {
     path: path.join(__dirname, 'built/public/'),
     filename: isDevelopment ? '[name].js' : '/scripts/[name]-[chunkhash].js',
     chunkFilename: isDevelopment ? '[name].js' : '/scripts/[name]-[chunkhash].js',
-    publicPath: isDevelopment ? config.PUBLIC_URL + '/assets/' : `${config.PUBLIC_URL}`,
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.scss'],
