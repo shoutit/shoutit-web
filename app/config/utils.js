@@ -1,11 +1,9 @@
 /* eslint import/namespace: 0 */
+/* global window */
 
 import React from 'react';
 
 import * as config from './';
-
-export const GLOBAL_VAR_NAME = 'window.APP';
-export const ENV_VAR_PREFIX = 'APP';
 
 /**
  * Returns the value of a configuration variable, either from the global
@@ -23,9 +21,9 @@ export const ENV_VAR_PREFIX = 'APP';
  */
 export function getVariable(name) {
   if (process.env.BROWSER) {
-    return GLOBAL_VAR_NAME[name];
+    return window.APP[name];
   }
-  return process.env[`${ENV_VAR_PREFIX}_${name.toUpperCase()}`];
+  return process.env[`APP_${name.toUpperCase()}`];
 }
 
 /**
@@ -42,7 +40,7 @@ export function ConfigScript() {
       `'${key}':'${config[key]}'`
     )
     .join(',');
-  const html = `${GLOBAL_VAR_NAME}={${vars}}`;
+  const html = `window.APP={${vars}}`;
   return (
     <script dangerouslySetInnerHTML={ { __html: html } } />
   );
