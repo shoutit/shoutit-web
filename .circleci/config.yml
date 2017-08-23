@@ -25,7 +25,8 @@ jobs:
       - run:
           name: Run tests
           command: |
-            MOCHA_FILE=$TEST_REPORTS/test-results.xml
+            mkdir -p ${TEST_REPORTS}
+            MOCHA_FILE=${TEST_REPORTS}/test-results.xml
             npm run test:cover
 
       - store_test_results:
