@@ -1,4 +1,4 @@
-FROM gpbl/node-4-intl:4.4.5
+FROM shoutit/node:8.4.0-icu
 
 ARG SHOUTIT_ENV
 
