@@ -1,16 +1,15 @@
-import path from 'path';
-import debug from 'debug';
-
 import { getVariable } from './utils';
 
-const log = debug('shoutit:config');
-
 if (!process.env.BROWSER) {
+  const path = require('path');
+  const fs = require('fs');
   // Get the configuration variable from the /env directory according to
   // the SHOUTIT_ENV (stage, beta, etc.)
   const shoutitEnv = (process.env.SHOUTIT_ENV || 'development').toLowerCase();
-  const filePath = path.resolve(__dirname, `../../env/${shoutitEnv}.ev`);
-  log(`Getting '${shoutitEnv}' env variables from ${filePath}`);
+  const filePath = path.resolve(__dirname, `../../env/${shoutitEnv}.env`);
+  if (!fs.existsSync(filePath)) {
+    console.warn(`Couldn\'t find ${filePath}`);
+  }
   require('dotenv').config({ path: filePath });
 }
 
