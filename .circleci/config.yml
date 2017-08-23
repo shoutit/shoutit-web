@@ -4,9 +4,6 @@ jobs:
     docker:
       - image: circleci/node:8.4
 
-    environment:
-      TEST_REPORTS: /tmp/test-reports
-
     working_directory: ~/repo
 
     steps:
@@ -17,17 +14,27 @@ jobs:
           command: |
             ./.circleci/set-build-tag.sh
 
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+
       - run:
           name: Install dependencies
           command: |
             npm install
 
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+
       - run:
           name: Run tests
           command: |
-            mkdir -p ${TEST_REPORTS}
-            MOCHA_FILE=${TEST_REPORTS}/test-results.xml
             npm run test:cover
 
+      - store_artifacts:
+          path: test-results.xml
+          prefix: tests
+
       - store_test_results:
-          path: /tmp/test-reports
+          path: test-results.xml
