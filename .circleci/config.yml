@@ -31,6 +31,8 @@ jobs:
       - run:
           name: Run tests
           command: |
+            mkdir -p /tmp/test-reports
+            MOCHA_FILE=/tmp/test-reports/test-results.xml
             npm run test:cover
             codeclimate-test-reporter < ./coverage/lcov.info
 
@@ -43,4 +45,4 @@ jobs:
           prefix: tests
 
       - store_test_results:
-          path: test-results.xml
+          path: /tmp/test-reports
