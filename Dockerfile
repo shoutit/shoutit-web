@@ -2,12 +2,21 @@ FROM gpbl/node-4-intl:4.4.5
 
 ARG SHOUTIT_ENV
 
-# Provides cached layer for node_modules
-ADD package.json /tmp/package.json
+# Install Debian dependencies
+RUN apt-get update && apt-get install -y \
+    htop \
+    vim \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install proeject dependencies
+COPY package.json /tmp/package.json
 RUN cd /tmp && npm install --production
-RUN mkdir -p /src && cp -a /tmp/node_modules /src/
+
+# Install global dependencies [PM2]
+RUN npm install --global pm2@2.6.1
 
 # Define working directory
+RUN mkdir /src && cp -a /tmp/node_modules /src
 WORKDIR /src
 COPY . /src
 
@@ -17,4 +26,4 @@ ENV NODE_ENV production
 ENV PORT 8080
 ENV SHOUTIT_ENV=$SHOUTIT_ENV
 
-CMD npm start
+CMD ['pm2-docker', 'process.yml']
