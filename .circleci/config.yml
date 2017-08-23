@@ -21,7 +21,7 @@ jobs:
           name: Install dependencies
           command: |
             npm install
-            npm install --global codeclimate-test-reporter
+            sudo npm install --global codeclimate-test-reporter
 
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
