@@ -21,6 +21,7 @@ jobs:
           name: Install dependencies
           command: |
             npm install
+            npm install --global codeclimate-test-reporter
 
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
@@ -31,6 +32,11 @@ jobs:
           name: Run tests
           command: |
             npm run test:cover
+            codeclimate-test-reporter < ./coverage/lcov.info
+
+      - store_artifacts:
+          path: coverage
+          prefix: coverage
 
       - store_artifacts:
           path: test-results.xml
