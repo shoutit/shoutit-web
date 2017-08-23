@@ -5,30 +5,30 @@ import { expect } from 'chai';
 import * as config from '../config';
 
 const expectedVars = [
-  'androidAppName',
-  'androidPackage',
-  'apiUrl',
-  'appProtocol',
-  'appStoreLink',
-  'facebookId',
-  'facebookLink',
+  'ANDROID_APP_NAME',
+  'ANDROID_PACKAGE',
+  'API_URL',
+  'APP_PROTOCOL',
+  'APP_STORE_LINK',
+  'FACEBOOK_ID',
+  'FACEBOOK_LINK',
   'ga',
-  'googleMapsKey',
-  'imagesPath',
-  'instagramLink',
-  'iosAppId',
-  'iosAppName',
+  'GOOGLE_MAPS_KEY',
+  'IMAGES_PATH',
+  'INSTAGRAM_LINK',
+  'IOS_APP_ID',
+  'IOS_APP_NAME',
   'languages',
   'locales',
-  'mixpanelToken',
-  'ogPrefix',
-  'playStoreLink',
-  'publicUrl',
-  'pusherAppKey',
-  's3Buckets',
-  'siteUrl',
-  'twitterLink',
-  'uservoiceApiKey',
+  'MIXPANEL_TOKEN',
+  'OG_PREFIX',
+  'PLAYSTORE_LINK',
+  'PUBLIC_URL',
+  'PUSHER_APP_KEY',
+  'S3_BUCKETS',
+  'SITE_URL',
+  'TWITTER_LINK',
+  'USERVOICE_API_KEY',
 ];
 
 describe('config', () => {
@@ -41,16 +41,16 @@ describe('config', () => {
 
   });
 
-  describe('config.locales', () => {
+  describe('config.LOCALES', () => {
     it('should have en_US as default locale', () => {
-      expect(config.locales[0]).to.equal('en_US');
+      expect(config.LOCALES[0]).to.equal('en_US');
     });
   });
-  describe('config.languages', () => {
+  describe('config.LANGUAGES', () => {
     it('should have en as default locale', () => {
-      expect(config.languages[0]).to.equal('en');
+      expect(config.LANGUAGES[0]).to.equal('en');
     });
-    config.languages.forEach(language => {
+    config.LANGUAGES.forEach(language => {
       describe(language, () => {
         it('should have the translation file', done => {
           fs.stat(

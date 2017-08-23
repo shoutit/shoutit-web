@@ -2,11 +2,11 @@
 
 import debug from 'debug';
 import { now } from 'unix-timestamp';
-import { facebookId } from '../config';
+import { FACEBOOK_ID } from '../config';
 
 const log = debug('shoutit:utils:FacebookUtils');
 
-const appId = facebookId;
+const appId = FACEBOOK_ID;
 const version = 'v2.1';
 
 export function initFacebook(callback) {

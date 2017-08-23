@@ -9,7 +9,7 @@ import union from 'lodash/union';
 import Tooltip from '../widgets/Tooltip';
 import Icon from '../widgets/Icon';
 import request from '../utils/request';
-import { s3Buckets } from '../config';
+import { S3_BUCKETS } from '../config';
 import { getVariation } from '../utils/APIUtils';
 import { getFilename } from '../utils/StringUtils';
 
@@ -186,7 +186,7 @@ export default class FileUploadField extends Component {
 
       uploads[uploads.length - 1].request = request
         .post(`/api/file/${resourceType}`)
-        .attach(s3Buckets[resourceType].fieldname, file)
+        .attach(S3_BUCKETS[resourceType].fieldname, file)
         .on('progress', e => {
           const uploads = [...this.state.uploads];
           if (uploads[index]) {

@@ -2,12 +2,12 @@ import request from 'superagent';
 import { camelizeKeys } from 'humps';
 import round from 'lodash/round';
 
-import { googleMapsKey, languages } from '../config';
+import { GOOGLE_MAPS_KEY, LANGUAGES } from '../config';
 
 const countries = {};
 
 // This should be removed by #127431039
-languages.forEach(language => {
+LANGUAGES.forEach(language => {
   countries[language] = require(`../../assets/countries/countries.${language}.json`).countries;
 });
 
@@ -56,7 +56,7 @@ export function geocodePlace(placeId, language) {
       .query({
         language,
         place_id: placeId,
-        key: googleMapsKey,
+        key: GOOGLE_MAPS_KEY,
       })
       .end((err, res) => {
         if (err) {

@@ -16,7 +16,7 @@
 import request from 'superagent';
 import { camelizeKeys } from 'humps';
 import debug from 'debug';
-import { apiUrl } from '../config';
+import { API_URL } from '../config';
 
 const log = debug('shoutit:utils:request');
 
@@ -49,11 +49,11 @@ request.Request.prototype.use = function use(req) {
 
 /**
  * Prefix url request with `prefix`
- * @param  {String} prefix=apiUrl Default is API url from config
+ * @param  {String} prefix=API_URL Default is API url from config
  * @return {Request}
  */
-request.Request.prototype.prefix = function prefix(prefix = apiUrl) {
-  if (this.url.indexOf(apiUrl) === -1) {
+request.Request.prototype.prefix = function prefix(prefix = API_URL) {
+  if (this.url.indexOf(API_URL) === -1) {
     this.url = `${prefix}${this.url}`;
   }
   return this;
@@ -61,7 +61,7 @@ request.Request.prototype.prefix = function prefix(prefix = apiUrl) {
 
 /**
  * Prefix url request with `prefix`
- * @param  {String} prefix=apiUrl Default is API url from config
+ * @param  {String} prefix=API_URL Default is API url from config
  * @return {Request}
  */
 request.Request.prototype.camelizeResponseBody = function camelizeResponseBody() {

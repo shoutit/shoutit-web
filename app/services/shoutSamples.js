@@ -1,8 +1,8 @@
-import { languages } from '../config';
+import { LANGUAGES } from '../config';
 
 const SHOUTS = {};
 
-languages.forEach(language => {
+LANGUAGES.forEach(language => {
   SHOUTS[language] = require(`../../assets/samples/shouts.${language}.json`);
 });
 

@@ -40,7 +40,7 @@ module.exports = {
     path: path.join(__dirname, 'built/public/'),
     filename: isDevelopment ? '[name].js' : '/scripts/[name]-[chunkhash].js',
     chunkFilename: isDevelopment ? '[name].js' : '/scripts/[name]-[chunkhash].js',
-    publicPath: isDevelopment ? config.publicUrl + '/assets/' : `${config.publicUrl}`,
+    publicPath: isDevelopment ? config.PUBLIC_URL + '/assets/' : `${config.PUBLIC_URL}`,
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.scss'],

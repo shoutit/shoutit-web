@@ -14,26 +14,26 @@ if (!process.env.BROWSER) {
   require('dotenv').config({ path: filePath });
 }
 
-export const apiUrl = getVariable('apiUrl');
-export const publicUrl = getVariable('publicUrl');
-export const imagesPath = `${getVariable('publicUrl')}/images`;
-export const siteUrl = getVariable('siteUrl');
+export const API_URL = getVariable('API_URL');
+export const PUBLIC_URL = getVariable('PUBLIC_URL');
+export const IMAGES_PATH = `${getVariable('PUBLIC_URL')}/images`;
+export const SITE_URL = getVariable('SITE_URL');
 
-export const facebookId = getVariable('facebookId');
-export const ogPrefix = getVariable('ogPrefix');
-export const ga = getVariable('ga');
-export const pusherAppKey = getVariable('pusherAppKey');
-export const mixpanelToken = getVariable('mixpanelToken');
-export const googleMapsKey = getVariable('googleMapsKey');
-export const uservoiceApiKey = getVariable('uservoiceApiKey');
+export const FACEBOOK_ID = getVariable('FACEBOOK_ID');
+export const OG_PREFIX = getVariable('OG_PREFIX');
+export const GA = getVariable('ga');
+export const PUSHER_APP_KEY = getVariable('PUSHER_APP_KEY');
+export const MIXPANEL_TOKEN = getVariable('MIXPANEL_TOKEN');
+export const GOOGLE_MAPS_KEY = getVariable('GOOGLE_MAPS_KEY');
+export const USERVOICE_API_KEY = getVariable('USERVOICE_API_KEY');
 
-export const androidPackage = getVariable('androidPackage');
-export const androidAppName = getVariable('androidAppName');
-export const iosAppId = getVariable('iosAppId');
-export const iosAppName = getVariable('iosAppName');
-export const appProtocol = getVariable('appProtocol');
+export const ANDROID_PACKAGE = getVariable('ANDROID_PACKAGE');
+export const ANDROID_APP_NAME = getVariable('ANDROID_APP_NAME');
+export const IOS_APP_ID = getVariable('IOS_APP_ID');
+export const IOS_APP_NAME = getVariable('IOS_APP_NAME');
+export const APP_PROTOCOL = getVariable('APP_PROTOCOL');
 
-export const s3Buckets = {
+export const S3_BUCKETS = {
   shout: {
     fieldname: 'shout_image',
     bucket: 'shoutit-shout-image-original',
@@ -55,7 +55,16 @@ export const s3Buckets = {
   },
 };
 
-export const locales = [
+export const APP_STORE_LINK =
+  'https://itunes.apple.com/app/shoutit-app/id947017118';
+export const FACEBOOK_LINK = 'https://web.facebook.com/shoutitcom';
+export const INSTAGRAM_LINK = 'https://www.instagram.com/shoutitcom';
+export const PLAYSTORE_LINK =
+  'https://play.google.com/store/apps/details?id=com.shoutit.app.android';
+export const TWITTER_LINK = 'https://twitter.com/shoutitcom';
+
+
+export const LOCALES = [
   'en_US', // first is default
   'ar_AR',
   'cs_CZ',
@@ -70,14 +79,6 @@ export const locales = [
   'zh_CN',
 ];
 
-export const appStoreLink =
-  'https://itunes.apple.com/app/shoutit-app/id947017118';
-export const facebookLink = 'https://web.facebook.com/shoutitcom';
-export const instagramLink = 'https://www.instagram.com/shoutitcom';
-export const playStoreLink =
-  'https://play.google.com/store/apps/details?id=com.shoutit.app.android';
-export const twitterLink = 'https://twitter.com/shoutitcom';
-
-export const languages = locales
+export const LANGUAGES = LOCALES
   .map(locale => locale.split('_')[0])
   .filter((language, index, arr) => arr.indexOf(language) === index);

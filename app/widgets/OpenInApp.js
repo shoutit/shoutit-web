@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { getCurrentUrl } from '../reducers/routing';
 
-import { appStoreLink, playStoreLink } from '../config';
+import { APP_STORE_LINK, PLAYSTORE_LINK } from '../config';
 import { getOperatingSystem } from '../reducers/browser';
 
 import './OpenInApp.scss';
@@ -97,10 +97,10 @@ const mapStateToProps = state => {
   let storeLink;
   switch (os) {
     case 'android':
-      storeLink = playStoreLink;
+      storeLink = PLAYSTORE_LINK;
       break;
     case 'ios':
-      storeLink = appStoreLink;
+      storeLink = APP_STORE_LINK;
       break;
     default: break;
   }

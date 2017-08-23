@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
-import { imagesPath } from '../../config';
+import { IMAGES_PATH } from '../../config';
 
 import Button from '../../forms/Button';
 import ProfileAvatar from '../../users/ProfileAvatar';
@@ -15,7 +15,7 @@ class HomePageHeader extends Component {
       <div className="HomePageHeader">
         <span className="HomePageHeader-logo">
           <Link to="/">
-            <img alt="" height="36" width="113" src={ `${imagesPath}/logo-mark-inverted.svg?v2` } />
+            <img alt="" height="36" width="113" src={ `${IMAGES_PATH}/logo-mark-inverted.svg?v2` } />
           </Link>
         </span>
         <span className="HomePageHeader-actions">

@@ -15,9 +15,9 @@ export function ShoutPageHelmet({ shout, language }) {
       images={ shout.images }
       appUrl={ shout.appUrl }
       meta={ [
-        { property: 'og:type', content: `ogPrefix:${shout.type}` },
-        { property: 'ogPrefix:price', content: price },
-        { property: 'ogPrefix:username', content: shout.profile.username },
+        { property: 'og:type', content: `OG_PREFIX:${shout.type}` },
+        { property: 'OG_PREFIX:price', content: price },
+        { property: 'OG_PREFIX:username', content: shout.profile.username },
         { name: 'twitter:card', content: 'product' },
         { name: 'twitter:label1', content: capitalize(shout.type) },
         { name: 'twitter:data1', content: price },

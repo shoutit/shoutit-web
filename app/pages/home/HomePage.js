@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import Header from './Header';
 import Hero from './Hero';
 import Button from '../../forms/Button';
-import { imagesPath } from '../../config';
+import { IMAGES_PATH } from '../../config';
 import AppBadge from '../../widgets/AppBadge';
 import Logo from '../../widgets/Logo';
 
@@ -128,7 +128,7 @@ class HomePage extends Component {
                 </Button>
               </p>
               <div className="HomePage-sectionImage">
-                <img alt="" height="267" width="260" src={ `${imagesPath}/home-public-chat-mobile.png` } />
+                <img alt="" height="267" width="260" src={ `${IMAGES_PATH}/home-public-chat-mobile.png` } />
               </div>
 
               <div className="HomePage-section-action">
@@ -166,7 +166,7 @@ class HomePage extends Component {
                 </Button>
               </p>
               <div className="HomePage-sectionImage">
-                <img alt="" height="267" width="259" src={ `${imagesPath}/home-credit-mobile.png` } />
+                <img alt="" height="267" width="259" src={ `${IMAGES_PATH}/home-credit-mobile.png` } />
               </div>
             </div>
           </ResponsiveLayout>
@@ -183,7 +183,7 @@ class HomePage extends Component {
                 />
               </p>
               <div className="HomePage-sectionImage">
-                <img alt="" height="267" width="259" src={ `${imagesPath}/home-pages-mobile.png` } />
+                <img alt="" height="267" width="259" src={ `${IMAGES_PATH}/home-pages-mobile.png` } />
               </div>
               <h4>
                 <FormattedMessage

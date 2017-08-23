@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { getCurrentLanguage } from '../reducers/i18n';
-import { googleMapsKey } from '../config';
+import { GOOGLE_MAPS_KEY } from '../config';
 import { createLinkToGoogleMaps } from '../utils/GoogleMapsUtils';
 
 import './GoogleStaticMap.scss';
@@ -72,7 +72,7 @@ export class GoogleStaticMap extends Component {
     }
     const imageUrl = ['https://maps.googleapis.com/maps/api/staticmap?'];
 
-    imageUrl.push(`key=${googleMapsKey}`);
+    imageUrl.push(`key=${GOOGLE_MAPS_KEY}`);
     imageUrl.push(`scale=${this.state.scale}`); // for retina displays
 
     imageUrl.push(`center=${center.latitude},${center.longitude}`);

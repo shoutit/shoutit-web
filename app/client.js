@@ -36,8 +36,8 @@ const store = configureStore(window.__INITIAL_STATE__, {
   fetchr, history: scrollHistory, devToolsExtension: window.devToolsExtension,
 });
 const history = syncHistoryWithStore(scrollHistory, store);
-if (config.ga) {
-  const ga = initGoogleAnalytics(config.ga);
+if (config.GA) {
+  const ga = initGoogleAnalytics(config.GA);
   history.listen(location => ga('send', 'pageview', location.pathname));
 }
 log('Rehydrating store with initial state', window.__INITIAL_STATE__);

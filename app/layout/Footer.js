@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import LocaleSwitcher from '../widgets/LocaleSwitcher';
 import ResponsiveLayout from '../layout/ResponsiveLayout';
 import { getCurrentLocation } from '../reducers/currentLocation';
-import { imagesPath, facebookLink, twitterLink, instagramLink } from '../config';
+import { IMAGES_PATH, FACEBOOK_LINK, TWITTER_LINK, INSTAGRAM_LINK } from '../config';
 
 import './Footer.scss';
 
@@ -65,14 +65,14 @@ export function Footer({ currentLocation }) {
               defaultMessage="Join us on"
             />
           </h3>
-          <a href={ facebookLink } target="_blank" rel="noopener noreferrer">
-            <img alt="" width={ 10 } height={ 19 } src={ `${imagesPath}/facebook-icon-white.png` } />
+          <a href={ FACEBOOK_LINK } target="_blank" rel="noopener noreferrer">
+            <img alt="" width={ 10 } height={ 19 } src={ `${IMAGES_PATH}/facebook-icon-white.png` } />
           </a>
-          <a href={ twitterLink } target="_blank" rel="noopener noreferrer">
-            <img alt="" width={ 18 } height={ 14 } src={ `${imagesPath}/twitter-icon-white.png` } />
+          <a href={ TWITTER_LINK } target="_blank" rel="noopener noreferrer">
+            <img alt="" width={ 18 } height={ 14 } src={ `${IMAGES_PATH}/twitter-icon-white.png` } />
           </a>
-          <a href={ instagramLink } target="_blank" rel="noopener noreferrer">
-            <img alt="" width={ 17 } height={ 17 } src={ `${imagesPath}/instagram-icon-white.png` } />
+          <a href={ INSTAGRAM_LINK } target="_blank" rel="noopener noreferrer">
+            <img alt="" width={ 17 } height={ 17 } src={ `${IMAGES_PATH}/instagram-icon-white.png` } />
           </a>
         </div>
 

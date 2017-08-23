@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { languages as supportedLanguages, locales as supportedLocales } from '../config';
+import { LANGUAGES as supportedLanguages, LOCALES as supportedLocales } from '../config';
 
 import getInitialStoreState from './getInitialStoreState';
 

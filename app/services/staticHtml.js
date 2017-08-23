@@ -1,7 +1,7 @@
 import debug from 'debug';
 
 import * as AWS from '../utils/AWS';
-import { s3Buckets } from '../config';
+import { S3_BUCKETS } from '../config';
 
 const log = debug('shoutit:services:staticHtml');
 
@@ -47,7 +47,7 @@ export function getObjectFromAWS(key) {
   return new Promise((resolve, reject) => {
     AWS.getObject({
       key,
-      bucket: s3Buckets.staticPages.bucket,
+      bucket: S3_BUCKETS.staticPages.bucket,
     }, (err, data) => {
       if (err) {
         reject(err);

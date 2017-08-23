@@ -14,15 +14,15 @@ import {
 
 function replaceOgPrefixForTag(tag) {
   if (tag.property) {
-    tag.property = tag.property.replace('ogPrefix', config.ogPrefix);
+    tag.property = tag.property.replace('OG_PREFIX', config.OG_PREFIX);
   }
   if (tag.content) {
-    tag.content = tag.content.toString().replace('ogPrefix', config.ogPrefix);
+    tag.content = tag.content.toString().replace('OG_PREFIX', config.OG_PREFIX);
   }
   return tag;
 }
 
-const defaultImages = [`${config.imagesPath}/opengraph-v2-1.png`];
+const defaultImages = [`${config.IMAGES_PATH}/opengraph-v2-1.png`];
 /**
  * Shortcut component for setting the React Helmet. Images, title and description will
  * be parsed to produce the related meta tags.
@@ -78,8 +78,8 @@ export function Helmet({
   ];
 
   appUrl = appUrl ?
-    appUrl.replace('shoutit://', config.appProtocol) :
-    `${config.appProtocol}home`;
+    appUrl.replace('shoutit://', config.APP_PROTOCOL) :
+    `${config.APP_PROTOCOL}home`;
 
   const appLinks = [
     { property: 'al:ios:url', content: appUrl, id: 'shoutitAppUrl_ios' },

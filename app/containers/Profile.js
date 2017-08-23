@@ -96,8 +96,8 @@ export class Profile extends Component {
               images={ [profile.image] }
               appUrl={ profile.appUrl }
               meta={ [
-                { property: 'og:type', content: 'ogPrefix:user' },
-                { property: 'ogPrefix:username', content: profile.username },
+                { property: 'og:type', content: 'OG_PREFIX:user' },
+                { property: 'OG_PREFIX:username', content: profile.username },
               ] }
             />
           }
