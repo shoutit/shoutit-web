@@ -36,12 +36,13 @@ jobs:
             codeclimate-test-reporter < ./coverage/lcov.info
           environment:
             MOCHA_FILE: /tmp/test-reports/junit/test-results.xml
+
       - store_artifacts:
           path: coverage
           destination: coverage
 
       - store_artifacts:
-          path: test-results.xml
+          path: /tmp/test-reports/junit
           destination: tests
 
       - store_test_results:
