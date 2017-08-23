@@ -18,15 +18,15 @@ jobs:
             ./.circleci/set-build-tag.sh
 
       - run:
-        name: Install dependencies
-        command: |
-          npm install
+          name: Install dependencies
+          command: |
+            npm install
 
       - run:
-        name: Run tests
-        command: |
-          MOCHA_FILE=$TEST_REPORTS/test-results.xml
-          npm run test:cover
+          name: Run tests
+          command: |
+            MOCHA_FILE=$TEST_REPORTS/test-results.xml
+            npm run test:cover
 
       - store_test_results:
           path: /tmp/test-reports
