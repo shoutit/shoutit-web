@@ -13,7 +13,7 @@ var WebpackErrorNotificationPlugin = require('webpack-error-notification');
 var StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 var CopyPlugin = require('copy-webpack-plugin');
 var WebpackRTLPlugin = require('webpack-rtl-plugin');
-var getConfigSummary = require('./app/config/getConfigSummary');
+var getConfigSummary = require('./app/config/getConfigSummary').default;
 
 var isDevelopment = process.env.NODE_ENV === 'development';
 
