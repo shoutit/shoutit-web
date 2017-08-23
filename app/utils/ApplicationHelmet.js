@@ -34,7 +34,7 @@ export function ApplicationHelmet({
   supportedLocales,
   rtl,
 }) {
-  const url = `${config.siteUrl}${currentUrl}`.replace(/\/$/, '');
+  const url = `${config.SITE_URL}${currentUrl}`.replace(/\/$/, '');
 
   // Base meta tags
   const base = [
@@ -48,7 +48,7 @@ export function ApplicationHelmet({
 
   // Open Graph
   const openGraph = [
-    { property: 'fb:app_id', content: config.facebookId },
+    { property: 'fb:app_id', content: config.FACEBOOK_ID },
     { property: 'og:url', content: url },
     { property: 'og:locale', content: currentLocale, id: 'ogLocale' },
     { property: 'og:site_name', content: 'Shoutit' },
@@ -59,10 +59,10 @@ export function ApplicationHelmet({
     .forEach(locale => openGraph.push({ property: 'og:locale:alternate', content: locale }));
 
   const appLinks = [
-    { property: 'al:ios:app_store_id', content: config.iosAppId },
-    { property: 'al:ios:app_name', content: config.iosAppName },
-    { property: 'al:android:package', content: config.androidPackage },
-    { property: 'al:android:app_name', content: config.androidAppName },
+    { property: 'al:ios:app_store_id', content: config.IOS_APP_ID },
+    { property: 'al:ios:app_name', content: config.IOS_APP_NAME },
+    { property: 'al:android:package', content: config.ANDROID_PACKAGE },
+    { property: 'al:android:app_name', content: config.ANDROID_APP_NAME },
     { property: 'al:web:url', content: url },
   ];
 
@@ -70,12 +70,12 @@ export function ApplicationHelmet({
   const twitter = [
     { name: 'twitter:site', content: '@Shoutitcom' },
     { name: 'twitter:card', content: 'summary' },
-    { name: 'twitter:app:name:iphone', content: config.iosAppName },
-    { name: 'twitter:app:name:ipad', content: config.iosAppName },
+    { name: 'twitter:app:name:iphone', content: config.IOS_APP_NAME },
+    { name: 'twitter:app:name:ipad', content: config.IOS_APP_NAME },
     { name: 'twitter:app:name:googleplay', content: 'Shoutit' },
-    { name: 'twitter:app:id:iphone', content: config.iosAppId },
-    { name: 'twitter:app:id:ipad', content: config.iosAppId },
-    { name: 'twitter:app:id:googleplay', content: config.androidPackage },
+    { name: 'twitter:app:id:iphone', content: config.IOS_APP_ID },
+    { name: 'twitter:app:id:ipad', content: config.IOS_APP_ID },
+    { name: 'twitter:app:id:googleplay', content: config.ANDROID_PACKAGE },
   ];
 
   const meta = union(
@@ -97,10 +97,10 @@ export function ApplicationHelmet({
   };
 
   // Links
-  let link = [
+  const link = [
     { rel: 'canonical', href: url },
-    { rel: 'shortcut icon', href: `${config.publicUrl}/images/favicons/favicon.ico` },
-    { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.publicUrl}/images/favicons/apple-touch-icon.png` },
+    { rel: 'shortcut icon', href: `${config.PUBLIC_URL}/images/favicons/favicon.ico` },
+    { rel: 'apple-touch-icon', sizes: '256x256', href: `${config.PUBLIC_URL}/images/favicons/apple-touch-icon.png` },
   ];
   // Temporary disable alternate lang hrefs until we have a better router
   //

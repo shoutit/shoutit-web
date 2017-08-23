@@ -1,5 +1,5 @@
 import path from 'path';
-import { locales as supportedLocales, languages as supportedLanguages } from '../config';
+import { LOCALES as supportedLocales, LANGUAGES as supportedLanguages } from '../config';
 
 const translationsPath = path.resolve(__dirname, '../../assets/intl/translations');
 

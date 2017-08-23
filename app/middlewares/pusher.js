@@ -5,7 +5,7 @@ import { camelizeKeys } from 'humps';
 import { normalize } from 'normalizr';
 import { MESSAGE, CONVERSATION, NOTIFICATION } from '../schemas';
 
-import { pusherAppKey } from '../config';
+import { PUSHER_APP_KEY } from '../config';
 import * as actionTypes from '../actions/actionTypes';
 import { receiveTypingNotification, stopTyping } from '../actions/chat';
 import { loadConversation, replaceConversation } from '../actions/conversations';
@@ -17,7 +17,7 @@ import { getLoggedProfile } from '../reducers/session';
 const log = debug('shoutit:middlewares:pusher');
 // Pusher.log = log;
 
-const client = new Pusher(pusherAppKey, {
+const client = new Pusher(PUSHER_APP_KEY, {
   encrypted: true,
   authEndpoint: '/api/pusher/auth',
 });

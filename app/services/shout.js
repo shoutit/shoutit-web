@@ -4,7 +4,7 @@ import { parseApiError } from '../utils/APIUtils';
 import * as AWS from '../utils/AWS';
 import { getFilename } from '../utils/StringUtils';
 
-import { s3Buckets } from '../config';
+import { S3_BUCKETS } from '../config';
 
 export default {
   name: 'shout',
@@ -50,7 +50,7 @@ export default {
       });
 
     if (removedImages) {
-      const { bucket } = s3Buckets.shout;
+      const { bucket } = S3_BUCKETS.shout;
       AWS.del({ keys: removedImages, bucket });
     }
   },
@@ -68,7 +68,7 @@ export default {
       });
 
     if (shout.images && shout.images.length > 0) {
-      const { bucket } = s3Buckets.shout;
+      const { bucket } = S3_BUCKETS.shout;
       AWS.del({ keys: shout.images.map(url => getFilename(url)), bucket });
     }
 

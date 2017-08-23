@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 
-// import { imagesPath } from '../../config';
+// import { IMAGES_PATH } from '../../config';
 
 import Searchbar from '../../search/Searchbar';
 

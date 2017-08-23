@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getCurrentLanguage } from '../reducers/i18n';
 import Tooltip from '../widgets/Tooltip';
 
-import { imagesPath } from '../config';
+import { IMAGES_PATH } from '../config';
 import { getCountryName } from '../utils/LocationUtils';
 import './CountryFlag.scss';
 
@@ -28,7 +28,7 @@ export function CountryFlag({ code, tooltipPlacement = 'top', size = 'medium', r
         alt={ countryName }
         className={ className }
         style={ style }
-        src={ `${imagesPath}/flags/${code}.png?v${VERSION}` }
+        src={ `${IMAGES_PATH}/flags/${code}.png?v${VERSION}` }
         onClick={ onClick }
       />
     </Tooltip>

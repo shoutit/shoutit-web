@@ -2,7 +2,7 @@
 import debug from 'debug';
 
 import { getVariation } from './APIUtils';
-import { imagesPath } from '../config';
+import { IMAGES_PATH } from '../config';
 
 export function getDocumentScrollTop() {
   if (window.pageYOffset !== 'undefined') {
@@ -34,7 +34,7 @@ export function backgroundImageStyle({ url, variation, size = 'cover', usePlaceh
       return null;
     }
     return {
-      backgroundImage: `url("${imagesPath}/pattern@2x.png")`,
+      backgroundImage: `url("${IMAGES_PATH}/pattern@2x.png")`,
       backgroundSize: '250px 409px',
       backgroundRepeat: 'repeat',
     };

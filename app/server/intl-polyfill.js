@@ -2,12 +2,12 @@ import areIntlLocalesSupported from 'intl-locales-supported';
 import IntlPolyfill from 'intl';
 import debug from 'debug';
 
-import { languages } from '../config';
+import { LANGUAGES } from '../config';
 
 const log = debug('shoutit:server:intl-polyfill');
 
 if (global.Intl) {
-  if (!areIntlLocalesSupported(languages)) {
+  if (!areIntlLocalesSupported(LANGUAGES)) {
     log('Required languages not found, polyfilling...');
     Intl.NumberFormat = IntlPolyfill.NumberFormat;
     Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;

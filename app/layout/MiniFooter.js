@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import LocaleSwitcher from '../widgets/LocaleSwitcher';
 
 import AppBadge from '../widgets/AppBadge';
-import { facebookLink, twitterLink, instagramLink } from '../config';
+import { FACEBOOK_LINK, TWITTER_LINK, INSTAGRAM_LINK } from '../config';
 
 import './MiniFooter.scss';
 
@@ -39,19 +39,19 @@ export default function MiniFooter() {
         />
       </h3>
       <div className="MiniFooter-follow">
-        <a target="_blank" rel="noopener noreferrer" href={ facebookLink }>
+        <a target="_blank" rel="noopener noreferrer" href={ FACEBOOK_LINK }>
           <FormattedMessage
             id="minifooter.social.facebook"
             defaultMessage="Facebook"
           />
         </a>
-        <a target="_blank" rel="noopener noreferrer" href={ twitterLink }>
+        <a target="_blank" rel="noopener noreferrer" href={ TWITTER_LINK }>
           <FormattedMessage
             id="minifooter.social.twitter"
             defaultMessage="Twitter"
           />
         </a>
-        <a target="_blank" rel="noopener noreferrer" href={ instagramLink }>
+        <a target="_blank" rel="noopener noreferrer" href={ INSTAGRAM_LINK }>
           <FormattedMessage
             id="minifooter.social.instagram"
             defaultMessage="Instagram"

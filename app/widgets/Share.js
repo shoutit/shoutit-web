@@ -4,7 +4,7 @@ import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 import { getVariation } from '../utils/APIUtils';
 
 import Tooltip from '../widgets/Tooltip';
-import { siteUrl } from '../config';
+import { SITE_URL } from '../config';
 
 import './Share.scss';
 
@@ -43,7 +43,7 @@ export class Share extends Component {
   render() {
     const { shareUrl, title, image, iconSize } = this.props;
     const { formatMessage } = this.props.intl;
-    const url = `${siteUrl}${shareUrl}`;
+    const url = `${SITE_URL}${shareUrl}`;
     return (
       <div className="Share">
         <div className="Share-network">

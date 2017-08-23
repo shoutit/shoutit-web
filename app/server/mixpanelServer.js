@@ -1,7 +1,7 @@
 import Mixpanel from 'mixpanel';
-import { mixpanelToken } from '../config';
+import { MIXPANEL_TOKEN } from '../config';
 
-const mixpanel = Mixpanel.init(mixpanelToken, {
+const mixpanel = Mixpanel.init(MIXPANEL_TOKEN, {
   protocol: 'https',
 });
 
