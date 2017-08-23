@@ -9,6 +9,7 @@ import Helmet from '../utils/Helmet';
 import { getCurrentLanguage, isRtl } from '../reducers/i18n';
 
 import * as config from '../config';
+import { ConfigScript } from '../config/utils';
 
 let appChunkNames = {
   main: '/assets/main.js',
@@ -53,6 +54,8 @@ export default function HtmlDocument({
             __html: newrelic.getBrowserTimingHeader().replace(/<\/?script[^>]*>/g, '') } }
           />
         }
+        <ConfigScript />
+
         <script type="text/javascript" dangerouslySetInnerHTML={ { __html: mixpanel } } />
 
         <script src={ `${config.publicUrl}${vendorsChunkNames.vendors}` } />

@@ -13,6 +13,7 @@ var WebpackErrorNotificationPlugin = require('webpack-error-notification');
 var StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 var CopyPlugin = require('copy-webpack-plugin');
 var WebpackRTLPlugin = require('webpack-rtl-plugin');
+var getConfigSummary = require('./app/config/getConfigSummary');
 
 var isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -26,7 +27,7 @@ if (isDevelopment) {
 
 var NotifyConfigPlugin = function NotifyConfigPlugin() {};
 NotifyConfigPlugin.prototype.apply = () => {
-  console.log(config.getSummary()); // eslint-disable-line
+  console.log(getConfigSummary()); // eslint-disable-line
   console.log("\nWebpack is compiling...\n"); // eslint-disable-line
 };
 
@@ -96,7 +97,6 @@ module.exports = {
     !isDevelopment ? new NotifyConfigPlugin() : noop,
     new webpack.DefinePlugin({
       'process.env': {
-        SHOUTIT_ENV: JSON.stringify(process.env.SHOUTIT_ENV),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
         HOST: JSON.stringify(process.env.HOST),
         PORT: JSON.stringify(process.env.PORT),

@@ -30,21 +30,21 @@ $ npm start     # start the server
 
 ### Environment variables
 
-#### Required on the server
-
-* `SHOUTIT_ENV`: define if use stage, beta or live [config](config).
-* `SHOUTIT_S3_SECRET_KEY` and `SHOUTIT_S3_ACCESS_KEY`: required for uploading on S3
-* `REDIS_PORT`: the host for the redis server, default is *tcp://localhost:6379*
-* `NODE_ENV`: must be set on *production*
-
-#### Optional on the server
-
-* `SENTRY_DSN`: Sentry DSN to log Node and Javascript errors using Raven
-* `NEW_RELIC_LICENSE_KEY` and `NEW_RELIC_APP_NAME`: the New Relic application name
-* `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD`: username and password to enforce a basic authentication access control
-* `HOST`: the host where to start the Express server. Default is *localhost*.
-* `PORT`: the port the server listens to. Default is *8080* for production, *3000* for development.
-* `CURRENT_TAG`: the current git versioning info. Default is set in index.js.
+|variable|description|default|
+|---|---|---|
+|`SHOUTIT_ENV` |Load a preset of configuration settings from the relative [env](env). Possible values are `development`, `stage`, `beta` or `live`.|`development`|
+|`NODE_ENV`|Either `production` or `development`|`development`|
+|`HOST`|The server's host name.|`localhost`|
+|`PORT`|The server's port|`3000`|
+|`REDIS_HOST`|The host for the redis server|`tcp://localhost:6379`
+|`SHOUTIT_S3_SECRET_KEY`|Required to upload data to S3||
+|`SHOUTIT_S3_ACCESS_KEY`|Required to upload data to S3||
+|`BASIC_AUTH_USERNAME`|Enable basic HTTP auth||
+|`BASIC_AUTH_PASSWORD`|Enable basic HTTP auth||
+|`SENTRY_DSN`|Enable basic HTTP auth||
+|`NEW_RELIC_LICENSE_KEY`|The New Relic application license key||
+|`NEW_RELIC_APP_NAME`|The New Relic application name||
+|`CURRENT_TAG`| the current git versioning info. Default is set in index.js.||
 
 ### Starting the docker container
 

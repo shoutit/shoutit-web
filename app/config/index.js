@@ -1,15 +1,36 @@
-let envConfig = {};
-if (process.env.NODE_ENV === 'development' || !process.env.SHOUTIT_ENV) {
-  envConfig = require('./development');
-} else if (process.env.SHOUTIT_ENV === 'stage') {
-  envConfig = require('./stage');
-} else if (process.env.SHOUTIT_ENV === 'beta') {
-  envConfig = require('./beta');
-} else if (process.env.SHOUTIT_ENV === 'live') {
-  envConfig = require('./live');
-} else {
-  throw new Error('SHOUTIT_ENV is not valid.');
+import path from 'path';
+import debug from 'debug';
+
+import { getVariable } from './utils';
+
+const log = debug('shoutit:config');
+
+if (!process.env.BROWSER) {
+  // Get the configuration variable from the /env directory according to
+  // the SHOUTIT_ENV (stage, beta, etc.)
+  const filePath = path.resolve(__dirname, `../../env/${process.env.SHOUTIT_ENV || 'development'}`);
+  log('Getting env variables from', filePath);
+  require('dotenv').config({ path: filePath });
 }
+
+export const apiUrl = getVariable('apiUrl');
+export const publicUrl = getVariable('publicUrl');
+export const imagesPath = `${getVariable('publicUrl')}/images`;
+export const siteUrl = getVariable('siteUrl');
+
+export const facebookId = getVariable('facebookId');
+export const ogPrefix = getVariable('ogPrefix');
+export const ga = getVariable('ga');
+export const pusherAppKey = getVariable('pusherAppKey');
+export const mixpanelToken = getVariable('mixpanelToken');
+export const googleMapsKey = getVariable('googleMapsKey');
+export const uservoiceApiKey = getVariable('uservoiceApiKey');
+
+export const androidPackage = getVariable('androidPackage');
+export const androidAppName = getVariable('androidAppName');
+export const iosAppId = getVariable('iosAppId');
+export const iosAppName = getVariable('iosAppName');
+export const appProtocol = getVariable('appProtocol');
 
 export const s3Buckets = {
   shout: {
@@ -33,12 +54,6 @@ export const s3Buckets = {
   },
 };
 
-export const apiUrl = envConfig.apiUrl;
-export const facebookId = envConfig.facebookId;
-export const ga = envConfig.ga;
-export const googleMapsKey = 'AIzaSyBTB6-OnMETp1wjS8ZnUugqrlW5UcdEkgc';
-export const imagesPath = `${envConfig.publicUrl}/images`;
-
 export const locales = [
   'en_US', // first is default
   'ar_AR',
@@ -54,63 +69,14 @@ export const locales = [
   'zh_CN',
 ];
 
+export const appStoreLink =
+  'https://itunes.apple.com/app/shoutit-app/id947017118';
+export const facebookLink = 'https://web.facebook.com/shoutitcom';
+export const instagramLink = 'https://www.instagram.com/shoutitcom';
+export const playStoreLink =
+  'https://play.google.com/store/apps/details?id=com.shoutit.app.android';
+export const twitterLink = 'https://twitter.com/shoutitcom';
+
 export const languages = locales
   .map(locale => locale.split('_')[0])
   .filter((language, index, arr) => arr.indexOf(language) === index);
-
-export const publicUrl = envConfig.publicUrl;
-export const pusherAppKey = envConfig.pusherAppKey;
-export const shoutitEnv = process.env.SHOUTIT_ENV;
-export const siteUrl = envConfig.siteUrl;
-export const ogPrefix = (process.env.SHOUTIT_ENV === 'stage' || !process.env.SHOUTIT_ENV) ? 'shoutitcom-dev' : 'shoutitcom';
-export const uservoiceApiKey = 'NBlfnPFrkEttGeEqYUhA';
-export const mixpanelToken = envConfig.mixpanelToken;
-
-export const appStoreLink = 'https://itunes.apple.com/app/shoutit-app/id947017118';
-export const facebookLink = 'https://web.facebook.com/shoutitcom';
-export const instagramLink = 'https://www.instagram.com/shoutitcom';
-export const playStoreLink = 'https://play.google.com/store/apps/details?id=com.shoutit.app.android';
-export const twitterLink = 'https://twitter.com/shoutitcom';
-
-export const androidPackage = envConfig.androidPackage;
-export const androidAppName = envConfig.androidAppName;
-export const iosAppId = envConfig.iosAppId;
-export const iosAppName = envConfig.iosAppName;
-export const appProtocol = envConfig.appProtocol;
-
-export function getSummary() {
-  const summary = [];
-  summary.push('');
-  summary.push('shoutit-web-app');
-  summary.push('------------------------------------------------------------');
-  summary.push('');
-  summary.push(`  Shoutit environment:  ${process.env.SHOUTIT_ENV}`);
-  summary.push(`  Node environment:     ${process.env.NODE_ENV}`);
-  summary.push(`  Redis host:           ${process.env.REDIS_PORT}`);
-  summary.push('');
-  summary.push(`  Site URL:             ${siteUrl}`);
-  summary.push(`  Public assets URL:    ${publicUrl}`);
-  summary.push(`  API URL:              ${apiUrl}`);
-  summary.push(`  Images path:          ${imagesPath}`);
-  summary.push('');
-  summary.push(`  Supported locales:    ${locales.join(', ')}`);
-  summary.push(`  Supported languages:  ${languages.join(', ')}`);
-  summary.push('');
-  summary.push(`  Sentry DSN:           ${process.env.SENTRY_DSN}`);
-  summary.push(`  New Relic Key:        ${process.env.NEW_RELIC_LICENSE_KEY}`);
-  summary.push(`  Google Analytics:     ${ga}`);
-  summary.push(`  Facebook ID:          ${facebookId}`);
-  summary.push(`  Pusher App Key:       ${pusherAppKey}`);
-  summary.push(`  Uservoice API Key:    ${uservoiceApiKey}`);
-  summary.push(`  OpenGraph Prefix:     ${ogPrefix}`);
-  summary.push(`  Mixpanel Token:       ${mixpanelToken}`);
-  summary.push('');
-  summary.push(`  iOS app id:           ${iosAppId}`);
-  summary.push(`  iOS app name:         ${iosAppName}`);
-  summary.push(`  Android package:      ${androidPackage}`);
-  summary.push(`  Android app name:     ${androidAppName}`);
-  summary.push(`  App protocol:         ${appProtocol}`);
-
-  summary.push('');
-  return summary.join('\n');
-}
