@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: shoutit/circleci-node:8.4
+      - image: shoutit/node:8.4.0-circleci
 
     working_directory: ~/repo
 
