@@ -14,7 +14,7 @@ describe('ProfileCover', () => {
   it('should display the pattern when no cover is set', () => {
     const tree = sd.shallowRender(<ProfileCover profile={ { cover: null } } />);
     const cover = tree.findNode('.ProfileCover-image');
-    expect(cover.props.style.backgroundImage).to.eql('url("http://localhost:3000/images/pattern@2x.png")');
+    expect(cover.props.style.backgroundImage).to.eql('url("http://localhost:3000/assets/images/pattern@2x.png")');
   });
 
   it('should display the large variation of the profile\'s cover', () => {
