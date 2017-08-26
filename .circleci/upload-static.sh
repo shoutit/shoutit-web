@@ -14,4 +14,4 @@ if [ -z "$2" ]; then
 fi
 
 # Built Public
-aws s3 cp --recursive "../built/public/" "s3://$1/$2/"
+aws s3 cp --recursive "$(dirname "$(pwd)")/built/public/" "s3://$1/$2/"
