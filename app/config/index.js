@@ -24,7 +24,7 @@ if (['', '/no-git-info/'].indexOf(CURRENT_TAG) === -1 && !!taggedPublicUrl) {
   publicUrl = `${taggedPublicUrl}/${CURRENT_TAG}`;
 }
 export const PUBLIC_URL = publicUrl;
-export const IMAGES_PATH = `${getVariable('PUBLIC_URL')}/images`;
+export const IMAGES_PATH = `${publicUrl}/images`;
 
 export const FACEBOOK_ID = getVariable('FACEBOOK_ID');
 export const OG_PREFIX = getVariable('OG_PREFIX');
