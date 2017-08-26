@@ -66,6 +66,5 @@ jobs:
       - deploy:
           name: Push docker image
           command: |
-            docker tag mathemads-web:test-${BUILD_TAG} mathemads/mathemads-web:$BUILD_TAG
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push mathemads/mathemads-web:$BUILD_TAG
+            docker push shoutit/shoutit-web:$BUILD_TAG
