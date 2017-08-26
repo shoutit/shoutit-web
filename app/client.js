@@ -27,7 +27,7 @@ import './styles/main.scss';
 window.debug = debug;
 const log = debug('shoutit');
 
-__webpack_public_path__ = process.env.NODE_ENV === 'development' ? `${config.PUBLIC_URL}/assets/` : window.APP.PUBLIC_URL;  // eslint-disable-line no-undef
+__webpack_public_path__ = window.APP.PUBLIC_URL;  // eslint-disable-line no-undef
 
 const fetchr = new Fetchr({ xhrPath: '/fetchr', xhrTimeout: 20000 });
 

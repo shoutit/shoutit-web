@@ -9,7 +9,7 @@ import * as config from './index';
 export default function getConfigSummary() {
   const summary = [];
   summary.push('');
-  summary.push('shoutit-web-app');
+  summary.push(`shoutit-web-app:${config.CURRENT_TAG}`);
   summary.push('------------------------------------------------------------');
   summary.push('');
   summary.push(`  Shoutit environment:  ${process.env.SHOUTIT_ENV}`);

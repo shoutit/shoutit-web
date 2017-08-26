@@ -10,6 +10,7 @@ const expectedVars = [
   'API_URL',
   'APP_PROTOCOL',
   'APP_STORE_LINK',
+  'CURRENT_TAG',
   'FACEBOOK_ID',
   'FACEBOOK_LINK',
   'GA',
