@@ -61,7 +61,7 @@ jobs:
       - deploy:
           name: Upload static files
           command: |
-            s3 cp --recursive built/public s3://shoutit-web-static/$BUILD_TAG
+            aws s3 cp --recursive built/public s3://shoutit-web-static/$BUILD_TAG
 
       - deploy:
           name: Build docker image
