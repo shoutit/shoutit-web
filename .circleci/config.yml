@@ -61,7 +61,7 @@ jobs:
       - deploy:
           name: Upload static files
           command: |
-            ./.circleci/upload-static.sh shoutit-web-static $BUILD_TAG
+            ./.circleci/upload-static.sh built/public shoutit-web-static $BUILD_TAG
 
       - deploy:
           name: Build docker image
