@@ -13,7 +13,7 @@ if (!process.env.BROWSER) {
   require('dotenv').config({ path: filePath });
 }
 
-export const CURRENT_TAG = getVariable('CURRENT_TAG');
+export const CURRENT_TAG = process.env.CURRENT_TAG;
 
 export const API_URL = getVariable('API_URL');
 export const SITE_URL = getVariable('SITE_URL');
