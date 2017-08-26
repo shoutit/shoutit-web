@@ -53,9 +53,15 @@ jobs:
           path: /tmp/test-reports/junit
 
       - deploy:
+          name: Build app
+          command: |
+            npm run build
+            echo $BUILD_TAG > built/CURRENT_TAG
+
+      - deploy:
           name: Build docker image
           command: |
-            docker build . shoutit/shoutit-web:$BUILD_TAG
+            docker build -t shoutit/shoutit-web:$BUILD_TAG .
 
       - deploy:
           name: Push docker image
