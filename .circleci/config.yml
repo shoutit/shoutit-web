@@ -1,22 +1,16 @@
 version: 2
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: shoutit/node:8.4.0-circleci
+
+
 jobs:
-  build:
-    docker:
-      - image: shoutit/node:8.4.0-circleci
-
-    working_directory: ~/repo
-
+  test:
+    <<: *defaults
     steps:
       - checkout
-
-      - run:
-          name: Set BUILD_TAG to $CIRCLE_TAG or $CIRCLE_BRANCH
-          command: |
-            ./.circleci/set-build-tag.sh
-
-      - setup_remote_docker:
-          reusable: true
-          exclusive: true
 
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
@@ -31,6 +25,11 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
+
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - ./*
 
       - run:
           name: Run tests
@@ -52,6 +51,22 @@ jobs:
       - store_test_results:
           path: /tmp/test-reports/junit
 
+
+  build-deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run:
+          name: Set BUILD_TAG and BUILD_BRANCH
+          command: |
+            ./.circleci/set-build-tag.sh
+
+      - setup_remote_docker:
+          reusable: true
+          exclusive: true
+
       # Todo: Upgrade Webpack and its related packages
       # We are setting $BUILD_TAG and $TAGGED_PUBLIC_URL for webpack to construct its output.publicPath
       # Even when setting __webpack_public_path__ on the entry to a dynamic value, it seems that things like url(...) in
@@ -70,10 +85,51 @@ jobs:
       - deploy:
           name: Build docker image
           command: |
-            docker build -t shoutit/shoutit-web:$BUILD_TAG .
+            docker build -t shoutit/shoutit-web:build-$BUILD_TAG -t shoutit/shoutit-web:$BUILD_BRANCH .
 
+      # Docker image tags are based on GitHub tag or branch
+      #
+      # GitHub          Docker Cloud Tags
+      #
+      # develop         build-$BUILD_TAG, develop
+      # master          build-$BUILD_TAG, master
+      # release-*       build-$BUILD_TAG, live
+      # stage-xyz       build-$BUILD_TAG, stage-xyz
+      #
+      # stage-x can be used to create docker images from any branch. An example is when Docker Cloud is set to
+      # auto redeploy a service that is bound to shoutit-web:stage-xyz image.
+      # Create a Git tag and push it. Force flag is required for later pushes so tags on GitHub and Docker Cloud
+      # are forcibly updated. This should be used for testing only.
+      #
+      # git tag -f stage-xyz
+      # git push -f origin stage-xyz
+      #
       - deploy:
-          name: Push docker image
+          name: Push docker images
           command: |
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push shoutit/shoutit-web:$BUILD_TAG
+            docker push shoutit/shoutit-web:build-$BUILD_TAG
+            docker push shoutit/shoutit-web:$BUILD_BRANCH
+
+workflows:
+  version: 2
+  test-build-deploy:
+    jobs:
+      # Test all branches and tags
+      - test:
+          filters:
+            tags:
+              only: /.*/
+      # Build app, upload static files, build docker image, push it.
+      - build-deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+            tags:
+              only:
+                - /^stage-.*/
+                - /^release-.*/
