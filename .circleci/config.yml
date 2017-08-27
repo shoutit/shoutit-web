@@ -52,10 +52,15 @@ jobs:
       - store_test_results:
           path: /tmp/test-reports/junit
 
+      # Todo: Upgrade Webpack and its related packages
+      # We are setting $BUILD_TAG and $TAGGED_PUBLIC_URL for webpack to construct its output.publicPath
+      # Even when setting __webpack_public_path__ on the entry to a dynamic value, it seems that things like url(...) in
+      # SASS files do not use the dynamically set publicPath
       - deploy:
           name: Build app
           command: |
-            npm run build
+            BULD_TAG=$BUILD_TAG TAGGED_PUBLIC_URL=$TAGGED_PUBLIC_URL npm run build
+          #  npm run build
             echo $BUILD_TAG > built/CURRENT_TAG
 
       - deploy:

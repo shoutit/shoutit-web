@@ -15,6 +15,8 @@ var CopyPlugin = require('copy-webpack-plugin');
 var WebpackRTLPlugin = require('webpack-rtl-plugin');
 
 var isDevelopment = process.env.NODE_ENV === 'development';
+var buildTag = process.env.BUILD_TAG;
+var taggedPublicURL = process.env.TAGGED_PUBLIC_URL;  // Todo: Remove usage after upgrading Webpack. output.publicPath should be set on the fly.
 
 var context = path.join(__dirname, './app');
 var entries = ['./client.js'];
@@ -37,6 +39,7 @@ module.exports = {
     path: path.join(__dirname, 'built/public/'),
     filename: isDevelopment ? '[name].js' : '/scripts/[name]-[chunkhash].js',
     chunkFilename: isDevelopment ? '[name].js' : '/scripts/[name]-[chunkhash].js',
+    publicPath: !isDevelopment && buildTag && taggedPublicURL ? `${taggedPublicURL}/${buildTag}` : undefined,
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.scss'],
