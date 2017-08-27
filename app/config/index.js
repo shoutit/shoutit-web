@@ -13,10 +13,18 @@ if (!process.env.BROWSER) {
   require('dotenv').config({ path: filePath });
 }
 
+export const CURRENT_TAG = process.env.CURRENT_TAG;
+
 export const API_URL = getVariable('API_URL');
-export const PUBLIC_URL = getVariable('PUBLIC_URL');
-export const IMAGES_PATH = `${getVariable('PUBLIC_URL')}/images`;
 export const SITE_URL = getVariable('SITE_URL');
+
+let publicUrl = getVariable('PUBLIC_URL');
+const taggedPublicUrl = getVariable('TAGGED_PUBLIC_URL');
+if (['', '/no-git-info/'].indexOf(CURRENT_TAG) === -1 && !!taggedPublicUrl) {
+  publicUrl = `${taggedPublicUrl}/${CURRENT_TAG}`;
+}
+export const PUBLIC_URL = publicUrl;
+export const IMAGES_PATH = `${publicUrl}/images`;
 
 export const FACEBOOK_ID = getVariable('FACEBOOK_ID');
 export const OG_PREFIX = getVariable('OG_PREFIX');

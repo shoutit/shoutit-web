@@ -1,0 +1,13 @@
+# CircleCI Node.js v8.4.0 with AWSCLI and CPIO
+#
+# docker build -f Dockerfile.node8-circleci -t shoutit/node:8.4.0-circleci .
+# docker push shoutit/node:8.4.0-circleci
+
+FROM circleci/node:8.4.0
+
+RUN sudo apt-get update && sudo apt-get install -y \
+    cpio \
+    libpython-dev \
+    python-pip
+
+RUN sudo pip install awscli

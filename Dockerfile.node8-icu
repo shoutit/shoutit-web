@@ -1,0 +1,10 @@
+# Node.js v8.4.0 with ICU support
+#
+# docker build -f Dockerfile.node8-icu -t shoutit/node:8.4.0-icu .
+# docker push shoutit/node:8.4.0-icu
+
+FROM node:8.4.0
+
+RUN npm install full-icu
+
+ENV NODE_ICU_DATA=/node_modules/full-icu

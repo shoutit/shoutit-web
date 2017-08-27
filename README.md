@@ -28,12 +28,12 @@ $ npm run build # build the app
 $ npm start     # start the server
 ```
 
-### Environment variables
+### Environment variables (outdated)
 
 |variable|description|default|
 |---|---|---|
-|`SHOUTIT_ENV` |Load a preset of configuration settings from the relative [env](env). Possible values are `development`, `stage`, `beta` or `live`.|`development`|
 |`NODE_ENV`|Either `production` or `development`|`development`|
+|`SHOUTIT_ENV` |Load a preset of configuration settings from the relative [env](env). Possible values are `development`, `stage`, `beta` or `live`.|`development`|
 |`HOST`|The server's host name.|`localhost`|
 |`PORT`|The server's port|`3000`|
 |`REDIS_HOST`|The host for the redis server|`tcp://localhost:6379`
@@ -95,8 +95,9 @@ The script will build the app with webpack and output into the [public](public) 
 
 * After the build, this directory will contain `scripts`, `images` and `styles` folders
 * Non built images are copied from [assets/images](assets/images)
-* Copy the content of this directory to the CDN and set the `SHOUTIT_PUBLIC_URL` to serve from it.
-* It is served by node.js in case `SHOUTIT_PUBLIC_URL` is not set.
+* Copy the content of this directory to the CDN and set the `APP_PUBLIC_URL` to serve from it.
+* It is served by node.js in case `APP_PUBLIC_URL` is not set.
+* To use public url that depends on the `BUILD_TAG`, set `APP_TAGGED_PUBLIC_URL`. The final public url would be `APP_TAGGED_PUBLIC_URL/BUILD_TAG`
 
 ### To test the built app
 
