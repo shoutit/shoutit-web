@@ -60,7 +60,6 @@ jobs:
           name: Build app
           command: |
             BULD_TAG=$BUILD_TAG TAGGED_PUBLIC_URL=$TAGGED_PUBLIC_URL npm run build
-          #  npm run build
             echo $BUILD_TAG > built/CURRENT_TAG
 
       - deploy:
