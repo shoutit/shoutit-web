@@ -28,7 +28,7 @@ export const IMAGES_PATH = `${publicUrl}/images`;
 
 export const FACEBOOK_ID = getVariable('FACEBOOK_ID');
 export const OG_PREFIX = getVariable('OG_PREFIX');
-export const GA = getVariable('ga');
+export const GA = getVariable('GA');
 export const PUSHER_APP_KEY = getVariable('PUSHER_APP_KEY');
 export const MIXPANEL_TOKEN = getVariable('MIXPANEL_TOKEN');
 export const GOOGLE_MAPS_KEY = getVariable('GOOGLE_MAPS_KEY');
